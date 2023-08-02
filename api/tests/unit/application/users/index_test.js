@@ -6,6 +6,10 @@ import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-id
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
+const CODE_IDENTITY_PROVIDER_GAR = NON_OIDC_IDENTITY_PROVIDERS.GAR.code;
+const CODE_IDENTITY_PROVIDER_POLE_EMPLOI = OidcIdentityProviders.POLE_EMPLOI.code;
+const CODE_IDENTITY_PROVIDER_CNAV = OidcIdentityProviders.CNAV.code;
+
 describe('Unit | Router | user-router', function () {
   describe('POST /api/users', function () {
     const method = 'POST';
@@ -934,13 +938,11 @@ describe('Unit | Router | user-router', function () {
     describe('POST /api/admin/users/{id}/remove-authentication', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        CODE_IDENTITY_PROVIDER_GAR,
         'EMAIL',
         'USERNAME',
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        OidcIdentityProviders.POLE_EMPLOI.code,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        OidcIdentityProviders.CNAV.code,
+        CODE_IDENTITY_PROVIDER_POLE_EMPLOI,
+        CODE_IDENTITY_PROVIDER_CNAV,
       ].forEach((type) => {
         it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
           // given
@@ -1064,81 +1066,81 @@ describe('Unit | Router | user-router', function () {
 
     describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [
-        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-        OidcIdentityProviders.POLE_EMPLOI.code,
-        OidcIdentityProviders.CNAV.code,
-      ].forEach((identityProvider) => {
-        it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
-          // given
-          sinon
-            .stub(userController, 'reassignAuthenticationMethods')
-            .callsFake((request, h) => h.response({}).code(204));
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake((request, h) => h.response(true));
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
-            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-          const payload = {
-            data: {
-              attributes: {
-                'user-id': 2,
-                'identity-provider': identityProvider,
+      [CODE_IDENTITY_PROVIDER_GAR, CODE_IDENTITY_PROVIDER_POLE_EMPLOI, CODE_IDENTITY_PROVIDER_CNAV].forEach(
+        (identityProvider) => {
+          it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
+            // given
+            sinon
+              .stub(userController, 'reassignAuthenticationMethods')
+              .callsFake((request, h) => h.response({}).code(204));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response(true));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
+            const payload = {
+              data: {
+                attributes: {
+                  'user-id': 2,
+                  'identity-provider': identityProvider,
+                },
               },
-            },
-          };
+            };
 
-          // when
-          const { statusCode } = await httpTestServer.request(
-            'POST',
-            '/api/admin/users/1/authentication-methods/1',
-            payload,
-          );
+            // when
+            const { statusCode } = await httpTestServer.request(
+              'POST',
+              '/api/admin/users/1/authentication-methods/1',
+              payload,
+            );
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
-          expect(statusCode).to.equal(204);
-        });
+            // then
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+            sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+            expect(statusCode).to.equal(204);
+          });
 
-        it(`should return 200 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
-          // given
-          sinon
-            .stub(userController, 'reassignAuthenticationMethods')
-            .callsFake((request, h) => h.response({}).code(204));
-          sinon
-            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
-            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-          const payload = {
-            data: {
-              attributes: {
-                'user-id': 3,
-                'identity-provider': identityProvider,
+          it(`should return 200 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
+            // given
+            sinon
+              .stub(userController, 'reassignAuthenticationMethods')
+              .callsFake((request, h) => h.response({}).code(204));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+              .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+            sinon
+              .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
+              .callsFake((request, h) => h.response(true));
+            const httpTestServer = new HttpTestServer();
+            await httpTestServer.register(moduleUnderTest);
+            const payload = {
+              data: {
+                attributes: {
+                  'user-id': 3,
+                  'identity-provider': identityProvider,
+                },
               },
-            },
-          };
+            };
 
-          // when
-          const { statusCode } = await httpTestServer.request(
-            'POST',
-            '/api/admin/users/1/authentication-methods/1',
-            payload,
-          );
+            // when
+            const { statusCode } = await httpTestServer.request(
+              'POST',
+              '/api/admin/users/1/authentication-methods/1',
+              payload,
+            );
 
-          // then
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
-          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
-          expect(statusCode).to.equal(204);
-        });
-      });
+            // then
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
+            sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
+            sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+            expect(statusCode).to.equal(204);
+          });
+        },
+      );
 
       it('returns 400 when "userId" is not a number', async function () {
         // given
