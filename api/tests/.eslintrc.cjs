@@ -7,6 +7,6 @@ module.exports = {
   },
   rules: {
     'no-console': ['error'],
-    'mocha/no-setup-in-describe': ['warn'],
+    'mocha/no-setup-in-describe': ['error'],
   },
 };
