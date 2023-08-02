@@ -1,10 +1,11 @@
 import { expect, databaseBuilder } from '../../test-helper.js';
-import { SCO_MIDDLE_SCHOOL_ID } from '../../../db/seeds/data/organizations-sco-builder.js';
 import { knex } from '../../../lib/infrastructure/bookshelf.js';
 import { BookshelfOrganizationLearner } from '../../../lib/infrastructure/orm-models/OrganizationLearner.js';
 import { addManyDivisionsAndStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization.js';
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
+  const organizationId = 123;
+
   describe('#addManyDivisionsAndStudentsToScoCertificationCenter', function () {
     afterEach(function () {
       return knex('organization-learners').delete();
@@ -17,19 +18,19 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
       const numberOfOrganizationLearnerToCreate = numberOfDivisionsToCreate * numberOfStudentsPerDivision;
 
       databaseBuilder.factory.buildOrganization({
-        id: SCO_MIDDLE_SCHOOL_ID,
+        id: organizationId,
         type: 'SCO',
         name: 'Collège The Night Watch',
         isManagingStudents: true,
         email: 'sco.generic.account@example.net',
-        externalId: 123,
+        externalId: organizationId,
         provinceCode: '12',
       });
 
       await databaseBuilder.commit();
 
       // when
-      await addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisionsToCreate, SCO_MIDDLE_SCHOOL_ID);
+      await addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisionsToCreate, organizationId);
       const numberOfCreatedOrganizationLearners = await _getNumberOfOrganizationLearners();
       const createdDivisions = await _getDistinctDivisions();
 
