@@ -49,8 +49,8 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
 
       // then
-      assert.dom('.pix-modal__overlay--hidden').doesNotExist();
-      assert.dom('.pix-modal__overlay').exists();
+      assert.dom('.pix-modal__overlay--hidden .comparison-window').doesNotExist();
+      assert.dom('.pix-modal__overlay .comparison-window').exists();
     });
 
     test('should contain an instruction', async function (assert) {
