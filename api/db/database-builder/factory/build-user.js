@@ -3,9 +3,8 @@ import lodash from 'lodash';
 const { isUndefined, isNil } = lodash;
 
 import { databaseBuffer } from '../database-buffer.js';
-import { AuthenticationMethod } from '../../../lib/domain/models/index.js';
+import { AuthenticationMethod, Membership } from '../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
-import { Membership } from '../../../lib/domain/models/index.js';
 
 import * as encrypt from '../../../lib/domain/services/encryption-service.js';
 
