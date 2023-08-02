@@ -19,6 +19,7 @@ export default class FeedbackPanel extends Component {
   @tracked nextCategory = null;
   @tracked quickHelpInstructions = null;
   @tracked isExpanded = false;
+  @tracked isModalVisible = false;
   @tracked _currentMajorCategory = null;
   @tracked _currentNextCategory = null;
   _category = null;
@@ -106,6 +107,7 @@ export default class FeedbackPanel extends Component {
       this.isFormSubmitted = true;
       this._sendButtonStatus = buttonStatusTypes.recorded;
       this._resetForm();
+      this.toggleModalVisibility();
     } catch (error) {
       this._sendButtonStatus = buttonStatusTypes.unrecorded;
     }
@@ -147,6 +149,11 @@ export default class FeedbackPanel extends Component {
     if (this._category != null) {
       this._showFeedbackActionBasedOnCategoryType(this.nextCategory[value - 1]);
     }
+  }
+
+  @action
+  toggleModalVisibility() {
+    this.isModalVisible = !this.isModalVisible;
   }
 
   _resetPanel() {

@@ -174,3 +174,16 @@
 .feedback-panel__alert {
   margin: 4px 0;
 }
+
+/* Submit modal
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel__submit-modal > [class$='__footer'] {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: $pix-spacing-s;
+
+  & > :not(:first-child) {
+    margin-left: $pix-spacing-xs;
+  }
+}

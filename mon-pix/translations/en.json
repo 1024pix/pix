@@ -42,7 +42,8 @@
       "close": "Close",
       "quit": "Exit",
       "sign-out": "Sign out",
-      "stay": "Stay"
+      "stay": "Stay",
+      "validate": "Validate"
     },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
@@ -653,6 +654,10 @@
         "information": {
           "data-usage": "'<p>'Pix processes the data from this area to manage and analyse the difficulty encountered and benefit from your feedback. You have rights over your data which can be exercised via: <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.org/en-gb/personal-data-reporting-test\" target=\"_blank\" class=\"link\">'To find out more about protecting your data and your rights.'</a></p>'",
           "guidance": "'<p>'*Make sure you write in this zone: for your benefit and the benefit of others, please stay objective and keep to the facts.'</p><p>'Do not enter any information about yourself or third parties, or any information related to health; religion; political, or philosophical opinions; trade union affiliation; ethnic origins; or penalties and convictions.'</p>'"
+        },
+        "modal": {
+          "title": "Report confirmation",
+          "content": "'<p><strong>'Do you confirm this problem report?'</strong></p><p>'Thank you for this problem report, our team will review it soon. Every feedback helps us improve our services and the experience of all Pix users. Please note that we will not reach out to you on this topic. Thank you for your help.'</p>'"
         }
       },
       "has-focused-out-of-window": {

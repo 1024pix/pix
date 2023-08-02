@@ -29,7 +29,7 @@
         {{else}}
           <p>{{t "pages.challenge.feedback-panel.description"}}</p>
           <div class="feedback-panel__form-wrapper">
-            <form class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
+            <form id="feedback-form" class="feedback-panel__form" {{on "submit" this.sendFeedback}} novalidate>
               <div class="feedback-panel__group">
                 <div class="feedback-panel__category-selection">
                   <PixSelect
@@ -79,7 +79,7 @@
                   />
                 </div>
                 <PixButton
-                  @type="submit"
+                  @triggerAction={{this.toggleModalVisibility}}
                   @backgroundColor="grey"
                   aria-label={{t "pages.challenge.feedback-panel.form.actions.submit-aria-label"}}
                   @isDisabled={{this.isSendButtonDisabled}}
@@ -95,8 +95,28 @@
             {{t "pages.challenge.feedback-panel.information.data-usage" htmlSafe=true}}
           </div>
         {{/if}}
-
       </div>
     {{/if}}
   {{/if}}
 </div>
+
+<PixModal
+  class="feedback-panel__submit-modal"
+  @title={{t "pages.challenge.feedback-panel.modal.title"}}
+  @showModal={{this.isModalVisible}}
+  @onCloseButtonClick={{this.toggleModalVisibility}}
+>
+  <:content>
+    {{t "pages.challenge.feedback-panel.modal.content" htmlSafe=true}}
+  </:content>
+  <:footer>
+    <PixButton
+      @triggerAction={{this.toggleModalVisibility}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+    >
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    <PixButton @type="submit" form="feedback-form">{{t "common.actions.validate"}}</PixButton>
+  </:footer>
+</PixModal>
