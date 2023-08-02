@@ -1,14 +1,18 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import dayjs from 'dayjs';
+
+const KE_STATUS_VALIDATED = KnowledgeElement.StatusType.VALIDATED;
+const KE_STATUS_INVALIDATED = KnowledgeElement.StatusType.INVALIDATED;
+const KE_SOURCE_DIRECT = KnowledgeElement.SourceType.DIRECT;
+const KE_SOURCE_INFERRED = KnowledgeElement.SourceType.INFERRED;
 
 describe('Unit | Domain | Models | KnowledgeElement', function () {
   describe('#isValidated', function () {
     it('should be true if status validated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: KE_STATUS_VALIDATED,
       });
 
       // when
@@ -21,7 +25,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
     it('should be false if status not validated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        status: KE_STATUS_INVALIDATED,
       });
 
       // when
@@ -36,31 +40,23 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: KnowledgeElement.StatusType.VALIDATED,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: KE_STATUS_VALIDATED,
+        source: KE_SOURCE_DIRECT,
         expected: true,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        source: KnowledgeElement.SourceType.DIRECT,
+        status: KE_STATUS_INVALIDATED,
+        source: KE_SOURCE_DIRECT,
         expected: false,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: KnowledgeElement.StatusType.VALIDATED,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        source: KnowledgeElement.SourceType.INFERRED,
+        status: KE_STATUS_VALIDATED,
+        source: KE_SOURCE_INFERRED,
         expected: false,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: KnowledgeElement.StatusType.INVALIDATED,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        source: KnowledgeElement.SourceType.INFERRED,
+        status: KE_STATUS_INVALIDATED,
+        source: KE_SOURCE_INFERRED,
         expected: false,
       },
     ].forEach(({ status, source, expected }) => {
@@ -81,7 +77,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
     it('should be true if status invalidated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.INVALIDATED,
+        status: KE_STATUS_INVALIDATED,
       });
 
       // when
@@ -94,7 +90,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
     it('should be false if status not invalidated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
-        status: KnowledgeElement.StatusType.VALIDATED,
+        status: KE_STATUS_VALIDATED,
       });
 
       // when
@@ -175,8 +171,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       it('should create a knowledge element', function () {
         // then
         const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
-          source: KnowledgeElement.SourceType.DIRECT,
-          status: KnowledgeElement.StatusType.VALIDATED,
+          source: KE_SOURCE_DIRECT,
+          status: KE_STATUS_VALIDATED,
           earnedPix: skill.pixValue,
           answerId: validAnswer.id,
           assessmentId: validAnswer.assessmentId,
@@ -217,8 +213,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
         it('should create one direct knowledge element and two inferred validated for easier skills', function () {
           // then
           const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            source: KE_SOURCE_DIRECT,
+            status: KE_STATUS_VALIDATED,
             earnedPix: skill.pixValue,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
@@ -229,8 +225,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
           });
           directKnowledgeElement.id = undefined;
           const inferredKnowledgeElementForEasierSkill = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.INFERRED,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            source: KE_SOURCE_INFERRED,
+            status: KE_STATUS_VALIDATED,
             earnedPix: easierSkill.pixValue,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
@@ -241,8 +237,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
           });
           inferredKnowledgeElementForEasierSkill.id = undefined;
           const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.INFERRED,
-            status: KnowledgeElement.StatusType.VALIDATED,
+            source: KE_SOURCE_INFERRED,
+            status: KE_STATUS_VALIDATED,
             earnedPix: muchEasierSkill.pixValue,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
@@ -281,8 +277,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
         it('should create one direct knowledge element and two inferred invalidated for harder skills', function () {
           // then
           const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KE_SOURCE_DIRECT,
+            status: KE_STATUS_INVALIDATED,
             earnedPix: 0,
             answerId: invalidAnswer.id,
             assessmentId: invalidAnswer.assessmentId,
@@ -292,8 +288,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
           });
           directKnowledgeElement.id = undefined;
           const inferredKnowledgeElementForHarderSkill = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.INFERRED,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KE_SOURCE_INFERRED,
+            status: KE_STATUS_INVALIDATED,
             earnedPix: 0,
             answerId: invalidAnswer.id,
             assessmentId: invalidAnswer.assessmentId,
@@ -303,8 +299,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
           });
           inferredKnowledgeElementForHarderSkill.id = undefined;
           const inferredKnowledgeElementForMuchHarderSkill = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.INFERRED,
-            status: KnowledgeElement.StatusType.INVALIDATED,
+            source: KE_SOURCE_INFERRED,
+            status: KE_STATUS_INVALIDATED,
             earnedPix: 0,
             answerId: invalidAnswer.id,
             assessmentId: invalidAnswer.assessmentId,
