@@ -1,7 +1,18 @@
 import { expect } from '../../../test-helper.js';
 import * as categories from '../../../../lib/domain/constants/organization-places-categories.js';
-import { OrganizationPlacesLot } from '../../../../lib/domain/models/OrganizationPlacesLot.js';
+import { OrganizationPlacesLot } from '../../../../lib/domain/models/index.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
+
+const CODE_CATEGORY_T0 = categories.T0;
+const CODE_CATEGORY_T1 = categories.T1;
+const CODE_CATEGORY_T2 = categories.T2;
+const CODE_CATEGORY_T2BIS = categories.T2bis;
+const CODE_CATEGORY_T3 = categories.T3;
+const CATEGORY_FREE_RATE = categories.FREE_RATE;
+const CATEGORY_PUBLIC_RATE = categories.PUBLIC_RATE;
+const CATEGORY_REDUCE_RATE = categories.REDUCE_RATE;
+const CATEGORY_SPECIAL_REDUCE_RATE = categories.SPECIAL_REDUCE_RATE;
+const CATEGORY_FULL_RATE = categories.FULL_RATE;
 
 describe('Unit | Domain | Models | OrganizationPlaces', function () {
   describe('#constructor', function () {
@@ -26,7 +37,7 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
       expect(organizationPlacesLot.activationDate).to.equal('2022-01-02');
       expect(organizationPlacesLot.expirationDate).to.equal('2023-01-02');
       expect(organizationPlacesLot.reference).to.equal('abc123');
-      expect(organizationPlacesLot.category).to.equal(categories.T0);
+      expect(organizationPlacesLot.category).to.equal(CODE_CATEGORY_T0);
       expect(organizationPlacesLot.createdBy).to.equal(888);
     });
 
@@ -422,12 +433,14 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
             },
           ]);
         });
+
+        // eslint-disable-next-line mocha/no-setup-in-describe
         [
-          { code: categories.T0, category: categories.FREE_RATE },
-          { code: categories.T1, category: categories.PUBLIC_RATE },
-          { code: categories.T2, category: categories.REDUCE_RATE },
-          { code: categories.T2bis, category: categories.SPECIAL_REDUCE_RATE },
-          { code: categories.T3, category: categories.FULL_RATE },
+          { code: CODE_CATEGORY_T0, category: CATEGORY_FREE_RATE },
+          { code: CODE_CATEGORY_T1, category: CATEGORY_PUBLIC_RATE },
+          { code: CODE_CATEGORY_T2, category: CATEGORY_REDUCE_RATE },
+          { code: CODE_CATEGORY_T2BIS, category: CATEGORY_SPECIAL_REDUCE_RATE },
+          { code: CODE_CATEGORY_T3, category: CATEGORY_FULL_RATE },
         ].forEach((data) => {
           it(`it returns ${data.code} when category is ${data.category}`, function () {
             //given
