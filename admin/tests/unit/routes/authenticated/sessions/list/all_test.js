@@ -35,7 +35,6 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
         };
 
         // then
@@ -54,7 +53,6 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
         };
 
         // when
@@ -76,7 +74,6 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
         };
 
         // when
@@ -98,7 +95,6 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: 'SCO',
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
         };
 
         // when
@@ -120,7 +116,6 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: 'EXTID',
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
         };
 
         // when
@@ -142,29 +137,6 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: 'someStatus',
-          resultsSentToPrescriberAt: undefined,
-        };
-
-        // when
-        await route.model(params);
-
-        // then
-        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
-        assert.ok(true);
-      });
-    });
-
-    module('when queryParams resultsSentToPrescriberAt is true', function () {
-      test('it should call store.query with a filter with true resultsSentToPrescriberAt', async function (assert) {
-        // given
-        params.resultsSentToPrescriberAt = true;
-        expectedQueryArgs.filter = {
-          id: undefined,
-          certificationCenterName: undefined,
-          certificationCenterType: undefined,
-          certificationCenterExternalId: undefined,
-          status: undefined,
-          resultsSentToPrescriberAt: true,
         };
 
         // when

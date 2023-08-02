@@ -51,11 +51,6 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       month: 'numeric',
       year: 'numeric',
     });
-    const displayedResultsSentToPrescriberAt = resultsSentToPrescriberAt.toLocaleString('fr-FR', {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    });
 
     sessions.meta = { rowCount: 2 };
     this.set('sessions', sessions);
@@ -78,13 +73,6 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert
         .dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`)
         .hasText(sessions[i].publishedAt ? displayedPublishedAt : sessions[i].publishedAt);
-      assert
-        .dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(9)`)
-        .hasText(
-          sessions[i].resultsSentToPrescriberAt
-            ? displayedResultsSentToPrescriberAt
-            : sessions[i].resultsSentToPrescriberAt,
-        );
     }
     // Colonne : Centre de certification
     assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterExternalId);
@@ -200,52 +188,6 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
 
       // then
       assert.strictEqual(this.status, 'created');
-    });
-  });
-
-  module('Dropdown menu for resultsSentToPrescriberAt filtering', function () {
-    test('it should render a dropdown menu to filter sessions on their results sending', async function (assert) {
-      // given
-      const screen = await render(hbs`<Sessions::ListItems />`);
-
-      // when
-      await click(
-        screen.getByRole('button', {
-          name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-        }),
-      );
-      await screen.findByRole('listbox');
-
-      // then
-      assert.dom(screen.getByRole('option', { name: 'Tous' })).exists();
-      assert.dom(screen.getByRole('option', { name: 'Résultats diffusés' })).exists();
-      assert.dom(screen.getByRole('option', { name: 'Résultats non diffusés' })).exists();
-    });
-
-    test('it should filter sessions on results sending status when it has changed', async function (assert) {
-      // given
-      this.set('resultsSentToPrescriberAt', 'true');
-      this.set('updateSessionResultsSentToPrescriberFilter', (newValue) =>
-        this.set('resultsSentToPrescriberAt', newValue),
-      );
-      const screen = await render(
-        hbs`<Sessions::ListItems
-  @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
-  @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
-/>`,
-      );
-
-      // when
-      await click(
-        screen.getByRole('button', {
-          name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
-        }),
-      );
-      await screen.findByRole('listbox');
-      await click(screen.getByRole('option', { name: 'Résultats non diffusés' }));
-
-      // then
-      assert.strictEqual(this.resultsSentToPrescriberAt, 'false');
     });
   });
 });
