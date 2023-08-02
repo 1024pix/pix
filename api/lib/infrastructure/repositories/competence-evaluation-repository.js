@@ -58,17 +58,15 @@ const updateAssessmentId = function ({
     );
 };
 
-const getByAssessmentId = function (assessmentId) {
-  return BookshelfCompetenceEvaluation.where({ assessmentId })
-    .orderBy('createdAt', 'asc')
-    .fetch({ withRelated: ['assessment'] })
-    .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
-    .catch((bookshelfError) => {
-      if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
-        throw new NotFoundError();
-      }
-      throw bookshelfError;
-    });
+const getByAssessmentId = async function (assessmentId) {
+  const competenceEvaluation = await knex('competence-evaluations').where({ assessmentId }).first();
+  if (!competenceEvaluation) {
+    throw new NotFoundError();
+  }
+
+  const assessment = await knex('assessments').where({ id: competenceEvaluation.assessmentId }).first();
+
+  return _toDomain({ competenceEvaluation, assessment });
 };
 
 const getByCompetenceIdAndUserId = async function ({
