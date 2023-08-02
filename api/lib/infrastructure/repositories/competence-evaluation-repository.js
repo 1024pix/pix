@@ -44,19 +44,18 @@ const updateStatusByUserIdAndCompetenceId = function ({ userId, competenceId, st
     );
 };
 
-const updateAssessmentId = function ({
+const updateAssessmentId = async function ({
   currentAssessmentId,
   newAssessmentId,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
-  return BookshelfCompetenceEvaluation.where({ assessmentId: currentAssessmentId })
-    .save(
-      { assessmentId: newAssessmentId },
-      { require: true, patch: true, transacting: domainTransaction.knexTransaction },
-    )
-    .then((updatedCompetenceEvaluation) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation),
-    );
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const [competenceEvaluation] = await knexConn('competence-evaluations')
+    .where({ assessmentId: currentAssessmentId })
+    .update({ assessmentId: newAssessmentId })
+    .returning('*');
+
+  return _toDomain({ competenceEvaluation, assessment: null });
 };
 
 const getByAssessmentId = async function (assessmentId) {
