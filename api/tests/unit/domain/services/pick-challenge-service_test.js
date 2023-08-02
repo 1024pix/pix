@@ -8,26 +8,23 @@ import _ from 'lodash';
 
 describe('Unit | Service | PickChallengeService', function () {
   describe('#pickChallenge', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const frenchChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_FRANCE] });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const validatedChallenge = domainBuilder.buildChallenge({ status: 'validé' });
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const archivedChallenge = domainBuilder.buildChallenge({ status: 'archivé' });
+    let englishSpokenChallenge,
+      frenchSpokenChallenge,
+      otherFrenchSpokenChallenge,
+      frenchChallenge,
+      validatedChallenge,
+      archivedChallenge;
 
     const randomSeed = 'some-random-seed';
+
+    beforeEach(function () {
+      englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
+      frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
+      otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
+      frenchChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_FRANCE] });
+      validatedChallenge = domainBuilder.buildChallenge({ status: 'validé' });
+      archivedChallenge = domainBuilder.buildChallenge({ status: 'archivé' });
+    });
 
     context('when challenge in selected locale exists', function () {
       it('should return challenge in selected locale', function () {
