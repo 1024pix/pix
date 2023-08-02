@@ -3,7 +3,7 @@ import bluebird from 'bluebird';
 import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
 import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
-import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
@@ -42,20 +42,21 @@ async function makeUserPixEduCertifiable({ userId, databaseBuilder }) {
 async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
   await _cacheLearningContent();
   const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
-  const [badgeKey] = await knex
+  const [campaignId] = await knex
     .from('badges')
-    .pluck('badges.key')
+    .pluck('campaigns.id')
     .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
       'complementary-certification-badges.complementaryCertificationId',
     )
+    .innerJoin('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId')
     .where({ 'complementary-certifications.key': ComplementaryCertification.CLEA })
-    .orderBy('complementary-certification-badges.level', 'desc');
+    .whereNull('complementary-certification-badges.detachedAt');
 
-  const { skillSets } = await badgeRepository.getByKey(badgeKey);
-  const skillIds = skillSets.flatMap(({ skillIds }) => skillIds);
+  const skillIds = await campaignRepository.findSkillIds({ campaignId });
+
   return bluebird.mapSeries(skillIds, async (skillId) => {
     const skill = await skillRepository.get(skillId);
     return _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
