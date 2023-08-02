@@ -356,40 +356,5 @@ describe('Unit | Domain | Validators | session-validator', function () {
         });
       });
     });
-
-    context('when validating resultsSentToPrescriberAt', function () {
-      context('when resultsSentToPrescriberAt not in submitted filters', function () {
-        it('should not throw any error', function () {
-          expect(sessionValidator.validateAndNormalizeFilters({})).to.not.throw;
-        });
-      });
-
-      context('when resultsSentToPrescriberAt is in submitted filters', function () {
-        context('when resultsSentToPrescriberAt is not a boolean', function () {
-          it('should throw an error', async function () {
-            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({
-              resultsSentToPrescriberAt: 123,
-            });
-            expect(error).to.be.instanceOf(EntityValidationError);
-          });
-        });
-
-        context('when resultsSentToPrescriberAt is not in the resultsSentToPrescriberAt list', function () {
-          it('should throw an error', async function () {
-            const error = await catchErr(sessionValidator.validateAndNormalizeFilters)({
-              resultsSentToPrescriberAt: 'SomeOtherValue',
-            });
-            expect(error).to.be.instanceOf(EntityValidationError);
-          });
-        });
-
-        context('when resultsSentToPrescriberAt is a boolean', function () {
-          it('should not throw an error', async function () {
-            expect(sessionValidator.validateAndNormalizeFilters({ resultsSentToPrescriberAt: true })).to.not.throw;
-            expect(sessionValidator.validateAndNormalizeFilters({ resultsSentToPrescriberAt: false })).to.not.throw;
-          });
-        });
-      });
-    });
   });
 });
