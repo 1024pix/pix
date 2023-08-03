@@ -1,5 +1,5 @@
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
-import { badges } from '../../../constants.js';
+import { badges, DEFAULT_PASSWORD } from '../../../constants.js';
 import { createTargetProfile } from './tooling/target-profile-tooling.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -47,6 +47,7 @@ const PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 83;
 const PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 74;
 const PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 75;
 const COLLEGE_TAG_ID = 8;
+
 export {
   commonBuilder,
   COLLEGE_TAG_ID,
@@ -59,6 +60,7 @@ export {
   PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
   PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
   PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID,
+  PIX_PUBLIC_TARGET_PROFILE_ID,
   CLEA_V1_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_INITIE_CERTIFIABLE_BADGE_ID,
   PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
@@ -77,6 +79,7 @@ export {
   PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_2ND_DEGRE_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_2ND_DEGRE_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
+  REAL_PIX_SUPER_ADMIN_ID,
 };
 
 async function commonBuilder({ databaseBuilder }) {
@@ -95,7 +98,7 @@ function _createSuperAdmin(databaseBuilder) {
     firstName: 'NextSuper',
     lastName: 'NextAdmin',
     email: 'superadmin@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
   });
   databaseBuilder.factory.buildPixAdminRole({ userId: REAL_PIX_SUPER_ADMIN_ID, role: ROLES.SUPER_ADMIN });
 }
