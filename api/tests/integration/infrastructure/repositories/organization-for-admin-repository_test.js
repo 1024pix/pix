@@ -210,8 +210,9 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#update', function () {
-    afterEach(function () {
-      return knex('organization-features').delete();
+    afterEach(async function () {
+      await knex('organization-features').delete();
+      return knex('data-protection-officers').delete();
     });
 
     it('should return an OrganizationForAdmin domain object with related tags', async function () {
@@ -337,6 +338,74 @@ describe('Integration | Repository | Organization-for-admin', function () {
       const enabledFeatures = await knex('organization-features');
       expect(enabledFeatures.length).to.equal(1);
       expect(enabledFeatures[0].organizationId).to.equal(otherOrganization.id);
+    });
+
+    it('should create data protection officer', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Spider', lastName: 'Man' }).id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        createdBy: userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        documentationUrl: 'https://pix.fr/',
+        dataProtectionOfficerEmail: 'iron@man.fr',
+        dataProtectionOfficerFirstName: 'Iron',
+        dataProtectionOfficerLastName: 'Man',
+      });
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const dataProtectionOfficerCreated = await knex('data-protection-officers')
+        .where({
+          organizationId: organization.id,
+        })
+        .first();
+      expect(dataProtectionOfficerCreated.firstName).to.equal('Iron');
+      expect(dataProtectionOfficerCreated.lastName).to.equal('Man');
+      expect(dataProtectionOfficerCreated.email).to.equal('iron@man.fr');
+    });
+
+    it('should update data protection officer', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Spider', lastName: 'Man' }).id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        createdBy: userId,
+      });
+      databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
+        organizationId: organization.id,
+        firstName: 'Tony',
+        lastName: 'Stark',
+        email: 'tony@stark.com',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        documentationUrl: 'https://pix.fr/',
+        dataProtectionOfficerEmail: 'iron@man.fr',
+        dataProtectionOfficerFirstName: 'Iron',
+        dataProtectionOfficerLastName: 'Man',
+      });
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const dataProtectionOfficerUpdated = await knex('data-protection-officers')
+        .where({
+          organizationId: organization.id,
+        })
+        .first();
+      expect(dataProtectionOfficerUpdated.firstName).to.equal('Iron');
+      expect(dataProtectionOfficerUpdated.lastName).to.equal('Man');
+      expect(dataProtectionOfficerUpdated.email).to.equal('iron@man.fr');
     });
 
     it('should not add row in table "organizations"', async function () {

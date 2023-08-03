@@ -73,7 +73,7 @@ class OrganizationForAdmin {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 
-  updateInformation(organization) {
+  updateInformation(organization, dataProtectionOfficer) {
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
     if (organization.logoUrl) this.logoUrl = organization.logoUrl;
@@ -87,6 +87,9 @@ class OrganizationForAdmin {
     this.identityProviderForCampaigns = organization.identityProviderForCampaigns;
     this.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] =
       organization.enableMultipleSendingAssessment;
+    this.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
+    this.dataProtectionOfficer.lastName = dataProtectionOfficer.lastName;
+    this.dataProtectionOfficer.email = dataProtectionOfficer.email;
   }
 }
 
