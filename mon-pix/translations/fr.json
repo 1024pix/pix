@@ -1423,6 +1423,9 @@
         "button": "Repasser mon parcours",
         "message": "{organizationName} vous invite à repasser ce parcours afin d'améliorer votre résultat et de continuer à progresser."
       },
+      "reset": {
+        "button": "Remettre à zéro et tout retenter"
+      },
       "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
       "send-status": {
         "in-progress": "Envoi en cours"
