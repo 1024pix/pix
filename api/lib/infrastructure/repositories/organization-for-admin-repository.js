@@ -35,6 +35,7 @@ function _toDomain(rawOrganization) {
     creatorLastName: rawOrganization.creatorLastName,
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
     enableMultipleSendingAssessment: rawOrganization.enableMultipleSendingAssessment,
+    features: rawOrganization.features,
   });
 
   organization.tags = rawOrganization.tags || [];
@@ -90,18 +91,21 @@ const get = async function (id) {
     .where('organization-tags.organizationId', organization.id);
 
   const availableFeatures = await knex('features')
-    .select('key')
-    .join('organization-features', function () {
+    .select('key', knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
+    .leftJoin('organization-features', function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
         organization.id,
       );
-    })
-    .pluck('key');
+    });
 
-  organization.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+  organization.features = availableFeatures.reduce(
+    (features, { key, enabled }) => ({ ...features, [key]: enabled }),
+    {},
   );
+
+  organization.enableMultipleSendingAssessment =
+    organization.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key];
 
   organization.tags = tags.map((tag) => {
     return new Tag(tag);
@@ -109,6 +113,33 @@ const get = async function (id) {
 
   return _toDomain(organization);
 };
+
+async function _enableFeatures(featuresToEnable, organizationId) {
+  const features = await knex('features');
+
+  await knex('organization-features')
+    .insert(
+      _.keys(featuresToEnable)
+        .filter((key) => featuresToEnable[key])
+        .map((key) => ({
+          organizationId,
+          featureId: features.find((feature) => feature.key === key).id,
+        })),
+    )
+    .onConflict()
+    .ignore();
+}
+
+async function _disableFeatures(features, organizationId) {
+  await knex('organization-features')
+    .join('features', 'organization-features.featureId', 'features.id')
+    .where('organization-features.organizationId', organizationId)
+    .whereIn(
+      'features.key',
+      _.keys(features).filter((key) => features[key] === false),
+    )
+    .delete();
+}
 
 const update = async function (organization) {
   const organizationRawData = _.pick(organization, [
@@ -125,6 +156,9 @@ const update = async function (organization) {
     'identityProviderForCampaigns',
   ]);
 
+  await _enableFeatures(organization.features, organization.id);
+  await _disableFeatures(organization.features, organization.id);
+
   const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
     .update(organizationRawData)
     .where({ id: organization.id })
@@ -134,6 +168,7 @@ const update = async function (organization) {
     .select(['tags.id', 'tags.name'])
     .join('organization-tags', 'organization-tags.tagId', 'tags.id')
     .where('organization-tags.organizationId', organizationDB.id);
+
   const archivist = await knex('users')
     .select(['users.firstName', 'users.lastName'])
     .join('organizations', 'organizations.archivedBy', 'users.id')

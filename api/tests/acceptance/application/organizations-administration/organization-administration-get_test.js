@@ -20,6 +20,7 @@ describe('Acceptance | Routes | organization-administration-controller', functio
       it('should return the matching organization as JSON API', async function () {
         // given
         const superAdminUserId = databaseBuilder.factory.buildUser.withRole({
+          id: 983733,
           firstName: 'Tom',
           lastName: 'Dereck',
         }).id;

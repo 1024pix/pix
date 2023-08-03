@@ -1,4 +1,5 @@
 import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
+import * as apps from '../../constants.js';
 
 class OrganizationForAdmin {
   constructor({
@@ -28,6 +29,7 @@ class OrganizationForAdmin {
     identityProviderForCampaigns,
     enableMultipleSendingAssessment,
     tags = [],
+    features = {},
   } = {}) {
     this.id = id;
     this.name = name;
@@ -58,6 +60,7 @@ class OrganizationForAdmin {
     this.identityProviderForCampaigns = identityProviderForCampaigns;
     this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.tags = tags;
+    this.features = features;
   }
 
   get archivistFullName() {
@@ -82,6 +85,8 @@ class OrganizationForAdmin {
     this.documentationUrl = organization.documentationUrl;
     this.showSkills = organization.showSkills;
     this.identityProviderForCampaigns = organization.identityProviderForCampaigns;
+    this.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] =
+      organization.enableMultipleSendingAssessment;
   }
 }
 

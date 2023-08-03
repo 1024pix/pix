@@ -1,7 +1,6 @@
 import bluebird from 'bluebird';
 import _ from 'lodash';
 import { OrganizationTag } from '../../models/OrganizationTag.js';
-import * as apps from '../../constants.js';
 
 async function _updateOrganizationTags({
   organization,
@@ -43,28 +42,9 @@ async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionO
   return dataProtectionOfficerRepository.create(organization.dataProtectionOfficer);
 }
 
-async function _enablingOrganizationFeature(organization, organizationFeatureRepository) {
-  const availableFeatures = await organizationFeatureRepository.getFeaturesListFromOrganization(organization.id);
-  const isAssessmentFeatureEnable = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
-  );
-
-  const organizationFeatureData = {
-    organizationId: organization.id,
-    featureKey: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
-  };
-
-  if (isAssessmentFeatureEnable && !organization.enableMultipleSendingAssessment) {
-    await organizationFeatureRepository.removeFeatureToOrganization(organizationFeatureData);
-  } else if (!isAssessmentFeatureEnable && organization.enableMultipleSendingAssessment) {
-    await organizationFeatureRepository.addFeatureToOrganization(organizationFeatureData);
-  }
-}
-
 const updateOrganizationInformation = async function ({
   organization,
   dataProtectionOfficerRepository,
-  organizationFeatureRepository,
   organizationForAdminRepository,
   organizationTagRepository,
   tagRepository,
@@ -84,8 +64,6 @@ const updateOrganizationInformation = async function ({
     dataProtectionOfficerRepository,
     organization,
   });
-
-  await _enablingOrganizationFeature(organization, organizationFeatureRepository);
 
   updatedOrganization.enableMultipleSendingAssessment = organization.enableMultipleSendingAssessment;
   updatedOrganization.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
