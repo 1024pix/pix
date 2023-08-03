@@ -434,6 +434,7 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           ]);
         });
 
+        // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
         // eslint-disable-next-line mocha/no-setup-in-describe
         [
           { code: CODE_CATEGORY_T0, category: CATEGORY_FREE_RATE },

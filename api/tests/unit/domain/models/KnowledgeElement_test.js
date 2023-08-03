@@ -37,6 +37,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
   });
 
   describe('#isDirectlyValidated', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
@@ -331,6 +332,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
       sinon.useFakeTimers(testCurrentDate.getTime());
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysBefore: 0, hoursBefore: 2, expectedDaysSinceLastKnowledgeElement: 0.0833 },

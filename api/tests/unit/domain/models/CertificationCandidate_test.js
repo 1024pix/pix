@@ -81,6 +81,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { name: 'firstName', code: 'CANDIDATE_FIRST_NAME_MUST_BE_A_STRING' },
@@ -350,6 +351,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
         it(`should not throw if billing mode is an expected value ${billingMode}`, async function () {
@@ -442,6 +444,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { field: 'firstName', expectedCode: FIRST_NAME_ERROR_CODE },
@@ -620,6 +623,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
 
         context('when billing mode is in the expected values', function () {
+          // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
           // eslint-disable-next-line mocha/no-setup-in-describe
           ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
             it(`should return nothing for ${billingMode}`, async function () {
@@ -867,6 +871,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       }
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
       it(`should not throw if billing mode is expected value ${billingMode}`, async function () {
@@ -977,6 +982,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   });
 
   describe('parseBillingMode', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { value: 'Gratuite', expectedTranslation: 'FREE' },
@@ -992,6 +998,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   });
 
   describe('translateBillingMode', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { value: 'FREE', expectedTranslation: 'Gratuite' },

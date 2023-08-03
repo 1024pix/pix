@@ -282,6 +282,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_FOR_RESET').value(originalConstantValue);
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
@@ -326,6 +327,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING').value(originalConstantValue);
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
@@ -379,6 +381,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
       expect(result).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [SCORECARD_STATUS_STARTED, SCORECARD_STATUS_NOT_STARTED].forEach((status) => {
       it('should return false when status is not completed', function () {
@@ -438,6 +441,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isFinishedWithMaxLevel', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { level: 2, status: SCORECARD_STATUS_NOT_STARTED, expectedResult: false },
@@ -465,6 +469,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isNotStarted', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { status: SCORECARD_STATUS_NOT_STARTED, expectedResult: true },
@@ -485,6 +490,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isStarted', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { status: SCORECARD_STATUS_NOT_STARTED, expectedResult: false },
@@ -505,6 +511,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isProgressable', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { status: SCORECARD_STATUS_NOT_STARTED, level: 0, expectedResult: false },
@@ -528,6 +535,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isImprovable', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
@@ -555,6 +563,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#shouldWaitBeforeImproving', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { isFinished: false, isFinishedWithMaxLevel: true, remainingDaysBeforeImproving: 5, expectedResult: false },
@@ -582,6 +591,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#isResettable', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { isFinished: false, isStarted: true, remainingDaysBeforeReset: 5, expectedResult: false },
@@ -703,6 +713,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
   });
 
   describe('#percentageAheadOfNextLevel', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },

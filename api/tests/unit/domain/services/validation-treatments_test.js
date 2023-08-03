@@ -9,6 +9,7 @@ import {
 
 describe('Unit | Service | Validation Treatments', function () {
   describe('#normalizeAndRemoveAccents', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { description: 'white spaces', input: '  foo  bar  ', expected: 'foobar' },
@@ -32,6 +33,7 @@ describe('Unit | Service | Validation Treatments', function () {
   });
 
   describe('#removeSpecialCharacters', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { description: 'all point types', input: '?Allo?,:;.', expected: 'Allo' },

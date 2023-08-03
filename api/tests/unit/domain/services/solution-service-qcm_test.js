@@ -15,6 +15,7 @@ describe('Unit | Service | SolutionServiceQCM ', function () {
       { answerValue: '1, 2, 3', solutionValue: '1, 2, 3' },
     ];
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(({ answerValue, solutionValue }) => {
       it(
@@ -33,6 +34,7 @@ describe('Unit | Service | SolutionServiceQCM ', function () {
       { answerValue: '3, 1', solutionValue: '1, 2' },
     ];
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach(({ answerValue, solutionValue }) => {
       it(
