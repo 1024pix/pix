@@ -102,6 +102,7 @@
     "markdown-link-check": "^3.8.6"
   },
   "workspaces": [
-    "orga"
+    "orga",
+    "admin"
   ]
 }

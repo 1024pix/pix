@@ -16,7 +16,6 @@
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "directories": {
-    "doc": "docs",
     "test": "tests"
   },
   "scripts": {
@@ -114,5 +113,9 @@
     "stylelint-config-standard-scss": "^10.0.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.88.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/1024pix/pix/issues"
+  },
+  "homepage": "https://github.com/1024pix/pix#readme"
 }
