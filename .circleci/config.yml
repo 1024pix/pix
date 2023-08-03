@@ -333,7 +333,7 @@ jobs:
   admin_build_and_test:
     executor:
       name: node-browsers-docker
-    working_directory: ~/pix/admin
+    working_directory: ~/pix
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -342,17 +342,16 @@ jobs:
       - restore_cache:
           keys:
             - v7-admin-npm-{{ checksum "cachekey" }}
-      - run: npm ci
       - save_cache:
           key: v7-admin-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - run:
           name: Lint
-          command: npm run lint
+          command: npm run lint --workspace=admin
       - run:
           name: Test
-          command: npm run test:ci
+          command: npm run test:ci --workspace=admin
 
   e2e_test_app:
     executor:
