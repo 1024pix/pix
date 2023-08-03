@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.21.0 (03/08/2023)
+
+
+### :rocket: Amélioration
+- [#6811](https://github.com/1024pix/pix/pull/6811) [FEATURE] Ajout d'une modale de confirmation de soumission de signalement d'épreuve (PIX-8649).
+- [#6774](https://github.com/1024pix/pix/pull/6774) [FEATURE] Détacher les anciens badges certifiables (PIX-8734).
+- [#6799](https://github.com/1024pix/pix/pull/6799) [FEATURE] Le champ de description d'un signalement des épreuves n'est plus requis (PIX-7976).
+
+### :building_construction: Tech
+- [#6776](https://github.com/1024pix/pix/pull/6776) [TECH] Ajouter des seeds Pix Orga (PIX-8768).
+- [#6810](https://github.com/1024pix/pix/pull/6810) [TECH] Corriger les alertes de lint dans le dossier api/ (PIX-8822).
+- [#6814](https://github.com/1024pix/pix/pull/6814) [TECH] Remplacer le modèle bookshelf `competenceEvaluation` par l'utilisation de knex.
+- [#6813](https://github.com/1024pix/pix/pull/6813) [TECH] Ne plus étendre la config ESLint de la racine du monorepo.
+- [#6808](https://github.com/1024pix/pix/pull/6808) [TECH] Suppression des anciennes seeds (PIX-8105).
+- [#6807](https://github.com/1024pix/pix/pull/6807) [TECH] PixAdmin : montée de version de pix-ui en 39.0.3 (PIX-8787).
+- [#6718](https://github.com/1024pix/pix/pull/6718) [TECH] Prévenir le commit de secrets (PIX-8665).
+
+### :bug: Correction
+- [#6819](https://github.com/1024pix/pix/pull/6819) [BUGFIX] Rendre accessible les habilitations d'un centre de certif aux rôles CERTIF (PIX-8830).
+
+### :arrow_up: Montée de version
+- [#6806](https://github.com/1024pix/pix/pull/6806) [BUMP] Update dependency ember-resolver to v11 (orga).
+- [#6802](https://github.com/1024pix/pix/pull/6802) [BUMP] Update dependency ember-resolver to v11 (admin).
+- [#6803](https://github.com/1024pix/pix/pull/6803) [BUMP] Update dependency ember-resolver to v11 (certif).
+- [#6805](https://github.com/1024pix/pix/pull/6805) [BUMP] Update dependency ember-resolver to v11 (mon-pix).
+- [#6801](https://github.com/1024pix/pix/pull/6801) [BUMP] Update dependency ember-resolver to v11 (1d).
+
+### :coffee: Autre
+- [#6798](https://github.com/1024pix/pix/pull/6798) [CLEANUP] Suppression de messages de dépréciations sur les méthodes de routes.
+- [#6797](https://github.com/1024pix/pix/pull/6797) [CLEANUP] Corrige des messages de dépréciations sur les fronts sur miragejs.
+
 ## v4.20.0 (01/08/2023)
 
 
