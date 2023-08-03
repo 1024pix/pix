@@ -17,9 +17,15 @@ export default class SkillReview extends Component {
   @tracked showGlobalErrorMessage = false;
   @tracked isShareButtonClicked = false;
 
-  get query() {
+  get retryQuery() {
     return {
       retry: true,
+    };
+  }
+
+  get resetQuery() {
+    return {
+      reset: true,
     };
   }
 

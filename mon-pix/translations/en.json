@@ -1423,6 +1423,9 @@
         "button": "Retake my customised test",
         "message": "{organizationName} encourages you to retake your test to measure your progress."
       },
+      "reset": {
+        "button": "Reset"
+      },
       "send-results": "Don't forget to submit your results.",
       "send-status": {
         "in-progress": "Results are being shared..."
