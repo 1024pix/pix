@@ -190,4 +190,45 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert.strictEqual(this.status, 'created');
     });
   });
+
+  module('Dropdown menu for version filtering', function () {
+    test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
+      // given
+      const screen = await render(hbs`<Sessions::ListItems />`);
+
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions par leur version',
+        }),
+      );
+      await screen.findByRole('listbox');
+
+      // then
+      assert.dom(screen.getByRole('option', { name: 'Tous' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Sessions V2' })).exists();
+      assert.dom(screen.getByRole('option', { name: 'Sessions V3' })).exists();
+    });
+
+    test('it should filter sessions on (session) "version" when it has changed', async function (assert) {
+      // given
+      this.set('version', 2);
+      this.set('updateSessionVersionFilter', (newValue) => this.set('version', newValue));
+      const screen = await render(
+        hbs`<Sessions::ListItems @version={{this.version}} @onChangeSessionVersion={{this.updateSessionVersionFilter}} />`,
+      );
+
+      // when
+      await click(
+        screen.getByRole('button', {
+          name: 'Filtrer les sessions par leur version',
+        }),
+      );
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'Sessions V3' }));
+
+      // then
+      assert.strictEqual(this.version, '3');
+    });
+  });
 });

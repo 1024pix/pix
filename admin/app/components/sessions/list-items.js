@@ -8,6 +8,7 @@ export default class ListItems extends Component {
   @tracked selectedCertificationCenterTypeOption = null;
   @tracked selectedSessionResultsSentToPrescriberOption = null;
   @tracked selectedSessionStatusOption = null;
+  @tracked selectedSessionVersionOption = null;
 
   constructor() {
     super(...arguments);
@@ -29,6 +30,14 @@ export default class ListItems extends Component {
       ...map(statusToDisplayName, (label, status) => ({ value: status, label })),
     ];
     this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(this.args.sessionStatus);
+
+    // session version
+    this.sessionVersionOptions = [
+      { value: 'all', label: 'Tous' },
+      { value: '2', label: 'Sessions V2' },
+      { value: '3', label: 'Sessions V3' },
+    ];
+    this.selectedSessionVersionOption = this.getSessionVersionOptionByValue();
   }
 
   @action
@@ -55,5 +64,18 @@ export default class ListItems extends Component {
       return find(this.sessionStatusOptions, { value });
     }
     return this.sessionStatusOptions[0];
+  }
+
+  @action
+  selectSessionVersion(newValue) {
+    this.selectedSessionVersionOption = this.getSessionVersionOptionByValue(newValue);
+    this.args.onChangeSessionVersion(newValue);
+  }
+
+  getSessionVersionOptionByValue(value) {
+    if (value) {
+      return find(this.sessionVersionOptions, { value });
+    }
+    return this.sessionVersionOptions[0];
   }
 }

@@ -47,6 +47,7 @@ export default class Session extends Model {
   @attr('boolean') hasIncident;
   @attr('boolean') hasJoiningIssue;
   @attr('boolean') hasSupervisorAccess;
+  @attr() version;
 
   @hasMany('jury-certification-summary') juryCertificationSummaries;
   @belongsTo('user') assignedCertificationOfficer;

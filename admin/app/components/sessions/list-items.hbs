@@ -10,6 +10,7 @@
         <th id="session-status">Statut</th>
         <th id="session-finalization-date">Date de finalisation</th>
         <th id="session-publication-date">Date de publication</th>
+        <th id="session-version">Version de la session</th>
       </tr>
       <tr>
         <td class="table__column table__column--id">
@@ -62,6 +63,16 @@
         </td>
         <td></td>
         <td></td>
+        <td>
+          <PixSelect
+            @label="Filtrer les sessions par leur version"
+            @screenReaderOnly={{true}}
+            class="sessions-list-items__select"
+            @options={{this.sessionVersionOptions}}
+            @onChange={{this.selectSessionVersion}}
+            @value={{@version}}
+          />
+        </td>
       </tr>
     </thead>
 
@@ -87,6 +98,7 @@
             <td headers="session-status">{{session.displayStatus}}</td>
             <td headers="session-finalization-date">{{format-date session.finalizedAt}}</td>
             <td headers="session-publication-date">{{format-date session.publishedAt}}</td>
+            <td headers="session-version">{{session.version}}</td>
           </tr>
         {{/each}}
       </tbody>

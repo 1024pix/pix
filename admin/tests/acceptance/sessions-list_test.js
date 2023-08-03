@@ -184,6 +184,68 @@ module('Acceptance | Session List', function (hooks) {
           assert.strictEqual(sessionProcessedCount, 5);
         });
       });
+
+      module('#version', function (hooks) {
+        hooks.beforeEach(function () {
+          server.createList('session', 5, { version: 2 });
+          server.createList('session', 3, { version: 3 });
+        });
+
+        test('it should display sessions regardless of the version', async function (assert) {
+          // when
+          const screen = await visit('/sessions/list');
+
+          // then
+          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionCount, 8);
+        });
+
+        test('it should only display V2 sessions', async function (assert) {
+          // when
+          const screen = await visit('/sessions/list');
+          await click(
+            screen.getByRole('button', {
+              name: 'Filtrer les sessions par leur version',
+            }),
+          );
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', {
+              name: 'Sessions V2',
+            }),
+          );
+
+          // then
+          const v2Sessions = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(v2Sessions, 5);
+        });
+
+        test('it should only display V3 sessions', async function (assert) {
+          // when
+          const screen = await visit('/sessions/list');
+          await click(
+            screen.getByRole('button', {
+              name: 'Filtrer les sessions par leur version',
+            }),
+          );
+          await screen.findByRole('listbox');
+          await click(
+            screen.getByRole('option', {
+              name: 'Sessions V3',
+            }),
+          );
+
+          // then
+          const v3Sessions = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(v3Sessions, 3);
+        });
+      });
     });
   });
 });
