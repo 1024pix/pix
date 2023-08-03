@@ -11,16 +11,9 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
   let dataProtectionOfficerRepository;
   let organizationForAdminRepository;
   let organizationTagRepository;
-  let organizationFeatureRepository;
   let tagRepository;
 
   beforeEach(function () {
-    organizationFeatureRepository = {
-      getFeaturesListFromOrganization: sinon.stub(),
-      removeFeatureToOrganization: sinon.stub(),
-      addFeatureToOrganization: sinon.stub(),
-    };
-
     dataProtectionOfficerRepository = {
       create: sinon.stub(),
       get: sinon.stub(),
@@ -38,10 +31,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     tagRepository = {
       get: sinon.stub(),
     };
-
-    organizationFeatureRepository.getFeaturesListFromOrganization.resolves([]);
-    organizationFeatureRepository.removeFeatureToOrganization.resolves();
-    organizationFeatureRepository.addFeatureToOrganization.resolves();
   });
 
   context('when organization exists', function () {
@@ -70,7 +59,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -94,7 +82,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -117,7 +104,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -140,7 +126,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -163,7 +148,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -186,7 +170,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -209,7 +192,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -231,7 +213,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
       expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
@@ -252,7 +233,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -275,7 +255,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -298,7 +277,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -321,7 +299,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organization: givenOrganization,
         organizationForAdminRepository,
         dataProtectionOfficerRepository,
-        organizationFeatureRepository,
       });
 
       // then
@@ -358,7 +335,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organizationTagRepository,
           tagRepository,
           dataProtectionOfficerRepository,
-          organizationFeatureRepository,
         });
 
         // given
@@ -401,7 +377,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organizationTagRepository,
           tagRepository,
           dataProtectionOfficerRepository,
-          organizationFeatureRepository,
         });
 
         // given
@@ -438,7 +413,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organization: givenOrganization,
           organizationForAdminRepository,
           dataProtectionOfficerRepository,
-          organizationFeatureRepository,
         });
 
         // then
@@ -475,7 +449,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organization: givenOrganization,
           organizationForAdminRepository,
           dataProtectionOfficerRepository,
-          organizationFeatureRepository,
         });
 
         // then
