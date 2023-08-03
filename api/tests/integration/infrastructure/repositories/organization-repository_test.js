@@ -706,6 +706,32 @@ describe('Integration | Repository | Organization', function () {
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
+
+    context('when there are organizations matching the "hideArchived" filter', function () {
+      beforeEach(function () {
+        databaseBuilder.factory.buildOrganization({ archivedAt: null });
+        databaseBuilder.factory.buildOrganization({ archivedAt: new Date('2023-08-04') });
+
+        return databaseBuilder.commit();
+      });
+
+      it('return only Organizations matching "hideArchived" if given in filters', async function () {
+        // given
+        const filter = { hideArchived: true };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
+
+        // then
+        expect(_.map(matchingOrganizations, 'archivedAt')).to.have.members([null]);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
   });
 
   describe('#findPaginatedFilteredByTargetProfile', function () {
