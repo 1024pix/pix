@@ -388,6 +388,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     expect(assessmentResultRepository.save).to.have.been.calledOnce;
   });
 
+  // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     {

@@ -225,7 +225,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         enabledTreatments: ['t1', 't2', 't3'],
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function (testCase) {
       it(
@@ -300,7 +300,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function () {
         enabledTreatments: ['t1', 't2', 't3'],
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function (testCase) {
       it(

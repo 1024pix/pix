@@ -104,6 +104,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     context('status', function () {
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         {
@@ -167,6 +168,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(cancelledCertificationResult.isCancelled()).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
@@ -206,6 +208,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isValidated).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
@@ -245,6 +248,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isRejected).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
@@ -284,6 +288,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isInError).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
@@ -323,6 +328,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isStarted).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
@@ -346,6 +352,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
   });
 
   context('#hasBeenRejectedAutomatically', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {

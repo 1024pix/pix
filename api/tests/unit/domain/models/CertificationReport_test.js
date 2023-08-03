@@ -6,6 +6,7 @@ import lodash from 'lodash';
 const { keys } = lodash;
 describe('Unit | Domain | Models | CertificationReport', function () {
   describe('#constructor', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerComment) => {
       it(`should return no examiner comment if comment is "${examinerComment}"`, function () {
@@ -34,6 +35,7 @@ describe('Unit | Domain | Models | CertificationReport', function () {
       certificationReport.validateForFinalization();
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
