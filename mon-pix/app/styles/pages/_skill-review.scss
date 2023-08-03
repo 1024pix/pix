@@ -34,6 +34,16 @@
     }
   }
 
+  &__actions {
+    .pix-button {
+      margin: 0 auto;
+
+      &:first-child {
+        margin-bottom: $pix-spacing-xs;
+      }
+    }
+  }
+
   &__trainings {
     margin-top: $pix-spacing-xl;
     padding: $pix-spacing-l 0;
@@ -132,11 +142,6 @@
   &__message {
     margin: 1em 0;
   }
-
-  &__button {
-    padding: 10px;
-    font-size: 0.875rem;
-  }
 }
 
 .skill-review-trainings {
@@ -181,7 +186,9 @@
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      box-shadow: 0 7px 14px 0 rgb(12 22 58 / 20%), 0 3px 6px 0 rgba($pix-neutral-110, 0.2);
+      box-shadow:
+        0 7px 14px 0 rgb(12 22 58 / 20%),
+        0 3px 6px 0 rgba($pix-neutral-110, 0.2);
     }
   }
 }
