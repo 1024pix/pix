@@ -16,7 +16,6 @@
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "directories": {
-    "doc": "docs",
     "test": "tests"
   },
   "scripts": {
@@ -124,5 +123,9 @@
     "stylelint-order": "^6.0.0",
     "webpack": "^5.76.0",
     "xss": "^1.0.13"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/1024pix/pix/issues"
+  },
+  "homepage": "https://github.com/1024pix/pix#readme"
 }

@@ -103,6 +103,7 @@
   },
   "workspaces": [
     "orga",
-    "admin"
+    "admin",
+    "mon-pix"
   ]
 }
