@@ -34,17 +34,8 @@ async function _updateOrganizationTags({
   }
 }
 
-async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionOfficerRepository }) {
-  const dataProtectionOfficerFound = await dataProtectionOfficerRepository.get({ organizationId: organization.id });
-
-  if (dataProtectionOfficerFound) return dataProtectionOfficerRepository.update(organization.dataProtectionOfficer);
-
-  return dataProtectionOfficerRepository.create(organization.dataProtectionOfficer);
-}
-
 const updateOrganizationInformation = async function ({
   organization,
-  dataProtectionOfficerRepository,
   organizationForAdminRepository,
   organizationTagRepository,
   tagRepository,
@@ -57,20 +48,11 @@ const updateOrganizationInformation = async function ({
     tagRepository,
   });
 
-  existingOrganization.updateInformation(organization);
+  existingOrganization.updateInformation(organization, organization.dataProtectionOfficer);
 
-  const updatedOrganization = await organizationForAdminRepository.update(existingOrganization);
-  const dataProtectionOfficer = await _addOrUpdateDataProtectionOfficer({
-    dataProtectionOfficerRepository,
-    organization,
-  });
+  await organizationForAdminRepository.update(existingOrganization);
 
-  updatedOrganization.enableMultipleSendingAssessment = organization.enableMultipleSendingAssessment;
-  updatedOrganization.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
-  updatedOrganization.dataProtectionOfficer.lastName = dataProtectionOfficer.lastName;
-  updatedOrganization.dataProtectionOfficer.email = dataProtectionOfficer.email;
-
-  return updatedOrganization;
+  return organizationForAdminRepository.get(organization.id);
 };
 
 export { updateOrganizationInformation };

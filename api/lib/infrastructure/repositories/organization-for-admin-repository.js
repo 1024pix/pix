@@ -159,6 +159,11 @@ const update = async function (organization) {
   await _enableFeatures(organization.features, organization.id);
   await _disableFeatures(organization.features, organization.id);
 
+  await knex('data-protection-officers')
+    .insert(organization.dataProtectionOfficer)
+    .onConflict('organizationId')
+    .merge();
+
   const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
     .update(organizationRawData)
     .where({ id: organization.id })

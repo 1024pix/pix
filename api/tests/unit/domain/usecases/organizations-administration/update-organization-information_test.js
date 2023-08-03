@@ -8,17 +8,11 @@ import { usecases } from '../../../../../lib/domain/usecases/index.js';
 const { updateOrganizationInformation } = usecases;
 
 describe('Unit | UseCase | organizations-administration | update-organization-information', function () {
-  let dataProtectionOfficerRepository;
   let organizationForAdminRepository;
   let organizationTagRepository;
   let tagRepository;
 
   beforeEach(function () {
-    dataProtectionOfficerRepository = {
-      create: sinon.stub(),
-      get: sinon.stub(),
-      update: sinon.stub(),
-    };
     organizationForAdminRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
@@ -33,6 +27,34 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     };
   });
 
+  it('should update organization information', async function () {
+    // given
+    const givenOrganization = domainBuilder.buildOrganizationForAdmin();
+
+    const existingOrganizationForAdmin = domainBuilder.buildOrganizationForAdmin({
+      organizationId: givenOrganization.id,
+    });
+    sinon.stub(existingOrganizationForAdmin, 'updateInformation');
+    organizationForAdminRepository.get.onCall(0).returns(existingOrganizationForAdmin);
+    const updatedOrganization = domainBuilder.buildOrganizationForAdmin({ organizationId: givenOrganization.id });
+    organizationForAdminRepository.get.onCall(1).returns(updatedOrganization);
+
+    // when
+    const result = await updateOrganizationInformation({
+      organization: givenOrganization,
+      organizationForAdminRepository,
+    });
+
+    // then
+    expect(organizationForAdminRepository.get).to.have.been.calledWith(givenOrganization.id);
+    expect(existingOrganizationForAdmin.updateInformation).to.have.been.calledWith(
+      givenOrganization,
+      givenOrganization.dataProtectionOfficer,
+    );
+    expect(organizationForAdminRepository.update).to.have.been.calledWith(existingOrganizationForAdmin);
+    expect(result).to.equal(updatedOrganization);
+  });
+
   context('when organization exists', function () {
     let originalOrganization;
     const organizationId = 7;
@@ -41,8 +63,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       originalOrganization = _buildOriginalOrganization(organizationId);
       organizationForAdminRepository.get.resolves(originalOrganization);
       organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
-      dataProtectionOfficerRepository.get.resolves({});
-      dataProtectionOfficerRepository.update.resolves({});
     });
 
     it('should allow to update the organization name (only) if modified', async function () {
@@ -58,7 +78,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -81,7 +100,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -103,7 +121,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -125,7 +142,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -147,7 +163,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -169,7 +184,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -191,7 +205,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -212,7 +225,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
       expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
@@ -232,7 +244,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -254,7 +265,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -276,7 +286,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -298,7 +307,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       await updateOrganizationInformation({
         organization: givenOrganization,
         organizationForAdminRepository,
-        dataProtectionOfficerRepository,
       });
 
       // then
@@ -325,8 +333,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
         organizationForAdminRepository.get.withArgs(organizationId).resolves(originalOrganization);
         tagRepository.get.withArgs(tagToAdd.id).resolves(originalTag);
         organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
-        dataProtectionOfficerRepository.get.resolves({});
-        dataProtectionOfficerRepository.update.resolves({});
 
         // when
         await updateOrganizationInformation({
@@ -334,7 +340,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organizationForAdminRepository,
           organizationTagRepository,
           tagRepository,
-          dataProtectionOfficerRepository,
         });
 
         // given
@@ -367,8 +372,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           .withArgs({ organizationId: originalOrganization.id, tagId: originalTag.id })
           .resolves(organizationTagToRemove);
         organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
-        dataProtectionOfficerRepository.get.resolves({});
-        dataProtectionOfficerRepository.update.resolves({});
 
         // when
         await updateOrganizationInformation({
@@ -376,7 +379,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organizationForAdminRepository,
           organizationTagRepository,
           tagRepository,
-          dataProtectionOfficerRepository,
         });
 
         // given
@@ -384,79 +386,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
           organizationTagId: organizationTagToRemove.id,
         });
         expect(organizationTagRepository.create).to.have.not.been.called;
-      });
-    });
-
-    context('when a data protection officer is linked to this organization', function () {
-      it('should allow to update the data protection officer information', async function () {
-        // given
-        const givenOrganization = new OrganizationForAdmin({
-          id: 7,
-          dataProtectionOfficerFirstName: 'Infinite',
-          dataProtectionOfficerLastName: 'Blossom',
-          dataProtectionOfficerEmail: 'karasu.nogymx@example.net',
-        });
-
-        organizationForAdminRepository.get.resolves(new OrganizationForAdmin({ id: 7 }));
-        organizationForAdminRepository.update.resolves(new OrganizationForAdmin({ id: 7 }));
-        dataProtectionOfficerRepository.get.resolves({ id: 1 });
-        dataProtectionOfficerRepository.update.resolves({
-          id: 1,
-          firstName: 'Infinite',
-          lastName: 'Blossom',
-          email: 'karasu.nogymx@example.net',
-          organizationId: 7,
-        });
-
-        // when
-        await updateOrganizationInformation({
-          organization: givenOrganization,
-          organizationForAdminRepository,
-          dataProtectionOfficerRepository,
-        });
-
-        // then
-        expect(dataProtectionOfficerRepository.update).to.have.been.calledWithMatch({
-          firstName: 'Infinite',
-          lastName: 'Blossom',
-          email: 'karasu.nogymx@example.net',
-        });
-      });
-    });
-
-    context('when a data protection officer is not linked to this organization', function () {
-      it('should allow to create a data protection officer', async function () {
-        // given
-        const givenOrganization = new OrganizationForAdmin({
-          id: 7,
-          dataProtectionOfficerFirstName: 'Infinite',
-          dataProtectionOfficerLastName: 'Blossom',
-          dataProtectionOfficerEmail: 'karasu.nogymx@example.net',
-        });
-
-        organizationForAdminRepository.get.resolves(new OrganizationForAdmin({ id: 7 }));
-        organizationForAdminRepository.update.resolves(new OrganizationForAdmin({ id: 7 }));
-        dataProtectionOfficerRepository.get.resolves(null);
-        dataProtectionOfficerRepository.create.resolves({
-          id: 1,
-          firstName: 'Infinite',
-          lastName: 'Blossom',
-          email: 'karasu.nogymx@example.net',
-        });
-
-        // when
-        await updateOrganizationInformation({
-          organization: givenOrganization,
-          organizationForAdminRepository,
-          dataProtectionOfficerRepository,
-        });
-
-        // then
-        expect(dataProtectionOfficerRepository.create).to.have.been.calledWithMatch({
-          firstName: 'Infinite',
-          lastName: 'Blossom',
-          email: 'karasu.nogymx@example.net',
-        });
       });
     });
   });
