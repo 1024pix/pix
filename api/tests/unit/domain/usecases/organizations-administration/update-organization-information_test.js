@@ -1,7 +1,5 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { Tag } from '../../../../../lib/domain/models/Tag.js';
-import { OrganizationTag } from '../../../../../lib/domain/models/OrganizationTag.js';
 import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
@@ -9,21 +7,11 @@ const { updateOrganizationInformation } = usecases;
 
 describe('Unit | UseCase | organizations-administration | update-organization-information', function () {
   let organizationForAdminRepository;
-  let organizationTagRepository;
-  let tagRepository;
 
   beforeEach(function () {
     organizationForAdminRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
-    };
-    organizationTagRepository = {
-      create: sinon.stub(),
-      remove: sinon.stub(),
-      findOneByOrganizationIdAndTagId: sinon.stub(),
-    };
-    tagRepository = {
-      get: sinon.stub(),
     };
   });
 
@@ -50,6 +38,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     expect(existingOrganizationForAdmin.updateInformation).to.have.been.calledWith(
       givenOrganization,
       givenOrganization.dataProtectionOfficer,
+      givenOrganization.tags,
     );
     expect(organizationForAdminRepository.update).to.have.been.calledWith(existingOrganizationForAdmin);
     expect(result).to.equal(updatedOrganization);
@@ -313,79 +302,6 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
       expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
         ...originalOrganization,
         showSkills: newShowSkills,
-      });
-    });
-
-    context('when updating tags', function () {
-      it('should allow to assign a tag to organization', async function () {
-        // given
-        const organizationId = 7;
-        const tagId = 4;
-        const tagToAdd = new Tag({ id: tagId });
-        const givenOrganization = _buildOrganizationWithNullAttributes({
-          id: organizationId,
-          tags: [tagToAdd],
-        });
-
-        const originalOrganization = _buildOriginalOrganization(organizationId);
-        const originalTag = domainBuilder.buildTag({ id: tagId, name: 'SCO' });
-
-        organizationForAdminRepository.get.withArgs(organizationId).resolves(originalOrganization);
-        tagRepository.get.withArgs(tagToAdd.id).resolves(originalTag);
-        organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
-
-        // when
-        await updateOrganizationInformation({
-          organization: givenOrganization,
-          organizationForAdminRepository,
-          organizationTagRepository,
-          tagRepository,
-        });
-
-        // given
-        const organizationTagToAdd = new OrganizationTag({ organizationId, tagId });
-        expect(organizationTagRepository.create).to.have.been.calledWith(organizationTagToAdd);
-        expect(organizationTagRepository.remove).to.have.not.been.called;
-      });
-
-      it('should allow to unassign a tag to organization', async function () {
-        // given
-        const organizationId = 7;
-        const givenOrganization = _buildOrganizationWithNullAttributes({
-          id: organizationId,
-          tags: [],
-        });
-
-        const originalTag = domainBuilder.buildTag({ id: 4, name: 'SCO' });
-        const originalOrganization = domainBuilder.buildOrganizationForAdmin({
-          id: organizationId,
-          tags: [originalTag],
-        });
-        const organizationTagToRemove = domainBuilder.buildOrganizationTag({
-          organizationId: originalOrganization.id,
-          tagId: originalTag.id,
-        });
-
-        organizationForAdminRepository.get.withArgs(organizationId).resolves(originalOrganization);
-        tagRepository.get.withArgs(originalTag.id).resolves(originalTag);
-        organizationTagRepository.findOneByOrganizationIdAndTagId
-          .withArgs({ organizationId: originalOrganization.id, tagId: originalTag.id })
-          .resolves(organizationTagToRemove);
-        organizationForAdminRepository.update.resolves(new OrganizationForAdmin());
-
-        // when
-        await updateOrganizationInformation({
-          organization: givenOrganization,
-          organizationForAdminRepository,
-          organizationTagRepository,
-          tagRepository,
-        });
-
-        // given
-        expect(organizationTagRepository.remove).to.have.been.calledWith({
-          organizationTagId: organizationTagToRemove.id,
-        });
-        expect(organizationTagRepository.create).to.have.not.been.called;
       });
     });
   });

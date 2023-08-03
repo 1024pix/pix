@@ -212,7 +212,8 @@ describe('Integration | Repository | Organization-for-admin', function () {
   describe('#update', function () {
     afterEach(async function () {
       await knex('organization-features').delete();
-      return knex('data-protection-officers').delete();
+      await knex('organization-tags').delete();
+      await knex('data-protection-officers').delete();
     });
 
     it('should return an OrganizationForAdmin domain object with related tags', async function () {
@@ -408,6 +409,81 @@ describe('Integration | Repository | Organization-for-admin', function () {
       expect(dataProtectionOfficerUpdated.email).to.equal('iron@man.fr');
     });
 
+    it('should add tags', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'myTag' }).id;
+      const otherTagId = databaseBuilder.factory.buildTag({ name: 'myOtherTag' }).id;
+      await databaseBuilder.commit();
+      const tagsToAdd = [
+        { tagId, organizationId },
+        { tagId: otherTagId, organizationId },
+      ];
+      // when
+
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organizationId,
+        documentationUrl: 'https://pix.fr/',
+      });
+
+      organizationToUpdate.tagsToAdd = tagsToAdd;
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const addedTags = await knex('organization-tags').select('tagId', 'organizationId').where({ organizationId });
+      expect(addedTags).to.deep.equal(tagsToAdd);
+    });
+
+    it('should not add tags twice', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'myTag' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ tagId, organizationId });
+      await databaseBuilder.commit();
+      const tagsToAdd = [{ tagId, organizationId }];
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organizationId,
+        documentationUrl: 'https://pix.fr/',
+      });
+
+      organizationToUpdate.tagsToAdd = tagsToAdd;
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const addedTags = await knex('organization-tags').where({ organizationId });
+      expect(addedTags.length).to.equal(1);
+    });
+
+    it('should remove tags', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'myTag' }).id;
+      const otherTagId = databaseBuilder.factory.buildTag({ name: 'myOtherTag' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: otherTagId });
+      await databaseBuilder.commit();
+
+      const tagsToRemove = [
+        { tagId, organizationId },
+        { tagId: otherTagId, organizationId },
+      ];
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organizationId,
+        documentationUrl: 'https://pix.fr/',
+      });
+
+      organizationToUpdate.tagsToRemove = tagsToRemove;
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const result = await knex('organization-tags').where({ organizationId });
+      expect(result.length).to.equal(0);
+    });
+
     it('should not add row in table "organizations"', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization({ id: 1 });
@@ -415,7 +491,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       const { count: nbOrganizationsBeforeUpdate } = await knex('organizations').count('*').first();
 
       // when
-      await organizationForAdminRepository.update(organization);
+      await organizationForAdminRepository.update(new OrganizationForAdmin(organization));
 
       // then
       const { count: nbOrganizationsAfterUpdate } = await knex('organizations').count('*').first();
