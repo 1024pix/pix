@@ -49,14 +49,12 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
     });
 
     context('when results are not flagged as sent yet', function () {
-      let notFlaggedSession;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const updatedSession = Symbol('updatedSession');
+      let notFlaggedSession, updatedSession;
       const now = new Date('2019-01-01T05:06:07Z');
       let clock;
 
       beforeEach(function () {
+        updatedSession = Symbol('updatedSession');
         clock = sinon.useFakeTimers(now);
         notFlaggedSession = new Session({ resultsSentToPrescriberAt: null });
         sessionRepository.get.withArgs(sessionId).resolves(notFlaggedSession);
