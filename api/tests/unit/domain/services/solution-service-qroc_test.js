@@ -9,6 +9,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
   describe('match, with numerical answers and solutions', function () {
     const challengeFormat = 'nombre';
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
@@ -160,7 +161,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         solution: 'qvak\nqwak\nanything\n',
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function (data) {
       it(
@@ -196,7 +197,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         solution: 'qvakes\nqwakes\nanything\n',
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function (data) {
       it(
@@ -302,7 +303,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: {},
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(
@@ -416,7 +417,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: { t1: true },
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(
@@ -530,7 +531,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: { t2: true },
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(
@@ -644,7 +645,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: { t3: true },
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(
@@ -758,7 +759,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: { t1: true, t2: true },
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(
@@ -872,7 +873,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: { t1: true, t3: true },
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(
@@ -986,7 +987,7 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
         deactivations: { t2: true, t3: true },
       },
     ];
-
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function (data) {
       it(

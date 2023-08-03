@@ -1,5 +1,5 @@
 import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
-import { CertificationCandidate } from '../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../lib/domain/models/index.js';
 
 import {
   CertificationCandidatePersonalInfoFieldMissingError,
@@ -10,9 +10,14 @@ import {
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
-const i18n = getI18n();
+const FIRST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code;
+const LAST_NAME_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code;
+const BIRTHDATE_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code;
+const SEX_ERROR_CODE = CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code;
 
+const i18n = getI18n();
 const translate = i18n.__;
+
 describe('Unit | Domain | Models | Certification Candidate', function () {
   describe('constructor', function () {
     it('should build a Certification Candidate from JSON', function () {
@@ -76,6 +81,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { name: 'firstName', code: 'CANDIDATE_FIRST_NAME_MUST_BE_A_STRING' },
@@ -345,6 +351,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
         it(`should not throw if billing mode is an expected value ${billingMode}`, async function () {
@@ -437,15 +444,16 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
     });
 
-    /* eslint-disable mocha/no-setup-in-describe */
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { field: 'firstName', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code },
-      { field: 'lastName', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_LAST_NAME_REQUIRED.code },
-      { field: 'birthdate', expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code },
+      { field: 'firstName', expectedCode: FIRST_NAME_ERROR_CODE },
+      { field: 'lastName', expectedCode: LAST_NAME_ERROR_CODE },
+      { field: 'birthdate', expectedCode: BIRTHDATE_ERROR_CODE },
       {
         field: 'sex',
-        expectedCode: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code,
-      } /* eslint-enable mocha/no-setup-in-describe */,
+        expectedCode: SEX_ERROR_CODE,
+      },
     ].forEach(({ field, expectedCode }) => {
       it(`should return a report when field ${field} is not present`, async function () {
         // given
@@ -489,7 +497,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const report = certificationCandidate.validateForMassSessionImport();
 
       // then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code]);
+      expect(report).to.deep.equal([BIRTHDATE_ERROR_CODE]);
     });
 
     context('when extraTimePercentage field is presents', function () {
@@ -539,7 +547,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const report = certificationCandidate.validateForMassSessionImport();
 
       // then
-      expect(report).to.deep.equal([CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_SEX_REQUIRED.code]);
+      expect(report).to.deep.equal([SEX_ERROR_CODE]);
     });
 
     context('when billing mode field is presents', function () {
@@ -615,6 +623,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
 
         context('when billing mode is in the expected values', function () {
+          // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
           // eslint-disable-next-line mocha/no-setup-in-describe
           ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
             it(`should return nothing for ${billingMode}`, async function () {
@@ -703,10 +712,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const report = certificationCandidate.validateForMassSessionImport();
 
         // then
-        expect(report).to.deep.equal([
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FIRST_NAME_REQUIRED.code,
-          CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_BIRTHDATE_REQUIRED.code,
-        ]);
+        expect(report).to.deep.equal([FIRST_NAME_ERROR_CODE, BIRTHDATE_ERROR_CODE]);
       });
     });
   });
@@ -865,6 +871,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       }
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
       it(`should not throw if billing mode is expected value ${billingMode}`, async function () {
@@ -975,6 +982,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   });
 
   describe('parseBillingMode', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { value: 'Gratuite', expectedTranslation: 'FREE' },
@@ -990,6 +998,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
   });
 
   describe('translateBillingMode', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { value: 'FREE', expectedTranslation: 'Gratuite' },

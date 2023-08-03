@@ -8,25 +8,18 @@ describe('Unit | UseCase | find-students-for-enrolment', function () {
   const certificationCenterId = 1;
   const userId = 'userId';
   let organization;
-
-  const organizationRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getIdByCertificationCenterId: sinon.stub(),
-  };
-  const organizationLearnerRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    findByOrganizationIdAndUpdatedAtOrderByDivision: sinon.stub(),
-  };
-
-  const certificationCandidateRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    findBySessionId: sinon.stub(),
-  };
+  let organizationRepository, organizationLearnerRepository, certificationCandidateRepository;
 
   beforeEach(async function () {
+    organizationRepository = {
+      getIdByCertificationCenterId: sinon.stub(),
+    };
+    organizationLearnerRepository = {
+      findByOrganizationIdAndUpdatedAtOrderByDivision: sinon.stub(),
+    };
+    certificationCandidateRepository = {
+      findBySessionId: sinon.stub(),
+    };
     const externalId = 'AAA111';
     const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
     organization = domainBuilder.buildOrganization({ externalId });

@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       );
     });
 
-    // TODO: Fix this the next time the file is edited.
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     _.forIn(CertificationAssessment.states, (value) => {
       it(`should not throw an ObjectValidationError when state is ${value}`, function () {

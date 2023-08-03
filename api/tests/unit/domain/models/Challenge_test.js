@@ -150,6 +150,7 @@ describe('Unit | Domain | Models | Challenge', function () {
       other: Validator,
     };
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     Object.entries(challengeTypeAndValidators).forEach(([challengeType, associatedValidatorClass]) => {
       context(`when challenge of type: ${challengeType} exists`, function () {

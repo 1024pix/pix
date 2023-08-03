@@ -4,18 +4,8 @@ import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const userId = Symbol('user id');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const campaignId = Symbol('campaign id');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
+  let userId, campaignId;
+  let campaignRepository, campaignProfilesCollectionParticipationSummaryRepository;
 
   const campaignProfilesCollectionParticipationSummaries = [
     new CampaignProfilesCollectionParticipationSummary({
@@ -24,6 +14,13 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
       lastName: 'World',
     }),
   ];
+
+  beforeEach(function () {
+    userId = Symbol('user id');
+    campaignId = Symbol('campaign id');
+    campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
+    campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
+  });
 
   context('the user belongs to the organization of the campaign', function () {
     let participationSummaries;

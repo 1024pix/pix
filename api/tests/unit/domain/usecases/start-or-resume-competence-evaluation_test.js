@@ -1,6 +1,5 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
+import { Assessment, CompetenceEvaluation } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
@@ -11,31 +10,18 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', function () {
   const newAssessmentId = 789;
   const competenceId = 'recABC123';
   const competenceEvaluation = { userId, competenceId, assessmentId };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceRepository = { get: _.noop };
-  const competenceEvaluationRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    save: _.noop,
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getByCompetenceIdAndUserId: _.noop,
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    updateStatusByUserIdAndCompetenceId: _.noop,
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    updateAssessmentId: _.noop,
-  };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessmentRepository = { save: _.noop };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
+  let competenceRepository, competenceEvaluationRepository, assessmentRepository, updatedCompetenceEvaluation;
 
   beforeEach(function () {
+    competenceRepository = { get: _.noop };
+    competenceEvaluationRepository = {
+      save: _.noop,
+      getByCompetenceIdAndUserId: _.noop,
+      updateStatusByUserIdAndCompetenceId: _.noop,
+      updateAssessmentId: _.noop,
+    };
+    assessmentRepository = { save: _.noop };
+    updatedCompetenceEvaluation = Symbol('updated competence evaluation');
     sinon.stub(competenceRepository, 'get');
     sinon.stub(competenceEvaluationRepository, 'save');
     sinon.stub(competenceEvaluationRepository, 'getByCompetenceIdAndUserId');

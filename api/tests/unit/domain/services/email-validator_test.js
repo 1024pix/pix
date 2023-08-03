@@ -6,6 +6,7 @@ describe('Unit | Service | email-validator', function () {
     expect(service.emailIsValid()).to.be.false;
   });
 
+  // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     '',
@@ -23,6 +24,7 @@ describe('Unit | Service | email-validator', function () {
     });
   });
 
+  // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     'follower@pix.fr',
