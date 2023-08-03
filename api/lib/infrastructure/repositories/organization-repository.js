@@ -33,7 +33,7 @@ function _toDomain(rawOrganization) {
 }
 
 function _setSearchFiltersForQueryBuilder(qb, filter) {
-  const { id, name, type, externalId } = filter;
+  const { id, name, type, externalId, hideArchived } = filter;
   if (id) {
     qb.where('organizations.id', id);
   }
@@ -45,6 +45,9 @@ function _setSearchFiltersForQueryBuilder(qb, filter) {
   }
   if (externalId) {
     qb.whereILike('externalId', `%${externalId}%`);
+  }
+  if (hideArchived) {
+    qb.whereNull('archivedAt');
   }
 }
 
