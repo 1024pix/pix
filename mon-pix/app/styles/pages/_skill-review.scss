@@ -35,13 +35,19 @@
   }
 
   &__actions {
+    text-align: initial;
+
     .pix-button {
-      margin: 0 auto;
+      margin: 0 auto ;
 
       &:first-child {
         margin-bottom: $pix-spacing-xs;
       }
     }
+  }
+
+  &__action-banner {
+    margin-top: $pix-spacing-s;
   }
 
   &__trainings {

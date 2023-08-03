@@ -1424,7 +1424,8 @@
         "message": "{organizationName} vous invite à repasser ce parcours afin d'améliorer votre résultat et de continuer à progresser."
       },
       "reset": {
-        "button": "Remettre à zéro et tout retenter"
+        "button": "Remettre à zéro et tout retenter",
+        "notifications": "Si vous retentez les questions échouées ou remettez à zéro pour tout retenter, votre organisation ne pourra plus voir votre dernier résultat. Pour que votre résultat soit comptabilisé par l'organisateur du test, vous devrez l'envoyer à nouveau."
       },
       "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
       "send-status": {

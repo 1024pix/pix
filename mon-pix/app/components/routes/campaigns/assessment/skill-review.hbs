@@ -150,28 +150,37 @@
           </div>
         </div>
       </div>
-      {{#if @model.campaignParticipationResult.canRetry}}
+      {{#if this.displayRetryOrResetActions}}
         <div class="skill-review__retry">
           <p class="skill-review-retry__message">{{t
               "pages.skill-review.retry.message"
               organizationName=@model.campaign.organizationName
             }}</p>
           <div class="skill-review__actions">
-            <PixButtonLink
-              @route="campaigns.entry-point"
-              @model={{@model.campaign.code}}
-              @query={{this.retryQuery}}
-              @size="small"
-              @shape="rounded"
-            >{{t "pages.skill-review.retry.button"}}</PixButtonLink>
-            <PixButtonLink
-              @route="campaigns.entry-point"
-              @model={{@model.campaign.code}}
-              @query={{this.resetQuery}}
-              @size="small"
-              @shape="rounded"
-              @backgroundColor="transparent"
-            >{{t "pages.skill-review.reset.button"}}</PixButtonLink>
+            {{#if @model.campaignParticipationResult.canRetry}}
+              <PixButtonLink
+                @route="campaigns.entry-point"
+                @model={{@model.campaign.code}}
+                @query={{this.retryQuery}}
+                @size="small"
+                @shape="rounded"
+              >{{t "pages.skill-review.retry.button"}}</PixButtonLink>
+            {{/if}}
+
+            {{#if @model.campaignParticipationResult.canReset}}
+              <PixButtonLink
+                @route="campaigns.entry-point"
+                @model={{@model.campaign.code}}
+                @query={{this.resetQuery}}
+                @size="small"
+                @shape="rounded"
+                @backgroundColor="transparent"
+              >{{t "pages.skill-review.reset.button"}}</PixButtonLink>
+
+              <PixBanner @type="default" class="skill-review__action-banner">{{t
+                  "pages.skill-review.reset.notifications"
+                }}</PixBanner>
+            {{/if}}
           </div>
         </div>
       {{/if}}
