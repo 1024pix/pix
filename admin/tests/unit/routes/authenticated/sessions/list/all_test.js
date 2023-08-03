@@ -35,6 +35,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
+          version: undefined,
         };
 
         // then
@@ -53,6 +54,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
+          version: undefined,
         };
 
         // when
@@ -74,6 +76,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
+          version: undefined,
         };
 
         // when
@@ -95,6 +98,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: 'SCO',
           certificationCenterExternalId: undefined,
           status: undefined,
+          version: undefined,
         };
 
         // when
@@ -116,6 +120,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: 'EXTID',
           status: undefined,
+          version: undefined,
         };
 
         // when
@@ -137,6 +142,29 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: 'someStatus',
+          version: undefined,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.calledWith(route.store.query, 'session', expectedQueryArgs);
+        assert.ok(true);
+      });
+    });
+
+    module('when queryParams version is 3', function () {
+      test('it should call store.query with a filter with version', async function (assert) {
+        // given
+        params.version = 3;
+        expectedQueryArgs.filter = {
+          id: undefined,
+          certificationCenterName: undefined,
+          certificationCenterType: undefined,
+          certificationCenterExternalId: undefined,
+          status: undefined,
+          version: 3,
         };
 
         // when
@@ -186,7 +214,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         certificationCenterName: 'someName',
         certificationCenterType: 'someType',
         status: 'someStatus',
-        resultsSentToPrescriberAt: 'someValue',
+        version: 'someVersion',
       };
     });
 
@@ -202,7 +230,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         assert.deepEqual(controller.certificationCenterName, null);
         assert.deepEqual(controller.certificationCenterType, null);
         assert.deepEqual(controller.status, 'finalized');
-        assert.deepEqual(controller.resultsSentToPrescriberAt, null);
+        assert.deepEqual(controller.version, null);
       });
     });
 
@@ -218,7 +246,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         assert.deepEqual(controller.certificationCenterName, 'someName');
         assert.deepEqual(controller.status, 'someStatus');
         assert.deepEqual(controller.certificationCenterType, 'someType');
-        assert.deepEqual(controller.resultsSentToPrescriberAt, 'someValue');
+        assert.deepEqual(controller.version, 'someVersion');
       });
     });
   });

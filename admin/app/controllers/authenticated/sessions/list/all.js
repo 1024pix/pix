@@ -7,7 +7,15 @@ import { action } from '@ember/object';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedSessionsListAllController extends Controller {
-  queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'certificationCenterExternalId', 'status'];
+  queryParams = [
+    'pageNumber',
+    'pageSize',
+    'id',
+    'certificationCenterName',
+    'certificationCenterExternalId',
+    'status',
+    'version',
+  ];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
@@ -17,6 +25,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked certificationCenterExternalId = null;
   @tracked certificationCenterType = null;
   @tracked status = null;
+  @tracked version = null;
 
   pendingFilters = {};
 
@@ -30,6 +39,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
         value = param.target.value; // param is an InputEvent
         break;
       case 'status':
+      case 'version':
       case 'certificationCenterType':
         debounceDuration = 0;
         value = param;
@@ -50,6 +60,12 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @action
   updateCertificationCenterTypeFilter(newValue) {
     this.certificationCenterType = this._getOrNullForOptionAll(newValue);
+    this.triggerFiltering.perform();
+  }
+
+  @action
+  updateSessionVersionFilter(newValue) {
+    this.version = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 
