@@ -40,6 +40,7 @@
       "back": "Retour",
       "cancel": "Annuler",
       "close": "Fermer",
+      "confirm": "Confirmer",
       "quit": "Quitter",
       "sign-out": "Se déconnecter",
       "stay": "Rester",
@@ -1419,13 +1420,17 @@
       },
       "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
       "organization-message": "Message de votre organisation",
+      "reset": {
+        "button": "Remettre à zéro et tout retenter",
+        "modal": {
+          "text": "Vous êtes sur le point de remettre à zéro votre parcours <strong>{targetProfileName}</strong>, afin de tenter d’améliorer votre niveau. A la fin du parcours, vous pourrez à nouveau envoyer vos résultats.",
+          "warning-text": "Vos Pix, vos niveaux et votre certificabilité obtenus lors de ce parcours vont être supprimés."
+        },
+        "notifications": "Si vous retentez les questions échouées ou remettez à zéro pour tout retenter, votre organisation ne pourra plus voir votre dernier résultat. Pour que votre résultat soit comptabilisé par l'organisateur du test, vous devrez l'envoyer à nouveau."
+      },
       "retry": {
         "button": "Repasser mon parcours",
         "message": "{organizationName} vous invite à repasser ce parcours afin d'améliorer votre résultat et de continuer à progresser."
-      },
-      "reset": {
-        "button": "Remettre à zéro et tout retenter",
-        "notifications": "Si vous retentez les questions échouées ou remettez à zéro pour tout retenter, votre organisation ne pourra plus voir votre dernier résultat. Pour que votre résultat soit comptabilisé par l'organisateur du test, vous devrez l'envoyer à nouveau."
       },
       "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
       "send-status": {

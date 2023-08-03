@@ -159,6 +159,7 @@
           <div class="skill-review__actions">
             {{#if @model.campaignParticipationResult.canRetry}}
               <PixButtonLink
+                class="skill-review__actions__pix-button"
                 @route="campaigns.entry-point"
                 @model={{@model.campaign.code}}
                 @query={{this.retryQuery}}
@@ -168,18 +169,57 @@
             {{/if}}
 
             {{#if @model.campaignParticipationResult.canReset}}
-              <PixButtonLink
-                @route="campaigns.entry-point"
-                @model={{@model.campaign.code}}
-                @query={{this.resetQuery}}
+              <PixButton
+                class="skill-review__actions__pix-button"
                 @size="small"
                 @shape="rounded"
                 @backgroundColor="transparent"
-              >{{t "pages.skill-review.reset.button"}}</PixButtonLink>
+                @isBorderVisible={{true}}
+                @triggerAction={{this.showResetModal}}
+              >{{t "pages.skill-review.reset.button"}}</PixButton>
 
               <PixBanner @type="default" class="skill-review__action-banner">{{t
                   "pages.skill-review.reset.notifications"
                 }}</PixBanner>
+
+              <PixModal
+                @title={{t "pages.skill-review.reset.button"}}
+                @showModal={{this.displayResetCampaignParticipationModal}}
+                @onCloseButtonClick={{this.closeResetModal}}
+              >
+                <:content>
+                  <PixBanner @type="warning" class="skill-review__action-banner">{{t
+                      "pages.skill-review.reset.modal.warning-text"
+                    }}</PixBanner>
+                  <p class="reset-ke-modal__text">
+
+                    {{t
+                      "pages.skill-review.reset.modal.text"
+                      targetProfileName=@model.campaign.targetProfileName
+                      htmlSafe=true
+                    }}
+                  </p>
+                </:content>
+                <:footer>
+                  <div class="reset-ke-modal__footer">
+                    <PixButton
+                      @backgroundColor="transparent-light"
+                      @isBorderVisible={{true}}
+                      @triggerAction={{this.closeResetModal}}
+                    >
+                      {{t "common.actions.cancel"}}
+                    </PixButton>
+                    <PixButtonLink
+                      @route="campaigns.entry-point"
+                      @model={{@model.campaign.code}}
+                      @query={{this.resetQuery}}
+                      @size="big"
+                      @shape="squircle"
+                      @backgroundColor="red"
+                    >{{t "common.actions.confirm"}}</PixButtonLink>
+                  </div>
+                </:footer>
+              </PixModal>
             {{/if}}
           </div>
         </div>

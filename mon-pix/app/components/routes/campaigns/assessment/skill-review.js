@@ -16,7 +16,7 @@ export default class SkillReview extends Component {
   @tracked showNotFinishedYetMessage = false;
   @tracked showGlobalErrorMessage = false;
   @tracked isShareButtonClicked = false;
-  @tracked displayResetModal = false;
+  @tracked displayResetCampaignParticipationModal = false;
 
   get retryQuery() {
     return {
@@ -216,8 +216,13 @@ export default class SkillReview extends Component {
   }
 
   @action
-  toggleDisplayResetModal() {
-    this.displayResetKeModal = !this.displayResetKeModal;
+  showResetModal() {
+    this.displayResetCampaignParticipationModal = true;
+  }
+
+  @action
+  closeResetModal() {
+    this.displayResetCampaignParticipationModal = false;
   }
 
   @action
