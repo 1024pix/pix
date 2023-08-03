@@ -238,6 +238,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             'is-completed': true,
             'is-shared': true,
             'can-retry': false,
+            'can-reset': false,
             'can-improve': false,
             'is-disabled': false,
             'participant-external-id': 'participantExternalId',

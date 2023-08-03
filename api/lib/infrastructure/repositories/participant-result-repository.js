@@ -26,6 +26,7 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, l
   const competences = await _findTargetedCompetences(campaignId, locale);
   const badgeResultsDTO = await _getBadgeResults(badges);
   const stageCollection = await _getStageCollection(campaignId);
+  const isTargetProfileResetAllowed = await _getTargetProfileResetAllowed(campaignId);
 
   return new AssessmentResult({
     participationResults,
@@ -36,6 +37,7 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, l
     isOrganizationLearnerActive,
     isCampaignArchived,
     flashScoringResults,
+    isTargetProfileResetAllowed,
   });
 };
 
@@ -171,6 +173,15 @@ async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
 
 function _getStageCollection(campaignId) {
   return stageCollectionRepository.findStageCollection({ campaignId });
+}
+
+async function _getTargetProfileResetAllowed(campaignId) {
+  const targetProfile = await knex('target-profiles')
+    .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+    .where('campaigns.id', campaignId)
+    .first('areKnowledgeElementsResettable');
+
+  return targetProfile ? targetProfile.areKnowledgeElementsResettable : false;
 }
 
 async function _getBadgeResults(badges) {
