@@ -237,7 +237,7 @@ jobs:
   mon_pix_build_and_test:
     executor:
       name: node-browsers-docker
-    working_directory: ~/pix/mon-pix
+    working_directory: ~/pix
     parallelism: 3
     steps:
       - browser-tools/install-chrome
@@ -247,17 +247,16 @@ jobs:
       - restore_cache:
           keys:
             - v7-mon-pix-npm-{{ checksum "cachekey" }}
-      - run: npm ci
       - save_cache:
           key: v7-mon-pix-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - run:
           name: Lint
-          command: npm run lint
+          command: npm run lint --workspace=mon-pix
       - run:
           name: Test
-          command: npm run test:ci
+          command: npm run test:ci --workspace=mon-pix
 
   orga_build_and_test:
     executor:
@@ -388,18 +387,11 @@ jobs:
           command: npm ci --no-optional
 
       - run:
-          working_directory: ~/pix/mon-pix
+          working_directory: ~/pix
           command: cat package*.json > cachekey
       - restore_cache:
           keys:
             - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey" }}
-      - run:
-          name: Install Pix App
-          environment:
-            JOBS: 1
-          working_directory: ~/pix/mon-pix
-          command: npm ci
-
       - run:
           name: Start Pix API
           working_directory: ~/pix/api
@@ -411,11 +403,11 @@ jobs:
 
       - run:
           name: Start Pix App
-          working_directory: ~/pix/mon-pix
+          working_directory: ~/pix
           environment:
             JOBS: 1
           background: true
-          command: npm start
+          command: npm start --workspace=mon-pix
 
       - run:
           name: Run tests
