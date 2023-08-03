@@ -73,8 +73,8 @@ module('Compare answers and solutions for QCM questions', function (hooks) {
 
       await click('.result-item__correction-button');
 
-      assert.dom('.pix-modal__overlay--hidden').doesNotExist();
-      assert.dom('.pix-modal__overlay').exists();
+      assert.dom('.pix-modal__overlay--hidden .comparison-window').doesNotExist();
+      assert.dom('.pix-modal__overlay .comparison-window').exists();
     });
   });
 

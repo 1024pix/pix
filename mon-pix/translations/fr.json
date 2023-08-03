@@ -42,7 +42,8 @@
       "close": "Fermer",
       "quit": "Quitter",
       "sign-out": "Se déconnecter",
-      "stay": "Rester"
+      "stay": "Rester",
+      "validate": "Valider"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
@@ -653,6 +654,10 @@
         "information": {
           "data-usage": "'<p>'Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de : <strong>dpo@pix.fr</strong>.'</p><p><a href=\"https://pix.fr/dp-formulaire-signalement-epreuve\" target=\"_blank\" class=\"link\">'Pour en savoir plus sur la protection de vos données et sur vos droits.'</a></p>'",
           "guidance": "'<p>'* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.'</p><p>'Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.'</p>'"
+        },
+        "modal": {
+          "title": "Confirmation du signalement",
+          "content": "'<p><strong>'Êtes-vous certain(e) de vouloir signaler ce problème ?'</strong></p><p>'Nous vous remercions pour votre signalement qui sera examiné attentivement par l'équipe de Pix. Nous prenons en compte tous vos commentaires pour améliorer continuellement nos services et l'expérience utilisateur. Nous ne pourrons pas vous donner de réponse personnalisée. Merci pour votre collaboration.'</p>'"
         }
       },
       "has-focused-out-of-window": {

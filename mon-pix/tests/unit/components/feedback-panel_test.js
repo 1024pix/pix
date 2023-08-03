@@ -71,6 +71,30 @@ module('Unit | Component | feedback-panel', function (hooks) {
     });
   });
 
+  module('#toggleModalVisibility', function () {
+    test('should set isModalVisible from false to true', function (assert) {
+      // given
+      component.isModalVisible = false;
+
+      // when
+      component.toggleModalVisibility();
+
+      // then
+      assert.true(component.isModalVisible);
+    });
+
+    test('should set isModalVisible from true to false', function (assert) {
+      // given
+      component.isModalVisible = true;
+
+      // when
+      component.toggleModalVisibility();
+
+      // then
+      assert.false(component.isModalVisible);
+    });
+  });
+
   module('#sendFeedback', function (hooks) {
     let feedback;
     let store;
