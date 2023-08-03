@@ -1,5 +1,6 @@
 import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
 import * as apps from '../../constants.js';
+import differenceBy from 'lodash/differenceBy.js';
 
 class OrganizationForAdmin {
   constructor({
@@ -61,6 +62,9 @@ class OrganizationForAdmin {
     this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.tags = tags;
     this.features = features;
+
+    this.tagsToAdd = [];
+    this.tagsToRemove = [];
   }
 
   get archivistFullName() {
@@ -73,7 +77,7 @@ class OrganizationForAdmin {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 
-  updateInformation(organization, dataProtectionOfficer) {
+  updateInformation(organization, dataProtectionOfficer, tags) {
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
     if (organization.logoUrl) this.logoUrl = organization.logoUrl;
@@ -85,11 +89,14 @@ class OrganizationForAdmin {
     this.documentationUrl = organization.documentationUrl;
     this.showSkills = organization.showSkills;
     this.identityProviderForCampaigns = organization.identityProviderForCampaigns;
-    this.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] =
-      organization.enableMultipleSendingAssessment;
     this.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
     this.dataProtectionOfficer.lastName = dataProtectionOfficer.lastName;
     this.dataProtectionOfficer.email = dataProtectionOfficer.email;
+
+    this.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] =
+      organization.enableMultipleSendingAssessment;
+    this.tagsToAdd = differenceBy(tags, this.tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
+    this.tagsToRemove = differenceBy(this.tags, tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
   }
 }
 

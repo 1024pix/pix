@@ -141,6 +141,19 @@ async function _disableFeatures(features, organizationId) {
     .delete();
 }
 
+async function _addTags(organizationTags) {
+  await knex('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
+}
+
+async function _removeTags(organizationTags) {
+  await knex('organization-tags')
+    .whereIn(
+      ['organizationId', 'tagId'],
+      organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),
+    )
+    .delete();
+}
+
 const update = async function (organization) {
   const organizationRawData = _.pick(organization, [
     'name',
@@ -163,6 +176,9 @@ const update = async function (organization) {
     .insert(organization.dataProtectionOfficer)
     .onConflict('organizationId')
     .merge();
+
+  await _addTags(organization.tagsToAdd);
+  await _removeTags(organization.tagsToRemove);
 
   const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
     .update(organizationRawData)
