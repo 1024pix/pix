@@ -1,11 +1,16 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const fs = require('fs');
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
+      includePaths: [
+        fs.existsSync('node_modules/@1024pix/pix-ui/addon/styles')
+          ? 'node_modules/@1024pix/pix-ui/addon/styles'
+          : '../node_modules/@1024pix/pix-ui/addon/styles',
+      ],
     },
     sourcemaps: { enabled: true },
     babel: {

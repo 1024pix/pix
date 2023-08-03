@@ -104,6 +104,7 @@
   "workspaces": [
     "orga",
     "admin",
-    "mon-pix"
+    "mon-pix",
+    "certif"
   ]
 }

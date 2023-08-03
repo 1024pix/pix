@@ -308,7 +308,7 @@ jobs:
   certif_build_and_test:
     executor:
       name: node-browsers-docker
-    working_directory: ~/pix/certif
+    working_directory: ~/pix
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -317,17 +317,16 @@ jobs:
       - restore_cache:
           keys:
             - v7-certif-npm-{{ checksum "cachekey" }}
-      - run: npm ci
       - save_cache:
           key: v7-certif-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - run:
           name: Lint
-          command: npm run lint
+          command: npm run lint --workspace=certif
       - run:
           name: Test
-          command: npm run test:ci
+          command: npm run test:ci --workspace=certif
 
   admin_build_and_test:
     executor:
