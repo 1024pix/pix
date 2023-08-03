@@ -16,6 +16,7 @@ export default class SkillReview extends Component {
   @tracked showNotFinishedYetMessage = false;
   @tracked showGlobalErrorMessage = false;
   @tracked isShareButtonClicked = false;
+  @tracked displayResetModal = false;
 
   get retryQuery() {
     return {
@@ -27,6 +28,10 @@ export default class SkillReview extends Component {
     return {
       reset: true,
     };
+  }
+
+  get displayRetryOrResetActions() {
+    return this.args.model.campaignParticipationResult.canRetry || this.args.model.campaignParticipationResult.canReset;
   }
 
   get title() {
@@ -208,6 +213,11 @@ export default class SkillReview extends Component {
     }
     Url.search = urlParams.toString();
     return Url.toString();
+  }
+
+  @action
+  toggleDisplayResetModal() {
+    this.displayResetKeModal = !this.displayResetKeModal;
   }
 
   @action
