@@ -1,4 +1,4 @@
-import scalingo from 'scalingo';
+import { clientFromToken } from 'scalingo';
 import { ScalingoDBClient } from './db-client.js';
 
 class ScalingoClient {
@@ -10,7 +10,7 @@ class ScalingoClient {
 
   static async getInstance({ application, token, region }) {
     const apiUrl = `https://api.${region}.scalingo.com`;
-    const client = await scalingo.clientFromToken(token, { apiUrl });
+    const client = await clientFromToken(token, { apiUrl });
 
     return new ScalingoClient({ client, application, region });
   }

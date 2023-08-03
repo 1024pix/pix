@@ -35,6 +35,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function () {
@@ -45,6 +46,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         });
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
         it(`should create a NON_BLOCKING_TECHNICAL_ISSUE CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function () {
@@ -73,6 +75,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when description is of value "${emptyValue}"`, function () {
@@ -83,6 +86,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         });
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
         it(`should create a NON_BLOCKING_CANDIDATE_ISSUE CertificationIssueReport when subcategory is empty with value "${emptyValue}"`, function () {
@@ -111,6 +115,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function () {
@@ -140,6 +145,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function () {
@@ -150,7 +156,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         });
       });
 
-      // Test dynamically all subcategories
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if (
@@ -194,7 +200,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
-      // Test dynamically all subcategories
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if (
@@ -249,6 +255,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         }
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when questionNumber is empty with value ${emptyValue}`, function () {
@@ -302,6 +309,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         );
       });
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
         it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function () {
@@ -316,6 +324,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
     context(
       'Adds isImpactful boolean to certif issue report when the category or subcategory is impactful',
       function () {
+        // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
         // eslint-disable-next-line mocha/no-setup-in-describe
         [
           { certificationCourseId: 42, category: 'OTHER', subcategory: undefined, description: 'toto' },
@@ -381,6 +390,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
           });
         });
 
+        // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
         // eslint-disable-next-line mocha/no-setup-in-describe
         [
           {

@@ -2,18 +2,16 @@ import { expect } from '../../../test-helper.js';
 import * as poleEmploiService from '../../../../lib/domain/services/pole-emploi-service.js';
 import { config as settings } from '../../../../lib/config.js';
 
+const ORIGINAL_ENV = settings.apiManager.url;
+
 describe('Unit | Service | Pole Emploi Service', function () {
   describe('#generateLink', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const originalEnv = settings.apiManager.url;
-
     before(function () {
       settings.apiManager.url = 'https://url-externe';
     });
 
     after(function () {
-      settings.apiManager.url = originalEnv;
+      settings.apiManager.url = ORIGINAL_ENV;
     });
 
     it('should generate a link', function () {

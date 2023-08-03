@@ -5,6 +5,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithoutCompl
     context('reproducibility rate is equal or greater than minimum reproducibility rate', function () {
       const minimumReproducibilityRate = 70;
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [70, 80, 90].forEach((reproducibilityRate) => {
         context('pix score is equal or greater than minimum earned pix', function () {
@@ -50,6 +51,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithoutCompl
     context('reproducibility rate is lower than minimum reproducibility rate', function () {
       const minimumReproducibilityRate = 70;
 
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [1, 50, 69].forEach((reproducibilityRate) => {
         context('pix score is equal or greater than minimum earned pix', function () {

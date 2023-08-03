@@ -8,15 +8,14 @@ describe('Unit | UseCase | update-student-number', function () {
   const organizationLearnerId = 1234;
 
   let organizationLearner;
+  let supOrganizationLearnerRepository;
 
-  const supOrganizationLearnerRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    findOneByStudentNumber: sinon.stub(),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    updateStudentNumber: sinon.stub(),
-  };
+  beforeEach(function () {
+    supOrganizationLearnerRepository = {
+      findOneByStudentNumber: sinon.stub(),
+      updateStudentNumber: sinon.stub(),
+    };
+  });
 
   context('When there is an organization learner with the same student number', function () {
     beforeEach(function () {

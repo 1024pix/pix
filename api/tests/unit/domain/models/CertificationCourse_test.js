@@ -107,6 +107,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
   });
 
   describe('#correctBirthdate', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['2000-13-01', null, undefined, '', 'invalid'].forEach((invalidDate) => {
       it(`throws if date is invalid : ${invalidDate}`, function () {
@@ -135,6 +136,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
   });
 
   describe('#correctFirstName', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   '].forEach((invalidFirstName) => {
       it(`throws if first name is invalid : ${invalidFirstName}`, function () {
@@ -163,6 +165,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
   });
 
   describe('#correctLastName', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   '].forEach((invalidLastName) => {
       it(`throws if last name is invalid : ${invalidLastName}`, function () {
@@ -191,6 +194,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
   });
 
   describe('#correctBirthplace', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   '].forEach((invalidBirthPlace) => {
       it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, function () {
@@ -254,6 +258,7 @@ describe('Unit | Domain | Models | CertificationCourse', function () {
       expect(() => certificationCourse.correctSex(sex)).not.to.throw(EntityValidationError);
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['M', 'F'].forEach((validSex) => {
       it(`modifies the sex when value is ${validSex}`, function () {

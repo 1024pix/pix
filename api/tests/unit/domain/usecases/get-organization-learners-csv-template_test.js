@@ -5,18 +5,14 @@ import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/err
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | UseCase | get-organization-learners-csv-template', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const userId = Symbol('userId');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const organizationId = Symbol('organizationId');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const membershipRepository = { findByUserIdAndOrganizationId: _.noop };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const i18n = getI18n();
+  let userId, organizationId, membershipRepository, i18n;
+
+  beforeEach(function () {
+    userId = Symbol('userId');
+    organizationId = Symbol('organizationId');
+    membershipRepository = { findByUserIdAndOrganizationId: _.noop };
+    i18n = getI18n();
+  });
 
   context('When user is ADMIN in a SUP organization managing students', function () {
     it('should return headers line', async function () {

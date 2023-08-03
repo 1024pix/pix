@@ -1,9 +1,11 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
-import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
+import {
+  Assessment,
+  CompetenceEvaluation,
+  Scorecard,
+  CampaignParticipationStatuses,
+} from '../../../../lib/domain/models/index.js';
 import * as scorecardService from '../../../../lib/domain/services/scorecard-service.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED, SHARED } = CampaignParticipationStatuses;
 
@@ -102,19 +104,17 @@ describe('Unit | Service | ScorecardService', function () {
     let campaignRepository;
     let resetKnowledgeElement1;
     let resetKnowledgeElement2;
+    let updatedCompetenceEvaluation;
 
     const userId = 1;
     const competenceId = 2;
     const knowledgeElements = [{ id: 1 }, { id: 2 }];
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    resetKnowledgeElement2 = Symbol('reset knowledge element 2');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    resetKnowledgeElement1 = Symbol('reset knowledge element 1');
+
+    beforeEach(function () {
+      updatedCompetenceEvaluation = Symbol('updated competence evaluation');
+      resetKnowledgeElement2 = Symbol('reset knowledge element 2');
+      resetKnowledgeElement1 = Symbol('reset knowledge element 1');
+    });
 
     context('when competence evaluation exists', function () {
       beforeEach(async function () {
@@ -232,19 +232,17 @@ describe('Unit | Service | ScorecardService', function () {
       let newAssessment2Saved;
       let campaignParticipation1;
       let campaignParticipation2;
+      let campaignParticipation1Updated;
+      let campaignParticipation2Updated;
       let campaign;
       const assessmentId1 = 12345;
       const assessmentId2 = 56789;
       const skillId = 'recmoustache';
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const campaignParticipation1Updated = Symbol('campaign participation 1 updated');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const campaignParticipation2Updated = Symbol('campaign participation 2 updated');
       const shouldResetCompetenceEvaluation = false;
 
       beforeEach(async function () {
+        campaignParticipation1Updated = Symbol('campaign participation 1 updated');
+        campaignParticipation2Updated = Symbol('campaign participation 2 updated');
         const skill = domainBuilder.buildSkill({ id: skillId });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
         campaign = domainBuilder.buildCampaign.ofTypeAssessment({ targetProfileId: targetProfile.id, targetProfile });

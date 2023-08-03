@@ -8,7 +8,7 @@ import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '.
 import { CampaignProfilesCollectionExport } from '../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function () {
+describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const competenceRepository = { listPixCompetencesOnly: () => undefined };
@@ -16,14 +16,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
   const campaignParticipationRepository = { findProfilesCollectionResultDataByCampaignId: () => undefined };
   let writableStream;
   let csvPromise;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const placementProfileService = Symbol('placementProfileService');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const i18n = getI18n();
+  let placementProfileService;
+  let i18n;
 
   beforeEach(function () {
+    placementProfileService = Symbol('placementProfileService');
+    i18n = getI18n();
     sinon.stub(campaignRepository, 'get').rejects('error for campaignRepository.get');
     sinon.stub(userRepository, 'getWithMemberships').rejects('error for userRepository.getWithMemberships');
     sinon

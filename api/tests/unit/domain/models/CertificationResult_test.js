@@ -1,5 +1,14 @@
-import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
+import { CertificationResult } from '../../../../lib/domain/models/index.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
+
+const CERTIFICATION_RESULT_STATUS_CANCELLED = CertificationResult.status.CANCELLED;
+const CERTIFICATION_RESULT_STATUS_ERROR = CertificationResult.status.ERROR;
+const CERTIFICATION_RESULT_STATUS_REJECTED = CertificationResult.status.REJECTED;
+const CERTIFICATION_RESULT_STATUS_STARTED = CertificationResult.status.STARTED;
+const CERTIFICATION_RESULT_STATUS_VALIDATED = CertificationResult.status.VALIDATED;
+const CERTIFICATION_RESULT_EMITTER_PIXALGO = CertificationResult.emitters.PIX_ALGO;
+const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
   context('#static from', function () {
@@ -22,7 +31,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         assessmentId: 789,
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
-        emitter: CertificationResult.emitters.PIX_ALGO,
+        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
         commentForCandidate: 'Un commentaire candidat 1',
         commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
@@ -47,7 +56,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       const certificationResultDTO = {
         ...certificationResultData,
         isCancelled: false,
-        assessmentResultStatus: CertificationResult.status.VALIDATED,
+        assessmentResultStatus: CERTIFICATION_RESULT_STATUS_VALIDATED,
       };
 
       // when
@@ -72,8 +81,8 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         assessmentId: 789,
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
-        status: CertificationResult.status.VALIDATED,
-        emitter: CertificationResult.emitters.PIX_ALGO,
+        status: CERTIFICATION_RESULT_STATUS_VALIDATED,
+        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
         commentForCandidate: 'Un commentaire candidat 1',
         commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
@@ -95,34 +104,35 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
 
     context('status', function () {
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         {
           statusName: 'cancelled',
           isCancelled: true,
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          assessmentResultStatus: CertificationResult.status.VALIDATED,
+
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_VALIDATED,
           validationFunction: 'isCancelled',
         },
         {
           statusName: 'validated',
           isCancelled: false,
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          assessmentResultStatus: CertificationResult.status.VALIDATED,
+
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_VALIDATED,
           validationFunction: 'isValidated',
         },
         {
           statusName: 'rejected',
           isCancelled: false,
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          assessmentResultStatus: CertificationResult.status.REJECTED,
+
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_REJECTED,
           validationFunction: 'isRejected',
         },
         {
           statusName: 'error',
           isCancelled: false,
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          assessmentResultStatus: CertificationResult.status.ERROR,
+
+          assessmentResultStatus: CERTIFICATION_RESULT_STATUS_ERROR,
           validationFunction: 'isInError',
         },
 
@@ -151,23 +161,23 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "cancelled"', function () {
       // given
       const cancelledCertificationResult = domainBuilder.buildCertificationResult({
-        status: CertificationResult.status.CANCELLED,
+        status: CERTIFICATION_RESULT_STATUS_CANCELLED,
       });
 
       // when / then
       expect(cancelledCertificationResult.isCancelled()).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'validated', status: CertificationResult.status.VALIDATED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'rejected', status: CertificationResult.status.REJECTED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'error', status: CertificationResult.status.ERROR },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'started', status: CertificationResult.status.STARTED },
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -188,7 +198,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "validated"', function () {
       // given
       const validatedCertificationResult = domainBuilder.buildCertificationResult({
-        status: CertificationResult.status.VALIDATED,
+        status: CERTIFICATION_RESULT_STATUS_VALIDATED,
       });
 
       // when
@@ -198,16 +208,16 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isValidated).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'cancelled', status: CertificationResult.status.CANCELLED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'rejected', status: CertificationResult.status.REJECTED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'error', status: CertificationResult.status.ERROR },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'started', status: CertificationResult.status.STARTED },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -228,7 +238,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "rejected"', function () {
       // given
       const rejectedCertificationResult = domainBuilder.buildCertificationResult({
-        status: CertificationResult.status.REJECTED,
+        status: CERTIFICATION_RESULT_STATUS_REJECTED,
       });
 
       // when
@@ -238,16 +248,16 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isRejected).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'cancelled', status: CertificationResult.status.CANCELLED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'validated', status: CertificationResult.status.VALIDATED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'error', status: CertificationResult.status.ERROR },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'started', status: CertificationResult.status.STARTED },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
+
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -268,7 +278,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "error"', function () {
       // given
       const errorCertificationResult = domainBuilder.buildCertificationResult({
-        status: CertificationResult.status.ERROR,
+        status: CERTIFICATION_RESULT_STATUS_ERROR,
       });
 
       // when
@@ -278,16 +288,16 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isInError).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'cancelled', status: CertificationResult.status.CANCELLED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'validated', status: CertificationResult.status.VALIDATED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'rejected', status: CertificationResult.status.REJECTED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'started', status: CertificationResult.status.STARTED },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+
+      { statusName: 'started', status: CERTIFICATION_RESULT_STATUS_STARTED },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -308,7 +318,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     it('returns true if status is "started"', function () {
       // given
       const startedCertificationResult = domainBuilder.buildCertificationResult({
-        status: CertificationResult.status.STARTED,
+        status: CERTIFICATION_RESULT_STATUS_STARTED,
       });
 
       // when
@@ -318,16 +328,13 @@ describe('Unit | Domain | Models | CertificationResult', function () {
       expect(isStarted).to.be.true;
     });
 
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'cancelled', status: CertificationResult.status.CANCELLED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'validated', status: CertificationResult.status.VALIDATED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'rejected', status: CertificationResult.status.REJECTED },
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      { statusName: 'error', status: CertificationResult.status.ERROR },
+      { statusName: 'cancelled', status: CERTIFICATION_RESULT_STATUS_CANCELLED },
+      { statusName: 'validated', status: CERTIFICATION_RESULT_STATUS_VALIDATED },
+      { statusName: 'rejected', status: CERTIFICATION_RESULT_STATUS_REJECTED },
+      { statusName: 'error', status: CERTIFICATION_RESULT_STATUS_ERROR },
     ].forEach(function (testCase) {
       it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
@@ -345,48 +352,38 @@ describe('Unit | Domain | Models | CertificationResult', function () {
   });
 
   context('#hasBeenRejectedAutomatically', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        emitter: CertificationResult.emitters.PIX_ALGO,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: CertificationResult.status.REJECTED,
+        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
+        status: CERTIFICATION_RESULT_STATUS_REJECTED,
         expectedResult: true,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: CertificationResult.status.REJECTED,
+        emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
+        status: CERTIFICATION_RESULT_STATUS_REJECTED,
         expectedResult: true,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: CertificationResult.status.REJECTED,
+        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
+        status: CERTIFICATION_RESULT_STATUS_REJECTED,
         expectedResult: false,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        emitter: CertificationResult.emitters.PIX_ALGO,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: CertificationResult.status.STARTED,
+        emitter: CERTIFICATION_RESULT_EMITTER_PIXALGO,
+        status: CERTIFICATION_RESULT_STATUS_STARTED,
         expectedResult: false,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: CertificationResult.status.STARTED,
+        emitter: CERTIFICATION_RESULT_EMITTER_AUTOJURY,
+        status: CERTIFICATION_RESULT_STATUS_STARTED,
         expectedResult: false,
       },
       {
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        status: CertificationResult.status.STARTED,
+        emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
+
+        status: CERTIFICATION_RESULT_STATUS_STARTED,
         expectedResult: false,
       },
     ].forEach(function ({ expectedResult, emitter, status }) {

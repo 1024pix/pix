@@ -58,6 +58,7 @@ describe('Unit | UseCase | complete-assessment', function () {
   });
 
   context('when assessment is not yet completed', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -67,7 +68,6 @@ describe('Unit | UseCase | complete-assessment', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCertificationAssessment(),
     ].forEach((assessment) => {
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       context(`common behavior when assessment is of type ${assessment.type}`, function () {
         beforeEach(function () {

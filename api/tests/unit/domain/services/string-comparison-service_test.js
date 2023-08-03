@@ -17,7 +17,7 @@ describe('Unit | Service | Validation Comparison', function () {
         { should: 'If they have one different character', arg1: 'a', arg2: ['ab'], output: 1 },
         { should: 'If they have two different characters', arg1: 'book', arg2: ['back'], output: 2 },
       ];
-
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       successfulCases.forEach(function (testCase) {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(
@@ -52,7 +52,7 @@ describe('Unit | Service | Validation Comparison', function () {
         },
         { should: 'If the difference is 2 for all elements', arg1: 'book', arg2: ['back', 'buck'], output: 2 },
       ];
-
+      // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
       // eslint-disable-next-line mocha/no-setup-in-describe
       successfulCases.forEach(function (testCase) {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(
@@ -65,6 +65,7 @@ describe('Unit | Service | Validation Comparison', function () {
   });
 
   describe('getSmallestLevenshteinRatio', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { scenario: 'the inputString is the only reference', inputString: 'a1', references: ['a1'], expected: 0 },
@@ -97,6 +98,7 @@ describe('Unit | Service | Validation Comparison', function () {
   });
 
   describe('getLevenshteinRatio', function () {
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { scenario: 'the inputString is the reference', inputString: 'a1', reference: 'a1', expected: 0 },
@@ -129,13 +131,9 @@ describe('Unit | Service | Validation Comparison', function () {
       const inputString = 'aaaaaa';
       const referenceString = '12KBKHBHB65';
 
-      // when
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
-
       // then
       it('should return false', function () {
+        const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
         expect(actual).to.be.false;
       });
     });
@@ -146,13 +144,9 @@ describe('Unit | Service | Validation Comparison', function () {
       const inputString = 'aaaaaa';
       const referenceString = 'àaaaaa';
 
-      // when
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
-
       // then
       it('should return true', function () {
+        const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
         expect(actual).to.be.true;
       });
     });
@@ -167,13 +161,9 @@ describe('Unit | Service | Validation Comparison', function () {
         const inputString = 'aaaaaa';
         const references = ['12KBKHBHB65', 'Jacques'];
 
-        // when
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
-
         // then
         it('should return false', function () {
+          const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
           expect(actual).to.be.false;
         });
       },
@@ -187,13 +177,9 @@ describe('Unit | Service | Validation Comparison', function () {
         const inputString = 'aaaaaa';
         const references = ['àaaaaa', 'bbbbbbb', 'aaaaab'];
 
-        // when
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
-
         // then
         it('should return true', function () {
+          const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
           expect(actual).to.be.true;
         });
       },

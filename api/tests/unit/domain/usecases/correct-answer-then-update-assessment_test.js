@@ -1,7 +1,5 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { Assessment, AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
 import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
 
 import {
@@ -11,6 +9,9 @@ import {
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
 } from '../../../../lib/domain/errors.js';
+
+const ANSWER_STATUS_FOCUSEDOUT = AnswerStatus.FOCUSEDOUT;
+const ANSWER_STATUS_OK = AnswerStatus.OK;
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
   const userId = 1;
@@ -41,13 +42,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const flashAlgorithmService = { getEstimatedLevelAndErrorRate: () => undefined };
   const algorithmDataFetcherService = { fetchForFlashLevelEstimation: () => undefined };
   const nowDate = new Date('2021-03-11T11:00:04Z');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  nowDate.setMilliseconds(1);
 
   let dependencies;
 
   beforeEach(function () {
+    nowDate.setMilliseconds(1);
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
@@ -907,27 +906,28 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       assessmentRepository.get.resolves(assessment);
     });
 
-    /* eslint-disable mocha/no-setup-in-describe */
+    // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
         isFocusedOut: true,
         lastQuestionState: 'focusedout',
-        expected: { result: AnswerStatus.FOCUSEDOUT, isFocusedOut: true },
+        expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
       },
       {
         isFocusedOut: false,
         lastQuestionState: 'asked',
-        expected: { result: AnswerStatus.OK, isFocusedOut: false },
+        expected: { result: ANSWER_STATUS_OK, isFocusedOut: false },
       },
       {
         isFocusedOut: false,
         lastQuestionState: 'focusedout',
-        expected: { result: AnswerStatus.FOCUSEDOUT, isFocusedOut: true },
+        expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
       },
       {
         isFocusedOut: true,
         lastQuestionState: 'asked',
-        expected: { result: AnswerStatus.FOCUSEDOUT, isFocusedOut: true },
+        expected: { result: ANSWER_STATUS_FOCUSEDOUT, isFocusedOut: true },
       },
     ].forEach(({ isFocusedOut, lastQuestionState, expected }) => {
       context(`when answer.isFocusedOut=${isFocusedOut} and lastQuestionState=${lastQuestionState}`, function () {
@@ -949,6 +949,5 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
       });
     });
-    /* eslint-enable mocha/no-setup-in-describe */
   });
 });

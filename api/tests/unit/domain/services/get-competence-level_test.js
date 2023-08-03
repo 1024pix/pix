@@ -4,20 +4,19 @@ import { getCompetenceLevel } from '../../../../lib/domain/services/get-competen
 describe('Unit | Domain | Service | Get Competence Level', function () {
   describe('#getCompetenceLevel', function () {
     const userId = 'userId';
-    const competenceId = 'competenceId';
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const knowledgeElements = Symbol('knowledgeElements');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const domainTransaction = Symbol('domainTransaction');
     const level = 3;
     let competenceLevel;
     let knowledgeElementRepository;
+    let competenceId;
+    let knowledgeElements;
+    let domainTransaction;
     let scoringService;
 
     beforeEach(async function () {
       // given
+      competenceId = 'competenceId';
+      knowledgeElements = Symbol('knowledgeElements');
+      domainTransaction = Symbol('domainTransaction');
       knowledgeElementRepository = {
         findUniqByUserIdAndCompetenceId: sinon.stub().resolves(knowledgeElements),
       };

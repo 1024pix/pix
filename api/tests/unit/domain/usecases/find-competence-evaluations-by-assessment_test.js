@@ -6,14 +6,11 @@ import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/err
 describe('Unit | UseCase | find-competence-evaluations-by-assessment', function () {
   const userId = 1;
   const assessmentId = 2;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessmentRepository = { ownedByUser: _.noop() };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceEvaluationRepository = { findByAssessmentId: _.noop() };
+  let assessmentRepository, competenceEvaluationRepository;
 
   beforeEach(function () {
+    assessmentRepository = { ownedByUser: _.noop() };
+    competenceEvaluationRepository = { findByAssessmentId: _.noop() };
     assessmentRepository.ownedByUser = sinon.stub();
     competenceEvaluationRepository.findByAssessmentId = sinon.stub();
   });

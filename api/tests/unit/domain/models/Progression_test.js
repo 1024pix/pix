@@ -1,10 +1,11 @@
-import { Progression } from '../../../../lib/domain/models/Progression.js';
+import { Progression } from '../../../../lib/domain/models/index.js';
 import { expect, domainBuilder } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Progression', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
+  let skillLevel1, skillLevel2, skillLevel3;
+  beforeEach(function () {
+    [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
+  });
 
   describe('#completionRate', function () {
     context('when the profile is not fully evaluated', function () {
