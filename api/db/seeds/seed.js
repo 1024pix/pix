@@ -16,7 +16,7 @@ const seed = async function (knex) {
   await teamContenuDataBuilder({ databaseBuilder });
   await teamCertificationDataBuilder({ databaseBuilder });
   await teamDevcompDataBuilder({ databaseBuilder });
-    await teamEvaluationDataBuilder({ databaseBuilder });
+  await teamEvaluationDataBuilder({ databaseBuilder });
   await teamPrescriptionDataBuilder({ databaseBuilder });
   await databaseBuilder.commit();
   await databaseBuilder.fixSequences();

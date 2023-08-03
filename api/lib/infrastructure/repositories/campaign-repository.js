@@ -3,6 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import * as skillRepository from './skill-repository.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 
 const CAMPAIGNS_TABLE = 'campaigns';
