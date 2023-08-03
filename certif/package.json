@@ -16,7 +16,6 @@
     "edition": "octane"
   },
   "directories": {
-    "doc": "docs",
     "test": "tests"
   },
   "scripts": {
@@ -112,5 +111,9 @@
     "stylelint-config-standard-scss": "^10.0.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.76.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/1024pix/pix/issues"
+  },
+  "homepage": "https://github.com/1024pix/pix#readme"
 }
