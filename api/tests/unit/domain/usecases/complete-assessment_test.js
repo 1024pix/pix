@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment, CampaignParticipationStatuses } from '../../../../lib/domain/models/index.js';
 import { AlreadyRatedAssessmentError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
@@ -58,16 +57,16 @@ describe('Unit | UseCase | complete-assessment', function () {
   });
 
   context('when assessment is not yet completed', function () {
+    let competenceEvaluationAssessment, campaignAssessment, certificationAssessment;
+
+    beforeEach(function () {
+      competenceEvaluationAssessment = _buildCompetenceEvaluationAssessment();
+      campaignAssessment = _buildCampaignAssessment();
+      certificationAssessment = _buildCertificationAssessment();
+    });
+
     // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      _buildCompetenceEvaluationAssessment(),
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      _buildCampaignAssessment(),
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      _buildCertificationAssessment(),
-    ].forEach((assessment) => {
-      // TODO: Fix this the next time the file is edited.
+    [competenceEvaluationAssessment, campaignAssessment, certificationAssessment].forEach((assessment) => {
       // eslint-disable-next-line mocha/no-setup-in-describe
       context(`common behavior when assessment is of type ${assessment.type}`, function () {
         beforeEach(function () {
