@@ -58,14 +58,43 @@ module('Integration | Component | feedback-panel', function (hooks) {
         );
       });
 
-      test('should display the "mercix" view without content value', async function (assert) {
+      test('should display a confirmation modal', async function (assert) {
+        // given
+        const modalTitle = screen.getByText('Confirmation du signalement');
+
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
 
         // then
-        assert
-          .dom(screen.queryByText('Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*'))
-          .doesNotExist();
+        assert.notOk(
+          modalTitle.closest('.pix-modal__overlay').classList.toString().includes('pix-modal__overlay--hidden'),
+        );
+      });
+
+      test('should be able to close the modal', async function (assert) {
+        // given
+        const modalTitle = screen.getByText('Confirmation du signalement');
+
+        // when
+        await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
+        await click(screen.getByText(this.intl.t('common.actions.cancel')));
+
+        // then
+        assert.ok(
+          modalTitle.closest('.pix-modal__overlay').classList.toString().includes('pix-modal__overlay--hidden'),
+        );
+      });
+
+      test('should display the "mercix" view without content value', async function (assert) {
+        // when
+        await click(
+          screen.getByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.actions.submit-aria-label'),
+          }),
+        );
+        await click(screen.getByText(this.intl.t('common.actions.validate')));
+
+        // then
         assert.dom(screen.getByText('Votre commentaire a bien été transmis à l’équipe du projet Pix.')).exists();
         assert.dom(screen.getByText('Mercix !')).exists();
       });
@@ -80,6 +109,7 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
         // when
         await click(screen.getByRole('button', { name: 'Envoyer mon message de signalement' }));
+        await click(screen.getByText(this.intl.t('common.actions.validate')));
 
         // then
         assert
