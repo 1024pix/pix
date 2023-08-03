@@ -13,6 +13,7 @@ const register = async function (server) {
               securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -21,7 +22,7 @@ const register = async function (server) {
         handler: complementaryCertificationController.findComplementaryCertifications,
         tags: ['api', 'admin'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support, Certif et Métier',
           'Elle renvoie la liste des certifications complémentaires existantes.',
         ],
       },
