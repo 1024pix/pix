@@ -77,6 +77,10 @@ class OrganizationForAdmin {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 
+  updateProvinceCode(provinceCode) {
+    this.provinceCode = provinceCode;
+  }
+
   updateInformation(organization, dataProtectionOfficer = {}, tags = []) {
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
@@ -84,7 +88,7 @@ class OrganizationForAdmin {
     this.email = organization.email;
     this.credit = organization.credit;
     this.externalId = organization.externalId;
-    this.provinceCode = organization.provinceCode;
+    this.updateProvinceCode(organization.provinceCode);
     this.isManagingStudents = organization.isManagingStudents;
     this.documentationUrl = organization.documentationUrl;
     this.showSkills = organization.showSkills;
