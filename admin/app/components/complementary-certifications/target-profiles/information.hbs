@@ -12,8 +12,12 @@
         {{this.currentTargetProfile.name}}
       </LinkTo>
     </span>
-
-    <PixButton>Rattacher un nouveau profil cible</PixButton>
-
+    <div class="complementary-certification-details-target-profile__attach-button">
+      <PixButtonLink
+        @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile"
+        @model={{this.currentTargetProfile.id}}
+      >Rattacher un nouveau profil cible
+      </PixButtonLink>
+    </div>
   </div>
 </section>

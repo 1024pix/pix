@@ -1,0 +1,34 @@
+{{page-title "Certification complémentaire " @model.complementaryCertification.id " | Pix Admin" replace=true}}
+
+<ComplementaryCertifications::TargetProfiles::Header
+  @complementaryCertificationLabel={{@model.complementaryCertification.label}}
+/>
+
+<main class="page-body">
+  <div class="page-section complementary-certification-attach-target-profile">
+    <h1 class="complementary-certification-attach-target-profile__header">
+      Rattacher un nouveau profil cible à la certification
+      {{@model.complementaryCertification.label}}
+    </h1>
+    <span class="complementary-certification-details__target-profile">Profile cible actuel:
+      <LinkTo
+        @route="authenticated.target-profiles.target-profile"
+        @model={{@model.currentTargetProfile.id}}
+        class="complementary-certification-details-target-profile__link"
+      >
+        {{@model.currentTargetProfile.name}}
+      </LinkTo>
+    </span>
+
+    <ComplementaryCertifications::TargetProfiles::AttachTargetProfile />
+    <div>
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.cancel}}
+      >Annuler
+      </PixButton>
+    </div>
+  </div>
+</main>
