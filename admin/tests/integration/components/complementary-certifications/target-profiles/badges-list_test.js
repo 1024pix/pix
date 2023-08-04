@@ -23,11 +23,11 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::B
         },
       ],
     });
-    this.currentTargetProfiles = complementaryCertification.currentTargetProfiles;
+    this.currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
 
     // when
     const screen = await render(
-      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfiles={{this.currentTargetProfiles}} />`,
+      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfile={{this.currentTargetProfile}} />`,
     );
 
     // then

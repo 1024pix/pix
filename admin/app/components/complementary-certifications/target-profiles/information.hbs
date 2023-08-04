@@ -6,16 +6,26 @@
     <span class="complementary-certification-details__target-profile">Profil cible actuel :
       <LinkTo
         @route="authenticated.target-profiles.target-profile"
-        @model={{this.currentTargetProfile.id}}
+        @model={{@currentTargetProfile.id}}
         class="complementary-certification-details-target-profile__link"
       >
-        {{this.currentTargetProfile.name}}
+        {{@currentTargetProfile.name}}
       </LinkTo>
     </span>
+    {{#if this.isMultipleCurrentTargetProfiles}}
+      <PixToggle
+        @label="Accéder aux détails des profils cibles courants"
+        @onLabel="Profil 1"
+        @offLabel="Profil 2"
+        @toggled={{this.isToggled}}
+        @onChange={{this.onChange}}
+        @screenReaderOnly={{true}}
+      />
+    {{/if}}
     <div class="complementary-certification-details-target-profile__attach-button">
       <PixButtonLink
         @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile"
-        @model={{this.currentTargetProfile.id}}
+        @model={{@currentTargetProfile.id}}
       >Rattacher un nouveau profil cible
       </PixButtonLink>
     </div>
