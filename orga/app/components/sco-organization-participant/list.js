@@ -50,6 +50,7 @@ export default class ScoList extends Component {
       { value: 'email', label: this.intl.t(CONNECTION_TYPES.email) },
       { value: 'identifiant', label: this.intl.t(CONNECTION_TYPES.identifiant) },
       { value: 'mediacentre', label: this.intl.t(CONNECTION_TYPES.mediacentre) },
+      { value: 'without_mediacentre', label: this.intl.t(CONNECTION_TYPES.without_mediacentre) },
     ];
   }
 

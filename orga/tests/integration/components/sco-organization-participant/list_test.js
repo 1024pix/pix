@@ -259,11 +259,11 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @onResetFilter={{this.noop}}
 />`);
 
-        // when 
+        // when
         await click(screen.getByLabelText('Rechercher par méthode de connexion'));
         await screen.findByRole('menu');
 
-        // then 
+        // then
         assert.dom(screen.getByRole('checkbox', { name: 'Aucune' })).exists();
         assert.dom(screen.getByRole('checkbox', { name: 'Adresse e-mail' })).exists();
         assert.dom(screen.getByRole('checkbox', { name: 'Identifiant' })).exists();

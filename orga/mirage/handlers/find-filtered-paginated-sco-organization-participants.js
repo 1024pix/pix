@@ -42,6 +42,8 @@ function _filtersFromQueryParams(schema, organizationId, queryParams) {
       if (connectionTypeFilter.includes('email') && scoOrganizationParticipant.hasEmail) return true;
       if (connectionTypeFilter.includes('mediacentre') && scoOrganizationParticipant.isAuthenticatedFromGar)
         return true;
+      if (connectionTypeFilter.includes('without_mediacentre') && !scoOrganizationParticipant.isAuthenticatedFromGar)
+        return true;
       return false;
     });
   }
