@@ -217,24 +217,39 @@ describe('Integration | Repository | Finalized-session', function () {
     context('when there are finalized sessions with required action', function () {
       it('finds a list of finalized session with required action ordered by finalization date', async function () {
         // given
+        const session1 = databaseBuilder.factory.buildSession();
+        const session2 = databaseBuilder.factory.buildSession();
+        const session3 = databaseBuilder.factory.buildSession({ version: 3 });
+        const session4 = databaseBuilder.factory.buildSession();
+        const session5 = databaseBuilder.factory.buildSession();
         const secondFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: false,
           publishedAt: null,
           finalizedAt: new Date('2020-01-01'),
+          sessionId: session1.id,
         });
         const firstFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: false,
           publishedAt: null,
           finalizedAt: new Date('2019-01-01'),
+          sessionId: session2.id,
         });
         const thirdFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: false,
           publishedAt: null,
           finalizedAt: new Date('2021-01-01'),
+          sessionId: session3.id,
         });
-
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: '2021-01-01' });
+        databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: null,
+          sessionId: session4.id,
+        });
+        databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: false,
+          publishedAt: '2021-01-01',
+          sessionId: session5.id,
+        });
 
         await databaseBuilder.commit();
 
@@ -275,6 +290,56 @@ describe('Integration | Repository | Finalized-session', function () {
             assignedCertificationOfficerName: null,
           },
         ]);
+      });
+
+      context('when filtering on a specific version', function () {
+        it('finds a list of finalized session of the specified version with required action ordered by finalization date', async function () {
+          // given
+          const session1 = databaseBuilder.factory.buildSession();
+          const session2 = databaseBuilder.factory.buildSession();
+          const session3 = databaseBuilder.factory.buildSession({ version: 3 });
+          databaseBuilder.factory.buildFinalizedSession({
+            isPublishable: false,
+            publishedAt: null,
+            finalizedAt: new Date('2020-01-01'),
+            sessionId: session1.id,
+          });
+          databaseBuilder.factory.buildFinalizedSession({
+            isPublishable: false,
+            publishedAt: null,
+            finalizedAt: new Date('2019-01-01'),
+            sessionId: session2.id,
+          });
+          const thirdFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
+            isPublishable: false,
+            publishedAt: null,
+            finalizedAt: new Date('2021-01-01'),
+            sessionId: session3.id,
+          });
+
+          databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
+          databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: '2021-01-01' });
+
+          await databaseBuilder.commit();
+
+          // when
+          const result = await finalizedSessionRepository.findFinalizedSessionsWithRequiredAction({ version: 3 });
+
+          // then
+          expect(result).to.have.lengthOf(1);
+          expect(result).to.have.deep.ordered.members([
+            {
+              sessionId: thirdFinalizedSession.sessionId,
+              finalizedAt: thirdFinalizedSession.finalizedAt,
+              certificationCenterName: thirdFinalizedSession.certificationCenterName,
+              sessionDate: thirdFinalizedSession.date,
+              sessionTime: thirdFinalizedSession.time,
+              isPublishable: thirdFinalizedSession.isPublishable,
+              publishedAt: null,
+              assignedCertificationOfficerName: null,
+            },
+          ]);
+        });
       });
     });
 

@@ -4,7 +4,7 @@
     <h1 class="page-title">Toutes les sessions de certifications</h1>
   </div>
   <nav class="navbar session-list__navbar">
-    <LinkTo @route="authenticated.sessions.list.with-required-action" class="navbar-item">
+    <LinkTo @route="authenticated.sessions.list.with-required-action" @query={{hash version=2}} class="navbar-item">
       Sessions à traiter ({{this.sessionsWithRequiredActionCount}})
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.to-be-published" class="navbar-item">
@@ -12,6 +12,13 @@
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.all" class="navbar-item">
       Toutes les sessions
+    </LinkTo>
+    <LinkTo
+      @route="authenticated.sessions.list.with-required-action"
+      @query={{hash version=3}}
+      class="navbar-item navbar-item--right"
+    >
+      Sessions à traiter nextgen ({{this.sessionsWithRequiredActionCountVersion3}})
     </LinkTo>
   </nav>
 </header>

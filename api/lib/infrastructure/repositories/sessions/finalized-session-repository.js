@@ -4,6 +4,7 @@ import { knex } from '../../bookshelf.js';
 import { BookshelfFinalizedSession } from '../../orm-models/FinalizedSession.js';
 
 import * as bookshelfToDomainConverter from '../../utils/bookshelf-to-domain-converter.js';
+import { FinalizedSession } from '../../../domain/models/index.js';
 
 const save = async function (finalizedSession) {
   await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
@@ -32,18 +33,30 @@ const findFinalizedSessionsToPublish = async function () {
   return bookshelfToDomainConverter.buildDomainObjects(BookshelfFinalizedSession, publishableFinalizedSessions);
 };
 
-const findFinalizedSessionsWithRequiredAction = async function () {
-  const publishableFinalizedSessions = await BookshelfFinalizedSession.where({
-    isPublishable: false,
-    publishedAt: null,
-  })
-    .orderBy('finalizedAt')
-    .fetchAll();
+const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}) {
+  const versionFilter = version ? { 'sessions.version': version } : {};
+  const publishableFinalizedSessions = await knex('finalized-sessions')
+    .innerJoin('sessions', 'finalized-sessions.sessionId', 'sessions.id')
+    .where({
+      ...versionFilter,
+      isPublishable: false,
+      'finalized-sessions.publishedAt': null,
+    })
+    .select('finalized-sessions.*')
+    .orderBy('finalized-sessions.finalizedAt');
 
-  return bookshelfToDomainConverter.buildDomainObjects(BookshelfFinalizedSession, publishableFinalizedSessions);
+  return publishableFinalizedSessions.map(_toDomainObject);
 };
 
 export { save, get, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+
+function _toDomainObject({ date, time, ...finalizedSession }) {
+  return new FinalizedSession({
+    ...finalizedSession,
+    sessionDate: date,
+    sessionTime: time,
+  });
+}
 
 function _toDTO(finalizedSession) {
   return _.omit(

@@ -54,33 +54,89 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).hasClass('active');
     });
 
-    test('it should display sessions with required action informations', async function (assert) {
-      assert.expect(8);
-      // given
-      const finalizedAt = new Date('2021-02-01T03:00:00Z');
-      server.create('with-required-action-session', {
-        id: '1',
-        certificationCenterName: 'Centre SCO des Anne-Étoiles',
-        finalizedAt,
-        sessionDate: '2021-01-01',
-        sessionTime: '17:00:00',
-        assignedCertificationOfficerName: 'Officer1',
-      });
-      server.create('with-required-action-session', {
-        id: '2',
-        certificationCenterName: 'Centre SUP et rieur',
-        finalizedAt,
-        sessionDate: '2022-07-12',
-        sessionTime: '10:10:00',
-        assignedCertificationOfficerName: 'Officer2',
-      });
+    module('when clicking on the sessions to be treated tab', function () {
+      test('it should only display V2 sessions with required action informations', async function (assert) {
+        assert.expect(12);
+        // given
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('with-required-action-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate: '2021-01-01',
+          sessionTime: '17:00:00',
+          assignedCertificationOfficerName: 'Officer1',
+          version: 2,
+        });
+        server.create('with-required-action-session', {
+          id: '2',
+          certificationCenterName: 'Centre SUP et rieur',
+          finalizedAt,
+          sessionDate: '2022-07-12',
+          sessionTime: '10:10:00',
+          assignedCertificationOfficerName: 'Officer2',
+          version: 2,
+        });
+        server.create('with-required-action-session', {
+          id: '3',
+          certificationCenterName: 'Centre V3',
+          finalizedAt,
+          sessionDate: '2022-02-17',
+          sessionTime: '11:10:00',
+          assignedCertificationOfficerName: 'Officer3',
+          version: 3,
+        });
 
-      // when
-      const screen = await visit('/sessions/list/with-required-action');
+        // when
+        const screen = await visit('/sessions/list/with-required-action?version=2');
 
-      // then
-      _assertSession1InformationsAreDisplayed(assert, screen);
-      _assertSession2InformationsAreDisplayed(assert, screen);
+        // then
+        _assertSession1InformationsAreDisplayed(assert, screen);
+        _assertSession2InformationsAreDisplayed(assert, screen);
+        _assertSession3InformationsAreNotDisplayed(assert, screen);
+      });
+    });
+
+    module('when clicking on the next gen sessions to be treated tab', function () {
+      test('it should only display V3 sessions with required action informations', async function (assert) {
+        assert.expect(8);
+        // given
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('with-required-action-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate: '2021-01-01',
+          sessionTime: '17:00:00',
+          assignedCertificationOfficerName: 'Officer1',
+          version: 2,
+        });
+        server.create('with-required-action-session', {
+          id: '2',
+          certificationCenterName: 'Centre SUP et rieur',
+          finalizedAt,
+          sessionDate: '2022-07-12',
+          sessionTime: '10:10:00',
+          assignedCertificationOfficerName: 'Officer2',
+          version: 2,
+        });
+        server.create('with-required-action-session', {
+          id: '3',
+          certificationCenterName: 'Centre V3',
+          finalizedAt,
+          sessionDate: '2022-02-17',
+          sessionTime: '11:10:00',
+          assignedCertificationOfficerName: 'Officer3',
+          version: 3,
+        });
+
+        // when
+        const screen = await visit('/sessions/list/with-required-action?version=3');
+
+        // then
+        _assertSession3InformationsAreDisplayed(assert, screen);
+        _assertSessions1andSession2InformationsAreNotDisplayed(assert, screen);
+      });
     });
 
     module('When clicking on the display only my sessions button', function () {
@@ -96,6 +152,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
           sessionDate,
           sessionTime,
           assignedCertificationOfficerName: 'John Doe',
+          version: 2,
         });
         server.create('with-required-action-session', {
           id: '2',
@@ -104,6 +161,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
           sessionDate,
           sessionTime,
           assignedCertificationOfficerName: 'Officer2',
+          version: 2,
         });
         const screen = await visit('/sessions/list/with-required-action');
 
@@ -133,4 +191,25 @@ function _assertSession2InformationsAreDisplayed(assert, screen) {
   assert.dom(screen.getByText('2')).exists();
   assert.dom(screen.getByText('12/07/2022 à 10:10:00')).exists();
   assert.dom(screen.getByText('Officer2')).exists();
+}
+
+function _assertSession3InformationsAreNotDisplayed(assert, screen) {
+  assert.dom(screen.queryByText('Centre V3')).doesNotExist();
+  assert.dom(screen.queryByText('3')).doesNotExist();
+  assert.dom(screen.queryByText('17/02/2022 à 11:10:00')).doesNotExist();
+  assert.dom(screen.queryByText('Officer3')).doesNotExist();
+}
+
+function _assertSession3InformationsAreDisplayed(assert, screen) {
+  assert.dom(screen.getByText('Centre V3')).exists();
+  assert.dom(screen.getByText('3')).exists();
+  assert.dom(screen.getByText('17/02/2022 à 11:10:00')).exists();
+  assert.dom(screen.getByText('Officer3')).exists();
+}
+
+function _assertSessions1andSession2InformationsAreNotDisplayed(assert, screen) {
+  assert.dom(screen.queryByText('Centre SCO des Anne-Étoiles')).doesNotExist();
+  assert.dom(screen.queryByText('Officer1')).doesNotExist();
+  assert.dom(screen.queryByText('Centre SUP et rieur')).doesNotExist();
+  assert.dom(screen.queryByText('Officer2')).doesNotExist();
 }
