@@ -305,6 +305,21 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           // then
           expect(lastName).to.equal('Norris');
         });
+
+        it('should return sco participants filtered by "without_mediacentre" user connexion', async function () {
+          // when
+          const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+            organizationId,
+            filter: { connectionTypes: ['without_mediacentre'] },
+          });
+
+          // then
+          expect(data.length).to.deep.equal(3);
+          expect(data[0].lastName).to.equal('Lee');
+          expect(data[1].lastName).to.equal('Rambo');
+          expect(data[2].lastName).to.equal('Willis');
+        });
+
         it('should return sco participants filtered by "none" & "mediacentre" user connexion', async function () {
           // when
           const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
