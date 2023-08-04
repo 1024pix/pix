@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
+import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -9,6 +10,15 @@ module('Integration | Component | Team::MembersList', function (hooks) {
 
   test('it should list the team members', async function (assert) {
     //given
+    class CurrentUserMemberStub extends Service {
+      isAdminInOrganization = false;
+      organization = {
+        credit: 10000,
+        name: 'Super Orga',
+      };
+    }
+    this.owner.register('service:current-user', CurrentUserMemberStub);
+
     const members = [
       {
         id: 1,

@@ -19,4 +19,9 @@ export default class MembershipAdapter extends ApplicationAdapter {
     }
     return super.updateRecord(...arguments);
   }
+
+  leaveOrganization(organizationId) {
+    const url = `${this.host}/${this.namespace}/memberships/me/disable`;
+    return this.ajax(url, 'POST', { data: { organizationId } });
+  }
 }

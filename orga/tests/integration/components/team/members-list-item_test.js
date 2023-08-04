@@ -27,9 +27,12 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
   setupIntlRenderingTest(hooks);
   let adminMembership;
   let memberMembership;
+  let store;
 
   hooks.beforeEach(function () {
-    const store = this.owner.lookup('service:store');
+    this.set('noop', sinon.stub());
+
+    store = this.owner.lookup('service:store');
     adminMembership = store.createRecord('membership', {
       id: 1,
       displayRole: 'Administrateur',
@@ -278,6 +281,68 @@ module('Integration | Component | Team::MembersListItem', function (hooks) {
         // then
         sinon.assert.calledWith(removeMembershipStub, memberMembership);
         assert.notContains("Supprimer de l'équipe");
+      });
+    });
+  });
+
+  module('when there is multiple administrators', function () {
+    module('when current admin wants to leave the organization', function () {
+      class CurrentLeavingUserAdminStub extends Service {
+        isAdminInOrganization = true;
+        prescriber = {
+          id: '113',
+        };
+        organization = {
+          credit: 10000,
+        };
+      }
+
+      test('removes current administrator access to the organization, displays a success notification and invalidate the current session', async function (assert) {
+        // given
+        this.owner.register('service:current-user', CurrentLeavingUserAdminStub);
+        const notificationsService = this.owner.lookup('service:notifications');
+        const sessionService = this.owner.lookup('service:session');
+
+        const leavingAdminMembership = store.createRecord('membership', {
+          id: 3,
+          displayRole: 'Administrateur',
+          organizationRole: 'ADMIN',
+          user: store.createRecord('user', {
+            id: 113,
+            firstName: 'Dimi',
+            lastName: 'Trie',
+          }),
+        });
+        const onLeaveOrganizationStub = sinon.stub().resolves();
+
+        this.set('membership', leavingAdminMembership);
+        this.set('isMultipleAdminsAvailable', true);
+        this.set('onLeaveOrganization', onLeaveOrganizationStub);
+
+        sinon.stub(notificationsService, 'sendSuccess');
+        sinon.stub(sessionService, 'waitBeforeInvalidation');
+        sinon.stub(sessionService, 'invalidate');
+
+        // when
+        const screen = await render(
+          hbs`<Team::MembersListItem
+  @membership={{this.membership}}
+  @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
+  @onRemoveMember={{this.noop}}
+  @onLeaveOrganization={{this.onLeaveOrganization}}
+/>`,
+        );
+        await clickByName('Gérer');
+        await click(screen.getByRole('button', { name: 'Quitter cet espace Pix Orga' }));
+        await screen.findByRole('dialog');
+        await click(screen.getByRole('button', { name: 'Confirmer' }));
+
+        // then
+        sinon.assert.calledWith(onLeaveOrganizationStub, leavingAdminMembership);
+        sinon.assert.called(notificationsService.sendSuccess);
+        sinon.assert.called(sessionService.waitBeforeInvalidation);
+        sinon.assert.called(sessionService.invalidate);
+        assert.ok(true);
       });
     });
   });

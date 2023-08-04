@@ -1191,6 +1191,7 @@
       "title": "Team members",
       "actions": {
         "edit-organization-membership-role": "Change role",
+        "leave-organization": "Leave this Pix Orga space",
         "manage": "Manage",
         "remove-membership": "Remove",
         "save": "Save",
@@ -1202,10 +1203,20 @@
           }
         }
       },
+      "modals": {
+        "leave-organization": {
+          "title": "Leave this Pix Orga space",
+          "message": "Are you sure you want to leave this Pix Orga space? You will no longer have access to <strong>{organizationName}</strong>.<br/><br/>Your campaigns remain accessible to the rest of the team and will not be archived.<br/><br/>Your access to other Pix Orga spaces will not be affected.<br/><br/>You'll be disconnected."
+        }
+      },
       "notifications": {
         "change-member-role": {
           "error": "An error occurred while changing this member's role.",
           "success": "The role has been changed."
+        },
+        "leave-organization": {
+          "error": "An error has occurred while deactivating the member.",
+          "success": "You have been successfully removed from the organisation {organizationName}. You will be disconnected from Pix Orga..."
         },
         "remove-membership": {
           "error": "An error occurred while removing this member.",

@@ -1,0 +1,28 @@
+<PixModal
+  @title="{{t 'pages.team-members.modals.leave-organization.title'}}"
+  @showModal={{@isOpen}}
+  @onCloseButtonClick={{@onClose}}
+>
+  <:content>
+    <p class="leave-organization-modal">
+      {{t "pages.team-members.modals.leave-organization.message" organizationName=@organizationName htmlSafe=true}}
+    </p>
+  </:content>
+  <:footer>
+    <div class="leave-organization-modal__action-buttons--container">
+      <ul class="leave-organization-modal__action-buttons--list">
+        <li>
+          <PixButton @triggerAction={{@onClose}} @backgroundColor="grey">
+            {{t "common.actions.cancel"}}
+          </PixButton>
+        </li>
+
+        <li>
+          <PixButton @triggerAction={{@onSubmit}} @backgroundColor="red">
+            {{t "common.actions.confirm"}}
+          </PixButton>
+        </li>
+      </ul>
+    </div>
+  </:footer>
+</PixModal>

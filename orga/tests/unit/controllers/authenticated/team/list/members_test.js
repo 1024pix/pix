@@ -59,4 +59,20 @@ module('Unit | Controller | authenticated/team/list/members', function (hooks) {
       assert.ok(true);
     });
   });
+
+  module('#leaveOrganization', function () {
+    test('disables current user membership', async function (assert) {
+      // given
+      const adapter = { leaveOrganization: sinon.stub().resolves() };
+      const store = this.owner.lookup('service:store');
+      sinon.stub(store, 'adapterFor').returns(adapter);
+
+      // when
+      await controller.leaveOrganization();
+
+      // then
+      sinon.assert.calledWith(adapter.leaveOrganization, currentUser.organization.id);
+      assert.ok(true);
+    });
+  });
 });
