@@ -21,7 +21,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::I
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Certification complémentaire' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Rattacher un nouveau profil cible' })).exists();
+    assert.dom(screen.getByText('Rattacher un nouveau profil cible')).exists();
     assert.dom(screen.getByRole('link', { name: 'ALEX TARGET' })).exists();
     assert.dom(screen.getByText('MARIANNE CERTIF')).exists();
   });

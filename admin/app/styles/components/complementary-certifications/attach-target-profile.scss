@@ -1,0 +1,25 @@
+.complementary-certification-attach-target-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  &__header {
+    @extend %pix-title-s;
+
+    color: $pix-neutral-90;
+    line-height: 36px;
+  }
+
+  &__form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    padding: $pix-spacing-s 0;
+  }
+}
+
+.complementary-certification-attach-target-profile-form {
+  &__submit-button {
+    height: 2.25rem;
+  }
+}
