@@ -39,6 +39,43 @@ describe('Unit | Controller | finalized-session', function () {
         // then
         expect(response).to.deep.equal(serializedFinalizedSessions);
       });
+
+      context('When filtering on publishable version number', function () {
+        it('should find finalized publishable sessions', async function () {
+          // given
+          const version = 3;
+          request = {
+            payload: {},
+            query: {
+              'filter[version]': version,
+            },
+            auth: {
+              credentials: {
+                userId,
+              },
+            },
+          };
+
+          const foundFinalizedSessions = Symbol('foundSession');
+          usecases.findFinalizedSessionsToPublish.withArgs({ version }).resolves(foundFinalizedSessions);
+
+          const toBePublishedSessionSerializer = {
+            serialize: sinon.stub(),
+          };
+          const serializedFinalizedSessions = Symbol('serializedSession');
+          toBePublishedSessionSerializer.serialize
+            .withArgs(foundFinalizedSessions)
+            .resolves(serializedFinalizedSessions);
+
+          // when
+          const response = await finalizedSessionController.findFinalizedSessionsToPublish(request, hFake, {
+            toBePublishedSessionSerializer,
+          });
+
+          // then
+          expect(response).to.deep.equal(serializedFinalizedSessions);
+        });
+      });
     });
   });
 
