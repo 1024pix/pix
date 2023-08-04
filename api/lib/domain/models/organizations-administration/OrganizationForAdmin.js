@@ -81,6 +81,10 @@ class OrganizationForAdmin {
     this.provinceCode = provinceCode;
   }
 
+  updateIdentityProviderForCampaigns(identityProviderForCampaigns) {
+    this.identityProviderForCampaigns = identityProviderForCampaigns;
+  }
+
   updateInformation(organization, dataProtectionOfficer = {}, tags = []) {
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
@@ -92,7 +96,7 @@ class OrganizationForAdmin {
     this.isManagingStudents = organization.isManagingStudents;
     this.documentationUrl = organization.documentationUrl;
     this.showSkills = organization.showSkills;
-    this.identityProviderForCampaigns = organization.identityProviderForCampaigns;
+    this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
     this.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
     this.dataProtectionOfficer.lastName = dataProtectionOfficer.lastName;
     this.dataProtectionOfficer.email = dataProtectionOfficer.email;
