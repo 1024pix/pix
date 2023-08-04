@@ -238,6 +238,40 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.contains(this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.eligible'));
   });
 
+  module('filters', function () {
+    module('connection types', function () {
+      test('displays a list of options to filter the students', async function (assert) {
+        // given
+        this.set('students', []);
+        this.set('divisions', []);
+        this.set('connectionTypes', []);
+        this.set('certificability', []);
+        this.set('search', null);
+
+        const screen = await render(hbs`<ScoOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @searchFilter={{this.search}}
+  @divisionsFilter={{this.divisions}}
+  @connectionTypeFilter={{this.connectionTypes}}
+  @certificabilityFilter={{this.certificability}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+/>`);
+
+        // when 
+        await click(screen.getByLabelText('Rechercher par méthode de connexion'));
+        await screen.findByRole('menu');
+
+        // then 
+        assert.dom(screen.getByRole('checkbox', { name: 'Aucune' })).exists();
+        assert.dom(screen.getByRole('checkbox', { name: 'Adresse e-mail' })).exists();
+        assert.dom(screen.getByRole('checkbox', { name: 'Identifiant' })).exists();
+        assert.dom(screen.getByRole('checkbox', { name: 'Mediacentre' })).exists();
+        assert.dom(screen.getByRole('checkbox', { name: 'Sans Mediacentre' })).exists();
+      });
+    });
+  });
   module('when user is filtering some users', function () {
     test('it should trigger filtering with search', async function (assert) {
       // given
