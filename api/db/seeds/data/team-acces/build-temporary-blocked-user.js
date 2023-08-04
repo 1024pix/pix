@@ -1,4 +1,4 @@
-import { DEFAULT_PASSWORD } from './constants.js';
+import { DEFAULT_PASSWORD } from '../../../constants.js';
 
 function _buildUserBeforeBeingTemporarilyBlocked(databaseBuilder) {
   const temporaryBlockedUser = databaseBuilder.factory.buildUser.withRawPassword({
