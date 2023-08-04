@@ -1,5 +1,5 @@
-const findFinalizedSessionsToPublish = function ({ finalizedSessionRepository }) {
-  return finalizedSessionRepository.findFinalizedSessionsToPublish();
+const findFinalizedSessionsToPublish = function ({ finalizedSessionRepository, version }) {
+  return finalizedSessionRepository.findFinalizedSessionsToPublish({ version });
 };
 
 export { findFinalizedSessionsToPublish };

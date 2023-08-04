@@ -39,4 +39,25 @@ describe('Unit | UseCase | findFinalizedSessionsToPublish', function () {
       expect(result).to.deep.equal([]);
     });
   });
+
+  context('when filtering on a specific version', function () {
+    it('should get a list of publishable sessions', async function () {
+      // given
+      const finalizedSessionRepository = {
+        findFinalizedSessionsToPublish: sinon.stub(),
+      };
+
+      const v3PublishableSession = {
+        ...domainBuilder.buildFinalizedSession({ isPublishable: true, publishedAt: null }),
+        version: 3,
+      };
+
+      finalizedSessionRepository.findFinalizedSessionsToPublish.withArgs({ version: 3 }).resolves(v3PublishableSession);
+      // when
+      const result = await findFinalizedSessionsToPublish({ finalizedSessionRepository, version: 3 });
+
+      // then
+      expect(result).to.deep.equal(v3PublishableSession);
+    });
+  });
 });
