@@ -7,7 +7,7 @@ async function updateOrganization({ organization, organizationForAdminRepository
     throw new OrganizationNotFoundError();
   }
 
-  return await organizationForAdminRepository.update(organization);
+  await organizationForAdminRepository.update(organization);
 }
 
 export { updateOrganization };

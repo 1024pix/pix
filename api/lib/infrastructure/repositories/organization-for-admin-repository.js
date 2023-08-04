@@ -154,6 +154,10 @@ async function _removeTags(organizationTags) {
     .delete();
 }
 
+async function _addOrUpdateDataProtectionOfficer(dataProtectionOfficer) {
+  await knex('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
+}
+
 const update = async function (organization) {
   const organizationRawData = _.pick(organization, [
     'name',
@@ -172,38 +176,12 @@ const update = async function (organization) {
   await _enableFeatures(organization.features, organization.id);
   await _disableFeatures(organization.features, organization.id);
 
-  await knex('data-protection-officers')
-    .insert(organization.dataProtectionOfficer)
-    .onConflict('organizationId')
-    .merge();
+  await _addOrUpdateDataProtectionOfficer(organization.dataProtectionOfficer);
 
   await _addTags(organization.tagsToAdd);
   await _removeTags(organization.tagsToRemove);
 
-  const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
-    .update(organizationRawData)
-    .where({ id: organization.id })
-    .returning('*');
-
-  const tagsDB = await knex('tags')
-    .select(['tags.id', 'tags.name'])
-    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
-    .where('organization-tags.organizationId', organizationDB.id);
-
-  const archivist = await knex('users')
-    .select(['users.firstName', 'users.lastName'])
-    .join('organizations', 'organizations.archivedBy', 'users.id')
-    .where('organizations.id', organizationDB.id)
-    .first();
-
-  const tags = tagsDB.map((tagDB) => new Tag(tagDB));
-
-  if (archivist) {
-    organizationDB.archivistFirstName = archivist.firstName;
-    organizationDB.archivistLastName = archivist.lastName;
-  }
-
-  return _toDomain({ ...organizationDB, tags });
+  await knex(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id }).returning('*');
 };
 
 const archive = async function ({ id, archivedBy }) {

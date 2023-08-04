@@ -3,7 +3,6 @@ import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/er
 import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import * as apps from '../../../../lib/domain/constants.js';
@@ -214,40 +213,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
       await knex('organization-features').delete();
       await knex('organization-tags').delete();
       await knex('data-protection-officers').delete();
-    });
-
-    it('should return an OrganizationForAdmin domain object with related tags', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
-      const organization = databaseBuilder.factory.buildOrganization({
-        name: 'super orga',
-        createdBy: userId,
-        archivedBy: userId,
-        archivedAt: now,
-      });
-      const tagId = databaseBuilder.factory.buildTag({ name: 'orga tag' }).id;
-      databaseBuilder.factory.buildTag({ name: 'other tag' }).id;
-      databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId });
-      await databaseBuilder.commit();
-
-      // when
-      const organizationToUpdate = new OrganizationForAdmin({
-        id: organization.id,
-        type: 'SCO',
-        logoUrl: 'http://new.logo.url',
-        externalId: '999Z527F',
-        provinceCode: '999',
-        isManagingStudents: true,
-        credit: 50,
-        email: 'email@example.net',
-        documentationUrl: 'https://pix.fr/',
-        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-      });
-      const organizationSaved = await organizationForAdminRepository.update(organizationToUpdate);
-
-      // then
-      expect(organizationSaved).to.be.an.instanceof(OrganizationForAdmin);
-      expect(organizationSaved.tags).to.deep.equal([{ id: tagId, name: 'orga tag' }]);
     });
 
     it('should enable feature', async function () {
