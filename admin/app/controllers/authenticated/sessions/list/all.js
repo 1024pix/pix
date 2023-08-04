@@ -14,7 +14,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
     'certificationCenterName',
     'certificationCenterExternalId',
     'status',
-    'resultsSentToPrescriberAt',
+    'version',
   ];
   DEBOUNCE_MS = config.pagination.debounce;
 
@@ -25,7 +25,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked certificationCenterExternalId = null;
   @tracked certificationCenterType = null;
   @tracked status = null;
-  @tracked resultsSentToPrescriberAt = null;
+  @tracked version = null;
 
   pendingFilters = {};
 
@@ -39,8 +39,8 @@ export default class AuthenticatedSessionsListAllController extends Controller {
         value = param.target.value; // param is an InputEvent
         break;
       case 'status':
+      case 'version':
       case 'certificationCenterType':
-      case 'resultsSentToPrescriberAt':
         debounceDuration = 0;
         value = param;
         break;
@@ -64,14 +64,14 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   }
 
   @action
-  updateSessionStatusFilter(newValue) {
-    this.status = this._getOrNullForOptionAll(newValue);
+  updateSessionVersionFilter(newValue) {
+    this.version = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 
   @action
-  updateSessionResultsSentToPrescriberFilter(newValue) {
-    this.resultsSentToPrescriberAt = this._getOrNullForOptionAll(newValue);
+  updateSessionStatusFilter(newValue) {
+    this.status = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 
