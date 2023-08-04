@@ -12,6 +12,8 @@
 .challenge-response {
   @extend %pix-body-m;
 
+  display: flex;
+  flex-direction: column;
   margin: 4px;
   background-color: $pix-neutral-10;
 
@@ -98,6 +100,7 @@ form .challenge-response {
   .challenge-response__instructions {
     @extend %pix-body-s;
 
+    float: left;
     margin-top: 0;
     color: $pix-neutral-60;
 
