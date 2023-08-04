@@ -920,7 +920,8 @@
         "empty": "–",
         "identifiant": "Username",
         "mediacentre": "Mediacentre",
-        "none": "None"
+        "none": "None",
+        "without-mediacentre": "Without Mediacentre"
       },
       "filter": {
         "title": "Filters",

@@ -923,7 +923,8 @@
         "empty": "–",
         "identifiant": "Identifiant",
         "mediacentre": "Mediacentre",
-        "none": "Aucune"
+        "none": "Aucune",
+        "without-mediacentre": "Sans Mediacentre"
       },
       "filter": {
         "title": "Filtres",
