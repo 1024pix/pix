@@ -56,6 +56,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createV3Session({ databaseBuilder });
   await _createPublishedSession({ databaseBuilder });
   await _createProStartedSession({ databaseBuilder });
+  await _createIssueReportCategories({ databaseBuilder });
 }
 
 export { teamCertificationDataBuilder };
@@ -417,4 +418,25 @@ async function _createComplementaryCertificationCampaign({ databaseBuilder }) {
 function _createCodeCampaign(complementaryCertificationId) {
   const campaignCode = `${complementaryCertificationId}`.padStart(9, 'CERTIF_');
   return campaignCode;
+}
+
+async function _createIssueReportCategories({ databaseBuilder }) {
+  const candidateInformationChangeId = databaseBuilder.factory.buildIssueReportCategory({
+    name: 'CANDIDATE_INFORMATIONS_CHANGES',
+    isDeprecated: false,
+    isImpactful: false,
+  }).id;
+
+  databaseBuilder.factory.buildIssueReportCategory({
+    name: 'NAME_OR_BIRTHDATE',
+    isDeprecated: false,
+    isImpactful: true,
+    issueReportCategoryId: candidateInformationChangeId,
+  });
+  databaseBuilder.factory.buildIssueReportCategory({
+    name: 'EXTRA_TIME_PERCENTAGE',
+    isDeprecated: false,
+    isImpactful: false,
+    issueReportCategoryId: candidateInformationChangeId,
+  });
 }

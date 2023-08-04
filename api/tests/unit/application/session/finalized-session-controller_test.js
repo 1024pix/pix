@@ -75,6 +75,43 @@ describe('Unit | Controller | finalized-session', function () {
         // then
         expect(response).to.deep.equal(serializedFinalizedSessions);
       });
+      context('When filtering on version number', function () {
+        it('should find finalized sessions with required action', async function () {
+          // given
+          const version = 3;
+          request = {
+            payload: {},
+            query: {
+              'filter[version]': version,
+            },
+            auth: {
+              credentials: {
+                userId,
+              },
+            },
+          };
+
+          const foundFinalizedSessions = Symbol('foundSession');
+          sinon.stub(usecases, 'findFinalizedSessionsWithRequiredAction');
+          usecases.findFinalizedSessionsWithRequiredAction.withArgs({ version }).resolves(foundFinalizedSessions);
+
+          const withRequiredActionSessionSerializer = {
+            serialize: sinon.stub(),
+          };
+          const serializedFinalizedSessions = Symbol('serializedSession');
+          withRequiredActionSessionSerializer.serialize
+            .withArgs(foundFinalizedSessions)
+            .resolves(serializedFinalizedSessions);
+
+          // when
+          const response = await finalizedSessionController.findFinalizedSessionsWithRequiredAction(request, hFake, {
+            withRequiredActionSessionSerializer,
+          });
+
+          // then
+          expect(response).to.deep.equal(serializedFinalizedSessions);
+        });
+      });
     });
   });
 });

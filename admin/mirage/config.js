@@ -38,6 +38,7 @@ import {
   updateTraining,
 } from './handlers/trainings';
 import { findFrameworkAreas } from './handlers/frameworks';
+import { getWithRequiredActionSessions } from './handlers/get-with-required-action-sessions';
 
 export default function makeServer(config) {
   const finalConfig = {
@@ -91,10 +92,7 @@ function routes() {
     const toBePublishedSessions = schema.toBePublishedSessions.all();
     return toBePublishedSessions;
   });
-  this.get('/admin/sessions/with-required-action', (schema) => {
-    const withRequiredActionSessions = schema.withRequiredActionSessions.all();
-    return withRequiredActionSessions;
-  });
+  this.get('/admin/sessions/with-required-action', getWithRequiredActionSessions);
   this.patch('/admin/sessions/:id/publish', () => {
     return new Response(204);
   });
