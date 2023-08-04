@@ -39,6 +39,9 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
         // we only retrieve GAR authentication method in join clause
         this.orWhereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
       }
+      if (connectionTypes.includes('without_mediacentre')) {
+        this.orWhereRaw('"authentication-methods"."externalIdentifier" IS NULL');
+      }
     });
   }
   if (certificability) {
