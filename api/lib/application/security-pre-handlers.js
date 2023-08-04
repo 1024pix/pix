@@ -1,4 +1,7 @@
 import bluebird from 'bluebird';
+import jsonapiSerializer from 'jsonapi-serializer';
+import lodash from 'lodash';
+
 import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
 import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
 import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
@@ -11,6 +14,7 @@ import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './u
 import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
 import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
+import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import * as checkUserIsMemberOfAnOrganizationUseCase from './usecases/checkUserIsMemberOfAnOrganization.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
@@ -20,17 +24,12 @@ import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/che
 import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
 import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
-import { Organization } from '../../lib/domain/models/Organization.js';
-import { ForbiddenAccess, NotFoundError } from '../..//lib/domain/errors.js';
-import { PIX_ADMIN } from '../..//lib/domain/constants.js';
-
-import jsonapiSerializer from 'jsonapi-serializer';
+import { Organization } from '../domain/models/index.js';
+import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
+import { PIX_ADMIN } from '../domain/constants.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
-
 const { has } = lodash;
-
-import lodash from 'lodash';
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -160,10 +159,15 @@ function checkUserIsAdminInOrganization(request, h, dependencies = { checkUserIs
   const userId = request.auth.credentials.userId;
 
   //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
-  const organizationId =
-    request.path && request.path.includes('memberships')
-      ? request.payload.data.relationships.organization.data.id
-      : request.params.id;
+  let organizationId;
+
+  if (request.path?.includes('memberships/me')) {
+    organizationId = request.payload.organizationId;
+  } else if (request.path?.includes('memberships')) {
+    organizationId = request.payload.data.relationships.organization.data.id;
+  } else {
+    organizationId = request.params.id;
+  }
 
   return dependencies.checkUserIsAdminInOrganizationUseCase
     .execute(userId, organizationId)
@@ -557,35 +561,65 @@ async function checkUserOwnsCertificationCourse(
   }
 }
 
+async function checkUserCanDisableHisOrganizationMembership(
+  request,
+  h,
+  dependencies = { checkUserCanDisableHisOrganizationMembershipUseCase },
+) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = request.payload.organizationId;
+
+  try {
+    const canDisableHisOrganizationMembership =
+      await dependencies.checkUserCanDisableHisOrganizationMembershipUseCase.execute({
+        organizationId,
+        userId,
+      });
+
+    if (canDisableHisOrganizationMembership) {
+      return h.response(true);
+    }
+
+    return _replyForbiddenError(h);
+  } catch (_) {
+    return _replyForbiddenError(h);
+  }
+}
+
 function _noOrganizationFound(error) {
   return error instanceof NotFoundError;
 }
 
 const securityPreHandlers = {
+  adminMemberHasAtLeastOneAccessOf,
+  checkAdminMemberHasRoleCertif,
+  checkAdminMemberHasRoleMetier,
+  checkAdminMemberHasRoleSuperAdmin,
+  checkAdminMemberHasRoleSupport,
+  checkAuthorizationToManageCampaign,
+  checkCertificationCenterIsNotScoManagingStudents,
   checkIfUserIsBlocked,
   checkPix1dActivated,
   checkRequestedUserIsAuthenticatedUser,
-  checkUserBelongsToOrganizationManagingStudents,
-  checkUserBelongsToScoOrganizationAndManagesStudents,
-  checkCertificationCenterIsNotScoManagingStudents,
-  checkUserBelongsToSupOrganizationAndManagesStudents,
-  checkUserDoesNotBelongsToScoOrganizationManagingStudents,
-  checkAdminMemberHasRoleSuperAdmin,
-  checkAdminMemberHasRoleCertif,
-  checkAdminMemberHasRoleSupport,
-  checkAdminMemberHasRoleMetier,
-  checkUserIsAdminInOrganization,
-  checkAuthorizationToManageCampaign,
-  checkUserIsAdminInSCOOrganizationManagingStudents,
-  checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserBelongsToLearnersOrganization,
   checkUserBelongsToOrganization,
+  checkUserBelongsToOrganizationManagingStudents,
+  checkUserBelongsToScoOrganizationAndManagesStudents,
+  checkUserBelongsToSupOrganizationAndManagesStudents,
+  checkUserCanDisableHisOrganizationMembership,
+  checkUserDoesNotBelongsToScoOrganizationManagingStudents,
+  checkUserIsAdminInOrganization,
+  checkUserIsAdminInSCOOrganizationManagingStudents,
+  checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,
-  checkUserOwnsCertificationCourse,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
-  adminMemberHasAtLeastOneAccessOf,
+  checkUserOwnsCertificationCourse,
 };
 
 export { securityPreHandlers };

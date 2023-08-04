@@ -505,6 +505,16 @@ function routes() {
     return new Response(204);
   });
 
+  this.post('/memberships/me/disable', (schema, request) => {
+    const { requestHeaders } = request;
+    const token = requestHeaders['Authorization'];
+    const decodedToken = JSON.parse(atob(token.replace('Bearer aaa.', '').replace('.bbb', '')));
+    const membership = schema.memberships.findBy({ userId: decodedToken.user_id });
+    membership.destroy();
+
+    return new Response(204);
+  });
+
   this.get('/frameworks/for-target-profile-submission', (schema) => {
     return schema.frameworks.all();
   });

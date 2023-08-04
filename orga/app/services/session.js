@@ -49,6 +49,12 @@ export default class CurrentSessionService extends SessionService {
     this.locale.setLocale(locale);
   }
 
+  waitBeforeInvalidation(millisecondsToWait) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), millisecondsToWait);
+    });
+  }
+
   _getRouteAfterInvalidation() {
     const alternativeRootURL = this.alternativeRootURL;
     this.alternativeRootURL = null;
