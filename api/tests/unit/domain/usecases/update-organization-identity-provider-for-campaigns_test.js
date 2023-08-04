@@ -1,6 +1,7 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { updateOrganization } from '../../../../lib/domain/usecases/update-organization.js';
+import { updateOrganizationIdentityProviderForCampaigns } from '../../../../lib/domain/usecases/update-organization-identity-provider-for-campaigns.js';
 import { OrganizationNotFoundError } from '../../../../lib/domain/errors.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | UseCase | Update organization', function () {
   context('when organization exists', function () {
@@ -9,17 +10,23 @@ describe('Unit | UseCase | Update organization', function () {
         // given
         const organization = domainBuilder.buildOrganization();
         const organizationForAdminRepository = {
-          get: sinon.stub().resolves({ ...organization }),
+          get: sinon.stub().resolves(new OrganizationForAdmin({ ...organization })),
           update: sinon.stub().resolves(),
         };
 
         // when
         organization.identityProviderForCampaigns = 'NEW_IDENTITY_PROVIDER';
-        await updateOrganization({ organization, organizationForAdminRepository });
+        await updateOrganizationIdentityProviderForCampaigns({
+          organizationId: organization.id,
+          identityProviderForCampaigns: organization.identityProviderForCampaigns,
+          organizationForAdminRepository,
+        });
 
         // then
         expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organization.id);
-        expect(organizationForAdminRepository.update).to.have.been.calledWithMatch(organization);
+        expect(organizationForAdminRepository.update).to.have.been.calledWithMatch({
+          identityProviderForCampaigns: organization.identityProviderForCampaigns,
+        });
       });
     });
   });
@@ -31,8 +38,9 @@ describe('Unit | UseCase | Update organization', function () {
       const organization = domainBuilder.buildOrganization();
 
       // when
-      const error = await catchErr(updateOrganization)({
-        organization,
+      const error = await catchErr(updateOrganizationIdentityProviderForCampaigns)({
+        organizationId: organization.id,
+        identityProviderForCampaigns: organization.identityProviderForCampaigns,
         organizationForAdminRepository,
       });
 

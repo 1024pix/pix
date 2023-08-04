@@ -374,4 +374,19 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.provinceCode).to.equal(newProvinceCode);
     });
   });
+
+  context('#updateIdentityProviderForCampaigns', function () {
+    it('should update IdentityProviderForCampaigns', function () {
+      // given
+      const initialIdentityProviderForCampaigns = 'FWB';
+      const newIdentityProviderForCampaigns = 'GAR';
+      const givenOrganization = new OrganizationForAdmin({
+        identityProviderForCampaigns: initialIdentityProviderForCampaigns,
+      });
+      // when
+      givenOrganization.updateIdentityProviderForCampaigns(newIdentityProviderForCampaigns);
+      // then
+      expect(givenOrganization.identityProviderForCampaigns).to.equal(newIdentityProviderForCampaigns);
+    });
+  });
 });

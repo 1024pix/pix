@@ -5,7 +5,7 @@ import bluebird from 'bluebird';
 
 import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { disconnect } from '../../db/knex-database-connection.js';
-import { updateOrganization } from '../../lib/domain/usecases/update-organization.js';
+import { updateOrganizationIdentityProviderForCampaigns } from '../../lib/domain/usecases/update-organization-identity-provider-for-campaigns.js';
 import * as organizationForAdminRepository from '../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 
 const modulePath = fileURLToPath(import.meta.url);
@@ -53,14 +53,10 @@ async function _updateOrganizationsProvinceCode(filePath) {
 
   console.log('Updating data...');
   await bluebird.mapSeries(organizationsDTO, async (organizationDTO) => {
-    const organization = {
-      id: organizationDTO.organizationId,
-      identityProviderForCampaigns: organizationDTO.identityProviderForCampaigns,
-    };
-
     try {
-      await updateOrganization({
-        organization,
+      await updateOrganizationIdentityProviderForCampaigns({
+        organizationId: organizationDTO.id,
+        identityProviderForCampaigns: organizationDTO.identityProviderForCampaigns,
         organizationForAdminRepository,
       });
     } catch (error) {
