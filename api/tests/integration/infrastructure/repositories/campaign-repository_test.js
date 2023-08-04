@@ -1,11 +1,11 @@
 import {
-  expect,
-  domainBuilder,
+  catchErr,
   databaseBuilder,
+  domainBuilder,
+  expect,
   knex,
   mockLearningContent,
   sinon,
-  catchErr,
 } from '../../../test-helper.js';
 
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
@@ -13,8 +13,149 @@ import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
+import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
+import { buildFramework } from '../../../tooling/domain-builder/factory/build-framework.js';
+import { buildSkill } from '../../../tooling/domain-builder/factory/build-skill.js';
+import { buildTube } from '../../../tooling/domain-builder/factory/build-tube.js';
+import { buildArea } from '../../../tooling/domain-builder/factory/build-area.js';
+import { buildCompetence } from '../../../tooling/domain-builder/factory/build-competence.js';
+import { buildThematic } from '../../../tooling/domain-builder/factory/build-thematic.js';
 
 describe('Integration | Repository | Campaign', function () {
+  describe('#areKnowledgeElementsResettable', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { multipleSendings: true, areKnowledgeElementsResettable: true, expected: true },
+      { multipleSendings: true, areKnowledgeElementsResettable: false, expected: false },
+      { multipleSendings: false, areKnowledgeElementsResettable: true, expected: false },
+      { multipleSendings: false, areKnowledgeElementsResettable: false, expected: false },
+    ].forEach(({ multipleSendings, areKnowledgeElementsResettable, expected }) => {
+      it(`should return ${expected} if campaign multipleSendings equal ${multipleSendings} and target profiles areKnowledgeElementsResettable equal ${areKnowledgeElementsResettable}`, async function () {
+        // given
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable }).id;
+
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          code: 'BADOIT710',
+          multipleSendings,
+          targetProfileId,
+          type: 'ASSESSMENT',
+        }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const canReset = await campaignRepository.areKnowledgeElementsResettable({
+          id: campaignId,
+        });
+
+        // then
+        expect(canReset).to.equal(expected);
+      });
+    });
+  });
+
+  describe('#findTubes', function () {
+    it('should return the tubes for the campaign', async function () {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'toto' });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tata' });
+      databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'foo' });
+
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        code: 'BADOIT710',
+        multipleSendings: true,
+        targetProfileId,
+        type: 'ASSESSMENT',
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const tubes = await campaignRepository.findTubes({ campaignId });
+
+      // then
+      expect(tubes).to.have.lengthOf(2);
+      expect(tubes).to.have.members(['toto', 'tata']);
+    });
+  });
+
+  describe('#findAllSkills', function () {
+    it('should return the skills for the campaign', async function () {
+      // given
+      const framework = buildFramework({ id: 'frameworkId', name: 'someFramework' });
+      const competenceId = 'competenceId';
+      const skill1 = {
+        id: 'recSK123',
+        name: '@sau3',
+        pixValue: 3,
+        competenceId,
+        tutorialIds: [],
+        learningMoreTutorialIds: [],
+        tubeId: 'tubeId1',
+        version: 1,
+        level: 3,
+      };
+      const skill2 = {
+        id: 'recSK456',
+        name: '@sau4',
+        pixValue: 3,
+        competenceId,
+        tutorialIds: [],
+        learningMoreTutorialIds: [],
+        tubeId: 'tubeId2',
+        version: 1,
+        level: 4,
+      };
+      const skill3 = {
+        id: 'recSK789',
+        name: '@sau7',
+        pixValue: 3,
+        competenceId,
+        tutorialIds: [],
+        learningMoreTutorialIds: [],
+        tubeId: 'tubeId3',
+        version: 1,
+        level: 7,
+      };
+      const tube1 = buildTube({ id: 'tubeId1', competenceId, skills: [skill1] });
+      const tube2 = buildTube({ id: 'tubeId2', competenceId, skills: [skill2] });
+      const tube3 = buildTube({ id: 'tubeId3', competenceId, skills: [skill3] });
+      const area = buildArea({ id: 'areaId', frameworkId: framework.id });
+      const competence = buildCompetence({ id: 'competenceId', area, tubes: [tube1, tube2, tube3] });
+      const thematic = buildThematic({
+        id: 'thematicId',
+        competenceId: 'competenceId',
+        tubeIds: ['tubeId1', 'tubeId2', 'tubeId3'],
+      });
+      competence.thematics = [thematic];
+      area.competences = [competence];
+      framework.areas = [area];
+      const learningContent = buildLearningContent([framework]);
+      mockLearningContent(learningContent);
+
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId1' });
+      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId2' });
+      databaseBuilder.factory.buildTargetProfileTube({ tubeId: 'tubeId3' });
+
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        code: 'BADOIT710',
+        multipleSendings: true,
+        targetProfileId,
+        type: 'ASSESSMENT',
+      }).id;
+      await databaseBuilder.commit();
+
+      // When
+      const skills = await campaignRepository.findAllSkills({ campaignId });
+
+      // Then
+      expect(skills).to.have.lengthOf(2);
+      const expectedSkill1 = buildSkill({ ...skill1, difficulty: skill1.level });
+      const expectedSkill2 = buildSkill({ ...skill2, difficulty: skill2.level });
+      expect(skills).to.have.deep.members([expectedSkill1, expectedSkill2]);
+    });
+  });
+
   describe('#isCodeAvailable', function () {
     beforeEach(async function () {
       databaseBuilder.factory.buildCampaign({ code: 'BADOIT710' });

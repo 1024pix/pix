@@ -3,8 +3,27 @@ import { NotFoundError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import * as skillRepository from './skill-repository.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 
 const CAMPAIGNS_TABLE = 'campaigns';
+
+const areKnowledgeElementsResettable = async function ({
+  id,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const result = await knexConn('campaigns')
+    .join('target-profiles', function () {
+      this.on('target-profiles.id', 'campaigns.targetProfileId').andOnVal(
+        'target-profiles.areKnowledgeElementsResettable',
+        'true',
+      );
+    })
+    .where({ 'campaigns.id': id, 'campaigns.multipleSendings': true })
+    .first();
+  return Boolean(result);
+};
 
 const isCodeAvailable = async function (code) {
   return !(await knex('campaigns').first('id').where({ code }));
@@ -162,6 +181,22 @@ const findSkillIdsByCampaignParticipationId = async function ({ campaignParticip
   return skills.map(({ id }) => id);
 };
 
+const findTubes = async function ({ campaignId, domainTransaction }) {
+  const knexConn = domainTransaction?.knexTransaction ?? knex;
+  return await knexConn('target-profile_tubes')
+    .pluck('tubeId')
+    .join('campaigns', 'campaigns.targetProfileId', 'target-profile_tubes.targetProfileId')
+    .where('campaigns.id', campaignId);
+};
+
+const findAllSkills = async function ({ campaignId, domainTransaction }) {
+  const knexConn = domainTransaction?.knexTransaction ?? knex;
+  const tubeIds = await findTubes({ campaignId, domainTransaction: knexConn });
+  const tubes = await tubeDatasource.findByRecordIds(tubeIds);
+  const skillIds = tubes.flatMap((tube) => tube.skillIds);
+  return skillRepository.findByRecordIds(skillIds);
+};
+
 export {
   isCodeAvailable,
   getByCode,
@@ -177,6 +212,9 @@ export {
   findSkills,
   findSkillsByCampaignParticipationId,
   findSkillIdsByCampaignParticipationId,
+  findAllSkills,
+  areKnowledgeElementsResettable,
+  findTubes,
 };
 
 async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {
