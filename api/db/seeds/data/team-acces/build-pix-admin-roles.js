@@ -1,4 +1,4 @@
-import { DEFAULT_PASSWORD } from './constants.js';
+import { DEFAULT_PASSWORD } from '../../../constants.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
