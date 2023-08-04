@@ -102,6 +102,17 @@ module('Acceptance | Organizations | List', function (hooks) {
         // then
         assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).hasValue('1234567A');
       });
+
+      test('it displays non archived organizations', async function (assert) {
+        // given
+        const screen = await visit('/organizations/list');
+
+        // when
+        await click(screen.getByRole('checkbox'));
+
+        // then
+        assert.strictEqual(currentURL(), '/organizations/list?hideArchived=true');
+      });
     });
 
     test('it should redirect to organization details on click', async function (assert) {

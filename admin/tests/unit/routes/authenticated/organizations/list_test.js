@@ -33,6 +33,7 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
           name: '',
           type: '',
           externalId: '',
+          hideArchived: undefined,
         };
 
         // then
@@ -48,11 +49,13 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         params.name = ' someName';
         params.type = 'someType ';
         params.externalId = 'someExternalId';
+        params.hideArchived = true;
         expectedQueryArgs.filter = {
           id: 'someId',
           name: 'someName',
           type: 'someType',
           externalId: 'someExternalId',
+          hideArchived: true,
         };
 
         // when
@@ -76,6 +79,7 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         name: 'someName',
         type: 'someType',
         externalId: 'someExternalId',
+        hideArchived: false,
       };
     });
 
@@ -91,6 +95,7 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         assert.strictEqual(controller.name, null);
         assert.strictEqual(controller.type, null);
         assert.strictEqual(controller.externalId, null);
+        assert.false(controller.hideArchived);
       });
     });
 
@@ -106,6 +111,7 @@ module('Unit | Route | authenticated/organizations/list', function (hooks) {
         assert.strictEqual(controller.name, 'someName');
         assert.strictEqual(controller.type, 'someType');
         assert.strictEqual(controller.externalId, 'someExternalId');
+        assert.false(controller.hideArchived);
       });
     });
   });

@@ -10,7 +10,7 @@ const DEFAULT_PAGE_NUMBER = 1;
 export default class ListController extends Controller {
   @service accessControl;
 
-  queryParams = ['pageNumber', 'pageSize', 'id', 'name', 'type', 'externalId'];
+  queryParams = ['pageNumber', 'pageSize', 'id', 'name', 'type', 'externalId', 'hideArchived'];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
@@ -19,6 +19,7 @@ export default class ListController extends Controller {
   @tracked name = null;
   @tracked type = null;
   @tracked externalId = null;
+  @tracked hideArchived = false;
 
   updateFilters(filters) {
     Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
