@@ -7,7 +7,9 @@ async function updateOrganizationProvinceCode({ organizationId, provinceCode, or
     throw new OrganizationNotFoundError();
   }
 
-  await organizationForAdminRepository.update({ id: organization.id, provinceCode });
+  organization.updateProvinceCode(provinceCode);
+
+  await organizationForAdminRepository.update(organization);
 }
 
 export { updateOrganizationProvinceCode };
