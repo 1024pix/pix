@@ -148,10 +148,61 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
               name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
             }),
           );
+
           // then
           assert.strictEqual(currentURL(), '/eleves?connectionTypes=%5B%22email%22%5D');
           assert.contains('Rambo');
           assert.notContains('Norris');
+        });
+
+        module('when user select "Sans Mediacentre" in connection type filter', function () {
+          test('it displays a list of students without the "Mediacentre" connection type', async function (assert) {
+            // given
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Mikasa',
+              lastName: 'Ackerman',
+              email: 'mikasa@snk.net',
+              hasEmail: true,
+              isAuthenticatedFromGar: false,
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Eren',
+              lastName: 'Jager',
+              username: 'titan.0308',
+              hasUsername: true,
+              email: 'eren@symlink.net',
+              hasEmail: true,
+              isAuthenticatedFromGar: true,
+              isAssociated: true,
+            });
+            server.create('sco-organization-participant', {
+              organizationId,
+              firstName: 'Armin',
+              lastName: 'Arlett',
+              hasEmail: false,
+              hasUsername: false,
+              isAuthenticatedFromGar: true,
+            });
+
+            // when
+            const screen = await visit('/eleves');
+            await click(
+              screen.getByLabelText(this.intl.t('pages.sco-organization-participants.filter.login-method.aria-label')),
+            );
+            await click(
+              await screen.findByRole('checkbox', {
+                name: this.intl.t('pages.sco-organization-participants.connection-types.without-mediacentre'),
+              }),
+            );
+
+            // then
+            assert.strictEqual(currentURL(), '/eleves?connectionTypes=%5B%22without_mediacentre%22%5D');
+            assert.contains('Mikasa');
+            assert.notContains('Eren');
+            assert.notContains('Armin');
+          });
         });
 
         test('it should paginate the students list', async function (assert) {

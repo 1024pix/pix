@@ -1,3 +1,3 @@
-const DEFAULT_PASSWORD = 'pix123';
+const SCO_ORGANIZATION_ID = 2023;
 
-export { DEFAULT_PASSWORD };
+export { SCO_ORGANIZATION_ID };

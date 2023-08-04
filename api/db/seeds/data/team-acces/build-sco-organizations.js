@@ -2,6 +2,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/id
 import { PIX_PUBLIC_TARGET_PROFILE_ID, REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { PIX_ORGA_ALL_ORGA_ID } from './build-organization-users.js';
+import { SCO_ORGANIZATION_ID } from './constants.js';
 
 export function buildScoOrganizations(databaseBuilder) {
   _buildCollegeTheNightWatchOrganization(databaseBuilder);
@@ -9,6 +10,7 @@ export function buildScoOrganizations(databaseBuilder) {
 
 function _buildCollegeTheNightWatchOrganization(databaseBuilder) {
   const organization = databaseBuilder.factory.buildOrganization({
+    id: SCO_ORGANIZATION_ID,
     type: 'SCO',
     name: 'Collège House of The Dragon',
     isManagingStudents: true,
@@ -39,16 +41,5 @@ function _buildCollegeTheNightWatchOrganization(databaseBuilder) {
     customLandingPageText: null,
     idPixLabel: null,
     createdAt: new Date('2023-07-27'),
-  });
-
-  databaseBuilder.factory.buildOrganizationLearner({
-    firstName: 'Bart',
-    lastName: 'Simpson',
-    birthdate: '2013-02-23',
-    division: '6B',
-    group: null,
-    organizationId: organization.id,
-    userId: null,
-    nationalStudentId: '123456789BS',
   });
 }
