@@ -56,9 +56,9 @@ function _getFiltersFromQueryParams(queryParams) {
       ? queryParams['filter[status]'].trim() || null
       : null
     : null;
-  const resultsSentToPrescriberAtFilter = queryParams
-    ? queryParams['filter[resultsSentToPrescriberAt]']
-      ? queryParams['filter[resultsSentToPrescriberAt]'].trim() || null
+  const versionFilter = queryParams
+    ? queryParams['filter[version]']
+      ? queryParams['filter[version]'].trim() || null
       : null
     : null;
   return {
@@ -66,7 +66,7 @@ function _getFiltersFromQueryParams(queryParams) {
     certificationCenterNameFilter,
     certificationCenterExternalIdFilter,
     statusFilter,
-    resultsSentToPrescriberAtFilter,
+    versionFilter,
   };
 }
 
@@ -81,13 +81,7 @@ function _areFiltersValid({ idFilter }) {
 
 function _applyFilters(
   sessions,
-  {
-    idFilter,
-    certificationCenterNameFilter,
-    certificationCenterExternalIdFilter,
-    statusFilter,
-    resultsSentToPrescriberAtFilter,
-  },
+  { idFilter, certificationCenterNameFilter, certificationCenterExternalIdFilter, statusFilter, versionFilter },
 ) {
   let filteredSessions = sessions;
   if (idFilter) {
@@ -112,17 +106,10 @@ function _applyFilters(
   if (statusFilter) {
     filteredSessions = filter(filteredSessions, { status: statusFilter });
   }
-  if (resultsSentToPrescriberAtFilter) {
-    if (resultsSentToPrescriberAtFilter === 'true') {
-      filteredSessions = filter(filteredSessions, (session) => {
-        return Boolean(session.resultsSentToPrescriberAt);
-      });
-    }
-    if (resultsSentToPrescriberAtFilter === 'false') {
-      filteredSessions = filter(filteredSessions, (session) => {
-        return !session.resultsSentToPrescriberAt;
-      });
-    }
+
+  if (versionFilter) {
+    filteredSessions = filter(filteredSessions, { version: +versionFilter });
+    console.log(filteredSessions);
   }
 
   return filteredSessions;

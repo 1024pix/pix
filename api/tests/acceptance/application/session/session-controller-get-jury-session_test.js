@@ -83,6 +83,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
               'has-supervisor-access': true,
               'has-joining-issue': false,
               'has-incident': false,
+              version: 2,
             },
             relationships: {
               'assigned-certification-officer': { data: { type: 'user', id: '100002' } },

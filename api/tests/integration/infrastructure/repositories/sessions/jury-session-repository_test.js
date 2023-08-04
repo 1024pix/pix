@@ -532,22 +532,22 @@ describe('Integration | Repository | JurySession', function () {
         });
       });
 
-      context('when there is a filter regarding resultsSentToPrescriberAt state', function () {
-        context('when there is a filter on sessions which results have been sent to prescriber', function () {
+      context('when there is a filter on the version', function () {
+        context('when there is a filter on sessions version', function () {
           let expectedSessionId;
 
           beforeEach(function () {
             expectedSessionId = databaseBuilder.factory.buildSession({
-              resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z'),
+              version: 3,
             }).id;
-            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null });
+            databaseBuilder.factory.buildSession();
 
             return databaseBuilder.commit();
           });
 
           it('should apply the strict filter and return the appropriate results', async function () {
             // given
-            const filters = { resultsSentToPrescriberAt: true };
+            const filters = { version: 3 };
             const page = { number: 1, size: 10 };
 
             // when
@@ -559,34 +559,10 @@ describe('Integration | Repository | JurySession', function () {
           });
         });
 
-        context('when there is a filter on sessions which results have not been sent to prescriber', function () {
-          let expectedSessionId;
-
+        context('when there is no filter on the version', function () {
           beforeEach(function () {
-            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') });
-            expectedSessionId = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null }).id;
-
-            return databaseBuilder.commit();
-          });
-
-          it('should apply the strict filter and return the appropriate results', async function () {
-            // given
-            const filters = { resultsSentToPrescriberAt: false };
-            const page = { number: 1, size: 10 };
-
-            // when
-            const { jurySessions } = await jurySessionRepository.findPaginatedFiltered({ filters, page });
-
-            // then
-            expect(jurySessions).to.have.length(1);
-            expect(jurySessions[0].id).to.equal(expectedSessionId);
-          });
-        });
-
-        context('when there is no filter on whether session results has been sent to prescriber or not', function () {
-          beforeEach(function () {
-            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: new Date('2020-01-01T00:00:00Z') });
-            databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null });
+            databaseBuilder.factory.buildSession();
+            databaseBuilder.factory.buildSession();
 
             return databaseBuilder.commit();
           });

@@ -14,7 +14,7 @@ export default class AuthenticatedSessionsAllRoute extends Route {
     certificationCenterExternalId: { refreshModel: true },
     certificationCenterType: { refreshModel: true },
     status: { refreshModel: true },
-    resultsSentToPrescriberAt: { refreshModel: true },
+    version: { refreshModel: true },
   };
 
   async model(params) {
@@ -27,7 +27,7 @@ export default class AuthenticatedSessionsAllRoute extends Route {
           certificationCenterExternalId: trim(params.certificationCenterExternalId) || undefined,
           certificationCenterType: params.certificationCenterType || undefined,
           status: params.status || undefined,
-          resultsSentToPrescriberAt: params.resultsSentToPrescriberAt || undefined,
+          version: params.version || undefined,
         },
         page: {
           number: params.pageNumber,
@@ -50,7 +50,7 @@ export default class AuthenticatedSessionsAllRoute extends Route {
       controller.certificationCenterExternalId = null;
       controller.certificationCenterType = null;
       controller.status = FINALIZED;
-      controller.resultsSentToPrescriberAt = null;
+      controller.version = null;
     }
   }
 }

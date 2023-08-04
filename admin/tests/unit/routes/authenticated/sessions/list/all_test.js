@@ -35,7 +35,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
+          version: undefined,
         };
 
         // then
@@ -54,7 +54,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
+          version: undefined,
         };
 
         // when
@@ -76,7 +76,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
+          version: undefined,
         };
 
         // when
@@ -98,7 +98,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: 'SCO',
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
+          version: undefined,
         };
 
         // when
@@ -120,7 +120,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: 'EXTID',
           status: undefined,
-          resultsSentToPrescriberAt: undefined,
+          version: undefined,
         };
 
         // when
@@ -142,7 +142,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: 'someStatus',
-          resultsSentToPrescriberAt: undefined,
+          version: undefined,
         };
 
         // when
@@ -154,17 +154,17 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
       });
     });
 
-    module('when queryParams resultsSentToPrescriberAt is true', function () {
-      test('it should call store.query with a filter with true resultsSentToPrescriberAt', async function (assert) {
+    module('when queryParams version is 3', function () {
+      test('it should call store.query with a filter with version', async function (assert) {
         // given
-        params.resultsSentToPrescriberAt = true;
+        params.version = 3;
         expectedQueryArgs.filter = {
           id: undefined,
           certificationCenterName: undefined,
           certificationCenterType: undefined,
           certificationCenterExternalId: undefined,
           status: undefined,
-          resultsSentToPrescriberAt: true,
+          version: 3,
         };
 
         // when
@@ -214,7 +214,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         certificationCenterName: 'someName',
         certificationCenterType: 'someType',
         status: 'someStatus',
-        resultsSentToPrescriberAt: 'someValue',
+        version: 'someVersion',
       };
     });
 
@@ -230,7 +230,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         assert.deepEqual(controller.certificationCenterName, null);
         assert.deepEqual(controller.certificationCenterType, null);
         assert.deepEqual(controller.status, 'finalized');
-        assert.deepEqual(controller.resultsSentToPrescriberAt, null);
+        assert.deepEqual(controller.version, null);
       });
     });
 
@@ -246,7 +246,7 @@ module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
         assert.deepEqual(controller.certificationCenterName, 'someName');
         assert.deepEqual(controller.status, 'someStatus');
         assert.deepEqual(controller.certificationCenterType, 'someType');
-        assert.deepEqual(controller.resultsSentToPrescriberAt, 'someValue');
+        assert.deepEqual(controller.version, 'someVersion');
       });
     });
   });

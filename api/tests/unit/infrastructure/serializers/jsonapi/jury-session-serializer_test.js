@@ -45,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           assignedCertificationOfficer,
           hasJoiningIssue: true,
           hasIncident: true,
+          version: 2,
         });
 
         // when
@@ -76,6 +77,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'jury-commented-at': null,
               'has-incident': true,
               'has-joining-issue': true,
+              version: 2,
             },
             relationships: {
               'jury-certification-summaries': {
@@ -129,6 +131,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           juryComment: 'Si on n’avait pas perdu une heure et quart, on serait là depuis une heure et quart.',
           juryCommentedAt: new Date('2021-02-21T14:23:56Z'),
           juryCommentAuthor,
+          version: 3,
         });
 
         // when
@@ -160,6 +163,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'jury-commented-at': new Date('2021-02-21T14:23:56Z'),
               'has-incident': false,
               'has-joining-issue': false,
+              version: 3,
             },
             relationships: {
               'jury-certification-summaries': {
@@ -208,6 +212,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           finalizedAt: new Date('2020-02-17T14:23:56Z'),
           resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
           publishedAt: new Date('2020-02-21T14:23:56Z'),
+          version: 2,
         });
 
         // when
@@ -238,9 +243,9 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'jury-comment': null,
               'jury-commented-at': null,
               'has-supervisor-access': true,
-
               'has-incident': false,
               'has-joining-issue': false,
+              version: 2,
             },
             relationships: {
               'jury-certification-summaries': {
@@ -281,6 +286,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           finalizedAt: new Date('2020-02-17T14:23:56Z'),
           resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
           publishedAt: new Date('2020-02-21T14:23:56Z'),
+          version: 3,
         });
 
         // when
@@ -312,6 +318,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'jury-commented-at': null,
               'has-incident': false,
               'has-joining-issue': false,
+              version: 3,
             },
             relationships: {
               'jury-certification-summaries': {

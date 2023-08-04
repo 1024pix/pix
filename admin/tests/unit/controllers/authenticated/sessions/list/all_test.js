@@ -52,20 +52,6 @@ module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
       });
     });
 
-    module('when fieldName is resultsSentToPrescriberAt', function () {
-      test('it should update controller resultsSentToPrescriberAt field', async function (assert) {
-        // given
-        controller.resultsSentToPrescriberAt = 'someValue';
-
-        // when
-        const expectedValue = 'someOtherValue';
-        await controller.triggerFiltering.perform('resultsSentToPrescriberAt', expectedValue);
-
-        // then
-        assert.strictEqual(controller.resultsSentToPrescriberAt, expectedValue);
-      });
-    });
-
     module('when fieldName is certificationCenterType', function () {
       test('should update controller certificationCenterType field', async function (assert) {
         // given

@@ -10,7 +10,7 @@
         <th id="session-status">Statut</th>
         <th id="session-finalization-date">Date de finalisation</th>
         <th id="session-publication-date">Date de publication</th>
-        <th id="session-results-sent-to-prescriber">Date de diffusion au prescripteur</th>
+        <th id="session-version">Version de la session</th>
       </tr>
       <tr>
         <td class="table__column table__column--id">
@@ -65,12 +65,12 @@
         <td></td>
         <td>
           <PixSelect
-            @label="Filtrer les sessions par leurs résultats diffusés ou non diffusés"
+            @label="Filtrer les sessions par leur version"
             @screenReaderOnly={{true}}
             class="sessions-list-items__select"
-            @options={{this.sessionResultsSentToPrescriberOptions}}
-            @onChange={{this.selectSessionResultsSentToPrescriber}}
-            @value={{@resultsSentToPrescriberAt}}
+            @options={{this.sessionVersionOptions}}
+            @onChange={{this.selectSessionVersion}}
+            @value={{@version}}
           />
         </td>
       </tr>
@@ -98,7 +98,7 @@
             <td headers="session-status">{{session.displayStatus}}</td>
             <td headers="session-finalization-date">{{format-date session.finalizedAt}}</td>
             <td headers="session-publication-date">{{format-date session.publishedAt}}</td>
-            <td headers="session-results-sent-to-prescriber">{{format-date session.resultsSentToPrescriberAt}}</td>
+            <td headers="session-version">{{session.version}}</td>
           </tr>
         {{/each}}
       </tbody>

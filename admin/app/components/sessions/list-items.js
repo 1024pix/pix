@@ -8,6 +8,7 @@ export default class ListItems extends Component {
   @tracked selectedCertificationCenterTypeOption = null;
   @tracked selectedSessionResultsSentToPrescriberOption = null;
   @tracked selectedSessionStatusOption = null;
+  @tracked selectedSessionVersionOption = null;
 
   constructor() {
     super(...arguments);
@@ -30,15 +31,13 @@ export default class ListItems extends Component {
     ];
     this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(this.args.sessionStatus);
 
-    // "certification center type" filter
-    this.sessionResultsSentToPrescriberOptions = [
+    // session version
+    this.sessionVersionOptions = [
       { value: 'all', label: 'Tous' },
-      { value: 'true', label: 'Résultats diffusés' },
-      { value: 'false', label: 'Résultats non diffusés' },
+      { value: '2', label: 'Sessions V2' },
+      { value: '3', label: 'Sessions V3' },
     ];
-    this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(
-      this.args.resultsSentToPrescriberAt,
-    );
+    this.selectedSessionVersionOption = this.getSessionVersionOptionByValue();
   }
 
   @action
@@ -68,15 +67,15 @@ export default class ListItems extends Component {
   }
 
   @action
-  selectSessionResultsSentToPrescriber(newValue) {
-    this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(newValue);
-    this.args.onChangeSessionResultsSent(newValue);
+  selectSessionVersion(newValue) {
+    this.selectedSessionVersionOption = this.getSessionVersionOptionByValue(newValue);
+    this.args.onChangeSessionVersion(newValue);
   }
 
-  getSessionResultsSentToPrescriberOptionByValue(value) {
+  getSessionVersionOptionByValue(value) {
     if (value) {
-      return find(this.sessionResultsSentToPrescriberOptions, { value });
+      return find(this.sessionVersionOptions, { value });
     }
-    return this.sessionResultsSentToPrescriberOptions[0];
+    return this.sessionVersionOptions[0];
   }
 }
