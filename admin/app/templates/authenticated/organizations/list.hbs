@@ -17,6 +17,10 @@
 
 <main class="page-body">
   <section class="page-section">
+    <span class="organization-list__archived-organizations-toggle">
+      <p>Masquer les organisations archivées</p>
+      <XToggle @size="small" @theme="light" @value={{this.hideArchived}} @onToggle={{fn (mut this.hideArchived)}} />
+    </span>
     <Organizations::ListItems
       @organizations={{@model}}
       @id={{this.id}}
