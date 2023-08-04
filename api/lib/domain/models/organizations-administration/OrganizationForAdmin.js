@@ -77,7 +77,7 @@ class OrganizationForAdmin {
     return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 
-  updateInformation(organization, dataProtectionOfficer, tags) {
+  updateInformation(organization, dataProtectionOfficer = {}, tags = []) {
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
     if (organization.logoUrl) this.logoUrl = organization.logoUrl;
