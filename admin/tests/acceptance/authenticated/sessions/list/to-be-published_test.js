@@ -45,32 +45,86 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       assert.dom(screen.getByRole('link', { name: 'Sessions de certifications' })).hasClass('active');
     });
 
-    test('it should display sessions to publish informations', async function (assert) {
-      assert.expect(7);
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      const finalizedAt = new Date('2021-02-01T03:00:00Z');
-      server.create('to-be-published-session', {
-        id: '1',
-        certificationCenterName: 'Centre SCO des Anne-Étoiles',
-        finalizedAt,
-        sessionDate: '2021-01-01',
-        sessionTime: '17:00:00',
-      });
-      server.create('to-be-published-session', {
-        id: '2',
-        certificationCenterName: 'Centre SUP et rieur',
-        finalizedAt,
-        sessionDate: '2022-10-03',
-        sessionTime: '11:10:00',
-      });
+    module('when clicking on the sessions to be published tab', function () {
+      test('it should display only V2 sessions to publish informations', async function (assert) {
+        assert.expect(10);
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('to-be-published-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate: '2021-01-01',
+          sessionTime: '17:00:00',
+          version: 2,
+        });
+        server.create('to-be-published-session', {
+          id: '2',
+          certificationCenterName: 'Centre SUP et rieur',
+          finalizedAt,
+          sessionDate: '2022-10-03',
+          sessionTime: '11:10:00',
+          version: 2,
+        });
+        server.create('to-be-published-session', {
+          id: '3',
+          certificationCenterName: 'Centre V3',
+          finalizedAt,
+          sessionDate: '2022-12-08',
+          sessionTime: '12:20:00',
+          version: 3,
+        });
 
-      // when
-      const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+        // when
+        const screen = await visit(`${SESSIONS_TO_BE_PUBLISHED_LIST_PAGE}?version=2`);
 
-      // then
-      _assertSessionInformationsAreDisplayed(assert, screen);
-      _assertPublishAllSessionsButtonDisplayed(assert, screen);
+        // then
+        _assertV2SessionsInformationsAreDisplayed(assert, screen);
+        _assertV3SessionInformationsAreNotDisplayed(assert, screen);
+        _assertPublishAllSessionsButtonDisplayed(assert, screen);
+      });
+    });
+
+    module('when clicking on the V3 sessions to be published tab', function () {
+      test('it should display only V3 sessions to publish informations', async function (assert) {
+        assert.expect(10);
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('to-be-published-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate: '2021-01-01',
+          sessionTime: '17:00:00',
+          version: 2,
+        });
+        server.create('to-be-published-session', {
+          id: '2',
+          certificationCenterName: 'Centre SUP et rieur',
+          finalizedAt,
+          sessionDate: '2022-10-03',
+          sessionTime: '11:10:00',
+          version: 2,
+        });
+        server.create('to-be-published-session', {
+          id: '3',
+          certificationCenterName: 'Centre V3',
+          finalizedAt,
+          sessionDate: '2022-12-08',
+          sessionTime: '12:20:00',
+          version: 3,
+        });
+
+        // when
+        const screen = await visit(`${SESSIONS_TO_BE_PUBLISHED_LIST_PAGE}?version=3`);
+
+        // then
+        _assertV2SessionsInformationsAreNotDisplayed(assert, screen);
+        _assertV3SessionInformationsAreDisplayed(assert, screen);
+        _assertPublishAllSessionsButtonDisplayed(assert, screen);
+      });
     });
 
     test('it should publish a session', async function (assert) {
@@ -86,6 +140,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         finalizedAt,
         sessionDate,
         sessionTime,
+        version: 2,
       });
       server.create('to-be-published-session', {
         id: '2',
@@ -93,6 +148,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         finalizedAt,
         sessionDate,
         sessionTime,
+        version: 2,
       });
       const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
       await clickByName('Publier la session numéro 2');
@@ -150,6 +206,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
           finalizedAt,
           sessionDate,
           sessionTime,
+          version: 2,
         });
         server.create('to-be-published-session', {
           id: '2',
@@ -157,6 +214,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
           finalizedAt,
           sessionDate,
           sessionTime,
+          version: 2,
         });
 
         const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
@@ -180,13 +238,34 @@ function _assertPublishAllSessionsButtonDisplayed(assert, screen) {
   assert.dom(screen.getByText('Publier toutes les sessions')).exists();
 }
 
-function _assertSessionInformationsAreDisplayed(assert, screen) {
+function _assertV2SessionsInformationsAreDisplayed(assert, screen) {
   assert.dom(screen.getByText('Centre SCO des Anne-Étoiles')).exists();
   assert.dom(screen.getByText('Centre SUP et rieur')).exists();
   assert.dom(screen.getByText('1')).exists();
   assert.dom(screen.getByText('2')).exists();
   assert.dom(screen.getByText('01/01/2021 à 17:00:00')).exists();
   assert.dom(screen.getByText('03/10/2022 à 11:10:00')).exists();
+}
+
+function _assertV3SessionInformationsAreNotDisplayed(assert, screen) {
+  assert.dom(screen.queryByText('Centre V3')).doesNotExist();
+  assert.dom(screen.queryByText('3')).doesNotExist();
+  assert.dom(screen.queryByText('08/12/2022 à 12:20:00')).doesNotExist();
+}
+
+function _assertV2SessionsInformationsAreNotDisplayed(assert, screen) {
+  assert.dom(screen.queryByText('Centre SCO des Anne-Étoiles')).doesNotExist();
+  assert.dom(screen.queryByText('Centre SUP et rieur')).doesNotExist();
+  assert.dom(screen.queryByText('1')).doesNotExist();
+  assert.dom(screen.queryByText('2')).doesNotExist();
+  assert.dom(screen.queryByText('01/01/2021 à 17:00:00')).doesNotExist();
+  assert.dom(screen.queryByText('03/10/2022 à 11:10:00')).doesNotExist();
+}
+
+function _assertV3SessionInformationsAreDisplayed(assert, screen) {
+  assert.dom(screen.getByText('Centre V3')).exists();
+  assert.dom(screen.getByText('3')).exists();
+  assert.dom(screen.getByText('08/12/2022 à 12:20:00')).exists();
 }
 
 function _assertFirstSessionIsDisplayed(assert, screen) {

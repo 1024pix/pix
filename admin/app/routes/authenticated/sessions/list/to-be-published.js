@@ -5,8 +5,23 @@ import { service } from '@ember/service';
 export default class AuthenticatedSessionsListToBePublishedRoute extends Route {
   @service store;
 
-  model() {
-    return this.store.query('to-be-published-session', {});
+  queryParams = {
+    version: { refreshModel: true },
+  };
+
+  model(_, transition) {
+    if (transition.to.queryParams.version === '3') {
+      return this.store.query('to-be-published-session', {
+        filter: {
+          version: 3,
+        },
+      });
+    }
+    return this.store.query('to-be-published-session', {
+      filter: {
+        version: 2,
+      },
+    });
   }
 
   @action

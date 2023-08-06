@@ -7,7 +7,7 @@
     <LinkTo @route="authenticated.sessions.list.with-required-action" @query={{hash version=2}} class="navbar-item">
       Sessions à traiter ({{this.sessionsWithRequiredActionCount}})
     </LinkTo>
-    <LinkTo @route="authenticated.sessions.list.to-be-published" class="navbar-item">
+    <LinkTo @route="authenticated.sessions.list.to-be-published" @query={{hash version=2}} class="navbar-item">
       Sessions à publier
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.all" class="navbar-item">
@@ -18,7 +18,10 @@
       @query={{hash version=3}}
       class="navbar-item navbar-item--right"
     >
-      Sessions à traiter nextgen ({{this.sessionsWithRequiredActionCountVersion3}})
+      Sessions à traiter V3 ({{this.sessionsWithRequiredActionCountVersion3}})
+    </LinkTo>
+    <LinkTo @route="authenticated.sessions.list.to-be-published" @query={{hash version=3}} class="navbar-item">
+      Sessions à publier V3
     </LinkTo>
   </nav>
 </header>
