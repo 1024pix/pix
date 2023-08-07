@@ -21,16 +21,20 @@ const get = async function ({ sessionId }) {
   throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
 };
 
-const findFinalizedSessionsToPublish = async function () {
-  const publishableFinalizedSessions = await BookshelfFinalizedSession.where({
-    isPublishable: true,
-    publishedAt: null,
-    assignedCertificationOfficerName: null,
-  })
-    .orderBy('finalizedAt')
-    .fetchAll();
+const findFinalizedSessionsToPublish = async function ({ version } = {}) {
+  const versionFilter = version ? { 'sessions.version': version } : {};
+  const publishableFinalizedSessions = await knex('finalized-sessions')
+    .innerJoin('sessions', 'finalized-sessions.sessionId', 'sessions.id')
+    .where({
+      ...versionFilter,
+      isPublishable: true,
+      'finalized-sessions.publishedAt': null,
+      assignedCertificationOfficerName: null,
+    })
+    .select('finalized-sessions.*')
+    .orderBy('finalized-sessions.finalizedAt');
 
-  return bookshelfToDomainConverter.buildDomainObjects(BookshelfFinalizedSession, publishableFinalizedSessions);
+  return publishableFinalizedSessions.map(_toDomainObject);
 };
 
 const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}) {

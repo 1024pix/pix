@@ -39,6 +39,7 @@ import {
 } from './handlers/trainings';
 import { findFrameworkAreas } from './handlers/frameworks';
 import { getWithRequiredActionSessions } from './handlers/get-with-required-action-sessions';
+import { getToBePublishedSessions } from './handlers/get-to-be-published-sessions';
 
 export default function makeServer(config) {
   const finalConfig = {
@@ -84,14 +85,7 @@ function routes() {
   this.put('/admin/admin-members/:id/deactivate', () => {});
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
-  this.get('/admin/sessions/to-publish', (schema) => {
-    const toBePublishedSessions = schema.toBePublishedSessions.all();
-    return toBePublishedSessions;
-  });
-  this.get('/admin/sessions/to-publish', (schema) => {
-    const toBePublishedSessions = schema.toBePublishedSessions.all();
-    return toBePublishedSessions;
-  });
+  this.get('/admin/sessions/to-publish', getToBePublishedSessions);
   this.get('/admin/sessions/with-required-action', getWithRequiredActionSessions);
   this.patch('/admin/sessions/:id/publish', () => {
     return new Response(204);

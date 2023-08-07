@@ -4,7 +4,8 @@ import * as withRequiredActionSessionSerializer from '../../infrastructure/seria
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 
 const findFinalizedSessionsToPublish = async function (request, h, dependencies = { toBePublishedSessionSerializer }) {
-  const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
+  const { filter } = extractParameters(request.query);
+  const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish(filter);
   return dependencies.toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
 };
 
