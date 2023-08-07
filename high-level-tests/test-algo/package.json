@@ -4,7 +4,7 @@
   "description": "Application permettant de tester l'algorithme adaptatif de choix d'épreuve pour le positionnement.",
   "main": "index.js",
   "engines": {
-    "node": "^16.17"
+    "node": "^16.20.1"
   },
   "scripts": {
     "start": "node index.js",
