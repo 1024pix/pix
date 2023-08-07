@@ -22,6 +22,8 @@ function buildOrganizationLearner({
   userId,
   isDisabled = false,
   updatedAt = new Date('2020-01-01'),
+  certifiableAt = null,
+  isCertifiable = null,
 } = {}) {
   return new OrganizationLearner({
     id,
@@ -44,6 +46,8 @@ function buildOrganizationLearner({
     userId,
     isDisabled,
     organizationId: organization.id,
+    certifiableAt,
+    isCertifiable,
   });
 }
 
