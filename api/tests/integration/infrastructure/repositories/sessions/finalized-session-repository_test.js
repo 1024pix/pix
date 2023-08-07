@@ -135,20 +135,29 @@ describe('Integration | Repository | Finalized-session', function () {
     context('when there are publishable sessions', function () {
       it('finds a list of publishable finalized session order by finalization date', async function () {
         // given
+        const session1 = databaseBuilder.factory.buildSession();
+        const session2 = databaseBuilder.factory.buildSession();
+        const session3 = databaseBuilder.factory.buildSession({ version: 3 });
+        const session4 = databaseBuilder.factory.buildSession();
+        const session5 = databaseBuilder.factory.buildSession();
+        const session6 = databaseBuilder.factory.buildSession({ version: 3 });
         const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: true,
           publishedAt: null,
           finalizedAt: new Date('2020-01-01'),
+          sessionId: session1.id,
         });
         const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: true,
           publishedAt: null,
           finalizedAt: new Date('2019-01-01'),
+          sessionId: session2.id,
         });
         const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({
           isPublishable: true,
           publishedAt: null,
           finalizedAt: new Date('2021-01-01'),
+          sessionId: session3.id,
         });
 
         databaseBuilder.factory.buildFinalizedSession({
@@ -156,9 +165,18 @@ describe('Integration | Repository | Finalized-session', function () {
           publishedAt: null,
           finalizedAt: new Date('2020-01-01'),
           assignedCertificationOfficerName: 'Ruppert Giles',
+          sessionId: session4.id,
         });
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null });
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' });
+        databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: false,
+          publishedAt: null,
+          sessionId: session5.id,
+        });
+        databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: '2021-01-01',
+          sessionId: session6.id,
+        });
 
         await databaseBuilder.commit();
 
