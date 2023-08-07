@@ -1,8 +1,7 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+import { Feedback } from '../../../domain/models/Feedback.js';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
-
-import { Feedback } from '../../orm-models/Feedback.js';
 
 const serialize = function (feedbacks) {
   return new Serializer('feedbacks', {
