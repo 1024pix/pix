@@ -144,7 +144,7 @@
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "postdeploy": "DEBUG=knex:* npm run db:migrate",
     "preinstall": "npx check-engine",
-    "scalingo-postbuild": "node scripts/generate-cron > cron.json",
+    "scalingo-postbuild": "rm ../package.json;cp -R ../node_modules/* ./node_modules;node scripts/generate-cron > cron.json",
     "start": "node index.js",
     "start:watch": "nodemon index.js",
     "start:job": "node worker.js",

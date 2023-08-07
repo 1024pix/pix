@@ -20,6 +20,7 @@
   },
   "scripts": {
     "build": "ember build --environment $BUILD_ENVIRONMENT",
+    "postbuild": "cp -R dist ../dist/certif 2>/dev/null || :",
     "clean": "rm -rf tmp dist node_modules",
     "lint": "run-p --continue-on-error 'lint:!(fix)'",
     "lint:fix": "run-p --continue-on-error lint:*:fix",
