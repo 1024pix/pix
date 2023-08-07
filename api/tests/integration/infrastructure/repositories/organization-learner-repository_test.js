@@ -788,9 +788,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           organizationId,
         });
         expect(actualOrganizationLearners).to.have.length(1);
-        expect(_.omit(actualOrganizationLearners[0], ['updatedAt', 'id'])).to.deep.equal(
-          _.omit(firstOrganizationLearner, ['updatedAt', 'id']),
-        );
+        expect(
+          _.omit(actualOrganizationLearners[0], ['updatedAt', 'id', 'certifiableAt', 'isCertifiable']),
+        ).to.deep.equal(_.omit(firstOrganizationLearner, ['updatedAt', 'id', 'certifiableAt', 'isCertifiable']));
       });
     });
 
