@@ -7,7 +7,8 @@ describe('Unit | Controller | feedback-controller', function () {
     let payload;
     let request;
     let h;
-    let usecasesStub;
+    let feedbackSerializerStubs;
+    let usecasesStubs;
 
     beforeEach(function () {
       payload = {
@@ -40,8 +41,13 @@ describe('Unit | Controller | feedback-controller', function () {
         ...hFake,
       };
 
-      usecasesStub = {
-        saveFeedback: sinon.stub(),
+      feedbackSerializerStubs = {
+        serialize: sinon.stub().resolves(Symbol('serialized-feedback')),
+        deserialize: sinon.stub().resolves(Symbol('deserialized-feedback')),
+      };
+
+      usecasesStubs = {
+        saveFeedback: sinon.stub().resolves(Symbol('saved-feedback')),
       };
     });
 
@@ -53,26 +59,26 @@ describe('Unit | Controller | feedback-controller', function () {
           created: createdStub,
         };
       };
-      const feedback = Symbol('feedback');
-      usecasesStub.saveFeedback.resolves(feedback);
 
       // when
-      await feedbackController.save(request, h, { usecases: usecasesStub });
+      await feedbackController.save(request, h, {
+        feedBackSerializer: feedbackSerializerStubs,
+        usecases: usecasesStubs,
+      });
 
       // then
       expect(createdStub).to.have.been.calledOnce;
     });
 
     it('should persist feedback data', async function () {
-      // given
-      const feedback = Symbol('feedback');
-      usecasesStub.saveFeedback.resolves(feedback);
-
       // when
-      await feedbackController.save(request, hFake, { usecases: usecasesStub });
+      await feedbackController.save(request, hFake, {
+        feedBackSerializer: feedbackSerializerStubs,
+        usecases: usecasesStubs,
+      });
 
       // then
-      expect(usecasesStub.saveFeedback).to.have.been.calledOnce;
+      expect(usecasesStubs.saveFeedback).to.have.been.calledOnce;
     });
   });
 });
