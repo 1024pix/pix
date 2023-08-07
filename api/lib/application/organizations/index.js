@@ -97,6 +97,7 @@ const register = async function (server) {
           query: Joi.object({
             'filter[id]': identifiersType.organizationId.empty('').allow(null).optional(),
             'filter[name]': Joi.string().empty('').allow(null).optional(),
+            'filter[hideArchived]': Joi.boolean().optional(),
             'page[number]': Joi.number().integer().empty('').allow(null).optional(),
             'page[size]': Joi.number().integer().empty('').allow(null).optional(),
           }),

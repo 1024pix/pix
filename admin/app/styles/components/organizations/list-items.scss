@@ -1,0 +1,11 @@
+.organization-list {
+  &__archived-organizations-toggle {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: $pix-spacing-s;
+
+    p {
+      margin: 0;
+    }
+  }
+}
