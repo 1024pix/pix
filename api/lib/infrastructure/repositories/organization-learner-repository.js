@@ -348,6 +348,13 @@ const isActive = async function ({ userId, campaignId }) {
   return !learner?.isDisabled;
 };
 
+async function updateCertificability(organizationLearner) {
+  await knex('organization-learners').where({ id: organizationLearner.id }).update({
+    isCertifiable: organizationLearner.isCertifiable,
+    certifiableAt: knex.fn.now(),
+  });
+}
+
 export {
   findByIds,
   findByOrganizationId,
@@ -368,4 +375,5 @@ export {
   getLatestOrganizationLearner,
   updateUserIdWhereNull,
   isActive,
+  updateCertificability,
 };
