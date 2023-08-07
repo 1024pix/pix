@@ -32,6 +32,7 @@
     "lint:translations": "eslint --ext .json  --format ../node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
+    "postbuild": "cp -R dist ../dist/app 2>/dev/null || :",
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
