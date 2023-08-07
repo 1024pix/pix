@@ -25,7 +25,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
     });
   });
 
-  describe('GET /api/admin/complementary-certifications/target-profiles/search', function () {
+  describe('GET /api/admin/complementary-certifications/attachable-target-profiles', function () {
     describe('when the user authenticated has certif role', function () {
       it('should return 403 HTTP status code', async function () {
         // given
@@ -39,7 +39,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/admin/complementary-certifications/target-profiles/search',
+          '/api/admin/complementary-certifications/attachable-target-profiles',
         );
 
         // then
@@ -65,7 +65,7 @@ describe('Unit | Application | Router | complementary-certifications-router', fu
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/admin/complementary-certifications/target-profiles/search',
+          '/api/admin/complementary-certifications/attachable-target-profiles',
         );
 
         // then
