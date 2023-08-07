@@ -19,7 +19,55 @@
 }
 
 .complementary-certification-attach-target-profile-form {
+
   &__submit-button {
     height: 2.25rem;
+  }
+}
+
+.complementary-certification-attach-target-profile-form-search {
+  min-width: 40%;
+
+  &__results {
+    position: absolute;
+    padding: $pix-spacing-xs $pix-spacing-s $pix-spacing-xs $pix-spacing-s;
+    z-index: 200;
+    width: inherit;
+    max-height: 12.5rem;
+    overflow-y: auto;
+    white-space: nowrap;
+    list-style-type: none;
+    background-color: $pix-neutral-0;
+    border-top: none;
+    border-radius: 0 0 $pix-spacing-xxs $pix-spacing-xxs;
+    box-shadow: 0 6px 12px rgba(7, 20, 46, 0.08);
+    transition: all 0.1s ease-in-out;
+
+    &__option:hover,
+    &__option:focus{
+      background-color: $pix-neutral-10;
+      outline: none;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $pix-neutral-20;
+      border: 1px solid $pix-neutral-20;
+      border-radius: $pix-spacing-xxs;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      width: 0.375rem;
+      background: $pix-neutral-30;
+      border-radius: $pix-spacing-xxs;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: $pix-neutral-35;
+    }
   }
 }

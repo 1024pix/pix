@@ -2,18 +2,37 @@
   <div class="card__title">1. Renseigner le nouveau profil cible à rattacher</div>
   <div class="card__content">
     <form class="complementary-certification-attach-target-profile__form">
-      <PixSelect
-        class=""
-        @label="ID du profil cible"
-        @emptyMessage="Aucun résultat"
-        @searchPlaceholder="Exemple: 3"
-        @searchLabel="Rechercher un profile cible à rattacher à la certification complémentaire"
-        @isSearchable={{true}}
-        @value={{this.targetProfileToAttach}}
-        @options={{this.targetProfiles}}
-        @onChange={{this.onChange}}
-        @hideDefaultOption={{true}}
-      />
+      <div class="complementary-certification-attach-target-profile-form-search">
+        <PixSearchInput
+          @id="search-input"
+          @label="ID du profil cible"
+          @ariaLabel="Rechercher un profile cible à rattacher à la certification complémentaire"
+          @placeholder="Exemple: 3"
+          @debounceTimeInMs={{this.debounce}}
+          @triggerFiltering={{this.onSearchValueInput}}
+          value={{this.selectedTargetProfileValue}}
+          autocomplete="off"
+        />
+        {{#if this.searchResults.length}}
+          <ul role="listbox" class="complementary-certification-attach-target-profile-form-search__results">
+            {{#each this.searchResults as |targetProfile|}}
+              <li
+                class="complementary-certification-attach-target-profile-form-search__results__option"
+                role="option"
+                aria-selected="false"
+                tabindex="0"
+                {{on "click" (fn this.onSelectTargetProfile targetProfile)}}
+                {{on-enter-action (fn this.onSelectTargetProfile targetProfile)}}
+                {{on-space-action (fn this.onSelectTargetProfile targetProfile)}}
+              >
+                {{targetProfile.id}}-
+                {{targetProfile.name}}
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
+
       <PixButton class="complementary-certification-attach-target-profile-form__submit-button">Valider</PixButton>
     </form>
   </div>
