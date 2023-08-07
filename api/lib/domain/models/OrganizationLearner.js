@@ -50,6 +50,16 @@ class OrganizationLearner {
     this.isCertifiable = isCertifiable;
     this.certifiableAt = certifiableAt;
   }
+
+  updateCertificability(placementProfile) {
+    if (placementProfile.isCertifiable()) {
+      this.certifiableAt = placementProfile.profileDate;
+    } else {
+      this.certifiableAt = null;
+    }
+
+    this.isCertifiable = placementProfile.isCertifiable();
+  }
 }
 
 OrganizationLearner.STATUS = STATUS;
