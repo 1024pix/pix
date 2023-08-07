@@ -10,10 +10,7 @@ module('Unit | Component | complementary-certifications/target-profiles/badges-l
     const component = createGlimmerComponent('component:complementary-certifications/target-profiles/badges-list');
 
     component.args = {
-      currentTargetProfiles: [
-        { id: 1, name: 'current target', badges: [{ id: 1, level: 2, label: 'badge Pluie' }] },
-        { id: 2, name: 'old target', badges: [] },
-      ],
+      currentTargetProfile: { id: 1, name: 'current target', badges: [{ id: 1, level: 2, label: 'badge Pluie' }] },
     };
 
     // when & then

@@ -3,7 +3,11 @@
 <ComplementaryCertifications::TargetProfiles::Header @complementaryCertificationLabel={{@model.label}} />
 
 <main class="page-body">
-  <ComplementaryCertifications::TargetProfiles::Information @complementaryCertification={{@model}} />
-  <ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfiles={{@model.currentTargetProfiles}} />
+  <ComplementaryCertifications::TargetProfiles::Information
+    @complementaryCertification={{@model}}
+    @currentTargetProfile={{this.currentTargetProfile}}
+    @switchTargetProfile={{this.switchTargetProfile}}
+  />
+  <ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfile={{this.currentTargetProfile}} />
   <ComplementaryCertifications::TargetProfiles::History @targetProfilesHistory={{@model.targetProfilesHistory}} />
 </main>
