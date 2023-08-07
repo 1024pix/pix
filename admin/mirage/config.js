@@ -412,6 +412,23 @@ function routes() {
     return schema.complementaryCertifications.find(request.params.id);
   });
 
+  this.get('admin/complementary-certifications/attachable-target-profiles', (schema, request) => {
+    const targetProfileId = parseInt(request.queryParams.searchTerm);
+    const targetProfile = schema.attachableTargetProfiles.find(targetProfileId);
+
+    return {
+      data: [
+        {
+          type: 'attachable-target-profile',
+          id: targetProfile.id,
+          attributes: {
+            name: targetProfile.name,
+          },
+        },
+      ],
+    };
+  });
+
   this.put('/admin/sessions/:id/comment', (schema, request) => {
     const sessionToUpdate = schema.sessions.find(request.params.id);
     const params = JSON.parse(request.requestBody);

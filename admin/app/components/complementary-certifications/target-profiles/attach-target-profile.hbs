@@ -2,19 +2,34 @@
   <div class="card__title">1. Renseigner le nouveau profil cible à rattacher</div>
   <div class="card__content">
     <form class="complementary-certification-attach-target-profile__form">
-      <PixSelect
-        class=""
-        @label="ID du profil cible"
-        @emptyMessage="Aucun résultat"
-        @searchPlaceholder="Exemple: 3"
-        @searchLabel="Rechercher un profile cible à rattacher à la certification complémentaire"
-        @isSearchable={{true}}
-        @value={{this.targetProfileToAttach}}
-        @options={{this.targetProfiles}}
-        @onChange={{this.onChange}}
-        @hideDefaultOption={{true}}
-      />
-      <PixButton class="complementary-certification-attach-target-profile-form__submit-button">Valider</PixButton>
+      <div class="complementary-certification-attach-target-profile-form-search">
+        <PixSearchInput
+          @id="search-input"
+          @label="ID du profil cible"
+          @ariaLabel="Rechercher un profil cible à rattacher à la certification complémentaire"
+          @placeholder="Exemple: 3"
+          @debounceTimeInMs={{this.debounce}}
+          @triggerFiltering={{this.onSearchValueInput}}
+          autocomplete="off"
+        />
+        {{#if @options.length}}
+          <ul role="listbox" class="complementary-certification-attach-target-profile-form-search__results">
+            {{#each @options as |option|}}
+              <li
+                class="complementary-certification-attach-target-profile-form-search__results__option"
+                role="option"
+                aria-selected="false"
+                tabindex="0"
+                {{on "click" (fn this.onSelectTargetProfile option)}}
+                {{on-enter-action (fn this.onSelectTargetProfile option)}}
+                {{on-space-action (fn this.onSelectTargetProfile option)}}
+              >
+                {{option.label}}
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
     </form>
   </div>
 </div>
