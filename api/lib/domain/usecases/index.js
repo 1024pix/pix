@@ -91,6 +91,7 @@ import * as dateUtils from '../../infrastructure/utils/date-utils.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as encryptionService from '../../domain/services/encryption-service.js';
+import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../domain/services/algorithm-methods/flash.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
@@ -308,6 +309,7 @@ const dependencies = {
   dateUtils,
   divisionRepository,
   encryptionService,
+  feedbackRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
   flashAssessmentResultRepository,

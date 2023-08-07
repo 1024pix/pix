@@ -120,7 +120,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
   });
 
   describe('#deserialize()', function () {
-    it('should convert JSON API data into a Feedback model object', function () {
+    it('should convert JSON API data into a Feedback model object', async function () {
       // given
       const serializedFeedback = {
         data: {
@@ -147,15 +147,13 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
       };
 
       // when
-      const promise = serializer.deserialize(serializedFeedback);
+      const deserializedFeedback = await serializer.deserialize(serializedFeedback);
 
       // then
-      return promise.then((feedback) => {
-        expect(feedback.get('id')).to.equal(serializedFeedback.data.id);
-        expect(feedback.get('content')).to.equal(serializedFeedback.data.attributes.content);
-        expect(feedback.get('assessmentId')).to.equal(serializedFeedback.data.relationships.assessment.data.id);
-        expect(feedback.get('challengeId')).to.equal(serializedFeedback.data.relationships.challenge.data.id);
-      });
+      expect(deserializedFeedback.id).to.equal(serializedFeedback.data.id);
+      expect(deserializedFeedback.content).to.equal(serializedFeedback.data.attributes.content);
+      expect(deserializedFeedback.assessmentId).to.equal(serializedFeedback.data.relationships.assessment.data.id);
+      expect(deserializedFeedback.challengeId).to.equal(serializedFeedback.data.relationships.challenge.data.id);
     });
   });
 });

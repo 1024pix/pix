@@ -1,88 +1,84 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { expect, sinon, hFake } from '../../../test-helper.js';
 
-import lodash from 'lodash';
-
-const { cloneDeep } = lodash;
-
-import { Feedback } from '../../../../lib/infrastructure/orm-models/Feedback.js';
-import * as moduleUnderTest from '../../../../lib/application/feedbacks/index.js';
+import { feedbackController } from '../../../../lib/application/feedbacks/feedback-controller.js';
 
 describe('Unit | Controller | feedback-controller', function () {
-  let httpTestServer;
-
-  beforeEach(async function () {
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('#save', function () {
-    const method = 'POST';
-    const url = '/api/feedbacks';
-
-    const jsonFeedback = {
-      data: {
-        type: 'feedbacks',
-        attributes: {
-          content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
-        },
-        relationships: {
-          assessment: {
-            data: {
-              type: 'assessments',
-              id: '1',
-            },
-          },
-          challenge: {
-            data: {
-              type: 'challenges',
-              id: '2',
-            },
-          },
-        },
-      },
-    };
-
-    const persistedFeedback = new Feedback({
-      id: 'feedback_id',
-      content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
-    });
+    let payload;
+    let request;
+    let h;
+    let feedbackSerializerStubs;
+    let usecasesStubs;
 
     beforeEach(function () {
-      sinon.stub(Feedback.prototype, 'save').resolves(persistedFeedback);
+      payload = {
+        data: {
+          type: 'feedbacks',
+          attributes: {
+            content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
+          },
+          relationships: {
+            assessment: {
+              data: {
+                type: 'assessments',
+                id: '1',
+              },
+            },
+            challenge: {
+              data: {
+                type: 'challenges',
+                id: '2',
+              },
+            },
+          },
+        },
+      };
+      request = {
+        headers: { 'user-agent': '123' },
+        payload: payload,
+      };
+      h = {
+        ...hFake,
+      };
+
+      feedbackSerializerStubs = {
+        serialize: sinon.stub().resolves(Symbol('serialized-feedback')),
+        deserialize: sinon.stub().resolves(Symbol('deserialized-feedback')),
+      };
+
+      usecasesStubs = {
+        saveFeedback: sinon.stub().resolves(Symbol('saved-feedback')),
+      };
     });
 
-    it('should return a successful response with HTTP code 201 when feedback was saved with some text content', async function () {
+    it('should return created status ', async function () {
       // given
-      const payload = jsonFeedback;
+      const createdStub = sinon.stub();
+      h.response = () => {
+        return {
+          created: createdStub,
+        };
+      };
 
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      await feedbackController.save(request, h, {
+        feedBackSerializer: feedbackSerializerStubs,
+        usecases: usecasesStubs,
+      });
 
       // then
-      expect(response.statusCode).to.equal(201);
+      expect(createdStub).to.have.been.calledOnce;
     });
 
-    it('should return a successful response with HTTP code 201 when feedback was saved with blank content', async function () {
-      // given
-      const payload = cloneDeep(jsonFeedback);
-      payload.data.attributes.content = '';
-
+    it('should persist feedback data', async function () {
       // when
-      const response = await httpTestServer.request(method, url, payload);
+      await feedbackController.save(request, hFake, {
+        feedBackSerializer: feedbackSerializerStubs,
+        usecases: usecasesStubs,
+      });
 
       // then
-      expect(response.statusCode).to.equal(201);
-    });
-
-    it('should persist feedback data into the Feedback Repository', async function () {
-      // given
-      const payload = cloneDeep(jsonFeedback);
-
-      // when
-      await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(Feedback.prototype.save).to.have.been.calledOnce;
+      expect(usecasesStubs.saveFeedback).to.have.been.calledOnce;
     });
   });
 });
