@@ -2069,6 +2069,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       organizationLearner.isCertifiable = true;
+      organizationLearner.certifiableAt = new Date('2023-01-01');
       await organizationLearnerRepository.updateCertificability(organizationLearner);
 
       // then
@@ -2076,7 +2077,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         .where({ id: organizationLearner.id })
         .first();
       expect(isCertifiable).to.be.true;
-      expect(certifiableAt).to.exists;
+      expect(new Date(certifiableAt)).to.deep.equal(organizationLearner.certifiableAt);
     });
   });
 });

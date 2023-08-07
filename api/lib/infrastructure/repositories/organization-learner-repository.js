@@ -351,7 +351,7 @@ const isActive = async function ({ userId, campaignId }) {
 async function updateCertificability(organizationLearner) {
   await knex('organization-learners').where({ id: organizationLearner.id }).update({
     isCertifiable: organizationLearner.isCertifiable,
-    certifiableAt: knex.fn.now(),
+    certifiableAt: organizationLearner.certifiableAt,
   });
 }
 
