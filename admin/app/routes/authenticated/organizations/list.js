@@ -11,6 +11,7 @@ export default class ListRoute extends Route {
     name: { refreshModel: true },
     type: { refreshModel: true },
     externalId: { refreshModel: true },
+    hideArchived: { refreshModel: true },
   };
 
   model(params) {
@@ -20,6 +21,7 @@ export default class ListRoute extends Route {
         name: params.name ? params.name.trim() : '',
         type: params.type ? params.type.trim() : '',
         externalId: params.externalId ? params.externalId.trim() : '',
+        hideArchived: params.hideArchived,
       },
       page: {
         number: params.pageNumber,
@@ -36,6 +38,7 @@ export default class ListRoute extends Route {
       controller.name = null;
       controller.type = null;
       controller.externalId = null;
+      controller.hideArchived = false;
     }
   }
 }
