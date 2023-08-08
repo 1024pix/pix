@@ -1,23 +1,18 @@
-import { usecases } from "../../domain/usecases/index.js";
+import { usecases } from '../../domain/usecases/index.js';
 
-import * as certificationCenterSerializer
-  from "../../infrastructure/serializers/jsonapi/certification-center-serializer.js";
-import * as certificationCenterForAdminSerializer
-  from "../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js";
-import * as certificationCenterMembershipSerializer
-  from "../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js";
-import * as divisionSerializer from "../../infrastructure/serializers/jsonapi/division-serializer.js";
-import * as studentCertificationSerializer
-  from "../../infrastructure/serializers/jsonapi/student-certification-serializer.js";
-import * as sessionSummarySerializer from "../../infrastructure/serializers/jsonapi/session-summary-serializer.js";
-import * as certificationCenterInvitationSerializer
-  from "../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js";
+import * as certificationCenterSerializer from '../../infrastructure/serializers/jsonapi/certification-center-serializer.js';
+import * as certificationCenterForAdminSerializer from '../../infrastructure/serializers/jsonapi/certification-center-for-admin-serializer.js';
+import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
+import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
+import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
+import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
+import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
 
-import { extractParameters } from "../../infrastructure/utils/query-params-utils.js";
-import lodash from "lodash";
-import * as csvHelpers from "./csvHelpers.js";
-import * as csvSerializer from "../../infrastructure/serializers/csv/csv-serializer.js";
-import { getHeaders } from "../../infrastructure/files/sessions-import.js";
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import lodash from 'lodash';
+import * as csvHelpers from './csvHelpers.js';
+import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
+import { getHeaders } from '../../infrastructure/files/sessions-import.js';
 
 const { map } = lodash;
 

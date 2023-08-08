@@ -9,7 +9,7 @@ import * as assessmentResultRepository from '../../infrastructure/repositories/a
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as scoringService from './scoring/scoring-service.js';
-import { CertificationVersion } from '../models/CertificationVersion.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
 async function getPlacementProfile({
   userId,

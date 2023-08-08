@@ -1,4 +1,4 @@
-import * as createSession from "./application/create-session-route.js";
+import * as createSession from './application/create-session-route.js';
 
 const certificationSessionRoutes = [createSession];
 

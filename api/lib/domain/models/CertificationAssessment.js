@@ -9,7 +9,7 @@ import { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFou
 import { AnswerStatus } from './AnswerStatus.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
-import { CertificationVersion } from './CertificationVersion.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
 const states = {
   COMPLETED: 'completed',

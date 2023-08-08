@@ -1,4 +1,4 @@
-import { CertificationVersion } from '../models/CertificationVersion.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
 import { config } from '../../config.js';
 

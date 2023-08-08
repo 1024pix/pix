@@ -1,5 +1,5 @@
 import { Session } from '../models/Session.js';
-import { CertificationVersion } from '../../../../../lib/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 const createSession = async function ({
