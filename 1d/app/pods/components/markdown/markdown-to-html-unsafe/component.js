@@ -4,7 +4,7 @@ import { htmlSafe } from '@ember/template';
 
 export default class MarkdownToHtmlUnsafe extends Component {
   get html() {
-    const unsafeHtml = markdownConverter.toHTML(this.args.markdown)
+    const unsafeHtml = markdownConverter.toHTML(this.args.markdown);
     return htmlSafe(unsafeHtml);
   }
 }

@@ -4,6 +4,6 @@
     @ariaLabel="Lire la consigne à haute voix"
     @withBackground="true"
     @icon="volume-high"
-    @triggerAction={{this.readTheInstruction}}
+    @triggerAction={{fn this.readTheInstruction @instruction}}
   />
 </div>

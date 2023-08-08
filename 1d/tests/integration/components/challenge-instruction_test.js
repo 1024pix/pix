@@ -18,5 +18,19 @@ module('Integration | Component | ChallengeInstruction', (hooks) => {
       sinon.mock(window.speechSynthesis.speak).once;
       assert.ok(true);
     });
+
+    test('should oralize given text without markdown symbols', async function (assert) {
+      const text = "blabla même s'il y a du **gras**";
+      const expectedText = "blabla même s'il y a du gras";
+
+      this.set('instruction', text);
+      const screen = await render(hbs`<Challenge::ChallengeInstruction @instruction={{this.instruction}} />`);
+
+      sinon.spy(window.speechSynthesis, 'speak');
+      await click(screen.getByLabelText('Lire la consigne à haute voix'));
+
+      const spyCall = await window.speechSynthesis.speak.getCall(0);
+      assert.equal(expectedText, spyCall.args[0].text);
+    });
   });
 });
