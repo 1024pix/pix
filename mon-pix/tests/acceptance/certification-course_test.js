@@ -491,6 +491,101 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             .exists();
         });
       });
+
+      module('when passing a V2 certification', function () {
+        test('should display the V2 feedback panel', async function (assert) {
+          assert.timeout(5000);
+          // given
+          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+
+          server.create('challenge', 'forCertification');
+
+          this.server.create('certification-course', {
+            accessCode: 'ABCD12',
+            sessionId: 1,
+            nbChallenges: 1,
+            firstName: 'Laura',
+            lastName: 'Bravo',
+            version: 2,
+          });
+          this.server.create('certification-candidate-subscription', {
+            id: 2,
+            sessionId: 1,
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
+          });
+
+          await authenticate(user);
+          const screen = await visit('/certifications');
+          await fillCertificationJoiner({
+            sessionId: '1',
+            firstName: 'Laura',
+            lastName: 'Bravo',
+            dayOfBirth: '04',
+            monthOfBirth: '01',
+            yearOfBirth: '1990',
+            intl: this.intl,
+          });
+          await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
+          // when
+          await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'Pour signaler un problème, appelez votre surveillant et communiquez-lui les informations suivantes :',
+              ),
+            )
+            .exists();
+        });
+      });
+
+      module('when passing a V3 certification', function () {
+        test('should display the V3 feedback panel', async function (assert) {
+          assert.timeout(5000);
+          // given
+          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+
+          server.create('challenge', 'forCertification');
+
+          this.server.create('certification-course', {
+            accessCode: 'ABCD12',
+            sessionId: 1,
+            nbChallenges: 1,
+            firstName: 'Laura',
+            lastName: 'Bravo',
+            version: 3,
+          });
+
+          this.server.create('certification-candidate-subscription', {
+            id: 2,
+            sessionId: 1,
+            eligibleSubscription: null,
+            nonEligibleSubscription: null,
+          });
+
+          await authenticate(user);
+          const screen = await visit('/certifications');
+          await fillCertificationJoiner({
+            sessionId: '1',
+            firstName: 'Laura',
+            lastName: 'Bravo',
+            dayOfBirth: '04',
+            monthOfBirth: '01',
+            yearOfBirth: '1990',
+            intl: this.intl,
+          });
+          await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+
+          // when
+          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+
+          // then
+          assert.dom(screen.getByText("Non, je reviens à l'épreuve")).exists();
+        });
+      });
     });
   });
 });

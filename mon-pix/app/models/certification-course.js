@@ -6,6 +6,7 @@ export default class CertificationCourse extends Model {
   @attr('number') nbChallenges;
   @attr('string') firstName;
   @attr('string') lastName;
+  @attr('number') version;
 
   // references
   @attr('number') sessionId;

@@ -1,7 +1,7 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  attrs: ['nbChallenges', 'examinerComment', 'hasSeenEndTestScreen', 'firstName', 'lastName'],
+  attrs: ['nbChallenges', 'examinerComment', 'hasSeenEndTestScreen', 'firstName', 'lastName', 'version'],
   links(certificationCourse) {
     return {
       assessment: {

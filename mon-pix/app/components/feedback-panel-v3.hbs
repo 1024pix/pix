@@ -1,0 +1,28 @@
+{{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
+<div class="feedback-panel-v3">
+  <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
+  <button
+    class="feedback-panel-v3__open-button"
+    {{on "click" this.toggleFeedbackForm}}
+    disabled={{this.isToggleFeedbackFormDisabled}}
+    aria-expanded={{this.isAriaExpanded}}
+    type="button"
+  >
+    <FaIcon @icon="flag" />{{t "pages.challenge.feedback-panel-v3.actions.open-close"}}
+  </button>
+
+  {{#if this.isExpanded}}
+    <div class="feedback-panel-v3__view">
+      {{t "pages.challenge.feedback-panel-v3.description"}}
+      <div class="feedback-panel-v3__action-buttons">
+        <button type="button">
+          {{t "pages.challenge.feedback-panel-v3.actions.send-feedback"}}
+        </button>
+        <button type="button" {{on "click" this.toggleFeedbackForm}}>
+          {{t "pages.challenge.feedback-panel-v3.actions.no-send-feedback"}}
+        </button>
+      </div>
+    </div>
+    <p class="feedback-panel-v3__information">{{t "pages.challenge.feedback-panel-v3.information"}}</p>
+  {{/if}}
+</div>

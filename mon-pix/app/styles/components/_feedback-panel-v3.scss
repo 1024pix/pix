@@ -1,0 +1,56 @@
+.feedback-panel-v3 {
+  margin-bottom: $pix-spacing-xl;
+  color: $pix-neutral-70;
+  font-size: 0.875rem;
+  font-family: $font-roboto;
+}
+
+/* "Link" view
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.feedback-panel-v3__open-button {
+  width: 100%;
+  padding: 0.75rem 0;
+  line-height: 20px;
+  text-align: left;
+  text-decoration: underline;
+
+  svg {
+    margin-right: $pix-spacing-xxs;
+  }
+
+  &[aria-expanded='true'] {
+    color: $pix-neutral-90;
+  }
+}
+
+.feedback-panel-v3__open-button:hover,
+.feedback-panel-v3__open-button:focus-visible,
+.feedback-panel-v3__open-button:active {
+  color: $pix-primary;
+}
+
+.feedback-panel-v3__view {
+  display: flex;
+  gap: 24px;
+  font-weight: $font-bold;
+}
+
+.feedback-panel-v3__action-buttons {
+  display: flex;
+  gap: 16px;
+
+  > button {
+    text-decoration: underline;
+
+    &:first-of-type {
+      color: $pix-error-70;
+      font-weight: $font-bold;
+      text-decoration-color: $pix-error-70;
+    }
+  }
+}
+
+.feedback-panel-v3__information {
+  margin-top: $pix-spacing-s;
+}
