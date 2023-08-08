@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 import { createSession } from '../../../../../../src/certification/session/domain/usecases/create-session.js';
-import { Session } from '../../../../../../lib/domain/models/Session.js';
+import { Session } from '../../../../../../src/certification/session/domain/models/Session.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-session', function () {

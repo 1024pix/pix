@@ -1,4 +1,4 @@
-import { Session } from '../../../../../lib/domain/models/Session.js';
+import { Session } from '../models/Session.js';
 import { CertificationVersion } from '../../../../../lib/domain/models/CertificationVersion.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 

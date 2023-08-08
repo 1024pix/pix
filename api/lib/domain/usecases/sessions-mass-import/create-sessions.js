@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../errors.js';
 import bluebird from 'bluebird';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { Session } from '../../models/Session.js';
+import { Session } from '../../../../src/certification/session/domain/models/Session.js';
 import { CertificationCandidate } from '../../models/CertificationCandidate.js';
 import { CertificationVersion } from '../../models/CertificationVersion.js';
 

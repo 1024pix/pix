@@ -67,8 +67,12 @@ import { ComplementaryCertificationCourse } from './ComplementaryCertificationCo
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationHabilitation } from './ComplementaryCertificationHabilitation.js';
 import { ComplementaryCertificationScoringCriteria } from './ComplementaryCertificationScoringCriteria.js';
-import { ComplementaryCertificationScoringWithComplementaryReferential } from './ComplementaryCertificationScoringWithComplementaryReferential.js';
-import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
+import {
+  ComplementaryCertificationScoringWithComplementaryReferential
+} from './ComplementaryCertificationScoringWithComplementaryReferential.js';
+import {
+  ComplementaryCertificationScoringWithoutComplementaryReferential
+} from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
 import { Course } from './Course.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
@@ -111,7 +115,7 @@ import { ScoringSimulation } from './ScoringSimulation.js';
 import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
 import { ScoringSimulationResult } from './ScoringSimulationResult.js';
-import { Session } from './Session.js';
+import { Session } from '../../../src/certification/session/domain/models/Session.js';
 import { SessionJuryComment } from './SessionJuryComment.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
 import { ShareableCertificate } from './ShareableCertificate.js';
@@ -151,6 +155,7 @@ import { ValidatorQCU } from './ValidatorQCU.js';
 import { ValidatorQROC } from './ValidatorQROC.js';
 import { ValidatorQROCMDep } from './ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from './ValidatorQROCMInd.js';
+
 export {
   AccountRecoveryDemand,
   AdminMember,
