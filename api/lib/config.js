@@ -345,6 +345,7 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
+    config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isTargetProfileVersioningEnabled = true;
