@@ -200,7 +200,7 @@ import { pickChallengeService } from '../services/pick-challenge-service.js';
 import { tokenService } from '../services/token-service.js';
 
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
-import { injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
+import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 

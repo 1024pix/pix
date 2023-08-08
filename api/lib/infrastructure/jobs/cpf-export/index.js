@@ -1,4 +1,4 @@
-import { injectDependencies } from '../../utils/dependency-injection.js';
+import { injectDependencies } from '../../../../src/shared/infrastructure/utils/dependency-injection.js';
 
 import * as cpfCertificationResultRepository from '../../repositories/cpf-certification-result-repository.js';
 import * as cpfCertificationXmlExportService from '../../../domain/services/cpf-certification-xml-export-service.js';
