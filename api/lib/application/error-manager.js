@@ -5,6 +5,7 @@ import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import * as translations from '../../translations/index.js';
+import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 
@@ -249,7 +250,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserCantBeCreatedError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
-  if (error instanceof DomainErrors.ForbiddenAccess) {
+  if (error instanceof ForbiddenAccess) {
     return new HttpErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.MembershipCreationError) {

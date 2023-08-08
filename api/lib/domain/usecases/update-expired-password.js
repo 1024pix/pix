@@ -3,8 +3,9 @@ import lodash from 'lodash';
 const { get } = lodash;
 
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../domain/errors.js';
+import { UserNotFoundError } from '../../domain/errors.js';
 import { logger } from '../../../lib/infrastructure/logger.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const updateExpiredPassword = async function ({
   passwordResetToken,

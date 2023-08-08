@@ -5,10 +5,10 @@ import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecas
 import {
   ChallengeNotAskedError,
   NotFoundError,
-  ForbiddenAccess,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
 } from '../../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 
 const ANSWER_STATUS_FOCUSEDOUT = AnswerStatus.FOCUSEDOUT;
 const ANSWER_STATUS_OK = AnswerStatus.OK;

@@ -1,6 +1,6 @@
-import { ForbiddenAccess } from '../../../../../lib/domain/errors.js';
 import { Session } from '../../../../../lib/domain/models/Session.js';
 import { CertificationVersion } from '../../../../../lib/domain/models/CertificationVersion.js';
+import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 const createSession = async function ({
   userId,

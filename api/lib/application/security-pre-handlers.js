@@ -25,8 +25,9 @@ import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
 import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import { Organization } from '../domain/models/index.js';
-import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
+import { NotFoundError } from '../domain/errors.js';
 import { PIX_ADMIN } from '../domain/constants.js';
+import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const { has } = lodash;

@@ -3,7 +3,6 @@ import lodash from 'lodash';
 const { get } = lodash;
 
 import {
-  ForbiddenAccess,
   LocaleFormatError,
   LocaleNotSupportedError,
   MissingOrInvalidCredentialsError,
@@ -11,6 +10,7 @@ import {
 } from '../../domain/errors.js';
 
 import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {

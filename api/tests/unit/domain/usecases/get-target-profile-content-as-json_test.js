@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr, domainBuilder, MockDate } from '../../../test-helper.js';
-import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
 import { getTargetProfileContentAsJson } from '../../../../lib/domain/usecases/get-target-profile-content-as-json.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   let targetProfileForAdminRepository;

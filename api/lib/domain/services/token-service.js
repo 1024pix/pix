@@ -5,10 +5,10 @@ import {
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-  ForbiddenAccess,
 } from '../../domain/errors.js';
 
 import { config } from '../../config.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {
