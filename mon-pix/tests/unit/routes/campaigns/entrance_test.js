@@ -90,6 +90,31 @@ module('Unit | Route | Entrance', function (hooks) {
       assert.ok(true);
     });
 
+    test('should save another campaign participation when reset is allowed', async function (assert) {
+      // given
+      campaign = {
+        code: 'SOMECODE',
+        multipleSendings: true,
+      };
+
+      route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(true);
+      route.campaignStorage.get.withArgs(campaign.code, 'reset').returns(true);
+      route.currentUser.user.hasAssessmentParticipations = true;
+
+      // when
+      await route.afterModel(campaign);
+
+      // then
+      sinon.assert.calledWith(route.store.createRecord, 'campaign-participation', {
+        campaign,
+        isReset: true,
+        participantExternalId: undefined,
+      });
+      sinon.assert.called(campaignParticipationStub.save);
+      sinon.assert.notCalled(route.currentUser.load);
+      assert.ok(true);
+    });
+
     test('should resume and not create any new campaign participation when some is already existing', async function (assert) {
       //given
       campaign = EmberObject.create({

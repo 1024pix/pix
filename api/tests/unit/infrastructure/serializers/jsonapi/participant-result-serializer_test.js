@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
@@ -7,6 +7,7 @@ import { StageCollection } from '../../../../../lib/domain/models/user-campaign-
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
   context('#serialize', function () {
     const isCampaignMultipleSendings = true;
+    const isTargetProfileResetAllowed = true;
     const isOrganizationLearnerActive = true;
     const isCampaignArchived = false;
     let participationResults;
@@ -90,6 +91,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         isCampaignMultipleSendings,
         isOrganizationLearnerActive,
         isCampaignArchived,
+        isTargetProfileResetAllowed,
       });
 
       const expectedSerializedCampaignParticipationResult = {
@@ -102,6 +104,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'total-skills-count': 2,
             'validated-skills-count': 1,
             'can-retry': true,
+            'can-reset': true,
             'can-improve': false,
             'is-disabled': false,
             'participant-external-id': 'greg@lafleche.fr',
@@ -275,6 +278,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           isOrganizationLearnerActive,
           isCampaignArchived,
           flashScoringResults,
+          isTargetProfileResetAllowed,
         });
 
         // when

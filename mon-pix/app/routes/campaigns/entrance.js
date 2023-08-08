@@ -40,9 +40,11 @@ export default class Entrance extends Route {
 
   async _beginCampaignParticipation(campaign) {
     const participantExternalId = this.campaignStorage.get(campaign.code, 'participantExternalId');
+    const reset = this.campaignStorage.get(campaign.code, 'reset');
     const campaignParticipation = this.store.createRecord('campaign-participation', {
       campaign,
       participantExternalId,
+      isReset: reset ? true : undefined,
     });
 
     try {
@@ -78,6 +80,7 @@ export default class Entrance extends Route {
     const hasParticipated = Boolean(ongoingCampaignParticipation);
     this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
     const retry = this.campaignStorage.get(campaign.code, 'retry');
-    return !hasParticipated || (campaign.multipleSendings && retry);
+    const reset = this.campaignStorage.get(campaign.code, 'reset');
+    return !hasParticipated || (campaign.multipleSendings && (retry || reset));
   }
 }

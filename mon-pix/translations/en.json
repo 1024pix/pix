@@ -40,6 +40,7 @@
       "back": "Back",
       "cancel": "Cancel",
       "close": "Close",
+      "confirm": "Confirm",
       "quit": "Exit",
       "sign-out": "Sign out",
       "stay": "Stay",
@@ -1419,6 +1420,14 @@
       },
       "not-finished": "You can’t submit your results yet, we still have a few questions to ask.",
       "organization-message": "Message of your organization",
+      "reset": {
+        "button": "Reset and restart from the beginning",
+        "modal": {
+          "text": "You are about to reset and restart your customised test <strong>{targetProfileName}</strong>, in order to try to improve your results. At the end of this customised test, you can submit your results.",
+          "warning-text": "Your pix score, levels and eligibility for certification obtained during this customised test will be deleted."
+        },
+        "notifications": "If you choose to retry the failed questions or reset and restart from the beginning, your organisation will no longer be able to see your previously sent results. At the end of this customised test you will need to submit your results, so that it can be taken into account by the organiser."
+      },
       "retry": {
         "button": "Retake my customised test",
         "message": "{organizationName} encourages you to retake your test to measure your progress."

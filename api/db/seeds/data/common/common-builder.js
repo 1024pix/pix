@@ -687,6 +687,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
     description: null,
     name: '[Pix+Édu 1D FI] Prêt pour la certification du volet 1',
     isSimplifiedAccess: false,
+    areKnowledgeElementsResettable: true,
     category: 'PREDEFINED',
     isPublic: true,
   });

@@ -1,8 +1,8 @@
 import { BadgeResult } from './BadgeResult.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import {
-  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MAX_MASTERY_RATE,
+  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
 } from '../../constants.js';
 import moment from 'moment';
@@ -12,6 +12,7 @@ class AssessmentResult {
     participationResults,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
+    isTargetProfileResetAllowed,
     isCampaignArchived,
     competences,
     badgeResultsDTO,
@@ -69,6 +70,13 @@ class AssessmentResult {
       this.masteryRate,
       this.isDisabled,
     );
+    this.canReset = this._computeCanReset({
+      isTargetProfileResetAllowed,
+      isCampaignMultipleSendings,
+      isOrganizationLearnerActive,
+      isDisabled: this.isDisabled,
+      sharedAt,
+    });
 
     if (flashScoringResults) {
       this.estimatedFlashLevel = flashScoringResults.estimatedLevel;
@@ -115,6 +123,22 @@ class AssessmentResult {
       masteryRate < MAX_MASTERY_RATE &&
       isOrganizationLearnerActive &&
       !isDisabled
+    );
+  }
+
+  _computeCanReset({
+    isTargetProfileResetAllowed,
+    isOrganizationLearnerActive,
+    isCampaignMultipleSendings,
+    isDisabled,
+    sharedAt,
+  }) {
+    return (
+      isTargetProfileResetAllowed &&
+      isOrganizationLearnerActive &&
+      isCampaignMultipleSendings &&
+      !isDisabled &&
+      this._timeBeforeRetryingPassed(sharedAt)
     );
   }
 
