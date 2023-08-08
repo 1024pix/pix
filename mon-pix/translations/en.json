@@ -662,6 +662,15 @@
           "content": "'<p><strong>'Do you confirm this problem report?'</strong></p><p>'Thank you for this problem report, our team will review it soon. Every feedback helps us improve our services and the experience of all Pix users. Please note that we will not reach out to you on this topic. Thank you for your help.'</p>'"
         }
       },
+      "feedback-panel-v3": {
+        "actions": {
+          "no-send-feedback": "Non, je reviens à l'épreuve",
+          "open-close": "Signaler un problème avec la question",
+          "send-feedback": "Oui, je suis sûr(e)"
+        },
+        "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
+        "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement."
+      },
       "has-focused-out-of-window": {
         "certification": "We have detected a page switch. Your answer will not be validated.'<br>'If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
         "default": "We have detected a page switch.'<br>'During a certification test, your answer would not be validated."
@@ -682,6 +691,7 @@
           "qcu": "Select one answer"
         },
         "feedback": "Report a problem",
+        "feedback-v3": "Signaler un problème avec la question",
         "instruction": "Instructions to answer the question",
         "progress": "Your progression",
         "validation": "Validate or skip this question"
