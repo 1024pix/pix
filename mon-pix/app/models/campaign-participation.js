@@ -3,6 +3,7 @@ import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 export default class CampaignParticipation extends Model {
   // attributes
   @attr('boolean') isShared;
+  @attr('boolean') isReset;
   @attr('date') createdAt;
   @attr('date') sharedAt;
   @attr('date') deletedAt;

@@ -19,6 +19,7 @@ const serialize = function (results) {
       'competenceResults',
       'reachedStage',
       'canRetry',
+      'canReset',
       'canImprove',
       'isDisabled',
     ],

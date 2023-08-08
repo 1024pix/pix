@@ -150,18 +150,76 @@
           </div>
         </div>
       </div>
-      {{#if @model.campaignParticipationResult.canRetry}}
+      {{#if this.displayRetryOrResetActions}}
         <div class="skill-review__retry">
           <p class="skill-review-retry__message">{{t
               "pages.skill-review.retry.message"
               organizationName=@model.campaign.organizationName
             }}</p>
-          <LinkTo
-            @route="campaigns.entry-point"
-            @model={{@model.campaign.code}}
-            @query={{this.query}}
-            class="skill-review-retry__button button button--big button--link"
-          >{{t "pages.skill-review.retry.button"}}</LinkTo>
+          <div class="skill-review__actions">
+            {{#if @model.campaignParticipationResult.canRetry}}
+              <PixButtonLink
+                class="skill-review__actions__pix-button"
+                @route="campaigns.entry-point"
+                @model={{@model.campaign.code}}
+                @query={{this.retryQuery}}
+                @size="small"
+                @shape="rounded"
+              >{{t "pages.skill-review.retry.button"}}</PixButtonLink>
+            {{/if}}
+
+            {{#if @model.campaignParticipationResult.canReset}}
+              <PixButton
+                class="skill-review__actions__pix-button"
+                @size="small"
+                @shape="rounded"
+                @backgroundColor="transparent"
+                @isBorderVisible={{true}}
+                @triggerAction={{this.showResetModal}}
+              >{{t "pages.skill-review.reset.button"}}</PixButton>
+
+              <PixBanner @type="default" class="skill-review__action-banner">{{t
+                  "pages.skill-review.reset.notifications"
+                }}</PixBanner>
+
+              <PixModal
+                @title={{t "pages.skill-review.reset.button"}}
+                @showModal={{this.displayResetCampaignParticipationModal}}
+                @onCloseButtonClick={{this.closeResetModal}}
+              >
+                <:content>
+                  <PixBanner @type="warning">{{t "pages.skill-review.reset.modal.warning-text"}}</PixBanner>
+                  <p class="reset-campaign-participation-modal__text">
+
+                    {{t
+                      "pages.skill-review.reset.modal.text"
+                      targetProfileName=@model.campaign.targetProfileName
+                      htmlSafe=true
+                    }}
+                  </p>
+                </:content>
+                <:footer>
+                  <div class="reset-campaign-participation-modal__footer">
+                    <PixButton
+                      @backgroundColor="transparent-light"
+                      @isBorderVisible={{true}}
+                      @triggerAction={{this.closeResetModal}}
+                    >
+                      {{t "common.actions.cancel"}}
+                    </PixButton>
+                    <PixButtonLink
+                      @route="campaigns.entry-point"
+                      @model={{@model.campaign.code}}
+                      @query={{this.resetQuery}}
+                      @size="big"
+                      @shape="squircle"
+                      @backgroundColor="red"
+                    >{{t "common.actions.confirm"}}</PixButtonLink>
+                  </div>
+                </:footer>
+              </PixModal>
+            {{/if}}
+          </div>
         </div>
       {{/if}}
       {{#if @model.trainings}}

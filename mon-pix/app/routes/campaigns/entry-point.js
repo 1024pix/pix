@@ -28,6 +28,9 @@ export default class EntryPoint extends Route {
     if (queryParams.retry) {
       this.campaignStorage.set(campaign.code, 'retry', transition.to.queryParams.retry);
     }
+    if (queryParams.reset) {
+      this.campaignStorage.set(campaign.code, 'reset', transition.to.queryParams.reset);
+    }
 
     let hasParticipated = false;
     if (this.session.isAuthenticated) {
