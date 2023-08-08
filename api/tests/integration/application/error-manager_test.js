@@ -1,5 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 import * as DomainErrors from '../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
@@ -382,7 +383,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Forbidden when a ForbiddenAccess error occurs', async function () {
-      routeHandler.throws(new DomainErrors.ForbiddenAccess('Accès non autorisé.'));
+      routeHandler.throws(new ForbiddenAccess('Accès non autorisé.'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);

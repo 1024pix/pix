@@ -647,12 +647,6 @@ class EntityValidationError extends DomainError {
   }
 }
 
-class ForbiddenAccess extends DomainError {
-  constructor(message = 'Accès non autorisé.') {
-    super(message);
-  }
-}
-
 class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
     super(message);
@@ -1360,7 +1354,6 @@ export {
   EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
   FileValidationError,
-  ForbiddenAccess,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
