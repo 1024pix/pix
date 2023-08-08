@@ -1,5 +1,5 @@
-import { expect, domainBuilder, catchErr } from '../../../../../test-helper.js';
-import { statuses } from '../../../../../../lib/domain/models/Session.js';
+import { catchErr, domainBuilder, expect } from '../../../../../test-helper.js';
+import { statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 import { EntityValidationError } from '../../../../../../lib/domain/errors.js';
 import * as sessionValidator from '../../../../../../src/certification/session/domain/validators/session-validator.js';
 

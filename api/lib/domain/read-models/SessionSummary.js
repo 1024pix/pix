@@ -1,4 +1,4 @@
-import { statuses } from '../models/Session.js';
+import { statuses } from '../../../src/certification/session/domain/models/Session.js';
 
 class SessionSummary {
   constructor({

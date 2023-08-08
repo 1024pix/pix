@@ -1,10 +1,9 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-
-const { Serializer } = jsonapiSerializer;
-
 import _ from 'lodash';
 
-import { Session } from '../../../domain/models/Session.js';
+import { Session } from '../../../../src/certification/session/domain/models/Session.js';
+
+const { Serializer } = jsonapiSerializer;
 
 const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired }) {
   const attributes = [

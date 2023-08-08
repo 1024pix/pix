@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { Session } from '../../../../../lib/domain/models/Session.js';
+import { Session } from '../../domain/models/Session.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
