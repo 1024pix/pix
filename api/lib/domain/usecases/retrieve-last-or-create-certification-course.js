@@ -13,7 +13,7 @@ import {
 
 import { config } from '../../config.js';
 import bluebird from 'bluebird';
-import { CertificationVersion } from '../models/CertificationVersion.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
 const { features } = config;
 

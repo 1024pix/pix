@@ -13,7 +13,7 @@ import { CertificationIssueReportCategory } from '../../../../lib/domain/models/
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
-import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../lib/config.js';
 
 describe('Acceptance | API | Certification Course', function () {

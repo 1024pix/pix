@@ -3,7 +3,7 @@ import bluebird from 'bluebird';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { Session } from '../../../../src/certification/session/domain/models/Session.js';
 import { CertificationCandidate } from '../../models/CertificationCandidate.js';
-import { CertificationVersion } from '../../models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 
 const createSessions = async function ({
   userId,

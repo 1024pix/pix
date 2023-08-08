@@ -4,7 +4,7 @@ import { createSessions } from '../../../../../lib/domain/usecases/sessions-mass
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { Session } from '../../../../../src/certification/session/domain/models/Session.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationVersion } from '../../../../../lib/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCenterRepository;
