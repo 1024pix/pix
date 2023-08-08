@@ -54,14 +54,6 @@ const getLastChallengeId = async function (request, h) {
   return h.response(lastChallengeId).code(200);
 };
 
-const getChallengeForPixAutoAnswer = async function (request, h) {
-  const assessmentId = request.params.id;
-
-  const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
-
-  return h.response(challenge).code(200);
-};
-
 const getNextChallenge = async function (
   request,
   h,
@@ -183,7 +175,6 @@ const assessmentController = {
   createForPix1d,
   get,
   getLastChallengeId,
-  getChallengeForPixAutoAnswer,
   getNextChallenge,
   getNextChallengeForPix1d,
   getCurrentActivity,
