@@ -1,4 +1,4 @@
-import { injectDependencies } from '../utils/dependency-injection.js';
+import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 
 import * as correctionRepository from './correction-repository.js';
 import * as trainingRepository from './training-repository.js';
