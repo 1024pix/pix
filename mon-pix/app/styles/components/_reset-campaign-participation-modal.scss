@@ -1,4 +1,4 @@
-.reset-ke-modal {
+.reset-campaign-participation-modal {
   &__text {
     margin: $pix-spacing-m;
   }
@@ -6,7 +6,7 @@
   &__footer {
     display: flex;
     gap: $pix-spacing-s;
-    align-items:center;
+    align-items: center;
     justify-content: end;
   }
 }
