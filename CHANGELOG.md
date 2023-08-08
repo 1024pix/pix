@@ -1,5 +1,39 @@
 # Pix Changelog
 
+## v4.22.0 (08/08/2023)
+
+
+### :rocket: Amélioration
+- [#6820](https://github.com/1024pix/pix/pull/6820) [FEATURE]  Ajouter le bouton pour permettre la remise à zéro des compétences d'une campagne (PIX-8823).
+- [#6824](https://github.com/1024pix/pix/pull/6824) [FEATURE] Améliorer l'accessibilité des formulaires sur Pix-App (PIX-8077).
+- [#6831](https://github.com/1024pix/pix/pull/6831) [FEATURE] Création d'une migration pour mettre à jour view-active-organization-learner.
+- [#6825](https://github.com/1024pix/pix/pull/6825) [FEATURE] Publication en masse des sessions V3 (PIX-8313).
+- [#6812](https://github.com/1024pix/pix/pull/6812) [FEATURE] Pouvoir choisir de rechercher sur les orgas archivés ou non dans Pix Admin (PIX-6109).
+- [#6822](https://github.com/1024pix/pix/pull/6822) [FEATURE] Afficher un toggle pour accéder aux deux profiles cibles d'une certification complémentaire (PIX-8811).
+- [#6742](https://github.com/1024pix/pix/pull/6742) [FEATURE][ORGA] Permettre à un admin d'une organisation de quitter une organisation (PIX-8380).
+- [#6821](https://github.com/1024pix/pix/pull/6821) [FEATURE] ETQ utilisateur Pix Orga, JV pouvoir filtrer sur les élèves n'ayant PAS de connexion MEDIACENTRE (PIX-8432).
+- [#6787](https://github.com/1024pix/pix/pull/6787) [FEATURE] Afficher la page de rattachement pour un nouveau profil cible à une certification complémentaire (PIX-8739).
+- [#6815](https://github.com/1024pix/pix/pull/6815) [FEATURE] Remettre à zéro la participation à une campagne - API (PIX-8669).
+- [#6809](https://github.com/1024pix/pix/pull/6809) [FEATURE] Filtrer liste des sessions de certification par version (PIX-8340).
+- [#6577](https://github.com/1024pix/pix/pull/6577) [FEATURE] Voir la liste des sessions de certif V3 à traiter (PIX-8335).
+
+### :building_construction: Tech
+- [#6251](https://github.com/1024pix/pix/pull/6251) [TECH] Remplacer le modèle bookshelf Feedback par l'utilisation de knex (PIX-8818).
+- [#6817](https://github.com/1024pix/pix/pull/6817) [TECH] Implémentation de l'ADR sur les versions de Node.js (#6513).
+
+### :bug: Correction
+- [#6838](https://github.com/1024pix/pix/pull/6838) [BUGFIX] Les tests statiques créés via PixEditor ne se lancent pas sur PixApp (PIX-8866).
+
+### :arrow_up: Montée de version
+- [#6832](https://github.com/1024pix/pix/pull/6832) [BUMP] Update dependency @1024pix/pix-ui to v39 (mon-pix).
+- [#6830](https://github.com/1024pix/pix/pull/6830) [BUMP] Update dependency @1024pix/pix-ui to v39 (certif).
+- [#6829](https://github.com/1024pix/pix/pull/6829) [BUMP] Update dependency @1024pix/pix-ui to v39 (1d).
+- [#6827](https://github.com/1024pix/pix/pull/6827) [BUMP] Update redis Docker tag to v7.
+- [#6826](https://github.com/1024pix/pix/pull/6826) [BUMP] Lock file maintenance (api).
+
+### :coffee: Autre
+- [#6513](https://github.com/1024pix/pix/pull/6513) [DOCS] S'assurer d'une version minimale de Node.js.
+
 ## v4.21.0 (03/08/2023)
 
 
