@@ -11,7 +11,15 @@ const serialize = function (certificationCourse) {
       certificationCourseDTO.examinerComment = certificationCourseDTO.certificationIssueReports?.[0]?.description;
       return certificationCourseDTO;
     },
-    attributes: ['assessment', 'nbChallenges', 'examinerComment', 'hasSeenEndTestScreen', 'firstName', 'lastName'],
+    attributes: [
+      'assessment',
+      'nbChallenges',
+      'examinerComment',
+      'hasSeenEndTestScreen',
+      'firstName',
+      'lastName',
+      'version',
+    ],
     assessment: {
       ref: 'id',
       ignoreRelationshipData: true,
