@@ -59,33 +59,38 @@
     {{/if}}
 
     <div class="challenge-actions__group">
-      <PixButton
-        @isDisabled={{@isDisabled}}
-        @triggerAction={{@validateAnswer}}
-        @backgroundColor="green"
-        @shape="rounded"
-        @iconAfter="arrow-right"
-        class="challenge-actions__action-validate"
-        aria-label={{t "pages.challenge.actions.validate-go-to-next"}}
-      >
-        <span class="challenge-actions__action-validate-text">
-          {{t "pages.challenge.actions.validate"}}
-        </span>
-      </PixButton>
+      <div class="challenge-actions__buttons">
+        <PixButton
+          @isDisabled={{this.areActionButtonsDisabled}}
+          @triggerAction={{@validateAnswer}}
+          @backgroundColor="green"
+          @shape="rounded"
+          @iconAfter="arrow-right"
+          class="challenge-actions__action-validate"
+          aria-label={{t "pages.challenge.actions.validate-go-to-next"}}
+        >
+          <span class="challenge-actions__action-validate-text">
+            {{t "pages.challenge.actions.validate"}}
+          </span>
+        </PixButton>
 
-      <PixButton
-        @isBorderVisible={{true}}
-        @isDisabled={{@isDisabled}}
-        @triggerAction={{@skipChallenge}}
-        @backgroundColor="transparent-light"
-        @shape="rounded"
-        class="challenge-actions__action-skip"
-        aria-label={{t "pages.challenge.actions.skip-go-to-next"}}
-      >
-        <span class="challenge-actions__action-skip-text">
-          {{t "pages.challenge.actions.skip"}}
-        </span>
-      </PixButton>
+        <PixButton
+          @isBorderVisible={{true}}
+          @isDisabled={{this.areActionButtonsDisabled}}
+          @triggerAction={{@skipChallenge}}
+          @backgroundColor="transparent-light"
+          @shape="rounded"
+          class="challenge-actions__action-skip"
+          aria-label={{t "pages.challenge.actions.skip-go-to-next"}}
+        >
+          <span class="challenge-actions__action-skip-text">
+            {{t "pages.challenge.actions.skip"}}
+          </span>
+        </PixButton>
+      </div>
+      {{#if @isInvigilatorCalled}}
+        <p>{{t "pages.challenge.actions.wait-for-invigilator"}}</p>
+      {{/if}}
     </div>
   {{/if}}
 </div>

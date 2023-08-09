@@ -31,8 +31,15 @@
   margin: $pix-spacing-xxs;
   background-color: $pix-neutral-10;
 
+  &__group > p {
+    margin-top: 8px;
+    color: $pix-neutral-90;
+    font-size: 0.75rem;
+    line-height: 17px;
+  }
+
   @include device-is('mobile') {
-    &__group {
+    &__buttons {
       display: flex;
       flex-direction: column;
       padding: 0 $pix-spacing-m;
@@ -48,7 +55,7 @@
     align-items: center;
     justify-content: flex-end;
 
-    &__group {
+    &__buttons {
       display: flex;
       flex-direction: row-reverse;
     }
