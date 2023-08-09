@@ -41,6 +41,7 @@ import {
   LocaleFormatError,
   LocaleNotSupportedError,
   CertificationCandidateNotFoundError,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../lib/domain/errors.js';
 
 import { HttpErrors } from '../../../lib/application/http-errors.js';
@@ -364,6 +365,19 @@ describe('Unit | Application | ErrorManager', function () {
         SESSION_SUPERVISING.INCORRECT_DATA.getMessage(),
         SESSION_SUPERVISING.INCORRECT_DATA.code,
       );
+    });
+
+    it('should instantiate PreconditionFailedError when NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {
+      // given
+      const error = new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
+      sinon.stub(HttpErrors, 'PreconditionFailedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PreconditionFailedError).to.have.been.called;
     });
 
     it('should instantiate BadRequestError when OrganizationLearnerAlreadyLinkedToInvalidUserError', async function () {
