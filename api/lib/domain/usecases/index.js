@@ -111,7 +111,6 @@ import * as membershipRepository from '../../infrastructure/repositories/members
 import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
-import * as organizationFeatureRepository from '../../infrastructure/repositories/organizations-administration/organization-feature-repository.js';
 import * as organizationForAdminRepository from '../../infrastructure/repositories/organization-for-admin-repository.js';
 import * as organizationInvitationRepository from '../../infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationInvitationService from '../services/organization-invitation-service.js';
@@ -330,7 +329,6 @@ const dependencies = {
   missionRepository,
   obfuscationService,
   organizationCreationValidator,
-  organizationFeatureRepository,
   organizationForAdminRepository,
   organizationInvitationRepository,
   organizationInvitationService,
