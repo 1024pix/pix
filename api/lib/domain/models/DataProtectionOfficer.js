@@ -18,6 +18,12 @@ class DataProtectionOfficer {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
+
+  updateInformation({ firstName, lastName, email }) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+  }
 }
 
 export { DataProtectionOfficer };

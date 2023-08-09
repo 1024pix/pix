@@ -97,9 +97,7 @@ class OrganizationForAdmin {
     this.documentationUrl = organization.documentationUrl;
     this.showSkills = organization.showSkills;
     this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
-    this.dataProtectionOfficer.firstName = dataProtectionOfficer.firstName;
-    this.dataProtectionOfficer.lastName = dataProtectionOfficer.lastName;
-    this.dataProtectionOfficer.email = dataProtectionOfficer.email;
+    this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
 
     this.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] =
       organization.enableMultipleSendingAssessment;
