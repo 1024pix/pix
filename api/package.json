@@ -58,7 +58,7 @@
     "ms": "^2.1.3",
     "node-cache": "^5.1.2",
     "node-stream-zip": "^1.15.0",
-    "oppsy": "https://github.com/1024pix/oppsy#main",
+    "oppsy": "git+https://github.com/1024pix/oppsy.git#main",
     "papaparse": "^5.3.2",
     "pdf-lib": "^1.17.1",
     "pg": "^8.7.3",
@@ -98,7 +98,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-chai-expect": "^3.0.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-knex": "https://github.com/1024pix/eslint-plugin-knex#master",
+    "eslint-plugin-knex": "git+https://github.com/1024pix/eslint-plugin-knex.git#master",
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -162,5 +162,12 @@
     "test:lint": "npm test && npm run lint",
     "monitoring:arborescence": "node scripts/arborescence-monitoring/arborescence-monitoring.js",
     "monitoring:metrics": "node scripts/arborescence-monitoring/add-metrics-to-gist.js"
+  },
+  "bugs": {
+    "url": "https://github.com/1024pix/pix/issues"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
   }
 }

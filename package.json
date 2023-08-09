@@ -26,13 +26,11 @@
     "build": "run-s ci:front build:front",
     "build:front": "run-p --print-label \"build --workspaces --if-present\" build:1d",
     "build:1d": "(cd 1d && npm run build) && mkdir -p dist && cp -R 1d/dist dist/1d",
-    "ci:all": "run-p --print-label ci:api ci:front",
-    "ci:api": "cd api && npm ci",
-    "ci:front": "npm ci && npm run ci:1d",
+    "ci:front": "run-s --print-label ci:all ci:1d",
+    "ci:all": "npm ci",
     "ci:1d": "cd 1d && npm ci",
     "compute-lead-times": "node ./scripts/compute-lead-times",
     "clean": "run-p --print-label clean:workspaces clean:1d && npm run clean:root",
-    "clean:api": "cd api && npm run clean",
     "clean:workspaces": "npm run clean --workspaces --if-present",
     "clean:1d": "cd 1d && npm run clean",
     "clean:root": "rm -rf node_modules && rm -rf tmp",
@@ -52,7 +50,7 @@
     "local:add-optional-checks": "husky install",
     "local:remove-optional-checks": "git config --unset core.hooksPath",
     "preinstall": "npx check-engine",
-    "start": "run-p --print-label start:api start:mon-pix start:orga start:1d  start:certif start:admin",
+    "start": "run-p --print-label start:api start:mon-pix start:orga start:1d start:certif start:admin",
     "start:admin": "cd admin && npm start",
     "start:api": "cd api && npm run start:watch",
     "start:certif": "cd certif && npm start",
@@ -75,6 +73,7 @@
   },
   "dependencies": {
     "bluebird": "3.7.2",
+    "bookshelf": "^1.2.0",
     "d3-dsv": "^2.0.0",
     "moment": "^2.29.1",
     "npm-run-all": "^4.1.5"
@@ -91,10 +90,16 @@
   "peerDependencies": {
     "markdown-link-check": "^3.8.6"
   },
+  "overrides": {
+    "bookshelf": {
+      "knex": "^2.1.0"
+    }
+  },
   "workspaces": [
     "orga",
     "admin",
     "mon-pix",
-    "certif"
+    "certif",
+    "api"
   ]
 }
