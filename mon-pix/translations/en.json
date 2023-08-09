@@ -536,7 +536,8 @@
         "skip": "Skip",
         "skip-go-to-next": "Skip and go to the next question",
         "validate": "Validate",
-        "validate-go-to-next": "Validate and go to the next question"
+        "validate-go-to-next": "Validate and go to the next question",
+        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
       },
       "already-answered": "You have already answered this question",
       "answer-input": {

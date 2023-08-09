@@ -536,7 +536,8 @@
         "skip": "Je passe",
         "skip-go-to-next": "Je passe et je vais à la prochaine question",
         "validate": "Je valide",
-        "validate-go-to-next": "Je valide et je vais à la prochaine question"
+        "validate-go-to-next": "Je valide et je vais à la prochaine question",
+        "wait-for-invigilator": "Les actions sont mises en pause en attendant le surveillant"
       },
       "already-answered": "Vous avez déjà répondu à cette question",
       "answer-input": {

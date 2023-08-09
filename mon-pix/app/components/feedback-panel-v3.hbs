@@ -15,7 +15,7 @@
     <div class="feedback-panel-v3__view">
       {{t "pages.challenge.feedback-panel-v3.description"}}
       <div class="feedback-panel-v3__action-buttons">
-        <button type="button">
+        <button type="button" {{on "click" @disableChallengeActions}}>
           {{t "pages.challenge.feedback-panel-v3.actions.send-feedback"}}
         </button>
         <button type="button" {{on "click" this.toggleFeedbackForm}}>
