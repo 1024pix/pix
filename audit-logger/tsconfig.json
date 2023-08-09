@@ -1,0 +1,53 @@
+{
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Basic Options */
+    /* Redirect output structure to the directory. */
+    "outDir": "./dist",
+    /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDir": "./src",
+
+    /* Strict Type-Checking Options */
+    /* Raise error on expressions and declarations with an implied 'any' type. */
+    "noImplicitAny": true,
+    /* Enable strict null checks. */
+    "strictNullChecks": true,
+    /* Enable strict checking of function types. */
+    "strictFunctionTypes": true,
+    /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    "strictBindCallApply": true,
+    /* Enable strict checking of property initialization in classes. */
+    "strictPropertyInitialization": true,
+    /* Raise error on 'this' expressions with an implied 'any' type. */
+    "noImplicitThis": true,
+    /* Parse in strict mode and emit "use strict" for each source file. */
+    "alwaysStrict": true,
+
+    /* Additional Checks */
+    /* Report errors on unused locals. */
+    "noUnusedLocals": true,
+    /* Report errors on unused parameters. */
+    "noUnusedParameters": true,
+    /* Report error when not all code paths in function return a value. */
+    "noImplicitReturns": true,
+    /* Report errors for fallthrough cases in switch statement. */
+    "noFallthroughCasesInSwitch": true,
+    /* Type declaration files to be included in compilation. */
+    "types": [
+      "node"
+    ]
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "exclude": [
+    "src/tests/**/*",
+    "vitest.config.ts"
+  ],
+  "include": [
+    "src/**/*",
+    "package.json"
+  ]
+}
