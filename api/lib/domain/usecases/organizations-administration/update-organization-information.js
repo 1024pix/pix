@@ -1,7 +1,11 @@
 const updateOrganizationInformation = async function ({ organization, organizationForAdminRepository }) {
   const existingOrganization = await organizationForAdminRepository.get(organization.id);
 
-  existingOrganization.updateInformation(organization, organization.dataProtectionOfficer, organization.tags);
+  existingOrganization.updateWithDataProtectionOfficerAndTags(
+    organization,
+    organization.dataProtectionOfficer,
+    organization.tags,
+  );
 
   await organizationForAdminRepository.update(existingOrganization);
 
