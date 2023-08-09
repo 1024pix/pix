@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
 const getOrganizationDetails = async function (request, h, dependencies = { organizationForAdminSerializer }) {
@@ -17,8 +18,11 @@ const updateOrganizationInformation = async function (
 ) {
   const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
 
-  const organizationUpdated = await usecases.updateOrganizationInformation({
-    organization: organizationDeserialized,
+  const organizationUpdated = await DomainTransaction.execute(function (domainTransaction) {
+    return usecases.updateOrganizationInformation({
+      organization: organizationDeserialized,
+      domainTransaction,
+    });
   });
   return h.response(dependencies.organizationForAdminSerializer.serialize(organizationUpdated));
 };
