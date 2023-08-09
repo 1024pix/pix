@@ -23,17 +23,6 @@ export default class InformationBanner extends Component {
     return 'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba';
   }
 
-  get displayNewYearCampaignsBanner() {
-    return this.currentUser.organization.isSco && !this._isOnCertificationsPage;
-  }
-
-  get campaignDocumentationLink() {
-    if (this.currentUser.isSCOManagingStudents) {
-      return 'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba';
-    }
-    return 'https://view.genial.ly/5fea2c3d6157fe0d69196ed9?idSlide=16cedb0c-3c1c-4cd3-a00b-49c01b0afcc2';
-  }
-
   get displayCertificationBanner() {
     const timeToDisplay = ENV.APP.CERTIFICATION_BANNER_DISPLAY_DATES.split(' ');
     const actualMonth = this.dayjs.self().format('MM');

@@ -53,9 +53,6 @@
     }
   },
   "banners": {
-    "campaigns": {
-      "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'More info'</a>'"
-    },
     "import": {
       "message": "The administrator can download certification results and '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'import'</a>' the students database to create back-to-school campaigns by year level. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more'</a>'"
     }
