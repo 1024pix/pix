@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({ name: newName });
+      givenOrganization.updateWithDataProtectionOfficerAndTags({ name: newName });
 
       // then
       expect(givenOrganization.name).to.equal(newName);
@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({ name: newName });
+      givenOrganization.updateWithDataProtectionOfficerAndTags({ name: newName });
 
       // then
       expect(givenOrganization.name).to.equal(originalName);
@@ -79,7 +79,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         type: newType,
       });
 
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         type: newType,
       });
 
@@ -113,7 +113,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         identityProviderForCampaigns: newIdentityProviderForCampaigns,
       });
 
@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         logoUrl: newLogoUrl,
       });
 
@@ -147,7 +147,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         logoUrl: newLogoUrl,
       });
 
@@ -164,7 +164,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         externalId: newExternalId,
       });
 
@@ -181,7 +181,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         provinceCode: newProvinceCode,
       });
 
@@ -196,7 +196,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         isManagingStudents: true,
       });
 
@@ -213,7 +213,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         email: newEmail,
       });
 
@@ -230,7 +230,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         credit: newCredits,
       });
 
@@ -247,7 +247,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         documentationUrl: newDocumentationUrl,
       });
 
@@ -262,7 +262,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
         showSkills: true,
       });
 
@@ -281,7 +281,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({ id: organizationId }, {}, [{ id: newTagId }]);
+      givenOrganization.updateWithDataProtectionOfficerAndTags({ id: organizationId }, {}, [{ id: newTagId }]);
 
       // then
       expect(givenOrganization.tagsToRemove).to.deep.equal([{ tagId: initialTagId, organizationId }]);
@@ -297,7 +297,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation(
+      givenOrganization.updateWithDataProtectionOfficerAndTags(
         {},
         { firstName: 'Alex', lastName: 'Terieur', email: 'alex.terieur@example.net' },
       );
@@ -319,7 +319,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({}, { firstName: '', lastName: '', email: '' });
+      givenOrganization.updateWithDataProtectionOfficerAndTags({}, { firstName: '', lastName: '', email: '' });
 
       // then
       expect(givenOrganization.dataProtectionOfficer).to.includes({}, { firstName: '', lastName: '', email: '' });
@@ -334,7 +334,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({ enableMultipleSendingAssessment: true });
+      givenOrganization.updateWithDataProtectionOfficerAndTags({ enableMultipleSendingAssessment: true });
 
       // then
       expect(givenOrganization.features).to.includes({
@@ -351,7 +351,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       });
 
       // when
-      givenOrganization.updateInformation({ enableMultipleSendingAssessment: false });
+      givenOrganization.updateWithDataProtectionOfficerAndTags({ enableMultipleSendingAssessment: false });
 
       // then
       expect(givenOrganization.features).to.includes({

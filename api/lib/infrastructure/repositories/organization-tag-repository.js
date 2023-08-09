@@ -54,9 +54,4 @@ const getRecentlyUsedTags = async function ({ tagId, numberOfRecentTags }) {
   return tags.map(({ tagId: id, name }) => new Tag({ id, name }));
 };
 
-export {
-  create,
-  batchCreate,
-  isExistingByOrganizationIdAndTagId,
-  getRecentlyUsedTags,
-};
+export { create, batchCreate, isExistingByOrganizationIdAndTagId, getRecentlyUsedTags };

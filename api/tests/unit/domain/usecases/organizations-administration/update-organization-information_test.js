@@ -21,7 +21,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     const existingOrganizationForAdmin = domainBuilder.buildOrganizationForAdmin({
       organizationId: givenOrganization.id,
     });
-    sinon.stub(existingOrganizationForAdmin, 'updateInformation');
+    sinon.stub(existingOrganizationForAdmin, 'updateWithDataProtectionOfficerAndTags');
     organizationForAdminRepository.get.onCall(0).returns(existingOrganizationForAdmin);
     const updatedOrganization = domainBuilder.buildOrganizationForAdmin({ organizationId: givenOrganization.id });
     organizationForAdminRepository.get.onCall(1).returns(updatedOrganization);
@@ -34,7 +34,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
 
     // then
     expect(organizationForAdminRepository.get).to.have.been.calledWith(givenOrganization.id);
-    expect(existingOrganizationForAdmin.updateInformation).to.have.been.calledWith(
+    expect(existingOrganizationForAdmin.updateWithDataProtectionOfficerAndTags).to.have.been.calledWith(
       givenOrganization,
       givenOrganization.dataProtectionOfficer,
       givenOrganization.tags,

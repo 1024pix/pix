@@ -85,7 +85,7 @@ class OrganizationForAdmin {
     this.identityProviderForCampaigns = identityProviderForCampaigns;
   }
 
-  updateInformation(organization, dataProtectionOfficer = {}, tags = []) {
+  updateWithDataProtectionOfficerAndTags(organization, dataProtectionOfficer = {}, tags = []) {
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
     if (organization.logoUrl) this.logoUrl = organization.logoUrl;
