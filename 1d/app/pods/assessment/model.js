@@ -13,5 +13,5 @@ export default class Assessment extends Model {
   // references
   @attr('string') competenceId;
   @attr('string') missionId;
-  @hasMany('activity') activities;
+  @hasMany('activity', { async: true, inverse: 'assessment' }) activities;
 }
