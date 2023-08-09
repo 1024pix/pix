@@ -26,6 +26,7 @@ module.exports = function () {
       'link',
       'lock',
       'minus',
+      'pen',
       'plus',
       'power-off',
       'right-from-bracket',

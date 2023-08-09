@@ -15,6 +15,7 @@ export default class FeedbackPanel extends Component {
   @tracked content = null;
   @tracked displayQuestionDropdown = false;
   @tracked displayTextBox = false;
+  @tracked displayAddCommentButton = true;
   @tracked isFormSubmitted = false;
   @tracked nextCategory = null;
   @tracked quickHelpInstructions = null;
@@ -156,6 +157,11 @@ export default class FeedbackPanel extends Component {
     this.isModalVisible = !this.isModalVisible;
   }
 
+  @action
+  addComment() {
+    this.displayAddCommentButton = false;
+  }
+
   _resetPanel() {
     this.isFormSubmitted = false;
     this._resetForm();
@@ -171,12 +177,14 @@ export default class FeedbackPanel extends Component {
     this.quickHelpInstructions = null;
     this._currentMajorCategory = null;
     this.displayTextBox = false;
+    this.displayAddCommentButton = true;
     this.displayQuestionDropdown = false;
   }
 
   _showFeedbackActionBasedOnCategoryType(category) {
     this.displayTextBox = false;
     this.quickHelpInstructions = null;
+    this.displayAddCommentButton = true;
 
     if (category.type === 'tutorial') {
       this.quickHelpInstructions = category.content;

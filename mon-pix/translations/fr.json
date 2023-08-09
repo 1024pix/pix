@@ -588,6 +588,7 @@
               }
             },
             "detail-selection": {
+              "add-comment": "Ajouter un commentaire",
               "aria-first": "J'ai un problème avec",
               "aria-secondary": "Sélectionner une option pour préciser votre problème",
               "label": "Sélectionner une option pour préciser votre problème",

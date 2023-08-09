@@ -588,6 +588,7 @@
               }
             },
             "detail-selection": {
+              "add-comment": "Add a comment",
               "aria-first": "Select the category of the problem encountered",
               "aria-secondary": "Select an option to specify your problem",
               "label": "Select an option to specify your problem",
