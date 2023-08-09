@@ -381,6 +381,7 @@ class InvalidCertificationIssueReportForSaving extends DomainError {
     super(message);
   }
 }
+
 class CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually extends DomainError {
   constructor(message = 'Le signalement ne peut pas être modifié manuellement') {
     super(message);
@@ -438,6 +439,12 @@ class SendingEmailToResultRecipientError extends DomainError {
 class CompetenceResetError extends DomainError {
   constructor(remainingDaysBeforeReset) {
     super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
+  }
+}
+
+class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainError {
+  constructor() {
+    super(`Il n'est pas possible de remettre à zéro votre parcours pour le moment.`);
   }
 }
 
@@ -1388,6 +1395,7 @@ export {
   NoStagesForCampaign,
   NoOrganizationToAttach,
   NotEligibleCandidateError,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   NotFoundError,
   DeletedError,
   NotImplementedError,

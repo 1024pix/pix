@@ -1,5 +1,6 @@
 import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
+import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {
@@ -418,5 +419,16 @@ describe('Unit | Domain | Errors', function () {
 
   it('exports LocaleNotSupportedError', function () {
     expect(errors.LocaleNotSupportedError).to.exist;
+  });
+
+  it('NotEnoughDaysPassedBeforeResetCampaignParticipationError error should have the correct wording', function () {
+    // given
+    const expectedErrorMessage = `Il n'est pas possible de remettre à zéro votre parcours pour le moment.`;
+
+    // when
+    const error = new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
+
+    // then
+    expect(error.message).to.equal(expectedErrorMessage);
   });
 });
