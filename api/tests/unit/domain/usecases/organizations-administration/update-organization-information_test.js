@@ -25,21 +25,26 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     organizationForAdminRepository.get.onCall(0).returns(existingOrganizationForAdmin);
     const updatedOrganization = domainBuilder.buildOrganizationForAdmin({ organizationId: givenOrganization.id });
     organizationForAdminRepository.get.onCall(1).returns(updatedOrganization);
+    const domainTransaction = Symbol('domainTransaction');
 
     // when
     const result = await updateOrganizationInformation({
       organization: givenOrganization,
       organizationForAdminRepository,
+      domainTransaction,
     });
 
     // then
-    expect(organizationForAdminRepository.get).to.have.been.calledWith(givenOrganization.id);
+    expect(organizationForAdminRepository.get).to.have.been.calledWith(givenOrganization.id, domainTransaction);
     expect(existingOrganizationForAdmin.updateWithDataProtectionOfficerAndTags).to.have.been.calledWith(
       givenOrganization,
       givenOrganization.dataProtectionOfficer,
       givenOrganization.tags,
     );
-    expect(organizationForAdminRepository.update).to.have.been.calledWith(existingOrganizationForAdmin);
+    expect(organizationForAdminRepository.update).to.have.been.calledWith(
+      existingOrganizationForAdmin,
+      domainTransaction,
+    );
     expect(result).to.equal(updatedOrganization);
   });
 

@@ -1,6 +1,7 @@
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import * as organizationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Application | Organizations | organization-administration-controller', function () {
   describe('#updateOrganizationInformation', function () {
@@ -59,12 +60,16 @@ describe('Unit | Application | Organizations | organization-administration-contr
       const dependencies = {
         organizationForAdminSerializer: organizationForAdminSerializerStub,
       };
+      const domainTransaction = Symbol('domainTransaction');
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
 
       dependencies.organizationForAdminSerializer.deserialize
         .withArgs(request.payload)
         .returns(organizationDeserialized);
       usecases.updateOrganizationInformation
-        .withArgs({ organization: organizationDeserialized })
+        .withArgs({ organization: organizationDeserialized, domainTransaction })
         .resolves(updatedOrganization);
       dependencies.organizationForAdminSerializer.serialize
         .withArgs(updatedOrganization)
