@@ -1,6 +1,6 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 
 export default class Challenge extends Model {
@@ -26,7 +26,7 @@ export default class Challenge extends Model {
   @attr('boolean') focused;
   @attr('boolean') shuffled;
 
-  @belongsTo('activity-answer') activityAnswer;
+  @hasMany('activity-answer', { async: true, inverse: 'challenge' }) activityAnswers;
 
   @computed('embedUrl', 'embedTitle', 'embedHeight')
   get hasValidEmbedDocument() {

@@ -4,5 +4,5 @@ export default class ActivityAnswer extends Model {
   @attr('string') value;
   @attr('string') result;
   @attr('string') resultDetails;
-  @belongsTo('challenge') challenge;
+  @belongsTo('challenge', { async: true, inverse: 'activityAnswers' }) challenge;
 }
