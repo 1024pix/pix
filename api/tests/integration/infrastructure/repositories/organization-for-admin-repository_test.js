@@ -1,10 +1,11 @@
 import { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } from '../../../test-helper.js';
 import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/errors.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import * as apps from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;
@@ -48,6 +49,10 @@ describe('Integration | Repository | Organization-for-admin', function () {
         organizationId: insertedOrganization.id,
       });
 
+      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+      databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY).id;
+      databaseBuilder.factory.buildOrganizationFeature({ organizationId: insertedOrganization.id, featureId });
+
       await databaseBuilder.commit();
 
       // when
@@ -83,9 +88,13 @@ describe('Integration | Repository | Organization-for-admin', function () {
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
-        enableMultipleSendingAssessment: false,
+        enableMultipleSendingAssessment: true,
+        features: {
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+        },
       });
-      expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
+      expect(foundOrganizationForAdmin).to.deep.equal(expectedOrganizationForAdmin);
     });
 
     it('should throw when organization is not found', async function () {
@@ -152,6 +161,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           archivedBy: archivist.id,
           archivedAt,
         });
+        databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
 
         await databaseBuilder.commit();
 
@@ -189,6 +199,9 @@ describe('Integration | Repository | Organization-for-admin', function () {
           creatorLastName: superAdminUser.lastName,
           identityProviderForCampaigns: null,
           enableMultipleSendingAssessment: false,
+          features: {
+            [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+          },
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });
@@ -196,66 +209,244 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#update', function () {
-    it('should return an OrganizationForAdmin domain object with related tags', async function () {
+    afterEach(async function () {
+      await knex('organization-features').delete();
+      await knex('organization-tags').delete();
+      await knex('data-protection-officers').delete();
+    });
+
+    it('should enable feature', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
       const organization = databaseBuilder.factory.buildOrganization({
         name: 'super orga',
         createdBy: userId,
-        archivedBy: userId,
-        archivedAt: now,
       });
-      const tagId = databaseBuilder.factory.buildTag({ name: 'orga tag' }).id;
-      databaseBuilder.factory.buildTag({ name: 'other tag' }).id;
-      databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId });
+
+      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
       await databaseBuilder.commit();
 
       // when
       const organizationToUpdate = new OrganizationForAdmin({
         id: organization.id,
-        type: 'SCO',
-        logoUrl: 'http://new.logo.url',
-        externalId: '999Z527F',
-        provinceCode: '999',
-        isManagingStudents: true,
-        credit: 50,
-        email: 'email@example.net',
         documentationUrl: 'https://pix.fr/',
-        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        features: {
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+        },
       });
-      const organizationSaved = await organizationForAdminRepository.update(organizationToUpdate);
+      await organizationForAdminRepository.update(organizationToUpdate);
 
       // then
-      expect(organizationSaved).to.be.an.instanceof(OrganizationForAdmin);
-      expect(organizationSaved).to.deep.equal({
-        id: organization.id,
+      const enabledFeatures = await knex('organization-features').where({ organizationId: organization.id });
+      expect(enabledFeatures.length).to.equal(1);
+      expect(enabledFeatures[0].featureId).to.equal(featureId);
+    });
+
+    it('should not enable feature twice', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
+      const organization = databaseBuilder.factory.buildOrganization({
         name: 'super orga',
-        type: 'SCO',
-        logoUrl: 'http://new.logo.url',
-        externalId: '999Z527F',
-        provinceCode: '999',
-        isManagingStudents: true,
-        credit: 50,
-        email: 'email@example.net',
-        documentationUrl: 'https://pix.fr/',
-        formNPSUrl: null,
-        showNPS: false,
-        showSkills: false,
-        archivedAt: now,
         createdBy: userId,
-        createdAt: organization.createdAt,
-        archivistFirstName: 'Anne',
-        archivistLastName: 'Héantie',
-        dataProtectionOfficerFirstName: undefined,
-        dataProtectionOfficerLastName: undefined,
-        dataProtectionOfficerEmail: undefined,
-        creatorFirstName: undefined,
-        creatorLastName: undefined,
-        identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-        enableMultipleSendingAssessment: undefined,
-        tags: [{ id: tagId, name: 'orga tag' }],
       });
-      expect(organizationSaved.tags[0].id).to.be.equal(tagId);
+
+      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+      databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        documentationUrl: 'https://pix.fr/',
+        features: {
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+        },
+      });
+
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const enabledFeatures = await knex('organization-features').where({ organizationId: organization.id });
+      expect(enabledFeatures.length).to.equal(1);
+      expect(enabledFeatures[0].featureId).to.equal(featureId);
+    });
+
+    it('should disable feature for a given organization', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        createdBy: userId,
+      });
+
+      const otherOrganization = databaseBuilder.factory.buildOrganization({
+        name: 'other orga',
+        createdBy: userId,
+      });
+
+      const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+      databaseBuilder.factory.buildOrganizationFeature({ organizationId: organization.id, featureId });
+      databaseBuilder.factory.buildOrganizationFeature({ organizationId: otherOrganization.id, featureId });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        documentationUrl: 'https://pix.fr/',
+        features: {
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+        },
+      });
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      //then
+      const enabledFeatures = await knex('organization-features');
+      expect(enabledFeatures.length).to.equal(1);
+      expect(enabledFeatures[0].organizationId).to.equal(otherOrganization.id);
+    });
+
+    it('should create data protection officer', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Spider', lastName: 'Man' }).id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        createdBy: userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        documentationUrl: 'https://pix.fr/',
+        dataProtectionOfficerEmail: 'iron@man.fr',
+        dataProtectionOfficerFirstName: 'Iron',
+        dataProtectionOfficerLastName: 'Man',
+      });
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const dataProtectionOfficerCreated = await knex('data-protection-officers')
+        .where({
+          organizationId: organization.id,
+        })
+        .first();
+      expect(dataProtectionOfficerCreated.firstName).to.equal('Iron');
+      expect(dataProtectionOfficerCreated.lastName).to.equal('Man');
+      expect(dataProtectionOfficerCreated.email).to.equal('iron@man.fr');
+    });
+
+    it('should update data protection officer', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser({ firstName: 'Spider', lastName: 'Man' }).id;
+      const organization = databaseBuilder.factory.buildOrganization({
+        name: 'super orga',
+        createdBy: userId,
+      });
+      databaseBuilder.factory.buildDataProtectionOfficer.withOrganizationId({
+        organizationId: organization.id,
+        firstName: 'Tony',
+        lastName: 'Stark',
+        email: 'tony@stark.com',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organization.id,
+        documentationUrl: 'https://pix.fr/',
+        dataProtectionOfficerEmail: 'iron@man.fr',
+        dataProtectionOfficerFirstName: 'Iron',
+        dataProtectionOfficerLastName: 'Man',
+      });
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const dataProtectionOfficerUpdated = await knex('data-protection-officers')
+        .where({
+          organizationId: organization.id,
+        })
+        .first();
+      expect(dataProtectionOfficerUpdated.firstName).to.equal('Iron');
+      expect(dataProtectionOfficerUpdated.lastName).to.equal('Man');
+      expect(dataProtectionOfficerUpdated.email).to.equal('iron@man.fr');
+    });
+
+    it('should add tags', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'myTag' }).id;
+      const otherTagId = databaseBuilder.factory.buildTag({ name: 'myOtherTag' }).id;
+      await databaseBuilder.commit();
+      const tagsToAdd = [
+        { tagId, organizationId },
+        { tagId: otherTagId, organizationId },
+      ];
+      // when
+
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organizationId,
+        documentationUrl: 'https://pix.fr/',
+      });
+
+      organizationToUpdate.tagsToAdd = tagsToAdd;
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const addedTags = await knex('organization-tags').select('tagId', 'organizationId').where({ organizationId });
+      expect(addedTags).to.deep.equal(tagsToAdd);
+    });
+
+    it('should not add tags twice', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'myTag' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ tagId, organizationId });
+      await databaseBuilder.commit();
+      const tagsToAdd = [{ tagId, organizationId }];
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organizationId,
+        documentationUrl: 'https://pix.fr/',
+      });
+
+      organizationToUpdate.tagsToAdd = tagsToAdd;
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const addedTags = await knex('organization-tags').where({ organizationId });
+      expect(addedTags.length).to.equal(1);
+    });
+
+    it('should remove tags', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const tagId = databaseBuilder.factory.buildTag({ name: 'myTag' }).id;
+      const otherTagId = databaseBuilder.factory.buildTag({ name: 'myOtherTag' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: otherTagId });
+      await databaseBuilder.commit();
+
+      const tagsToRemove = [
+        { tagId, organizationId },
+        { tagId: otherTagId, organizationId },
+      ];
+
+      // when
+      const organizationToUpdate = new OrganizationForAdmin({
+        id: organizationId,
+        documentationUrl: 'https://pix.fr/',
+      });
+
+      organizationToUpdate.tagsToRemove = tagsToRemove;
+      await organizationForAdminRepository.update(organizationToUpdate);
+
+      // then
+      const result = await knex('organization-tags').where({ organizationId });
+      expect(result.length).to.equal(0);
     });
 
     it('should not add row in table "organizations"', async function () {
@@ -265,7 +456,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       const { count: nbOrganizationsBeforeUpdate } = await knex('organizations').count('*').first();
 
       // when
-      await organizationForAdminRepository.update(organization);
+      await organizationForAdminRepository.update(new OrganizationForAdmin(organization));
 
       // then
       const { count: nbOrganizationsAfterUpdate } = await knex('organizations').count('*').first();

@@ -1,8 +1,18 @@
+import { OrganizationForAdmin } from '../../../../domain/models/organizations-administration/OrganizationForAdmin.js';
 import { Serializer } from 'jsonapi-serializer';
 import _ from 'lodash';
 
 const serialize = function (organizations, meta) {
   return new Serializer('organizations', {
+    transform(record) {
+      const dataProtectionOfficer = record.dataProtectionOfficer;
+
+      record.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+      record.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+      record.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+
+      return record;
+    },
     attributes: [
       'name',
       'type',
@@ -70,7 +80,7 @@ const deserialize = function (json) {
     });
   }
 
-  const organization = {
+  const organization = new OrganizationForAdmin({
     id: _.isNil(json.data.id) ? null : parseInt(json.data.id),
     name: attributes.name,
     type: attributes.type,
@@ -89,7 +99,7 @@ const deserialize = function (json) {
     dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
     enableMultipleSendingAssessment: attributes['enable-multiple-sending-assessment'],
     tags,
-  };
+  });
 
   return organization;
 };

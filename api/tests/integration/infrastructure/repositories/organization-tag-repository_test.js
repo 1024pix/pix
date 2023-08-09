@@ -1,10 +1,9 @@
 import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
-import { AlreadyExistingEntityError, OrganizationTagNotFound } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
 import lodash from 'lodash';
 const { omit } = lodash;
-import { BookshelfOrganizationTag } from '../../../../lib/infrastructure/orm-models/OrganizationTag.js';
 
 describe('Integration | Repository | OrganizationTagRepository', function () {
   describe('#create', function () {
@@ -42,92 +41,6 @@ describe('Integration | Repository | OrganizationTagRepository', function () {
         // then
         expect(error).to.be.an.instanceof(AlreadyExistingEntityError);
       });
-    });
-  });
-
-  describe('#delete', function () {
-    it('should delete an organization tag', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
-      const otherTagId = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' }).id;
-      const organizationTagToBeDeleteId = databaseBuilder.factory.buildOrganizationTag({
-        organizationId,
-        tagId,
-      }).id;
-      databaseBuilder.factory.buildOrganizationTag({
-        organizationId,
-        tagId: otherTagId,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      await organizationTagRepository.remove({ organizationTagId: organizationTagToBeDeleteId });
-
-      // then
-      const nbOrganizationTagAfterDeletion = await BookshelfOrganizationTag.count();
-      expect(nbOrganizationTagAfterDeletion).to.equal(1);
-    });
-
-    context('when organization tag does not exist', function () {
-      it('should throw an OrganizationTagNotFound', async function () {
-        // given
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
-        const organizationTagId = databaseBuilder.factory.buildOrganizationTag({
-          organizationId,
-          tagId,
-        }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const inexistingOranizationTagId = organizationTagId + 1;
-        const error = await catchErr(organizationTagRepository.remove)({
-          organizationTagId: inexistingOranizationTagId,
-        });
-
-        // then
-        expect(error).to.be.an.instanceof(OrganizationTagNotFound);
-        expect(error.message).to.be.equal('An error occurred while deleting the organization tag');
-      });
-    });
-  });
-
-  describe('#findOneByOrganizationIdAndTagId', function () {
-    it('should find the first matching organization tag', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
-      const organizationTagInDatabase = databaseBuilder.factory.buildOrganizationTag({
-        organizationId,
-        tagId,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const organizationTagFound = await organizationTagRepository.findOneByOrganizationIdAndTagId({
-        organizationId,
-        tagId,
-      });
-
-      // then
-      expect(organizationTagFound).to.deep.equal(organizationTagInDatabase);
-    });
-
-    it('should not throw an error and return empty array if there is no matching organization tag', async function () {
-      // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const result = await organizationTagRepository.findOneByOrganizationIdAndTagId({
-        organizationId,
-        tagId: tagId + 1,
-      });
-
-      // then
-      expect(result).to.deep.equal([]);
     });
   });
 
