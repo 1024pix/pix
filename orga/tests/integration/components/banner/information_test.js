@@ -29,7 +29,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
 
           assert.strictEqual(
             link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23',
+            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba',
           );
         });
 
@@ -41,7 +41,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           const screen = await render(hbs`<Banner::Information />`);
 
           // then
-          const link = screen.getByRole('link', { name: 'importer la base élèves' });
+          const link = screen.getByRole('link', { name: 'importer' });
 
           assert.dom(link).exists();
         });
@@ -61,7 +61,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         // when
         const screen = await render(hbs`<Banner::Information />`);
 
-        const link = screen.queryByRole('link', { name: 'importer la base élèves' });
+        const link = screen.queryByRole('link', { name: 'importer' });
         // then
         assert.notOk(link);
       });
@@ -163,7 +163,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
 
           assert.strictEqual(
             link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23',
+            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba',
           );
         });
 
@@ -175,7 +175,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           const screen = await render(hbs`<Banner::Information />`);
 
           // then
-          const link = screen.getByRole('link', { name: 'importer la base élèves' });
+          const link = screen.getByRole('link', { name: 'importer' });
 
           assert.dom(link).exists();
         });
