@@ -101,6 +101,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
 
       test('should display the "mercix" view when content value is filled', async function (assert) {
         // given
+        await click(
+          screen.getByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+          }),
+        );
         const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
         await fillIn(
           screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }),
@@ -164,6 +169,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
           }),
         );
+        await click(
+          screen.getByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+          }),
+        );
 
         // then
         const textareaLabel = screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' });
@@ -219,6 +229,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
           }),
         );
+        await click(
+          screen.getByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+          }),
+        );
 
         // then
         assert.dom(screen.queryByText('Votre connexion internet est peut-être trop faible.')).doesNotExist();
@@ -247,6 +262,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
         await click(
           screen.getByRole('option', {
             name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+          }),
+        );
+        await click(
+          screen.getByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
 
@@ -280,6 +300,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
             name: this.intl.t(
               'pages.challenge.feedback-panel.form.fields.detail-selection.options.embed-displayed-on-mobile-devices-with-problems.label',
             ),
+          }),
+        );
+        await click(
+          screen.getByRole('button', {
+            name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
           }),
         );
 
@@ -445,6 +470,11 @@ module('Integration | Component | feedback-panel', function (hooks) {
       await click(
         screen.getByRole('option', {
           name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
+        }),
+      );
+      await click(
+        screen.getByRole('button', {
+          name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
         }),
       );
 
