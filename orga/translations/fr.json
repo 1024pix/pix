@@ -53,9 +53,6 @@
     }
   },
   "banners": {
-    "campaigns": {
-      "message": "'<strong>'Parcours de rentrée 2022 :'</strong>' N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info'</a>'"
-    },
     "certification": {
       "message": "'<strong>'Certifications :'</strong>' n’oubliez pas de '<'a href={documentationLink} class=\"{linkClasses}\" target=\"_blank\" rel=\"noopener noreferrer\"'>'finaliser les sessions dans Pix Certif'</a>' puis de télécharger les attestations ici via l'onglet “Certifications” avant la rentrée 2023."
     },
