@@ -1,10 +1,11 @@
 import { NotFoundError, MissingAttributesError } from '../../domain/errors.js';
-import { OrganizationForAdmin } from '../../domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../domain/models/organizations-administration/OrganizationForAdmin.js';
 import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 import _ from 'lodash';
 import * as apps from '../../domain/constants.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
 
@@ -35,6 +36,7 @@ function _toDomain(rawOrganization) {
     creatorLastName: rawOrganization.creatorLastName,
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
     enableMultipleSendingAssessment: rawOrganization.enableMultipleSendingAssessment,
+    features: rawOrganization.features,
   });
 
   organization.tags = rawOrganization.tags || [];
@@ -42,8 +44,9 @@ function _toDomain(rawOrganization) {
   return organization;
 }
 
-const get = async function (id) {
-  const organization = await knex(ORGANIZATIONS_TABLE_NAME)
+const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConn = domainTransaction.transaction ?? knex;
+  const organization = await knexConn(ORGANIZATIONS_TABLE_NAME)
     .select({
       id: 'organizations.id',
       name: 'organizations.name',
@@ -84,24 +87,27 @@ const get = async function (id) {
     throw new NotFoundError(`Not found organization for ID ${id}`);
   }
 
-  const tags = await knex('tags')
+  const tags = await knexConn('tags')
     .select('tags.*')
     .join('organization-tags', 'organization-tags.tagId', 'tags.id')
     .where('organization-tags.organizationId', organization.id);
 
-  const availableFeatures = await knex('features')
-    .select('key')
-    .join('organization-features', function () {
+  const availableFeatures = await knexConn('features')
+    .select('key', knex.raw('"organization-features"."organizationId" IS NOT NULL as enabled'))
+    .leftJoin('organization-features', function () {
       this.on('features.id', 'organization-features.featureId').andOn(
         'organization-features.organizationId',
         organization.id,
       );
-    })
-    .pluck('key');
+    });
 
-  organization.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+  organization.features = availableFeatures.reduce(
+    (features, { key, enabled }) => ({ ...features, [key]: enabled }),
+    {},
   );
+
+  organization.enableMultipleSendingAssessment =
+    organization.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key];
 
   organization.tags = tags.map((tag) => {
     return new Tag(tag);
@@ -110,7 +116,52 @@ const get = async function (id) {
   return _toDomain(organization);
 };
 
-const update = async function (organization) {
+async function _enableFeatures(knexConn, featuresToEnable, organizationId) {
+  const features = await knexConn('features');
+
+  await knexConn('organization-features')
+    .insert(
+      _.keys(featuresToEnable)
+        .filter((key) => featuresToEnable[key])
+        .map((key) => ({
+          organizationId,
+          featureId: features.find((feature) => feature.key === key).id,
+        })),
+    )
+    .onConflict()
+    .ignore();
+}
+
+async function _disableFeatures(knexConn, features, organizationId) {
+  await knexConn('organization-features')
+    .join('features', 'organization-features.featureId', 'features.id')
+    .where('organization-features.organizationId', organizationId)
+    .whereIn(
+      'features.key',
+      _.keys(features).filter((key) => features[key] === false),
+    )
+    .delete();
+}
+
+async function _addTags(knexConn, organizationTags) {
+  await knex('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
+}
+
+async function _removeTags(knexConn, organizationTags) {
+  await knexConn('organization-tags')
+    .whereIn(
+      ['organizationId', 'tagId'],
+      organizationTags.map((organizationTag) => [organizationTag.organizationId, organizationTag.tagId]),
+    )
+    .delete();
+}
+
+async function _addOrUpdateDataProtectionOfficer(knexConn, dataProtectionOfficer) {
+  await knexConn('data-protection-officers').insert(dataProtectionOfficer).onConflict('organizationId').merge();
+}
+
+const update = async function (organization, domainTransaction = DomainTransaction.emptyTransaction()) {
+  const knexConn = domainTransaction.transaction ?? knex;
   const organizationRawData = _.pick(organization, [
     'name',
     'type',
@@ -125,29 +176,15 @@ const update = async function (organization) {
     'identityProviderForCampaigns',
   ]);
 
-  const [organizationDB] = await knex(ORGANIZATIONS_TABLE_NAME)
-    .update(organizationRawData)
-    .where({ id: organization.id })
-    .returning('*');
+  await _enableFeatures(knexConn, organization.features, organization.id);
+  await _disableFeatures(knexConn, organization.features, organization.id);
 
-  const tagsDB = await knex('tags')
-    .select(['tags.id', 'tags.name'])
-    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
-    .where('organization-tags.organizationId', organizationDB.id);
-  const archivist = await knex('users')
-    .select(['users.firstName', 'users.lastName'])
-    .join('organizations', 'organizations.archivedBy', 'users.id')
-    .where('organizations.id', organizationDB.id)
-    .first();
+  await _addOrUpdateDataProtectionOfficer(knexConn, organization.dataProtectionOfficer);
 
-  const tags = tagsDB.map((tagDB) => new Tag(tagDB));
+  await _addTags(knexConn, organization.tagsToAdd);
+  await _removeTags(knexConn, organization.tagsToRemove);
 
-  if (archivist) {
-    organizationDB.archivistFirstName = archivist.firstName;
-    organizationDB.archivistLastName = archivist.lastName;
-  }
-
-  return _toDomain({ ...organizationDB, tags });
+  await knexConn(ORGANIZATIONS_TABLE_NAME).update(organizationRawData).where({ id: organization.id }).returning('*');
 };
 
 const archive = async function ({ id, archivedBy }) {

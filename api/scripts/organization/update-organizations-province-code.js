@@ -7,6 +7,7 @@ import { checkCsvHeader, parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import { disconnect } from '../../db/knex-database-connection.js';
 import { updateOrganizationProvinceCode } from '../../lib/domain/usecases/organizations-administration/update-organization-province-code.js';
 import * as organizationForAdminRepository from '../../lib/infrastructure/repositories/organization-for-admin-repository.js';
+import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 
 const modulePath = fileURLToPath(import.meta.url);
 const IS_LAUNCHED_FROM_CLI = process.argv[1] === modulePath;
@@ -56,10 +57,13 @@ async function _updateOrganizationsProvinceCode(filePath) {
     const { organizationId, provinceCode } = organizationDTO;
 
     try {
-      await updateOrganizationProvinceCode({
-        organizationId,
-        provinceCode,
-        organizationForAdminRepository,
+      await DomainTransaction.execute((domainTransaction) => {
+        return updateOrganizationProvinceCode({
+          organizationId,
+          provinceCode,
+          organizationForAdminRepository,
+          domainTransaction,
+        });
       });
     } catch (error) {
       errors.push({ organizationDTO, error });

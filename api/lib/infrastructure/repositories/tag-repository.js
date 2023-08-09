@@ -1,5 +1,5 @@
 import * as knexUtils from '../utils/knex-utils.js';
-import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors.js';
+import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import lodash from 'lodash';
 
 const { omit } = lodash;
@@ -33,12 +33,4 @@ const findAll = async function () {
   return rows.map((row) => new Tag(row));
 };
 
-const get = async function (id) {
-  const row = await knex('tags').where({ id }).first();
-  if (!row) {
-    throw new NotFoundError("Le tag n'existe pas");
-  }
-  return new Tag(row);
-};
-
-export { create, findByName, findAll, get };
+export { create, findByName, findAll };

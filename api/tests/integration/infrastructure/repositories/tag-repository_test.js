@@ -1,5 +1,5 @@
 import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { AlreadyExistingEntityError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
 
@@ -79,31 +79,6 @@ describe('Integration | Repository | TagRepository', function () {
 
       // then
       expect(result).to.be.deep.equal(expectedResult);
-    });
-  });
-
-  describe('#get', function () {
-    it('should return a tag by provided id', async function () {
-      // given
-      const insertedTag = databaseBuilder.factory.buildTag({ id: 1, name: 'AEFE' });
-      await databaseBuilder.commit();
-
-      // when
-      const foundTag = await tagRepository.get(insertedTag.id);
-
-      // then
-      expect(foundTag).to.deep.equal({ id: 1, name: 'AEFE' });
-    });
-
-    it('should throw NotFoundError when tag id is not found', async function () {
-      // given
-      const nonExistentId = 10083;
-
-      // when
-      const error = await catchErr(tagRepository.get)(nonExistentId);
-
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 });

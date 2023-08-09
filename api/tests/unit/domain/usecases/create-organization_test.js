@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/Organization.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | create-organization', function () {
@@ -20,7 +20,10 @@ describe('Unit | UseCase | create-organization', function () {
       dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
     });
 
-    const organizationForAdminRepository = { save: sinon.stub().resolves({ id: 1 }) };
+    const organizationForAdminRepository = {
+      save: sinon.stub().resolves({ id: 1 }),
+      get: sinon.stub().resolves({ id: 1 }),
+    };
     const dataProtectionOfficerRepository = { create: sinon.stub().resolves({}) };
 
     organizationCreationValidator.validate.returns();
@@ -37,8 +40,8 @@ describe('Unit | UseCase | create-organization', function () {
     expect(organizationCreationValidator.validate).to.have.been.calledWith(organization);
     expect(dataProtectionOfficerRepository.create).to.have.been.calledWith({
       organizationId: 1,
-      firstName: undefined,
-      lastName: undefined,
+      firstName: '',
+      lastName: '',
       email: 'justin.ptipeu@example.net',
     });
     expect(organizationForAdminRepository.save).to.have.been.calledWith(organization);
