@@ -20,7 +20,7 @@ export default class InformationBanner extends Component {
   }
 
   get importDocumentationLink() {
-    return 'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23';
+    return 'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba';
   }
 
   get displayNewYearCampaignsBanner() {
