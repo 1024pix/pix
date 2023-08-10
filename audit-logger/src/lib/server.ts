@@ -5,6 +5,7 @@ import { config } from './config.js';
 import { ROUTES } from './routes.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import { logger } from './infrastructure/logger.js';
+import { validate } from './infrastructure/services/authentication.service.js';
 
 const { port } = config;
 
@@ -58,21 +59,12 @@ export class HapiServer {
   {
     const hapiServer = new HapiServer();
     await hapiServer.server.register(hapiBasicPlugin);
-    hapiServer.server.auth.strategy('simple', 'basic', { validate });
+    hapiServer.server.auth.strategy('simple', 'basic', {
+      validate: async (_:Request, username: string, password: string) => validate(username, password)
+    });
     hapiServer.server.route(ROUTES);
 
     return hapiServer;
   }
 }
 
-const validate = async (_: Request, username: string, password: string): Promise<object> => {
-  if (username !== 'pix-api') {
-    return { isValid: false, credentials: null };
-  }
-
-  if (password !== 'password') {
-    return { isValid: false, credentials: null };
-  }
-
-  return { isValid: true, credentials: {} };
-};
