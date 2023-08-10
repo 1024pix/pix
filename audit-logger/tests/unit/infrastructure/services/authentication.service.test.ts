@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { validate } from '../../../../src/lib/infrastructure/services/authentication.service.js'
+import { config } from '../../../../src/lib/config.js';
 
 describe('Unit | Infrastructure | Services | authentication', () => {
   describe('#validate', () => {
@@ -7,7 +8,7 @@ describe('Unit | Infrastructure | Services | authentication', () => {
       test('returns false and null credentials', () => {
         // given
         const username = 'wrong-username';
-        const password = 'password';
+        const password = config.pixApiClientSecret;
 
         // when
         const result = validate(username, password);
@@ -35,7 +36,7 @@ describe('Unit | Infrastructure | Services | authentication', () => {
       test('returns true and empty credentials object', () => {
         // given
         const username = 'pix-api';
-        const password = 'password';
+        const password = config.pixApiClientSecret;
 
         // when
         const result = validate(username, password);

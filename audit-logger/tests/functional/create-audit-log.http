@@ -1,4 +1,5 @@
 POST {{baseUrl}}/api/audit-logs
+Authorization: Basic pix-api pixApiClientSecretTest
 Content-Type: application/json
 
 {"targetUserId": "2", "userId": "3", "action": "ANONYMIZATION", "occurredAt": "2023-08-04T08:57:54.836Z", "role": "SUPPORT", "client": "PIX_ADMIN"}
