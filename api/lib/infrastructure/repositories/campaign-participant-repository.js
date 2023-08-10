@@ -1,12 +1,12 @@
 import lodash from 'lodash';
-
-const { pick } = lodash;
-
 import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
 import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../domain/errors.js';
 import * as campaignRepository from '../repositories/campaign-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { PreviousCampaignParticipation } from '../../domain/read-models/PreviousCampaignParticipation.js';
+
+const { pick } = lodash;
 
 async function save(campaignParticipant, domainTransaction) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
@@ -101,11 +101,12 @@ async function get({ userId, campaignId, domainTransaction }) {
 
   const organizationLearner = await _getOrganizationLearner(campaignId, userId, domainTransaction);
 
-  const previousCampaignParticipationForUser = await _findpreviousCampaignParticipationForUser(
+  const previousCampaignParticipationForUser = await _findpreviousCampaignParticipationForUser({
     campaignId,
     userId,
+    isCampaignMultipleSendings: campaignToStartParticipation.multipleSendings,
     domainTransaction,
-  );
+  });
 
   return new CampaignParticipant({
     userIdentity,
@@ -179,21 +180,56 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
   return organizationLearner;
 }
 
-async function _findpreviousCampaignParticipationForUser(campaignId, userId, domainTransaction) {
+async function _findpreviousCampaignParticipationForUser({
+  campaignId,
+  userId,
+  isCampaignMultipleSendings,
+  domainTransaction,
+}) {
   const campaignParticipationAttributes = await domainTransaction
     .knexTransaction('campaign-participations')
-    .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt')
+    .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt', 'sharedAt')
     .where({ campaignId, userId, isImproved: false })
     .first();
 
   if (!campaignParticipationAttributes) return null;
-  return {
+
+  const isTargetProfileResetAllowed = await _isTargetProfileResetAllowed(campaignId, domainTransaction);
+  const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId, domainTransaction);
+
+  return new PreviousCampaignParticipation({
     id: campaignParticipationAttributes.id,
     participantExternalId: campaignParticipationAttributes.participantExternalId,
     validatedSkillsCount: campaignParticipationAttributes.validatedSkillsCount,
     status: campaignParticipationAttributes.status,
     isDeleted: Boolean(campaignParticipationAttributes.deletedAt),
-  };
+    sharedAt: campaignParticipationAttributes.sharedAt,
+    isCampaignMultipleSendings,
+    isTargetProfileResetAllowed,
+    isOrganizationLearnerActive,
+  });
+}
+
+async function _isTargetProfileResetAllowed(campaignId, domainTransaction) {
+  const targetProfile = await domainTransaction
+    .knexTransaction('target-profiles')
+    .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+    .where('campaigns.id', campaignId)
+    .first('areKnowledgeElementsResettable');
+
+  return targetProfile ? targetProfile.areKnowledgeElementsResettable : false;
+}
+
+async function _isOrganizationLearnerActive(userId, campaignId, domainTransaction) {
+  const organizationLearner = await domainTransaction
+    .knexTransaction('view-active-organization-learners')
+    .select('view-active-organization-learners.isDisabled')
+    .join('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
+    .join('campaigns', 'campaigns.organizationId', 'organizations.id')
+    .where({ 'campaigns.id': campaignId })
+    .andWhere({ 'view-active-organization-learners.userId': userId })
+    .first();
+  return !organizationLearner?.isDisabled;
 }
 
 export { get, save };
