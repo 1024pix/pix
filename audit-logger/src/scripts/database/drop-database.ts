@@ -30,11 +30,11 @@ async function main(): Promise<void> {
   } catch (error: any) {
     if (error.code === PGSQL_NON_EXISTENT_DATABASE_ERROR) {
       logger.info(`Database ${dbNameToDelete} does not exist`);
+      process.exitCode = 0;
     } else {
       logger.error(error);
+      process.exitCode = 1;
     }
-
-    process.exitCode = 1;
   } finally {
     // @ts-expect-error: an error can occur after the client is instantiated by calling the query_and_log method
     await client.end();
