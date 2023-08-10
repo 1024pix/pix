@@ -462,8 +462,8 @@
             "empty": "No group"
           },
           "search": {
-            "title": "Search by lastname and firstname",
-            "placeholder": "Lastname, firstname"
+            "title": "Search by last name and first name",
+            "placeholder": "Last name, first name"
           },
           "stages": "Success rate",
           "status": {
@@ -789,8 +789,8 @@
             "placeholder": "Search by certificability"
           },
           "fullName": {
-            "title": "Search by lastname and firstname",
-            "placeholder": "Lastname, firstname"
+            "title": "Search by last name and first name",
+            "placeholder": "Last name, first name"
           }
         }
       },
@@ -948,11 +948,11 @@
         },
         "login-method": {
           "aria-label": "Search by log in method",
-          "empty-option": "login method"
+          "empty-option": "Log in method"
         },
         "search": {
-          "aria-label": "Search by lastname and firstname",
-          "label": "Lastname, firstname"
+          "aria-label": "Search by last name and first name",
+          "label": "Last name, first name"
         },
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
       },
@@ -1026,7 +1026,7 @@
             "eligible": "Eligible",
             "label": "Eligibility for certification",
             "non-eligible": "Non-eligible",
-            "not-available": "Not available",
+            "not-available": "Unavailable",
             "tooltip": {
               "aria-label": "How to know if a student is eligible for certification and what does it mean?",
               "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
@@ -1096,8 +1096,8 @@
           "label": "Search by group"
         },
         "search": {
-          "aria-label": "Search by lastname and firstname",
-          "label": "Lastname, firstname"
+          "aria-label": "Search by last name and first name",
+          "label": "Last name, first name"
         },
         "student-number": {
           "aria-label": "Enter a student number",
