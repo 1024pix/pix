@@ -170,6 +170,7 @@ import * as supOrganizationLearnerRepository from '../../infrastructure/reposito
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
+import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as targetProfileForAdminRepository from '../../infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
@@ -390,6 +391,7 @@ const dependencies = {
   supOrganizationParticipantRepository,
   supervisorAccessRepository,
   tagRepository,
+  attachableTargetProfileRepository,
   targetProfileForAdminRepository,
   targetProfileForUpdateRepository,
   targetProfileRepository,
