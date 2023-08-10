@@ -1,4 +1,4 @@
-import { Server } from '@hapi/hapi';
+import { Server, type ServerOptions } from '@hapi/hapi';
 import hapiBasicPlugin from '@hapi/basic';
 
 import { config } from './config.js';
@@ -12,9 +12,15 @@ export class HapiServer {
   private readonly _server: Server;
 
   constructor() {
+
+    const debugOptions: ServerOptions['debug'] = { request: false, log: false };
+    if (process.env.NODE_ENV !== 'production') {
+      debugOptions.request = ['error'];
+    }
+
     this._server = new Server({
       compression: false,
-      debug: { request: false, log: false },
+      debug: debugOptions,
       routes: {
         cors: {
           origin: ['*'],
