@@ -8,6 +8,7 @@ function _toDomain(courseDataObject) {
     id: courseDataObject.id,
     name: courseDataObject.name,
     description: courseDataObject.description,
+    isActive: courseDataObject.isActive,
     imageUrl: courseDataObject.imageUrl,
     challenges: courseDataObject.challenges,
     competences: courseDataObject.competences,

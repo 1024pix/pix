@@ -3,6 +3,7 @@ import { Course } from '../../../../lib/domain/models/Course.js';
 const buildCourse = function ({
   id = 'recCOUR123',
   description = 'description',
+  isActive = true,
   imageUrl = 'imageURL',
   name = 'name',
   assessment,
@@ -15,6 +16,7 @@ const buildCourse = function ({
     id,
     // attributes
     description,
+    isActive,
     imageUrl,
     name,
     // relations
