@@ -10,6 +10,8 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
     const hapiServer = await HapiServer.createServer();
     server = hapiServer.server;
 
+    const base64EncodedCredentials = btoa('pix-api:password');
+
     options = {
       method: 'POST',
       url: '/api/audit-logs',
@@ -21,11 +23,28 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
         role: 'SUPPORT',
         client: 'PIX_ADMIN',
       },
+      headers: {
+        Authorization: `Basic ${base64EncodedCredentials}`,
+      }
     };
   });
 
   afterEach(async function (): Promise<void> {
     await server.stop();
+  });
+
+  describe('when user credentials are invalid', () => {
+    test('returns a unauthorized http status', async() => {
+      // when
+      options = {
+        ...options,
+        headers: {}
+      }
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).toEqual(401);
+    });
   });
 
   describe('when request is valid', () => {

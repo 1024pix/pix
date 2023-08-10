@@ -1,4 +1,4 @@
-import { Server, type ServerOptions } from '@hapi/hapi';
+import { type Request, Server, type ServerOptions } from '@hapi/hapi';
 import hapiBasicPlugin from '@hapi/basic';
 
 import { config } from './config.js';
@@ -58,8 +58,21 @@ export class HapiServer {
   {
     const hapiServer = new HapiServer();
     await hapiServer.server.register(hapiBasicPlugin);
+    hapiServer.server.auth.strategy('simple', 'basic', { validate });
     hapiServer.server.route(ROUTES);
 
     return hapiServer;
   }
 }
+
+const validate = async (_: Request, username: string, password: string): Promise<object> => {
+  if (username !== 'pix-api') {
+    return { isValid: false, credentials: null };
+  }
+
+  if (password !== 'password') {
+    return { isValid: false, credentials: null };
+  }
+
+  return { isValid: true, credentials: {} };
+};

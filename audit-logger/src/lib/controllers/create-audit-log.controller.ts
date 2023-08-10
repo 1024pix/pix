@@ -24,6 +24,7 @@ export const CREATE_AUDIT_LOG_ROUTE: ServerRoute = {
   method: 'POST',
   path: '/api/audit-logs',
   options: {
+    auth: 'simple',
     handler: createAuditLogController.handle.bind(createAuditLogController),
     validate: {
       payload: Joi.object({
