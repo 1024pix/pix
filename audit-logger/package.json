@@ -59,6 +59,7 @@
     "vitest": "^0.34.1"
   },
   "dependencies": {
+    "@hapi/basic": "^7.0.2",
     "@hapi/hapi": "~21.3.2",
     "dotenv": "^16.3.1",
     "joi": "^17.9.2",
