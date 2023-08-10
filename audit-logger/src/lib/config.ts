@@ -13,6 +13,7 @@ type Configuration = {
     logForHumans: boolean;
   };
   port: number;
+  pixApiClientSecret: string;
 };
 
 const config: Configuration = {
@@ -23,6 +24,7 @@ const config: Configuration = {
     logForHumans: _getLogForHumans(),
   },
   port: parseInt(process.env.PORT as string, 10) || 3001,
+  pixApiClientSecret: process.env.PIX_API_CLIENT_SECRET as string,
 };
 
 switch (config.environment) {
@@ -31,7 +33,12 @@ switch (config.environment) {
     break;
   case 'test':
     config.logging.enabled = _isBooleanFeatureEnabledElseDefault(process.env.TEST_LOG_ENABLED as BooleanType, false);
+    config.pixApiClientSecret = 'pixApiClientSecretTest';
     break;
+}
+
+if (config.pixApiClientSecret === undefined) {
+  throw new Error('Environment variable PIX_API_CLIENT_SECRET must be defined');
 }
 
 export { config };
