@@ -73,6 +73,19 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:7.0.12-alpine
     resource_class: medium+
+  node-18-postgres-docker:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 18.17.0
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+      - image: postgres:14.8-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: small
 
 workflows:
   version: 2
@@ -82,6 +95,11 @@ workflows:
           context: Pix
 
       - api_build_and_test:
+          context: Pix
+          requires:
+            - checkout
+
+      - audit_logger_build_and_test:
           context: Pix
           requires:
             - checkout
@@ -176,6 +194,39 @@ jobs:
             TEST_REDIS_URL: redis://localhost:6379
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
+
+  audit_logger_build_and_test:
+    executor:
+      name: node-18-postgres-docker
+    working_directory: ~/pix/audit-logger
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-audit-logger-npm-{{ checksum "cachekey" }}
+      - run: npm ci --no-optional
+      - save_cache:
+          key: v7-audit-logger-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Lint
+          command: npm run lint
+          environment:
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+          when: always
+      - run:
+          name: Test
+          command: npm run test
+          environment:
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
           when: always
       - store_test_results:
           path: /home/circleci/test-results
