@@ -18,7 +18,7 @@
     "preinstall": "npx check-engine",
     "test": "NODE_ENV=test npm run db:prepare && vitest",
     "test:ci": "NODE_ENV=test npm run db:prepare && vitest",
-    "test:coverage": "vitest --coverage.enabled",
+    "test:coverage": "NODE_ENV=test vitest --coverage.enabled",
     "test:watch": "NODE_ENV=test npm run db:prepare && vitest --watch",
     "start": "node dist/lib/index.js",
     "start:watch": "nodemon src/lib/index.ts"
