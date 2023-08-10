@@ -29,7 +29,6 @@ export class HapiServer {
         stripTrailingSlash: true,
       },
     });
-   this._server.route(ROUTES);
   }
 
   get server(): Server {
@@ -46,5 +45,13 @@ export class HapiServer {
     logger.info('Closing connections to database...');
     await disconnect();
     logger.info('Exiting process...');
+  }
+
+  static async createServer(): Promise<HapiServer>
+  {
+    const hapiServer = new HapiServer();
+    hapiServer.server.route(ROUTES);
+
+    return hapiServer;
   }
 }
