@@ -60,7 +60,7 @@ Router.map(function () {
   this.route('inscription');
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
-  this.route('courses.create-assessment', { path: '/courses/:course_id' });
+  this.route('courses.start', { path: '/courses/:course_id' });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function () {
     this.route('resume');
