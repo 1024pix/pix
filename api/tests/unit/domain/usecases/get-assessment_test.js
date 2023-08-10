@@ -1,6 +1,7 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { getAssessment } from '../../../../lib/domain/usecases/get-assessment.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../lib/domain/models/index.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-assessment', function () {
   let assessment;
@@ -42,7 +43,7 @@ describe('Unit | UseCase | get-assessment', function () {
       getCampaignCodeByCampaignParticipationId: sinon.stub(),
     };
     competenceRepository = { getCompetenceName: sinon.stub() };
-    courseRepository = { getCourseName: sinon.stub() };
+    courseRepository = { getCourseName: sinon.stub(), get: sinon.stub() };
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async function () {
@@ -106,25 +107,51 @@ describe('Unit | UseCase | get-assessment', function () {
     expect(result.title).to.equal(certificationCourseId);
   });
 
-  it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async function () {
-    // given
-    assessment.type = Assessment.types.DEMO;
-    assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
-    courseRepository.getCourseName.withArgs(assessment.courseId).resolves(course.name);
+  context('Assessment of type DEMO', function () {
+    it('should resolve the Assessment domain object with DEMO title matching the given assessment ID when course is playable', async function () {
+      // given
+      const playableCourse = domainBuilder.buildCourse({ name: 'Course Àpieds', isActive: true });
+      assessment.type = Assessment.types.DEMO;
+      assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
+      courseRepository.getCourseName.withArgs(assessment.courseId).resolves(playableCourse.name);
+      courseRepository.get.withArgs(assessment.courseId).resolves(playableCourse);
 
-    // when
-    const result = await getAssessment({
-      assessmentId: assessment.id,
-      assessmentRepository,
-      campaignRepository,
-      competenceRepository,
-      courseRepository,
+      // when
+      const result = await getAssessment({
+        assessmentId: assessment.id,
+        assessmentRepository,
+        campaignRepository,
+        competenceRepository,
+        courseRepository,
+      });
+
+      // then
+      expect(result).to.be.an.instanceOf(Assessment);
+      expect(result.id).to.equal(assessment.id);
+      expect(result.title).to.equal(course.name);
     });
 
-    // then
-    expect(result).to.be.an.instanceOf(Assessment);
-    expect(result.id).to.equal(assessment.id);
-    expect(result.title).to.equal(course.name);
+    it('should throw a NotFoundError when course is not playable', async function () {
+      // given
+      const unplayableCourse = domainBuilder.buildCourse({ name: 'Course Àpieds', isActive: false });
+      assessment.type = Assessment.types.DEMO;
+      assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
+      courseRepository.getCourseName.withArgs(assessment.courseId).resolves(unplayableCourse.name);
+      courseRepository.get.withArgs(assessment.courseId).resolves(unplayableCourse);
+
+      // when
+      const err = await catchErr(getAssessment)({
+        assessmentId: assessment.id,
+        assessmentRepository,
+        campaignRepository,
+        competenceRepository,
+        courseRepository,
+      });
+
+      // then
+      expect(err).to.be.an.instanceOf(NotFoundError);
+      expect(err.message).to.equal("Le test demandé n'existe pas");
+    });
   });
 
   it('should resolve the Assessment domain object with CAMPAIGN title matching the given assessment ID', async function () {
