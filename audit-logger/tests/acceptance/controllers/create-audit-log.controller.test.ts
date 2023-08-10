@@ -29,7 +29,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
   });
 
   describe('when request is valid', () => {
-    test('returns a created http status', async () => {
+    test('returns a no content http status', async () => {
       // when
       const response = await server.inject(options);
 
