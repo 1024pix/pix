@@ -1,4 +1,5 @@
-import { Assessment } from '../models/Assessment.js';
+import { Assessment } from '../models/index.js';
+import { NotFoundError } from '../errors.js';
 
 const getAssessment = async function ({
   assessmentId,
@@ -22,6 +23,12 @@ const getAssessment = async function ({
     assessment.campaignCode = await campaignRepository.getCampaignCodeByCampaignParticipationId(
       assessment.campaignParticipationId,
     );
+  }
+  if (assessment.type === Assessment.types.DEMO) {
+    const course = await courseRepository.get(assessment.courseId);
+    if (!course.canBePlayed) {
+      throw new NotFoundError("Le test demandé n'existe pas");
+    }
   }
   return assessment;
 };
