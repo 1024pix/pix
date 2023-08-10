@@ -38,9 +38,18 @@ describe('Acceptance | API | Courses', function () {
           ],
           courses: [
             {
-              id: 'rec_course_id',
+              id: 'rec_active_course_id',
               name: "A la recherche de l'information #01",
               description: "Mener une recherche et une veille d'information",
+              isActive: true,
+              competenceId: 'competence_id',
+              challengeIds: ['k_challenge_id'],
+            },
+            {
+              id: 'rec_inactive_course_id',
+              name: 'Mon ami aime les fruits',
+              description: 'Une super description',
+              isActive: false,
               competenceId: 'competence_id',
               challengeIds: ['k_challenge_id'],
             },
@@ -57,71 +66,59 @@ describe('Acceptance | API | Courses', function () {
     });
 
     context('when the course exists', function () {
-      let options;
+      context('when the course is playable', function () {
+        it('should return the course along with a 200 HTTP status code', async function () {
+          // when
+          const options = {
+            method: 'GET',
+            url: '/api/courses/rec_active_course_id',
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+          };
+          const response = await server.inject(options);
 
-      beforeEach(function () {
-        options = {
-          method: 'GET',
-          url: '/api/courses/rec_course_id',
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
-          },
-        };
-      });
-
-      it('should return 200 HTTP status code', function () {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
+          // then
           expect(response.statusCode).to.equal(200);
-        });
-      });
-
-      it('should return application/json', function () {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
-      });
-
-      it('should return the expected course', function () {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
           const course = response.result.data;
-          expect(course.id).to.equal('rec_course_id');
+          expect(course.id).to.equal('rec_active_course_id');
           expect(course.attributes.name).to.equal("A la recherche de l'information #01");
           expect(course.attributes.description).to.equal("Mener une recherche et une veille d'information");
+        });
+      });
+
+      context('when the course is not playable', function () {
+        it('should return a 404 HTTP status code', async function () {
+          // when
+          const options = {
+            method: 'GET',
+            url: '/api/courses/rec_inactive_course_id',
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(userId),
+            },
+          };
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
         });
       });
     });
 
     context('when the course does not exist', function () {
-      let options;
-
-      beforeEach(function () {
-        options = {
-          method: 'GET',
-          url: '/api/courses/rec_i_dont_exist',
-        };
-      });
-
-      it('should return 404 HTTP status code', function () {
+      it('should return a 404 HTTP status code', async function () {
         // when
-        const promise = server.inject(options);
+        const options = {
+          method: 'GET',
+          url: '/api/courses/COUCOUCOUCOCUOC',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(userId),
+          },
+        };
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
+        expect(response.statusCode).to.equal(404);
       });
     });
   });

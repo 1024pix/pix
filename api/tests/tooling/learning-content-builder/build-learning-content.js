@@ -120,6 +120,7 @@ const buildLearningContent = function (learningContent) {
             challenges: course.challengeIds,
             name: course.name,
             description: course.description,
+            isActive: course.isActive,
           };
         });
       allCourses.push(courses);
