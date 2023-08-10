@@ -1,0 +1,25 @@
+<div class="background-banner-wrapper" role="banner">
+  <div class="background-banner"></div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+    <div class="course-error-page__start__image__container">
+      <div class="course-error-page__pix-logo">
+        <img class="course-error-page__image" src="/images/pix-logo.svg" alt="{{t 'navigation.pix'}}" />
+      </div>
+      {{#if this.shouldShowTheMarianneLogo}}
+        <div class="course-error-page__marianne-logo">
+          <img
+            class="course-error-page__image"
+            src="/images/logo/logo-de-la-republique-francaise.svg"
+            alt="{{t 'common.french-republic'}}"
+          />
+        </div>
+      {{/if}}
+    </div>
+    <div class="course-error-page__error-text">
+      <h1 class="course-error-page__error-text title">{{t "pages.course.errors.not-accessible"}}</h1>
+      <LinkTo @route="authenticated" class="button button--extra-big button--link course-error-page__error-button">
+        {{t "navigation.back-to-profile"}}
+      </LinkTo>
+    </div>
+  </div>
+</div>
