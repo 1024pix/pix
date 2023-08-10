@@ -1,8 +1,9 @@
-import { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } from '../errors.js';
+import { AlreadyExistingCampaignParticipationError, EntityValidationError, ForbiddenAccess } from '../errors.js';
 
 import { CampaignParticipation } from './CampaignParticipation.js';
 import { Assessment } from './Assessment.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
+
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
@@ -20,8 +21,8 @@ class CampaignParticipant {
     this.organizationLearnerHasParticipatedForAnotherUser = organizationLearner.hasParticipated;
   }
 
-  start({ participantExternalId }) {
-    this._checkCanParticipateToCampaign(participantExternalId);
+  start({ participantExternalId, isReset }) {
+    this._checkCanParticipateToCampaign(participantExternalId, isReset);
 
     const participantExternalIdToUse =
       this.previousCampaignParticipationForUser?.participantExternalId || participantExternalId;
@@ -60,7 +61,7 @@ class CampaignParticipant {
     return !this.campaignToStartParticipation.isRestricted && !this.organizationLearnerId;
   }
 
-  _checkCanParticipateToCampaign(participantExternalId) {
+  _checkCanParticipateToCampaign(participantExternalId, isReset) {
     if (this.campaignToStartParticipation.isArchived) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
@@ -82,7 +83,8 @@ class CampaignParticipant {
     if (['STARTED', 'TO_SHARE'].includes(this.previousCampaignParticipationForUser?.status)) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
     }
-    if (this._canImproveResults()) {
+
+    if (!isReset && this._canImproveResults()) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
     }
 
