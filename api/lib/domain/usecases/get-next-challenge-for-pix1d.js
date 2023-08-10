@@ -95,6 +95,7 @@ async function _getNextActivityChallenge(
     });
   }
   assessmentRepository.completeByAssessmentId(assessmentId);
+  return null;
 }
 
 const status = {

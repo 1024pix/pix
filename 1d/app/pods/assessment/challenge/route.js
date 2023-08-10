@@ -7,20 +7,18 @@ export default class ChallengeRoute extends Route {
 
   async model(params, transition) {
     const assessment = await this.modelFor('assessment');
-    try {
-      const challengeId = transition?.to.queryParams.challengeId;
-      if (assessment.type === 'PREVIEW' && challengeId) {
-        const challenge = await this.store.findRecord('challenge', challengeId);
-        return { assessment, challenge };
-      }
-      const challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
-      const activity = await this.store.queryRecord('activity', { assessmentId: assessment.id });
-      return { assessment, challenge, activity };
-    } catch (err) {
-      //TODO manage error instead of says it's the end...
+    const challengeId = transition?.to.queryParams.challengeId;
+    if (assessment.type === 'PREVIEW' && challengeId) {
+      const challenge = await this.store.findRecord('challenge', challengeId);
+      return { assessment, challenge };
+    }
+    const challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+    if (challenge == null) {
       return this.router.replaceWith('assessment.resume', assessment.id, {
         queryParams: { assessmentHasNoMoreQuestions: true },
       });
     }
+    const activity = await this.store.queryRecord('activity', { assessmentId: assessment.id });
+    return { assessment, challenge, activity };
   }
 }
