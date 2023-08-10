@@ -20,6 +20,7 @@ module.exports = function () {
       'earth-europe',
       'eye',
       'eye-slash',
+      'flag',
       'globe',
       'hourglass-end',
       'image',

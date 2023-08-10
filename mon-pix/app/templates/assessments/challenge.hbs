@@ -74,7 +74,10 @@
   {{#if this.displayChallenge}}
     <div class="challenge__feedback" role="complementary">
       {{#if (eq @model.assessment.certificationCourse.version 3)}}
-        <FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeItemActions}} />
+        <FeedbackPanelV3
+          @disableChallengeActions={{this.disableChallengeItemActions}}
+          @isInvigilatorCalled={{this.isInvigilatorCalled}}
+        />
       {{else}}
         <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
       {{/if}}

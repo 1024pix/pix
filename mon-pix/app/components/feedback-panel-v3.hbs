@@ -1,5 +1,8 @@
 {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
 <div class="feedback-panel-v3">
+  {{#if @isInvigilatorCalled}}
+    <PixBanner @type="error">{{t "pages.challenge.feedback-panel-v3.problem-banner"}}</PixBanner>
+  {{/if}}
   <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
   <button
     class="feedback-panel-v3__open-button"

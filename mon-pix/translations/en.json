@@ -670,7 +670,8 @@
           "send-feedback": "Oui, je suis sûr(e)"
         },
         "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
-        "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement."
+        "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement.",
+        "problem-banner": "Prévenez votre surveillant afin qu'il puisse constater votre problème."
       },
       "has-focused-out-of-window": {
         "certification": "We have detected a page switch. Your answer will not be validated.'<br>'If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
