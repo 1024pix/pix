@@ -7,7 +7,8 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
   let options: ServerInjectOptions;
 
   beforeEach(async function (): Promise<void> {
-    server = (new HapiServer()).server;
+    const hapiServer = await HapiServer.createServer();
+    server = hapiServer.server;
 
     options = {
       method: 'POST',
