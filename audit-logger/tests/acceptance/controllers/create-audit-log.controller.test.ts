@@ -10,7 +10,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
     const hapiServer = await HapiServer.createServer();
     server = hapiServer.server;
 
-    const base64EncodedCredentials = btoa('pix-api:password');
+    const base64EncodedCredentials = btoa('pix-api:pixApiClientSecretTest');
 
     options = {
       method: 'POST',

@@ -33,7 +33,6 @@ switch (config.environment) {
     break;
   case 'test':
     config.logging.enabled = _isBooleanFeatureEnabledElseDefault(process.env.TEST_LOG_ENABLED as BooleanType, false);
-    config.pixApiClientSecret = 'pixApiClientSecretTest';
     break;
 }
 

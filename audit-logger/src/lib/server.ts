@@ -60,7 +60,7 @@ export class HapiServer {
     const hapiServer = new HapiServer();
     await hapiServer.server.register(hapiBasicPlugin);
     hapiServer.server.auth.strategy('simple', 'basic', {
-      validate: async (_:Request, username: string, password: string) => validate(username, password)
+      validate: async (_:Request, username: string, password: string) => await validate(username, password)
     });
     hapiServer.server.route(ROUTES);
 

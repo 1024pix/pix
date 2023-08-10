@@ -1,11 +1,15 @@
+import bcrypt from 'bcrypt';
+
 import { config } from '../../config.js';
 
-export const validate = (username: string, password: string): object => {
+export const validate = async (username: string, password: string): Promise<object> => {
   if (username !== 'pix-api') {
     return { isValid: false, credentials: null };
   }
 
-  if (password !== config.pixApiClientSecret) {
+  const isPasswordValid = await bcrypt.compare(password, config.pixApiClientSecret);
+
+  if (!isPasswordValid) {
     return { isValid: false, credentials: null };
   }
 
