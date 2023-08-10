@@ -1,7 +1,7 @@
 import { databaseBuilder, expect } from '../../../test-helper.js';
-import * as targetProfileAttachableForAdminRepository from '../../../../lib/infrastructure/repositories/target-profiles-attachable-for-admin-repository.js';
+import * as attachableTargetProfileRepository from '../../../../lib/infrastructure/repositories/attachable-target-profiles-repository.js';
 
-describe('Integration | Repository | target-profiles-attachable-for-admin', function () {
+describe('Integration | Repository | attachable-target-profiles', function () {
   describe('#find', function () {
     it('should return attachable target profiles ordered by name asc, then id desc', async function () {
       // given
@@ -31,7 +31,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
       await databaseBuilder.commit();
 
       // when
-      const results = await targetProfileAttachableForAdminRepository.find();
+      const results = await attachableTargetProfileRepository.find();
 
       // then
       expect(results).to.deep.equal([
@@ -59,7 +59,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
       await databaseBuilder.commit();
 
       // when
-      const results = await targetProfileAttachableForAdminRepository.find();
+      const results = await attachableTargetProfileRepository.find();
 
       // then
       expect(results).to.deep.equal([{ id: 100, name: 'NOTOUTDATED' }]);
@@ -78,7 +78,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
         await databaseBuilder.commit();
 
         // when
-        const results = await targetProfileAttachableForAdminRepository.find();
+        const results = await attachableTargetProfileRepository.find();
 
         // then
         expect(results).to.deep.equal([{ id: 100, name: 'Not tied to a complementary' }]);
@@ -102,7 +102,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
         await databaseBuilder.commit();
 
         // when
-        const results = await targetProfileAttachableForAdminRepository.find();
+        const results = await attachableTargetProfileRepository.find();
 
         // then
         expect(results).to.deep.equal([]);
@@ -124,7 +124,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
         await databaseBuilder.commit();
 
         // when
-        const results = await targetProfileAttachableForAdminRepository.find();
+        const results = await attachableTargetProfileRepository.find();
 
         // then
         expect(results).to.deep.equal([{ id: 100, name: 'currentlyDetached' }]);
@@ -170,7 +170,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
           const searchTerm = 'CLEA';
 
           // when
-          const results = await targetProfileAttachableForAdminRepository.find({ searchTerm });
+          const results = await attachableTargetProfileRepository.find({ searchTerm });
 
           // then
           expect(results).to.deep.equal([
@@ -211,7 +211,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
           const searchTerm = 'cléa';
 
           // when
-          const results = await targetProfileAttachableForAdminRepository.find({ searchTerm });
+          const results = await attachableTargetProfileRepository.find({ searchTerm });
 
           // then
           expect(results).to.deep.equal([
@@ -255,7 +255,7 @@ describe('Integration | Repository | target-profiles-attachable-for-admin', func
           const searchTerm = '2';
 
           // when
-          const results = await targetProfileAttachableForAdminRepository.find({ searchTerm });
+          const results = await attachableTargetProfileRepository.find({ searchTerm });
 
           // then
           expect(results).to.deep.equal([
