@@ -1,4 +1,5 @@
 import { Server } from '@hapi/hapi';
+import hapiBasicPlugin from '@hapi/basic';
 
 import { config } from './config.js';
 import { ROUTES } from './routes.js';
@@ -50,6 +51,7 @@ export class HapiServer {
   static async createServer(): Promise<HapiServer>
   {
     const hapiServer = new HapiServer();
+    await hapiServer.server.register(hapiBasicPlugin);
     hapiServer.server.route(ROUTES);
 
     return hapiServer;
