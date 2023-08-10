@@ -1,3 +1,4 @@
+import Joi from 'joi';
 import { complementaryCertificationController } from './complementary-certification-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 
@@ -47,6 +48,34 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
           'Elle renvoie les informations du profil cible courant de la certification complémentaire.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/complementary-certifications/target-profiles/search',
+      config: {
+        validate: {
+          query: Joi.object({
+            searchTerm: Joi.string().allow(null, '').optional(),
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: complementaryCertificationController.searchAttachableTargetProfilesForComplementaryCertifications,
+        tags: ['api', 'admin'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
+          'Elle renvoie les profils cibles qui peuvent être attachés à un certification complémentaire.',
         ],
       },
     },
