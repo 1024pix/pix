@@ -1,12 +1,14 @@
-import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
 import lodash from 'lodash';
-const { pick } = lodash;
 import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+
+const { pick } = lodash;
+
 const campaignParticipationDBAttributes = [
   'id',
   'campaignId',
@@ -592,12 +594,18 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignId: campaignToStartParticipation.id,
           isImproved: true,
         });
+
+        const sharedAt = new Date('2020-01-01');
         const expectedAttributes = {
           id: 10,
           participantExternalId: 'something',
           validatedSkillsCount: 1,
           status: 'SHARED',
           isDeleted: true,
+          isTargetProfileResetAllowed: false,
+          isCampaignMultipleSendings: true,
+          isOrganizationLearnerActive: true,
+          sharedAt,
         };
         databaseBuilder.factory.buildCampaignParticipation({
           id: 10,
@@ -607,6 +615,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           deletedAt: new Date(),
           userId,
           campaignId: campaignToStartParticipation.id,
+          sharedAt,
         });
 
         await databaseBuilder.commit();
