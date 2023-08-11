@@ -2059,4 +2059,25 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(isActive).to.be.true;
     });
   });
+  describe('#updateCertificability', function () {
+    it('should update isCertifiable and certifiableAt', async function () {
+      // given
+      const organizationLearner = new OrganizationLearner(
+        databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null, certifiableAt: null }),
+      );
+      await databaseBuilder.commit();
+
+      // when
+      organizationLearner.isCertifiable = true;
+      organizationLearner.certifiableAt = new Date('2023-01-01');
+      await organizationLearnerRepository.updateCertificability(organizationLearner);
+
+      // then
+      const { isCertifiable, certifiableAt } = await knex('organization-learners')
+        .where({ id: organizationLearner.id })
+        .first();
+      expect(isCertifiable).to.be.true;
+      expect(new Date(certifiableAt)).to.deep.equal(organizationLearner.certifiableAt);
+    });
+  });
 });
