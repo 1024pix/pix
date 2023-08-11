@@ -4,6 +4,7 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
+import * as apps from '../../../../lib/domain/constants.js';
 
 import { createServer } from '../../../../server.js';
 
@@ -56,6 +57,7 @@ describe('Acceptance | Routes | organization-administration-controller', functio
         });
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
+        databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
         await databaseBuilder.commit();
 
         // when
