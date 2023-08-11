@@ -667,11 +667,13 @@
         "actions": {
           "no-send-feedback": "Non, je reviens à l'épreuve",
           "open-close": "Signaler un problème avec la question",
+          "refresh-page": "Rafraîchir la page",
           "send-feedback": "Oui, je suis sûr(e)"
         },
         "description": "Êtes-vous sûr(e) de vouloir signaler un problème ?",
         "information": "En signalant un problème, votre certification est mise en pause le temps que le surveillant intervienne pour valider ou invalider votre signalement.",
-        "problem-banner": "Prévenez votre surveillant afin qu'il puisse constater votre problème."
+        "problem-banner": "Prévenez votre surveillant afin qu'il puisse constater votre problème.",
+        "waiting-information": "En attente du surveillant..."
       },
       "has-focused-out-of-window": {
         "certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse.'<br>'Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.",
