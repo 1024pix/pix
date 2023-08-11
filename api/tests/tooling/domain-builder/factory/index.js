@@ -13,7 +13,6 @@ import { buildBadgeAcquisition } from './build-badge-acquisition.js';
 import { buildBadgeDetails } from './build-badge-details.js';
 import { buildBadgeForCalculation } from './build-badge-for-calculation.js';
 import { buildBadgeCriterionForCalculation } from './build-badge-criterion-for-calculation.js';
-import { buildSkillSet } from './build-skill-set.js';
 import { buildCampaign } from './build-campaign.js';
 import { buildCampaignCollectiveResult } from './build-campaign-collective-result.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
@@ -169,7 +168,6 @@ export {
   buildBadgeDetails,
   buildBadgeForCalculation,
   buildBadgeCriterionForCalculation,
-  buildSkillSet,
   buildCampaign,
   buildCampaignCollectiveResult,
   buildCampaignParticipation,
