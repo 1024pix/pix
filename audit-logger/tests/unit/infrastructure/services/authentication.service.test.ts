@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
-import { validate } from '../../../../src/lib/infrastructure/services/authentication.service.js'
+import { areCredentialsValid } from '../../../../src/lib/infrastructure/services/authentication.service.js'
 
 describe('Unit | Infrastructure | Services | authentication', () => {
-  describe('#validate', () => {
+  describe('#areCredentialsValid', () => {
     describe('when username is incorrect', function () {
       test('returns false and null credentials', async () => {
         // given
@@ -10,10 +10,10 @@ describe('Unit | Infrastructure | Services | authentication', () => {
         const password = 'pixApiClientSecretTest';
 
         // when
-        const result = await validate(username, password);
+        const result = await areCredentialsValid(username, password);
 
         // then
-        expect(result).toEqual({ isValid: false, credentials: null });
+        expect(result).toEqual(false);
       });
     });
 
@@ -24,10 +24,10 @@ describe('Unit | Infrastructure | Services | authentication', () => {
         const password = 'wrong-password';
 
         // when
-        const result = await validate(username, password);
+        const result = await areCredentialsValid(username, password);
 
         // then
-        expect(result).toEqual({ isValid: false, credentials: null });
+        expect(result).toEqual(false);
       });
     });
 
@@ -38,10 +38,10 @@ describe('Unit | Infrastructure | Services | authentication', () => {
         const password = 'pixApiClientSecretTest';
 
         // when
-        const result = await validate(username, password);
+        const result = await areCredentialsValid(username, password);
 
         // then
-        expect(result).toEqual({ isValid: true, credentials: {} });
+        expect(result).toEqual(true);
       });
     });
   });

@@ -5,7 +5,7 @@ import { config } from './config.js';
 import { ROUTES } from './routes.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import { logger } from './infrastructure/logger.js';
-import { validate } from './infrastructure/services/authentication.service.js';
+import { areCredentialsValid } from './infrastructure/services/authentication.service.js';
 
 const { port } = config;
 
@@ -60,7 +60,12 @@ export class HapiServer {
     const hapiServer = new HapiServer();
     await hapiServer.server.register(hapiBasicPlugin);
     hapiServer.server.auth.strategy('simple', 'basic', {
-      validate: async (_:Request, username: string, password: string) => await validate(username, password)
+      validate: async (_:Request, username: string, password: string) => {
+        if (await areCredentialsValid(username, password)) {
+          return { isValid: true, credentials: {} };
+        }
+        return { isValid: false, credentials: null };
+      }
     });
     hapiServer.server.route(ROUTES);
 
