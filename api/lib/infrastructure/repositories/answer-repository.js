@@ -80,21 +80,6 @@ const findByAssessment = async function (assessmentId) {
   return _toDomainArray(answerDTOsWithoutDuplicate);
 };
 
-const findLastByAssessment = async function (assessmentId) {
-  const answerDTO = await knex
-    .select(COLUMNS)
-    .from('answers')
-    .where({ assessmentId })
-    .orderBy('createdAt', 'desc')
-    .first();
-
-  if (!answerDTO) {
-    return null;
-  }
-
-  return _toDomain(answerDTO);
-};
-
 const findChallengeIdsFromAnswerIds = async function (ids) {
   return knex.distinct().pluck('challengeId').from('answers').whereInArray('id', ids);
 };
@@ -124,7 +109,6 @@ export {
   get,
   findByChallengeAndAssessment,
   findByAssessment,
-  findLastByAssessment,
   findChallengeIdsFromAnswerIds,
   saveWithKnowledgeElements,
 };
