@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
-import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
+import { TargetProfile } from '../../../../lib/domain/models/index.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { InvalidSkillSetError, NotFoundError, ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { NotFoundError, ObjectValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -385,49 +385,6 @@ describe('Integration | Repository | Target-profile', function () {
         const error = await catchErr(targetProfileRepository.findOrganizationIds)(999);
 
         expect(error).to.be.instanceOf(NotFoundError);
-      });
-    });
-  });
-
-  /* touche pas */
-  describe('#hasSkills', function () {
-    let targetProfileId;
-
-    beforeEach(function () {
-      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill2' });
-
-      return databaseBuilder.commit();
-    });
-
-    context('when all skillIds belong to target profile', function () {
-      it('should return true', async function () {
-        // given
-        const skillIds = ['recSkill1', 'recSkill2'];
-
-        // when
-        const result = await targetProfileRepository.hasSkills({ targetProfileId, skillIds });
-
-        // then
-        expect(result).to.be.true;
-      });
-    });
-
-    context("when at least one skillId doesn't belong to target profile", function () {
-      it('should throw an error', async function () {
-        // given
-        const skillIds = ['recSkill1', 'recSkill666', 'recSkill2'];
-
-        // when
-        const error = await catchErr(targetProfileRepository.hasSkills)({ targetProfileId, skillIds });
-
-        // then
-        expect(error).to.be.instanceOf(InvalidSkillSetError);
-        expect(error).to.haveOwnProperty(
-          'message',
-          'Les acquis suivants ne font pas partie du profil cible : recSkill666',
-        );
       });
     });
   });
