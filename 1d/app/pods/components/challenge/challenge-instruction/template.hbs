@@ -1,3 +1,9 @@
 <div class="challenge-instruction">
   <Markdown::MarkdownToHtmlUnsafe @markdown={{@instruction}} />
+  <PixIconButton
+    @ariaLabel="Lire la consigne à haute voix"
+    @withBackground="true"
+    @icon="volume-high"
+    @triggerAction={{fn this.readTheInstruction @instruction}}
+  />
 </div>
