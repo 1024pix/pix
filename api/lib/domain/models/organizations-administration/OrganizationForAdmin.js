@@ -2,6 +2,8 @@ import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
 import * as apps from '../../constants.js';
 import differenceBy from 'lodash/differenceBy.js';
 
+const CREDIT_DEFAULT_VALUE = 0;
+
 class OrganizationForAdmin {
   constructor({
     id,
@@ -11,7 +13,7 @@ class OrganizationForAdmin {
     externalId,
     provinceCode,
     isManagingStudents,
-    credit,
+    credit = CREDIT_DEFAULT_VALUE,
     email,
     documentationUrl,
     createdBy,
