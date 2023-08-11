@@ -109,7 +109,6 @@ function _applyFilters(
 
   if (versionFilter) {
     filteredSessions = filter(filteredSessions, { version: +versionFilter });
-    console.log(filteredSessions);
   }
 
   return filteredSessions;
