@@ -162,6 +162,12 @@ describe('Acceptance | API | Campaign Participations', function () {
         multipleSendings: true,
       }).id;
 
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: multipleSendingsCampaignId,
+        status: CampaignParticipationStatuses.SHARED,
+      });
+
       const framework = domainBuilder.buildFramework({ id: 'frameworkId', name: 'someFramework' });
       const skill1 = {
         id: 'recSK123',
