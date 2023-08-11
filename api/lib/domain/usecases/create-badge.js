@@ -7,11 +7,8 @@ const createBadge = async function ({
   badgeRepository,
   badgeCriteriaRepository,
   targetProfileRepository,
-  skillSetRepository,
 }) {
-  const { campaignThreshold, skillSetThreshold, cappedTubesCriteria, skillSetName, skillSetSkillsIds, ...badge } =
-    badgeCreation;
-
+  const { campaignThreshold, cappedTubesCriteria, ...badge } = badgeCreation;
   return DomainTransaction.execute(async (domainTransaction) => {
     await targetProfileRepository.get(targetProfileId, domainTransaction);
     await badgeRepository.isKeyAvailable(badge.key, domainTransaction);
@@ -19,7 +16,7 @@ const createBadge = async function ({
     const isCampaignThresholdValid = campaignThreshold || campaignThreshold === 0;
     const hasCappedTubesCriteria = cappedTubesCriteria?.length > 0;
 
-    if (!isCampaignThresholdValid && !skillSetThreshold && !hasCappedTubesCriteria) {
+    if (!isCampaignThresholdValid && !hasCappedTubesCriteria) {
       throw new MissingBadgeCriterionError();
     }
 
@@ -32,33 +29,6 @@ const createBadge = async function ({
             badgeId: savedBadge.id,
             threshold: campaignThreshold,
             scope: 'CampaignParticipation',
-          },
-        },
-        domainTransaction,
-      );
-    }
-
-    if (skillSetThreshold) {
-      await targetProfileRepository.hasSkills({ targetProfileId, skillIds: skillSetSkillsIds }, domainTransaction);
-
-      const { id: skillSetId } = await skillSetRepository.save(
-        {
-          skillSet: {
-            badgeId: savedBadge.id,
-            name: skillSetName,
-            skillIds: skillSetSkillsIds,
-          },
-        },
-        domainTransaction,
-      );
-
-      await badgeCriteriaRepository.save(
-        {
-          badgeCriterion: {
-            badgeId: savedBadge.id,
-            threshold: skillSetThreshold,
-            scope: 'SkillSet',
-            skillSetIds: [skillSetId],
           },
         },
         domainTransaction,
