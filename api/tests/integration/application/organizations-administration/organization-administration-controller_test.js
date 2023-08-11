@@ -22,11 +22,7 @@ describe('Integration | Application | Controller | organization-administration-c
       identityProviderForCampaigns: 'POLE_EMPLOI',
     });
 
-    const feature = await knex('features')
-      .select('id')
-      .where({ key: apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key })
-      .first();
-    featureId = feature.id;
+    featureId = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
 
     await databaseBuilder.commit();
   });
