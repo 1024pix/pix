@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
+import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 
 describe('Integration | Repository | BadgeForCalculation', function () {
   const campaignSkillsId = [
@@ -195,7 +195,7 @@ function _buildBadgeWithCampaignParticipationAndCappedTubes(targetProfileId, cam
     targetProfileId,
   }).id;
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+    scope: SCOPES.CAMPAIGN_PARTICIPATION,
     threshold: 30,
     badgeId,
   });
@@ -205,7 +205,7 @@ function _buildBadgeWithCampaignParticipationAndCappedTubes(targetProfileId, cam
     { id: 'recTubeC', level: 1 },
   ];
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.CAPPED_TUBES,
+    scope: SCOPES.CAPPED_TUBES,
     threshold: 60,
     badgeId,
     cappedTubes: JSON.stringify(cappedTubesDTO),
@@ -231,7 +231,7 @@ function _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(targetProfileI
     targetProfileId,
   }).id;
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+    scope: SCOPES.CAMPAIGN_PARTICIPATION,
     threshold: 65,
     badgeId,
   });
@@ -244,7 +244,7 @@ function _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(targetProfileI
     badgeId,
   });
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    scope: SCOPES.SKILL_SET,
     threshold: 28,
     skillSetIds: [skillSet1.id, skillSet2.id],
     badgeId,
@@ -275,7 +275,7 @@ function _buildBadgeWithUnrealisableCriteria(targetProfileId) {
   }).id;
   const cappedTubesDTO = [{ id: 'recTubeC', level: 1 }];
   databaseBuilder.factory.buildBadgeCriterion({
-    scope: BadgeCriterion.SCOPES.CAPPED_TUBES,
+    scope: SCOPES.CAPPED_TUBES,
     threshold: 60,
     badgeId,
     cappedTubes: JSON.stringify(cappedTubesDTO),

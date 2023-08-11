@@ -15,7 +15,6 @@ import { AuthenticationMethod } from './AuthenticationMethod.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
 import { Badge } from './Badge.js';
 import { BadgeAcquisition } from './BadgeAcquisition.js';
-import { BadgeCriterion } from './BadgeCriterion.js';
 import { BadgeDetails } from './BadgeDetails.js';
 import { BadgeForCalculation } from './BadgeForCalculation.js';
 import { Campaign } from './Campaign.js';
@@ -173,7 +172,6 @@ export {
   AuthenticationSessionContent,
   Badge,
   BadgeAcquisition,
-  BadgeCriterion,
   BadgeDetails,
   BadgeForCalculation,
   Campaign,
