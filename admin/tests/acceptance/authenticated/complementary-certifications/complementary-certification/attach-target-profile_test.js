@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, waitFor } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import dayjs from 'dayjs';
@@ -68,6 +68,34 @@ module(
 
               // then
               assert.strictEqual(currentURL(), '/target-profiles/3/details');
+            });
+          });
+        });
+
+        module('when user type in the search bar', function () {
+          test('it should display the search results', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+            server.create('complementary-certification', {
+              id: 1,
+              key: 'KEY',
+              label: 'MARIANNE CERTIF',
+              targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
+            });
+            server.create('attachable-target-profile', {
+              id: 3,
+              name: 'ALEX TARGET',
+            });
+            const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+
+            // when
+            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+            await fillIn(input, '3');
+
+            // then
+            await waitFor(async () => {
+              await screen.findByRole('listbox');
+              assert.dom(screen.getByRole('option', { name: '3 - ALEX TARGET' })).exists();
             });
           });
         });

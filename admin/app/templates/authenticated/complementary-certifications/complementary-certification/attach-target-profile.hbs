@@ -20,7 +20,11 @@
       </LinkTo>
     </span>
 
-    <ComplementaryCertifications::TargetProfiles::AttachTargetProfile />
+    <ComplementaryCertifications::TargetProfiles::AttachTargetProfile
+      @onSelection={{this.onSelection}}
+      @onSearch={{this.onSearch}}
+      @options={{this.options}}
+    />
     <div>
       <PixButton
         @size="small"

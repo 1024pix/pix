@@ -160,14 +160,14 @@ describe('Acceptance | API | complementary-certification-controller', function (
     });
   });
 
-  describe('GET /api/admin/complementary-certifications/target-profiles/search', function () {
+  describe('GET /api/admin/complementary-certifications/target-profiles/attachable-target-profiles', function () {
     context('when no search term provided', function () {
       it('should return 200 HTTP status code', async function () {
         // given
         const superAdmin = await insertUserWithRoleSuperAdmin();
         const options = {
           method: 'GET',
-          url: '/api/admin/complementary-certifications/target-profiles/search',
+          url: '/api/admin/complementary-certifications/attachable-target-profiles',
           headers: {
             authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
           },
@@ -205,7 +205,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
         const superAdmin = await insertUserWithRoleSuperAdmin();
         const options = {
           method: 'GET',
-          url: '/api/admin/complementary-certifications/target-profiles/search?searchTerm=that%20way',
+          url: '/api/admin/complementary-certifications/attachable-target-profiles?searchTerm=that%20way',
           headers: {
             authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
           },

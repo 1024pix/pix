@@ -53,7 +53,7 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/admin/complementary-certifications/target-profiles/search',
+      path: '/api/admin/complementary-certifications/attachable-target-profiles',
       config: {
         validate: {
           query: Joi.object({
