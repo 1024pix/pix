@@ -62,7 +62,6 @@ class OrganizationForAdmin {
     this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.tags = tags;
     this.features = features;
-
     this.tagsToAdd = [];
     this.tagsToRemove = [];
   }
@@ -98,9 +97,12 @@ class OrganizationForAdmin {
     this.showSkills = organization.showSkills;
     this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
     this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
-
     this.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] =
       organization.enableMultipleSendingAssessment;
+    if (this.type === 'SCO') {
+      this.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] =
+        this.isManagingStudents;
+    }
     this.tagsToAdd = differenceBy(tags, this.tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
     this.tagsToRemove = differenceBy(this.tags, tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
   }
