@@ -5,7 +5,7 @@ const addTutorialEvaluation = async function ({
   tutorialId,
   status,
 } = {}) {
-  await tutorialRepository.get(tutorialId);
+  await tutorialRepository.get({ tutorialId });
 
   return tutorialEvaluationRepository.createOrUpdate({ userId, tutorialId, status });
 };
