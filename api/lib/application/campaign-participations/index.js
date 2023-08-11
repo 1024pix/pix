@@ -32,6 +32,8 @@ const register = async function (server) {
               type: Joi.string(),
               attributes: Joi.object({
                 'participant-external-id': Joi.string().allow(null).max(255),
+                'is-retry': Joi.boolean().allow(null).default(false),
+                'is-reset': Joi.boolean().allow(null).default(false),
               }).required(),
             }).required(),
           }).required(),
