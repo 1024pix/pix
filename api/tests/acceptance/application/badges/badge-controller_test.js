@@ -47,9 +47,6 @@ describe('Acceptance | API | Badges', function () {
         'is-certifiable': true,
         'is-always-visible': true,
         'campaign-threshold': null,
-        'skill-set-threshold': null,
-        'skill-set-name': '',
-        'skill-set-skills-ids': null,
       };
 
       options = {
