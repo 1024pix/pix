@@ -639,6 +639,59 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
               .exists();
           });
         });
+
+        module('when refreshing the page', function () {
+          test('it should enable challenge action buttons', async function (assert) {
+            assert.timeout(5000);
+            // given
+            user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+
+            server.create('challenge', 'forCertification');
+
+            this.server.create('certification-course', {
+              accessCode: 'ABCD12',
+              sessionId: 1,
+              nbChallenges: 1,
+              firstName: 'Laura',
+              lastName: 'Bravo',
+              version: 3,
+            });
+
+            this.server.create('certification-candidate-subscription', {
+              id: 2,
+              sessionId: 1,
+              eligibleSubscription: null,
+              nonEligibleSubscription: null,
+            });
+
+            await authenticate(user);
+            const screen = await visit('/certifications');
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'Bravo',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
+            await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
+            await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+            await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));
+
+            // when
+            await click(screen.getByRole('button', { name: 'Rafraîchir la page' }));
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
+            assert
+              .dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }))
+              .hasNoAttribute('disabled');
+            assert
+              .dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }))
+              .hasNoAttribute('disabled');
+          });
+        });
       });
     });
   });

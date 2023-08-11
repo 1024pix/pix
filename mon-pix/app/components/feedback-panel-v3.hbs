@@ -18,7 +18,7 @@
     {{#if @isInvigilatorCalled}}
       <div class="feedback-panel-v3__refresh-info">
         <p>{{t "pages.challenge.feedback-panel-v3.waiting-information"}}</p>
-        <button type="button">
+        <button type="button" {{on "click" this.resfreshPage}}>
           <FaIcon @icon="arrows-rotate" />{{t "pages.challenge.feedback-panel-v3.actions.refresh-page"}}
         </button>
       </div>
