@@ -9,7 +9,7 @@ import * as areaRepository from './area-repository.js';
 import * as competenceRepository from './competence-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as tubeRepository from './tube-repository.js';
-import { TargetProfileForAdmin } from '../../domain/models/TargetProfileForAdmin.js';
+import { TargetProfileForAdmin } from '../../domain/models/index.js';
 import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
 import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
 
