@@ -53,6 +53,11 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
               name: this.intl.t('pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility'),
             }),
           );
+          await click(
+            screen.getByRole('button', {
+              name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
+            }),
+          );
           const contentValue = 'Prêtes-moi ta plume, pour écrire un mot';
           await fillIn(
             screen.getByRole('textbox', { name: 'Décrivez votre problème ou votre suggestion' }),
@@ -82,6 +87,11 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
                 name: this.intl.t(
                   'pages.challenge.feedback-panel.form.fields.category-selection.options.accessibility',
                 ),
+              }),
+            );
+            await click(
+              screen.getByRole('button', {
+                name: this.intl.t('pages.challenge.feedback-panel.form.fields.detail-selection.add-comment'),
               }),
             );
 
