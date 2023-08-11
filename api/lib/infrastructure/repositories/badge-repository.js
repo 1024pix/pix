@@ -1,12 +1,9 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { Badge } from '../../domain/models/Badge.js';
-import { SkillSet } from '../../domain/models/SkillSet.js';
-import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
-import lodash from 'lodash';
+import { Badge, BadgeCriterion, SkillSet } from '../../domain/models/index.js';
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-
+import { DomainTransaction } from '../DomainTransaction.js';
+import lodash from 'lodash';
 const { omit } = lodash;
 
 const TABLE_NAME = 'badges';
@@ -43,6 +40,7 @@ const get = async function (id) {
   const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
   return new Badge({ ...badge, badgeCriteria, skillSets });
 };
+
 const save = async function (badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   try {
     const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
@@ -71,7 +69,6 @@ const isKeyAvailable = async function (key, { knexTransaction } = DomainTransact
 const remove = async function (badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;
   await knexConn('badge-criteria').where({ badgeId }).del();
-  await knexConn('skill-sets').where({ badgeId }).del();
   await knexConn('badges').where({ id: badgeId }).del();
 
   return true;

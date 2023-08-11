@@ -1,8 +1,6 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import { Badge } from '../../../../lib/domain/models/Badge.js';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
-import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
+import { Badge, BadgeCriterion, SkillSet } from '../../../../lib/domain/models/index.js';
 import lodash from 'lodash';
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 
@@ -462,12 +460,12 @@ describe('Integration | Repository | Badge', function () {
     });
   });
 
-  describe('#delete', function () {
+  describe('#remove', function () {
     describe('when the record to delete is in the table', function () {
       it('should return true when deletion goes well', async function () {
         // given
         const badgeId = databaseBuilder.factory.buildBadge().id;
-        databaseBuilder.factory.buildSkillSet({ badgeId });
+        databaseBuilder.factory.buildBadgeCriterion({ badgeId });
         await databaseBuilder.commit();
 
         // when
@@ -475,8 +473,8 @@ describe('Integration | Repository | Badge', function () {
 
         // then
         expect(isDeleted).to.be.true;
-        const skillSetRowsCountAfterDeletion = await knex('skill-sets').where({ badgeId }).count();
-        expect(skillSetRowsCountAfterDeletion[0].count).to.equal(0);
+        const badgeCriteriaRowsCountAfterDeletion = await knex('badge-criteria').where({ badgeId }).count();
+        expect(badgeCriteriaRowsCountAfterDeletion[0].count).to.equal(0);
       });
 
       it('should delete a single row in the table', async function () {
