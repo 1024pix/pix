@@ -1,9 +1,11 @@
-import { Server } from '@hapi/hapi';
+import { type Request, Server, type ServerOptions } from '@hapi/hapi';
+import hapiBasicPlugin from '@hapi/basic';
 
 import { config } from './config.js';
 import { ROUTES } from './routes.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import { logger } from './infrastructure/logger.js';
+import { areCredentialsValid } from './infrastructure/services/authentication.service.js';
 
 const { port } = config;
 
@@ -11,9 +13,15 @@ export class HapiServer {
   private readonly _server: Server;
 
   constructor() {
+
+    const debugOptions: ServerOptions['debug'] = { request: false, log: false };
+    if (process.env.NODE_ENV !== 'production') {
+      debugOptions.request = ['error'];
+    }
+
     this._server = new Server({
       compression: false,
-      debug: { request: false, log: false },
+      debug: debugOptions,
       routes: {
         cors: {
           origin: ['*'],
@@ -29,7 +37,6 @@ export class HapiServer {
         stripTrailingSlash: true,
       },
     });
-   this._server.route(ROUTES);
   }
 
   get server(): Server {
@@ -47,4 +54,22 @@ export class HapiServer {
     await disconnect();
     logger.info('Exiting process...');
   }
+
+  static async createServer(): Promise<HapiServer>
+  {
+    const hapiServer = new HapiServer();
+    await hapiServer.server.register(hapiBasicPlugin);
+    hapiServer.server.auth.strategy('simple', 'basic', {
+      validate: async (_:Request, username: string, password: string) => {
+        if (await areCredentialsValid(username, password)) {
+          return { isValid: true, credentials: {} };
+        }
+        return { isValid: false, credentials: null };
+      }
+    });
+    hapiServer.server.route(ROUTES);
+
+    return hapiServer;
+  }
 }
+
