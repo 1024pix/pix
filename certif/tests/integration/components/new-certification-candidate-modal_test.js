@@ -11,6 +11,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
 
   hooks.beforeEach(async function () {
     const store = this.owner.lookup('service:store');
+
     class CurrentUserStub extends Service {
       currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         habilitations: [
@@ -19,6 +20,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         ],
       });
     }
+
     this.owner.register('service:current-user', CurrentUserStub);
   });
 

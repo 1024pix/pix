@@ -282,7 +282,9 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
       // given
       modal.args.candidateData = {};
       const complementaryCertification = {
-        label: 'complementaryCertification',
+        id: 0,
+        label: 'Certif complémentaire 1',
+        key: 'COMP_0',
       };
 
       // when
@@ -294,8 +296,16 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
 
     test('it should not be possible to select multiple complementary certifications', function (assert) {
       // given
-      const firstComplementaryCertification = { label: 'firstComplementaryCertification' };
-      const secondComplementaryCertification = { label: 'secondComplementaryCertification' };
+      const firstComplementaryCertification = {
+        id: 1,
+        label: 'firstComplementaryCertification',
+        key: 'COMP_1',
+      };
+      const secondComplementaryCertification = {
+        id: 2,
+        label: 'secondComplementaryCertification',
+        key: 'COMP_2',
+      };
       modal.args.candidateData = {
         complementaryCertification: firstComplementaryCertification,
       };
@@ -305,6 +315,27 @@ module('Unit | Component | new-certification-candidate-modal', function (hooks) 
 
       // then
       assert.deepEqual(modal.args.candidateData.complementaryCertification, secondComplementaryCertification);
+    });
+
+    test('it should remove the complementary when no complementary is selected', function (assert) {
+      // given
+      modal.args.candidateData = {
+        complementaryCertification: {
+          id: 0,
+          label: 'Certif complémentaire 1',
+          key: 'COMP_0',
+        },
+      };
+
+      const noneChoice = {
+        target: { value: 'none' },
+      };
+
+      // when
+      modal.updateComplementaryCertification(noneChoice);
+
+      // then
+      assert.strictEqual(typeof modal.args.candidateData.complementaryCertification, 'undefined');
     });
   });
 });
