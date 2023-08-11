@@ -1,6 +1,5 @@
 import { EMPTY_BLANK_AND_NULL, expect } from '../../../../../test-helper.js';
-import * as serializer
-  from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/session-serializer.js';
+import * as serializer from '../../../../../../src/certification/session/infrastructure/serializers/jsonapi/session-serializer.js';
 
 import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 
