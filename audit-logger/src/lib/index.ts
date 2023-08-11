@@ -9,7 +9,7 @@ process.on('SIGINT', () => {
   _exitOnSignal('SIGINT').then(() => {}, () => {});
 });
 
-const hapiServer: HapiServer = new HapiServer();
+const hapiServer: HapiServer = await HapiServer.createServer();
 
 try {
   await hapiServer.start();

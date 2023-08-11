@@ -18,7 +18,7 @@
     "preinstall": "npx check-engine",
     "test": "NODE_ENV=test npm run db:prepare && vitest",
     "test:ci": "NODE_ENV=test npm run db:prepare && vitest",
-    "test:coverage": "vitest --coverage.enabled",
+    "test:coverage": "NODE_ENV=test vitest --coverage.enabled",
     "test:watch": "NODE_ENV=test npm run db:prepare && vitest --watch",
     "start": "node dist/lib/index.js",
     "start:watch": "nodemon src/lib/index.ts"
@@ -39,6 +39,7 @@
   "type": "module",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.197",
     "@types/node": "^18.17.4",
     "@types/pg": "^8.10.2",
@@ -59,7 +60,9 @@
     "vitest": "^0.34.1"
   },
   "dependencies": {
+    "@hapi/basic": "^7.0.2",
     "@hapi/hapi": "~21.3.2",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.3.1",
     "joi": "^17.9.2",
     "knex": "^2.5.1",
