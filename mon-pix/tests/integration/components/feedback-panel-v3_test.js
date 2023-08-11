@@ -34,24 +34,41 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
         assert.dom(screen.queryByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).doesNotExist();
       });
 
-      test('should display a notification if the candidate decides to report a problem', async function (assert) {
-        // given
-        const disableChallengeItemActions = sinon.stub();
-        this.set('disableChallengeActions', disableChallengeItemActions);
-        this.set('isInvigilatorCalled', true);
-        const screen = await render(
-          hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @isInvigilatorCalled={{this.isInvigilatorCalled}}/>`,
-        );
+      module('when the candidate decides to report a problem', function () {
+        test('should display a notification', async function (assert) {
+          // given
+          const disableChallengeItemActions = sinon.stub();
+          this.set('disableChallengeActions', disableChallengeItemActions);
+          this.set('isInvigilatorCalled', true);
+          const screen = await render(
+            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @isInvigilatorCalled={{this.isInvigilatorCalled}}/>`,
+          );
 
-        // when
-        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
-        assert.dom(screen.getByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).exists();
+          // when
+          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
-        await click(screen.getByRole('button', { name: 'Oui, je suis sûr(e)' }));
+          // then
+          assert.dom(screen.getByText('En attente du surveillant...')).exists();
+          assert
+            .dom(screen.getByText("Prévenez votre surveillant afin qu'il puisse constater votre problème."))
+            .exists();
+        });
 
-        // then
-        assert.dom(screen.queryByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).exists();
-        assert.dom(screen.getByText("Prévenez votre surveillant afin qu'il puisse constater votre problème.")).exists();
+        test('should display a refresh button', async function (assert) {
+          const disableChallengeItemActions = sinon.stub();
+          this.set('disableChallengeActions', disableChallengeItemActions);
+          this.set('isInvigilatorCalled', true);
+          const screen = await render(
+            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @isInvigilatorCalled={{this.isInvigilatorCalled}}/>`,
+          );
+
+          // when
+          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
+
+          // then
+          assert.dom(screen.getByText('En attente du surveillant...')).exists();
+          assert.dom(screen.getByText('Rafraîchir la page')).exists();
+        });
       });
     });
   });

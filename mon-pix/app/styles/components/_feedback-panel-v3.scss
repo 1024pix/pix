@@ -3,6 +3,27 @@
   color: $pix-neutral-70;
   font-size: 0.875rem;
   font-family: $font-roboto;
+
+  &__refresh-info {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-weight: $font-bold;
+
+    p {
+      min-width: fit-content;
+    }
+
+    button {
+      display: flex;
+      gap: $pix-spacing-xxs;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      color: $pix-primary;
+      font-weight: $font-bold;
+    }
+  }
 }
 
 /* "Link" view
