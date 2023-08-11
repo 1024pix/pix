@@ -56,7 +56,7 @@ describe('Integration | Services | organization-learners-csv-service', function 
 
       //then
       const actualResult = _.map(results, (result) =>
-        _.omit(result, ['id', 'organizationId', 'userId', 'updatedAt', 'isDisabled']),
+        _.omit(result, ['id', 'organizationId', 'userId', 'updatedAt', 'isDisabled', 'isCertifiable', 'certifiableAt']),
       );
       expect(actualResult).to.deep.equal(expectedOrganizationLearners);
     });

@@ -24,6 +24,8 @@ class OrganizationLearner {
     updatedAt,
     userId,
     organizationId,
+    isCertifiable,
+    certifiableAt,
   } = {}) {
     this.id = id;
     this.lastName = lastName;
@@ -45,6 +47,18 @@ class OrganizationLearner {
     this.updatedAt = updatedAt;
     this.userId = userId;
     this.organizationId = organizationId;
+    this.isCertifiable = isCertifiable;
+    this.certifiableAt = certifiableAt;
+  }
+
+  updateCertificability(placementProfile) {
+    if (placementProfile.isCertifiable()) {
+      this.certifiableAt = placementProfile.profileDate;
+    } else {
+      this.certifiableAt = null;
+    }
+
+    this.isCertifiable = placementProfile.isCertifiable();
   }
 }
 
