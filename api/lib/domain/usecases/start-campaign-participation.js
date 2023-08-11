@@ -18,7 +18,10 @@ const startCampaignParticipation = async function ({
     domainTransaction,
   });
 
-  campaignParticipant.start({ participantExternalId: campaignParticipation.participantExternalId });
+  campaignParticipant.start({
+    participantExternalId: campaignParticipation.participantExternalId,
+    isReset: campaignParticipation.isReset,
+  });
 
   const campaignParticipationId = await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
 

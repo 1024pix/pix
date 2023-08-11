@@ -61,7 +61,10 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     });
 
     // then
-    expect(campaignParticipant.start).to.have.been.calledWith({ participantExternalId: 'YvoLoL' });
+    expect(campaignParticipant.start).to.have.been.calledWith({
+      participantExternalId: 'YvoLoL',
+      isReset: campaignParticipationAttributes.isReset,
+    });
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
     expect(campaignParticipation).to.deep.equal(expectedCampaignParticipation);
     expect(campaignRepository.areKnowledgeElementsResettable).to.have.been.calledWith({
