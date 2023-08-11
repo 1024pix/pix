@@ -42,7 +42,7 @@ export default class NewController extends Controller {
 
   @action
   updateEmail(event) {
-    this.model.email = event.target.value;
+    this.model.email = event.target.value?.trim();
   }
 
   @action
