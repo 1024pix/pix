@@ -161,7 +161,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       // when
       const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
       // then
-      expect(result).to.equal(undefined);
+      expect(result).to.equal(null);
     });
 
     it('should update the activity with the status succeed', async function () {
@@ -280,7 +280,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
-      expect(result).to.equal(undefined);
+      expect(result).to.equal(null);
     });
     it('should update the activity with the status failed', async function () {
       // when
@@ -319,7 +319,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       const result = await getNextChallengeForPix1d({ assessmentId, ...dependencies });
 
       // then
-      expect(result).to.equal(undefined);
+      expect(result).to.equal(null);
     });
     it('should update the activity with the status skipped', async function () {
       // when

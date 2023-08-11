@@ -4,6 +4,16 @@
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
       }
+    },
+    "not-found": {
+      "title": "Page non trouvée",
+      "message": "La page que tu cherches n'existe pas sur Pix1D.",
+      "backHome": "Retour à l'accueil"
+    },
+    "error": {
+      "title": "Erreur",
+      "message": "Oups, une erreur inattendue est survenue.",
+      "backHome": "Retour à l'accueil"
     }
   }
 }
