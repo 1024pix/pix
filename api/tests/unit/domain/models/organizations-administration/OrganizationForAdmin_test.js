@@ -204,6 +204,69 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       expect(givenOrganization.isManagingStudents).to.equal(true);
     });
 
+    it('should enable compute organization learner certificability when updating SCO organization isManagingStudents to true', function () {
+      // given
+      const givenOrganization = new OrganizationForAdmin({
+        isManagingStudents: false,
+        type: 'SCO',
+        features: {
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+        },
+      });
+
+      // when
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
+        isManagingStudents: true,
+      });
+
+      // then
+      expect(
+        givenOrganization.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+      ).to.equal(true);
+    });
+
+    it('should disable compute organization learner certificability when updating SCO organization isManagingStudents to false', function () {
+      // given
+      const givenOrganization = new OrganizationForAdmin({
+        isManagingStudents: true,
+        type: 'SCO',
+        features: {
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+        },
+      });
+
+      // when
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
+        isManagingStudents: false,
+      });
+
+      // then
+      expect(
+        givenOrganization.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+      ).to.equal(false);
+    });
+
+    it('should not enable compute organization learner certificability when updating SUP organization isManagingStudents to true', function () {
+      // given
+      const givenOrganization = new OrganizationForAdmin({
+        isManagingStudents: false,
+        type: 'SUP',
+        features: {
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+        },
+      });
+
+      // when
+      givenOrganization.updateWithDataProtectionOfficerAndTags({
+        isManagingStudents: true,
+      });
+
+      // then
+      expect(
+        givenOrganization.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+      ).to.equal(false);
+    });
+
     it('should update organization email even if empty value', function () {
       // given
       const documentationUrl = 'initial@email.fr';
