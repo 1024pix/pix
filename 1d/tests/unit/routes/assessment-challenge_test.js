@@ -47,7 +47,7 @@ module('Unit | Route | AssessmentChallengeRoute', function (hooks) {
         const assessment = { id: 2 };
         sinon.stub(route.router, 'replaceWith');
         sinon.stub(route, 'modelFor').returns(assessment);
-        sinon.stub(store, 'queryRecord').rejects();
+        sinon.stub(store, 'queryRecord').returns(null);
 
         await route.model();
 
