@@ -45,56 +45,6 @@ describe('Integration | Repository | answerRepository', function () {
     });
   });
 
-  describe('#findByIds', function () {
-    context('when there are no answers', function () {
-      it('should return an empty list', async function () {
-        // when
-        const foundAnswers = await answerRepository.findByIds([100]);
-
-        // then
-        expect(foundAnswers).to.be.empty;
-      });
-    });
-
-    context('when there are answers', function () {
-      it('should retrieve all answers from its id', async function () {
-        // given
-        const firstAnswer = domainBuilder.buildAnswer({
-          id: 1,
-          result: AnswerStatus.OK,
-          resultDetails: 'some details',
-          timeout: 456,
-          value: 'Fruits',
-          assessmentId: 2,
-          challengeId: 'recChallenge123',
-          timeSpent: 20,
-        });
-
-        const secondAnswer = domainBuilder.buildAnswer({
-          id: 2,
-          result: AnswerStatus.KO,
-          resultDetails: 'some details',
-          timeout: null,
-          value: 'Fruits',
-          assessmentId: 2,
-          challengeId: 'recChallenge456',
-          timeSpent: 20,
-        });
-        databaseBuilder.factory.buildAssessment({ id: 2 });
-        databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
-        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
-        databaseBuilder.factory.buildAnswer();
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswers = await answerRepository.findByIds([1, 2]);
-
-        // then
-        expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
-      });
-    });
-  });
-
   describe('#findByChallengeAndAssessment', function () {
     it('should returns null if there is no assessment matching', async function () {
       // given
