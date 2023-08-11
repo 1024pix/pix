@@ -31,7 +31,7 @@ const findByCampaignParticipationId = async function ({
   return trainings.map(_toDomain);
 };
 
-const hasRecommendedTrainings = async function (userId, domainTransaction = DomainTransaction.emptyTransaction()) {
+const hasRecommendedTrainings = async function ({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const result = await knexConn(TABLE_NAME).select(1).where({ userId }).first();
   return Boolean(result);

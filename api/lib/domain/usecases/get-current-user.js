@@ -9,7 +9,7 @@ const getCurrentUser = async function ({
   const [hasAssessmentParticipations, codeForLastProfileToShare, hasRecommendedTrainings] = await Promise.all([
     campaignParticipationRepository.hasAssessmentParticipations(authenticatedUserId),
     campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(authenticatedUserId),
-    userRecommendedTrainingRepository.hasRecommendedTrainings(authenticatedUserId),
+    userRecommendedTrainingRepository.hasRecommendedTrainings({ userId: authenticatedUserId }),
   ]);
   const user = await userRepository.get(authenticatedUserId);
   const shouldSeeDataProtectionPolicyInformationBanner = user.shouldSeeDataProtectionPolicyInformationBanner;

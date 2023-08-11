@@ -6,7 +6,7 @@ const addTutorialToUser = async function ({
   tutorialId,
   skillId,
 } = {}) {
-  await tutorialRepository.get(tutorialId);
+  await tutorialRepository.get({ tutorialId });
   if (skillId != null) await skillRepository.get(skillId);
 
   return userSavedTutorialRepository.addTutorial({ userId, tutorialId, skillId });

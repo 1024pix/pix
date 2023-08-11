@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { Tutorial } from '../../../../lib/domain/models/Tutorial.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
@@ -103,40 +103,6 @@ describe('Integration | Repository | tutorial-repository', function () {
       // then
       expect(tutorials).to.have.lengthOf(1);
       expect(tutorials[0].tutorialEvaluation).to.deep.equal(tutorialEvaluation);
-    });
-  });
-
-  describe('#findByRecordIds', function () {
-    it('should find tutorials by ids', async function () {
-      // given
-      const tutorialsList = [
-        {
-          duration: '00:00:54',
-          format: 'video',
-          link: 'https://tuto.fr',
-          source: 'tuto.fr',
-          title: 'tuto0',
-          id: 'recTutorial0',
-        },
-        {
-          duration: '00:01:54',
-          format: 'page',
-          link: 'https://tuto.com',
-          source: 'tuto.com',
-          title: 'tuto1',
-          id: 'recTutorial1',
-        },
-      ];
-      const learningContent = { tutorials: tutorialsList };
-      mockLearningContent(learningContent);
-
-      // when
-      const tutorials = await tutorialRepository.findByRecordIds(['recTutorial0', 'recTutorial1']);
-
-      // then
-      expect(tutorials).to.have.lengthOf(2);
-      expect(tutorials[0]).to.be.instanceof(Tutorial);
-      expect(tutorials).to.deep.include.members(tutorialsList);
     });
   });
 
@@ -389,7 +355,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     context('when tutorial does not exist', function () {
       it('should throw a NotFoundError', async function () {
         // when
-        const error = await catchErr(tutorialRepository.get)('recTutoImaginaire');
+        const error = await catchErr(tutorialRepository.get)({ tutorialId: 'recTutoImaginaire' });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -413,7 +379,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         mockLearningContent(learningContent);
 
         // when
-        const tutorial = await tutorialRepository.get('recTutorial0');
+        const tutorial = await tutorialRepository.get({ tutorialId: 'recTutorial0' });
 
         // then
         expect(tutorial).to.deep.equal(tutorials[0]);

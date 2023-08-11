@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 import * as userRecommendedTrainingRepository from '../../../../lib/infrastructure/repositories/user-recommended-training-repository.js';
 import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
 
@@ -142,7 +142,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       await databaseBuilder.commit();
 
       // when
-      const result = await userRecommendedTrainingRepository.hasRecommendedTrainings(userId);
+      const result = await userRecommendedTrainingRepository.hasRecommendedTrainings({ userId });
 
       // then
       expect(result).to.equal(true);
@@ -156,7 +156,7 @@ describe('Integration | Repository | user-recommended-training-repository', func
       await databaseBuilder.commit();
 
       // when
-      const result = await userRecommendedTrainingRepository.hasRecommendedTrainings(userId);
+      const result = await userRecommendedTrainingRepository.hasRecommendedTrainings({ userId });
 
       // then
       expect(result).to.equal(false);

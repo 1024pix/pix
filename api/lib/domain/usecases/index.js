@@ -179,16 +179,11 @@ import * as targetProfileSummaryForAdminRepository from '../../infrastructure/re
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
 import * as temporarySessionsStorageForMassImportService from '../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
-import * as trainingRepository from '../../infrastructure/repositories/training-repository.js';
-import * as trainingTriggerRepository from '../../infrastructure/repositories/training-trigger-repository.js';
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
-import * as tutorialEvaluationRepository from '../../infrastructure/repositories/tutorial-evaluation-repository.js';
-import * as tutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as userRecommendedTrainingRepository from '../../infrastructure/repositories/user-recommended-training-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as userRepository from '../../infrastructure/repositories/user-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
@@ -401,16 +396,16 @@ const dependencies = {
   temporarySessionsStorageForMassImportService,
   thematicRepository,
   tokenService,
-  trainingRepository,
-  trainingTriggerRepository,
+  trainingRepository: repositories.trainingRepository,
+  trainingTriggerRepository: repositories.trainingTriggerRepository,
   tubeRepository,
-  tutorialEvaluationRepository,
-  tutorialRepository,
+  tutorialEvaluationRepository: repositories.tutorialEvaluationRepository,
+  tutorialRepository: repositories.tutorialRepository,
   userEmailRepository,
   userLoginRepository,
   userOrgaSettingsRepository,
   userOrganizationsForAdminRepository,
-  userRecommendedTrainingRepository,
+  userRecommendedTrainingRepository: repositories.userRecommendedTrainingRepository,
   userReconciliationService,
   userRepository,
   userSavedTutorialRepository,

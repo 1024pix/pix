@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-current-user', function () {
     campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser
       .withArgs(1)
       .resolves('SOMECODE');
-    userRecommendedTrainingRepository.hasRecommendedTrainings.withArgs(1).resolves(false);
+    userRecommendedTrainingRepository.hasRecommendedTrainings.withArgs({ userId: 1 }).resolves(false);
 
     // when
     const result = await getCurrentUser({
