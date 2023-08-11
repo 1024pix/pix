@@ -59,25 +59,32 @@
                 </div>
               </div>
               {{#if this.displayTextBox}}
-                <div class="feedback-panel__group">
-                  <p class="feedback-panel__field-notice">
-                    {{t "pages.challenge.feedback-panel.form.status.error.max-characters"}}
-                  </p>
-                  <label class="screen-reader-only" for="feedback-panel__field">{{t
-                      "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
-                    }}</label>
-                  <PixTextarea
-                    class="feedback-panel__field--content"
-                    @value={{this.content}}
-                    @id="feedback-panel__field"
-                    @maxlength="10000"
-                    rows="5"
-                    placeholder={{t
-                      "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
-                    }}
-                    {{on "change" this.setContent}}
-                  />
-                </div>
+                {{#if this.displayAddCommentButton}}
+                  <button type="button" class="feedback-panel__comment" onClick={{this.addComment}}>
+                    <FaIcon @icon="pen" class="feedback-panel-comment__icon" />
+                    {{t "pages.challenge.feedback-panel.form.fields.detail-selection.add-comment"}}
+                  </button>
+                {{else}}
+                  <div>
+                    <p class="feedback-panel__field-notice">
+                      {{t "pages.challenge.feedback-panel.form.status.error.max-characters"}}
+                    </p>
+                    <label class="screen-reader-only" for="feedback-panel__field">{{t
+                        "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                      }}</label>
+                    <PixTextarea
+                      class="feedback-panel__field--content"
+                      @value={{this.content}}
+                      @id="feedback-panel__field"
+                      @maxlength="10000"
+                      rows="5"
+                      placeholder={{t
+                        "pages.challenge.feedback-panel.form.fields.detail-selection.problem-suggestion-description"
+                      }}
+                      {{on "change" this.setContent}}
+                    />
+                  </div>
+                {{/if}}
                 <PixButton
                   @triggerAction={{this.toggleModalVisibility}}
                   @backgroundColor="grey"

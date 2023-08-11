@@ -123,4 +123,17 @@ module('Unit | Component | feedback-panel', function (hooks) {
       assert.notOk(component.nextCategory);
     });
   });
+
+  module('#addComment', function () {
+    test('should display a comment input and hide button', async function (assert) {
+      // given
+      component.displayAddCommentButton = true;
+
+      // when
+      component.addComment();
+
+      // then
+      assert.false(component.displayAddCommentButton);
+    });
+  });
 });
