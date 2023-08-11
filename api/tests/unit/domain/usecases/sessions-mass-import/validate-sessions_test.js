@@ -6,9 +6,7 @@ import { CertificationCandidate } from '../../../../../lib/domain/models/Certifi
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import { SessionMassImportReport } from '../../../../../lib/domain/models/SessionMassImportReport.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
-import {
-  CERTIFICATION_CANDIDATES_ERRORS
-} from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;

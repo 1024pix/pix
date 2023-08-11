@@ -67,12 +67,8 @@ import { ComplementaryCertificationCourse } from './ComplementaryCertificationCo
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationHabilitation } from './ComplementaryCertificationHabilitation.js';
 import { ComplementaryCertificationScoringCriteria } from './ComplementaryCertificationScoringCriteria.js';
-import {
-  ComplementaryCertificationScoringWithComplementaryReferential
-} from './ComplementaryCertificationScoringWithComplementaryReferential.js';
-import {
-  ComplementaryCertificationScoringWithoutComplementaryReferential
-} from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
+import { ComplementaryCertificationScoringWithComplementaryReferential } from './ComplementaryCertificationScoringWithComplementaryReferential.js';
+import { ComplementaryCertificationScoringWithoutComplementaryReferential } from './ComplementaryCertificationScoringWithoutComplementaryReferential.js';
 import { Correction } from './Correction.js';
 import { Course } from './Course.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
