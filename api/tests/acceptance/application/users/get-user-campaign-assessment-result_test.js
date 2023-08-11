@@ -9,7 +9,7 @@ import {
 } from '../../../test-helper.js';
 
 import _ from 'lodash';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
+import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';
@@ -86,13 +86,13 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
 
     databaseBuilder.factory.buildBadgeCriterion({
       badgeId: 1,
-      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+      scope: SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 0,
     });
 
     databaseBuilder.factory.buildBadgeCriterion({
       badgeId: 2,
-      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+      scope: SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 90,
     });
 

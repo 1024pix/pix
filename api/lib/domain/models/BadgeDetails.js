@@ -1,4 +1,8 @@
-import { SCOPES } from './BadgeCriterion.js';
+const SCOPES = {
+  CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
+  SKILL_SET: 'SkillSet',
+  CAPPED_TUBES: 'CappedTubes',
+};
 
 class BadgeDetails {
   constructor({ id, key, altMessage, imageUrl, message, title, isCertifiable, isAlwaysVisible, criteria }) {
