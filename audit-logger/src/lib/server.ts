@@ -1,5 +1,6 @@
 import { type Request, Server, type ServerOptions } from '@hapi/hapi';
 import hapiBasicPlugin from '@hapi/basic';
+import hapiPinoPlugin from 'hapi-pino';
 
 import { config } from './config.js';
 import { ROUTES } from './routes.js';
@@ -58,6 +59,7 @@ export class HapiServer {
   static async createServer(): Promise<HapiServer>
   {
     const hapiServer = new HapiServer();
+
     await hapiServer.server.register(hapiBasicPlugin);
     hapiServer.server.auth.strategy('simple', 'basic', {
       validate: async (_:Request, username: string, password: string) => {
@@ -65,6 +67,14 @@ export class HapiServer {
           return { isValid: true, credentials: {} };
         }
         return { isValid: false, credentials: null };
+      }
+    });
+    await hapiServer.server.register({
+      plugin: hapiPinoPlugin,
+      options: {
+        instance: logger,
+        logRequestStart: true,
+        redact: ['req.headers.authorization']
       }
     });
     hapiServer.server.route(ROUTES);
