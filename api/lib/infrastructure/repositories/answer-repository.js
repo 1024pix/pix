@@ -58,12 +58,6 @@ const get = async function (id) {
   return _toDomain(answerDTO);
 };
 
-const findByIds = async function (ids) {
-  const answerDTOs = await knex.select(COLUMNS).from('answers').whereInArray('id', ids).orderBy('id');
-
-  return _toDomainArray(answerDTOs);
-};
-
 const findByChallengeAndAssessment = async function ({ challengeId, assessmentId }) {
   const answerDTO = await knex
     .select(COLUMNS)
@@ -128,7 +122,6 @@ const saveWithKnowledgeElements = async function (answer, knowledgeElements) {
 };
 export {
   get,
-  findByIds,
   findByChallengeAndAssessment,
   findByAssessment,
   findLastByAssessment,
