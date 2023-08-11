@@ -1,6 +1,4 @@
 import { Badge } from '../../../../lib/domain/models/Badge.js';
-import { buildBadgeCriterion } from './build-badge-criterion.js';
-import { buildSkillSet } from './build-skill-set.js';
 
 const buildBadge = function ({
   id = 1,
@@ -11,8 +9,6 @@ const buildBadge = function ({
   key = 'key',
   isCertifiable = false,
   targetProfileId = 456,
-  badgeCriteria = [buildBadgeCriterion(), buildBadgeCriterion({ id: 2, skillSetIds: [1, 2] })],
-  skillSets = [buildSkillSet(), buildSkillSet({ id: 2 })],
   isAlwaysVisible = false,
   complementaryCertificationBadge = null,
 } = {}) {
@@ -25,8 +21,6 @@ const buildBadge = function ({
     key,
     isCertifiable,
     targetProfileId,
-    badgeCriteria,
-    skillSets,
     isAlwaysVisible,
     complementaryCertificationBadge,
   });
