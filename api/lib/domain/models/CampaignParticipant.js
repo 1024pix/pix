@@ -1,4 +1,9 @@
-import { AlreadyExistingCampaignParticipationError, EntityValidationError, ForbiddenAccess } from '../errors.js';
+import {
+  AlreadyExistingCampaignParticipationError,
+  EntityValidationError,
+  ForbiddenAccess,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
+} from '../errors.js';
 
 import { CampaignParticipation } from './CampaignParticipation.js';
 import { Assessment } from './Assessment.js';
@@ -86,6 +91,10 @@ class CampaignParticipant {
 
     if (!isReset && this._canImproveResults()) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
+    }
+
+    if (isReset && this.previousCampaignParticipationForUser && !this.previousCampaignParticipationForUser.canReset) {
+      throw new NotEnoughDaysPassedBeforeResetCampaignParticipationError();
     }
 
     if (this._isMissingParticipantExternalId(participantExternalId)) {

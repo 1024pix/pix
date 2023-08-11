@@ -5,6 +5,7 @@ import {
   AlreadyExistingCampaignParticipationError,
   EntityValidationError,
   ForbiddenAccess,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
@@ -465,6 +466,46 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
         expect(error).to.be.an.instanceof(ForbiddenAccess);
         expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+      });
+
+      describe('and isReset param is true', function () {
+        describe('when canReset is false', function () {
+          it('should throw NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {
+            // given
+            const userIdentity = { id: 1 };
+            const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+              multipleSendings: true,
+              idPixLabel: null,
+              skillCount: 1,
+            });
+            const campaignParticipant = new CampaignParticipant({
+              campaignToStartParticipation,
+              userIdentity,
+              previousCampaignParticipationForUser: {
+                status: 'SHARED',
+                isDeleted: false,
+                validatedSkillsCount: 1,
+                canReset: false,
+              },
+              organizationLearner: {
+                id: null,
+                hasParticipated: false,
+              },
+            });
+
+            // when
+            const error = await catchErr(
+              campaignParticipant.start,
+              campaignParticipant,
+            )({
+              participantExternalId: null,
+              isReset: true,
+            });
+
+            // then
+            expect(error).to.be.an.instanceof(NotEnoughDaysPassedBeforeResetCampaignParticipationError);
+          });
+        });
       });
     });
 
