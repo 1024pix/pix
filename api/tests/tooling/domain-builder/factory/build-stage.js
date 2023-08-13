@@ -1,5 +1,18 @@
 import { Stage } from '../../../../lib/domain/models/Stage.js';
 
+/**
+ * @param id
+ * @param {string} title
+ * @param {string} message
+ * @param {number} threshold
+ * @param {number} level
+ * @param {string} prescriberTitle
+ * @param {string} prescriberDescription
+ * @param {number} targetProfileId
+ * @param {boolean} isFirstSkill
+ *
+ * @returns {Stage}
+ */
 const buildStage = function ({
   id = 123,
   title = 'Courage',
@@ -9,6 +22,7 @@ const buildStage = function ({
   prescriberTitle = null,
   prescriberDescription = null,
   targetProfileId = null,
+  isFirstSkill = false,
 } = {}) {
   return new Stage({
     id,
@@ -19,6 +33,7 @@ const buildStage = function ({
     prescriberTitle,
     prescriberDescription,
     targetProfileId,
+    isFirstSkill,
   });
 };
 
