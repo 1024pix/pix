@@ -119,6 +119,7 @@ import { Skill } from './Skill.js';
 import { SkillSet } from './SkillSet.js';
 import { Solution } from './Solution.js';
 import { Stage } from './Stage.js';
+import { StageAcquisition } from './StageAcquisition.js';
 import { Student } from './Student.js';
 import { SupOrganizationLearner } from './SupOrganizationLearner.js';
 import { SupOrganizationLearnerSet } from './SupOrganizationLearnerSet.js';
@@ -272,6 +273,7 @@ export {
   SkillSet,
   Solution,
   Stage,
+  StageAcquisition,
   Student,
   SupOrganizationLearner,
   SupOrganizationLearnerSet,
