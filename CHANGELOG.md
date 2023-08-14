@@ -1,5 +1,46 @@
 # Pix Changelog
 
+## v4.23.0 (14/08/2023)
+
+
+### :rocket: Amélioration
+- [#6852](https://github.com/1024pix/pix/pull/6852) [FEATURE] Cacher l'ajout d'un commentaire sur les signalements sur Pix-App (PIX-8860).
+- [#6804](https://github.com/1024pix/pix/pull/6804) [FEATURE] Activer ou désactiver la fonctionnalité de remontée de la certificabilité à l'édition de l'organisation (PIX-8795).
+- [#6862](https://github.com/1024pix/pix/pull/6862) [FEATURE] Ajouter des logs à l'API de l'application de journalisation (PIX-8853).
+- [#6858](https://github.com/1024pix/pix/pull/6858) [FEATURE] Active la remontée de la certificabilité automatique aux organizations SCO qui gère des élèves (PIX-8790).
+- [#6853](https://github.com/1024pix/pix/pull/6853) [FEATURE]  Barre de recherche pour rattacher des profils cibles à une complémentaire (PIX-8856).
+- [#6816](https://github.com/1024pix/pix/pull/6816) [FEATURE] Mise en place de la V0 de l'oralisation des instructions (PIX-8801).
+- [#6854](https://github.com/1024pix/pix/pull/6854) [FEATURE] Amélioration du texte de traduction en anglais (PIX-8876).
+- [#6828](https://github.com/1024pix/pix/pull/6828) [FEATURE] Ajouter une tâche asynchrone pour calculer la certificabilité pour un prescrit (PIX-8791).
+- [#6849](https://github.com/1024pix/pix/pull/6849) [FEATURE] Sécuriser l'accès à l'API de journalisation (PIX-8836).
+- [#6818](https://github.com/1024pix/pix/pull/6818) [FEATURE] Rechercher des target profiles attachables à une certification complémentaire (PIX-8742).
+- [#6841](https://github.com/1024pix/pix/pull/6841) [FEATURE] Ajouter l'application de Journalisation dans le monorepo (PIX-8885).
+
+### :building_construction: Tech
+- [#6861](https://github.com/1024pix/pix/pull/6861) [TECH] Remets les features dans les seeds (PIX-8915).
+- [#6857](https://github.com/1024pix/pix/pull/6857) [TECH] Utiliser les repositories grâce au fichier index.
+- [#6855](https://github.com/1024pix/pix/pull/6855) [TECH] Gestion d'une page d'erreur pour 1d (PIX-8805).
+- [#6823](https://github.com/1024pix/pix/pull/6823) [TECH] Centralise la logique de mise à jour des organisations depuis PixAdmin (PIX-8837).
+
+### :bug: Correction
+- [#6840](https://github.com/1024pix/pix/pull/6840) [BUGFIX] Changement d'avis lors de l'inscription individuelle d'un candidat concernant certif complémentaire (PIX-8880).
+- [#6851](https://github.com/1024pix/pix/pull/6851) [BUGFIX] Modifier le texte de la modale de signalement d'épreuve (PIX-8859).
+
+### :arrow_up: Montée de version
+- [#6879](https://github.com/1024pix/pix/pull/6879) [BUMP] Lock file maintenance (admin).
+- [#6878](https://github.com/1024pix/pix/pull/6878) [BUMP] Lock file maintenance (orga).
+- [#6877](https://github.com/1024pix/pix/pull/6877) [BUMP] Lock file maintenance (certif).
+- [#6876](https://github.com/1024pix/pix/pull/6876) [BUMP] Lock file maintenance (mon-pix).
+- [#6875](https://github.com/1024pix/pix/pull/6875) [BUMP] Update dependency eslint-config-prettier to v9 (orga).
+- [#6874](https://github.com/1024pix/pix/pull/6874) [BUMP] Update dependency eslint-config-prettier to v9 (mon-pix).
+- [#6873](https://github.com/1024pix/pix/pull/6873) [BUMP] Update dependency eslint-config-prettier to v9 (certif).
+- [#6872](https://github.com/1024pix/pix/pull/6872) [BUMP] Update dependency eslint-config-prettier to v9 (api).
+- [#6871](https://github.com/1024pix/pix/pull/6871) [BUMP] Update dependency eslint-config-prettier to v9 (admin).
+- [#6870](https://github.com/1024pix/pix/pull/6870) [BUMP] Update dependency eslint-config-prettier to v9 (1d).
+
+### :coffee: Autre
+- [#6842](https://github.com/1024pix/pix/pull/6842) [CHORE] Mettre a jour les relationship ember (PIX-8804).
+
 ## v4.22.0 (08/08/2023)
 
 
