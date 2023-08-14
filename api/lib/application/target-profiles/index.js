@@ -396,7 +396,7 @@ const register = async function (server) {
             data: {
               attributes: {
                 name: Joi.string().required().min(1),
-                'image-url': Joi.string().required(),
+                'image-url': Joi.string().uri().allow('', null),
                 description: Joi.string().required().allow(null).max(500),
                 comment: Joi.string().required().allow(null).max(500),
                 category: Joi.string().required(),

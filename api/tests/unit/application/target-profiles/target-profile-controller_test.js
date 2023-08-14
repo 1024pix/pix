@@ -97,6 +97,40 @@ describe('Unit | Controller | target-profile-controller', function () {
           areKnowledgeElementsResettable: false,
         });
       });
+
+      it('should succeed when image is not provided', async function () {
+        const requestWithNoImage = {
+          params: {
+            id: 123,
+          },
+          payload: {
+            data: {
+              attributes: {
+                name: 'Pixer123',
+                'are-knowledge-elements-resettable': false,
+                description: 'description changée',
+                comment: 'commentaire changée',
+                'image-url': null,
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await targetProfileController.updateTargetProfile(requestWithNoImage, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        expect(usecases.updateTargetProfile).to.have.been.calledOnce;
+        expect(usecases.updateTargetProfile).to.have.been.calledWithMatch({
+          id: 123,
+          name: 'Pixer123',
+          description: 'description changée',
+          comment: 'commentaire changée',
+          imageUrl: null,
+          areKnowledgeElementsResettable: false,
+        });
+      });
     });
   });
 

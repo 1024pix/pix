@@ -648,7 +648,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           description: 'description changée.',
           comment: 'commentaire changé.',
           category: 'OTHER',
-          'image-url': 'some image',
+          'image-url': 'http://valid-uri.com/image.png',
           'are-knowledge-elements-resettable': false,
         },
       },
