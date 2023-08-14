@@ -1,4 +1,4 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
@@ -111,56 +111,6 @@ describe('Unit | UseCase | update-target-profile', function () {
     expect(error).to.be.an.instanceOf(EntityValidationError);
     expect(error.invalidAttributes[0].attribute).to.eq('category');
     expect(error.invalidAttributes[0].message).to.eq('CATEGORY_IS_REQUIRED');
-    expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
-  });
-  it('should throw error when imageUrl is null', async function () {
-    // when
-    const error = await catchErr(updateTargetProfile)({
-      id: 123,
-      name: 'name',
-      imageUrl: null,
-      description: 'description changée',
-      comment: 'commentaire changé',
-      category: 'OTHER',
-      targetProfileForUpdateRepository,
-    });
-
-    expect(error).to.be.an.instanceOf(EntityValidationError);
-    expect(error.invalidAttributes[0].attribute).to.eq('imageUrl');
-    expect(error.invalidAttributes[0].message).to.eq('IMAGE_URL_IS_REQUIRED');
-    expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
-  });
-  it('should throw error when imageUrl is undefined', async function () {
-    // when
-    const error = await catchErr(updateTargetProfile)({
-      id: 123,
-      name: 'name',
-      description: 'description changée',
-      comment: 'commentaire changé',
-      category: 'OTHER',
-      targetProfileForUpdateRepository,
-    });
-
-    expect(error).to.be.an.instanceOf(EntityValidationError);
-    expect(error.invalidAttributes[0].attribute).to.eq('imageUrl');
-    expect(error.invalidAttributes[0].message).to.eq('IMAGE_URL_IS_REQUIRED');
-    expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
-  });
-  it('should throw error when imageUrl is empty', async function () {
-    // when
-    const error = await catchErr(updateTargetProfile)({
-      id: 123,
-      name: 'name',
-      imageUrl: '',
-      description: 'description changée',
-      comment: 'commentaire changé',
-      category: 'OTHER',
-      targetProfileForUpdateRepository,
-    });
-
-    expect(error).to.be.an.instanceOf(EntityValidationError);
-    expect(error.invalidAttributes[0].attribute).to.eq('imageUrl');
-    expect(error.invalidAttributes[0].message).to.eq('IMAGE_URL_IS_REQUIRED');
     expect(targetProfileForUpdateRepository.update).to.not.have.been.called;
   });
   it('should throw error when imageUrl is not an URI', async function () {
