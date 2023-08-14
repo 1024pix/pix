@@ -26,6 +26,7 @@ const buildChallenge = function ({
   responsive = 'Smartphone/Tablette',
   focused = false,
   shuffled = false,
+  alternativeVersion = 1,
   // includes
   answer,
   validator = new Validator(),
@@ -63,6 +64,7 @@ const buildChallenge = function ({
     competenceId,
     illustrationAlt,
     shuffled,
+    alternativeVersion,
   });
 };
 
