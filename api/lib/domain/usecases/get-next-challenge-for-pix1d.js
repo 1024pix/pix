@@ -20,7 +20,13 @@ export async function getNextChallengeForPix1d({
     answers = await activityAnswerRepository.findByActivity(currentActivity.id);
     if (_shouldLookForNextChallengeInActivity(answers)) {
       const challengeNumber = answers.length + 1;
-      challenge = await _getNextChallenge(missionId, currentActivity.level, challengeNumber, challengeRepository);
+      challenge = await _getNextChallenge(
+        missionId,
+        currentActivity.level,
+        challengeNumber,
+        challengeRepository,
+        currentActivity.alternativeVersion,
+      );
     }
   }
   if (!challenge) {
@@ -37,12 +43,13 @@ export async function getNextChallengeForPix1d({
   return challenge;
 }
 
-async function _getNextChallenge(missionId, activityLevel, challengeNumber, challengeRepository) {
+async function _getNextChallenge(missionId, activityLevel, challengeNumber, challengeRepository, alternativeVersion) {
   try {
     return await challengeRepository.getForPix1D({
       missionId,
       activityLevel,
       challengeNumber,
+      alternativeVersion,
     });
   } catch (error) {
     if (!(error instanceof NotFoundError)) {
@@ -87,12 +94,20 @@ async function _getNextActivityChallenge(
   }
   const nextActivityLevel = getNextActivityLevel(await activityRepository.getAllByAssessmentId(assessmentId));
   if (nextActivityLevel !== undefined) {
-    activityRepository.save(new Activity({ assessmentId, level: nextActivityLevel, status: Activity.status.STARTED }));
-    return await challengeRepository.getForPix1D({
+    const challenge = await challengeRepository.getForPix1D({
       missionId,
       activityLevel: nextActivityLevel,
       challengeNumber: FIRST_CHALLENGE_NB,
     });
+    activityRepository.save(
+      new Activity({
+        assessmentId,
+        level: nextActivityLevel,
+        status: Activity.status.STARTED,
+        alternativeVersion: challenge.alternativeVersion,
+      }),
+    );
+    return challenge;
   }
   assessmentRepository.completeByAssessmentId(assessmentId);
   return null;

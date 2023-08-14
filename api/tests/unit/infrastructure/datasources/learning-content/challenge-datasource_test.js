@@ -351,24 +351,44 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
   describe('#getBySkillId', function () {
     let challenge_pix1d1;
+    let challenge_pix1d2;
+    const alternativeVersion = 3;
+
     const skillId = '@didacticiel1';
     beforeEach(function () {
       challenge_pix1d1 = {
         id: 'challenge-competence1',
         competenceId: competence1.id,
         skillId,
+        alternativeVersion: 1,
+      };
+      challenge_pix1d2 = {
+        id: 'challenge-competence2',
+        competenceId: competence1.id,
+        skillId,
+        alternativeVersion,
       };
       sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_competence2, challenge_pix1d1],
+        challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
       });
     });
-    it('should resolve an array of validated challenge of a skill from learning content ', async function () {
+
+    it('should return an challenge from learning content ', async function () {
       // when
       const result = await challengeDatasource.getBySkillId(skillId);
 
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
       expect(result).to.deep.equal(challenge_pix1d1);
+    });
+
+    it('should return the challenge corresponding to the alternativeVersion', async function () {
+      // when
+      const result = await challengeDatasource.getBySkillId(skillId, alternativeVersion);
+
+      // then
+      expect(lcms.getLatestRelease).to.have.been.called;
+      expect(result).to.deep.equal(challenge_pix1d2);
     });
     it('should return an error if the challenge does not exist', async function () {
       // when

@@ -14,12 +14,13 @@ const status = {
 const orderedActivityLevels = [levels.TUTORIAL, levels.TRAINING, levels.VALIDATION, levels.CHALLENGE];
 
 class Activity {
-  constructor({ id, assessmentId, createdAt, level, status } = {}) {
+  constructor({ id, assessmentId, createdAt, level, status, alternativeVersion } = {}) {
     this.id = id;
     this.assessmentId = assessmentId;
     this.createdAt = createdAt;
     this.level = level;
     this.status = status;
+    this.alternativeVersion = alternativeVersion;
   }
 }
 

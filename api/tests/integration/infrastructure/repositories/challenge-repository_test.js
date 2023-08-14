@@ -240,6 +240,63 @@ describe('Integration | Repository | challenge-repository', function () {
         _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );
     });
+    it('should return the challenge for the given alternative version', async function () {
+      //given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TRAINING;
+      const alternativeVersion = 2;
+
+      const activiteEntrainement = _buildTube({
+        id: 'activiteEntrainementId',
+        missionId,
+        name: '@rechercher_en',
+      });
+
+      const acquisEntrainement = _buildSkill({
+        id: 'recSkill2',
+        name: '@rechercher_en1',
+        tubeId: activiteEntrainement.id,
+      });
+
+      const wrongAlternantiveVersionChallenge = _buildChallenge({
+        id: 'challengeId1',
+        skill: { id: acquisEntrainement.id },
+        alternativeVersion: 3,
+      });
+
+      const correctAlternantiveVersionChallenge = _buildChallenge({
+        id: 'challengeId2',
+        skill: { id: acquisEntrainement.id },
+        alternativeVersion,
+      });
+
+      const learningContent = {
+        tubes: [activiteEntrainement],
+        challenges: [wrongAlternantiveVersionChallenge, correctAlternantiveVersionChallenge],
+        skills: [acquisEntrainement],
+      };
+
+      mockLearningContent(learningContent);
+
+      const expectedChallenge = {
+        ...domainBuilder.buildChallenge({ id: correctAlternantiveVersionChallenge.id, alternativeVersion }),
+        skill: undefined,
+      };
+
+      // when
+      const actualChallenge = await challengeRepository.getForPix1D({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+        alternativeVersion,
+      });
+
+      // then
+      expect(actualChallenge).to.be.instanceOf(Challenge);
+      expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
+        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
+      );
+    });
     it('should return the correct validor for the challenge type', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -974,7 +1031,7 @@ function _buildTube({ id, name, missionId }) {
   };
 }
 
-function _buildChallenge({ id, skill, status = 'validé' }) {
+function _buildChallenge({ id, skill, status = 'validé', alternativeVersion }) {
   return {
     id,
     attachments: ['URL pièce jointe'],
@@ -1000,5 +1057,6 @@ function _buildChallenge({ id, skill, status = 'validé' }) {
     delta: 0,
     skill,
     shuffled: false,
+    alternativeVersion: alternativeVersion || 1,
   };
 }
