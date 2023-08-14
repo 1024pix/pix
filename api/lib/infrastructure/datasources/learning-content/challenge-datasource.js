@@ -42,9 +42,15 @@ const challengeDatasource = datasource.extend({
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
   },
 
-  async getBySkillId(skillId) {
+  async getBySkillId(skillId, alternativeVersion) {
     const challenges = await this.list();
-    const challenge = _.find(challenges, { skillId });
+    let challenge;
+    if (alternativeVersion) {
+      challenge = _.find(challenges, { skillId, alternativeVersion });
+    } else {
+      challenge = _.find(challenges, { skillId });
+    }
+
     if (!challenge) {
       throw new LearningContentResourceNotFound();
     }

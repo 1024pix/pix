@@ -38,7 +38,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       beforeEach(function () {
         assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
         activityAnswerRepository.findByActivity.withArgs(activityId).resolves([]);
-        challenge = Symbol('challenge');
+        challenge = { alternativeVersion: 1 };
         challengeRepository.getForPix1D.resolves(challenge);
         activityRepository.getLastActivity.withArgs(assessmentId).rejects(new NotFoundError('No activity found.'));
         activityRepository.getAllByAssessmentId.withArgs(assessmentId).resolves([]);
@@ -46,7 +46,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       it('should call the challengeRepository with an challenge number equal to 1 ', async function () {
         // when
         await getNextChallengeForPix1d({ assessmentId, ...dependencies });
-
         // then
         expect(challengeRepository.getForPix1D).to.have.been.calledWith({
           missionId,
@@ -71,20 +70,22 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
             assessmentId,
             level: Activity.levels.VALIDATION,
             status: Activity.status.STARTED,
+            alternativeVersion: challenge.alternativeVersion,
           }),
         );
       });
     });
     context('when user reloads the first challenge of an activity', function () {
       let challenge;
+      let activity;
       beforeEach(function () {
         assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
-        activityRepository.getLastActivity.withArgs(assessmentId).resolves(
-          new Activity({
-            id: activityId,
-            level: Activity.levels.VALIDATION,
-          }),
-        );
+        activity = new Activity({
+          id: activityId,
+          level: Activity.levels.VALIDATION,
+          alternativeVersion: 5,
+        });
+        activityRepository.getLastActivity.withArgs(assessmentId).resolves(activity);
         activityAnswerRepository.findByActivity.withArgs(activityId).resolves([]);
         challenge = Symbol('challenge');
         challengeRepository.getForPix1D.resolves(challenge);
@@ -98,6 +99,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           missionId,
           activityLevel: Activity.levels.VALIDATION,
           challengeNumber: 1,
+          alternativeVersion: activity.alternativeVersion,
         });
       });
       it('should return the first challenge', async function () {
@@ -123,7 +125,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
         challengeRepository.getForPix1D.resolves({ 'a challenge': 'a challenge' });
         activityRepository.getLastActivity
           .withArgs(assessmentId)
-          .resolves(new Activity({ id: activityId, level: Activity.levels.TUTORIAL }));
+          .resolves(new Activity({ id: activityId, level: Activity.levels.TUTORIAL, alternativeVersion: 14 }));
 
         // when
         await getNextChallengeForPix1d({ assessmentId, ...dependencies });
@@ -133,6 +135,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
           missionId,
           activityLevel: Activity.levels.TUTORIAL,
           challengeNumber: 2,
+          alternativeVersion: 14,
         });
       });
     });
@@ -181,13 +184,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       activityRepository.getLastActivity
         .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TUTORIAL });
+        .resolves({ id: activityId, level: Activity.levels.TUTORIAL, alternativeVersion: 12 });
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       challengeRepository.getForPix1D
         .withArgs({
           missionId,
           activityLevel: Activity.levels.TUTORIAL,
           challengeNumber: 2,
+          alternativeVersion: 12,
         })
         .rejects(new NotFoundError('No challenge found'));
 
@@ -221,13 +225,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function ()
       activityAnswerRepository.findByActivity.withArgs(activityId).resolves([activityAnswer]);
       activityRepository.getLastActivity
         .withArgs(assessmentId)
-        .resolves({ id: activityId, level: Activity.levels.TRAINING });
+        .resolves({ id: activityId, level: Activity.levels.TRAINING, alternativeVersion: 12 });
       assessmentRepository.get.withArgs(assessmentId).resolves({ missionId });
       challengeRepository.getForPix1D
         .withArgs({
           missionId,
           activityLevel: Activity.levels.TRAINING,
           challengeNumber: 2,
+          alternativeVersion: 12,
         })
         .rejects(new NotFoundError('No challenge found'));
 
