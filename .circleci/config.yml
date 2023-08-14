@@ -153,10 +153,10 @@ jobs:
       - run:
           name: Lint and test root
           command: |
-            npm ci
-            npm run lint:scripts
-            npm run lint:yaml
-            npm run test:root
+            pnpm install --frozen-lockfile
+            pnpm run lint:scripts
+            pnpm run lint:yaml
+            pnpm run test:root
             rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
@@ -172,7 +172,7 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: npm run lint --workspace=api
+          command: pnpm --filter api run lint
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379

@@ -1,0 +1,6 @@
+packages:
+  - api
+  - admin
+  - orga
+  - mon-pix
+  - certif
