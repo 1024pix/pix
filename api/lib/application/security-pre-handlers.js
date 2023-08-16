@@ -216,9 +216,8 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
   const certificationIssueReportId = request.params.id;
 
   try {
-    const certificationIssueReport = await dependencies.certificationIssueReportRepository.get(
-      certificationIssueReportId,
-    );
+    const certificationIssueReport =
+      await dependencies.certificationIssueReportRepository.get(certificationIssueReportId);
     const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
       userId,
       certificationCourseId: certificationIssueReport.certificationCourseId,

@@ -320,9 +320,8 @@ describe('Integration | Repository | learning-content', function () {
       tube2Fr.skills = [skill2, skill3];
 
       // when
-      const campaignLearningContent = await learningContentRepository.findByCampaignParticipationId(
-        campaignParticipationId,
-      );
+      const campaignLearningContent =
+        await learningContentRepository.findByCampaignParticipationId(campaignParticipationId);
 
       // then
       expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);

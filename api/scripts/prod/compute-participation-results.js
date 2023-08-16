@@ -123,9 +123,8 @@ async function _computeResults(skillIds, competences, campaignParticipations) {
 async function _getKnowledgeElementsByUser(campaignParticipations) {
   const sharingDateByUserId = {};
   campaignParticipations.forEach(({ userId, sharedAt }) => (sharingDateByUserId[userId] = sharedAt));
-  const knowledgeElementByUser = await knowlegeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
-    sharingDateByUserId,
-  );
+  const knowledgeElementByUser =
+    await knowlegeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(sharingDateByUserId);
   return knowledgeElementByUser;
 }
 

@@ -28,9 +28,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
     it('should return empty array if no participant', async function () {
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-        campaignId,
-      );
+      const results =
+        await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
       // then
       expect(results.data.length).to.equal(0);
@@ -43,9 +42,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-        campaignId,
-      );
+      const results =
+        await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
       // then
       expect(results.data).to.deep.equal([]);
@@ -69,9 +67,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-        campaignId,
-      );
+      const results =
+        await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
       const names = results.data.map((result) => result.firstName);
 
       // then
@@ -104,9 +101,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-        campaignId,
-      );
+      const results =
+        await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
       const names = results.data.map((result) => result.firstName);
 
       // then
@@ -129,9 +125,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
         await databaseBuilder.commit();
 
-        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-          campaignId,
-        );
+        const results =
+          await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
         expect(results.data).to.be.empty;
       });
@@ -172,9 +167,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
       it('should return the certification profile info and pix score', async function () {
         // when
-        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-          campaignId,
-        );
+        const results =
+          await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
         // then
         expect(results.data).to.deep.equal([
@@ -212,9 +206,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
       it('should return only the participationCampaign which is not improved', async function () {
         // when
-        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
-          campaignId,
-        );
+        const results =
+          await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
 
         // then
         expect(results.data).to.have.lengthOf(1);

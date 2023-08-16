@@ -61,9 +61,8 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
 }
 
 async function _findSnapshotsForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
-    userIdsAndDates,
-  );
+  const knowledgeElementsGroupedByUser =
+    await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
     const userId = parseInt(userIdStr);
