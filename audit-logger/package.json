@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build": "npx tsc",
+    "clean": "rm -rf node_modules",
     "db:create": "ts-node src/scripts/database/create-database.ts",
     "db:delete": "ts-node src/scripts/database/drop-database.ts",
     "db:empty": "ts-node src/scripts/database/empty-database.ts",
