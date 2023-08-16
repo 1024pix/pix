@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 import {
   NotFoundError,
@@ -2077,6 +2078,55 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         .first();
       expect(isCertifiable).to.be.true;
       expect(new Date(certifiableAt)).to.deep.equal(organizationLearner.certifiableAt);
+    });
+  });
+
+  describe('#findByOrganizationsWhichNeedToComputeCertificability', function () {
+    let featureId;
+
+    beforeEach(function () {
+      featureId = databaseBuilder.factory.buildFeature(
+        ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+      ).id;
+    });
+
+    it('should return an organization learner id from organizations that can compute certificability', async function () {
+      // given
+      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.deep.equal([organizationLearnerId]);
+    });
+
+    it('should not return an organization learner id for organizations that cannot compute certificability', async function () {
+      // given
+      databaseBuilder.factory.buildOrganizationLearner();
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should not return an organization learner id for organizations with other features', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      const otherFeatureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+      databaseBuilder.factory.buildOrganizationFeature({ featureId: otherFeatureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.deep.equal([]);
     });
   });
 });
