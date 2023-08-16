@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import { catchErr, expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { Organization } from '../../../../lib/domain/models/index.js';
+import { Organization, OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {
@@ -984,14 +985,23 @@ describe('Integration | Repository | Organization', function () {
   });
 
   describe('#batchCreateOrganizations', function () {
+    let computeOrganizationLearnerCertificabilityId;
+    beforeEach(async function () {
+      computeOrganizationLearnerCertificabilityId = databaseBuilder.factory.buildFeature(
+        ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+      ).id;
+      await databaseBuilder.commit();
+    });
     afterEach(async function () {
+      await knex('organization-features').delete();
+      await knex('organization-learners').delete();
       await knex('organizations').delete();
     });
 
     it('should add rows in the table "organizations"', async function () {
       // given
-      const organization1 = domainBuilder.buildOrganization();
-      const organization2 = domainBuilder.buildOrganization();
+      const organization1 = domainBuilder.buildOrganizationForAdmin();
+      const organization2 = domainBuilder.buildOrganizationForAdmin();
 
       // when
       await organizationRepository.batchCreateOrganizations([organization1, organization2]);
@@ -1006,7 +1016,7 @@ describe('Integration | Repository | Organization', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
-      const organization = domainBuilder.buildOrganization({
+      const organization = domainBuilder.buildOrganizationForAdmin({
         id: null,
         externalId: '1237457A',
         name: 'Orga 1',
@@ -1027,6 +1037,36 @@ describe('Integration | Repository | Organization', function () {
       expect(foundOrganizations[0].provinceCode).to.equal(organization.provinceCode);
       expect(foundOrganizations[0].createdBy).to.equal(organization.createdBy);
       expect(foundOrganizations[0].documentationUrl).to.equal(organization.documentationUrl);
+    });
+
+    it('should enable compute organization learner certificability feature for sco organization managing students', async function () {
+      // given
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
+      await databaseBuilder.commit();
+      const otherOrganization = new OrganizationForAdmin({
+        name: 'other organization',
+        type: 'SUP',
+        isManagingStudents: false,
+        createdBy: superAdminUserId,
+      });
+      const organizationScoManagingStudent = new OrganizationForAdmin({
+        name: 'Organization SCO',
+        type: 'SCO',
+        isManagingStudents: true,
+        createdBy: superAdminUserId,
+      });
+
+      organizationScoManagingStudent.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] =
+        organizationScoManagingStudent.isManagingStudents;
+
+      // when
+      await organizationRepository.batchCreateOrganizations([organizationScoManagingStudent, otherOrganization]);
+
+      const savedOrganizationFeatures = await knex('organization-features');
+
+      // then
+      expect(savedOrganizationFeatures.length).to.equal(1);
+      expect(savedOrganizationFeatures[0].featureId).to.equal(computeOrganizationLearnerCertificabilityId);
     });
   });
 });
