@@ -8,6 +8,7 @@ export default class AttachTargetProfileController extends Controller {
   @service store;
 
   @tracked options = [];
+  @tracked selectedTargetProfile;
 
   @action
   async cancel() {
@@ -16,8 +17,13 @@ export default class AttachTargetProfileController extends Controller {
 
   @action
   onSelection(selectedAttachableTargetProfile) {
-    // TODO: PIX-8858
-    console.log(selectedAttachableTargetProfile);
+    this.selectedTargetProfile = selectedAttachableTargetProfile.value;
+    this.options = [];
+  }
+
+  @action
+  onChange() {
+    this.selectedTargetProfile = undefined;
   }
 
   @action
@@ -31,7 +37,7 @@ export default class AttachTargetProfileController extends Controller {
 
       this.options = attachableTargetProfiles.map((attachableTargetProfile) => ({
         label: `${attachableTargetProfile.id} - ${attachableTargetProfile.name}`,
-        value: attachableTargetProfile.id,
+        value: attachableTargetProfile,
       }));
     } else {
       this.options = [];

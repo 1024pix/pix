@@ -20,11 +20,31 @@
       </LinkTo>
     </span>
 
-    <ComplementaryCertifications::TargetProfiles::AttachTargetProfile
-      @onSelection={{this.onSelection}}
-      @onSearch={{this.onSearch}}
-      @options={{this.options}}
-    />
+    <section class="card">
+      <h2 class="card__title">1. Renseigner le nouveau profil cible à rattacher</h2>
+      <div class="card__content">
+        {{#if this.selectedTargetProfile}}
+          <ComplementaryCertifications::TargetProfiles::SelectedTargetProfile
+            @onChange={{this.onChange}}
+            @attachableTargetProfile={{this.selectedTargetProfile}}
+          />
+        {{else}}
+          <ComplementaryCertifications::TargetProfiles::SearchBar
+            @onSelection={{this.onSelection}}
+            @onSearch={{this.onSearch}}
+            @options={{this.options}}
+          />
+        {{/if}}
+      </div>
+    </section>
+
+    {{#if this.selectedTargetProfile}}
+      <section class="card">
+        <h2 class="card__title">2. Complétez les niveaux des résultats thématiques</h2>
+        <div class="card__content"></div>
+      </section>
+    {{/if}}
+
     <div>
       <PixButton
         @size="small"
