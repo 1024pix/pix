@@ -40,6 +40,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'has-seen-end-test-screen': true,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
+            version: 2,
           },
           relationships: {
             assessment: {
@@ -82,6 +83,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'has-seen-end-test-screen': true,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
+            version: 2,
           },
           relationships: {
             assessment: {
@@ -124,6 +126,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'has-seen-end-test-screen': true,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
+            version: 2,
           },
           relationships: {
             assessment: {

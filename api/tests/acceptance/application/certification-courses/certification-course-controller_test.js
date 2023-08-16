@@ -556,6 +556,7 @@ describe('Acceptance | API | Certification Course', function () {
           'nb-challenges': 0,
           'first-name': certificationCourse.firstName,
           'last-name': certificationCourse.lastName,
+          version: certificationCourse.version,
         },
         relationships: {
           assessment: {
