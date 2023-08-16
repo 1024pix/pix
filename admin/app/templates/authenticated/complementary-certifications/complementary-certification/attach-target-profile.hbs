@@ -41,7 +41,12 @@
     {{#if this.selectedTargetProfile}}
       <section class="card">
         <h2 class="card__title">2. Complétez les niveaux des résultats thématiques</h2>
-        <div class="card__content"></div>
+        <div class="card__content">
+          <ComplementaryCertifications::TargetProfiles::AttachBadges
+            @options={{this.targetProfileBadges}}
+            @error={{this.getTargetProfileBadgesErrorMessage}}
+          />
+        </div>
       </section>
     {{/if}}
 

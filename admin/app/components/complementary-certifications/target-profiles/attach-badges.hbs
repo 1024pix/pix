@@ -5,7 +5,7 @@
   </p>
 
   {{#if @error}}
-    <PixMessage role="alert" @type="alert" @withIcon={{true}} class="complementary-certification-attach-badges__error">
+    <PixMessage role="alert" @type="error" @withIcon={{true}} class="complementary-certification-attach-badges__error">
       {{@error}}
     </PixMessage>
   {{/if}}
@@ -23,7 +23,7 @@
       </thead>
       <tbody>
         {{#each @options as |option|}}
-          <tr aria-label="Résultats thématiques {{option.id}} {{option.label}}">
+          <tr aria-label="Résultat thématique {{option.id}} {{option.label}}">
             <td>{{option.id}}</td>
             <td>{{option.label}}</td>
             <td>

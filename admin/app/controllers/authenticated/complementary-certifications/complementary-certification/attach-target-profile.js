@@ -9,6 +9,16 @@ export default class AttachTargetProfileController extends Controller {
 
   @tracked options = [];
   @tracked selectedTargetProfile;
+  @tracked targetProfileBadges = [];
+
+  get getTargetProfileBadgesErrorMessage() {
+
+    if(!this.targetProfileBadges?.length > 0){
+      return "PAS DE RT LA FAMILLE";
+    }
+
+    return;
+  }
 
   @action
   async cancel() {
@@ -16,9 +26,17 @@ export default class AttachTargetProfileController extends Controller {
   }
 
   @action
-  onSelection(selectedAttachableTargetProfile) {
-    this.selectedTargetProfile = selectedAttachableTargetProfile.value;
+  async onSelection(selectedAttachableTargetProfile) {
+    this.selectedTargetProfile = selectedAttachableTargetProfile?.value;
     this.options = [];
+
+    if(this.selectedTargetProfile?.id) {
+      const targetProfile = await this.store.findRecord('target-profile', this.selectedTargetProfile?.id);
+      this.targetProfileBadges = targetProfile?.badges?.map((badge) => ({
+        id: badge.id,
+        label: badge.title,
+      }));
+    }
   }
 
   @action
