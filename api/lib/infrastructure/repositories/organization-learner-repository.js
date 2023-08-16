@@ -14,6 +14,7 @@ import * as studentRepository from './student-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
 
 function _shouldStudentToImportBeReconciled(
   allOrganizationLearnersInSameOrganization,
@@ -355,8 +356,17 @@ async function updateCertificability(organizationLearner) {
   });
 }
 
+function findByOrganizationsWhichNeedToComputeCertificability() {
+  return knex('organization-learners')
+    .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
+    .join('features', 'organization-features.featureId', '=', 'features.id')
+    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
+    .pluck('organization-learners.id');
+}
+
 export {
   findByIds,
+  findByOrganizationsWhichNeedToComputeCertificability,
   findByOrganizationId,
   findByOrganizationIdAndUpdatedAtOrderByDivision,
   findByUserId,
