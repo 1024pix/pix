@@ -1,0 +1,30 @@
+<div class="attach-target-profile-search">
+  <div class="attach-target-profile-search__input">
+    <PixSearchInput
+      @id="search-input"
+      @label="ID du profil cible"
+      @ariaLabel="Rechercher un profil cible à rattacher à la certification complémentaire"
+      @placeholder="Exemple: 3"
+      @debounceTimeInMs={{this.debounce}}
+      @triggerFiltering={{this.onSearchValueInput}}
+      autocomplete="off"
+    />
+    {{#if @options.length}}
+      <ul role="listbox" class="attach-target-profile-search__results">
+        {{#each @options as |option|}}
+          <li
+            class="attach-target-profile-search__results__option"
+            role="option"
+            aria-selected="false"
+            tabindex="0"
+            {{on "click" (fn this.onSelectTargetProfile option)}}
+            {{on-enter-action (fn this.onSelectTargetProfile option)}}
+            {{on-space-action (fn this.onSelectTargetProfile option)}}
+          >
+            {{option.label}}
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+</div>
