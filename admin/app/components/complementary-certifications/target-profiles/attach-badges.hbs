@@ -27,7 +27,13 @@
             <td>{{option.id}}</td>
             <td>{{option.label}}</td>
             <td>
-              <PixInput @id="{{option.id}}" placeholder="Exemple de niveau de RT : 1" />
+              <PixInput
+                @id="{{option.id}}"
+                placeholder="Exemple de niveau de RT : 1"
+                type="number"
+                min="1"
+                max="{{@options.length}}"
+              />
             </td>
           </tr>
         {{/each}}
