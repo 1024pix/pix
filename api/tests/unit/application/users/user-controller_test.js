@@ -7,6 +7,7 @@ import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | user-controller', function () {
   let userSerializer;
@@ -947,7 +948,13 @@ describe('Unit | Controller | user-controller', function () {
       const updatedByUserId = 2;
       const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
       const userDetailsForAdmin = Symbol('userDetailsForAdmin');
+      const domainTransaction = {
+        knexTransaction: Symbol('transaction'),
+      };
       sinon.stub(usecases, 'anonymizeUser').resolves(userDetailsForAdmin);
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
       const userAnonymizedDetailsForAdminSerializer = { serialize: sinon.stub() };
       userAnonymizedDetailsForAdminSerializer.serialize.returns(anonymizedUserSerialized);
 
@@ -962,7 +969,8 @@ describe('Unit | Controller | user-controller', function () {
       );
 
       // then
-      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId, updatedByUserId });
+      expect(DomainTransaction.execute).to.have.been.called;
+      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId, updatedByUserId, domainTransaction });
       expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWith(userDetailsForAdmin);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(anonymizedUserSerialized);
