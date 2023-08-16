@@ -49,7 +49,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
         await click(find('.challenge-actions__action-validate'));
 
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
           'Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.',
@@ -90,7 +90,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
       });
 
@@ -105,7 +105,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.ok(currentURL().includes(`/assessments/${assessment.id}/challenges/0`));
       });
 
