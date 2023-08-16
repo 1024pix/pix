@@ -29,7 +29,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
 
           assert.strictEqual(
             link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23',
+            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba',
           );
         });
 
@@ -41,7 +41,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           const screen = await render(hbs`<Banner::Information />`);
 
           // then
-          const link = screen.getByRole('link', { name: 'importer la base élèves' });
+          const link = screen.getByRole('link', { name: 'importer' });
 
           assert.dom(link).exists();
         });
@@ -61,7 +61,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         // when
         const screen = await render(hbs`<Banner::Information />`);
 
-        const link = screen.queryByRole('link', { name: 'importer la base élèves' });
+        const link = screen.queryByRole('link', { name: 'importer' });
         // then
         assert.notOk(link);
       });
@@ -163,7 +163,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
 
           assert.strictEqual(
             link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23',
+            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba',
           );
         });
 
@@ -175,109 +175,11 @@ module('Integration | Component | Banner::Information', function (hooks) {
           const screen = await render(hbs`<Banner::Information />`);
 
           // then
-          const link = screen.getByRole('link', { name: 'importer la base élèves' });
+          const link = screen.getByRole('link', { name: 'importer' });
 
           assert.dom(link).exists();
         });
       },
     );
-  });
-
-  module('Campaign Banner', function (hooks) {
-    let dayjs;
-
-    hooks.beforeEach(function () {
-      dayjs = this.owner.lookup('service:dayjs');
-      sinon.stub(dayjs.self.prototype, 'format').returns('08');
-    });
-
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
-    module('when prescriber’s organization is of type SCO', function () {
-      test('should render the campaign banner', async function (assert) {
-        // given
-        class CurrentUserStub extends Service {
-          prescriber = { areNewYearOrganizationLearnersImported: true };
-          organization = { isSco: true };
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        // when
-        await render(hbs`<Banner::Information />`);
-
-        // then
-        assert
-          .dom('.pix-banner')
-          .includesText(
-            'Parcours de rentrée 2022 : N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. Plus d’info',
-          );
-      });
-
-      module('when prescriber’s organization is managing students', function () {
-        test('should display links', async function (assert) {
-          // given
-          class CurrentUserStub extends Service {
-            prescriber = { areNewYearOrganizationLearnersImported: true };
-            organization = { isSco: true };
-            isSCOManagingStudents = true;
-            isAgriculture = false;
-          }
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          const screen = await render(hbs`<Banner::Information />`);
-
-          // then
-          const link = screen.getByRole('link', { name: 'Plus d’info' });
-
-          assert.strictEqual(
-            link.href,
-            'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba',
-          );
-        });
-      });
-
-      module('when prescriber’s organization is not managing students', function () {
-        test('should display default links', async function (assert) {
-          // given
-          class CurrentUserStub extends Service {
-            prescriber = { areNewYearOrganizationLearnersImported: true };
-            organization = { isSco: true };
-            isSCOManagingStudents = false;
-            isAgriculture = false;
-          }
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          const screen = await render(hbs`<Banner::Information />`);
-
-          const link = screen.getByRole('link', { name: 'Plus d’info' });
-
-          assert.strictEqual(
-            link.href,
-            'https://view.genial.ly/5fea2c3d6157fe0d69196ed9?idSlide=16cedb0c-3c1c-4cd3-a00b-49c01b0afcc2',
-          );
-        });
-      });
-    });
-
-    module('when prescriber’s organization is not of type SCO', function () {
-      test('should not display the campaign banner', async function (assert) {
-        // given
-        class CurrentUserStub extends Service {
-          prescriber = { areNewYearOrganizationLearnersImported: true };
-          organization = { isSco: false };
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        // when
-        await render(hbs`<Banner::Information />`);
-
-        // then
-        assert.dom('.pix-banner').doesNotExist();
-      });
-    });
   });
 });
