@@ -2,8 +2,6 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { CertificationCenter } from '../../../domain/models/CertificationCenter.js';
-
 const serialize = function (certificationCenters, meta) {
   return new Serializer('certification-center', {
     attributes: ['name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'habilitations'],
@@ -29,15 +27,4 @@ const serialize = function (certificationCenters, meta) {
   }).serialize(certificationCenters);
 };
 
-const deserialize = function (jsonAPI) {
-  return new CertificationCenter({
-    id: jsonAPI.data.id,
-    name: jsonAPI.data.attributes.name,
-    type: jsonAPI.data.attributes.type,
-    externalId: jsonAPI.data.attributes['external-id'],
-    createdAt: null,
-    habilitations: [],
-  });
-};
-
-export { serialize, deserialize };
+export { serialize };

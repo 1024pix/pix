@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-serializer', function () {
@@ -62,39 +62,6 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
 
       // then
       expect(serializedCertificationCenter).to.deep.equal(expectedSerializedCertificationCenter);
-    });
-  });
-
-  describe('#deserialize', function () {
-    it('should convert JSON API certification center data into a Certification Center model object', function () {
-      // given
-      const jsonApi = {
-        data: {
-          type: 'certification-centers',
-          id: '123',
-          attributes: {
-            name: 'Centre des dés',
-            type: 'SCO',
-            'external-id': '12345',
-            'created-at': new Date('2018-02-01T01:02:03Z'),
-          },
-          relationships: {},
-        },
-      };
-      const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
-        id: '123',
-        name: 'Centre des dés',
-        type: 'SCO',
-        externalId: '12345',
-        createdAt: null,
-        habilitations: [],
-      });
-
-      // when
-      const deserializedCertificationCenter = serializer.deserialize(jsonApi);
-
-      // then
-      expect(deserializedCertificationCenter).to.deepEqualInstance(expectedCertificationCenter);
     });
   });
 });
