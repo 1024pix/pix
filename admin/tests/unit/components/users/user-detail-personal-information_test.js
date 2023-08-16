@@ -100,5 +100,15 @@ module('Unit | Component | users | user-detail-personal-information', function (
         assert.strictEqual(component.translatedType, 'CNAV');
       });
     });
+
+    module('when authentication method is FWB', function () {
+      test('it displays "Fédération Wallonie-Bruxelles"', function (assert) {
+        // given
+        component.authenticationMethodType = 'FWB';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'Fédération Wallonie-Bruxelles');
+      });
+    });
   });
 });
