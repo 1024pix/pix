@@ -20,6 +20,7 @@ const reassignAuthenticationMethodJoiSchema = Joi.object({
           NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
           OidcIdentityProviders.POLE_EMPLOI.code,
           OidcIdentityProviders.CNAV.code,
+          OidcIdentityProviders.FWB.code,
         )
         .required(),
     },
@@ -372,6 +373,7 @@ const register = async function (server) {
                     'USERNAME',
                     OidcIdentityProviders.POLE_EMPLOI.code,
                     OidcIdentityProviders.CNAV.code,
+                    OidcIdentityProviders.FWB.code,
                   )
                   .required(),
               },
