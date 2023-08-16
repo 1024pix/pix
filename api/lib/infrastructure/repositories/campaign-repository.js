@@ -118,11 +118,6 @@ const checkIfUserOrganizationHasAccessToCampaign = async function (campaignId, u
   return Boolean(campaign);
 };
 
-const checkIfCampaignIsArchived = async function (campaignId) {
-  const { archivedAt } = await knex('campaigns').where({ id: campaignId }).first('archivedAt');
-  return Boolean(archivedAt);
-};
-
 const getCampaignTitleByCampaignParticipationId = async function (campaignParticipationId) {
   const campaign = await knex('campaigns')
     .select('title')
@@ -204,7 +199,6 @@ export {
   save,
   update,
   checkIfUserOrganizationHasAccessToCampaign,
-  checkIfCampaignIsArchived,
   getCampaignTitleByCampaignParticipationId,
   getCampaignCodeByCampaignParticipationId,
   getCampaignIdByCampaignParticipationId,
