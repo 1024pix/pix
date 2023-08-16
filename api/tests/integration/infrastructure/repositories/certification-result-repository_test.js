@@ -179,9 +179,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     it(`should return complementary certifications linked to the certifications`, async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCourseId, assessmentResultId, competenceMarkId } = await _buildCertificationResultInSession(
-        sessionId,
-      );
+      const { certificationCourseId, assessmentResultId, competenceMarkId } =
+        await _buildCertificationResultInSession(sessionId);
       const oneBadgeId = databaseBuilder.factory.buildBadge({ key: 'PARTNER_KEY' }).id;
       const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         key: 'PARTNER_KEY',

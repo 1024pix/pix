@@ -18,9 +18,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
     });
 
     it('should return 0 if there is no places', async function () {
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.have.deep.members([
         { category: categories.FREE_RATE, count: 0 },
@@ -40,9 +39,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       });
       await databaseBuilder.commit();
 
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.have.deep.members([
         { category: categories.FREE_RATE, count: 0 },
@@ -65,9 +63,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       databaseBuilder.factory.buildOrganizationPlace({ category: categories.T3, count: 1, organizationId });
       await databaseBuilder.commit();
 
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.have.deep.members([
         { category: categories.FREE_RATE, count: 10 },
@@ -83,9 +80,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       databaseBuilder.factory.buildOrganizationPlace({ category: categories.T0, count: 10, organizationId });
       await databaseBuilder.commit();
 
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
         { category: categories.FREE_RATE, count: 20 },
@@ -102,9 +98,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       });
       await databaseBuilder.commit();
 
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
         { category: categories.FREE_RATE, count: 10 },
@@ -121,9 +116,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       });
       await databaseBuilder.commit();
 
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
         { category: categories.FREE_RATE, count: 10 },
@@ -140,9 +134,8 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       });
       await databaseBuilder.commit();
 
-      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
-        organizationId,
-      );
+      const organizationPlacesCapacity =
+        await organizationPlacesCapacityRepository.findByOrganizationId(organizationId);
 
       expect(organizationPlacesCapacity.categories).to.include.deep.members([
         { category: categories.FREE_RATE, count: 10 },

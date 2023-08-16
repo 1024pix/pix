@@ -21,9 +21,8 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
 
       targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
-      const results = await organizationsToAttachToTargetProfileRepository.attachOrganizations(
-        targetProfileOrganizations,
-      );
+      const results =
+        await organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
 
       expect(results).to.deep.equal({ duplicatedIds: [], attachedIds: [organization1.id, organization2.id] });
     });
@@ -93,9 +92,8 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
 
         targetProfileOrganizations.attach([firstOrganization.id, secondOrganization.id]);
 
-        const result = await organizationsToAttachToTargetProfileRepository.attachOrganizations(
-          targetProfileOrganizations,
-        );
+        const result =
+          await organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
 
         expect(result).to.deep.equal({ duplicatedIds: [firstOrganization.id], attachedIds: [secondOrganization.id] });
       });
