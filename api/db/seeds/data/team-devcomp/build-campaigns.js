@@ -1,5 +1,4 @@
-import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from './constants.js';
-import { PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID } from '../common/common-builder.js';
+import { PIX_EDU_SMALL_TARGET_PROFILE_ID, SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from './constants.js';
 import { createAssessmentCampaign, createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
 
 async function _createScoCampaigns(databaseBuilder) {
@@ -9,7 +8,7 @@ async function _createScoCampaigns(databaseBuilder) {
     ownerId: SCO_ORGANIZATION_USER_ID,
     name: "Campagne d'évaluation SCO - envoi simple",
     code: 'SCOSIMPLE',
-    targetProfileId: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
+    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     configCampaign: { participantCount: 0 },
   });
   await createAssessmentCampaign({
@@ -19,7 +18,7 @@ async function _createScoCampaigns(databaseBuilder) {
     name: "Campagne d'évaluation SCO - envoi multiple",
     code: 'SCOMULTIP',
     multipleSendings: true,
-    targetProfileId: PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID,
+    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     configCampaign: { participantCount: 0 },
   });
   await createProfilesCollectionCampaign({
