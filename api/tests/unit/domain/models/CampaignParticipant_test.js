@@ -1,10 +1,11 @@
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
-import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 import {
+  AlreadyExistingCampaignParticipationError,
   EntityValidationError,
   ForbiddenAccess,
-  AlreadyExistingCampaignParticipationError,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
@@ -466,7 +467,87 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         expect(error).to.be.an.instanceof(ForbiddenAccess);
         expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
       });
+
+      describe('and isReset param is true', function () {
+        describe('when canReset is false', function () {
+          it('should throw NotEnoughDaysPassedBeforeResetCampaignParticipationError', async function () {
+            // given
+            const userIdentity = { id: 1 };
+            const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+              multipleSendings: true,
+              idPixLabel: null,
+              skillCount: 1,
+            });
+            const campaignParticipant = new CampaignParticipant({
+              campaignToStartParticipation,
+              userIdentity,
+              previousCampaignParticipationForUser: {
+                status: 'SHARED',
+                isDeleted: false,
+                validatedSkillsCount: 1,
+                canReset: false,
+              },
+              organizationLearner: {
+                id: null,
+                hasParticipated: false,
+              },
+            });
+
+            // when
+            const error = await catchErr(
+              campaignParticipant.start,
+              campaignParticipant,
+            )({
+              participantExternalId: null,
+              isReset: true,
+            });
+
+            // then
+            expect(error).to.be.an.instanceof(NotEnoughDaysPassedBeforeResetCampaignParticipationError);
+          });
+        });
+      });
     });
+
+    context(
+      'when campaign type is assessment and has a previous campaign participation and isReset is false',
+      function () {
+        it('should throw ForbiddenAccess exception when the max skill count is obtained', async function () {
+          // given
+          const userIdentity = { id: 1 };
+          const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+            multipleSendings: true,
+            idPixLabel: null,
+            skillCount: 1,
+          });
+          const campaignParticipant = new CampaignParticipant({
+            campaignToStartParticipation,
+            userIdentity,
+            previousCampaignParticipationForUser: {
+              status: 'SHARED',
+              isDeleted: false,
+              validatedSkillsCount: 1,
+            },
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
+          });
+
+          // when
+          const error = await catchErr(
+            campaignParticipant.start,
+            campaignParticipant,
+          )({
+            participantExternalId: null,
+            isReset: false,
+          });
+
+          // then
+          expect(error).to.be.an.instanceof(ForbiddenAccess);
+        });
+      },
+    );
 
     it('throws a ForbiddenAccess exception when the campaign is archived', async function () {
       const userIdentity = { id: 13 };
