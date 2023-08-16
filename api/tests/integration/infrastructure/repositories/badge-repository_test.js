@@ -1,11 +1,12 @@
-import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import { Badge } from '../../../../lib/domain/models/Badge.js';
 import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
 import lodash from 'lodash';
-const { omit } = lodash;
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+
+const { omit } = lodash;
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithSkillSets;
@@ -239,36 +240,6 @@ describe('Integration | Repository | Badge', function () {
 
         expect(error).to.be.instanceOf(Error);
       });
-    });
-  });
-
-  describe('#getByKey', function () {
-    let badge;
-
-    beforeEach(async function () {
-      badge = databaseBuilder.factory.buildBadge({
-        id: 1,
-        altMessage: 'You won the Toto badge!',
-        imageUrl: 'data:,',
-        message: 'Congrats, you won the Toto badge!',
-        key: 'TOTO2',
-      });
-      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
-      await databaseBuilder.commit();
-    });
-
-    it('should return a badge', async function () {
-      const myBadge = await badgeRepository.getByKey(badge.key);
-
-      expect(myBadge.id).to.equal(1);
-    });
-
-    it('should return a badge with badgeCriteria and skillSets', async function () {
-      const myBadge = await badgeRepository.getByKey(badge.key);
-
-      expect(myBadge.badgeCriteria.length).to.equal(1);
-      expect(myBadge.skillSets.length).to.equal(1);
     });
   });
 

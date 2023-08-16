@@ -3,7 +3,7 @@ import moment from 'moment';
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfUser } from '../orm-models/User.js';
-import { isUniqConstraintViolated, fetchPage } from '../utils/knex-utils.js';
+import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
 import {
@@ -247,18 +247,6 @@ const isUserExistingByEmail = function (email) {
     });
 };
 
-const updatePassword = function (id, hashedPassword) {
-  return BookshelfUser.where({ id })
-    .save({ password: hashedPassword }, { patch: true, method: 'update' })
-    .then((bookshelfUser) => _toDomain(bookshelfUser))
-    .catch((err) => {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-        throw new UserNotFoundError(`User not found for ID ${id}`);
-      }
-      throw err;
-    });
-};
-
 const updateEmail = function ({ id, email }) {
   return BookshelfUser.where({ id })
     .save({ email }, { patch: true, method: 'update' })
@@ -468,7 +456,6 @@ export {
   updateHasSeenNewDashboardInfoToTrue,
   updateLastDataProtectionPolicySeenAt,
   updateLastLoggedAt,
-  updatePassword,
   updatePixCertifTermsOfServiceAcceptedToTrue,
   updatePixOrgaTermsOfServiceAcceptedToTrue,
   updateUserDetailsForAdministration,

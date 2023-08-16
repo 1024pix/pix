@@ -803,33 +803,6 @@ describe('Integration | Repository | Campaign', function () {
     });
   });
 
-  describe('#checkIfCampaignIsArchived', function () {
-    let campaignId;
-
-    it('should return true when the campaign is archived', async function () {
-      // given
-      campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: new Date() }).id;
-      await databaseBuilder.commit();
-      // when
-      const campaignIsArchived = await campaignRepository.checkIfCampaignIsArchived(campaignId);
-
-      // then
-      expect(campaignIsArchived).to.be.true;
-    });
-
-    it('should return false when the campaign is not archived', async function () {
-      // given
-      campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const campaignIsArchived = await campaignRepository.checkIfCampaignIsArchived(campaignId);
-
-      // then
-      expect(campaignIsArchived).to.be.false;
-    });
-  });
-
   describe('#getCampaignTitleByCampaignParticipationId', function () {
     it('should return campaign title when campaign has one', async function () {
       // given

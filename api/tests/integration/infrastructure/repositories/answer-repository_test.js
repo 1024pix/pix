@@ -45,56 +45,6 @@ describe('Integration | Repository | answerRepository', function () {
     });
   });
 
-  describe('#findByIds', function () {
-    context('when there are no answers', function () {
-      it('should return an empty list', async function () {
-        // when
-        const foundAnswers = await answerRepository.findByIds([100]);
-
-        // then
-        expect(foundAnswers).to.be.empty;
-      });
-    });
-
-    context('when there are answers', function () {
-      it('should retrieve all answers from its id', async function () {
-        // given
-        const firstAnswer = domainBuilder.buildAnswer({
-          id: 1,
-          result: AnswerStatus.OK,
-          resultDetails: 'some details',
-          timeout: 456,
-          value: 'Fruits',
-          assessmentId: 2,
-          challengeId: 'recChallenge123',
-          timeSpent: 20,
-        });
-
-        const secondAnswer = domainBuilder.buildAnswer({
-          id: 2,
-          result: AnswerStatus.KO,
-          resultDetails: 'some details',
-          timeout: null,
-          value: 'Fruits',
-          assessmentId: 2,
-          challengeId: 'recChallenge456',
-          timeSpent: 20,
-        });
-        databaseBuilder.factory.buildAssessment({ id: 2 });
-        databaseBuilder.factory.buildAnswer({ ...secondAnswer, result: 'ko' });
-        databaseBuilder.factory.buildAnswer({ ...firstAnswer, result: 'ok' });
-        databaseBuilder.factory.buildAnswer();
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswers = await answerRepository.findByIds([1, 2]);
-
-        // then
-        expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
-      });
-    });
-  });
-
   describe('#findByChallengeAndAssessment', function () {
     it('should returns null if there is no assessment matching', async function () {
       // given
@@ -299,76 +249,6 @@ describe('Integration | Repository | answerRepository', function () {
         expect(foundAnswers).to.have.lengthOf(1);
         expect(foundAnswers).to.deepEqualArray([olderAnswer]);
         expect(foundAnswers[0].id).to.equal(olderAnswer.id);
-      });
-    });
-  });
-
-  describe('#findLastByAssessment', function () {
-    context('when assessment does not exist', function () {
-      it('should return null', async function () {
-        // given
-        databaseBuilder.factory.buildAssessment({ id: 123 });
-        databaseBuilder.factory.buildAnswer({ assessmentId: 123 });
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswer = await answerRepository.findLastByAssessment(456);
-
-        // then
-        expect(foundAnswer).to.be.null;
-      });
-    });
-
-    context('when assessment does not have any answers', function () {
-      it('should return null', async function () {
-        // given
-        databaseBuilder.factory.buildAssessment({ id: 123 });
-        databaseBuilder.factory.buildAssessment({ id: 456 });
-        databaseBuilder.factory.buildAnswer({ assessmentId: 456 });
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswer = await answerRepository.findLastByAssessment(123);
-
-        // then
-        expect(foundAnswer).to.be.null;
-      });
-    });
-
-    context('when assessment has some answers', function () {
-      it('should return the latest created answer', async function () {
-        // given
-        const olderAnswer = domainBuilder.buildAnswer({
-          id: 1,
-          result: AnswerStatus.OK,
-          resultDetails: 'some details',
-          timeout: 456,
-          value: 'Fruits',
-          assessmentId: 123,
-          challengeId: 'recChallenge123',
-          timeSpent: 20,
-        });
-        const newerAnswer = domainBuilder.buildAnswer({
-          id: 2,
-          result: AnswerStatus.KO,
-          resultDetails: 'some details',
-          timeout: null,
-          value: 'Fruits',
-          assessmentId: 123,
-          challengeId: 'recChallenge456',
-          timeSpent: 20,
-        });
-        databaseBuilder.factory.buildAssessment({ id: 123 });
-        databaseBuilder.factory.buildAnswer({ ...newerAnswer, result: 'ko', createdAt: new Date('2020-01-01') });
-        databaseBuilder.factory.buildAnswer({ ...olderAnswer, result: 'ok', createdAt: new Date('2019-01-01') });
-        databaseBuilder.factory.buildAnswer();
-        await databaseBuilder.commit();
-
-        // when
-        const foundAnswer = await answerRepository.findLastByAssessment(123);
-
-        // then
-        expect(foundAnswer).to.deepEqualInstance(newerAnswer);
       });
     });
   });

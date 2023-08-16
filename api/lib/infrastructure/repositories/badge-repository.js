@@ -3,12 +3,11 @@ import { Badge } from '../../domain/models/Badge.js';
 import { SkillSet } from '../../domain/models/SkillSet.js';
 import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
 import lodash from 'lodash';
-
-const { omit } = lodash;
-
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+
+const { omit } = lodash;
 
 const TABLE_NAME = 'badges';
 
@@ -44,13 +43,6 @@ const get = async function (id) {
   const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
   return new Badge({ ...badge, badgeCriteria, skillSets });
 };
-
-const getByKey = async function (key) {
-  const badge = await knex(TABLE_NAME).select('*').where({ key }).first();
-  const { badgeCriteria, skillSets } = await _addCriteriaInformation(badge);
-  return new Badge({ ...badge, badgeCriteria, skillSets });
-};
-
 const save = async function (badge, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   try {
     const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
@@ -85,17 +77,7 @@ const remove = async function (badgeId, { knexTransaction } = DomainTransaction.
   return true;
 };
 
-export {
-  findByCampaignId,
-  isAssociated,
-  isRelatedToCertification,
-  get,
-  getByKey,
-  save,
-  update,
-  isKeyAvailable,
-  remove,
-};
+export { findByCampaignId, isAssociated, isRelatedToCertification, get, save, update, isKeyAvailable, remove };
 
 async function _addCriteriaInformation(badge) {
   const badgeCriteria = await knex('badge-criteria').where({ badgeId: badge.id });
