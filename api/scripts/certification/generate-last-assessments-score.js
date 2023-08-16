@@ -36,9 +36,8 @@ async function _computeScore(assessmentIds) {
     async (assessmentId) => {
       try {
         const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
-        const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(
-          certificationAssessment,
-        );
+        const certificationAssessmentScore =
+          await scoringCertificationService.calculateCertificationAssessmentScore(certificationAssessment);
         certificationAssessmentScore.assessmentId = assessmentId;
 
         certificationAssessmentScore.competenceMarks.forEach((competenceMark) => {

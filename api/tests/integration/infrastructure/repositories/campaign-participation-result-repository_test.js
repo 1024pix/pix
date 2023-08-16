@@ -82,9 +82,8 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       });
       await databaseBuilder.commit();
 
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-        campaignParticipationId,
-      );
+      const campaignAssessmentParticipationResult =
+        await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
         isCompleted: true,
@@ -137,9 +136,8 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         knowledgeElementsAttributes,
       });
       await databaseBuilder.commit();
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-        campaignParticipationId,
-      );
+      const campaignAssessmentParticipationResult =
+        await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
         id: campaignParticipationId,
@@ -199,9 +197,8 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         knowledgeElementsAttributes,
       });
       await databaseBuilder.commit();
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-        campaignParticipationId,
-      );
+      const campaignAssessmentParticipationResult =
+        await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
       const competenceResults = campaignAssessmentParticipationResult.competenceResults.sort((a, b) => a.id <= b.id);
       expect(competenceResults).to.deep.equal([
         {
@@ -271,9 +268,8 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         ];
         knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
-          campaignParticipationId,
-        );
+        const campaignAssessmentParticipationResult =
+          await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
         expect(campaignAssessmentParticipationResult).to.deep.include({
           id: campaignParticipationId,

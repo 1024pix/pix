@@ -1826,9 +1826,8 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return an instance of OrganizationLearnerForAdmin', async function () {
       // when
-      const organizationLearner = await organizationLearnerRepository.getOrganizationLearnerForAdmin(
-        organizationLearnerId,
-      );
+      const organizationLearner =
+        await organizationLearnerRepository.getOrganizationLearnerForAdmin(organizationLearnerId);
 
       // then
       expect(organizationLearner).to.be.an.instanceOf(OrganizationLearnerForAdmin);
