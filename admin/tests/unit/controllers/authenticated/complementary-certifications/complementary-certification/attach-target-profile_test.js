@@ -44,6 +44,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
           assert.deepEqual(controller.options, [expectedOption]);
         });
       });
+
       module('when there is a searchTerm with 2 or more characters', function () {
         test('it should update options with the list of attachable target profile', async function (assert) {
           const store = this.owner.lookup('service:store');
@@ -67,6 +68,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
           assert.deepEqual(controller.options, [expectedOption]);
         });
       });
+
       module('when there is a searchTerm with less than 2 characters other than number', function () {
         test('it should update searchResults with the list of attachable target profile', async function (assert) {
           const store = this.owner.lookup('service:store');
@@ -87,7 +89,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
   });
 
   module('#onSelection', function () {
-    test('it should update options with an empty array and set the selectedTargetProfile', async function (assert) {
+    test('it should update reset options, set the selectedTargetProfile and fetch the badges', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup(
@@ -96,18 +98,26 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
       const attachableTargetProfile = store.createRecord('attachable-target-profile', {
         id: 12,
         name: 'target-profile',
+        badges: [
+          {id: 1, title: 'Dans le mille'}
+        ]
       });
       const targetProfileSelected = {
         label: '12 - target profile',
         value: attachableTargetProfile,
       };
+      store.findRecord = sinon.stub().resolves(attachableTargetProfile);
 
       // when
-      controller.onSelection(targetProfileSelected);
+      await controller.onSelection(targetProfileSelected);
 
       // then
       assert.deepEqual(controller.options, []);
       assert.deepEqual(controller.selectedTargetProfile, attachableTargetProfile);
+      assert.deepEqual(controller.targetProfileBadges, [{
+        id: 1,
+        label: 'Dans le mille',
+      }]);
     });
   });
 

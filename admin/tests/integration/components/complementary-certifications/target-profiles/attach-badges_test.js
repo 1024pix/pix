@@ -37,7 +37,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::A
 
       // then
       assert.strictEqual(screen.getAllByRole('row').length, 2);
-      assert.dom(screen.getByRole('row', { name: 'Résultats thématiques 12 BoyNextDoor One And Only'})).exists();
+      assert.dom(screen.getByRole('row', { name: 'Résultat thématique 12 BoyNextDoor One And Only'})).exists();
     });
   });
 
