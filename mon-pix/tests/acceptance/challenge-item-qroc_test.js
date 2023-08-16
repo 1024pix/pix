@@ -39,7 +39,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
           '“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.',
@@ -110,7 +110,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
           'Pour valider, veuillez remplir le champ texte. Sinon, passez.',
@@ -287,7 +287,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
         assert.strictEqual(
           find('.challenge-response__alert').textContent.trim(),
           'Pour valider, veuillez remplir le champ texte. Sinon, passez.',
@@ -411,7 +411,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
         // given
         const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
         await click('.challenge-actions__action-validate');
-        assert.dom('.challenge-response__alert').exists();
+        assert.dom('.challenge-response__alert[role="alert"]').exists();
 
         // when
         await click(screen.getByRole('button', { name: /Select:/ }));
