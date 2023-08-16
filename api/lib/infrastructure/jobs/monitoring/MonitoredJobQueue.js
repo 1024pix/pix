@@ -9,8 +9,8 @@ class MonitoredJobQueue {
     this.jobQueue = jobQueue;
   }
 
-  performJob(name, handlerClass) {
-    this.jobQueue.performJob(name, handlerClass);
+  performJob(name, handlerClass, dependencies) {
+    this.jobQueue.performJob(name, handlerClass, dependencies);
 
     const monitoringJobHandler = new MonitoringJobExecutionTimeHandler({ logger });
     this.jobQueue.pgBoss.onComplete(name, { teamSize, teamConcurrency }, (job) => {
