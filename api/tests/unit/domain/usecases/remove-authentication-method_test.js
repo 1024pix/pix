@@ -213,6 +213,26 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     });
   });
 
+  context('When type is FWB', function () {
+    it('removes FWB authentication method', async function () {
+      // given
+      const type = OidcIdentityProviders.FWB.code;
+      const user = domainBuilder.buildUser();
+      userRepository.get.resolves(user);
+      const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
+      authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
+
+      // when
+      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+
+      // then
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+        userId: user.id,
+        identityProvider: OidcIdentityProviders.FWB.code,
+      });
+    });
+  });
+
   context('When there is only one remaining authentication method', function () {
     it('should throw a UserNotAuthorizedToRemoveAuthenticationMethod', async function () {
       // given

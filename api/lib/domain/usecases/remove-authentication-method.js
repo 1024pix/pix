@@ -27,6 +27,9 @@ const removeAuthenticationMethod = async function ({ userId, type, userRepositor
     case OidcIdentityProviders.CNAV.code:
       await _removeAuthenticationMethod(userId, OidcIdentityProviders.CNAV.code, authenticationMethodRepository);
       break;
+    case OidcIdentityProviders.FWB.code:
+      await _removeAuthenticationMethod(userId, OidcIdentityProviders.FWB.code, authenticationMethodRepository);
+      break;
   }
 };
 
