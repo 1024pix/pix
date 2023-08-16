@@ -48,7 +48,8 @@ const challengeDatasource = datasource.extend({
     if (alternativeVersion) {
       challenge = _.find(challenges, { skillId, alternativeVersion });
     } else {
-      challenge = _.find(challenges, { skillId });
+      const filteredChallenges = _.filter(challenges, { skillId });
+      challenge = filteredChallenges[Math.floor(Math.random() * filteredChallenges.length)];
     }
 
     if (!challenge) {

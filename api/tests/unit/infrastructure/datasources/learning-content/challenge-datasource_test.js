@@ -352,6 +352,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   describe('#getBySkillId', function () {
     let challenge_pix1d1;
     let challenge_pix1d2;
+    let expectedChallenges;
     const alternativeVersion = 3;
 
     const skillId = '@didacticiel1';
@@ -368,30 +369,55 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         skillId,
         alternativeVersion,
       };
-      sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
+      expectedChallenges = [challenge_pix1d1, challenge_pix1d2];
+    });
+
+    context('when there are several challenges for the skillId', function () {
+      it('should return a challenge randomly if the alternativeVersion is not provided', async function () {
+        // when
+        sinon.stub(lcms, 'getLatestRelease').resolves({
+          challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
+        });
+        const result = await challengeDatasource.getBySkillId(skillId);
+
+        // then
+        expect(lcms.getLatestRelease).to.have.been.called;
+
+        expect([result]).to.contain.oneOf(expectedChallenges);
+      });
+
+      it('should return the challenge corresponding to the alternativeVersion', async function () {
+        // when
+        sinon.stub(lcms, 'getLatestRelease').resolves({
+          challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
+        });
+        const result = await challengeDatasource.getBySkillId(skillId, alternativeVersion);
+
+        // then
+        expect(lcms.getLatestRelease).to.have.been.called;
+        expect(result).to.deep.equal(challenge_pix1d2);
       });
     });
 
-    it('should return an challenge from learning content ', async function () {
-      // when
-      const result = await challengeDatasource.getBySkillId(skillId);
+    context('when there is only one challenge for the skillId', function () {
+      it('should return a challenge from learning content', async function () {
+        // when
+        sinon.stub(lcms, 'getLatestRelease').resolves({
+          challenges: [challenge_web1, challenge_competence2, challenge_pix1d1],
+        });
+        const result = await challengeDatasource.getBySkillId(skillId);
 
-      // then
-      expect(lcms.getLatestRelease).to.have.been.called;
-      expect(result).to.deep.equal(challenge_pix1d1);
+        // then
+        expect(lcms.getLatestRelease).to.have.been.called;
+        expect(result).to.deep.equal(challenge_pix1d1);
+      });
     });
 
-    it('should return the challenge corresponding to the alternativeVersion', async function () {
-      // when
-      const result = await challengeDatasource.getBySkillId(skillId, alternativeVersion);
-
-      // then
-      expect(lcms.getLatestRelease).to.have.been.called;
-      expect(result).to.deep.equal(challenge_pix1d2);
-    });
     it('should return an error if the challenge does not exist', async function () {
       // when
+      sinon.stub(lcms, 'getLatestRelease').resolves({
+        challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
+      });
       const error = await catchErr(challengeDatasource.getBySkillId)('falseId');
 
       // then
