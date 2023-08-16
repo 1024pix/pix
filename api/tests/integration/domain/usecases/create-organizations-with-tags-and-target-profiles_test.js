@@ -24,11 +24,13 @@ import {
 
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 describe('Integration | UseCases | create-organizations-with-tags-and-target-profiles', function () {
   let userId;
 
   beforeEach(async function () {
+    databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
