@@ -18,6 +18,7 @@ import { OrganizationInvitation } from '../../../../lib/domain/models/Organizati
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -157,6 +158,7 @@ describe('Acceptance | Application | organization-controller', function () {
       await knex('target-profiles').delete();
       await knex('organization-tags').delete();
       await knex('tags').delete();
+      await knex('organization-features').delete();
       await knex('organizations').delete();
     });
 
@@ -166,6 +168,7 @@ describe('Acceptance | Application | organization-controller', function () {
       databaseBuilder.factory.buildTag({ name: 'GRAS' });
       databaseBuilder.factory.buildTag({ name: 'GARGOUILLE' });
       databaseBuilder.factory.buildTag({ name: 'GARBURE' });
+      databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
       await databaseBuilder.commit();

@@ -16,12 +16,12 @@ describe('Integration | Application | Controller | organization-administration-c
       credit: 200,
       externalId: 'itsme',
       provinceCode: 'FR',
-      isManagingStudents: true,
+      isManagingStudents: false,
       documentationUrl: 'overthere',
       showSkills: false,
       identityProviderForCampaigns: 'POLE_EMPLOI',
     });
-
+    databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
     featureId = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
 
     await databaseBuilder.commit();

@@ -1,8 +1,41 @@
-import { expect } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
-import * as apps from '../../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | OrganizationForAdmin', function () {
+  context('for sco organizations', function () {
+    context('when organization isManagingStudent is true', function () {
+      it('should build an OrganizationForAdmin with compute organization learner certificability enabled', function () {
+        // given
+        const expectedOrganization = domainBuilder.buildOrganizationForAdmin({ type: 'SCO', isManagingStudents: true });
+
+        // when
+        const organization = new OrganizationForAdmin(expectedOrganization);
+
+        // then
+        expect(organization.features).to.includes({
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+        });
+      });
+    });
+
+    context('when organization isManagingStudent is false', function () {
+      it('should build an OrganizationForAdmin without compute organization learner certificability feature', function () {
+        // given
+        const expectedOrganization = domainBuilder.buildOrganizationForAdmin({
+          type: 'SCO',
+          isManagingStudents: false,
+        });
+
+        // when
+        const organization = new OrganizationForAdmin(expectedOrganization);
+
+        // then
+        expect(organization.features).to.deep.equal({});
+      });
+    });
+  });
+
   context('#archivistFullName', function () {
     it('should return the full name of user who archived the organization', function () {
       // given
@@ -210,7 +243,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         isManagingStudents: false,
         type: 'SCO',
         features: {
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
         },
       });
 
@@ -221,7 +254,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
 
       // then
       expect(
-        givenOrganization.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
       ).to.equal(true);
     });
 
@@ -231,7 +264,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         isManagingStudents: true,
         type: 'SCO',
         features: {
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
         },
       });
 
@@ -242,7 +275,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
 
       // then
       expect(
-        givenOrganization.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
       ).to.equal(false);
     });
 
@@ -252,7 +285,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
         isManagingStudents: false,
         type: 'SUP',
         features: {
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
         },
       });
 
@@ -263,7 +296,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
 
       // then
       expect(
-        givenOrganization.features[apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
       ).to.equal(false);
     });
 
@@ -392,7 +425,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         features: {
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
         },
       });
 
@@ -401,7 +434,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
 
       // then
       expect(givenOrganization.features).to.includes({
-        [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+        [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
       });
     });
 
@@ -409,7 +442,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
         features: {
-          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+          [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
       });
 
@@ -418,7 +451,7 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
 
       // then
       expect(givenOrganization.features).to.includes({
-        [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+        [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
       });
     });
   });

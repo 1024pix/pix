@@ -1,6 +1,5 @@
 import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
@@ -11,6 +10,7 @@ import {
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
 } from '../../../../lib/domain/errors.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', function () {
   let organizationRepositoryStub;
@@ -193,8 +193,8 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       identityProviderForCampaigns: 'GAR',
       emailForSCOActivation: 'savedEmail@example.net',
     };
-    const organizationPROToCreate = new Organization(organizationPRO);
-    const organizationSCOToCreate = new Organization({
+    const organizationPROToCreate = new OrganizationForAdmin(organizationPRO);
+    const organizationSCOToCreate = new OrganizationForAdmin({
       ...organizationSCO,
       email: organizationSCO.emailForSCOActivation,
     });
@@ -217,7 +217,8 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     });
 
     // then
-    expect(organizationRepositoryStub.batchCreateOrganizations).to.be.calledWith(expectedProOrganizationToInsert);
+    const expectedOrganizationsToCreate = organizationRepositoryStub.batchCreateOrganizations.getCall(0).args[0];
+    expect(expectedOrganizationsToCreate).to.deep.equal(expectedProOrganizationToInsert);
   });
 
   it('should add organization tags when exists', async function () {

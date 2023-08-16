@@ -1,10 +1,14 @@
 import _ from 'lodash';
+import bluebird from 'bluebird';
+
 import { NotFoundError } from '../../domain/errors.js';
 import { Organization } from '../../domain/models/Organization.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../domain/models/Tag.js';
 import { fetchPage } from '../utils/knex-utils.js';
+import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({
@@ -74,24 +78,42 @@ const batchCreateOrganizations = async function (
   organizations,
   domainTransaction = DomainTransaction.emptyTransaction(),
 ) {
-  const organizationsRawData = organizations.map((organization) =>
-    _.pick(organization, [
-      'name',
-      'type',
-      'email',
-      'externalId',
-      'provinceCode',
-      'isManagingStudents',
-      'identityProviderForCampaigns',
-      'credit',
-      'createdBy',
-      'documentationUrl',
-    ]),
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const { id: computeOrganizationLearnerFeatureId } = await knexConn('features')
+    .where('key', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
+    .first('id');
+
+  return bluebird.map(
+    organizations,
+    async (organization) => {
+      const [createdOrganization] = await knexConn('organizations')
+        .insert(
+          _.pick(organization, [
+            'name',
+            'type',
+            'email',
+            'externalId',
+            'provinceCode',
+            'isManagingStudents',
+            'identityProviderForCampaigns',
+            'credit',
+            'createdBy',
+            'documentationUrl',
+          ]),
+        )
+        .returning('*');
+      if (organization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]) {
+        await knexConn('organization-features').insert({
+          organizationId: createdOrganization.id,
+          featureId: computeOrganizationLearnerFeatureId,
+        });
+      }
+      return createdOrganization;
+    },
+    {
+      concurrency: CONCURRENCY_HEAVY_OPERATIONS,
+    },
   );
-  return knex
-    .batchInsert('organizations', organizationsRawData)
-    .transacting(domainTransaction.knexTransaction)
-    .returning(['id', 'externalId', 'name']);
 };
 
 const update = async function (organization) {

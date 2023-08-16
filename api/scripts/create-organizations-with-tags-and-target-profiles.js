@@ -15,6 +15,7 @@ import * as dataProtectionOfficerRepository from '../lib/infrastructure/reposito
 import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
 import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
 import * as targetProfileShareRepository from '../lib/infrastructure/repositories/target-profile-share-repository.js';
+import * as organizationValidator from '../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import lodash from 'lodash';
 
@@ -99,6 +100,7 @@ async function createOrganizationWithTagsAndTargetProfiles(filePath) {
   const createdOrganizations = await createOrganizationsWithTagsAndTargetProfiles({
     organizations,
     domainTransaction,
+    organizationValidator,
     organizationRepository,
     tagRepository,
     targetProfileShareRepository,

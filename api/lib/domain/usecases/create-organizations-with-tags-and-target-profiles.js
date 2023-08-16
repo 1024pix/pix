@@ -1,11 +1,12 @@
+import bluebird from 'bluebird';
 import lodash from 'lodash';
 
 const { isEmpty, uniqBy } = lodash;
 
-import bluebird from 'bluebird';
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { OrganizationForAdmin } from '../models/index.js';
 
 import {
   ManyOrganizationsFoundError,
@@ -158,7 +159,7 @@ function _mapOrganizationsData(organizations) {
   for (const organization of organizations) {
     const email = organization.type === Organization.types.SCO ? organization.emailForSCOActivation : undefined;
     mapOrganizationByExternalId.set(organization.externalId, {
-      organization: new Organization({
+      organization: new OrganizationForAdmin({
         ...organization,
         email,
       }),
