@@ -51,10 +51,6 @@ async function runJobs() {
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiHandler,
   );
-  monitoredJobQueue.performJob(
-    'SendSharedParticipationResultsToPoleEmploi',
-    SendSharedParticipationResultsToPoleEmploiHandler,
-  );
 
   await scheduleCpfJobs(pgBoss);
 }
