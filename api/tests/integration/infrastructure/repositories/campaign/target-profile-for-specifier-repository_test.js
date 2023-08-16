@@ -15,9 +15,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
         await databaseBuilder.commit();
 
-        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId,
-        );
+        const [targetProfileForSpecifier] =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.tubeCount).to.equal(2);
       });
@@ -30,9 +29,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
         await databaseBuilder.commit();
 
-        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId,
-        );
+        const [targetProfileForSpecifier] =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.thematicResultCount).to.equal(1);
       });
@@ -45,9 +43,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
         await databaseBuilder.commit();
 
-        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId,
-        );
+        const [targetProfileForSpecifier] =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.hasStage).to.equal(true);
       });
@@ -57,9 +54,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
 
-        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId,
-        );
+        const [targetProfileForSpecifier] =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.category).to.equal('CUSTOM');
       });
@@ -69,9 +65,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
 
-        const [targetProfileForSpecifier] = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId,
-        );
+        const [targetProfileForSpecifier] =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.description).to.equal('THIS IS SPARTA!');
       });
@@ -107,9 +102,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           description: null,
           category: 'OTHER',
         });
-        const availableTargetProfiles = await TargetProfileForSpecifierRepository.availableForOrganization(
-          organizationId,
-        );
+        const availableTargetProfiles =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
         expect(availableTargetProfiles).to.exactlyContain([targetProfile1, targetProfile2]);
       });
     });
