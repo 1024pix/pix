@@ -12,6 +12,9 @@ import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/j
 import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
 import { ComputeCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJob.js';
 import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
+import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import * as url from 'url';
@@ -45,17 +48,27 @@ async function runJobs() {
     process.exit(0);
   });
 
-  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
+  monitoredJobQueue.performJob(
+    ScheduleComputeOrganizationLearnersCertificabilityJob.name,
+    ScheduleComputeOrganizationLearnersCertificabilityJobHandler,
+    {
+      pgBoss,
+      organizationLearnerRepository,
+    },
+  );
   monitoredJobQueue.performJob(ComputeCertificabilityJob.name, ComputeCertificabilityJobHandler);
+  monitoredJobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
   monitoredJobQueue.performJob(
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiHandler,
   );
-  monitoredJobQueue.performJob(
-    'SendSharedParticipationResultsToPoleEmploi',
-    SendSharedParticipationResultsToPoleEmploiHandler,
-  );
 
+  await pgBoss.schedule(
+    ScheduleComputeOrganizationLearnersCertificabilityJob.name,
+    config.features.scheduleComputeOrganizationLearnersCertificabilityJobCron,
+    null,
+    { tz: 'Europe/Paris' },
+  );
   await scheduleCpfJobs(pgBoss);
 }
 
