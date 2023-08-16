@@ -12,6 +12,7 @@ const typesLabel = {
   POLE_EMPLOI: 'Pôle Emploi',
   GAR: 'Médiacentre',
   CNAV: 'CNAV',
+  FWB: 'Fédération Wallonie-Bruxelles',
 };
 
 export default class UserDetailPersonalInformationComponent extends Component {
