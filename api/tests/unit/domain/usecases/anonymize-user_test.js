@@ -1,6 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { anonymizeUser } from '../../../../lib/domain/usecases/anonymize-user.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | UseCase | anonymize-user', function () {
   let clock;
@@ -37,9 +36,6 @@ describe('Unit | UseCase | anonymize-user', function () {
     const domainTransaction = {
       knexTransaction: Symbol('transaction'),
     };
-    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-      return callback(domainTransaction);
-    });
 
     const userRepository = { updateUserDetailsForAdministration: sinon.stub(), getUserDetailsForAdmin: sinon.stub() };
     userRepository.getUserDetailsForAdmin.withArgs(userId).resolves(expectedAnonymizedUser);
@@ -60,6 +56,7 @@ describe('Unit | UseCase | anonymize-user', function () {
       membershipRepository,
       certificationCenterMembershipRepository,
       organizationLearnerRepository,
+      domainTransaction,
     });
 
     // then
