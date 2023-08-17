@@ -1,4 +1,5 @@
 import * as tooling from '../common/tooling/index.js';
+import evalCampaignWithBadgesUser from './users/eval-campaign-with-badges.js';
 
 const TEAM_EVALUATION_OFFSET_ID = 1000000;
 /// USERS
@@ -17,6 +18,9 @@ export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   createScoOrganization(databaseBuilder);
   await createCoreTargetProfile(databaseBuilder);
   await createAssessmentCampaign(databaseBuilder);
+
+  // Other users
+  await evalCampaignWithBadgesUser(TEAM_EVALUATION_OFFSET_ID, databaseBuilder);
 }
 
 function createScoOrganization(databaseBuilder) {
