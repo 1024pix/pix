@@ -1,6 +1,7 @@
-import { Skill } from '../models/Skill.js';
 import _ from 'lodash';
 import moment from 'moment';
+
+import { Skill } from '../models/Skill.js';
 
 const statuses = {
   VALIDATED: 'validated',

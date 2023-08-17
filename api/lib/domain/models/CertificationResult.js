@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { CompetenceMark } from './CompetenceMark.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 

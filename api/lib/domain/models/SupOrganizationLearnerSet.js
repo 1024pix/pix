@@ -1,6 +1,6 @@
-import { SupOrganizationLearner } from './SupOrganizationLearner.js';
-import { checkValidation } from '../validators/sup-organization-learner-set-validator.js';
 import { areTwoStringsCloseEnough } from '../services/string-comparison-service.js';
+import { checkValidation } from '../validators/sup-organization-learner-set-validator.js';
+import { SupOrganizationLearner } from './SupOrganizationLearner.js';
 
 const RATIO = 0.25;
 

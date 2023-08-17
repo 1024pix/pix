@@ -1,6 +1,6 @@
-import { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } from '../constants.js';
-
 import _ from 'lodash';
+
+import { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } from '../constants.js';
 
 class UserCompetence {
   constructor({ id, index, name, areaId, pixScore, estimatedLevel, skills = [] } = {}) {

@@ -1,6 +1,7 @@
-import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
-import { ORGANIZATION_FEATURE } from '../../constants.js';
 import differenceBy from 'lodash/differenceBy.js';
+
+import { ORGANIZATION_FEATURE } from '../../constants.js';
+import { DataProtectionOfficer } from '../DataProtectionOfficer.js';
 
 const CREDIT_DEFAULT_VALUE = 0;
 

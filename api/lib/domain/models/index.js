@@ -5,7 +5,6 @@ import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { AnswerStatus } from './AnswerStatus.js';
 import { Area } from './Area.js';
 import { Assessment } from './Assessment.js';
-import { FlashAssessmentAlgorithm } from './FlashAssessmentAlgorithm.js';
 import { AssessmentResult } from './AssessmentResult.js';
 import { AssessmentSimulator } from './AssessmentSimulator.js';
 import { Authentication } from './Authentication.js';
@@ -73,10 +72,11 @@ import { Correction } from './Correction.js';
 import { Course } from './Course.js';
 import { DataProtectionOfficer } from './DataProtectionOfficer.js';
 import { Division } from './Division.js';
-import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { EmailingAttempt } from './EmailingAttempt.js';
+import { EmailModificationDemand } from './EmailModificationDemand.js';
 import { Examiner } from './Examiner.js';
 import { FinalizedSession } from './FinalizedSession.js';
+import { FlashAssessmentAlgorithm } from './FlashAssessmentAlgorithm.js';
 import { Framework } from './Framework.js';
 import { Group } from './Group.js';
 import { Hint } from './Hint.js';
@@ -87,14 +87,14 @@ import { LearningContent } from './LearningContent.js';
 import { Membership } from './Membership.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { Organization } from './Organization.js';
-import { OrganizationForAdmin } from './organizations-administration/OrganizationForAdmin.js';
 import { OrganizationInvitation } from './OrganizationInvitation.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 import { OrganizationMemberIdentity } from './OrganizationMemberIdentity.js';
 import { OrganizationPlacesLot } from './OrganizationPlacesLot.js';
-import { OrganizationTag } from './OrganizationTag.js';
+import { OrganizationForAdmin } from './organizations-administration/OrganizationForAdmin.js';
 import { OrganizationsToAttachToTargetProfile } from './OrganizationsToAttachToTargetProfile.js';
+import { OrganizationTag } from './OrganizationTag.js';
 import { ParticipantResultsShared } from './ParticipantResultsShared.js';
 import { ParticipationForCampaignManagement } from './ParticipationForCampaignManagement.js';
 import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
@@ -158,7 +158,6 @@ export {
   AnswerStatus,
   Area,
   Assessment,
-  FlashAssessmentAlgorithm,
   AssessmentResult,
   AssessmentSimulator,
   Authentication,
@@ -226,10 +225,11 @@ export {
   Course,
   DataProtectionOfficer,
   Division,
-  EmailModificationDemand,
   EmailingAttempt,
+  EmailModificationDemand,
   Examiner,
   FinalizedSession,
+  FlashAssessmentAlgorithm,
   Framework,
   Group,
   Hint,
@@ -246,8 +246,8 @@ export {
   OrganizationLearner,
   OrganizationMemberIdentity,
   OrganizationPlacesLot,
-  OrganizationTag,
   OrganizationsToAttachToTargetProfile,
+  OrganizationTag,
   ParticipantResultsShared,
   ParticipationForCampaignManagement,
   PartnerCertificationScoring,

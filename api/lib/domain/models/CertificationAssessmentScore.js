@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { status } from './AssessmentResult.js';
 
 class CertificationAssessmentScore {

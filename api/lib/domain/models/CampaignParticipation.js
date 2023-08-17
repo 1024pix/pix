@@ -1,13 +1,12 @@
 import _ from 'lodash';
 
 import {
+  AlreadySharedCampaignParticipationError,
   ArchivedCampaignError,
   AssessmentNotCompletedError,
-  AlreadySharedCampaignParticipationError,
-  CantImproveCampaignParticipationError,
   CampaignParticipationDeletedError,
+  CantImproveCampaignParticipationError,
 } from '../errors.js';
-
 import { CampaignParticipationStatuses } from './CampaignParticipationStatuses.js';
 
 class CampaignParticipation {

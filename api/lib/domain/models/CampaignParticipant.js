@@ -4,9 +4,8 @@ import {
   ForbiddenAccess,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../errors.js';
-
-import { CampaignParticipation } from './CampaignParticipation.js';
 import { Assessment } from './Assessment.js';
+import { CampaignParticipation } from './CampaignParticipation.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";

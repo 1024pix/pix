@@ -1,18 +1,17 @@
 import Joi from 'joi';
 
 import {
-  InvalidCertificationIssueReportForSaving,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
+  InvalidCertificationIssueReportForSaving,
 } from '../errors.js';
-
 import {
   CertificationIssueReportCategory as CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-  ImpactfulCategories,
-  ImpactfulSubcategories,
   DeprecatedCategories,
   DeprecatedSubcategories,
+  ImpactfulCategories,
+  ImpactfulSubcategories,
 } from './CertificationIssueReportCategory.js';
 
 const categoryNonBlockingTechnicalIssueJoiSchema = Joi.object({

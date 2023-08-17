@@ -70,4 +70,4 @@ BadgeCriterion.SCOPES = {
   CAPPED_TUBES: 'CappedTubes',
 };
 
-export { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES };
+export { BadgeCriterion, BadgeDetails, CappedTube, SCOPES, SkillSet };

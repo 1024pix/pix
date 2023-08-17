@@ -1,10 +1,10 @@
+import { config } from '../../config.js';
 import { AssessmentEndedError } from '../errors.js';
 import {
-  getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
+  getPossibleNextChallenges,
   getReward,
 } from '../services/algorithm-methods/flash.js';
-import { config } from '../../config.js';
 
 class FlashAssessmentAlgorithm {
   constructor({ warmUpLength, forcedCompetences, maximumAssessmentLength } = {}) {

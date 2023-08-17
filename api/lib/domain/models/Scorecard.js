@@ -1,14 +1,15 @@
 import _ from 'lodash';
+
+import {
+  MAX_REACHABLE_LEVEL,
+  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
+  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
+  PIX_COUNT_BY_LEVEL,
+} from '../constants.js';
+import * as scoringService from '../services/scoring/scoring-service.js';
 import { Assessment } from './Assessment.js';
 import { CompetenceEvaluation } from './CompetenceEvaluation.js';
 import { KnowledgeElement } from './KnowledgeElement.js';
-import {
-  MINIMUM_DELAY_IN_DAYS_FOR_RESET,
-  MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
-  PIX_COUNT_BY_LEVEL,
-  MAX_REACHABLE_LEVEL,
-} from '../constants.js';
-import * as scoringService from '../services/scoring/scoring-service.js';
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',

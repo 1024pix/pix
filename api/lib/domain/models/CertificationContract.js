@@ -1,5 +1,6 @@
-import { CertificationComputeError } from '../../../lib/domain/errors.js';
 import _ from 'lodash';
+
+import { CertificationComputeError } from '../../../lib/domain/errors.js';
 
 class CertificationContract {
   /* PUBLIC INTERFACE */

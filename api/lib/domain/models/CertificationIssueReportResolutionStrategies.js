@@ -1,5 +1,5 @@
-import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportSubcategories } from './CertificationIssueReportCategory.js';
+import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
 
 async function neutralizeIfTimedChallengeStrategy({
   certificationIssueReport,
@@ -164,13 +164,13 @@ class CertificationIssueReportResolutionStrategies {
 }
 
 export {
-  neutralizeWithoutCheckingStrategy,
-  neutralizeIfImageOrEmbedStrategy,
-  neutralizeIfAttachmentStrategy,
+  CertificationIssueReportResolutionStrategies,
   doNotResolveStrategy,
+  neutralizeIfAttachmentStrategy,
+  neutralizeIfImageOrEmbedStrategy,
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
-  CertificationIssueReportResolutionStrategies,
+  neutralizeWithoutCheckingStrategy,
 };
 
 function _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport) {

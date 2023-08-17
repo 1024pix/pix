@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { validateEntity } from '../validators/entity-validator.js';
 
 const schema = Joi.object({
