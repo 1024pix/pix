@@ -114,6 +114,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
       // then
       assert.deepEqual(controller.options, []);
       assert.deepEqual(controller.selectedTargetProfile, attachableTargetProfile);
+      assert.strictEqual(controller.isLoadingBadges, false);
       assert.deepEqual(controller.targetProfileBadges, [{
         id: 1,
         label: 'Dans le mille',

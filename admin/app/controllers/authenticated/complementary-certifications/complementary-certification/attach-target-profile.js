@@ -4,20 +4,23 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
 export default class AttachTargetProfileController extends Controller {
+
+  @service notifications;
   @service router;
   @service store;
 
   @tracked options = [];
+
   @tracked selectedTargetProfile;
+
+  @tracked isLoadingBadges = false;
   @tracked targetProfileBadges = [];
 
   get getTargetProfileBadgesErrorMessage() {
-
-    if(!this.targetProfileBadges?.length > 0){
-      return "PAS DE RT LA FAMILLE";
+    if(this.isLoadingBadges || this.targetProfileBadges.length > 0) {
+      return;
     }
-
-    return;
+    return "Seul un profil cible comportant au moins un résultat thématique certifiant peut être rattaché à une certification complémentaire. Le profil cible que vous avez sélectionné ne comporte pas de résultat thématique certifiant. Veuillez le modifier puis rafraîchir cette page ou bien sélectionner un autre profil cible.";
   }
 
   @action
@@ -27,21 +30,29 @@ export default class AttachTargetProfileController extends Controller {
 
   @action
   async onSelection(selectedAttachableTargetProfile) {
-    this.selectedTargetProfile = selectedAttachableTargetProfile?.value;
     this.options = [];
 
-    if(this.selectedTargetProfile?.id) {
-      const targetProfile = await this.store.findRecord('target-profile', this.selectedTargetProfile?.id);
-      this.targetProfileBadges = targetProfile?.badges?.map((badge) => ({
-        id: badge.id,
-        label: badge.title,
-      }));
+    if(selectedAttachableTargetProfile?.value?.id) {
+      this.selectedTargetProfile = selectedAttachableTargetProfile?.value;
+      try {
+        this.isLoadingBadges = true;
+        const targetProfile = await this.store.findRecord('target-profile', this.selectedTargetProfile.id);
+        this.targetProfileBadges = targetProfile.badges?.map((badge) => ({
+          id: badge.id,
+          label: badge.title,
+        }));
+      } catch (e) {
+        this.notifications.error("Une erreur est survenue, veuillez rafraichir la page.");
+      } finally {
+        this.isLoadingBadges = false;
+      }
     }
   }
 
   @action
   onChange() {
     this.selectedTargetProfile = undefined;
+    this.targetProfileBadges = []
   }
 
   @action

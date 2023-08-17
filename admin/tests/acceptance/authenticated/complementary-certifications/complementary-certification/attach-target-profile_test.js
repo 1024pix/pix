@@ -165,6 +165,7 @@ module(
             assert.dom(await screen.findByRole('heading',
               { name: '2. Complétez les niveaux des résultats thématiques' })).exists();
             assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu'})).exists();
+            assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
           });
         });
       });

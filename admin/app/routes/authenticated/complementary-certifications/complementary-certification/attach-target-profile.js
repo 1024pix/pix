@@ -19,4 +19,13 @@ export default class AttachTargetProfileRoute extends Route {
       currentTargetProfile: complementaryCertification.currentTargetProfiles.find(({ id }) => id === targetProfileId),
     };
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.options = [];
+      controller.selectedTargetProfile = undefined;
+      controller.isLoadingBadges = false;
+      controller.targetProfileBadges = [];
+    }
+  }
 }
