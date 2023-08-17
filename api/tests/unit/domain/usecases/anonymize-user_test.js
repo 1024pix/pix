@@ -1,5 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { anonymizeUser } from '../../../../lib/domain/usecases/anonymize-user.js';
+import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
 
 describe('Unit | UseCase | anonymize-user', function () {
   let clock;
@@ -22,6 +23,7 @@ describe('Unit | UseCase | anonymize-user', function () {
     // given
     const userId = 1;
     const updatedByUserId = 2;
+    const role = 'SUPER_ADMIN';
     const anonymizedUser = {
       firstName: `prenom_${userId}`,
       lastName: `nom_${userId}`,
@@ -32,6 +34,11 @@ describe('Unit | UseCase | anonymize-user', function () {
       updatedAt: now,
     };
     const expectedAnonymizedUser = Symbol('anonymized user');
+    const expectedUserAnonymizedEvent = new UserAnonymized({
+      userId,
+      updatedByUserId,
+      role,
+    });
 
     const domainTransaction = {
       knexTransaction: Symbol('transaction'),
@@ -45,6 +52,7 @@ describe('Unit | UseCase | anonymize-user', function () {
     const membershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const certificationCenterMembershipRepository = { disableMembershipsByUserId: sinon.stub() };
     const organizationLearnerRepository = { dissociateAllStudentsByUserId: sinon.stub() };
+    const adminMemberRepository = { get: sinon.stub().resolves({ role }) };
 
     // when
     const result = await anonymizeUser({
@@ -57,10 +65,11 @@ describe('Unit | UseCase | anonymize-user', function () {
       certificationCenterMembershipRepository,
       organizationLearnerRepository,
       domainTransaction,
+      adminMemberRepository,
     });
 
     // then
-    expect(result).to.be.equal(expectedAnonymizedUser);
+    expect(result).to.be.deep.equal(expectedUserAnonymizedEvent);
 
     expect(authenticationMethodRepository.removeAllAuthenticationMethodsByUserId).to.have.been.calledWithExactly({
       userId,
@@ -86,5 +95,6 @@ describe('Unit | UseCase | anonymize-user', function () {
       userId,
       domainTransaction,
     });
+    expect(adminMemberRepository.get).to.have.been.calledWith({ userId: updatedByUserId });
   });
 });
