@@ -1,16 +1,16 @@
 import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 
-import { config } from './lib/config.js';
-import * as preResponseUtils from './lib/application/pre-response-utils.js';
-import { routes } from './lib/routes.js';
-import { plugins } from './lib/infrastructure/plugins/index.js';
-import { swaggers } from './lib/swaggers.js';
-import { authentication } from './lib/infrastructure/authentication.js';
-import { handleFailAction } from './lib/validate.js';
-import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
-import { deserializer } from './lib/infrastructure/serializers/jsonapi/deserializer.js';
 import { knex } from './db/knex-database-connection.js';
+import * as preResponseUtils from './lib/application/pre-response-utils.js';
+import { config } from './lib/config.js';
+import { authentication } from './lib/infrastructure/authentication.js';
+import { monitoringTools } from './lib/infrastructure/monitoring-tools.js';
+import { plugins } from './lib/infrastructure/plugins/index.js';
+import { deserializer } from './lib/infrastructure/serializers/jsonapi/deserializer.js';
+import { routes } from './lib/routes.js';
+import { swaggers } from './lib/swaggers.js';
+import { handleFailAction } from './lib/validate.js';
 
 monitoringTools.installHapiHook();
 

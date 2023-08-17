@@ -5,12 +5,12 @@ import { validateEnvironmentVariables } from './lib/infrastructure/validate-envi
 
 validateEnvironmentVariables();
 
-import { createServer } from './server.js';
-import { logger } from './lib/infrastructure/logger.js';
 import { disconnect } from './db/knex-database-connection.js';
 import { learningContentCache } from './lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from './lib/infrastructure/logger.js';
 import { temporaryStorage } from './lib/infrastructure/temporary-storage/index.js';
 import { redisMonitor } from './lib/infrastructure/utils/redis-monitor.js';
+import { createServer } from './server.js';
 
 let server;
 

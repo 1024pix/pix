@@ -1,4 +1,5 @@
 import HapiSwagger from 'hapi-swagger';
+
 import packageJSON from '../package.json' assert { type: 'json' };
 
 const swaggerOptionsAuthorizationServer = {

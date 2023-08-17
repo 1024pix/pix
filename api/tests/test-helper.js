@@ -3,19 +3,20 @@
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-import * as domainBuilder from './tooling/domain-builder/factory/index.js';
-import { HttpTestServer } from './tooling/server/http-test-server.js';
 import * as dotenv from 'dotenv';
 
+import * as domainBuilder from './tooling/domain-builder/factory/index.js';
+import { HttpTestServer } from './tooling/server/http-test-server.js';
+
 dotenv.config({ path: `${__dirname}/../.env` });
+import chai from 'chai';
 import _ from 'lodash';
 import MockDate from 'mockdate';
-import chai from 'chai';
 
 const expect = chai.expect;
-import sinon, { restore } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
+import sinon, { restore } from 'sinon';
 import sinonChai from 'sinon-chai';
 
 chai.use(chaiAsPromised);
@@ -24,13 +25,12 @@ chai.use(sinonChai);
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 
 _.each(customChaiHelpers, chai.use);
+import { config } from '../lib/config.js';
 import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 
-import { config } from '../lib/config.js';
-
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
-import { knex, disconnect } from '../db/knex-database-connection.js';
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
+import { disconnect, knex } from '../db/knex-database-connection.js';
 
 const databaseBuilder = new DatabaseBuilder({ knex });
 
@@ -38,10 +38,9 @@ import nock from 'nock';
 
 nock.disableNetConnect();
 
-import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
-
-import * as tokenService from '../lib/domain/services/token-service.js';
 import { Membership } from '../lib/domain/models/index.js';
+import * as tokenService from '../lib/domain/services/token-service.js';
+import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
@@ -265,28 +264,28 @@ global.chaiErr = function globalErr(fn, val) {
 const testErr = new Error('Fake Error');
 // eslint-disable-next-line mocha/no-exports
 export {
+  catchErr,
+  catchErrSync,
+  createTempFile,
+  databaseBuilder,
+  domainBuilder,
   EMPTY_BLANK_AND_NULL,
   expect,
-  domainBuilder,
-  databaseBuilder,
+  generateIdTokenForExternalUser,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
-  generateIdTokenForExternalUser,
   hFake,
   HttpTestServer,
   insertOrganizationUserWithRoleAdmin,
-  insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
+  insertUserWithRoleSuperAdmin,
   knex,
-  nock,
-  sinon,
-  MockDate,
-  streamToPromise,
-  catchErr,
-  catchErrSync,
-  testErr,
-  mockLearningContent,
   learningContentBuilder,
-  createTempFile,
+  MockDate,
+  mockLearningContent,
+  nock,
   removeTempFile,
+  sinon,
+  streamToPromise,
+  testErr,
 };

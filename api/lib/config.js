@@ -1,13 +1,12 @@
 import * as dotenv from 'dotenv';
+import moment from 'moment';
+import ms from 'ms';
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable n/no-process-env */
 import path from 'path';
-import moment from 'moment';
-import ms from 'ms';
+import * as url from 'url';
 
 import { getArrayOfStrings } from '../lib/infrastructure/utils/string-utils.js';
-
-import * as url from 'url';
 
 dotenv.config();
 

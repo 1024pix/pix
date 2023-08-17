@@ -1,23 +1,24 @@
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-import PgBoss from 'pg-boss';
 import _ from 'lodash';
+import PgBoss from 'pg-boss';
+import * as url from 'url';
+
 import { config } from './lib/config.js';
-import { logger } from './lib/infrastructure/logger.js';
-import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
 import { ParticipationResultCalculationJob } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 import { ParticipationResultCalculationJobHandler } from './lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler.js';
 import { SendSharedParticipationResultsToPoleEmploiHandler } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiHandler.js';
+import { SendSharedParticipationResultsToPoleEmploiJob } from './lib/infrastructure/jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
+import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
+import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import { ComputeCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJob.js';
 import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ComputeCertificabilityJobHandler.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
+import { logger } from './lib/infrastructure/logger.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
-import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
-import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
-import * as url from 'url';
 
 async function runJobs() {
   logger.info('Starting pg-boss');
