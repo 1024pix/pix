@@ -1,8 +1,8 @@
-import difference from 'lodash/difference';
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import difference from 'lodash/difference';
 
 const LEVEL_COLUMN_NAME = 'Niveau';
 const THRESHOLD_COLUMN_NAME = 'Seuil';

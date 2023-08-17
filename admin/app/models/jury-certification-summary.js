@@ -1,9 +1,10 @@
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
-import find from 'lodash/find';
-import { certificationStatuses } from './certification';
 import dayjs from 'dayjs';
+import find from 'lodash/find';
+
+import { certificationStatuses } from './certification';
 
 export const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 export const juryCertificationSummaryStatuses = [{ value: ENDED_BY_SUPERVISOR, label: 'Terminée par le surveillant' }];

@@ -1,7 +1,8 @@
-import CertificationInfoField from './info-field';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { certificationStatuses } from 'pix-admin/models/certification';
+
+import CertificationInfoField from './info-field';
 
 export default class CertificationStatusSelect extends CertificationInfoField {
   @tracked selectedOption = null;

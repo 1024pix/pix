@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
-import { FINALIZED } from 'pix-admin/models/session';
-import trim from 'lodash/trim';
 import { service } from '@ember/service';
+import trim from 'lodash/trim';
+import { FINALIZED } from 'pix-admin/models/session';
 
 export default class AuthenticatedSessionsAllRoute extends Route {
   @service store;

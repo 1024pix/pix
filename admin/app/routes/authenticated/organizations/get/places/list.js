@@ -1,6 +1,6 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import { action } from '@ember/object';
 
 export default class Places extends Route {
   @service store;

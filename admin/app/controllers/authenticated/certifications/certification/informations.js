@@ -3,14 +3,13 @@ import Controller from '@ember/controller';
 /* eslint-disable ember/no-computed-properties-in-native-classes */
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { schedule } from '@ember/runloop';
 /* eslint-enable ember/no-computed-properties-in-native-classes */
 import { service } from '@ember/service';
-import { schedule } from '@ember/runloop';
+import { tracked } from '@glimmer/tracking';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import ENV from 'pix-admin/config/environment';
-
-import { tracked } from '@glimmer/tracking';
 
 const PIX_COUNT_BY_LEVEL = 8;
 

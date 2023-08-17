@@ -1,9 +1,9 @@
 import { action } from '@ember/object';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
-import ENV from 'pix-admin/config/environment';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import ENV from 'pix-admin/config/environment';
 
 export default class LoginForm extends Component {
   @service url;

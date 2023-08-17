@@ -1,6 +1,7 @@
 import Model, { attr, hasMany } from '@ember-data/model';
-import formatList from '../utils/format-select-options';
 import { memberAction } from 'ember-api-actions';
+
+import formatList from '../utils/format-select-options';
 
 export const typeCategories = {
   webinaire: 'Webinaire',

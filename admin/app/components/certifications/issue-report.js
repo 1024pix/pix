@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { service } from '@ember/service';
 
 export default class CertificationIssueReport extends Component {
   @service notifications;

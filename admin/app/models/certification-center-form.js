@@ -1,5 +1,5 @@
-import { buildValidations, validator } from 'ember-cp-validations';
 import Model, { attr, hasMany } from '@ember-data/model';
+import { buildValidations, validator } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   name: {

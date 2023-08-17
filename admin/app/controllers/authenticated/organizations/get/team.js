@@ -1,8 +1,8 @@
+import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { debounce } from '@ember/runloop';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import Controller from '@ember/controller';
-import { debounce } from '@ember/runloop';
 import config from 'pix-admin/config/environment';
 
 const DEFAULT_PAGE_NUMBER = 1;

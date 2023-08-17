@@ -1,8 +1,8 @@
+import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
 import noop from 'lodash/noop';
-import { service } from '@ember/service';
 
 export default class JuryComment extends Component {
   @service accessControl;

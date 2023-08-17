@@ -1,9 +1,9 @@
+import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
-import Controller from '@ember/controller';
 import { schedule } from '@ember/runloop';
+import { service } from '@ember/service';
 import isNumber from 'lodash/isNumber';
 
 export default class CertificationDetailsController extends Controller {

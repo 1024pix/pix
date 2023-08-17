@@ -1,7 +1,7 @@
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
-import { service } from '@ember/service';
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class Training extends Controller {
   @service notifications;

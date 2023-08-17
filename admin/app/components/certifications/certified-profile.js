@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import ENV from 'pix-admin/config/environment';
 import partition from 'lodash/partition';
+import ENV from 'pix-admin/config/environment';
 
 export default class CertifiedProfile extends Component {
   get certifiedCompetenceList() {

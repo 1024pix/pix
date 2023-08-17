@@ -1,8 +1,8 @@
-import { memberAction } from 'ember-api-actions';
-import Model, { hasMany, attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { equal } from '@ember/object/computed';
+import Model, { attr, hasMany } from '@ember-data/model';
 import dayjs from 'dayjs';
+import { memberAction } from 'ember-api-actions';
 
 export default class Organization extends Model {
   @attr('nullable-string') name;

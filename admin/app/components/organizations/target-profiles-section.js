@@ -1,8 +1,8 @@
-import uniq from 'lodash/uniq';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import uniq from 'lodash/uniq';
 
 export default class OrganizationTargetProfilesSectionComponent extends Component {
   @tracked targetProfilesToAttach = '';

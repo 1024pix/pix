@@ -1,5 +1,5 @@
-import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/template';
+import Component from '@glimmer/component';
 
 export default class CertificationDetailsCompetence extends Component {
   juryRate = false;

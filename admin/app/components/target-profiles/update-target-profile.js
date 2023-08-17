@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
+
 import { optionsCategoryList } from '../../models/target-profile';
 
 export default class UpdateTargetProfile extends Component {

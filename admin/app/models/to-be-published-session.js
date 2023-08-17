@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 import dayjs from 'dayjs';
+import { memberAction } from 'ember-api-actions';
 
 export default class ToBePublishedSession extends Model {
   @attr() certificationCenterName;

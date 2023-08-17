@@ -1,8 +1,7 @@
-import every from 'lodash/every';
-import isEmpty from 'lodash/isEmpty';
-
 import { service } from '@ember/service';
 import Service from '@ember/service';
+import every from 'lodash/every';
+import isEmpty from 'lodash/isEmpty';
 
 export default class ErrorNotifierService extends Service {
   @service notifications;

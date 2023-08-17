@@ -1,8 +1,9 @@
 import { action } from '@ember/object';
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
-import { optionsCategoryList } from '../../models/target-profile';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+
+import { optionsCategoryList } from '../../models/target-profile';
 
 export default class CreateTargetProfileForm extends Component {
   @service notifications;

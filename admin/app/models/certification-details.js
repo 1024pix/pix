@@ -1,8 +1,8 @@
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
-import { memberAction } from 'ember-api-actions';
 import dayjs from 'dayjs';
+import { memberAction } from 'ember-api-actions';
 
 export default class CertificationDetails extends Model {
   @attr() competencesWithMark;

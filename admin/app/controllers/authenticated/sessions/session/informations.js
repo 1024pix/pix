@@ -1,9 +1,10 @@
+import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { service } from '@ember/service';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { alias } from '@ember/object/computed';
-import Controller from '@ember/controller';
+import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+
 import { statusToDisplayName } from '../../../../models/session';
 
 export default class IndexController extends Controller {
