@@ -9,7 +9,8 @@ export default class AttachTargetProfileController extends Controller {
   @service router;
   @service store;
 
-  @tracked options = [];
+  @tracked attachableTargetProfiles = [];
+  @tracked isAttachableTargetProfilesLoading = false;
 
   @tracked selectedTargetProfile;
 
@@ -30,17 +31,19 @@ export default class AttachTargetProfileController extends Controller {
 
   @action
   async onSelection(selectedAttachableTargetProfile) {
-    this.options = [];
+    this.attachableTargetProfiles = [];
 
     if(selectedAttachableTargetProfile?.value?.id) {
       this.selectedTargetProfile = selectedAttachableTargetProfile?.value;
       try {
         this.isLoadingBadges = true;
+
         const targetProfile = await this.store.findRecord('target-profile', this.selectedTargetProfile.id);
         this.targetProfileBadges = targetProfile.badges?.map((badge) => ({
           id: badge.id,
           label: badge.title,
         }));
+
       } catch (e) {
         this.notifications.error("Une erreur est survenue, veuillez rafraichir la page.");
       } finally {
@@ -62,14 +65,23 @@ export default class AttachTargetProfileController extends Controller {
     const isSearchByName = searchTerm?.length >= 2;
 
     if (isSearchById || isSearchByName) {
-      const attachableTargetProfiles = await this.store.query('attachable-target-profile', { searchTerm });
 
-      this.options = attachableTargetProfiles.map((attachableTargetProfile) => ({
-        label: `${attachableTargetProfile.id} - ${attachableTargetProfile.name}`,
-        value: attachableTargetProfile,
-      }));
+      try {
+        this.isAttachableTargetProfilesLoading = true;
+
+        const attachableTargetProfiles = await this.store.query('attachable-target-profile', { searchTerm });
+        this.attachableTargetProfiles = attachableTargetProfiles.map((attachableTargetProfile) => ({
+          label: `${attachableTargetProfile.id} - ${attachableTargetProfile.name}`,
+          value: attachableTargetProfile,
+        }));
+
+      } catch (e) {
+        this.notifications.error("Une erreur est survenue lors de la recherche de profils cibles.");
+      } finally {
+        this.isAttachableTargetProfilesLoading = false;
+      }
     } else {
-      this.options = [];
+      this.attachableTargetProfiles = [];
     }
   }
 }

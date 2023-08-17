@@ -34,6 +34,36 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::S
     assert.dom(searchResult).exists();
   });
 
+  module('when the search is in progress', function () {
+    test('it should display the loader message', async function (assert) {
+      // given
+      const isLoading = true;
+      this.set('isLoading', isLoading);
+      // when
+      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::SearchBar
+        @isLoading={{this.isLoading}}
+      />`);
+
+      // then
+      assert.dom(screen.getByRole('progressbar', { value: { text: 'Recherche en cours...' } })).exists();
+    });
+  });
+
+  module('when the search is not in progress', function () {
+    test('it should not display the loader message', async function (assert) {
+      // given
+      const isLoading = false;
+      this.set('isLoading', isLoading);
+      // when
+      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::SearchBar
+        @isLoading={{this.isLoading}}
+      />`);
+
+      // then
+      assert.dom(screen.queryByRole('progressbar')).doesNotExist();
+    });
+  });
+
   module('when the user is entering search terms', function () {
     test('it should trigger handler onSearch function', async function (assert) {
       // given

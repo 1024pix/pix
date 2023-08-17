@@ -7,7 +7,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
 
   module('#onSearch', function () {
     module('when there is no searchTerm', function () {
-      test('it should update options with an empty array', async function (assert) {
+      test('it should update attachableTargetProfiles options with an empty array', async function (assert) {
         const controller = this.owner.lookup(
           'controller:authenticated/complementary-certifications.complementary-certification.attach-target-profile',
         );
@@ -16,13 +16,14 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
         controller.onSearch(null, '');
 
         // then
-        assert.deepEqual(controller.options, []);
+        assert.deepEqual(controller.attachableTargetProfiles, []);
+        assert.strictEqual(controller.isAttachableTargetProfilesLoading, false);
       });
     });
 
     module('when there is a searchTerm', function () {
       module('when there is a searchTerm with one number', function () {
-        test('it should update options with the list of attachable target profile', async function (assert) {
+        test('it should update attachableTargetProfiles options with the list of attachable target profile', async function (assert) {
           const store = this.owner.lookup('service:store');
           const attachableTargetProfile = store.createRecord('attachable-target-profile', {
             id: 12,
@@ -41,12 +42,13 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
 
           // then
           assert.ok(store.query.calledWithExactly('attachable-target-profile', { searchTerm: '1' }));
-          assert.deepEqual(controller.options, [expectedOption]);
+          assert.deepEqual(controller.attachableTargetProfiles, [expectedOption]);
+          assert.strictEqual(controller.isAttachableTargetProfilesLoading, false);
         });
       });
 
       module('when there is a searchTerm with 2 or more characters', function () {
-        test('it should update options with the list of attachable target profile', async function (assert) {
+        test('it should update attachableTargetProfiles options with the list of attachable target profile', async function (assert) {
           const store = this.owner.lookup('service:store');
           const attachableTargetProfile = store.createRecord('attachable-target-profile', {
             id: 12,
@@ -65,12 +67,13 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
 
           // then
           assert.ok(store.query.calledWithExactly('attachable-target-profile', { searchTerm: 'tar' }));
-          assert.deepEqual(controller.options, [expectedOption]);
+          assert.deepEqual(controller.attachableTargetProfiles, [expectedOption]);
+          assert.strictEqual(controller.isAttachableTargetProfilesLoading, false);
         });
       });
 
       module('when there is a searchTerm with less than 2 characters other than number', function () {
-        test('it should update searchResults with the list of attachable target profile', async function (assert) {
+        test('it should update searchResults with the list of attachable target profiles', async function (assert) {
           const store = this.owner.lookup('service:store');
           const controller = this.owner.lookup(
             'controller:authenticated/complementary-certifications.complementary-certification.attach-target-profile',
@@ -82,7 +85,8 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
 
           // then
           assert.notOk(store.query.called);
-          assert.deepEqual(controller.options, []);
+          assert.deepEqual(controller.attachableTargetProfiles, []);
+          assert.strictEqual(controller.isAttachableTargetProfilesLoading, false);
         });
       });
     });
@@ -112,8 +116,9 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
       await controller.onSelection(targetProfileSelected);
 
       // then
-      assert.deepEqual(controller.options, []);
-      assert.deepEqual(controller.selectedTargetProfile, attachableTargetProfile);
+      assert.deepEqual(controller.attachableTargetProfiles, []);
+      assert.strictEqual(controller.isAttachableTargetProfilesLoading, false);
+      assert.strictEqual(controller.selectedTargetProfile, attachableTargetProfile);
       assert.strictEqual(controller.isLoadingBadges, false);
       assert.deepEqual(controller.targetProfileBadges, [{
         id: 1,
