@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
-import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | Layout::Sidebar', function (hooks) {
   setupRenderingTest(hooks);

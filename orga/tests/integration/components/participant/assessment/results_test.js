@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { setupIntl, t } from 'ember-intl/test-support';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Participant::Assessment::Results', function (hooks) {
   setupIntlRenderingTest(hooks);

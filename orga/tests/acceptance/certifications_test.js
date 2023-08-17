@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
-import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import authenticateSession from '../helpers/authenticate-session';
+import { createPrescriberByUser, createUserManagingStudents } from '../helpers/test-init';
 
 module('Acceptance | Certifications page', function (hooks) {
   setupApplicationTest(hooks);

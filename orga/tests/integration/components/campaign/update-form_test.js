@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   setupIntlRenderingTest(hooks);

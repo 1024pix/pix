@@ -1,17 +1,17 @@
-import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent, click } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL, find, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
-import setupIntl from '../helpers/setup-intl';
 import authenticateSession from '../helpers/authenticate-session';
-import { waitForDialog } from '../helpers/wait-for';
+import setupIntl from '../helpers/setup-intl';
 import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
-  createUserManagingStudents,
   createPrescriberByUser,
+  createUserManagingStudents,
+  createUserWithMembershipAndTermsOfServiceAccepted,
 } from '../helpers/test-init';
+import { waitForDialog } from '../helpers/wait-for';
 
 module('Acceptance | Sco Organization Participant List', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import isPasswordValid from 'pix-orga/utils/password-validator';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | password validator', function (hooks) {
   setupTest(hooks);

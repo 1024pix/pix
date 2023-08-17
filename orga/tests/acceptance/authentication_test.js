@@ -1,19 +1,19 @@
-import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
-import authenticateSession from '../helpers/authenticate-session';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
 import {
+  createPrescriberByUser,
+  createPrescriberForOrganization,
   createUserMembershipWithRole,
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser,
-  createPrescriberForOrganization,
 } from '../helpers/test-init';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | authentication', function (hooks) {
   setupApplicationTest(hooks);

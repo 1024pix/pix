@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import Service from '@ember/service';
+import { module, test } from 'qunit';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 class CurrentUserStub extends Service {
   prescriber = {

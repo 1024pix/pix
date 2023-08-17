@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import { visit, clickByName } from '@1024pix/ember-testing-library';
-import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
-import authenticateSession from '../helpers/authenticate-session';
-import { setupApplicationTest } from 'ember-qunit';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
+import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 module('Acceptance | preselect-target-profile', function (hooks) {
   setupApplicationTest(hooks);

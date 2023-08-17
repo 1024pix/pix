@@ -1,13 +1,12 @@
-import { hbs } from 'ember-cli-htmlbars';
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { triggerEvent } from '@ember/test-helpers';
-import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-
 import ENV from '../../../../config/environment';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Integration | Component | Auth::LoginForm', function (hooks) {

@@ -1,11 +1,12 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { click } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import { render } from '@1024pix/ember-testing-library';
-import sinon from 'sinon';
-import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
+import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | SupOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);

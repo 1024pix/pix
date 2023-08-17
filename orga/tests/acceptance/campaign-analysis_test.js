@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
-import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
+import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 module('Acceptance | Campaign Analysis', function (hooks) {
   setupApplicationTest(hooks);

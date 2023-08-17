@@ -1,14 +1,13 @@
-import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
-
-import setupIntl from '../helpers/setup-intl';
-
+import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
+import setupIntl from '../helpers/setup-intl';
+import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 const pageSize = 50;
 const rowCount = 100;

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import InputValidator from 'pix-orga/utils/input-validator';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | input validator', function (hooks) {
   setupTest(hooks);

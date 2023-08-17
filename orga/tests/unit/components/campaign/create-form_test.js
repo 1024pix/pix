@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 import { setupIntl } from 'ember-intl/test-support';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Campaign::CreateForm', (hooks) => {
   setupTest(hooks);

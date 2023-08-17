@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
 import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import authenticateSession from '../helpers/authenticate-session';
-import { createAdmin } from '../helpers/test-init';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import authenticateSession from '../helpers/authenticate-session';
 import setupIntl from '../helpers/setup-intl';
+import { createAdmin } from '../helpers/test-init';
 
 module('Acceptance | Campaign Parameters', function (hooks) {
   setupApplicationTest(hooks);

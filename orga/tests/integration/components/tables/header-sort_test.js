@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | Tables | header-sort', function (hooks) {
   setupRenderingTest(hooks);

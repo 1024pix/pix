@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import { setupIntl, t } from 'ember-intl/test-support';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Service | Error messages', function (hooks) {
   setupTest(hooks);

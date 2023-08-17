@@ -1,6 +1,6 @@
 import { htmlSafe } from '@ember/template';
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Helper | TextWithMultipleLang', function (hooks) {
   setupTest(hooks);

@@ -1,5 +1,5 @@
-import { render } from '@ember/test-helpers';
 import Service from '@ember/service';
+import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 

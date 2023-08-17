@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
+import { fillByLabel } from '@1024pix/ember-testing-library';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | Ui::SearchInput', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,15 +1,15 @@
-import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
 import { clickByName } from '@1024pix/ember-testing-library';
+import { currentURL, visit } from '@ember/test-helpers';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import authenticateSession from '../helpers/authenticate-session';
 import {
+  createPrescriberByUser,
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserWithMultipleMemberships,
-  createPrescriberByUser,
 } from '../helpers/test-init';
-
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Switch Organization', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,9 +1,10 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import Service from '@ember/service';
-import sinon from 'sinon';
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 class CurrentUserStub extends Service {
   organization = { id: 1 };

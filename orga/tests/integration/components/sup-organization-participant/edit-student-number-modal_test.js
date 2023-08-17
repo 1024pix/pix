@@ -1,9 +1,10 @@
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
+import EmberObject from '@ember/object';
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
-import EmberObject from '@ember/object';
 
 module('Integration | Component | ScoOrganizationParticipant::EditStudentNumberModal', function (hooks) {
   setupIntlRenderingTest(hooks);

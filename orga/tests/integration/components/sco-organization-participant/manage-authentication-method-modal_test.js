@@ -1,13 +1,14 @@
-import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
-import { resolve } from 'rsvp';
 import { clickByName } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
-import Service from '@ember/service';
 import EmberObject from '@ember/object';
-import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
+import Service from '@ember/service';
+import { render } from '@ember/test-helpers';
 import { faker } from '@faker-js/faker';
+import { triggerCopySuccess } from 'ember-cli-clipboard/test-support';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import { resolve } from 'rsvp';
+
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | ScoOrganizationParticipant::ManageAuthenticationMethodModal', function (hooks) {
   setupIntlRenderingTest(hooks);

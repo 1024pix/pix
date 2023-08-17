@@ -1,20 +1,18 @@
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import Response from 'ember-cli-mirage/response';
-import { currentURL, click } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-
-import { currentSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-
-import {
-  createUserWithMembership,
-  createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser,
-} from '../helpers/test-init';
-import setupIntl from '../helpers/setup-intl';
+import { setupApplicationTest } from 'ember-qunit';
+import { currentSession } from 'ember-simple-auth/test-support';
+import { module, test } from 'qunit';
 
 import ENV from '../../config/environment';
+import setupIntl from '../helpers/setup-intl';
+import {
+  createPrescriberByUser,
+  createUserWithMembership,
+  createUserWithMembershipAndTermsOfServiceAccepted,
+} from '../helpers/test-init';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Acceptance | join', function (hooks) {

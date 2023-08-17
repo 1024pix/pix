@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | authenticated/campaigns/list/all-campaigns', function (hooks) {

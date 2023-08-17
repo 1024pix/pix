@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Unit | Controller | authenticated/campaigns/assessment/results', function (hooks) {

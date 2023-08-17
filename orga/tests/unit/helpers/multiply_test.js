@@ -1,6 +1,6 @@
+import { setupTest } from 'ember-qunit';
 import { multiply } from 'pix-orga/helpers/multiply';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 
 module('Unit | Helper | multiply', function (hooks) {
   setupTest(hooks);

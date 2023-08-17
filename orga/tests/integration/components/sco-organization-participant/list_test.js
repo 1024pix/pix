@@ -1,10 +1,11 @@
-import striptags from 'striptags';
-import { module, test } from 'qunit';
-import { click } from '@ember/test-helpers';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
-import sinon from 'sinon';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+import striptags from 'striptags';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { waitForDialog } from '../../../helpers/wait-for';
 

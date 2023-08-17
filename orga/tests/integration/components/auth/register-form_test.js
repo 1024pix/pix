@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
-import { resolve } from 'rsvp';
-import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+import { resolve } from 'rsvp';
+import sinon from 'sinon';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.first-name.error';

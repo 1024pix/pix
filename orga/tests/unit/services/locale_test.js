@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 import { DEFAULT_LOCALE, ENGLISH_INTERNATIONAL_LOCALE, FRENCH_INTERNATIONAL_LOCALE } from 'pix-orga/services/locale';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Service | locale', function (hooks) {
   setupTest(hooks);
