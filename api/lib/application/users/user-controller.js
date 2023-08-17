@@ -24,6 +24,7 @@ import * as requestResponseUtils from '../../infrastructure/utils/request-respon
 import { usecases } from '../../domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { eventBus } from '../../domain/events/index.js';
 
 const save = async function (request, h, dependencies = { userSerializer, requestResponseUtils, localeService }) {
   const localeFromCookie = request.state?.locale;
@@ -316,11 +317,12 @@ const anonymizeUser = async function (request, h, dependencies = { userAnonymize
   const adminMemberId = request.auth.credentials.userId;
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    user = await usecases.anonymizeUser({
+    const event = await usecases.anonymizeUser({
       userId: userToAnonymizeId,
       updatedByUserId: adminMemberId,
       domainTransaction,
     });
+    await eventBus.publish(event, domainTransaction);
   });
 
   const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });
