@@ -1,6 +1,7 @@
+import _ from 'lodash';
+
 import { Assessment } from '../models/Assessment.js';
 import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
-import _ from 'lodash';
 
 const { SHARED } = CampaignParticipationStatuses;
 

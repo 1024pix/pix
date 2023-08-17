@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import * as recommendationService from '../services/recommendation-service.js';
 
 class CampaignAnalysis {

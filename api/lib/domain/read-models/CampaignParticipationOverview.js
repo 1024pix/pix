@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
 
 const { SHARED } = CampaignParticipationStatuses;

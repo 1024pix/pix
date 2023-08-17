@@ -1,5 +1,5 @@
-import { CampaignProfileCompetence } from './CampaignProfileCompetence.js';
 import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
+import { CampaignProfileCompetence } from './CampaignProfileCompetence.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

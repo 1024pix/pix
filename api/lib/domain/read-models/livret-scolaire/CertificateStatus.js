@@ -8,4 +8,4 @@ const status = {
   PENDING,
 };
 
-export { status, REJECTED, VALIDATED, PENDING };
+export { PENDING, REJECTED, status, VALIDATED };
