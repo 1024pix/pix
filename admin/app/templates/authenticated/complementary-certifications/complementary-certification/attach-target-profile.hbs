@@ -32,7 +32,8 @@
           <ComplementaryCertifications::TargetProfiles::SearchBar
             @onSelection={{this.onSelection}}
             @onSearch={{this.onSearch}}
-            @options={{this.options}}
+            @options={{this.attachableTargetProfiles}}
+            @isLoading={{this.isAttachableTargetProfilesLoading}}
           />
         {{/if}}
       </div>
