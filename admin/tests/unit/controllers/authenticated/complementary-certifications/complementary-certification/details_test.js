@@ -64,10 +64,14 @@ module(
         controller.model = { currentTargetProfiles: [{ id: 55 }, { id: 66 }] };
         controller._targetProfileId = 55;
 
+        // when & then
+        assert.true(controller.isToggleSwitched);
+
         // when
         controller.switchTargetProfile();
 
         // then
+        assert.false(controller.isToggleSwitched);
         assert.strictEqual(controller.targetProfileId, 66);
       });
     });

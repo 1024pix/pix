@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
-import sinon from 'sinon';
 
 module('Unit | Component | complementary-certifications/target-profiles/information', function (hooks) {
   setupTest(hooks);
@@ -56,33 +55,6 @@ module('Unit | Component | complementary-certifications/target-profiles/informat
         // when & then
         assert.false(component.isMultipleCurrentTargetProfiles);
       });
-    });
-  });
-
-  module('#onChange', function () {
-    test('it should call switchTargetProfile method', async function (assert) {
-      // given
-      const component = createGlimmerComponent('component:complementary-certifications/target-profiles/information');
-
-      component.args = {
-        complementaryCertification: {
-          currentTargetProfiles: [
-            { id: 1, name: 'current target' },
-            { id: 2, name: 'another current target' },
-          ],
-        },
-        switchTargetProfile: sinon.stub(),
-      };
-
-      // when & then
-      assert.true(component.isToggled);
-
-      // when
-      component.onChange();
-
-      // then
-      assert.false(component.isToggled);
-      sinon.assert.called(component.args.switchTargetProfile);
     });
   });
 });

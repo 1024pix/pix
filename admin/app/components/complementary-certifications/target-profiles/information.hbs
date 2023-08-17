@@ -9,8 +9,8 @@
         @label="Accéder aux détails des profils cibles courants"
         @onLabel="Profil 1"
         @offLabel="Profil 2"
-        @toggled={{this.isToggled}}
-        @onChange={{this.onChange}}
+        @toggled={{@switchToggle}}
+        @onChange={{@switchTargetProfile}}
         @screenReaderOnly={{true}}
       />
     {{/if}}
