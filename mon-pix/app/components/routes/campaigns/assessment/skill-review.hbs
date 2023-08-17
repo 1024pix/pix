@@ -222,7 +222,7 @@
           </div>
         </div>
       {{/if}}
-      {{#if @model.trainings}}
+      {{#if (and @model.trainings this.isShared)}}
         <section class="skill-review__trainings">
           <h2 class="skill-review-trainings__title">{{t "pages.skill-review.trainings.title"}}</h2>
           <p class="skill-review-trainings__description">{{t "pages.skill-review.trainings.description"}}</p>
