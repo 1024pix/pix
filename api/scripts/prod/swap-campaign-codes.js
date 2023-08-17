@@ -1,8 +1,9 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { generate } from '../../lib/domain/services/campaigns/campaign-code-generator.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
-import * as url from 'url';
 
 async function swapCampaignCodes(campaignId, otherCampaignId) {
   const temporaryCode = await generate(campaignRepository);

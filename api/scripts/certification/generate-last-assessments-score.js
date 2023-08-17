@@ -1,12 +1,14 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import _ from 'lodash';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 
 const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
 import bluebird from 'bluebird';
+import * as url from 'url';
+
 import * as scoringCertificationService from '../../lib/domain/services/scoring/scoring-certification-service.js';
 import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
-import * as url from 'url';
 
 async function _retrieveLastScoredAssessmentIds() {
   const result = await knex.raw(
@@ -36,8 +38,9 @@ async function _computeScore(assessmentIds) {
     async (assessmentId) => {
       try {
         const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
-        const certificationAssessmentScore =
-          await scoringCertificationService.calculateCertificationAssessmentScore(certificationAssessment);
+        const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(
+          certificationAssessment,
+        );
         certificationAssessmentScore.assessmentId = assessmentId;
 
         certificationAssessmentScore.competenceMarks.forEach((competenceMark) => {

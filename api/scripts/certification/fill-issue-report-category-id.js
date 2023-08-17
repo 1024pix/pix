@@ -1,7 +1,8 @@
-import { logger } from '../../lib/infrastructure/logger.js';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { logger } from '../../lib/infrastructure/logger.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;

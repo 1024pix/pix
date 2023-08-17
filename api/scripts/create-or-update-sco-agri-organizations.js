@@ -5,21 +5,21 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import { logoUrl } from './logo/default-sco-agri-organization-logo-base64.js';
+import * as url from 'url';
+
+import { disconnect } from '../db/knex-database-connection.js';
+import { Organization } from '../lib/domain/models/Organization.js';
+import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
+import { Tag } from '../lib/domain/models/Tag.js';
+import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
+import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import { parseCsv } from './helpers/csvHelpers.js';
 import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
 } from './helpers/organizations-by-external-id-helper.js';
-import { parseCsv } from './helpers/csvHelpers.js';
-import { Organization } from '../lib/domain/models/Organization.js';
-import { Tag } from '../lib/domain/models/Tag.js';
-import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
-import * as organizationRepository from '../lib/infrastructure/repositories/organization-repository.js';
-import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
-import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
-import { disconnect } from '../db/knex-database-connection.js';
-
-import * as url from 'url';
+import { logoUrl } from './logo/default-sco-agri-organization-logo-base64.js';
 
 const TAG_NAME = 'AGRICULTURE';
 

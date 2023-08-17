@@ -6,9 +6,9 @@ import * as url from 'url';
 
 const { performance } = perf_hooks;
 
-import { logger } from '../lib/infrastructure/logger.js';
+import { disconnect, knex } from '../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
-import { knex, disconnect } from '../db/knex-database-connection.js';
+import { logger } from '../lib/infrastructure/logger.js';
 
 const doSomething = async ({ throwError }) => {
   if (throwError) {

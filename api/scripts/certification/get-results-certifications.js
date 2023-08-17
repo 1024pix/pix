@@ -1,7 +1,7 @@
 import fileSystem from 'fs';
-import request from 'request-promise-native';
 import json2csv from 'json2csv';
 import moment from 'moment-timezone';
+import request from 'request-promise-native';
 import * as url from 'url';
 
 const HEADERS = [
@@ -185,4 +185,4 @@ if (isLaunchedFromCommandLine) {
   main();
 }
 
-export { buildCertificationRequest, toCSVRow, findCompetence, buildSessionRequest };
+export { buildCertificationRequest, buildSessionRequest, findCompetence, toCSVRow };

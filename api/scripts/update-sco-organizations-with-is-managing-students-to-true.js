@@ -4,14 +4,15 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import { disconnect } from '../db/knex-database-connection.js';
 import request from 'request-promise-native';
+import * as url from 'url';
+
+import { disconnect } from '../db/knex-database-connection.js';
+import { parseCsv } from './helpers/csvHelpers.js';
 import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
 } from './helpers/organizations-by-external-id-helper.js';
-import { parseCsv } from './helpers/csvHelpers.js';
-import * as url from 'url';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 

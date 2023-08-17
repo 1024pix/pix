@@ -1,6 +1,6 @@
-import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import { Bookshelf } from '../lib/infrastructure/bookshelf.js';
 import { disconnect } from '../db/knex-database-connection.js';
+import { Bookshelf } from '../lib/infrastructure/bookshelf.js';
+import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 function prepareDataForInsert(rawCertificationCenters) {
   return rawCertificationCenters.map(({ name, uai }) => {
@@ -52,4 +52,4 @@ async function main() {
   }
 })();
 
-export { prepareDataForInsert, createScoCertificationCenters };
+export { createScoCertificationCenters, prepareDataForInsert };

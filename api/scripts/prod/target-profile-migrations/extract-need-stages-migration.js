@@ -1,8 +1,8 @@
-import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
-import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
+import { resolve } from 'path';
 import { performance } from 'perf_hooks';
+import { fileURLToPath } from 'url';
 import { read as readXlsx, utils as xlsxUtils } from 'xlsx';
 
 import { logger } from '../../../lib/infrastructure/logger.js';

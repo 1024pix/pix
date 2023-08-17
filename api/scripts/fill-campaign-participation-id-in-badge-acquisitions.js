@@ -1,6 +1,7 @@
-import { knex, disconnect } from '../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import * as url from 'url';
+
+import { disconnect, knex } from '../db/knex-database-connection.js';
 
 async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
   return knex('badge-acquisitions').select().where({ campaignParticipationId: null });
@@ -88,8 +89,8 @@ async function main() {
 })();
 
 export {
-  main,
   getAllBadgeAcquistionsWithoutCampaignParticipationId,
   getCampaignParticipationFromBadgeAcquisition,
+  main,
   updateBadgeAcquisitionWithCampaignParticipationId,
 };

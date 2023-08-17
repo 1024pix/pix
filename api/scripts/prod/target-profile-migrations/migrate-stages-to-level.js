@@ -2,19 +2,18 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { readFile, writeFile } from 'fs/promises';
+import fp from 'lodash/fp.js';
 import { dirname, resolve } from 'path';
 import { performance } from 'perf_hooks';
 import { fileURLToPath } from 'url';
 import { utils as xlsxUtils, writeXLSX } from 'xlsx';
-import fp from 'lodash/fp.js';
 
-import { logger } from '../../../lib/infrastructure/logger.js';
-import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { disconnect } from '../../../db/knex-database-connection.js';
-
-import * as targetProfileForAdminRepository from '../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
-import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
 import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
+import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import * as targetProfileForAdminRepository from '../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as stageCollectionRepository from '../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 
 const modulePath = fileURLToPath(import.meta.url);

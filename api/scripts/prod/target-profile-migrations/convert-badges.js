@@ -2,12 +2,13 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 import _ from 'lodash';
-import { knex, disconnect } from '../../../db/knex-database-connection.js';
-import { logger } from '../../../lib/infrastructure/logger.js';
+import * as url from 'url';
+
+import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
 import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
 import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
-import * as url from 'url';
 
 let allSkills;
 let allTubes;

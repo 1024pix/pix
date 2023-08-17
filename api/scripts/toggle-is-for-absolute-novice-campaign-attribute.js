@@ -5,9 +5,9 @@ import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 
-import { logger } from '../lib/infrastructure/logger.js';
+import { disconnect, knex } from '../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../lib/infrastructure/caches/learning-content-cache.js';
-import { knex, disconnect } from '../db/knex-database-connection.js';
+import { logger } from '../lib/infrastructure/logger.js';
 
 async function toggleIsForAbsoluteNoviceCampaignAttribute(campaignId) {
   const campaign = await knex.select('isForAbsoluteNovice').from('campaigns').where({ id: campaignId }).first();

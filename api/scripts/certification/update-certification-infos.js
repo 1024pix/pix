@@ -6,9 +6,10 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: `${__dirname}/../.env` });
 
 import bluebird from 'bluebird';
-
 import { readFile } from 'fs/promises';
+import lodash from 'lodash';
 
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
@@ -16,10 +17,7 @@ import { logger } from '../../lib/infrastructure/logger.js';
 // #EXTERNAL_ID,2000-01-01,NULL,75550, paris,FRANCE
 // sessionsId.csv
 // 1,12,30
-
-import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import lodash from 'lodash';
+import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { values } = lodash;
 
 const headers = {
@@ -136,4 +134,4 @@ async function main() {
   }
 })();
 
-export { updateCertificationInfos, headers };
+export { headers, updateCertificationInfos };

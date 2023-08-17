@@ -9,8 +9,8 @@ const { readFile, access } = promises;
 import lodash from 'lodash';
 import papa from 'papaparse';
 
-import { NotFoundError, FileValidationError } from '../../lib/domain/errors.js';
 import { UnprocessableEntityError } from '../../lib/application/http-errors.js';
+import { FileValidationError, NotFoundError } from '../../lib/domain/errors.js';
 
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
@@ -119,10 +119,10 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
 
 export {
   checkCsvHeader,
-  readCsvFile,
-  parseCsvData,
+  optionsWithHeader,
   parseCsv,
+  parseCsvData,
   parseCsvWithHeader,
   parseCsvWithHeaderAndRequiredFields,
-  optionsWithHeader,
+  readCsvFile,
 };

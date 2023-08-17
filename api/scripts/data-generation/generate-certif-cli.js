@@ -1,29 +1,30 @@
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-// eslint-disable-next-line n/no-unpublished-import
-import inquirer from 'inquirer';
+
 import * as dotenv from 'dotenv';
+import inquirer from 'inquirer';
 
 dotenv.config({ path: `${__dirname}/../../.env` });
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import lodash from 'lodash';
 
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+
 const { maxBy } = lodash;
-import { logger } from '../../lib/infrastructure/logger.js';
+import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
+import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
+import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
 import { getNewSessionCode } from '../../lib/domain/services/session-code-service.js';
+import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../lib/infrastructure/logger.js';
 import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import {
+  makeUserCleaCertifiable,
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
-  makeUserCleaCertifiable,
   makeUserPixEduCertifiable,
 } from '../tooling/tooling.js';
-import { DatabaseBuilder } from '../../db/database-builder/database-builder.js';
-import { databaseBuffer } from '../../db/database-builder/database-buffer.js';
-import { learningContentCache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { CampaignParticipationStatuses } from '../../lib/domain/models/index.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -437,4 +438,4 @@ async function _disconnect() {
   logger.info('Exiting process gracefully...');
 }
 
-export { main, databaseBuilder };
+export { databaseBuilder, main };

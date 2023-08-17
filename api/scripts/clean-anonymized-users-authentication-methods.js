@@ -2,12 +2,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import { disconnect } from '../db/knex-database-connection.js';
-import { parseCsvWithHeader } from './helpers/csvHelpers.js';
-import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
+import _ from 'lodash';
 import * as url from 'url';
+
+import { disconnect } from '../db/knex-database-connection.js';
+import * as authenticationMethodRepository from '../lib/infrastructure/repositories/authentication-method-repository.js';
+import { parseCsvWithHeader } from './helpers/csvHelpers.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;

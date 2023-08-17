@@ -1,14 +1,13 @@
 import fs from 'fs';
 import sax from 'sax';
 import saxPath from 'saxpath';
-import { logger } from '../../lib/infrastructure/logger.js';
-
+import * as url from 'url';
 import xml2js from 'xml2js';
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import * as cpfCertificationResultRepository from '../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
 import { cpfImportStatus } from '../../lib/domain/models/CertificationCourse.js';
-import * as url from 'url';
+import { logger } from '../../lib/infrastructure/logger.js';
+import * as cpfCertificationResultRepository from '../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;

@@ -5,15 +5,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import request from 'request-promise-native';
+import * as url from 'url';
 
-import { logoUrl } from './logo/default-sco-organization-logo-base64.js';
+import { disconnect } from '../db/knex-database-connection.js';
+import { parseCsv } from './helpers/csvHelpers.js';
 import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
 } from './helpers/organizations-by-external-id-helper.js';
-import { parseCsv } from './helpers/csvHelpers.js';
-import { disconnect } from '../db/knex-database-connection.js';
-import * as url from 'url';
+import { logoUrl } from './logo/default-sco-organization-logo-base64.js';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 

@@ -1,8 +1,10 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import { logger } from '../../lib/infrastructure/logger.js';
+import lodash from 'lodash';
 
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { logger } from '../../lib/infrastructure/logger.js';
 /**
  * Usage: node scripts/import-certification-cpf-cities path/file.csv
  * File is semi-colon separated values, headers being:
@@ -11,10 +13,7 @@ import { logger } from '../../lib/infrastructure/logger.js';
  *
  * File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/ (Export au format CSV)
  **/
-
-import { parseCsv, checkCsvHeader } from '../helpers/csvHelpers.js';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import lodash from 'lodash';
+import { checkCsvHeader, parseCsv } from '../helpers/csvHelpers.js';
 const { uniqBy, values } = lodash;
 import * as url from 'url';
 

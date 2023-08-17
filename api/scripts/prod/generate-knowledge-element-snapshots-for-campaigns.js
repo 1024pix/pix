@@ -1,10 +1,11 @@
-import yargs from 'yargs';
 import bluebird from 'bluebird';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
+import * as url from 'url';
+import yargs from 'yargs';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { AlreadyExistingEntityError } from '../../lib/domain/errors.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import { AlreadyExistingEntityError } from '../../lib/domain/errors.js';
-import * as url from 'url';
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
@@ -123,4 +124,4 @@ async function main() {
   }
 })();
 
-export { getEligibleCampaignParticipations, generateKnowledgeElementSnapshots };
+export { generateKnowledgeElementSnapshots, getEligibleCampaignParticipations };

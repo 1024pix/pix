@@ -1,5 +1,6 @@
-import { PgClient } from './PgClient.js';
 import * as url from 'url';
+
+import { PgClient } from './PgClient.js';
 
 async function initialize() {
   const client = await PgClient.getClient(process.env.DATABASE_URL);
@@ -92,4 +93,4 @@ if (isLaunchedFromCommandLine) {
   main();
 }
 
-export { ScriptQueryBuilder, AssessmentEraser };
+export { AssessmentEraser, ScriptQueryBuilder };

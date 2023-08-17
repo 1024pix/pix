@@ -1,22 +1,23 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
 import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 
-import yargs from 'yargs/yargs';
+import * as url from 'url';
 import { hideBin } from 'yargs/helpers';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
+import yargs from 'yargs/yargs';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { CampaignParticipation } from '../../lib/domain/models/CampaignParticipation.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as badgeAcquisitionRepository from '../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import * as url from 'url';
 
 const MAX_RANGE_SIZE = 100_000;
 
@@ -154,4 +155,4 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
   }
 })();
 
-export { normalizeRange, computeAllBadgeAcquisitions, computeBadgeAcquisition, getCampaignParticipationsBetweenIds };
+export { computeAllBadgeAcquisitions, computeBadgeAcquisition, getCampaignParticipationsBetweenIds, normalizeRange };

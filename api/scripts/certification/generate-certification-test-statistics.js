@@ -3,17 +3,17 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import _ from 'lodash';
-
 import originalFp from 'lodash/fp.js';
 
 const fp = originalFp.convert({ cap: false });
 import bluebird from 'bluebird';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
-import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
-import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
-import { LOCALE } from '../../lib/domain/constants.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { LOCALE } from '../../lib/domain/constants.js';
+import * as certificationChallengeService from '../../lib/domain/services/certification-challenges-service.js';
+import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
+import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 

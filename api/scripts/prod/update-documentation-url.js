@@ -1,5 +1,6 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 
 const URL = {
   AEFE: 'https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8',

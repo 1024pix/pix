@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../db/pgsql-errors.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import { PgClient } from '../PgClient.js';
-import { PGSQL_NON_EXISTENT_DATABASE_ERROR } from '../../db/pgsql-errors.js';
 
 function isPlatformScalingo() {
   return Boolean(process.env.CONTAINER);

@@ -9,9 +9,9 @@ dotenv.config({
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
-import { knex, disconnect } from '../../../db/knex-database-connection.js';
-import { logger } from '../../../lib/infrastructure/logger.js';
+import { disconnect, knex } from '../../../db/knex-database-connection.js';
 import { learningContentCache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
 
 async function main() {
   try {

@@ -2,21 +2,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import fs from 'fs';
 import bluebird from 'bluebird';
+import fs from 'fs';
 import lodash from 'lodash';
 
 const { isEmpty, compact } = lodash;
+import i18n from 'i18n';
+import path from 'path';
+import * as url from 'url';
+
+import { disconnect } from '../../db/knex-database-connection.js';
+import { NotFoundError } from '../../lib/domain/errors.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import * as certificateRepository from '../../lib/infrastructure/repositories/certificate-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
 import * as certificationAttestationPdf from '../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { NotFoundError } from '../../lib/domain/errors.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { disconnect } from '../../db/knex-database-connection.js';
-import * as url from 'url';
-import i18n from 'i18n';
-import path from 'path';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const directory = path.resolve(path.join(__dirname, '../../translations'));

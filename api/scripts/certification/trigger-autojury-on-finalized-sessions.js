@@ -1,14 +1,15 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
+import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
-import * as certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository.js';
+import { eventDispatcher } from '../../lib/domain/events/index.js';
+import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
+import { logger } from '../../lib/infrastructure/logger.js';
 import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
+import * as certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
-import { logger } from '../../lib/infrastructure/logger.js';
-import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
-import { eventDispatcher } from '../../lib/domain/events/index.js';
-import * as url from 'url';
 
 const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';

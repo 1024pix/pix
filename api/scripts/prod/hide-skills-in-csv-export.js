@@ -1,5 +1,6 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 
 async function hideSkills() {
   await knex('organizations').where('showSkills', true).update({ showSkills: false });

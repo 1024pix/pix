@@ -1,12 +1,13 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
-import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
-import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
-import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
-import { logger } from '../../lib/infrastructure/logger.js';
+import _ from 'lodash';
+
 import { knex } from '../../db/knex-database-connection.js';
 import { ComplementaryCertification } from '../../lib/domain/models/index.js';
+import { logger } from '../../lib/infrastructure/logger.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
+import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
+import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 
 let allChallenges = [];
 let allPixCompetences = [];
@@ -155,4 +156,4 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-export { makeUserPixCertifiable, makeUserPixDroitCertifiable, makeUserCleaCertifiable, makeUserPixEduCertifiable };
+export { makeUserCleaCertifiable, makeUserPixCertifiable, makeUserPixDroitCertifiable, makeUserPixEduCertifiable };

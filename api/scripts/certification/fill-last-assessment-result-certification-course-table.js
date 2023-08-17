@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import { logger } from '../../lib/infrastructure/logger.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import { logger } from '../../lib/infrastructure/logger.js';
 
 const ASSOC_TABLE_NAME = 'certification-courses-last-assessment-results';
 

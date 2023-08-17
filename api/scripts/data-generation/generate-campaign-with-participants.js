@@ -6,19 +6,20 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: `${__dirname}/../../.env` });
 
 import _ from 'lodash';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import moment from 'moment';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { generate } from '../../lib/domain/services/campaigns/campaign-code-generator.js';
+import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
-import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
-import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
 import { computeParticipantResultsShared as computeParticipationResults } from '../prod/compute-participation-results.js';
 import {
-  getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
+  getEligibleCampaignParticipations,
 } from '../prod/generate-knowledge-element-snapshots-for-campaigns.js';
-import { generate } from '../../lib/domain/services/campaigns/campaign-code-generator.js';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

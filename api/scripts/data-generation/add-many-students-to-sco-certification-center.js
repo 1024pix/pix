@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { OrganizationLearner } from '../../lib/domain/models/index.js';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';
-import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../lib/domain/models/index.js';
+import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
 
 // Change me to run the script on appropriate organization
 const organizationId = 123;

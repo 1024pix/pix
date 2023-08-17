@@ -1,18 +1,17 @@
 import * as dotenv from 'dotenv';
-
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 dotenv.config({ path: `${__dirname}/../.env` });
 
-import fs from 'fs';
 import bluebird from 'bluebird';
+import fs from 'fs';
 import lodash from 'lodash';
 const { isEmpty } = lodash;
-import { logger } from '../../lib/infrastructure/logger.js';
-import { usecases } from '../../lib/domain/usecases/index.js';
-import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 import { disconnect } from '../../db/knex-database-connection.js';
+import { usecases } from '../../lib/domain/usecases/index.js';
+import { logger } from '../../lib/infrastructure/logger.js';
+import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/index.js';
 
 /**
  * Avant de lancer le script, remplacer la variable DATABASE_URL par l'url de la base de réplication

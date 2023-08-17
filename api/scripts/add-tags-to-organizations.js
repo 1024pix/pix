@@ -4,16 +4,17 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
-import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
-import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
-import { parseCsv } from './helpers/csvHelpers.js';
 import lodash from 'lodash';
 
-const { uniq } = lodash;
-import { disconnect } from '../db/knex-database-connection.js';
+import { OrganizationTag } from '../lib/domain/models/OrganizationTag.js';
+import * as organizationTagRepository from '../lib/infrastructure/repositories/organization-tag-repository.js';
+import * as tagRepository from '../lib/infrastructure/repositories/tag-repository.js';
+import { parseCsv } from './helpers/csvHelpers.js';
 
+const { uniq } = lodash;
 import * as url from 'url';
+
+import { disconnect } from '../db/knex-database-connection.js';
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
@@ -116,4 +117,4 @@ async function main() {
   }
 })();
 
-export { addTagsToOrganizations, retrieveTagsByName, checkData };
+export { addTagsToOrganizations, checkData, retrieveTagsByName };

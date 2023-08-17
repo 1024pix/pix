@@ -1,4 +1,4 @@
-import { emptyAllTables, disconnect } from '../../db/knex-database-connection.js';
+import { disconnect, emptyAllTables } from '../../db/knex-database-connection.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 
 const main = async () => {

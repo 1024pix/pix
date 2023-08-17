@@ -1,10 +1,11 @@
-import _ from 'lodash';
 import dotenv from 'dotenv';
+import _ from 'lodash';
 
 dotenv.config();
+import * as url from 'url';
+
 import { knex } from '../db/knex-database-connection.js';
 import { Assessment } from '../lib/domain/models/Assessment.js';
-import * as url from 'url';
 
 async function switchCampaignToFlash(id) {
   await knex('campaigns').update({ assessmentMethod: Assessment.methods.FLASH }).where({ id });

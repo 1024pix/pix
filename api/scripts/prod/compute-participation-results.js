@@ -5,17 +5,18 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: `${__dirname}/../../.env` });
-import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
-import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
-import { ParticipantResultsShared } from '../../lib/domain/models/ParticipantResultsShared.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { ParticipantResultsShared } from '../../lib/domain/models/ParticipantResultsShared.js';
+import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 
 const { SHARED } = CampaignParticipationStatuses;
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import { constants } from '../../lib/infrastructure/constants.js';
+import _ from 'lodash';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
+import { constants } from '../../lib/infrastructure/constants.js';
 import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
 
 const concurrency = parseInt(process.argv[2]);
@@ -123,8 +124,9 @@ async function _computeResults(skillIds, competences, campaignParticipations) {
 async function _getKnowledgeElementsByUser(campaignParticipations) {
   const sharingDateByUserId = {};
   campaignParticipations.forEach(({ userId, sharedAt }) => (sharingDateByUserId[userId] = sharedAt));
-  const knowledgeElementByUser =
-    await knowlegeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(sharingDateByUserId);
+  const knowledgeElementByUser = await knowlegeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
+    sharingDateByUserId,
+  );
   return knowledgeElementByUser;
 }
 

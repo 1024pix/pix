@@ -2,12 +2,13 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import yargs from 'yargs';
-import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
-import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
-import * as verifyCertificateCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
 import * as url from 'url';
+import yargs from 'yargs';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import * as verifyCertificateCodeService from '../../lib/domain/services/verify-certificate-code-service.js';
+import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
 
 const uniqueConstraintViolationCode = '23505';
 const DEFAULT_COUNT = 20000;

@@ -1,8 +1,9 @@
-import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
-import { OrganizationPlacesLot } from '../../lib/domain/models/OrganizationPlacesLot.js';
-import * as categories from '../../lib/domain/constants/organization-places-categories.js';
 import * as url from 'url';
+
+import { disconnect, knex } from '../../db/knex-database-connection.js';
+import * as categories from '../../lib/domain/constants/organization-places-categories.js';
+import { OrganizationPlacesLot } from '../../lib/domain/models/OrganizationPlacesLot.js';
+import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 
 const categoriesByCode = {
   [categories.T0]: categories.FREE_RATE,

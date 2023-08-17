@@ -1,6 +1,6 @@
-import request from 'request-promise-native';
 import json2csv from 'json2csv';
 import moment from 'moment-timezone';
+import request from 'request-promise-native';
 import * as url from 'url';
 
 // request.debug = true;
@@ -103,4 +103,4 @@ if (isLaunchedFromCommandLine) {
   main();
 }
 
-export { parseArgs, toCSVRow, buildRequestObject, findCompetence, HEADERS };
+export { buildRequestObject, findCompetence, HEADERS, parseArgs, toCSVRow };

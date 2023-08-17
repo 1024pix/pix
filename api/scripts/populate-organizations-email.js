@@ -1,8 +1,9 @@
 import bluebird from 'bluebird';
-import { disconnect } from '../db/knex-database-connection.js';
-import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
-import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
 import * as url from 'url';
+
+import { disconnect } from '../db/knex-database-connection.js';
+import { BookshelfOrganization } from '../lib/infrastructure/orm-models/Organization.js';
+import { parseCsvWithHeader } from '../scripts/helpers/csvHelpers.js';
 
 async function updateOrganizationEmailByExternalId(externalId, email) {
   return BookshelfOrganization.where({ externalId })

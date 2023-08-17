@@ -4,9 +4,10 @@ dotenv.config({ path: '../../../.env' });
 
 import fs from 'fs';
 import Joi from 'joi';
-import { ScalingoClient } from './helpers/scalingo/scalingo-client.js';
-import { logger } from '../../../lib/infrastructure/logger.js';
+
 import { disconnect } from '../../../db/knex-database-connection.js';
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { ScalingoClient } from './helpers/scalingo/scalingo-client.js';
 
 const postgresDatabaseAddonProviderId = 'postgresql';
 
