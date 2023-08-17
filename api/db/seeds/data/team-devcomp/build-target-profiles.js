@@ -3,12 +3,13 @@ import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 export function buildTargetProfiles(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    imageUrl: null,
+    imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
     description: null,
     name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
+    areKnowledgeElementsResettable: true,
   });
   [
     { tubeId: 'tube2l7fFnDh1vPn4s', level: 5 },

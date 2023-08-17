@@ -1,4 +1,4 @@
-import { findAll, currentURL, click, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn, findAll } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
