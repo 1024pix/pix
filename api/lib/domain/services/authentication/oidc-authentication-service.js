@@ -1,9 +1,15 @@
-import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
+import lodash from 'lodash';
 import querystring from 'querystring';
 import { v4 as uuidv4 } from 'uuid';
 
+import { config } from '../../../config.js';
+import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
+import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
+import { httpAgent } from '../../../infrastructure/http/http-agent.js';
 import { logger } from '../../../infrastructure/logger.js';
+import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
+import { OIDC_ERRORS } from '../../constants.js';
 import {
   InvalidExternalAPIResponseError,
   OidcInvokingTokenEndpointError,
@@ -12,12 +18,6 @@ import {
 } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
-import { config } from '../../../config.js';
-import { httpAgent } from '../../../infrastructure/http/http-agent.js';
-import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
-import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
-import { OIDC_ERRORS } from '../../constants.js';
 
 const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
 

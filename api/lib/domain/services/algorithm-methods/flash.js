@@ -14,10 +14,10 @@ const DEFAULT_ERROR_RATE = 5;
 const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
 
 export {
-  getPossibleNextChallenges,
-  getEstimatedLevelAndErrorRate,
-  getChallengesForNonAnsweredSkills,
   calculateTotalPixScoreAndScoreByCompetence,
+  getChallengesForNonAnsweredSkills,
+  getEstimatedLevelAndErrorRate,
+  getPossibleNextChallenges,
   getReward,
 };
 

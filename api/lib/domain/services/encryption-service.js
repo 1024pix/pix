@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+
 import { config } from '../../config.js';
 import { PasswordNotMatching } from '../errors.js';
 const { bcryptNumberOfSaltRounds } = config;
@@ -18,4 +19,4 @@ const checkPassword = async function ({ password, passwordHash }) {
   }
 };
 
-export { hashPassword, hashPasswordSync, checkPassword };
+export { checkPassword, hashPassword, hashPasswordSync };

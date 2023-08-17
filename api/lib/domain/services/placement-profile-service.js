@@ -1,15 +1,15 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
 
-import { UserCompetence } from '../models/UserCompetence.js';
-import { PlacementProfile } from '../models/PlacementProfile.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
-import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
-import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
-import * as scoringService from './scoring/scoring-service.js';
+import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
+import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import { CertificationVersion } from '../models/CertificationVersion.js';
+import { PlacementProfile } from '../models/PlacementProfile.js';
+import { UserCompetence } from '../models/UserCompetence.js';
+import * as scoringService from './scoring/scoring-service.js';
 
 async function getPlacementProfile({
   userId,

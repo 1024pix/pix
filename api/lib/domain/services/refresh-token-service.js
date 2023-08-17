@@ -1,10 +1,10 @@
 import bluebird from 'bluebird';
 import { v4 as uuidv4 } from 'uuid';
-import { tokenService } from './token-service.js';
 
-import { config } from '../../config.js';
 import { UnauthorizedError } from '../../application/http-errors.js';
+import { config } from '../../config.js';
 import { temporaryStorage } from '../../infrastructure/temporary-storage/index.js';
+import { tokenService } from './token-service.js';
 
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');
@@ -55,10 +55,10 @@ async function revokeRefreshTokensForUserId({ userId }) {
 }
 
 export {
-  createRefreshTokenFromUserId,
   createAccessTokenFromRefreshToken,
+  createRefreshTokenFromUserId,
+  refreshTokenTemporaryStorage,
   revokeRefreshToken,
   revokeRefreshTokensForUserId,
-  refreshTokenTemporaryStorage,
   userRefreshTokensTemporaryStorage,
 };

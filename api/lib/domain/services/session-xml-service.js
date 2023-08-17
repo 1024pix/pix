@@ -19,4 +19,4 @@ function getUpdatedXmlWithCertificationCandidatesData({ stringifiedXml, candidat
   });
 }
 
-export { getUpdatedXmlWithSessionData, getUpdatedXmlWithCertificationCandidatesData };
+export { getUpdatedXmlWithCertificationCandidatesData, getUpdatedXmlWithSessionData };

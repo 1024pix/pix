@@ -1,14 +1,13 @@
 import jsonwebtoken from 'jsonwebtoken';
 
+import { config } from '../../config.js';
 import {
-  InvalidTemporaryKeyError,
+  ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-  ForbiddenAccess,
+  InvalidTemporaryKeyError,
 } from '../../domain/errors.js';
-
-import { config } from '../../config.js';
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {
@@ -222,24 +221,24 @@ const tokenService = {
 };
 
 export {
-  tokenService,
-  createAccessTokenFromUser,
   createAccessTokenForSaml,
-  createAccessTokenFromApplication,
   createAccessTokenFromAnonymousUser,
-  createTokenForCampaignResults,
-  createIdTokenForUserReconciliation,
+  createAccessTokenFromApplication,
+  createAccessTokenFromUser,
   createCertificationResultsByRecipientEmailLinkToken,
   createCertificationResultsLinkToken,
+  createIdTokenForUserReconciliation,
   createPasswordResetToken,
+  createTokenForCampaignResults,
   decodeIfValid,
-  getDecodedToken,
+  extractCampaignResultsTokenContent,
+  extractClientId,
   extractExternalUserFromIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
   extractSessionId,
   extractTokenFromAuthChain,
   extractUserId,
-  extractClientId,
-  extractCampaignResultsTokenContent,
+  getDecodedToken,
+  tokenService,
 };

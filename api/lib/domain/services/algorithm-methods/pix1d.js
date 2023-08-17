@@ -1,5 +1,5 @@
-import { Activity } from '../../models/Activity.js';
 import { logger } from '../../../infrastructure/logger.js';
+import { Activity } from '../../models/Activity.js';
 
 export { getNextActivityLevel };
 

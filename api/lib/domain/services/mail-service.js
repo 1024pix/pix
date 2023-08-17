@@ -1,13 +1,11 @@
 import dayjs from 'dayjs';
 
-import { tokenService } from './token-service.js';
-import { mailer } from '../../infrastructure/mailers/mailer.js';
-import { config } from '../../config.js';
-
-import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
 import enTranslations from '../../../translations/en.json' assert { type: 'json' };
-
+import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
+import { config } from '../../config.js';
 import { LOCALE } from '../../domain/constants.js';
+import { mailer } from '../../infrastructure/mailers/mailer.js';
+import { tokenService } from './token-service.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
@@ -466,15 +464,15 @@ const mailService = {
   sendNotificationToCertificationCenterRefererForCleaResults,
 };
 export {
+  mailService,
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
-  sendCertificationResultEmail,
-  sendOrganizationInvitationEmail,
-  sendScoOrganizationInvitationEmail,
   sendCertificationCenterInvitationEmail,
-  sendResetPasswordDemandEmail,
-  sendVerificationCodeEmail,
+  sendCertificationResultEmail,
   sendCpfEmail,
   sendNotificationToCertificationCenterRefererForCleaResults,
-  mailService,
+  sendOrganizationInvitationEmail,
+  sendResetPasswordDemandEmail,
+  sendScoOrganizationInvitationEmail,
+  sendVerificationCodeEmail,
 };

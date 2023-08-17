@@ -1,5 +1,6 @@
-import { normalizeAndSortChars } from '../../infrastructure/utils/string-utils.js';
 import lodash from 'lodash';
+
+import { normalizeAndSortChars } from '../../infrastructure/utils/string-utils.js';
 
 const { isEmpty } = lodash;
 
@@ -250,4 +251,4 @@ function _getActualCity(cities) {
   return actualCity.name;
 }
 
-export { getBirthInformation, CpfBirthInformationValidation, CpfValidationStatus };
+export { CpfBirthInformationValidation, CpfValidationStatus, getBirthInformation };

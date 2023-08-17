@@ -1,10 +1,11 @@
+import lodash from 'lodash';
+
 import {
+  SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
   SessionAlreadyPublishedError,
-  SendingEmailToRefererError,
 } from '../../domain/errors.js';
 import * as mailService from '../../domain/services/mail-service.js';
-import lodash from 'lodash';
 
 const { some, uniqBy } = lodash;
 
@@ -139,4 +140,4 @@ async function _updateFinalizedSession(finalizedSessionRepository, sessionId, pu
   await finalizedSessionRepository.save(finalizedSession);
 }
 
-export { publishSession, manageEmails };
+export { manageEmails, publishSession };

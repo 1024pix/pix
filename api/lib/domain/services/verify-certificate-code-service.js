@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import * as certificationCourseRepository from '../../../lib/infrastructure/repositories/certification-course-repository.js';
+
 import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../lib/domain/errors.js';
+import * as certificationCourseRepository from '../../../lib/infrastructure/repositories/certification-course-repository.js';
 import { config } from '../../config.js';
 
 const availableCharacters =

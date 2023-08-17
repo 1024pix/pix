@@ -1,13 +1,14 @@
+import lodash from 'lodash';
+
 import {
+  cleanStringAndParseFloat,
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
-  cleanStringAndParseFloat,
 } from '../../../lib/infrastructure/utils/string-utils.js';
-import lodash from 'lodash';
-import { applyTreatments, applyPreTreatments } from './validation-treatments.js';
-import { validateAnswer } from './string-comparison-service.js';
 import { AnswerStatus } from '../models/AnswerStatus.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
+import { validateAnswer } from './string-comparison-service.js';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 const { every, isEmpty, isString, map } = lodash;
 

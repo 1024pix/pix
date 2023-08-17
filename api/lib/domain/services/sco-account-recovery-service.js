@@ -1,13 +1,12 @@
-import { config } from '../../config.js';
+import lodash from 'lodash';
 
+import { config } from '../../config.js';
 import {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserNotFoundError,
   UserHasAlreadyLeftSCO,
+  UserNotFoundError,
 } from '../errors.js';
-
-import lodash from 'lodash';
 
 const { uniqBy } = lodash;
 
@@ -106,4 +105,4 @@ async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizat
   }
 }
 
-export { retrieveOrganizationLearner, retrieveAndValidateAccountRecoveryDemand };
+export { retrieveAndValidateAccountRecoveryDemand, retrieveOrganizationLearner };

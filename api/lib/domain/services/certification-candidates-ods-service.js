@@ -1,5 +1,11 @@
-import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
+import bluebird from 'bluebird';
+import _ from 'lodash';
+
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
+import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
+import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
+import { CertificationCandidatesError } from '../errors.js';
 import { CertificationCandidate } from '../models/CertificationCandidate.js';
 import {
   CLEA,
@@ -7,11 +13,6 @@ import {
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
 } from '../models/ComplementaryCertification.js';
-import { CertificationCandidatesError } from '../errors.js';
-import _ from 'lodash';
-import bluebird from 'bluebird';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
-import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 

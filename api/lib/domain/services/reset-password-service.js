@@ -1,7 +1,8 @@
+import crypto from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
+
 import { config } from '../../config.js';
 import * as passwordResetDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
-import crypto from 'crypto';
 
 const generateTemporaryKey = function () {
   return jsonwebtoken.sign(
@@ -32,4 +33,4 @@ const hasUserAPasswordResetDemandInProgress = function (
   return resetPasswordDemandRepository.findByUserEmail(email, temporaryKey);
 };
 
-export { generateTemporaryKey, invalidateOldResetPasswordDemand, verifyDemand, hasUserAPasswordResetDemandInProgress };
+export { generateTemporaryKey, hasUserAPasswordResetDemandInProgress, invalidateOldResetPasswordDemand, verifyDemand };

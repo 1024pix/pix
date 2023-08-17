@@ -1,8 +1,9 @@
+import _ from 'lodash';
+
 import { Assessment } from '../models/Assessment.js';
 import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import { Scorecard } from '../models/Scorecard.js';
-import _ from 'lodash';
 
 async function computeScorecard({
   userId,
@@ -156,4 +157,4 @@ function _computeResetSkillsNotIncludedInCampaign({ skillIds, resetSkillIds }) {
   return _(skillIds).intersection(resetSkillIds).isEmpty();
 }
 
-export { resetScorecard, computeScorecard, _computeResetSkillsNotIncludedInCampaign };
+export { _computeResetSkillsNotIncludedInCampaign, computeScorecard, resetScorecard };

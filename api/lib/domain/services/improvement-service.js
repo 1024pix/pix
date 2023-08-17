@@ -1,5 +1,6 @@
-import { constants } from '../constants.js';
 import moment from 'moment';
+
+import { constants } from '../constants.js';
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {
   const startedDateOfAssessment = assessment.createdAt;

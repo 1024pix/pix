@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { Course } from '../models/Course.js';
+
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
+import { Course } from '../models/Course.js';
 
 const getCourse = async function ({ courseId, dependencies = { courseRepository } }) {
   // TODO: delete when campaign assessment does not have courses anymore

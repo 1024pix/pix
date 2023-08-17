@@ -3,15 +3,14 @@ import fp from 'lodash/fp.js';
 
 const { pipe } = fp;
 import randomString from 'randomstring';
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   AlreadyRegisteredUsernameError,
   NotFoundError,
-  OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } from '../errors.js';
-
 import { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
 import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments.js';
 
@@ -229,10 +228,10 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
 }
 
 export {
-  generateUsernameUntilAvailable,
+  assertStudentHasAnAlreadyReconciledAccount,
   createUsernameByUser,
   findMatchingCandidateIdForGivenUser,
-  findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
   findMatchingOrganizationLearnerForGivenOrganizationIdAndReconciliationInfo,
-  assertStudentHasAnAlreadyReconciledAccount,
+  findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser,
+  generateUsernameUntilAvailable,
 };

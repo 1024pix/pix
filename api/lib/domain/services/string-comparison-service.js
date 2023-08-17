@@ -1,5 +1,6 @@
-import _ from 'lodash';
 import levenshtein from 'fast-levenshtein';
+import _ from 'lodash';
+
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../constants.js';
 
 function getLevenshteinRatio(inputString, reference) {
@@ -32,9 +33,9 @@ function validateAnswer(answer, solutions, useLevenshteinRatio) {
 
 export {
   areTwoStringsCloseEnough,
-  isOneStringCloseEnoughFromMultipleStrings,
+  getLevenshteinRatio,
   getSmallestLevenshteinDistance,
   getSmallestLevenshteinRatio,
-  getLevenshteinRatio,
+  isOneStringCloseEnoughFromMultipleStrings,
   validateAnswer,
 };

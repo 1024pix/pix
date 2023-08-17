@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import * as catAlgorithm from './cat-algorithm.js';
-import { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } from './skills-filter.js';
+
 import { computeTubesFromSkills } from './../tube-service.js';
+import * as catAlgorithm from './cat-algorithm.js';
+import { getFilteredSkillsForFirstChallenge, getFilteredSkillsForNextChallenge } from './skills-filter.js';
 
 export { getPossibleSkillsForNextChallenge };
 

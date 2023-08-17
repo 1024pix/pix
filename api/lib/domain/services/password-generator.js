@@ -1,5 +1,5 @@
-import randomString from 'randomstring';
 import _ from 'lodash';
+import randomString from 'randomstring';
 
 const generateSimplePassword = function () {
   const letterPart = randomString.generate({
@@ -18,4 +18,4 @@ const generateComplexPassword = function () {
   });
 };
 
-export { generateSimplePassword, generateComplexPassword };
+export { generateComplexPassword, generateSimplePassword };
