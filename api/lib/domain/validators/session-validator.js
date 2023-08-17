@@ -1,12 +1,12 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { statuses } from '../models/Session.js';
-import { types } from '../models/CertificationCenter.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../constants/sessions-errors.js';
 import { EntityValidationError } from '../errors.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { types } from '../models/CertificationCenter.js';
 import { CertificationVersion } from '../models/CertificationVersion.js';
+import { statuses } from '../models/Session.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -108,4 +108,4 @@ const validateAndNormalizeFilters = function (filters) {
   return value;
 };
 
-export { validate, validateForMassSessionImport, validateAndNormalizeFilters };
+export { validate, validateAndNormalizeFilters, validateForMassSessionImport };

@@ -15,4 +15,4 @@ function getValidOidcProviderCodes() {
   return [POLE_EMPLOI.code, CNAV.code, FWB.code];
 }
 
-export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB };
+export { CNAV, FWB, getValidOidcProviderCodes, POLE_EMPLOI };

@@ -1,8 +1,8 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
-import { EntityValidationError } from '../errors.js';
 import * as categories from '../constants/organization-places-categories.js';
+import { EntityValidationError } from '../errors.js';
 
 const schema = Joi.object({
   organizationId: Joi.number().integer().required().messages({

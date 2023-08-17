@@ -1,12 +1,13 @@
+import bluebird from 'bluebird';
+
+import { CertificationComputeError } from '../errors.js';
 import { AssessmentResult } from '../models/AssessmentResult.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
-import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
-import bluebird from 'bluebird';
-import { CertificationComputeError } from '../errors.js';
-import { ChallengeNeutralized } from './ChallengeNeutralized.js';
-import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
+import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
+import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
+import { ChallengeNeutralized } from './ChallengeNeutralized.js';
 import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];

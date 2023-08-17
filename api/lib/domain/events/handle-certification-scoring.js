@@ -1,9 +1,10 @@
-import { AssessmentResult } from '../models/AssessmentResult.js';
-import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
-import { CompetenceMark } from '../models/CompetenceMark.js';
 import bluebird from 'bluebird';
+
 import { CertificationComputeError } from '../errors.js';
+import { AssessmentResult } from '../models/AssessmentResult.js';
+import { CompetenceMark } from '../models/CompetenceMark.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
+import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [AssessmentCompleted];

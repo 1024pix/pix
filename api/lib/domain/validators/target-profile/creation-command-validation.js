@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { schema as base } from './base-validation.js';
+
 import { EntityValidationError } from '../../errors.js';
+import { schema as base } from './base-validation.js';
 
 const schema = base.keys({
   description: Joi.string().allow(null),

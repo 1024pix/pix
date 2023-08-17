@@ -1,5 +1,5 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../errors.js';
 import { OrganizationLearner } from '../models/OrganizationLearner.js';
@@ -88,4 +88,4 @@ const checkValidation = function (organizationLearner) {
   }
 };
 
-export { FRANCE_COUNTRY_CODE, checkValidation };
+export { checkValidation, FRANCE_COUNTRY_CODE };

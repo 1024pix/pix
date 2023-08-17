@@ -46,4 +46,4 @@ function validate(targetProfile) {
   return true;
 }
 
-export { validate, schema };
+export { schema, validate };

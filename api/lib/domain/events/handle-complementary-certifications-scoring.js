@@ -1,10 +1,10 @@
-import { checkEventTypes } from './check-event-types.js';
-import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
-import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
-import { ReproducibilityRate } from '../models/ReproducibilityRate.js';
 import { AnswerCollectionForScoring } from '../models/AnswerCollectionForScoring.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../models/ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
+import { ReproducibilityRate } from '../models/ReproducibilityRate.js';
+import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';
+import { CertificationScoringCompleted } from './CertificationScoringCompleted.js';
+import { checkEventTypes } from './check-event-types.js';
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 

@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { EntityValidationError } from '../errors.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
