@@ -1,14 +1,15 @@
 import _ from 'lodash';
-import { Tutorial } from '../../domain/models/Tutorial.js';
-import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
-import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
-import { tutorialDatasource } from '../datasources/learning-content/tutorial-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
+
 import { LOCALE } from '../../domain/constants.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { Tutorial } from '../../domain/models/Tutorial.js';
+import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
+import { tutorialDatasource } from '../datasources/learning-content/tutorial-datasource.js';
+import * as paginateModule from '../utils/paginate.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as skillRepository from './skill-repository.js';
-import * as paginateModule from '../utils/paginate.js';
+import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
+import * as userSavedTutorialRepository from './user-saved-tutorial-repository.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -103,9 +104,9 @@ const findPaginatedFilteredRecommendedByUserId = async function ({
 export {
   findByRecordIdsForCurrentUser,
   findPaginatedFilteredForCurrentUser,
+  findPaginatedFilteredRecommendedByUserId,
   get,
   list,
-  findPaginatedFilteredRecommendedByUserId,
 };
 
 function _toDomain(tutorialData) {

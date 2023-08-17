@@ -1,5 +1,6 @@
-import _ from 'lodash';
 import jsYaml from 'js-yaml';
+import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../domain/errors.js';
 import { Answer } from '../../domain/models/Answer.js';
@@ -106,9 +107,9 @@ const saveWithKnowledgeElements = async function (answer, knowledgeElements) {
   });
 };
 export {
-  get,
-  findByChallengeAndAssessment,
   findByAssessment,
+  findByChallengeAndAssessment,
   findChallengeIdsFromAnswerIds,
+  get,
   saveWithKnowledgeElements,
 };

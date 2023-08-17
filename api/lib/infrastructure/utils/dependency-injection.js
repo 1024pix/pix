@@ -14,4 +14,4 @@ function injectDependencies(toBeInjected, dependencies) {
   });
 }
 
-export { injectDependencies, injectDefaults };
+export { injectDefaults, injectDependencies };

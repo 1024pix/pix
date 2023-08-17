@@ -1,9 +1,10 @@
+import _ from 'lodash';
+
+import { NotFoundError } from '../../domain/errors.js';
 import { Area } from '../../domain/models/Area.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
 import * as competenceRepository from './competence-repository.js';
-import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
 
 function _toDomain({ areaData, locale }) {
   const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);
@@ -62,4 +63,4 @@ async function get({ id, locale }) {
   return _toDomain({ areaData, locale });
 }
 
-export { list, listWithPixCompetencesOnly, findByFrameworkIdWithCompetences, findByFrameworkId, findByRecordIds, get };
+export { findByFrameworkId, findByFrameworkIdWithCompetences, findByRecordIds, get, list, listWithPixCompetencesOnly };

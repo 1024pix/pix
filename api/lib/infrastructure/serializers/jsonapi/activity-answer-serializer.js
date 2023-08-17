@@ -1,4 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+
 import { ActivityAnswer } from '../../../domain/models/ActivityAnswer.js';
 
 const { Serializer } = jsonapiSerializer;
@@ -32,7 +33,7 @@ const deserialize = function (payload) {
   };
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };
 
 function _cleanValue(value) {
   return value?.replaceAll('\u0000', '');

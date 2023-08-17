@@ -48,4 +48,4 @@ const fromSQLString = function (answerStatusString) {
   }
 };
 
-export { adapt, toSQLString, fromSQLString };
+export { adapt, fromSQLString, toSQLString };

@@ -1,9 +1,10 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignManagement } from '../../domain/read-models/CampaignManagement.js';
-import { fetchPage } from '../utils/knex-utils.js';
 import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { CampaignManagement } from '../../domain/read-models/CampaignManagement.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -91,7 +92,7 @@ const update = function ({ campaignId, campaignAttributes }) {
   return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
 };
 
-export { get, findPaginatedCampaignManagements, update };
+export { findPaginatedCampaignManagements, get, update };
 
 async function _countParticipationsByStatus(campaignId, campaignType) {
   const row = await knex('campaign-participations')

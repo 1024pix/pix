@@ -1,5 +1,5 @@
-import { ComplementaryCertification } from '../../domain/models/index.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { ComplementaryCertification } from '../../domain/models/index.js';
 
 function _toDomain(row) {
   return new ComplementaryCertification({

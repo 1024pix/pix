@@ -1,10 +1,10 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Assessment.js';
 import './CampaignParticipation.js';
 import './Organization.js';
 import './TargetProfile.js';
 import './User.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'Campaign';
 

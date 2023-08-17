@@ -32,4 +32,4 @@ const remove = async function (id) {
   return knex('certification-issue-reports').where({ id }).del();
 };
 
-export { save, get, findByCertificationCourseId, remove };
+export { findByCertificationCourseId, get, remove, save };

@@ -1,10 +1,11 @@
-import { loadOdsZip } from './common-ods-utils.js';
-
 import xmldom from '@xmldom/xmldom';
+
+import { loadOdsZip } from './common-ods-utils.js';
 
 const { DOMParser, XMLSerializer } = xmldom;
 
 import _ from 'lodash';
+
 import { AddedCellOption } from './added-cell-option.js';
 
 const CONTENT_XML_IN_ODS = 'content.xml';
@@ -501,12 +502,12 @@ function _translateNoteBackgroundTitle(targetXmlDomElement, translate) {
 }
 
 export {
-  makeUpdatedOdsByContentXml,
-  updateXmlSparseValues,
-  updateXmlRows,
   addCellToEndOfLineWithStyleOfCellLabelled,
-  incrementRowsColumnSpan,
-  addValidatorRestrictedList,
   addTooltipOnCell,
+  addValidatorRestrictedList,
+  incrementRowsColumnSpan,
+  makeUpdatedOdsByContentXml,
   OdsUtilsBuilder,
+  updateXmlRows,
+  updateXmlSparseValues,
 };

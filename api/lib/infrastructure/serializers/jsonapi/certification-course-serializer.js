@@ -1,4 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+
 import { config } from './../../../config.js';
 
 const { Serializer } = jsonapiSerializer;

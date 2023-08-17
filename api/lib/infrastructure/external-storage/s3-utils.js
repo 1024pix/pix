@@ -1,7 +1,6 @@
-import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
+import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-
 import bluebird from 'bluebird';
 
 const getS3Client = function ({ accessKeyId, secretAccessKey, endpoint, region }) {
@@ -36,4 +35,4 @@ const preSignFiles = async function ({ client, bucket, keys, expiresIn }) {
   });
 };
 
-export { getS3Client, startUpload, listFiles, preSignFiles };
+export { getS3Client, listFiles, preSignFiles, startUpload };

@@ -1,10 +1,10 @@
 import _ from 'lodash';
+
 import { NotFoundError } from '../../../domain/errors.js';
+import { FinalizedSession } from '../../../domain/models/index.js';
 import { knex } from '../../bookshelf.js';
 import { BookshelfFinalizedSession } from '../../orm-models/FinalizedSession.js';
-
 import * as bookshelfToDomainConverter from '../../utils/bookshelf-to-domain-converter.js';
-import { FinalizedSession } from '../../../domain/models/index.js';
 
 const save = async function (finalizedSession) {
   await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
@@ -52,7 +52,7 @@ const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}
   return publishableFinalizedSessions.map(_toDomainObject);
 };
 
-export { save, get, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+export { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction, get, save };
 
 function _toDomainObject({ date, time, ...finalizedSession }) {
   return new FinalizedSession({

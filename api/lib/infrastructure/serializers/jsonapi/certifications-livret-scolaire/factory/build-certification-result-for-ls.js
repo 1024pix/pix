@@ -1,8 +1,8 @@
 import { Certificate } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/Certificate.js';
-import { CompetenceResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CompetenceResults.js';
 import { CertificationsResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CertificationsResults.js';
-import { buildCompetenceForLS } from './build-competences-for-ls.js';
+import { CompetenceResults } from '../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/CompetenceResults.js';
 import { buildArea as buildAreaForLS } from './build-area-for-ls.js';
+import { buildCompetenceForLS } from './build-competences-for-ls.js';
 
 function buildReferentialOfCompetences() {
   const area1 = buildAreaForLS({
@@ -98,4 +98,4 @@ function buildCertificationsResults(certifications, competences = buildReferenti
   return new CertificationsResults({ certifications, competences });
 }
 
-export { buildCertificateForLS, buildReferentialOfCompetences, buildCertificationsResults };
+export { buildCertificateForLS, buildCertificationsResults, buildReferentialOfCompetences };

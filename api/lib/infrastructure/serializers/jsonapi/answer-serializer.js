@@ -1,5 +1,6 @@
-import { Answer } from '../../../domain/models/Answer.js';
 import jsonapiSerializer from 'jsonapi-serializer';
+
+import { Answer } from '../../../domain/models/Answer.js';
 import { AnswerStatusJsonApiAdapter } from '../../adapters/answer-status-json-api-adapter.js';
 
 const { Serializer } = jsonapiSerializer;
@@ -51,7 +52,7 @@ const deserialize = function (payload) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };
 
 function _cleanValue(value) {
   if (value) {

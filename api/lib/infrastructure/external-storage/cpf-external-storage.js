@@ -1,6 +1,6 @@
-import * as s3Utils from './s3-utils.js';
 import { config } from '../../config.js';
 import { logger } from '../logger.js';
+import * as s3Utils from './s3-utils.js';
 const { cpf } = config;
 
 const upload = async function ({ filename, readableStream, dependencies = { s3Utils, logger } }) {
@@ -50,4 +50,4 @@ const getPreSignUrlsOfFilesModifiedAfter = async function ({ date, dependencies 
   });
 };
 
-export { upload, getPreSignUrlsOfFilesModifiedAfter };
+export { getPreSignUrlsOfFilesModifiedAfter, upload };

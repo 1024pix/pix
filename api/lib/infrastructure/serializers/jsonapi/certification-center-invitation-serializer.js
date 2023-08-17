@@ -23,4 +23,4 @@ const deserializeForAdmin = function (payload) {
   });
 };
 
-export { serialize, serializeForAdmin, deserializeForAdmin };
+export { deserializeForAdmin, serialize, serializeForAdmin };

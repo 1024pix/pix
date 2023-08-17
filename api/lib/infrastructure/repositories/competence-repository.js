@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
+
+import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
+import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -72,7 +73,7 @@ const findByAreaId = async function ({ areaId, locale }) {
     .map((competenceData) => _toDomain({ competenceData, locale }));
 };
 
-export { list, listPixCompetencesOnly, get, getCompetenceName, findByRecordIds, findByAreaId };
+export { findByAreaId, findByRecordIds, get, getCompetenceName, list, listPixCompetencesOnly };
 
 async function _list({ locale }) {
   const competenceDatas = await competenceDatasource.list();

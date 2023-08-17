@@ -1,19 +1,18 @@
 import _ from 'lodash';
-import { knex } from '../../../db/knex-database-connection.js';
 
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
 import {
-  CertifiedProfile,
   CertifiedArea,
   CertifiedCompetence,
-  CertifiedTube,
+  CertifiedProfile,
   CertifiedSkill,
+  CertifiedTube,
 } from '../../domain/read-models/CertifiedProfile.js';
-
-import { NotFoundError } from '../../domain/errors.js';
+import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
+import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
-import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
-import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
 const get = async function (certificationCourseId) {

@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { SkillSet } from '../../../lib/domain/models/SkillSet.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const TABLE_NAME = 'skill-sets';
 

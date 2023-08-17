@@ -1,8 +1,9 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { BadgeForCalculation } from '../../domain/models/BadgeForCalculation.js';
-import { BadgeCriterionForCalculation } from '../../domain/models/BadgeCriterionForCalculation.js';
 import { SCOPES } from '../../domain/models/BadgeCriterion.js';
+import { BadgeCriterionForCalculation } from '../../domain/models/BadgeCriterionForCalculation.js';
+import { BadgeForCalculation } from '../../domain/models/BadgeForCalculation.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import * as campaignRepository from './campaign-repository.js';
 
@@ -115,7 +116,7 @@ const getByCertifiableBadgeAcquisition = async function ({
   return _buildBadge(knexConn, campaignSkillsByTube, campaignSkillIds, badgeCriteriaDTO, badgeDTO);
 };
 
-export { findByCampaignParticipationId, findByCampaignId, getByCertifiableBadgeAcquisition };
+export { findByCampaignId, findByCampaignParticipationId, getByCertifiableBadgeAcquisition };
 
 async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCriteriaDTO, badgeDTO) {
   const badgeCriteria = [];

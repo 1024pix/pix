@@ -1,8 +1,8 @@
-import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
-import { TargetProfileHistoryForAdmin } from '../../domain/models/TargetProfileHistoryForAdmin.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../domain/models/ComplementaryCertificationBadgeForAdmin.js';
+import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
+import { TargetProfileHistoryForAdmin } from '../../domain/models/TargetProfileHistoryForAdmin.js';
 
 const getByComplementaryCertificationId = async function ({ complementaryCertificationId }) {
   const targetProfiles = await knex('complementary-certification-badges')

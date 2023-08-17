@@ -19,4 +19,4 @@ const clearResolveMx = function () {
   resolveMx = resolver.resolveMx.bind(resolver);
 };
 
-export { checkDomainIsValid, setResolveMx, clearResolveMx };
+export { checkDomainIsValid, clearResolveMx, setResolveMx };

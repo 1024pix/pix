@@ -1,17 +1,16 @@
-import { PDFDocument, rgb } from 'pdf-lib';
-import { readFile } from 'fs/promises';
-
 import pdfLibFontkit from '@pdf-lib/fontkit';
-import dayjs from 'dayjs';
-import _ from 'lodash';
-import bluebird from 'bluebird';
 import axios from 'axios';
+import bluebird from 'bluebird';
+import dayjs from 'dayjs';
+import { readFile } from 'fs/promises';
+import _ from 'lodash';
+import { PDFDocument, rgb } from 'pdf-lib';
 import * as url from 'url';
 
-import { AttestationViewModel } from './AttestationViewModel.js';
+import { LANG } from '../../../domain/constants.js';
 import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
 import { logger } from '../../logger.js';
-import { LANG } from '../../../domain/constants.js';
+import { AttestationViewModel } from './AttestationViewModel.js';
 const { ENGLISH } = LANG;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -423,4 +422,4 @@ async function _finalizeDocument(pdfDocument) {
 }
 
 const getCertificationAttestationsPdf = { getCertificationAttestationsPdfBuffer };
-export { getCertificationAttestationsPdfBuffer, getCertificationAttestationsPdf };
+export { getCertificationAttestationsPdf, getCertificationAttestationsPdfBuffer };

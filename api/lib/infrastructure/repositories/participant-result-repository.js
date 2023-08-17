@@ -1,18 +1,19 @@
-import { knex } from '../../../db/knex-database-connection.js';
 import _ from 'lodash';
+
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { Assessment } from '../../domain/models/Assessment.js';
 import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
-import * as competenceRepository from './competence-repository.js';
-import * as answerRepository from './answer-repository.js';
-import * as challengeRepository from './challenge-repository.js';
-import * as areaRepository from './area-repository.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
-import * as campaignRepository from './campaign-repository.js';
-import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
-import * as flash from '../../domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
-import { NotFoundError } from '../../domain/errors.js';
+import * as flash from '../../domain/services/algorithm-methods/flash.js';
+import * as answerRepository from './answer-repository.js';
+import * as areaRepository from './area-repository.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as challengeRepository from './challenge-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
+import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 
 const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, locale }) {
   const participationResults = await _getParticipationResults(userId, campaignId, locale);

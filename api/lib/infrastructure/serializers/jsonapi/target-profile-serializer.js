@@ -27,4 +27,4 @@ const deserializeCreationCommand = function (json) {
   };
 };
 
-export { serialize, serializeId, deserializeCreationCommand };
+export { deserializeCreationCommand, serialize, serializeId };

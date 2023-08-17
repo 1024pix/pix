@@ -1,11 +1,12 @@
 import _ from 'lodash';
-import { BookshelfTargetProfile } from '../orm-models/TargetProfile.js';
-import * as targetProfileAdapter from '../adapters/target-profile-adapter.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { InvalidSkillSetError, NotFoundError, ObjectValidationError } from '../../domain/errors.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { TargetProfile } from '../../domain/models/TargetProfile.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as targetProfileAdapter from '../adapters/target-profile-adapter.js';
+import { BookshelfTargetProfile } from '../orm-models/TargetProfile.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
 const TARGET_PROFILE_TABLE = 'target-profiles';
 
@@ -142,4 +143,4 @@ const hasTubesWithLevels = async function (
   }
 };
 
-export { create, get, getByCampaignId, findByIds, update, findOrganizationIds, hasSkills, hasTubesWithLevels };
+export { create, findByIds, findOrganizationIds, get, getByCampaignId, hasSkills, hasTubesWithLevels, update };

@@ -1,14 +1,15 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { PrivateCertificate } from '../../domain/models/PrivateCertificate.js';
-import { ShareableCertificate } from '../../domain/models/ShareableCertificate.js';
-import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
-import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
-import * as competenceTreeRepository from './competence-tree-repository.js';
-import { ResultCompetenceTree } from '../../domain/models/ResultCompetenceTree.js';
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { CertifiedBadge } from '../../../lib/domain/read-models/CertifiedBadge.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
+import { CertificationAttestation } from '../../domain/models/CertificationAttestation.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { PrivateCertificate } from '../../domain/models/PrivateCertificate.js';
+import { ResultCompetenceTree } from '../../domain/models/ResultCompetenceTree.js';
+import { ShareableCertificate } from '../../domain/models/ShareableCertificate.js';
+import * as competenceTreeRepository from './competence-tree-repository.js';
 
 const getPrivateCertificate = async function (id, { locale } = {}) {
   const certificationCourseDTO = await _selectPrivateCertificates()
@@ -119,11 +120,11 @@ const findByDivisionForScoIsManagingStudentsOrganization = async function ({ org
 };
 
 export {
-  getPrivateCertificate,
-  findPrivateCertificatesByUserId,
-  getShareableCertificateByVerificationCode,
-  getCertificationAttestation,
   findByDivisionForScoIsManagingStudentsOrganization,
+  findPrivateCertificatesByUserId,
+  getCertificationAttestation,
+  getPrivateCertificate,
+  getShareableCertificateByVerificationCode,
 };
 
 async function _getCertifiedBadges(certificationCourseId) {

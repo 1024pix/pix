@@ -1,5 +1,5 @@
-import { Division } from '../../domain/models/Division.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { Division } from '../../domain/models/Division.js';
 
 async function findByCampaignId(campaignId) {
   const divisions = await knex('view-active-organization-learners')

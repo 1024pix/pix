@@ -1,5 +1,5 @@
-import moment from 'moment';
 import lodash from 'lodash';
+import moment from 'moment';
 
 const { isEmpty, isNil, each } = lodash;
 

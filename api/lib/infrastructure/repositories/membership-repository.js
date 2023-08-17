@@ -1,12 +1,12 @@
-import { BookshelfMembership } from '../orm-models/Membership.js';
+import { knex } from '../../../db/knex-database-connection.js';
 import { MembershipCreationError, MembershipUpdateError, NotFoundError } from '../../domain/errors.js';
 import { Membership } from '../../domain/models/Membership.js';
-import { User } from '../../domain/models/User.js';
 import { Organization } from '../../domain/models/Organization.js';
-import * as knexUtils from '../utils/knex-utils.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { knex } from '../../../db/knex-database-connection.js';
+import { User } from '../../domain/models/User.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfMembership } from '../orm-models/Membership.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -163,12 +163,12 @@ const disableMembershipsByUserId = async function ({
 
 export {
   create,
-  get,
-  findByOrganizationId,
-  findAdminsByOrganizationId,
-  findPaginatedFiltered,
-  findByUserIdAndOrganizationId,
-  findByUserId,
-  updateById,
   disableMembershipsByUserId,
+  findAdminsByOrganizationId,
+  findByOrganizationId,
+  findByUserId,
+  findByUserIdAndOrganizationId,
+  findPaginatedFiltered,
+  get,
+  updateById,
 };

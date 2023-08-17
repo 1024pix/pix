@@ -1,15 +1,16 @@
-import { BookshelfOrganizationTag } from '../orm-models/OrganizationTag.js';
-import { Bookshelf } from '../bookshelf.js';
-import * as knexUtils from '../utils/knex-utils.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import lodash from 'lodash';
+
+import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { Bookshelf } from '../bookshelf.js';
+import { BookshelfOrganizationTag } from '../orm-models/OrganizationTag.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const { omit } = lodash;
 
-import { DomainTransaction } from '../DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../domain/models/Tag.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 const create = async function (organizationTag) {
   try {
@@ -54,4 +55,4 @@ const getRecentlyUsedTags = async function ({ tagId, numberOfRecentTags }) {
   return tags.map(({ tagId: id, name }) => new Tag({ id, name }));
 };
 
-export { create, batchCreate, isExistingByOrganizationIdAndTagId, getRecentlyUsedTags };
+export { batchCreate, create, getRecentlyUsedTags, isExistingByOrganizationIdAndTagId };

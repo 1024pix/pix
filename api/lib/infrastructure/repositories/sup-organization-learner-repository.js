@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
+
 import { knex } from '../../../db/knex-database-connection.js';
+import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
 import { BookshelfOrganizationLearner } from '../orm-models/OrganizationLearner.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
@@ -62,11 +63,11 @@ const replaceStudents = async function (organizationId, supOrganizationLearners)
 };
 
 export {
-  updateStudentNumber,
-  findOneByStudentNumberAndBirthdate,
-  findOneByStudentNumber,
   addStudents,
+  findOneByStudentNumber,
+  findOneByStudentNumberAndBirthdate,
   replaceStudents,
+  updateStudentNumber,
 };
 
 async function _disableAllOrganizationLearners(queryBuilder, organizationId) {

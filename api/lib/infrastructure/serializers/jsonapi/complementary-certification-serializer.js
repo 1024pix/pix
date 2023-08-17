@@ -30,4 +30,4 @@ const deserialize = function (jsonAPI) {
   });
 };
 
-export { serialize, serializeForAdmin, deserialize };
+export { deserialize, serialize, serializeForAdmin };

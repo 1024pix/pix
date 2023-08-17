@@ -1,11 +1,12 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import * as knexUtils from '../utils/knex-utils.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../domain/errors.js';
-import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+import { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } from '../../domain/errors.js';
+import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
 const COLUMNS = Object.freeze([
@@ -308,18 +309,18 @@ export {
   batchUpdatePasswordThatShouldBeChanged,
   create,
   createPasswordThatShouldBeChanged,
-  findOneByUserIdAndIdentityProvider,
-  findOneByExternalIdentifierAndIdentityProvider,
   findByUserId,
+  findOneByExternalIdentifierAndIdentityProvider,
+  findOneByUserIdAndIdentityProvider,
   getByIdAndUserId,
   hasIdentityProviderPIX,
-  removeByUserIdAndIdentityProvider,
   removeAllAuthenticationMethodsByUserId,
-  updateChangedPassword,
-  updatePasswordThatShouldBeChanged,
-  updateExpiredPassword,
-  updateExternalIdentifierByUserIdAndIdentityProvider,
+  removeByUserIdAndIdentityProvider,
+  update,
   updateAuthenticationComplementByUserIdAndIdentityProvider,
   updateAuthenticationMethodUserId,
-  update,
+  updateChangedPassword,
+  updateExpiredPassword,
+  updateExternalIdentifierByUserIdAndIdentityProvider,
+  updatePasswordThatShouldBeChanged,
 };

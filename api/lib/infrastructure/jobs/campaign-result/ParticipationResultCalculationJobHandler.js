@@ -1,5 +1,5 @@
-import { ParticipationResultCalculationJob } from './ParticipationResultCalculationJob.js';
 import { usecases } from '../../../domain/usecases/index.js';
+import { ParticipationResultCalculationJob } from './ParticipationResultCalculationJob.js';
 
 class ParticipationResultCalculationJobHandler {
   async handle(event) {

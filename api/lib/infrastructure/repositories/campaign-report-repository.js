@@ -1,11 +1,12 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignReport } from '../../domain/read-models/CampaignReport.js';
-import { TargetProfileForSpecifier } from '../../domain/read-models/campaign/TargetProfileForSpecifier.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { NotFoundError } from '../../domain/errors.js';
 import _ from 'lodash';
+
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { TargetProfileForSpecifier } from '../../domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { CampaignReport } from '../../domain/read-models/CampaignReport.js';
 import { filterByFullName } from '../utils/filter-utils.js';
+import { fetchPage } from '../utils/knex-utils.js';
 import * as campaignRepository from './campaign-repository.js';
 
 const { SHARED } = CampaignParticipationStatuses;
@@ -139,4 +140,4 @@ const findPaginatedFilteredByOrganizationId = async function ({ organizationId, 
   return { models: campaignReports, meta: { ...pagination, hasCampaigns } };
 };
 
-export { get, findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId };
+export { findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId, get };

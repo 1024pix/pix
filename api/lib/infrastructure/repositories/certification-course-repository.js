@@ -2,18 +2,19 @@ import lodash from 'lodash';
 
 const { _ } = lodash;
 
-import { knex } from '../../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
-import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
-import { BookshelfAssessment } from '../orm-models/Assessment.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
+
+import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
-import * as certificationChallengeRepository from './certification-challenge-repository.js';
+import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
 import { ComplementaryCertificationCourse } from '../../domain/models/ComplementaryCertificationCourse.js';
 import { Bookshelf } from '../bookshelf.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfAssessment } from '../orm-models/Assessment.js';
+import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import * as certificationChallengeRepository from './certification-challenge-repository.js';
 
 async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
@@ -178,15 +179,15 @@ function toDomain(bookshelfCertificationCourse) {
 }
 
 export {
-  save,
   changeCompletionDate,
+  findCertificationCoursesBySessionId,
+  findOneCertificationCourseByUserIdAndSessionId,
   get,
   getCreationDate,
-  findOneCertificationCourseByUserIdAndSessionId,
-  update,
   isVerificationCodeAvailable,
-  findCertificationCoursesBySessionId,
+  save,
   toDomain,
+  update,
 };
 
 function _adaptModelToDb(certificationCourse) {

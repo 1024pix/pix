@@ -1,12 +1,13 @@
 import _ from 'lodash';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
-import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
-import { Answer } from '../../domain/models/Answer.js';
-import * as challengeRepository from './challenge-repository.js';
-import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database-adapter.js';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { Answer } from '../../domain/models/Answer.js';
+import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
+import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
+import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database-adapter.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import * as challengeRepository from './challenge-repository.js';
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const allChallenges = await challengeRepository.findOperative();

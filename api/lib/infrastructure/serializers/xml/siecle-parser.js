@@ -1,7 +1,8 @@
-import { SiecleXmlImportError } from '../../../domain/errors.js';
-import xml2js from 'xml2js';
-import saxPath from 'saxpath';
 import lodash from 'lodash';
+import saxPath from 'saxpath';
+import xml2js from 'xml2js';
+
+import { SiecleXmlImportError } from '../../../domain/errors.js';
 
 const { isEmpty, isUndefined } = lodash;
 

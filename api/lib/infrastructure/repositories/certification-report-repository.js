@@ -1,10 +1,10 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
 
-import { Bookshelf } from '../bookshelf.js';
-import { CertificationReport } from '../../domain/models/CertificationReport.js';
-import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
+import { CertificationReport } from '../../domain/models/CertificationReport.js';
+import { Bookshelf } from '../bookshelf.js';
+import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
 import { toDomain } from './certification-course-repository.js';
 
 const findBySessionId = async function (sessionId) {
@@ -32,7 +32,7 @@ const finalizeAll = async function (certificationReports) {
   }
 };
 
-export { findBySessionId, finalizeAll };
+export { finalizeAll, findBySessionId };
 
 async function _finalize({ certificationReport, transaction = undefined }) {
   const saveOptions = { patch: true, method: 'update' };

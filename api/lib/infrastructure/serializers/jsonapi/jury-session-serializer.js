@@ -80,4 +80,4 @@ const serializeForPaginatedList = function (jurySessionsForPaginatedList, inject
   return injectedSerialize(jurySessions, undefined, pagination);
 };
 
-export { serializeForPaginatedList, serialize };
+export { serialize, serializeForPaginatedList };

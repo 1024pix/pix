@@ -1,15 +1,16 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
+import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { logger } from '../logger.js';
 import * as areaRepository from './area-repository.js';
 import * as competenceRepository from './competence-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as tubeRepository from './tube-repository.js';
-import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';
-import { logger } from '../logger.js';
 const TABLE_NAME = 'training-triggers';
 
 const createOrUpdate = async function ({
@@ -93,7 +94,7 @@ const findByTrainingId = async function ({ trainingId, domainTransaction = Domai
   );
 };
 
-export { createOrUpdate, findByTrainingIdForAdmin, findByTrainingId };
+export { createOrUpdate, findByTrainingId, findByTrainingIdForAdmin };
 
 async function _toDomain({ trainingTrigger, triggerTubes }) {
   const triggerTubeIds = triggerTubes.map(({ tubeId }) => tubeId);

@@ -1,4 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
+
 import { Feedback } from '../../../domain/models/Feedback.js';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
@@ -29,4 +30,4 @@ const deserialize = function (json, userAgent) {
     });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

@@ -1,6 +1,6 @@
-import { _ } from '../utils/lodash-utils.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { AttachableTargetProfile } from '../../domain/models/AttachableTargetProfile.js';
+import { _ } from '../utils/lodash-utils.js';
 
 const find = async function ({ searchTerm } = {}) {
   const targetProfilesSearchQuery = knex('target-profiles')

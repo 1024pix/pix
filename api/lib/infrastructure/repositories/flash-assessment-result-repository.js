@@ -24,4 +24,4 @@ const getLatestByAssessmentId = async function (assessmentId) {
   return knex(TABLE_NAME).where({ assessmentId }).orderBy('id', 'desc').limit(1).first();
 };
 
-export { save, getLatestByAssessmentId };
+export { getLatestByAssessmentId, save };

@@ -1,9 +1,10 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
+
 import { Tube } from '../../domain/models/Tube.js';
-import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
-import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
+import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 
 function _toDomain({ tubeData, locale }) {
   const translatedPracticalTitle = getTranslatedKey(tubeData.practicalTitle_i18n, locale);
@@ -61,4 +62,4 @@ const findActiveByRecordIds = async function (tubeIds, locale) {
   return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
 };
 
-export { get, list, findByNames, findByRecordIds, findActiveByRecordIds };
+export { findActiveByRecordIds, findByNames, findByRecordIds, get, list };

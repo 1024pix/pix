@@ -1,5 +1,5 @@
-import { Solution } from '../../domain/models/Solution.js';
 import { _ } from '../../../lib/infrastructure/utils/lodash-utils.js';
+import { Solution } from '../../domain/models/Solution.js';
 
 function statusToBoolean(value) {
   if (typeof value === 'boolean') {

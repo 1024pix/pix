@@ -1,9 +1,9 @@
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
-import * as knexUtils from '../utils/knex-utils.js';
-import { UserOrgaSettingsCreationError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { UserOrgaSettingsCreationError } from '../../domain/errors.js';
 import { UserOrgaSettings } from '../../domain/models/UserOrgaSettings.js';
+import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const findOneByUserId = function (userId) {
   return BookshelfUserOrgaSettings.where({ userId })
@@ -64,4 +64,4 @@ const createOrUpdate = async function ({ userId, organizationId }) {
   });
 };
 
-export { findOneByUserId, create, update, createOrUpdate };
+export { create, createOrUpdate, findOneByUserId, update };

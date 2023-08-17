@@ -1,12 +1,13 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import { constants } from '../constants.js';
+import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
-import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
-import * as campaignRepository from './campaign-repository.js';
+import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { constants } from '../constants.js';
+import * as campaignRepository from './campaign-repository.js';
+import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -61,8 +62,9 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
 }
 
 async function _findSnapshotsForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser =
-    await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
+    userIdsAndDates,
+  );
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
     const userId = parseInt(userIdStr);
@@ -225,19 +227,19 @@ const findInvalidatedAndDirectByUserId = async function (userId) {
 };
 
 export {
-  save,
   batchSave,
+  countValidatedByCompetencesForOneUserWithinCampaign,
+  countValidatedByCompetencesForUsersWithinCampaign,
+  findByCampaignIdAndUserIdForSharedCampaignParticipation,
+  findByCampaignIdForSharedCampaignParticipation,
+  findGroupedByCompetencesForUsersWithinLearningContent,
+  findInvalidatedAndDirectByUserId,
+  findSnapshotForUsers,
+  findSnapshotGroupedByCompetencesForUsers,
   findUniqByUserId,
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
-  findByCampaignIdAndUserIdForSharedCampaignParticipation,
-  findByCampaignIdForSharedCampaignParticipation,
-  findSnapshotGroupedByCompetencesForUsers,
-  countValidatedByCompetencesForUsersWithinCampaign,
-  countValidatedByCompetencesForOneUserWithinCampaign,
-  findGroupedByCompetencesForUsersWithinLearningContent,
   findValidatedGroupedByTubesWithinCampaign,
-  findSnapshotForUsers,
-  findInvalidatedAndDirectByUserId,
+  save,
 };

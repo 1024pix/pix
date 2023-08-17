@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { config } from '../../../config.js';
 
 const CAMPAIGN_TYPE = 'EVALUATION';

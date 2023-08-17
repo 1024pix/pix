@@ -23,4 +23,4 @@ function getNowDate() {
   return new Date();
 }
 
-export { isValidDate, convertDateValue, getNowDate };
+export { convertDateValue, getNowDate, isValidDate };

@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
+import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfComplementaryCertificationCourseResult } from '../orm-models/ComplementaryCertificationCourseResult.js';
-import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const save = async function ({
   partnerCertificationScoring,

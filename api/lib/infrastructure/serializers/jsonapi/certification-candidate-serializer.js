@@ -2,10 +2,11 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
 
-import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
-import { WrongDateFormatError } from '../../../domain/errors.js';
-import { isValidDate } from '../../utils/date-utils.js';
 import _ from 'lodash';
+
+import { WrongDateFormatError } from '../../../domain/errors.js';
+import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import { isValidDate } from '../../utils/date-utils.js';
 
 const serialize = function (certificationCandidates) {
   return new Serializer('certification-candidate', {
@@ -59,4 +60,4 @@ const deserialize = async function (json) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

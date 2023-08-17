@@ -1,9 +1,10 @@
+import bluebird from 'bluebird';
+
 import { knex } from '../../../db/knex-database-connection.js';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import bluebird from 'bluebird';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 
 const findByUserIdWithFilters = async function ({ userId, states, page }) {

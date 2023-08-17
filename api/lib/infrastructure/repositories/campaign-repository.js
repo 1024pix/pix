@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+
 import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { Campaign } from '../../domain/models/Campaign.js';
-import * as skillRepository from './skill-repository.js';
-import { DomainTransaction } from '../DomainTransaction.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import * as skillRepository from './skill-repository.js';
 
 const CAMPAIGNS_TABLE = 'campaigns';
 
@@ -193,22 +194,22 @@ const findAllSkills = async function ({ campaignId, domainTransaction }) {
 };
 
 export {
-  isCodeAvailable,
-  getByCode,
-  get,
-  save,
-  update,
+  areKnowledgeElementsResettable,
   checkIfUserOrganizationHasAccessToCampaign,
-  getCampaignTitleByCampaignParticipationId,
-  getCampaignCodeByCampaignParticipationId,
-  getCampaignIdByCampaignParticipationId,
+  findAllSkills,
   findSkillIds,
+  findSkillIdsByCampaignParticipationId,
   findSkills,
   findSkillsByCampaignParticipationId,
-  findSkillIdsByCampaignParticipationId,
-  findAllSkills,
-  areKnowledgeElementsResettable,
   findTubes,
+  get,
+  getByCode,
+  getCampaignCodeByCampaignParticipationId,
+  getCampaignIdByCampaignParticipationId,
+  getCampaignTitleByCampaignParticipationId,
+  isCodeAvailable,
+  save,
+  update,
 };
 
 async function _findSkills({ campaignId, domainTransaction, filterByStatus = 'operative' }) {

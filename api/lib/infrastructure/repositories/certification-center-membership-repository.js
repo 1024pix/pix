@@ -1,18 +1,16 @@
-import * as knexUtils from '../utils/knex-utils.js';
-import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
-import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
-
+import { knex } from '../../../db/knex-database-connection.js';
 import {
-  CertificationCenterMembershipCreationError,
   AlreadyExistingMembershipError,
+  CertificationCenterMembershipCreationError,
   CertificationCenterMembershipDisableError,
 } from '../../domain/errors.js';
-
-import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
-import { User } from '../../domain/models/User.js';
 import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
+import { User } from '../../domain/models/User.js';
+import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 function _toDomain(certificationCenterMembershipDTO) {
   let user, certificationCenter;
@@ -173,12 +171,12 @@ const disableMembershipsByUserId = async function ({
 };
 
 export {
-  findByUserId,
-  findActiveByCertificationCenterIdSortedById,
-  save,
-  isMemberOfCertificationCenter,
   disableById,
-  updateRefererStatusByUserIdAndCertificationCenterId,
-  getRefererByCertificationCenterId,
   disableMembershipsByUserId,
+  findActiveByCertificationCenterIdSortedById,
+  findByUserId,
+  getRefererByCertificationCenterId,
+  isMemberOfCertificationCenter,
+  save,
+  updateRefererStatusByUserIdAndCertificationCenterId,
 };

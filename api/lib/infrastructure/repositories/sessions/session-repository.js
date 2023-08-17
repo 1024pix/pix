@@ -2,10 +2,10 @@ import _ from 'lodash';
 
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
-import { Session } from '../../../domain/models/Session.js';
-import { CertificationCenter } from '../../../domain/models/CertificationCenter.js';
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import { CertificationCenter } from '../../../domain/models/CertificationCenter.js';
 import { ComplementaryCertification } from '../../../domain/models/ComplementaryCertification.js';
+import { Session } from '../../../domain/models/Session.js';
 import { DomainTransaction } from '../../DomainTransaction.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -205,23 +205,23 @@ const countUncompletedCertifications = async function (sessionId) {
 };
 
 export {
-  save,
-  saveSessions,
-  isFinalized,
-  get,
-  isSessionExisting,
-  isSessionExistingBySessionAndCertificationCenterIds,
-  getWithCertificationCandidates,
-  updateSessionInfo,
+  countUncompletedCertifications,
   doesUserHaveCertificationCenterMembershipForSession,
   finalize,
   flagResultsAsSentToPrescriber,
-  updatePublishedAt,
-  isSco,
-  remove,
-  hasSomeCleaAcquired,
+  get,
+  getWithCertificationCandidates,
   hasNoStartedCertification,
-  countUncompletedCertifications,
+  hasSomeCleaAcquired,
+  isFinalized,
+  isSco,
+  isSessionExisting,
+  isSessionExistingBySessionAndCertificationCenterIds,
+  remove,
+  save,
+  saveSessions,
+  updatePublishedAt,
+  updateSessionInfo,
 };
 
 function _toDomain(results) {

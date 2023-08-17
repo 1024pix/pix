@@ -1,6 +1,6 @@
-import { CertificationCenterInvitation } from '../../domain/models/CertificationCenterInvitation.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { CertificationCenterInvitation } from '../../domain/models/CertificationCenterInvitation.js';
 
 const CERTIFICATION_CENTER_INVITATIONS = 'certification-center-invitations';
 
@@ -109,11 +109,11 @@ const markAsCancelled = async function ({ id }) {
 };
 
 export {
-  findPendingByCertificationCenterId,
-  getByIdAndCode,
-  get,
-  findOnePendingByEmailAndCertificationCenterId,
   create,
-  update,
+  findOnePendingByEmailAndCertificationCenterId,
+  findPendingByCertificationCenterId,
+  get,
+  getByIdAndCode,
   markAsCancelled,
+  update,
 };

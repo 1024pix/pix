@@ -1,5 +1,6 @@
-import * as csvSerializer from '../../serializers/csv/csv-serializer.js';
 import moment from 'moment';
+
+import * as csvSerializer from '../../serializers/csv/csv-serializer.js';
 
 const EMPTY_ARRAY = [];
 

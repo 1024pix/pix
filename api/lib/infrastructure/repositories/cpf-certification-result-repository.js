@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CpfCertificationResult } from '../../domain/read-models/CpfCertificationResult.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { cpfImportStatus } from '../../domain/models/CertificationCourse.js';
+import { CpfCertificationResult } from '../../domain/read-models/CpfCertificationResult.js';
 
 const countByTimeRange = async function ({ startDate, endDate }) {
   const query = _selectCpfCertificationResults();

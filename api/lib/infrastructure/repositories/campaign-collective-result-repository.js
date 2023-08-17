@@ -1,10 +1,11 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
+import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
 import { constants } from '../constants.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

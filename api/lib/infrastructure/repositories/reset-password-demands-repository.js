@@ -1,5 +1,5 @@
-import { ResetPasswordDemand } from '../orm-models/ResetPasswordDemand.js';
 import { PasswordResetDemandNotFoundError } from '../../../lib/domain/errors.js';
+import { ResetPasswordDemand } from '../orm-models/ResetPasswordDemand.js';
 
 const create = function (demand) {
   return new ResetPasswordDemand(demand).save();
@@ -41,4 +41,4 @@ const findByUserEmail = function (email, temporaryKey) {
     });
 };
 
-export { create, markAsBeingUsed, findByTemporaryKey, findByUserEmail };
+export { create, findByTemporaryKey, findByUserEmail, markAsBeingUsed };

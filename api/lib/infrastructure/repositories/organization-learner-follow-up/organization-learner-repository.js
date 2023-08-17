@@ -1,8 +1,8 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
-import { OrganizationLearner } from '../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
-import { CampaignTypes } from '../../../domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../../domain/models/CampaignTypes.js';
+import { OrganizationLearner } from '../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
 
 function _buildIsCertifiable(queryBuilder, organizationLearnerId) {
   queryBuilder

@@ -16,4 +16,4 @@ const options = {
   },
 };
 
-export { plugin, options };
+export { options, plugin };

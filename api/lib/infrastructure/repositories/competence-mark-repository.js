@@ -1,7 +1,7 @@
-import { BookshelfCompetenceMark } from '../orm-models/CompetenceMark.js';
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfCompetenceMark } from '../orm-models/CompetenceMark.js';
 
 function _toDomain(competenceMark) {
   return new CompetenceMark(competenceMark);
@@ -48,4 +48,4 @@ const findByCertificationCourseId = async function (certificationCourseId) {
   return competenceMarks.map(_toDomain);
 };
 
-export { save, findByAssessmentResultId, findByCertificationCourseId };
+export { findByAssessmentResultId, findByCertificationCourseId, save };

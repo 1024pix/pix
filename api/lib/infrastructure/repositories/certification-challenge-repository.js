@@ -1,11 +1,11 @@
+import { knex } from '../../../db/knex-database-connection.js';
+import { AssessmentEndedError } from '../../domain/errors.js';
+import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
+import { logger } from '../../infrastructure/logger.js';
 import { Bookshelf } from '../bookshelf.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { BookshelfCertificationChallenge } from '../orm-models/CertificationChallenge.js';
-import { logger } from '../../infrastructure/logger.js';
-import { AssessmentEndedError } from '../../domain/errors.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
@@ -65,4 +65,4 @@ const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId,
   return new CertificationChallenge(certificationChallenge);
 };
 
-export { save, getNextNonAnsweredChallengeByCourseId, getNextNonAnsweredChallengeByCourseIdForV3 };
+export { getNextNonAnsweredChallengeByCourseId, getNextNonAnsweredChallengeByCourseIdForV3, save };

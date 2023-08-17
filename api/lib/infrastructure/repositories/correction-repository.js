@@ -2,9 +2,9 @@ import _ from 'lodash';
 
 import { Correction } from '../../domain/models/Correction.js';
 import { Hint } from '../../domain/models/Hint.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
-import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 

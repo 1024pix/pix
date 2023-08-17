@@ -1,11 +1,12 @@
 import _ from 'lodash';
-import { filterByFullName } from '../utils/filter-utils.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { ScoOrganizationParticipant } from '../../domain/read-models/ScoOrganizationParticipant.js';
-import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { ScoOrganizationParticipant } from '../../domain/read-models/ScoOrganizationParticipant.js';
+import { filterByFullName } from '../utils/filter-utils.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {

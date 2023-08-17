@@ -2,8 +2,8 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { tutorialAttributes } from './tutorial-attributes.js';
 import { UserSavedTutorial } from '../../../domain/models/UserSavedTutorial.js';
+import { tutorialAttributes } from './tutorial-attributes.js';
 
 const serialize = function (userTutorial) {
   return new Serializer('user-saved-tutorial', {
@@ -19,4 +19,4 @@ const deserialize = function (json) {
   });
 };
 
-export { serialize, deserialize };
+export { deserialize, serialize };

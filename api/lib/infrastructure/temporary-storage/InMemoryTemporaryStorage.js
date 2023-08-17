@@ -1,5 +1,5 @@
-import NodeCache from 'node-cache';
 import lodash from 'lodash';
+import NodeCache from 'node-cache';
 
 const { trim, noop } = lodash;
 

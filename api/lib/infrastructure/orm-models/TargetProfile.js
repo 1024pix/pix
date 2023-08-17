@@ -1,8 +1,8 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Badge.js';
 import './Stage.js';
 import './Organization.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'TargetProfile';
 

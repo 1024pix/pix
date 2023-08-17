@@ -1,6 +1,6 @@
-import { BookshelfUser } from '../orm-models/User.js';
 import { UserNotFoundError } from '../../domain/errors.js';
 import { CertificationOfficer } from '../../domain/models/CertificationOfficer.js';
+import { BookshelfUser } from '../orm-models/User.js';
 
 const get = async function (certificationOfficerId) {
   try {

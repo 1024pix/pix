@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-import { MailingProvider } from './MailingProvider.js';
 import { config } from '../../config.js';
+import { MailingProvider } from './MailingProvider.js';
 import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
 
 const { mailing } = config;

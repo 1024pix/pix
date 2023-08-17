@@ -26,4 +26,4 @@ const serializeCredentialsForDependent = function (scoOrganizationLearner) {
   }).serialize(scoOrganizationLearner);
 };
 
-export { serializeIdentity, serializeWithUsernameGeneration, serializeExternal, serializeCredentialsForDependent };
+export { serializeCredentialsForDependent, serializeExternal, serializeIdentity, serializeWithUsernameGeneration };

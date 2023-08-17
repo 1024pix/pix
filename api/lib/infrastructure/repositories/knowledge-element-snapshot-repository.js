@@ -1,10 +1,11 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { BookshelfKnowledgeElementSnapshot } from '../orm-models/KnowledgeElementSnapshot.js';
-import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
-import * as knexUtils from '../utils/knex-utils.js';
+import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfKnowledgeElementSnapshot } from '../orm-models/KnowledgeElementSnapshot.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -61,4 +62,4 @@ const findByUserIdsAndSnappedAtDates = async function (userIdsAndSnappedAtDates 
   return knowledgeElementsByUserId;
 };
 
-export { save, findByUserIdsAndSnappedAtDates };
+export { findByUserIdsAndSnappedAtDates, save };

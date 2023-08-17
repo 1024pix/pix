@@ -1,13 +1,13 @@
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
-import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
-import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
+import { NotFoundError } from '../../domain/errors.js';
 import { Assessment } from '../../domain/models/Assessment.js';
 import { Campaign } from '../../domain/models/Campaign.js';
+import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { NotFoundError } from '../../domain/errors.js';
+import * as knowledgeElementRepository from './knowledge-element-repository.js';
+import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -210,19 +210,19 @@ const remove = async function ({ id, deletedAt, deletedBy, domainTransaction }) 
 };
 
 export {
-  hasAssessmentParticipations,
-  getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
-  get,
-  update,
-  findProfilesCollectionResultDataByCampaignId,
+  countParticipationsByStatus,
   findLatestOngoingByUserId,
   findOneByCampaignIdAndUserId,
-  updateWithSnapshot,
-  isRetrying,
-  getAllParticipationsByCampaignId,
-  countParticipationsByStatus,
+  findProfilesCollectionResultDataByCampaignId,
+  get,
   getAllCampaignParticipationsInCampaignForASameLearner,
+  getAllParticipationsByCampaignId,
+  getCodeOfLastParticipationToProfilesCollectionCampaignForUser,
+  hasAssessmentParticipations,
+  isRetrying,
   remove,
+  update,
+  updateWithSnapshot,
 };
 
 function _rowToResult(row) {

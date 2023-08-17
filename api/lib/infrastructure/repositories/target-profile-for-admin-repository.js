@@ -1,17 +1,18 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
 import { LOCALE } from '../../domain/constants.js';
+import { NotFoundError } from '../../domain/errors.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
+import { BadgeCriterion, BadgeDetails, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
+import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
+import { TargetProfileForAdmin } from '../../domain/models/TargetProfileForAdmin.js';
 import * as areaRepository from './area-repository.js';
 import * as competenceRepository from './competence-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as tubeRepository from './tube-repository.js';
-import { TargetProfileForAdmin } from '../../domain/models/TargetProfileForAdmin.js';
-import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
-import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
 
 const get = async function ({ id, locale = FRENCH_FRANCE }) {
   const targetProfileDTO = await knex('target-profiles')

@@ -1,5 +1,5 @@
-import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
+import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
   constructor({ organizationLearnerRepository, pgBoss }) {

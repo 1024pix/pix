@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { Thematic } from '../../domain/models/Thematic.js';
-import { thematicDatasource } from '../datasources/learning-content/thematic-datasource.js';
-import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+
 import { LOCALE } from '../../domain/constants.js';
+import { Thematic } from '../../domain/models/Thematic.js';
+import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { thematicDatasource } from '../datasources/learning-content/thematic-datasource.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
@@ -33,4 +34,4 @@ const findByRecordIds = async function (thematicIds, locale) {
   return _.orderBy(thematics, (thematic) => thematic.name.toLowerCase());
 };
 
-export { list, findByCompetenceIds, findByRecordIds };
+export { findByCompetenceIds, findByRecordIds, list };

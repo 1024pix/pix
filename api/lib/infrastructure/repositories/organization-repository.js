@@ -1,14 +1,14 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
 
+import { knex } from '../../../db/knex-database-connection.js';
+import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { Organization } from '../../domain/models/Organization.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { knex } from '../../../db/knex-database-connection.js';
 import { Tag } from '../../domain/models/Tag.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { ORGANIZATION_FEATURE } from '../../domain/constants.js';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../constants.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 function _toDomain(rawOrganization) {
   const organization = new Organization({
@@ -226,14 +226,14 @@ const findPaginatedFilteredByTargetProfile = async function ({ targetProfileId, 
 };
 
 export {
-  create,
   batchCreateOrganizations,
-  update,
+  create,
+  findByExternalIdsFetchingIdsOnly,
+  findPaginatedFiltered,
+  findPaginatedFilteredByTargetProfile,
+  findScoOrganizationsByUai,
   get,
   getIdByCertificationCenterId,
   getScoOrganizationByExternalId,
-  findByExternalIdsFetchingIdsOnly,
-  findScoOrganizationsByUai,
-  findPaginatedFiltered,
-  findPaginatedFilteredByTargetProfile,
+  update,
 };

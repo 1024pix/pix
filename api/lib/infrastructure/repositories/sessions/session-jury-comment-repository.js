@@ -39,7 +39,7 @@ const remove = async function (sessionJuryCommentId) {
   await _persist(sessionJuryCommentId, columnsToSave);
 };
 
-export { get, save, remove };
+export { get, remove, save };
 
 async function _persist(sessionId, columnsToSave) {
   const updatedSessionIds = await knex('sessions').update(columnsToSave).where({ id: sessionId }).returning('id');

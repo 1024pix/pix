@@ -1,5 +1,6 @@
-import { config } from '../../../../config.js';
 import cronParser from 'cron-parser';
+
+import { config } from '../../../../config.js';
 
 const { cpf } = config;
 const sendEmail = async function ({ cpfExternalStorage, mailService }) {

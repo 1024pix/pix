@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { status } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
 import { competenceResultDoc } from './competence-result-doc.js';
 

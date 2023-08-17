@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { Activity } from '../../domain/models/Activity.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { Activity } from '../../domain/models/Activity.js';
 
 const save = async function (activity) {
   const [savedAttributes] = await knex('activities').insert(activity).returning('*');
@@ -25,4 +25,4 @@ const getAllByAssessmentId = async function (assessmentId) {
   return await knex('activities').where({ assessmentId }).orderBy('createdAt', 'DESC');
 };
 
-export { save, getLastActivity, updateStatus, getAllByAssessmentId };
+export { getAllByAssessmentId, getLastActivity, save, updateStatus };

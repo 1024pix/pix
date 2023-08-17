@@ -1,13 +1,13 @@
 import Request from '@hapi/hapi/lib/request.js';
-
-import { config } from '../config.js';
 import lodash from 'lodash';
 
+import { config } from '../config.js';
+
 const { get, set, update, omit } = lodash;
+import async_hooks from 'async_hooks';
+
 import { logger } from '../infrastructure/logger.js';
 import * as requestResponseUtils from '../infrastructure/utils/request-response-utils.js';
-
-import async_hooks from 'async_hooks';
 
 const { AsyncLocalStorage } = async_hooks;
 
@@ -117,7 +117,7 @@ const monitoringTools = {
 };
 
 export {
-  monitoringTools,
+  asyncLocalStorage,
   extractUserIdFromRequest,
   getContext,
   getInContext,
@@ -125,7 +125,7 @@ export {
   installHapiHook,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
+  monitoringTools,
   pushInContext,
   setInContext,
-  asyncLocalStorage,
 };

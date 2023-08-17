@@ -2,8 +2,9 @@ import { Parser } from 'json2csv';
 
 const { omit } = lodash;
 
-import { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../utils/csv/sessions-import.js';
 import lodash from 'lodash';
+
+import { COMPLEMENTARY_CERTIFICATION_SUFFIX, headers } from '../utils/csv/sessions-import.js';
 
 function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
   const complementaryCertificationsHeaders = _getComplementaryCertificationsHeaders(habilitationLabels);

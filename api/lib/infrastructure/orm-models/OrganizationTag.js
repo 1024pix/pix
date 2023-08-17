@@ -1,7 +1,7 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Organization.js';
 import './Tag.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'OrganizationTag';
 

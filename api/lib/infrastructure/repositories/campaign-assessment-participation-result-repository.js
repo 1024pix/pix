@@ -1,9 +1,9 @@
-import { CampaignAssessmentParticipationResult } from '../../../lib/domain/read-models/CampaignAssessmentParticipationResult.js';
-import { NotFoundError } from '../../../lib/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../lib/domain/errors.js';
+import { CampaignAssessmentParticipationResult } from '../../../lib/domain/read-models/CampaignAssessmentParticipationResult.js';
+import { CampaignLearningContent } from '../../domain/models/CampaignLearningContent.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as learningContentRepository from './learning-content-repository.js';
-import { CampaignLearningContent } from '../../domain/models/CampaignLearningContent.js';
 
 const getByCampaignIdAndCampaignParticipationId = async function ({ campaignId, campaignParticipationId, locale }) {
   const learningContent = await learningContentRepository.findByCampaignId(campaignId, locale);

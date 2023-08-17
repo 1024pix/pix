@@ -1,10 +1,10 @@
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
 const FRANCE_COUNTRY_CODE = '99100';
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
 import {
-  PIX_PLUS_DROIT,
   CLEA,
+  PIX_PLUS_DROIT,
   PIX_PLUS_EDU_1ER_DEGRE,
   PIX_PLUS_EDU_2ND_DEGRE,
 } from '../../../domain/models/ComplementaryCertification.js';

@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 const TABLE_NAME = 'user-recommended-trainings';
 
@@ -37,7 +37,7 @@ const hasRecommendedTrainings = async function ({ userId, domainTransaction = Do
   return Boolean(result);
 };
 
-export { save, findByCampaignParticipationId, hasRecommendedTrainings };
+export { findByCampaignParticipationId, hasRecommendedTrainings, save };
 
 function _toDomain(training) {
   return new UserRecommendedTraining({ ...training });

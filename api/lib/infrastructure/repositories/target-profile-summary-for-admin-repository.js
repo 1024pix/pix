@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
 import { TargetProfileSummaryForAdmin } from '../../domain/models/TargetProfileSummaryForAdmin.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 const findPaginatedFiltered = async function ({ filter, page }) {
   const query = knex('target-profiles')
@@ -54,7 +54,7 @@ const findByTraining = async function ({ trainingId, domainTransaction = DomainT
   return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
 };
 
-export { findPaginatedFiltered, findByOrganization, findByTraining };
+export { findByOrganization, findByTraining, findPaginatedFiltered };
 
 function _applyFilters(qb, filter) {
   const { name, id } = filter;

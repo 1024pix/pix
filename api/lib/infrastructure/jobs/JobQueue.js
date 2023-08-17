@@ -1,6 +1,6 @@
-import { MonitoredJobHandler } from './monitoring/MonitoredJobHandler.js';
-import { logger } from '../logger.js';
 import { config } from '../../config.js';
+import { logger } from '../logger.js';
+import { MonitoredJobHandler } from './monitoring/MonitoredJobHandler.js';
 
 const { teamSize, teamConcurrency } = config.pgBoss;
 

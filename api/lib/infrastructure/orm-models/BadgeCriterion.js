@@ -1,6 +1,6 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './Badge.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'BadgeCriterion';
 

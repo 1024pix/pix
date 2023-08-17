@@ -1,9 +1,8 @@
-import { readFile } from 'fs/promises';
-
-import { PDFDocument, rgb } from 'pdf-lib';
-
 import pdfLibFontkit from '@pdf-lib/fontkit';
+import { readFile } from 'fs/promises';
+import { PDFDocument, rgb } from 'pdf-lib';
 import * as url from 'url';
+
 import { LOCALE } from '../../../domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;

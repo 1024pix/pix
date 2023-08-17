@@ -1,10 +1,11 @@
-import { BookshelfAssessment } from '../orm-models/Assessment.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { Assessment } from '../../domain/models/Assessment.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import lodash from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
+
 import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../domain/errors.js';
+import { Assessment } from '../../domain/models/Assessment.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfAssessment } from '../orm-models/Assessment.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 
 const { groupBy, map, head, uniqBy, omit } = lodash;
 
@@ -177,22 +178,22 @@ const setAssessmentsAsStarted = async function ({
 };
 
 export {
-  getWithAnswers,
-  get,
-  findLastCompletedAssessmentsForEachCompetenceByUser,
-  getByAssessmentIdAndUserId,
-  save,
-  findNotAbortedCampaignAssessmentsByUserId,
+  _updateStateById,
   abortByAssessmentId,
   completeByAssessmentId,
   endBySupervisorByAssessmentId,
+  findLastCompletedAssessmentsForEachCompetenceByUser,
+  findNotAbortedCampaignAssessmentsByUserId,
+  get,
+  getByAssessmentIdAndUserId,
   getByCertificationCandidateId,
+  getWithAnswers,
   ownedByUser,
-  _updateStateById,
-  updateLastQuestionDate,
-  updateWhenNewChallengeIsAsked,
-  updateLastQuestionState,
+  save,
   setAssessmentsAsStarted,
+  updateLastQuestionDate,
+  updateLastQuestionState,
+  updateWhenNewChallengeIsAsked,
 };
 
 function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {

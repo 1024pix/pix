@@ -1,10 +1,11 @@
-import { NotFoundError, MissingAttributesError } from '../../domain/errors.js';
+import _ from 'lodash';
+
+import { knex } from '../../../db/knex-database-connection.js';
+import * as apps from '../../domain/constants.js';
+import { MissingAttributesError, NotFoundError } from '../../domain/errors.js';
+import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 import { OrganizationForAdmin } from '../../domain/models/organizations-administration/OrganizationForAdmin.js';
 import { Tag } from '../../domain/models/Tag.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
-import _ from 'lodash';
-import * as apps from '../../domain/constants.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
@@ -213,4 +214,4 @@ const save = async function (organization) {
   return _toDomain(organizationCreated);
 };
 
-export { get, update, archive, save };
+export { archive, get, save, update };

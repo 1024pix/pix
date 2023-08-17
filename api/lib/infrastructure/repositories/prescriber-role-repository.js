@@ -1,6 +1,6 @@
-import { NotFoundError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { prescriberRoles } from '../../application/preHandlers/models/CampaignAuthorization.js';
+import { NotFoundError } from '../../domain/errors.js';
 
 const getForCampaign = async function ({ userId, campaignId }) {
   const { organizationId, ownerId } = await _getOrganizationIdAndOwnerId({ campaignId });

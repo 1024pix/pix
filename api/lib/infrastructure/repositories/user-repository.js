@@ -1,29 +1,27 @@
 import moment from 'moment';
 
 import { knex } from '../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { BookshelfUser } from '../orm-models/User.js';
-import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } from '../../domain/errors.js';
-
-import { User } from '../../domain/models/User.js';
-import { UserDetailsForAdmin } from '../../domain/models/UserDetailsForAdmin.js';
-import { Membership } from '../../domain/models/Membership.js';
+import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../domain/models/Membership.js';
 import { Organization } from '../../domain/models/Organization.js';
-import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
-import { AuthenticationMethod } from '../../domain/models/AuthenticationMethod.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
-import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
+import { User } from '../../domain/models/User.js';
+import { UserDetailsForAdmin } from '../../domain/models/UserDetailsForAdmin.js';
 import { UserLogin } from '../../domain/models/UserLogin.js';
+import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
+import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfUser } from '../orm-models/User.js';
+import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import { fetchPage, isUniqConstraintViolated } from '../utils/knex-utils.js';
 
 const getByEmail = async function (email) {
   const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();

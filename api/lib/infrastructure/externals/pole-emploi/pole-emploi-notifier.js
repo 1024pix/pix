@@ -4,10 +4,11 @@ const { get } = lodash;
 
 import moment from 'moment';
 import querystring from 'querystring';
-import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
+
 import { config } from '../../../config.js';
+import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
 import { UnexpectedUserAccountError } from '../../../domain/errors.js';
+import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 
 const notify = async (userId, payload, dependencies) => {
   const { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools } = dependencies;

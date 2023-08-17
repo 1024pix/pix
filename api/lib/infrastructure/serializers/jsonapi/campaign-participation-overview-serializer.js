@@ -26,4 +26,4 @@ const serialize = function (campaignParticipationOverview, meta) {
   }).serialize(campaignParticipationOverview);
 };
 
-export { serializeForPaginatedList, serialize };
+export { serialize, serializeForPaginatedList };

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertifiableProfileForLearningContent } from '../../domain/models/CertifiableProfileForLearningContent.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';

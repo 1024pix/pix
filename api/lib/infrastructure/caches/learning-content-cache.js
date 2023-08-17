@@ -1,9 +1,9 @@
+import { config } from '../../config.js';
 import { Cache } from './Cache.js';
 import { DistributedCache } from './DistributedCache.js';
 import { InMemoryCache } from './InMemoryCache.js';
 import { LayeredCache } from './LayeredCache.js';
 import { RedisCache } from './RedisCache.js';
-import { config } from '../../config.js';
 
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';

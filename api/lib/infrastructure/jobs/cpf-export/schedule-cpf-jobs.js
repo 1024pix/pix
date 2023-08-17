@@ -1,6 +1,6 @@
-import { cpfExport } from './index.js';
-import { logger } from '../../logger.js';
 import { config } from '../../../config.js';
+import { logger } from '../../logger.js';
+import { cpfExport } from './index.js';
 const { plannerJob, sendEmailJob } = config.cpf;
 
 const { planner, createAndUpload, sendEmail } = cpfExport;

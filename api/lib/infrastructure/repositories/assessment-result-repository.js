@@ -1,9 +1,10 @@
 import _ from 'lodash';
+
 import { knex } from '../../../db/knex-database-connection.js';
-import { MissingAssessmentId, AssessmentResultNotCreatedError } from '../../domain/errors.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../domain/errors.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { DomainTransaction } from '../DomainTransaction.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
@@ -127,4 +128,4 @@ const getByCertificationCourseId = async function ({ certificationCourseId }) {
   return AssessmentResult.buildStartedAssessmentResult({ assessmentId: null });
 };
 
-export { save, findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId };
+export { findLatestLevelAndPixScoreByAssessmentId, getByCertificationCourseId, save };

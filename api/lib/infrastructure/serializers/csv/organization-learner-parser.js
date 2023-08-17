@@ -1,7 +1,7 @@
+import { CsvImportError, DomainError } from '../../../domain/errors.js';
 import { OrganizationLearner } from '../../../domain/models/OrganizationLearner.js';
 import { checkValidation } from '../../../domain/validators/organization-learner-validator.js';
 import { CsvOrganizationLearnerParser } from './csv-learner-parser.js';
-import { CsvImportError, DomainError } from '../../../domain/errors.js';
 import { OrganizationLearnerImportHeader } from './organization-learner-import-header.js';
 
 const ERRORS = {

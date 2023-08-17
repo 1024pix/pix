@@ -1,11 +1,12 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { Badge } from '../../domain/models/Badge.js';
-import { SkillSet } from '../../domain/models/SkillSet.js';
-import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
 import lodash from 'lodash';
-import * as knexUtils from '../utils/knex-utils.js';
+
+import { knex } from '../../../db/knex-database-connection.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
+import { Badge } from '../../domain/models/Badge.js';
+import { BadgeCriterion } from '../../domain/models/BadgeCriterion.js';
+import { SkillSet } from '../../domain/models/SkillSet.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as knexUtils from '../utils/knex-utils.js';
 
 const { omit } = lodash;
 
@@ -77,7 +78,7 @@ const remove = async function (badgeId, { knexTransaction } = DomainTransaction.
   return true;
 };
 
-export { findByCampaignId, isAssociated, isRelatedToCertification, get, save, update, isKeyAvailable, remove };
+export { findByCampaignId, get, isAssociated, isKeyAvailable, isRelatedToCertification, remove, save, update };
 
 async function _addCriteriaInformation(badge) {
   const badgeCriteria = await knex('badge-criteria').where({ badgeId: badge.id });

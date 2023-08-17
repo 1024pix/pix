@@ -1,22 +1,23 @@
 import _ from 'lodash';
 
 const { isObject, values } = _;
-import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors.js';
-import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
 import fs from 'fs';
 
+import { FileValidationError, SiecleXmlImportError } from '../../../domain/errors.js';
+import { logErrorWithCorrelationIds } from '../../monitoring-tools.js';
+
 const fsPromises = fs.promises;
-import Path from 'path';
-import os from 'os';
 import buffer from 'buffer';
+import os from 'os';
+import Path from 'path';
 
 const { xmlEncoding } = xmlBufferTostring;
 
 const { Buffer } = buffer;
 
-import StreamZip from 'node-stream-zip';
 import { fileTypeFromFile } from 'file-type';
 import iconv from 'iconv-lite';
+import StreamZip from 'node-stream-zip';
 import sax from 'sax';
 import xmlBufferTostring from 'xml-buffer-tostring';
 

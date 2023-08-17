@@ -65,13 +65,13 @@ const findByRecordIds = async function (skillIds) {
 };
 
 export {
-  get,
-  list,
-  findActiveByTubeId,
-  findOperativeByTubeId,
   findActiveByCompetenceId,
+  findActiveByTubeId,
+  findByRecordIds,
   findOperativeByCompetenceId,
   findOperativeByCompetenceIds,
   findOperativeByIds,
-  findByRecordIds,
+  findOperativeByTubeId,
+  get,
+  list,
 };

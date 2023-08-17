@@ -1,6 +1,7 @@
+import bluebird from 'bluebird';
+
 import { knex } from '../../../../db/knex-database-connection.js';
 import { TargetProfileForSpecifier } from '../../../domain/read-models/campaign/TargetProfileForSpecifier.js';
-import bluebird from 'bluebird';
 
 async function availableForOrganization(organizationId) {
   const targetProfileRows = await _fetchTargetProfiles(organizationId);

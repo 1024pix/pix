@@ -58,4 +58,4 @@ const serializeForAdmin = function (certificationCenterMemberships) {
   }).serialize(certificationCenterMemberships);
 };
 
-export { serialize, serializeMembers, serializeForAdmin };
+export { serialize, serializeForAdmin, serializeMembers };

@@ -1,9 +1,9 @@
-import { OrganizationParticipant } from '../../domain/read-models/OrganizationParticipant.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { filterByFullName } from '../utils/filter-utils.js';
-import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { OrganizationParticipant } from '../../domain/read-models/OrganizationParticipant.js';
+import { filterByFullName } from '../utils/filter-utils.js';
+import { fetchPage } from '../utils/knex-utils.js';
 
 async function getParticipantsByOrganizationId({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex

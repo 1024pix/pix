@@ -1,7 +1,7 @@
+import { NotFoundError } from '../../domain/errors.js';
 import { Course } from '../../domain/models/Course.js';
 import { courseDatasource } from '../datasources/learning-content/course-datasource.js';
 import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
-import { NotFoundError } from '../../domain/errors.js';
 
 function _toDomain(courseDataObject) {
   return new Course({

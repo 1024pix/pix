@@ -1,6 +1,6 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './ComplementaryCertification.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'CertificationCenter';
 

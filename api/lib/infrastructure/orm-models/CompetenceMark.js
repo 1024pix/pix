@@ -1,5 +1,5 @@
-import { Bookshelf } from '../bookshelf.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'CompetenceMark';
 

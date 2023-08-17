@@ -1,10 +1,11 @@
 import accept from '@hapi/accept';
-import { tokenService } from '../../domain/services/token-service.js';
+
 import { LOCALE } from '../../domain/constants.js';
+import { tokenService } from '../../domain/services/token-service.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
-export { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
+export { escapeFileName, extractLocaleFromRequest, extractUserIdFromRequest };
 
 function escapeFileName(fileName) {
   return fileName.replace(/[^_. A-Za-z0-9-]/g, '_');

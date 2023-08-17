@@ -1,7 +1,7 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
-import { SessionForAttendanceSheet } from '../../../domain/read-models/SessionForAttendanceSheet.js';
 import { CertificationCandidateForAttendanceSheet } from '../../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
+import { SessionForAttendanceSheet } from '../../../domain/read-models/SessionForAttendanceSheet.js';
 
 const getWithCertificationCandidates = async function (idSession) {
   const results = await knex

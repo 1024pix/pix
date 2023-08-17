@@ -1,10 +1,11 @@
 import Debug from 'debug';
-import { SendinblueProvider } from './SendinblueProvider.js';
+
 import { config } from '../../config.js';
+import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { logger } from '../logger.js';
 import * as mailCheck from '../mail-check.js';
-import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
+import { SendinblueProvider } from './SendinblueProvider.js';
 
 const { mailing } = config;
 const debugEmail = Debug('pix:mailer:email');
@@ -98,4 +99,4 @@ class Mailer {
 
 const mailer = new Mailer();
 
-export { mailer, Mailer };
+export { Mailer, mailer };

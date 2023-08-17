@@ -41,4 +41,4 @@ const findByUsername = async function (username) {
   return foundUserLogin ? _toDomain(foundUserLogin) : null;
 };
 
-export { findByUserId, create, update, findByUsername };
+export { create, findByUserId, findByUsername, update };

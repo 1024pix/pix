@@ -1,8 +1,8 @@
-import { Bookshelf } from '../bookshelf.js';
-
 import './BadgeCriterion.js';
 import './SkillSet.js';
 import './TargetProfile.js';
+
+import { Bookshelf } from '../bookshelf.js';
 
 const modelName = 'Badge';
 

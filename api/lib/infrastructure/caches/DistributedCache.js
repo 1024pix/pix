@@ -1,5 +1,5 @@
-import { Cache } from './Cache.js';
 import { RedisClient } from '../utils/RedisClient.js';
+import { Cache } from './Cache.js';
 
 class DistributedCache extends Cache {
   constructor(underlyingCache, redisUrl, channel) {
