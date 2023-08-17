@@ -19,6 +19,7 @@ function _fetchTargetProfiles(organizationId) {
       'target-profiles.name',
       'target-profiles.description',
       'target-profiles.category',
+      'target-profiles.areKnowledgeElementsResettable',
       knex.count('id').from('badges').whereRaw('badges."targetProfileId"="target-profiles".id').as('countBadges'),
       knex.count('id').from('stages').whereRaw('stages."targetProfileId"="target-profiles".id').as('countStages'),
       knex
@@ -48,6 +49,7 @@ async function _buildTargetProfileForSpecifier(row) {
     hasStage,
     description: row.description,
     category: row.category,
+    areKnowledgeElementsResettable: row.areKnowledgeElementsResettable,
   });
 }
 
