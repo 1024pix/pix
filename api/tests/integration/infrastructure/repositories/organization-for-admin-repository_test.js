@@ -1,11 +1,11 @@
-import { catchErr, expect, domainBuilder, databaseBuilder, sinon, knex } from '../../../test-helper.js';
-import { NotFoundError, MissingAttributesError } from '../../../../lib/domain/errors.js';
-import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
-import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import * as apps from '../../../../lib/domain/constants.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import { MissingAttributesError, NotFoundError } from '../../../../lib/domain/errors.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/index.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
+import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | Organization-for-admin', function () {
   let clock;

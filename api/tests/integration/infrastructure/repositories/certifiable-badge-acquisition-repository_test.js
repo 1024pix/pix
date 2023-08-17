@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as certifiableBadgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as certifiableBadgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certifiable Badge Acquisition', function () {
   describe('#findHighestCertifiable', function () {

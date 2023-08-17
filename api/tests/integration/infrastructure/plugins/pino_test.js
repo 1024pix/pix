@@ -1,9 +1,11 @@
 import { Writable } from 'node:stream';
+
 import pino from 'pino';
+
 import { config } from '../../../../lib/config.js';
-import { expect, HttpTestServer, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
-import * as pinoPlugin from '../../../../lib/infrastructure/plugins/pino.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import * as pinoPlugin from '../../../../lib/infrastructure/plugins/pino.js';
+import { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | plugins | pino', function () {
   let httpTestServer;

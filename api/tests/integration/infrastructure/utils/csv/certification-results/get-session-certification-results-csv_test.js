@@ -1,7 +1,5 @@
-import { expect, domainBuilder } from '../../../../../test-helper.js';
-
 import { getSessionCertificationResultsCsv } from '../../../../../../lib/infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
-
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 

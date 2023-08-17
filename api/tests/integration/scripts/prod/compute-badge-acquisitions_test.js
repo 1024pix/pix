@@ -1,24 +1,22 @@
-import {
-  expect,
-  databaseBuilder,
-  sinon,
-  learningContentBuilder,
-  mockLearningContent,
-  knex,
-} from '../../../test-helper.js';
-
-import {
-  normalizeRange,
-  computeAllBadgeAcquisitions,
-  computeBadgeAcquisition,
-  getCampaignParticipationsBetweenIds,
-} from '../../../../scripts/prod/compute-badge-acquisitions.js';
-
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeForCalculationRepository from '../../../../lib/infrastructure/repositories/badge-for-calculation-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import {
+  computeAllBadgeAcquisitions,
+  computeBadgeAcquisition,
+  getCampaignParticipationsBetweenIds,
+  normalizeRange,
+} from '../../../../scripts/prod/compute-badge-acquisitions.js';
+import {
+  databaseBuilder,
+  expect,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../../test-helper.js';
 
 describe('Script | Prod | Compute Badge Acquisitions', function () {
   describe('#validateRange', function () {

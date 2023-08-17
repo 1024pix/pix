@@ -1,5 +1,5 @@
-import { expect, mockLearningContent, databaseBuilder } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let organizationId;

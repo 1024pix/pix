@@ -1,26 +1,22 @@
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
-
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
-import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
-import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
-import * as userService from '../../../../lib/domain/services/user-service.js';
-
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-
 import {
   CampaignCodeError,
   NotFoundError,
   ObjectValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../lib/domain/errors.js';
-
+import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
+import * as userService from '../../../../lib/domain/services/user-service.js';
 import { createUserAndReconcileToOrganizationLearnerFromExternalUser as createUserAndReconcileToOrganizationLearnerByExternalUser } from '../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user.js';
+import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
+import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
   context('When there is no campaign with the given code', function () {

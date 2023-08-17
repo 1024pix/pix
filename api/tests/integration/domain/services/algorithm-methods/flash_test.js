@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as flash from '../../../../../lib/domain/services/algorithm-methods/flash.js';
-import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
 import { config } from '../../../../../lib/config.js';
+import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
+import * as flash from '../../../../../lib/domain/services/algorithm-methods/flash.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
   describe('#getPossibleNextChallenge', function () {

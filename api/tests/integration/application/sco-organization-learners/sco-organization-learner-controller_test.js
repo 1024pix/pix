@@ -1,14 +1,13 @@
-import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
 import * as moduleUnderTest from '../../../../lib/application/sco-organization-learners/index.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-
+import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
 import {
   NotFoundError,
-  UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToGenerateUsernamePasswordError,
+  UserNotAuthorizedToUpdatePasswordError,
 } from '../../../../lib/domain/errors.js';
-import { ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | sco-organization-learners | sco-organization-learner-controller', function () {
   let sandbox;

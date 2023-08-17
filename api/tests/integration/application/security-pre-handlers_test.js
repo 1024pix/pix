@@ -1,14 +1,13 @@
-import {
-  expect,
-  generateValidRequestAuthorizationHeader,
-  databaseBuilder,
-  HttpTestServer,
-  sinon,
-} from '../../test-helper.js';
-
 import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
 import { config as settings } from '../../../lib/config.js';
 import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  HttpTestServer,
+  sinon,
+} from '../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

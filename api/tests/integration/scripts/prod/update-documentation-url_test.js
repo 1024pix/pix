@@ -1,6 +1,7 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import { updateDocumentationUrl, URL } from '../../../../scripts/prod/update-documentation-url.js';
 import sample from 'lodash/sample.js';
+
+import { updateDocumentationUrl, URL } from '../../../../scripts/prod/update-documentation-url.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('updateDocumentationUrl', function () {
   context('when the organization is PRO', function () {

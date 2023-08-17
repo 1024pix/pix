@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, domainBuilder } from '../../../test-helper.js';
-import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
 import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-learner-repository', function () {
   describe('#findOneByStudentNumber', function () {

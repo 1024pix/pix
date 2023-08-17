@@ -1,14 +1,13 @@
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
 import {
-  expect,
+  catchErr,
   databaseBuilder,
   domainBuilder,
-  catchErr,
+  expect,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificateRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
 
 describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
   const minimalLearningContent = [
@@ -547,8 +546,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         await databaseBuilder.commit();
 
         // when
-        const shareableCertificate =
-          await certificateRepository.getShareableCertificateByVerificationCode('P-SOMECODE');
+        const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(
+          'P-SOMECODE',
+        );
 
         // then
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({

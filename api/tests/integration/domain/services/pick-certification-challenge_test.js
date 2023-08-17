@@ -1,10 +1,10 @@
-import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
-import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
+import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
 import * as certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service.js';
-import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | CertificationChallengeService | pickCertificationChallenge', function () {
   const placementDate = new Date('2020-01-01');

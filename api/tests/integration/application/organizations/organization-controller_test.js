@@ -1,12 +1,12 @@
-import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
 import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
-import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Organizations | organization-controller', function () {
   let sandbox;

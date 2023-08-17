@@ -1,14 +1,15 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import bcrypt from 'bcrypt';
+
 import { config as settings } from '../../../../lib/config.js';
+import * as apps from '../../../../lib/domain/constants.js';
 import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
-import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
-import * as apps from '../../../../lib/domain/constants.js';
+import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings.js';
+import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
+import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {

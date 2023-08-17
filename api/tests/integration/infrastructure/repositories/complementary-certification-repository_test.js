@@ -1,5 +1,5 @@
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import * as complementaryCertificationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {

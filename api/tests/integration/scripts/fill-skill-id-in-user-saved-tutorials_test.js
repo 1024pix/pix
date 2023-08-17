@@ -1,26 +1,24 @@
+import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import { UserSavedTutorial } from '../../../lib/domain/models/UserSavedTutorial.js';
+import { UserSavedTutorialWithTutorial } from '../../../lib/domain/models/UserSavedTutorialWithTutorial.js';
 import {
-  expect,
-  databaseBuilder,
-  learningContentBuilder,
-  mockLearningContent,
-  domainBuilder,
-  knex,
-  sinon,
-} from '../../test-helper.js';
-
-import {
-  getAllUserSavedTutorialsWithoutSkillId,
-  getAllTutorials,
-  getAllSkills,
-  associateTutorialToUserSavedTutorial,
   associateSkillsToTutorial,
+  associateTutorialToUserSavedTutorial,
+  getAllSkills,
+  getAllTutorials,
+  getAllUserSavedTutorialsWithoutSkillId,
   getMostRelevantSkillId,
   main,
 } from '../../../scripts/fill-skill-id-in-user-saved-tutorials.js';
-
-import { UserSavedTutorial } from '../../../lib/domain/models/UserSavedTutorial.js';
-import { UserSavedTutorialWithTutorial } from '../../../lib/domain/models/UserSavedTutorialWithTutorial.js';
-import { KnowledgeElement } from '../../../lib/domain/models/KnowledgeElement.js';
+import {
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../test-helper.js';
 
 describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', function () {
   describe('#main', function () {

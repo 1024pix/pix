@@ -5,14 +5,15 @@ const { promises } = fs;
 const { unlink, writeFile } = promises;
 
 import _ from 'lodash';
-import { expect, databaseBuilder } from '../../../../test-helper.js';
-import * as writeOdsUtils from '../../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
-import * as sessionXmlService from '../../../../../lib/domain/services/session-xml-service.js';
-import * as readOdsUtils from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
-import * as sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository.js';
-import * as sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
-import { getAttendanceSheet } from '../../../../../lib/domain/usecases/get-attendance-sheet.js';
 import * as url from 'url';
+
+import * as sessionXmlService from '../../../../../lib/domain/services/session-xml-service.js';
+import { getAttendanceSheet } from '../../../../../lib/domain/usecases/get-attendance-sheet.js';
+import * as sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
+import * as sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository.js';
+import * as readOdsUtils from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | UseCases | getAttendanceSheet', function () {

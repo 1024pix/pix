@@ -1,6 +1,7 @@
-import { knex, expect, databaseBuilder } from '../../../test-helper.js';
-import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
 import lodash from 'lodash';
+
+import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 const { omit } = lodash;
 import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 

@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex, catchErr } from '../../test-helper.js';
-import { retrieveTagsByName, addTagsToOrganizations } from '../../../scripts/add-tags-to-organizations.js';
+import { addTagsToOrganizations, retrieveTagsByName } from '../../../scripts/add-tags-to-organizations.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | add-tags-to-organizations.js', function () {
   let firstTag;

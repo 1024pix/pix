@@ -1,9 +1,10 @@
-import { databaseBuilder, expect, catchErr } from '../../../../test-helper.js';
 import _ from 'lodash';
+
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 import { SessionForSupervising } from '../../../../../lib/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { catchErr, databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {

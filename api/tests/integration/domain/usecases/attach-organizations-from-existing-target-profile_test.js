@@ -1,9 +1,9 @@
-import { expect, sinon, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
 import { NoOrganizationToAttach, NotFoundError } from '../../../../lib/domain/errors.js';
 import { attachOrganizationsFromExistingTargetProfile } from '../../../../lib/domain/usecases/attach-organizations-from-existing-target-profile.js';
+import { skillDatasource } from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 import * as organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
-import { skillDatasource } from '../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | UseCase | attach-organizations-from-existing-target-profile', function () {
   beforeEach(function () {

@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import { enableComputeCertificabilityOnScoOrganizationsThatManageStudents } from '../../../../scripts/prod/enable-compute-certificability-on-sco-organizations-that-manage-students.js';
 import * as apps from '../../../../lib/domain/constants.js';
+import { enableComputeCertificabilityOnScoOrganizationsThatManageStudents } from '../../../../scripts/prod/enable-compute-certificability-on-sco-organizations-that-manage-students.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Scripts | enable-compute-certificability-on-sco-organizations-that-manages-students_test.js', function () {
   afterEach(function () {

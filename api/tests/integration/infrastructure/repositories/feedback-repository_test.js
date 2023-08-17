@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { save } from '../../../../lib/infrastructure/repositories/feedback-repository.js';
 import { Feedback } from '../../../../lib/domain/models/Feedback.js';
+import { save } from '../../../../lib/infrastructure/repositories/feedback-repository.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | Feedback', function () {
   describe('save', function () {

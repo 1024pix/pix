@@ -2,9 +2,9 @@ import stream from 'stream';
 
 const { PassThrough } = stream;
 
-import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { databaseBuilder, expect, mockLearningContent, streamToPromise } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {

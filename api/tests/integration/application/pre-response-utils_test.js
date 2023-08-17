@@ -1,19 +1,17 @@
-import { expect, hFake } from '../../test-helper.js';
-
 import {
   BadRequestError,
+  BaseHttpError,
   ConflictError,
   ForbiddenError,
-  BaseHttpError,
   MissingQueryParamError,
   NotFoundError,
   PreconditionFailedError,
   UnauthorizedError,
   UnprocessableEntityError,
 } from '../../../lib/application/http-errors.js';
-
-import { EntityValidationError } from '../../../lib/domain/errors.js';
 import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
+import { EntityValidationError } from '../../../lib/domain/errors.js';
+import { expect, hFake } from '../../test-helper.js';
 
 describe('Integration | Application | PreResponse-utils', function () {
   describe('#handleDomainAndHttpErrors', function () {

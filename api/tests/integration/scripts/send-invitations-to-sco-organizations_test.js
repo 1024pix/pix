@@ -1,14 +1,13 @@
 import _ from 'lodash';
 
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
 import { BookshelfOrganizationInvitation } from '../../../lib/infrastructure/orm-models/OrganizationInvitation.js';
-
 import {
-  getOrganizationByExternalId,
   buildInvitation,
+  getOrganizationByExternalId,
   prepareDataForSending,
   sendJoinOrganizationInvitations,
 } from '../../../scripts/send-invitations-to-sco-organizations.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | send-invitations-to-sco-organizations.js', function () {
   describe('#getOrganizationByExternalId', function () {

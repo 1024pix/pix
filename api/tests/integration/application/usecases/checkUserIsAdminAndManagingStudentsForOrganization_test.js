@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from '../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization', function () {
   describe('when the user does not belongs to the organization', function () {

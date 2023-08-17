@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as complementaryCertificationCourseRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-repository.js';
 import { PIX_PLUS_DROIT, PIX_PLUS_EDU_1ER_DEGRE } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import * as complementaryCertificationCourseRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | complementary-certification-courses-repository', function () {
   describe('#getComplementaryCertificationCourseId', function () {

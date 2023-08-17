@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
 import { complementaryCertificationCourseResultsController } from '../../../../lib/application/complementary-certification-course-results/complementary-certification-course-results-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/complementary-certification-course-results/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Route | Certifications', function () {
   let httpTestServer;

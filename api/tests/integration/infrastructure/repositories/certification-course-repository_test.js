@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { catchErr, expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper.js';
-import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
-import { BookshelfCertificationCourse } from '../../../../lib/infrastructure/orm-models/CertificationCourse.js';
+
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { BookshelfCertificationCourse } from '../../../../lib/infrastructure/orm-models/CertificationCourse.js';
+import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certification Course', function () {
   describe('#save', function () {

@@ -1,9 +1,9 @@
-import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as moduleUnderTest from '../../../../lib/application/users/index.js';
 import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../../../../lib/domain/errors.js';
 import { AssessmentResult } from '../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
-import * as moduleUnderTest from '../../../../lib/application/users/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Users | user-controller', function () {
   let sandbox;

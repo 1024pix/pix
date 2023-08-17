@@ -5,21 +5,21 @@ const { promises } = fs;
 const { readFile } = promises;
 
 import _ from 'lodash';
+
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
-import { expect, catchErr } from '../../../../test-helper.js';
+import * as url from 'url';
+
 import { UnprocessableEntityError } from '../../../../../lib/application/http-errors.js';
 import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
-
 import {
-  getContentXml,
   extractTableDataFromOdsFile,
-  validateOdsHeaders,
+  getContentXml,
   getSheetDataRowsFromOdsBuffer,
+  validateOdsHeaders,
 } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
-
-import * as url from 'url';
+import { catchErr, expect } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function () {

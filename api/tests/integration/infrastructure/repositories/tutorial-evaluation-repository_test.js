@@ -1,6 +1,6 @@
-import { expect, knex, databaseBuilder } from '../../../test-helper.js';
-import * as tutorialEvaluationRepository from '../../../../lib/infrastructure/repositories/tutorial-evaluation-repository.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
+import * as tutorialEvaluationRepository from '../../../../lib/infrastructure/repositories/tutorial-evaluation-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', function () {
   let userId, tutorialId, status;

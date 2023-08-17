@@ -1,10 +1,10 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
 import {
-  prepareCampaigns,
   checkData,
   getByExternalIdFetchingIdOnly,
+  prepareCampaigns,
 } from '../../../../scripts/prod/create-assessment-campaigns-for-sco.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Scripts | create-assessment-campaigns', function () {
   describe('#prepareCampaigns', function () {

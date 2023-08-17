@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { expect, knex, domainBuilder, databaseBuilder, sinon } from '../../../test-helper.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -353,8 +354,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements[0].skillId).to.equal('12');
@@ -378,8 +380,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements).to.be.empty;
@@ -425,8 +428,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
@@ -458,8 +462,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -490,8 +495,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -522,8 +528,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -554,8 +561,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -598,8 +606,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements).to.have.length(3);
@@ -643,8 +652,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements).to.have.length(1);

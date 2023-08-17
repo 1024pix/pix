@@ -1,6 +1,6 @@
-import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
-import * as resetPasswordDemandsRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
 import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors.js';
+import * as resetPasswordDemandsRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | reset-password-demands-repository', function () {
   afterEach(function () {

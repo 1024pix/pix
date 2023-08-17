@@ -1,11 +1,10 @@
-import { expect, databaseBuilder, knex, sinon } from '../../test-helper.js';
-
 import {
-  main,
   getAllBadgeAcquistionsWithoutCampaignParticipationId,
   getCampaignParticipationFromBadgeAcquisition,
+  main,
   updateBadgeAcquisitionWithCampaignParticipationId,
 } from '../../../scripts/fill-campaign-participation-id-in-badge-acquisitions.js';
+import { databaseBuilder, expect, knex, sinon } from '../../test-helper.js';
 
 describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', function () {
   beforeEach(function () {

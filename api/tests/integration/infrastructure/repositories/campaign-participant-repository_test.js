@@ -1,11 +1,12 @@
-import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import lodash from 'lodash';
+
 import { knex } from '../../../../db/knex-database-connection.js';
-import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
+import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
-import lodash from 'lodash';
-import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 const { pick } = lodash;
 

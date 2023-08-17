@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { swapCampaignCodes } from '../../../../scripts/prod/swap-campaign-codes.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Scripts | swap-campaign-codes', function () {
   it('should swap campaign codes', async function () {

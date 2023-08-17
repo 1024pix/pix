@@ -1,11 +1,12 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import _ from 'lodash';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 import { Answer } from '../../../../lib/domain/models/Answer.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
   afterEach(async function () {

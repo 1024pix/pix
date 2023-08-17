@@ -1,9 +1,10 @@
-import { expect, databaseBuilder, catchErr, knex } from '../../../test-helper.js';
-import * as participationsForCampaignManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-campaign-management-repository.js';
 import _ from 'lodash';
-import { ParticipationForCampaignManagement } from '../../../../lib/domain/models/ParticipationForCampaignManagement.js';
+
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { ParticipationForCampaignManagement } from '../../../../lib/domain/models/ParticipationForCampaignManagement.js';
+import * as participationsForCampaignManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-campaign-management-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

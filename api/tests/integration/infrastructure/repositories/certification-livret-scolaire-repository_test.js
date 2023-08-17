@@ -1,18 +1,17 @@
-import * as certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository.js';
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { status } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
-
+import * as certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository.js';
 import {
-  buildUser,
-  buildOrganizationLearner,
-  buildOrganization,
+  buildCancelledCertificationData,
   buildCertificationDataWithNoCompetenceMarks,
+  buildErrorUnpublishedCertificationData,
+  buildOrganization,
+  buildOrganizationLearner,
+  buildRejectedPublishedCertificationData,
+  buildUser,
   buildValidatedPublishedCertificationData,
   buildValidatedUnpublishedCertificationData,
-  buildCancelledCertificationData,
-  buildRejectedPublishedCertificationData,
-  buildErrorUnpublishedCertificationData,
 } from '../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certification-ls ', function () {
   const pixScore = 400;

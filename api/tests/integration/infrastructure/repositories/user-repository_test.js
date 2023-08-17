@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 const { each, map, times, pick } = lodash;
-import { expect, knex, databaseBuilder, catchErr, sinon } from '../../../test-helper.js';
-
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import {
   AlreadyExistingEntityError,
   AlreadyRegisteredEmailError,
@@ -9,18 +9,16 @@ import {
   NotFoundError,
   UserNotFoundError,
 } from '../../../../lib/domain/errors.js';
-
-import { User } from '../../../../lib/domain/models/User.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
-import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
 import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
-import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const expectedUserDetailsForAdminAttributes = [
   'id',

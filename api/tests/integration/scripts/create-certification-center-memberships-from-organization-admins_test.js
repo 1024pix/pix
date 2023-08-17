@@ -1,14 +1,13 @@
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
 import { Membership } from '../../../lib/domain/models/Membership.js';
 import { BookshelfCertificationCenterMembership } from '../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
-
 import {
-  getCertificationCenterIdWithMembershipsUserIdByExternalId,
-  getAdminMembershipsUserIdByOrganizationExternalId,
-  fetchCertificationCenterMembershipsByExternalId,
-  prepareDataForInsert,
   createCertificationCenterMemberships,
+  fetchCertificationCenterMembershipsByExternalId,
+  getAdminMembershipsUserIdByOrganizationExternalId,
+  getCertificationCenterIdWithMembershipsUserIdByExternalId,
+  prepareDataForInsert,
 } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {
   afterEach(async function () {

@@ -1,8 +1,7 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import * as algorithmDataFetcherService from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
-
 import { LOCALE } from '../../../../lib/domain/constants.js';
+import * as algorithmDataFetcherService from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
+import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

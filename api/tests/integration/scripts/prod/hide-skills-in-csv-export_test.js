@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { hideSkills } from '../../../../scripts/prod/hide-skills-in-csv-export.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('hideSkills', function () {
   it('should update showSkills to false', async function () {

@@ -1,8 +1,8 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../lib/domain/errors.js';
 import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | answerRepository', function () {
   describe('#get', function () {

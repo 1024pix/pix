@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 const { getParticipantsDivision } = usecases;
 

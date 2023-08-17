@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, mockLearningContent } from '../../../test-helper.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { databaseBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | UseCases | startCampaignParticipation', function () {
   afterEach(async function () {

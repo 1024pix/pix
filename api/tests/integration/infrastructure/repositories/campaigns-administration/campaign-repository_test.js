@@ -1,5 +1,5 @@
-import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 import * as campaignRepository from '../../../../../lib/infrastructure/repositories/campaigns-administration/campaign-repository.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Campaign Administration | campaign-repository', function () {
   let clock;

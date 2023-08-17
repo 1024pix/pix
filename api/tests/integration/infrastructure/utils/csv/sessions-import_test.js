@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import { getHeaders } from '../../../../../lib/infrastructure/files/sessions-import.js';
+import { expect } from '../../../../test-helper.js';
 const BOM_CHAR = '\ufeff';
 describe('Integration | Infrastructure | Utils | csv | sessions-import', function () {
   context('#getHeaders', function () {

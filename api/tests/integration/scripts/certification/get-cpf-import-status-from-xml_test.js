@@ -1,7 +1,8 @@
-import { knex, expect, databaseBuilder } from '../../../test-helper.js';
-import { main } from '../../../../scripts/certification/get-cpf-import-status-from-xml.js';
-import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse.js';
 import * as url from 'url';
+
+import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse.js';
+import { main } from '../../../../scripts/certification/get-cpf-import-status-from-xml.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml', function () {

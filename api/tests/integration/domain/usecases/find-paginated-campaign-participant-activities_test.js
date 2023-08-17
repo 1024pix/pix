@@ -1,6 +1,6 @@
-import { expect, catchErr, databaseBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCase | find-paginated-campaign-participants-activities', function () {
   let organizationId;

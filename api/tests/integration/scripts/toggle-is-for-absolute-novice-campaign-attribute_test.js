@@ -1,6 +1,6 @@
-import { expect, sinon, databaseBuilder, knex } from '../../test-helper.js';
 import { logger } from '../../../lib/infrastructure/logger.js';
 import { toggleIsForAbsoluteNoviceCampaignAttribute } from '../../../scripts/toggle-is-for-absolute-novice-campaign-attribute.js';
+import { databaseBuilder, expect, knex, sinon } from '../../test-helper.js';
 
 describe('Toggle isForAbsoluteNovice campaign attribute', function () {
   describe('#toggleIsForAbsoluteNoviceCampaignAttribute', function () {

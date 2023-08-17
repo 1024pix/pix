@@ -1,6 +1,6 @@
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | data-protection-officer', function () {
   const now = new Date('2022-09-27T16:30:00Z');

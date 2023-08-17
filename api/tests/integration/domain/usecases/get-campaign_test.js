@@ -1,9 +1,9 @@
-import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
 import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 import { getCampaign } from '../../../../lib/domain/usecases/get-campaign.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | UseCase | get-campaign', function () {
   context('Error case', function () {

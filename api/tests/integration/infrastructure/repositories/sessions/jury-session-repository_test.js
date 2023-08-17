@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import { databaseBuilder, expect, catchErr, domainBuilder } from '../../../../test-helper.js';
+
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
 import { CertificationOfficer } from '../../../../../lib/domain/models/CertificationOfficer.js';
+import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
 import * as jurySessionRepository from '../../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | JurySession', function () {
   describe('#get', function () {

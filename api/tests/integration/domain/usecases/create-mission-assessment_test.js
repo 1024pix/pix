@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import { expect, knex } from '../../../test-helper.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+
 import { createMissionAssessment } from '../../../../lib/domain/usecases/create-mission-assessment.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import { expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-mission-assessment', function () {
   let dependencies;

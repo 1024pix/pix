@@ -1,10 +1,10 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import iconv from 'iconv-lite';
 
 import { importSupOrganizationLearners as importSupOrganizationLearner } from '../../../../lib/domain/usecases/import-sup-organization-learners.js';
 import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
-import { SupOrganizationLearnerParser } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import { SupOrganizationLearnerParser } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 const i18n = getI18n();

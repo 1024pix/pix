@@ -1,10 +1,10 @@
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
 import {
   addTag,
   checkData,
   createOrUpdateOrganizations,
 } from '../../../scripts/create-or-update-sco-agri-organizations.js';
 import { logoUrl } from '../../../scripts/logo/default-sco-agri-organization-logo-base64.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-or-update-sco-agri-organizations', function () {
   describe('#checkData', function () {

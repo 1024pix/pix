@@ -1,20 +1,18 @@
 import _ from 'lodash';
 
-import { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
-import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
-
 import {
   NotFoundError,
-  OrganizationLearnersCouldNotBeSavedError,
   OrganizationLearnerNotFound,
+  OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
 } from '../../../../lib/domain/errors.js';
-
-import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/OrganizationLearnerForAdmin.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | organization-learner-repository', function () {
   describe('#findByIds', function () {
@@ -1827,8 +1825,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return an instance of OrganizationLearnerForAdmin', async function () {
       // when
-      const organizationLearner =
-        await organizationLearnerRepository.getOrganizationLearnerForAdmin(organizationLearnerId);
+      const organizationLearner = await organizationLearnerRepository.getOrganizationLearnerForAdmin(
+        organizationLearnerId,
+      );
 
       // then
       expect(organizationLearner).to.be.an.instanceOf(OrganizationLearnerForAdmin);

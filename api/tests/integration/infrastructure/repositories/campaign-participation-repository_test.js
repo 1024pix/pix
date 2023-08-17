@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import { sinon, expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -79,8 +80,9 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should return null if there is no participations', async function () {
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -97,8 +99,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -116,8 +119,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -133,8 +137,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -151,8 +156,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -170,8 +176,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -196,8 +203,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(expectedCode);

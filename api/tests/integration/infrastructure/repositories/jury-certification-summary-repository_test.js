@@ -1,16 +1,14 @@
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
 import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
-
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-
-import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
+import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {

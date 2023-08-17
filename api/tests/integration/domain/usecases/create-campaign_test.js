@@ -1,13 +1,12 @@
-import { expect, databaseBuilder, mockLearningContent, knex } from '../../../test-helper.js';
 import _ from 'lodash';
 
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository.js';
-
-import { createCampaign } from '../../../../lib/domain/usecases/create-campaign.js';
 import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import * as campaignCodeGenerator from '../../../../lib/domain/services/campaigns/campaign-code-generator.js';
+import { createCampaign } from '../../../../lib/domain/usecases/create-campaign.js';
+import * as campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import { databaseBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-campaign', function () {
   let userId;

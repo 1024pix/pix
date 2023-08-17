@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository.js';
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
+import * as certificationResultRepository from '../../../../lib/infrastructure/repositories/certification-result-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | Certification Result', function () {
   describe('#findBySessionId', function () {
@@ -179,8 +179,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     it(`should return complementary certifications linked to the certifications`, async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCourseId, assessmentResultId, competenceMarkId } =
-        await _buildCertificationResultInSession(sessionId);
+      const { certificationCourseId, assessmentResultId, competenceMarkId } = await _buildCertificationResultInSession(
+        sessionId,
+      );
       const oneBadgeId = databaseBuilder.factory.buildBadge({ key: 'PARTNER_KEY' }).id;
       const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         key: 'PARTNER_KEY',

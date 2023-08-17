@@ -1,7 +1,7 @@
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
-import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
-import { Activity } from '../../../../lib/domain/models/Activity.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Activity } from '../../../../lib/domain/models/Activity.js';
+import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | activityRepository', function () {
   describe('#save', function () {

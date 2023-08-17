@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import * as campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../lib/domain/errors.js';
+import * as campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {

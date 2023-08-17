@@ -1,6 +1,7 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../../test-helper.js';
-import * as sessionSummaryRepository from '../../../../../lib/infrastructure/repositories/sessions/session-summary-repository.js';
 import _ from 'lodash';
+
+import * as sessionSummaryRepository from '../../../../../lib/infrastructure/repositories/sessions/session-summary-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Repository | Session Summary', function () {
   describe('#findPaginatedByCertificationCenterId', function () {

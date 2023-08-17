@@ -1,3 +1,9 @@
+import _ from 'lodash';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Campaign } from '../../../../lib/domain/models/Campaign.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import {
   catchErr,
   databaseBuilder,
@@ -7,19 +13,13 @@ import {
   mockLearningContent,
   sinon,
 } from '../../../test-helper.js';
-
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import { Campaign } from '../../../../lib/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import _ from 'lodash';
-import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
-import { buildFramework } from '../../../tooling/domain-builder/factory/build-framework.js';
-import { buildSkill } from '../../../tooling/domain-builder/factory/build-skill.js';
-import { buildTube } from '../../../tooling/domain-builder/factory/build-tube.js';
 import { buildArea } from '../../../tooling/domain-builder/factory/build-area.js';
 import { buildCompetence } from '../../../tooling/domain-builder/factory/build-competence.js';
+import { buildFramework } from '../../../tooling/domain-builder/factory/build-framework.js';
+import { buildSkill } from '../../../tooling/domain-builder/factory/build-skill.js';
 import { buildThematic } from '../../../tooling/domain-builder/factory/build-thematic.js';
+import { buildTube } from '../../../tooling/domain-builder/factory/build-tube.js';
+import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
 
 describe('Integration | Repository | Campaign', function () {
   describe('#areKnowledgeElementsResettable', function () {

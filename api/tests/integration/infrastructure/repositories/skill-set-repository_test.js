@@ -1,6 +1,7 @@
-import { knex, expect, databaseBuilder } from '../../../test-helper.js';
-import * as skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository.js';
 import lodash from 'lodash';
+
+import * as skillSetRepository from '../../../../lib/infrastructure/repositories/skill-set-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 const { omit } = lodash;
 import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
 

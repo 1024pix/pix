@@ -1,9 +1,9 @@
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
 import { updateCertificationCenter } from '../../../../lib/domain/usecases/update-certification-center.js';
 import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | update-certification-center', function () {
   afterEach(async function () {

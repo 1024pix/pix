@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as certificationCpfCityRepository from '../../../../lib/infrastructure/repositories/certification-cpf-city-repository.js';
 import { CertificationCpfCity } from '../../../../lib/domain/models/CertificationCpfCity.js';
+import * as certificationCpfCityRepository from '../../../../lib/infrastructure/repositories/certification-cpf-city-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | certificationCpfCityRepository', function () {
   describe('#findByINSEECode', function () {

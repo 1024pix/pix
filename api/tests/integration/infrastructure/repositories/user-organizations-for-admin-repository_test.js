@@ -1,6 +1,6 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
 import * as userOrganizationsForAdminRepository from '../../../../lib/infrastructure/repositories/user-organizations-for-admin-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | user-organizations-for-admin', function () {
   context('#findByUserId', function () {

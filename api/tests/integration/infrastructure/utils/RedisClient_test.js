@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
-
-import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
-import { config } from '../../../../lib/config.js';
-import { expect } from '../../../test-helper.js';
 import bluebird from 'bluebird';
 import Redis from 'ioredis';
+import { v4 as uuidv4 } from 'uuid';
+
+import { config } from '../../../../lib/config.js';
+import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
+import { expect } from '../../../test-helper.js';
 
 const { using } = bluebird;
 

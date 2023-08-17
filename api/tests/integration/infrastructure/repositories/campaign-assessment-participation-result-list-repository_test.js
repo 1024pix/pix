@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
-import * as campaignAssessmentParticipationResultListRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import * as campaignAssessmentParticipationResultListRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
+import { databaseBuilder, expect, knex, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

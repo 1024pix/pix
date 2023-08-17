@@ -1,14 +1,12 @@
-import {
-  expect,
-  databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
-  domainBuilder,
-} from '../../../test-helper.js';
-
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-
 import * as certificationBadgesService from '../../../../lib/domain/services/certification-badges-service.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import {
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 const listSkill = ['web1', 'web2', 'web3', 'web4'];
 const learningContent = [

@@ -4,22 +4,20 @@ const { promises } = fs;
 
 const { writeFile, unlink } = promises;
 
-import { expect } from '../../../../test-helper.js';
-import { getContentXml } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import * as url from 'url';
 
+import { AddedCellOption } from '../../../../../lib/infrastructure/utils/ods/added-cell-option.js';
+import { getContentXml } from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 import {
+  addCellToEndOfLineWithStyleOfCellLabelled,
+  addTooltipOnCell,
+  addValidatorRestrictedList,
+  incrementRowsColumnSpan,
   makeUpdatedOdsByContentXml,
   updateXmlRows,
   updateXmlSparseValues,
-  addCellToEndOfLineWithStyleOfCellLabelled,
-  incrementRowsColumnSpan,
-  addValidatorRestrictedList,
-  addTooltipOnCell,
 } from '../../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
-
-import { AddedCellOption } from '../../../../../lib/infrastructure/utils/ods/added-cell-option.js';
-
-import * as url from 'url';
+import { expect } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function () {

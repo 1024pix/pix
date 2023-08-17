@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { main } from '../../../../scripts/prod/target-profile-migrations/replace-threshold1-with-first-skill-stage.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Script | Prod | Replace Threshold with First Skill Stage', function () {
   it('should convert ', async function () {

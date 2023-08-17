@@ -1,7 +1,7 @@
-import { expect, knex } from '../../../test-helper.js';
+import { Assessment } from '../../../../lib/domain/models/index.js';
 import { createPreviewAssessment } from '../../../../lib/domain/usecases/create-preview-assessment.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
-import { Assessment } from '../../../../lib/domain/models/index.js';
+import { expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-preview-assessment', function () {
   let assessmentId;

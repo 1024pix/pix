@@ -1,8 +1,8 @@
-import { knex, expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as knowledgeElementSnapshotRepository from '../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', function () {
   describe('#save', function () {

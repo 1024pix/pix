@@ -1,21 +1,20 @@
-import {
-  expect,
-  databaseBuilder,
-  knex,
-  mockLearningContent,
-  learningContentBuilder,
-  sinon,
-} from '../../../test-helper.js';
-
+import { AssessmentCompleted as AsessmentCompletedEvent } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { handlePoleEmploiParticipationFinished } from '../../../../lib/domain/events/handle-pole-emploi-participation-finished.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import * as poleEmploiSendingRepository from '../../../../lib/infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
-import { AssessmentCompleted as AsessmentCompletedEvent } from '../../../../lib/domain/events/AssessmentCompleted.js';
+import {
+  databaseBuilder,
+  expect,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../../test-helper.js';
 
 describe('Integration | Event | Handle Pole emploi participation finished', function () {
   let campaignParticipationId, userId, event, poleEmploiNotifier, responseCode;

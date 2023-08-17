@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { catchErr, databaseBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 

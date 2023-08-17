@@ -1,12 +1,13 @@
-import { databaseBuilder, expect, knex, domainBuilder, catchErr } from '../../../test-helper.js';
-import { BookshelfCertificationCandidate } from '../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
-import * as certificationCandidateRepository from '../../../../lib/infrastructure/repositories/certification-candidate-repository.js';
+import _ from 'lodash';
+
 import {
-  NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
+  NotFoundError,
 } from '../../../../lib/domain/errors.js';
 import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
-import _ from 'lodash';
+import { BookshelfCertificationCandidate } from '../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+import * as certificationCandidateRepository from '../../../../lib/infrastructure/repositories/certification-candidate-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {
@@ -408,8 +409,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         };
 
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(personalInfoAndId);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          personalInfoAndId,
+        );
 
         // then
         expect(actualCandidates).to.have.lengthOf(1);
@@ -450,8 +452,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         };
 
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(personalInfoAndId);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          personalInfoAndId,
+        );
 
         // then
         expect(actualCandidates).to.have.lengthOf(1);
@@ -484,8 +487,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should not find any candidate', async function () {
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(notMatchingCandidateInfo);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          notMatchingCandidateInfo,
+        );
 
         // then
         expect(actualCandidates).to.be.empty;
@@ -517,8 +521,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(commonCandidateInfo);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          commonCandidateInfo,
+        );
 
         // then
         expect(actualCandidates).to.have.lengthOf(2);

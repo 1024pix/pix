@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import { getRecentlyUsedTags } from '../../../../lib/domain/usecases/get-recently-used-tags.js';
+
 import { Tag } from '../../../../lib/domain/models/Tag.js';
+import { getRecentlyUsedTags } from '../../../../lib/domain/usecases/get-recently-used-tags.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | UseCase | get-recently-used-tags', function () {
   it('returns 10 recently used tags based on a tag id and ordered by the most used first', async function () {

@@ -1,7 +1,7 @@
-import { expect, knex, domainBuilder, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import * as tagRepository from '../../../../lib/infrastructure/repositories/tag-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | TagRepository', function () {
   afterEach(async function () {

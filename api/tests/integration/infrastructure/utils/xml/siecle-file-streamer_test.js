@@ -1,7 +1,8 @@
-import { expect, catchErr, sinon } from '../../../../test-helper.js';
-import { SiecleFileStreamer } from '../../../../../lib/infrastructure/utils/xml/siecle-file-streamer.js';
-import { FileValidationError, SiecleXmlImportError } from '../../../../../lib/domain/errors.js';
 import * as url from 'url';
+
+import { FileValidationError, SiecleXmlImportError } from '../../../../../lib/domain/errors.js';
+import { SiecleFileStreamer } from '../../../../../lib/infrastructure/utils/xml/siecle-file-streamer.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('SiecleFileStreamer', function () {

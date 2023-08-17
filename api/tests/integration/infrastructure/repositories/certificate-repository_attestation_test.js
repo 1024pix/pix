@@ -1,15 +1,14 @@
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import * as certificationRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
 import {
-  expect,
+  catchErr,
   databaseBuilder,
   domainBuilder,
-  catchErr,
+  expect,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificationRepository from '../../../../lib/infrastructure/repositories/certificate-repository.js';
-import { status } from '../../../../lib/domain/models/AssessmentResult.js';
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [

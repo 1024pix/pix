@@ -1,5 +1,5 @@
-import { expect, learningContentBuilder, mockLearningContent, databaseBuilder, knex } from '../../../test-helper.js';
 import { generateCampaignWithParticipants } from '../../../../scripts/data-generation/generate-campaign-with-participants.js';
+import { databaseBuilder, expect, knex, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Scripts | generate-campaign-with-participants', function () {
   it('should create a profiles collection campaign with participants', async function () {

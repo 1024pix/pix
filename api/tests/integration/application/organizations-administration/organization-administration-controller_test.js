@@ -1,7 +1,7 @@
-import { expect, hFake, databaseBuilder, knex } from '../../../test-helper.js';
-import * as organizationAdministrationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
 import * as dragonLogo from '../../../../db/seeds/src/dragonAndCoBase64.js';
+import * as organizationAdministrationController from '../../../../lib/application/organizations-administration/organization-administration-controller.js';
 import * as apps from '../../../../lib/domain/constants.js';
+import { databaseBuilder, expect, hFake, knex } from '../../../test-helper.js';
 
 describe('Integration | Application | Controller | organization-administration-controller', function () {
   let organization;

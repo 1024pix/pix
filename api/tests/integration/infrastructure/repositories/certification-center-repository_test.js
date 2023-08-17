@@ -1,8 +1,9 @@
-import { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } from '../../../test-helper.js';
-import * as certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository.js';
-import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
+import * as certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | Certification Center', function () {
   let clock, now;

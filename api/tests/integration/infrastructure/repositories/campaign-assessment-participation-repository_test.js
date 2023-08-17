@@ -1,10 +1,10 @@
-import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
 import * as campaignAssessmentParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { catchErr, databaseBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

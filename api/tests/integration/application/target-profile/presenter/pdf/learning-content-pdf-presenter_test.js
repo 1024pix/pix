@@ -1,9 +1,10 @@
+import { writeFile } from 'fs/promises';
+import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
+import * as url from 'url';
+
+import * as learningContentPDFPresenter from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
 import { domainBuilder, expect, MockDate, sinon } from '../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../tooling/binary-comparator.js';
-import * as learningContentPDFPresenter from '../../../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
-import { writeFile } from 'fs/promises';
-import * as url from 'url';
-import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

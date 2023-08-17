@@ -1,7 +1,8 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import _ from 'lodash';
-import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Badge Acquisition', function () {
   describe('#createOrUpdate', function () {

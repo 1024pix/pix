@@ -1,6 +1,6 @@
-import { expect, domainBuilder, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
-import * as organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import * as organizationsToAttachToTargetProfileRepository from '../../../../lib/infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Organizations-to-attach-to-target-profile', function () {
   describe('#attachOrganizations', function () {
@@ -21,8 +21,9 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
 
       targetProfileOrganizations.attach([organization1.id, organization2.id]);
 
-      const results =
-        await organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
+      const results = await organizationsToAttachToTargetProfileRepository.attachOrganizations(
+        targetProfileOrganizations,
+      );
 
       expect(results).to.deep.equal({ duplicatedIds: [], attachedIds: [organization1.id, organization2.id] });
     });
@@ -92,8 +93,9 @@ describe('Integration | Repository | Organizations-to-attach-to-target-profile',
 
         targetProfileOrganizations.attach([firstOrganization.id, secondOrganization.id]);
 
-        const result =
-          await organizationsToAttachToTargetProfileRepository.attachOrganizations(targetProfileOrganizations);
+        const result = await organizationsToAttachToTargetProfileRepository.attachOrganizations(
+          targetProfileOrganizations,
+        );
 
         expect(result).to.deep.equal({ duplicatedIds: [firstOrganization.id], attachedIds: [secondOrganization.id] });
       });

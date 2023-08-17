@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
 import { switchCampaignToFlash } from '../../../scripts/switch-campaign-to-flash.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | switch-campaign-to-flash.js', function () {
   describe('#switchCampaignToFlash', function () {

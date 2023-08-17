@@ -1,7 +1,7 @@
-import { expect, sinon } from '../../test-helper.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { asyncLocalStorage } from '../../../lib/infrastructure/monitoring-tools.js';
 import { config } from '../../../lib/config.js';
+import { asyncLocalStorage } from '../../../lib/infrastructure/monitoring-tools.js';
+import { expect, sinon } from '../../test-helper.js';
 const selectQuery = knex.raw('SELECT 1 as value');
 
 describe('Integration | Infrastructure | knex-database-performance-monitoring', function () {

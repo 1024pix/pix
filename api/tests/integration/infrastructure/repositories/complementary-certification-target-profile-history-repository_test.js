@@ -1,8 +1,8 @@
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
-import * as complementaryCertificationTargetProfileHistoryRepository from '../../../../lib/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import { ComplementaryCertificationBadgeForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 import { ComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { TargetProfileHistoryForAdmin } from '../../../../lib/domain/models/TargetProfileHistoryForAdmin.js';
-import { ComplementaryCertificationBadgeForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationBadgeForAdmin.js';
+import * as complementaryCertificationTargetProfileHistoryRepository from '../../../../lib/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | complementary-certification-target-profile-history-repository', function () {
   describe('#getByComplementaryCertificationId', function () {

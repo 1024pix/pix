@@ -1,10 +1,11 @@
-import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
+import _ from 'lodash';
+
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
 import { Challenge } from '../../../../lib/domain/models/Challenge.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import _ from 'lodash';
+import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
   beforeEach(function () {

@@ -1,9 +1,9 @@
-import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../lib/application/memberships/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { InvalidMembershipOrganizationRoleError } from '../../../../lib/domain/errors.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Integration | Application | Memberships | membership-controller', function () {
   let httpTestServer;

@@ -1,7 +1,7 @@
-import { databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper.js';
-import * as cpfCertificationResultRepository from '../../../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse.js';
+import * as cpfCertificationResultRepository from '../../../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#countByTimeRange', function () {

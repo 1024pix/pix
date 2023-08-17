@@ -1,11 +1,11 @@
-import { expect, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { catchErr, databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
 import { AdminMemberError } from '../../../../lib/domain/errors.js';
+import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
+import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {

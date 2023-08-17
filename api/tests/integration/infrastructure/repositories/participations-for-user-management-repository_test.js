@@ -1,8 +1,9 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as participationsForUserManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-user-management-repository.js';
 import _ from 'lodash';
-import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
+
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
+import * as participationsForUserManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-user-management-repository.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

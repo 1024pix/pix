@@ -1,8 +1,8 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { beginCampaignParticipationImprovement } from '../../../../lib/domain/usecases/begin-campaign-participation-improvement.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 

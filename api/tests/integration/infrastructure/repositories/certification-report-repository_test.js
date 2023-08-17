@@ -1,10 +1,11 @@
 import _ from 'lodash';
-import { databaseBuilder, domainBuilder, expect, catchErr, knex } from '../../../test-helper.js';
-import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
+
 import { CertificationCourseUpdateError } from '../../../../lib/domain/errors.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
+import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | CertificationReport', function () {
   describe('#findBySessionId', function () {

@@ -1,11 +1,11 @@
-import { expect, catchErr, databaseBuilder, knex } from '../../test-helper.js';
+import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
 import {
   checkBadgeExistence,
   checkCriteriaFormat,
   checkSkillSetIds,
   copySkillSets,
 } from '../../../scripts/create-badge-criteria-for-specified-badge.js';
-import { BadgeCriterion } from '../../../lib/domain/models/BadgeCriterion.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | create-badge-criteria-for-specified-badge', function () {
   describe('#checkBadgeExistence', function () {

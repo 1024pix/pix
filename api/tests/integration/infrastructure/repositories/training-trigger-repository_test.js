@@ -1,20 +1,20 @@
-import {
-  expect,
-  databaseBuilder,
-  domainBuilder,
-  knex,
-  mockLearningContent,
-  learningContentBuilder,
-  sinon,
-  catchErr,
-} from '../../../test-helper.js';
+import _ from 'lodash';
 
-import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { TrainingTrigger, TrainingTriggerTube } from '../../../../lib/domain/models/index.js';
 import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
-import _ from 'lodash';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
+import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
+import {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../../test-helper.js';
 
 describe('Integration | Repository | training-trigger-repository', function () {
   let learningContent;

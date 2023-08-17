@@ -1,11 +1,9 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
-import * as certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository.js';
-import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
-
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createCertificationCenterMembershipForScoOrganizationMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-member.js';
+import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
+import * as certificationCenterRepository from '../../../../lib/infrastructure/repositories/certification-center-repository.js';
+import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
   afterEach(function () {

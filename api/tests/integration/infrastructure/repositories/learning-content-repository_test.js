@@ -1,14 +1,13 @@
-import {
-  expect,
-  databaseBuilder,
-  catchErr,
-  mockLearningContent,
-  domainBuilder,
-  learningContentBuilder,
-} from '../../../test-helper.js';
-
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
 import * as learningContentRepository from '../../../../lib/infrastructure/repositories/learning-content-repository.js';
+import {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 describe('Integration | Repository | learning-content', function () {
   let learningContent;
@@ -320,8 +319,9 @@ describe('Integration | Repository | learning-content', function () {
       tube2Fr.skills = [skill2, skill3];
 
       // when
-      const campaignLearningContent =
-        await learningContentRepository.findByCampaignParticipationId(campaignParticipationId);
+      const campaignLearningContent = await learningContentRepository.findByCampaignParticipationId(
+        campaignParticipationId,
+      );
 
       // then
       expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);

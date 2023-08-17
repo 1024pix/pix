@@ -1,6 +1,6 @@
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
-import * as userLoginRepository from '../../../../lib/infrastructure/repositories/user-login-repository.js';
 import { UserLogin } from '../../../../lib/domain/models/UserLogin.js';
+import * as userLoginRepository from '../../../../lib/infrastructure/repositories/user-login-repository.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 describe('Integration | Repository | UserLoginRepository', function () {
   describe('#findByUserId', function () {

@@ -1,5 +1,5 @@
-import { expect, knex } from '../../../../test-helper.js';
 import { ParticipationResultCalculationJob } from '../../../../../lib/infrastructure/jobs/campaign-result/ParticipationResultCalculationJob.js';
+import { expect, knex } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Jobs | CampaignResult | ParticipationResultCalculation', function () {
   afterEach(async function () {

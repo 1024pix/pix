@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, sinon } from '../../../test-helper.js';
-import { updatePixCertificationStatus } from '../../../../scripts/certification/fill-pix-certification-status-column-in-certification-courses-table.js';
 import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { updatePixCertificationStatus } from '../../../../scripts/certification/fill-pix-certification-status-column-in-certification-courses-table.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 const OLD_UPDATED_AT = new Date('2020-01-01');
 const NEW_UPDATED_AT = new Date('2022-02-02');

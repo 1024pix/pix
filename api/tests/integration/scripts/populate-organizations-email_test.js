@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex, sinon } from '../../test-helper.js';
 import { populateOrganizations } from '../../../scripts/populate-organizations-email.js';
+import { databaseBuilder, expect, knex, sinon } from '../../test-helper.js';
 
 describe('Integration | Scripts | populate-organizations-email.js', function () {
   describe('#populateOrganizations', function () {

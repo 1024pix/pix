@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import * as cleaCertifiedCandidateRepository from '../../../../lib/infrastructure/repositories/clea-certified-candidate-repository.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Integration | Repository | clea-certified-candidate-repository', function () {
   describe('#getBySessionId', function () {

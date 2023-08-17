@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
 import { cleanAnonymizedAuthenticationMethods } from '../../../scripts/clean-anonymized-users-authentication-methods.js';
+import { databaseBuilder, expect, knex } from '../../test-helper.js';
 
 describe('Integration | Scripts | clean-anonymized-users-authentication-methods', function () {
   describe('#cleanAnonymizedAuthenticationMethods', function () {

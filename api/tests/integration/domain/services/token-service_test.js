@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import { config as settings } from '../../../../lib/config.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Integration | Domain | Services | TokenService', function () {
   describe('#createAccessTokenForSaml', function () {
