@@ -1,6 +1,6 @@
-import { BuildSkillCollection as buildSkillCollection } from './build-skill-collection.js';
-import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { Progression } from '../../../../lib/domain/models/Progression.js';
+import { buildKnowledgeElement } from './build-knowledge-element.js';
+import { BuildSkillCollection as buildSkillCollection } from './build-skill-collection.js';
 
 const buildProgression = function ({
   id = Progression.generateIdFromAssessmentId(1234),

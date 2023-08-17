@@ -1,12 +1,12 @@
-import { expect, learningContentBuilder, mockLearningContent } from '../../test-helper.js';
 import { areaDatasource } from '../../../lib/infrastructure/datasources/learning-content/area-datasource.js';
-import { competenceDatasource } from '../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
-import { thematicDatasource } from '../../../lib/infrastructure/datasources/learning-content/thematic-datasource.js';
-import { tubeDatasource } from '../../../lib/infrastructure/datasources/learning-content/tube-datasource.js';
-import { skillDatasource } from '../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 import { challengeDatasource } from '../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
+import { competenceDatasource } from '../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
 import { courseDatasource } from '../../../lib/infrastructure/datasources/learning-content/course-datasource.js';
 import { frameworkDatasource } from '../../../lib/infrastructure/datasources/learning-content/framework-datasource.js';
+import { skillDatasource } from '../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
+import { thematicDatasource } from '../../../lib/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { tubeDatasource } from '../../../lib/infrastructure/datasources/learning-content/tube-datasource.js';
+import { expect, learningContentBuilder, mockLearningContent } from '../../test-helper.js';
 
 describe('Integration | buildLearningContent', function () {
   it('builds areas and frameworks', async function () {

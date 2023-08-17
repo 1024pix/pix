@@ -1,9 +1,9 @@
 import {
-  BadgeDetails,
   BadgeCriterion,
-  SkillSet,
+  BadgeDetails,
   CappedTube,
   SCOPES,
+  SkillSet,
 } from '../../../../lib/domain/models/BadgeDetails.js';
 
 const buildBadgeDetails = function buildBadgeDetails({

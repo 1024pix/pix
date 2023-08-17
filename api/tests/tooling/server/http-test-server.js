@@ -1,8 +1,8 @@
 import Hapi from '@hapi/hapi';
 
 import * as preResponseUtils from '../../../lib/application/pre-response-utils.js';
-import { handleFailAction } from '../../../lib/validate.js';
 import { authentication } from '../../../lib/infrastructure/authentication.js';
+import { handleFailAction } from '../../../lib/validate.js';
 
 const routesConfig = {
   routes: {

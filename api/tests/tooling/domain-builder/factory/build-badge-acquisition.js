@@ -1,5 +1,5 @@
-import { buildBadge } from './build-badge.js';
 import { BadgeAcquisition } from '../../../../lib/domain/models/BadgeAcquisition.js';
+import { buildBadge } from './build-badge.js';
 
 const buildBadgeAcquisition = function buildBadgeAcquisition({
   id = 123,

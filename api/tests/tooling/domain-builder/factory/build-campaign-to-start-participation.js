@@ -1,5 +1,5 @@
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 
 const buildCampaignToStartParticipation = function ({
   id = 1,

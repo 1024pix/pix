@@ -1,6 +1,6 @@
-import { OrganizationLearnerParticipation } from '../../../../lib/domain/read-models/OrganizationLearnerParticipation.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { OrganizationLearnerParticipation } from '../../../../lib/domain/read-models/OrganizationLearnerParticipation.js';
 
 const buildOrganizationLearnerParticipation = function ({
   id = '123',

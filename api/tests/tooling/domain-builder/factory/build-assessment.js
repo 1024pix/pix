@@ -1,10 +1,11 @@
 import _ from 'lodash';
+
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { buildAnswer } from './build-answer.js';
+import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCourse } from './build-course.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { buildTargetProfile } from './build-target-profile.js';
-import { buildCampaignParticipation } from './build-campaign-participation.js';
 
 function buildAssessment({
   id = 123,

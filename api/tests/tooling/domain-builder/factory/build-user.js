@@ -1,7 +1,7 @@
 import { User } from '../../../../lib/domain/models/User.js';
-import { buildMembership } from './build-membership.js';
-import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
 import { buildAuthenticationMethod } from './build-authentication-method.js';
+import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
+import { buildMembership } from './build-membership.js';
 
 const buildUser = function ({
   id = 123,

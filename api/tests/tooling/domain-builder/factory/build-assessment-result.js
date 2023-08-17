@@ -1,8 +1,8 @@
-import {
-  status as assessmentResultStatuses,
-  AssessmentResult,
-} from '../../../../lib/domain/models/AssessmentResult.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import {
+  AssessmentResult,
+  status as assessmentResultStatuses,
+} from '../../../../lib/domain/models/AssessmentResult.js';
 
 const buildAssessmentResult = function ({
   id = 123,

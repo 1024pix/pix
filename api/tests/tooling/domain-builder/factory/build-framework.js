@@ -1,5 +1,5 @@
-import { buildArea } from './build-area.js';
 import { Framework } from '../../../../lib/domain/models/Framework.js';
+import { buildArea } from './build-area.js';
 
 const buildFramework = function ({ id = 'recFramework123', name = 'Mon super référentiel', areas } = {}) {
   areas = areas || [buildArea({ frameworkId: id })];

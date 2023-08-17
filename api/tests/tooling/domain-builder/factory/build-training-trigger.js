@@ -1,6 +1,6 @@
-import { buildTube } from './build-tube.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import { buildTube } from './build-tube.js';
 
 const buildTrainingTrigger = function ({
   id = 1000,

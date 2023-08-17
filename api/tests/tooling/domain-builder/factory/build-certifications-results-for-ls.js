@@ -1,6 +1,6 @@
-import { databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
-import { status } from '../../../../lib/domain/models/AssessmentResult.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
 
 const assessmentCreatedDate = new Date('2020-04-19');
 const assessmentBeforeCreatedDate = new Date('2020-04-18');
@@ -362,14 +362,14 @@ function mockLearningContentCompetences() {
 }
 
 export {
+  buildCancelledCertificationData,
+  buildCertificationDataWithNoCompetenceMarks,
+  buildErrorUnpublishedCertificationData,
+  buildOrganization,
+  buildOrganizationLearner,
+  buildRejectedPublishedCertificationData,
+  buildUser,
   buildValidatedPublishedCertificationData,
   buildValidatedUnpublishedCertificationData,
-  buildCancelledCertificationData,
-  buildRejectedPublishedCertificationData,
-  buildErrorUnpublishedCertificationData,
-  buildCertificationDataWithNoCompetenceMarks,
   mockLearningContentCompetences,
-  buildOrganization,
-  buildUser,
-  buildOrganizationLearner,
 };

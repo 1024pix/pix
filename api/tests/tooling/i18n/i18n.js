@@ -1,5 +1,5 @@
-import path from 'path';
 import i18n from 'i18n';
+import path from 'path';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
