@@ -13,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer'
         hasStage: true,
         description: 'description',
         category: 'SUBJECT',
+        areKnowledgeElementsResettable: true,
       });
 
       const meta = { some: 'meta' };
@@ -28,6 +29,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer'
             'has-stage': true,
             description: 'description',
             category: 'SUBJECT',
+            'are-knowledge-elements-resettable': true,
           },
         },
         meta,
