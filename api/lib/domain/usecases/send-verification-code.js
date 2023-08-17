@@ -1,6 +1,7 @@
+import lodash from 'lodash';
+
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
 import { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } from '../errors.js';
-import lodash from 'lodash';
 
 const { get } = lodash;
 

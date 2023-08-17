@@ -1,5 +1,6 @@
-import { ScoringSimulationResult } from '../models/ScoringSimulationResult.js';
 import lodash from 'lodash';
+
+import { ScoringSimulationResult } from '../models/ScoringSimulationResult.js';
 
 const { sortBy } = lodash;
 import fp from 'lodash/fp.js';

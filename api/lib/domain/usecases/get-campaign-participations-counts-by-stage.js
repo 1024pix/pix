@@ -1,5 +1,5 @@
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
-import { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } from '../errors.js';
+import { NoStagesForCampaign, UserNotAuthorizedToAccessEntityError } from '../errors.js';
 
 const getCampaignParticipationsCountByStage = async function ({
   userId,

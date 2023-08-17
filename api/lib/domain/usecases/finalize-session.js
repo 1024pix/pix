@@ -1,12 +1,12 @@
+import bluebird from 'bluebird';
+
 import {
   SessionAlreadyFinalizedError,
-  SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
+  SessionWithoutStartedCertificationError,
 } from '../errors.js';
-
 import { SessionFinalized } from '../events/SessionFinalized.js';
-import bluebird from 'bluebird';
 
 const finalizeSession = async function ({
   sessionId,

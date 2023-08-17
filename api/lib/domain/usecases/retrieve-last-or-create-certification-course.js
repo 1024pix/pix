@@ -1,19 +1,18 @@
-import { CertificationCourse } from '../models/CertificationCourse.js';
-import { Assessment } from '../models/Assessment.js';
-import { ComplementaryCertificationCourse } from '../models/ComplementaryCertificationCourse.js';
-
-import {
-  UserNotAuthorizedToCertifyError,
-  NotFoundError,
-  SessionNotAccessible,
-  CandidateNotAuthorizedToJoinSessionError,
-  CandidateNotAuthorizedToResumeCertificationTestError,
-  UnexpectedUserAccountError,
-} from '../errors.js';
+import bluebird from 'bluebird';
 
 import { config } from '../../config.js';
-import bluebird from 'bluebird';
+import {
+  CandidateNotAuthorizedToJoinSessionError,
+  CandidateNotAuthorizedToResumeCertificationTestError,
+  NotFoundError,
+  SessionNotAccessible,
+  UnexpectedUserAccountError,
+  UserNotAuthorizedToCertifyError,
+} from '../errors.js';
+import { Assessment } from '../models/Assessment.js';
+import { CertificationCourse } from '../models/CertificationCourse.js';
 import { CertificationVersion } from '../models/CertificationVersion.js';
+import { ComplementaryCertificationCourse } from '../models/ComplementaryCertificationCourse.js';
 
 const { features } = config;
 

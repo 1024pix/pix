@@ -1,7 +1,8 @@
 import bluebird from 'bluebird';
 import dayjs from 'dayjs';
-import { constants as domainConstants } from '../constants.js';
+
 import { constants as infraConstants } from '../../infrastructure/constants.js';
+import { constants as domainConstants } from '../constants.js';
 
 const getSessionForSupervising = async function ({
   sessionId,

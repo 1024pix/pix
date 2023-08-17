@@ -1,7 +1,7 @@
 import {
-  UserNotAuthorizedToUpdateEmailError,
-  InvalidVerificationCodeError,
   EmailModificationDemandNotFoundOrExpiredError,
+  InvalidVerificationCodeError,
+  UserNotAuthorizedToUpdateEmailError,
 } from '../errors.js';
 
 const updateUserEmailWithValidation = async function ({ code, userId, userEmailRepository, userRepository }) {

@@ -6,8 +6,9 @@ const getCertificationCandidateSubscription = async function ({
   certificationCandidateRepository,
   certificationCenterRepository,
 }) {
-  const certificationCandidate =
-    await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidateId);
+  const certificationCandidate = await certificationCandidateRepository.getWithComplementaryCertification(
+    certificationCandidateId,
+  );
 
   if (!certificationCandidate.complementaryCertification) {
     return new CertificationCandidateSubscription({

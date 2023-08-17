@@ -9,8 +9,7 @@ import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../domain/errors.js';
-
-import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
+import { PIX_ADMIN, PIX_ORGA } from '../constants.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {

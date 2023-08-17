@@ -1,4 +1,4 @@
-import { SessionNotAccessible, InvalidSessionSupervisingLoginError } from '../errors.js';
+import { InvalidSessionSupervisingLoginError, SessionNotAccessible } from '../errors.js';
 
 const superviseSession = async function ({
   sessionId,

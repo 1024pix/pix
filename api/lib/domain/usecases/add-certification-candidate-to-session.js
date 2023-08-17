@@ -1,10 +1,10 @@
+import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../errors.js';
-import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
 
 const addCertificationCandidateToSession = async function ({
   sessionId,

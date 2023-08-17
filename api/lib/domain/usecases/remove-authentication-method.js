@@ -1,6 +1,6 @@
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
-import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../errors.js';
 import * as OidcIdentityProviders from '../constants/oidc-identity-providers.js';
+import { UserNotAuthorizedToRemoveAuthenticationMethod } from '../errors.js';
 
 const removeAuthenticationMethod = async function ({ userId, type, userRepository, authenticationMethodRepository }) {
   const user = await userRepository.get(userId);

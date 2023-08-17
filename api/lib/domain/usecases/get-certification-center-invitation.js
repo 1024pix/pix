@@ -1,4 +1,4 @@
-import { CancelledInvitationError, AlreadyExistingInvitationError } from '../errors.js';
+import { AlreadyExistingInvitationError, CancelledInvitationError } from '../errors.js';
 
 const getCertificationCenterInvitation = async function ({
   certificationCenterInvitationId,

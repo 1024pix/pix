@@ -1,6 +1,7 @@
+import lodash from 'lodash';
+
 import { CertificationsResults } from '../../read-models/livret-scolaire/CertificationsResults.js';
 import { Competence } from '../../read-models/livret-scolaire/Competence.js';
-import lodash from 'lodash';
 
 const { sortBy } = lodash;
 

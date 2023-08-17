@@ -1,5 +1,6 @@
-import { NotFoundError } from '../errors.js';
 import _ from 'lodash';
+
+import { NotFoundError } from '../errors.js';
 
 const getMission = async function ({ missionId, missionRepository }) {
   const mission = await missionRepository.get(missionId);

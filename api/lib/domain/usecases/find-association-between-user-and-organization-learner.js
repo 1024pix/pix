@@ -1,7 +1,7 @@
 import {
   CampaignCodeError,
-  UserNotAuthorizedToAccessEntityError,
   OrganizationLearnerDisabledError,
+  UserNotAuthorizedToAccessEntityError,
 } from '../errors.js';
 
 const findAssociationBetweenUserAndOrganizationLearner = async function ({

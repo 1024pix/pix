@@ -1,6 +1,7 @@
-import { Scorecard } from '../models/Scorecard.js';
-import { constants } from '../constants.js';
 import _ from 'lodash';
+
+import { constants } from '../constants.js';
+import { Scorecard } from '../models/Scorecard.js';
 
 const getUserProfile = async function ({
   userId,

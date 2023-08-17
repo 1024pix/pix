@@ -1,11 +1,11 @@
+import lodash from 'lodash';
+
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 import {
   CampaignCodeError,
   OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../errors.js';
-
-import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
-import lodash from 'lodash';
 
 const { isEmpty } = lodash;
 

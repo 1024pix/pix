@@ -1,10 +1,10 @@
+import lodash from 'lodash';
+
 import {
   ApplicationScopeNotAllowedError,
   ApplicationWithInvalidClientIdError,
   ApplicationWithInvalidClientSecretError,
 } from '../../domain/errors.js';
-
-import lodash from 'lodash';
 
 const { find } = lodash;
 

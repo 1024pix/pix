@@ -1,5 +1,5 @@
-import { CertificationDetails } from '../read-models/CertificationDetails.js';
 import { CertificationVersion } from '../models/CertificationVersion.js';
+import { CertificationDetails } from '../read-models/CertificationDetails.js';
 
 const getCertificationDetails = async function ({
   certificationCourseId,

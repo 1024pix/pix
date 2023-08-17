@@ -1,5 +1,5 @@
-import { AlreadyRegisteredEmailError, EntityValidationError } from '../errors.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
+import { AlreadyRegisteredEmailError, EntityValidationError } from '../errors.js';
 
 function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'ALREADY_REGISTERED_EMAIL');

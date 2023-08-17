@@ -1,5 +1,4 @@
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-
 import { AcquiredBadgeForbiddenDeletionError, CertificationBadgeForbiddenDeletionError } from '../errors.js';
 
 const deleteUnassociatedBadge = async function ({ badgeId, badgeRepository }) {

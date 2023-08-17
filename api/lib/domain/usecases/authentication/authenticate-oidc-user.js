@@ -1,5 +1,5 @@
-import { UnexpectedOidcStateError } from '../../errors.js';
 import { logger } from '../../../infrastructure/logger.js';
+import { UnexpectedOidcStateError } from '../../errors.js';
 
 const authenticateOidcUser = async function ({
   stateReceived,

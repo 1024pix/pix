@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
 import {
-  OrganizationNotFoundError,
-  OrganizationWithoutEmailError,
   ManyOrganizationsFoundError,
   OrganizationArchivedError,
+  OrganizationNotFoundError,
+  OrganizationWithoutEmailError,
 } from '../errors.js';
 
 const sendScoInvitation = async function ({

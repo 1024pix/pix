@@ -1,5 +1,6 @@
-import { UserNotMemberOfOrganizationError } from '../errors.js';
 import _ from 'lodash';
+
+import { UserNotMemberOfOrganizationError } from '../errors.js';
 
 function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {
   const currentOrganizationId = userOrgaSettings.currentOrganization.id;

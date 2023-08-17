@@ -1,5 +1,5 @@
-import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js';
+import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 
 const getExternalAuthenticationRedirectionUrl = async function ({
   userAttributes,

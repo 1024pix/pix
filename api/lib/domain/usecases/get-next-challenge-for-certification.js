@@ -1,6 +1,6 @@
+import { config } from '../../config.js';
 import { CertificationVersion } from '../models/CertificationVersion.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
-import { config } from '../../config.js';
 
 const getNextChallengeForCertification = async function ({
   algorithmDataFetcherService,

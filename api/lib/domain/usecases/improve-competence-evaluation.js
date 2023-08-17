@@ -1,6 +1,6 @@
-import { Assessment } from '../models/Assessment.js';
 import { MAX_REACHABLE_LEVEL } from '../constants.js';
 import { ImproveCompetenceEvaluationForbiddenError } from '../errors.js';
+import { Assessment } from '../models/Assessment.js';
 
 const improveCompetenceEvaluation = async function ({
   competenceEvaluationRepository,

@@ -3,18 +3,17 @@ import lodash from 'lodash';
 
 const { isEmpty, uniqBy } = lodash;
 
-import { Organization } from '../models/Organization.js';
-import { OrganizationTag } from '../models/OrganizationTag.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { OrganizationForAdmin } from '../models/index.js';
-
 import {
   ManyOrganizationsFoundError,
+  ObjectValidationError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
-  ObjectValidationError,
   TargetProfileInvalidError,
 } from '../errors.js';
+import { OrganizationForAdmin } from '../models/index.js';
+import { Organization } from '../models/Organization.js';
+import { OrganizationTag } from '../models/OrganizationTag.js';
 
 const SEPARATOR = '_';
 
