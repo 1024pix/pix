@@ -1,6 +1,6 @@
-import { Factory, trait } from 'miragejs';
 import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
+import { Factory, trait } from 'miragejs';
 import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/session';
 
 export default Factory.extend({

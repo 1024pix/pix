@@ -1,7 +1,7 @@
 import filter from 'lodash/filter';
-
 import { Response } from 'miragejs';
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 export function findPaginatedAndFilteredSessions(schema, request) {
   const queryParams = request.queryParams;

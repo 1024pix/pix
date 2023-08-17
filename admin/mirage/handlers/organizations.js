@@ -1,4 +1,4 @@
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 function getOrganizationPlaces(schema) {
   return schema.organizationPlaces.all();
@@ -76,8 +76,8 @@ function archiveOrganization(schema, request) {
 
 export {
   archiveOrganization,
+  findPaginatedOrganizationMemberships,
   getOrganizationInvitations,
   getOrganizationPlaces,
   getOrganizationPlacesCapacity,
-  findPaginatedOrganizationMemberships,
 };

@@ -1,5 +1,6 @@
 import { Response } from 'miragejs';
-import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
+
+import { applyPagination, getPaginationFromQueryParams } from './pagination-utils';
 
 function attachTargetProfiles(schema, request) {
   const params = JSON.parse(request.requestBody);
@@ -200,11 +201,11 @@ export {
   createBadge,
   createTargetProfile,
   findOrganizationTargetProfileSummaries,
-  findPaginatedTargetProfileOrganizations,
   findPaginatedFilteredTargetProfileSummaries,
+  findPaginatedTargetProfileOrganizations,
   findTargetProfileBadges,
-  updateTargetProfileStageCollection,
-  updateTargetProfile,
-  outdate,
   markTargetProfileAsSimplifiedAccess,
+  outdate,
+  updateTargetProfile,
+  updateTargetProfileStageCollection,
 };
