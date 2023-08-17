@@ -17,4 +17,10 @@ export default class Assessment extends ApplicationAdapter {
 
     return url;
   }
+
+  pauseAssessment(assessmentId, challengeId) {
+    const url = `${this.host}/${this.namespace}/assessments/${assessmentId}/pause`;
+    const payload = { data: { data: { attributes: { 'challenge-id': challengeId } } } };
+    return this.ajax(url, 'POST', payload);
+  }
 }

@@ -11,7 +11,13 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
   module('Default rendering', function () {
     test('should not display the feedback panel', async function (assert) {
       // given & when
-      const screen = await render(hbs`<FeedbackPanelV3 />`);
+      const store = this.owner.lookup('service:store');
+      const mockAssessment = store.createRecord('assessment', {
+        state: 'started',
+      });
+      this.set('assessment', mockAssessment);
+
+      const screen = await render(hbs`<FeedbackPanelV3 @assessment={{this.assessment}} />`);
 
       // then
       assert.dom(screen.queryByText('Êtes-vous sûr(e) de vouloir signaler un problème ?')).doesNotExist();
@@ -20,9 +26,16 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
     module('when warning the invigilator', function () {
       test('should close the panel if the candidate decides to return to the challenge', async function (assert) {
         // given
+        const store = this.owner.lookup('service:store');
         const disableChallengeItemActions = sinon.stub();
+        const mockAssessment = store.createRecord('assessment', {
+          state: 'started',
+        });
+        this.set('assessment', mockAssessment);
         this.set('disableChallengeActions', disableChallengeItemActions);
-        const screen = await render(hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}}/>`);
+        const screen = await render(
+          hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @assessment={{this.assessment}}/>`,
+        );
 
         // when
         await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
@@ -37,11 +50,17 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
       module('when the candidate decides to report a problem', function () {
         test('should display a notification', async function (assert) {
           // given
+          const store = this.owner.lookup('service:store');
           const disableChallengeItemActions = sinon.stub();
           this.set('disableChallengeActions', disableChallengeItemActions);
-          this.set('isInvigilatorCalled', true);
+
+          const mockAssessment = store.createRecord('assessment', {
+            state: 'paused',
+          });
+          this.set('assessment', mockAssessment);
+
           const screen = await render(
-            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @isInvigilatorCalled={{this.isInvigilatorCalled}}/>`,
+            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @assessment={{this.assessment}}/>`,
           );
 
           // when
@@ -55,11 +74,17 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
         });
 
         test('should display a refresh button', async function (assert) {
+          const store = this.owner.lookup('service:store');
           const disableChallengeItemActions = sinon.stub();
           this.set('disableChallengeActions', disableChallengeItemActions);
-          this.set('isInvigilatorCalled', true);
+
+          const mockAssessment = store.createRecord('assessment', {
+            state: 'paused',
+          });
+          this.set('assessment', mockAssessment);
+
           const screen = await render(
-            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @isInvigilatorCalled={{this.isInvigilatorCalled}}/>`,
+            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @assessment={{this.assessment}}/>`,
           );
 
           // when
