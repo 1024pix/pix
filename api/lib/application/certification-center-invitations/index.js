@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { certificationCenterInvitationController } from './certification-center-invitation-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { certificationCenterInvitationController } from './certification-center-invitation-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -82,4 +82,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-center-invitations-api';
-export { register, name };
+export { name, register };

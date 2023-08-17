@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { userTutorialsController } from './user-tutorials-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { userTutorialsController } from './user-tutorials-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -86,4 +86,4 @@ const register = async function (server) {
 };
 
 const name = 'tutorials-api';
-export { register, name };
+export { name, register };

@@ -1,5 +1,5 @@
-import { assessmentResultController } from './assessment-result-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { assessmentResultController } from './assessment-result-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -26,4 +26,4 @@ const register = async function (server) {
 };
 
 const name = 'assessments-results-api';
-export { register, name };
+export { name, register };

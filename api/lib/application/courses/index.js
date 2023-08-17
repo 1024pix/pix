@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { courseController } from './course-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { courseController } from './course-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -23,4 +23,4 @@ const register = async function (server) {
 };
 
 const name = 'courses-api';
-export { register, name };
+export { name, register };

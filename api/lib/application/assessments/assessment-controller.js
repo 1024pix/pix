@@ -1,22 +1,22 @@
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
+
 import { AssessmentEndedError } from '../../domain/errors.js';
-import { usecases } from '../../domain/usecases/index.js';
 import * as events from '../../domain/events/index.js';
+import { Examiner } from '../../domain/models/Examiner.js';
+import { ValidatorAlwaysOK } from '../../domain/models/ValidatorAlwaysOK.js';
+import { usecases } from '../../domain/usecases/index.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
-import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
+import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as activitySerializer from '../../infrastructure/serializers/jsonapi/activity-serializer.js';
+import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
 import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
-import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
-
-import { Examiner } from '../../domain/models/Examiner.js';
-import { ValidatorAlwaysOK } from '../../domain/models/ValidatorAlwaysOK.js';
 
 const save = async function (request, h, dependencies = { assessmentRepository }) {
   const assessment = assessmentSerializer.deserialize(request.payload);

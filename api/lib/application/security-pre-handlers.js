@@ -2,31 +2,31 @@ import bluebird from 'bluebird';
 import jsonapiSerializer from 'jsonapi-serializer';
 import lodash from 'lodash';
 
-import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
-import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import { PIX_ADMIN } from '../domain/constants.js';
+import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
+import { Organization } from '../domain/models/index.js';
+import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
+import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import * as checkAdminMemberHasRoleCertifUseCase from './usecases/checkAdminMemberHasRoleCertif.js';
-import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
 import * as checkAdminMemberHasRoleMetierUseCase from './usecases/checkAdminMemberHasRoleMetier.js';
-import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
-import * as checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from './usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import * as checkAdminMemberHasRoleSupportUseCase from './usecases/checkAdminMemberHasRoleSupport.js';
+import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
+import * as checkIfUserIsBlockedUseCase from './usecases/checkIfUserIsBlocked.js';
+import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
+import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
 import * as checkUserBelongsToLearnersOrganizationUseCase from './usecases/checkUserBelongsToLearnersOrganization.js';
+import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
+import * as checkUserBelongsToOrganizationManagingStudentsUseCase from './usecases/checkUserBelongsToOrganizationManagingStudents.js';
 import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
 import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
-import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
-import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
 import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
+import * as checkUserIsAdminInOrganizationUseCase from './usecases/checkUserIsAdminInOrganization.js';
 import * as checkUserIsMemberOfAnOrganizationUseCase from './usecases/checkUserIsMemberOfAnOrganization.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
-import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
-import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
-import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
-import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
-import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
-import { Organization } from '../domain/models/index.js';
-import { ForbiddenAccess, NotFoundError } from '../domain/errors.js';
-import { PIX_ADMIN } from '../domain/constants.js';
+import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const { has } = lodash;
@@ -216,8 +216,9 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
   const certificationIssueReportId = request.params.id;
 
   try {
-    const certificationIssueReport =
-      await dependencies.certificationIssueReportRepository.get(certificationIssueReportId);
+    const certificationIssueReport = await dependencies.certificationIssueReportRepository.get(
+      certificationIssueReportId,
+    );
     const isMemberOfSession = await dependencies.checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
       userId,
       certificationCourseId: certificationIssueReport.certificationCourseId,

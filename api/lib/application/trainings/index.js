@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { trainingController as trainingsController } from './training-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { BadRequestError, NotFoundError, sendJsonApiError } from '../http-errors.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { sendJsonApiError, NotFoundError, BadRequestError } from '../http-errors.js';
+import { trainingController as trainingsController } from './training-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -270,4 +270,4 @@ const register = async function (server) {
 };
 
 const name = 'trainings-api';
-export { register, name };
+export { name, register };

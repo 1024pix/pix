@@ -1,7 +1,7 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import * as scoringSimulationContextSerializer from '../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-context-serializer.js';
 import * as scoringSimulationDatasetSerializer from '../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-dataset-serializer.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const calculateOldScores = async function (request, h) {
   const dataset = scoringSimulationDatasetSerializer.deserialize(request);

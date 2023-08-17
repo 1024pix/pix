@@ -1,28 +1,27 @@
-import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
-import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
-import * as certificationEligibilitySerializer from '../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
-import * as scorecardSerializer from '../../infrastructure/serializers/jsonapi/scorecard-serializer.js';
-import * as profileSerializer from '../../infrastructure/serializers/jsonapi/profile-serializer.js';
-import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
-import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
-import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
-import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
-import * as userWithActivitySerializer from '../../infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
-import * as emailVerificationSerializer from '../../infrastructure/serializers/jsonapi/email-verification-serializer.js';
-import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
-import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
-import * as updateEmailSerializer from '../../infrastructure/serializers/jsonapi/update-email-serializer.js';
+import * as localeService from '../../domain/services/locale-service.js';
+import { usecases } from '../../domain/usecases/index.js';
 import * as authenticationMethodsSerializer from '../../infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
 import * as campaignParticipationForUserManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
-import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
+import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
+import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
+import * as certificationEligibilitySerializer from '../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
+import * as emailVerificationSerializer from '../../infrastructure/serializers/jsonapi/email-verification-serializer.js';
+import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
+import * as profileSerializer from '../../infrastructure/serializers/jsonapi/profile-serializer.js';
+import * as scorecardSerializer from '../../infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
 import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import * as updateEmailSerializer from '../../infrastructure/serializers/jsonapi/update-email-serializer.js';
+import * as userAnonymizedDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
+import * as userDetailsForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
+import * as userForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
-
+import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
+import * as userSerializer from '../../infrastructure/serializers/jsonapi/user-serializer.js';
+import * as userWithActivitySerializer from '../../infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-import { usecases } from '../../domain/usecases/index.js';
-import * as localeService from '../../domain/services/locale-service.js';
 
 const save = async function (request, h, dependencies = { userSerializer, requestResponseUtils, localeService }) {
   const localeFromCookie = request.state?.locale;

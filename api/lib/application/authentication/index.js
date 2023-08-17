@@ -1,9 +1,10 @@
 import Joi from 'joi';
-import { sendJsonApiError, BadRequestError } from '../http-errors.js';
-import { authenticationController as AuthenticationController } from './authentication-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+
 import { responseAuthenticationDoc } from '../../infrastructure/open-api-doc/authentication/response-authentication-doc.js';
 import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
+import { BadRequestError, sendJsonApiError } from '../http-errors.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { authenticationController as AuthenticationController } from './authentication-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -156,4 +157,4 @@ const register = async function (server) {
 };
 
 const name = 'authentication-api';
-export { register, name };
+export { name, register };

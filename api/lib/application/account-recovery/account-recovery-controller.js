@@ -1,6 +1,6 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as studentInformationForAccountRecoverySerializer from '../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 
 const sendEmailForAccountRecovery = async function (
   request,

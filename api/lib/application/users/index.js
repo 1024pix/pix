@@ -1,15 +1,15 @@
 import Joi from 'joi';
 import XRegExp from 'xregexp';
 
-import { securityPreHandlers } from '../security-pre-handlers.js';
-import { userController } from './user-controller.js';
-import { sendJsonApiError, BadRequestError } from '../http-errors.js';
-import { userVerification } from '../preHandlers/user-existence-verification.js';
 import { config } from '../../config.js';
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { EntityValidationError } from '../../domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';
+import { BadRequestError, sendJsonApiError } from '../http-errors.js';
+import { userVerification } from '../preHandlers/user-existence-verification.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { userController } from './user-controller.js';
 
 const reassignAuthenticationMethodJoiSchema = Joi.object({
   data: {
@@ -1013,4 +1013,4 @@ const register = async function (server) {
 };
 
 const name = 'users-api';
-export { register, name };
+export { name, register };

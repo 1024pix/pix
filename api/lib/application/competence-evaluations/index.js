@@ -31,4 +31,4 @@ const register = async function (server) {
 };
 
 const name = 'competence-evaluations-api';
-export { register, name };
+export { name, register };

@@ -1,7 +1,8 @@
-import * as LearningContentDatasources from '../../infrastructure/datasources/learning-content/index.js';
-import * as learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource.js';
-import { logger } from '../../infrastructure/logger.js';
 import _ from 'lodash';
+
+import * as learningContentDatasource from '../../infrastructure/datasources/learning-content/datasource.js';
+import * as LearningContentDatasources from '../../infrastructure/datasources/learning-content/index.js';
+import { logger } from '../../infrastructure/logger.js';
 
 const refreshCacheEntries = function (_, h, dependencies = { learningContentDatasource }) {
   dependencies.learningContentDatasource

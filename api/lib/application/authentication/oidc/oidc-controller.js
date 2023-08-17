@@ -1,7 +1,7 @@
 import * as authenticationServiceRegistry from '../../../domain/services/authentication/authentication-service-registry.js';
+import { usecases } from '../../../domain/usecases/index.js';
 import * as oidcProviderSerializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
 import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oidc-serializer.js';
-import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';
 
 const getIdentityProviders = async function (request, h) {

@@ -1,10 +1,11 @@
-import _ from 'lodash';
 import jsonapiSerializer from 'jsonapi-serializer';
-import { HttpErrors } from './http-errors.js';
+import _ from 'lodash';
+
+import * as translations from '../../translations/index.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
-import * as translations from '../../translations/index.js';
+import { HttpErrors } from './http-errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 

@@ -1,4 +1,4 @@
-import { UserIsTemporaryBlocked, UserIsBlocked } from '../../domain/errors.js';
+import { UserIsBlocked, UserIsTemporaryBlocked } from '../../domain/errors.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 
 const execute = async function (username) {

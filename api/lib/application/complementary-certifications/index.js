@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { complementaryCertificationController } from './complementary-certification-controller.js';
+
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { complementaryCertificationController } from './complementary-certification-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -83,4 +84,4 @@ const register = async function (server) {
 };
 
 const name = 'complementary-certifications-api';
-export { register, name };
+export { name, register };

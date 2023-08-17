@@ -1,6 +1,6 @@
-import { NotFoundError } from '../http-errors.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
+import { NotFoundError } from '../http-errors.js';
 
 const verifySessionAuthorization = async (request, h, dependencies = { sessionRepository }) => {
   const userId = request.auth.credentials.userId;
@@ -28,7 +28,7 @@ const verifyCertificationSessionAuthorization = async (
 
 const authorization = { verifySessionAuthorization, verifyCertificationSessionAuthorization };
 
-export { authorization, verifySessionAuthorization, verifyCertificationSessionAuthorization };
+export { authorization, verifyCertificationSessionAuthorization, verifySessionAuthorization };
 
 async function _isAuthorizedToAccessSession({ userId, sessionId, sessionRepository }) {
   const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(

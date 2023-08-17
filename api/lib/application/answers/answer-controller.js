@@ -1,6 +1,6 @@
+import { usecases } from '../../domain/usecases/index.js';
 import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
 import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
-import { usecases } from '../../domain/usecases/index.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const save = async function (request, h, dependencies = { answerSerializer, requestResponseUtils }) {

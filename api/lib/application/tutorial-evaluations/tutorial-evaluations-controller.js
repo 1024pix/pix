@@ -1,6 +1,6 @@
+import { TutorialEvaluation } from '../../../lib/domain/models/TutorialEvaluation.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as tutorialEvaluationSerializer from '../../infrastructure/serializers/jsonapi/tutorial-evaluation-serializer.js';
-import { TutorialEvaluation } from '../../../lib/domain/models/TutorialEvaluation.js';
 
 const evaluate = async function (request, h, dependencies = { tutorialEvaluationSerializer }) {
   const { userId } = request.auth.credentials;

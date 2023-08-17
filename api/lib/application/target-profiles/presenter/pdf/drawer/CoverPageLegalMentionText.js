@@ -1,7 +1,7 @@
-import { Text } from './Text.js';
 import * as ColorManager from '../manager/color-manager.js';
 import { FontManager } from '../manager/font-manager.js';
 import { PositionManager } from '../manager/position-manager.js';
+import { Text } from './Text.js';
 
 const textByLang = {
   en: 'This is a working document, updated regularly. Its distribution is restricted and its use limited to Pix Orga members in the context of the implementation of the support of their users.',

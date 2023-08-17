@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
@@ -86,4 +87,4 @@ const register = async (server) => {
 };
 
 const name = 'scenario-simulator-api';
-export { register, name };
+export { name, register };

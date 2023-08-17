@@ -6,7 +6,7 @@ import lodash from 'lodash';
 const { difference, isEmpty } = lodash;
 import papa from 'papaparse';
 
-import { NotFoundError, FileValidationError } from '../../domain/errors.js';
+import { FileValidationError, NotFoundError } from '../../domain/errors.js';
 
 const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
@@ -110,10 +110,10 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
 
 export {
   checkCsvHeader,
-  readCsvFile,
-  parseCsvData,
+  optionsWithHeader,
   parseCsv,
+  parseCsvData,
   parseCsvWithHeader,
   parseCsvWithHeaderAndRequiredFields,
-  optionsWithHeader,
+  readCsvFile,
 };

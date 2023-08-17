@@ -1,21 +1,20 @@
 import _ from 'lodash';
 import stream from 'stream';
-import { MissingQueryParamError } from '../http-errors.js';
-import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../../lib/domain/services/token-service.js';
 
-import * as campaignToJoinSerializer from '../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
+import { tokenService } from '../../../lib/domain/services/token-service.js';
+import { ForbiddenAccess } from '../../domain/errors.js';
+import { usecases } from '../../domain/usecases/index.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
-import * as campaignReportSerializer from '../../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as campaignCollectiveResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
-import * as campaignProfilesCollectionParticipationSummarySerializer from '../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
 import * as campaignParticipantsActivitySerializer from '../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import * as campaignProfilesCollectionParticipationSummarySerializer from '../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
+import * as campaignReportSerializer from '../../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import * as campaignToJoinSerializer from '../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
-
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { ForbiddenAccess } from '../../domain/errors.js';
+import { MissingQueryParamError } from '../http-errors.js';
 import { certificabilityByLabel } from '../organizations/helpers.js';
 
 const { PassThrough } = stream;

@@ -1,7 +1,7 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as organizationLearnerIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer.js';
 import * as organizationLearnerActivitySerializer from '../../infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js';
 import * as organizationLearnerSerializer from '../../infrastructure/serializers/jsonapi/organization-learner-follow-up/organization-learner-serializer.js';
+import * as organizationLearnerIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer.js';
 
 const dissociate = async function (request, h) {
   const organizationLearnerId = request.params.id;

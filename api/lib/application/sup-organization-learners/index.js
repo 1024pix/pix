@@ -1,11 +1,11 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError, UnprocessableEntityError, NotFoundError } from '../http-errors.js';
-import { supOrganizationLearnerController } from './sup-organization-learner-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { NotFoundError, sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
+import { supOrganizationLearnerController } from './sup-organization-learner-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -85,4 +85,4 @@ const register = async function (server) {
 };
 
 const name = 'sup-organization-learners-api';
-export { register, name };
+export { name, register };

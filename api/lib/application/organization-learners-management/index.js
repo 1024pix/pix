@@ -1,6 +1,7 @@
-import { securityPreHandlers } from '../security-pre-handlers.js';
 import Joi from 'joi';
+
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 import { organizationLearnersController } from './organization-learners-controller.js';
 
 const register = async (server) => {
@@ -40,4 +41,4 @@ const register = async (server) => {
 
 const name = 'organization-learners-management-api';
 
-export { register, name };
+export { name, register };

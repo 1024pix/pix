@@ -33,4 +33,4 @@ const register = async function (server) {
 };
 
 const name = 'healthcheck-api';
-export { register, name };
+export { name, register };

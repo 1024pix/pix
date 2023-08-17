@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
-import { certificationController } from './certification-controller.js';
+import { LANG } from '../../domain/constants.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { LANG } from '../../domain/constants.js';
+import { certificationController } from './certification-controller.js';
 
 const { FRENCH, ENGLISH } = LANG;
 
@@ -142,4 +142,4 @@ const register = async function (server) {
 };
 
 const name = 'certifications-api';
-export { register, name };
+export { name, register };

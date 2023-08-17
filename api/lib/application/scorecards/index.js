@@ -32,4 +32,4 @@ const register = async function (server) {
 };
 
 const name = 'scorecards-api';
-export { register, name };
+export { name, register };

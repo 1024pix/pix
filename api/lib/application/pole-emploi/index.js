@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { poleEmploiController } from './pole-emploi-controller.js';
-import { erreurDoc } from '../../infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
+
 import { poleEmploiEnvoisDoc } from '../../infrastructure/open-api-doc/pole-emploi/envois-doc.js';
+import { erreurDoc } from '../../infrastructure/open-api-doc/pole-emploi/erreur-doc.js';
+import { poleEmploiController } from './pole-emploi-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -56,4 +57,4 @@ const register = async function (server) {
 };
 
 const name = 'pole-emploi-api';
-export { register, name };
+export { name, register };

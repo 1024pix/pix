@@ -1,8 +1,8 @@
-import * as saml from '../../infrastructure/saml.js';
+import { config } from '../../config.js';
+import { tokenService } from '../../domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { logger } from '../../infrastructure/logger.js';
-import { tokenService } from '../../domain/services/token-service.js';
-import { config } from '../../config.js';
+import * as saml from '../../infrastructure/saml.js';
 
 const metadata = function (request, h) {
   return h.response(saml.getServiceProviderMetadata()).type('application/xml');

@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { prescriberController } from './prescriber-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
 
 const register = async function (server) {
   server.route([
@@ -34,4 +34,4 @@ const register = async function (server) {
 };
 
 const name = 'prescribers-api';
-export { register, name };
+export { name, register };

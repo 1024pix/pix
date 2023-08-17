@@ -1,5 +1,5 @@
-import * as certificationPointOfContactSerializer from '../../infrastructure/serializers/jsonapi/certification-point-of-contact-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import * as certificationPointOfContactSerializer from '../../infrastructure/serializers/jsonapi/certification-point-of-contact-serializer.js';
 
 const get = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;

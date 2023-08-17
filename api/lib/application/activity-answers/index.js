@@ -1,6 +1,7 @@
 import Joi from 'joi';
-import { activityAnswerController } from './activity-answer-controller.js';
+
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { activityAnswerController } from './activity-answer-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -39,4 +40,4 @@ const register = async function (server) {
 };
 
 const name = 'activity-answers-api';
-export { register, name };
+export { name, register };

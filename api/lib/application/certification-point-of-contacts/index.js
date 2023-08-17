@@ -18,4 +18,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-point-of-contacts-api';
-export { register, name };
+export { name, register };

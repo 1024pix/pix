@@ -1,6 +1,6 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 
 const startOrResume = async function (request, h, dependencies = { competenceEvaluationSerializer }) {
   const userId = request.auth.credentials.userId;

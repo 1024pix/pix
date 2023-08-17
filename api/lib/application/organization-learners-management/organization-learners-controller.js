@@ -1,7 +1,7 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learners-management/organization-learner-repository.js';
-import * as campaignParticipationRepository from '../../infrastructure/repositories/organization-learners-management/campaign-participation-repository.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import * as campaignParticipationRepository from '../../infrastructure/repositories/organization-learners-management/campaign-participation-repository.js';
+import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learners-management/organization-learner-repository.js';
 
 /* 
 Pour séparer le code par contexte nous avons introduit un niveau de dossier. 

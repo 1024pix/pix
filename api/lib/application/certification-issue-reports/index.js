@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { certificationIssueReportController } from './certification-issue-report-controller.js';
+
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { certificationIssueReportController } from './certification-issue-report-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -73,4 +74,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-issue-reports-api';
-export { register, name };
+export { name, register };

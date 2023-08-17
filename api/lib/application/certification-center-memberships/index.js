@@ -1,5 +1,5 @@
-import { certificationCenterMembershipController } from './certification-center-membership-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { certificationCenterMembershipController } from './certification-center-membership-controller.js';
 
 const register = async function (server) {
   const adminRoutes = [
@@ -33,4 +33,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-center-memberships-api';
-export { register, name };
+export { name, register };

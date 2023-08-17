@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { userOrgaSettingsController } from './user-orga-settings-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { userOrgaSettingsController } from './user-orga-settings-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -41,4 +41,4 @@ const register = async function (server) {
 };
 
 const name = 'user-orga-settings-api';
-export { register, name };
+export { name, register };

@@ -1,10 +1,11 @@
 import Joi from 'joi';
+
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../security-pre-handlers.js';
 import { campaignController } from './campaign-controller.js';
 import { campaignManagementController } from './campaign-management-controller.js';
 import { campaignStatsController } from './campaign-stats-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 
 const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
@@ -442,4 +443,4 @@ const register = async function (server) {
 };
 
 const name = 'campaigns-api';
-export { register, name };
+export { name, register };

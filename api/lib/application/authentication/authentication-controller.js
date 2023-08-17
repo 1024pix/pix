@@ -1,6 +1,6 @@
-import { BadRequestError } from '../http-errors.js';
 import { tokenService } from '../../domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { BadRequestError } from '../http-errors.js';
 
 const createToken = async function (request, h, dependencies = { tokenService }) {
   let accessToken, refreshToken;

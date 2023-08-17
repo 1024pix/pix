@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
 import { oidcController } from './oidc-controller.js';
 
@@ -172,4 +173,4 @@ const register = async function (server) {
 };
 
 const name = 'oidc-authentication-api';
-export { register, name };
+export { name, register };

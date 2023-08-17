@@ -28,4 +28,4 @@ const updateOrganizationInformation = async function (
 };
 
 const organizationAdministrationController = { getOrganizationDetails, updateOrganizationInformation };
-export { organizationAdministrationController, getOrganizationDetails, updateOrganizationInformation };
+export { getOrganizationDetails, organizationAdministrationController, updateOrganizationInformation };

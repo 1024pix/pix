@@ -1,12 +1,12 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
-import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } from '../http-errors.js';
+import { LANG } from '../../domain/constants.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { BadRequestError, NotFoundError, PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { organizationController } from './organization-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { LANG } from '../../domain/constants.js';
 
 const { FRENCH, ENGLISH } = LANG;
 
@@ -1005,4 +1005,4 @@ const register = async function (server) {
 };
 
 const name = 'organization-api';
-export { register, name };
+export { name, register };

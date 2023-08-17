@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
-import { organizationInvitationController } from './organization-invitation-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { organizationInvitationController } from './organization-invitation-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -80,4 +80,4 @@ const register = async function (server) {
 };
 
 const name = 'organization-invitation-api';
-export { register, name };
+export { name, register };

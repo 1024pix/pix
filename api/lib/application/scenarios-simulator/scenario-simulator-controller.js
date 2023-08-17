@@ -1,12 +1,13 @@
-import { usecases } from '../../domain/usecases/index.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { random } from '../../infrastructure/utils/random.js';
-import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
+import _ from 'lodash';
+
 import { parseCsv } from '../../../scripts/helpers/csvHelpers.js';
 import { pickAnswerStatusService } from '../../domain/services/pick-answer-status-service.js';
-import { HttpErrors } from '../http-errors.js';
-import _ from 'lodash';
 import { pickChallengeService } from '../../domain/services/pick-challenge-service.js';
+import { usecases } from '../../domain/usecases/index.js';
+import { scenarioSimulatorBatchSerializer } from '../../infrastructure/serializers/jsonapi/scenario-simulator-batch-serializer.js';
+import { random } from '../../infrastructure/utils/random.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { HttpErrors } from '../http-errors.js';
 
 async function simulateFlashAssessmentScenario(
   request,

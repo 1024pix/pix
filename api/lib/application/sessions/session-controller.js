@@ -1,23 +1,24 @@
-import { SessionPublicationBatchError } from '../http-errors.js';
-import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../domain/services/token-service.js';
-import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
-import * as sessionValidator from '../../domain/validators/session-validator.js';
+import lodash from 'lodash';
+
 import * as events from '../../domain/events/index.js';
-import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
-import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
+import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
+import { tokenService } from '../../domain/services/token-service.js';
+import { usecases } from '../../domain/usecases/index.js';
+import * as sessionValidator from '../../domain/validators/session-validator.js';
+import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
+import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
+import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
 import * as certificationCandidateSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import * as certificationReportSerializer from '../../infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
-import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
+import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
+import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
+import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
+import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
-import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
-import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
-import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
-import lodash from 'lodash';
+import { SessionPublicationBatchError } from '../http-errors.js';
 
 const { trim } = lodash;
 

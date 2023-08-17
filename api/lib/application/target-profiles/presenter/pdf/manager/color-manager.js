@@ -50,13 +50,13 @@ const thematicBackground = DEFAULT_BACKGROUND;
 const tubeBackground = rgb(0.89, 0.89, 0.89);
 
 export {
-  findRGBColor,
-  findLighterShadeRGBColor,
-  legalMentionColor,
-  coverPageTitleColor,
-  coverPageLegalMentionColor,
-  coverPageVersionColor,
   competenceBackground,
+  coverPageLegalMentionColor,
+  coverPageTitleColor,
+  coverPageVersionColor,
+  findLighterShadeRGBColor,
+  findRGBColor,
+  legalMentionColor,
   thematicBackground,
   tubeBackground,
 };

@@ -1,7 +1,8 @@
 import Joi from 'joi';
-import { answerController } from './answer-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
+
 import { NotFoundError } from '../../domain/errors.js';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { answerController } from './answer-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -109,4 +110,4 @@ const register = async function (server) {
 };
 
 const name = 'answers-api';
-export { register, name };
+export { name, register };

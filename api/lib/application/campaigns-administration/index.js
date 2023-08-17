@@ -1,6 +1,6 @@
-import { sendJsonApiError, PayloadTooLargeError } from '../http-errors.js';
-import { campaignController } from './campaign-controller.js';
+import { PayloadTooLargeError, sendJsonApiError } from '../http-errors.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { campaignController } from './campaign-controller.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {
@@ -80,4 +80,4 @@ const register = async function (server) {
 };
 
 const name = 'campaigns-administration-api';
-export { register, name };
+export { name, register };

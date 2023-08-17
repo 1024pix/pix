@@ -65,4 +65,4 @@ const register = async function (server) {
 };
 
 const name = 'passwords-api';
-export { register, name };
+export { name, register };

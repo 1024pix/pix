@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-import { missionController } from './mission-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { missionController } from './mission-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -29,4 +29,4 @@ const register = async function (server) {
 };
 
 const name = 'mission-api';
-export { register, name };
+export { name, register };

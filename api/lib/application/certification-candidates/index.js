@@ -1,7 +1,8 @@
-import { certificationCandidatesController } from './certification-candidates-controller.js';
-import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 import Joi from 'joi';
+
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
+import { certificationCandidatesController } from './certification-candidates-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -94,4 +95,4 @@ const register = async function (server) {
 };
 
 const name = 'certification-candidates-api';
-export { register, name };
+export { name, register };

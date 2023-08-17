@@ -18,4 +18,4 @@ const register = async function (server) {
 };
 
 const name = 'progressions-api';
-export { register, name };
+export { name, register };

@@ -1,16 +1,16 @@
-import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
+import BaseJoi from 'joi';
 const Joi = BaseJoi.extend(JoiDate);
 
+import { identifiersType } from '../../domain/types/identifiers-type.js';
+import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
+import { authorization } from '../preHandlers/authorization.js';
+import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
+import { finalizedSessionController } from './finalized-session-controller.js';
 import { sessionController } from './session-controller.js';
 import { sessionForSupervisingController } from './session-for-supervising-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from './session-with-clea-certified-candidate-controller.js';
-import { finalizedSessionController } from './finalized-session-controller.js';
-import { authorization } from '../preHandlers/authorization.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
-import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
 
 const register = async function (server) {
   server.route([
@@ -865,4 +865,4 @@ const register = async function (server) {
 };
 
 const name = 'sessions-api';
-export { register, name };
+export { name, register };

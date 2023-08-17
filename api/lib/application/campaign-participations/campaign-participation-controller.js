@@ -1,19 +1,19 @@
-import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
-import { usecases } from '../../domain/usecases/index.js';
 import * as events from '../../domain/events/index.js';
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
-import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
-import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
-import * as campaignAssessmentParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
-import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
-import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
-import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
-import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
-import {
-  extractUserIdFromRequest,
-  extractLocaleFromRequest,
-} from '../../infrastructure/utils/request-response-utils.js';
+import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
+import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
+import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
+import * as campaignAssessmentParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
+import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
+import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
+import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import {
+  extractLocaleFromRequest,
+  extractUserIdFromRequest,
+} from '../../infrastructure/utils/request-response-utils.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
   const userId = request.auth.credentials.userId;
