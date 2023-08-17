@@ -641,7 +641,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
         });
 
         module('when refreshing the page', function () {
-          test('it should enable challenge action buttons', async function (assert) {
+          test('it should keep challenge action buttons disabled', async function (assert) {
             assert.timeout(5000);
             // given
             user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
@@ -686,10 +686,10 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
             assert
               .dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }))
-              .hasNoAttribute('disabled');
+              .hasAttribute('disabled');
             assert
               .dom(screen.getByRole('button', { name: 'Je valide et je vais à la prochaine question' }))
-              .hasNoAttribute('disabled');
+              .hasAttribute('disabled');
           });
         });
       });
