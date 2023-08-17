@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { countryController } from '../../../../lib/application/countries/country-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/countries/index.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | country-router', function () {
   describe('GET /api/countries', function () {

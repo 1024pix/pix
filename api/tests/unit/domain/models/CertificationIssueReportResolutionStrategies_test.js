@@ -1,18 +1,18 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
-import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/index.js';
 import {
   CertificationIssueReportResolutionStrategies,
-  neutralizeWithoutCheckingStrategy,
-  neutralizeIfImageOrEmbedStrategy,
+  doNotResolveStrategy,
   neutralizeIfAttachmentStrategy,
+  neutralizeIfImageOrEmbedStrategy,
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
-  doNotResolveStrategy,
+  neutralizeWithoutCheckingStrategy,
 } from '../../../../lib/domain/models/CertificationIssueReportResolutionStrategies.js';
+import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const ISSUE_REPORT_SUBCATEGORY_NAME_OR_BIRTHDATE = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE;
 const ISSUE_REPORT_SUBCATEGORY_LEFT_EXAM_ROOM = CertificationIssueReportSubcategories.LEFT_EXAM_ROOM;

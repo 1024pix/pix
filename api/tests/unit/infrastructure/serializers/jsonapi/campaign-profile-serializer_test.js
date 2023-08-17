@@ -1,9 +1,9 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
-import { CampaignProfile } from '../../../../../lib/domain/read-models/CampaignProfile.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { PlacementProfile } from '../../../../../lib/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../../lib/domain/models/UserCompetence.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignProfile } from '../../../../../lib/domain/read-models/CampaignProfile.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

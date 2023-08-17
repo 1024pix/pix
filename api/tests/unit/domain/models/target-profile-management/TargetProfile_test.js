@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import { TargetProfile } from '../../../../../lib/domain/models/target-profile-management/TargetProfile.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | TargetProfile', function () {
   describe('#detach', function () {

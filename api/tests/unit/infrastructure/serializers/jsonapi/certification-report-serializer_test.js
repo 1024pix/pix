@@ -1,9 +1,9 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
 } from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-report-serializer', function () {
   describe('#serialize()', function () {

@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { updateAdminMember } from '../../../../lib/domain/usecases/update-admin-member.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { updateAdminMember } from '../../../../lib/domain/usecases/update-admin-member.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

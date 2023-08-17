@@ -1,5 +1,6 @@
-import { expect } from '../../../test-helper.js';
 import lodash from 'lodash';
+
+import { expect } from '../../../test-helper.js';
 
 const { range, countBy } = lodash;
 

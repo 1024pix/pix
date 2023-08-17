@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { CertificationOfficer } from '../../../../lib/domain/models/CertificationOfficer.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationOfficer', function () {
   describe('#getFullName', function () {

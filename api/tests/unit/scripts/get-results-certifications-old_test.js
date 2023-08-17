@@ -3,11 +3,11 @@ import chai from 'chai';
 const { expect } = chai;
 
 import {
-  parseArgs,
-  toCSVRow,
   buildRequestObject,
   findCompetence,
   HEADERS,
+  parseArgs,
+  toCSVRow,
 } from '../../../scripts/certification/get-results-certifications-old.js';
 
 describe('Get Result Certifications Script OLD', function () {

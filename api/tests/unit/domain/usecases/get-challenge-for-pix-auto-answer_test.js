@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getChallengeForPixAutoAnswer } from '../../../../lib/domain/usecases/get-challenge-for-pix-auto-answer.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-challenge-answer-for-pix-button', function () {
   let assessment;

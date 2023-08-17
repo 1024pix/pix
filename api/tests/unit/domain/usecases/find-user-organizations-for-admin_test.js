@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { findUserOrganizationsForAdmin } from '../../../../lib/domain/usecases/find-user-organizations-for-admin.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | findUserOrganizationsForAdmin', function () {
   it('should fetch user’s organization memberships', async function () {

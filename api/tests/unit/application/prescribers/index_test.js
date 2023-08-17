@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
+import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | prescriber-router', function () {
   describe('GET /api/prescription/prescribers/{id}', function () {

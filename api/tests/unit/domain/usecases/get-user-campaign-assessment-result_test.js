@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../../../../lib/domain/errors.js';
 import { getUserCampaignAssessmentResult } from '../../../../lib/domain/usecases/get-user-campaign-assessment-result.js';
-import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../../../../lib/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   const locale = 'locale',

@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { handleBadgeAcquisition } from '../../../../lib/domain/usecases/handle-badge-acquisition.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | handle-badge-acquisition', function () {
   let domainTransaction;

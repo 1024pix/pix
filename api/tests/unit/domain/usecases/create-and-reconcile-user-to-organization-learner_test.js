@@ -1,15 +1,13 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-
 import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   EntityValidationError,
-  OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } from '../../../../lib/domain/errors.js';
-
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;

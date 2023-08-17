@@ -1,7 +1,8 @@
-import { expect, sinon } from '../../../test-helper.js';
-import * as cpfExternalStorage from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
-import { config } from '../../../../lib/config.js';
 import _ from 'lodash';
+
+import { config } from '../../../../lib/config.js';
+import * as cpfExternalStorage from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 const { cpf } = config;
 

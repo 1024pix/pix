@@ -1,5 +1,5 @@
-import { sinon, expect, domainBuilder } from '../../../../test-helper.js';
 import * as dataFetcher from '../../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | services | smart-random | dataFetcher', function () {
   describe('#fetchForCampaigns', function () {

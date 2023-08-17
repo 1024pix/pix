@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { findPaginatedFilteredSupParticipants } from '../../../../lib/domain/usecases/find-paginated-filtered-sup-participants.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | findPaginatedFilteredSupParticipants', function () {
   let supOrganizationParticipantRepository;

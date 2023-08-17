@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { updateCertificationCenterReferer } from '../../../../lib/domain/usecases/update-certification-center-referer.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-certification-center-referer', function () {
   context('when there is already a referer', function () {

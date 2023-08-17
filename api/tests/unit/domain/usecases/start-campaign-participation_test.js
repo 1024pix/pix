@@ -1,8 +1,8 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { startCampaignParticipation } from '../../../../lib/domain/usecases/start-campaign-participation.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { startCampaignParticipation } from '../../../../lib/domain/usecases/start-campaign-participation.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;

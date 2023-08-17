@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignToJoin', function () {
   describe('#isAssessment', function () {

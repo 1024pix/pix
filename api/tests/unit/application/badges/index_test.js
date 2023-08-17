@@ -1,7 +1,7 @@
-import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 import { badgesController } from '../../../../lib/application/badges/badges-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import * as badgesRouter from '../../../../lib/application/badges/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Badges | Routes', function () {
   describe('DELETE /api/admin/badges/{id}', function () {

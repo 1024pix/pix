@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { getOrganizationDetails } from '../../../../lib/domain/usecases/organizations-administration/get-organization-details.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { getOrganizationDetails } from '../../../../lib/domain/usecases/organizations-administration/get-organization-details.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-organization-details', function () {
   it('should return the Organization matching the given organization ID', async function () {

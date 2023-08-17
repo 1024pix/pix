@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { attachTargetProfilesToTraining } from '../../../../lib/domain/usecases/attach-target-profiles-to-training.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | attach-target-profiles-to-training', function () {
   let targetProfileRepository;

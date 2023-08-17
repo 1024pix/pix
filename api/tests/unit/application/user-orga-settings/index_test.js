@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { userOrgaSettingsController } from '../../../../lib/application/user-orga-settings/user-orga-settings-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/user-orga-settings/index.js';
+import { userOrgaSettingsController } from '../../../../lib/application/user-orga-settings/user-orga-settings-controller.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | user-orga-settings-router', function () {
   describe('PUT /api/user-orga-settings/{id}', function () {

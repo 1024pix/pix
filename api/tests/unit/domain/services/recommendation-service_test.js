@@ -1,5 +1,4 @@
 import { expect } from '../../../test-helper.js';
-
 import * as recommendationService from './../../../../lib/domain/services/recommendation-service.js';
 
 describe('Unit | Service | Campaign Recommendation Service', function () {

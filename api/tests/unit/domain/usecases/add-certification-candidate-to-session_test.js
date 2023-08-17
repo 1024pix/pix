@@ -1,13 +1,12 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { addCertificationCandidateToSession } from '../../../../lib/domain/usecases/add-certification-candidate-to-session.js';
-import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
-
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
 } from '../../../../lib/domain/errors.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
+import { addCertificationCandidateToSession } from '../../../../lib/domain/usecases/add-certification-candidate-to-session.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;

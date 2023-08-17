@@ -1,9 +1,9 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
 import {
   AuthenticationKeyExpired,
   UserAlreadyExistsWithAuthenticationMethodError,
 } from '../../../../lib/domain/errors.js';
 import { createOidcUser } from '../../../../lib/domain/usecases/create-oidc-user.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-oidc-user', function () {
   let authenticationMethodRepository, userToCreateRepository, userRepository;

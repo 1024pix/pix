@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { getCurrentActivity } from '../../../../lib/domain/usecases/get-current-activity.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-current-activity', function () {
   context('should return current activity', function () {

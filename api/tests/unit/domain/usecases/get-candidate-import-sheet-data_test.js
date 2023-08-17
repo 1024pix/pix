@@ -1,6 +1,6 @@
-import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
-import { getCandidateImportSheetData } from '../../../../lib/domain/usecases/get-candidate-import-sheet-data.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { getCandidateImportSheetData } from '../../../../lib/domain/usecases/get-candidate-import-sheet-data.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-candidate-import-sheet-data', function () {
   let sessionRepository;

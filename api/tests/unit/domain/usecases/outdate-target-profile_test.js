@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 const { outdateTargetProfile } = usecases;
 

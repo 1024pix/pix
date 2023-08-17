@@ -1,6 +1,6 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { simulateFlashDeterministicAssessmentScenario } from '../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { simulateFlashDeterministicAssessmentScenario } from '../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const locale = 'fr-fr';
 

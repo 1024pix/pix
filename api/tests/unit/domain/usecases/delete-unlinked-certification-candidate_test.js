@@ -1,6 +1,6 @@
-import { sinon, expect, catchErr } from '../../../test-helper.js';
-import { deleteUnlinkedCertificationCandidate } from '../../../../lib/domain/usecases/delete-unlinked-certification-candidate.js';
 import { CertificationCandidateForbiddenDeletionError } from '../../../../lib/domain/errors.js';
+import { deleteUnlinkedCertificationCandidate } from '../../../../lib/domain/usecases/delete-unlinked-certification-candidate.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | delete-unlinked-sertification-candidate', function () {
   let certificationCandidateId;

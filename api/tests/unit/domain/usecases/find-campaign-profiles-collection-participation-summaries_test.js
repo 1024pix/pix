@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
-import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
+import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let userId, campaignId;

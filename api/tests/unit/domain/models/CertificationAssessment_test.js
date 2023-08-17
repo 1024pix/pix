@@ -1,15 +1,15 @@
 import _ from 'lodash';
-import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { NeutralizationAttempt } from '../../../../lib/domain/models/NeutralizationAttempt.js';
-import { CertificationAnswerStatusChangeAttempt } from '../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt.js';
-import { expect, domainBuilder } from '../../../test-helper.js';
 
 import {
-  ObjectValidationError,
-  ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
+  ChallengeToBeNeutralizedNotFoundError,
+  ObjectValidationError,
 } from '../../../../lib/domain/errors.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { CertificationAnswerStatusChangeAttempt } from '../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt.js';
+import { CertificationAssessment } from '../../../../lib/domain/models/CertificationAssessment.js';
+import { NeutralizationAttempt } from '../../../../lib/domain/models/NeutralizationAttempt.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationAssessment', function () {
   describe('constructor', function () {

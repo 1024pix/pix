@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { saveComputedCampaignParticipationResult } from '../../../../lib/domain/usecases/save-computed-campaign-participation-result.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', function () {
   it('should compute results and save', async function () {

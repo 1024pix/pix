@@ -1,5 +1,5 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import { findPaginatedFilteredOrganizationCampaigns } from '../../../../lib/domain/usecases/find-paginated-filtered-organization-campaigns.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', function () {
   const campaignReportRepository = { findPaginatedFilteredByOrganizationId: () => undefined };

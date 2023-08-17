@@ -1,7 +1,7 @@
-import { expect } from '../../../test-helper.js';
-import { CertifiedScore } from '../../../../lib/domain/models/CertifiedScore.js';
-import { CertifiedLevel } from '../../../../lib/domain/models/CertifiedLevel.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
+import { CertifiedLevel } from '../../../../lib/domain/models/CertifiedLevel.js';
+import { CertifiedScore } from '../../../../lib/domain/models/CertifiedScore.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertifiedScore', function () {
   it('is equal to the estimated score if the estimated level is certified', function () {

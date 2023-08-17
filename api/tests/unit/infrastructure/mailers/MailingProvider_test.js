@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { MailingProvider } from '../../../../lib/infrastructure/mailers/MailingProvider.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | Mailers | MailingProvider', function () {
   describe('#sendEmail', function () {

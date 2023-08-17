@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { OrganizationLearnerCannotBeDissociatedError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | dissociate-user-from-organization-learner', function () {
   const organizationId = 1;

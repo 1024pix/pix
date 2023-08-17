@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { Solution } from '../../../../lib/domain/models/Solution.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Solution', function () {
   describe('#enabledTreatments', function () {

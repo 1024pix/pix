@@ -1,6 +1,6 @@
-import { sinon, expect, hFake, domainBuilder } from '../../../test-helper.js';
 import { certificationReportController } from '../../../../lib/application/certification-reports/certification-report-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | certification-report-controller', function () {
   describe('#saveCertificationIssueReport', function () {

@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import * as moduleUnderTest from '../../../../lib/application/activity-answers/index.js';
 import { activityAnswerController } from '../../../../lib/application/activity-answers/activity-answer-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/activity-answers/index.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Router | activity-answer-router', function () {
   describe('POST /api/pix1d/activity-answers', function () {

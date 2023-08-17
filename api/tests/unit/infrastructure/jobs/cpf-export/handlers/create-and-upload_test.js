@@ -1,15 +1,16 @@
-import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
 import stream from 'stream';
 import * as uuidService from 'uuid';
+
+import { createAndUpload } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/create-and-upload.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
 const { PassThrough, Readable } = stream;
 
 import lodash from 'lodash';
 const { noop } = lodash;
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 

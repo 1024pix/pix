@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import * as service from '../../../../lib/domain/services/email-validator.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Service | email-validator', function () {
   it('should return false when email is not provided', function () {

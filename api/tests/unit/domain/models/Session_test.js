@@ -1,6 +1,7 @@
-import { Session } from '../../../../lib/domain/models/Session.js';
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import _ from 'lodash';
+
+import { Session } from '../../../../lib/domain/models/Session.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const SESSION_PROPS = [
   'id',

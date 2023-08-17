@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../lib/application/organizations-administration/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | organization-administration-router', function () {
   describe('PATCH /api/admin/organizations/{id}', function () {

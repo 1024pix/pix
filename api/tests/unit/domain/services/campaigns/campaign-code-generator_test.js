@@ -1,6 +1,7 @@
-import { expect, sinon } from '../../../../test-helper.js';
 import randomString from 'randomstring';
+
 import * as campaignCodeGenerator from '../../../../../lib/domain/services/campaigns/campaign-code-generator.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | campaign code generator', function () {
   describe('#createCampaignCode', function () {

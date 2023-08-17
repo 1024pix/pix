@@ -1,5 +1,5 @@
-import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { createCampaigns } from '../../../../../lib/domain/usecases/campaigns-administration/create-campaigns.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | campaign-administration | create-campaign', function () {
   it('should create campaigns', async function () {

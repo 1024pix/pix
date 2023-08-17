@@ -1,5 +1,5 @@
-import { sinon, expect } from '../../../test-helper.js';
 import { publishSessionsInBatch } from '../../../../lib/domain/usecases/publish-sessions-in-batch.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | publish-sessions-in-batch', function () {
   let sessionPublicationService;

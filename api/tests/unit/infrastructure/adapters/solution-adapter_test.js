@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
 import { Solution } from '../../../../lib/domain/models/Solution.js';
+import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Adapter | Solution', function () {
   describe('#fromDatasourceObject', function () {

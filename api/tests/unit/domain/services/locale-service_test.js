@@ -1,6 +1,6 @@
-import { expect, catchErrSync } from '../../../test-helper.js';
 import { LocaleFormatError, LocaleNotSupportedError } from '../../../../lib/domain/errors.js';
 import { getCanonicalLocale } from '../../../../lib/domain/services/locale-service.js';
+import { catchErrSync, expect } from '../../../test-helper.js';
 
 describe('#getCanonicalLocale', function () {
   it('throws a LocaleFormatError error', function () {

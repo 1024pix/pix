@@ -1,6 +1,6 @@
-import { expect, hFake, sinon } from '../../../test-helper.js';
 import { missionController } from '../../../../lib/application/missions/mission-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | mission-controller', function () {
   describe('#getById', function () {

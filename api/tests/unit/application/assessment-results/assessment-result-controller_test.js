@@ -1,7 +1,7 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
 import { assessmentResultController } from '../../../../lib/application/assessment-results/assessment-result-controller.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | assessment-results', function () {
   describe('#save', function () {

@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { getPrivateCertificate } from '../../../../lib/domain/usecases/certificate/get-private-certificate.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | getPrivateCertificate', function () {
   const certificateRepository = {

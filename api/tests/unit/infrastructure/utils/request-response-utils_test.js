@@ -1,10 +1,10 @@
-import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
 import {
   escapeFileName,
-  extractUserIdFromRequest,
   extractLocaleFromRequest,
+  extractUserIdFromRequest,
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
 import { createServer } from '../../../server.js';
+import { expect } from '../../test-helper.js';
 
 describe('Unit | Server | server', function () {
   describe('#createServer', function () {

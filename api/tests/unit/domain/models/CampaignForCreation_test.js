@@ -1,6 +1,6 @@
-import { expect, catchErr } from '../../../test-helper.js';
 import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { catchErr, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignForCreation', function () {
   describe('#create', function () {

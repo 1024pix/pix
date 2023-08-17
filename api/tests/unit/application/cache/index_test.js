@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { cacheController } from '../../../../lib/application/cache/cache-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/cache/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | cache-router', function () {
   describe('PATCH /api/cache/{model}/{id}', function () {

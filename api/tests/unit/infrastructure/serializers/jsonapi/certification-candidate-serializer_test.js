@@ -1,7 +1,8 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import _ from 'lodash';
+
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
-import _ from 'lodash';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function () {
   let certificationCandidate;

@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { commentSessionAsJury } from '../../../../lib/domain/usecases/comment-session-as-jury.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | comment-session-as-jury', function () {
   const sessionJuryCommentRepository = { get: null, save: null };

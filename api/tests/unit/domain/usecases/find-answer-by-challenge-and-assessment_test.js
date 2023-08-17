@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { findAnswerByChallengeAndAssessment } from '../../../../lib/domain/usecases/find-answer-by-challenge-and-assessment.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {
   const challengeId = 'recChallenge';

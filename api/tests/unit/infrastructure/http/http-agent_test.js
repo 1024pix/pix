@@ -1,7 +1,8 @@
-import { expect, sinon } from '../../../test-helper.js';
 import axios from 'axios';
+
 import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 const { post, get } = httpAgent;
 

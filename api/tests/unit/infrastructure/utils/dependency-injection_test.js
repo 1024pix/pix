@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { injectDependencies } from '../../../../lib/infrastructure/utils/dependency-injection.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Utils | #injectDependencies', function () {
   context('when the object value to be injected is a function', function () {

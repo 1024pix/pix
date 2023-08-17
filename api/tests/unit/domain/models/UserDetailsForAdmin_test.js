@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { UserDetailsForAdmin } from '../../../../lib/domain/models/UserDetailsForAdmin.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
   let localeService;

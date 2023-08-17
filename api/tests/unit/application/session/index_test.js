@@ -1,19 +1,19 @@
-import fs from 'fs';
-import { writeFile, stat, unlink } from 'fs/promises';
-
 import FormData from 'form-data';
+import fs from 'fs';
+import { stat, unlink, writeFile } from 'fs/promises';
 import streamToPromise from 'stream-to-promise';
+import * as url from 'url';
+
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
+import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
+import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { sessionForSupervisingController } from '../../../../lib/application/sessions/session-for-supervising-controller.js';
 import { sessionWithCleaCertifiedCandidateController } from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
-import { finalizedSessionController } from '../../../../lib/application/sessions/finalized-session-controller.js';
-import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
-import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
-import * as url from 'url';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Application | Sessions | Routes', function () {

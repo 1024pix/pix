@@ -1,7 +1,8 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import lodash from 'lodash';
+
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 const { forIn } = lodash;
 
 describe('Unit | Domain | Models | JuryCertificationSummary', function () {

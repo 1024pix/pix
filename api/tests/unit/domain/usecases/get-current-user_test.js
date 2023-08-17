@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { getCurrentUser } from '../../../../lib/domain/usecases/get-current-user.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-current-user', function () {
   let userRepository;

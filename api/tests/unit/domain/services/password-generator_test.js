@@ -1,6 +1,7 @@
-import { expect, sinon } from '../../../test-helper.js';
-import * as service from '../../../../lib/domain/services/password-generator.js';
 import randomString from 'randomstring';
+
+import * as service from '../../../../lib/domain/services/password-generator.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | password-generator', function () {
   let generatedPassword;

@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { getPrescriber } from '../../../../lib/domain/usecases/get-prescriber.js';
 import { UserNotMemberOfOrganizationError } from '../../../../lib/domain/errors.js';
+import { getPrescriber } from '../../../../lib/domain/usecases/get-prescriber.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-prescriber', function () {
   const userId = 1;

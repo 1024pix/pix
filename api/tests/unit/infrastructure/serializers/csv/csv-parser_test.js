@@ -1,7 +1,8 @@
 import iconv from 'iconv-lite';
-import { expect, catchErr } from '../../../../test-helper.js';
-import { CsvParser } from '../../../../../lib/infrastructure/serializers/csv/csv-parser.js';
+
 import { CsvColumn } from '../../../../../lib/infrastructure/serializers/csv/csv-column.js';
+import { CsvParser } from '../../../../../lib/infrastructure/serializers/csv/csv-parser.js';
+import { catchErr, expect } from '../../../../test-helper.js';
 
 describe('Unit | Infrastructure | CsvParser', function () {
   context('The header is correctly formed', function () {

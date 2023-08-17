@@ -1,12 +1,11 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Student } from '../../../../lib/domain/models/Student.js';
-
 import {
   CampaignCodeError,
-  OrganizationLearnerNotFound,
   OrganizationLearnerAlreadyLinkedToUserError,
+  OrganizationLearnerNotFound,
 } from '../../../../lib/domain/errors.js';
+import { Student } from '../../../../lib/domain/models/Student.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { generateUsername } = usecases;
 

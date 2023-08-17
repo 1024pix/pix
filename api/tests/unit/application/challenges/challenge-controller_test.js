@@ -1,5 +1,5 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
 import { challengeController } from '../../../../lib/application/challenges/challenge-controller.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | challenge-controller', function () {
   let challengeRepository;

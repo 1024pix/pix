@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { findFinalizedSessionsWithRequiredAction } from '../../../../lib/domain/usecases/find-finalized-sessions-with-required-action.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | findFinalizedSessionsWithRequiredAction', function () {
   context('when there are finalized sessions with required actions', function () {

@@ -1,7 +1,8 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
 import _ from 'lodash';
-import * as verifyCertificateCodeService from '../../../../lib/domain/services/verify-certificate-code-service.js';
+
 import { CertificateVerificationCodeGenerationTooManyTrials } from '../../../../lib/domain/errors.js';
+import * as verifyCertificateCodeService from '../../../../lib/domain/services/verify-certificate-code-service.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | VerifyCertificateCode', function () {
   describe('#generateCertificateVerificationCode', function () {

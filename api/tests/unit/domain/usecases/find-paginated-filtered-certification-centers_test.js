@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-paginated-filtered-certification-centers', function () {
   it('should result certification-centers with filtering and pagination', async function () {

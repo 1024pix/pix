@@ -1,6 +1,6 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { authenticationController } from '../../../../lib/application/authentication/authentication-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Controller | Authentication', function () {
   describe('#createToken', function () {

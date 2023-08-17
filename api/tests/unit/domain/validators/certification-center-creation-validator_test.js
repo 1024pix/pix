@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import * as certificationCenterCreationValidator from '../../../../lib/domain/validators/certification-center-creation-validator.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import * as certificationCenterCreationValidator from '../../../../lib/domain/validators/certification-center-creation-validator.js';
+import { expect } from '../../../test-helper.js';
 
 const MISSING_VALUE = '';
 

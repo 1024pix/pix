@@ -1,11 +1,10 @@
-import { expect } from '../../../test-helper.js';
-
 import {
-  normalizeAndRemoveAccents,
-  removeSpecialCharacters,
   applyPreTreatments,
   applyTreatments,
+  normalizeAndRemoveAccents,
+  removeSpecialCharacters,
 } from '../../../../lib/domain/services/validation-treatments.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Service | Validation Treatments', function () {
   describe('#normalizeAndRemoveAccents', function () {

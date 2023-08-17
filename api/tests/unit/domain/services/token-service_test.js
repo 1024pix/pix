@@ -2,18 +2,16 @@ import lodash from 'lodash';
 const { omit } = lodash;
 import jsonwebtoken from 'jsonwebtoken';
 
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-
+import { config as settings } from '../../../../lib/config.js';
 import {
-  InvalidTemporaryKeyError,
+  ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-  ForbiddenAccess,
+  InvalidTemporaryKeyError,
 } from '../../../../lib/domain/errors.js';
-
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { config as settings } from '../../../../lib/config.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Service | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {

@@ -1,7 +1,7 @@
-import { sinon, expect, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { certificationController } from '../../../../lib/application/certifications/certification-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/certifications/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Certification | Routes', function () {
   context('POST /api/admin/certification/neutralize-challenge', function () {

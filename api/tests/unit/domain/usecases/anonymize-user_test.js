@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { anonymizeUser } from '../../../../lib/domain/usecases/anonymize-user.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | anonymize-user', function () {
   let clock;

@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { archiveOrganization } from '../../../../lib/domain/usecases/archive-organization.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | archive-organization', function () {
   it('should archive the organization', async function () {

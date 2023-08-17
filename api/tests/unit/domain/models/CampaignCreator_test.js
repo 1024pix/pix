@@ -1,8 +1,8 @@
+import { EntityValidationError, UserNotAuthorizedToCreateCampaignError } from '../../../../lib/domain/errors.js';
 import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.js';
-import { expect, catchErr } from '../../../test-helper.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
-import { UserNotAuthorizedToCreateCampaignError, EntityValidationError } from '../../../../lib/domain/errors.js';
+import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { catchErr, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {
   describe('#createCampaign', function () {

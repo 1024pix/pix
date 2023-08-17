@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { getUserDetailsForAdmin } from '../../../../lib/domain/usecases/get-user-details-for-admin.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-user-details-for-admin', function () {
   let userRepository;

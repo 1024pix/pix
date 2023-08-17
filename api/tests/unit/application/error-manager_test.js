@@ -1,5 +1,6 @@
-import { expect, hFake, sinon } from '../../test-helper.js';
-
+import { handle } from '../../../lib/application/error-manager.js';
+import { HttpErrors } from '../../../lib/application/http-errors.js';
+import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
 import {
   AccountRecoveryDemandExpired,
   AdminMemberError,
@@ -7,46 +8,43 @@ import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AuthenticationKeyExpired,
-  DifferentExternalIdentifierError,
-  EntityValidationError,
-  InvalidExternalAPIResponseError,
-  MissingOrInvalidCredentialsError,
-  MissingUserAccountError,
-  UnexpectedUserAccountError,
-  UserShouldChangePasswordError,
-  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
-  UserHasAlreadyLeftSCO,
-  InvalidVerificationCodeError,
-  InvalidSessionSupervisingLoginError,
-  EmailModificationDemandNotFoundOrExpiredError,
+  CampaignTypeError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
-  UncancellableOrganizationInvitationError,
+  CertificationAttestationGenerationError,
+  CertificationCandidateNotFoundError,
+  CertificationCandidateOnFinalizedSessionError,
+  CertificationEndedByFinalizationError,
+  DifferentExternalIdentifierError,
+  EmailModificationDemandNotFoundOrExpiredError,
+  EntityValidationError,
+  InvalidExternalAPIResponseError,
+  InvalidIdentityProviderError,
+  InvalidJuryLevelError,
+  InvalidSessionSupervisingLoginError,
+  InvalidVerificationCodeError,
+  LocaleFormatError,
+  LocaleNotSupportedError,
+  MissingOrInvalidCredentialsError,
+  MissingUserAccountError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
+  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerCannotBeDissociatedError,
-  UserShouldNotBeReconciledOnAnotherAccountError,
-  CertificationCandidateOnFinalizedSessionError,
-  CertificationEndedByFinalizationError,
-  SessionStartedDeletionError,
-  CertificationAttestationGenerationError,
-  CampaignTypeError,
-  InvalidJuryLevelError,
-  UnexpectedOidcStateError,
-  InvalidIdentityProviderError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-  LocaleFormatError,
-  LocaleNotSupportedError,
-  CertificationCandidateNotFoundError,
-  NotEnoughDaysPassedBeforeResetCampaignParticipationError,
+  SessionStartedDeletionError,
+  UncancellableOrganizationInvitationError,
+  UnexpectedOidcStateError,
+  UnexpectedUserAccountError,
+  UserHasAlreadyLeftSCO,
+  UserShouldChangePasswordError,
+  UserShouldNotBeReconciledOnAnotherAccountError,
 } from '../../../lib/domain/errors.js';
-
-import { HttpErrors } from '../../../lib/application/http-errors.js';
-import { handle } from '../../../lib/application/error-manager.js';
-import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
+import { expect, hFake, sinon } from '../../test-helper.js';
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#handle', function () {

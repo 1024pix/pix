@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { CompetenceResult } from '../../../../lib/domain/models/CompetenceResult.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CompetenceResult', function () {
   describe('#masteryPercentage', function () {

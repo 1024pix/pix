@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { saveCertificationIssueReport } from '../../../../lib/domain/usecases/save-certification-issue-report.js';
 import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import { saveCertificationIssueReport } from '../../../../lib/domain/usecases/save-certification-issue-report.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | save-certification-issue-report', function () {
   describe('#saveCertificationIssueReport', function () {

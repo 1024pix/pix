@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
+import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

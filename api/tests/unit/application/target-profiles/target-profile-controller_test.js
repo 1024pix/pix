@@ -1,7 +1,7 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | target-profile-controller', function () {
   describe('#createTargetProfile', function () {

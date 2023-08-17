@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import { CampaignParticipationInfo } from '../../../../lib/domain/read-models/CampaignParticipationInfo.js';
 import { ObjectValidationError } from '../../../../lib/domain/errors.js';
+import { CampaignParticipationInfo } from '../../../../lib/domain/read-models/CampaignParticipationInfo.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-models | CampaignParticipationInfo', function () {
   describe('#constructor', function () {

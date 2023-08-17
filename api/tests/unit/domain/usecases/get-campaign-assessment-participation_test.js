@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getCampaignAssessmentParticipation } from '../../../../lib/domain/usecases/get-campaign-assessment-participation.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
+import { getCampaignAssessmentParticipation } from '../../../../lib/domain/usecases/get-campaign-assessment-participation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-campaign-assessment-participation', function () {
   let campaignRepository;

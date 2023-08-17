@@ -1,7 +1,7 @@
-import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { addTutorialEvaluation } from '../../../../lib/domain/usecases/add-tutorial-evaluation.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
+import { addTutorialEvaluation } from '../../../../lib/domain/usecases/add-tutorial-evaluation.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | add-tutorial-evaluation', function () {
   let tutorialRepository;

@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import { BadgeResult } from '../../../../../lib/domain/read-models/participant-results/BadgeResult.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { BadgeResult } from '../../../../../lib/domain/read-models/participant-results/BadgeResult.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', function () {
   it('computes the badges results', function () {

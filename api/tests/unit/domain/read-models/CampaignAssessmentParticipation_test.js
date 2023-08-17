@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipation', function () {
   describe('#progression', function () {

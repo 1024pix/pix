@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
 import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
+import { PrivateCertificate } from '../../../../lib/domain/models/PrivateCertificate.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | PrivateCertificate', function () {
   context('#static buildFrom', function () {

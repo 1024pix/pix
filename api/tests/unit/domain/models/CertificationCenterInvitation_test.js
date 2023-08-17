@@ -1,7 +1,8 @@
+import randomString from 'randomstring';
+
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { expect, sinon } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
-import randomString from 'randomstring';
 
 describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
   describe('constructor', function () {

@@ -1,5 +1,5 @@
-import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
 import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | TrainingTriggerForAdmin', function () {
   describe('#constructor', function () {

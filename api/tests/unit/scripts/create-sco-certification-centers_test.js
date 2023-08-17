@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
 import { prepareDataForInsert } from '../../../scripts/create-sco-certification-centers.js';
+import { expect } from '../../test-helper.js';
 
 describe('Unit | Scripts | create-sco-certification-centers.js', function () {
   describe('#prepareDataForInsert', function () {

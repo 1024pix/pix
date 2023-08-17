@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../test-helper.js';
-import { addTagsToOrganizations } from '../../../scripts/add-tags-to-organizations.js';
 import { Tag } from '../../../lib/domain/models/Tag.js';
+import { addTagsToOrganizations } from '../../../scripts/add-tags-to-organizations.js';
+import { expect, sinon } from '../../test-helper.js';
 
 describe('Unit | Scripts | add-tags-to-organizations.js', function () {
   context('When tag already exists for an organization', function () {

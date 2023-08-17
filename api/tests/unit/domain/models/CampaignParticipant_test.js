@@ -1,12 +1,11 @@
-import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
-import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
-
 import {
   AlreadyExistingCampaignParticipationError,
   EntityValidationError,
   ForbiddenAccess,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../../lib/domain/errors.js';
+import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
   describe('#start', function () {

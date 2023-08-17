@@ -1,8 +1,8 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
-import { correctCandidateIdentityInCertificationCourse } from '../../../../lib/domain/usecases/correct-candidate-identity-in-certification-course.js';
-import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
 import { CertificationCandidatesError } from '../../../../lib/domain/errors.js';
+import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CpfBirthInformationValidation } from '../../../../lib/domain/services/certification-cpf-service.js';
+import { correctCandidateIdentityInCertificationCourse } from '../../../../lib/domain/usecases/correct-candidate-identity-in-certification-course.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | correct-candidate-identity-in-certification-course', function () {
   let certificationCourseRepository;

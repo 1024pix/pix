@@ -1,5 +1,5 @@
 import { CertificationAssessmentScore } from '../../../../lib/domain/models/CertificationAssessmentScore.js';
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentScore', function () {
   describe('#get nbPix', function () {

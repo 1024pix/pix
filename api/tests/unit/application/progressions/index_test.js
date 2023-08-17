@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { progressionController } from '../../../../lib/application/progressions/progression-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/progressions/index.js';
+import { progressionController } from '../../../../lib/application/progressions/progression-controller.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | progression-router', function () {
   describe('GET /api/progressions/{id}', function () {

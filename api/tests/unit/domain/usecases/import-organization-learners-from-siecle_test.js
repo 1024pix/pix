@@ -1,10 +1,10 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/domain/usecases/import-organization-learners-from-siecle.js';
-import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import fs from 'fs/promises';
 
+import { FileValidationError, SiecleXmlImportError } from '../../../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { importOrganizationLearnersFromSIECLEFormat } from '../../../../lib/domain/usecases/import-organization-learners-from-siecle.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 

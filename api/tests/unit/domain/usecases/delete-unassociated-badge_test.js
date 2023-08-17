@@ -1,10 +1,9 @@
-import { sinon, expect, catchErr } from '../../../test-helper.js';
-import { deleteUnassociatedBadge } from '../../../../lib/domain/usecases/delete-unassociated-badge.js';
-
 import {
   AcquiredBadgeForbiddenDeletionError,
   CertificationBadgeForbiddenDeletionError,
 } from '../../../../lib/domain/errors.js';
+import { deleteUnassociatedBadge } from '../../../../lib/domain/usecases/delete-unassociated-badge.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | delete-unassociated-badge', function () {
   let badgeId;

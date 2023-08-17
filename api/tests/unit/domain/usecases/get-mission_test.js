@@ -1,7 +1,7 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { getMission } from '../../../../lib/domain/usecases/get-mission.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Mission } from '../../../../lib/domain/models/Mission.js';
+import { getMission } from '../../../../lib/domain/usecases/get-mission.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-mission', function () {
   let missionRepository;

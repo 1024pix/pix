@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { mapCertificabilityByLabel } from '../../../../lib/application/organizations/helpers.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Application | Organizations | helpers', function () {
   it('map the certificability eligible value', async function () {

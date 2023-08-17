@@ -1,6 +1,6 @@
-import { domainBuilder, expect } from '../../../../test-helper.js';
-import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
 import { ORGANIZATION_FEATURE } from '../../../../../lib/domain/constants.js';
+import { OrganizationForAdmin } from '../../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | OrganizationForAdmin', function () {
   context('for sco organizations', function () {

@@ -1,8 +1,8 @@
-import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { updateExpiredPassword } from '../../../../lib/domain/usecases/update-expired-password.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-expired-password', function () {
   const passwordResetToken = 'PASSWORD_RESET_TOKEN';

@@ -1,14 +1,13 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Assessment, AnswerStatus, KnowledgeElement } from '../../../../lib/domain/models/index.js';
-import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
-
 import {
-  ChallengeNotAskedError,
-  NotFoundError,
-  ForbiddenAccess,
-  CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
+  CertificationEndedBySupervisorError,
+  ChallengeNotAskedError,
+  ForbiddenAccess,
+  NotFoundError,
 } from '../../../../lib/domain/errors.js';
+import { AnswerStatus, Assessment, KnowledgeElement } from '../../../../lib/domain/models/index.js';
+import { correctAnswerThenUpdateAssessment } from '../../../../lib/domain/usecases/correct-answer-then-update-assessment.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const ANSWER_STATUS_FOCUSEDOUT = AnswerStatus.FOCUSEDOUT;
 const ANSWER_STATUS_OK = AnswerStatus.OK;

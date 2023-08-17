@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { trainingController } from '../../../../lib/application/trainings/training-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/trainings/index.js';
+import { trainingController } from '../../../../lib/application/trainings/training-controller.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Router | training-router', function () {
   describe('GET /api/admin/trainings/${trainingId}', function () {

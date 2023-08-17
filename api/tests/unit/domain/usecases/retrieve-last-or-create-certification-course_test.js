@@ -1,20 +1,19 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import _ from 'lodash';
 
+import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
 import {
-  UserNotAuthorizedToCertifyError,
-  NotFoundError,
-  SessionNotAccessible,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
+  NotFoundError,
+  SessionNotAccessible,
   UnexpectedUserAccountError,
+  UserNotAuthorizedToCertifyError,
 } from '../../../../lib/domain/errors.js';
-
-import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
-import _ from 'lodash';
-import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
+import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | retrieve-last-or-create-certification-course', function () {
   let clock;

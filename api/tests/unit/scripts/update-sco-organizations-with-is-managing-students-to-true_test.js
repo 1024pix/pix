@@ -1,8 +1,8 @@
-import { expect, nock } from '../../test-helper.js';
 import {
   checkData,
   updateOrganizations,
 } from '../../../scripts/update-sco-organizations-with-is-managing-students-to-true.js';
+import { expect, nock } from '../../test-helper.js';
 
 describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', function () {
   describe('#updateOrganizations', function () {

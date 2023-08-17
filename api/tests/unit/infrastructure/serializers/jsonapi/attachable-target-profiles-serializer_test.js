@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/attachable-target-profiles-serializer.js';
 import { AttachableTargetProfile } from '../../../../../lib/domain/models/AttachableTargetProfile.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/attachable-target-profiles-serializer.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | attachable-target-profiles-serializer', function () {
   describe('#serialize', function () {

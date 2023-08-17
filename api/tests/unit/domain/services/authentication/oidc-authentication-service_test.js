@@ -1,24 +1,22 @@
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { config as settings } from '../../../../../lib/config.js';
-
-import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
 import jsonwebtoken from 'jsonwebtoken';
-import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 
+import { config as settings } from '../../../../../lib/config.js';
+import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import {
   InvalidExternalAPIResponseError,
   OidcInvokingTokenEndpointError,
   OidcMissingFieldsError,
   OidcUserInfoFormatError,
 } from '../../../../../lib/domain/errors.js';
-
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
+import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
+import { OidcAuthenticationService } from '../../../../../lib/domain/services/authentication/oidc-authentication-service.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
-import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#isReady', function () {

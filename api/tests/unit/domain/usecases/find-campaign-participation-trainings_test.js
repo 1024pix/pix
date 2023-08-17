@@ -1,6 +1,6 @@
-import { sinon, expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { findCampaignParticipationTrainings } from '../../../../lib/domain/usecases/find-campaign-participation-trainings.js';
 import { UserNotAuthorizedToFindTrainings } from '../../../../lib/domain/errors.js';
+import { findCampaignParticipationTrainings } from '../../../../lib/domain/usecases/find-campaign-participation-trainings.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-campaign-participation-trainings', function () {
   let campaignParticipationRepository;

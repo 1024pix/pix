@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
 import { buildCertificationCenterMemberships } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
+import { expect } from '../../test-helper.js';
 
 describe('Unit | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {
   describe('#buildCertificationCenterMemberships', function () {

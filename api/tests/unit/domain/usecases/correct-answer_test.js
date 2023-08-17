@@ -1,8 +1,8 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 import { ActivityAnswer } from '../../../../lib/domain/models/ActivityAnswer.js';
+import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 import { AnswerStatus } from '../../../../lib/domain/models/index.js';
+import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | correct-answer', function () {
   context('When there is assessmentId', function () {

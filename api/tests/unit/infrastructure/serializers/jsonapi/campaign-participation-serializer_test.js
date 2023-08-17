@@ -1,7 +1,7 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import { CampaignParticipation } from '../../../../../lib/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import { expect } from '../../../../test-helper.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', function () {

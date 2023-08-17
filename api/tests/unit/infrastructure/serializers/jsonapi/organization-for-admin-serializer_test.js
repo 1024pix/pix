@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
-import { Organization, OrganizationForAdmin, Tag } from '../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
+import { Organization, OrganizationForAdmin, Tag } from '../../../../../lib/domain/models/index.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {

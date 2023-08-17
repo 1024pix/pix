@@ -1,7 +1,7 @@
 import { Answer } from '../../../../lib/domain/models/Answer.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { Examiner } from '../../../../lib/domain/models/Examiner.js';
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | Examiner', function () {
   const challengeFormat = 'nombre';

@@ -1,5 +1,5 @@
-import { sinon, domainBuilder, expect } from '../../../test-helper.js';
 import { getCleaCertifiedCandidateBySession } from '../../../../lib/domain/usecases/get-clea-certified-candidate-by-session.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | getCleaCertifiedCandidateBySession', function () {
   let cleaCertifiedCandidateRepository;

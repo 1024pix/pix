@@ -1,7 +1,7 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { updateOrganizationIdentityProviderForCampaigns } from '../../../../lib/domain/usecases/update-organization-identity-provider-for-campaigns.js';
 import { OrganizationNotFoundError } from '../../../../lib/domain/errors.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/index.js';
+import { updateOrganizationIdentityProviderForCampaigns } from '../../../../lib/domain/usecases/update-organization-identity-provider-for-campaigns.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | Update organization identityProviderForCampaigns', function () {
   context('when organization exists', function () {

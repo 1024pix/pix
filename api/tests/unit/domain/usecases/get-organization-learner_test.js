@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { getOrganizationLearner } from '../../../../lib/domain/usecases/get-organization-learner.js';
 import { OrganizationLearner } from '../../../../lib/domain/read-models/organization-learner-follow-up/OrganizationLearner.js';
+import { getOrganizationLearner } from '../../../../lib/domain/usecases/get-organization-learner.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-organisation-learner', function () {
   it('should return organization learner matching the given organizationLearnerId', async function () {

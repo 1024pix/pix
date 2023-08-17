@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { progressionController } from '../../../../lib/application/progressions/progression-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | progression-controller', function () {
   const userId = 60;

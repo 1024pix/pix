@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | update-email-serializer', function () {
   describe('#serialize()', function () {

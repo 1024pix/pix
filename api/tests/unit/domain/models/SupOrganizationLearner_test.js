@@ -1,5 +1,5 @@
 import { SupOrganizationLearner } from '../../../../lib/domain/models/SupOrganizationLearner.js';
-import { expect, catchErr } from '../../../test-helper.js';
+import { catchErr, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | SupOrganizationLearner', function () {
   describe('#validate', function () {

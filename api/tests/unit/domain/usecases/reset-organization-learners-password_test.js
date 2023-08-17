@@ -1,11 +1,11 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { resetOrganizationLearnersPassword } from '../../../../lib/domain/usecases/reset-organization-learners-password.js';
-import { UserNotAuthorizedToUpdatePasswordError } from '../../../../lib/domain/errors.js';
 import {
   ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE,
   ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE,
 } from '../../../../lib/domain/constants/reset-organization-learners-password-errors.js';
+import { UserNotAuthorizedToUpdatePasswordError } from '../../../../lib/domain/errors.js';
 import { OrganizationLearnerPasswordResetDTO } from '../../../../lib/domain/models/OrganizationLearnerPasswordResetDTO.js';
+import { resetOrganizationLearnersPassword } from '../../../../lib/domain/usecases/reset-organization-learners-password.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCases | Reset organization learners password', function () {
   const hashedPassword = '21fedcba';

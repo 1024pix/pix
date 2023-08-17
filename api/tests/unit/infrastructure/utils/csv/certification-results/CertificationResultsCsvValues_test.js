@@ -1,7 +1,7 @@
-import { expect, domainBuilder } from '../../../../../test-helper.js';
-import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 import { CertificationResult } from '../../../../../../lib/domain/models/CertificationResult.js';
 import { CertificationResultsCsvValues } from '../../../../../../lib/infrastructure/utils/csv/certification-results/CertificationResultsCsvValues.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Infrastructure | Utils | Csv | CertificationResultsCsvValues', function () {
   let i18n;

@@ -1,6 +1,6 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { createTag } from '../../../../lib/domain/usecases/create-tag.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | create-tag', function () {
   it('should allow to create a tag', async function () {

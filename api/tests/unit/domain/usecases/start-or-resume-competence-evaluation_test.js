@@ -1,8 +1,9 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
+import _ from 'lodash';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Assessment, CompetenceEvaluation } from '../../../../lib/domain/models/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import _ from 'lodash';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | start-or-resume-competence-evaluation', function () {
   const userId = 123;

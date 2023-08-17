@@ -1,9 +1,9 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
 import {
   CpfBirthInformationValidation,
   getBirthInformation,
 } from '../../../../lib/domain/services/certification-cpf-service.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../lib/domain/constants/certification-candidates-errors.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Service | Certification CPF service', function () {
   let certificationCpfCountryRepository;

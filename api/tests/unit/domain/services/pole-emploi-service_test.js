@@ -1,6 +1,6 @@
-import { expect } from '../../../test-helper.js';
-import * as poleEmploiService from '../../../../lib/domain/services/pole-emploi-service.js';
 import { config as settings } from '../../../../lib/config.js';
+import * as poleEmploiService from '../../../../lib/domain/services/pole-emploi-service.js';
+import { expect } from '../../../test-helper.js';
 
 const ORIGINAL_ENV = settings.apiManager.url;
 

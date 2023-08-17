@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 const { computeCampaignAnalysis } = usecases;

@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { certificationIssueReportController } from '../../../../lib/application/certification-issue-reports/certification-issue-report-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import * as moduleUnderTest from '../../../../lib/application/certification-issue-reports/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Certifications Issue Report | Route', function () {
   describe('DELETE /api/certification-issue-reports/{id}', function () {

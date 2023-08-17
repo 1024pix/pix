@@ -1,11 +1,11 @@
-import { domainBuilder, expect, sinon, HttpTestServer } from '../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { domainBuilder, expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 
 import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import * as adminMembersRouter from '../../../../lib/application/admin-members/index.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Unit | Application | Router | admin-members-router', function () {
   describe('GET /api/admin/admin-members/me', function () {

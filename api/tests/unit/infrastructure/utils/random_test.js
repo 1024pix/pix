@@ -1,6 +1,7 @@
-import { expect } from '../../../test-helper.js';
-import { random } from '../../../../lib/infrastructure/utils/random.js';
 import _ from 'lodash';
+
+import { random } from '../../../../lib/infrastructure/utils/random.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | Utils | Random', function () {
   describe('#binaryTreeRandom', function () {

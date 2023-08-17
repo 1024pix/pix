@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Session } from '../../../../lib/domain/models/Session.js';
 import { certificationCenterController } from '../../../../lib/application/certification-centers/certification-center-controller.js';
+import { Session } from '../../../../lib/domain/models/Session.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {

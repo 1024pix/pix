@@ -1,6 +1,6 @@
-import { expect, sinon, hFake } from '../../../test-helper.js';
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import { UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Pre-handler | User Verification', function () {
   describe('#verifyById', function () {

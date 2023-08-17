@@ -1,6 +1,6 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { activityAnswerController } from '../../../../lib/application/activity-answers/activity-answer-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | activity-answer-controller', function () {
   describe('#save', function () {

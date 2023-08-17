@@ -1,8 +1,9 @@
 import iconv from 'iconv-lite';
-import { expect, catchErr } from '../../../../test-helper.js';
-import { OrganizationLearnerParser } from '../../../../../lib/infrastructure/serializers/csv/organization-learner-parser.js';
+
 import { CsvImportError } from '../../../../../lib/domain/errors.js';
 import { OrganizationLearnerImportHeader } from '../../../../../lib/infrastructure/serializers/csv/organization-learner-import-header.js';
+import { OrganizationLearnerParser } from '../../../../../lib/infrastructure/serializers/csv/organization-learner-parser.js';
+import { catchErr, expect } from '../../../../test-helper.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 

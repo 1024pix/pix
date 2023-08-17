@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { OrganizationPlacesLotManagement } from '../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', function () {
   describe('constructor', function () {

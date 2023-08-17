@@ -1,7 +1,7 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
 import { tutorialEvaluationsController } from '../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | Tutorial-evaluations', function () {
   describe('#evaluate', function () {

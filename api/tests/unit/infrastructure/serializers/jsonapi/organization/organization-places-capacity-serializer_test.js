@@ -1,7 +1,7 @@
-import { expect } from '../../../../../test-helper.js';
 import * as categories from '../../../../../../lib/domain/constants/organization-places-categories.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
 import { OrganizationPlacesCapacity } from '../../../../../../lib/domain/read-models/OrganizationPlacesCapacity.js';
+import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | organization-places-capacity-serializer', function () {
   describe('#serialize', function () {

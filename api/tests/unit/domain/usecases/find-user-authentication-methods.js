@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { findUserAuthenticationMethods } from '../../../../lib/domain/usecases/find-user-authentication-methods.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | find-user-authentication-methods', function () {
   it('should find user authentication methods', async function () {

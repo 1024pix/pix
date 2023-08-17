@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import * as useCase from '../../../../lib/application/usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Use Case | checkUserBelongsToSupOrganizationAndManagesStudents', function () {
   let membershipRepositoryStub;

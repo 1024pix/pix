@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { CampaignForArchiving as Campaign } from '../../../../lib/domain/models/CampaignForArchiving.js';
 import { archiveCampaign } from '../../../../lib/domain/usecases/archive-campaign.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | archive-campaign', function () {
   let clock;

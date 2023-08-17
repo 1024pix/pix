@@ -1,6 +1,6 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { EntityValidationError, UserNotAuthorizedToUpdateResourceError } from '../../../../lib/domain/errors.js';
 import { updateCampaign } from '../../../../lib/domain/usecases/update-campaign.js';
-import { UserNotAuthorizedToUpdateResourceError, EntityValidationError } from '../../../../lib/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;

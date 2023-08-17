@@ -1,7 +1,8 @@
 import _ from 'lodash';
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { deleteCertificationIssueReport } from '../../../../lib/domain/usecases/delete-certification-issue-report.js';
+
 import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import { deleteCertificationIssueReport } from '../../../../lib/domain/usecases/delete-certification-issue-report.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | delete-certification-issue-report', function () {
   const certificationCourseRepository = { get: () => _.noop() };

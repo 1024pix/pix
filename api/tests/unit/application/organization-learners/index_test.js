@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { organizationLearnerController } from '../../../../lib/application/organization-learners/organization-learner-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/organization-learners/index.js';
+import { organizationLearnerController } from '../../../../lib/application/organization-learners/organization-learner-controller.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 describe('Unit | Application | Router | organization-learner-router', function () {
   context('Routes /admin', function () {

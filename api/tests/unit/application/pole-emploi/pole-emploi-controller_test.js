@@ -1,6 +1,6 @@
-import { expect, sinon, hFake } from '../../../test-helper.js';
 import { poleEmploiController } from '../../../../lib/application/pole-emploi/pole-emploi-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {

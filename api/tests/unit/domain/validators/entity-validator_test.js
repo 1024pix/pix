@@ -1,7 +1,8 @@
-import { expect } from '../../../test-helper.js';
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
 import Joi from 'joi';
+
+import { ObjectValidationError } from '../../../../lib/domain/errors.js';
 import { validateEntity } from '../../../../lib/domain/validators/entity-validator.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Validators | entity-validator', function () {
   describe('#validateEntity', function () {

@@ -1,5 +1,5 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
+import { catchErr, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
   describe('#clean', function () {

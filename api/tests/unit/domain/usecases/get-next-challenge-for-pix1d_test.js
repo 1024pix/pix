@@ -1,8 +1,8 @@
-import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { Activity } from '../../../../lib/domain/models/Activity.js';
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-pix1d', function () {
   const missionId = 'AZERTYUIO';

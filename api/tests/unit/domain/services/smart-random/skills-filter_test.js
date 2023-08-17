@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as skillsFilter from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
 import { Tube } from '../../../../../lib/domain/models/Tube.js';
+import * as skillsFilter from '../../../../../lib/domain/services/algorithm-methods/skills-filter.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',

@@ -1,7 +1,7 @@
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | ValidatorQCU', function () {
   let solutionServiceQCUStub;

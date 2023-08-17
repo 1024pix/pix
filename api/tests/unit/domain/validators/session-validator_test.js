@@ -1,7 +1,7 @@
-import { expect, domainBuilder, catchErr } from '../../../test-helper.js';
-import { statuses } from '../../../../lib/domain/models/Session.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { statuses } from '../../../../lib/domain/models/Session.js';
 import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
+import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 const MISSING_VALUE = '';
 

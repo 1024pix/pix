@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { reconcileScoOrganizationLearnerAutomatically } from '../../../../lib/domain/usecases/reconcile-sco-organization-learner-automatically.js';
-import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
 import { CampaignCodeError, UserCouldNotBeReconciledError } from '../../../../lib/domain/errors.js';
+import { OrganizationLearner } from '../../../../lib/domain/models/OrganizationLearner.js';
+import { reconcileScoOrganizationLearnerAutomatically } from '../../../../lib/domain/usecases/reconcile-sco-organization-learner-automatically.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', function () {
   let reconcileUserByNationalStudentIdAndOrganizationIdStub;

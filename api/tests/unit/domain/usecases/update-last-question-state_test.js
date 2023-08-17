@@ -1,6 +1,6 @@
-import { sinon, domainBuilder } from '../../../test-helper.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { updateLastQuestionState } from '../../../../lib/domain/usecases/update-last-question-state.js';
+import { domainBuilder, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | update-last-question-state', function () {
   const assessmentId = 'assessmentId';

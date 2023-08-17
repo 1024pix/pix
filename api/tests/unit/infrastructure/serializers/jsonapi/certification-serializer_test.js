@@ -1,8 +1,8 @@
-import { expect, EMPTY_BLANK_AND_NULL, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer.js';
 import { WrongDateFormatError } from '../../../../../lib/domain/errors.js';
-import { NO_EXAMINER_COMMENT } from '../../../../../lib/domain/models/CertificationReport.js';
 import { CertificationCourse } from '../../../../../lib/domain/models/CertificationCourse.js';
+import { NO_EXAMINER_COMMENT } from '../../../../../lib/domain/models/CertificationReport.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer.js';
+import { domainBuilder, EMPTY_BLANK_AND_NULL, expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', function () {
   describe('#deserialize', function () {

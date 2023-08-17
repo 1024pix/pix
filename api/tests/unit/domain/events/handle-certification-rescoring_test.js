@@ -1,11 +1,11 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 const { handleCertificationRescoring } = _forTestOnly.handlers;
-import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
-import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { CertificationAssessment, CertificationResult, AssessmentResult } from '../../../../lib/domain/models/index.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
+import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
+import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
+import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
 
 const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;

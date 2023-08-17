@@ -1,5 +1,5 @@
+import { ClientQueryAdapter, ScriptQueryBuilder, UserEraser } from '../../../scripts/delete-user.js';
 import { expect, sinon } from '../../test-helper.js';
-import { ScriptQueryBuilder, ClientQueryAdapter, UserEraser } from '../../../scripts/delete-user.js';
 
 describe('Delete User Script', function () {
   describe('ScriptQueryBuilder', function () {

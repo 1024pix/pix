@@ -1,15 +1,14 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { getAttendanceSheet } from '../../../../lib/domain/usecases/get-attendance-sheet.js';
+import _ from 'lodash';
 
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { getAttendanceSheet } from '../../../../lib/domain/usecases/get-attendance-sheet.js';
 import {
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+  EXTRA_EMPTY_CANDIDATE_ROWS,
   NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
-  EXTRA_EMPTY_CANDIDATE_ROWS,
 } from '../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js';
-
-import _ from 'lodash';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
   describe('getAttendanceSheet', function () {

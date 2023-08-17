@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
 import { getCampaignUrl } from '../../../../lib/infrastructure/utils/url-builder.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Utils | url-builder', function () {
   describe('#getCampaignUrl', function () {

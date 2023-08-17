@@ -1,6 +1,6 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
 import { userOrgaSettingsController } from '../../../../lib/application/user-orga-settings/user-orga-settings-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 
 describe('Unit | Controller | user-orga-settings-controller', function () {
   describe('#createOrUpdate', function () {

@@ -1,6 +1,7 @@
-import { expect } from '../../../test-helper.js';
 import original_lodash from 'lodash';
+
 import { _ } from '../../../../lib/infrastructure/utils/lodash-utils.js';
+import { expect } from '../../../test-helper.js';
 
 describe('Unit | Utils | lodash-utils', function () {
   describe('#scope', function () {

@@ -1,6 +1,7 @@
-import { ComplementaryCertificationHabilitation } from '../../../../lib/domain/models/ComplementaryCertificationHabilitation.js';
-import { expect, domainBuilder } from '../../../test-helper.js';
 import _ from 'lodash';
+
+import { ComplementaryCertificationHabilitation } from '../../../../lib/domain/models/ComplementaryCertificationHabilitation.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 const COMPLEMENTARY_CERTIFICATION_HABILITATION_PROPS = ['id', 'complementaryCertificationId', 'certificationCenterId'];
 

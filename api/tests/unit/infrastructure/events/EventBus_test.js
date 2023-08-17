@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
 import { Event } from '../../../../lib/domain/events/Event.js';
 import { EventBus } from '../../../../lib/infrastructure/events/EventBus.js';
+import { expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Infrastructure | Events | EventBus', function () {
   describe('#publish', function () {

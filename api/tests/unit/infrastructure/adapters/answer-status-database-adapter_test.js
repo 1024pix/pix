@@ -1,7 +1,7 @@
-import * as AnswerStatusDatabaseAdapter from '../../../../lib/infrastructure/adapters/answer-status-database-adapter.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-
 import chai from 'chai';
+
+import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import * as AnswerStatusDatabaseAdapter from '../../../../lib/infrastructure/adapters/answer-status-database-adapter.js';
 
 const { expect } = chai;
 

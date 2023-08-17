@@ -1,6 +1,6 @@
 import { FinalizedSession } from '../../../../../lib/domain/models/FinalizedSession.js';
-import { expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer', function () {
   describe('#serialize()', function () {

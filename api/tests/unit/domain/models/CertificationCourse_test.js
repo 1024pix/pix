@@ -1,5 +1,5 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { domainBuilder, expect } from '../../../test-helper.js';
 
 describe('Unit | Domain | Models | CertificationCourse', function () {
   describe('#cancel #isCancelled', function () {

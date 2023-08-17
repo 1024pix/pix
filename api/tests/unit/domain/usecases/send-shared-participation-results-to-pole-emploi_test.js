@@ -1,10 +1,10 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { PoleEmploiSending } from '../../../../lib/domain/models/PoleEmploiSending.js';
-import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import { sendSharedParticipationResultsToPoleEmploi } from '../../../../lib/domain/usecases/send-shared-participation-results-to-pole-emploi.js';
-import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
+import { PoleEmploiPayload } from '../../../../lib/infrastructure/externals/pole-emploi/PoleEmploiPayload.js';
 import * as httpErrorsHelper from '../../../../lib/infrastructure/http/errors-helper.js';
+import { httpAgent } from '../../../../lib/infrastructure/http/http-agent.js';
 import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 
 describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-emploi', function () {
   let dependencies, expectedResults;
