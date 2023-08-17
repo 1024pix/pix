@@ -1,7 +1,7 @@
-import { action } from '@ember/object';
 import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class AssessmentResultsController extends Controller {
   @service router;

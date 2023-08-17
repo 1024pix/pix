@@ -1,10 +1,10 @@
+import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { service } from '@ember/service';
-import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import groupBy from 'lodash/groupBy';
+import isEmpty from 'lodash/isEmpty';
 import uniq from 'lodash/uniq';
 
 export default class ImportController extends Controller {

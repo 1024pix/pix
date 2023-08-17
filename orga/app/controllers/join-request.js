@@ -1,8 +1,8 @@
 import Controller from '@ember/controller';
-import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import get from 'lodash/get';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 
 export default class JoinRequestController extends Controller {
   @service store;

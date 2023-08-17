@@ -1,5 +1,5 @@
-import Component from '@glimmer/component';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
 import ENV from 'pix-orga/config/environment';
 
 export default class InformationBanner extends Component {

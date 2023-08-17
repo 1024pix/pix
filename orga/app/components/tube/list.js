@@ -1,8 +1,8 @@
-import { action } from '@ember/object';
-import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
-import Component from '@glimmer/component';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
 export default class TubeList extends Component {
   @tracked selectedTubeIds = A();

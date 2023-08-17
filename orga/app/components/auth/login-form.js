@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
-import isEmpty from 'lodash/isEmpty';
 import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import ENV from 'pix-orga/config/environment';
+
 import isEmailValid from '../../utils/email-validator';
 
 export default class LoginForm extends Component {

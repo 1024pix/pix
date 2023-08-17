@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-
 import ENV from 'pix-orga/config/environment';
 
 const FRENCH_LOCALE = 'fr';
