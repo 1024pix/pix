@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.24.0 (17/08/2023)
+
+
+### :rocket: Amélioration
+- [#6887](https://github.com/1024pix/pix/pull/6887) [FEATURE] Ajouter un script pour reprendre les profils cibles qui n'ont pas d'images (PIX-8904).
+- [#6888](https://github.com/1024pix/pix/pull/6888) [FEATURE] Ajoute le batch de nuit qui calcule la certificabilité des prescrits SCO automatiquement (PIX-8896).
+- [#6864](https://github.com/1024pix/pix/pull/6864) [FEATURE] Lire l'erreur de soumission d'épreuve à son apparition (PIX-8890).
+- [#6865](https://github.com/1024pix/pix/pull/6865) [FEATURE] Activation de la remontée des certifs auto à la création en masse d'organisations (PIX-8794).
+- [#6845](https://github.com/1024pix/pix/pull/6845) [FEATURE] Ne pas permettre le reset avant 4j (PIX-8829).
+- [#6834](https://github.com/1024pix/pix/pull/6834) [FEATURE] Panneau de signalement pour certifications V3 (PIX-8796).
+- [#6843](https://github.com/1024pix/pix/pull/6843) [FEATURE] Mise à jour du texte du bandeau d'import pour la rentrée scolaire (PIX-8878).
+
+### :building_construction: Tech
+- [#6890](https://github.com/1024pix/pix/pull/6890) [TECH] Simplifier les campagnes des seeds de l'équipe DevComp (PIX-8938).
+- [#6889](https://github.com/1024pix/pix/pull/6889) [TECH] Corriger la taille de le bouton `repasser mon parcours`.
+- [#6867](https://github.com/1024pix/pix/pull/6867) [TECH] Supprimer des méthodes de repositories non utilisées.
+- [#6866](https://github.com/1024pix/pix/pull/6866) [TECH] Supprimer des serializers non utilisés.
+
+### :bug: Correction
+- [#6886](https://github.com/1024pix/pix/pull/6886) [BUGFIX] Pouvoir supprimer une méthode de connexion FWB d'un utilisateur depuis Pix Admin (PIX-8924).
+- [#6863](https://github.com/1024pix/pix/pull/6863) [BUGFIX] Ignorer les espaces dans les adresses emails saisies pour l'envoi d'invitation(s) depuis Pix Orga (PIX-7726).
+
+### :arrow_up: Montée de version
+- [#6884](https://github.com/1024pix/pix/pull/6884) [BUMP] Lock file maintenance (api).
+- [#6882](https://github.com/1024pix/pix/pull/6882) [BUMP] Update nginx Docker tag to v1.25.2.
+
 ## v4.23.0 (14/08/2023)
 
 
