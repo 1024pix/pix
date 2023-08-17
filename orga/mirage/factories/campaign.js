@@ -1,5 +1,5 @@
-import { Factory, trait } from 'miragejs';
 import { faker } from '@faker-js/faker';
+import { Factory, trait } from 'miragejs';
 
 export default Factory.extend({
   name() {

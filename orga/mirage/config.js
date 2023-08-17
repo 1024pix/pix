@@ -1,11 +1,12 @@
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
-import { Response, createServer } from 'miragejs';
-import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
-import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
+import { createServer, Response } from 'miragejs';
+
+import { findFilteredPaginatedOrganizationParticipants } from './handlers/find-filtered-paginated-organization-participants';
 import { findFilteredPaginatedScoOrganizationParticipants } from './handlers/find-filtered-paginated-sco-organization-participants';
 import { findFilteredPaginatedSupOrganizationParticipants } from './handlers/find-filtered-paginated-sup-organization-participants';
 import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
-import { findFilteredPaginatedOrganizationParticipants } from './handlers/find-filtered-paginated-organization-participants';
+import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
+import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 
 const emptyData = {
   data: {
