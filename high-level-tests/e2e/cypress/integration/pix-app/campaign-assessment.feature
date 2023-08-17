@@ -26,8 +26,8 @@ Fonctionnalité: Campagne d'évaluation
     Et je clique sur "Voir mes résultats"
     Alors je vois un résultat global à 50%
     Alors je vois 2 résultats pour la compétence
-    Alors je vois la formation recommandée ayant le titre "Comment gagner des pièces d'or"
     Lorsque je clique sur "J'envoie mes résultats"
+    Alors je vois la formation recommandée ayant le titre "Comment gagner des pièces d'or"
     Alors je vois que j'ai envoyé les résultats
     Lorsque je clique sur "Continuez votre expérience Pix"
     Alors je vois le lien "Mes formations" dans la navigation
