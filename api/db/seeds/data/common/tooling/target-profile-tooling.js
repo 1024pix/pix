@@ -1,8 +1,9 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
+import _ from 'lodash';
+
 import * as learningContent from './learning-content.js';
 
-export { createTargetProfile, createBadge, createStages };
+export { createBadge, createStages, createTargetProfile };
 let frameworkNames;
 const tubeIdsByFramework = {};
 /**

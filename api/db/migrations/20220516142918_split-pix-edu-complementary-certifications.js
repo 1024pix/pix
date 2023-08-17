@@ -72,4 +72,4 @@ const down = async function (knex) {
   await knex('complementary-certifications').update({ name: 'Pix+ Édu' }).where({ name: 'Pix+ Édu 2nd degré' });
 };
 
-export { up, down };
+export { down, up };

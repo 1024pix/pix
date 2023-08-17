@@ -1,6 +1,7 @@
-import { buildCertificationCenter } from './build-certification-center.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
+import { buildCertificationCenter } from './build-certification-center.js';
 
 const buildSession = function ({
   id = databaseBuffer.getNextId(),

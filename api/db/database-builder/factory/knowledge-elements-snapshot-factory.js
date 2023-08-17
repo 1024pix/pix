@@ -1,5 +1,5 @@
-import { buildKnowledgeElement } from './build-knowledge-element.js';
 import { databaseBuffer } from '../database-buffer.js';
+import { buildKnowledgeElement } from './build-knowledge-element.js';
 
 function buildSnapshot({ id, userId, snappedAt, knowledgeElementsAttributes }) {
   const knowledgeElements = knowledgeElementsAttributes.map((attributes) => buildKnowledgeElement(attributes));

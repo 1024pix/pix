@@ -16,4 +16,4 @@ const down = function (knex) {
   return knex.schema.table(TABLE_NAME, async (table) => table.dropColumn(COLUMN_NAME));
 };
 
-export { up, down };
+export { down, up };

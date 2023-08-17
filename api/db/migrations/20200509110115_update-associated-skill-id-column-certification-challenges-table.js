@@ -27,7 +27,7 @@ const down = function (knex) {
   return knex.raw('UPDATE ?? SET ?? = NULL', ['certification-challenges', 'associatedSkillId']);
 };
 
-export { up, down };
+export { down, up };
 
 // skillName -> md5()
 const skills_at_2020_04_30 = {

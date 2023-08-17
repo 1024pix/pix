@@ -6,4 +6,4 @@ const down = async function (knex) {
   await knex.raw('DROP EXTENSION IF EXISTS pgcrypto;');
 };
 
-export { up, down };
+export { down, up };

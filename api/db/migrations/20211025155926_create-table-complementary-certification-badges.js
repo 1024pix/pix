@@ -30,4 +30,4 @@ const down = function (knex) {
   return knex.schema.dropTable('complementary-certification-badges');
 };
 
-export { up, down };
+export { down, up };

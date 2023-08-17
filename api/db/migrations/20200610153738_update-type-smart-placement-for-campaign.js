@@ -12,4 +12,4 @@ const down = function (knex) {
     .update({ type: 'SMART_PLACEMENT', courseId: 'Smart Placement Tests CourseId Not Used' });
 };
 
-export { up, down };
+export { down, up };

@@ -6,4 +6,4 @@ const down = function (knex) {
   return knex.raw('DROP INDEX "assessment_courseid_index";');
 };
 
-export { up, down };
+export { down, up };

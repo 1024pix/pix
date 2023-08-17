@@ -34,4 +34,4 @@ const down = function (knex) {
   return knex.schema.dropTable('complementary-certification-habilitations');
 };
 
-export { up, down };
+export { down, up };

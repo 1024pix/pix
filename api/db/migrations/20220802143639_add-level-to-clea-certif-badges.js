@@ -20,4 +20,4 @@ const down = async function (knex) {
     .where({ badgeId: knex('badges').select('id').where({ key: PIX_EMPLOI_CLEA_V3 }) });
 };
 
-export { up, down };
+export { down, up };

@@ -6,4 +6,4 @@ const down = async function (knex) {
   await knex('campaigns').where({ customLandingPageText: null }).update({ customLandingPageText: '' });
 };
 
-export { up, down };
+export { down, up };

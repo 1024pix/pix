@@ -1,7 +1,8 @@
-import _ from 'lodash';
 import bluebird from 'bluebird';
-import { factory } from './factory/index.js';
+import _ from 'lodash';
+
 import { databaseBuffer } from './database-buffer.js';
+import { factory } from './factory/index.js';
 
 class DatabaseBuilder {
   constructor({ knex, emptyFirst = true }) {

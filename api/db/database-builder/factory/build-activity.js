@@ -1,7 +1,8 @@
-import { buildPix1dAssessment } from './build-assessment.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
 import { Activity } from '../../../lib/domain/models/Activity.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { buildPix1dAssessment } from './build-assessment.js';
 
 const buildActivity = function ({
   id = databaseBuffer.getNextId(),

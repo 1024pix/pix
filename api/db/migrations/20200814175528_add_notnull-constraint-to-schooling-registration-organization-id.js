@@ -6,4 +6,4 @@ const down = function (knex) {
   return knex.raw('ALTER TABLE "schooling-registrations" ALTER COLUMN "organizationId" DROP NOT NULL;');
 };
 
-export { up, down };
+export { down, up };

@@ -10,4 +10,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).where('status', '=', NEW_STATUS).update({ status: OLD_STATUS });
 };
 
-export { up, down };
+export { down, up };

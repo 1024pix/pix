@@ -35,4 +35,4 @@ const down = function (knex) {
     });
 };
 
-export { up, down };
+export { down, up };

@@ -1,9 +1,10 @@
+import _ from 'lodash';
+
+import { AssessmentResult } from '../../../lib/domain/models/AssessmentResult.js';
+import { databaseBuffer } from '../database-buffer.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildCertificationCourseLastAssessmentResult } from './build-certification-course-last-assessment-result.js';
 import { buildUser } from './build-user.js';
-import { databaseBuffer } from '../database-buffer.js';
-import { AssessmentResult } from '../../../lib/domain/models/AssessmentResult.js';
-import _ from 'lodash';
 
 function buildAssessmentResult({
   id = databaseBuffer.getNextId(),

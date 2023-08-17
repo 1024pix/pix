@@ -1,6 +1,3 @@
-import * as tooling from '../common/tooling/index.js';
-import * as campaignTooling from '../common/tooling/campaign-tooling.js';
-
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   COLLEGE_TAG_ID,
@@ -8,6 +5,8 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
+import * as campaignTooling from '../common/tooling/campaign-tooling.js';
+import * as tooling from '../common/tooling/index.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS

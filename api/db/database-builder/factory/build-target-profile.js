@@ -1,6 +1,7 @@
-import { buildOrganization } from './build-organization.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
+import { buildOrganization } from './build-organization.js';
 
 const buildTargetProfile = function ({
   id = databaseBuffer.getNextId(),

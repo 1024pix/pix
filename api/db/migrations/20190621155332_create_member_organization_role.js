@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).where('name', 'MEMBER').delete();
 };
 
-export { up, down };
+export { down, up };

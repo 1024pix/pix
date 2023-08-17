@@ -1,11 +1,11 @@
 import lodash from 'lodash';
 const { isUndefined } = lodash;
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
+import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
+import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
+import * as encrypt from '../../../lib/domain/services/encryption-service.js';
 import { databaseBuffer } from '../database-buffer.js';
 import { buildUser } from './build-user.js';
-import { AuthenticationMethod } from '../../../lib/domain/models/AuthenticationMethod.js';
-import * as OidcIdentityProviders from '../../../lib/domain/constants/oidc-identity-providers.js';
-import * as encrypt from '../../../lib/domain/services/encryption-service.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 
 const buildAuthenticationMethod = {};
 

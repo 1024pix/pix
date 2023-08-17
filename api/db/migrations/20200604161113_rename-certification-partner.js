@@ -9,4 +9,4 @@ const down = async function (knex) {
   return knex.schema.renameTable(TABLE_NAME, OLD_TABLE_NAME);
 };
 
-export { up, down };
+export { down, up };

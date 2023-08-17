@@ -15,4 +15,4 @@ const down = async function (knex) {
   return knex.raw('UPDATE "sessions" SET "status" = \'processed\' WHERE "sessions"."publishedAt" IS NOT NULL');
 };
 
-export { up, down };
+export { down, up };

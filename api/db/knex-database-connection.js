@@ -4,10 +4,11 @@ const types = pg.types;
 import _ from 'lodash';
 
 const { get } = _;
+import perf_hooks from 'perf_hooks';
+
+import { config } from '../lib/config.js';
 import { logger } from '../lib/infrastructure/logger.js';
 import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
-import { config } from '../lib/config.js';
-import perf_hooks from 'perf_hooks';
 
 const { performance } = perf_hooks;
 
@@ -117,4 +118,4 @@ async function emptyAllTables() {
   return configuredKnex.raw(`${query}${tables}`);
 }
 
-export { configuredKnex as knex, disconnect, emptyAllTables };
+export { disconnect, emptyAllTables, configuredKnex as knex };

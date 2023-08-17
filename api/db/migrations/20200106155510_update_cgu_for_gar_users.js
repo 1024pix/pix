@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).whereNotNull('samlId').update({ cgu: true });
 };
 
-export { up, down };
+export { down, up };

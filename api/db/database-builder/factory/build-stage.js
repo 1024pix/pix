@@ -1,5 +1,6 @@
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildTargetProfile } from './build-target-profile.js';
 
 function buildStage({

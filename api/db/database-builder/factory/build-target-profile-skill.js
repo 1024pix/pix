@@ -1,6 +1,7 @@
-import { buildTargetProfile } from './build-target-profile.js';
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
+import { buildTargetProfile } from './build-target-profile.js';
 
 const buildTargetProfileSkill = function ({
   id = databaseBuffer.getNextId(),

@@ -22,4 +22,4 @@ const down = async function (knex) {
   return knex.schema.table('target-profile-shares', (table) => table.dropUnique(['organizationId', 'targetProfileId']));
 };
 
-export { up, down };
+export { down, up };

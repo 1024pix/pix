@@ -1,9 +1,10 @@
-import { buildCampaign } from './build-campaign.js';
-import { buildUser } from './build-user.js';
-import { buildOrganizationLearner } from './build-organization-learner.js';
-import { databaseBuffer } from '../database-buffer.js';
-import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
 import _ from 'lodash';
+
+import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { databaseBuffer } from '../database-buffer.js';
+import { buildCampaign } from './build-campaign.js';
+import { buildOrganizationLearner } from './build-organization-learner.js';
+import { buildUser } from './build-user.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

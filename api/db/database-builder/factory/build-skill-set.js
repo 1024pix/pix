@@ -1,5 +1,6 @@
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 
 const buildSkillSet = function ({ id = databaseBuffer.getNextId(), name = 'name', skillIds = [], badgeId } = {}) {
   if (_.isEmpty(skillIds)) {

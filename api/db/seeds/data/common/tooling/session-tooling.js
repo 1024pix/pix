@@ -1,21 +1,21 @@
 import _ from 'lodash';
-import * as learningContent from './learning-content.js';
-import * as generic from './generic.js';
 
+import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 import {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common-builder.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import * as generic from './generic.js';
+import * as learningContent from './learning-content.js';
 
 let verifCodeCount = 0;
 
 export {
   createDraftScoSession,
-  createPublishedScoSession,
   createDraftSession,
+  createPublishedScoSession,
   createPublishedSession,
   createStartedSession,
 };

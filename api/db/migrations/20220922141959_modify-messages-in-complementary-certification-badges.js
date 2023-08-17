@@ -1,4 +1,5 @@
 import bluebird from 'bluebird';
+
 import { badges } from '../constants.js';
 
 const {
@@ -62,4 +63,4 @@ const up = async function (knex) {
 };
 // eslint-disable-next-line no-empty-function
 const down = function () {};
-export { up, down };
+export { down, up };

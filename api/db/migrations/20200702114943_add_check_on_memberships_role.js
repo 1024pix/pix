@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex.raw('ALTER TABLE memberships DROP CONSTRAINT "memberships_organizationRole_check" ');
 };
 
-export { up, down };
+export { down, up };

@@ -13,4 +13,4 @@ const down = async function (knex) {
   await knex.raw('DROP INDEX IF EXISTS "knowledge-elements_bigintId_index"');
 };
 
-export { up, down };
+export { down, up };

@@ -1,5 +1,5 @@
+import { createAssessmentCampaign, createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
 import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID, TARGET_PROFILE_ID } from './constants.js';
-import { createProfilesCollectionCampaign, createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
 
 async function _createScoCampaigns(databaseBuilder) {
   await createAssessmentCampaign({

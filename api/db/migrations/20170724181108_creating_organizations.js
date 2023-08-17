@@ -16,4 +16,4 @@ const down = function (knex) {
   return knex.schema.dropTable('organizations');
 };
 
-export { up, down };
+export { down, up };

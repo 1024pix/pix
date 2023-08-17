@@ -11,4 +11,4 @@ const down = function (_) {
   return Promise.resolve();
 };
 
-export { up, down };
+export { down, up };

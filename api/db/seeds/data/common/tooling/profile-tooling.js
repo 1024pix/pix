@@ -1,9 +1,10 @@
 import _ from 'lodash';
-import * as learningContent from './learning-content.js';
-import * as generic from './generic.js';
+
+import { PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
 import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 import { CompetenceEvaluation } from '../../../../../lib/domain/models/CompetenceEvaluation.js';
-import { PIX_COUNT_BY_LEVEL } from '../../../../../lib/domain/constants.js';
+import * as generic from './generic.js';
+import * as learningContent from './learning-content.js';
 const UNREACHABLE_PIX_SCORE = 999999;
 
 export {

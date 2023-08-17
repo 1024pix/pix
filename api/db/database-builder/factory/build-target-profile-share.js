@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildOrganization } from './build-organization.js';
 import { buildTargetProfile } from './build-target-profile.js';
-import { databaseBuffer } from '../database-buffer.js';
-import _ from 'lodash';
 
 const buildTargetProfileShare = function ({
   id = databaseBuffer.getNextId(),

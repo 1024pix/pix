@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex.schema.renameTable('memberships', TABLE_NAME);
 };
 
-export { up, down };
+export { down, up };

@@ -140,4 +140,4 @@ const down = async function () {
   noop;
 };
 
-export { up, down };
+export { down, up };

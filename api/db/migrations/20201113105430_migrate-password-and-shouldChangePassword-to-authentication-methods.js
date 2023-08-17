@@ -30,4 +30,4 @@ const down = async function (knex) {
   return knex.raw('DELETE FROM "authentication-methods" WHERE "identityProvider" = \'PIX\';');
 };
 
-export { up, down };
+export { down, up };

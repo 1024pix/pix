@@ -10,4 +10,4 @@ const down = async function (knex) {
   await knex(TABLE_NAME).update({ imageUrl: oldUrl }).where({ imageUrl: newUrl });
 };
 
-export { up, down };
+export { down, up };

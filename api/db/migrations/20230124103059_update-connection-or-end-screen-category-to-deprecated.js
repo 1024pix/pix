@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).update({ isDeprecated: false }).where('name', 'CONNECTION_OR_END_SCREEN');
 };
 
-export { up, down };
+export { down, up };

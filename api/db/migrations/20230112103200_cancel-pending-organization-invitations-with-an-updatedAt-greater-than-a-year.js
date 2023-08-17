@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+
 import { statuses as StatusType } from '../../lib/domain/models/OrganizationInvitation.js';
 
 const up = function (knex) {
@@ -10,4 +11,4 @@ const up = function (knex) {
 
 // eslint-disable-next-line no-empty-function
 const down = function () {};
-export { up, down };
+export { down, up };

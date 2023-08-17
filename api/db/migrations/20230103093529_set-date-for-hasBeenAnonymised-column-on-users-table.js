@@ -8,4 +8,4 @@ const down = function (knex) {
   return knex(TABLE_NAME).whereILike('email', 'email\\_%@example.net').update({ hasBeenAnonymised: false });
 };
 
-export { up, down };
+export { down, up };

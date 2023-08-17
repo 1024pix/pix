@@ -1,5 +1,6 @@
-import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+
+import { databaseBuffer } from '../database-buffer.js';
 import { buildActivity } from './build-activity.js';
 
 const buildActivityAnswer = function ({

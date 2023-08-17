@@ -19,4 +19,4 @@ const down = async function (knex) {
     .delete();
 };
 
-export { up, down };
+export { down, up };

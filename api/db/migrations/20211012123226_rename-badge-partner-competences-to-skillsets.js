@@ -14,4 +14,4 @@ const down = async function (knex) {
   return knex.schema.table('badge-criteria', (t) => t.renameColumn(NEW_COLUMN_NAME, OLD_COLUMN_NAME));
 };
 
-export { up, down };
+export { down, up };

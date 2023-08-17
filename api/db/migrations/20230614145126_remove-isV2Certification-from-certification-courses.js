@@ -24,4 +24,4 @@ const down = async function (knex) {
   await knex(TABLE_NAME).update(COLUMN_NAME, true).where(VERSION_COLUMN_NAME, 2);
 };
 
-export { up, down };
+export { down, up };
