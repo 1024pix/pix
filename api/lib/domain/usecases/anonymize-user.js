@@ -1,3 +1,5 @@
+import { UserAnonymized } from '../events/UserAnonymized.js';
+
 const anonymizeUser = async function ({
   updatedByUserId,
   userId,
@@ -8,6 +10,7 @@ const anonymizeUser = async function ({
   organizationLearnerRepository,
   refreshTokenService,
   domainTransaction,
+  adminMemberRepository,
 }) {
   const anonymizedUser = {
     firstName: `prenom_${userId}`,
@@ -33,8 +36,15 @@ const anonymizeUser = async function ({
     userAttributes: anonymizedUser,
     domainTransaction,
   });
+  const adminMember = await adminMemberRepository.get({ userId: updatedByUserId });
 
-  return userRepository.getUserDetailsForAdmin(userId);
+  const event = new UserAnonymized({
+    userId,
+    updatedByUserId,
+    role: adminMember.role,
+  });
+
+  return event;
 };
 
 export { anonymizeUser };
