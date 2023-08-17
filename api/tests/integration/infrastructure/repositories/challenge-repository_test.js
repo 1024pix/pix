@@ -297,7 +297,75 @@ describe('Integration | Repository | challenge-repository', function () {
         _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );
     });
-    it('should return the correct validor for the challenge type', async function () {
+    it('should return a challenge randomly when there is no alternative version', async function () {
+      //given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TRAINING;
+      const alternativeVersion = 2;
+
+      const activiteEntrainement = _buildTube({
+        id: 'activiteEntrainementId',
+        missionId,
+        name: '@rechercher_en',
+      });
+
+      const acquisEntrainement1 = _buildSkill({
+        id: 'recSkill2',
+        name: '@rechercher_en1',
+        tubeId: activiteEntrainement.id,
+      });
+      const acquisEntrainement2 = _buildSkill({
+        id: 'recSkill3',
+        name: '@rechercher_en1',
+        tubeId: activiteEntrainement.id,
+      });
+
+      const challenge1 = _buildChallenge({
+        id: 'challengeId1',
+        skill: { id: acquisEntrainement1.id },
+        alternativeVersion: 3,
+      });
+
+      const challenge2 = _buildChallenge({
+        id: 'challengeId2',
+        skill: { id: acquisEntrainement1.id },
+        alternativeVersion,
+      });
+      const challenge3 = _buildChallenge({
+        id: 'challengeId3',
+        skill: { id: acquisEntrainement2.id },
+        alternativeVersion,
+      });
+
+      const learningContent = {
+        tubes: [activiteEntrainement],
+        challenges: [challenge1, challenge2, challenge3],
+        skills: [acquisEntrainement1, acquisEntrainement2],
+      };
+
+      mockLearningContent(learningContent);
+
+      const expectedChallenge1 = {
+        ...domainBuilder.buildChallenge({ id: challenge1.id, alternativeVersion }),
+        skill: undefined,
+      };
+      const expectedChallenge2 = {
+        ...domainBuilder.buildChallenge({ id: challenge2.id, alternativeVersion }),
+        skill: undefined,
+      };
+      const possibleChallengesIds = [expectedChallenge1.id, expectedChallenge2.id];
+      // when
+      const actualChallenge = await challengeRepository.getForPix1D({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+      });
+
+      // then
+      expect(actualChallenge).to.be.instanceOf(Challenge);
+      expect(possibleChallengesIds).to.include(actualChallenge.id);
+    });
+    it('should return the correct validator for the challenge type', async function () {
       // given
       const missionId = 'recCHAL1';
       const activityLevel = Activity.levels.TUTORIAL;

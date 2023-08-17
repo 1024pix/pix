@@ -58,7 +58,15 @@ const getForPix1D = async function ({ missionId, activityLevel, challengeNumber,
     if (skills.length > 1) {
       logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
     }
-    const challenge = await challengeDatasource.getBySkillId(skills[0].id, alternativeVersion);
+    const challenges = await challengeDatasource.getBySkillId(skills[0].id);
+
+    let challenge;
+    if (alternativeVersion) {
+      challenge = challenges.find((challenge) => challenge.alternativeVersion === alternativeVersion);
+    } else {
+      challenge = challenges[Math.floor(Math.random() * challenges.length)];
+    }
+
     return _toDomain({ challengeDataObject: challenge });
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
