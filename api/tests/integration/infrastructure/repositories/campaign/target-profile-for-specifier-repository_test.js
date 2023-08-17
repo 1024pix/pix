@@ -1,7 +1,7 @@
-import { expect, databaseBuilder } from '../../../../test-helper.js';
-import * as TargetProfileForSpecifierRepository from '../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
-import { TargetProfileForSpecifier } from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
 import { categories } from '../../../../../lib/domain/models/TargetProfile.js';
+import { TargetProfileForSpecifier } from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
+import * as TargetProfileForSpecifierRepository from '../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
+import { databaseBuilder, expect } from '../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {
   describe('#availableForOrganization', function () {
@@ -70,6 +70,17 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
         expect(targetProfileForSpecifier.description).to.equal('THIS IS SPARTA!');
       });
+
+      it('returns the target profile areKnowledgeElementsResettable', async function () {
+        databaseBuilder.factory.buildTargetProfile({ areKnowledgeElementsResettable: false });
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        await databaseBuilder.commit();
+
+        const [targetProfileForSpecifier] =
+          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+
+        expect(targetProfileForSpecifier.areKnowledgeElementsResettable).to.equal(false);
+      });
     });
 
     context('when there are several target profile', function () {
@@ -92,6 +103,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           hasStage: false,
           description: null,
           category: 'OTHER',
+          areKnowledgeElementsResettable: false,
         });
         const targetProfile2 = new TargetProfileForSpecifier({
           id: targetProfileId2,
@@ -101,6 +113,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           hasStage: false,
           description: null,
           category: 'OTHER',
+          areKnowledgeElementsResettable: false,
         });
         const availableTargetProfiles =
           await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
