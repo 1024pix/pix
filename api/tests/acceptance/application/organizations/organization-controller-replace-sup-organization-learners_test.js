@@ -1,8 +1,8 @@
-import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { SupOrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
-import { getI18n } from '../../../../tests/tooling/i18n/i18n.js';
 import { createServer } from '../../../../server.js';
+import { getI18n } from '../../../../tests/tooling/i18n/i18n.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 const i18n = getI18n();
 const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeader(i18n).columns

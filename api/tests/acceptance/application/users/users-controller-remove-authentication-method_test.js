@@ -1,3 +1,5 @@
+import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -5,9 +7,6 @@ import {
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 describe('Acceptance | Controller | users-controller-remove-authentication-method', function () {
   let server;

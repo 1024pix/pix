@@ -1,13 +1,12 @@
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { createServer } from '../../../../server.js';
 import {
-  expect,
-  knex,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Acceptance | Controller | assessment-results-controller', function () {
   let server;

@@ -1,12 +1,11 @@
+import { createServer } from '../../../../server.js';
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  databaseBuilder,
   sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Certification Center Membership', function () {
   let server;

@@ -1,5 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('POST /api/admin/sessions/publish-in-batch', function () {
   let server;

@@ -1,5 +1,5 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-find-paginated-user-recommended-trainings', function () {
   let options;

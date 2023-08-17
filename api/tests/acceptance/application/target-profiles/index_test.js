@@ -1,3 +1,6 @@
+import lodash from 'lodash';
+
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -7,9 +10,6 @@ import {
   MockDate,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import lodash from 'lodash';
 
 const { omit } = lodash;
 

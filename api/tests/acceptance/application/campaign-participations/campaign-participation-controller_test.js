@@ -1,8 +1,7 @@
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
-
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   domainBuilder,
@@ -13,7 +12,7 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 

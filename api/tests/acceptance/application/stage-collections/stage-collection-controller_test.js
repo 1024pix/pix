@@ -1,13 +1,13 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   domainBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
+  knex,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | stage-collection', function () {
   let server;

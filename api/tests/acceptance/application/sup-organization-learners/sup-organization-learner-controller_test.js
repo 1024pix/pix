@@ -1,6 +1,6 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | sup-organization-learners', function () {
   let server;

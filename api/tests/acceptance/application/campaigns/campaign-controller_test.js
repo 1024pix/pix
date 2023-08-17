@@ -1,6 +1,9 @@
 import jwt from 'jsonwebtoken';
 
+import { config as settings } from '../../../../lib/config.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -9,10 +12,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { config as settings } from '../../../../lib/config.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createServer } from '../../../../server.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

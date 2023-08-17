@@ -1,6 +1,7 @@
-import { expect, sinon, nock } from '../../test-helper.js';
-import * as script from '../../../scripts/update-sco-organizations-with-province-code-and-external-id.js';
 import * as url from 'url';
+
+import * as script from '../../../scripts/update-sco-organizations-with-province-code-and-external-id.js';
+import { expect, nock, sinon } from '../../test-helper.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

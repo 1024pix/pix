@@ -1,6 +1,5 @@
-import { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
-
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, sinon } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | session-controller-enrol-students-to-session', function () {
   let server;

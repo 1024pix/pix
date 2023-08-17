@@ -1,13 +1,12 @@
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('POST /api/admin/organizations/{id}/invitations', function () {

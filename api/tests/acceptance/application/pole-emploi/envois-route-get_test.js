@@ -1,14 +1,14 @@
 import {
-  expect,
   databaseBuilder,
-  generateValidRequestAuthorizationHeaderForApplication,
+  expect,
   generateValidRequestAuthorizationHeader,
+  generateValidRequestAuthorizationHeaderForApplication,
 } from '../../../test-helper.js';
 
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-import { createServer } from '../../../../server.js';
 import { config as settings } from '../../../../lib/config.js';
+import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Pole Emploi envois', function () {
   let server, options;

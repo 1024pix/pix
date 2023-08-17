@@ -1,13 +1,12 @@
+import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
+import { createServer } from '../../../../server.js';
 import {
-  mockLearningContent,
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
+  knex,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { TutorialEvaluation } from '../../../../lib/domain/models/TutorialEvaluation.js';
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
   let server;

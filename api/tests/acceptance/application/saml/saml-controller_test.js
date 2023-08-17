@@ -1,10 +1,9 @@
 import _ from 'lodash';
-
-import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
-
 import samlify from 'samlify';
-import { createServer } from '../../../../server.js';
+
 import { config as settings } from '../../../../lib/config.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
 UjEPMA0GA1UECAwGRlJBTkNFMQ4wDAYDVQQHDAVQQVJJUzEMMAoGA1UECgwDUElY

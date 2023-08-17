@@ -1,3 +1,4 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -6,8 +7,6 @@ import {
   knex,
   sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Certification Centers', function () {
   let server;

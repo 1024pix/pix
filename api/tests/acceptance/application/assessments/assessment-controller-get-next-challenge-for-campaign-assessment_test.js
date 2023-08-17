@@ -1,15 +1,14 @@
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { createServer } from '../../../../server.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
   sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
 const skillWeb1Id = 'recAcquisWeb1';

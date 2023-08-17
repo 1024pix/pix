@@ -1,12 +1,11 @@
+import { LOCALE } from '../../../../lib/domain/constants.js';
+import { createServer } from '../../../../server.js';
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
 const { FRENCH_FRANCE } = LOCALE;
 const solution =
   'l1:\n- chien\n- chat\n- cochon\nl2:\n- pigeon\n- poulet\n- veau\nl3:\n- canard\n- couincouin\nl4:\n- mouton';

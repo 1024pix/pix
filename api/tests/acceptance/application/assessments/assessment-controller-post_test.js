@@ -1,6 +1,6 @@
-import { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { BookshelfAssessment } from '../../../../lib/infrastructure/orm-models/Assessment.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 describe('Acceptance | API | Assessments POST', function () {
   let server;

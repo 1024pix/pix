@@ -1,3 +1,4 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -5,8 +6,6 @@ import {
   insertUserWithRoleSuperAdmin,
   sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-get-user-details-for-admin', function () {
   let clock;

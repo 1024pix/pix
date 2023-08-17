@@ -1,5 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 describe('Acceptance | Route | user-has-seen-level-seven-info ', function () {
   let server;
   let user;

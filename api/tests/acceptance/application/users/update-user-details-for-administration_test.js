@@ -1,12 +1,11 @@
+import { createServer } from '../../../../server.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-update-user-details-for-administration', function () {
   let server;

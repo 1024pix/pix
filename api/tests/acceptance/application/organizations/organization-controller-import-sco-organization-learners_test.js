@@ -1,8 +1,9 @@
-import _ from 'lodash';
-import iconv from 'iconv-lite';
-import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { EventEmitter } from 'events';
+import iconv from 'iconv-lite';
+import _ from 'lodash';
+
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 EventEmitter.defaultMaxListeners = 60;
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';

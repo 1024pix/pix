@@ -1,15 +1,14 @@
-import { createServer } from '../../../../server.js';
-
-import {
-  expect,
-  databaseBuilder,
-  mockLearningContent,
-  learningContentBuilder,
-  generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
-
 import _ from 'lodash';
+
 import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
+import { createServer } from '../../../../server.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';

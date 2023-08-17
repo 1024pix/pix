@@ -1,5 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, sinon } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
 
 describe('Acceptance | Route | remember-user-has-seen-last-data-protection-policy-information', function () {
   describe('Success case', function () {

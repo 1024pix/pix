@@ -1,5 +1,5 @@
-import { databaseBuilder, expect } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Route | Account-recovery', function () {
   describe('POST /api/account-recovery', function () {

@@ -1,13 +1,12 @@
+import { LOCALE } from '../../../../lib/domain/constants.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import {
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
+  knex,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

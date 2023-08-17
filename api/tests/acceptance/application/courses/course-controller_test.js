@@ -1,12 +1,11 @@
+import { createServer } from '../../../../server.js';
 import {
   expect,
-  nock,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
+  nock,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Courses', function () {
   let server;

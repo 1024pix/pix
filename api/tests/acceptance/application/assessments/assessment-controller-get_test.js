@@ -1,6 +1,6 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

@@ -1,13 +1,12 @@
-import {
-  expect,
-  knex,
-  databaseBuilder,
-  mockLearningContent,
-  generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
+import { createServer } from '../../../../server.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = LOCALE;
 

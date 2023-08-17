@@ -1,12 +1,11 @@
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { createServer } from '../../../../server.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

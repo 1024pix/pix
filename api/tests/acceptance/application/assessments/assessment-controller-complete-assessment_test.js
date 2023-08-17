@@ -1,16 +1,15 @@
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   knex,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import { createServer } from '../../../../server.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;

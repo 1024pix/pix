@@ -1,11 +1,10 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('DELETE /api/admin/organizations/{id}/places/{placeId}', function () {

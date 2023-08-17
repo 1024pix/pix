@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, sinon, mockLearningContent } from '../../../test-helper.js';
+
 import { knex } from '../../../../db/knex-database-connection.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { doJob } from '../../../../scripts/prod/target-profile-migrations/convert-badges.js';
+import { databaseBuilder, expect, mockLearningContent, sinon } from '../../../test-helper.js';
 
 describe('Acceptance | Scripts | convert-badges', function () {
   it('should execute the script as expected', async function () {

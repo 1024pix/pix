@@ -1,5 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | GET /api/admin/users/{id}/participations', function () {
   let server;

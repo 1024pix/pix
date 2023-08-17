@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

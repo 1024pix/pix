@@ -1,7 +1,7 @@
-import { expect, databaseBuilder } from '../../test-helper.js';
 import { knex } from '../../../lib/infrastructure/bookshelf.js';
 import { BookshelfOrganizationLearner } from '../../../lib/infrastructure/orm-models/OrganizationLearner.js';
 import { addManyDivisionsAndStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization.js';
+import { databaseBuilder, expect } from '../../test-helper.js';
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
   const organizationId = 123;

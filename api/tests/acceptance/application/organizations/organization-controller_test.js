@@ -1,24 +1,23 @@
 import lodash from 'lodash';
 const { map: _map, omit: _omit } = lodash;
 
-import {
-  expect,
-  knex,
-  learningContentBuilder,
-  databaseBuilder,
-  mockLearningContent,
-  generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
-  sinon,
-} from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { createServer } from '../../../../server.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../../test-helper.js';
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;

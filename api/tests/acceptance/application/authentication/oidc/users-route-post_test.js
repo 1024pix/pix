@@ -1,9 +1,10 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { expect, knex } from '../../../../test-helper.js';
+
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
 import { createServer } from '../../../../../server.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { expect, knex } from '../../../../test-helper.js';
 
 describe('Acceptance | Route | oidc users', function () {
   let server;

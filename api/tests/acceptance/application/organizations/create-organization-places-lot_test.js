@@ -1,3 +1,5 @@
+import * as organizationPlacesCategories from '../../../../lib/domain/constants/organization-places-categories.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -5,9 +7,6 @@ import {
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import * as organizationPlacesCategories from '../../../../lib/domain/constants/organization-places-categories.js';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('POST /api/admin/organizations/{id}/places', function () {

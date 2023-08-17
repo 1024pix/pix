@@ -1,16 +1,16 @@
+import nock from 'nock';
+
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
+import { createServer } from '../../../../server.js';
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
-  databaseBuilder,
   knex,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import nock from 'nock';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
   let server;

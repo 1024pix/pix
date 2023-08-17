@@ -1,14 +1,13 @@
+import { LOCALE } from '../../../../lib/domain/constants.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { createServer } from '../../../../server.js';
 import {
-  learningContentBuilder,
-  mockLearningContent,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
+  learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 

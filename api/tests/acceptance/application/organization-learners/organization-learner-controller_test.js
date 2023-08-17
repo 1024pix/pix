@@ -1,12 +1,11 @@
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
-  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Acceptance | Controller | organization-learner', function () {
   let server;

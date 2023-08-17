@@ -1,3 +1,4 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -5,8 +6,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Campaign Stats Controller', function () {
   let server;

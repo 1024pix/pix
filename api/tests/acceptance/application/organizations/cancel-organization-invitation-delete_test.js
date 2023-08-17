@@ -1,3 +1,5 @@
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -5,9 +7,6 @@ import {
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 
 describe('Acceptance | Route | Organizations', function () {
   describe('DELETE /api/organizations/{id}/invitations/{invitationId}', function () {

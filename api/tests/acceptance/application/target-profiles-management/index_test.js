@@ -1,6 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
-
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Route | target-profiles-management', function () {
   describe('DELETE /api/admin/target-profiles/{id}/detach-organizations', function () {

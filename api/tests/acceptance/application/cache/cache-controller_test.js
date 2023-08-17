@@ -1,5 +1,5 @@
-import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | cache-controller', function () {
   let server;

@@ -1,5 +1,5 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 describe('Acceptance | API | Campaign Management Controller', function () {
   let server;

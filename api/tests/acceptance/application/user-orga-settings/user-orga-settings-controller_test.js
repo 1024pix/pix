@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | user-orga-settings-controller', function () {
   let server;

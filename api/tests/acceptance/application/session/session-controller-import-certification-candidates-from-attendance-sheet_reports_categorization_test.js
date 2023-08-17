@@ -1,8 +1,9 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, sinon } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
-import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
 import fs from 'fs';
 import * as url from 'url';
+
+import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, sinon } from '../../../test-helper.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

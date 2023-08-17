@@ -1,17 +1,16 @@
 import _ from 'lodash';
 
+import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { createServer } from '../../../../server.js';
 import {
-  knex,
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  sinon,
-  mockLearningContent,
+  knex,
   learningContentBuilder,
+  mockLearningContent,
+  sinon,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

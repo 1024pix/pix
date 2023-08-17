@@ -1,11 +1,10 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
-  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Target-profiles', function () {
   describe('PUT /api/admin/target-profiles/{id}/simplified-access', function () {

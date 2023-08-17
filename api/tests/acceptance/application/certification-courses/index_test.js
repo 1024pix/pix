@@ -1,3 +1,4 @@
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -6,8 +7,6 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Certification Courses', function () {
   let server;

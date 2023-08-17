@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | certification-center-controller-get-import-template', function () {
   let server;

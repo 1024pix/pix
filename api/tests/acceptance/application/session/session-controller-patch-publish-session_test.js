@@ -1,6 +1,6 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 describe('PATCH /api/admin/sessions/:id/publish', function () {
   let server;

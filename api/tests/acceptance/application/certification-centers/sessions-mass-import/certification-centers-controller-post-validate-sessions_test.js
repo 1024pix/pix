@@ -1,13 +1,13 @@
+import lodash from 'lodash';
+
+import { createServer } from '../../../../../server.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   knex,
   sinon,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
-import lodash from 'lodash';
 
 const { omit } = lodash;
 

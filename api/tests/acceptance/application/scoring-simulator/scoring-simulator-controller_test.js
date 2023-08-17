@@ -2,11 +2,9 @@ import chai from 'chai';
 
 const { expect } = chai;
 
-import { createServer } from '../../../../server.js';
-
-import { databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent } from '../../../test-helper.js';
-
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent } from '../../../test-helper.js';
 
 const { ROLES } = PIX_ADMIN;
 

@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import { CLEA } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
   let server;

@@ -1,5 +1,5 @@
-import { knex, expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | sessions-controller', function () {
   describe('DELETE /sessions/{id}', function () {

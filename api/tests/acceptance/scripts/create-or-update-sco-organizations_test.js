@@ -1,6 +1,6 @@
-import { expect, nock } from '../../test-helper.js';
 import { checkData, createOrUpdateOrganizations } from '../../../scripts/create-or-update-sco-organizations.js';
 import { logoUrl } from '../../../scripts/logo/default-sco-organization-logo-base64.js';
+import { expect, nock } from '../../test-helper.js';
 
 describe('Acceptance | Scripts | create-or-update-sco-organizations.js', function () {
   describe('#createOrUpdateOrganizations', function () {

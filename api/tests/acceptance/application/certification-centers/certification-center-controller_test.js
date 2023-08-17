@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
@@ -7,8 +8,6 @@ import {
   insertUserWithRoleSuperAdmin,
   knex,
 } from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Certification Center', function () {
   let server, request;

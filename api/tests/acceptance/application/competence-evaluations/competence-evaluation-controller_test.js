@@ -1,15 +1,13 @@
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 import { createServer } from '../../../../server.js';
-
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
   knex,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
-
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | API | Competence Evaluations', function () {
   let server;

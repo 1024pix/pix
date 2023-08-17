@@ -1,15 +1,14 @@
-import {
-  expect,
-  databaseBuilder,
-  knex,
-  mockLearningContent,
-  learningContentBuilder,
-  insertUserWithRoleSuperAdmin,
-  generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { createServer } from '../../../../server.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+} from '../../../test-helper.js';
 
 const lastChallengeAnswer = 'last challenge answer';
 const lastChallengeId = 'lastChallengeId';

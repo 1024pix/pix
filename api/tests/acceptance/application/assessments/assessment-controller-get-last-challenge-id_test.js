@@ -1,13 +1,12 @@
-import {
-  expect,
-  databaseBuilder,
-  knex,
-  insertUserWithRoleSuperAdmin,
-  generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { createServer } from '../../../../server.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRoleSuperAdmin,
+  knex,
+} from '../../../test-helper.js';
 
 describe('Acceptance | API | assessment-controller-get-last-challenge-id', function () {
   let server;

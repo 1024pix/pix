@@ -1,9 +1,8 @@
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
-
 import { config } from '../../../../lib/config.js';
+import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
+import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | password-controller', function () {
   const email = 'user@example.net';

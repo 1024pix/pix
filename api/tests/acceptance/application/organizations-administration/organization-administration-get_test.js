@@ -1,12 +1,11 @@
+import * as apps from '../../../../lib/domain/constants.js';
+import { createServer } from '../../../../server.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
-import * as apps from '../../../../lib/domain/constants.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Routes | organization-administration-controller', function () {
   let server;

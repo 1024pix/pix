@@ -1,7 +1,8 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import jsonwebtoken from 'jsonwebtoken';
+
 import { config as settings } from '../../../../lib/config.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | session-controller-get-session-results-to-download', function () {
   describe('GET /api/sessions/download-all-results/{token}', function () {

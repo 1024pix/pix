@@ -1,19 +1,18 @@
 import jsonwebtoken from 'jsonwebtoken';
 
+import { config as settings } from '../../../../../lib/config.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
+import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
+import { createServer } from '../../../../../server.js';
 import {
-  expect,
   databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
   knex,
   nock,
   sinon,
-  generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
-
-import { createServer } from '../../../../../server.js';
-import { config as settings } from '../../../../../lib/config.js';
-import { AuthenticationSessionContent } from '../../../../../lib/domain/models/AuthenticationSessionContent.js';
-import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 
 const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
 

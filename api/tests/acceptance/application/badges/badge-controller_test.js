@@ -1,8 +1,7 @@
 import { createServer } from '../../../../server.js';
-
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   knex,

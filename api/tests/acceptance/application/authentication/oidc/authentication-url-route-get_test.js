@@ -1,7 +1,8 @@
-import { expect } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
-import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import querystring from 'querystring';
+
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { createServer } from '../../../../../server.js';
+import { expect } from '../../../../test-helper.js';
 
 describe('Acceptance | Route | oidc authentication url', function () {
   let server;

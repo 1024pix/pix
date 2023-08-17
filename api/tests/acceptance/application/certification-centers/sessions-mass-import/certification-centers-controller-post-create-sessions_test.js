@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
-import { createServer } from '../../../../../server.js';
 import * as temporarySessionsStorageForMassImportService from '../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
+import { createServer } from '../../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../../test-helper.js';
 
 describe('Acceptance | Controller | certification-centers-controller-post-create-sessions', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/confirm-for-mass-import', function () {

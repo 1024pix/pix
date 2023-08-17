@@ -1,5 +1,5 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Controller | users-controller-get-current-user', function () {
   let options;

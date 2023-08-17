@@ -1,16 +1,15 @@
-import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  mockLearningContent,
-  learningContentBuilder,
-  knex,
-  sinon,
-} from '../../../test-helper.js';
-
-import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
+import { createServer } from '../../../../server.js';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  sinon,
+} from '../../../test-helper.js';
 
 const competenceId = 'recCompetence';
 const skillWeb1Id = 'recAcquisWeb1';

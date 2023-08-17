@@ -1,6 +1,6 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
 import * as userEmailRepository from '../../../../lib/infrastructure/repositories/user-email-repository.js';
+import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/users/{id}/update-email', function () {

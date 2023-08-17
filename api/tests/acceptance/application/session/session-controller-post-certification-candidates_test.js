@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   domainBuilder,
@@ -8,9 +10,6 @@ import {
   knex,
   sinon,
 } from '../../../test-helper.js';
-import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
-
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-post-certification-candidates', function () {
   let server;

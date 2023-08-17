@@ -1,13 +1,12 @@
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
+import { createServer } from '../../../../server.js';
 import {
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
 } from '../../../test-helper.js';
-
-import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
-import { createServer } from '../../../../server.js';
 
 describe('Acceptance | API | Certification center invitations', function () {
   let server;
