@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
 
 module('Acceptance | authenticated/users | authentication-method', function (hooks) {
   setupApplicationTest(hooks);

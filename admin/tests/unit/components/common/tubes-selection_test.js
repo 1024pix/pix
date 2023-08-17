@@ -1,8 +1,9 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import createComponent from '../../../helpers/create-glimmer-component';
-import sinon from 'sinon';
 import { A as EmberArray } from '@ember/array';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
+
+import createComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | common/tubes-selection', function (hooks) {
   setupTest(hooks);

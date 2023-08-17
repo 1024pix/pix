@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import isEmailValid from 'pix-admin/utils/email-validator';
+import { module, test } from 'qunit';
 
 module('Unit | Utils | email validator', function (hooks) {
   setupTest(hooks);

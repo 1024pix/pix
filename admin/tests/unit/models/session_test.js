@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
+import { setupTest } from 'ember-qunit';
 import { CREATED, PROCESSED } from 'pix-admin/models/session';
+import { module, test } from 'qunit';
 
 module('Unit | Model | session', function (hooks) {
   setupTest(hooks);

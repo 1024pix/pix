@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import { reject, resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { reject, resolve } from 'rsvp';
 
 module('Unit | Service | current-user', function (hooks) {
   setupTest(hooks);

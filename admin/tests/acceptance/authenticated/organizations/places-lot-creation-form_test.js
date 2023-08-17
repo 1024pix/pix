@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import { setupMirage } from 'ember-cli-mirage/test-support';
+import { module, test } from 'qunit';
 
 module('Acceptance | Organizations | places lot creation form', function (hooks) {
   setupApplicationTest(hooks);

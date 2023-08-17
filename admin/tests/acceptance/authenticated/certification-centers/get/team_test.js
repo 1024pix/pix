@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
 
 module('Acceptance | authenticated/certification-centers/get/team', function (hooks) {
   setupApplicationTest(hooks);

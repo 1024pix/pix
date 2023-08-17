@@ -1,11 +1,11 @@
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { click, currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { FINALIZED } from 'pix-admin/models/session';
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import sinon from 'sinon';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Acceptance | Session pages', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | organizations/places-lot-creation-form', function (hooks) {
   setupRenderingTest(hooks);

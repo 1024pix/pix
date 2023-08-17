@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import { certificationIssueReportSubcategories } from 'pix-admin/models/certification-issue-report';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { certificationIssueReportSubcategories } from 'pix-admin/models/certification-issue-report';
+import { module, test } from 'qunit';
 
 module('Integration | Component | certifications/issue-report', function (hooks) {
   setupRenderingTest(hooks);

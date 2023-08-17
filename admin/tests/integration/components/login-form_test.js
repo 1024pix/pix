@@ -1,13 +1,12 @@
-import { module, test } from 'qunit';
-import { render as renderScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import ENV from 'pix-admin/config/environment';
+import { module, test } from 'qunit';
 import { reject } from 'rsvp';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-
-import ENV from 'pix-admin/config/environment';
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
 module('Integration | Component | login-form', function (hooks) {

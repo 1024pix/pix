@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
+import { run } from '@ember/runloop';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Controller | authenticated/certifications/certification/details', function (hooks) {
   setupTest(hooks);

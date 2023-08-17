@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
-import sinon from 'sinon';
+import { setupTest } from 'ember-qunit';
 import ENV from 'pix-admin/config/environment';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Model | certification details', function (hooks) {
   setupTest(hooks);

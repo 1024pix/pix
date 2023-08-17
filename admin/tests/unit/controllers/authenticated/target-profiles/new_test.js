@@ -1,7 +1,7 @@
+import { A as EmberArray } from '@ember/array';
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
-import { A as EmberArray } from '@ember/array';
 
 module('Unit | Controller | authenticated/target-profiles/new', function (hooks) {
   setupTest(hooks);

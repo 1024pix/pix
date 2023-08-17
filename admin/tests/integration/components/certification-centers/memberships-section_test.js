@@ -1,9 +1,9 @@
-import dayjs from 'dayjs';
 import { render } from '@1024pix/ember-testing-library';
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
+import dayjs from 'dayjs';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | certification-centers/memberships-section', function (hooks) {

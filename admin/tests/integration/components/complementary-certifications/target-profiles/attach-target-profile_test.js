@@ -1,10 +1,11 @@
-import { module, test } from 'qunit';
 import { render, waitFor } from '@1024pix/ember-testing-library';
+import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { fillIn } from '@ember/test-helpers';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | ComplementaryCertifications::TargetProfiles::AttachTargetProfile', function (hooks) {
   setupIntlRenderingTest(hooks);

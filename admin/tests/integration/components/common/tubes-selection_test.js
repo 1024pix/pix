@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import { render, clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 module('Integration | Component | Common::TubesSelection', function (hooks) {

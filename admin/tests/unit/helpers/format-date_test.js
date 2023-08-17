@@ -1,5 +1,5 @@
-import { module, test } from 'qunit';
 import { formatDate } from 'pix-admin/helpers/format-date';
+import { module, test } from 'qunit';
 
 module('Unit | Helpers | formatDate', function () {
   test('it should return null if the given value is null', function (assert) {

@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import Service from '@ember/service';
-import sinon from 'sinon';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sessions/list/to-be-published', function (hooks) {
   setupTest(hooks);

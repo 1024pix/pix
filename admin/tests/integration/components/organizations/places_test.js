@@ -1,7 +1,7 @@
-import { module, test } from 'qunit';
-import { render, clickByText } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
+import { clickByText, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | Organizations | Places', function (hooks) {
   setupRenderingTest(hooks);

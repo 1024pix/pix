@@ -1,6 +1,7 @@
-import { module, test } from 'qunit';
-import { render, clickByText } from '@1024pix/ember-testing-library';
+import { clickByText, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
+import { module, test } from 'qunit';
+
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Trainings::CreateTrainingTriggers', function (hooks) {

@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { find, click } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
+import { click, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   setupRenderingTest(hooks);

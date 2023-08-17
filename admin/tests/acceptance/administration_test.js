@@ -1,9 +1,9 @@
-import { module, test } from 'qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
-import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
-import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
 
 module('Acceptance | administration', function (hooks) {
   setupApplicationTest(hooks);

@@ -1,9 +1,10 @@
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { module, test } from 'qunit';
-import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { currentURL } from '@ember/test-helpers';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Target Profile Organizations', function (hooks) {
   setupApplicationTest(hooks);

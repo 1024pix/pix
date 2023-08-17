@@ -1,10 +1,10 @@
+import { clickByName, render, waitFor } from '@1024pix/ember-testing-library';
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
-import EmberObject from '@ember/object';
-import { clickByName, render, waitFor } from '@1024pix/ember-testing-library';
-import Service from '@ember/service';
 
 module('Integration | Component | users | user-overview', function (hooks) {
   setupRenderingTest(hooks);

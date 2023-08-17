@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
 import ArrayProxy from '@ember/array/proxy';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 function _createEmberDataHabilitations(store) {
   return ArrayProxy.create({

@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import { render, fillByLabel } from '@1024pix/ember-testing-library';
-import { setupRenderingTest } from 'ember-qunit';
-import { hbs } from 'ember-cli-htmlbars';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
-import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | certification-centers/information-edit', function (hooks) {
   setupRenderingTest(hooks);

@@ -1,6 +1,6 @@
-import { module, test } from 'qunit';
 import { A as EmberArray } from '@ember/array';
 import { isTubeSelected } from 'pix-admin/helpers/is-tube-selected';
+import { module, test } from 'qunit';
 
 module('Unit | Helper | isTubeSelected', function () {
   module('when tube is in selected tubes', function () {

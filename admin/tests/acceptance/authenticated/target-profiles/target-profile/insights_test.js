@@ -1,8 +1,9 @@
-import { currentURL, fillIn, click } from '@ember/test-helpers';
-import { visit, clickByName, fillByLabel, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { clickByName, fillByLabel, visit, waitForElementToBeRemoved } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Target Profile Insights', function (hooks) {

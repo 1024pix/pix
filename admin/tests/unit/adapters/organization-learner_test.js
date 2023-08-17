@@ -1,7 +1,6 @@
-import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-
 import ENV from 'pix-admin/config/environment';
+import { module, test } from 'qunit';
 
 module('Unit | Adapter | organization-learner', function (hooks) {
   setupTest(hooks);

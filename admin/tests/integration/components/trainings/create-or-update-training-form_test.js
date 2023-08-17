@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import { triggerEvent } from '@ember/test-helpers';
-import { render, clickByName } from '@1024pix/ember-testing-library';
-import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
-import { typeCategories, localeCategories } from 'pix-admin/models/training';
+import { setupRenderingTest } from 'ember-qunit';
+import { localeCategories, typeCategories } from 'pix-admin/models/training';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', function (hooks) {
   setupRenderingTest(hooks);

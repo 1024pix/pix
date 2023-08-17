@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import { module, test } from 'qunit';
 
 module('Acceptance | Organizations | Target profiles management', function (hooks) {
   setupApplicationTest(hooks);

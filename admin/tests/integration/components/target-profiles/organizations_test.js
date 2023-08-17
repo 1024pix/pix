@@ -1,8 +1,8 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
+import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
 module('Integration | Component | TargetProfiles::Organizations', function (hooks) {
   setupRenderingTest(hooks);

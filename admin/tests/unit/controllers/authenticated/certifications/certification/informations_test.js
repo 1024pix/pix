@@ -1,9 +1,8 @@
+import EmberObject from '@ember/object';
+import { getSettledState, settled } from '@ember/test-helpers';
+import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-qunit';
-import { getSettledState, settled } from '@ember/test-helpers';
-
-import EmberObject from '@ember/object';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function (hooks) {
   setupTest(hooks);

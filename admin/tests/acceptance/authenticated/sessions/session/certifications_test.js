@@ -1,10 +1,10 @@
-import { module, test } from 'qunit';
-import { click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
-import { setupApplicationTest } from 'ember-qunit';
+import { click } from '@ember/test-helpers';
 import { currentURL } from '@ember/test-helpers';
-
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | authenticated/sessions/session/certifications', function (hooks) {

@@ -1,12 +1,12 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
-import { hbs } from 'ember-cli-htmlbars';
-import sinon from 'sinon';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import { run } from '@ember/runloop';
-import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { click } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 module('Integration | Component | certifications/candidate-edit-modal', function (hooks) {
   setupRenderingTest(hooks);
