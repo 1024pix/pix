@@ -39,9 +39,14 @@
     </section>
 
     {{#if this.selectedTargetProfile}}
-      <section class="card">
+      <section class="card complementary-certification-attach-target-profile__card-badges">
         <h2 class="card__title">2. Complétez les niveaux des résultats thématiques</h2>
         <div class="card__content">
+          {{#if this.isLoadingBadges}}
+            <p class="loader__image">
+              <img src="/images/loader-grey.svg" alt="loader" />
+            </p>
+          {{/if}}
           <ComplementaryCertifications::TargetProfiles::AttachBadges
             @options={{this.targetProfileBadges}}
             @error={{this.getTargetProfileBadgesErrorMessage}}
