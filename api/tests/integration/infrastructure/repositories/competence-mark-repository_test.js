@@ -1,4 +1,4 @@
-import { expect, knex, domainBuilder, databaseBuilder } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import _ from 'lodash';
 
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
@@ -51,47 +51,6 @@ describe('Integration | Repository | CompetenceMark', function () {
       // then
       expect(savedMark).to.be.an.instanceOf(CompetenceMark);
       expect(savedMark).to.have.property('id').and.not.to.be.null;
-    });
-  });
-
-  describe('#findByAssessmentResultId', function () {
-    let assessmentResultId, competenceMarkIds;
-    beforeEach(async function () {
-      assessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
-      const anotherAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
-      competenceMarkIds = _.map(
-        [
-          { score: 13, level: 2, area_code: '4', competence_code: '4.2', assessmentResultId },
-          {
-            score: 10,
-            level: 1,
-            area_code: '3',
-            competence_code: '3.1',
-            assessmentResultId: anotherAssessmentResultId,
-          },
-          { score: 24, level: 3, area_code: '3', competence_code: '3.1', assessmentResultId },
-        ],
-        (mark) => {
-          return databaseBuilder.factory.buildCompetenceMark(mark).id;
-        },
-      );
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return all competence-marks for one assessmentResult', async function () {
-      // when
-      const competenceMarks = await competenceMarkRepository.findByAssessmentResultId(assessmentResultId);
-
-      // then
-      const sortedCompetenceMarks = _.sortBy(competenceMarks, [
-        (mark) => {
-          return mark.id;
-        },
-      ]);
-      expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
-      expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
-      expect(sortedCompetenceMarks.length).to.equal(2);
     });
   });
 
