@@ -80,7 +80,6 @@ describe('Acceptance | Route | target-profiles', function () {
     });
 
     afterEach(async function () {
-      await knex('target-profiles_skills').delete();
       await knex('target-profile_tubes').delete();
       await knex('target-profiles').delete();
     });
