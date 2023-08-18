@@ -5,9 +5,6 @@ import { monitoringTools as MonitoringTools } from '../../infrastructure/monitor
 import { config } from '../../config.js';
 import _ from 'lodash';
 import perf_hooks from 'perf_hooks';
-
-const { performance } = perf_hooks;
-
 import * as eventBusBuilder from '../../infrastructure/events/EventBusBuilder.js';
 
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
@@ -24,7 +21,6 @@ import * as certificationCourseRepository from '../../infrastructure/repositorie
 import * as certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
-import * as complementaryCertificationCourseRepository from '../../infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
@@ -41,6 +37,16 @@ import * as challengeRepository from '../../infrastructure/repositories/challeng
 import { logger } from '../../infrastructure/logger.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
+import * as dependency from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
+import { handleAutoJury } from './handle-auto-jury.js';
+import { handleCertificationScoring } from './handle-certification-scoring.js';
+import { handleCertificationRescoring } from './handle-certification-rescoring.js';
+import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
+import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
+import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
+import { handleSessionFinalized } from './handle-session-finalized.js';
+
+const { performance } = perf_hooks;
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -65,7 +71,6 @@ const dependencies = {
   certificationIssueReportRepository,
   competenceMarkRepository,
   competenceRepository,
-  complementaryCertificationCourseRepository,
   complementaryCertificationScoringCriteriaRepository,
   knowledgeElementRepository,
   organizationRepository,
@@ -83,17 +88,8 @@ const dependencies = {
   logger,
 };
 
-import * as dependency from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
 const partnerCertificationScoringRepository = injectDependencies(dependency, dependencies);
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
-
-import { handleAutoJury } from './handle-auto-jury.js';
-import { handleCertificationScoring } from './handle-certification-scoring.js';
-import { handleCertificationRescoring } from './handle-certification-rescoring.js';
-import { handleComplementaryCertificationsScoring } from './handle-complementary-certifications-scoring.js';
-import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
-import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
-import { handleSessionFinalized } from './handle-session-finalized.js';
 
 const handlersToBeInjected = {
   handleAutoJury,
