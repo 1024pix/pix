@@ -42,11 +42,9 @@ const _DatasourcePrototype = {
 
   async refreshLearningContentCacheRecord(id, newEntry) {
     const currentLearningContent = await this._getLearningContent();
-    const currentRecords = currentLearningContent[this.modelName];
-    const updatedRecords = _.reject(currentRecords, { id }).concat([newEntry]);
-    const newLearningContent = _.cloneDeep(currentLearningContent);
-    newLearningContent[this.modelName] = updatedRecords;
-    await learningContentCache.set(newLearningContent);
+    const index = currentLearningContent[this.modelName].findIndex((element) => element?.id === id);
+    currentLearningContent[this.modelName][index] = newEntry;
+    await learningContentCache.set(currentLearningContent);
     return newEntry;
   },
 };

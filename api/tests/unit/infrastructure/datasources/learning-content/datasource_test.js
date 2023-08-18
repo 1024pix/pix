@@ -209,7 +209,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
       const record = { id: 'rec1', property: 'updatedValue' };
       const learningContent = {
         learningContentModel: [
-          { id: 'rec1', property: 'value1' },
+          null,
+          { id: 'rec1', property: 'value1', oldProperty: 'value' },
           { id: 'rec2', property: 'value2' },
         ],
         learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
@@ -225,11 +226,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
         id: 'rec1',
         property: 'updatedValue',
       });
-      expect(learningContentCache.set).to.have.been.deep.calledWith({
-        learningContentModel: [
-          { id: 'rec2', property: 'value2' },
-          { id: 'rec1', property: 'updatedValue' },
-        ],
+      expect(learningContentCache.set).to.have.been.calledOnce;
+      const argument = learningContentCache.set.firstCall.args[0];
+      expect(argument).to.deep.equal({
+        learningContentModel: [null, { id: 'rec1', property: 'updatedValue' }, { id: 'rec2', property: 'value2' }],
         learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
       });
     });
