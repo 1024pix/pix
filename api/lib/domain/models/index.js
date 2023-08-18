@@ -17,6 +17,7 @@ import { Badge } from './Badge.js';
 import { BadgeAcquisition } from './BadgeAcquisition.js';
 import { BadgeDetails } from './BadgeDetails.js';
 import { BadgeForCalculation } from './BadgeForCalculation.js';
+import { BadgeCriterionForCalculation } from './BadgeCriterionForCalculation.js';
 import { Campaign } from './Campaign.js';
 import { CampaignCreator } from './CampaignCreator.js';
 import { CampaignForArchiving } from './CampaignForArchiving.js';
@@ -174,6 +175,7 @@ export {
   BadgeAcquisition,
   BadgeDetails,
   BadgeForCalculation,
+  BadgeCriterionForCalculation,
   Campaign,
   CampaignCreator,
   CampaignForArchiving,
