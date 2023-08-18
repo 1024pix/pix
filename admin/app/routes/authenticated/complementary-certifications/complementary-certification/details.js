@@ -11,4 +11,10 @@ export default class ComplementaryCertificationDetailsRoute extends Route {
   async model() {
     return this.modelFor('authenticated.complementary-certifications.complementary-certification');
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller._targetProfileId = null;
+    }
+  }
 }
