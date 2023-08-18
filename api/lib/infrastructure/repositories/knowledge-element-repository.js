@@ -3,12 +3,8 @@ import bluebird from 'bluebird';
 import { constants } from '../constants.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
-import * as campaignRepository from './campaign-repository.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-
-const { SHARED } = CampaignParticipationStatuses;
 
 const tableName = 'knowledge-elements';
 
@@ -49,20 +45,10 @@ async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domai
   return _applyFilters(knowledgeElements);
 }
 
-async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId) {
-  const skillIds = await campaignRepository.findSkillIds({ campaignId, filterByStatus: 'all' });
-
-  return _.filter(knowledgeElements, (knowledgeElement) => {
-    if (knowledgeElement.isInvalidated) {
-      return false;
-    }
-    return _.includes(skillIds, knowledgeElement.skillId);
-  });
-}
-
 async function _findSnapshotsForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser =
-    await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
+    userIdsAndDates,
+  );
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
     const userId = parseInt(userIdStr);
@@ -125,23 +111,6 @@ const findUniqByUserIdGroupedByCompetenceId = async function ({ userId, limitDat
   const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
   return _.groupBy(knowledgeElements, 'competenceId');
 };
-
-const findByCampaignIdAndUserIdForSharedCampaignParticipation = async function ({ campaignId, userId }) {
-  const [sharedCampaignParticipation] = await knex('campaign-participations')
-    .select('sharedAt')
-    .where({ campaignId, status: SHARED, userId })
-    .limit(1);
-
-  if (!sharedCampaignParticipation) {
-    return [];
-  }
-
-  const { sharedAt } = sharedCampaignParticipation;
-  const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
-
-  return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
-};
-
 const findByCampaignIdForSharedCampaignParticipation = async function (campaignId) {
   const sharedCampaignParticipations = await knex('campaign-participations')
     .select('userId', 'sharedAt')
@@ -231,7 +200,6 @@ export {
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
-  findByCampaignIdAndUserIdForSharedCampaignParticipation,
   findByCampaignIdForSharedCampaignParticipation,
   findSnapshotGroupedByCompetencesForUsers,
   countValidatedByCompetencesForUsersWithinCampaign,
