@@ -286,6 +286,135 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(challenges[0].validator.solution.type).to.equal(challenge.type);
       expect(challenges[0].validator.solution.value).to.equal(challenge.solution);
     });
+    context('when the user already played an challenge with an alternativeVersion', function () {
+      it('should return a challenge with an unknown alternativeVersion', async function () {
+        const missionId = 'recCHAL1';
+        const activityLevel = Activity.levels.TRAINING;
+        const alternativeVersion = 2;
+
+        const activiteEntrainement = _buildTube({
+          id: 'activiteEntrainementId',
+          missionId,
+          name: '@rechercher_en',
+        });
+
+        const acquisEntrainement = _buildSkill({
+          id: 'recSkill2',
+          name: '@rechercher_en1',
+          tubeId: activiteEntrainement.id,
+        });
+
+        const wrongAlternantiveVersionChallenge = _buildChallenge({
+          id: 'challengeId1',
+          skill: { id: acquisEntrainement.id },
+          alternativeVersion: 3,
+        });
+
+        const correctAlternantiveVersionChallenge = _buildChallenge({
+          id: 'challengeId2',
+          skill: { id: acquisEntrainement.id },
+          alternativeVersion,
+        });
+
+        const learningContent = {
+          tubes: [activiteEntrainement],
+          challenges: [wrongAlternantiveVersionChallenge, correctAlternantiveVersionChallenge],
+          skills: [acquisEntrainement],
+        };
+        const alternativeVersionAlreadyPlayed = [3];
+
+        mockLearningContent(learningContent);
+
+        const expectedChallenge = {
+          ...domainBuilder.buildChallenge({ id: correctAlternantiveVersionChallenge.id, alternativeVersion }),
+          skill: undefined,
+        };
+
+        // when
+        const actualChallenge = await challengeRepository.getForPix1D({
+          missionId,
+          activityLevel,
+          challengeNumber: 1,
+          alternativeVersionAlreadyPlayed,
+        });
+
+        // then
+        expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
+          _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
+        );
+      });
+    });
+    context('when the user already played all the alternativeVersion', function () {
+      it('should return a challenge randomly', async function () {
+        const missionId = 'recCHAL1';
+        const activityLevel = Activity.levels.TRAINING;
+        const alternativeVersion = 2;
+
+        const activiteEntrainement = _buildTube({
+          id: 'activiteEntrainementId',
+          missionId,
+          name: '@rechercher_en',
+        });
+
+        const acquisEntrainement1 = _buildSkill({
+          id: 'recSkill2',
+          name: '@rechercher_en1',
+          tubeId: activiteEntrainement.id,
+        });
+        const acquisEntrainement2 = _buildSkill({
+          id: 'recSkill3',
+          name: '@rechercher_en1',
+          tubeId: activiteEntrainement.id,
+        });
+
+        const challenge1 = _buildChallenge({
+          id: 'challengeId1',
+          skill: { id: acquisEntrainement1.id },
+          alternativeVersion: 3,
+        });
+
+        const challenge2 = _buildChallenge({
+          id: 'challengeId2',
+          skill: { id: acquisEntrainement1.id },
+          alternativeVersion,
+        });
+        const challenge3 = _buildChallenge({
+          id: 'challengeId3',
+          skill: { id: acquisEntrainement2.id },
+          alternativeVersion,
+        });
+        const alternativeVersionAlreadyPlayed = [2, 3];
+
+        const learningContent = {
+          tubes: [activiteEntrainement],
+          challenges: [challenge1, challenge2, challenge3],
+          skills: [acquisEntrainement1, acquisEntrainement2],
+        };
+
+        mockLearningContent(learningContent);
+
+        const expectedChallenge1 = {
+          ...domainBuilder.buildChallenge({ id: challenge1.id, alternativeVersion }),
+          skill: undefined,
+        };
+        const expectedChallenge2 = {
+          ...domainBuilder.buildChallenge({ id: challenge2.id, alternativeVersion }),
+          skill: undefined,
+        };
+        const possibleChallengesIds = [expectedChallenge1.id, expectedChallenge2.id];
+        // when
+        const actualChallenge = await challengeRepository.getForPix1D({
+          missionId,
+          activityLevel,
+          challengeNumber: 1,
+          alternativeVersionAlreadyPlayed,
+        });
+
+        // then
+        expect(actualChallenge).to.be.instanceOf(Challenge);
+        expect(possibleChallengesIds).to.include(actualChallenge.id);
+      });
+    });
   });
 
   describe('#getMany', function () {

@@ -377,19 +377,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
 
     context('when there are several challenges for the skillId', function () {
-      // it('should return a challenge randomly if the alternativeVersion is not provided', async function () {
-      //   // when
-      //   sinon.stub(lcms, 'getLatestRelease').resolves({
-      //     challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
-      //   });
-      //   const result = await challengeDatasource.getBySkillId(skillId);
-      //
-      //   // then
-      //   expect(lcms.getLatestRelease).to.have.been.called;
-      //
-      //   expect([result]).to.contain.oneOf(expectedChallenges);
-      // });
-
       it('should return an array of validated or proposed challenges', async function () {
         // when
         sinon.stub(lcms, 'getLatestRelease').resolves({
