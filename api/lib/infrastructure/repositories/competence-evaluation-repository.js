@@ -25,15 +25,6 @@ const save = async function ({ competenceEvaluation, domainTransaction = DomainT
   return _toDomain({ competenceEvaluation: competenceEvaluationCreated, assessment: null });
 };
 
-const updateStatusByAssessmentId = async function ({ assessmentId, status }) {
-  const [competenceEvaluation] = await knex('competence-evaluations')
-    .where({ assessmentId })
-    .update({ status })
-    .returning('*');
-
-  return _toDomain({ competenceEvaluation, assessment: null });
-};
-
 const updateStatusByUserIdAndCompetenceId = async function ({ userId, competenceId, status }) {
   const [competenceEvaluation] = await knex('competence-evaluations')
     .where({ userId, competenceId })
@@ -124,7 +115,6 @@ const existsByCompetenceIdAndUserId = async function ({
 
 export {
   save,
-  updateStatusByAssessmentId,
   updateStatusByUserIdAndCompetenceId,
   updateAssessmentId,
   getByAssessmentId,
