@@ -1,10 +1,10 @@
 import {
-  expect,
-  databaseBuilder,
   catchErr,
-  mockLearningContent,
+  databaseBuilder,
   domainBuilder,
+  expect,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 import { NoSkillsInCampaignError, NotFoundError } from '../../../../lib/domain/errors.js';
@@ -295,72 +295,6 @@ describe('Integration | Repository | learning-content', function () {
 
       // when
       const err = await catchErr(learningContentRepository.findByCampaignId)(campaignId);
-
-      // then
-      expect(err).to.be.instanceOf(NoSkillsInCampaignError);
-    });
-  });
-
-  describe('#findByCampaignParticipationId', function () {
-    let campaignParticipationId;
-
-    it('should return areas, competences and tubes of the skills hierarchy', async function () {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign().id;
-      ['recSkill2', 'recSkill3'].forEach((skillId) =>
-        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
-      );
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      await databaseBuilder.commit();
-
-      area1Fr.competences = [competence2Fr];
-      competence2Fr.thematics = [thematic2Fr];
-      competence2Fr.tubes = [tube2Fr];
-      thematic2Fr.tubes = [tube2Fr];
-      tube2Fr.skills = [skill2, skill3];
-
-      // when
-      const campaignLearningContent =
-        await learningContentRepository.findByCampaignParticipationId(campaignParticipationId);
-
-      // then
-      expect(campaignLearningContent.areas).to.deep.equal([area1Fr]);
-    });
-
-    it('should translate names and descriptions when specifying a locale', async function () {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign().id;
-      ['recSkill2', 'recSkill3'].forEach((skillId) =>
-        databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId }),
-      );
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      await databaseBuilder.commit();
-
-      area1En.competences = [competence2En];
-      competence2En.thematics = [thematic2En];
-      competence2En.tubes = [tube2En];
-      thematic2En.tubes = [tube2En];
-      tube2En.skills = [skill2, skill3];
-
-      // when
-      const campaignLearningContent = await learningContentRepository.findByCampaignParticipationId(
-        campaignParticipationId,
-        'en',
-      );
-
-      // then
-      expect(campaignLearningContent.areas).to.deep.equal([area1En]);
-    });
-
-    it('should throw a NoSkillsInCampaignError when there are no more operative skills', async function () {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign().id;
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkill4' });
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const err = await catchErr(learningContentRepository.findByCampaignParticipationId)(campaignParticipationId);
 
       // then
       expect(err).to.be.instanceOf(NoSkillsInCampaignError);
