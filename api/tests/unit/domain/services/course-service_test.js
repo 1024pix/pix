@@ -1,11 +1,12 @@
 import * as courseService from '../../../../lib/domain/services/course-service.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Service | Course Service', function () {
   describe('#getCourse', function () {
     const userId = 1;
-    const learningContentCourse = { id: 'recLearningContentId' };
+    const courseId = 'courseABC123';
     let courseRepository;
 
     beforeEach(function () {
@@ -15,34 +16,29 @@ describe('Unit | Service | Course Service', function () {
       sinon.stub(logger, 'error');
     });
 
-    it('should call the course repository', function () {
+    it('should throw a NotFoundError when course cannot be played', async function () {
       // given
-      const givenCourseId = 'recLearningContentId';
-      courseRepository.get.resolves(learningContentCourse);
+      const unplayableCourse = domainBuilder.buildCourse({ id: courseId, name: 'mon test statique', isActive: false });
+      courseRepository.get.withArgs('courseABC123').resolves(unplayableCourse);
 
       // when
-      const promise = courseService.getCourse({ courseId: givenCourseId, userId, dependencies: { courseRepository } });
+      const err = await catchErr(courseService.getCourse)({ courseId, userId, dependencies: { courseRepository } });
 
       // then
-      return promise.then(() => {
-        expect(courseRepository.get).to.have.been.called;
-        expect(courseRepository.get).to.have.been.calledWith(givenCourseId);
-      });
+      expect(err).to.be.instanceOf(NotFoundError);
+      expect(err.message).to.equal("Le test demandé n'existe pas");
     });
 
-    context('when the course exists', function () {
-      it('should return a Course from the repository', async function () {
-        // given
-        const courseId = 'recLearningContentId';
-        const aCourse = Symbol('A course');
-        courseRepository.get.withArgs(courseId).resolves(aCourse);
+    it('should return the course when it can be played', async function () {
+      // given
+      const playableCourse = domainBuilder.buildCourse({ id: courseId, name: 'mon test statique', isActive: true });
+      courseRepository.get.withArgs('courseABC123').resolves(playableCourse);
 
-        // when
-        const result = await courseService.getCourse({ courseId, dependencies: { courseRepository } });
+      // when
+      const course = await courseService.getCourse({ courseId, userId, dependencies: { courseRepository } });
 
-        // then
-        expect(result).to.equal(aCourse);
-      });
+      // then
+      expect(course).to.deepEqualInstance(playableCourse);
     });
   });
 });

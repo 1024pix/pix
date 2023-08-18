@@ -2,11 +2,11 @@ import * as courseSerializer from '../../infrastructure/serializers/jsonapi/cour
 import * as courseService from '../../../lib/domain/services/course-service.js';
 import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
-const get = function (request, h, dependencies = { courseService, courseSerializer }) {
+const get = async function (request, h, dependencies = { courseService, courseSerializer }) {
   const courseId = request.params.id;
   const userId = extractUserIdFromRequest(request);
-
-  return dependencies.courseService.getCourse({ courseId, userId }).then(dependencies.courseSerializer.serialize);
+  const course = await dependencies.courseService.getCourse({ courseId, userId });
+  return dependencies.courseSerializer.serialize(course);
 };
 
 const courseController = { get };

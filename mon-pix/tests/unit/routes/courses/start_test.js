@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | Courses | Create Assessment', function (hooks) {
+module('Unit | Route | Courses | Start', function (hooks) {
   setupTest(hooks);
 
   let route;
@@ -20,7 +20,7 @@ module('Unit | Route | Courses | Create Assessment', function (hooks) {
       save: sinon.stub().resolves(createdAssessment),
     });
     storeStub = Service.create({ createRecord: createRecordStub });
-    route = this.owner.lookup('route:courses.create-assessment');
+    route = this.owner.lookup('route:courses.start');
     route.set('store', storeStub);
     route.router = { replaceWith: sinon.stub() };
   });
