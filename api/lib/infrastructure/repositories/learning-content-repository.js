@@ -19,15 +19,6 @@ async function findByCampaignId(campaignId, locale) {
   return new LearningContent(frameworks);
 }
 
-async function findByCampaignParticipationId(campaignParticipationId, locale) {
-  const [campaignId] = await knex('campaign-participations').pluck('campaignId').where({ id: campaignParticipationId });
-  const skills = await campaignRepository.findSkills({ campaignId });
-
-  const areas = await _getLearningContentBySkillIds(skills, locale);
-
-  return new LearningContent(areas);
-}
-
 async function findByTargetProfileId(targetProfileId, locale) {
   const cappedTubesDTO = await knex('target-profile_tubes')
     .select({
@@ -148,4 +139,4 @@ async function _getLearningContentByFrameworks(frameworks, locale) {
   return frameworks;
 }
 
-export { findByCampaignId, findByTargetProfileId, findByCampaignParticipationId, findByFrameworkNames };
+export { findByCampaignId, findByTargetProfileId, findByFrameworkNames };
