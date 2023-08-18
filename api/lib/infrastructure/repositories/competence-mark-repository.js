@@ -15,11 +15,6 @@ const save = async function (competenceMark, domainTransaction = DomainTransacti
   return savedCompetenceMark.toDomainEntity();
 };
 
-const findByAssessmentResultId = async function (assessmentResultId) {
-  const competenceMarks = await BookshelfCompetenceMark.where({ assessmentResultId }).fetchAll();
-  return competenceMarks.models.map((model) => _toDomain(model.attributes));
-};
-
 const findByCertificationCourseId = async function (certificationCourseId) {
   const competenceMarks = await knex
     .select(
@@ -48,4 +43,4 @@ const findByCertificationCourseId = async function (certificationCourseId) {
   return competenceMarks.map(_toDomain);
 };
 
-export { save, findByAssessmentResultId, findByCertificationCourseId };
+export { save, findByCertificationCourseId };

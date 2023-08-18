@@ -82,7 +82,6 @@ import * as complementaryCertificationCourseResultRepository from '../../infrast
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
-import * as complementaryCertificationSubscriptionRepository from '../../infrastructure/repositories/complementary-certification-subscription-repository.js';
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';
@@ -294,7 +293,6 @@ const dependencies = {
   complementaryCertificationHabilitationRepository,
   complementaryCertificationRepository,
   complementaryCertificationTargetProfileHistoryRepository,
-  complementaryCertificationSubscriptionRepository,
   config,
   correctionRepository: repositories.correctionRepository,
   countryRepository,
