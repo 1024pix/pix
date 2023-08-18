@@ -1,6 +1,4 @@
 import _ from 'lodash';
-import bluebird from 'bluebird';
-import { constants } from '../constants.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
@@ -46,9 +44,8 @@ async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domai
 }
 
 async function _findSnapshotsForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
-    userIdsAndDates,
-  );
+  const knowledgeElementsGroupedByUser =
+    await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
     const userId = parseInt(userIdStr);
@@ -110,23 +107,6 @@ const findUniqByUserIdAndCompetenceId = async function ({
 const findUniqByUserIdGroupedByCompetenceId = async function ({ userId, limitDate }) {
   const knowledgeElements = await this.findUniqByUserId({ userId, limitDate });
   return _.groupBy(knowledgeElements, 'competenceId');
-};
-const findByCampaignIdForSharedCampaignParticipation = async function (campaignId) {
-  const sharedCampaignParticipations = await knex('campaign-participations')
-    .select('userId', 'sharedAt')
-    .where({ campaignId, status: SHARED });
-
-  const knowledgeElements = _.flatMap(
-    await bluebird.map(
-      sharedCampaignParticipations,
-      async ({ userId, sharedAt }) => {
-        return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
-      },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
-    ),
-  );
-
-  return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
 };
 
 const findSnapshotGroupedByCompetencesForUsers = async function (userIdsAndDates) {
@@ -200,7 +180,6 @@ export {
   findUniqByUserIdAndAssessmentId,
   findUniqByUserIdAndCompetenceId,
   findUniqByUserIdGroupedByCompetenceId,
-  findByCampaignIdForSharedCampaignParticipation,
   findSnapshotGroupedByCompetencesForUsers,
   countValidatedByCompetencesForUsersWithinCampaign,
   countValidatedByCompetencesForOneUserWithinCampaign,
