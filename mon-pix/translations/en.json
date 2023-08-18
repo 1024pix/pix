@@ -883,6 +883,11 @@
         "you-have-reached-level": "You reached"
       }
     },
+    "course": {
+      "errors": {
+        "not-accessible": "Oops, the requested page is not available."
+      }
+    },
     "dashboard": {
       "title": "Homepage",
       "campaigns": {

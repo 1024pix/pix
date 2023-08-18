@@ -1,14 +1,12 @@
-import _ from 'lodash';
-import { Course } from '../models/Course.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
+import { NotFoundError } from '../errors.js';
 
 const getCourse = async function ({ courseId, dependencies = { courseRepository } }) {
-  // TODO: delete when campaign assessment does not have courses anymore
-  if (_.startsWith(courseId, '[NOT USED] Campaign')) {
-    return Promise.resolve(new Course({ id: courseId }));
+  const course = await dependencies.courseRepository.get(courseId);
+  if (!course.canBePlayed) {
+    throw new NotFoundError("Le test demandé n'existe pas");
   }
-
-  return dependencies.courseRepository.get(courseId);
+  return course;
 };
 
 export { getCourse };
