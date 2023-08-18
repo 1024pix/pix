@@ -25,7 +25,6 @@ import { CampaignForCreation } from './CampaignForCreation.js';
 import { CampaignLearningContent } from './CampaignLearningContent.js';
 import { CampaignParticipant } from './CampaignParticipant.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
-import { CampaignParticipationBadge } from './CampaignParticipationBadge.js';
 import { CampaignParticipationResult } from './CampaignParticipationResult.js';
 import { CampaignParticipationStatuses } from './CampaignParticipationStatuses.js';
 import { CampaignToStartParticipation } from './CampaignToStartParticipation.js';
@@ -119,7 +118,6 @@ import { SessionJuryComment } from './SessionJuryComment.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
 import { ShareableCertificate } from './ShareableCertificate.js';
 import { Skill } from './Skill.js';
-import { SkillSet } from './SkillSet.js';
 import { Solution } from './Solution.js';
 import { Stage } from './Stage.js';
 import { StageAcquisition } from './StageAcquisition.js';
@@ -183,7 +181,6 @@ export {
   CampaignLearningContent,
   CampaignParticipant,
   CampaignParticipation,
-  CampaignParticipationBadge,
   CampaignParticipationResult,
   CampaignParticipationStatuses,
   CampaignToStartParticipation,
@@ -277,7 +274,6 @@ export {
   SessionPublicationBatchResult,
   ShareableCertificate,
   Skill,
-  SkillSet,
   Solution,
   Stage,
   StageAcquisition,

@@ -7,10 +7,9 @@ import {
   learningContentBuilder,
 } from '../../../test-helper.js';
 
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment, TrainingTrigger } from '../../../../lib/domain/models/index.js';
 import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { createServer } from '../../../../server.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
@@ -345,11 +344,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         competenceIdSkillIdPairs,
         limitDate: dateAfterLimitDate,
       }).id;
-      const badgeId = databaseBuilder.factory.buildBadge().id;
-      databaseBuilder.factory.buildSkillSet({
-        badgeId,
-        skillIds: ['recSkill0_0'],
-      });
+      databaseBuilder.factory.buildBadge().id;
 
       return databaseBuilder.commit();
     });

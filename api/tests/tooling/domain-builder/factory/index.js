@@ -16,7 +16,6 @@ import { buildBadgeCriterionForCalculation } from './build-badge-criterion-for-c
 import { buildCampaign } from './build-campaign.js';
 import { buildCampaignCollectiveResult } from './build-campaign-collective-result.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';
-import { buildCampaignParticipationBadge } from './build-campaign-participation-badge.js';
 import { buildCampaignParticipationForUserManagement } from './build-campaign-participation-for-user-management.js';
 import { buildCampaignParticipationResult } from './build-campaign-participation-result.js';
 import { buildCampaignParticipationInfo } from './build-campaign-participation-info.js';
@@ -171,7 +170,6 @@ export {
   buildCampaign,
   buildCampaignCollectiveResult,
   buildCampaignParticipation,
-  buildCampaignParticipationBadge,
   buildCampaignParticipationForUserManagement,
   buildCampaignParticipationResult,
   buildCampaignParticipationInfo,

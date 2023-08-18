@@ -1,10 +1,4 @@
-import {
-  BadgeDetails,
-  BadgeCriterion,
-  SkillSet,
-  CappedTube,
-  SCOPES,
-} from '../../../../lib/domain/models/BadgeDetails.js';
+import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 
 const buildBadgeDetails = function buildBadgeDetails({
   id = 123,
@@ -36,25 +30,6 @@ buildBadgeDetails.buildBadgeCriterion_CampaignParticipation = function ({ id = 4
     name: null,
     scope: SCOPES.CAMPAIGN_PARTICIPATION,
     threshold,
-    skillSets: [],
-    cappedTubes: [],
-  });
-};
-
-buildBadgeDetails.buildBadgeCriterion_SkillSets = function ({
-  id = 456,
-  threshold = 80,
-  arrayOfSkillIds = [['rec123'], ['rec456']],
-}) {
-  const skillSets = arrayOfSkillIds.map((skillIds) => {
-    return new SkillSet({ name: `skillSetName#${skillIds[0]}`, skillIds });
-  });
-  return new BadgeCriterion({
-    id,
-    name: null,
-    scope: SCOPES.SKILL_SET,
-    threshold,
-    skillSets,
     cappedTubes: [],
   });
 };
@@ -76,7 +51,6 @@ buildBadgeDetails.buildBadgeCriterion_CappedTubes = function ({
     name,
     scope: SCOPES.CAPPED_TUBES,
     threshold,
-    skillSets: [],
     cappedTubes,
   });
 };
