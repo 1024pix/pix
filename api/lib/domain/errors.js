@@ -1287,7 +1287,14 @@ class InvalidStageError extends DomainError {
   }
 }
 
+class AuditLoggerApiError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 export {
+  AuditLoggerApiError,
   LocaleFormatError,
   LocaleNotSupportedError,
   AccountRecoveryDemandNotCreatedError,
