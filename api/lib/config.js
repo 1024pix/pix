@@ -109,6 +109,10 @@ const configuration = (function () {
         source: 'poleEmploi',
       },
     ],
+    auditLogger: {
+      baseUrl: process.env.PIX_AUDIT_LOGGER_BASE_URL,
+      clientSecret: process.env.PIX_AUDIT_LOGGER_CLIENT_SECRET,
+    },
     authentication: {
       secret: process.env.AUTH_SECRET,
       accessTokenLifespanMs: ms(process.env.ACCESS_TOKEN_LIFESPAN || '20m'),
@@ -334,6 +338,9 @@ const configuration = (function () {
   if (config.environment === 'development') {
     config.logging.enabled = true;
   } else if (process.env.NODE_ENV === 'test') {
+    config.auditLogger.baseUrl = 'http://audit-logger.local';
+    config.auditLogger.clientSecret = 'client-super-secret';
+
     config.port = 0;
 
     config.lcms.apiKey = 'test-api-key';
