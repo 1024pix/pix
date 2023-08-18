@@ -3,10 +3,10 @@ import * as dependenciesBuilder from './EventHandlerDependenciesBuilder.js';
 import { LogEvent } from './subscribers/LogEvent.js';
 import { ScheduleParticipationResultCalculationJob } from './subscribers/ScheduleParticipationResultCalculationJob.js';
 import { ScheduleSendSharedParticipationResultsToPoleEmploiJob } from './subscribers/ScheduleSendSharedParticipationResultsToPoleEmploiJob.js';
-import { CreateAnonymizeUserLogJobScheduler } from './subscribers/audit-log/CreateAnonymizeUserLogJobScheduler.js';
+import { UserAnonymizedEventLoggingJobScheduler } from './subscribers/audit-log/UserAnonymizedEventLoggingJobScheduler.js';
 
 const subscribers = [
-  CreateAnonymizeUserLogJobScheduler,
+  UserAnonymizedEventLoggingJobScheduler,
   LogEvent,
   ScheduleParticipationResultCalculationJob,
   ScheduleSendSharedParticipationResultsToPoleEmploiJob,
