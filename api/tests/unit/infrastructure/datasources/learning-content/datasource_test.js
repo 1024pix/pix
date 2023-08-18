@@ -208,7 +208,11 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
       // given
       const record = { id: 'rec1', property: 'updatedValue' };
       const learningContent = {
-        learningContentModel: [null, { id: 'rec1', property: 'value1' }, { id: 'rec2', property: 'value2' }],
+        learningContentModel: [
+          null,
+          { id: 'rec1', property: 'value1', oldProperty: 'value' },
+          { id: 'rec2', property: 'value2' },
+        ],
         learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
       };
       learningContentCache.get.resolves(learningContent);
