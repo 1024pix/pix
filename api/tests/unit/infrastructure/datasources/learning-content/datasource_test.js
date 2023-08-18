@@ -225,10 +225,12 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
         id: 'rec1',
         property: 'updatedValue',
       });
-      expect(learningContentCache.set).to.have.been.deep.calledWith({
+      expect(learningContentCache.set).to.have.been.calledOnce;
+      const argument = learningContentCache.set.firstCall.args[0];
+      expect(argument).to.deep.equal({
         learningContentModel: [
-          { id: 'rec2', property: 'value2' },
           { id: 'rec1', property: 'updatedValue' },
+          { id: 'rec2', property: 'value2' },
         ],
         learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
       });
