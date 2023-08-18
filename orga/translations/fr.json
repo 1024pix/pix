@@ -374,6 +374,7 @@
           "question-label": "Souhaitez-vous permettre aux participants d’envoyer plusieurs fois leurs résultats ?"
         },
         "info-title": "Envoi multiple",
+        "knowledge-elements-resettable": "Dans le cadre de ce parcours, le participant pourra tenter d'améliorer ses résultats en repassant toutes les questions du parcours.",
         "profiles": {
           "info": "Si vous choisissez l’envoi multiple, le participant pourra envoyer plusieurs fois son profil en saisissant à nouveau le code campagne. Au sein de Pix Orga, vous trouverez le dernier profil envoyé.",
           "question-label": "Souhaitez-vous permettre aux participants d'envoyer plusieurs fois leur profil ?"
