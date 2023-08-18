@@ -247,31 +247,6 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     });
   });
 
-  module('#showCleaCompetences', function () {
-    test('should showCleaCompetences when campaignParticipationResult has a clea badge', function (assert) {
-      // given
-      const cleaBadge = { id: 111 };
-      component.args.model.campaignParticipationResult.cleaBadge = cleaBadge;
-
-      // when
-      const shouldShowCleaCompetences = component.showCleaCompetences;
-
-      // then
-      assert.true(shouldShowCleaCompetences);
-    });
-
-    test('should not show clea competence when there is no cleaBadge', function (assert) {
-      // given
-      component.args.model.campaignParticipationResult.cleaBadge = undefined;
-
-      // when
-      const shouldShowCleaCompetences = component.showCleaCompetences;
-
-      // then
-      assert.false(shouldShowCleaCompetences);
-    });
-  });
-
   module('#showNotCertifiableBadges', function () {
     test('should show not certifiable badges when acquired', function (assert) {
       // given

@@ -12,44 +12,26 @@
   </thead>
 
   <tbody>
-    {{#if @showCleaCompetences}}
-      {{#each @skillSetResults as |skillSet|}}
-        <tr class="skill-review-competence__row">
-          <th scope="row" class="skill-review-competence__row-header">
-            <span class="skill-review-competence__border" aria-hidden="true"></span>
-            <span class="skill-review-competence__name">{{skillSet.name}}</span>
-          </th>
-          <td>
+    {{#each @competenceResults as |competence|}}
+      <tr class="skill-review-competence__row">
+        <th scope="row" class="skill-review-competence__row-header">
+          <span
+            class="skill-review-competence__border skill-review-competence__border--{{competence.areaColor}}"
+            aria-hidden="true"
+          ></span>
+          <span class="skill-review-competence__name">{{competence.name}}</span>
+        </th>
+        <td>
+          {{#if competence.flashPixScore}}
+            {{t "pages.skill-review.details.flash-pix-score" score=competence.flashPixScore}}
+          {{else}}
             <PixProgressGauge
-              @value={{skillSet.masteryPercentage}}
+              @value={{competence.masteryPercentage}}
               @label={{t "pages.skill-review.details.progress-bar-label"}}
             />
-          </td>
-        </tr>
-      {{/each}}
-    {{else}}
-      {{#each @competenceResults as |competence|}}
-        <tr class="skill-review-competence__row">
-          <th scope="row" class="skill-review-competence__row-header">
-            <span
-              class="skill-review-competence__border skill-review-competence__border--{{competence.areaColor}}"
-              aria-hidden="true"
-            ></span>
-            <span class="skill-review-competence__name">{{competence.name}}</span>
-          </th>
-          <td>
-            {{#if competence.flashPixScore}}
-              {{t "pages.skill-review.details.flash-pix-score" score=competence.flashPixScore}}
-            {{else}}
-              <PixProgressGauge
-                @value={{competence.masteryPercentage}}
-                @label={{t "pages.skill-review.details.progress-bar-label"}}
-              />
-            {{/if}}
-          </td>
-        </tr>
-      {{/each}}
-    {{/if}}
-
+          {{/if}}
+        </td>
+      </tr>
+    {{/each}}
   </tbody>
 </table>

@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import _ from 'lodash';
-import { Assessment } from '../../domain/models/Assessment.js';
+import { Assessment } from '../../domain/models/index.js';
 import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
 import * as competenceRepository from './competence-repository.js';
 import * as answerRepository from './answer-repository.js';
@@ -24,14 +24,13 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, l
   const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
   const isCampaignArchived = await _isCampaignArchived(campaignId);
   const competences = await _findTargetedCompetences(campaignId, locale);
-  const badgeResultsDTO = await _getBadgeResults(badges);
   const stageCollection = await _getStageCollection(campaignId);
   const isTargetProfileResetAllowed = await _getTargetProfileResetAllowed(campaignId);
 
   return new AssessmentResult({
     participationResults,
     competences,
-    badgeResultsDTO,
+    badgeResultsDTO: badges,
     stageCollection,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
@@ -182,25 +181,6 @@ async function _getTargetProfileResetAllowed(campaignId) {
     .first('areKnowledgeElementsResettable');
 
   return targetProfile ? targetProfile.areKnowledgeElementsResettable : false;
-}
-
-async function _getBadgeResults(badges) {
-  const competences = await _findSkillSet(badges);
-  return badges.map((badge) => {
-    const badgeCompetences = competences.filter(({ badgeId }) => badgeId === badge.id);
-
-    return {
-      ...badge,
-      badgeCompetences,
-    };
-  });
-}
-
-function _findSkillSet(badges) {
-  return knex('skill-sets').whereIn(
-    'badgeId',
-    badges.map(({ id }) => id),
-  );
 }
 
 async function _findTargetedCompetences(campaignId, locale) {

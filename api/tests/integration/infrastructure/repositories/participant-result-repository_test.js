@@ -1,9 +1,7 @@
 import { catchErr, expect, databaseBuilder, mockLearningContent, domainBuilder } from '../../../test-helper.js';
 import * as participantResultRepository from '../../../../lib/infrastructure/repositories/participant-result-repository.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement, CampaignParticipationStatuses, Assessment } from '../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -827,106 +825,6 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           imageUrl: 'Badge2 ImgUrl',
           key: 'Badge2 Key',
           isAcquired: true,
-        });
-      });
-
-      context('when the target profile has skillsets (CleaNumerique)', function () {
-        it('computes the buildSkillSet for each competence of badge', async function () {
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-          _buildCampaignSkills(campaignId);
-          const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-            userId,
-            campaignId,
-            sharedAt: new Date('2020-01-02'),
-          });
-
-          const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id });
-          databaseBuilder.factory.buildSkillSet({
-            id: 1,
-            badgeId: 1,
-            name: 'BadgeCompt1',
-            index: '1',
-            color: 'BadgeCompt1Color',
-            skillIds: ['skill1', 'skill2'],
-          });
-          databaseBuilder.factory.buildSkillSet({
-            id: 2,
-            badgeId: 1,
-            name: 'BadgeCompt2',
-            index: '2',
-            color: 'BadgeCompt2Color',
-            skillIds: ['skill3', 'skill4'],
-          });
-          databaseBuilder.factory.buildSkillSet();
-
-          databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
-
-          const knowledgeElementsAttributes = [
-            {
-              userId,
-              skillId: 'skill1',
-              competenceId: 'rec1',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
-            },
-            {
-              userId,
-              skillId: 'skill2',
-              competenceId: 'rec1',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
-            },
-            {
-              userId,
-              skillId: 'skill3',
-              competenceId: 'rec2',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.INVALIDATED,
-            },
-            {
-              userId,
-              skillId: 'skill4',
-              competenceId: 'rec2',
-              createdAt: new Date('2020-01-01'),
-              status: KnowledgeElement.StatusType.VALIDATED,
-            },
-          ];
-
-          knowledgeElementsAttributes.forEach((attributes) =>
-            databaseBuilder.factory.buildKnowledgeElement(attributes),
-          );
-
-          await databaseBuilder.commit();
-
-          const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
-            userId,
-            campaignId,
-            targetProfile,
-            badges: [badge],
-            locale: 'FR',
-          });
-
-          const skillSetResult1 = participantResult.badgeResults[0].skillSetResults.find(({ id }) => id === 1);
-          const skillSetResult2 = participantResult.badgeResults[0].skillSetResults.find(({ id }) => id === 2);
-          expect(participantResult.competenceResults).to.have.lengthOf(2);
-          expect(skillSetResult1).to.deep.equal({
-            id: 1,
-            name: 'BadgeCompt1',
-            testedSkillsCount: 2,
-            totalSkillsCount: 2,
-            validatedSkillsCount: 2,
-            masteryPercentage: 100,
-          });
-
-          expect(skillSetResult2).to.deep.equal({
-            id: 2,
-            name: 'BadgeCompt2',
-            testedSkillsCount: 2,
-            totalSkillsCount: 2,
-            validatedSkillsCount: 1,
-            masteryPercentage: 50,
-          });
         });
       });
     });
