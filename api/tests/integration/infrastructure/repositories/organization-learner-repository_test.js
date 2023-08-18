@@ -2080,6 +2080,31 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(new Date(certifiableAt)).to.deep.equal(organizationLearner.certifiableAt);
     });
   });
+  describe('#countByOrganizationsWhichNeedToComputeCertificability', function () {
+    let featureId;
+
+    beforeEach(function () {
+      featureId = databaseBuilder.factory.buildFeature(
+        ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+      ).id;
+    });
+
+    it('should return count of organization learners from organization that can compute certificability', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      const { organizationId: otherOrganizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId: otherOrganizationId });
+      databaseBuilder.factory.buildOrganizationLearner();
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.deep.equal(2);
+    });
+  });
 
   describe('#findByOrganizationsWhichNeedToComputeCertificability', function () {
     let featureId;
@@ -2127,6 +2152,38 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(result).to.deep.equal([]);
+    });
+
+    it('should limit ids returned', async function () {
+      // given
+      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+        limit: 1,
+      });
+
+      // then
+      expect(result).to.deep.equal([organizationLearnerId]);
+    });
+
+    it('should return ids from offset', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+        offset: 1,
+      });
+
+      // then
+      expect(result).to.deep.equal([organizationLearnerId]);
     });
   });
 });
