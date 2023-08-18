@@ -38,16 +38,6 @@ export default class SkillReview extends Component {
     return this.args.model.campaign.title || this.intl.t('pages.skill-review.title');
   }
 
-  get showCleaCompetences() {
-    const cleaBadge = this.args.model.campaignParticipationResult.cleaBadge;
-    return !!cleaBadge;
-  }
-
-  get _isCleaBadgeAcquired() {
-    const pixEmploiClea = 'PIX_EMPLOI_CLEA';
-    return this.validBadges.some((badge) => badge.key === pixEmploiClea);
-  }
-
   get showDisabledBlock() {
     return this.args.model.campaignParticipationResult.isDisabled && !this.isShared;
   }
@@ -88,11 +78,11 @@ export default class SkillReview extends Component {
   }
 
   get showStages() {
-    return this.args.model.campaignParticipationResult.hasReachedStage && !this._isCleaBadgeAcquired;
+    return this.args.model.campaignParticipationResult.hasReachedStage;
   }
 
   get showStagesWithStars() {
-    return this.args.model.campaignParticipationResult.hasReachedStage && !this.showCleaCompetences;
+    return this.args.model.campaignParticipationResult.hasReachedStage;
   }
 
   get reachedStage() {

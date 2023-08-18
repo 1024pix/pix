@@ -11,7 +11,6 @@ const professionalizingDate = new Date('2022-01-01');
 export default class Certification extends Model {
   @service currentDomain;
 
-  static PARTNER_KEY_CLEA = 'PIX_EMPLOI_CLEA';
   // attributes
   @attr('string') firstName;
   @attr('string') lastName;

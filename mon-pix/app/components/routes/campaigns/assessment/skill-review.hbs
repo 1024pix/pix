@@ -328,9 +328,7 @@
             {{/unless}}
           </div>
           <Campaigns::Assessment::CampaignSkillReviewCompetenceResult
-            @showCleaCompetences={{this.showCleaCompetences}}
             @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-            @skillSetResults={{@model.campaignParticipationResult.cleaBadge.skillSetResults}}
           />
         </section>
       {{/if}}
