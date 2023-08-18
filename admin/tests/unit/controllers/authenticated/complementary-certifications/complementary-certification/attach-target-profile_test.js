@@ -30,7 +30,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
           });
           const expectedOption = {
             label: '12 - target-profile',
-            value: '12',
+            value: attachableTargetProfile,
           };
           store.query = sinon.stub().resolves([attachableTargetProfile]);
           const controller = this.owner.lookup(
@@ -53,7 +53,7 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
           });
           const expectedOption = {
             label: '12 - target-profile',
-            value: '12',
+            value: attachableTargetProfile,
           };
           store.query = sinon.stub().resolves([attachableTargetProfile]);
           const controller = this.owner.lookup(
@@ -86,24 +86,43 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
     });
   });
 
-  module('#onSelectTargetProfile', function () {
-    module('when a target profile is selected', function () {
-      test('it should update selectedTargetProfile and searchResults with an empty array', async function (assert) {
-        const store = this.owner.lookup('service:store');
-        const controller = this.owner.lookup(
-          'controller:authenticated/complementary-certifications.complementary-certification.attach-target-profile',
-        );
-        const targetProfile = store.createRecord('attachable-target-profile', {
-          id: 12,
-          name: 'target profile',
-        });
-
-        // when
-        controller.onSelection(targetProfile);
-
-        // then
-        assert.deepEqual(controller.options, []);
+  module('#onSelection', function () {
+    test('it should update options with an empty array and set the selectedTargetProfile', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const controller = this.owner.lookup(
+        'controller:authenticated/complementary-certifications.complementary-certification.attach-target-profile',
+      );
+      const attachableTargetProfile = store.createRecord('attachable-target-profile', {
+        id: 12,
+        name: 'target-profile',
       });
+      const targetProfileSelected = {
+        label: '12 - target profile',
+        value: attachableTargetProfile,
+      };
+
+      // when
+      controller.onSelection(targetProfileSelected);
+
+      // then
+      assert.deepEqual(controller.options, []);
+      assert.deepEqual(controller.selectedTargetProfile, attachableTargetProfile);
+    });
+  });
+
+  module('#onChange', function () {
+    test('it should reset the selectedTargetProfile', async function (assert) {
+      // given
+      const controller = this.owner.lookup(
+        'controller:authenticated/complementary-certifications.complementary-certification.attach-target-profile',
+      );
+
+      // when
+      controller.onChange();
+
+      // then
+      assert.strictEqual(controller.selectedTargetProfile, undefined);
     });
   });
 });
