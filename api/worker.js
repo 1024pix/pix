@@ -15,6 +15,7 @@ import { ComputeCertificabilityJobHandler } from './lib/infrastructure/jobs/orga
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
+import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
 import * as url from 'url';
@@ -52,8 +53,9 @@ async function runJobs() {
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
     ScheduleComputeOrganizationLearnersCertificabilityJobHandler,
     {
-      pgBoss,
+      pgBossRepository,
       organizationLearnerRepository,
+      config,
     },
   );
   monitoredJobQueue.performJob(ComputeCertificabilityJob.name, ComputeCertificabilityJobHandler);
@@ -65,7 +67,7 @@ async function runJobs() {
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
-    config.features.scheduleComputeOrganizationLearnersCertificabilityJobCron,
+    config.features.scheduleComputeOrganizationLearnersCertificability.cron,
     null,
     { tz: 'Europe/Paris' },
   );
