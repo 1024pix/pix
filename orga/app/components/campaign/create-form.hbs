@@ -170,6 +170,11 @@
             <span>{{t "pages.campaign-creation.multiple-sendings.info-title"}}</span>
           </span>
           <span class="form__field-info-message">{{t this.multipleSendingWording.info}}</span>
+          {{#if this.campaign.targetProfile.areKnowledgeElementsResettable}}
+            <span class="form__field-info-message">{{t
+                "pages.campaign-creation.multiple-sendings.knowledge-elements-resettable"
+              }}</span>
+          {{/if}}
         </div>
       </div>
     </div>
