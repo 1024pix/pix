@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { BadgeForCalculation } from '../../domain/models/index.js';
-import { BadgeCriterionForCalculation } from '../../domain/models/BadgeCriterionForCalculation.js';
+import { BadgeForCalculation, BadgeCriterionForCalculation } from '../../domain/models/index.js';
 import { SCOPES } from '../../domain/models/BadgeDetails.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import * as campaignRepository from './campaign-repository.js';
+
+export { findByCampaignParticipationId, findByCampaignId, getByCertifiableBadgeAcquisition };
 
 const findByCampaignParticipationId = async function ({
   campaignParticipationId,
@@ -115,8 +116,6 @@ const getByCertifiableBadgeAcquisition = async function ({
   return _buildBadge(knexConn, campaignSkillsByTube, campaignSkillIds, badgeCriteriaDTO, badgeDTO);
 };
 
-export { findByCampaignParticipationId, findByCampaignId, getByCertifiableBadgeAcquisition };
-
 async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCriteriaDTO, badgeDTO) {
   const badgeCriteria = [];
   for (const badgeCriterionDTO of badgeCriteriaDTO) {
@@ -127,17 +126,6 @@ async function _buildBadge(knex, campaignSkillsByTube, campaignSkillIds, badgeCr
           skillIds: campaignSkillIds,
         }),
       );
-    }
-    if (badgeCriterionDTO.scope === SCOPES.SKILL_SET) {
-      const arrayOfSkillIds = await knex('skill-sets').pluck('skillIds').whereIn('id', badgeCriterionDTO.skillSetIds);
-      for (const skillIds of arrayOfSkillIds) {
-        badgeCriteria.push(
-          new BadgeCriterionForCalculation({
-            threshold: badgeCriterionDTO.threshold,
-            skillIds,
-          }),
-        );
-      }
     }
     if (badgeCriterionDTO.scope === SCOPES.CAPPED_TUBES) {
       let skillIds = [];

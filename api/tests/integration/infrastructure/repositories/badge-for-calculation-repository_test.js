@@ -121,10 +121,6 @@ describe('Integration | Repository | BadgeForCalculation', function () {
         targetProfileId,
         campaignSkillsId,
       );
-      const expectedBadgeForCalculation2 = _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(
-        targetProfileId,
-        campaignSkillsId,
-      );
       await databaseBuilder.commit();
 
       // when
@@ -133,20 +129,13 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       });
 
       // then
-      expect(actualBadgesForCalculation).to.deepEqualArray([
-        expectedBadgeForCalculation1,
-        expectedBadgeForCalculation2,
-      ]);
+      expect(actualBadgesForCalculation).to.deepEqualArray([expectedBadgeForCalculation1]);
     });
   });
   describe('#findByCampaignId', function () {
     it('should return a BadgeForCalculation with criteria', async function () {
       // given
       const expectedBadgeForCalculation1 = _buildBadgeWithCampaignParticipationAndCappedTubes(
-        targetProfileId,
-        campaignSkillsId,
-      );
-      const expectedBadgeForCalculation2 = _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(
         targetProfileId,
         campaignSkillsId,
       );
@@ -159,10 +148,7 @@ describe('Integration | Repository | BadgeForCalculation', function () {
       });
 
       // then
-      expect(actualBadgesForCalculation).to.deepEqualArray([
-        expectedBadgeForCalculation1,
-        expectedBadgeForCalculation2,
-      ]);
+      expect(actualBadgesForCalculation).to.deepEqualArray([expectedBadgeForCalculation1]);
     });
   });
   describe('#getByCertifiableBadgeAcquisition', function () {
@@ -222,49 +208,6 @@ function _buildBadgeWithCampaignParticipationAndCappedTubes(targetProfileId, cam
     id: badgeId,
     key: 'BADGE_1_KEY',
     badgeCriteria: [criterion1, criterion2],
-  });
-}
-
-function _buildBadgeWithSkillSetsAndCampaignParticipationCriteria(targetProfileId, campaignSkillsId) {
-  const badgeId = databaseBuilder.factory.buildBadge({
-    key: 'BADGE_2_KEY',
-    targetProfileId,
-  }).id;
-  databaseBuilder.factory.buildBadgeCriterion({
-    scope: SCOPES.CAMPAIGN_PARTICIPATION,
-    threshold: 65,
-    badgeId,
-  });
-  const skillSet1 = databaseBuilder.factory.buildSkillSet({
-    skillIds: ['recSkillA_1', 'recSkillB_2'],
-    badgeId,
-  });
-  const skillSet2 = databaseBuilder.factory.buildSkillSet({
-    skillIds: ['recSkillA_4', 'recSkillB_4', 'recSkillB_5'],
-    badgeId,
-  });
-  databaseBuilder.factory.buildBadgeCriterion({
-    scope: SCOPES.SKILL_SET,
-    threshold: 28,
-    skillSetIds: [skillSet1.id, skillSet2.id],
-    badgeId,
-  });
-  const criterion1 = domainBuilder.buildBadgeCriterionForCalculation({
-    threshold: 65,
-    skillIds: campaignSkillsId,
-  });
-  const criterion2 = domainBuilder.buildBadgeCriterionForCalculation({
-    threshold: 28,
-    skillIds: skillSet1.skillIds,
-  });
-  const criterion3 = domainBuilder.buildBadgeCriterionForCalculation({
-    threshold: 28,
-    skillIds: skillSet2.skillIds,
-  });
-  return domainBuilder.buildBadgeForCalculation({
-    id: badgeId,
-    key: 'BADGE_2_KEY',
-    badgeCriteria: [criterion1, criterion2, criterion3],
   });
 }
 
