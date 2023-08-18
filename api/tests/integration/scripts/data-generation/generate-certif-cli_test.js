@@ -5,6 +5,8 @@ import {
   databaseBuilder as databaseBuilderCli,
 } from '../../../../scripts/data-generation/generate-certif-cli.js';
 import { databaseBuffer } from '../../../../db/database-builder/database-buffer.js';
+import { CampaignTypes } from '../../../../lib/domain/models/index.js';
+
 // FIXME Too hard to edit \o/
 describe('Integration | Scripts | generate-certif-cli.js', function () {
   const certificationCenterSup = { id: 3, type: 'SUP' };
@@ -237,12 +239,13 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
       key: complementaryCertificationBadgeKey,
       targetProfileId,
     });
-    const { skillIds } = databaseBuilderCli.factory.buildSkillSet({ badgeId });
-
-    databaseBuilderCli.factory.buildAssessmentCampaignForSkills(
-      { targetProfileId, creatorId: userId, ownerId: userId },
-      skillIds.map((id) => ({ id })),
-    );
+    const campaignId = databaseBuilderCli.factory.buildCampaign({
+      targetProfileId,
+      creatorId: userId,
+      ownerId: userId,
+      type: CampaignTypes.ASSESSMENT,
+    }).id;
+    databaseBuilderCli.factory.buildCampaignSkill({ campaignId });
 
     databaseBuilderCli.factory.buildComplementaryCertification({
       id: complementaryCertificationId,

@@ -480,7 +480,6 @@ describe('Acceptance | Route | target-profiles', function () {
           scope: 'CappedTubes',
           threshold: 50,
           badgeId: parseInt(response.result.data.id, 10),
-          skillSetIds: null,
           cappedTubes: [
             { id: 'tubeId1', level: 2 },
             { id: 'tubeId2', level: 2 },
@@ -492,7 +491,6 @@ describe('Acceptance | Route | target-profiles', function () {
           scope: 'CampaignParticipation',
           threshold: 99,
           badgeId: parseInt(response.result.data.id, 10),
-          skillSetIds: null,
           cappedTubes: null,
         };
         expect(response.statusCode).to.equal(201);

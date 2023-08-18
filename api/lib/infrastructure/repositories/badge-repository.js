@@ -71,5 +71,5 @@ const remove = async function (badgeId, { knexTransaction } = DomainTransaction.
 export { findByCampaignId, isAssociated, isRelatedToCertification, get, save, update, isKeyAvailable, remove };
 
 function _adaptModelToDb(badge) {
-  return omit(badge, ['id', 'badgeCriteria', 'skillSets', 'complementaryCertificationBadge']);
+  return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);
 }

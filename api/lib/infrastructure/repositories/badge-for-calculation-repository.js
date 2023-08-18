@@ -22,7 +22,7 @@ const findByCampaignParticipationId = async function ({
 
   const badgeIds = badgesDTO.map(({ id }) => id);
   const badgeCriteriaDTO = await knexConn('badge-criteria')
-    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .whereIn('badgeId', badgeIds)
     .orderBy('badge-criteria.id');
   const badgeCriteriaDTOByBadge = _.groupBy(badgeCriteriaDTO, 'badgeId');
@@ -59,7 +59,7 @@ const findByCampaignId = async function ({ campaignId, domainTransaction = Domai
 
   const badgeIds = badgesDTO.map(({ id }) => id);
   const badgeCriteriaDTO = await knexConn('badge-criteria')
-    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .whereIn('badgeId', badgeIds)
     .orderBy('badge-criteria.id');
   const badgeCriteriaDTOByBadge = _.groupBy(badgeCriteriaDTO, 'badgeId');
@@ -102,7 +102,7 @@ const getByCertifiableBadgeAcquisition = async function ({
   if (!badgeDTO) return null;
 
   const badgeCriteriaDTO = await knexConn('badge-criteria')
-    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes', 'skillSetIds'])
+    .select(['id', 'threshold', 'badgeId', 'scope', 'cappedTubes'])
     .where('badgeId', badgeDTO.id)
     .orderBy('badge-criteria.id');
 

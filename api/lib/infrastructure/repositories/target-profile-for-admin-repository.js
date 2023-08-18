@@ -107,7 +107,6 @@ async function _findBadges(targetProfileId) {
         criteria.push(
           new BadgeCriterion({
             ...badgeCriterionDTO,
-            skillSets: [],
             cappedTubes: [],
           }),
         );
@@ -125,7 +124,6 @@ async function _findBadges(targetProfileId) {
         criteria.push(
           new BadgeCriterion({
             ...badgeCriterionDTO,
-            skillSets: [],
             cappedTubes,
           }),
         );
