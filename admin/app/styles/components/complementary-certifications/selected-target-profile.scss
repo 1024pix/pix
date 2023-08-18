@@ -1,0 +1,10 @@
+.complementary-certification-selected-target-profile-form-change {
+  display: flex;
+  flex-direction: column;
+  gap: $pix-spacing-xs;
+  padding: $pix-spacing-s;
+
+  &__link {
+    font-size: 1.125rem;
+  }
+}

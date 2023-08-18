@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class AttachTargetProfile extends Component {
+export default class SearchBar extends Component {
   get debounce() {
     return 0;
   }
