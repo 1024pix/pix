@@ -15,6 +15,7 @@ describe('Acceptance | Route | users', function () {
     let userId;
     let certificationCenterId;
     let organizationId;
+
     beforeEach(async function () {
       server = await createServer();
       superAdmin = await insertUserWithRoleSuperAdmin();
@@ -42,6 +43,7 @@ describe('Acceptance | Route | users', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
       });
     });
+
     it('anomymizes user', async function () {
       // then
       expect(response.statusCode).to.equal(200);
