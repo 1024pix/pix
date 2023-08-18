@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, knex, domainBuilder, databaseBuilder, sinon } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -353,8 +353,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements[0].skillId).to.equal('12');
@@ -378,8 +379,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements).to.be.empty;
@@ -425,8 +427,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
@@ -458,8 +461,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -490,8 +494,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -522,8 +527,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -554,8 +560,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
@@ -598,8 +605,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements).to.have.length(3);
@@ -643,183 +651,13 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       await databaseBuilder.commit();
 
       // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(campaignId);
+      const actualKnowledgeElements = await knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation(
+        campaignId,
+      );
 
       // then
       expect(actualKnowledgeElements).to.have.length(1);
       expect(actualKnowledgeElements[0].id).to.equal(expectedKeIdUser1);
-    });
-  });
-
-  describe('findByCampaignIdAndUserIdForSharedCampaignParticipation', function () {
-    let userId, campaignId;
-
-    beforeEach(function () {
-      userId = databaseBuilder.factory.buildUser().id;
-      campaignId = databaseBuilder.factory.buildCampaign().id;
-    });
-
-    it('should return a list of knowledge elements for a given user', async function () {
-      // given
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 2 });
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 3 });
-      const otherUserId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        campaignId,
-        sharedAt: new Date('2020-01-01T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId: otherUserId,
-        campaignId,
-        sharedAt: new Date('2020-01-01T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
-        status: 'validated',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'validated',
-        userId,
-        skillId: 2,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 3,
-        status: 'validated',
-        userId: otherUserId,
-        skillId: 3,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({
-          campaignId,
-          userId,
-        });
-
-      // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
-    });
-
-    it('should return only knowledge elements before shared date', async function () {
-      // given
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        campaignId,
-        sharedAt: new Date('2020-01-01T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
-        status: 'validated',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'validated',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2020-12-12T15:00:34Z'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({
-          campaignId,
-          userId,
-        });
-
-      // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
-    });
-
-    it('should return only last knowledge element if validated for a skill within sharedAt date', async function () {
-      // given
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        campaignId,
-        sharedAt: new Date('2020-01-01T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
-        status: 'validated',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-13T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'reset',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 3,
-        status: 'validated',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-11T15:00:34Z'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({
-          campaignId,
-          userId,
-        });
-
-      // then
-      expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
-    });
-
-    it('should not return any knowledge element if latest by skill is not validated', async function () {
-      // given
-      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 1 });
-      databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        campaignId,
-        sharedAt: new Date('2020-01-01T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
-        status: 'reset',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-13T15:00:34Z'),
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        status: 'validated',
-        userId,
-        skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34Z'),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const actualKnowledgeElements =
-        await knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({
-          campaignId,
-          userId,
-        });
-
-      // then
-      expect(actualKnowledgeElements).to.have.length(0);
     });
   });
 
