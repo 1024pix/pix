@@ -1,8 +1,10 @@
-import * as dotenv from 'dotenv';
+import * as url from 'url';
 
+import * as dotenv from 'dotenv';
 dotenv.config();
 import PgBoss from 'pg-boss';
 import _ from 'lodash';
+
 import { config } from './lib/config.js';
 import { logger } from './lib/infrastructure/logger.js';
 import { JobQueue } from './lib/infrastructure/jobs/JobQueue.js';
@@ -18,7 +20,8 @@ import * as organizationLearnerRepository from './lib/infrastructure/repositorie
 import * as pgBossRepository from './lib/infrastructure/repositories/pgboss-repository.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
-import * as url from 'url';
+import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
+import { UserAnonymizedEventLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
 
 async function runJobs() {
   logger.info('Starting pg-boss');
@@ -64,6 +67,8 @@ async function runJobs() {
     SendSharedParticipationResultsToPoleEmploiJob.name,
     SendSharedParticipationResultsToPoleEmploiHandler,
   );
+
+  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
