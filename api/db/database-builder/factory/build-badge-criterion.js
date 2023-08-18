@@ -37,17 +37,6 @@ buildBadgeCriterion.scopeCampaignParticipation = function ({ id, threshold, badg
   });
 };
 
-buildBadgeCriterion.scopeSkillSets = function ({ id, threshold, badgeId, skillSetIds } = {}) {
-  return buildBadgeCriterion({
-    id,
-    scope: SCOPES.SKILL_SET,
-    threshold,
-    badgeId,
-    skillSetIds,
-    cappedTubes: [],
-  });
-};
-
 buildBadgeCriterion.scopeCappedTubes = function ({ id, threshold, badgeId, cappedTubes, name } = {}) {
   return buildBadgeCriterion({
     id,

@@ -4,7 +4,9 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { doJob } from '../../../../scripts/prod/target-profile-migrations/convert-badges.js';
 
-describe('Acceptance | Scripts | convert-badges', function () {
+// TODO delete me and script file
+// eslint-disable-next-line mocha/no-skipped-tests
+describe.skip('Acceptance | Scripts | convert-badges', function () {
   it('should execute the script as expected', async function () {
     // given
     sinon.stub(logger, 'info');
