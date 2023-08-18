@@ -1,10 +1,11 @@
-import { expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
+
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
+import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 
 describe('Integration | Repository | Competence Evaluation', function () {
   const STARTED = 'started';
@@ -368,29 +369,6 @@ describe('Integration | Repository | Competence Evaluation', function () {
 
       // then
       expect(result).to.equal(false);
-    });
-  });
-
-  describe('#updateStatusByAssessmentId', function () {
-    let assessment;
-
-    beforeEach(async function () {
-      // given
-      assessment = databaseBuilder.factory.buildAssessment({});
-      databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, status: 'current_status' });
-      await databaseBuilder.commit();
-    });
-
-    it('should update the competence status', async function () {
-      // when
-      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId({
-        assessmentId: assessment.id,
-        status: 'new_status',
-      });
-
-      // then
-      expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
-      expect(updatedCompetenceEvaluation.status).to.equal('new_status');
     });
   });
 
