@@ -179,7 +179,7 @@ jobs:
           when: always
       - run:
           name: Test
-          command: npm run test --workspace=api
+          command: pnpm --filter api run test
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
@@ -236,10 +236,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: npm run lint --workspace=mon-pix
+          command: pnpm --filter mon-pix run lint
       - run:
           name: Test
-          command: npm run test:ci --workspace=mon-pix
+          command: pnpm --filter mon-pix run test:ci
 
   orga_build_and_test:
     executor:
@@ -251,10 +251,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: npm run lint --workspace=orga
+          command: pnpm --filter orga run lint
       - run:
           name: Test
-          command: npm run test:ci --workspace=orga
+          command: pnpm --filter orga run test:ci
 
   pix1d_build_and_test:
     executor:
@@ -264,21 +264,12 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-pix1d-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-pix1d-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint
-          command: npm run lint
+          command: pnpm --filter 1d run lint
       - run:
           name: Test
-          command: npm run test:ci
+          command: pnpm --filter 1d run test:ci
 
   certif_build_and_test:
     executor:
@@ -290,10 +281,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: npm run lint --workspace=certif
+          command: pnpm --filter certif run lint
       - run:
           name: Test
-          command: npm run test:ci --workspace=certif
+          command: pnpm --filter certif run test:ci
 
   admin_build_and_test:
     executor:
@@ -305,10 +296,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: npm run lint --workspace=admin
+          command: pnpm --filter admin run lint
       - run:
           name: Test
-          command: npm run test:ci --workspace=admin
+          command: pnpm --filter admin run test:ci
 
   e2e_test_app:
     executor:
@@ -344,7 +335,7 @@ jobs:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
           background: true
-          command: npm start --workspace=api
+          command: pnpm --filter api run start
 
       - run:
           name: Start Pix App
@@ -352,7 +343,7 @@ jobs:
           environment:
             JOBS: 1
           background: true
-          command: npm start --workspace=mon-pix
+          command: pnpm --filter mon-pix run start
 
       - run:
           name: Run tests
@@ -391,7 +382,7 @@ jobs:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
           background: true
-          command: npm start --workspace=api
+          command: pnpm --filter api run start
 
       - run:
           name: Start Pix Orga
@@ -399,7 +390,7 @@ jobs:
           environment:
             JOBS: 2
           background: true
-          command: npm start --workspace=orga
+          command: pnpm --filter orga run start
 
       - run:
           name: Run tests
@@ -423,18 +414,6 @@ jobs:
       - restore_cache:
           keys:
             - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm ci --no-optional
-      - run:
-          command: cat package*.json > cachekey
-
-      - restore_cache:
-          keys:
-            - v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
       - run:
           name: Install test algo
           command: npm ci
