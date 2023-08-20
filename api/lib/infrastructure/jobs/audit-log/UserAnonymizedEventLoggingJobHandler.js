@@ -1,9 +1,9 @@
-import { UserAnonymizedEventLoggingJob } from './UserAnonymizedEventLoggingJob.js';
 import { auditLoggerRepository } from '../../repositories/audit-logger-repository.js';
+import { UserAnonymizedEventLoggingJobScheduler } from '../../events/subscribers/audit-log/UserAnonymizedEventLoggingJobScheduler.js';
 
 export class UserAnonymizedEventLoggingJobHandler {
   get name() {
-    return UserAnonymizedEventLoggingJob.name;
+    return UserAnonymizedEventLoggingJobScheduler.jobName;
   }
 
   async handle(event) {

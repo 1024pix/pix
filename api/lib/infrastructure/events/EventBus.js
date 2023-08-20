@@ -1,4 +1,5 @@
 import bluebird from 'bluebird';
+import * as EventSubscriberBuilder from './EventSubscriberBuilder.js';
 
 class SubscriberList {
   constructor() {
@@ -26,9 +27,8 @@ class SubscriberList {
 }
 
 class EventBus {
-  constructor(dependenciesBuilder) {
+  constructor() {
     this._subscriptions = new SubscriberList();
-    this._dependenciesBuilder = dependenciesBuilder;
   }
 
   subscribe(event, subscriber) {
@@ -41,7 +41,7 @@ class EventBus {
       //La transaction knex est injecté dans le subscriber via le constructeur
       //Du coup à chaque requête il faut re-instancier le subscriber pour passer
       //une nouvelle transaction.
-      const subscriber = this._dependenciesBuilder.build(subscriberClass, domainTransaction);
+      const subscriber = EventSubscriberBuilder.build(subscriberClass, domainTransaction);
       await subscriber.handle(event);
     });
   }

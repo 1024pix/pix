@@ -1,27 +1,9 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
-import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
-import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
-import { UserAnonymizedEventLoggingJob } from '../jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 
-function build(classToInstanciate, domainTransaction) {
-  const dependencies = _buildDependencies(domainTransaction);
-
-  const instance = new classToInstanciate(dependencies);
+export function build(classToInstantiate, domainTransaction) {
+  const instance = new classToInstantiate(domainTransaction);
   return new EventErrorHandler(instance, monitoringTools);
 }
-
-function _buildDependencies(domainTransaction) {
-  return {
-    monitoringTools,
-    userAnonymizedEventLoggingJob: new UserAnonymizedEventLoggingJob(domainTransaction.knexTransaction),
-    participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
-    sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
-      domainTransaction.knexTransaction,
-    ),
-  };
-}
-
-export { build };
 
 class EventErrorHandler {
   constructor(handler, logger) {
@@ -33,7 +15,7 @@ class EventErrorHandler {
     let result;
     try {
       this.logHandlerStarting(event);
-      result = await this.handler.handle(event);
+      result = await this.handler.schedule(event);
     } catch (error) {
       this.logHandlerFailed(event, error);
       throw error;

@@ -19,8 +19,8 @@ import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from './
 import * as organizationLearnerRepository from './lib/infrastructure/repositories/organization-learner-repository.js';
 import { scheduleCpfJobs } from './lib/infrastructure/jobs/cpf-export/schedule-cpf-jobs.js';
 import { MonitoredJobQueue } from './lib/infrastructure/jobs/monitoring/MonitoredJobQueue.js';
-import { UserAnonymizedEventLoggingJob } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 import { UserAnonymizedEventLoggingJobHandler } from './lib/infrastructure/jobs/audit-log/UserAnonymizedEventLoggingJobHandler.js';
+import { UserAnonymizedEventLoggingJobScheduler } from './lib/infrastructure/events/subscribers/audit-log/UserAnonymizedEventLoggingJobScheduler.js';
 
 async function runJobs() {
   logger.info('Starting pg-boss');
@@ -66,7 +66,7 @@ async function runJobs() {
     SendSharedParticipationResultsToPoleEmploiHandler,
   );
 
-  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJob.name, UserAnonymizedEventLoggingJobHandler);
+  monitoredJobQueue.performJob(UserAnonymizedEventLoggingJobScheduler.jobName, UserAnonymizedEventLoggingJobHandler);
 
   await pgBoss.schedule(
     ScheduleComputeOrganizationLearnersCertificabilityJob.name,
