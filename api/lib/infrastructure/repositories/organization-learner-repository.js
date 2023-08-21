@@ -356,16 +356,35 @@ async function updateCertificability(organizationLearner) {
   });
 }
 
-function findByOrganizationsWhichNeedToComputeCertificability() {
-  return knex('organization-learners')
+async function countByOrganizationsWhichNeedToComputeCertificability() {
+  const [{ count }] = await knex('organization-learners')
     .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
-    .pluck('organization-learners.id');
+    .count('organization-learners.id');
+  return count;
+}
+
+function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset } = {}) {
+  const queryBuilder = knex('organization-learners')
+    .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
+    .join('features', 'organization-features.featureId', '=', 'features.id')
+    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key);
+
+  if (limit) {
+    queryBuilder.limit(limit);
+  }
+
+  if (offset) {
+    queryBuilder.offset(offset);
+  }
+
+  return queryBuilder.pluck('organization-learners.id');
 }
 
 export {
   findByIds,
+  countByOrganizationsWhichNeedToComputeCertificability,
   findByOrganizationsWhichNeedToComputeCertificability,
   findByOrganizationId,
   findByOrganizationIdAndUpdatedAtOrderByDivision,
