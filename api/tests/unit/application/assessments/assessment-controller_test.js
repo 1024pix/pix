@@ -146,6 +146,7 @@ describe('Unit | Controller | assessment-controller', function () {
       sinon.stub(usecases, 'completeAssessment');
       sinon.stub(usecases, 'handleBadgeAcquisition');
       sinon.stub(usecases, 'handleTrainingRecommendation');
+      sinon.stub(usecases, 'handleStageAcquisition');
       usecases.completeAssessment.resolves({
         event: assessmentCompletedEvent,
         assessment,
