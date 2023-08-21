@@ -3,8 +3,21 @@ import * as authenticationRegistry from '../../../../../lib/domain/services/auth
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
+  describe('#getAllOidcProviderServices', function () {
+    it('returns all OIDC Providers', async function () {
+      // when
+      const services = authenticationRegistry.getAllOidcProviderServices();
+
+      // then
+      const serviceCodes = services.map((service) => service.code);
+      expect(serviceCodes).to.contain('POLE_EMPLOI');
+      expect(serviceCodes).to.contain('CNAV');
+      expect(serviceCodes).to.contain('FWB');
+    });
+  });
+
   describe('#getReadyOidcProviderServices', function () {
-    it('returns all ready OIDC Providers', async function () {
+    it('returns ready OIDC Providers', function () {
       // when
       const services = authenticationRegistry.getReadyOidcProviderServices();
 
@@ -12,6 +25,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       const serviceCodes = services.map((service) => service.code);
       expect(serviceCodes).to.contain('POLE_EMPLOI');
       expect(serviceCodes).to.contain('CNAV');
+      expect(serviceCodes).not.to.contain('FWB');
     });
   });
 
