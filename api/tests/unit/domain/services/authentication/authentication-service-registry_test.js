@@ -3,10 +3,10 @@ import * as authenticationRegistry from '../../../../../lib/domain/services/auth
 import { InvalidIdentityProviderError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Services | authentication registry', function () {
-  describe('#getOidcProviderServices', function () {
+  describe('#getReadyOidcProviderServices', function () {
     it('returns all ready OIDC Providers', async function () {
       // when
-      const services = authenticationRegistry.getOidcProviderServices();
+      const services = authenticationRegistry.getReadyOidcProviderServices();
 
       // then
       const serviceCodes = services.map((service) => service.code);

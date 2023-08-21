@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-identity-providers', function () {
     const oneOidcProviderService = {};
     const anotherOidcProviderService = {};
     const authenticationServiceRegistryStub = {
-      getOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
+      getReadyOidcProviderServices: sinon.stub().returns([oneOidcProviderService, anotherOidcProviderService]),
     };
 
     // when

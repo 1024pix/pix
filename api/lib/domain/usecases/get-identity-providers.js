@@ -1,5 +1,5 @@
 const getIdentityProviders = function ({ authenticationServiceRegistry }) {
-  return authenticationServiceRegistry.getOidcProviderServices();
+  return authenticationServiceRegistry.getReadyOidcProviderServices();
 };
 
 export { getIdentityProviders };
