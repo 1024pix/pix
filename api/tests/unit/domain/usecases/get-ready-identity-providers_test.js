@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { getIdentityProviders } from '../../../../lib/domain/usecases/get-identity-providers.js';
+import { getReadyIdentityProviders } from '../../../../lib/domain/usecases/get-ready-identity-providers.js';
 
-describe('Unit | UseCase | get-identity-providers', function () {
+describe('Unit | UseCase | get-ready-identity-providers', function () {
   it('returns oidc providers from authenticationServiceRegistry', function () {
     // given
     const oneOidcProviderService = {};
@@ -11,7 +11,7 @@ describe('Unit | UseCase | get-identity-providers', function () {
     };
 
     // when
-    const identityProviders = getIdentityProviders({
+    const identityProviders = getReadyIdentityProviders({
       authenticationServiceRegistry: authenticationServiceRegistryStub,
     });
 

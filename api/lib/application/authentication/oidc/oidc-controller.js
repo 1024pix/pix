@@ -5,7 +5,7 @@ import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';
 
 const getIdentityProviders = async function (request, h) {
-  const identityProviders = usecases.getIdentityProviders();
+  const identityProviders = usecases.getReadyIdentityProviders();
   return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 

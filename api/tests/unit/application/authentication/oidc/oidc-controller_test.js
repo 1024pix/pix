@@ -9,7 +9,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
   describe('#getIdentityProviders', function () {
     it('returns the list of oidc identity providers', async function () {
       // given
-      sinon.stub(usecases, 'getIdentityProviders').returns([
+      sinon.stub(usecases, 'getReadyIdentityProviders').returns([
         {
           code: 'SOME_OIDC_PROVIDER',
           source: 'some_oidc_provider',
@@ -23,7 +23,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const response = await oidcController.getIdentityProviders(null, hFake);
 
       // then
-      expect(usecases.getIdentityProviders).to.have.been.called;
+      expect(usecases.getReadyIdentityProviders).to.have.been.called;
       expect(response.statusCode).to.equal(200);
       expect(response.source.data.length).to.equal(1);
       expect(response.source.data).to.deep.contain({
