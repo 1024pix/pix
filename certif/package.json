@@ -112,10 +112,5 @@
     "stylelint-config-standard-scss": "^10.0.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.76.2"
-  },
-  "overrides": {
-    "ember-keyboard": {
-      "@ember/test-helpers": "^3.0.0"
-    }
   }
 }
