@@ -15,19 +15,11 @@ export async function getNextChallengeForPix1d({
   const currentActivity = await _getCurrentActivity(activityRepository, assessmentId);
 
   let answers = [];
+
   let challenge;
   if (currentActivity) {
     answers = await activityAnswerRepository.findByActivity(currentActivity.id);
-    if (_shouldLookForNextChallengeInActivity(answers)) {
-      const challengeNumber = answers.length + 1;
-      challenge = await _getNextChallenge(
-        missionId,
-        currentActivity.level,
-        challengeNumber,
-        challengeRepository,
-        currentActivity.alternativeVersion,
-      );
-    }
+    challenge = await _getChallengeForCurrentActivity(currentActivity, missionId, challengeRepository, answers);
   }
   if (!challenge) {
     challenge = _getNextActivityChallenge(
@@ -43,28 +35,36 @@ export async function getNextChallengeForPix1d({
   return challenge;
 }
 
-async function _getNextChallenge(missionId, activityLevel, challengeNumber, challengeRepository, alternativeVersion) {
-  try {
-    return await challengeRepository.getForPix1D({
+async function _getChallengeForCurrentActivity(currentActivity, missionId, challengeRepository, answers) {
+  if (_shouldLookForNextChallengeInActivity(answers)) {
+    const challengeNumber = answers.length + 1;
+    return await _getNextChallenge(
       missionId,
-      activityLevel,
+      currentActivity.level,
       challengeNumber,
-      alternativeVersion,
-    });
-  } catch (error) {
-    if (!(error instanceof NotFoundError)) {
-      throw error;
-    }
+      challengeRepository,
+      currentActivity.alternativeVersion,
+    );
   }
 }
 
-const _lastAnswerStatus = function (answers) {
+async function _getNextChallenge(missionId, activityLevel, challengeNumber, challengeRepository, alternativeVersion) {
+  return _getChallenge({
+    missionId,
+    activityLevel,
+    challengeNumber,
+    alternativeVersion,
+    challengeRepository,
+  });
+}
+
+function _lastAnswerStatus(answers) {
   if (answers.length < 1) {
     return undefined;
   }
   const lastAnswerResult = answers[answers.length - 1].result;
   return lastAnswerResult.status;
-};
+}
 
 async function _getCurrentActivity(activityRepository, assessmentId) {
   try {
@@ -94,12 +94,14 @@ async function _getNextActivityChallenge(
   }
   const nextActivityLevel = getNextActivityLevel(await activityRepository.getAllByAssessmentId(assessmentId));
   if (nextActivityLevel !== undefined) {
-    const challenge = await challengeRepository.getForPix1D({
+    const challenge = await _getChallenge({
       missionId,
       activityLevel: nextActivityLevel,
       challengeNumber: FIRST_CHALLENGE_NB,
+      challengeRepository,
     });
-    activityRepository.save(
+
+    await activityRepository.save(
       new Activity({
         assessmentId,
         level: nextActivityLevel,
@@ -109,8 +111,32 @@ async function _getNextActivityChallenge(
     );
     return challenge;
   }
-  assessmentRepository.completeByAssessmentId(assessmentId);
+  await assessmentRepository.completeByAssessmentId(assessmentId);
   return null;
+}
+
+async function _getChallenge({ missionId, activityLevel, challengeNumber, alternativeVersion, challengeRepository }) {
+  try {
+    const challenges = await challengeRepository.getForPix1D({
+      missionId,
+      activityLevel,
+      challengeNumber,
+    });
+
+    if (alternativeVersion) {
+      return challenges.find((challenge) => challenge.alternativeVersion === alternativeVersion);
+    } else {
+      return challenges[_randomIndexForChallenges(challenges.length)];
+    }
+  } catch (error) {
+    if (!(error instanceof NotFoundError)) {
+      throw error;
+    }
+  }
+}
+
+function _randomIndexForChallenges(length, random = Math.random()) {
+  return Math.floor(random * length);
 }
 
 const status = {
