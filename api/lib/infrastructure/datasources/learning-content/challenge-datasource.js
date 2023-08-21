@@ -48,7 +48,7 @@ const challengeDatasource = datasource.extend({
     const challenges = await this.list();
     const filteredChallenges = challenges.filter(
       (challenge) =>
-        challenge.skill.id === skillId &&
+        challenge.skillId === skillId &&
         (challenge.status === VALIDATED_CHALLENGE || challenge.status === PROPOSED_CHALLENGE),
     );
 
