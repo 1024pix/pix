@@ -9,24 +9,17 @@ const oidcProviderServices = [
   new FwbOidcAuthenticationService(),
 ].filter((oidcProvider) => oidcProvider.isReady);
 
-const oidcProviderServiceMap = oidcProviderServices.reduce(_associateServiceToCode, {});
-function _associateServiceToCode(map, service) {
-  return {
-    ...map,
-    [service.code]: service,
-  };
-}
-
 function getReadyOidcProviderServices() {
-  return Object.values(oidcProviderServiceMap);
+  return oidcProviderServices;
 }
-
-const oidcProviderServiceCodes = Object.keys(oidcProviderServiceMap);
 
 function getOidcProviderServiceByCode(identityProvider) {
-  if (!oidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
+  const oidcProviderService = oidcProviderServices.find((service) => identityProvider === service.code);
+  if (!oidcProviderService) {
+    throw new InvalidIdentityProviderError(identityProvider);
+  }
 
-  return oidcProviderServiceMap[identityProvider];
+  return oidcProviderService;
 }
 
 export { getReadyOidcProviderServices, getOidcProviderServiceByCode };
