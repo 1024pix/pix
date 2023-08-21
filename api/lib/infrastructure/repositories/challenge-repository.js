@@ -40,10 +40,10 @@ const get = async function (id) {
  * @param {string} missionId technical ID for theme
  * @param {string} activityLevel activity level name
  * @param {number} challengeNumber activity's challenge number
- * @param alternativeVersion
  * @returns a challenge
  */
-const getForPix1D = async function ({ missionId, activityLevel, challengeNumber, alternativeVersion }) {
+// TODO Rename to `getChallengesForPix1d`
+const getForPix1D = async function ({ missionId, activityLevel, challengeNumber }) {
   try {
     const missionNamePrefix = await _getMissionNamePrefix(missionId);
     if (missionNamePrefix.length === 0) {
@@ -58,16 +58,9 @@ const getForPix1D = async function ({ missionId, activityLevel, challengeNumber,
     if (skills.length > 1) {
       logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
     }
-    const challenges = await challengeDatasource.getBySkillId(skills[0].id);
+    const challengeDataObjects = await challengeDatasource.getBySkillId(skills[0].id);
 
-    let challenge;
-    if (alternativeVersion) {
-      challenge = challenges.find((challenge) => challenge.alternativeVersion === alternativeVersion);
-    } else {
-      challenge = challenges[Math.floor(Math.random() * challenges.length)];
-    }
-
-    return _toDomain({ challengeDataObject: challenge });
+    return _toDomainCollection({ challengeDataObjects });
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       _throwNotFoundError(activityLevel, missionId, challengeNumber);

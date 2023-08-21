@@ -171,18 +171,19 @@ describe('Integration | Repository | challenge-repository', function () {
 
       mockLearningContent(learningContent);
 
-      const expectedChallenge = {
+      const expectedChallenges = [{
         ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
         skill: undefined,
-      };
+      }];
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-      expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
+      expect(challenges[0]).to.be.instanceOf(Challenge);
+      expect(challenges.length).to.equal(1)
+      expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
+        _.omit(expectedChallenges[0], ['validator', 'skill', 'focused', 'timer']),
       );
     });
     it('should return the challenge for the given missionId', async function () {
@@ -232,138 +233,12 @@ describe('Integration | Repository | challenge-repository', function () {
       };
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-      expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
+      expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
         _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );
-    });
-    it('should return the challenge for the given alternative version', async function () {
-      //given
-      const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TRAINING;
-      const alternativeVersion = 2;
-
-      const activiteEntrainement = _buildTube({
-        id: 'activiteEntrainementId',
-        missionId,
-        name: '@rechercher_en',
-      });
-
-      const acquisEntrainement = _buildSkill({
-        id: 'recSkill2',
-        name: '@rechercher_en1',
-        tubeId: activiteEntrainement.id,
-      });
-
-      const wrongAlternantiveVersionChallenge = _buildChallenge({
-        id: 'challengeId1',
-        skill: { id: acquisEntrainement.id },
-        alternativeVersion: 3,
-      });
-
-      const correctAlternantiveVersionChallenge = _buildChallenge({
-        id: 'challengeId2',
-        skill: { id: acquisEntrainement.id },
-        alternativeVersion,
-      });
-
-      const learningContent = {
-        tubes: [activiteEntrainement],
-        challenges: [wrongAlternantiveVersionChallenge, correctAlternantiveVersionChallenge],
-        skills: [acquisEntrainement],
-      };
-
-      mockLearningContent(learningContent);
-
-      const expectedChallenge = {
-        ...domainBuilder.buildChallenge({ id: correctAlternantiveVersionChallenge.id, alternativeVersion }),
-        skill: undefined,
-      };
-
-      // when
-      const actualChallenge = await challengeRepository.getForPix1D({
-        missionId,
-        activityLevel,
-        challengeNumber: 1,
-        alternativeVersion,
-      });
-
-      // then
-      expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
-      );
-    });
-    it('should return a challenge randomly when there is no alternative version', async function () {
-      //given
-      const missionId = 'recCHAL1';
-      const activityLevel = Activity.levels.TRAINING;
-      const alternativeVersion = 2;
-
-      const activiteEntrainement = _buildTube({
-        id: 'activiteEntrainementId',
-        missionId,
-        name: '@rechercher_en',
-      });
-
-      const acquisEntrainement1 = _buildSkill({
-        id: 'recSkill2',
-        name: '@rechercher_en1',
-        tubeId: activiteEntrainement.id,
-      });
-      const acquisEntrainement2 = _buildSkill({
-        id: 'recSkill3',
-        name: '@rechercher_en1',
-        tubeId: activiteEntrainement.id,
-      });
-
-      const challenge1 = _buildChallenge({
-        id: 'challengeId1',
-        skill: { id: acquisEntrainement1.id },
-        alternativeVersion: 3,
-      });
-
-      const challenge2 = _buildChallenge({
-        id: 'challengeId2',
-        skill: { id: acquisEntrainement1.id },
-        alternativeVersion,
-      });
-      const challenge3 = _buildChallenge({
-        id: 'challengeId3',
-        skill: { id: acquisEntrainement2.id },
-        alternativeVersion,
-      });
-
-      const learningContent = {
-        tubes: [activiteEntrainement],
-        challenges: [challenge1, challenge2, challenge3],
-        skills: [acquisEntrainement1, acquisEntrainement2],
-      };
-
-      mockLearningContent(learningContent);
-
-      const expectedChallenge1 = {
-        ...domainBuilder.buildChallenge({ id: challenge1.id, alternativeVersion }),
-        skill: undefined,
-      };
-      const expectedChallenge2 = {
-        ...domainBuilder.buildChallenge({ id: challenge2.id, alternativeVersion }),
-        skill: undefined,
-      };
-      const possibleChallengesIds = [expectedChallenge1.id, expectedChallenge2.id];
-      // when
-      const actualChallenge = await challengeRepository.getForPix1D({
-        missionId,
-        activityLevel,
-        challengeNumber: 1,
-      });
-
-      // then
-      expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(possibleChallengesIds).to.include(actualChallenge.id);
     });
     it('should return the correct validator for the challenge type', async function () {
       // given
@@ -386,14 +261,13 @@ describe('Integration | Repository | challenge-repository', function () {
       domainBuilder.buildChallenge({ id: challenge.id, type: challenge.type });
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-
-      expect(actualChallenge.validator).to.be.instanceOf(Validator);
-      expect(actualChallenge.validator.solution.id).to.equal(challenge.id);
-      expect(actualChallenge.validator.solution.type).to.equal(challenge.type);
-      expect(actualChallenge.validator.solution.value).to.equal(challenge.solution);
+      expect(challenges[0].validator).to.be.instanceOf(Validator);
+      expect(challenges[0].validator.solution.id).to.equal(challenge.id);
+      expect(challenges[0].validator.solution.type).to.equal(challenge.type);
+      expect(challenges[0].validator.solution.value).to.equal(challenge.solution);
     });
   });
 
