@@ -6,7 +6,7 @@ async function _createTargetProfile(databaseBuilder) {
     frameworks: [
       {
         chooseCoreFramework: true,
-        countTubes: 30,
+        countTubes: 5,
         minLevel: 3,
         maxLevel: 5,
       },

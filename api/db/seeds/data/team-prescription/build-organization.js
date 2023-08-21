@@ -13,10 +13,37 @@ function _createScoOrganization(databaseBuilder) {
   databaseBuilder.factory.buildOrganization({
     id: SCO_ORGANIZATION_ID,
     type: 'SCO',
-    name: 'Sco Orga team prescription',
+    name: 'SCO Orga - team prescription',
     isManagingStudents: true,
     externalId: 'PRESCRIPTION',
   });
+
+  _createUserAdminForScoOrganization(databaseBuilder);
+}
+function _createSupOrganization(databaseBuilder) {
+  databaseBuilder.factory.buildOrganization({
+    id: SUP_ORGANIZATION_ID,
+    type: 'SUP',
+    name: 'SUP Orga - team prescription',
+    isManagingStudents: true,
+    externalId: 'PRESCRIPTION',
+  });
+
+  _createUserAdminForSupOrganization(databaseBuilder);
+}
+function _createProOrganization(databaseBuilder) {
+  databaseBuilder.factory.buildOrganization({
+    id: PRO_ORGANIZATION_ID,
+    type: 'PRO',
+    name: 'PRO Orga - team prescription',
+    isManagingStudents: false,
+    externalId: 'PRESCRIPTION',
+  });
+
+  _createUserAdminForProOrganization(databaseBuilder);
+}
+
+function _createUserAdminForScoOrganization(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_ORGANIZATION_USER_ID,
     firstName: 'Orga Sco',
@@ -34,14 +61,8 @@ function _createScoOrganization(databaseBuilder) {
     organizationRole: 'ADMIN',
   });
 }
-function _createSupOrganization(databaseBuilder) {
-  databaseBuilder.factory.buildOrganization({
-    id: SUP_ORGANIZATION_ID,
-    type: 'SUP',
-    name: 'Sup Orga team prescription',
-    isManagingStudents: true,
-    externalId: 'PRESCRIPTION',
-  });
+
+function _createUserAdminForSupOrganization(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: SUP_ORGANIZATION_USER_ID,
     firstName: 'Orga Sup',
@@ -59,14 +80,8 @@ function _createSupOrganization(databaseBuilder) {
     organizationRole: 'ADMIN',
   });
 }
-function _createProOrganization(databaseBuilder) {
-  databaseBuilder.factory.buildOrganization({
-    id: PRO_ORGANIZATION_ID,
-    type: 'PRO',
-    name: 'Pro Orga team prescription',
-    isManagingStudents: false,
-    externalId: 'PRESCRIPTION',
-  });
+
+function _createUserAdminForProOrganization(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: PRO_ORGANIZATION_USER_ID,
     firstName: 'Orga Pro',
@@ -85,7 +100,7 @@ function _createProOrganization(databaseBuilder) {
   });
 }
 
-function _createUserWithAllTypesOfOrga(databaseBuilder) {
+function _createUserMemberWithAllTypesOfOrga(databaseBuilder) {
   databaseBuilder.factory.buildUser.withRawPassword({
     id: ALL_ORGANIZATION_USER_ID,
     firstName: 'All Orga',
@@ -97,27 +112,29 @@ function _createUserWithAllTypesOfOrga(databaseBuilder) {
     shouldChangePassword: false,
     pixOrgaTermsOfServiceAccepted: true,
   });
+
   databaseBuilder.factory.buildMembership({
     userId: ALL_ORGANIZATION_USER_ID,
     organizationId: SCO_ORGANIZATION_ID,
-    organizationRole: 'ADMIN',
+    organizationRole: 'MEMBER',
   });
   databaseBuilder.factory.buildMembership({
     userId: ALL_ORGANIZATION_USER_ID,
     organizationId: SUP_ORGANIZATION_ID,
-    organizationRole: 'ADMIN',
+    organizationRole: 'MEMBER',
   });
   databaseBuilder.factory.buildMembership({
     userId: ALL_ORGANIZATION_USER_ID,
     organizationId: PRO_ORGANIZATION_ID,
-    organizationRole: 'ADMIN',
+    organizationRole: 'MEMBER',
   });
 }
 
-export async function buildOrganizations(databaseBuilder) {
-  await _createScoOrganization(databaseBuilder);
-  await _createSupOrganization(databaseBuilder);
-  await _createProOrganization(databaseBuilder);
-  await _createUserWithAllTypesOfOrga(databaseBuilder);
+export function buildOrganizations(databaseBuilder) {
+  _createScoOrganization(databaseBuilder);
+  _createSupOrganization(databaseBuilder);
+  _createProOrganization(databaseBuilder);
+  _createUserMemberWithAllTypesOfOrga(databaseBuilder);
+
   return databaseBuilder.commit();
 }
