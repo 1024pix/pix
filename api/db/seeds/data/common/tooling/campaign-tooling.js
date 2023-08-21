@@ -6,6 +6,7 @@ import * as generic from './generic.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
 import { getPlacementProfile } from '../../../../../lib/domain/services/placement-profile-service.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 
 export { createAssessmentCampaign, createProfilesCollectionCampaign };
 
@@ -35,7 +36,17 @@ export { createAssessmentCampaign, createProfilesCollectionCampaign };
  * @param {string} customResultPageButtonUrl
  * @param {boolean} multipleSendings
  * @param {string} assessmentMethod
- * @param configCampaign { participantCount: number }
+ * @param configCampaign
+ * {
+ *  participantCount: number,
+ *  completionDistribution: {
+ *    started: number,
+ *    to_share: number,
+ *    shared: number,
+ *    shared_one_validated_skill: number,
+ *    shared_perfect: number,
+ *  }
+ * }
  * @returns {Promise<{campaignId: number}>}
  */
 async function createAssessmentCampaign({
@@ -63,6 +74,18 @@ async function createAssessmentCampaign({
   assessmentMethod,
   configCampaign,
 }) {
+  const completionDistribution = [
+    ...Array(configCampaign.completionDistribution?.started || 0).fill('STARTED'),
+    ...Array(configCampaign.completionDistribution?.to_share || 0).fill('TO_SHARE'),
+    ...Array(configCampaign.completionDistribution?.shared || 0).fill('SHARED'),
+    ...Array(configCampaign.completionDistribution?.shared_one_validated_skill || 0).fill('SHARED_ONE_VALIDATED_SKILL'),
+    ...Array(configCampaign.completionDistribution?.shared_perfect || 0).fill('SHARED_PERFECT'),
+  ];
+
+  if (completionDistribution.length < configCampaign.participantCount)
+    completionDistribution.push(
+      ...Array(configCampaign.participantCount - completionDistribution.length).fill('SHARED'),
+    );
   const { realCampaignId, realOrganizationId } = _buildCampaign({
     databaseBuilder,
     campaignId,
@@ -88,19 +111,13 @@ async function createAssessmentCampaign({
     multipleSendings,
     assessmentMethod,
   });
-  const cappedTubes = await databaseBuilder
-    .knex('target-profile_tubes')
-    .select('tubeId', 'level')
-    .where({ targetProfileId });
-  let skillCount = 0;
-  for (const cappedTube of cappedTubes) {
-    const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.tubeId);
-    const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
-    skillCount += skillsCapped.length;
-    skillsCapped.map((skill) =>
-      databaseBuilder.factory.buildCampaignSkill({ campaignId: realCampaignId, skillId: skill.id }),
-    );
-  }
+
+  const campaignSkills = await _buildCampaignSkills({
+    databaseBuilder,
+    campaignId: realCampaignId,
+    targetProfileId,
+  });
+
   const badgeIds = await databaseBuilder.knex('badges').pluck('id').where({ targetProfileId });
 
   const userAndLearnerIds = await _createOrRetrieveUsersAndLearners(
@@ -109,64 +126,63 @@ async function createAssessmentCampaign({
     configCampaign.participantCount,
   );
 
-  const answersAndKnowledgeElementsForProfile = await _getProfile('PERFECT');
-  const sharedAt = new Date();
-  let i = 0;
   for (const { userId, organizationLearnerId } of userAndLearnerIds) {
-    const isPerfect = Boolean(i % 2);
-    const hasValidatedOneSkill = isPerfect ? false : generic.pickOneRandomAmong([true, false]);
-    let validatedSkillsCount = 0,
-      masteryRate = 0,
-      pixScore = 0;
-    if (isPerfect) {
-      validatedSkillsCount = answersAndKnowledgeElementsForProfile.length;
-      masteryRate = 1;
-      pixScore = _.floor(_.sumBy(answersAndKnowledgeElementsForProfile, ({ keData }) => keData.earnedPix));
-    }
-    if (hasValidatedOneSkill) {
-      validatedSkillsCount = 1;
-      masteryRate = 1 / skillCount;
-      pixScore = _.floor(answersAndKnowledgeElementsForProfile[0].keData.earnedPix);
-    }
+    const createdDate = dayjs(createdAt).add(_.random(2, 10), 'day').toDate();
+    const sharedDate = dayjs(createdDate).add(_.random(2, 20), 'day').toDate();
+
+    const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore } =
+      await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
+
+    const isStarted = status === CampaignParticipationStatuses.STARTED;
+    const isShared = status === CampaignParticipationStatuses.SHARED;
+    const sharedAt = isShared ? sharedDate : null;
+
     const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
       campaignId: realCampaignId,
       userId,
       organizationLearnerId,
       sharedAt,
+      createdAt: createdDate,
       validatedSkillsCount,
       masteryRate,
       pixScore,
-      status: CampaignParticipationStatuses.SHARED,
+      status,
       isImproved: false,
-      isCertifiable: true,
+      isCertifiable: null,
     }).id;
+
     const assessmentId = databaseBuilder.factory.buildAssessment({
       userId,
       type: Assessment.types.CAMPAIGN,
-      state: Assessment.states.COMPLETED,
+      createdAt: createdDate,
+      state: isStarted ? Assessment.states.STARTED : Assessment.states.COMPLETED,
       isImproving: false,
       lastQuestionDate: new Date(),
-      lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+      lastQuestionState: isStarted ? null : Assessment.statesOfLastQuestion.ASKED,
       competenceId: null,
       campaignParticipationId,
     }).id;
     const keDataForSnapshot = [];
-    if (isPerfect) {
-      for (const { answerData, keData } of answersAndKnowledgeElementsForProfile) {
-        const answerId = databaseBuilder.factory.buildAnswer({
+
+    for (const { answerData, keData } of answersAndKnowledgeElements) {
+      const answerId = databaseBuilder.factory.buildAnswer({
+        assessmentId,
+        answerData,
+        createdAt: createdDate,
+      }).id;
+
+      keDataForSnapshot.push(
+        databaseBuilder.factory.buildKnowledgeElement({
           assessmentId,
-          answerData,
-        }).id;
-        keDataForSnapshot.push(
-          databaseBuilder.factory.buildKnowledgeElement({
-            assessmentId,
-            answerId,
-            userId,
-            ...keData,
-            createdAt: dayjs().subtract(1, 'day'),
-          }),
-        );
-      }
+          answerId,
+          userId,
+          ...keData,
+          createdAt: dayjs(sharedDate).subtract(1, 'day'),
+        }),
+      );
+    }
+
+    if (!isStarted) {
       for (const badgeId of badgeIds) {
         databaseBuilder.factory.buildBadgeAcquisition({
           badgeId,
@@ -174,28 +190,15 @@ async function createAssessmentCampaign({
           campaignParticipationId,
         });
       }
-    } else if (hasValidatedOneSkill) {
-      const { answerData, keData } = answersAndKnowledgeElementsForProfile[0];
-      const answerId = databaseBuilder.factory.buildAnswer({
-        assessmentId,
-        answerData,
-      }).id;
-      keDataForSnapshot.push(
-        databaseBuilder.factory.buildKnowledgeElement({
-          assessmentId,
-          answerId,
-          userId,
-          ...keData,
-          createdAt: dayjs().subtract(1, 'day'),
-        }),
-      );
     }
-    databaseBuilder.factory.buildKnowledgeElementSnapshot({
-      userId,
-      snappedAt: sharedAt,
-      snapshot: JSON.stringify(keDataForSnapshot),
-    });
-    ++i;
+
+    if (isShared) {
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId,
+        snappedAt: sharedAt,
+        snapshot: JSON.stringify(keDataForSnapshot),
+      });
+    }
   }
 
   await databaseBuilder.commit();
@@ -352,6 +355,25 @@ async function createProfilesCollectionCampaign({
   return { campaignId: realCampaignId };
 }
 
+async function _buildCampaignSkills({ databaseBuilder, campaignId, targetProfileId }) {
+  const skills = [];
+  const cappedTubes = await databaseBuilder
+    .knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where({ targetProfileId });
+
+  for (const cappedTube of cappedTubes) {
+    const skillsForTube = await learningContent.findActiveSkillsByTubeId(cappedTube.tubeId);
+    const skillsCapped = skillsForTube.filter((skill) => skill.level <= parseInt(cappedTube.level));
+    skillsCapped.forEach((skill) => {
+      skills.push(skill);
+      databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id });
+    });
+  }
+
+  return skills;
+}
+
 function _buildCampaign({
   databaseBuilder,
   campaignId,
@@ -472,5 +494,108 @@ async function _getProfile(profileName) {
     default:
       answersAndKnowledgeElements = [];
   }
+  return answersAndKnowledgeElements;
+}
+
+async function _getCompletionCampaignParticipationData(completionName, campaignSkills, sharedDate) {
+  let answersAndKnowledgeElements,
+    status,
+    computedScore,
+    validatedSkillsCount = 0,
+    masteryRate = 0,
+    pixScore = 0;
+
+  switch (completionName) {
+    case 'STARTED':
+      answersAndKnowledgeElements = [];
+      status = CampaignParticipationStatuses.STARTED;
+      break;
+    case 'TO_SHARE':
+      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(
+        campaignSkills,
+        generic.pickOneRandomAmong(_.range(campaignSkills.length)),
+      );
+      status = CampaignParticipationStatuses.TO_SHARE;
+      break;
+    case 'SHARED':
+      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(
+        campaignSkills,
+        sharedDate,
+        generic.pickOneRandomAmong(_.range(campaignSkills.length)),
+      );
+      status = CampaignParticipationStatuses.SHARED;
+
+      computedScore = _getCampaignParticipationResults(answersAndKnowledgeElements);
+      validatedSkillsCount = computedScore.validatedSkillsCount;
+      pixScore = computedScore.pixScore;
+      masteryRate = computedScore.masteryRate;
+      break;
+    case 'SHARED_ONE_VALIDATED_SKILL':
+      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(campaignSkills, 1);
+      status = CampaignParticipationStatuses.SHARED;
+
+      computedScore = _getCampaignParticipationResults(answersAndKnowledgeElements);
+      validatedSkillsCount = computedScore.validatedSkillsCount;
+      pixScore = computedScore.pixScore;
+      masteryRate = computedScore.masteryRate;
+      break;
+    case 'SHARED_PERFECT':
+      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(campaignSkills, campaignSkills.length);
+      status = CampaignParticipationStatuses.SHARED;
+
+      computedScore = _getCampaignParticipationResults(answersAndKnowledgeElements);
+      validatedSkillsCount = computedScore.validatedSkillsCount;
+      pixScore = computedScore.pixScore;
+      masteryRate = computedScore.masteryRate;
+      break;
+  }
+
+  return {
+    status,
+    answersAndKnowledgeElements,
+    validatedSkillsCount,
+    masteryRate,
+    pixScore,
+  };
+}
+
+function _getCampaignParticipationResults(answersAndKnowledgeElements) {
+  const validatedSkills = answersAndKnowledgeElements.filter(({ keData }) => keData.status === 'validated');
+
+  const pixScore = _.floor(_.sumBy(validatedSkills, ({ keData }) => keData.earnedPix));
+  const validatedSkillsCount = validatedSkills.length;
+  const masteryRate = validatedSkillsCount / answersAndKnowledgeElements.length;
+
+  return { pixScore, validatedSkillsCount, masteryRate };
+}
+
+async function _getKnowledgeElementFromSkills(skills, validatedSkill = 0) {
+  const answersAndKnowledgeElements = [];
+  const orderedSkills = _.sortBy(skills, 'level');
+
+  let i = 0;
+  for (const skill of orderedSkills) {
+    const isOk = i < validatedSkill;
+
+    const challenge = await learningContent.findFirstValidatedChallengeBySkillId(skill.id);
+    const answerData = {
+      value: 'dummy value',
+      result: isOk ? 'ok' : 'ko',
+      challengeId: challenge.id,
+      timeout: null,
+      resultDetails: 'dummy value',
+    };
+
+    const keData = {
+      source: 'direct',
+      status: isOk ? KnowledgeElement.StatusType.VALIDATED : KnowledgeElement.StatusType.INVALIDATED,
+      skillId: skill.id,
+      earnedPix: isOk ? skill.pixValue : 0,
+      competenceId: skill.competenceId,
+    };
+    answersAndKnowledgeElements.push({ answerData, keData });
+    i++;
+  }
+
   return answersAndKnowledgeElements;
 }
