@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.25.0 (21/08/2023)
+
+
+### :rocket: Amélioration
+- [#6896](https://github.com/1024pix/pix/pull/6896) [FEATURE] Affiche les Contenu Formatifs une fois les résultats envoyés (PIX-8730) .
+- [#6856](https://github.com/1024pix/pix/pull/6856) [FEATURE] Prendre en compte le statut du test statique afin de le rendre jouable si actif, ou bien de bloquer son accès si il est inactif (PIX-8683).
+
+### :building_construction: Tech
+- [#6902](https://github.com/1024pix/pix/pull/6902) [TECH] Supprimer des méthodes de repositories non utilisées.
+
+### :bug: Correction
+- [#6903](https://github.com/1024pix/pix/pull/6903) [BUGFIX] Ajoute de la pagination sur le job de calcul automatique de la certificabilité pour le SCO (PIX-8950).
+- [#6899](https://github.com/1024pix/pix/pull/6899) [BUGFIX] La prévisualisation d'épreuve cause le crash du conteneur par épuisement mémoire (Pix-8884).
+- [#6850](https://github.com/1024pix/pix/pull/6850) [BUGFIX] afficher seulement les RT acquis et valides dans le bloc skill-review-share (PIX-8682).
+
+### :arrow_up: Montée de version
+- [#6910](https://github.com/1024pix/pix/pull/6910) [BUMP] Mise à jour de ember-keyboard .
+- [#6908](https://github.com/1024pix/pix/pull/6908) [BUMP] Update dependency lint-staged to v14 (dossier racine).
+
+### :coffee: Autre
+- [#6881](https://github.com/1024pix/pix/pull/6881) [FEAT] Validation du nouveau PC à rattacher et son éventuel changement (PIX-8858).
+
 ## v4.24.0 (17/08/2023)
 
 
