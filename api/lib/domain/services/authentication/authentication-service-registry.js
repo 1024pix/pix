@@ -17,11 +17,11 @@ function _associateServiceToCode(map, service) {
   };
 }
 
-const oidcProviderServiceCodes = Object.keys(oidcProviderServiceMap);
-
-function getOidcProviderServices() {
+function getReadyOidcProviderServices() {
   return Object.values(oidcProviderServiceMap);
 }
+
+const oidcProviderServiceCodes = Object.keys(oidcProviderServiceMap);
 
 function getOidcProviderServiceByCode(identityProvider) {
   if (!oidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
@@ -29,4 +29,4 @@ function getOidcProviderServiceByCode(identityProvider) {
   return oidcProviderServiceMap[identityProvider];
 }
 
-export { getOidcProviderServices, getOidcProviderServiceByCode };
+export { getReadyOidcProviderServices, getOidcProviderServiceByCode };
