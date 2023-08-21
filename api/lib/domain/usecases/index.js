@@ -6,16 +6,15 @@ import { config } from '../../config.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
-import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
-
-import * as TargetProfileForSpecifierRepository from '../../infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
-import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
-import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
+import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
+import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
+import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
+import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import * as authenticationServiceRegistry from '../services/authentication/authentication-service-registry.js';
 import * as authenticationSessionService from '../../domain/services/authentication/authentication-session-service.js';
@@ -124,9 +123,9 @@ import * as organizationParticipantRepository from '../../infrastructure/reposit
 import * as organizationPlacesCapacityRepository from '../../infrastructure/repositories/organization-places-capacity-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organizations/organization-places-lot-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
+import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as organizationTagRepository from '../../infrastructure/repositories/organization-tag-repository.js';
 import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
-import * as organizationsToAttachToTargetProfileRepository from '../../infrastructure/repositories/organizations-to-attach-to-target-profile-repository.js';
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
@@ -155,22 +154,22 @@ import * as sessionForSupervisorKitRepository from '../../infrastructure/reposit
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
+import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as sessionValidator from '../validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
-import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as skillSetRepository from '../../infrastructure/repositories/skill-set-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
-import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository.js';
+import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
+import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
-import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
-import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as targetProfileForAdminRepository from '../../infrastructure/repositories/target-profile-for-admin-repository.js';
+import * as TargetProfileForSpecifierRepository from '../../infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
 import * as targetProfileForUpdateRepository from '../../infrastructure/repositories/target-profile-for-update-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
@@ -181,8 +180,8 @@ import * as thematicRepository from '../../infrastructure/repositories/thematic-
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
-import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
+import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as userRepository from '../../infrastructure/repositories/user-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
@@ -426,6 +425,7 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './organization-learners-management') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './organizations-administration') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './sessions-mass-import') })),
+  ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
