@@ -59,10 +59,14 @@ class RedisClient {
   }
 
   async quit() {
-    if (this._client.status == 'end') {
-      return;
+    try {
+      await this._client.quit();
+    } catch (e) {
+      if (e.message === 'Connection is closed.') {
+        return;
+      }
+      logger.warn({ redisClient: this._clientName, err: e }, 'Error encountered while quitting');
     }
-    await this._client.quit();
   }
 }
 
