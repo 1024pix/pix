@@ -57,7 +57,7 @@
     "@formatjs/intl-getcanonicallocales": "^2.0.5",
     "@formatjs/intl-locale": "^3.0.11",
     "@formatjs/intl-pluralrules": "^5.1.8",
-    "@fortawesome/ember-fontawesome": "^1.0.0",
+    "@fortawesome/ember-fontawesome": "git+https://github.com/1024pix/ember-fontawesome#732cc036efc66eaa706977a71c072325347e6b5b",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",
@@ -114,11 +114,8 @@
     "stylelint-config-standard-scss": "^10.0.0",
     "webpack": "^5.76.3"
   },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.1"
-  },
   "bugs": {
     "url": "https://github.com/1024pix/pix/issues"
   },
   "homepage": "https://github.com/1024pix/pix#readme"
-}
+ }

@@ -23,36 +23,27 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "mkdir -p dist",
-    "build": "run-s ci:front build:front",
-    "build:front": "run-p --print-label \"build --workspaces --if-present\" build:1d",
-    "build:1d": "(cd 1d && npm run build) && mkdir -p dist && cp -R 1d/dist dist/1d",
-    "ci:front": "run-s --print-label ci:all ci:1d",
-    "ci:all": "npm ci",
-    "ci:1d": "cd 1d && npm ci",
+    "build": "pnpm --parallel --recursive --if-present build",
     "compute-lead-times": "node ./scripts/compute-lead-times",
-    "clean": "run-p --print-label clean:workspaces clean:1d && npm run clean:root",
-    "clean:workspaces": "npm run clean --workspaces --if-present",
-    "clean:1d": "cd 1d && npm run clean",
+    "clean": "pnpm clean:workspaces && pnpm clean:root",
+    "clean:workspaces": "pnpm --parallel --recursive --if-present clean",
     "clean:root": "rm -rf node_modules && rm -rf tmp",
     "configure": "./scripts/configure.sh",
-    "lint": "run-p --print-label lint:*",
-    "lint:1d": "cd 1d && npm run lint",
+    "lint": "pnpm lint:*",
     "lint:scripts": "eslint scripts",
-    "lint:yaml": "run-p lint:yaml:*",
+    "lint:yaml": "pnpm /^lint:yaml:.*/",
     "lint:yaml:dotfiles": "eslint --ext .yml .circleci && eslint --ext .yaml .github",
     "lint:yaml:files": "eslint --ext .yaml --ignore-pattern docker-compose.yaml ./*.yaml",
     "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "local:add-optional-checks": "husky install",
     "local:remove-optional-checks": "git config --unset core.hooksPath",
-    "preinstall": "npx check-engine",
-    "start": "run-p --print-label \"start --workspaces --if-present\" start:1d",
-    "start:1d": "cd 1d && npm start",
-    "test": "run-p --print-label test:*",
-    "test:packages": "npm test --workspaces --if-present",
-    "test:api": "npm run lint --workspace=api && npm test --workspace=api",
-    "test:api:debug": "npm run test:api:debug --workspace=api",
-    "test:1d": "cd 1d && npm test",
-    "test:root": "npm run test:scripts",
+    "preinstall": "pnpm dlx check-engine",
+    "start": "pnpm --parallel --recursive --if-present start",
+    "test": "pnpm /^test:.*/",
+    "test:packages": "pnpm --filter test --workspaces --if-present",
+    "test:api": "pnpm --filter api lint && pnpm --filter api test",
+    "test:api:debug": "pnpm --filter api run test:api:debug",
+    "test:root": "pnpm test:scripts",
     "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests",
     "domains:install": "./scripts/local-domains/install",
     "domains:start": "cd ./scripts/local-domains/ && docker-compose up -d",
@@ -60,7 +51,6 @@
   },
   "dependencies": {
     "bluebird": "3.7.2",
-    "bookshelf": "^1.2.0",
     "d3-dsv": "^2.0.0",
     "moment": "^2.29.1",
     "npm-run-all": "^4.1.5"
@@ -77,8 +67,8 @@
   "peerDependencies": {
     "markdown-link-check": "^3.8.6"
   },
-  "overrides": {
-    "bookshelf": {
+  "pnpm": {
+    "overrides": {
       "knex": "^2.1.0"
     }
   },

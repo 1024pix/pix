@@ -153,7 +153,7 @@ jobs:
       - run:
           name: Lint and test root
           command: |
-            pnpm install --frozen-lockfile
+            pnpm install --frozen-lockfile --shamefully-hoist
             pnpm run lint:scripts
             pnpm run lint:yaml
             pnpm run test:root
