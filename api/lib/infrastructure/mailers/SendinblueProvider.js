@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import SibApiV3Sdk from 'sib-api-v3-sdk';
+import SibApiV3Sdk from '@getbrevo/brevo';
 
 import { MailingProvider } from './MailingProvider.js';
 import { config } from '../../config.js';
