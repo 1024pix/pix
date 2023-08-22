@@ -1,4 +1,5 @@
 import { UserAnonymized } from '../../../../domain/events/UserAnonymized.js';
+import { config } from '../../../../config.js';
 
 export class UserAnonymizedEventLoggingJobScheduler {
   constructor({ userAnonymizedEventLoggingJob }) {
@@ -12,6 +13,8 @@ export class UserAnonymizedEventLoggingJobScheduler {
   }
 
   async handle(event) {
-    await this.userAnonymizedEventLoggingJob.schedule(event);
+    if (config.auditLogger.isEnabled) {
+      await this.userAnonymizedEventLoggingJob.schedule(event);
+    }
   }
 }
