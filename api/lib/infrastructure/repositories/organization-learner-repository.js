@@ -361,6 +361,7 @@ async function countByOrganizationsWhichNeedToComputeCertificability() {
     .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
+    .where('organization-learners.isDisabled', false)
     .count('organization-learners.id');
   return count;
 }
@@ -369,7 +370,8 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset } 
   const queryBuilder = knex('organization-learners')
     .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
     .join('features', 'organization-features.featureId', '=', 'features.id')
-    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key);
+    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
+    .where('organization-learners.isDisabled', false);
 
   if (limit) {
     queryBuilder.limit(limit);
