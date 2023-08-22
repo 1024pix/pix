@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
 import { CampaignReport } from '../../../../lib/domain/read-models/CampaignReport.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
@@ -75,6 +75,7 @@ describe('Integration | Repository | Campaign-Report', function () {
           targetProfileDescription: targetProfile.description,
           targetProfileName: targetProfile.name,
           targetProfileTubesCount: 2,
+          targetProfileAreKnowledgeElementsResettable: false,
         });
       });
 

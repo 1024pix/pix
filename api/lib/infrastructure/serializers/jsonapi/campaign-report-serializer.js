@@ -26,6 +26,7 @@ const serialize = function (campaignReports, meta, { tokenForCampaignResults } =
       'targetProfileTubesCount',
       'targetProfileThematicResultCount',
       'targetProfileHasStage',
+      'targetProfileAreKnowledgeElementsResettable',
       'ownerId',
       'ownerLastName',
       'ownerFirstName',
