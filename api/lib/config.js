@@ -110,6 +110,7 @@ const configuration = (function () {
       },
     ],
     auditLogger: {
+      isEnabled: isBooleanFeatureEnabledElseDefault(process.env.PIX_AUDIT_LOGGER_ENABLED, false),
       baseUrl: process.env.PIX_AUDIT_LOGGER_BASE_URL,
       clientSecret: process.env.PIX_AUDIT_LOGGER_CLIENT_SECRET,
     },
