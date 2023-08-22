@@ -8,7 +8,7 @@ const schema = Joi.object({
   DATABASE_CONNECTION_POOL_MAX_SIZE: Joi.number().integer().min(0).optional(),
   DATABASE_CONNECTION_POOL_MIN_SIZE: Joi.number().integer().min(0).optional(),
   MAILING_ENABLED: Joi.string().optional().valid('true', 'false'),
-  MAILING_PROVIDER: Joi.string().optional().valid('sendinblue'),
+  MAILING_PROVIDER: Joi.string().optional().valid('sendinblue', 'brevo'),
   SENDINBLUE_API_KEY: Joi.string().optional(),
   SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID: Joi.number().optional(),
   SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID: Joi.number().optional(),
