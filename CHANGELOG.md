@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v4.26.0 (22/08/2023)
+
+
+### :rocket: Amélioration
+- [#6869](https://github.com/1024pix/pix/pull/6869) [FEATURE] Insérer en base les acquisitions de paliers (PIX-8604).
+
+### :building_construction: Tech
+- [#6914](https://github.com/1024pix/pix/pull/6914) [TECH] Ne plus jeter une erreur quand la connexion à Redis est déjà fermée.
+
+### :bug: Correction
+- [#6915](https://github.com/1024pix/pix/pull/6915) [BUGFIX] Réduit la taille des variables d'environnement et ignore les prescrits désactivés pour le batch (PIX-8955).
+
 ## v4.25.0 (21/08/2023)
 
 
