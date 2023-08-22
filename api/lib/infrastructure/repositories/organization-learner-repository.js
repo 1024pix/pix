@@ -357,19 +357,31 @@ async function updateCertificability(organizationLearner) {
 }
 
 async function countByOrganizationsWhichNeedToComputeCertificability() {
-  const [{ count }] = await knex('organization-learners')
-    .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
+  const [{ count }] = await knex('view-active-organization-learners')
+    .join(
+      'organization-features',
+      'view-active-organization-learners.organizationId',
+      '=',
+      'organization-features.organizationId',
+    )
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
-    .count('organization-learners.id');
+    .where('view-active-organization-learners.isDisabled', false)
+    .count('view-active-organization-learners.id');
   return count;
 }
 
 function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset } = {}) {
-  const queryBuilder = knex('organization-learners')
-    .join('organization-features', 'organization-learners.organizationId', '=', 'organization-features.organizationId')
+  const queryBuilder = knex('view-active-organization-learners')
+    .join(
+      'organization-features',
+      'view-active-organization-learners.organizationId',
+      '=',
+      'organization-features.organizationId',
+    )
     .join('features', 'organization-features.featureId', '=', 'features.id')
-    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key);
+    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
+    .where('view-active-organization-learners.isDisabled', false);
 
   if (limit) {
     queryBuilder.limit(limit);
@@ -379,7 +391,7 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset } 
     queryBuilder.offset(offset);
   }
 
-  return queryBuilder.pluck('organization-learners.id');
+  return queryBuilder.pluck('view-active-organization-learners.id');
 }
 
 export {
