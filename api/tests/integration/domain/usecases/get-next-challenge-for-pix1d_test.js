@@ -1,7 +1,5 @@
 import { domainBuilder, expect, mockLearningContent, databaseBuilder, knex } from '../../../test-helper.js';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
-import { Activity } from '../../../../lib/domain/models/Activity.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Challenge, Assessment, Activity } from '../../../../lib/domain/models/index.js';
 import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';

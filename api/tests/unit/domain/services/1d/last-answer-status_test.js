@@ -1,0 +1,23 @@
+import { expect } from '../../../../test-helper.js';
+import { getLastAnswerStatus } from '../../../../../lib/domain/services/1d/last-answer-status.js';
+import { ActivityAnswer } from '../../../../../lib/domain/models/index.js';
+
+describe('Unit | Service | getLastAnswerStatus', function () {
+  describe('#getLastAnswerStatus', function () {
+    it('returns undefined when there is no answer', function () {
+      const answers = [];
+
+      const result = getLastAnswerStatus(answers);
+
+      expect(result).to.be.undefined;
+    });
+
+    it('returns the status of the last answer', async function () {
+      const answers = [new ActivityAnswer({ result: 'ko' })];
+
+      const result = getLastAnswerStatus(answers);
+
+      expect(result).to.equal('ko');
+    });
+  });
+});

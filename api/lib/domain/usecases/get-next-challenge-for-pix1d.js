@@ -1,9 +1,8 @@
-import { NotFoundError } from '../errors.js';
-import { Activity } from '../models/Activity.js';
-import { getNextActivityLevel } from '../services/algorithm-methods/pix1d.js';
 import { getCurrentActivity } from '../services/1d/activity.js';
-
-const FIRST_CHALLENGE_NB = 1;
+import { getChallengeForCurrentActivity, getNextActivityChallenge } from '../services/1d/activity-challenge.js';
+import { getLastAnswerStatus } from '../services/1d/last-answer-status.js';
+import { Activity } from '../models/index.js';
+import { getNextActivityLevel } from '../services/algorithm-methods/pix1d.js';
 
 export async function getNextChallengeForPix1d({
   assessmentId,
@@ -15,123 +14,47 @@ export async function getNextChallengeForPix1d({
   const { missionId } = await assessmentRepository.get(assessmentId);
   const currentActivity = await getCurrentActivity(activityRepository, assessmentId);
 
-  let answers = [];
-
-  let challenge;
   if (currentActivity) {
-    answers = await activityAnswerRepository.findByActivity(currentActivity.id);
-    challenge = await _getChallengeForCurrentActivity(currentActivity, missionId, challengeRepository, answers);
-  }
-  if (!challenge) {
-    challenge = _getNextActivityChallenge(
-      missionId,
+    const answers = await activityAnswerRepository.findByActivity(currentActivity.id);
+    const challenge = await getChallengeForCurrentActivity({
       currentActivity,
-      assessmentId,
-      _lastAnswerStatus(answers),
-      challengeRepository,
-      assessmentRepository,
-      activityRepository,
-    );
-  }
-  return challenge;
-}
-
-async function _getChallengeForCurrentActivity(currentActivity, missionId, challengeRepository, answers) {
-  if (_shouldLookForNextChallengeInActivity(answers)) {
-    const challengeNumber = answers.length + 1;
-    return await _getNextChallenge(
       missionId,
-      currentActivity.level,
-      challengeNumber,
       challengeRepository,
-      currentActivity.alternativeVersion,
-    );
+      answers,
+    });
+    if (challenge) {
+      return challenge;
+    } else {
+      const lastAnswerStatus = getLastAnswerStatus(answers);
+      if (lastAnswerStatus) {
+        await activityRepository.updateStatus({
+          activityId: currentActivity.id,
+          status: _getActivityStatusFromAnswerStatus(lastAnswerStatus),
+        });
+      }
+    }
   }
-}
 
-async function _getNextChallenge(missionId, activityLevel, challengeNumber, challengeRepository, alternativeVersion) {
-  return _getChallenge({
+  const nextActivityLevel = getNextActivityLevel(await activityRepository.getAllByAssessmentId(assessmentId));
+  if (nextActivityLevel === undefined) {
+    await assessmentRepository.completeByAssessmentId(assessmentId);
+    return null;
+  }
+
+  return getNextActivityChallenge({
     missionId,
-    activityLevel,
-    challengeNumber,
-    alternativeVersion,
+    assessmentId,
     challengeRepository,
+    activityRepository,
+    nextActivityLevel,
   });
 }
 
-function _lastAnswerStatus(answers) {
-  if (answers.length < 1) {
-    return undefined;
-  }
-  const lastAnswerResult = answers[answers.length - 1].result;
-  return lastAnswerResult.status;
+function _getActivityStatusFromAnswerStatus(answerStatus) {
+  const status = {
+    aband: Activity.status.SKIPPED,
+    ok: Activity.status.SUCCEEDED,
+    ko: Activity.status.FAILED,
+  };
+  return status[answerStatus];
 }
-
-function _shouldLookForNextChallengeInActivity(answers) {
-  return _lastAnswerStatus(answers) === 'ok' || answers.length === 0;
-}
-
-async function _getNextActivityChallenge(
-  missionId,
-  currentActivity,
-  assessmentId,
-  lastAnswerStatus,
-  challengeRepository,
-  assessmentRepository,
-  activityRepository,
-) {
-  if (lastAnswerStatus) {
-    await activityRepository.updateStatus({ activityId: currentActivity.id, status: status[lastAnswerStatus] });
-  }
-  const nextActivityLevel = getNextActivityLevel(await activityRepository.getAllByAssessmentId(assessmentId));
-  if (nextActivityLevel !== undefined) {
-    const challenge = await _getChallenge({
-      missionId,
-      activityLevel: nextActivityLevel,
-      challengeNumber: FIRST_CHALLENGE_NB,
-      challengeRepository,
-    });
-
-    await activityRepository.save(
-      new Activity({
-        assessmentId,
-        level: nextActivityLevel,
-        status: Activity.status.STARTED,
-        alternativeVersion: challenge.alternativeVersion,
-      }),
-    );
-    return challenge;
-  }
-  await assessmentRepository.completeByAssessmentId(assessmentId);
-  return null;
-}
-
-async function _getChallenge({ missionId, activityLevel, challengeNumber, alternativeVersion, challengeRepository }) {
-  try {
-    const challenges = await challengeRepository.getForPix1D({
-      missionId,
-      activityLevel,
-      challengeNumber,
-    });
-
-    if (alternativeVersion) {
-      return challenges.find((challenge) => challenge.alternativeVersion === alternativeVersion);
-    } else {
-      return challenges[_randomIndexForChallenges(challenges.length)];
-    }
-  } catch (error) {
-    if (!(error instanceof NotFoundError)) {
-      throw error;
-    }
-  }
-}
-
-function _randomIndexForChallenges(length, random = Math.random()) {
-  return Math.floor(random * length);
-}
-
-const status = {
-  aband: Activity.status.SKIPPED,
-  ok: Activity.status.SUCCEEDED,
-  ko: Activity.status.FAILED,
-};
