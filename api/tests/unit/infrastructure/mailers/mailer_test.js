@@ -13,7 +13,7 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
     mailCheck = {
       checkDomainIsValid: sinon.stub(),
     };
-    sinon.stub(mailing, 'provider').value('sendinblue');
+    sinon.stub(mailing, 'provider').value('brevo');
   });
 
   describe('#sendEmail', function () {
