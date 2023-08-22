@@ -1,6 +1,7 @@
 import { NotFoundError } from '../errors.js';
 import { Activity } from '../models/Activity.js';
 import { getNextActivityLevel } from '../services/algorithm-methods/pix1d.js';
+import { getCurrentActivity } from '../services/1d/activity.js';
 
 const FIRST_CHALLENGE_NB = 1;
 
@@ -12,7 +13,7 @@ export async function getNextChallengeForPix1d({
   activityRepository,
 }) {
   const { missionId } = await assessmentRepository.get(assessmentId);
-  const currentActivity = await _getCurrentActivity(activityRepository, assessmentId);
+  const currentActivity = await getCurrentActivity(activityRepository, assessmentId);
 
   let answers = [];
 
@@ -64,16 +65,6 @@ function _lastAnswerStatus(answers) {
   }
   const lastAnswerResult = answers[answers.length - 1].result;
   return lastAnswerResult.status;
-}
-
-async function _getCurrentActivity(activityRepository, assessmentId) {
-  try {
-    return await activityRepository.getLastActivity(assessmentId);
-  } catch (error) {
-    if (!(error instanceof NotFoundError)) {
-      throw error;
-    }
-  }
 }
 
 function _shouldLookForNextChallengeInActivity(answers) {
