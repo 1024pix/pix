@@ -9,5 +9,3 @@ export async function getCurrentActivity(activityRepository, assessmentId) {
     }
   }
 }
-
-

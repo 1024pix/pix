@@ -1,10 +1,12 @@
+import { AnswerStatus } from './AnswerStatus.js';
+
 class ActivityAnswer {
   constructor({ id, challengeId, activityId, value, result, resultDetails } = {}) {
     this.id = id;
     this.challengeId = challengeId;
     this.activityId = activityId;
     this.value = value;
-    this.result = result;
+    this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
   }
 }
