@@ -2092,6 +2092,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     it('should return count of organization learners from organization that can compute certificability', async function () {
       // given
       const { organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId, isDisabled: true });
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
       const { organizationId: otherOrganizationId } = databaseBuilder.factory.buildOrganizationLearner();
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId: otherOrganizationId });
@@ -2126,6 +2127,19 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(result).to.deep.equal([organizationLearnerId]);
+    });
+
+    it('should not return a disabled organization learner id for organizations that cannot compute certificability', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isDisabled: true });
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.deep.equal([]);
     });
 
     it('should not return an organization learner id for organizations that cannot compute certificability', async function () {
