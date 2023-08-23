@@ -33,6 +33,7 @@
                 type="number"
                 min="1"
                 max="{{@options.length}}"
+                {{on "input" this.onUpdateLevel}}
               />
             </td>
           </tr>
