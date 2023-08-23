@@ -231,7 +231,7 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
     });
   });
 
-  module('#pauseAssessment', function () {
+  module('#createLiveAlert', function () {
     test('should call the adapter', async function (assert) {
       // given
       controller.model = {
@@ -246,14 +246,14 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       };
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('assessment');
-      const pauseAssessmentStub = sinon.stub(adapter, 'pauseAssessment');
+      const createLiveAlertStub = sinon.stub(adapter, 'createLiveAlert');
 
       // when
-      await controller.actions.pauseAssessment.call(controller);
+      await controller.actions.submitLiveAlert.call(controller);
 
       // then
-      assert.ok(pauseAssessmentStub.calledOnce);
-      sinon.assert.calledWithExactly(pauseAssessmentStub, 123, 456);
+      assert.ok(createLiveAlertStub.calledOnce);
+      sinon.assert.calledWithExactly(createLiveAlertStub, 123, 456);
     });
 
     test('should reload the model', async function (assert) {
@@ -270,10 +270,10 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       };
       const store = this.owner.lookup('service:store');
       const adapter = store.adapterFor('assessment');
-      sinon.stub(adapter, 'pauseAssessment');
+      sinon.stub(adapter, 'createLiveAlert');
 
       // when
-      await controller.actions.pauseAssessment.call(controller);
+      await controller.actions.submitLiveAlert.call(controller);
 
       // then
       assert.ok(controller.model.assessment.reload.calledOnce);

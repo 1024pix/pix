@@ -20,6 +20,7 @@ export default class Assessment extends Model {
   @attr('string') type;
   @attr('string') lastQuestionState;
   @attr('string') method;
+  @attr('boolean', { defaultValue: false }) hasOngoingLiveAlert;
 
   // references
   @attr('string') competenceId;
