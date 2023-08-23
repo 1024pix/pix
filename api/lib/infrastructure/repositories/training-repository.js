@@ -6,11 +6,12 @@ import { DomainTransaction } from '../DomainTransaction.js';
 import { UserRecommendedTraining } from '../../domain/read-models/UserRecommendedTraining.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import lodash from 'lodash';
+import * as trainingTriggerRepository from './training-trigger-repository.js';
+import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
+import { TrainingTrigger } from '../../domain/models/index.js';
 
 const { pick } = lodash;
 
-import * as trainingTriggerRepository from './training-trigger-repository.js';
-import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
 const TABLE_NAME = 'trainings';
 
 async function get({ trainingId, domainTransaction = DomainTransaction.emptyTransaction() }) {
@@ -41,16 +42,7 @@ async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainT
 
 async function findPaginatedSummaries({ filter, page, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
-  const query = knexConn(TABLE_NAME)
-    .select(
-      'id',
-      'title',
-      knex.raw(
-        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"',
-      ),
-    )
-    .orderBy('id', 'asc')
-    .modify(_applyFilters, filter);
+  const query = knexConn(TABLE_NAME).select('id', 'title').orderBy('id', 'asc').modify(_applyFilters, filter);
   const { results, pagination } = await fetchPage(query, page);
 
   const trainings = results.map((training) => new TrainingSummary(training));
@@ -64,13 +56,7 @@ async function findPaginatedSummariesByTargetProfileId({
 }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const query = knexConn(TABLE_NAME)
-    .select(
-      'trainings.id',
-      'trainings.title',
-      knex.raw(
-        '(CASE WHEN EXISTS (SELECT 1 FROM "training-triggers" WHERE "training-triggers"."trainingId" = trainings.id) THEN true ELSE false END) AS "isRecommendable"',
-      ),
-    )
+    .select('trainings.id', 'trainings.title')
     .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
     .where({ 'target-profile-trainings.targetProfileId': targetProfileId })
     .orderBy('id', 'asc');

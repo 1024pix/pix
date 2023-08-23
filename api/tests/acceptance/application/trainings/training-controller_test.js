@@ -304,7 +304,6 @@ describe('Acceptance | Controller | training-controller', function () {
             id: '1',
             attributes: {
               title: training.title,
-              'is-recommendable': false,
             },
           },
         };
