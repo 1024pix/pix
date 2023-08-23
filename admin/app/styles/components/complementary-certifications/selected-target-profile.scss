@@ -1,10 +1,15 @@
-.complementary-certification-selected-target-profile-form-change {
+.selected-target-profile-form-change {
   display: flex;
   flex-direction: column;
   gap: $pix-spacing-xs;
   padding: $pix-spacing-s;
+  font-size: 1.125rem;
 
   &__link {
-    font-size: 1.125rem;
+    color: $pix-primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
