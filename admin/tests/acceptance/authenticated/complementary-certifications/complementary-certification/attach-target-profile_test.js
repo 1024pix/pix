@@ -71,102 +71,79 @@ module(
             });
           });
         });
+      });
 
-        module('when user type in the search bar', function () {
-          test('it should display the search results', async function (assert) {
-            // given
-            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-            server.create('complementary-certification', {
-              id: 1,
-              key: 'KEY',
-              label: 'MARIANNE CERTIF',
-              targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
-            });
-            server.create('attachable-target-profile', {
-              id: 3,
-              name: 'ALEX TARGET',
-            });
-            const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-
-            // when
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
-            await fillIn(input, '3');
-
-            // then
-            assert.dom(await screen.findByRole('option', { name: '3 - ALEX TARGET' })).exists();
+      module('when user selects an attachable target profile', function () {
+        test('it should display the link of the selected target profile with a change button', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          server.create('complementary-certification', {
+            id: 1,
+            key: 'KEY',
+            label: 'MARIANNE CERTIF',
+            targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
           });
+          server.create('attachable-target-profile', {
+            id: 3,
+            name: 'ALEX TARGET',
+          });
+          server.create('target-profile', {
+            id: 3,
+            name: 'ALEX TARGET',
+            badges: [],
+          });
+          const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+          const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+          await fillIn(input, '3');
+
+          await screen.findByRole('listbox');
+          const targetProfileSelectable = screen.getByRole('option', { name: '3 - ALEX TARGET' });
+
+          // when
+          await targetProfileSelectable.click();
+
+          // then
+          assert.dom(await screen.findByRole('link', { name: 'ALEX TARGET' })).exists();
+          assert.dom(await screen.findByRole('button', { name: 'Changer' })).exists();
         });
 
-        module('when user selects an attachable target profile', function () {
-          test('it should display the link of the selected target profile with a change button', async function (assert) {
-            // given
-            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-            server.create('complementary-certification', {
-              id: 1,
-              key: 'KEY',
-              label: 'MARIANNE CERTIF',
-              targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
-            });
-            server.create('attachable-target-profile', {
-              id: 3,
-              name: 'ALEX TARGET',
-            });
-            server.create('target-profile', {
-              id: 3,
-              name: 'ALEX TARGET',
-              badges: []
-            });
-            const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
-            await fillIn(input, '3');
-
-            await screen.findByRole('listbox');
-            const targetProfileSelectable = screen.getByRole('option', { name: '3 - ALEX TARGET' });
-
-            // when
-            await targetProfileSelectable.click();
-
-            // then
-            assert.dom(await screen.findByRole('link', { name: 'ALEX TARGET' })).exists();
-            assert.dom(await screen.findByRole('button', { name: 'Changer' })).exists();
+        test('it should display badges component', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          server.create('complementary-certification', {
+            id: 1,
+            key: 'KEY',
+            label: 'MARIANNE CERTIF',
+            targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
           });
-
-          test('it should display badges component', async function (assert) {
-            // given
-            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-            server.create('complementary-certification', {
-              id: 1,
-              key: 'KEY',
-              label: 'MARIANNE CERTIF',
-              targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
-            });
-            server.create('attachable-target-profile', {
-              id: 5,
-              name: 'ALEX TARGET',
-            });
-            const badge = server.create('badge', {
-              id: 200, title: 'Badge Arène Feu'
-            });
-            server.create('target-profile', {
-              id: 5,
-              name: 'ALEX TARGET',
-              badges: [badge]
-            });
-            const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
-            const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
-            await fillIn(input, '5');
-            await screen.findByRole('listbox');
-            const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
-
-            // when
-            await targetProfileSelectable.click();
-
-            // then
-            assert.dom(await screen.findByRole('heading',
-              { name: '2. Complétez les niveaux des résultats thématiques' })).exists();
-            assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu'})).exists();
-            assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
+          server.create('attachable-target-profile', {
+            id: 5,
+            name: 'ALEX TARGET',
           });
+          const badge = server.create('badge', {
+            id: 200,
+            title: 'Badge Arène Feu',
+          });
+          server.create('target-profile', {
+            id: 5,
+            name: 'ALEX TARGET',
+            badges: [badge],
+          });
+          const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+          const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+          await fillIn(input, '5');
+          await screen.findByRole('listbox');
+          const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
+
+          // when
+          await targetProfileSelectable.click();
+
+          // then
+          assert
+            .dom(await screen.findByRole('heading', { name: '2. Complétez les niveaux des résultats thématiques' }))
+            .exists();
+          assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' })).exists();
+          assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
         });
       });
     });
