@@ -1,3 +1,4 @@
+import { FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID } from '../common/constants.js';
 import {
   ALL_ORGANIZATION_USER_ID,
   DEFAULT_PASSWORD,
@@ -18,6 +19,11 @@ function _createScoOrganization(databaseBuilder) {
     externalId: 'PRESCRIPTION',
   });
 
+  databaseBuilder.factory.buildOrganizationFeature({
+    organizationId: SCO_ORGANIZATION_ID,
+    featureId: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
+  });
+
   _createUserAdminForScoOrganization(databaseBuilder);
 }
 function _createSupOrganization(databaseBuilder) {
@@ -29,6 +35,11 @@ function _createSupOrganization(databaseBuilder) {
     externalId: 'PRESCRIPTION',
   });
 
+  databaseBuilder.factory.buildOrganizationFeature({
+    organizationId: SUP_ORGANIZATION_ID,
+    featureId: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
+  });
+
   _createUserAdminForSupOrganization(databaseBuilder);
 }
 function _createProOrganization(databaseBuilder) {
@@ -38,6 +49,11 @@ function _createProOrganization(databaseBuilder) {
     name: 'PRO Orga - team prescription',
     isManagingStudents: false,
     externalId: 'PRESCRIPTION',
+  });
+
+  databaseBuilder.factory.buildOrganizationFeature({
+    organizationId: PRO_ORGANIZATION_ID,
+    featureId: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   });
 
   _createUserAdminForProOrganization(databaseBuilder);
