@@ -131,7 +131,7 @@ describe('Integration | Infrastructure | Repository | Organization Learner Follo
 
             const organizationLearner = await organizationLearnerFollowUpRepository.get(organizationLearnerId);
 
-            expect(organizationLearner.authenticationMethods).to.deep.equal([
+            expect(organizationLearner.authenticationMethods).to.have.members([
               NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
               NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
             ]);
