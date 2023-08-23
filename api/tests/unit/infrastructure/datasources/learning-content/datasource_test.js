@@ -204,33 +204,68 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
   });
 
   describe('#refreshLearningContentCacheRecord', function () {
-    it('should replace the record (identified with id) by given record and store or replace it in the cache', async function () {
-      // given
-      const record = { id: 'rec1', property: 'updatedValue' };
-      const learningContent = {
-        learningContentModel: [
-          null,
-          { id: 'rec1', property: 'value1', oldProperty: 'value' },
-          { id: 'rec2', property: 'value2' },
-        ],
-        learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
-      };
-      learningContentCache.get.resolves(learningContent);
-      sinon.stub(learningContentCache, 'set').callsFake((value) => value);
+    context('when record id is already in the cache', function () {
+      it('should replace the existing record by given record in the cache', async function () {
+        // given
+        const record = { id: 'rec1', property: 'updatedValue' };
+        const learningContent = {
+          learningContentModel: [
+            null,
+            { id: 'rec1', property: 'value1', oldProperty: 'value' },
+            { id: 'rec2', property: 'value2' },
+          ],
+          learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+        };
+        learningContentCache.get.resolves(learningContent);
+        sinon.stub(learningContentCache, 'set').callsFake((value) => value);
 
-      // when
-      const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
+        // when
+        const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
 
-      // then
-      expect(entry).to.deep.equal({
-        id: 'rec1',
-        property: 'updatedValue',
+        // then
+        expect(entry).to.deep.equal({
+          id: 'rec1',
+          property: 'updatedValue',
+        });
+        expect(learningContentCache.set).to.have.been.calledOnce;
+        const argument = learningContentCache.set.firstCall.args[0];
+        expect(argument).to.deep.equal({
+          learningContentModel: [null, { id: 'rec1', property: 'updatedValue' }, { id: 'rec2', property: 'value2' }],
+          learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+        });
       });
-      expect(learningContentCache.set).to.have.been.calledOnce;
-      const argument = learningContentCache.set.firstCall.args[0];
-      expect(argument).to.deep.equal({
-        learningContentModel: [null, { id: 'rec1', property: 'updatedValue' }, { id: 'rec2', property: 'value2' }],
-        learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+    });
+
+    context('when record id is not in the cache', function () {
+      it('should insert the given record in the cache', async function () {
+        // given
+        const record = { id: 'rec4', property: 'newValue' };
+        const learningContent = {
+          learningContentModel: [null, { id: 'rec1', property: 'value1' }, { id: 'rec2', property: 'value2' }],
+          learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+        };
+        learningContentCache.get.resolves(learningContent);
+        sinon.stub(learningContentCache, 'set').callsFake((value) => value);
+
+        // when
+        const entry = await someDatasource.refreshLearningContentCacheRecord('rec4', record);
+
+        // then
+        expect(entry).to.deep.equal({
+          id: 'rec4',
+          property: 'newValue',
+        });
+        expect(learningContentCache.set).to.have.been.calledOnce;
+        const argument = learningContentCache.set.firstCall.args[0];
+        expect(argument).to.deep.equal({
+          learningContentModel: [
+            null,
+            { id: 'rec1', property: 'value1' },
+            { id: 'rec2', property: 'value2' },
+            { id: 'rec4', property: 'newValue' },
+          ],
+          learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+        });
       });
     });
   });
