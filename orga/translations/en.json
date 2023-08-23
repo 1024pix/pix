@@ -571,6 +571,17 @@
         }
       },
       "personalised-test-title": "Title of the customised test",
+      "reset-to-zero": {
+        "title": "Reset to zero",
+        "status": {
+          "disabled": "No",
+          "enabled": "Yes"
+        },
+        "tooltip": {
+          "aria-label": "Description of Reset to zero",
+          "text": "If the reset to zero function is activated, the participant can reset the entire customised test and submit their results multiple times by re-entering the campaign code."
+        }
+      },
       "target-profile": {
         "title": "Customised test",
         "tooltip": "Customised test's description"

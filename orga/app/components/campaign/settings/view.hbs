@@ -26,6 +26,27 @@
           <dd class="content-text campaign-settings-content__text">{{this.multipleSendingsText}}</dd>
         </div>
       {{/if}}
+      {{#if this.displayResetToZero}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label campaign-settings-content__label--with-tooltip">
+            <span>{{t "pages.campaign-settings.reset-to-zero.title"}}</span>
+            <PixTooltip @id="reset-to-zero-info-tooltip" @position="top" @isWide={{true}}>
+              <:triggerElement>
+                <FaIcon
+                  @icon="circle-info"
+                  class="campaign-settings-content__tooltip-icon"
+                  tabindex="0"
+                  aria-describedby={{t "pages.campaign-settings.reset-to-zero.tooltip.aria-label" htmlSafe=true}}
+                />
+              </:triggerElement>
+              <:tooltip>
+                {{t "pages.campaign-settings.reset-to-zero.tooltip.text"}}
+              </:tooltip>
+            </PixTooltip>
+          </dt>
+          <dd class="content-text campaign-settings-content__text">{{this.resetToZeroText}}</dd>
+        </div>
+      {{/if}}
     </div>
     <div class="campaign-settings-row">
       {{#if @campaign.isTypeAssessment}}
