@@ -21,6 +21,9 @@ ls:
         campaignParticipations:
           .dir: camelCase
 
+  src:
+    models:
+      .js: PascalCase
 
 ignore:
   - .git
@@ -28,3 +31,4 @@ ignore:
   - db/migrations
   - db/seeds
   - scripts
+  - codemods

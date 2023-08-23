@@ -3,7 +3,7 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 import * as resetPasswordDemandRepository from '../../../../lib/infrastructure/repositories/reset-password-demands-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import { createPasswordResetDemand } from '../../../../lib/domain/usecases/create-password-reset-demand.js';

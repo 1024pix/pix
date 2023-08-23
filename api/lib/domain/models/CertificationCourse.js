@@ -3,7 +3,7 @@ import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../errors.js';
-import { CertificationVersion } from './CertificationVersion.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
 const ABORT_REASONS = ['candidate', 'technical'];
 const cpfImportStatus = {

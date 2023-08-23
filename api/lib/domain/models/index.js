@@ -111,7 +111,7 @@ import { ScoringSimulation } from './ScoringSimulation.js';
 import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
 import { ScoringSimulationResult } from './ScoringSimulationResult.js';
-import { Session } from './Session.js';
+import { Session } from '../../../src/certification/session/domain/models/Session.js';
 import { SessionJuryComment } from './SessionJuryComment.js';
 import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.js';
 import { ShareableCertificate } from './ShareableCertificate.js';
@@ -151,6 +151,7 @@ import { ValidatorQCU } from './ValidatorQCU.js';
 import { ValidatorQROC } from './ValidatorQROC.js';
 import { ValidatorQROCMDep } from './ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from './ValidatorQROCMInd.js';
+
 export {
   AccountRecoveryDemand,
   AdminMember,

@@ -6,11 +6,11 @@ import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
 import {
   UserNotFoundError,
   MissingOrInvalidCredentialsError,
-  ForbiddenAccess,
   UserShouldChangePasswordError,
 } from '../../../../lib/domain/errors.js';
 
 import * as appMessages from '../../../../lib/domain/constants.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;

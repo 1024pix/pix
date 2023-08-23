@@ -1,4 +1,4 @@
-import { injectDefaults, injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
+import { injectDefaults, injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
 import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';
@@ -16,7 +16,7 @@ import * as campaignRepository from '../../infrastructure/repositories/campaign-
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignParticipationResultRepository from '../../infrastructure/repositories/campaign-participation-result-repository.js';
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
-import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center-repository.js';
+import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
@@ -29,7 +29,7 @@ import * as scoringCertificationService from '../services/scoring/scoring-certif
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as targetProfileRepository from '../../infrastructure/repositories/target-profile-repository.js';
-import * as userRepository from '../../infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';

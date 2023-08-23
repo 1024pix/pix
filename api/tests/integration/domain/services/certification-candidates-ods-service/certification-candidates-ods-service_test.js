@@ -9,7 +9,7 @@ import * as certificationCandidatesOdsService from '../../../../../lib/domain/se
 import * as certificationCpfService from '../../../../../lib/domain/services/certification-cpf-service.js';
 import * as certificationCpfCountryRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfCityRepository from '../../../../../lib/infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCenterRepository from '../../../../../lib/infrastructure/repositories/certification-center-repository.js';
+import * as certificationCenterRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { CertificationCandidatesError } from '../../../../../lib/domain/errors.js';

@@ -1,6 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { validateSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions.js';
-import { Session } from '../../../../../lib/domain/models/Session.js';
+import { Session } from '../../../../../src/certification/session/domain/models/Session.js';
 import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';

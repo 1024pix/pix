@@ -1,6 +1,6 @@
 import { expect, sinon, knex, databaseBuilder, catchErr } from '../../test-helper.js';
 import { addManyMembersToExistingOrganization } from '../../../scripts/data-generation/add-many-fake-members-related-to-one-organization.js';
-import { ForbiddenAccess } from '../../../lib/domain/errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
   it('should throw an error when env is production', async function () {

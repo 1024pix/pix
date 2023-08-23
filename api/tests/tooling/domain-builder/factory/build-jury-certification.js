@@ -1,4 +1,4 @@
-import { CertificationVersion } from '../../../../lib/domain/models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { JuryCertification } from '../../../../lib/domain/models/JuryCertification.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 import { buildCompetenceMark } from './build-competence-mark.js';
