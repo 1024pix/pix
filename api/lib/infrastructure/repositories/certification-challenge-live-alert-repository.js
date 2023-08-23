@@ -9,4 +9,10 @@ const save = async function ({
   return knexConn('certification-challenge-live-alerts').insert(certificationChallengeLiveAlert);
 };
 
-export { save };
+const getByAssessmentId = async (assessmentId) => {
+  return knex('certification-challenge-live-alerts').where({
+    assessmentId,
+  });
+};
+
+export { save, getByAssessmentId };
