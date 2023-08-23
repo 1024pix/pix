@@ -16,5 +16,9 @@
   "minimumReleaseAge": "7 days",
   "commitMessagePrefix": "[BUMP]",
   "rebaseWhen": "never",
-  "schedule": "every 1 hour every weekday"
+  "schedule": "every 1 hour every weekday",
+  "packageRules": {
+    "matchPackagePatterns": "^ember-data$",
+    "groupName": "ember-data"
+  }
 }
