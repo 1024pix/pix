@@ -1,6 +1,9 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import * as certificationChallengeLiveAlertRepository from '../../../../lib/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 
+const assessmentIdWithNoAlerts = 123;
+const assessmentIdWithLiveAlert = 456;
+
 describe('Integration | Repository | Certification Challenge Live Alert', function () {
   afterEach(async function () {
     await knex('certification-challenge-live-alerts').delete();
@@ -26,6 +29,31 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
       expect(expectedSavedCertificationChallengeLiveAlert.challengeId).to.equal(challengeId);
       expect(expectedSavedCertificationChallengeLiveAlert.assessmentId).to.equal(assessmentId);
+    });
+  });
+
+  describe('getByAssessmentId', function () {
+    describe('when no liveAlert is linked to the assessment id', function () {
+      it('should return an empty array', async function () {
+        const liveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId(assessmentIdWithNoAlerts);
+
+        expect(liveAlerts).to.have.length(0);
+      });
+    });
+
+    describe('when a liveAlert is linked to the assessment id', function () {
+      it('should return an empty array', async function () {
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentIdWithLiveAlert,
+        });
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessmentIdWithLiveAlert,
+        });
+        await databaseBuilder.commit();
+        const liveAlerts = await certificationChallengeLiveAlertRepository.getByAssessmentId(assessmentIdWithLiveAlert);
+
+        expect(liveAlerts).to.have.length(1);
+      });
     });
   });
 });

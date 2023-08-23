@@ -63,6 +63,7 @@ class Assessment {
     method,
     campaignCode,
     missionId,
+    hasOngoingLiveAlert = false,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -85,6 +86,7 @@ class Assessment {
     this.method = method || Assessment.computeMethodFromType(this.type);
     this.campaignCode = campaignCode;
     this.missionId = missionId;
+    this.hasOngoingLiveAlert = hasOngoingLiveAlert;
   }
 
   isCompleted() {
