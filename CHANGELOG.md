@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.27.0 (23/08/2023)
+
+
+### :rocket: Amélioration
+- [#6898](https://github.com/1024pix/pix/pull/6898) [FEATURE] Ajouter un script pour migrer en BDD les acquisitions de palier (PIX-8899).
+- [#6912](https://github.com/1024pix/pix/pull/6912) [FEATURE] Ajoute plus d'information sur la remise à zéro du parcours lors de sa creation (PIX-8771).
+- [#6911](https://github.com/1024pix/pix/pull/6911) [FEATURE] Seeds pour prescription (PIX-8548).
+
+### :building_construction: Tech
+- [#6839](https://github.com/1024pix/pix/pull/6839) [TECH] Mise en place de la nouvelle arborescence API sur la création de session (PIX-8833).
+- [#6916](https://github.com/1024pix/pix/pull/6916) [TECH] Remplacer le SDK Sendinblue par le SDK Brevo.
+
+### :bug: Correction
+- [#6927](https://github.com/1024pix/pix/pull/6927) [BUGFIX] Problème d'accès à la preview d'épreuves (PIX-8974).
+
+### :arrow_up: Montée de version
+- [#6924](https://github.com/1024pix/pix/pull/6924) [BUMP] Update dependency ember-page-title to v8 (1d).
+- [#6923](https://github.com/1024pix/pix/pull/6923) [BUMP] Update dependency ember-page-title to v8 (admin).
+- [#6921](https://github.com/1024pix/pix/pull/6921) [BUMP] Update dependency ember-page-title to v8 (certif).
+- [#6922](https://github.com/1024pix/pix/pull/6922) [BUMP] Update dependency ember-page-title to v8 (orga).
+- [#6920](https://github.com/1024pix/pix/pull/6920) [BUMP] Update dependency ember-page-title to v8 (mon-pix).
+- [#6885](https://github.com/1024pix/pix/pull/6885) [BUMP] Update node.
+
+### :coffee: Autre
+- [#6848](https://github.com/1024pix/pix/pull/6848) [DOCS] Ajoute l'ADR sur le choix technique de positionnement de Modulix.
+
 ## v4.26.0 (22/08/2023)
 
 
