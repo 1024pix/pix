@@ -1,5 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>1024pix/renovate-config:default"],
-  "enabled": true
+  "enabled": true,
+  "packageRules": [{
+    "matchFileNames": ["mon-pix/**", "orga/**", "admin/**", "certif/**"],
+    "excludePackagePatterns": [
+      "^(node|npm|cimg/node|eslint|nginx|redis|postgres)$"
+    ],
+    "additionalBranchPrefix": "front-workspaces-",
+    "commitMessageSuffix": "(front workspaces)"
+  }]
 }
