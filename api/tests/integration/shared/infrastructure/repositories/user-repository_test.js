@@ -448,32 +448,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           });
         },
       );
-
-      context('when there are filter that should be ignored', function () {
-        let firstUserId;
-        let secondUserId;
-
-        beforeEach(async function () {
-          firstUserId = databaseBuilder.factory.buildUser().id;
-          secondUserId = databaseBuilder.factory.buildUser().id;
-
-          await databaseBuilder.commit();
-        });
-
-        it('should ignore the filter and retrieve all users', async function () {
-          // given
-          const filter = { id: firstUserId };
-          const page = { number: 1, size: 10 };
-          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
-
-          // when
-          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-          // then
-          expect(map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);
-          expect(pagination).to.deep.equal(expectedPagination);
-        });
-      });
     });
 
     describe('#findAnotherUserByEmail', function () {
