@@ -1,10 +1,10 @@
 import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
 import { config } from '../../../../lib/config.js';
-import { SendinblueProvider } from '../../../../lib/infrastructure/mailers/SendinblueProvider.js';
+import { BrevoProvider } from '../../../../lib/infrastructure/mailers/BrevoProvider.js';
 import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
 const { mailing } = config;
 
-describe('Unit | Class | SendinblueProvider', function () {
+describe('Unit | Class | BrevoProvider', function () {
   beforeEach(function () {
     nock('https://api.sendinblue.com:443').post('/v3/smtp/email').reply();
   });
@@ -14,20 +14,20 @@ describe('Unit | Class | SendinblueProvider', function () {
     const userEmailAddress = 'user@example.net';
     const templateId = 129291;
 
-    let stubbedSendinblueSMTPApi;
+    let stubbedBrevoSMTPApi;
     let mailingProvider;
 
     context('when mail sending is enabled', function () {
       beforeEach(function () {
         sinon.stub(mailing, 'enabled').value(true);
-        sinon.stub(mailing, 'provider').value('sendinblue');
+        sinon.stub(mailing, 'provider').value('brevo');
 
-        sinon.stub(SendinblueProvider, 'createSendinblueSMTPApi');
+        sinon.stub(BrevoProvider, 'createBrevoSMTPApi');
 
-        stubbedSendinblueSMTPApi = { sendTransacEmail: sinon.stub() };
-        SendinblueProvider.createSendinblueSMTPApi.returns(stubbedSendinblueSMTPApi);
+        stubbedBrevoSMTPApi = { sendTransacEmail: sinon.stub() };
+        BrevoProvider.createBrevoSMTPApi.returns(stubbedBrevoSMTPApi);
 
-        mailingProvider = new SendinblueProvider();
+        mailingProvider = new BrevoProvider();
       });
 
       context('when email check succeeds', function () {
@@ -63,7 +63,7 @@ describe('Unit | Class | SendinblueProvider', function () {
           await mailingProvider.sendEmail(options);
 
           // then
-          expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
+          expect(stubbedBrevoSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
         });
 
         context('when tags property is given', function () {
@@ -103,7 +103,7 @@ describe('Unit | Class | SendinblueProvider', function () {
             await mailingProvider.sendEmail(options);
 
             // then
-            expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
+            expect(stubbedBrevoSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
           });
 
           it('should not add tags when it is empty', async function () {
@@ -141,7 +141,7 @@ describe('Unit | Class | SendinblueProvider', function () {
             await mailingProvider.sendEmail(options);
 
             // then
-            expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
+            expect(stubbedBrevoSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
           });
         });
       });
@@ -156,7 +156,7 @@ describe('Unit | Class | SendinblueProvider', function () {
             subject: 'Creation de compte',
             template: templateId,
           };
-          stubbedSendinblueSMTPApi.sendTransacEmail.rejects({
+          stubbedBrevoSMTPApi.sendTransacEmail.rejects({
             response: { text: '{"code":"invalid_parameter","message":"email is not valid in to"}' },
           });
 
