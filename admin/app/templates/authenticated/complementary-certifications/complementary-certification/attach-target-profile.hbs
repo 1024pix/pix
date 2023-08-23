@@ -5,44 +5,29 @@
 />
 
 <main class="page-body">
-  <div class="page-section complementary-certification-attach-target-profile">
-    <h1 class="complementary-certification-attach-target-profile__header">
+  <div class="page-section attach-target-profile">
+    <h1 class="attach-target-profile__header">
       Rattacher un nouveau profil cible à la certification
       {{@model.complementaryCertification.label}}
     </h1>
-    <span class="complementary-certification-details__target-profile">Profile cible actuel:
-      <LinkTo
-        @route="authenticated.target-profiles.target-profile"
-        @model={{@model.currentTargetProfile.id}}
-        class="complementary-certification-details-target-profile__link"
-      >
-        {{@model.currentTargetProfile.name}}
-      </LinkTo>
-    </span>
+    <ComplementaryCertifications::TargetProfiles::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
 
-    <section class="card">
-      <h2 class="card__title">1. Renseigner le nouveau profil cible à rattacher</h2>
-      <div class="card__content">
-        {{#if this.selectedTargetProfile}}
-          <ComplementaryCertifications::TargetProfiles::SelectedTargetProfile
-            @onChange={{this.onChange}}
-            @attachableTargetProfile={{this.selectedTargetProfile}}
-          />
-        {{else}}
-          <ComplementaryCertifications::TargetProfiles::SearchBar
-            @onSelection={{this.onSelection}}
-            @onSearch={{this.onSearch}}
-            @options={{this.options}}
-          />
-        {{/if}}
-      </div>
-    </section>
+    <Card @title="1. Renseigner le nouveau profil cible à rattacher">
+      <ComplementaryCertifications::TargetProfiles::TargetProfileSelector
+        @onError={{this.onError}}
+        @onSelection={{this.onSelection}}
+        @onChange={{this.onReset}}
+      />
+    </Card>
 
     {{#if this.selectedTargetProfile}}
-      <section class="card">
-        <h2 class="card__title">2. Complétez les niveaux des résultats thématiques</h2>
-        <div class="card__content"></div>
-      </section>
+      <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
+        <ComplementaryCertifications::TargetProfiles::TargetProfileBadges
+          @targetProfile={{this.selectedTargetProfile}}
+          @onError={{this.onError}}
+          @onBadgeUpdated={{this.onBadgeUpdated}}
+        />
+      </Card>
     {{/if}}
 
     <div>

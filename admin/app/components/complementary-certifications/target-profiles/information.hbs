@@ -3,15 +3,7 @@
     <h1 class="complementary-certification-details__title">Certification complémentaire</h1>
 
     <span class="complementary-certification-details__label">{{@complementaryCertification.label}}</span>
-    <span class="complementary-certification-details__target-profile">Profil cible actuel :
-      <LinkTo
-        @route="authenticated.target-profiles.target-profile"
-        @model={{@currentTargetProfile.id}}
-        class="complementary-certification-details-target-profile__link"
-      >
-        {{@currentTargetProfile.name}}
-      </LinkTo>
-    </span>
+    <ComplementaryCertifications::TargetProfiles::LinkToCurrentTargetProfile @model={{@currentTargetProfile}} />
     {{#if this.isMultipleCurrentTargetProfiles}}
       <PixToggle
         @label="Accéder aux détails des profils cibles courants"

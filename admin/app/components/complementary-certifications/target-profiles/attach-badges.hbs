@@ -1,0 +1,44 @@
+<div class="complementary-certification-attach-badges">
+  <p class="complementary-certification-attach-badges__description">
+    Les niveaux de RT sont déterminés en fonction de leur difficulté, avec le chiffre le plus bas étant le plus facile à
+    obtenir et le chiffre le plus haut étant le chiffre le plus difficile à obtenir (1 &#60; 3).
+  </p>
+
+  {{#if @error}}
+    <PixMessage role="alert" @type="error" @withIcon={{true}} class="complementary-certification-attach-badges__error">
+      {{@error}}
+    </PixMessage>
+  {{/if}}
+
+  <section class="complementary-certification-attach-badges__list">
+    <h1>Résultats thématiques certifiants</h1>
+
+    <table aria-label="Liste des résultats thématiques">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Niveau</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @options as |option|}}
+          <tr aria-label="Résultat thématique {{option.id}} {{option.label}}">
+            <td>{{option.id}}</td>
+            <td>{{option.label}}</td>
+            <td>
+              <PixInput
+                @id="{{option.id}}"
+                placeholder="Exemple de niveau de RT : 1"
+                type="number"
+                min="1"
+                max="{{@options.length}}"
+                {{on "input" this.onUpdateLevel}}
+              />
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+</div>

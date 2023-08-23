@@ -24,6 +24,10 @@
     box-shadow: 0 6px 12px rgb(7 20 46 / 8%);
     transition: all 0.1s ease-in-out;
 
+    &__loader {
+      color: $pix-neutral-30;
+    }
+
     &__option:hover,
     &__option:focus {
       background-color: $pix-neutral-10;
