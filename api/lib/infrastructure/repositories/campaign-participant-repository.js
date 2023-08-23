@@ -149,7 +149,11 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
   const organizationLearner = { id: null, hasParticipated: false };
   const row = await domainTransaction
     .knexTransaction('campaigns')
-    .select({ id: 'view-active-organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
+    .select({
+      id: 'view-active-organization-learners.id',
+      campaignParticipationId: 'campaign-participations.id',
+      isDisabled: 'view-active-organization-learners.isDisabled',
+    })
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.organizationId',
@@ -176,6 +180,7 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
   if (row) {
     organizationLearner.id = row.id;
     organizationLearner.hasParticipated = Boolean(row.campaignParticipationId);
+    organizationLearner.isDisabled = row.isDisabled;
   }
   return organizationLearner;
 }

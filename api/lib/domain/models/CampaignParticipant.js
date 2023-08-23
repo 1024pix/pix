@@ -19,10 +19,11 @@ class CampaignParticipant {
     previousCampaignParticipationForUser,
   }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
-    this.organizationLearnerId = organizationLearner?.id;
     this.userIdentity = userIdentity;
     this.previousCampaignParticipationForUser = previousCampaignParticipationForUser;
-    this.organizationLearnerHasParticipatedForAnotherUser = organizationLearner.hasParticipated;
+    this.organizationLearnerId = organizationLearner?.id;
+    this.organizationLearnerisDisabled = organizationLearner?.isDisabled;
+    this.organizationLearnerHasParticipatedForAnotherUser = organizationLearner?.hasParticipated;
   }
 
   start({ participantExternalId, isReset }) {
@@ -66,6 +67,10 @@ class CampaignParticipant {
   }
 
   _checkCanParticipateToCampaign(participantExternalId, isReset) {
+    if (this.organizationLearnerisDisabled) {
+      throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
+    }
+
     if (this.campaignToStartParticipation.isArchived) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }

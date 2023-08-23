@@ -597,8 +597,8 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
     });
   });
 
-  context('when the organization learner has already participated', function () {
-    it('throws an error', async function () {
+  context('when the organization learner is not allowed', function () {
+    it('throws an error if has already participated', async function () {
       const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ idPixLabel: null });
       const organizationLearnerId = 12;
       const userIdentity = { id: 13 };
@@ -614,6 +614,25 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
 
       expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
       expect(error.message).to.equal('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
+    });
+
+    it('throws an error if is disabled', async function () {
+      const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ idPixLabel: null });
+      const organizationLearnerId = 12;
+      const userIdentity = { id: 13 };
+      const campaignParticipant = new CampaignParticipant({
+        campaignToStartParticipation,
+        userIdentity,
+        organizationLearner: {
+          id: organizationLearnerId,
+          hasParticipated: false,
+          isDisabled: true,
+        },
+      });
+      const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
+
+      expect(error).to.be.an.instanceof(ForbiddenAccess);
+      expect(error.message).to.equal("Vous n'êtes pas autorisé à rejoindre la campagne");
     });
   });
 });
