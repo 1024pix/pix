@@ -30,6 +30,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         // when
         await route.model(params);
         expectedQueryArgs.filter = {
+          id: '',
           firstName: '',
           lastName: '',
           email: '',
@@ -45,11 +46,13 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
     module('when queryParams filters are truthy', function () {
       test('it should call store.query with filters containing trimmed values', async function (assert) {
         // given
+        params.id = ' 12 3 456 ';
         params.firstName = ' someFirstName';
         params.lastName = 'someLastName ';
         params.email = 'someEmail';
         params.username = 'someUsername';
         expectedQueryArgs.filter = {
+          id: '123456',
           firstName: 'someFirstName',
           lastName: 'someLastName',
           email: 'someEmail',
@@ -74,6 +77,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
+        id: '123',
         firstName: 'someFirstName',
         lastName: 'someLastName',
         email: 'someEmail',
@@ -89,6 +93,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         // then
         assert.deepEqual(controller.pageNumber, 1);
         assert.deepEqual(controller.pageSize, 10);
+        assert.deepEqual(controller.id, null);
         assert.deepEqual(controller.firstName, null);
         assert.deepEqual(controller.lastName, null);
         assert.deepEqual(controller.email, null);
@@ -104,6 +109,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         // then
         assert.deepEqual(controller.pageNumber, 'somePageNumber');
         assert.deepEqual(controller.pageSize, 'somePageSize');
+        assert.deepEqual(controller.id, '123');
         assert.deepEqual(controller.firstName, 'someFirstName');
         assert.deepEqual(controller.lastName, 'someLastName');
         assert.deepEqual(controller.email, 'someEmail');
