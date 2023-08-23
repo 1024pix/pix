@@ -17,8 +17,8 @@
   "commitMessagePrefix": "[BUMP]",
   "rebaseWhen": "never",
   "schedule": "every 1 hour every weekday",
-  "packageRules": {
+  "packageRules": [{
     "matchPackagePatterns": "^ember-data$",
     "groupName": "ember-data"
-  }
+  }]
 }
