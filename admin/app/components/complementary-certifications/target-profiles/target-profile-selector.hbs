@@ -1,0 +1,13 @@
+{{#if this.selectedTargetProfile}}
+  <ComplementaryCertifications::TargetProfiles::SelectedTargetProfile
+    @onChange={{this.onChange}}
+    @attachableTargetProfile={{this.selectedTargetProfile}}
+  />
+{{else}}
+  <ComplementaryCertifications::TargetProfiles::SearchBar
+    @onSelection={{this.onSelection}}
+    @onSearch={{this.onSearch}}
+    @options={{this.attachableTargetProfiles}}
+    @isLoading={{this.isAttachableTargetProfilesLoading}}
+  />
+{{/if}}
