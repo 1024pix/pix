@@ -45,8 +45,22 @@ async function findPaginatedSummaries({ filter, page, domainTransaction = Domain
   const query = knexConn(TABLE_NAME).select('id', 'title').orderBy('id', 'asc').modify(_applyFilters, filter);
   const { results, pagination } = await fetchPage(query, page);
 
-  const trainings = results.map((training) => new TrainingSummary(training));
-  return { trainings, pagination };
+  const trainingTriggers = await knexConn('training-triggers').whereIn(
+    'trainingId',
+    results.map(({ id }) => id),
+  );
+
+  const trainingSummaries = results.map((trainingSummary) => {
+    const goalThreshold = trainingTriggers.find(
+      ({ trainingId, type }) => trainingId === trainingSummary.id && type === TrainingTrigger.types.GOAL,
+    )?.threshold;
+    const prerequisiteThreshold = trainingTriggers.find(
+      ({ trainingId, type }) => trainingId === trainingSummary.id && type === TrainingTrigger.types.PREREQUISITE,
+    )?.threshold;
+
+    return new TrainingSummary({ ...trainingSummary, goalThreshold, prerequisiteThreshold });
+  });
+  return { trainings: trainingSummaries, pagination };
 }
 
 async function findPaginatedSummariesByTargetProfileId({
