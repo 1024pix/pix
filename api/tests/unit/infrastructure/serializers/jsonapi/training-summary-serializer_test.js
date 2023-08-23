@@ -9,6 +9,9 @@ describe('Unit | Serializer | JSONAPI | training-summary-serializer', function (
         domainBuilder.buildTrainingSummary({
           id: 1,
           title: 'Training Summary 1',
+          targetProfilesCount: 1,
+          prerequisiteThreshold: 2,
+          goalThreshold: 30,
         }),
         domainBuilder.buildTrainingSummary({ id: 2, title: 'Training Summary 2' }),
       ];
@@ -24,6 +27,9 @@ describe('Unit | Serializer | JSONAPI | training-summary-serializer', function (
             type: 'training-summaries',
             id: '1',
             attributes: {
+              'goal-threshold': 30,
+              'prerequisite-threshold': 2,
+              'target-profiles-count': 1,
               title: 'Training Summary 1',
             },
           },
@@ -31,6 +37,9 @@ describe('Unit | Serializer | JSONAPI | training-summary-serializer', function (
             type: 'training-summaries',
             id: '2',
             attributes: {
+              'goal-threshold': undefined,
+              'prerequisite-threshold': undefined,
+              'target-profiles-count': 0,
               title: 'Training Summary 2',
             },
           },

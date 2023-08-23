@@ -891,6 +891,9 @@ describe('Acceptance | Route | target-profiles', function () {
           type: 'training-summaries',
           id: training.id.toString(),
           attributes: {
+            'goal-threshold': undefined,
+            'prerequisite-threshold': undefined,
+            'target-profiles-count': 1,
             title: 'title',
           },
         },
