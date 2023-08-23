@@ -166,8 +166,8 @@ describe('Integration | Repository | training-repository', function () {
     context('when trainings exist', function () {
       it('should return paginated results', async function () {
         // given
-        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1, isRecommendable: true });
-        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, isRecommendable: false });
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1 });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2 });
         const trainingSummary3 = domainBuilder.buildTrainingSummary({ id: 3 });
 
         databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
@@ -259,8 +259,8 @@ describe('Integration | Repository | training-repository', function () {
     context('when trainings exist', function () {
       it('should return paginated results', async function () {
         // given
-        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1, isRecommendable: true });
-        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, isRecommendable: false });
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1 });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2 });
         const trainingSummaryLinkToAnotherTargetProfile = domainBuilder.buildTrainingSummary({ id: 3 });
 
         databaseBuilder.factory.buildTraining({ ...trainingSummary1 });

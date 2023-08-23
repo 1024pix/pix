@@ -1,8 +1,7 @@
 class TrainingSummary {
-  constructor({ id, title, isRecommendable } = {}) {
+  constructor({ id, title } = {}) {
     this.id = id;
     this.title = title;
-    this.isRecommendable = isRecommendable;
   }
 }
 
