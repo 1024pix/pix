@@ -46,7 +46,7 @@
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
     "@embroider/webpack": "^3.0.0",
-    "@fortawesome/ember-fontawesome": "^1.0.0",
+    "@fortawesome/ember-fontawesome": "git+https://github.com/1024pix/ember-fontawesome#732cc036efc66eaa706977a71c072325347e6b5b",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",

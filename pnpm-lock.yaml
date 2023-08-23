@@ -88,8 +88,8 @@ importers:
         specifier: ^3.0.0
         version: 3.1.5(@embroider/core@3.2.1)(webpack@5.88.2)
       '@fortawesome/ember-fontawesome':
-        specifier: ^1.0.0
-        version: 1.0.1(webpack@5.88.2)
+        specifier: git+https://github.com/1024pix/ember-fontawesome#732cc036efc66eaa706977a71c072325347e6b5b
+        version: github.com/1024pix/ember-fontawesome/732cc036efc66eaa706977a71c072325347e6b5b(webpack@5.88.2)
       '@fortawesome/free-regular-svg-icons':
         specifier: ^6.2.1
         version: 6.4.2
@@ -4423,32 +4423,6 @@ packages:
       '@formatjs/intl-listformat': 7.4.0
       intl-messageformat: 10.5.0
       tslib: 2.6.1
-    dev: true
-
-  /@fortawesome/ember-fontawesome@1.0.1(webpack@5.88.2):
-    resolution: {integrity: sha512-t/mkz2K6H2xriD9RPzQJNOpDeqOng3vdCW1V8PmA2/f9VnqqBHGuVT2C5Rs5UIo0nHa9WOvdbkI8T0LE7IzlIA==}
-    engines: {node: 12.* || 14.* || >= 16}
-    dependencies:
-      '@fortawesome/fontawesome-svg-core': 6.4.2
-      '@rollup/plugin-node-resolve': 15.1.0
-      broccoli-file-creator: 2.1.1
-      broccoli-merge-trees: 4.2.0
-      broccoli-plugin: 4.0.7
-      broccoli-rollup: 5.0.0
-      broccoli-source: 3.0.1
-      camel-case: 4.1.2
-      ember-ast-helpers: 0.3.5
-      ember-auto-import: 2.6.3(webpack@5.88.2)
-      ember-cli-babel: 7.26.11
-      ember-cli-htmlbars: 5.7.2
-      ember-get-config: 2.1.1
-      find-yarn-workspace-root: 2.0.0
-      glob: 7.2.3
-    transitivePeerDependencies:
-      - '@glint/template'
-      - rollup
-      - supports-color
-      - webpack
     dev: true
 
   /@fortawesome/fontawesome-common-types@6.4.2:
