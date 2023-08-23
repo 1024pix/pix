@@ -14,5 +14,5 @@ export default function index(config) {
 
   config.patch('/assessments/:id/complete-assessment', completeAssessment);
   config.patch('/assessments/:id/last-challenge-state/focusedout', setFocusedOutState);
-  config.post('/assessments/:id/pause', pauseAssessment);
+  config.post('/assessments/:id/alert', pauseAssessment);
 }

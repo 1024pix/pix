@@ -27,14 +27,14 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
       test('should close the panel if the candidate decides to return to the challenge', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const disableChallengeItemActions = sinon.stub();
+        const submitLiveAlert = sinon.stub();
         const mockAssessment = store.createRecord('assessment', {
-          state: 'started',
+          hasOngoingLiveAlert: false,
         });
         this.set('assessment', mockAssessment);
-        this.set('disableChallengeActions', disableChallengeItemActions);
+        this.set('submitLiveAlert', submitLiveAlert);
         const screen = await render(
-          hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @assessment={{this.assessment}}/>`,
+          hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
         );
 
         // when
@@ -51,16 +51,16 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
         test('should display a notification', async function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          const disableChallengeItemActions = sinon.stub();
-          this.set('disableChallengeActions', disableChallengeItemActions);
+          const submitLiveAlert = sinon.stub();
+          this.set('submitLiveAlert', submitLiveAlert);
 
           const mockAssessment = store.createRecord('assessment', {
-            state: 'paused',
+            hasOngoingLiveAlert: true,
           });
           this.set('assessment', mockAssessment);
 
           const screen = await render(
-            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @assessment={{this.assessment}}/>`,
+            hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
           );
 
           // when
@@ -75,16 +75,16 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
 
         test('should display a refresh button', async function (assert) {
           const store = this.owner.lookup('service:store');
-          const disableChallengeItemActions = sinon.stub();
-          this.set('disableChallengeActions', disableChallengeItemActions);
+          const submitLiveAlertActions = sinon.stub();
+          this.set('submitLiveAlert', submitLiveAlertActions);
 
           const mockAssessment = store.createRecord('assessment', {
-            state: 'paused',
+            hasOngoingLiveAlert: true,
           });
           this.set('assessment', mockAssessment);
 
           const screen = await render(
-            hbs`<FeedbackPanelV3 @disableChallengeActions={{this.disableChallengeActions}} @assessment={{this.assessment}}/>`,
+            hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
           );
 
           // when

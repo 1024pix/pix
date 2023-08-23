@@ -20,7 +20,7 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   get isAssessmentPaused() {
-    return this.args.assessment.state === 'paused';
+    return this.args.assessment.hasOngoingLiveAlert;
   }
 
   get shouldBeExpanded() {

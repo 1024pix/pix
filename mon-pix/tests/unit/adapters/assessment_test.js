@@ -50,8 +50,8 @@ module('Unit | Adapters | assessment', function (hooks) {
     });
   });
 
-  module('#pauseAssessment', function () {
-    test('should post the correct payload to the correctly built pause assessment url', async function (assert) {
+  module('#createLiveAlert', function () {
+    test('should post the correct payload to the correctly built create live alert url', async function (assert) {
       // given
       adapter.ajax = sinon.stub();
       const assessmentId = 123;
@@ -59,11 +59,11 @@ module('Unit | Adapters | assessment', function (hooks) {
       const payload = { data: { data: { attributes: { 'challenge-id': challengeId } } } };
 
       // when
-      await adapter.pauseAssessment(assessmentId, challengeId);
+      await adapter.createLiveAlert(assessmentId, challengeId);
 
       // then
       assert.ok(
-        adapter.ajax.calledWith(`http://localhost:3000/api/assessments/${assessmentId}/pause`, 'POST', payload),
+        adapter.ajax.calledWith(`http://localhost:3000/api/assessments/${assessmentId}/alert`, 'POST', payload),
       );
     });
   });
