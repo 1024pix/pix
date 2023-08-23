@@ -5,12 +5,14 @@ const buildTrainingSummary = function ({
   title = 'Training Summary 1',
   prerequisiteThreshold,
   goalThreshold,
+  targetProfilesCount = 0,
 } = {}) {
   return new TrainingSummary({
     id,
     title,
     prerequisiteThreshold,
     goalThreshold,
+    targetProfilesCount,
   });
 };
 
