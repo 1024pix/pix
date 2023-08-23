@@ -1,0 +1,8 @@
+{{#if this.isLoading}}
+  <Common::LoaderGrey />
+{{/if}}
+<ComplementaryCertifications::TargetProfiles::AttachBadges
+  @options={{this.badges}}
+  @onUpdateLevel={{this.onBadgeUpdated}}
+  @error={{this.getTargetProfileBadgesErrorMessage}}
+/>
