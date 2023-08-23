@@ -679,8 +679,11 @@ function _toDomainFromDTO({
 }
 
 function _setSearchFiltersForQueryBuilder(filter, qb) {
-  const { firstName, lastName, email, username } = filter;
+  const { id, firstName, lastName, email, username } = filter;
 
+  if (id) {
+    qb.where({ id });
+  }
   if (firstName) {
     qb.whereILike('firstName', `%${firstName}%`);
   }
