@@ -44,10 +44,21 @@ export default class CampaignView extends Component {
   }
 
   get isMultipleSendingsEnable() {
-    return (
-      !this.args.campaign.isTypeAssessment ||
-      (this.args.campaign.isTypeAssessment && this.currentUser.prescriber.enableMultipleSendingAssessment)
-    );
+    return !this.args.campaign.isTypeAssessment || this.isMultipleSendingsForAssessmentEnabled;
+  }
+
+  get isMultipleSendingsForAssessmentEnabled() {
+    return this.args.campaign.isTypeAssessment && this.currentUser.prescriber.enableMultipleSendingAssessment;
+  }
+
+  get displayResetToZero() {
+    return this.isMultipleSendingsForAssessmentEnabled && this.args.campaign.multipleSendings;
+  }
+
+  get resetToZeroText() {
+    return this.args.campaign.targetProfileAreKnowledgeElementsResettable
+      ? this.intl.t('pages.campaign-settings.reset-to-zero.status.enabled')
+      : this.intl.t('pages.campaign-settings.reset-to-zero.status.disabled');
   }
 
   get queryForDuplicate() {
