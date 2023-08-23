@@ -384,6 +384,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
         // then
         assert.contains(t('common.target-profile-details.results.common'));
       });
+
       module('Displaying options and categories', function () {
         test('it should display options in alphapetical order', async function (assert) {
           // given
@@ -569,6 +570,96 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
         // then
         assert.contains(t('common.target-profile-details.results.common'));
+      });
+
+      module('when target profile are knowledge elements resettable', function () {
+        test('it should display specific message', async function (assert) {
+          // given
+          this.targetProfiles = [
+            store.createRecord('target-profile', {
+              id: '1',
+              name: 'targetProfile1',
+              description: 'description1',
+              tubeCount: 11,
+              thematicResultCount: 12,
+              hasStage: true,
+              areKnowledgeElementsResettable: true,
+            }),
+            store.createRecord('target-profile', {
+              id: '2',
+              name: 'targetProfile2',
+              description: 'description2',
+              tubeCount: 21,
+              thematicResultCount: 22,
+              hasStage: false,
+            }),
+          ];
+          prescriber.enableMultipleSendingAssessment = true;
+
+          // when
+          const screen = await render(
+            hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @targetProfiles={{this.targetProfiles}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          await click(await screen.findByRole('option', { name: 'targetProfile1' }));
+
+          // then
+          assert.contains(t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'));
+        });
+      });
+
+      module('when target profile are not knowledge elements resettable', function () {
+        test('it should not display specific message', async function (assert) {
+          // given
+          this.targetProfiles = [
+            store.createRecord('target-profile', {
+              id: '1',
+              name: 'targetProfile1',
+              description: 'description1',
+              tubeCount: 11,
+              thematicResultCount: 12,
+              hasStage: true,
+              areKnowledgeElementsResettable: false,
+            }),
+            store.createRecord('target-profile', {
+              id: '2',
+              name: 'targetProfile2',
+              description: 'description2',
+              tubeCount: 21,
+              thematicResultCount: 22,
+              hasStage: false,
+            }),
+          ];
+          prescriber.enableMultipleSendingAssessment = true;
+
+          // when
+          const screen = await render(
+            hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @targetProfiles={{this.targetProfiles}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+          );
+          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+
+          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          await click(await screen.findByRole('option', { name: 'targetProfile1' }));
+
+          // then
+          assert.notContains(t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'));
+        });
       });
     });
   });

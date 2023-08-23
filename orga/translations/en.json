@@ -371,6 +371,7 @@
           "question-label": "Do you want to allow participants to submit their results more than once?"
         },
         "info-title": "Multiple submissions",
+        "knowledge-elements-resettable": "As part of the customised test, participants can try to improve their results by repeating all the questions in the customised test.",
         "profiles": {
           "info": "If you choose to allow multiple submissions, the participants will be able to submit their profile several times by re-entering the campaign code. Within Pix Orga you will find the latest submitted profile.",
           "question-label": "Do you want to allow participants to submit their profile more than once?"
