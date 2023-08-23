@@ -4,11 +4,12 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
 export default class AttachTargetProfileController extends Controller {
+  @service notifications;
   @service router;
   @service store;
 
-  @tracked options = [];
   @tracked selectedTargetProfile;
+  @tracked targetProfileBadges;
 
   @action
   async cancel() {
@@ -16,31 +17,29 @@ export default class AttachTargetProfileController extends Controller {
   }
 
   @action
-  onSelection(selectedAttachableTargetProfile) {
-    this.selectedTargetProfile = selectedAttachableTargetProfile.value;
-    this.options = [];
-  }
-
-  @action
-  onChange() {
-    this.selectedTargetProfile = undefined;
-  }
-
-  @action
-  async onSearch(value) {
-    const searchTerm = value?.trim();
-    const isSearchById = searchTerm && /^\d+$/.test(searchTerm);
-    const isSearchByName = searchTerm?.length >= 2;
-
-    if (isSearchById || isSearchByName) {
-      const attachableTargetProfiles = await this.store.query('attachable-target-profile', { searchTerm });
-
-      this.options = attachableTargetProfiles.map((attachableTargetProfile) => ({
-        label: `${attachableTargetProfile.id} - ${attachableTargetProfile.name}`,
-        value: attachableTargetProfile,
-      }));
-    } else {
-      this.options = [];
+  async onError(errorMessage) {
+    if (errorMessage) {
+      this.notifications.error(errorMessage);
     }
+  }
+
+  @action
+  async onSelection(selectedAttachableTargetProfile) {
+    if (selectedAttachableTargetProfile) {
+      this.selectedTargetProfile = selectedAttachableTargetProfile;
+      this.targetProfileBadges = new Map();
+    }
+  }
+
+  @action
+  onReset() {
+    this.selectedTargetProfile = undefined;
+    this.targetProfileBadges = undefined;
+  }
+
+  @action
+  onBadgeUpdated({ badgeId, badgeLevel }) {
+    console.log('A badge level has been updated: ', { badgeId, badgeLevel });
+    this.targetProfileBadges.set(badgeId, badgeLevel);
   }
 }

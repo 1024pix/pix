@@ -9,8 +9,13 @@
       @triggerFiltering={{this.onSearchValueInput}}
       autocomplete="off"
     />
-    {{#if @options.length}}
-      <ul role="listbox" class="attach-target-profile-search__results">
+    {{#if (or @isLoading @options.length)}}
+      <ul role="listbox" class="attach-target-profile-search__results" aria-busy="{{@isLoading}}">
+        {{#if @isLoading}}
+          <li class="attach-target-profile-search__results__loader" role="progressbar">
+            Recherche en cours...
+          </li>
+        {{/if}}
         {{#each @options as |option|}}
           <li
             class="attach-target-profile-search__results__option"
