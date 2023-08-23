@@ -693,6 +693,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           userId,
           organizationId,
+          isDisabled: false,
         });
 
         await databaseBuilder.commit();
@@ -706,6 +707,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+        expect(campaignParticipant.organizationLearnerisDisabled).to.be.false;
         expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
       });
 
