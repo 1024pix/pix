@@ -408,8 +408,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         };
 
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(personalInfoAndId);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          personalInfoAndId,
+        );
 
         // then
         expect(actualCandidates).to.have.lengthOf(1);
@@ -450,8 +451,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         };
 
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(personalInfoAndId);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          personalInfoAndId,
+        );
 
         // then
         expect(actualCandidates).to.have.lengthOf(1);
@@ -484,8 +486,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
 
       it('should not find any candidate', async function () {
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(notMatchingCandidateInfo);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          notMatchingCandidateInfo,
+        );
 
         // then
         expect(actualCandidates).to.be.empty;
@@ -517,8 +520,9 @@ describe('Integration | Repository | CertificationCandidate', function () {
         await databaseBuilder.commit();
 
         // when
-        const actualCandidates =
-          await certificationCandidateRepository.findBySessionIdAndPersonalInfo(commonCandidateInfo);
+        const actualCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo(
+          commonCandidateInfo,
+        );
 
         // then
         expect(actualCandidates).to.have.lengthOf(2);

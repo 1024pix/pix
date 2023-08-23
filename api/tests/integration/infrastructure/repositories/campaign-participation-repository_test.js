@@ -79,8 +79,9 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should return null if there is no participations', async function () {
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -97,8 +98,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -116,8 +118,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -133,8 +136,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -151,8 +155,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -170,8 +175,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(null);
@@ -196,8 +202,9 @@ describe('Integration | Repository | Campaign Participation', function () {
       await databaseBuilder.commit();
 
       // when
-      const code =
-        await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(userId);
+      const code = await campaignParticipationRepository.getCodeOfLastParticipationToProfilesCollectionCampaignForUser(
+        userId,
+      );
 
       // then
       expect(code).to.equal(expectedCode);

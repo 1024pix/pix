@@ -7,8 +7,9 @@ import { Assessment } from '../../domain/models/Assessment.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const findBySessionId = async function (sessionId) {
-  const certificationCourseIds =
-    await _getCertificationCoursesIdBySessionIdQuery(sessionId).pluck('certification-courses.id');
+  const certificationCourseIds = await _getCertificationCoursesIdBySessionIdQuery(sessionId).pluck(
+    'certification-courses.id',
+  );
   const orderResults = await _getByCertificationCourseIds(certificationCourseIds);
 
   const juryCertificationSummaryDTOs = await _getJuryCertificationSummaries(orderResults);

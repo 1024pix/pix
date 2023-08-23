@@ -30,8 +30,9 @@ const sendSharedParticipationResultsToPoleEmploi = async ({
     });
     const user = await userRepository.get(participation.userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
-    const participationResult =
-      await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
+    const participationResult = await campaignParticipationResultRepository.getByParticipationId(
+      campaignParticipationId,
+    );
 
     const payload = PoleEmploiPayload.buildForParticipationShared({
       user,

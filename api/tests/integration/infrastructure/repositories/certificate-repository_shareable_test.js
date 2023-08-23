@@ -547,8 +547,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         await databaseBuilder.commit();
 
         // when
-        const shareableCertificate =
-          await certificateRepository.getShareableCertificateByVerificationCode('P-SOMECODE');
+        const shareableCertificate = await certificateRepository.getShareableCertificateByVerificationCode(
+          'P-SOMECODE',
+        );
 
         // then
         const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
