@@ -93,17 +93,11 @@ Les extensions recommandées peuvent se retrouver dans l'onglet extension en ren
 
 ### Démarrer les applications
 
-Pour démarrer l'ensemble des applications, exécuter `npm start `
-
-⚠️ Cela prend entre 10 et 15 minutes et la consommation mémoire est élevée lors de cette opération.
-
-Si cela pose problème, démarrer sélectivement les applications :
-
-- Admin : `npm run start:admin`
-- Api : `npm run start:api`
-- App : `npm run start:mon-pix`
-- Certif : `npm run start:certif`
-- Orga : `npm run start:orga`
+- Admin : `npm start --workspace=admin`
+- Api : `npm start --workspace=api`
+- App : `npm start --workspace=mon-pix`
+- Certif : `npm start --workspace=certif`
+- Orga : `npm start --workspace=orga`
 - Pix1d : `npm run start:pix1d`
 
 ### Accéder aux applications

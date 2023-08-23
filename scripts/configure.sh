@@ -69,8 +69,8 @@ function generate_environment_config_file() {
 function install_apps_dependencies() {
   echo "Installing Pix apps dependencies…"
 
-  npm install
-  npm run ci:all
+  npm ci
+  npm run ci:1d
 
   echo "✅ Dependencies installed."
   echo ""
@@ -94,7 +94,7 @@ function setup_and_run_infrastructure() {
   echo "Creating database"
 
   # It drops and creates database then load the seed.
-  (cd api && npm run db:reset)
+  npm run db:reset --workspace=api
 
   echo "✅ Database created"
   echo ""

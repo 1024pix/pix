@@ -156,7 +156,7 @@ jobs:
             npm ci
             npm run lint:scripts
             npm run lint:yaml
-            npm run test:root
+            npm run test:scripts
             rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
