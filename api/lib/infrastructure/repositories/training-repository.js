@@ -42,7 +42,22 @@ async function getWithTriggersForAdmin({ trainingId, domainTransaction = DomainT
 
 async function findPaginatedSummaries({ filter, page, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
-  const query = knexConn(TABLE_NAME).select('id', 'title').orderBy('id', 'asc').modify(_applyFilters, filter);
+  const query = knexConn(TABLE_NAME)
+    .select(
+      'trainings.id',
+      'trainings.title',
+      knexConn.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
+    )
+    .leftJoin(
+      knexConn('target-profile-trainings')
+        .select('trainingId', knexConn.raw('count(\'trainingId\') as "targetProfilesCount"'))
+        .groupBy('trainingId')
+        .as('target-profile-trainings-count'),
+      'target-profile-trainings-count.trainingId',
+      `${TABLE_NAME}.id`,
+    )
+    .orderBy('trainings.id', 'asc')
+    .modify(_applyFilters, filter);
   const { results, pagination } = await fetchPage(query, page);
 
   const trainingTriggers = await knexConn('training-triggers').whereIn(
@@ -50,16 +65,7 @@ async function findPaginatedSummaries({ filter, page, domainTransaction = Domain
     results.map(({ id }) => id),
   );
 
-  const trainingSummaries = results.map((trainingSummary) => {
-    const goalThreshold = trainingTriggers.find(
-      ({ trainingId, type }) => trainingId === trainingSummary.id && type === TrainingTrigger.types.GOAL,
-    )?.threshold;
-    const prerequisiteThreshold = trainingTriggers.find(
-      ({ trainingId, type }) => trainingId === trainingSummary.id && type === TrainingTrigger.types.PREREQUISITE,
-    )?.threshold;
-
-    return new TrainingSummary({ ...trainingSummary, goalThreshold, prerequisiteThreshold });
-  });
+  const trainingSummaries = results.map((trainingSummary) => _toDomainSummary({ trainingSummary, trainingTriggers }));
   return { trainings: trainingSummaries, pagination };
 }
 
@@ -70,14 +76,31 @@ async function findPaginatedSummariesByTargetProfileId({
 }) {
   const knexConn = domainTransaction?.knexTransaction || knex;
   const query = knexConn(TABLE_NAME)
-    .select('trainings.id', 'trainings.title')
+    .select(
+      'trainings.id',
+      'trainings.title',
+      knexConn.raw('coalesce("targetProfilesCount", 0) as "targetProfilesCount"'),
+    )
     .innerJoin('target-profile-trainings', `${TABLE_NAME}.id`, 'target-profile-trainings.trainingId')
+    .leftJoin(
+      knexConn('target-profile-trainings')
+        .select('trainingId', knexConn.raw('count(\'trainingId\') as "targetProfilesCount"'))
+        .groupBy('trainingId')
+        .as('target-profile-trainings-count'),
+      'target-profile-trainings-count.trainingId',
+      `${TABLE_NAME}.id`,
+    )
     .where({ 'target-profile-trainings.targetProfileId': targetProfileId })
     .orderBy('id', 'asc');
 
   const { results, pagination } = await fetchPage(query, page);
 
-  const trainings = results.map((training) => new TrainingSummary(training));
+  const trainingTriggers = await knexConn('training-triggers').whereIn(
+    'trainingId',
+    results.map(({ id }) => id),
+  );
+
+  const trainings = results.map((training) => _toDomainSummary({ trainingSummary: training, trainingTriggers }));
   return { trainings, pagination };
 }
 
@@ -195,6 +218,17 @@ function _toDomainForAdmin({ training, trainingTriggers, targetProfileTrainings 
     .map(({ targetProfileId }) => targetProfileId);
 
   return new TrainingForAdmin({ ...training, targetProfileIds, trainingTriggers });
+}
+
+function _toDomainSummary({ trainingSummary, trainingTriggers }) {
+  const goalThreshold = trainingTriggers.find(
+    ({ trainingId, type }) => trainingId === trainingSummary.id && type === TrainingTrigger.types.GOAL,
+  )?.threshold;
+  const prerequisiteThreshold = trainingTriggers.find(
+    ({ trainingId, type }) => trainingId === trainingSummary.id && type === TrainingTrigger.types.PREREQUISITE,
+  )?.threshold;
+
+  return new TrainingSummary({ ...trainingSummary, goalThreshold, prerequisiteThreshold });
 }
 
 function _applyFilters(qb, filter) {
