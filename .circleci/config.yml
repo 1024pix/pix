@@ -172,14 +172,14 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: pnpm --filter api run lint
+          command: pnpm --filter pix-api run lint
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
           when: always
       - run:
           name: Test
-          command: pnpm --filter api run test
+          command: pnpm --filter pix-api run test
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
@@ -251,10 +251,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: pnpm --filter orga run lint
+          command: pnpm --filter pix-orga run lint
       - run:
           name: Test
-          command: pnpm --filter orga run test:ci
+          command: pnpm --filter pix-orga run test:ci
 
   pix1d_build_and_test:
     executor:
@@ -281,10 +281,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: pnpm --filter certif run lint
+          command: pnpm --filter pix-certif run lint
       - run:
           name: Test
-          command: pnpm --filter certif run test:ci
+          command: pnpm --filter pix-certif run test:ci
 
   admin_build_and_test:
     executor:
@@ -296,10 +296,10 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: pnpm --filter admin run lint
+          command: pnpm --filter pix-admin run lint
       - run:
           name: Test
-          command: pnpm --filter admin run test:ci
+          command: pnpm --filter pix-admin run test:ci
 
   e2e_test_app:
     executor:
@@ -335,7 +335,7 @@ jobs:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
           background: true
-          command: pnpm --filter api run start
+          command: pnpm --filter pix-api run start
 
       - run:
           name: Start Pix App
@@ -382,7 +382,7 @@ jobs:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
             REDIS_URL: 'redis://localhost:6379'
           background: true
-          command: pnpm --filter api run start
+          command: pnpm --filter pix-api run start
 
       - run:
           name: Start Pix Orga
@@ -390,7 +390,7 @@ jobs:
           environment:
             JOBS: 2
           background: true
-          command: pnpm --filter orga run start
+          command: pnpm --filter pix-orga run start
 
       - run:
           name: Run tests
