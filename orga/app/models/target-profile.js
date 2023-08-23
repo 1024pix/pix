@@ -7,4 +7,5 @@ export default class TargetProfile extends Model {
   @attr('number') thematicResultCount;
   @attr('boolean') hasStage;
   @attr('string') category;
+  @attr('boolean') areKnowledgeElementsResettable;
 }
