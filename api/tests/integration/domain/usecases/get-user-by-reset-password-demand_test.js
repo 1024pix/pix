@@ -3,7 +3,7 @@ import { catchErr, expect, databaseBuilder } from '../../../test-helper.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
 
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 import { User } from '../../../../lib/domain/models/User.js';
 

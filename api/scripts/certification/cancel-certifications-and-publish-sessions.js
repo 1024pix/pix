@@ -3,7 +3,7 @@ import yargs from 'yargs';
 import { unpublishSession } from '../../lib/domain/usecases/unpublish-session.js';
 import { publishSession } from '../../lib/domain/usecases/publish-session.js';
 import * as finalizedSessionRepository from '../../lib/infrastructure/repositories/sessions/finalized-session-repository.js';
-import * as sessionRepository from '../../lib/infrastructure/repositories/sessions/session-repository.js';
+import * as sessionRepository from '../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as certificationRepository from '../../lib/infrastructure/repositories/certification-repository.js';
 import * as sessionPublicationService from '../../lib/domain/services/session-publication-service.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';

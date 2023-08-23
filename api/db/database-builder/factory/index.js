@@ -3,7 +3,7 @@ import * as knowledgeElementSnapshotFactory from './knowledge-elements-snapshot-
 import * as poleEmploiSendingFactory from './pole-emploi-sending-factory.js';
 import * as buildDataProtectionOfficer from './build-data-protection-officer.js';
 
-import { importNamedExportsFromDirectory } from '../../../lib/infrastructure/utils/import-named-exports-from-directory.js';
+import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 

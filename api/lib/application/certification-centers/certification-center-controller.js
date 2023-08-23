@@ -7,25 +7,14 @@ import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/di
 import * as studentCertificationSerializer from '../../infrastructure/serializers/jsonapi/student-certification-serializer.js';
 import * as sessionSummarySerializer from '../../infrastructure/serializers/jsonapi/session-summary-serializer.js';
 import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
-import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
-
-const { map } = lodash;
-
 import * as csvHelpers from './csvHelpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
 
-const saveSession = async function (request, _h, dependencies = { sessionSerializer }) {
-  const userId = request.auth.credentials.userId;
-  const session = dependencies.sessionSerializer.deserialize(request.payload);
-
-  const newSession = await usecases.createSession({ userId, session });
-
-  return dependencies.sessionSerializer.serialize({ session: newSession });
-};
+const { map } = lodash;
 
 const create = async function (request) {
   const certificationCenter = certificationCenterForAdminSerializer.deserialize(request.payload);
@@ -241,7 +230,6 @@ const createSessionsForMassImport = async function (request, h) {
 };
 
 const certificationCenterController = {
-  saveSession,
   create,
   update,
   getCertificationCenterDetails,

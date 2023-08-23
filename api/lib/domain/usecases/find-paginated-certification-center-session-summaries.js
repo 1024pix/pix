@@ -1,4 +1,4 @@
-import { ForbiddenAccess } from '../../domain/errors.js';
+import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const findPaginatedCertificationCenterSessionSummaries = async function ({
   userId,

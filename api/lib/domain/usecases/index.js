@@ -55,7 +55,7 @@ import * as certificationCenterForAdminRepository from '../../infrastructure/rep
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
 import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
-import * as certificationCenterRepository from '../../infrastructure/repositories/certification-center-repository.js';
+import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
@@ -147,16 +147,16 @@ import * as scoCertificationCandidateRepository from '../../infrastructure/repos
 import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
 import * as scorecardService from '../../domain/services/scorecard-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
-import * as sessionCodeService from '../services/session-code-service.js';
+import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
 import * as sessionForAttendanceSheetRepository from '../../infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
-import * as sessionRepository from '../../infrastructure/repositories/sessions/session-repository.js';
 import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
+import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
-import * as sessionValidator from '../validators/session-validator.js';
+import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as skillSetRepository from '../../infrastructure/repositories/skill-set-repository.js';
@@ -183,7 +183,7 @@ import * as userLoginRepository from '../../infrastructure/repositories/user-log
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
-import * as userRepository from '../../infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as userService from '../../domain/services/user-service.js';
 import * as userToCreateRepository from '../../infrastructure/repositories/user-to-create-repository.js';
@@ -199,8 +199,8 @@ import { participantResultsSharedRepository } from '../../infrastructure/reposit
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import { tokenService } from '../services/token-service.js';
 
-import { importNamedExportsFromDirectory } from '../../infrastructure/utils/import-named-exports-from-directory.js';
-import { injectDependencies } from '../../infrastructure/utils/dependency-injection.js';
+import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
+import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 

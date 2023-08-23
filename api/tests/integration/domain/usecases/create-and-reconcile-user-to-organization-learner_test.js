@@ -6,7 +6,7 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js
 import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';

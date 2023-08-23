@@ -3,7 +3,7 @@ import { UserNotFoundError, AlreadyExistingEntityError } from '../../../../lib/d
 import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
-import * as userRepository from '../../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 import { createCertificationCenterMembershipByEmail } from '../../../../lib/domain/usecases/create-certification-center-membership-by-email.js';
 

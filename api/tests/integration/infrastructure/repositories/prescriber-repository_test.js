@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import bcrypt from 'bcrypt';
 import { config as settings } from '../../../../lib/config.js';
-import { ForbiddenAccess, UserNotFoundError } from '../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../../lib/domain/errors.js';
 import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
 import { Prescriber } from '../../../../lib/domain/read-models/Prescriber.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
@@ -9,6 +9,7 @@ import { UserOrgaSettings } from '../../../../lib/domain/models/UserOrgaSettings
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import * as apps from '../../../../lib/domain/constants.js';
+import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {

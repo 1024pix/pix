@@ -9,7 +9,7 @@ import { CompetenceMark } from '../../models/CompetenceMark.js';
 import { CertificationAssessmentScore } from '../../models/CertificationAssessmentScore.js';
 import { AnswerCollectionForScoring } from '../../models/AnswerCollectionForScoring.js';
 import * as areaRepository from '../../../infrastructure/repositories/area-repository.js';
-import { CertificationVersion } from '../../models/CertificationVersion.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(({ challengeId }) => _.some(certificationChallenges, { challengeId }));

@@ -1,4 +1,4 @@
-import * as userRepository from '../../../lib/infrastructure/repositories/user-repository.js';
+import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as errorSerializer from '../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import { UserNotFoundError } from '../../domain/errors.js';
 
