@@ -1,7 +1,13 @@
-import { createTargetProfile } from '../common/tooling/target-profile-tooling.js';
-import { SCO_ORGANIZATION_ID, TARGET_PROFILE_ID } from './constants.js';
+import { createTargetProfile, createBadge, createStages } from '../common/tooling/target-profile-tooling.js';
+import {
+  SCO_ORGANIZATION_ID,
+  TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
+  TARGET_PROFILE_BADGES_STAGES_ID,
+  BADGES_CAMP_ID,
+  BADGES_TUBES_CAMP_ID,
+} from './constants.js';
 
-async function _createTargetProfile(databaseBuilder) {
+async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
   const configTargetProfile = {
     frameworks: [
       {
@@ -15,17 +21,92 @@ async function _createTargetProfile(databaseBuilder) {
 
   await createTargetProfile({
     databaseBuilder,
-    targetProfileId: TARGET_PROFILE_ID,
-    name: 'Profil cible Pur Pix (Niv3 ~ 5)',
+    targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
+    name: 'Pix (Niv3 ~ 5) - NO Badges - NO Stages',
     ownerOrganizationId: SCO_ORGANIZATION_ID,
     isPublic: true,
     isSimplifiedAccess: false,
-    description: 'Profil cible pur pix (Niv3 ~ 5)',
+    description: 'Pix (Niv3 ~ 5)',
     configTargetProfile,
   });
 }
 
+async function _createTargetProfileWithBadgesStages(databaseBuilder) {
+  const configTargetProfile = {
+    frameworks: [
+      {
+        chooseCoreFramework: true,
+        countTubes: 10,
+        minLevel: 1,
+        maxLevel: 5,
+      },
+    ],
+  };
+
+  const configBadge = {
+    criteria: [
+      {
+        scope: 'CappedTubes',
+        threshold: 60,
+      },
+      {
+        scope: 'CampaignParticipation',
+        threshold: 50,
+      },
+    ],
+  };
+  const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
+    databaseBuilder,
+    targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
+    name: 'Pix (Niv1 ~ 5) - Badges - Stages',
+    ownerOrganizationId: SCO_ORGANIZATION_ID,
+    isPublic: false,
+    isSimplifiedAccess: false,
+    description: 'Pix (Niv1 ~ 5)',
+    configTargetProfile,
+  });
+
+  await createBadge({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    badgeId: BADGES_TUBES_CAMP_ID,
+    altMessage: '1 RT double critère Campaign & Tubes',
+    imageUrl: 'some_image.svg',
+    message: '1 RT double critère Campaign & Tubes',
+    title: '1 RT double critère Campaign & Tubes',
+    key: `SOME_KEY_FOR_RT_${BADGES_TUBES_CAMP_ID}`,
+    isCertifiable: false,
+    isAlwaysVisible: true,
+    configBadge,
+  });
+  await createBadge({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    badgeId: BADGES_CAMP_ID,
+    altMessage: '1 RT simple critère Campaign',
+    imageUrl: 'some_other_image.svg',
+    message: '1 RT simple critère Campaign',
+    title: '1 RT simple critère Campaign',
+    key: `SOME_KEY_FOR_RT_${BADGES_CAMP_ID}`,
+    isCertifiable: false,
+    isAlwaysVisible: true,
+    configBadge,
+  });
+  await createStages({
+    databaseBuilder,
+    targetProfileId,
+    cappedTubesDTO,
+    type: 'LEVEL',
+    countStages: 5,
+    includeFirstSkill: true,
+    shouldInsertPrescriberTitleAndDescription: true,
+  });
+}
+
 export async function buildTargetProfiles(databaseBuilder) {
-  await _createTargetProfile(databaseBuilder);
+  await _createTargetProfileWithoutBadgesStages(databaseBuilder);
+  await _createTargetProfileWithBadgesStages(databaseBuilder);
   return databaseBuilder.commit();
 }
