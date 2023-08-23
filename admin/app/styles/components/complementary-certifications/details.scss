@@ -22,12 +22,6 @@
     letter-spacing: -0.04em;
   }
 
-  &__target-profile {
-    margin: $pix-spacing-s 0;
-    color: $pix-neutral-70;
-    font-size: 16px;
-  }
-
   &__badges-title,
   &__history-title {
     padding-bottom: $pix-spacing-s;
@@ -40,15 +34,7 @@
 
 
 .complementary-certification-details-target-profile {
-  &__link {
-    color: $pix-primary;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
   &__attach-button {
-    width:  fit-content;
+    width: fit-content;
   }
 }
