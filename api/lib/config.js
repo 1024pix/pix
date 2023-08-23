@@ -56,6 +56,35 @@ function _getLogForHumans() {
 }
 
 const configuration = (function () {
+  const brevoMailerConfig = {
+    apiKey: process.env.BREVO_API_KEY || process.env.SENDINBLUE_API_KEY,
+    templates: {
+      accountCreationTemplateId:
+        process.env.BREVO_ACCOUNT_CREATION_TEMPLATE_ID || process.env.SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID,
+      organizationInvitationTemplateId:
+        process.env.BREVO_ORGANIZATION_INVITATION_TEMPLATE_ID ||
+        process.env.SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID,
+      organizationInvitationScoTemplateId:
+        process.env.BREVO_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID ||
+        process.env.SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
+      certificationCenterInvitationTemplateId:
+        process.env.BREVO_CERTIFICATION_CENTER_INVITATION_TEMPLATE_ID ||
+        process.env.SENDINBLUE_CERTIFICATION_CENTER_INVITATION_TEMPLATE_ID,
+      passwordResetTemplateId:
+        process.env.BREVO_PASSWORD_RESET_TEMPLATE_ID || process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID,
+      certificationResultTemplateId:
+        process.env.BREVO_CERTIFICATION_RESULT_TEMPLATE_ID || process.env.SENDINBLUE_CERTIFICATION_RESULT_TEMPLATE_ID,
+      accountRecoveryTemplateId:
+        process.env.BREVO_ACCOUNT_RECOVERY_TEMPLATE_ID || process.env.SENDINBLUE_ACCOUNT_RECOVERY_TEMPLATE_ID,
+      emailVerificationCodeTemplateId:
+        process.env.BREVO_EMAIL_VERIFICATION_CODE_TEMPLATE_ID ||
+        process.env.SENDINBLUE_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
+      cpfEmailTemplateId: process.env.SENDINBLUE_CPF_TEMPLATE_ID || process.env.SENDINBLUE_CPF_TEMPLATE_ID,
+      acquiredCleaResultTemplateId:
+        process.env.BREVO_CLEA_ACQUIRED_RESULT_TEMPLATE_ID || process.env.SENDINBLUE_CLEA_ACQUIRED_RESULT_TEMPLATE_ID,
+    },
+  };
+
   const config = {
     rootPath: path.normalize(__dirname + '/..'),
 
@@ -106,22 +135,9 @@ const configuration = (function () {
 
     mailing: {
       enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
-      provider: process.env.MAILING_PROVIDER || 'sendinblue',
-      sendinblue: {
-        apiKey: process.env.SENDINBLUE_API_KEY,
-        templates: {
-          accountCreationTemplateId: process.env.SENDINBLUE_ACCOUNT_CREATION_TEMPLATE_ID,
-          organizationInvitationTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID,
-          organizationInvitationScoTemplateId: process.env.SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID,
-          certificationCenterInvitationTemplateId: process.env.SENDINBLUE_CERTIFICATION_CENTER_INVITATION_TEMPLATE_ID,
-          passwordResetTemplateId: process.env.SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID,
-          certificationResultTemplateId: process.env.SENDINBLUE_CERTIFICATION_RESULT_TEMPLATE_ID,
-          accountRecoveryTemplateId: process.env.SENDINBLUE_ACCOUNT_RECOVERY_TEMPLATE_ID,
-          emailVerificationCodeTemplateId: process.env.SENDINBLUE_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
-          cpfEmailTemplateId: process.env.SENDINBLUE_CPF_TEMPLATE_ID,
-          acquiredCleaResultTemplateId: process.env.SENDINBLUE_CLEA_ACQUIRED_RESULT_TEMPLATE_ID,
-        },
-      },
+      provider: process.env.MAILING_PROVIDER || 'brevo',
+      sendinblue: brevoMailerConfig,
+      brevo: brevoMailerConfig,
     },
 
     authentication: {
@@ -375,7 +391,7 @@ const configuration = (function () {
     config.featureToggles.isTargetProfileVersioningEnabled = true;
 
     config.mailing.enabled = false;
-    config.mailing.provider = 'sendinblue';
+    config.mailing.provider = 'brevo';
 
     config.mailing.sendinblue.apiKey = 'test-api-key';
     config.mailing.sendinblue.templates.accountCreationTemplateId = 'test-account-creation-template-id';

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import SibApiV3Sdk from 'sib-api-v3-sdk';
+import Brevo from '@getbrevo/brevo';
 
 import { MailingProvider } from './MailingProvider.js';
 import { config } from '../../config.js';
@@ -36,18 +36,18 @@ function _formatPayload({ to, fromName, from, subject, template, variables, tags
   return payload;
 }
 
-class SendinblueProvider extends MailingProvider {
+class BrevoProvider extends MailingProvider {
   constructor() {
     super();
 
-    const defaultClient = SibApiV3Sdk.ApiClient.instance;
-    defaultClient.authentications['api-key'].apiKey = mailing.sendinblue.apiKey;
+    const defaultClient = Brevo.ApiClient.instance;
+    defaultClient.authentications['api-key'].apiKey = mailing.brevo.apiKey;
 
-    this._client = SendinblueProvider.createSendinblueSMTPApi();
+    this._client = BrevoProvider.createBrevoSMTPApi();
   }
 
-  static createSendinblueSMTPApi() {
-    return new SibApiV3Sdk.TransactionalEmailsApi();
+  static createBrevoSMTPApi() {
+    return new Brevo.TransactionalEmailsApi();
   }
 
   async sendEmail(options) {
@@ -65,4 +65,4 @@ class SendinblueProvider extends MailingProvider {
   }
 }
 
-export { SendinblueProvider };
+export { BrevoProvider };

@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { SendinblueProvider } from './SendinblueProvider.js';
+import { BrevoProvider } from './BrevoProvider.js';
 import { config } from '../../config.js';
 import { logger } from '../logger.js';
 import * as mailCheck from '../mail-check.js';
@@ -15,7 +15,8 @@ class Mailer {
     this.dependencies = dependencies;
     switch (this._providerName) {
       case 'sendinblue':
-        this._provider = new SendinblueProvider();
+      case 'brevo':
+        this._provider = new BrevoProvider();
         break;
       default:
         logger.warn('Undefined mailing provider');
