@@ -1,5 +1,5 @@
 import { DEFAULT_PASSWORD, SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from './constants.js';
-
+import { FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID } from '../common/constants.js';
 async function _createScoOrganization(databaseBuilder) {
   databaseBuilder.factory.buildOrganization({
     id: SCO_ORGANIZATION_ID,
@@ -25,15 +25,9 @@ async function _createScoOrganization(databaseBuilder) {
     organizationRole: 'ADMIN',
   });
 
-  const { id: multipleSendingFeatureId } = await databaseBuilder
-    .knex('features')
-    .select('id')
-    .where({ key: 'MULTIPLE_SENDING_ASSESSMENT' })
-    .first();
-
   databaseBuilder.factory.buildOrganizationFeature({
     organizationId: SCO_ORGANIZATION_ID,
-    featureId: multipleSendingFeatureId,
+    featureId: FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID,
   });
 }
 
