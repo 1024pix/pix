@@ -207,6 +207,40 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         });
       });
 
+      it('returns only ther user matching "id" if given in filter', async function () {
+        // given
+        const filter = { id: '123456' };
+        const page = { number: 1, size: 10 };
+
+        const nanaOsaki = databaseBuilder.factory.buildUser({
+          id: 123456,
+          firstName: 'Nana',
+          lastName: 'Osaki',
+        });
+        databaseBuilder.factory.buildUser({
+          id: 987654,
+          firstName: 'Hachi',
+          lastName: 'Komatsu',
+        });
+        databaseBuilder.factory.buildUser({
+          id: 789123,
+          firstName: 'Reira',
+          lastName: 'Serizawa',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        expect(matchingUsers).to.have.lengthOf(1);
+        expect(matchingUsers[0].id).to.equal(nanaOsaki.id);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+
       context('when there are lots of users (> 10) in the database', function () {
         it('should return paginated matching users', async function () {
           // given
@@ -448,32 +482,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           });
         },
       );
-
-      context('when there are filter that should be ignored', function () {
-        let firstUserId;
-        let secondUserId;
-
-        beforeEach(async function () {
-          firstUserId = databaseBuilder.factory.buildUser().id;
-          secondUserId = databaseBuilder.factory.buildUser().id;
-
-          await databaseBuilder.commit();
-        });
-
-        it('should ignore the filter and retrieve all users', async function () {
-          // given
-          const filter = { id: firstUserId };
-          const page = { number: 1, size: 10 };
-          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
-
-          // when
-          const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
-
-          // then
-          expect(map(matchingUsers, 'id')).to.have.members([firstUserId, secondUserId]);
-          expect(pagination).to.deep.equal(expectedPagination);
-        });
-      });
     });
 
     describe('#findAnotherUserByEmail', function () {

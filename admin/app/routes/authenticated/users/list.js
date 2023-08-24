@@ -7,6 +7,7 @@ export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    id: { refreshModel: true },
     firstName: { refreshModel: true },
     lastName: { refreshModel: true },
     email: { refreshModel: true },
@@ -14,10 +15,11 @@ export default class ListRoute extends Route {
   };
 
   async model(params) {
-    if (!params.firstName && !params.lastName && !params.email && !params.username) return [];
+    if (!params.id && !params.firstName && !params.lastName && !params.email && !params.username) return [];
 
     return this.store.query('user', {
       filter: {
+        id: params.id ? params.id.replace(/ /g, '') : '',
         firstName: params.firstName ? params.firstName.trim() : '',
         lastName: params.lastName ? params.lastName.trim() : '',
         email: params.email ? params.email.trim() : '',
@@ -34,6 +36,7 @@ export default class ListRoute extends Route {
     if (isExiting) {
       controller.pageNumber = 1;
       controller.pageSize = 10;
+      controller.id = null;
       controller.firstName = null;
       controller.lastName = null;
       controller.email = null;
