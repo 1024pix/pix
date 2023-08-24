@@ -5,6 +5,13 @@
   <div class="page-actions">
     <form class="user-list-form" {{on "submit" this.refreshModel}}>
       <PixInput
+        @id="userId"
+        {{on "change" this.onChangeUserId}}
+        placeholder="ID"
+        @ariaLabel="Identifiant de l'utilisateur"
+        class="user-list-form__input--small"
+      />
+      <PixInput
         @id="firstName"
         {{on "change" this.onChangeFirstName}}
         placeholder="Prénom"

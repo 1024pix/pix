@@ -49,6 +49,37 @@ module('Acceptance | authenticated/users | list', function (hooks) {
     });
 
     module('when users are filtered', function () {
+      module('when filtering on user id', function () {
+        test('it displays the current user', async function (assert) {
+          // given
+          const result = {
+            data: [
+              {
+                type: 'users',
+                id: '123',
+                attributes: {
+                  'first-name': 'Victor',
+                  'last-name': 'MacBernik',
+                  email: 'victor@famille-pirate.net',
+                  username: 'victor123',
+                },
+              },
+            ],
+          };
+
+          this.server.get('/admin/users', () => result);
+
+          // when
+          const screen = await visit('/users/list?id=123');
+
+          // then
+          assert
+            .dom(screen.getByLabelText("Informations de l'utilisateur Victor MacBernik"))
+            .hasText('123 Victor MacBernik victor@famille-pirate.net victor123');
+          assert.strictEqual(screen.queryAllByLabelText("Informations de l'utilisateur", { exact: false }).length, 1);
+        });
+      });
+
       module('when user has only username or email', function () {
         test('it should display the current user', async function (assert) {
           // given
