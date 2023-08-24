@@ -5,7 +5,23 @@ import { oidcController } from './oidc-controller.js';
 const validOidcProviderCodes = OidcIdentityProviders.getValidOidcProviderCodes();
 
 const register = async function (server) {
+  const adminRoutes = [
+    {
+      method: 'GET',
+      path: '/api/admin/oidc/identity-providers',
+      config: {
+        auth: false,
+        handler: oidcController.getAllIdentityProvidersForAdmin,
+        notes: [
+          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires oidc',
+        ],
+        tags: ['api', 'oidc'],
+      },
+    },
+  ];
+
   server.route([
+    ...adminRoutes,
     {
       method: 'GET',
       path: '/api/oidc/identity-providers',

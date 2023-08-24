@@ -4,8 +4,13 @@ import * as oidcSerializer from '../../../infrastructure/serializers/jsonapi/oid
 import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';
 
+const getAllIdentityProvidersForAdmin = async function (request, h) {
+  const identityProviders = usecases.getAllIdentityProviders();
+  return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
+};
+
 const getIdentityProviders = async function (request, h) {
-  const identityProviders = usecases.getIdentityProviders();
+  const identityProviders = usecases.getReadyIdentityProviders();
   return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 
@@ -135,6 +140,7 @@ const createUser = async function (
 };
 
 const oidcController = {
+  getAllIdentityProvidersForAdmin,
   getIdentityProviders,
   getRedirectLogoutUrl,
   findUserForReconciliation,

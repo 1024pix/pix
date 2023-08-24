@@ -3,30 +3,29 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 
-const oidcProviderServices = [
+const allOidcProviderServices = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
-].filter((oidcProvider) => oidcProvider.isReady);
+];
 
-const oidcProviderServiceMap = oidcProviderServices.reduce(_associateServiceToCode, {});
-function _associateServiceToCode(map, service) {
-  return {
-    ...map,
-    [service.code]: service,
-  };
+const readyOidcProviderServices = allOidcProviderServices.filter((oidcProvider) => oidcProvider.isReady);
+
+function getReadyOidcProviderServices() {
+  return readyOidcProviderServices;
 }
 
-const oidcProviderServiceCodes = Object.keys(oidcProviderServiceMap);
-
-function getOidcProviderServices() {
-  return Object.values(oidcProviderServiceMap);
+function getAllOidcProviderServices() {
+  return allOidcProviderServices;
 }
 
 function getOidcProviderServiceByCode(identityProvider) {
-  if (!oidcProviderServiceCodes.includes(identityProvider)) throw new InvalidIdentityProviderError(identityProvider);
+  const oidcProviderService = readyOidcProviderServices.find((service) => identityProvider === service.code);
+  if (!oidcProviderService) {
+    throw new InvalidIdentityProviderError(identityProvider);
+  }
 
-  return oidcProviderServiceMap[identityProvider];
+  return oidcProviderService;
 }
 
-export { getOidcProviderServices, getOidcProviderServiceByCode };
+export { getReadyOidcProviderServices, getOidcProviderServiceByCode, getAllOidcProviderServices };

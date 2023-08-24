@@ -434,6 +434,7 @@ const configuration = (function () {
     config.cnav.tokenUrl = 'http://idp.cnav/token';
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
+    config.fwb.isEnabled = false;
     config.fwb.logoutUrl = 'http://logout-url.org';
 
     config.saml.accessTokenLifespanMs = 1000;
