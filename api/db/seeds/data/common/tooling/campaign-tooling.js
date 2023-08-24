@@ -130,7 +130,7 @@ async function createAssessmentCampaign({
     const createdDate = dayjs(createdAt).add(_.random(2, 10), 'day').toDate();
     const sharedDate = dayjs(createdDate).add(_.random(2, 20), 'day').toDate();
 
-    const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore } =
+    const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadges } =
       await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
 
     const isStarted = status === CampaignParticipationStatuses.STARTED;
@@ -182,7 +182,7 @@ async function createAssessmentCampaign({
       );
     }
 
-    if (!isStarted) {
+    if (!isStarted && buildBadges) {
       for (const badgeId of badgeIds) {
         databaseBuilder.factory.buildBadgeAcquisition({
           badgeId,
@@ -497,13 +497,16 @@ async function _getProfile(profileName) {
   return answersAndKnowledgeElements;
 }
 
-async function _getCompletionCampaignParticipationData(completionName, campaignSkills, sharedDate) {
+async function _getCompletionCampaignParticipationData(completionName, campaignSkills) {
   let answersAndKnowledgeElements,
     status,
     computedScore,
     validatedSkillsCount = 0,
     masteryRate = 0,
+    buildBadges = false,
     pixScore = 0;
+
+  const randomValidatedSkill = generic.pickOneRandomAmong(_.range(campaignSkills.length));
 
   switch (completionName) {
     case 'STARTED':
@@ -511,19 +514,13 @@ async function _getCompletionCampaignParticipationData(completionName, campaignS
       status = CampaignParticipationStatuses.STARTED;
       break;
     case 'TO_SHARE':
-      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(
-        campaignSkills,
-        generic.pickOneRandomAmong(_.range(campaignSkills.length)),
-      );
+      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(campaignSkills, randomValidatedSkill);
       status = CampaignParticipationStatuses.TO_SHARE;
       break;
     case 'SHARED':
-      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(
-        campaignSkills,
-        sharedDate,
-        generic.pickOneRandomAmong(_.range(campaignSkills.length)),
-      );
+      answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(campaignSkills, randomValidatedSkill);
       status = CampaignParticipationStatuses.SHARED;
+      buildBadges = randomValidatedSkill > campaignSkills.length / 2;
 
       computedScore = _getCampaignParticipationResults(answersAndKnowledgeElements);
       validatedSkillsCount = computedScore.validatedSkillsCount;
@@ -542,6 +539,7 @@ async function _getCompletionCampaignParticipationData(completionName, campaignS
     case 'SHARED_PERFECT':
       answersAndKnowledgeElements = await _getKnowledgeElementFromSkills(campaignSkills, campaignSkills.length);
       status = CampaignParticipationStatuses.SHARED;
+      buildBadges = true;
 
       computedScore = _getCampaignParticipationResults(answersAndKnowledgeElements);
       validatedSkillsCount = computedScore.validatedSkillsCount;
@@ -556,6 +554,7 @@ async function _getCompletionCampaignParticipationData(completionName, campaignS
     validatedSkillsCount,
     masteryRate,
     pixScore,
+    buildBadges,
   };
 }
 
