@@ -13,10 +13,16 @@ class FlashAssessmentAlgorithm {
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
   }
 
-  getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel }) {
+  getPossibleNextChallenges({ allAnswers, challenges, initialCapacity }) {
     if (allAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
+
+    const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
+      allAnswers,
+      challenges,
+      initialCapacity,
+    });
 
     const { possibleChallenges, hasAssessmentEnded } = getPossibleNextChallenges({
       allAnswers,
@@ -33,8 +39,8 @@ class FlashAssessmentAlgorithm {
     return possibleChallenges;
   }
 
-  getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
-    return getEstimatedLevelAndErrorRate({ allAnswers, challenges });
+  getEstimatedLevelAndErrorRate({ allAnswers, challenges, initialCapacity }) {
+    return getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel: initialCapacity });
   }
 
   getReward({ estimatedLevel, discriminant, difficulty }) {

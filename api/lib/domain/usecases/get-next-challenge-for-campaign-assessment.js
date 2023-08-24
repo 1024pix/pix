@@ -14,7 +14,7 @@ const getNextChallengeForCampaignAssessment = async function ({
   let algoResult;
 
   if (assessment.isFlash()) {
-    const { allAnswers, challenges, estimatedLevel } = await algorithmDataFetcherService.fetchForFlashCampaigns({
+    const { allAnswers, challenges } = await algorithmDataFetcherService.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
       challengeRepository,
@@ -27,7 +27,6 @@ const getNextChallengeForCampaignAssessment = async function ({
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
       allAnswers,
       challenges,
-      estimatedLevel,
     });
 
     return pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
