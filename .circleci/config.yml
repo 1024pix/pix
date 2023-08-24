@@ -73,11 +73,11 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: redis:7.0.12-alpine
     resource_class: medium+
-  node-18-postgres-docker:
+  node-postgres-docker:
     parameters:
       node-version:
         # renovate datasource=node-version depName=node
-        default: 18.17.1
+        default: 16.20.2
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
@@ -202,7 +202,7 @@ jobs:
 
   audit_logger_build_and_test:
     executor:
-      name: node-18-postgres-docker
+      name: node-postgres-docker
     working_directory: ~/pix/audit-logger
     steps:
       - attach_workspace:

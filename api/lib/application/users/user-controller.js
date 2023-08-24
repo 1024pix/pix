@@ -23,6 +23,8 @@ import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
+import { eventBus } from '../../domain/events/index.js';
 
 const save = async function (request, h, dependencies = { userSerializer, requestResponseUtils, localeService }) {
   const localeFromCookie = request.state?.locale;
@@ -313,8 +315,19 @@ const getUserCampaignAssessmentResult = async function (
 const anonymizeUser = async function (request, h, dependencies = { userAnonymizedDetailsForAdminSerializer }) {
   const userToAnonymizeId = request.params.id;
   const adminMemberId = request.auth.credentials.userId;
-  const user = await usecases.anonymizeUser({ userId: userToAnonymizeId, updatedByUserId: adminMemberId });
-  return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(user)).code(200);
+
+  await DomainTransaction.execute(async (domainTransaction) => {
+    const event = await usecases.anonymizeUser({
+      userId: userToAnonymizeId,
+      updatedByUserId: adminMemberId,
+      domainTransaction,
+    });
+    await eventBus.publish(event, domainTransaction);
+  });
+
+  const anonymizedUser = await usecases.getUserDetailsForAdmin({ userId: userToAnonymizeId });
+
+  return h.response(dependencies.userAnonymizedDetailsForAdminSerializer.serialize(anonymizedUser)).code(200);
 };
 
 const unblockUserAccount = async function (request, h, dependencies = { userLoginSerializer }) {

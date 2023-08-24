@@ -7,6 +7,9 @@ import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { UserAnonymized } from '../../../../lib/domain/events/UserAnonymized.js';
+import { eventBus } from '../../../../lib/domain/events/index.js';
 
 describe('Unit | Controller | user-controller', function () {
   let userSerializer;
@@ -941,13 +944,32 @@ describe('Unit | Controller | user-controller', function () {
   });
 
   describe('#anonymizeUser', function () {
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(new Date('2023-08-17'));
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
     it('should call the anonymize user usecase', async function () {
       // given
       const userId = 1;
       const updatedByUserId = 2;
       const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
       const userDetailsForAdmin = Symbol('userDetailsForAdmin');
-      sinon.stub(usecases, 'anonymizeUser').resolves(userDetailsForAdmin);
+      const domainTransaction = {
+        knexTransaction: Symbol('transaction'),
+      };
+      const event = new UserAnonymized({ userId, updatedByUserId, role: 'SUPER_ADMIN' });
+      sinon.stub(usecases, 'anonymizeUser').resolves(event);
+      sinon.stub(usecases, 'getUserDetailsForAdmin').resolves(userDetailsForAdmin);
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
+      sinon.stub(eventBus, 'publish').resolves();
       const userAnonymizedDetailsForAdminSerializer = { serialize: sinon.stub() };
       userAnonymizedDetailsForAdminSerializer.serialize.returns(anonymizedUserSerialized);
 
@@ -962,7 +984,11 @@ describe('Unit | Controller | user-controller', function () {
       );
 
       // then
-      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId, updatedByUserId });
+      const expectedEvent = new UserAnonymized({ userId, updatedByUserId, role: 'SUPER_ADMIN' });
+      expect(DomainTransaction.execute).to.have.been.called;
+      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId, updatedByUserId, domainTransaction });
+      expect(usecases.getUserDetailsForAdmin).to.have.been.calledWith({ userId });
+      expect(eventBus.publish).to.have.been.calledWith(expectedEvent, domainTransaction);
       expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWith(userDetailsForAdmin);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(anonymizedUserSerialized);
