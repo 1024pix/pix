@@ -1,4 +1,4 @@
-import { Parser } from 'json2csv';
+import { Parser } from '@json2csv/plainjs';
 
 const { omit } = lodash;
 
@@ -14,7 +14,7 @@ function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true
     fields,
     delimiter: ';',
   });
-  return json2csvParser.parse();
+  return json2csvParser.parse(fields);
 }
 
 function _getComplementaryCertificationsHeaders(habilitationLabels) {
