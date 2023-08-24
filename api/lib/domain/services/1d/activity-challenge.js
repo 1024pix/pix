@@ -27,7 +27,7 @@ async function getNextActivityChallenge({
   challengeRepository,
   activityRepository,
 }) {
-  const challenge = await challengeService.getChallenge({
+  const challenge = await challengeService.getStartChallenge({
     missionId,
     activityLevel: nextActivityLevel,
     challengeNumber: FIRST_CHALLENGE_NB,
@@ -39,10 +39,17 @@ async function getNextActivityChallenge({
       assessmentId,
       level: nextActivityLevel,
       status: Activity.status.STARTED,
-      alternativeVersion: challenge.alternativeVersion,
+      alternativeVersion: _getAlternativeVersion(challenge.alternativeVersion),
     }),
   );
   return challenge;
+}
+
+function _getAlternativeVersion(alternativeVersion) {
+  if (alternativeVersion === undefined) {
+    alternativeVersion = 0;
+  }
+  return alternativeVersion;
 }
 
 export { getNextActivityChallenge, getChallengeForCurrentActivity };

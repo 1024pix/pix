@@ -171,17 +171,20 @@ describe('Integration | Repository | challenge-repository', function () {
 
       mockLearningContent(learningContent);
 
-      const expectedChallenges = [{
-        ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
-        skill: undefined,
-      }];
+      const expectedChallenges = [
+        {
+          ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
+          skill: undefined,
+          alternativeVersion: 1,
+        },
+      ];
 
       // when
       const challenges = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(challenges[0]).to.be.instanceOf(Challenge);
-      expect(challenges.length).to.equal(1)
+      expect(challenges.length).to.equal(1);
       expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
         _.omit(expectedChallenges[0], ['validator', 'skill', 'focused', 'timer']),
       );
@@ -230,12 +233,14 @@ describe('Integration | Repository | challenge-repository', function () {
       const expectedChallenge = {
         ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
         skill: undefined,
+        alternativeVersion: 1,
       };
 
       // when
       const challenges = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
+      expect(challenges.length).to.equal(1);
       expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
         _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );

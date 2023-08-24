@@ -112,6 +112,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
           assessmentId: assessment.id,
           level: Activity.levels.TRAINING,
           status: Activity.status.STARTED,
+          alternativeVersion: 1,
         });
         await databaseBuilder.commit();
       });

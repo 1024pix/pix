@@ -26,7 +26,7 @@ const buildChallenge = function ({
   responsive = 'Smartphone/Tablette',
   focused = false,
   shuffled = false,
-  alternativeVersion = 1,
+  alternativeVersion = undefined,
   // includes
   answer,
   validator = new Validator(),
