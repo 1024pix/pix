@@ -81,7 +81,7 @@ describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function ()
       // then
       expect(activityAnswer).to.be.an.instanceOf(ActivityAnswer);
       expect(activityAnswer.value).to.equal('test');
-      expect(activityAnswer.result).to.deep.equal(null);
+      expect(activityAnswer.result).to.deep.equal(AnswerStatus.from(null));
       expect(activityAnswer.resultDetails).to.equal(null);
       expect(activityAnswer.challengeId).to.equal(challengeId);
       expect(assessmentId).to.equal(expectedAssessmentId);

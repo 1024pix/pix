@@ -76,13 +76,13 @@ describe('Unit | Service | ActivityChallenge', function () {
     });
   });
   describe('#getNextActivityChallenge', function () {
-    it('calls getChallenge method', function () {
+    it('calls getStartChallenge method', function () {
       const assessmentId = 'assessment_id';
       const missionId = 'mission_id';
       const nextActivityLevel = Activity.levels.TRAINING;
       const challengeNumber = 1;
 
-      const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
+      const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
       const challengeRepository = Symbol();
       const activityRepository = Symbol();
       getNextActivityChallenge({
@@ -93,37 +93,66 @@ describe('Unit | Service | ActivityChallenge', function () {
         activityRepository,
       });
 
-      expect(getChallengeStub).to.have.been.calledOnceWith({
+      expect(getStartChallengeStub).to.have.been.calledOnceWith({
         missionId,
         activityLevel: nextActivityLevel,
         challengeNumber,
         challengeRepository,
       });
     });
-    it('calls activityRepository#save method', async function () {
-      const assessmentId = 'assessment_id';
-      const missionId = 'mission_id';
-      const nextActivityLevel = Activity.levels.TRAINING;
-      const challenge = { alternativeVersion: 1 };
-      const activityRepository = { save: sinon.stub() };
-      const challengeRepository = Symbol();
-      const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
-      getChallengeStub.resolves(challenge);
-      const activity = new Activity({
-        assessmentId,
-        level: nextActivityLevel,
-        status: Activity.status.STARTED,
-        alternativeVersion: challenge.alternativeVersion,
-      });
-      await getNextActivityChallenge({
-        missionId,
-        assessmentId,
-        nextActivityLevel,
-        challengeRepository,
-        activityRepository,
-      });
+    context('when the challenge alternative version === undefined', function () {
+      it('calls activityRepository#save method with alternativeVersion == 0', async function () {
+        const assessmentId = 'assessment_id';
+        const missionId = 'mission_id';
+        const nextActivityLevel = Activity.levels.TRAINING;
+        const challenge = { alternativeVersion: undefined };
+        const activityRepository = { save: sinon.stub() };
+        const challengeRepository = Symbol();
+        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
+        getStartChallengeStub.resolves(challenge);
+        const activity = new Activity({
+          assessmentId,
+          level: nextActivityLevel,
+          status: Activity.status.STARTED,
+          alternativeVersion: 0,
+        });
+        await getNextActivityChallenge({
+          missionId,
+          assessmentId,
+          nextActivityLevel,
+          challengeRepository,
+          activityRepository,
+        });
 
-      expect(activityRepository.save).to.have.been.calledOnceWith(activity);
+        expect(activityRepository.save).to.have.been.calledOnceWith(activity);
+      });
+    });
+    context('when the challenge alternative !== undefined ', function () {
+      it("calls activityRepository#save method with the challenge's alternativeVersion", async function () {
+        const assessmentId = 'assessment_id';
+        const missionId = 'mission_id';
+        const nextActivityLevel = Activity.levels.TRAINING;
+        const challenge = { alternativeVersion: 1 };
+        const activityRepository = { save: sinon.stub() };
+        const challengeRepository = Symbol();
+        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
+        getStartChallengeStub.resolves(challenge);
+        const activity = new Activity({
+          assessmentId,
+          level: nextActivityLevel,
+          status: Activity.status.STARTED,
+          alternativeVersion: challenge.alternativeVersion,
+        });
+        await getNextActivityChallenge({
+          missionId,
+          assessmentId,
+          nextActivityLevel,
+          challengeRepository,
+          activityRepository,
+        });
+
+        expect(activityRepository.save).to.have.been.calledOnceWith(activity);
+      });
     });
   });
 });
