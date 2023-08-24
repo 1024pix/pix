@@ -60,12 +60,12 @@ function getPossibleNextChallenges({
   };
 }
 
-function getEstimatedLevelAndErrorRate({ allAnswers, challenges }) {
+function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL }) {
   if (allAnswers.length === 0) {
-    return { estimatedLevel: DEFAULT_ESTIMATED_LEVEL, errorRate: DEFAULT_ERROR_RATE };
+    return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
   }
 
-  let latestEstimatedLevel = DEFAULT_ESTIMATED_LEVEL;
+  let latestEstimatedLevel = estimatedLevel;
 
   const samplesWithResults = samples.map((sample) => ({
     sample,

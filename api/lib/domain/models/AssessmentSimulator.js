@@ -20,8 +20,9 @@ export class AssessmentSimulator {
         const possibleChallenges = this.algorithm.getPossibleNextChallenges({
           allAnswers: challengesAnswers,
           challenges: this.challenges,
-          estimatedLevel,
+          initialCapacity: this.initialCapacity,
         });
+
         const nextChallenge = this.pickChallenge({ possibleChallenges });
 
         const answerStatus = this.pickAnswerStatus({
@@ -46,11 +47,13 @@ export class AssessmentSimulator {
         estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({
           allAnswers: challengesAnswers,
           challenges: this.challenges,
+          initialCapacity: this.initialCapacity,
         }).estimatedLevel;
 
         const errorRate = this.algorithm.getEstimatedLevelAndErrorRate({
           allAnswers: challengesAnswers,
           challenges: this.challenges,
+          initialCapacity: this.initialCapacity,
         }).errorRate;
 
         result.push({
