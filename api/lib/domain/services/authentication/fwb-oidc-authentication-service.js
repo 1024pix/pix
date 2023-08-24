@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { config } from '../../../config.js';
 import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';

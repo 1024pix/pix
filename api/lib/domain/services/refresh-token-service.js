@@ -1,5 +1,5 @@
 import bluebird from 'bluebird';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { tokenService } from './token-service.js';
 
 import { config } from '../../config.js';

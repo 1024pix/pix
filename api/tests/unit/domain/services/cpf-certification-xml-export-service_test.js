@@ -19,7 +19,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
   beforeEach(function () {
     const now = dayjs('2022-02-01T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
-    uuidService = { v4: sinon.stub() };
+    uuidService = { randomUUID: sinon.stub() };
   });
 
   afterEach(function () {
@@ -30,7 +30,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
     it('should return a writable stream with cpf certification results', async function () {
       // given
 
-      uuidService.v4.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+      uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
 
       const firstCpfCertificationResult = domainBuilder.buildCpfCertificationResult({
         id: 1234,
