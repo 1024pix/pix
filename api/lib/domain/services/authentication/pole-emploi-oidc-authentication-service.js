@@ -3,7 +3,7 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import dayjs from 'dayjs';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { POLE_EMPLOI } from '../../constants/oidc-identity-providers.js';
 

@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 
 import { logger } from '../../../infrastructure/logger.js';
 import {

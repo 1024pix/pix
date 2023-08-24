@@ -21,7 +21,7 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
       'xmlns:cpf': `urn:cdc:cpf:pc5:schema:${schemaVersion}`,
       'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
     })
-      .ele('cpf:idFlux').txt(uuidService.v4()).up()
+      .ele('cpf:idFlux').txt(uuidService.randomUUID()).up()
       .ele('cpf:horodatage').txt(formatedDate).up()
       .ele('cpf:emetteur')
         .ele('cpf:idClient').txt(cpf.idClient).up()
