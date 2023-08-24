@@ -1,12 +1,11 @@
-import { parseAsync } from 'json2csv';
+import { AsyncParser } from '@json2csv/node';
 
 import { CsvParsingError } from '../../../../lib/domain/errors.js';
 
 async function getCsvContent({ data, delimiter = ';', eol = '\n', fileHeaders, withBOM = true }) {
   try {
-    const options = { delimiter, eol, fields: fileHeaders, withBOM };
-    const csvContent = await parseAsync(data, options);
-    return csvContent;
+    const parser = new AsyncParser({ delimiter, eol, fields: fileHeaders, withBOM });
+    return parser.parse(data).promise();
   } catch (err) {
     throw new CsvParsingError();
   }
