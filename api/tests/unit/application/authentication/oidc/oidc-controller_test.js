@@ -6,10 +6,62 @@ import { UnauthorizedError } from '../../../../../lib/application/http-errors.js
 describe('Unit | Application | Controller | Authentication | OIDC', function () {
   const identityProvider = 'OIDC';
 
+  describe('#getAllIdentityProvidersForAdmin', function () {
+    it('returns the list of oidc identity providers', async function () {
+      // given
+      sinon.stub(usecases, 'getAllIdentityProviders').returns([
+        {
+          code: 'LIMONADE_OIDC_PROVIDER',
+          source: 'limonade_oidc_provider',
+          organizationName: 'Limonade OIDC Provider',
+          slug: 'limonade-oidc-provider',
+          hasLogoutUrl: false,
+        },
+        {
+          code: 'KOMBUCHA_OIDC_PROVIDER',
+          source: 'kombucha_oidc_provider',
+          organizationName: 'Kombucha OIDC Provider',
+          slug: 'kombucha-oidc-provider',
+          hasLogoutUrl: true,
+        },
+      ]);
+
+      // when
+      const response = await oidcController.getAllIdentityProvidersForAdmin(null, hFake);
+
+      // then
+      expect(usecases.getAllIdentityProviders).to.have.been.called;
+      expect(response.statusCode).to.equal(200);
+      expect(response.source.data.length).to.equal(2);
+      expect(response.source.data).to.deep.equal([
+        {
+          type: 'oidc-identity-providers',
+          id: 'limonade-oidc-provider',
+          attributes: {
+            code: 'LIMONADE_OIDC_PROVIDER',
+            'organization-name': 'Limonade OIDC Provider',
+            'has-logout-url': false,
+            source: 'limonade_oidc_provider',
+          },
+        },
+        {
+          type: 'oidc-identity-providers',
+          id: 'kombucha-oidc-provider',
+          attributes: {
+            code: 'KOMBUCHA_OIDC_PROVIDER',
+            'organization-name': 'Kombucha OIDC Provider',
+            'has-logout-url': true,
+            source: 'kombucha_oidc_provider',
+          },
+        },
+      ]);
+    });
+  });
+
   describe('#getIdentityProviders', function () {
     it('returns the list of oidc identity providers', async function () {
       // given
-      sinon.stub(usecases, 'getIdentityProviders').returns([
+      sinon.stub(usecases, 'getReadyIdentityProviders').returns([
         {
           code: 'SOME_OIDC_PROVIDER',
           source: 'some_oidc_provider',
@@ -23,7 +75,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const response = await oidcController.getIdentityProviders(null, hFake);
 
       // then
-      expect(usecases.getIdentityProviders).to.have.been.called;
+      expect(usecases.getReadyIdentityProviders).to.have.been.called;
       expect(response.statusCode).to.equal(200);
       expect(response.source.data.length).to.equal(1);
       expect(response.source.data).to.deep.contain({
