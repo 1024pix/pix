@@ -1,6 +1,6 @@
 import fileSystem from 'fs';
 import request from 'request-promise-native';
-import json2csv from 'json2csv';
+import { Parser } from '@json2csv/plainjs';
 import moment from 'moment-timezone';
 import * as url from 'url';
 
@@ -160,14 +160,7 @@ function main() {
 
       return certificationsRequests
         .then((certificationResults) => certificationResults.map(toCSVRow))
-        .then((certificationResult) =>
-          json2csv({
-            data: certificationResult,
-            fieldNames: HEADERS,
-            del: ';',
-            withBOM: true,
-          }),
-        )
+        .then((data) => new Parser({ fields: HEADERS, del: ';', withBOM: true }).parse(data))
         .then((csv) => {
           saveInFile(csv, sessionId);
           console.log(`\n\n${csv}\n\n`);

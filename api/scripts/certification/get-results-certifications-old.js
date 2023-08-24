@@ -1,5 +1,5 @@
 import request from 'request-promise-native';
-import json2csv from 'json2csv';
+import { Parser } from '@json2csv/plainjs';
 import moment from 'moment-timezone';
 import * as url from 'url';
 
@@ -83,13 +83,7 @@ function main() {
 
   requests
     .then((certificationResults) => certificationResults.map(toCSVRow))
-    .then((res) =>
-      json2csv({
-        data: res,
-        fieldNames: HEADERS,
-        del: ';',
-      }),
-    )
+    .then((data) => new Parser({ fields: HEADERS, delimiter: ';' }).parse(data))
     .then((csv) => {
       console.log(`\n\n${csv}\n\n`);
       return csv;
