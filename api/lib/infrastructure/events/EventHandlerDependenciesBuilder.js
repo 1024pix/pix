@@ -1,6 +1,7 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
+import { UserAnonymizedEventLoggingJob } from '../jobs/audit-log/UserAnonymizedEventLoggingJob.js';
 
 function build(classToInstanciate, domainTransaction) {
   const dependencies = _buildDependencies(domainTransaction);
@@ -12,6 +13,7 @@ function build(classToInstanciate, domainTransaction) {
 function _buildDependencies(domainTransaction) {
   return {
     monitoringTools,
+    userAnonymizedEventLoggingJob: new UserAnonymizedEventLoggingJob(domainTransaction.knexTransaction),
     participationResultCalculationJob: new ParticipationResultCalculationJob(domainTransaction.knexTransaction),
     sendSharedParticipationResultsToPoleEmploiJob: new SendSharedParticipationResultsToPoleEmploiJob(
       domainTransaction.knexTransaction,
