@@ -13,10 +13,15 @@ class FlashAssessmentAlgorithm {
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
   }
 
-  getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel }) {
+  getPossibleNextChallenges({ allAnswers, challenges }) {
     if (allAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
+
+    const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
+      allAnswers,
+      challenges,
+    });
 
     const { possibleChallenges, hasAssessmentEnded } = getPossibleNextChallenges({
       allAnswers,

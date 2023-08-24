@@ -1,6 +1,47 @@
-import { FlashAssessmentAlgorithm } from '../../../../lib/domain/models/index.js';
+import { AnswerStatus, FlashAssessmentAlgorithm } from '../../../../lib/domain/models/index.js';
 import { domainBuilder, expect } from '../../../test-helper.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import _ from 'lodash';
+import { config } from '../../../../lib/config.js';
+
+function initializeTestChallenges(hardAnsweredChallengesCount, difficulty, answerStatus) {
+  const hardAnsweredChallenges = _.range(0, hardAnsweredChallengesCount).map((index) =>
+    domainBuilder.buildChallenge({
+      id: `recAnsweredHard${index}`,
+      difficulty,
+      discriminant: 0.5,
+    }),
+  );
+
+  const hardAnsweredChallengesAnswers = hardAnsweredChallenges.map(({ id }) =>
+    domainBuilder.buildAnswer({
+      result: answerStatus,
+      challengeId: id,
+    }),
+  );
+
+  const expectedUnansweredChallenge = domainBuilder.buildChallenge({
+    id: 'recUnansweredHard',
+    difficulty,
+    discriminant: 0.5,
+    skill: domainBuilder.buildSkill({
+      id: 'recSK456',
+    }),
+  });
+
+  const mediumUnansweredChallenge = domainBuilder.buildChallenge({
+    id: 'recUnansweredMedium',
+    difficulty: 0,
+    discriminant: 0.5,
+    skill: domainBuilder.buildSkill({
+      id: 'recSK456',
+    }),
+  });
+
+  const challenges = [...hardAnsweredChallenges, expectedUnansweredChallenge, mediumUnansweredChallenge];
+  const allAnswers = [...hardAnsweredChallengesAnswers];
+  return { expectedUnansweredChallenge, mediumUnansweredChallenge, challenges, allAnswers };
+}
 
 describe('FlashAssessmentAlgorithm', function () {
   describe('#getPossibleNextChallenges', function () {
@@ -25,6 +66,43 @@ describe('FlashAssessmentAlgorithm', function () {
             estimatedLevel,
           }),
         ).to.throw(AssessmentEndedError);
+      });
+    });
+
+    context('when there are challenges left to answer', function () {
+      let algorithm;
+      const alreadyAnsweredChallengesCount = 10;
+      const remainingAnswersToGive = 1;
+
+      beforeEach(function () {
+        config.features.numberOfChallengesForFlashMethod = 20;
+        algorithm = new FlashAssessmentAlgorithm({
+          warmUpLength: 0,
+          maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
+        });
+      });
+      context('when user has a strong level', function () {
+        it('should choose a hard challenge', function () {
+          const { expectedUnansweredChallenge, mediumUnansweredChallenge, challenges, allAnswers } =
+            initializeTestChallenges(alreadyAnsweredChallengesCount, 6);
+
+          expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal([
+            expectedUnansweredChallenge,
+            mediumUnansweredChallenge,
+          ]);
+        });
+      });
+
+      context('when user has a weak level', function () {
+        it('should choose a hard challenge', function () {
+          const { expectedUnansweredChallenge, mediumUnansweredChallenge, challenges, allAnswers } =
+            initializeTestChallenges(alreadyAnsweredChallengesCount, -6, AnswerStatus.KO);
+
+          expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal([
+            expectedUnansweredChallenge,
+            mediumUnansweredChallenge,
+          ]);
+        });
       });
     });
   });
