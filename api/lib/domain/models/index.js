@@ -1,4 +1,6 @@
 import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
+import { Activity } from './Activity.js';
+import { ActivityAnswer } from './ActivityAnswer.js';
 import { AdminMember } from './AdminMember.js';
 import { Answer } from './Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
@@ -154,6 +156,8 @@ import { ValidatorQROCMInd } from './ValidatorQROCMInd.js';
 
 export {
   AccountRecoveryDemand,
+  Activity,
+  ActivityAnswer,
   AdminMember,
   Answer,
   AnswerCollectionForScoring,

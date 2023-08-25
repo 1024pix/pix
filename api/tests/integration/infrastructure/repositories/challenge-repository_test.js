@@ -65,7 +65,7 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#getForPix1D', function () {
+  describe('#getChallengeFor1d', function () {
     it('should return an error when the mission is not found', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -76,7 +76,11 @@ describe('Integration | Repository | challenge-repository', function () {
       });
 
       // when
-      const error = await catchErr(challengeRepository.getForPix1D)({ missionId, activityLevel, challengeNumber: 1 });
+      const error = await catchErr(challengeRepository.getChallengeFor1d)({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -96,7 +100,11 @@ describe('Integration | Repository | challenge-repository', function () {
       });
 
       // when
-      const error = await catchErr(challengeRepository.getForPix1D)({ missionId, activityLevel, challengeNumber: 1 });
+      const error = await catchErr(challengeRepository.getChallengeFor1d)({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -127,7 +135,11 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const error = await catchErr(challengeRepository.getForPix1D)({ missionId, activityLevel, challengeNumber: 1 });
+      const error = await catchErr(challengeRepository.getChallengeFor1d)({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -171,18 +183,22 @@ describe('Integration | Repository | challenge-repository', function () {
 
       mockLearningContent(learningContent);
 
-      const expectedChallenge = {
-        ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
-        skill: undefined,
-      };
+      const expectedChallenges = [
+        {
+          ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
+          skill: undefined,
+          alternativeVersion: 1,
+        },
+      ];
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-      expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
+      expect(challenges[0]).to.be.instanceOf(Challenge);
+      expect(challenges.length).to.equal(1);
+      expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
+        _.omit(expectedChallenges[0], ['validator', 'skill', 'focused', 'timer']),
       );
     });
     it('should return the challenge for the given missionId', async function () {
@@ -229,18 +245,19 @@ describe('Integration | Repository | challenge-repository', function () {
       const expectedChallenge = {
         ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
         skill: undefined,
+        alternativeVersion: 1,
       };
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-      expect(actualChallenge).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenge, ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
+      expect(challenges.length).to.equal(1);
+      expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
         _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
       );
     });
-    it('should return the correct validor for the challenge type', async function () {
+    it('should return the correct validator for the challenge type', async function () {
       // given
       const missionId = 'recCHAL1';
       const activityLevel = Activity.levels.TUTORIAL;
@@ -261,14 +278,13 @@ describe('Integration | Repository | challenge-repository', function () {
       domainBuilder.buildChallenge({ id: challenge.id, type: challenge.type });
 
       // when
-      const actualChallenge = await challengeRepository.getForPix1D({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-
-      expect(actualChallenge.validator).to.be.instanceOf(Validator);
-      expect(actualChallenge.validator.solution.id).to.equal(challenge.id);
-      expect(actualChallenge.validator.solution.type).to.equal(challenge.type);
-      expect(actualChallenge.validator.solution.value).to.equal(challenge.solution);
+      expect(challenges[0].validator).to.be.instanceOf(Validator);
+      expect(challenges[0].validator.solution.id).to.equal(challenge.id);
+      expect(challenges[0].validator.solution.type).to.equal(challenge.type);
+      expect(challenges[0].validator.solution.value).to.equal(challenge.solution);
     });
   });
 
@@ -974,7 +990,7 @@ function _buildTube({ id, name, missionId }) {
   };
 }
 
-function _buildChallenge({ id, skill, status = 'validé' }) {
+function _buildChallenge({ id, skill, status = 'validé', alternativeVersion }) {
   return {
     id,
     attachments: ['URL pièce jointe'],
@@ -1000,5 +1016,6 @@ function _buildChallenge({ id, skill, status = 'validé' }) {
     delta: 0,
     skill,
     shuffled: false,
+    alternativeVersion: alternativeVersion || 1,
   };
 }

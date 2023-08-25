@@ -42,7 +42,7 @@ const get = async function (id) {
  * @param {number} challengeNumber activity's challenge number
  * @returns a challenge
  */
-const getForPix1D = async function ({ missionId, activityLevel, challengeNumber }) {
+const getChallengeFor1d = async function ({ missionId, activityLevel, challengeNumber }) {
   try {
     const missionNamePrefix = await _getMissionNamePrefix(missionId);
     if (missionNamePrefix.length === 0) {
@@ -57,8 +57,9 @@ const getForPix1D = async function ({ missionId, activityLevel, challengeNumber 
     if (skills.length > 1) {
       logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
     }
-    const challenge = await challengeDatasource.getBySkillId(skills[0].id);
-    return _toDomain({ challengeDataObject: challenge });
+    const challengeDataObjects = await challengeDatasource.getBySkillId(skills[0].id);
+
+    return _toDomainCollection({ challengeDataObjects });
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       _throwNotFoundError(activityLevel, missionId, challengeNumber);
@@ -183,7 +184,7 @@ const findValidatedBySkillId = async function (skillId) {
 
 export {
   get,
-  getForPix1D,
+  getChallengeFor1d,
   getMany,
   list,
   findValidated,
@@ -248,5 +249,6 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     responsive: challengeDataObject.responsive,
     shuffled: challengeDataObject.shuffled,
     successProbabilityThreshold,
+    alternativeVersion: challengeDataObject.alternativeVersion,
   });
 }
