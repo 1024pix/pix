@@ -68,6 +68,7 @@ import { buildCompetenceMark } from './build-competence-mark.js';
 import { buildCompetenceResult } from './build-competence-result.js';
 import { buildCompetenceTree } from './build-competence-tree.js';
 import { buildComplementaryCertification } from './build-complementary-certification.js';
+import { buildComplementaryCertificationBadge } from './build-complementary-certification-badge.js';
 import { buildComplementaryCertificationBadgeForAdmin } from './build-complementary-certification-badge-for-admin.js';
 import { buildComplementaryCertificationTargetProfileHistory } from './build-complementary-certification-target-profile-history-for-admin.js';
 import { buildComplementaryCertificationForSupervising } from './build-complementary-certification-for-supervising.js';
@@ -224,6 +225,7 @@ export {
   buildCompetenceResult,
   buildCompetenceTree,
   buildComplementaryCertification,
+  buildComplementaryCertificationBadge,
   buildComplementaryCertificationBadgeForAdmin,
   buildComplementaryCertificationTargetProfileHistory,
   buildComplementaryCertificationForSupervising,
