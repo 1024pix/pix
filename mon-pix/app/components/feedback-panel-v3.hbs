@@ -1,5 +1,8 @@
 {{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
 <div class="feedback-panel-v3">
+  {{#if @isInvigilatorCalled}}
+    <PixBanner @type="error">{{t "pages.challenge.feedback-panel-v3.problem-banner"}}</PixBanner>
+  {{/if}}
   <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
   <button
     class="feedback-panel-v3__open-button"
@@ -12,17 +15,26 @@
   </button>
 
   {{#if this.isExpanded}}
-    <div class="feedback-panel-v3__view">
-      {{t "pages.challenge.feedback-panel-v3.description"}}
-      <div class="feedback-panel-v3__action-buttons">
-        <button type="button">
-          {{t "pages.challenge.feedback-panel-v3.actions.send-feedback"}}
-        </button>
-        <button type="button" {{on "click" this.toggleFeedbackForm}}>
-          {{t "pages.challenge.feedback-panel-v3.actions.no-send-feedback"}}
+    {{#if @isInvigilatorCalled}}
+      <div class="feedback-panel-v3__refresh-info">
+        <p>{{t "pages.challenge.feedback-panel-v3.waiting-information"}}</p>
+        <button type="button" {{on "click" this.resfreshPage}}>
+          <FaIcon @icon="arrows-rotate" />{{t "pages.challenge.feedback-panel-v3.actions.refresh-page"}}
         </button>
       </div>
-    </div>
-    <p class="feedback-panel-v3__information">{{t "pages.challenge.feedback-panel-v3.information"}}</p>
+    {{else}}
+      <div class="feedback-panel-v3__view">
+        {{t "pages.challenge.feedback-panel-v3.description"}}
+        <div class="feedback-panel-v3__action-buttons">
+          <button type="button" {{on "click" @disableChallengeActions}}>
+            {{t "pages.challenge.feedback-panel-v3.actions.send-feedback"}}
+          </button>
+          <button type="button" {{on "click" this.toggleFeedbackForm}}>
+            {{t "pages.challenge.feedback-panel-v3.actions.no-send-feedback"}}
+          </button>
+        </div>
+      </div>
+      <p class="feedback-panel-v3__information">{{t "pages.challenge.feedback-panel-v3.information"}}</p>
+    {{/if}}
   {{/if}}
 </div>

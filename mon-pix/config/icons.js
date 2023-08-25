@@ -4,6 +4,7 @@ module.exports = function () {
     'free-solid-svg-icons': [
       'arrow-left',
       'arrow-right',
+      'arrows-rotate',
       'arrow-up',
       'bars',
       'bookmark',
@@ -20,6 +21,7 @@ module.exports = function () {
       'earth-europe',
       'eye',
       'eye-slash',
+      'flag',
       'globe',
       'hourglass-end',
       'image',
