@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 import { logger } from '../../../infrastructure/logger.js';
 import {
@@ -140,8 +140,10 @@ class OidcAuthenticationService {
 
   getAuthenticationUrl({ redirectUri }) {
     const redirectTarget = new URL(this.authenticationUrl);
-    const state = uuidv4();
-    const nonce = uuidv4();
+    // The session ID must be unpredictable, thus we disable the entropy cache
+    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
+    const state = randomUUID({ disableEntropyCache: true });
+    const nonce = randomUUID({ disableEntropyCache: true });
 
     const params = [
       { key: 'state', value: state },

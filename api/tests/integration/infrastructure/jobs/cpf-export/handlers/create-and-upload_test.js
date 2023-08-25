@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
     logger = { error: noop, info: noop };
-    uuidService = { v4: sinon.stub() };
+    uuidService = { randomUUID: sinon.stub() };
   });
 
   afterEach(function () {
@@ -57,7 +57,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
     cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
-    uuidService.v4.returns('xxx-yyy-zzz');
+    uuidService.randomUUID.returns('xxx-yyy-zzz');
 
     cpfExternalStorage.upload
       .withArgs({

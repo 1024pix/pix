@@ -2,12 +2,12 @@ import { config } from '../../../config.js';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 const EXPIRATION_DELAY_SECONDS = config.temporarySessionsStorageForMassImport.expirationDelaySeconds;
 
 const save = async function ({ sessions, userId }) {
-  const uuid = uuidv4();
+  const uuid = randomUUID();
   await sessionMassImportTemporaryStorage.save({
     key: `${userId}:${uuid}`,
     value: sessions,

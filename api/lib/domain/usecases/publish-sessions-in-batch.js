@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 import { SessionPublicationBatchResult } from '../models/SessionPublicationBatchResult.js';
 
@@ -11,7 +11,7 @@ const publishSessionsInBatch = async function ({
   sessionPublicationService,
   sessionRepository,
   publishedAt = new Date(),
-  batchId = uuidv4(),
+  batchId = randomUUID(),
 }) {
   const result = new SessionPublicationBatchResult(batchId);
   for (const sessionId of sessionIds) {

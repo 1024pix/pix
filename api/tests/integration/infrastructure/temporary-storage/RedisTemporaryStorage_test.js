@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 import { RedisTemporaryStorage } from '../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage.js';
 import { expect } from '../../../test-helper.js';
@@ -32,7 +32,7 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
     describe('#expire', function () {
       it('should add an expiration time to the list', async function () {
         // given
-        const key = uuidv4();
+        const key = randomUUID();
         const storage = new RedisTemporaryStorage(REDIS_URL);
 
         // when
@@ -50,7 +50,7 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
     describe('#ttl', function () {
       it('should retrieve the remaining expiration time from a list', async function () {
         // given
-        const key = uuidv4();
+        const key = randomUUID();
         const storage = new RedisTemporaryStorage(REDIS_URL);
 
         // when
@@ -66,7 +66,7 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
     describe('#lpush', function () {
       it('should add a value to a list and return the length of the list', async function () {
         // given
-        const key = uuidv4();
+        const key = randomUUID();
         const storage = new RedisTemporaryStorage(REDIS_URL);
 
         // when
@@ -81,7 +81,7 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
     describe('#lrem', function () {
       it('should remove a value from a list and return the number of removed elements', async function () {
         // given
-        const key = uuidv4();
+        const key = randomUUID();
         const storage = new RedisTemporaryStorage(REDIS_URL);
 
         await storage.lpush(key, 'value1');
@@ -100,7 +100,7 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
     describe('#lrange', function () {
       it('should return a list of values', async function () {
         // given
-        const key = uuidv4();
+        const key = randomUUID();
         const storage = new RedisTemporaryStorage(REDIS_URL);
 
         // when
