@@ -3,7 +3,7 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import dayjs from 'dayjs';
-import { randomUUID as uuidv4 } from 'crypto';
+import { randomUUID } from 'crypto';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { POLE_EMPLOI } from '../../constants/oidc-identity-providers.js';
 
@@ -87,7 +87,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 
   async saveIdToken({ idToken, userId }) {
-    const uuid = uuidv4();
+    const uuid = randomUUID();
     const { idTokenLifespanMs } = this.temporaryStorage;
 
     await logoutUrlTemporaryStorage.save({
