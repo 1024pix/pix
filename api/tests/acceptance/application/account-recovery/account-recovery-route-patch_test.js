@@ -10,7 +10,7 @@ describe('Acceptance | Route | Account-recovery', function () {
 
   describe('PATCH /api/account-recovery', function () {
     afterEach(async function () {
-      await knex('account-recovery-demands').delete();
+      await knex('account-recovery-demands').truncate();
     });
 
     context('when user has pix authentication method', function () {
