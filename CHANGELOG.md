@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.28.0 (25/08/2023)
+
+
+### :rocket: Amélioration
+- [#6919](https://github.com/1024pix/pix/pull/6919) [FEATURE] Connecter Pix API à l'application de journalisation (PIX-4833).
+- [#6913](https://github.com/1024pix/pix/pull/6913) [FEATURE] Afficher les méthodes d'authentification même si le fournisseur d'identité correspondant est désactivé (PIX-8951).
+- [#6893](https://github.com/1024pix/pix/pull/6893) [FEATURE] Afficher les résultats thématiques à hiérarchiser (PIX-8767).
+- [#6930](https://github.com/1024pix/pix/pull/6930) [FEATURE] ETQ user Pix Admin, JV rechercher un utilisateur dans la liste par son id (PIX-389).
+
+### :building_construction: Tech
+- [#6936](https://github.com/1024pix/pix/pull/6936) [TECH] Mise à jour de l'index de l'ADR 0049-nouvelle-arborescence-api.
+- [#6925](https://github.com/1024pix/pix/pull/6925) [TECH] Ajouter le modèle Grain (PIX-8968).
+- [#6929](https://github.com/1024pix/pix/pull/6929) [TECH] Ajouter un Profile Cible avec Badges / Paliers pour une campagne dans les seeds (Pix-8963).
+- [#6519](https://github.com/1024pix/pix/pull/6519) [TECH] Faciliter le déploiement sur Scalingo.
+
+### :bug: Correction
+- [#6934](https://github.com/1024pix/pix/pull/6934) [BUGFIX] Corrige la difficulté des questions qui ne change pas lors d'une certif v3 (PIX-8984).
+- [#6897](https://github.com/1024pix/pix/pull/6897) [BUGFIX] Le switcher des profils cibles change d'ordre (PIX-8944).
+
+### :arrow_up: Montée de version
+- [#6932](https://github.com/1024pix/pix/pull/6932) [BUMP] Mise à jour de json2csv (api).
+
+### :coffee: Autre
+- [#6670](https://github.com/1024pix/pix/pull/6670) [DOC] :memo: Création d'un ADR pour la nouvelle arborescence API.
+
 ## v4.27.0 (23/08/2023)
 
 
