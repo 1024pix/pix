@@ -4,7 +4,7 @@ import { BookshelfTargetProfileShare } from '../../../../lib/infrastructure/orm-
 import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
 import * as targetProfileAdapter from '../../../../lib/infrastructure/adapters/target-profile-adapter.js';
 
-describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
+describe('Integration | Infrastructure | Adapter | targetProfileAdapter', function () {
   it('should adapt TargetProfile object to domain', function () {
     // given
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());

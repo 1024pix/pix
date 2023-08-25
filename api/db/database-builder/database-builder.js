@@ -3,14 +3,33 @@ import bluebird from 'bluebird';
 import { factory } from './factory/index.js';
 import { databaseBuffer } from './database-buffer.js';
 
-class DatabaseBuilder {
+class DatabaseBuilderBase {
+  async commit() {
+    return Promise.resolve();
+  }
+
+  async clean() {
+    return Promise.resolve();
+  }
+
+  async fixSequences() {
+    return Promise.resolve();
+  }
+}
+
+class DatabaseBuilder extends DatabaseBuilderBase {
   constructor({ knex, emptyFirst = true }) {
+    super();
     this.knex = knex;
     this.databaseBuffer = databaseBuffer;
     this.tablesOrderedByDependencyWithDirtinessMap = [];
     this.factory = factory;
     this.isFirstCommit = true;
     this.emptyFirst = emptyFirst;
+  }
+
+  async initialize() {
+    await this._init();
   }
 
   async commit() {
@@ -175,4 +194,27 @@ class DatabaseBuilder {
   }
 }
 
-export { DatabaseBuilder };
+async function createDatabaseBuilder({ knex }) {
+  const isDatabaseConnectionEstablished = await canInitializeDatabase(knex);
+  let databaseBuilder;
+
+  if (isDatabaseConnectionEstablished) {
+    databaseBuilder = new DatabaseBuilder({ knex });
+    await databaseBuilder.initialize();
+  } else {
+    databaseBuilder = new DatabaseBuilderBase();
+  }
+
+  return databaseBuilder;
+}
+
+export { createDatabaseBuilder, DatabaseBuilder };
+
+async function canInitializeDatabase(knex) {
+  try {
+    await knex.raw('select 1+1 as result');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}

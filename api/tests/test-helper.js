@@ -30,9 +30,9 @@ import { config } from '../lib/config.js';
 
 const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 import { knex, disconnect } from '../db/knex-database-connection.js';
-import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
+import { createDatabaseBuilder } from '../db/database-builder/database-builder.js';
 
-const databaseBuilder = new DatabaseBuilder({ knex });
+const databaseBuilder = await createDatabaseBuilder({ knex });
 
 import nock from 'nock';
 
