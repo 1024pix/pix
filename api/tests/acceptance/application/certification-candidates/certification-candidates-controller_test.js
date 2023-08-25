@@ -1,6 +1,5 @@
 import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
 
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {
@@ -164,21 +163,13 @@ describe('Acceptance | API | Certifications candidates', function () {
       const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertification.CLEA,
-        label: 'CléA Numérique',
-      });
-      const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        key: ComplementaryCertification.PIX_PLUS_DROIT,
-        label: 'Pix+ Droit',
-      });
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        key: 'COMPLEMENTARY_CERTIFICATION_KEY',
+        label: 'COMPLEMENTARY_CERTIFICATION_LABEL',
+      }).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId: certificationCenter.id,
-        complementaryCertificationId: cleaComplementaryCertification.id,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
-        certificationCenterId: certificationCenter.id,
-        complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
+        complementaryCertificationId,
       });
       const session = databaseBuilder.factory.buildSession({
         certificationCenterId: certificationCenter.id,
@@ -187,9 +178,16 @@ describe('Acceptance | API | Certifications candidates', function () {
         sessionId: session.id,
       });
 
+      const badgeId = databaseBuilder.factory.buildBadge().id;
+
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: candidate.id,
-        complementaryCertificationId: cleaComplementaryCertification.id,
+        complementaryCertificationId,
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        complementaryCertificationId,
+        badgeId,
       });
       await databaseBuilder.commit();
 
@@ -211,9 +209,9 @@ describe('Acceptance | API | Certifications candidates', function () {
           'session-id': session.id,
           'eligible-subscription': null,
           'non-eligible-subscription': {
-            id: cleaComplementaryCertification.id,
-            label: 'CléA Numérique',
-            key: ComplementaryCertification.CLEA,
+            id: complementaryCertificationId,
+            label: 'COMPLEMENTARY_CERTIFICATION_LABEL',
+            key: 'COMPLEMENTARY_CERTIFICATION_KEY',
           },
         },
       });

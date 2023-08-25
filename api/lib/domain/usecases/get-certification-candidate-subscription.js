@@ -5,6 +5,7 @@ const getCertificationCandidateSubscription = async function ({
   certificationBadgesService,
   certificationCandidateRepository,
   certificationCenterRepository,
+  complementaryCertificationBadgeRepository,
 }) {
   const certificationCandidate =
     await certificationCandidateRepository.getWithComplementaryCertification(certificationCandidateId);
@@ -26,11 +27,17 @@ const getCertificationCandidateSubscription = async function ({
     userId: certificationCandidate.userId,
   });
 
-  if (certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
-    const isSubscriptionEligible = certifiableBadgeAcquisitions.some(
-      ({ complementaryCertificationKey }) =>
-        complementaryCertificationKey === certificationCandidate.complementaryCertification.key,
+  const complementaryCertificationBadges =
+    await complementaryCertificationBadgeRepository.findAllByComplementaryCertificationId(
+      certificationCandidate.complementaryCertification.id,
     );
+
+  if (certificationCenter.isHabilitated(certificationCandidate.complementaryCertification.key)) {
+    const isSubscriptionEligible =
+      certifiableBadgeAcquisitions.some(
+        ({ complementaryCertificationKey }) =>
+          complementaryCertificationKey === certificationCandidate.complementaryCertification.key,
+      ) && complementaryCertificationBadges.some((ccBadge) => !ccBadge.isOutdated());
 
     if (isSubscriptionEligible) {
       eligibleSubscription = certificationCandidate.complementaryCertification;
