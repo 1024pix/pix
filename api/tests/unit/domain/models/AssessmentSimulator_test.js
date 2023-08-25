@@ -13,7 +13,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           const answer1 = { challengeId: challenge2.id, result: answersForSimulator[0] };
           const answer2 = { challengeId: challenge1.id, result: answersForSimulator[1] };
           const allChallenges = [challenge1, challenge2];
-          const initialEstimatedLevel = 0;
+          const initialCapacity = 0;
           const expectedEstimatedLevels = [0.4, 0.1];
           const expectedErrorRates = [0.2, 0.5];
           const expectedRewards = [5, 6];
@@ -30,16 +30,18 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               allAnswers: [],
             })
             .returns({
-              estimatedLevel: initialEstimatedLevel,
+              estimatedLevel: initialCapacity,
             })
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
+              initialCapacity,
             })
             .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] })
             .withArgs({
               allAnswers: [sinon.match(answer1), sinon.match(answer2)],
               challenges: allChallenges,
+              initialCapacity,
             })
             .returns({
               estimatedLevel: expectedEstimatedLevels[1],
@@ -50,13 +52,13 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
-              estimatedLevel: initialEstimatedLevel,
+              initialCapacity,
             })
             .returns([challenge2, challenge1])
             .withArgs({
               allAnswers: [sinon.match(answer1)],
               challenges: allChallenges,
-              estimatedLevel: expectedEstimatedLevels[0],
+              initialCapacity,
             })
             .returns([challenge1]);
 
@@ -74,7 +76,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
 
           algorithm.getReward
             .withArgs({
-              estimatedLevel: initialEstimatedLevel,
+              estimatedLevel: initialCapacity,
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
@@ -109,6 +111,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             challenges: allChallenges,
             pickChallenge,
             pickAnswerStatus,
+            initialCapacity,
           }).run();
 
           // then
@@ -124,7 +127,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
           const answer = { challengeId: challenge2.id, result: answersForSimulator[0] };
           const allChallenges = [challenge1, challenge2];
-          const initialEstimatedLevel = 0;
+          const initialCapacity = 0;
           const expectedEstimatedLevels = [0.4, 0.1];
           const expectedErrorRates = [0.2, 0.5];
           const expectedRewards = [5, 6];
@@ -141,11 +144,12 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
               allAnswers: [],
             })
             .returns({
-              estimatedLevel: initialEstimatedLevel,
+              estimatedLevel: initialCapacity,
             })
             .withArgs({
               allAnswers: [sinon.match(answer)],
               challenges: allChallenges,
+              initialCapacity,
             })
             .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] });
 
@@ -153,13 +157,13 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             .withArgs({
               allAnswers: [],
               challenges: allChallenges,
-              estimatedLevel: initialEstimatedLevel,
+              initialCapacity,
             })
             .returns([challenge2, challenge1])
             .withArgs({
               allAnswers: [sinon.match(answer)],
               challenges: allChallenges,
-              estimatedLevel: expectedEstimatedLevels[0],
+              initialCapacity,
             })
             .returns([challenge1]);
 
@@ -173,7 +177,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
 
           algorithm.getReward
             .withArgs({
-              estimatedLevel: initialEstimatedLevel,
+              estimatedLevel: initialCapacity,
               difficulty: challenge1.difficulty,
               discriminant: challenge1.discriminant,
             })
@@ -195,6 +199,7 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             challenges: allChallenges,
             pickChallenge,
             pickAnswerStatus,
+            initialCapacity,
           }).run();
 
           // then
@@ -212,7 +217,6 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         const answer1 = { challengeId: challenge2.id, result: answersForSimulator[0] };
         const answer2 = { challengeId: challenge1.id, result: answersForSimulator[1] };
         const allChallenges = [challenge1, challenge2];
-        const initialEstimatedLevel = 0;
         const expectedEstimatedLevels = [0.4, 0.1];
         const expectedErrorRates = [0.2, 0.5];
         const expectedRewards = [5, 6];
@@ -227,19 +231,15 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
-            allAnswers: [],
-          })
-          .returns({
-            estimatedLevel: initialEstimatedLevel,
-          })
-          .withArgs({
             allAnswers: [sinon.match(answer1)],
             challenges: allChallenges,
+            initialCapacity,
           })
           .returns({ estimatedLevel: expectedEstimatedLevels[0], errorRate: expectedErrorRates[0] })
           .withArgs({
             allAnswers: [sinon.match(answer1), sinon.match(answer2)],
             challenges: allChallenges,
+            initialCapacity,
           })
           .returns({
             estimatedLevel: expectedEstimatedLevels[1],
@@ -250,13 +250,13 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           .withArgs({
             allAnswers: [],
             challenges: allChallenges,
-            estimatedLevel: initialCapacity,
+            initialCapacity,
           })
           .returns([challenge2, challenge1])
           .withArgs({
             allAnswers: [sinon.match(answer1)],
             challenges: allChallenges,
-            estimatedLevel: expectedEstimatedLevels[0],
+            initialCapacity,
           })
           .returns([challenge1]);
 
