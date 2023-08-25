@@ -1065,11 +1065,11 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
   describe('#parseForCampaignsImport', function () {
     const headerCsv =
-      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours\n";
+      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple\n";
 
     it('should return parsed campaign data', async function () {
       // given
-      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2`;
+      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non`;
 
       // when
       const [firstCampaign, secondCampaign] = await csvSerializer.parseForCampaignsImport(csv);
@@ -1084,6 +1084,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           title: 'titre 1',
           customLandingPageText: 'descriptif 1',
           creatorId: 789,
+          multipleSendings: true,
         },
         {
           organizationId: 2,
@@ -1093,6 +1094,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           title: 'titre 2',
           customLandingPageText: 'descriptif 2',
           creatorId: 666,
+          multipleSendings: false,
         },
       ];
       expect(firstCampaign).to.deep.equal(parsedData[0]);
