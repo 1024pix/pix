@@ -40,17 +40,17 @@ module(
           'route:authenticated/complementary-certifications/complementary-certification/details',
         );
         controller = {
-          _targetProfileId: '42',
+          reset: sinon.stub(),
         };
       });
 
       module('when route is exiting', function () {
-        test('it should reset the toggle target id', function (assert) {
+        test('it should reset the toggle state', function (assert) {
           // when
           route.resetController(controller, true);
 
           // then
-          assert.strictEqual(controller._targetProfileId, null);
+          assert.ok(controller.reset.calledOnce);
         });
       });
 
@@ -60,7 +60,7 @@ module(
           route.resetController(controller, false);
 
           // then
-          assert.strictEqual(controller._targetProfileId, '42');
+          assert.ok(controller.reset.notCalled);
         });
       });
     });

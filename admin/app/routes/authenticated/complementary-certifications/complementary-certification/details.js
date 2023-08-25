@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class ComplementaryCertificationDetailsRoute extends Route {
+export default class DetailsRoute extends Route {
   @service accessControl;
 
   beforeModel() {
@@ -14,7 +14,7 @@ export default class ComplementaryCertificationDetailsRoute extends Route {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller._targetProfileId = null;
+      controller.reset();
     }
   }
 }
