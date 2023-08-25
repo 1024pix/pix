@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 class TemporaryStorage {
   static generateKey() {
-    return uuidv4();
+    return randomUUID();
   }
 
   async save(/* { key, value, expirationDelaySeconds } */) {

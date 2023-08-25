@@ -1,5 +1,5 @@
 import bluebird from 'bluebird';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { tokenService } from './token-service.js';
 
 import { config } from '../../config.js';
@@ -15,7 +15,7 @@ function _prefixForUser(userId) {
   return `${userId}:`;
 }
 
-async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = uuidv4 }) {
+async function createRefreshTokenFromUserId({ userId, source, uuidGenerator = randomUUID }) {
   const expirationDelaySeconds = config.authentication.refreshTokenLifespanMs / 1000;
   const refreshToken = `${_prefixForUser(userId)}${uuidGenerator()}`;
 

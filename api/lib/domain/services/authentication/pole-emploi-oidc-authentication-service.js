@@ -3,7 +3,7 @@ import { OidcAuthenticationService } from './oidc-authentication-service.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import dayjs from 'dayjs';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 import { POLE_EMPLOI } from '../../constants/oidc-identity-providers.js';
 
@@ -87,7 +87,9 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 
   async saveIdToken({ idToken, userId }) {
-    const uuid = uuidv4();
+    // The session ID must be unpredictable, thus we disable the entropy cache
+    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
+    const uuid = randomUUID({ disableEntropyCache: true });
     const { idTokenLifespanMs } = this.temporaryStorage;
 
     await logoutUrlTemporaryStorage.save({

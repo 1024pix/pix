@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 import { RedisClient } from '../../../../lib/infrastructure/utils/RedisClient.js';
 import { config } from '../../../../lib/config.js';
@@ -52,8 +52,8 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
   it('should allow to handle a list of values for a key', async function () {
     // given
-    const keyToAdd = uuidv4();
-    const keyToRemove = uuidv4();
+    const keyToAdd = randomUUID();
+    const keyToRemove = randomUUID();
     const redisClient = new RedisClient(config.redis.url);
 
     await redisClient.lpush(keyToRemove, 'value1');

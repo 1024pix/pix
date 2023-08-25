@@ -7,7 +7,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import * as uuid from 'uuid';
+import * as uuid from 'crypto';
 
 const createAndUpload = async function ({
   data,
