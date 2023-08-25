@@ -5,13 +5,13 @@ import { Activity } from '../../../../../lib/domain/models/index.js';
 
 describe('Unit | Service | Challenge', function () {
   describe('#getChallenge', function () {
-    it('calls challengeRepository#getForPix1D with goods arguments', function () {
+    it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
       const challengeNumber = 1;
       const alternativeVersion = null;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
 
       challengeService.getChallenge({
@@ -22,7 +22,7 @@ describe('Unit | Service | Challenge', function () {
         challengeRepository,
       });
 
-      expect(challengeRepository.getForPix1D).to.have.been.calledOnceWith({
+      expect(challengeRepository.getChallengeFor1d).to.have.been.calledOnceWith({
         missionId,
         activityLevel,
         challengeNumber,
@@ -35,12 +35,12 @@ describe('Unit | Service | Challenge', function () {
         const challengeNumber = 1;
         const alternativeVersion = 2;
         const challengeRepository = {
-          getForPix1D: sinon.stub(),
+          getChallengeFor1d: sinon.stub(),
         };
         const challenge1 = domainBuilder.buildChallenge({ alternativeVersion });
         const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
         const challenges = [challenge1, challenge2];
-        challengeRepository.getForPix1D.resolves(challenges);
+        challengeRepository.getChallengeFor1d.resolves(challenges);
         const result = await challengeService.getChallenge({
           missionId,
           activityLevel,
@@ -57,12 +57,12 @@ describe('Unit | Service | Challenge', function () {
         const challengeNumber = 1;
         const alternativeVersion = 0;
         const challengeRepository = {
-          getForPix1D: sinon.stub(),
+          getChallengeFor1d: sinon.stub(),
         };
         const challenge1 = domainBuilder.buildChallenge({ alternativeVersion: undefined });
         const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
         const challenges = [challenge1, challenge2];
-        challengeRepository.getForPix1D.resolves(challenges);
+        challengeRepository.getChallengeFor1d.resolves(challenges);
         const result = await challengeService.getChallenge({
           missionId,
           activityLevel,
@@ -80,10 +80,10 @@ describe('Unit | Service | Challenge', function () {
       const challengeNumber = 1;
       const alternativeVersion = null;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
 
-      challengeRepository.getForPix1D.rejects(new NotFoundError());
+      challengeRepository.getChallengeFor1d.rejects(new NotFoundError());
 
       const functionToCall = async () => {
         await challengeService.getChallenge({
@@ -102,10 +102,10 @@ describe('Unit | Service | Challenge', function () {
       const challengeNumber = 1;
       const alternativeVersion = null;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
 
-      challengeRepository.getForPix1D.rejects(new Error());
+      challengeRepository.getChallengeFor1d.rejects(new Error());
       const error = await catchErr(challengeService.getChallenge)({
         missionId,
         activityLevel,
@@ -118,12 +118,12 @@ describe('Unit | Service | Challenge', function () {
   });
 
   describe('#getStartChallenge', function () {
-    it('calls challengeRepository#getForPix1D with goods arguments', function () {
+    it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
       const challengeNumber = 1;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
 
       challengeService.getStartChallenge({
@@ -133,7 +133,7 @@ describe('Unit | Service | Challenge', function () {
         challengeRepository,
       });
 
-      expect(challengeRepository.getForPix1D).to.have.been.calledOnceWith({
+      expect(challengeRepository.getChallengeFor1d).to.have.been.calledOnceWith({
         missionId,
         activityLevel,
         challengeNumber,
@@ -145,12 +145,12 @@ describe('Unit | Service | Challenge', function () {
       const challengeNumber = 1;
       const alternativeVersion = 2;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
       const challenge1 = domainBuilder.buildChallenge({ alternativeVersion });
       const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
       const challenges = [challenge1, challenge2];
-      challengeRepository.getForPix1D.resolves(challenges);
+      challengeRepository.getChallengeFor1d.resolves(challenges);
 
       sinon.stub(Math, 'random').returns(0.6);
       const result = await challengeService.getStartChallenge({
@@ -168,10 +168,10 @@ describe('Unit | Service | Challenge', function () {
       const challengeNumber = 1;
       const alternativeVersion = null;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
 
-      challengeRepository.getForPix1D.rejects(new NotFoundError());
+      challengeRepository.getChallengeFor1d.rejects(new NotFoundError());
 
       const functionToCall = async () => {
         await challengeService.getStartChallenge({
@@ -190,10 +190,10 @@ describe('Unit | Service | Challenge', function () {
       const challengeNumber = 1;
       const alternativeVersion = null;
       const challengeRepository = {
-        getForPix1D: sinon.stub(),
+        getChallengeFor1d: sinon.stub(),
       };
 
-      challengeRepository.getForPix1D.rejects(new Error());
+      challengeRepository.getChallengeFor1d.rejects(new Error());
       const error = await catchErr(challengeService.getStartChallenge)({
         missionId,
         activityLevel,
