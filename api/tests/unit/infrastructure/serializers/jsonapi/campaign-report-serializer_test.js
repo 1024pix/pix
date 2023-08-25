@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function () {
@@ -110,6 +110,7 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function ()
             'target-profile-has-stage': report.targetProfileHasStage,
             'target-profile-tubes-count': report.targetProfileTubesCount,
             'target-profile-thematic-result-count': report.targetProfileThematicResultCount,
+            'target-profile-are-knowledge-elements-resettable': report.targetProfileAreKnowledgeElementsResettable,
             'token-for-campaign-results': report.tokenForCampaignResults,
             'participations-count': report.participationsCount,
             'shared-participations-count': report.sharedParticipationsCount,

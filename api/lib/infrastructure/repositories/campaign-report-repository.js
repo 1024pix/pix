@@ -46,6 +46,7 @@ const get = async function (id) {
       targetProfileDescription: 'target-profiles.description',
       targetProfileName: 'target-profiles.name',
       multipleSendings: 'campaigns.multipleSendings',
+      areKnowledgeElementsResettable: 'target-profiles.areKnowledgeElementsResettable',
     })
     .select(
       knex.raw('ARRAY_AGG("badges"."id")  AS "badgeIds"'),
@@ -81,6 +82,7 @@ const get = async function (id) {
       thematicResultCount: _.uniq(result.badgeIds).filter((id) => id).length,
       hasStage: result.stageIds.some((stage) => stage),
       description: result.targetProfileDescription,
+      areKnowledgeElementsResettable: result.areKnowledgeElementsResettable,
     });
 
     campaignReport.setTargetProfileInformation(targetProfile);

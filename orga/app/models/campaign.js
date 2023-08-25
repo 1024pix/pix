@@ -24,6 +24,7 @@ export default class Campaign extends Model {
   @attr('number') targetProfileTubesCount;
   @attr('number') targetProfileThematicResultCount;
   @attr('boolean') targetProfileHasStage;
+  @attr('boolean') targetProfileAreKnowledgeElementsResettable;
   @attr('number') participationsCount;
   @attr('number') sharedParticipationsCount;
   @attr('number') averageResult;
