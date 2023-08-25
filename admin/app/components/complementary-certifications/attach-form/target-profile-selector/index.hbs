@@ -1,10 +1,10 @@
 {{#if this.selectedTargetProfile}}
-  <ComplementaryCertifications::TargetProfiles::SelectedTargetProfile
+  <ComplementaryCertifications::AttachForm::TargetProfileSelector::SelectedTargetProfile
     @onChange={{this.onChange}}
     @attachableTargetProfile={{this.selectedTargetProfile}}
   />
 {{else}}
-  <ComplementaryCertifications::TargetProfiles::SearchBar
+  <ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar
     @onSelection={{this.onSelection}}
     @onSearch={{this.onSearch}}
     @options={{this.attachableTargetProfiles}}

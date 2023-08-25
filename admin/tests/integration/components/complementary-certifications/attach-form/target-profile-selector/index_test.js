@@ -6,13 +6,13 @@ import { fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 
 module(
-  'Integration | Component |  complementary-certifications/target-profiles/target-profile-selector',
+  'Integration | Component |  ComplementaryCertifications::AttachForm::TargetProfileSelector',
   function (hooks) {
     setupRenderingTest(hooks);
 
     test('it should display the search bar by default', async function (assert) {
       // when
-      const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileSelector />`);
+      const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector />`);
 
       // then
       assert.dom(await screen.getByRole('searchbox')).exists();
@@ -28,7 +28,7 @@ module(
             name: 'ALEX TARGET',
           },
         ]);
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileSelector />`);
+        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector />`);
 
         // when
         const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
@@ -42,7 +42,7 @@ module(
         // given
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub().returns(new Promise(() => {}));
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileSelector />`);
+        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector />`);
 
         // when
         const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
@@ -57,7 +57,7 @@ module(
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub().rejects();
         this.set('noop', () => {});
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileSelector
+        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector
           @onError={{this.noop}}
         />`);
 
@@ -80,7 +80,7 @@ module(
         });
         store.query = sinon.stub().resolves([attachableTargetProfile]);
         this.set('noop', () => {});
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileSelector
+        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector
           @onSelection={{this.noop}}
         />`);
 

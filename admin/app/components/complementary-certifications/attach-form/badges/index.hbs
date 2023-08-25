@@ -1,7 +1,7 @@
 {{#if this.isLoading}}
   <Common::LoaderGrey />
 {{/if}}
-<ComplementaryCertifications::TargetProfiles::AttachBadges
+<ComplementaryCertifications::AttachForm::Badges::List
   @options={{this.badges}}
   @onUpdateLevel={{this.onBadgeUpdated}}
   @error={{this.getTargetProfileBadgesErrorMessage}}

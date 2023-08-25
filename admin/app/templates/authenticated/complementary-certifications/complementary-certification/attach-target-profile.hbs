@@ -6,7 +6,7 @@
   <ComplementaryCertifications::TargetProfiles::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
 
   <Card @title="1. Renseigner le nouveau profil cible à rattacher">
-    <ComplementaryCertifications::TargetProfiles::TargetProfileSelector
+    <ComplementaryCertifications::AttachForm::TargetProfileSelector
       @onError={{this.onError}}
       @onSelection={{this.onSelection}}
       @onChange={{this.onReset}}
@@ -15,7 +15,7 @@
 
   {{#if this.selectedTargetProfile}}
     <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
-      <ComplementaryCertifications::TargetProfiles::TargetProfileBadges
+      <ComplementaryCertifications::AttachForm::Badges
         @targetProfile={{this.selectedTargetProfile}}
         @onError={{this.onError}}
         @onBadgeUpdated={{this.onBadgeUpdated}}
