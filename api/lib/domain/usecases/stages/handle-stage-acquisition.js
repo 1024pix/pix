@@ -78,9 +78,15 @@ const handleStageAcquisition = async function ({
     domainTransaction?.knexTransaction,
   );
 
+  const validatedKnowledgeElements = knowledgeElements.filter(({ isValidated }) => isValidated);
+
+  const knowledgeElementsInSkills = validatedKnowledgeElements.filter((knowledgeElement) =>
+    campaignSkillsIds.some((id) => String(id) === String(knowledgeElement.skillId)),
+  );
+
   const stagesToStore = getNewAcquiredStagesService.getNewAcquiredStages(
     stagesForThisCampaign,
-    campaignParticipation.validatedSkillsCount,
+    knowledgeElementsInSkills.length,
     alreadyAcquiredStagesIds,
     masteryPercentage,
   );
