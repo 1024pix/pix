@@ -96,13 +96,13 @@ describe('Acceptance | Route | Account-recovery', function () {
         const userAuthenticationMethods = await knex('authentication-methods')
           .select('identityProvider')
           .where({ userId: userWithGarAuthenticationMethod.id });
-        const { email: newUserEmail, cgu } = await knex('users')
+        const user = await knex('users')
           .select('email', 'cgu')
           .where({ id: userWithGarAuthenticationMethod.id })
           .first();
         expect(response.statusCode).to.equal(204);
-        expect(newUserEmail).to.equal('new-email@example.net');
-        expect(cgu).to.equal(true);
+        expect(user.email).to.equal('new-email@example.net');
+        expect(user.cgu).to.equal(true);
         expect(userAuthenticationMethods).to.deepEqualArray([{ identityProvider: 'GAR' }, { identityProvider: 'PIX' }]);
       });
     });
