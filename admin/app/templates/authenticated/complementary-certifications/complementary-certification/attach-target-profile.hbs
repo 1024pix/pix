@@ -1,43 +1,35 @@
-{{page-title "Certification complémentaire " @model.complementaryCertification.id " | Pix Admin" replace=true}}
+<div class="page-section attach-target-profile">
+  <h1 class="attach-target-profile__header">
+    Rattacher un nouveau profil cible à la certification
+    {{@model.complementaryCertification.label}}
+  </h1>
+  <ComplementaryCertifications::TargetProfiles::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
 
-<ComplementaryCertifications::TargetProfiles::Header
-  @complementaryCertificationLabel={{@model.complementaryCertification.label}}
-/>
+  <Card @title="1. Renseigner le nouveau profil cible à rattacher">
+    <ComplementaryCertifications::TargetProfiles::TargetProfileSelector
+      @onError={{this.onError}}
+      @onSelection={{this.onSelection}}
+      @onChange={{this.onReset}}
+    />
+  </Card>
 
-<main class="page-body">
-  <div class="page-section attach-target-profile">
-    <h1 class="attach-target-profile__header">
-      Rattacher un nouveau profil cible à la certification
-      {{@model.complementaryCertification.label}}
-    </h1>
-    <ComplementaryCertifications::TargetProfiles::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
-
-    <Card @title="1. Renseigner le nouveau profil cible à rattacher">
-      <ComplementaryCertifications::TargetProfiles::TargetProfileSelector
+  {{#if this.selectedTargetProfile}}
+    <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
+      <ComplementaryCertifications::TargetProfiles::TargetProfileBadges
+        @targetProfile={{this.selectedTargetProfile}}
         @onError={{this.onError}}
-        @onSelection={{this.onSelection}}
-        @onChange={{this.onReset}}
+        @onBadgeUpdated={{this.onBadgeUpdated}}
       />
     </Card>
+  {{/if}}
 
-    {{#if this.selectedTargetProfile}}
-      <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
-        <ComplementaryCertifications::TargetProfiles::TargetProfileBadges
-          @targetProfile={{this.selectedTargetProfile}}
-          @onError={{this.onError}}
-          @onBadgeUpdated={{this.onBadgeUpdated}}
-        />
-      </Card>
-    {{/if}}
-
-    <div>
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.cancel}}
-      >Annuler
-      </PixButton>
-    </div>
+  <div>
+    <PixButton
+      @size="small"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{this.cancel}}
+    >Annuler
+    </PixButton>
   </div>
-</main>
+</div>
