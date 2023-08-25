@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 import jsonwebtoken from 'jsonwebtoken';
 import querystring from 'querystring';
-import { randomUUID as uuidv4 } from 'crypto';
+import { randomUUID } from 'crypto';
 
 import { logger } from '../../../infrastructure/logger.js';
 import {
@@ -140,8 +140,8 @@ class OidcAuthenticationService {
 
   getAuthenticationUrl({ redirectUri }) {
     const redirectTarget = new URL(this.authenticationUrl);
-    const state = uuidv4();
-    const nonce = uuidv4();
+    const state = randomUUID();
+    const nonce = randomUUID();
 
     const params = [
       { key: 'state', value: state },
