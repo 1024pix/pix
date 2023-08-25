@@ -1,6 +1,7 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import * as campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../lib/domain/errors.js';
+import * as apps from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {
@@ -18,6 +19,23 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
       const creator = await campaignCreatorRepository.get({ userId, organizationId, ownerId: userId });
 
       expect(creator.availableTargetProfileIds).to.deep.equal([targetProfileId]);
+    });
+
+    context('multiple assessment feature', function () {
+      it('returns true when feature is available', async function () {
+        const featureId = databaseBuilder.factory.buildFeature(
+          apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+        ).id;
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
+        databaseBuilder.factory.buildOrganizationFeature({ organizationId, featureId });
+        await databaseBuilder.commit();
+
+        const creator = await campaignCreatorRepository.get({ userId, organizationId, ownerId: userId });
+
+        expect(creator.isMultipleSendingsAssessmentEnable).to.be.true;
+      });
     });
 
     context('when there are target profiles', function () {
