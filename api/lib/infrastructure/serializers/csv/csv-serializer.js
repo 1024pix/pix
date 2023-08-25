@@ -209,6 +209,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     creatorId: data['Identifiant du créateur*'],
     title: data['Titre du parcours'],
     customLandingPageText: data['Descriptif du parcours'],
+    multipleSendings: data['Envoi multiple'].toLowerCase() === 'oui' ? true : false,
   }));
 }
 

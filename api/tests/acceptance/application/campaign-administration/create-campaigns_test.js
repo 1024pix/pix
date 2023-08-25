@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN, ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 const { ROLES } = PIX_ADMIN;
@@ -27,13 +27,16 @@ describe('Acceptance | Application | campaign-controller-create-campaigns', func
 
       it('creates two campaigns', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const featureId = databaseBuilder.factory.buildFeature(ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT).id;
+
+        databaseBuilder.factory.buildOrganizationFeature({ organizationId, featureId });
         databaseBuilder.factory.buildMembership({ organizationId, userId, organizationRole: Membership.roles.ADMIN });
         const targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
         await databaseBuilder.commit();
 
-        const buffer = `Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours
-          ${organizationId};Parcours importé par CSV;${targetProfileId};numéro d'étudiant;${userId};
-          ${organizationId};Autre parcours importé par CSV;${targetProfileId};numéro d'étudiant;${userId};Titre;Superbe descriptif de parcours`;
+        const buffer = `Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple
+          ${organizationId};Parcours importé par CSV;${targetProfileId};numéro d'étudiant;${userId};;;non
+          ${organizationId};Autre parcours importé par CSV;${targetProfileId};numéro d'étudiant;${userId};Titre;Superbe descriptif de parcours;oui`;
         const options = {
           method: 'POST',
           url: '/api/admin/campaigns',
