@@ -26,6 +26,10 @@ class ComplementaryCertificationBadge {
     this.detachedAt = detachedAt;
     this.createdBy = createdBy;
   }
+
+  isOutdated() {
+    return this.detachedAt !== null;
+  }
 }
 
 export { ComplementaryCertificationBadge };
