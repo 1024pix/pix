@@ -85,13 +85,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         firstChallenge = domainBuilder.buildChallenge({
           id: '1234',
           difficulty: -5,
-          discriminant: -5,
+          discriminant: 1,
           skill: firstSkill,
         });
         secondChallenge = domainBuilder.buildChallenge({
           id: '5678',
           difficulty: -5,
-          discriminant: -5,
+          discriminant: 1,
           skill: secondSkill,
         });
 
