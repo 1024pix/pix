@@ -3,6 +3,8 @@ import * as datasource from './datasource.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
 const VALIDATED_CHALLENGE = 'validé';
+// donnée temporaire pour pix1d le temps d'arriver en « prod »
+const PROPOSED_CHALLENGE = 'proposé';
 const OBSOLETE_CHALLENGE = 'périmé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
@@ -44,11 +46,16 @@ const challengeDatasource = datasource.extend({
 
   async getBySkillId(skillId) {
     const challenges = await this.list();
-    const challenge = _.find(challenges, { skillId });
-    if (!challenge) {
+    const filteredChallenges = challenges.filter(
+      (challenge) =>
+        challenge.skillId === skillId &&
+        (challenge.status === VALIDATED_CHALLENGE || challenge.status === PROPOSED_CHALLENGE),
+    );
+
+    if (_.isEmpty(filteredChallenges)) {
       throw new LearningContentResourceNotFound();
     }
-    return challenge;
+    return filteredChallenges;
   },
 
   async findActiveFlashCompatible(locale) {
