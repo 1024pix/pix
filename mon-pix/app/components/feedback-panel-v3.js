@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class FeedbackPanelV3 extends Component {
   @service store;
+  @service router;
   @service intl;
   @tracked isExpanded = false;
 
@@ -29,13 +30,18 @@ export default class FeedbackPanelV3 extends Component {
     }
   }
 
+  @action
+  resfreshPage() {
+    this.router.refresh();
+  }
+
   _resetPanel() {
     this.isExpanded = false;
   }
 
   _scrollIntoFeedbackPanel() {
     later(function () {
-      const feedbackPanelElements = document.getElementsByClassName('feedback-panel-v3__view');
+      const feedbackPanelElements = document.getElementsByClassName('feedback-panel-v3');
       if (feedbackPanelElements && feedbackPanelElements[0]) {
         feedbackPanelElements[0].scrollIntoView();
       }

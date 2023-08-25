@@ -22,6 +22,7 @@ export default class ChallengeController extends Controller {
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasUserConfirmedTimedChallengeWarning = false;
+  @tracked isInvigilatorCalled = false;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -175,6 +176,11 @@ export default class ChallengeController extends Controller {
       !this.hasUserConfirmedTimedChallengeWarning &&
       !this.model.assessment.hasTimeoutChallenge
     );
+  }
+
+  @action
+  disableChallengeItemActions() {
+    this.isInvigilatorCalled = true;
   }
 
   _hasCertificationCandidateConfirmedFocusWarningScreen() {
