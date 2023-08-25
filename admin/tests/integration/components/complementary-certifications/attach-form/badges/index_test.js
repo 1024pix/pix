@@ -5,7 +5,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 
 module(
-  'Integration | Component |  complementary-certifications/target-profiles/target-profile-badges',
+  'Integration | Component | ComplementaryCertifications::AttachForm::Badges',
   function (hooks) {
     setupRenderingTest(hooks);
 
@@ -22,7 +22,7 @@ module(
         this.set('noop', () => {});
 
         // when
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileBadges
+        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::Badges
           @targetProfile={{this.attachableTargetProfile}}
           @onError={{this.noop}}
         />`);
@@ -49,7 +49,7 @@ module(
           this.set('noop', () => {});
 
           // when
-          const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileBadges
+          const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::Badges
             @targetProfile={{this.attachableTargetProfile}}
             @onError={{this.noop}}
           />`);
@@ -87,7 +87,7 @@ module(
           this.set('noop', () => {});
 
           // when
-          const screen = await renderScreen(hbs`<ComplementaryCertifications::TargetProfiles::TargetProfileBadges
+          const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::Badges
             @targetProfile={{this.attachableTargetProfile}}
             @onError={{this.noop}}
           />`);
