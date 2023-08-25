@@ -26,7 +26,7 @@ const _filterChallenges = async (
   filterFunction,
 ) => {
   try {
-    const challenges = await challengeRepository.getForPix1D({
+    const challenges = await challengeRepository.getChallengeFor1d({
       missionId,
       activityLevel,
       challengeNumber,

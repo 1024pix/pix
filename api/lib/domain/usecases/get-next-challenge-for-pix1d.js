@@ -4,7 +4,7 @@ import { getLastAnswerStatus } from '../services/1d/last-answer-status.js';
 import { Activity } from '../models/index.js';
 import { getNextActivityLevel } from '../services/algorithm-methods/pix1d.js';
 
-axport async function getNextChallengeForPix1d({
+export async function getNextChallengeForPix1d({
   assessmentId,
   assessmentRepository,
   activityAnswerRepository,

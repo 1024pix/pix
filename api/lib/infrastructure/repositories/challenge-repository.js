@@ -42,8 +42,7 @@ const get = async function (id) {
  * @param {number} challengeNumber activity's challenge number
  * @returns a challenge
  */
-// TODO Rename to `getChallengesForPix1d`
-const getForPix1D = async function ({ missionId, activityLevel, challengeNumber }) {
+const getChallengeFor1d = async function ({ missionId, activityLevel, challengeNumber }) {
   try {
     const missionNamePrefix = await _getMissionNamePrefix(missionId);
     if (missionNamePrefix.length === 0) {
@@ -185,7 +184,7 @@ const findValidatedBySkillId = async function (skillId) {
 
 export {
   get,
-  getForPix1D,
+  getChallengeFor1d,
   getMany,
   list,
   findValidated,
