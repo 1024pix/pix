@@ -63,6 +63,7 @@ class CampaignReport {
     this.targetProfileTubesCount = targetProfile.tubeCount;
     this.targetProfileThematicResultCount = targetProfile.thematicResultCount;
     this.targetProfileHasStage = targetProfile.hasStage;
+    this.targetProfileAreKnowledgeElementsResettable = targetProfile.areKnowledgeElementsResettable;
   }
 
   setBadges(badges) {

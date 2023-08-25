@@ -574,6 +574,17 @@
         }
       },
       "personalised-test-title": "Titre du parcours",
+      "reset-to-zero": {
+        "title": "Remise à zéro",
+        "status": {
+          "disabled": "Non",
+          "enabled": "Oui"
+        },
+        "tooltip": {
+          "aria-label": "Description de Remise à zéro",
+          "text": "Si la remise à zéro est activée, le participant peut repasser entièrement son parcours et renvoyer ses résultats, plusieurs fois, en saisissant à nouveau le code campagne."
+        }
+      },
       "target-profile": {
         "title": "Parcours",
         "tooltip": "Description du parcours"

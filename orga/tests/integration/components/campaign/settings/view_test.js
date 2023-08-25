@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Campaign::Settings::View', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -464,6 +464,23 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
             .dom(screen.queryByLabelText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.aria-label')))
             .doesNotExist();
         });
+
+        test('it should not display reset to zero label or tooltip', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            targetProfileAreKnowledgeElementsResettable: true,
+          });
+
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
+          assert
+            .dom(screen.queryByLabelText(this.intl.t('pages.campaign-settings.reset-to-zero.tooltip.aria-label')))
+            .doesNotExist();
+        });
       });
       module('when organization feature enableMultipleSending is true', function (hooks) {
         hooks.beforeEach(function () {
@@ -494,6 +511,97 @@ module('Integration | Component | Campaign::Settings::View', function (hooks) {
 
           // then
           assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.multiple-sendings.tooltip.text'))).exists();
+        });
+      });
+
+      module('when the campaign has multiple sending enabled', function (hooks) {
+        hooks.beforeEach(function () {
+          class CurrentUserStub extends Service {
+            prescriber = { isAdminOfTheCurrentOrganization: true, enableMultipleSendingAssessment: true };
+          }
+          this.owner.register('service:currentUser', CurrentUserStub);
+        });
+        test('it should display reset to zero label as enabled when targetProfileAreKnowledgeElementsResettable is true', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            multipleSendings: true,
+            targetProfileAreKnowledgeElementsResettable: true,
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          // then
+          const resetToZeroNode = screen.getByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))
+            .parentNode.parentNode;
+          assert
+            .dom(within(resetToZeroNode).getByText(this.intl.t('pages.campaign-settings.reset-to-zero.status.enabled')))
+            .exists();
+        });
+
+        test('it should display the reset to zero label as disabled when targetProfileAreKnowledgeElementsResettable is false', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            multipleSendings: true,
+            targetProfileAreKnowledgeElementsResettable: false,
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          // then
+          const resetToZeroNode = screen.getByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))
+            .parentNode.parentNode;
+          assert
+            .dom(
+              within(resetToZeroNode).getByText(this.intl.t('pages.campaign-settings.reset-to-zero.status.disabled')),
+            )
+            .exists();
+        });
+
+        test('it should display tooltip with reset to zero explanatory text', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            multipleSendings: true,
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+
+          // then
+          assert.dom(screen.getByText(this.intl.t('pages.campaign-settings.reset-to-zero.tooltip.text'))).exists();
+        });
+      });
+
+      module('when the campaign has multiple sending disabled', function (hooks) {
+        hooks.beforeEach(function () {
+          class CurrentUserStub extends Service {
+            prescriber = { isAdminOfTheCurrentOrganization: true, enableMultipleSendingAssessment: true };
+          }
+          this.owner.register('service:currentUser', CurrentUserStub);
+        });
+        test('it should not display reset to zero label when targetProfileAreKnowledgeElementsResettable is true', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            multipleSendings: false,
+            targetProfileAreKnowledgeElementsResettable: true,
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          // then
+          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
+        });
+
+        test('it should not display the reset to zero label when targetProfileAreKnowledgeElementsResettable is false', async function (assert) {
+          // given
+          this.campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            multipleSendings: false,
+            targetProfileAreKnowledgeElementsResettable: false,
+          });
+          // when
+          const screen = await render(hbs`<Campaign::Settings::View @campaign={{this.campaign}} />`);
+          // then
+          assert.dom(screen.queryByText(this.intl.t('pages.campaign-settings.reset-to-zero.title'))).doesNotExist();
         });
       });
     });
