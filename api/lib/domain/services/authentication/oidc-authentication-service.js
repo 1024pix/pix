@@ -140,8 +140,10 @@ class OidcAuthenticationService {
 
   getAuthenticationUrl({ redirectUri }) {
     const redirectTarget = new URL(this.authenticationUrl);
-    const state = randomUUID();
-    const nonce = randomUUID();
+    // The session ID must be unpredictable, thus we disable the entropy cache
+    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
+    const state = randomUUID({ disableEntropyCache: true });
+    const nonce = randomUUID({ disableEntropyCache: true });
 
     const params = [
       { key: 'state', value: state },
