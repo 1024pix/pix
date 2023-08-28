@@ -10,6 +10,7 @@ const authenticateOidcUser = async function ({
   authenticationSessionService,
   authenticationMethodRepository,
   userRepository,
+  userLoginRepository,
 }) {
   if (stateSent !== stateReceived) {
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
@@ -46,6 +47,7 @@ const authenticateOidcUser = async function ({
     userId: user.id,
   });
   userRepository.updateLastLoggedAt({ userId: user.id });
+  userLoginRepository.updateLastLoggedAt({ userId: user.id });
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
 };
