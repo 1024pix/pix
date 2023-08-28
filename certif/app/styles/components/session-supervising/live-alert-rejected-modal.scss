@@ -1,0 +1,10 @@
+.live-alert-rejected-modal {
+  &__error-banner {
+    border: 2px solid $pix-error-70;
+    border-radius: 4px;
+  }
+
+  &__description {
+    margin-top: 12px;
+  }
+}
