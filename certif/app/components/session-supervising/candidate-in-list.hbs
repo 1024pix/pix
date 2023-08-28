@@ -125,4 +125,17 @@
     </:description>
   </SessionSupervising::ConfirmationModal>
 
+  <SessionSupervising::AskForLiveAlertRejectionModal
+    @showModal={{this.isAskForLiveAlertRejectionDisplayed}}
+    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+    @title={{this.candidateFullName}}
+    @rejectLiveAlert={{this.rejectLiveAlert}}
+  />
+
+  <SessionSupervising::LiveAlertRejectedModal
+    @showModal={{this.isLiveAlertRejectedModalDisplayed}}
+    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+    @title={{this.candidateFullName}}
+  />
+
 </li>

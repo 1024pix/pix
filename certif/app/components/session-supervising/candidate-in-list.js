@@ -4,17 +4,30 @@ import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import dayjs from 'dayjs';
 
+const Modals = {
+  Confirmation: 'Confirmation',
+  AskDismissLiveAlert: 'AskDismissLiveAlert',
+  DismissLiveAlertSuccess: 'DismissLiveAlertSuccess',
+};
+
 export default class CandidateInList extends Component {
   @service notifications;
   @service intl;
 
   @tracked isMenuOpen = false;
-  @tracked isConfirmationModalDisplayed = false;
+  @tracked displayedModal = null;
   @tracked modalDescriptionText;
   @tracked modalCancelText;
   @tracked modalConfirmationText = this.intl.t('common.actions.confirm');
   @tracked modalInstructionText = this.intl.t('pages.session-supervising.candidate-in-list.default-modal-title');
   @tracked actionOnConfirmation;
+
+  get candidateFullName() {
+    const candidateFullName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
+    return this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.title', {
+      candidateFullName,
+    });
+  }
 
   get isConfirmButtonToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
@@ -104,7 +117,7 @@ export default class CandidateInList extends Component {
       },
     );
     set(this, 'actionOnConfirmation', this.authorizeTestResume);
-    this.isConfirmationModalDisplayed = true;
+    this.displayedModal = Modals.Confirmation;
   }
 
   @action
@@ -122,14 +135,13 @@ export default class CandidateInList extends Component {
       },
     );
     set(this, 'actionOnConfirmation', this.endAssessmentForCandidate);
-    this.isConfirmationModalDisplayed = true;
+    this.displayedModal = Modals.Confirmation;
   }
 
   @action
   askUserToHandleLiveAlert() {
     if (this._hasCertificationOngoingLiveAlert) {
-      this.isHandleLiveAlertModalDisplayed = true;
-      this.handleLiveAlertModalState = 'ask';
+      this.displayedModal = Modals.AskDismissLiveAlert;
     } else {
       this.notifications.error(
         this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert'),
@@ -138,19 +150,13 @@ export default class CandidateInList extends Component {
   }
 
   @action
-  async rejectLiveAlert() {
-    try {
-      const adapter = this.store.adapterFor('session');
-      await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
-      this.handleLiveAlertModalState = 'rejected';
-    } catch (err) {
-      this.notifications.error('Une erreur a eu lieue. Merci de réessayer ultérieurement.');
-    }
+  rejectLiveAlert() {
+    this.displayedModal = Modals.DismissLiveAlertSuccess;
   }
 
   @action
   closeConfirmationModal() {
-    this.isConfirmationModalDisplayed = false;
+    this.displayedModal = null;
   }
 
   @action
@@ -201,6 +207,22 @@ export default class CandidateInList extends Component {
         }),
       );
     }
+  }
+
+  @action closeHandleLiveAlertModal() {
+    this.displayedModal = null;
+  }
+
+  get isConfirmationModalDisplayed() {
+    return this.displayedModal === Modals.Confirmation;
+  }
+
+  get isAskForLiveAlertRejectionDisplayed() {
+    return this.displayedModal === Modals.AskDismissLiveAlert;
+  }
+
+  get isLiveAlertRejectedModalDisplayed() {
+    return this.displayedModal === Modals.DismissLiveAlertSuccess;
   }
 
   get actionMethod() {
