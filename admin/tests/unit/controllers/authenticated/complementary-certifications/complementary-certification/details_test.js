@@ -75,5 +75,20 @@ module(
         assert.strictEqual(controller.targetProfileId, 66);
       });
     });
+
+    module('#reset', function () {
+      test('it should set targetProfileId to null', function (assert) {
+        // given
+        controller._targetProfileId = '55';
+        controller.isToggleSwitched = false;
+
+        // when
+        controller.reset();
+
+        // then
+        assert.strictEqual(controller._targetProfileId, null);
+        assert.true(controller.isToggleSwitched);
+      });
+    });
   },
 );
