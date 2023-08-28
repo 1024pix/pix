@@ -13,7 +13,7 @@ async function getChallengeForCurrentActivity({ currentActivity, missionId, chal
       activityLevel: currentActivity.level,
       challengeNumber,
       challengeRepository,
-      alternativeVersion: currentActivity.alternativeVersion,
+      alternativeVersion: _convertAlternativeVersionToUndefined(currentActivity.alternativeVersion),
     });
   }
 }
@@ -26,6 +26,9 @@ async function getNextActivityChallenge({ missionId, assessmentId, challengeRepo
   const allActivities = await activityRepository.getAllByAssessmentId(assessmentId);
   const nextActivityLevel = pix1dService.getNextActivityLevel(allActivities);
 
+  const alreadyPlayedAlternativeVersions = allActivities
+    .filter((activity) => activity.level === nextActivityLevel)
+    .map((activity) => _convertAlternativeVersionToUndefined(activity.alternativeVersion));
   if (nextActivityLevel === undefined) {
     return;
   }
@@ -34,6 +37,7 @@ async function getNextActivityChallenge({ missionId, assessmentId, challengeRepo
     missionId,
     activityLevel: nextActivityLevel,
     challengeNumber: FIRST_CHALLENGE_NB,
+    alreadyPlayedAlternativeVersions,
     challengeRepository,
   });
   await activityRepository.save(
@@ -41,15 +45,21 @@ async function getNextActivityChallenge({ missionId, assessmentId, challengeRepo
       assessmentId,
       level: nextActivityLevel,
       status: Activity.status.STARTED,
-      alternativeVersion: _getAlternativeVersion(challenge.alternativeVersion),
+      alternativeVersion: _convertAlternativeVersionTo0(challenge.alternativeVersion),
     }),
   );
   return challenge;
 }
 
-function _getAlternativeVersion(alternativeVersion) {
+function _convertAlternativeVersionTo0(alternativeVersion) {
   if (alternativeVersion === undefined) {
-    alternativeVersion = 0;
+    return 0;
+  }
+  return alternativeVersion;
+}
+function _convertAlternativeVersionToUndefined(alternativeVersion) {
+  if (alternativeVersion === 0) {
+    return undefined;
   }
   return alternativeVersion;
 }
