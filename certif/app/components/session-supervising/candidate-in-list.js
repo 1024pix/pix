@@ -126,6 +126,29 @@ export default class CandidateInList extends Component {
   }
 
   @action
+  askUserToHandleLiveAlert() {
+    if (this._hasCertificationOngoingLiveAlert) {
+      this.isHandleLiveAlertModalDisplayed = true;
+      this.handleLiveAlertModalState = 'ask';
+    } else {
+      this.notifications.error(
+        this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert'),
+      );
+    }
+  }
+
+  @action
+  async rejectLiveAlert() {
+    try {
+      const adapter = this.store.adapterFor('session');
+      await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
+      this.handleLiveAlertModalState = 'rejected';
+    } catch (err) {
+      this.notifications.error('Une erreur a eu lieue. Merci de réessayer ultérieurement.');
+    }
+  }
+
+  @action
   closeConfirmationModal() {
     this.isConfirmationModalDisplayed = false;
   }
@@ -192,5 +215,9 @@ export default class CandidateInList extends Component {
   get candidateTheoricalEndDateTime() {
     const theoricalEndDateTime = dayjs(this.args.candidate.theoricalEndDateTime).format('HH:mm');
     return theoricalEndDateTime;
+  }
+
+  get _hasCertificationOngoingLiveAlert() {
+    return this.args.candidate.liveAlertStatus === 'ongoing';
   }
 }
