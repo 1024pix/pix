@@ -10,6 +10,7 @@
         placeholder="ID"
         @ariaLabel="Identifiant de l'utilisateur"
         class="user-list-form__input--small"
+        type="number"
       />
       <PixInput
         @id="firstName"
@@ -30,6 +31,7 @@
         {{on "change" this.onChangeEmail}}
         placeholder="Adresse e-mail"
         @ariaLabel="Adresse e-mail"
+        type="email"
       />
       <PixInput
         @id="username"
