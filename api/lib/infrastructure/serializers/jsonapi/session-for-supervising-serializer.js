@@ -41,6 +41,7 @@ const serialize = function (sessions) {
         'theoricalEndDateTime',
         'enrolledComplementaryCertificationLabel',
         'isStillEligibleToComplementaryCertification',
+        'liveAlertStatus',
       ],
     },
   }).serialize(sessions);

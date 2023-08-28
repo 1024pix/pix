@@ -89,10 +89,15 @@ describe('Integration | Repository | SessionForSupervising', function () {
         createdAt: new Date('2022-10-19T13:37:00Z'),
       });
 
-      databaseBuilder.factory.buildAssessment({
+      const assessment = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourse.id,
         state: Assessment.states.STARTED,
       });
+
+      databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+        assessmentId: assessment.id,
+      });
+
       databaseBuilder.factory.buildCertificationCandidate();
       await databaseBuilder.commit();
 
@@ -109,6 +114,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           'authorizedToStart',
           'assessmentStatus',
           'startDateTime',
+          'liveAlertStatus',
         ]),
       );
       expect(actualCandidates).to.have.deep.ordered.members([
@@ -119,6 +125,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           authorizedToStart: false,
           assessmentStatus: null,
           startDateTime: null,
+          liveAlertStatus: null,
         },
         {
           userId: 11111,
@@ -127,6 +134,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           authorizedToStart: true,
           assessmentStatus: null,
           startDateTime: null,
+          liveAlertStatus: null,
         },
         {
           userId: 12345,
@@ -135,6 +143,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           authorizedToStart: true,
           assessmentStatus: Assessment.states.STARTED,
           startDateTime: '2022-10-19T13:37:00+00:00',
+          liveAlertStatus: 'ongoing',
         },
         {
           userId: 22222,
@@ -143,6 +152,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
           authorizedToStart: false,
           assessmentStatus: null,
           startDateTime: null,
+          liveAlertStatus: null,
         },
       ]);
     });

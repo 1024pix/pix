@@ -1,11 +1,18 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
 import { CertificationCandidateForSupervising } from '../../../domain/models/CertificationCandidateForSupervising.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../domain/models/CertificationChallengeLiveAlert.js';
 import { ComplementaryCertificationForSupervising } from '../../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../../domain/read-models/SessionForSupervising.js';
 
 const get = async function (idSession) {
   const results = await knex
+    .with('ongoing-live-alerts', (queryBuilder) => {
+      queryBuilder
+        .select('*')
+        .from('certification-challenge-live-alerts')
+        .where({ status: CertificationChallengeLiveAlertStatus.ONGOING });
+    })
     .select({
       id: 'sessions.id',
       date: 'sessions.date',
@@ -25,6 +32,7 @@ const get = async function (idSession) {
           'authorizedToStart', "certification-candidates"."authorizedToStart",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
+          'liveAlertStatus', "ongoing-live-alerts".status,
           'complementaryCertification', json_build_object(
             'key', "complementary-certifications"."key",
             'label', "complementary-certifications"."label",
@@ -51,6 +59,7 @@ const get = async function (idSession) {
       'complementary-certifications.id',
       'complementary-certification-subscriptions.complementaryCertificationId',
     )
+    .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
     .groupBy('sessions.id', 'certification-centers.id')
     .where({ 'sessions.id': idSession })
     .first();
