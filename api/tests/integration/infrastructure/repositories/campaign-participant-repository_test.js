@@ -707,8 +707,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-        expect(campaignParticipant.organizationLearnerisDisabled).to.be.false;
-        expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+        expect(campaignParticipant.isOrganizationLearnerDisabled).to.be.false;
+        expect(campaignParticipant.hasOrganizationLearnerParticipatedForAnotherUser).to.equal(false);
       });
 
       it('find only organization learner which is not disabled', async function () {
@@ -762,7 +762,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             });
 
             expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-            expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+            expect(campaignParticipant.hasOrganizationLearnerParticipatedForAnotherUser).to.equal(false);
           });
 
           context('when there is participation for another campaign', function () {
@@ -789,7 +789,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
               });
 
               expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-              expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+              expect(campaignParticipant.hasOrganizationLearnerParticipatedForAnotherUser).to.equal(false);
             });
           });
         });
@@ -819,7 +819,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             });
 
             expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-            expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(true);
+            expect(campaignParticipant.hasOrganizationLearnerParticipatedForAnotherUser).to.equal(true);
           });
 
           context('when the participation is deleted', function () {
@@ -849,7 +849,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
               });
 
               expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-              expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+              expect(campaignParticipant.hasOrganizationLearnerParticipatedForAnotherUser).to.equal(false);
             });
 
             context('when there are several previous participations', function () {
@@ -892,7 +892,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
                 });
 
                 expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-                expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+                expect(campaignParticipant.hasOrganizationLearnerParticipatedForAnotherUser).to.equal(false);
               });
             });
           });
