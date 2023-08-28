@@ -1,12 +1,12 @@
 import {
-  expect,
+  catchErr,
   databaseBuilder,
   domainBuilder,
+  expect,
   knex,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
   sinon,
-  catchErr,
 } from '../../../test-helper.js';
 
 import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
@@ -149,11 +149,13 @@ describe('Integration | Repository | training-trigger-repository', function () {
         expect(createdTrainingTrigger.type).to.equal(trainingTrigger.type);
         expect(createdTrainingTrigger.threshold).to.equal(trainingTrigger.threshold);
         expect(createdTrainingTrigger.areas).to.have.lengthOf(1);
-        expect(createdTrainingTrigger.areas[0].id).to.equal('recAreaA');
+        expect(createdTrainingTrigger.areas[0].id).to.equal(`recAreaA_${trainingTrigger.id}`);
         expect(createdTrainingTrigger.areas[0].competences).to.have.lengthOf(1);
-        expect(createdTrainingTrigger.areas[0].competences[0].id).to.equal('recCompA');
+        expect(createdTrainingTrigger.areas[0].competences[0].id).to.equal(`recCompA_${trainingTrigger.id}`);
         expect(createdTrainingTrigger.areas[0].competences[0].thematics).to.have.lengthOf(1);
-        expect(createdTrainingTrigger.areas[0].competences[0].thematics[0].id).to.equal('recThemA');
+        expect(createdTrainingTrigger.areas[0].competences[0].thematics[0].id).to.equal(
+          `recThemA_${trainingTrigger.id}`,
+        );
 
         const trainingTriggerTubes = await knex('training-trigger-tubes')
           .where({
@@ -335,11 +337,11 @@ describe('Integration | Repository | training-trigger-repository', function () {
       expect(result[0].type).to.equal(trainingTrigger.type);
       expect(result[0].threshold).to.equal(trainingTrigger.threshold);
       expect(result[0].areas).to.have.lengthOf(1);
-      expect(result[0].areas[0].id).to.equal('recAreaA');
+      expect(result[0].areas[0].id).to.equal(`recAreaA_${trainingTrigger.id}`);
       expect(result[0].areas[0].competences).to.have.lengthOf(1);
-      expect(result[0].areas[0].competences[0].id).to.equal('recCompA');
+      expect(result[0].areas[0].competences[0].id).to.equal(`recCompA_${trainingTrigger.id}`);
       expect(result[0].areas[0].competences[0].thematics).to.have.lengthOf(1);
-      expect(result[0].areas[0].competences[0].thematics[0].id).to.equal('recThemA');
+      expect(result[0].areas[0].competences[0].thematics[0].id).to.equal(`recThemA_${trainingTrigger.id}`);
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
       expect(result[0].areas[0].competences[0].thematics[0].triggerTubes[0].tube.id).to.equal(
@@ -357,11 +359,11 @@ describe('Integration | Repository | training-trigger-repository', function () {
       expect(result[1].type).to.equal(trainingTrigger2.type);
       expect(result[1].threshold).to.equal(trainingTrigger2.threshold);
       expect(result[1].areas).to.have.lengthOf(1);
-      expect(result[1].areas[0].id).to.equal('recAreaA');
+      expect(result[1].areas[0].id).to.equal(`recAreaA_${trainingTrigger2.id}`);
       expect(result[1].areas[0].competences).to.have.lengthOf(1);
-      expect(result[1].areas[0].competences[0].id).to.equal('recCompA');
+      expect(result[1].areas[0].competences[0].id).to.equal(`recCompA_${trainingTrigger2.id}`);
       expect(result[1].areas[0].competences[0].thematics).to.have.lengthOf(1);
-      expect(result[1].areas[0].competences[0].thematics[0].id).to.equal('recThemA');
+      expect(result[1].areas[0].competences[0].thematics[0].id).to.equal(`recThemA_${trainingTrigger2.id}`);
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0]).to.be.instanceOf(TrainingTriggerTube);
       expect(result[1].areas[0].competences[0].thematics[0].triggerTubes[0].tube.id).to.equal(

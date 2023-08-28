@@ -132,17 +132,17 @@ describe('Acceptance | Controller | training-controller', function () {
       expect(returnedTrigger['tubes-count']).to.equal(1);
 
       const returnedTriggerArea = response.result.included.find((included) => included.type === 'areas').attributes;
-      expect(returnedTriggerArea.id).to.deep.equal(areaId);
+      expect(returnedTriggerArea.id).to.deep.equal(`${areaId}_${trainingTrigger.id}`);
 
       const returnedTriggerCompetence = response.result.included.find(
         (included) => included.type === 'competences',
       ).attributes;
-      expect(returnedTriggerCompetence.id).to.deep.equal(competenceId);
+      expect(returnedTriggerCompetence.id).to.deep.equal(`${competenceId}_${trainingTrigger.id}`);
 
       const returnedTriggerThematic = response.result.included.find(
         (included) => included.type === 'thematics',
       ).attributes;
-      expect(returnedTriggerThematic.id).to.deep.equal(thematicId);
+      expect(returnedTriggerThematic.id).to.deep.equal(`${thematicId}_${trainingTrigger.id}`);
     });
   });
 
