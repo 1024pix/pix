@@ -215,5 +215,6 @@ function _adaptModelToDb(assessment) {
     'campaignParticipation',
     'title',
     'campaignCode',
+    'hasOngoingLiveAlert',
   ]);
 }

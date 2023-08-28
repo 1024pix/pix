@@ -269,4 +269,26 @@ describe('Unit | Controller | assessment-controller', function () {
       ]);
     });
   });
+
+  describe('#createCertificationChallengeLiveAlert', function () {
+    it('should call the createCertificationChallengeLiveAlert use case', async function () {
+      // given
+      const assessmentId = 2;
+      const challengeId = '123';
+      sinon.stub(usecases, 'createCertificationChallengeLiveAlert');
+      usecases.createCertificationChallengeLiveAlert.resolves();
+      const payload = { data: { attributes: { 'challenge-id': challengeId } } };
+      const request = { params: { id: assessmentId }, payload };
+
+      // when
+      const response = await assessmentController.createCertificationChallengeLiveAlert(request, hFake);
+
+      // then
+      expect(response.statusCode).to.be.equal(204);
+      expect(usecases.createCertificationChallengeLiveAlert).to.have.been.calledWithExactly({
+        assessmentId,
+        challengeId,
+      });
+    });
+  });
 });

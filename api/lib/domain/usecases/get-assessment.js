@@ -8,6 +8,7 @@ const getAssessment = async function ({
   competenceRepository,
   courseRepository,
   campaignRepository,
+  certificationChallengeLiveAlertRepository,
 }) {
   const assessment = await assessmentRepository.getWithAnswers(assessmentId);
 
@@ -19,21 +20,38 @@ const getAssessment = async function ({
     campaignRepository,
   });
 
+  await _addCampaignRelatedAttributes(assessment, campaignRepository);
+  await _addDemoRelatedAttributes(assessment, courseRepository);
+  await _addCertificationRelatedAttributes(assessment, certificationChallengeLiveAlertRepository);
+  return assessment;
+};
+
+export { getAssessment };
+
+async function _addCampaignRelatedAttributes(assessment, campaignRepository) {
   if (assessment.type === Assessment.types.CAMPAIGN) {
     assessment.campaignCode = await campaignRepository.getCampaignCodeByCampaignParticipationId(
       assessment.campaignParticipationId,
     );
   }
+}
+
+async function _addDemoRelatedAttributes(assessment, courseRepository) {
   if (assessment.type === Assessment.types.DEMO) {
     const course = await courseRepository.get(assessment.courseId);
     if (!course.canBePlayed) {
       throw new NotFoundError("Le test demandé n'existe pas");
     }
   }
-  return assessment;
-};
+}
 
-export { getAssessment };
+async function _addCertificationRelatedAttributes(assessment, liveAlertRepository) {
+  if (assessment.type === Assessment.types.CERTIFICATION) {
+    const liveAlerts = await liveAlertRepository.getByAssessmentId(assessment.id);
+
+    assessment.hasOngoingLiveAlert = liveAlerts.length > 0;
+  }
+}
 
 function _fetchAssessmentTitle({ assessment, locale, competenceRepository, courseRepository, campaignRepository }) {
   switch (assessment.type) {

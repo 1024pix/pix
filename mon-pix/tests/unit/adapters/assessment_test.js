@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import sinon from 'sinon';
 
 module('Unit | Adapters | assessment', function (hooks) {
   setupTest(hooks);
@@ -46,6 +47,24 @@ module('Unit | Adapters | assessment', function (hooks) {
 
       // then
       assert.true(url.endsWith('/assessments/123/last-challenge-state/timeout'));
+    });
+  });
+
+  module('#createLiveAlert', function () {
+    test('should post the correct payload to the correctly built create live alert url', async function (assert) {
+      // given
+      adapter.ajax = sinon.stub();
+      const assessmentId = 123;
+      const challengeId = 456;
+      const payload = { data: { data: { attributes: { 'challenge-id': challengeId } } } };
+
+      // when
+      await adapter.createLiveAlert(assessmentId, challengeId);
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(`http://localhost:3000/api/assessments/${assessmentId}/alert`, 'POST', payload),
+      );
     });
   });
 });

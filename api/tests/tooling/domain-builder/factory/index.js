@@ -60,6 +60,7 @@ import { buildCertifiedProfile } from './build-certified-profile.js';
 import { buildCertifiedSkill } from './build-certified-skill.js';
 import { buildCertifiedTube } from './build-certified-tube.js';
 import { buildChallenge } from './build-challenge.js';
+import { buildCertificationChallengeLiveAlert } from './build-certification-challenge-live-alert.js';
 import { buildChallengeLearningContentDataObject } from './build-challenge-learning-content-data-object.js';
 import { buildCleaCertifiedCandidate } from './build-clea-certified-candidate.js';
 import { buildCompetence } from './build-competence.js';
@@ -199,6 +200,7 @@ export {
   buildCertificationCenterInvitation,
   buildCertificationCenterMembership,
   buildCertificationChallenge,
+  buildCertificationChallengeLiveAlert,
   buildCertificationChallengeWithType,
   buildCertificationCourse,
   buildCertificationCpfCity,

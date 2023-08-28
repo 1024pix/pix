@@ -13,6 +13,7 @@ describe('Unit | UseCase | get-assessment', function () {
   let campaignRepository;
   let competenceRepository;
   let courseRepository;
+  let certificationChallengeLiveAlertRepository;
 
   const certificationCourseId = 1;
 
@@ -31,6 +32,7 @@ describe('Unit | UseCase | get-assessment', function () {
     course = domainBuilder.buildCourse({ id: 'ABC123', name: expectedCourseName });
 
     assessment = domainBuilder.buildAssessment({
+      type: Assessment.types.PREVIEW,
       campaignParticipation,
       competenceId: competence.id,
       courseId: course.id,
@@ -44,6 +46,7 @@ describe('Unit | UseCase | get-assessment', function () {
     };
     competenceRepository = { getCompetenceName: sinon.stub() };
     courseRepository = { getCourseName: sinon.stub(), get: sinon.stub() };
+    certificationChallengeLiveAlertRepository = { getByAssessmentId: sinon.stub() };
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async function () {
@@ -85,26 +88,6 @@ describe('Unit | UseCase | get-assessment', function () {
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal(expectedAssessmentTitle);
-  });
-
-  it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async function () {
-    // given
-    assessment.type = Assessment.types.CERTIFICATION;
-    assessmentRepository.getWithAnswers.resolves(assessment);
-
-    // when
-    const result = await getAssessment({
-      assessmentId: assessment.id,
-      assessmentRepository,
-      campaignRepository,
-      competenceRepository,
-      courseRepository,
-    });
-
-    // then
-    expect(result).to.be.an.instanceOf(Assessment);
-    expect(result.id).to.equal(assessment.id);
-    expect(result.title).to.equal(certificationCourseId);
   });
 
   context('Assessment of type DEMO', function () {
@@ -151,6 +134,66 @@ describe('Unit | UseCase | get-assessment', function () {
       // then
       expect(err).to.be.an.instanceOf(NotFoundError);
       expect(err.message).to.equal("Le test demandé n'existe pas");
+    });
+  });
+
+  context('Assessment of type CERTIFICATION', function () {
+    beforeEach(function () {
+      assessment.type = Assessment.types.CERTIFICATION;
+    });
+    it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async function () {
+      // given
+      assessmentRepository.getWithAnswers.resolves(assessment);
+      certificationChallengeLiveAlertRepository.getByAssessmentId.withArgs(assessment.id).resolves([]);
+
+      // when
+      const result = await getAssessment({
+        assessmentId: assessment.id,
+        assessmentRepository,
+        campaignRepository,
+        competenceRepository,
+        courseRepository,
+        certificationChallengeLiveAlertRepository,
+      });
+
+      // then
+      expect(result).to.be.an.instanceOf(Assessment);
+      expect(result.id).to.equal(assessment.id);
+      expect(result.title).to.equal(certificationCourseId);
+    });
+    context('when no liveAlert is attached to the assessment', function () {
+      it('should resolve the hasOngoingLiveAlert parameter', async function () {
+        // given
+        assessment.type = Assessment.types.CERTIFICATION;
+        assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
+        certificationChallengeLiveAlertRepository.getByAssessmentId.withArgs(assessment.id).resolves([]);
+        // when
+        const result = await getAssessment({
+          assessmentId: assessment.id,
+          assessmentRepository,
+          certificationChallengeLiveAlertRepository,
+        });
+
+        // then
+        expect(result.hasOngoingLiveAlert).to.equal(false);
+      });
+    });
+    context('when a liveAlert is attached to the assessment', function () {
+      it('should resolve the hasOngoingLiveAlert parameter', async function () {
+        // given
+        assessment.type = Assessment.types.CERTIFICATION;
+        assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
+        certificationChallengeLiveAlertRepository.getByAssessmentId.withArgs(assessment.id).resolves([{}]);
+        // when
+        const result = await getAssessment({
+          assessmentId: assessment.id,
+          assessmentRepository,
+          certificationChallengeLiveAlertRepository,
+        });
+
+        // then
+        expect(result.hasOngoingLiveAlert).to.equal(true);
+      });
     });
   });
 
