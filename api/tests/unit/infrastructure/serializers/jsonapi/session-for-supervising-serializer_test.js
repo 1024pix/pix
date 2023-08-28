@@ -45,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', fun
               'enrolled-complementary-certification-label': 'Super Certification Complémentaire',
               'is-still-eligible-to-complementary-certification': true,
               'user-id': 6789,
+              'live-alert-status': null,
             },
             id: '1234',
             type: 'certification-candidate-for-supervising',
