@@ -230,4 +230,53 @@ module('Unit | Controller | Assessments | Challenge', function (hooks) {
       });
     });
   });
+
+  module('#createLiveAlert', function () {
+    test('should call the adapter', async function (assert) {
+      // given
+      controller.model = {
+        assessment: {
+          reload: sinon.stub(),
+          id: 123,
+          state: 'started',
+        },
+        challenge: {
+          id: 456,
+        },
+      };
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('assessment');
+      const createLiveAlertStub = sinon.stub(adapter, 'createLiveAlert');
+
+      // when
+      await controller.actions.submitLiveAlert.call(controller);
+
+      // then
+      assert.ok(createLiveAlertStub.calledOnce);
+      sinon.assert.calledWithExactly(createLiveAlertStub, 123, 456);
+    });
+
+    test('should reload the model', async function (assert) {
+      // given
+      controller.model = {
+        assessment: {
+          reload: sinon.stub(),
+          id: 123,
+          state: 'started',
+        },
+        challenge: {
+          id: 456,
+        },
+      };
+      const store = this.owner.lookup('service:store');
+      const adapter = store.adapterFor('assessment');
+      sinon.stub(adapter, 'createLiveAlert');
+
+      // when
+      await controller.actions.submitLiveAlert.call(controller);
+
+      // then
+      assert.ok(controller.model.assessment.reload.calledOnce);
+    });
+  });
 });

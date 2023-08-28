@@ -247,6 +247,32 @@ const register = async function (server) {
         tags: ['api', 'assessments'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/assessments/{id}/alert',
+      config: {
+        pre: [
+          {
+            method: assessmentAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                'challenge-id': Joi.string().allow(null),
+              }),
+            }),
+          }),
+        },
+        handler: assessmentController.createCertificationChallengeLiveAlert,
+        tags: ['api'],
+      },
+    },
   ];
 
   if (featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled) {

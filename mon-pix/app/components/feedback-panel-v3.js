@@ -16,7 +16,15 @@ export default class FeedbackPanelV3 extends Component {
   }
 
   get isAriaExpanded() {
-    return this.isExpanded ? 'true' : 'false';
+    return this.isAssessmentPaused || this.isExpanded ? 'true' : 'false';
+  }
+
+  get isAssessmentPaused() {
+    return this.args.assessment.hasOngoingLiveAlert;
+  }
+
+  get shouldBeExpanded() {
+    return this.isAssessmentPaused || this.isExpanded;
   }
 
   @action

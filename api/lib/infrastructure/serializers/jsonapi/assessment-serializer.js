@@ -41,6 +41,7 @@ const serialize = function (assessments) {
       'answers',
       'codeCampaign',
       'certificationNumber',
+      'hasOngoingLiveAlert',
       'course',
       'certificationCourse',
       'progression',

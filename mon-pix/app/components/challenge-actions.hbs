@@ -88,7 +88,7 @@
           </span>
         </PixButton>
       </div>
-      {{#if @isInvigilatorCalled}}
+      {{#if (eq @hasOngoingLiveAlert true)}}
         <p>{{t "pages.challenge.actions.wait-for-invigilator"}}</p>
       {{/if}}
     </div>
