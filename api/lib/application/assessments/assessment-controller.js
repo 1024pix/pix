@@ -171,6 +171,13 @@ const autoValidateNextChallenge = async function (request, h) {
   return h.response().code(204);
 };
 
+const createCertificationChallengeLiveAlert = async function (request, h) {
+  const assessmentId = request.params.id;
+  const challengeId = request.payload?.data?.attributes?.['challenge-id'];
+  await usecases.createCertificationChallengeLiveAlert({ assessmentId, challengeId });
+  return h.response().code(204);
+};
+
 const assessmentController = {
   save,
   createForPix1d,
@@ -185,6 +192,7 @@ const assessmentController = {
   findCompetenceEvaluations,
   autoValidateNextChallenge,
   createAssessmentPreviewForPix1d,
+  createCertificationChallengeLiveAlert,
 };
 
 export { assessmentController };
