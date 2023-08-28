@@ -35,6 +35,7 @@ const authenticateUser = async function ({
   pixAuthenticationService,
   tokenService,
   userRepository,
+  userLoginRepository,
   adminMemberRepository,
 }) {
   try {
@@ -66,6 +67,8 @@ const authenticateUser = async function ({
     }
 
     await userRepository.updateLastLoggedAt({ userId: foundUser.id });
+    await userLoginRepository.updateLastLoggedAt({ userId: foundUser.id });
+
     return { accessToken, refreshToken, expirationDelaySeconds };
   } catch (error) {
     if (
