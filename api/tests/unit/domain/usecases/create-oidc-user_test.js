@@ -6,7 +6,7 @@ import {
 import { createOidcUser } from '../../../../lib/domain/usecases/create-oidc-user.js';
 
 describe('Unit | UseCase | create-oidc-user', function () {
-  let authenticationMethodRepository, userToCreateRepository, userRepository;
+  let authenticationMethodRepository, userToCreateRepository, userRepository, userLoginRepository;
   let authenticationSessionService, oidcAuthenticationService;
   let clock;
   const now = new Date('2021-01-02');
@@ -30,6 +30,10 @@ describe('Unit | UseCase | create-oidc-user', function () {
     };
 
     userRepository = {
+      updateLastLoggedAt: sinon.stub(),
+    };
+
+    userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
   });
@@ -109,6 +113,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
       authenticationMethodRepository,
       userToCreateRepository,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -128,6 +133,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
     sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
     sinon.assert.calledOnce(oidcAuthenticationService.saveIdToken);
     sinon.assert.calledOnceWithExactly(userRepository.updateLastLoggedAt, { userId: 10 });
+    sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
     expect(result).to.deep.equal({
       accessToken: 'accessTokenForExistingExternalUser',
       logoutUrlUUID: 'logoutUrlUUID',
