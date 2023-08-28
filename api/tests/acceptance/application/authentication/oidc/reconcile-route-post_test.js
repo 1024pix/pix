@@ -1,4 +1,4 @@
-import { expect, databaseBuilder } from '../../../../test-helper.js';
+import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
 import jsonwebtoken from 'jsonwebtoken';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
@@ -10,6 +10,10 @@ describe('Acceptance | Application | Oidc | Routes', function () {
 
     beforeEach(async function () {
       server = await createServer();
+    });
+
+    afterEach(async function () {
+      await knex('user-logins').truncate();
     });
 
     it('should return 200 HTTP status', async function () {
