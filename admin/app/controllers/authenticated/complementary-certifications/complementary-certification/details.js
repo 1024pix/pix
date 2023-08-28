@@ -19,4 +19,9 @@ export default class DetailsController extends Controller {
     this.isToggleSwitched = !this.isToggleSwitched;
     this._targetProfileId = this.model.currentTargetProfiles?.find(({ id }) => id !== this.targetProfileId).id;
   }
+
+  reset() {
+    this._targetProfileId = null;
+    this.isToggleSwitched = true;
+  }
 }
