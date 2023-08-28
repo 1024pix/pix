@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { access } from 'fs/promises';
 
-import request from 'request-promise-native';
+import axios from 'axios';
 import papa from 'papaparse';
 import { disconnect } from '../db/knex-database-connection.js';
 import * as url from 'url';
@@ -48,10 +48,9 @@ function _buildRequestObject(accessToken, organization) {
   return {
     method: 'PATCH',
     headers: { authorization: `Bearer ${accessToken}` },
-    baseUrl: process.env.BASE_URL,
+    baseURL: process.env.BASE_URL,
     url: `/api/organizations/${organization.id}`,
-    json: true,
-    body: {
+    data: {
       data: {
         type: 'organizations',
         id: organization.id,
@@ -67,7 +66,7 @@ function _buildRequestObject(accessToken, organization) {
 function _buildTokenRequestObject() {
   return {
     method: 'POST',
-    baseUrl: process.env.BASE_URL,
+    baseURL: process.env.BASE_URL,
     url: '/api/token',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     form: {
@@ -89,7 +88,7 @@ function saveOrganizations(options) {
 
   const promises = options.organizations.map((organization) => {
     const requestConfig = _buildRequestObject(options.accessToken, organization);
-    return request(requestConfig).catch((err) => {
+    return axios(requestConfig).catch((err) => {
       errorObjects.push({
         errorMessage: err.message,
         organization,
@@ -120,7 +119,7 @@ async function main() {
   console.log("Début du script de mise à jour des Organisations avec l'ID externe et le département");
   const filePath = process.argv[2];
 
-  const response = await request(_buildTokenRequestObject());
+  const response = await axios(_buildTokenRequestObject());
   const accessToken = response.access_token;
 
   console.log('\nTest de validité du fichier...');

@@ -125,7 +125,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
 
     beforeEach(function () {
       options = {
-        baseUrl: 'http://localhost:3000',
+        baseURL: 'http://localhost:3000',
         accessToken: 'coucou-je-suis-un-token',
         certifications: [],
       };
@@ -440,7 +440,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
         };
         const expectedErrorObjects = [
           {
-            errorMessage: 'Error: Error 1',
+            errorMessage: 'Error 1',
             certification: {
               id: 1,
               firstName: 'Tony',
@@ -451,7 +451,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
             },
           },
           {
-            errorMessage: 'Error: Error 2',
+            errorMessage: 'Error 2',
             certification: {
               id: 2,
               firstName: 'Booby',

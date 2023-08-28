@@ -1,17 +1,16 @@
-import request from 'request-promise-native';
+import axios from 'axios';
 import * as url from 'url';
 
 function parseArgs(argv) {
   return argv.slice(3);
 }
 
-function buildRequestObject(baseUrl, assessmentId) {
+function buildRequestObject(baseURL, assessmentId) {
   return {
-    baseUrl: baseUrl,
+    baseURL,
     method: 'POST',
     url: '/api/assessment-results/',
-    json: true,
-    body: {
+    data: {
       data: {
         attributes: {
           'estimated-level': null,
@@ -32,10 +31,10 @@ function buildRequestObject(baseUrl, assessmentId) {
 }
 
 function main() {
-  const baseUrl = process.argv[2];
+  const baseURL = process.argv[2];
   const ids = parseArgs(process.argv);
   const requests = Promise.all(
-    ids.map((id) => buildRequestObject(baseUrl, id)).map((requestObject) => request(requestObject)),
+    ids.map((id) => buildRequestObject(baseURL, id)).map((requestObject) => axios(requestObject)),
   );
 
   return requests.then(() => {
