@@ -1,5 +1,6 @@
 import { DomainTransaction } from '../DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { CertificationChallengeLiveAlert } from '../../domain/models/index.js';
 
 const save = async function ({
   certificationChallengeLiveAlert,
@@ -10,9 +11,14 @@ const save = async function ({
 };
 
 const getByAssessmentId = async (assessmentId) => {
-  return knex('certification-challenge-live-alerts').where({
+  const certificationChallengeLiveAlertsDto = await knex('certification-challenge-live-alerts').where({
     assessmentId,
   });
+
+  return certificationChallengeLiveAlertsDto.map(_toDomain);
 };
+
+const _toDomain = (certificationChallengeLiveAlertDto) =>
+  new CertificationChallengeLiveAlert(certificationChallengeLiveAlertDto);
 
 export { save, getByAssessmentId };

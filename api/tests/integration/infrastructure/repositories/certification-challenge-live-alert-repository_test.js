@@ -1,5 +1,6 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import * as certificationChallengeLiveAlertRepository from '../../../../lib/infrastructure/repositories/certification-challenge-live-alert-repository.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
 
 const assessmentIdWithNoAlerts = 123;
 const assessmentIdWithLiveAlert = 456;
@@ -29,6 +30,9 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
       expect(expectedSavedCertificationChallengeLiveAlert.challengeId).to.equal(challengeId);
       expect(expectedSavedCertificationChallengeLiveAlert.assessmentId).to.equal(assessmentId);
+      expect(expectedSavedCertificationChallengeLiveAlert.status).to.equal(
+        CertificationChallengeLiveAlertStatus.ONGOING,
+      );
     });
   });
 
