@@ -6,15 +6,15 @@ export default class ListRoute extends Route {
   @service store;
 
   async model() {
-    let complementaryCertifications;
     try {
-      complementaryCertifications = await this.store.findAll('complementary-certification');
+      return await this.store.findAll('complementary-certification');
     } catch (errorResponse) {
       if (!isEmpty(errorResponse)) {
         errorResponse.errors.forEach((error) => this.notifications.error(error.detail));
+      } else {
+        this.notifications.error('Une erreur est survenue.');
       }
-      return [];
     }
-    return complementaryCertifications;
+    return [];
   }
 }
