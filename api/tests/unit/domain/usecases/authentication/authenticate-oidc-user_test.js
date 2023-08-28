@@ -11,6 +11,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
   let authenticationSessionService;
   let authenticationMethodRepository;
   let userRepository;
+  let userLoginRepository;
   const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
   beforeEach(function () {
@@ -33,6 +34,9 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
     userRepository = {
       findByExternalIdentifier: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
+    };
+    userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
   });
@@ -72,6 +76,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -93,6 +98,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -114,6 +120,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       authenticationSessionService,
       authenticationMethodRepository,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -141,6 +148,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
@@ -161,12 +169,14 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
       expect(oidcAuthenticationService.saveIdToken).to.not.have.been.called;
       expect(oidcAuthenticationService.createAccessToken).to.not.have.been.called;
       expect(userRepository.updateLastLoggedAt).to.not.have.been.called;
+      expect(userLoginRepository.updateLastLoggedAt).to.not.have.been.called;
     });
   });
 
@@ -186,6 +196,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -214,6 +225,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           authenticationSessionService,
           authenticationMethodRepository,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -247,11 +259,13 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
       sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
       sinon.assert.calledOnceWithExactly(userRepository.updateLastLoggedAt, { userId: 10 });
+      sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
       expect(accessToken).to.deep.equal({
         pixAccessToken: 'accessTokenForExistingExternalUser',
         logoutUrlUUID: 'logoutUrlUUID',
@@ -282,6 +296,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         authenticationSessionService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
