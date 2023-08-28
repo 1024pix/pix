@@ -41,4 +41,16 @@ const findByUsername = async function (username) {
   return foundUserLogin ? _toDomain(foundUserLogin) : null;
 };
 
-export { findByUserId, create, update, findByUsername };
+const updateLastLoggedAt = async function ({ userId }) {
+  const now = new Date();
+
+  await knex('user-logins')
+    .insert({
+      userId,
+      lastLoggedAt: now,
+    })
+    .onConflict('userId')
+    .merge();
+};
+
+export { findByUserId, create, update, findByUsername, updateLastLoggedAt };

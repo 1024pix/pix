@@ -139,4 +139,46 @@ describe('Integration | Repository | UserLoginRepository', function () {
       expect(result).to.be.null;
     });
   });
+
+  describe('#updateLastLoggedAt', function () {
+    let clock;
+    const now = new Date('2020-01-02');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(async function () {
+      await knex('user-logins').delete();
+      clock.restore();
+    });
+
+    it('updates lastLoggedAt column to "now" when it already exist', async function () {
+      // given
+      const lastLoggedAt = new Date();
+      const { userId } = databaseBuilder.factory.buildUserLogin({ lastLoggedAt });
+      await databaseBuilder.commit();
+
+      // when
+      await userLoginRepository.updateLastLoggedAt({ userId });
+
+      // then
+      const userLoginsUpdated = await knex('user-logins').select().where({ userId }).first();
+      expect(userLoginsUpdated.lastLoggedAt).to.deep.equal(now);
+    });
+
+    context('when a user-login does not exist for given user id', function () {
+      it('inserts a new line and set lastLoggedAt to now', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        // when
+        await userLoginRepository.updateLastLoggedAt({ userId });
+
+      // then
+      const userLoginsUpdated = await knex('user-logins').select().where({ userId }).first();
+      expect(userLoginsUpdated.lastLoggedAt).to.deep.equal(now);
+    });
+  });
 });
