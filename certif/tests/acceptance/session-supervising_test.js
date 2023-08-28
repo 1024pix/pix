@@ -203,4 +203,73 @@ module('Acceptance | Session supervising', function (hooks) {
     // then
     assert.contains('Succès ! John Doe peut reprendre son test de certification.');
   });
+
+  module('when supervisor handles a live alert', function () {
+    module('when there is no current alert', function () {
+      test('it displays an error notification', async function (assert) {
+        // given
+        const sessionId = 12345;
+        this.sessionForSupervising = server.create('session-for-supervising', {
+          id: sessionId,
+          certificationCandidates: [
+            server.create('certification-candidate-for-supervising', {
+              id: 123,
+              firstName: 'John',
+              lastName: 'Doe',
+              birthdate: '1984-05-28',
+              extraTimePercentage: null,
+              authorizedToStart: true,
+              assessmentStatus: 'started',
+            }),
+          ],
+        });
+
+        const firstVisit = await visit('/connexion-espace-surveillant');
+        await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+        await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+        await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+
+        // when
+        await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
+        await click(firstVisit.getByRole('button', { name: 'Gérer un signalement' }));
+
+        // then
+        assert.contains('Aucun signalement en cours pour ce candidat');
+      });
+    });
+
+    module('when there is a current alert', function () {
+      test('it does not display an error notification', async function (assert) {
+        // given
+        const sessionId = 12345;
+        this.sessionForSupervising = server.create('session-for-supervising', {
+          id: sessionId,
+          certificationCandidates: [
+            server.create('certification-candidate-for-supervising', {
+              id: 123,
+              firstName: 'John',
+              lastName: 'Doe',
+              birthdate: '1984-05-28',
+              extraTimePercentage: null,
+              authorizedToStart: true,
+              assessmentStatus: 'started',
+              liveAlertStatus: 'ongoing',
+            }),
+          ],
+        });
+
+        const firstVisit = await visit('/connexion-espace-surveillant');
+        await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+        await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+        await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+
+        // when
+        await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
+        await click(firstVisit.getByRole('button', { name: 'Gérer un signalement' }));
+
+        // then
+        assert.notContains('Aucun signalement en cours pour ce candidat');
+      });
+    });
+  });
 });
