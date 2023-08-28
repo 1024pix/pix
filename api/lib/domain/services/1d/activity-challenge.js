@@ -1,6 +1,8 @@
 import { challengeService } from './challenge.js';
 import { Activity } from '../../models/index.js';
 import { getLastAnswerStatus } from './last-answer-status.js';
+import { pix1dService } from '../algorithm-methods/pix1d.js';
+
 const FIRST_CHALLENGE_NB = 1;
 
 async function getChallengeForCurrentActivity({ currentActivity, missionId, challengeRepository, answers }) {
@@ -20,20 +22,20 @@ function _shouldLookForNextChallengeInActivity(answers) {
   return getLastAnswerStatus(answers) === 'ok' || answers.length === 0;
 }
 
-async function getNextActivityChallenge({
-  missionId,
-  assessmentId,
-  nextActivityLevel,
-  challengeRepository,
-  activityRepository,
-}) {
+async function getNextActivityChallenge({ missionId, assessmentId, challengeRepository, activityRepository }) {
+  const allActivities = await activityRepository.getAllByAssessmentId(assessmentId);
+  const nextActivityLevel = pix1dService.getNextActivityLevel(allActivities);
+
+  if (nextActivityLevel === undefined) {
+    return;
+  }
+
   const challenge = await challengeService.getStartChallenge({
     missionId,
     activityLevel: nextActivityLevel,
     challengeNumber: FIRST_CHALLENGE_NB,
     challengeRepository,
   });
-
   await activityRepository.save(
     new Activity({
       assessmentId,
