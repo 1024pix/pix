@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import { disconnect } from '../db/knex-database-connection.js';
-import request from 'request-promise-native';
+import axios from 'axios';
 import {
   findOrganizationsByExternalIds,
   organizeOrganizationsByExternalId,
@@ -13,7 +13,7 @@ import {
 import { parseCsv } from './helpers/csvHelpers.js';
 import * as url from 'url';
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.BASE_URL || 'http://localhost:3000';
 
 function checkData({ csvData }) {
   return csvData
@@ -39,7 +39,7 @@ async function updateOrganizations({ accessToken, organizationsByExternalId, che
     const organization = organizationsByExternalId[externalId];
 
     if (organization) {
-      await request(_buildPatchOrganizationRequestObject(accessToken, { id: organization.id }));
+      await axios(_buildPatchOrganizationRequestObject(accessToken, { id: organization.id }));
     }
   }
 }
@@ -47,7 +47,7 @@ async function updateOrganizations({ accessToken, organizationsByExternalId, che
 function _buildAccessTokenRequestObject() {
   return {
     method: 'POST',
-    baseUrl,
+    baseURL,
     url: '/api/token',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -67,10 +67,9 @@ function _buildPatchOrganizationRequestObject(accessToken, organization) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    baseUrl,
+    baseURL,
     url: `/api/organizations/${organization.id}`,
-    json: true,
-    body: {
+    data: {
       data: {
         type: 'organizations',
         id: organization.id,
@@ -99,7 +98,7 @@ async function main() {
   console.log('ok');
 
   console.log('Requesting API access token... ');
-  const { access_token: accessToken } = await request(_buildAccessTokenRequestObject());
+  const { access_token: accessToken } = await axios(_buildAccessTokenRequestObject());
   console.log('ok');
 
   console.log('Fetching existing organizations... ');

@@ -27,23 +27,22 @@ describe('Get Result Certifications Script OLD', function () {
     it('should take an id and return a request object', function () {
       // given
       const courseId = 12;
-      const baseUrl = 'http://localhost:3000';
+      const baseURL = 'http://localhost:3000';
       const authToken = 'jwt.tokken';
 
       // when
-      const result = buildRequestObject(baseUrl, authToken, courseId);
+      const result = buildRequestObject(baseURL, authToken, courseId);
       // then
-      expect(result).to.have.property('json', true);
       expect(result).to.have.property('url', '/api/admin/certifications/12/details');
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
 
     it('should add certificationId to API response when the object is transform after the request', function () {
       // given
-      const baseUrl = 'http://localhost:3000';
-      const requestObject = buildRequestObject(baseUrl, '', 12);
+      const baseURL = 'http://localhost:3000';
+      const requestObject = buildRequestObject(baseURL, '', 12);
       // when
-      const result = requestObject.transform({});
+      const result = requestObject.transformResponse({});
       // then
       expect(result).to.have.property('certificationId', 12);
     });

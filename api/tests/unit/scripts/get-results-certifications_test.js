@@ -47,7 +47,6 @@ describe('Unit | Scripts | get-results-certifications.js', function () {
       // when
       const result = getResultsCertifications.buildCertificationRequest(baseUrl, authToken, courseId);
       // then
-      expect(result).to.have.property('json', true);
       expect(result).to.have.property('url', '/api/admin/certifications/12');
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
@@ -62,7 +61,6 @@ describe('Unit | Scripts | get-results-certifications.js', function () {
       // when
       const result = getResultsCertifications.buildSessionRequest(baseUrl, authToken, sessionId);
       // then
-      expect(result).to.have.property('json', true);
       expect(result).to.have.property('url', '/api/sessions/12');
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
