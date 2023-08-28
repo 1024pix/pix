@@ -2,7 +2,6 @@ import { getCurrentActivity } from '../services/1d/activity.js';
 import { getChallengeForCurrentActivity, getNextActivityChallenge } from '../services/1d/activity-challenge.js';
 import { getLastAnswerStatus } from '../services/1d/last-answer-status.js';
 import { Activity } from '../models/index.js';
-import { getNextActivityLevel } from '../services/algorithm-methods/pix1d.js';
 
 export async function getNextChallengeForPix1d({
   assessmentId,
@@ -35,19 +34,18 @@ export async function getNextChallengeForPix1d({
     }
   }
 
-  const nextActivityLevel = getNextActivityLevel(await activityRepository.getAllByAssessmentId(assessmentId));
-  if (nextActivityLevel === undefined) {
-    await assessmentRepository.completeByAssessmentId(assessmentId);
-    return null;
-  }
-
-  return getNextActivityChallenge({
+  const nextChallenge = await getNextActivityChallenge({
     missionId,
     assessmentId,
     challengeRepository,
     activityRepository,
-    nextActivityLevel,
   });
+
+  if (nextChallenge === undefined) {
+    await assessmentRepository.completeByAssessmentId(assessmentId);
+    return null;
+  }
+  return nextChallenge;
 }
 
 function _getActivityStatusFromAnswerStatus(answerStatus) {

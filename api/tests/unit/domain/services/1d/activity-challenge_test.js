@@ -4,6 +4,7 @@ import {
   getNextActivityChallenge,
 } from '../../../../../lib/domain/services/1d/activity-challenge.js';
 import { challengeService } from '../../../../../lib/domain/services/1d/challenge.js';
+import { pix1dService } from '../../../../../lib/domain/services/algorithm-methods/pix1d.js';
 import { Activity, Answer } from '../../../../../lib/domain/models/index.js';
 
 describe('Unit | Service | ActivityChallenge', function () {
@@ -76,26 +77,46 @@ describe('Unit | Service | ActivityChallenge', function () {
     });
   });
   describe('#getNextActivityChallenge', function () {
-    it('calls getStartChallenge method', function () {
+    it('calls getAllByAssessmentId method', function () {
       const assessmentId = 'assessment_id';
       const missionId = 'mission_id';
-      const nextActivityLevel = Activity.levels.TRAINING;
-      const challengeNumber = 1;
+      const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
+      getNextActivityLevelStub.returns(Activity.levels.TRAINING);
 
-      const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
       const challengeRepository = Symbol();
-      const activityRepository = Symbol();
+      const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
       getNextActivityChallenge({
         missionId,
         assessmentId,
-        nextActivityLevel,
+        challengeRepository,
+        activityRepository,
+      });
+
+      expect(activityRepository.getAllByAssessmentId).to.have.been.calledOnceWith(assessmentId);
+    });
+    it('calls getStartChallenge method', async function () {
+      const assessmentId = 'assessment_id';
+      const missionId = 'mission_id';
+      const challengeNumber = 1;
+
+      const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
+      const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
+      getNextActivityLevelStub.returns(Activity.levels.TRAINING);
+
+      const challengeRepository = Symbol();
+      const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
+      activityRepository.getAllByAssessmentId.resolves([]);
+      getStartChallengeStub.resolves({ alternativeVersion: undefined });
+      await getNextActivityChallenge({
+        missionId,
+        assessmentId,
         challengeRepository,
         activityRepository,
       });
 
       expect(getStartChallengeStub).to.have.been.calledOnceWith({
         missionId,
-        activityLevel: nextActivityLevel,
+        activityLevel: Activity.levels.TRAINING,
         challengeNumber,
         challengeRepository,
       });
@@ -105,11 +126,13 @@ describe('Unit | Service | ActivityChallenge', function () {
         const assessmentId = 'assessment_id';
         const missionId = 'mission_id';
         const nextActivityLevel = Activity.levels.TRAINING;
-        const challenge = { alternativeVersion: undefined };
-        const activityRepository = { save: sinon.stub() };
-        const challengeRepository = Symbol();
         const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
-        getStartChallengeStub.resolves(challenge);
+        const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
+        getNextActivityLevelStub.returns(nextActivityLevel);
+        const challengeRepository = Symbol();
+        const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
+        activityRepository.getAllByAssessmentId.resolves([]);
+        getStartChallengeStub.resolves({ alternativeVersion: undefined });
         const activity = new Activity({
           assessmentId,
           level: nextActivityLevel,
@@ -119,7 +142,6 @@ describe('Unit | Service | ActivityChallenge', function () {
         await getNextActivityChallenge({
           missionId,
           assessmentId,
-          nextActivityLevel,
           challengeRepository,
           activityRepository,
         });
@@ -133,8 +155,9 @@ describe('Unit | Service | ActivityChallenge', function () {
         const missionId = 'mission_id';
         const nextActivityLevel = Activity.levels.TRAINING;
         const challenge = { alternativeVersion: 1 };
-        const activityRepository = { save: sinon.stub() };
         const challengeRepository = Symbol();
+        const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
+        getNextActivityLevelStub.returns(nextActivityLevel);
         const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
         getStartChallengeStub.resolves(challenge);
         const activity = new Activity({
@@ -143,15 +166,35 @@ describe('Unit | Service | ActivityChallenge', function () {
           status: Activity.status.STARTED,
           alternativeVersion: challenge.alternativeVersion,
         });
+        const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
+        activityRepository.getAllByAssessmentId.resolves([]);
         await getNextActivityChallenge({
           missionId,
           assessmentId,
-          nextActivityLevel,
           challengeRepository,
           activityRepository,
         });
 
         expect(activityRepository.save).to.have.been.calledOnceWith(activity);
+      });
+    });
+    context('when there is no nextActivityLevel', function () {
+      it('returns nothing', async function () {
+        const assessmentId = 'assessment_id';
+        const missionId = 'mission_id';
+        const challengeRepository = Symbol();
+        const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
+        getNextActivityLevelStub.returns(undefined);
+        const activityRepository = { getAllByAssessmentId: sinon.stub() };
+        activityRepository.getAllByAssessmentId.resolves([]);
+        const result = await getNextActivityChallenge({
+          missionId,
+          assessmentId,
+          challengeRepository,
+          activityRepository,
+        });
+
+        expect(result).to.be.undefined;
       });
     });
   });
