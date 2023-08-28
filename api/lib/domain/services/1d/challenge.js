@@ -12,11 +12,23 @@ async function getChallenge({ missionId, activityLevel, challengeNumber, alterna
   );
 }
 
-async function getStartChallenge({ missionId, activityLevel, challengeNumber, challengeRepository }) {
+async function getStartChallenge({
+  missionId,
+  activityLevel,
+  challengeNumber,
+  alreadyPlayedAlternativeVersions,
+  challengeRepository,
+}) {
   return await _filterChallenges(
     { missionId, activityLevel, challengeNumber, challengeRepository },
     function (challenges) {
-      return challenges[_randomIndexForChallenges(challenges.length)];
+      const neverPlayedChallenges = challenges.filter(
+        (challenge) => !alreadyPlayedAlternativeVersions.includes(challenge.alternativeVersion),
+      );
+      if (neverPlayedChallenges.length === 0) {
+        return challenges[_randomIndexForChallenges(challenges.length)];
+      }
+      return neverPlayedChallenges[_randomIndexForChallenges(neverPlayedChallenges.length)];
     },
   );
 }

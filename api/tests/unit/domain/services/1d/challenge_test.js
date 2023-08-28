@@ -1,4 +1,4 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { challengeService } from '../../../../../lib/domain/services/1d/challenge.js';
 import { Activity } from '../../../../../lib/domain/models/index.js';
@@ -139,28 +139,97 @@ describe('Unit | Service | Challenge', function () {
         challengeNumber,
       });
     });
-    it('returns a challenge randomly', async function () {
-      const missionId = 'mission_id';
-      const activityLevel = Activity.levels.TRAINING;
-      const challengeNumber = 1;
-      const alternativeVersion = 2;
-      const challengeRepository = {
-        getChallengeFor1d: sinon.stub(),
-      };
-      const challenge1 = domainBuilder.buildChallenge({ alternativeVersion });
-      const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
-      const challenges = [challenge1, challenge2];
-      challengeRepository.getChallengeFor1d.resolves(challenges);
+    context('when there is not any already played alternative versions', function () {
+      it('returns a challenge randomly between all alternative versions', async function () {
+        const challengeRepository = {
+          getChallengeFor1d: sinon.stub(),
+        };
+        const challenge1 = domainBuilder.buildChallenge({ alternativeVersion: undefined });
+        const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 2 });
+        const challenge3 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
+        const challenges = [challenge1, challenge2, challenge3];
+        challengeRepository.getChallengeFor1d.resolves(challenges);
 
-      sinon.stub(Math, 'random').returns(0.6);
-      const result = await challengeService.getStartChallenge({
-        missionId,
-        activityLevel,
-        challengeNumber,
-        challengeRepository,
+        sinon.stub(Math, 'random').returns(0.8);
+        const result = await challengeService.getStartChallenge({
+          missionId: 'mission_id',
+          activityLevel: Activity.levels.TRAINING,
+          challengeNumber: 1,
+          alreadyPlayedAlternativeVersions: [],
+          challengeRepository,
+        });
+
+        expect(result).to.equal(challenge3);
       });
+    });
+    context('when there is an already played alternative version', function () {
+      it('returns a challenge randomly between remaining alternative versions', async function () {
+        const challengeRepository = {
+          getChallengeFor1d: sinon.stub(),
+        };
+        const challenge1 = domainBuilder.buildChallenge({ alternativeVersion: undefined });
+        const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 2 });
+        const challenge3 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
+        const challenges = [challenge1, challenge2, challenge3];
+        challengeRepository.getChallengeFor1d.resolves(challenges);
 
-      expect(result).to.equal(challenge2);
+        sinon.stub(Math, 'random').returns(0.6);
+        const result = await challengeService.getStartChallenge({
+          missionId: 'mission_id',
+          activityLevel: Activity.levels.TRAINING,
+          challengeNumber: 1,
+          alreadyPlayedAlternativeVersions: [undefined],
+          challengeRepository,
+        });
+
+        expect(result).to.equal(challenge3);
+      });
+    });
+    context('when there are already played alternative versions', function () {
+      it('returns a challenge randomly between remaining alternative versions', async function () {
+        const challengeRepository = {
+          getChallengeFor1d: sinon.stub(),
+        };
+        const challenge1 = domainBuilder.buildChallenge({ alternativeVersion: undefined });
+        const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 2 });
+        const challenge3 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
+        const challenges = [challenge1, challenge2, challenge3];
+        challengeRepository.getChallengeFor1d.resolves(challenges);
+
+        sinon.stub(Math, 'random').returns(0.8);
+        const result = await challengeService.getStartChallenge({
+          missionId: 'mission_id',
+          activityLevel: Activity.levels.TRAINING,
+          challengeNumber: 1,
+          alreadyPlayedAlternativeVersions: [2, 3],
+          challengeRepository,
+        });
+
+        expect(result).to.equal(challenge1);
+      });
+    });
+    context('when all alternative versions have already been played', function () {
+      it('returns a challenge randomly between all alternative versions', async function () {
+        const challengeRepository = {
+          getChallengeFor1d: sinon.stub(),
+        };
+        const challenge1 = domainBuilder.buildChallenge({ alternativeVersion: undefined });
+        const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 2 });
+        const challenge3 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
+        const challenges = [challenge1, challenge2, challenge3];
+        challengeRepository.getChallengeFor1d.resolves(challenges);
+
+        sinon.stub(Math, 'random').returns(0.8);
+        const result = await challengeService.getStartChallenge({
+          missionId: 'mission_id',
+          activityLevel: Activity.levels.TRAINING,
+          challengeNumber: 1,
+          alreadyPlayedAlternativeVersions: [undefined, 2, 3],
+          challengeRepository,
+        });
+
+        expect(result).to.equal(challenge3);
+      });
     });
     it('does not throw an error with a NotFoundError', async function () {
       const missionId = 'mission_id';
