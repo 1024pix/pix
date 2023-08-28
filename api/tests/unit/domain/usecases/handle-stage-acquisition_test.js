@@ -26,6 +26,9 @@ describe('Unit | UseCase | handleStageAcquisition', function () {
     campaignRepository = { findSkillIdsByCampaignParticipationId: sinon.stub() };
     skillRepository = { findOperativeByIds: sinon.stub() };
     campaignSkillRepository = { getSkillIdsByCampaignId: sinon.stub() };
+    campaignRepository = {
+      findSkillIdsByCampaignParticipationId: sinon.stub().resolves([domainBuilder.buildSkill().id]),
+    };
 
     getNewAcquiredStagesService = { getNewAcquiredStages: sinon.stub() };
     getMasteryPercentageService = { getMasteryPercentage: sinon.stub() };
