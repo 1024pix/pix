@@ -178,9 +178,9 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  async pauseAssessment() {
+  async submitLiveAlert() {
     const adapter = this.store.adapterFor('assessment');
-    await adapter.pauseAssessment(this.model.assessment.id, this.model.challenge.id);
+    await adapter.createLiveAlert(this.model.assessment.id, this.model.challenge.id);
     await this.model.assessment.reload();
   }
 

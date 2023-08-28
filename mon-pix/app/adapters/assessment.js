@@ -18,8 +18,8 @@ export default class Assessment extends ApplicationAdapter {
     return url;
   }
 
-  pauseAssessment(assessmentId, challengeId) {
-    const url = `${this.host}/${this.namespace}/assessments/${assessmentId}/pause`;
+  createLiveAlert(assessmentId, challengeId) {
+    const url = `${this.host}/${this.namespace}/assessments/${assessmentId}/alert`;
     const payload = { data: { data: { attributes: { 'challenge-id': challengeId } } } };
     return this.ajax(url, 'POST', payload);
   }
