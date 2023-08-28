@@ -4,6 +4,7 @@ import { NON_OIDC_IDENTITY_PROVIDERS } from '../constants/identity-providers.js'
 const getExternalAuthenticationRedirectionUrl = async function ({
   userAttributes,
   userRepository,
+  userLoginRepository,
   authenticationMethodRepository,
   tokenService,
   config,
@@ -23,6 +24,7 @@ const getExternalAuthenticationRedirectionUrl = async function ({
       externalUser,
       tokenService,
       userRepository,
+      userLoginRepository,
       authenticationMethodRepository,
     });
   }
@@ -37,10 +39,12 @@ async function _getUrlWithAccessToken({
   externalUser,
   tokenService,
   userRepository,
+  userLoginRepository,
   authenticationMethodRepository,
 }) {
   const token = tokenService.createAccessTokenForSaml(user.id);
   await userRepository.updateLastLoggedAt({ userId: user.id });
+  await userLoginRepository.updateLastLoggedAt({ userId: user.id });
   await _saveUserFirstAndLastName({ authenticationMethodRepository, user, externalUser });
   return `/connexion/gar#${encodeURIComponent(token)}`;
 }

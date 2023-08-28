@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { databaseBuilder, expect, sinon } from '../../../test-helper.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 
 import samlify from 'samlify';
 import { createServer } from '../../../../server.js';
@@ -184,6 +184,10 @@ describe('Acceptance | Controller | saml-controller', function () {
     const firstName = 'Saml';
     const lastName = 'Jackson';
     const samlId = 'IDO-for-saml-jackson';
+
+    afterEach(async function () {
+      await knex('user-logins').truncate();
+    });
 
     it('should return externalUser idToken if the user does not a have an account yet', async function () {
       // given
