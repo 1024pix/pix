@@ -1,6 +1,8 @@
 import lodash from 'lodash';
 import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
+import { OrganizationLearnerForStartingParticipation } from '../../domain/read-models/OrganizationLearnerForStartingParticipation.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
+import { UserIdentity } from '../../domain/read-models/UserIdentity.js';
 import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../domain/errors.js';
 import * as campaignRepository from '../repositories/campaign-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
@@ -116,8 +118,14 @@ async function get({ userId, campaignId, domainTransaction }) {
   });
 }
 
-function _getUserIdentityForTrainee(userId, domainTransaction) {
-  return domainTransaction.knexTransaction('users').select('id', 'firstName', 'lastName').where({ id: userId }).first();
+async function _getUserIdentityForTrainee(userId, domainTransaction) {
+  const userIdentity = await domainTransaction
+    .knexTransaction('users')
+    .select('id', 'firstName', 'lastName')
+    .where({ id: userId })
+    .first();
+
+  return new UserIdentity(userIdentity);
 }
 
 async function _getCampaignToStart(campaignId, domainTransaction) {
@@ -146,10 +154,13 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
 }
 
 async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
-  const organizationLearner = { id: null, hasParticipated: false };
   const row = await domainTransaction
     .knexTransaction('campaigns')
-    .select({ id: 'view-active-organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
+    .select({
+      id: 'view-active-organization-learners.id',
+      campaignParticipationId: 'campaign-participations.id',
+      isDisabled: 'view-active-organization-learners.isDisabled',
+    })
     .join(
       'view-active-organization-learners',
       'view-active-organization-learners.organizationId',
@@ -174,10 +185,18 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
     .first();
 
   if (row) {
-    organizationLearner.id = row.id;
-    organizationLearner.hasParticipated = Boolean(row.campaignParticipationId);
+    return new OrganizationLearnerForStartingParticipation({
+      id: row.id,
+      hasParticipated: Boolean(row.campaignParticipationId),
+      isDisabled: row.isDisabled,
+    });
   }
-  return organizationLearner;
+
+  return new OrganizationLearnerForStartingParticipation({
+    id: null,
+    hasParticipated: false,
+    isDisabled: false,
+  });
 }
 
 async function _findpreviousCampaignParticipationForUser({
