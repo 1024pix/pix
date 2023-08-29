@@ -14,6 +14,8 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             creatorId: 2,
             ownerId: 2,
             organizationId: 3,
+            title: '',
+            customLandingPageText: '',
           };
 
           expect(() => new CampaignForCreation(attributes)).to.not.throw();

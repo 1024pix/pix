@@ -2,7 +2,6 @@ import { expect, sinon } from '../../../test-helper.js';
 import { createCampaign } from '../../../../lib/domain/usecases/create-campaign.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.js';
-import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
 
 describe('Unit | UseCase | create-campaign', function () {
   let campaignRepository;
@@ -20,60 +19,33 @@ describe('Unit | UseCase | create-campaign', function () {
   it('should save the campaign', async function () {
     // given
     const code = 'ABCDEF123';
-    const targetProfileId = 12;
-    const creatorId = 13;
-    const ownerId = 13;
-    const organizationId = 14;
-    const campaignData = {
-      name: 'campagne utilisateur',
-      type: CampaignTypes.ASSESSMENT,
-      creatorId,
-      ownerId,
-      targetProfileId,
-      organizationId,
-    };
-    const campaignForCreation = new CampaignForCreation({ ...campaignData, code });
-
-    const campaignCreator = new CampaignCreator([targetProfileId]);
-    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
-
-    campaignCodeGeneratorStub.generate.resolves(code);
-    campaignRepository.save.resolves();
-
-    // when
-    await createCampaign({
-      campaign: campaignData,
-      campaignRepository,
-      campaignCreatorRepository,
-      campaignCodeGenerator: campaignCodeGeneratorStub,
-    });
-
-    // then
-    expect(campaignRepository.save).to.have.been.calledWith(campaignForCreation);
-  });
-
-  it('should return the newly created campaign', async function () {
-    // given
-    const code = 'ABCDEF123';
-    const targetProfileId = 12;
-    const creatorId = 13;
-    const ownerId = 13;
-    const organizationId = 14;
-    const campaignData = {
-      name: 'campagne utilisateur',
-      type: CampaignTypes.ASSESSMENT,
-      creatorId,
-      ownerId,
-      targetProfileId,
-      organizationId,
-    };
-    const campaignCreator = new CampaignCreator([targetProfileId]);
-    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
-
-    campaignCodeGeneratorStub.generate.resolves(code);
     const savedCampaign = Symbol('a saved campaign');
+    const campaignToCreate = Symbol('campaign to create');
+    const targetProfileId = 12;
+    const creatorId = 13;
+    const ownerId = 13;
+    const organizationId = 14;
+    const campaignData = {
+      name: 'campagne utilisateur',
+      type: CampaignTypes.ASSESSMENT,
+      creatorId,
+      ownerId,
+      targetProfileId,
+      organizationId,
+    };
 
-    campaignRepository.save.resolves(savedCampaign);
+    const campaignCreator = new CampaignCreator({
+      availableTargetProfileIds: [targetProfileId],
+      organizationFeatures: {},
+    });
+    campaignCreator.createCampaign = sinon
+      .stub()
+      .withArgs({ ...campaignData, code })
+      .returns(campaignToCreate);
+
+    campaignCodeGeneratorStub.generate.resolves(code);
+    campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
+    campaignRepository.save.withArgs(campaignToCreate).resolves(savedCampaign);
 
     // when
     const campaign = await createCampaign({
@@ -84,6 +56,8 @@ describe('Unit | UseCase | create-campaign', function () {
     });
 
     // then
+    expect(campaignCreator.createCampaign).to.have.been.calledWith({ ...campaignData, code });
+    expect(campaignRepository.save).to.have.been.calledWith(campaignToCreate);
     expect(campaign).to.deep.equal(savedCampaign);
   });
 });
