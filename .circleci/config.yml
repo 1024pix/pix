@@ -94,10 +94,20 @@ workflows:
       - checkout:
           context: Pix
 
-      - api_build_and_test:
+      - api_install:
           context: Pix
           requires:
             - checkout
+
+      - api_lint:
+          context: Pix
+          requires:
+            - api_install
+
+      - api_test:
+          context: Pix
+          requires:
+            - api_install
 
       - audit_logger_build_and_test:
           context: Pix
@@ -163,9 +173,9 @@ jobs:
           paths:
             - .
 
-  api_build_and_test:
+  api_install:
     executor:
-      name: node-redis-postgres-docker
+      name: node-docker
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
@@ -179,6 +189,18 @@ jobs:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - api
+
+  api_lint:
+    executor:
+      name: node-redis-postgres-docker
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
@@ -186,6 +208,14 @@ jobs:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
           when: always
+
+  api_test:
+    executor:
+      name: node-redis-postgres-docker
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Test
           command: npm run test
