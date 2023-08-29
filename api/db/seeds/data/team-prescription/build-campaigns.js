@@ -18,6 +18,7 @@ async function _createScoCampaigns(databaseBuilder) {
     organizationId: SCO_MANAGING_ORGANIZATION_ID,
     ownerId: SCO_ORGANIZATION_USER_ID,
     name: "Campagne d'évaluation SCO",
+    code: 'SCOASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
     configCampaign: {
       participantCount: 10,
@@ -37,6 +38,7 @@ async function _createScoCampaigns(databaseBuilder) {
     name: 'Campagne de collecte de profil SCO',
     multipleSendings: true,
     type: 'PROFILES_COLLECTION',
+    code: 'SCOCOLMUL',
     title: null,
     configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
   });
@@ -49,6 +51,7 @@ async function _createSupCampaigns(databaseBuilder) {
     organizationId: SUP_MANAGING_ORGANIZATION_ID,
     ownerId: SUP_ORGANIZATION_USER_ID,
     name: "Campagne d'évaluation SUP",
+    code: 'SUPASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
     configCampaign: {
       participantCount: 10,
@@ -66,6 +69,7 @@ async function _createSupCampaigns(databaseBuilder) {
     organizationId: SUP_MANAGING_ORGANIZATION_ID,
     ownerId: SUP_ORGANIZATION_USER_ID,
     name: 'Campagne de collecte de profil SUP',
+    code: 'SUPCOLMUL',
     multipleSendings: true,
     type: 'PROFILES_COLLECTION',
     title: null,
@@ -80,6 +84,7 @@ async function _createProCampaigns(databaseBuilder) {
     organizationId: PRO_ORGANIZATION_ID,
     ownerId: PRO_ORGANIZATION_USER_ID,
     name: "Campagne d'évaluation PRO",
+    code: 'PROASSIMP',
     createdAt: dayjs().subtract(30, 'days').toDate(),
     configCampaign: {
       participantCount: 10,
@@ -98,6 +103,7 @@ async function _createProCampaigns(databaseBuilder) {
     ownerId: PRO_ORGANIZATION_USER_ID,
     name: 'Campagne de collecte de profil PRO',
     multipleSendings: true,
+    code: 'PROCOLMUL',
     type: 'PROFILES_COLLECTION',
     title: null,
     configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
