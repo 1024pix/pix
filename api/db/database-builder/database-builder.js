@@ -4,13 +4,14 @@ import { factory } from './factory/index.js';
 import { databaseBuffer } from './database-buffer.js';
 
 class DatabaseBuilder {
-  constructor({ knex, emptyFirst = true }) {
+  constructor({ knex, emptyFirst = true, beforeEmptyDatabase = () => undefined }) {
     this.knex = knex;
     this.databaseBuffer = databaseBuffer;
     this.tablesOrderedByDependencyWithDirtinessMap = [];
     this.factory = factory;
     this.isFirstCommit = true;
     this.emptyFirst = emptyFirst;
+    this._beforeEmptyDatabase = beforeEmptyDatabase;
   }
 
   async commit() {
@@ -106,6 +107,7 @@ class DatabaseBuilder {
   }
 
   async _emptyDatabase() {
+    this._beforeEmptyDatabase();
     const sortedTables = _.without(
       _.map(this.tablesOrderedByDependencyWithDirtinessMap, 'table'),
       'knex_migrations',
