@@ -13,12 +13,11 @@ describe('Acceptance | API | Badges', function () {
 
   beforeEach(async function () {
     server = await createServer();
+    userId = (await insertUserWithRoleSuperAdmin()).id;
   });
 
   describe('PATCH /api/admin/badges/{id}', function () {
     beforeEach(async function () {
-      userId = (await insertUserWithRoleSuperAdmin()).id;
-
       badge = databaseBuilder.factory.buildBadge({
         id: 1,
         altMessage: 'Message alternatif',
@@ -83,10 +82,6 @@ describe('Acceptance | API | Badges', function () {
   });
 
   describe('DELETE /api/admin/badges/{id}', function () {
-    beforeEach(async function () {
-      userId = (await insertUserWithRoleSuperAdmin()).id;
-    });
-
     afterEach(async function () {
       await knex('badge-acquisitions').delete();
       await knex('badges').delete();
