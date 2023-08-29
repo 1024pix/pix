@@ -187,14 +187,54 @@
     margin: 5px 0 20px;
     font-size: 0.875rem;
   }
+
+  &__fwb-oidc-connect-link {
+    @extend %pix-body-s;
+    
+    display: flex;
+    align-items: center;
+    font-weight: $font-medium;
+    text-decoration: none;
+    background-color: $pix-neutral-0;
+    border: 1px solid $pix-neutral-50;
+    border-radius: 100px;
+
+    &:focus,
+    &:hover,
+    &:focus-within {
+      color: $pix-neutral-0;
+      border: 1px solid $pix-neutral-50;
+    }
+
+    &__logo {
+      width: $pix-spacing-m;
+      margin: 6px $pix-spacing-xs 6px $pix-spacing-s;
+
+      &:focus,
+      &:hover,
+      &:focus-within {
+        color: $pix-neutral-0;
+        background-color: $pix-neutral-0;
+      }
+    }
+  }
 }
 
 .oidc-provider-pole-emploi {
   color: $pix-neutral-0;
   background-color: #1B2E57;
+  border-style : 1px solid $pix-neutral-50;
 }
 
 .oidc-provider-fwb {
-  color: $pix-neutral-70;
-  background-color: #EDEDED;
+  padding: $pix-spacing-xs $pix-spacing-s $pix-spacing-xs $pix-spacing-xs;
+  color: $pix-neutral-90;
+  
+  &:focus,
+  &:hover,
+  &:focus-within {
+    color: $pix-neutral-0;
+    background-color: $pix-neutral-60;
+    border-radius: 0 100px 100px 0;
+  }
 }
