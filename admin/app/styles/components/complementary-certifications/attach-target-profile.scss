@@ -32,5 +32,16 @@
       }
     }
   }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 16px 0;
+
+    .pix-button {
+      margin-right: 16px;
+    }
+  }
 }
 

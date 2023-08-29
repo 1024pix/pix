@@ -44,7 +44,8 @@
 @import 'components/certification-issue-reports';
 @import 'components/certification-center-invitations';
 @import 'components/complementary-certifications/details';
-@import 'components/complementary-certifications/attach-badges';
+@import 'components/complementary-certifications/attach-badges/header.scss';
+@import 'components/complementary-certifications/attach-badges/list.scss';
 @import 'components/complementary-certifications/attach-target-profile';
 @import 'components/complementary-certifications/link-to-current-target-profile';
 @import 'components/complementary-certifications/search-bar';

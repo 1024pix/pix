@@ -16,29 +16,53 @@
     <table aria-label="Liste des résultats thématiques">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Niveau</th>
+          <ComplementaryCertifications::AttachForm::Badges::Header>
+            ID
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header>
+            Nom
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header @isRequired="true">
+            <:default>Niveau</:default>
+            <:tooltip>A compléter</:tooltip>
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header @isRequired="true">
+            <:default>Image svg certificat Pix App</:default>
+            <:tooltip>A compléter</:tooltip>
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header @isRequired="true">
+            <:default>Label du certificat</:default>
+            <:tooltip>A compléter</:tooltip>
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header @isRequired="true">
+            <:default>Macaron de l'attestation PDF</:default>
+            <:tooltip>A compléter</:tooltip>
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header>
+            <:default>Message du certificat</:default>
+            <:tooltip>A compléter</:tooltip>
+          </ComplementaryCertifications::AttachForm::Badges::Header>
+          <ComplementaryCertifications::AttachForm::Badges::Header>
+            <:default>Message temporaire certificat</:default>
+            <:tooltip>A compléter</:tooltip>
+          </ComplementaryCertifications::AttachForm::Badges::Header>
         </tr>
       </thead>
       <tbody>
         {{#each @options as |option|}}
-          <tr aria-label="Résultat thématique {{option.id}} {{option.label}}">
-            <td>{{option.id}}</td>
-            <td>{{option.label}}</td>
-            <td>
-              <PixInput
-                @id="{{option.id}}"
-                placeholder="Exemple de niveau de RT : 1"
-                type="number"
-                min="1"
-                max="{{@options.length}}"
-                {{on "input" this.onUpdateLevel}}
-              />
-            </td>
-          </tr>
+          <ComplementaryCertifications::AttachForm::Badges::Row
+            @badgeId={{option.id}}
+            @badgeLabel={{option.label}}
+            @badgeMaxLevel={{option.length}}
+            @onFieldUpdate={{this.onBadgeUpdated}}
+          />
         {{/each}}
       </tbody>
     </table>
+
+    <p aria-details="Les colonnes marquées avec un astérisque sont des champs obligatoires">
+      <abbr title="obligatoire" class="mandatory-mark">*</abbr>
+      Champs obligatoires
+    </p>
   </section>
 </div>

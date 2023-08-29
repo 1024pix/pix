@@ -1,0 +1,61 @@
+<tr aria-label="Résultat thématique {{@badgeId}} {{@badgeLabel}}">
+  <td>{{@badgeId}}</td>
+  <td>{{@badgeLabel}}</td>
+  <td>
+    <PixInput
+      @id="level"
+      placeholder="Exemple de niveau de RT : 1"
+      aria-required="true"
+      aria-label="niveau"
+      type="number"
+      min="1"
+      max="{{@badgeMaxLevel}}"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+  <td>
+    <PixInput
+      @id="certificate-image"
+      placeholder="Ex : https://images.pix.fr/..."
+      aria-required="true"
+      aria-label="image certificat Pix App"
+      type="text"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+  <td>
+    <PixTextarea
+      @id="certificate-label"
+      placeholder="Ex : Pix+ Édu 1er degré Initié (entrée dans le métier)"
+      aria-required="true"
+      aria-label="label du certificat"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+  <td>
+    <PixInput
+      @id="certificate-sticker"
+      placeholder="Ex : https://images.pix.fr/..."
+      aria-required="true"
+      aria-label="macaron du certificat"
+      type="text"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+  <td>
+    <PixTextarea
+      @id="certificate-message"
+      placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
+      aria-label="message du certificat"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+  <td>
+    <PixTextarea
+      @id="certificate-temporary-message"
+      placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
+      aria-label="message temporaire du certificat"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+</tr>

@@ -1,0 +1,10 @@
+.attach-badges-header {
+
+  &__content {
+    display: flex;
+
+    .pix-tooltip {
+      padding-left: $pix-spacing-s;
+    }
+  }
+}

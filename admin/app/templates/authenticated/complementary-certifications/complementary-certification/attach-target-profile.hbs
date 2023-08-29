@@ -17,19 +17,31 @@
     <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
       <ComplementaryCertifications::AttachBadges::Badges
         @targetProfile={{this.selectedTargetProfile}}
-        @onError={{this.onError}}
-        @onBadgeUpdated={{this.onBadgeUpdated}}
+          @onError={{this.onError}}
+          @onBadgeUpdated={{this.onBadgeUpdated}}
       />
     </Card>
   {{/if}}
 
-  <div>
-    <PixButton
-      @size="small"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.cancel}}
-    >Annuler
-    </PixButton>
-  </div>
+    <div class="attach-target-profile__actions">
+      <PixButton
+        @type="submit"
+        @size="big"
+        @isBorderVisible={{true}}
+        @isDisabled={{this.isSubmitDisabled}}
+        aria-disabled={{this.isSubmitDisabled}}
+        @triggerAction={{this.onSubmit}}
+      >
+        Rattacher le profil cible
+      </PixButton>
+      <PixButton
+        @size="big"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.onCancel}}
+      >
+        Annuler
+      </PixButton>
+    </div>
+  </form>
 </div>

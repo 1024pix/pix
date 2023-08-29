@@ -1,0 +1,41 @@
+.complementary-certification-attach-badges {
+  &__description, &__error, &__list {
+    margin-top: $pix-spacing-s;
+  }
+
+  &__list table {
+    height: 100%;
+    margin-top: $pix-spacing-s;
+    margin-bottom: $pix-spacing-s;
+
+    thead tr{
+      height: 72px;
+
+      th {
+        padding: $pix-spacing-s;
+        border: 1px solid $pix-neutral-20;
+      }
+    }
+
+    tbody {
+      vertical-align: top;
+
+      > tr:nth-child(even) {
+        background-color: rgb(0 0 0 / 3%);
+      }
+
+      tr {
+        height: 180px;
+
+        td {
+          padding: $pix-spacing-s;
+          border: 1px solid $pix-neutral-20;
+
+          .pix-textarea, .pix-textarea textarea {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
