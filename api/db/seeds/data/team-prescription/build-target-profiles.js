@@ -1,11 +1,11 @@
 import { createTargetProfile, createBadge, createStages } from '../common/tooling/target-profile-tooling.js';
 import {
-  SCO_ORGANIZATION_ID,
   TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
   TARGET_PROFILE_BADGES_STAGES_ID,
   BADGES_CAMP_ID,
   BADGES_TUBES_CAMP_ID,
 } from './constants.js';
+import { SCO_MANAGING_ORGANIZATION_ID } from '../common/constants.js';
 
 async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
   const configTargetProfile = {
@@ -22,8 +22,8 @@ async function _createTargetProfileWithoutBadgesStages(databaseBuilder) {
   await createTargetProfile({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_NO_BADGES_NO_STAGES_ID,
+    ownerOrganizationId: null,
     name: 'Pix (Niv3 ~ 5) - NO Badges - NO Stages',
-    ownerOrganizationId: SCO_ORGANIZATION_ID,
     isPublic: true,
     isSimplifiedAccess: false,
     description: 'Pix (Niv3 ~ 5)',
@@ -58,8 +58,8 @@ async function _createTargetProfileWithBadgesStages(databaseBuilder) {
   const { targetProfileId, cappedTubesDTO } = await createTargetProfile({
     databaseBuilder,
     targetProfileId: TARGET_PROFILE_BADGES_STAGES_ID,
+    ownerOrganizationId: SCO_MANAGING_ORGANIZATION_ID,
     name: 'Pix (Niv1 ~ 5) - Badges - Stages',
-    ownerOrganizationId: SCO_ORGANIZATION_ID,
     isPublic: false,
     isSimplifiedAccess: false,
     description: 'Pix (Niv1 ~ 5)',

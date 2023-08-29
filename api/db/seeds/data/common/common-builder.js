@@ -2,6 +2,8 @@ import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 import { badges, DEFAULT_PASSWORD } from '../../../constants.js';
 import { createTargetProfile } from './tooling/target-profile-tooling.js';
 
+import { PRO_ORGANIZATION_ID } from './constants.js';
+
 const { ROLES } = PIX_ADMIN;
 
 // IDS
@@ -134,6 +136,7 @@ function _createClea(databaseBuilder) {
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
 
   databaseBuilder.factory.buildTargetProfile({
@@ -144,6 +147,7 @@ function _createClea(databaseBuilder) {
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [
     { tubeId: 'recs1vdbHxX8X55G9', level: 4 },
@@ -323,6 +327,7 @@ function _createDroit(databaseBuilder) {
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [
     { tubeId: 'reccqGUKgzIOK8f9U', level: 8 },
@@ -690,6 +695,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
     areKnowledgeElementsResettable: true,
     category: 'PREDEFINED',
     isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID,
@@ -699,6 +705,7 @@ function _createPixEdu1erDegre(databaseBuilder) {
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [
     { tubeId: 'rec5D8oOcnSVc1wb5', level: 6 },
@@ -987,6 +994,7 @@ function _createPixEdu2ndDegre(databaseBuilder) {
     isSimplifiedAccess: false,
     category: 'PREDEFINED',
     isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
   });
   [
     { tubeId: 'rec5D8oOcnSVc1wb5', level: 6 },
@@ -1350,6 +1358,7 @@ function _createPublicTargetProfile(databaseBuilder) {
   return createTargetProfile({
     databaseBuilder,
     targetProfileId: PIX_PUBLIC_TARGET_PROFILE_ID,
+    ownerOrganizationId: null,
     isPublic: true,
     name: 'Profil Cible Public',
     configTargetProfile: {
