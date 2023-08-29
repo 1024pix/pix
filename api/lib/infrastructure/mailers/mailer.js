@@ -14,7 +14,6 @@ class Mailer {
     this._providerName = mailing.provider;
     this.dependencies = dependencies;
     switch (this._providerName) {
-      case 'sendinblue':
       case 'brevo':
         this._provider = new BrevoProvider();
         break;
