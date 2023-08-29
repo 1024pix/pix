@@ -116,8 +116,8 @@ const authenticateUser = async function (
   } else {
     const message = "L'utilisateur n'a pas de compte Pix";
     const responseCode = 'SHOULD_VALIDATE_CGU';
-    const { authenticationKey, givenName, familyName } = result;
-    const meta = { authenticationKey, givenName, familyName };
+    const { authenticationKey, givenName, familyName, email } = result;
+    const meta = { authenticationKey, givenName, familyName, email };
     throw new UnauthorizedError(message, responseCode, meta);
   }
 };

@@ -17,7 +17,7 @@ class GoogleOidcAuthenticationService extends OidcAuthenticationService {
       clientId: config.google.clientId,
       tokenUrl: config.google.tokenUrl,
       authenticationUrl: config.google.authenticationUrl,
-      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
+      authenticationUrlParameters: [{ key: 'scope', value: 'openid profile email' }],
       userInfoUrl: config.google.userInfoUrl,
     });
 

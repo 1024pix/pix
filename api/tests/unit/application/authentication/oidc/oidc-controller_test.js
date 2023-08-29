@@ -275,7 +275,8 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       const authenticationKey = 'aaa-bbb-ccc';
       const givenName = 'Mélusine';
       const familyName = 'TITEGOUTTE';
-      usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName });
+      const email = 'melu@example.net';
+      usecases.authenticateOidcUser.resolves({ authenticationKey, givenName, familyName, email });
 
       // when
       const error = await catchErr(oidcController.authenticateUser)(request, hFake, dependencies);
@@ -284,7 +285,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       expect(error).to.be.an.instanceOf(UnauthorizedError);
       expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
       expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
-      expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName });
+      expect(error.meta).to.deep.equal({ authenticationKey, givenName, familyName, email });
     });
   });
 

@@ -484,6 +484,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         family_name: 'familyName',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
         sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        email: 'given.family@example.net',
       });
 
       const oidcAuthenticationService = new OidcAuthenticationService({});
@@ -500,6 +501,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         lastName: 'familyName',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
         externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        email: 'given.family@example.net',
       });
     });
 
@@ -543,7 +545,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     const userInfoUrl = 'userInfoUrl';
     const accessToken = 'accessToken';
 
-    it('should return nonce, firstName, lastName and external identity id', async function () {
+    it('should return nonce, firstName, lastName, email and external identity id', async function () {
       // given
       sinon
         .stub(httpAgent, 'get')
@@ -559,6 +561,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             family_name: 'familyName',
             nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
             sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+            email: 'given.family@example.net',
           },
         });
 
@@ -579,6 +582,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         family_name: 'familyName',
         sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+        email: 'given.family@example.net',
       });
     });
 

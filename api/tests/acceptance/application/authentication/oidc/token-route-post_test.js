@@ -54,6 +54,7 @@ describe('Acceptance | Route | oidc | token', function () {
             family_name: 'Doe',
             nonce: 'nonce',
             sub: 'sub',
+            email: 'john.doe@example.net',
           },
           'secret',
         );
@@ -76,6 +77,7 @@ describe('Acceptance | Route | oidc | token', function () {
           }),
           userInfo: {
             externalIdentityId: 'sub',
+            email: 'john.doe@example.net',
             firstName: 'John',
             lastName: 'Doe',
             nonce: 'nonce',

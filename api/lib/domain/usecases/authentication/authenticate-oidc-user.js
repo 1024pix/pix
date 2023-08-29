@@ -33,8 +33,8 @@ const authenticateOidcUser = async function ({
 
   if (!user) {
     const authenticationKey = await authenticationSessionService.save({ userInfo, sessionContent });
-    const { firstName: givenName, lastName: familyName } = userInfo;
-    return { authenticationKey, givenName, familyName, isAuthenticationComplete: false };
+    const { firstName: givenName, lastName: familyName, email } = userInfo;
+    return { authenticationKey, givenName, familyName, email, isAuthenticationComplete: false };
   }
 
   await _checkUserAccessScope({ source, user, adminMemberRepository });
