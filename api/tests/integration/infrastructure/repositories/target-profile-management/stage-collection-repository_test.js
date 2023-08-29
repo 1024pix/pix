@@ -123,7 +123,9 @@ describe('Integration | Infrastructure | Repository | target-profile-management 
       // then
       const savedStages = await knex.from('stages');
       expect(savedStages).to.have.lengthOf(2);
-      expect(_.omit(savedStages[0], ['id', 'createdAt', 'updatedAt'])).to.deep.include(_.omit(newStage, ['id']));
+      expect(_.omit(savedStages[0], ['id', 'createdAt', 'updatedAt'])).to.deep.include(
+        _.omit(newStage, ['id', 'campaignId']),
+      );
       expect(_.omit(savedStages[1], ['createdAt', 'updatedAt'])).to.deep.include(existingStage);
     });
 
