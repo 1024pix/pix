@@ -4,7 +4,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-import request from 'request-promise-native';
+import axios from 'axios';
 
 import { logoUrl } from './logo/default-sco-organization-logo-base64.js';
 import {
@@ -15,7 +15,7 @@ import { parseCsv } from './helpers/csvHelpers.js';
 import { disconnect } from '../db/knex-database-connection.js';
 import * as url from 'url';
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.BASE_URL || 'http://localhost:3000';
 
 function checkData({ csvData }) {
   return csvData
@@ -50,9 +50,9 @@ async function createOrUpdateOrganizations({ accessToken, organizationsByExterna
     const organization = organizationsByExternalId[externalId];
 
     if (organization && (name !== organization.name || !organization['logo-url'])) {
-      await request(_buildPatchOrganizationRequestObject(accessToken, { id: organization.id, name, logoUrl }));
+      await axios(_buildPatchOrganizationRequestObject(accessToken, { id: organization.id, name, logoUrl }));
     } else if (!organization) {
-      await request(
+      await axios(
         _buildPostOrganizationRequestObject(accessToken, {
           name,
           externalId,
@@ -67,7 +67,7 @@ async function createOrUpdateOrganizations({ accessToken, organizationsByExterna
 function _buildAccessTokenRequestObject() {
   return {
     method: 'POST',
-    baseUrl,
+    baseURL,
     url: '/api/token',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -87,10 +87,10 @@ function _buildPatchOrganizationRequestObject(accessToken, organization) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    baseUrl,
+    baseURL,
     url: `/api/organizations/${organization.id}`,
     json: true,
-    body: {
+    data: {
       data: {
         type: 'organizations',
         id: organization.id,
@@ -109,10 +109,9 @@ function _buildPostOrganizationRequestObject(accessToken, organization) {
     headers: {
       authorization: `Bearer ${accessToken}`,
     },
-    baseUrl,
+    baseURL,
     url: '/api/organizations',
-    json: true,
-    body: {
+    data: {
       data: {
         type: 'organizations',
         attributes: {
@@ -144,7 +143,7 @@ async function main() {
   console.log('ok');
 
   console.log('Requesting API access token... ');
-  const { access_token: accessToken } = await request(_buildAccessTokenRequestObject());
+  const { access_token: accessToken } = await axios(_buildAccessTokenRequestObject());
   console.log('ok');
 
   console.log('Fetching existing organizations... ');

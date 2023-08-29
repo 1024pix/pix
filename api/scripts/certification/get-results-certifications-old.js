@@ -1,4 +1,4 @@
-import request from 'request-promise-native';
+import axios from 'axios';
 import { Parser } from '@json2csv/plainjs';
 import moment from 'moment-timezone';
 import * as url from 'url';
@@ -31,23 +31,18 @@ function parseArgs(argv) {
   return argv.slice(3);
 }
 
-function buildRequestObject(baseUrl, authToken, certificationId) {
+function buildRequestObject(baseURL, authToken, certificationId) {
   return {
     headers: {
       authorization: 'Bearer ' + authToken,
     },
-    baseUrl: baseUrl,
+    baseURL,
     url: `/api/admin/certifications/${certificationId}/details`,
-    json: true,
-    transform: (body) => {
+    transformResponse: (body) => {
       body.certificationId = certificationId;
       return body;
     },
   };
-}
-
-function makeRequest(config) {
-  return request(config);
 }
 
 function findCompetence(profile, competenceName) {
@@ -74,11 +69,11 @@ function toCSVRow(rowJSON) {
 }
 
 function main() {
-  const baseUrl = process.argv[2];
+  const baseURL = process.argv[2];
   const authToken = process.argv[3];
   const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map((id) => buildRequestObject(baseUrl, authToken, id)).map((requestObject) => makeRequest(requestObject)),
+    ids.map((id) => buildRequestObject(baseURL, authToken, id)).map((requestObject) => axios(requestObject)),
   );
 
   requests

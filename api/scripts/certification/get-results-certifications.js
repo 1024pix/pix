@@ -1,5 +1,5 @@
 import fileSystem from 'fs';
-import request from 'request-promise-native';
+import axios from 'axios';
 import { Parser } from '@json2csv/plainjs';
 import moment from 'moment-timezone';
 import * as url from 'url';
@@ -37,25 +37,23 @@ const HEADERS = [
   '5.2',
 ];
 
-function buildSessionRequest(baseUrl, authToken, sessionId) {
+function buildSessionRequest(baseURL, authToken, sessionId) {
   return {
     headers: {
       authorization: 'Bearer ' + authToken,
     },
-    baseUrl: baseUrl,
+    baseURL,
     url: `/api/sessions/${sessionId}`,
-    json: true,
   };
 }
 
-function buildCertificationRequest(baseUrl, authToken, certificationId) {
+function buildCertificationRequest(baseURL, authToken, certificationId) {
   return {
     headers: {
       authorization: 'Bearer ' + authToken,
     },
-    baseUrl: baseUrl,
+    baseURL,
     url: `/api/admin/certifications/${certificationId}`,
-    json: true,
     simple: false,
   };
 }
@@ -135,11 +133,11 @@ function saveInFile(csv, sessionId) {
 }
 
 function main() {
-  const baseUrl = process.argv[2];
+  const baseURL = process.argv[2];
   const authToken = process.argv[3];
   const sessionId = process.argv[4];
-  const sessionRequest = buildSessionRequest(baseUrl, authToken, sessionId);
-  return request(sessionRequest)
+  const sessionRequest = buildSessionRequest(baseURL, authToken, sessionId);
+  return axios(sessionRequest)
     .then((session) => {
       return session.data.relationships.certifications.data.map((certification) => {
         return certification.id;
@@ -154,8 +152,8 @@ function main() {
     .then((certificationIds) => {
       const certificationsRequests = Promise.all(
         certificationIds
-          .map((certificationId) => buildCertificationRequest(baseUrl, authToken, certificationId))
-          .map((requestObject) => request(requestObject)),
+          .map((certificationId) => buildCertificationRequest(baseURL, authToken, certificationId))
+          .map((requestObject) => axios(requestObject)),
       );
 
       return certificationsRequests

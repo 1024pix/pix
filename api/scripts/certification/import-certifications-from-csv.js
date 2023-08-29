@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import request from 'request-promise-native';
+import axios from 'axios';
 import papa from 'papaparse';
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as url from 'url';
@@ -29,7 +29,7 @@ function assertFileValidity(err, filePath) {
   return true;
 }
 
-function readMyData(data, baseUrl, accessToken) {
+function readMyData(data, baseURL, accessToken) {
   // We delete the BOM UTF8 at the beginning of the CSV,
   // otherwise the first element is wrongly parsed.
   const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
@@ -37,7 +37,7 @@ function readMyData(data, baseUrl, accessToken) {
   const parsedCSVData = papa.parse(csvRawData, { header: true });
 
   const certifications = convertCSVDataIntoCertifications(parsedCSVData);
-  const options = { baseUrl, accessToken, certifications };
+  const options = { baseURL, accessToken, certifications };
 
   saveCertifications(options)
     .then((errorObjects) => {
@@ -64,14 +64,13 @@ function convertCSVDataIntoCertifications(csvParsingResult) {
   }, []);
 }
 
-function _buildRequestObject(baseUrl, accessToken, certification) {
+function _buildRequestObject(baseURL, accessToken, certification) {
   return {
     headers: { authorization: `Bearer ${accessToken}` },
     method: 'PATCH',
-    baseUrl,
+    baseURL,
     url: `/api/certification-courses/${certification.id}`,
-    json: true,
-    body: {
+    data: {
       data: {
         type: 'certifications',
         id: certification.id,
@@ -89,7 +88,7 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
 
 /**
  * @param options
- * - baseUrl: String
+ * - baseURL: String
  * - accessToken: String
  * - certifications: Array[Object]
  */
@@ -97,8 +96,8 @@ function saveCertifications(options) {
   const errorObjects = [];
 
   const promises = options.certifications.map((certification) => {
-    const requestConfig = _buildRequestObject(options.baseUrl, options.accessToken, certification);
-    return request(requestConfig).catch((err) => {
+    const requestConfig = _buildRequestObject(options.baseURL, options.accessToken, certification);
+    return axios(requestConfig).catch((err) => {
       errorObjects.push({
         errorMessage: err.message,
         certification: certification,
@@ -126,7 +125,7 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
  */
 function main() {
   console.log("Début du script d'import");
-  const baseUrl = process.argv[2];
+  const baseURL = process.argv[2];
   const accessToken = process.argv[3];
 
   const filePath = process.argv[4];
@@ -137,7 +136,7 @@ function main() {
     console.log('Test de validité du fichier : OK');
 
     console.log('\nTéléversement des certifications sur le serveur...');
-    readMyData(data, baseUrl, accessToken);
+    readMyData(data, baseURL, accessToken);
   });
 }
 
