@@ -4,6 +4,7 @@ const createCampaigns = async function ({
   campaignsToCreate,
   membershipRepository,
   campaignRepository,
+  campaignCreatorRepository,
   campaignCodeGenerator,
 }) {
   const enrichedCampaignsData = await Promise.all(
@@ -12,12 +13,19 @@ const createCampaigns = async function ({
         organizationId: campaign.organizationId,
       });
 
-      return {
-        ...campaign,
+      const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
+      const campaignCreator = await campaignCreatorRepository.get({
+        userId: campaign.creatorId,
+        organizationId: campaign.organizationId,
         ownerId: administrator.user.id,
-        code: await campaignCodeGenerator.generate(campaignRepository),
+      });
+
+      return campaignCreator.createCampaign({
+        ...campaign,
         type: CampaignTypes.ASSESSMENT,
-      };
+        code: generatedCampaignCode,
+        ownerId: administrator.user.id,
+      });
     }),
   );
 

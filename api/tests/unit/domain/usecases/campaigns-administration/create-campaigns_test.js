@@ -55,6 +55,19 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       },
     ];
 
+    const campaignCreatorPOJO = {
+      createCampaign: sinon
+        .stub()
+        .onFirstCall()
+        .resolves(campaignsWithAllData[0])
+        .onSecondCall()
+        .resolves(campaignsWithAllData[1]),
+    };
+
+    const campaignCreatorRepositoryStub = {
+      get: sinon.stub().resolves(campaignCreatorPOJO),
+    };
+
     campaignRepository.save.withArgs(campaignsWithAllData).resolves();
 
     const membershipRepository = {
@@ -69,6 +82,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       membershipRepository,
       campaignRepository,
       campaignCodeGenerator: campaignCodeGeneratorStub,
+      campaignCreatorRepository: campaignCreatorRepositoryStub,
     });
 
     expect(campaignRepository.save).to.have.been.calledWith(campaignsWithAllData);

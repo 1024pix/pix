@@ -25,7 +25,7 @@ const schema = Joi.object({
     'number.base': 'MISSING_CREATOR',
   }),
 
-  customLandingPageText: Joi.string().allow(null).default(null).max(5000).messages({
+  customLandingPageText: Joi.string().empty('').allow(null).default(null).max(5000).messages({
     'string.max': 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG',
   }),
 
@@ -60,7 +60,9 @@ const schema = Joi.object({
     }),
 
   title: Joi.string()
+    .empty('')
     .allow(null)
+    .default(null)
     .when('type', {
       is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
       then: Joi.valid(null),
