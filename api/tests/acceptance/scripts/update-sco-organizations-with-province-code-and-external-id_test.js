@@ -356,7 +356,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
         };
         const expectedErrorObjects = [
           {
-            errorMessage: 'Error: Error 1',
+            errorMessage: 'Error 1',
             organization: {
               id: 1,
               externalId: '9752145V',
@@ -364,7 +364,7 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
             },
           },
           {
-            errorMessage: 'Error: Error 2',
+            errorMessage: 'Error 2',
             organization: {
               id: 2,
               externalId: '',

@@ -70,8 +70,6 @@
     "pino-pretty": "^10.0.0",
     "randomstring": "^1.2.2",
     "redlock": "^4.2.0",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
     "samlify": "^2.8.5",
     "sax": "^1.2.4",
     "saxpath": "^0.6.5",
