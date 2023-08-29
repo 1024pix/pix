@@ -1480,6 +1480,27 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         .first();
       expect(robotInBDD.userId).to.equal(userToNotDissociate.id);
     });
+
+    it('should reset isCertifiable and certifiableAt to null', async function () {
+      // given
+      const userToDissociate = databaseBuilder.factory.buildUser();
+      const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+        userId: userToDissociate.id,
+        isCertifiable: true,
+        certifiableAt: new Date(),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
+
+      // then
+      const organizationLearnerPatched = await knex('organization-learners')
+        .where({ id: organizationLearnerToDissociate.id })
+        .first();
+      expect(organizationLearnerPatched.isCertifiable).to.equal(null);
+      expect(organizationLearnerPatched.certifiableAt).to.equal(null);
+    });
   });
 
   describe('#dissociateAllStudentsByUserId', function () {
