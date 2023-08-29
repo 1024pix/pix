@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.29.0 (29/08/2023)
+
+
+### :rocket: Amélioration
+- [#6940](https://github.com/1024pix/pix/pull/6940) [FEATURE] Autoriser la création de campagne en masse en envoi multiple (Pix-8609).
+- [#6900](https://github.com/1024pix/pix/pull/6900) [FEATURE] Enregistrement des signalements d'une session de certification V3 (PIX-8934).
+- [#6844](https://github.com/1024pix/pix/pull/6844) [FEATURE] Ajout d'un signalement pour les certifications V3 (PIX-8797).
+- [#6928](https://github.com/1024pix/pix/pull/6928) [FEATURE] Ajouter la notion RAZ dans la page de paramètres de campagne.
+- [#6891](https://github.com/1024pix/pix/pull/6891) [FEATURE] Pouvoir jouer les bonnes déclinaisons lors d'une activité Pix1D (PIX-7701).
+
+### :building_construction: Tech
+- [#6949](https://github.com/1024pix/pix/pull/6949) [TECH] Remplacement de la librairie obsolète `request` par `axios`.
+- [#6926](https://github.com/1024pix/pix/pull/6926) [TECH] Sécuriser le model Campaign Participant afin de ne pas autoriser les learner désactivé (PIX-8918).
+- [#6943](https://github.com/1024pix/pix/pull/6943) [TECH] Corriger la taille d'image d'affiché sur la contenu formatif (PIX-9000).
+- [#6935](https://github.com/1024pix/pix/pull/6935) [TECH] Utiliser la fonction native de génération d'UUID v4.
+
+### :bug: Correction
+- [#6905](https://github.com/1024pix/pix/pull/6905) [BUGFIX] Affichage des pages de détail de certif complémentaire une fois le switch Pix+ Edu utilisé.
+- [#6942](https://github.com/1024pix/pix/pull/6942) [BUGFIX] Bien prendre en compte les paliers "1er acquis" lors de l'acquisition de fin de campagne.
+
 ## v4.28.0 (25/08/2023)
 
 
