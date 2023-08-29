@@ -78,9 +78,12 @@ const getAuthenticationUrl = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { identity_provider: identityProvider } = request.query;
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const { identity_provider: identityProvider, source } = request.query;
+
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(
+    identityProvider,
+    source,
+  );
   const result = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
   return h.response(result).code(200);
 };
@@ -94,8 +97,10 @@ const authenticateUser = async function (
 ) {
   const { code, identityProvider, redirectUri, stateSent, stateReceived, source } = request.deserializedPayload;
 
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(
+    identityProvider,
+    source,
+  );
 
   const result = await usecases.authenticateOidcUser({
     code,
@@ -147,10 +152,12 @@ const reconcileUserForAdmin = async function (
     authenticationServiceRegistry,
   },
 ) {
-  const { email, identityProvider, authenticationKey } = request.deserializedPayload;
+  const { email, identityProvider, authenticationKey, source } = request.deserializedPayload;
 
-  const oidcAuthenticationService =
-    dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(identityProvider);
+  const oidcAuthenticationService = dependencies.authenticationServiceRegistry.getOidcProviderServiceByCode(
+    identityProvider,
+    source,
+  );
 
   const accessToken = await usecases.reconcileOidcUserForAdmin({
     email,

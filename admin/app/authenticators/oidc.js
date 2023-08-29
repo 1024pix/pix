@@ -23,6 +23,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     let host = `${ENV.APP.API_HOST}/api/oidc/`;
     let body;
     const identityProvider = this.oidcIdentityProviders[identityProviderSlug];
+    const source = 'pix-admin';
 
     if (authenticationKey) {
       host = `${ENV.APP.API_HOST}/api/admin/oidc/`;
@@ -30,6 +31,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
         identity_provider: identityProvider.code,
         authentication_key: authenticationKey,
         email,
+        source,
       };
     } else {
       body = {
@@ -38,7 +40,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
         redirect_uri: redirectUri,
         state_sent: this.session.data.state,
         state_received: state,
-        source: 'pix-admin',
+        source,
       };
 
       if (this.session.isAuthenticated) {

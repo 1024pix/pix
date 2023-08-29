@@ -23,8 +23,15 @@ function getAllOidcProviderServices() {
   return allOidcProviderServices;
 }
 
-function getOidcProviderServiceByCode(identityProvider) {
-  const oidcProviderService = readyOidcProviderServices.find((service) => identityProvider === service.code);
+function getOidcProviderServiceByCode(identityProvider, source = 'pix-app') {
+  let oidcProviderService;
+
+  if (source === 'pix-admin') {
+    oidcProviderService = allOidcProviderServices.find((service) => identityProvider === service.code);
+  } else {
+    oidcProviderService = readyOidcProviderServices.find((service) => identityProvider === service.code);
+  }
+
   if (!oidcProviderService) {
     throw new InvalidIdentityProviderError(identityProvider);
   }

@@ -77,6 +77,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         authenticationKey: 'key',
         hostSlug: 'users/reconcile',
         email: 'user@example.net',
+        source: 'pix-admin',
       });
 
       // then
@@ -86,6 +87,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
             identity_provider: identityProviderCode,
             authentication_key: 'key',
             email: 'user@example.net',
+            source: 'pix-admin',
           },
         },
       });

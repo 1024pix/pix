@@ -32,6 +32,7 @@ const register = async function (server) {
                   .required()
                   .valid(...validOidcProviderCodes),
                 authentication_key: Joi.string().required(),
+                source: Joi.string().optional(),
               }),
               type: Joi.string(),
             }),
@@ -98,6 +99,7 @@ const register = async function (server) {
               .required()
               .valid(...validOidcProviderCodes),
             redirect_uri: Joi.string().required(),
+            source: Joi.string().optional(),
           }),
         },
         handler: oidcController.getAuthenticationUrl,

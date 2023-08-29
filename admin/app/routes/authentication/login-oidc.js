@@ -115,7 +115,7 @@ export default class LoginOidcRoute extends Route {
         ENV.APP.API_HOST
       }/api/oidc/authentication-url?identity_provider=${identityProvider}&redirect_uri=${encodeURIComponent(
         redirectUri,
-      )}`,
+      )}&source=pix-admin`,
     );
     const { redirectTarget, state, nonce } = await response.json();
     this.session.set('data.state', state);
