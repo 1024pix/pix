@@ -1,6 +1,8 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { UserLogin } from '../../domain/models/UserLogin.js';
 
+const USER_LOGINS_TABLE_NAME = 'user-logins';
+
 function _toDomain(userLoginDTO) {
   return new UserLogin({
     id: userLoginDTO.id,
@@ -14,25 +16,28 @@ function _toDomain(userLoginDTO) {
 }
 
 const findByUserId = async function (userId) {
-  const foundUserLogin = await knex.from('user-logins').where({ userId }).first();
+  const foundUserLogin = await knex.from(USER_LOGINS_TABLE_NAME).where({ userId }).first();
   return foundUserLogin ? _toDomain(foundUserLogin) : null;
 };
 
 const create = async function (userLogin) {
-  const [userLoginDTO] = await knex('user-logins').insert(userLogin).returning('*');
+  const [userLoginDTO] = await knex(USER_LOGINS_TABLE_NAME).insert(userLogin).returning('*');
   return _toDomain(userLoginDTO);
 };
 
 const update = async function (userLogin) {
   userLogin.updatedAt = new Date();
-  const [userLoginDTO] = await knex('user-logins').where({ id: userLogin.id }).update(userLogin).returning('*');
+  const [userLoginDTO] = await knex(USER_LOGINS_TABLE_NAME)
+    .where({ id: userLogin.id })
+    .update(userLogin)
+    .returning('*');
   return _toDomain(userLoginDTO);
 };
 
 const findByUsername = async function (username) {
   const foundUserLogin = await knex
     .select('user-logins.*')
-    .from('user-logins')
+    .from(USER_LOGINS_TABLE_NAME)
     .where('users.email', username.toLowerCase())
     .orWhere('users.username', username.toLowerCase())
     .join('users', 'users.id', 'user-logins.userId')
@@ -44,7 +49,7 @@ const findByUsername = async function (username) {
 const updateLastLoggedAt = async function ({ userId }) {
   const now = new Date();
 
-  await knex('user-logins')
+  await knex(USER_LOGINS_TABLE_NAME)
     .insert({
       userId,
       lastLoggedAt: now,
