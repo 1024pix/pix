@@ -8,13 +8,9 @@ export default class AttachTargetProfileController extends Controller {
   @service router;
   @service store;
 
+  @tracked isSubmitDisabled = true;
   @tracked selectedTargetProfile;
   @tracked targetProfileBadges;
-
-  @action
-  async cancel() {
-    this.router.transitionTo('authenticated.complementary-certifications.complementary-certification.details');
-  }
 
   @action
   async onError(errorMessage) {
@@ -28,6 +24,7 @@ export default class AttachTargetProfileController extends Controller {
     if (selectedAttachableTargetProfile) {
       this.selectedTargetProfile = selectedAttachableTargetProfile;
       this.targetProfileBadges = new Map();
+      this.isSubmitDisabled = false;
     }
   }
 
@@ -35,11 +32,22 @@ export default class AttachTargetProfileController extends Controller {
   onReset() {
     this.selectedTargetProfile = undefined;
     this.targetProfileBadges = undefined;
+    this.isSubmitDisabled = true;
   }
 
   @action
-  onBadgeUpdated({ badgeId, badgeLevel }) {
-    console.log('A badge level has been updated: ', { badgeId, badgeLevel });
-    this.targetProfileBadges.set(badgeId, badgeLevel);
+  onBadgeUpdated({badges, update: {badgeId, fieldName, fieldValue}}) {
+    console.log('A badge has been updated: ', {badges, update: {badgeId, fieldName, fieldValue}});
+  }
+
+  @action
+  async onCancel() {
+    this.router.transitionTo('authenticated.complementary-certifications.complementary-certification.details');
+  }
+
+  @action
+  async onSubmit() {
+    console.log('SUBMIT');
+    this.router.transitionTo('authenticated.complementary-certifications.complementary-certification.details');
   }
 }

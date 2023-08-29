@@ -1,7 +1,7 @@
-import { action } from '@ember/object';
+import {action} from '@ember/object';
 import Component from '@glimmer/component';
-import { service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
+import {service} from '@ember/service';
+import {tracked} from '@glimmer/tracking';
 
 export default class Badges extends Component {
   @tracked isLoading;
@@ -22,12 +22,12 @@ export default class Badges extends Component {
   }
 
   @action
-  onBadgeUpdated(badgeId, badgeLevel) {
+  onBadgeUpdated({badgeId, fieldName, fieldValue}) {
     if (!badgeId) {
       return;
     }
 
-    this.args.onBadgeUpdated({ badgeId, badgeLevel });
+    this.args.onBadgeUpdated({badges: this.badges, update: {badgeId, fieldName, fieldValue}});
   }
 
   #initBadges(targetProfile) {
