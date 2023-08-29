@@ -31,7 +31,7 @@ describe('Unit | Class | BrevoProvider', function () {
       });
 
       context('when email check succeeds', function () {
-        it('should call the given sendinblue api instance', async function () {
+        it('should call the given brevo api instance', async function () {
           // given
           const options = {
             from: senderEmailAddress,
