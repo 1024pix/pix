@@ -19,10 +19,11 @@ class CampaignParticipant {
     previousCampaignParticipationForUser,
   }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
-    this.organizationLearnerId = organizationLearner?.id;
     this.userIdentity = userIdentity;
     this.previousCampaignParticipationForUser = previousCampaignParticipationForUser;
-    this.organizationLearnerHasParticipatedForAnotherUser = organizationLearner.hasParticipated;
+    this.organizationLearnerId = organizationLearner.id;
+    this.isOrganizationLearnerDisabled = organizationLearner.isDisabled;
+    this.hasOrganizationLearnerParticipatedForAnotherUser = organizationLearner.hasParticipated;
   }
 
   start({ participantExternalId, isReset }) {
@@ -66,6 +67,10 @@ class CampaignParticipant {
   }
 
   _checkCanParticipateToCampaign(participantExternalId, isReset) {
+    if (this.isOrganizationLearnerDisabled) {
+      throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
+    }
+
     if (this.campaignToStartParticipation.isArchived) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
@@ -107,7 +112,7 @@ class CampaignParticipant {
       });
     }
 
-    if (this.organizationLearnerHasParticipatedForAnotherUser) {
+    if (this.hasOrganizationLearnerParticipatedForAnotherUser) {
       throw new AlreadyExistingCampaignParticipationError('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
     }
   }
