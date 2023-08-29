@@ -32,7 +32,14 @@ const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 
-const databaseBuilder = new DatabaseBuilder({ knex });
+const databaseBuilder = new DatabaseBuilder({
+  knex,
+  beforeEmptyDatabase: () => {
+    // Sometimes, truncating tables may cause the first ran test to timeout, so
+    // we increase the timeout to ensure we don't have flaky tests
+    increaseCurrentTestTimeout(2000);
+  },
+});
 
 import nock from 'nock';
 
@@ -49,6 +56,7 @@ import { PIX_ADMIN } from '../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
+import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
 
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
