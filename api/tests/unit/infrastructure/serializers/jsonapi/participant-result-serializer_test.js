@@ -10,10 +10,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
     const isTargetProfileResetAllowed = true;
     const isOrganizationLearnerActive = true;
     const isCampaignArchived = false;
-    let participationResults;
-    let competences;
-    let stageCollection;
-    let badgeResultsDTO;
+    let participationResults, competences, stageCollection, badgeResultsDTO, reachedStage;
 
     beforeEach(function () {
       const knowledgeElements = [
@@ -64,6 +61,15 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         ],
       });
 
+      reachedStage = {
+        id: 3,
+        title: 'Stage2',
+        message: 'Message2',
+        threshold: 50,
+        totalStage: 3,
+        reachedStage: 2,
+      };
+
       badgeResultsDTO = [
         {
           id: 3,
@@ -85,8 +91,9 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       const assessmentResult = new AssessmentResult({
         participationResults,
         competences,
-        stageCollection,
         badgeResultsDTO,
+        reachedStage,
+        stageCollection,
         isCampaignMultipleSendings,
         isOrganizationLearnerActive,
         isCampaignArchived,

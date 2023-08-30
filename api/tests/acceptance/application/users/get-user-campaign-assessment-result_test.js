@@ -116,6 +116,12 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       targetProfileId: targetProfile.id,
     });
 
+    databaseBuilder.factory.buildStageAcquisition({
+      stageId: stage.id,
+      userId: user.id,
+      campaignParticipationId: campaignParticipation.id,
+    });
+
     campaignSkills.slice(2).forEach((campaignSkill, index) => {
       databaseBuilder.factory.buildKnowledgeElement({
         userId: user.id,
