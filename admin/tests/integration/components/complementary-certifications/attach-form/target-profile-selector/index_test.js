@@ -6,7 +6,7 @@ import { fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 
 module(
-  'Integration | Component |  ComplementaryCertifications::AttachBadges::TargetProfileSelector',
+  'Integration | Component |  complementary-certifications/attach-badges/target-profile-selector',
   function (hooks) {
     setupRenderingTest(hooks);
 

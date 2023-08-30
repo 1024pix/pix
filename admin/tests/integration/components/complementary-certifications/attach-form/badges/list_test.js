@@ -6,7 +6,7 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 import { fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 
-module('Integration | Component | ComplementaryCertifications::AttachBadges::Badges::List', function (hooks) {
+module('Integration | Component | complementary-certifications/attach-badges/list', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
