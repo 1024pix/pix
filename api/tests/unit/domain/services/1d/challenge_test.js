@@ -28,50 +28,51 @@ describe('Unit | Service | Challenge', function () {
         challengeNumber,
       });
     });
-    context('alternativeVersion', function () {
-      it('returns the challenge corresponding to the alternative version', async function () {
-        const missionId = 'mission_id';
-        const activityLevel = Activity.levels.TRAINING;
-        const challengeNumber = 1;
-        const alternativeVersion = 2;
-        const challengeRepository = {
-          getChallengeFor1d: sinon.stub(),
-        };
-        const challenge1 = domainBuilder.buildChallenge({ alternativeVersion });
-        const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
-        const challenges = [challenge1, challenge2];
-        challengeRepository.getChallengeFor1d.resolves(challenges);
-        const result = await challengeService.getChallenge({
-          missionId,
-          activityLevel,
-          challengeNumber,
-          alternativeVersion,
-          challengeRepository,
-        });
+    describe('with alternativeVersion', function () {
+      context('when there is a challenge corresponding to the alternative version', function () {
+        it('returns the challenge corresponding to the alternative version', async function () {
+          const missionId = 'mission_id';
+          const activityLevel = Activity.levels.TRAINING;
+          const challengeNumber = 1;
+          const challengeRepository = {
+            getChallengeFor1d: sinon.stub(),
+          };
+          const challenge1 = domainBuilder.buildChallenge();
+          const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 2 });
+          const challenge3 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
+          const challenges = [challenge1, challenge2, challenge3];
+          challengeRepository.getChallengeFor1d.resolves(challenges);
+          const result = await challengeService.getChallenge({
+            missionId,
+            activityLevel,
+            challengeNumber,
+            alternativeVersion: 2,
+            challengeRepository,
+          });
 
-        expect(result).to.equal(challenge1);
+          expect(result).to.equal(challenge2);
+        });
       });
-      it('when the given alternativeVersion equals to 0, it should returns the challenge with the alternativeVersion equals to undefined', async function () {
-        const missionId = 'mission_id';
-        const activityLevel = Activity.levels.TRAINING;
-        const challengeNumber = 1;
-        const alternativeVersion = 0;
-        const challengeRepository = {
-          getChallengeFor1d: sinon.stub(),
-        };
-        const challenge1 = domainBuilder.buildChallenge({ alternativeVersion: undefined });
-        const challenge2 = domainBuilder.buildChallenge({ alternativeVersion: 3 });
-        const challenges = [challenge1, challenge2];
-        challengeRepository.getChallengeFor1d.resolves(challenges);
-        const result = await challengeService.getChallenge({
-          missionId,
-          activityLevel,
-          challengeNumber,
-          alternativeVersion,
-          challengeRepository,
-        });
+      context('when there is only one version of the challenge', function () {
+        it('returns the challenge with undefined alternative version', async function () {
+          const missionId = 'mission_id';
+          const activityLevel = Activity.levels.TRAINING;
+          const challengeNumber = 1;
+          const challengeRepository = {
+            getChallengeFor1d: sinon.stub(),
+          };
+          const challenge1 = domainBuilder.buildChallenge();
+          challengeRepository.getChallengeFor1d.resolves([challenge1]);
+          const result = await challengeService.getChallenge({
+            missionId,
+            activityLevel,
+            challengeNumber,
+            alternativeVersion: 2,
+            challengeRepository,
+          });
 
-        expect(result).to.equal(challenge1);
+          expect(result).to.equal(challenge1);
+        });
       });
     });
     it('does not throw an error with a NotFoundError', async function () {
