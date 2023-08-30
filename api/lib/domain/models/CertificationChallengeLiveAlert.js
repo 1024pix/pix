@@ -5,10 +5,24 @@ const CertificationChallengeLiveAlertStatus = Object.freeze({
 });
 
 class CertificationChallengeLiveAlert {
-  constructor({ assessmentId, challengeId, status = CertificationChallengeLiveAlertStatus.ONGOING } = {}) {
+  constructor({
+    id,
+    assessmentId,
+    challengeId,
+    status = CertificationChallengeLiveAlertStatus.ONGOING,
+    createdAt,
+    updatedAt,
+  } = {}) {
+    this.id = id;
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
     this.status = status;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
+
+  dismiss() {
+    this.status = CertificationChallengeLiveAlertStatus.DISMISSED;
   }
 }
 
