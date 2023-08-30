@@ -612,6 +612,34 @@ describe('Unit | Router | user-router', function () {
         sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
         expect(response.statusCode).to.equal(403);
       });
+
+      describe('when the email provided in users filter is not valid', function () {
+        it('returns a BadRequest error (400)', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request('GET', '/api/admin/users?filter[email]=999');
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+
+      describe('when the id provided in users filter is not numeric', function () {
+        it('returns a BadRequest error (400)', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request('GET', '/api/admin/users?filter[id]=mmmm');
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
     });
 
     describe('GET /api/admin/users/{id}', function () {
