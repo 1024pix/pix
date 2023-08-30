@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, domainBuilder, catchErr, knex, mockLearningContent } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, domainBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
 
 import * as trainingRepository from '../../../../lib/infrastructure/repositories/training-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
@@ -142,11 +142,13 @@ describe('Integration | Repository | training-repository', function () {
       expect(result.trainingTriggers[0].threshold).to.deep.equal(trainingTrigger.threshold);
       expect(result.trainingTriggers[0].type).to.deep.equal(trainingTrigger.type);
       expect(result.trainingTriggers[0].areas).to.have.lengthOf(1);
-      expect(result.trainingTriggers[0].areas[0].id).to.equal(area1.id);
+      expect(result.trainingTriggers[0].areas[0].id).to.equal(`${area1.id}_${trainingTrigger.id}`);
       expect(result.trainingTriggers[0].areas[0].competences).to.have.lengthOf(1);
-      expect(result.trainingTriggers[0].areas[0].competences[0].id).to.equal(competence1.id);
+      expect(result.trainingTriggers[0].areas[0].competences[0].id).to.equal(`${competence1.id}_${trainingTrigger.id}`);
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics).to.have.lengthOf(1);
-      expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].id).to.equal(thematic1.id);
+      expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].id).to.equal(
+        `${thematic1.id}_${trainingTrigger.id}`,
+      );
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].triggerTubes).to.have.lengthOf(1);
       expect(result.trainingTriggers[0].areas[0].competences[0].thematics[0].triggerTubes[0].id).to.deep.equal(
         trainingTriggerTube.id,

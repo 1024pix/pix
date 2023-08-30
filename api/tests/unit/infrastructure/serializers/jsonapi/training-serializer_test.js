@@ -1,34 +1,44 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | training-serializer', function () {
   describe('#serializeForAdmin', function () {
-    it('should convert a training model to JSON', function () {
+    it('should convert a training model to JSON API with specific learning content tree for each trigger', function () {
       // given
       const trainingTriggerId = 456;
+      const trainingTriggerId2 = 789;
       const trainingId = 123;
       const area1 = domainBuilder.buildArea({ id: 'recArea1' });
       const competence1 = domainBuilder.buildCompetence({ id: 'recCompetence1', areaId: 'recArea1' });
       const competenceInAnotherArea = domainBuilder.buildCompetence({ id: 'recCompetence2', areaId: 'recArea2' });
       const thematic1 = domainBuilder.buildThematic({ id: 'recThematic1', competenceId: 'recCompetence1' });
+      const thematic2 = domainBuilder.buildThematic({ id: 'recThematic2', competenceId: 'recCompetence1' });
       const thematicInAnotherCompetence = domainBuilder.buildThematic({
-        id: 'recThematic2',
+        id: 'recThematic3',
         competenceId: 'anotherCompetence',
       });
       const tube1 = domainBuilder.buildTube({
         id: 'recTube1',
         thematicId: thematic1.id,
       });
-      const tubeInAnotherThematic = domainBuilder.buildTube({
+      const tube2 = domainBuilder.buildTube({
         id: 'recTube2',
+        thematicId: thematic2.id,
+      });
+      const tubeInAnotherThematic = domainBuilder.buildTube({
+        id: 'recTube3',
         thematicId: 'anotherThematic',
       });
       const trainingTriggerTube1 = domainBuilder.buildTrainingTriggerTube({
         id: 'recTrainingTriggerTube1',
         tube: tube1,
       });
-      const anotherTrainingTriggerTube = domainBuilder.buildTrainingTriggerTube({
+      const trainingTriggerTube2 = domainBuilder.buildTrainingTriggerTube({
         id: 'recTrainingTriggerTube2',
+        tube: tube2,
+      });
+      const anotherTrainingTriggerTube = domainBuilder.buildTrainingTriggerTube({
+        id: 'recTrainingTriggerTube3',
         tube: tubeInAnotherThematic,
       });
       const trainingTrigger = domainBuilder.buildTrainingTriggerForAdmin({
@@ -39,7 +49,19 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
         thematics: [thematic1, thematicInAnotherCompetence],
         triggerTubes: [trainingTriggerTube1, anotherTrainingTriggerTube],
       });
-      const training = domainBuilder.buildTrainingForAdmin({ id: trainingId, trainingTriggers: [trainingTrigger] });
+      const trainingTrigger2 = domainBuilder.buildTrainingTriggerForAdmin({
+        id: trainingTriggerId2,
+        trainingId,
+        areas: [area1],
+        competences: [competence1],
+        thematics: [thematic2],
+        triggerTubes: [trainingTriggerTube2],
+      });
+
+      const training = domainBuilder.buildTrainingForAdmin({
+        id: trainingId,
+        trainingTriggers: [trainingTrigger, trainingTrigger2],
+      });
 
       const expectedSerializedTraining = {
         data: {
@@ -69,6 +91,10 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
               data: [
                 {
                   id: `${trainingTriggerId}`,
+                  type: 'training-triggers',
+                },
+                {
+                  id: `${trainingTriggerId2}`,
                   type: 'training-triggers',
                 },
               ],
@@ -104,11 +130,11 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
           },
           {
             attributes: {
-              id: 'recThematic1',
+              id: `recThematic1_${trainingTriggerId}`,
               index: 0,
               name: 'My Thematic',
             },
-            id: 'recThematic1',
+            id: `recThematic1_${trainingTriggerId}`,
             relationships: {
               'trigger-tubes': {
                 data: [
@@ -123,16 +149,16 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
           },
           {
             attributes: {
-              id: 'recCompetence1',
+              id: `recCompetence1_${trainingTriggerId}`,
               index: '1.1',
               name: 'Manger des fruits',
             },
-            id: 'recCompetence1',
+            id: `recCompetence1_${trainingTriggerId}`,
             relationships: {
               thematics: {
                 data: [
                   {
-                    id: 'recThematic1',
+                    id: `recThematic1_${trainingTriggerId}`,
                     type: 'thematics',
                   },
                 ],
@@ -142,17 +168,17 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
           },
           {
             attributes: {
-              id: 'recArea1',
+              id: `recArea1_${trainingTriggerId}`,
               code: 5,
               color: 'red',
               title: 'Super domaine',
             },
-            id: 'recArea1',
+            id: `recArea1_${trainingTriggerId}`,
             relationships: {
               competences: {
                 data: [
                   {
-                    id: 'recCompetence1',
+                    id: `recCompetence1_${trainingTriggerId}`,
                     type: 'competences',
                   },
                 ],
@@ -173,7 +199,111 @@ describe('Unit | Serializer | JSONAPI | training-serializer', function () {
               areas: {
                 data: [
                   {
-                    id: 'recArea1',
+                    id: `recArea1_${trainingTriggerId}`,
+                    type: 'areas',
+                  },
+                ],
+              },
+            },
+            type: 'training-triggers',
+          },
+          {
+            attributes: {
+              id: 'recTube2',
+              name: '@tubeName',
+              'practical-title': 'titre pratique',
+            },
+            id: 'recTube2',
+            type: 'tubes',
+          },
+          {
+            attributes: {
+              id: 'recTrainingTriggerTube2',
+              level: 8,
+            },
+            id: 'recTrainingTriggerTube2',
+            relationships: {
+              tube: {
+                data: {
+                  id: 'recTube2',
+                  type: 'tubes',
+                },
+              },
+            },
+            type: 'trigger-tubes',
+          },
+          {
+            attributes: {
+              id: 'recThematic2_789',
+              index: 0,
+              name: 'My Thematic',
+            },
+            id: 'recThematic2_789',
+            relationships: {
+              'trigger-tubes': {
+                data: [
+                  {
+                    id: 'recTrainingTriggerTube2',
+                    type: 'trigger-tubes',
+                  },
+                ],
+              },
+            },
+            type: 'thematics',
+          },
+          {
+            attributes: {
+              id: 'recCompetence1_789',
+              index: '1.1',
+              name: 'Manger des fruits',
+            },
+            id: 'recCompetence1_789',
+            relationships: {
+              thematics: {
+                data: [
+                  {
+                    id: 'recThematic2_789',
+                    type: 'thematics',
+                  },
+                ],
+              },
+            },
+            type: 'competences',
+          },
+          {
+            attributes: {
+              code: 5,
+              color: 'red',
+              id: 'recArea1_789',
+              title: 'Super domaine',
+            },
+            id: 'recArea1_789',
+            relationships: {
+              competences: {
+                data: [
+                  {
+                    id: 'recCompetence1_789',
+                    type: 'competences',
+                  },
+                ],
+              },
+            },
+            type: 'areas',
+          },
+          {
+            attributes: {
+              id: 789,
+              threshold: 60,
+              'training-id': 123,
+              'tubes-count': 1,
+              type: 'prerequisite',
+            },
+            id: '789',
+            relationships: {
+              areas: {
+                data: [
+                  {
+                    id: 'recArea1_789',
                     type: 'areas',
                   },
                 ],
