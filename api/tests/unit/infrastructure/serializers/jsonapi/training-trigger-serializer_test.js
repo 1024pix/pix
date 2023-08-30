@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function () {
@@ -54,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
             areas: {
               data: [
                 {
-                  id: 'recArea1',
+                  id: `recArea1_${id}`,
                   type: 'areas',
                 },
               ],
@@ -98,7 +98,7 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
                 data: [{ id: 'recTrainingTriggerTube1', type: 'trigger-tubes' }],
               },
             },
-            id: 'recThematic1',
+            id: `recThematic1_${id}`,
             type: 'thematics',
           },
           {
@@ -106,12 +106,12 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
               index: '1.1',
               name: 'Manger des fruits',
             },
-            id: 'recCompetence1',
+            id: `recCompetence1_${id}`,
             relationships: {
               thematics: {
                 data: [
                   {
-                    id: 'recThematic1',
+                    id: `recThematic1_${id}`,
                     type: 'thematics',
                   },
                 ],
@@ -125,12 +125,12 @@ describe('Unit | Serializer | JSONAPI | training-trigger-serializer', function (
               color: 'red',
               title: 'Super domaine',
             },
-            id: 'recArea1',
+            id: `recArea1_${id}`,
             relationships: {
               competences: {
                 data: [
                   {
-                    id: 'recCompetence1',
+                    id: `recCompetence1_${id}`,
                     type: 'competences',
                   },
                 ],

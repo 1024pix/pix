@@ -5,14 +5,14 @@ export default class Details extends Component {
   @service store;
 
   get areasList() {
-    return this.args.areas.map((area) => this.buildAreaViewModel(area));
+    return this.args.areas.sortBy('code').map((area) => this.buildAreaViewModel(area));
   }
 
   buildAreaViewModel(area) {
     return {
       title: `${area.code} · ${area.title}`,
       color: area.color,
-      competences: area.competences.sortBy('index').map((competence) => this.buildCompetenceViewModel(competence)),
+      competences: area.sortedCompetences.map((competence) => this.buildCompetenceViewModel(competence)),
     };
   }
 
