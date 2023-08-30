@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, click } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -44,8 +44,20 @@ module('Acceptance | Trainings | List', function (hooks) {
       test('it should list training summaries', async function (assert) {
         // given
         server.createList('training-summary', 10);
-        server.create('training-summary', { id: 11, title: 'Formation 11', isRecommendable: false });
-        server.create('training-summary', { id: 12, title: 'Formation 12', isRecommendable: true });
+        server.create('training-summary', {
+          id: 11,
+          title: 'Formation 11',
+          prerequisiteThreshold: 33,
+          goalThreshold: 88,
+          targetProfilesCount: 40,
+        });
+        server.create('training-summary', {
+          id: 12,
+          title: 'Formation 12',
+          prerequisiteThreshold: 34,
+          goalThreshold: 89,
+          targetProfilesCount: 41,
+        });
 
         // when
         const screen = await visit('/trainings/list');
@@ -53,9 +65,13 @@ module('Acceptance | Trainings | List', function (hooks) {
 
         // then
         assert.dom(screen.getByText('Formation 11')).exists();
-        assert.dom(screen.getByText('Déclenchable')).exists();
+        assert.dom(screen.getByText('33')).exists();
+        assert.dom(screen.getByText('88')).exists();
+        assert.dom(screen.getByText('40')).exists();
         assert.dom(screen.getByText('Formation 12')).exists();
-        assert.dom(screen.getByText('Non déclenchable')).exists();
+        assert.dom(screen.getByText('34')).exists();
+        assert.dom(screen.getByText('89')).exists();
+        assert.dom(screen.getByText('41')).exists();
       });
 
       module('when filters are used', function (hooks) {
