@@ -6,7 +6,8 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   const locale = 'locale',
     campaignId = 123,
     userId = 456;
-  let participantResultRepository, badgeRepository;
+  let participantResultRepository, badgeRepository, stageRepository, stageAcquisitionRepository;
+  let compareStagesAndAcquiredStages;
   let knowledgeElementRepository, badgeForCalculationRepository;
   let args;
 
@@ -15,6 +16,9 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     badgeRepository = { findByCampaignId: sinon.stub() };
     participantResultRepository = { getByUserIdAndCampaignId: sinon.stub() };
+    stageRepository = { getByCampaignId: sinon.stub() };
+    stageAcquisitionRepository = { getByCampaignIdAndUserId: sinon.stub() };
+    compareStagesAndAcquiredStages = { compare: sinon.stub() };
     args = {
       userId,
       campaignId,
@@ -23,6 +27,9 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       knowledgeElementRepository,
       badgeRepository,
       participantResultRepository,
+      stageRepository,
+      stageAcquisitionRepository,
+      compareStagesAndAcquiredStages,
     };
   });
 
@@ -55,6 +62,16 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       const badge3 = domainBuilder.buildBadge({ id: 3 });
       const badgeForCalculationObtained3 = domainBuilder.buildBadgeForCalculation.mockObtainable({ id: badge3.id });
       badgeRepository.findByCampaignId.withArgs(campaignId).resolves([badge1, badge2, badge3]);
+      const stage1 = domainBuilder.buildStage();
+      const stage2 = domainBuilder.buildStage();
+      const stageAcquisition = domainBuilder.buildStageAcquisition();
+      stageRepository.getByCampaignId.withArgs(campaignId).resolves([stage1, stage2]);
+      stageAcquisitionRepository.getByCampaignIdAndUserId.withArgs(campaignId, userId).resolves([stageAcquisition]);
+      compareStagesAndAcquiredStages.compare.withArgs([stage1, stage2], [stageAcquisition]).returns({
+        reachedStageNumber: 1,
+        totalNumberOfStages: 2,
+        reachedStage: stage1,
+      });
       knowledgeElementRepository.findUniqByUserId
         .withArgs({ userId })
         .resolves([domainBuilder.buildKnowledgeElement()]);
@@ -83,6 +100,12 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
               acquisitionPercentage: badgeForCalculationObtained3.getAcquisitionPercentage(),
             },
           ],
+          stages: [stage1, stage2],
+          reachedStage: {
+            ...stage1,
+            totalStage: 2,
+            reachedStage: 1,
+          },
         })
         .resolves(expectedCampaignAssessmentResult);
 
