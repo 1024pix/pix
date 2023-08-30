@@ -6,7 +6,7 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 import { fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 
-module('Integration | Component | ComplementaryCertifications::AttachForm::Badges::List', function (hooks) {
+module('Integration | Component | ComplementaryCertifications::AttachBadges::Badges::List', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
@@ -14,7 +14,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
     test('it should display an empty table of target profile badges', async function (assert) {
       // given
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::List />`);
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
 
       // then
       assert.dom(screen.getByRole('table', { name: 'Liste des résultats thématiques' })).exists();
@@ -34,7 +34,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
       this.set('noop', () => {});
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::List
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @options={{this.options}}
         @onUpdateLevel={{this.noop}}
       />`);
@@ -53,7 +53,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
       this.set('onUpdateLevel', onUpdateLevel);
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::List
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @options={{this.options}}
         @onUpdateLevel={{this.onUpdateLevel}}
       />`);
@@ -70,7 +70,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
     test('it should not display an error message', async function (assert) {
       // given
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::List />`);
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
 
       // then
       assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -83,7 +83,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
       const errorText = 'Erreur';
       this.set('error', errorText);
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::List
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @error={{this.error}}
       />`);
 

@@ -6,14 +6,14 @@ import { fillIn } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 
-module('Integration | Component | ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar', function (hooks) {
+module('Integration | Component | ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
   test('it should display a search box', async function (assert) {
     // given
     // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar />`);
+    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar />`);
 
     // then
     assert.dom(screen.getByRole('searchbox', { name: 'ID du profil cible' })).exists();
@@ -25,7 +25,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Targe
     this.set('options', options);
 
     // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar
+    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
       @options={{this.options}}
     />`);
 
@@ -40,7 +40,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Targe
       const isLoading = true;
       this.set('isLoading', isLoading);
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @isLoading={{this.isLoading}}
       />`);
 
@@ -55,7 +55,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Targe
       const isLoading = false;
       this.set('isLoading', isLoading);
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @isLoading={{this.isLoading}}
       />`);
 
@@ -71,7 +71,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Targe
       this.set('onSearchStub', onSearchStub);
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @onSearch={{this.onSearchStub}}
       />`);
       const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
@@ -93,7 +93,7 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Targe
       this.set('onSelection', onSelectionStub);
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::Searchbar
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @onSelection={{this.onSelection}}
         @options={{this.options}}
     />`);
