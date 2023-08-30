@@ -330,8 +330,9 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('authentication-methods').delete();
+    afterEach(async function () {
+      await knex('authentication-methods').delete();
+      await knex('user-logins').truncate();
     });
 
     context('when an external user try to reconcile for the first time', function () {

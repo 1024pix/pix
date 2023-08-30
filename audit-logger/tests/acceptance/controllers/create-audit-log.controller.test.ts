@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { HapiServer } from '../../../src/lib/server';
 import { type Server, type ServerInjectOptions } from '@hapi/hapi';
+import { knex } from '../../../src/db/knex-database-connection';
 
 describe('Acceptance | Controllers | CreateAuditLogController', () => {
   let server: Server;
@@ -30,6 +31,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
   });
 
   afterEach(async function (): Promise<void> {
+    await knex('audit-log').truncate();
     await server.stop();
   });
 

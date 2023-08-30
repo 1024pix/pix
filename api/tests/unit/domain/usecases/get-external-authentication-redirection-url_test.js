@@ -6,6 +6,7 @@ import { getExternalAuthenticationRedirectionUrl } from '../../../../lib/domain/
 
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
   let userRepository;
+  let userLoginRepository;
   let authenticationMethodRepository;
   let tokenService;
   let samlSettings;
@@ -13,6 +14,10 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
   beforeEach(function () {
     userRepository = {
       getBySamlId: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
+    };
+
+    userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
 
@@ -53,6 +58,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       const result = await getExternalAuthenticationRedirectionUrl({
         userAttributes,
         userRepository,
+        userLoginRepository,
         tokenService,
         config: samlSettings,
       });
@@ -98,6 +104,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       const result = await getExternalAuthenticationRedirectionUrl({
         userAttributes,
         userRepository,
+        userLoginRepository,
         authenticationMethodRepository,
         tokenService,
         config: samlSettings,
@@ -127,6 +134,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       await getExternalAuthenticationRedirectionUrl({
         userAttributes,
         userRepository,
+        userLoginRepository,
         authenticationMethodRepository,
         tokenService,
         config: samlSettings,
@@ -134,6 +142,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
 
       // then
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
     });
 
     context("when user's authentication method does not contain first and last name", function () {
@@ -158,6 +167,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         await getExternalAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Lisitsa', PRE: 'Vassili' },
           userRepository,
+          userLoginRepository,
           authenticationMethodRepository,
           tokenService,
           config: samlSettings,
@@ -193,6 +203,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         await getExternalAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Lisitsa', PRE: 'Valentina' },
           userRepository,
+          userLoginRepository,
           authenticationMethodRepository,
           tokenService,
           config: samlSettings,
@@ -228,6 +239,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         await getExternalAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Volk', PRE: 'Valentina' },
           userRepository,
+          userLoginRepository,
           authenticationMethodRepository,
           tokenService,
           config: samlSettings,
@@ -263,6 +275,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         await getExternalAuthenticationRedirectionUrl({
           userAttributes: { IDO: 'saml-id', NOM: 'Volk', PRE: 'Valentina' },
           userRepository,
+          userLoginRepository,
           authenticationMethodRepository,
           tokenService,
           config: samlSettings,

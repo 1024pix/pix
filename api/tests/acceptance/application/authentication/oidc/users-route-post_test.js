@@ -15,6 +15,7 @@ describe('Acceptance | Route | oidc users', function () {
   describe('POST /api/oidc/users', function () {
     afterEach(async function () {
       await knex('authentication-methods').delete();
+      await knex('user-logins').truncate();
       await knex('users').delete();
     });
 

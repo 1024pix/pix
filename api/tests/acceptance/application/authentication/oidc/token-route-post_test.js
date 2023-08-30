@@ -42,8 +42,7 @@ describe('Acceptance | Route | oidc | token', function () {
 
     afterEach(async function () {
       clock.restore();
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
+      await knex('user-logins').truncate();
     });
 
     context('When user does not have an account', function () {

@@ -9,6 +9,7 @@ function buildUserLogin({
   blockedAt = null,
   createdAt = new Date(),
   updatedAt = new Date(),
+  lastLoggedAt = null,
 } = {}) {
   if (!userId) {
     userId = buildUser().id;
@@ -22,6 +23,7 @@ function buildUserLogin({
     blockedAt,
     createdAt,
     updatedAt,
+    lastLoggedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'user-logins',

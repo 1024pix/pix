@@ -98,7 +98,7 @@ function _buildScoOrganizationLearnerWithUsernameAndEmail(databaseBuilder) {
 }
 
 function _buildScoOrganizationLearnerWithEmailAndMediacentre(databaseBuilder) {
-  const user = databaseBuilder.factory.buildUser({
+  const userWithoutPixAuthenticationMethod = databaseBuilder.factory.buildUser({
     firstName: 'Bart',
     lastName: 'Simpson',
     email: 'bart@school.net',
@@ -106,13 +106,13 @@ function _buildScoOrganizationLearnerWithEmailAndMediacentre(databaseBuilder) {
   });
 
   const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    birthdate: '2013-03-03',
+    firstName: userWithoutPixAuthenticationMethod.firstName,
+    lastName: userWithoutPixAuthenticationMethod.lastName,
+    birthdate: '2010-03-03',
     division: '6B',
     group: null,
     organizationId: SCO_ORGANIZATION_ID,
-    userId: user.id,
+    userId: userWithoutPixAuthenticationMethod.id,
     nationalStudentId: '123456789BS',
   });
 
@@ -121,7 +121,25 @@ function _buildScoOrganizationLearnerWithEmailAndMediacentre(databaseBuilder) {
     userLastName: organizationLearner.lastName,
     identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
     externalIdentifier: 'externalBS',
-    userId: user.id,
+    userId: userWithoutPixAuthenticationMethod.id,
+  });
+
+  const userWithPixAuthenticationMethod = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Chihiro',
+    lastName: 'Ogino',
+    email: 'chihiro.ogino@miyazaki.net',
+    username: null,
+  });
+
+  databaseBuilder.factory.buildOrganizationLearner({
+    firstName: userWithPixAuthenticationMethod.firstName,
+    lastName: userWithPixAuthenticationMethod.lastName,
+    birthdate: '2013-01-01',
+    division: '6B',
+    group: null,
+    organizationId: SCO_ORGANIZATION_ID,
+    userId: userWithPixAuthenticationMethod.id,
+    nationalStudentId: '123456789CO',
   });
 }
 

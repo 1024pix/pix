@@ -15,6 +15,7 @@ import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;
   let userRepository;
+  let userLoginRepository;
   let adminMemberRepository;
   let pixAuthenticationService;
 
@@ -31,6 +32,9 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       getByUsernameOrEmailWithRoles: sinon.stub(),
       updateLastLoggedAt: sinon.stub(),
       update: sinon.stub(),
+    };
+    userLoginRepository = {
+      updateLastLoggedAt: sinon.stub(),
     };
     adminMemberRepository = {
       get: sinon.stub(),
@@ -55,6 +59,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           scope,
           pixAuthenticationService,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -78,6 +83,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           scope,
           pixAuthenticationService,
           userRepository,
+          userLoginRepository,
           adminMemberRepository,
         });
 
@@ -111,6 +117,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           scope,
           pixAuthenticationService,
           userRepository,
+          userLoginRepository,
           adminMemberRepository,
         });
 
@@ -161,6 +168,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           source,
           pixAuthenticationService,
           userRepository,
+          userLoginRepository,
           adminMemberRepository,
           refreshTokenService,
         });
@@ -209,6 +217,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             pixAuthenticationService,
             refreshTokenService,
             userRepository,
+            userLoginRepository,
           });
 
           // then
@@ -249,6 +258,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       pixAuthenticationService,
       refreshTokenService,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -278,10 +288,12 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       pixAuthenticationService,
       refreshTokenService,
       userRepository,
+      userLoginRepository,
     });
 
     // then
     expect(userRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
+    expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
   });
 
   it('should rejects an error when given username (email) does not match an existing one', async function () {
@@ -294,6 +306,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       username: unknownUserEmail,
       password,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -309,6 +322,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       username: userEmail,
       password,
       userRepository,
+      userLoginRepository,
     });
 
     // then
@@ -342,6 +356,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         username: 'jean.neymar2008',
         password: 'Password1234',
         userRepository,
+        userLoginRepository,
         pixAuthenticationService,
         tokenService,
       });
@@ -374,6 +389,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           pixAuthenticationService,
           refreshTokenService,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -403,6 +419,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             pixAuthenticationService,
             refreshTokenService,
             userRepository,
+            userLoginRepository,
           });
 
           // then
@@ -430,6 +447,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             pixAuthenticationService,
             refreshTokenService,
             userRepository,
+            userLoginRepository,
           });
 
           // then
