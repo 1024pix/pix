@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | ComplementaryCertifications::TargetProfiles::Information', function (hooks) {
+module('Integration | Component | complementary-certifications/target-profiles/information', function (hooks) {
   setupRenderingTest(hooks);
 
   test("it should display information on the current complementary certification's target profile", async function (assert) {

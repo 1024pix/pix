@@ -6,106 +6,109 @@ import { fillIn } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 
-module('Integration | Component | ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar', function (hooks) {
-  setupIntlRenderingTest(hooks);
-  setupMirage(hooks);
+module(
+  'Integration | Component | complementary-certifications/attach-badges/target-profile-selector/searchbar',
+  function (hooks) {
+    setupIntlRenderingTest(hooks);
+    setupMirage(hooks);
 
-  test('it should display a search box', async function (assert) {
-    // given
-    // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar />`);
+    test('it should display a search box', async function (assert) {
+      // given
+      // when
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar />`);
 
-    // then
-    assert.dom(screen.getByRole('searchbox', { name: 'ID du profil cible' })).exists();
-  });
+      // then
+      assert.dom(screen.getByRole('searchbox', { name: 'ID du profil cible' })).exists();
+    });
 
-  test('it should display the provided search results', async function (assert) {
-    // given
-    const options = [{ label: '3 - ALEX TARGET' }];
-    this.set('options', options);
+    test('it should display the provided search results', async function (assert) {
+      // given
+      const options = [{ label: '3 - ALEX TARGET' }];
+      this.set('options', options);
 
-    // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
+      // when
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
       @options={{this.options}}
     />`);
 
-    // then
-    const searchResult = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
-    assert.dom(searchResult).exists();
-  });
+      // then
+      const searchResult = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
+      assert.dom(searchResult).exists();
+    });
 
-  module('when the search is in progress', function () {
-    test('it should display the loader message', async function (assert) {
-      // given
-      const isLoading = true;
-      this.set('isLoading', isLoading);
-      // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
+    module('when the search is in progress', function () {
+      test('it should display the loader message', async function (assert) {
+        // given
+        const isLoading = true;
+        this.set('isLoading', isLoading);
+        // when
+        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @isLoading={{this.isLoading}}
       />`);
 
-      // then
-      assert.dom(screen.getByRole('progressbar', { value: { text: 'Recherche en cours...' } })).exists();
+        // then
+        assert.dom(screen.getByRole('progressbar', { value: { text: 'Recherche en cours...' } })).exists();
+      });
     });
-  });
 
-  module('when the search is not in progress', function () {
-    test('it should not display the loader message', async function (assert) {
-      // given
-      const isLoading = false;
-      this.set('isLoading', isLoading);
-      // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
+    module('when the search is not in progress', function () {
+      test('it should not display the loader message', async function (assert) {
+        // given
+        const isLoading = false;
+        this.set('isLoading', isLoading);
+        // when
+        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @isLoading={{this.isLoading}}
       />`);
 
-      // then
-      assert.dom(screen.queryByRole('progressbar')).doesNotExist();
+        // then
+        assert.dom(screen.queryByRole('progressbar')).doesNotExist();
+      });
     });
-  });
 
-  module('when the user is entering search terms', function () {
-    test('it should trigger handler onSearch function', async function (assert) {
-      // given
-      const onSearchStub = sinon.stub();
-      this.set('onSearchStub', onSearchStub);
+    module('when the user is entering search terms', function () {
+      test('it should trigger handler onSearch function', async function (assert) {
+        // given
+        const onSearchStub = sinon.stub();
+        this.set('onSearchStub', onSearchStub);
 
-      // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
+        // when
+        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @onSearch={{this.onSearchStub}}
       />`);
-      const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
-      await fillIn(input, '3');
+        const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+        await fillIn(input, '3');
 
-      // then
-      sinon.assert.calledWithExactly(this.onSearchStub, '3');
-      assert.ok(true);
+        // then
+        sinon.assert.calledWithExactly(this.onSearchStub, '3');
+        assert.ok(true);
+      });
     });
-  });
 
-  module('when a target profile is selected', function () {
-    test('it should trigger handler onSelection function', async function (assert) {
-      // given
-      const options = [{ id: 3, label: '3 - ALEX TARGET' }];
-      this.set('options', options);
-      const onSelectionStub = sinon.stub();
+    module('when a target profile is selected', function () {
+      test('it should trigger handler onSelection function', async function (assert) {
+        // given
+        const options = [{ id: 3, label: '3 - ALEX TARGET' }];
+        this.set('options', options);
+        const onSelectionStub = sinon.stub();
 
-      this.set('onSelection', onSelectionStub);
+        this.set('onSelection', onSelectionStub);
 
-      // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
+        // when
+        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::Searchbar
         @onSelection={{this.onSelection}}
         @options={{this.options}}
     />`);
-      const targetProfileSelectable = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
-      await targetProfileSelectable.click();
+        const targetProfileSelectable = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
+        await targetProfileSelectable.click();
 
-      // then
-      assert.ok(true);
-      sinon.assert.calledWithExactly(onSelectionStub, {
-        id: 3,
-        label: '3 - ALEX TARGET',
+        // then
+        assert.ok(true);
+        sinon.assert.calledWithExactly(onSelectionStub, {
+          id: 3,
+          label: '3 - ALEX TARGET',
+        });
       });
     });
-  });
-});
+  },
+);

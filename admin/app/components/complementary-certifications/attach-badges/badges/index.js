@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export default class TargetProfileBadges extends Component {
+export default class Badges extends Component {
   @tracked isLoading;
   @tracked badges;
 
