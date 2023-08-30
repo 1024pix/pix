@@ -403,6 +403,14 @@ const deleteJuryComment = async function (request, h) {
   return h.response().code(204);
 };
 
+const dismissLiveAlert = async function (request, h) {
+  const { id: sessionId, candidateId: userId } = request.params;
+
+  await usecases.dismissLiveAlert({ sessionId, userId });
+
+  return h.response().code(204);
+};
+
 const sessionController = {
   findPaginatedFilteredJurySessions,
   getJurySession,
@@ -432,6 +440,7 @@ const sessionController = {
   commentAsJury,
   remove,
   deleteJuryComment,
+  dismissLiveAlert,
 };
 
 export { sessionController };
