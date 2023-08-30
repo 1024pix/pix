@@ -32,23 +32,29 @@ async function getNextActivityChallenge({ missionId, assessmentId, challengeRepo
   if (nextActivityLevel === undefined) {
     return;
   }
-
-  const challenge = await challengeService.getStartChallenge({
+  const alternativeVersion = await challengeService.getAlternativeVersion({
     missionId,
     activityLevel: nextActivityLevel,
-    challengeNumber: FIRST_CHALLENGE_NB,
     alreadyPlayedAlternativeVersions,
     challengeRepository,
   });
+
   await activityRepository.save(
     new Activity({
       assessmentId,
       level: nextActivityLevel,
       status: Activity.status.STARTED,
-      alternativeVersion: _convertAlternativeVersionTo0(challenge.alternativeVersion),
+      alternativeVersion: _convertAlternativeVersionTo0(alternativeVersion),
     }),
   );
-  return challenge;
+
+  return await challengeService.getChallenge({
+    missionId,
+    activityLevel: nextActivityLevel,
+    challengeNumber: FIRST_CHALLENGE_NB,
+    alternativeVersion,
+    challengeRepository,
+  });
 }
 
 function _convertAlternativeVersionTo0(alternativeVersion) {
@@ -57,6 +63,7 @@ function _convertAlternativeVersionTo0(alternativeVersion) {
   }
   return alternativeVersion;
 }
+
 function _convertAlternativeVersionToUndefined(alternativeVersion) {
   if (alternativeVersion === 0) {
     return undefined;
