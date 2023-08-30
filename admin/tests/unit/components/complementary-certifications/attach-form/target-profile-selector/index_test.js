@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 
-module('Unit | Component | complementary-certifications/attach-form/target-profile-selector', function (hooks) {
+module('Unit | Component | complementary-certifications/attach-badges/target-profile-selector', function (hooks) {
   setupTest(hooks);
 
   module('#onSearch', function () {
@@ -12,7 +12,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub();
         const component = createGlimmerComponent(
-          'component:complementary-certifications/attach-form/target-profile-selector',
+          'component:complementary-certifications/attach-badges/target-profile-selector',
         );
 
         // when
@@ -38,7 +38,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
           };
           store.query = sinon.stub().resolves([attachableTargetProfile]);
           const component = createGlimmerComponent(
-            'component:complementary-certifications/attach-form/target-profile-selector',
+            'component:complementary-certifications/attach-badges/target-profile-selector',
           );
           // when
           await component.onSearch(' 1 ');
@@ -62,7 +62,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
           };
           store.query = sinon.stub().resolves([attachableTargetProfile]);
           const component = createGlimmerComponent(
-            'component:complementary-certifications/attach-form/target-profile-selector',
+            'component:complementary-certifications/attach-badges/target-profile-selector',
           );
           // when
           await component.onSearch('tar');
@@ -78,7 +78,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
           const store = this.owner.lookup('service:store');
           store.query = sinon.stub();
           const component = createGlimmerComponent(
-            'component:complementary-certifications/attach-form/target-profile-selector',
+            'component:complementary-certifications/attach-badges/target-profile-selector',
           );
 
           // when
@@ -95,7 +95,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
           const store = this.owner.lookup('service:store');
           store.query = sinon.stub().rejects();
           const component = createGlimmerComponent(
-            'component:complementary-certifications/attach-form/target-profile-selector',
+            'component:complementary-certifications/attach-badges/target-profile-selector',
           );
           component.args = {
             onError: sinon.stub(),
@@ -118,7 +118,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
       // given
       const store = this.owner.lookup('service:store');
       const component = createGlimmerComponent(
-        'component:complementary-certifications/attach-form/target-profile-selector',
+        'component:complementary-certifications/attach-badges/target-profile-selector',
       );
       component.args = {
         onSelection: sinon.stub(),
@@ -147,7 +147,7 @@ module('Unit | Component | complementary-certifications/attach-form/target-profi
     test('it should set selectedTargetProfile to undefined, empty attachableTargetProfiles and call onChange arg', async function (assert) {
       // given
       const component = createGlimmerComponent(
-        'component:complementary-certifications/attach-form/target-profile-selector',
+        'component:complementary-certifications/attach-badges/target-profile-selector',
       );
       component.args = {
         onChange: sinon.stub(),

@@ -5,7 +5,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 
 module(
-  'Integration | Component | ComplementaryCertifications::AttachForm::TargetProfileSelector::SelectedTargetProfile',
+  'Integration | Component | ComplementaryCertifications::AttachBadges::TargetProfileSelector::SelectedTargetProfile',
   function (hooks) {
     setupRenderingTest(hooks);
 
@@ -19,7 +19,7 @@ module(
       this.set('attachableTargetProfile', attachableTargetProfile);
 
       // when
-      const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::SelectedTargetProfile
+      const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::SelectedTargetProfile
         @attachableTargetProfile={{this.attachableTargetProfile}}
       />`);
 
@@ -33,7 +33,7 @@ module(
         // given
         const onResetStub = sinon.stub();
         this.set('onReset', onResetStub);
-        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachForm::TargetProfileSelector::SelectedTargetProfile
+        const screen = await renderScreen(hbs`<ComplementaryCertifications::AttachBadges::TargetProfileSelector::SelectedTargetProfile
         @onChange={{this.onReset}}
          />`);
 
