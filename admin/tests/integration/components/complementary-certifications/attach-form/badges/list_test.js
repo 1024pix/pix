@@ -2,11 +2,11 @@ import { module, test } from 'qunit';
 import { render, getByText } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 
-module('Integration | Component | ComplementaryCertifications::TargetProfiles::AttachBadges', function (hooks) {
+module('Integration | Component | complementary-certifications/attach-badges/list', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
@@ -14,7 +14,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::A
     test('it should display an empty table of target profile badges', async function (assert) {
       // given
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::AttachBadges />`);
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
 
       // then
       assert.dom(screen.getByRole('table', { name: 'Liste des résultats thématiques' })).exists();
@@ -34,7 +34,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::A
       this.set('noop', () => {});
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::AttachBadges
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @options={{this.options}}
         @onUpdateLevel={{this.noop}}
       />`);
@@ -53,7 +53,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::A
       this.set('onUpdateLevel', onUpdateLevel);
 
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::AttachBadges
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @options={{this.options}}
         @onUpdateLevel={{this.onUpdateLevel}}
       />`);
@@ -70,7 +70,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::A
     test('it should not display an error message', async function (assert) {
       // given
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::AttachBadges />`);
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
 
       // then
       assert.dom(screen.queryByRole('alert')).doesNotExist();
@@ -83,7 +83,7 @@ module('Integration | Component | ComplementaryCertifications::TargetProfiles::A
       const errorText = 'Erreur';
       this.set('error', errorText);
       // when
-      const screen = await render(hbs`<ComplementaryCertifications::TargetProfiles::AttachBadges
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @error={{this.error}}
       />`);
 

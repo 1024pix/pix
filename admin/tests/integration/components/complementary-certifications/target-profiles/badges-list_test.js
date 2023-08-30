@@ -3,7 +3,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | ComplementaryCertifications::TargetProfiles::BadgesList', function (hooks) {
+module('Integration | Component | complementary-certifications/target-profiles/badges-list', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test("it should display complementary certification's badges list", async function (assert) {

@@ -4,7 +4,7 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import dayjs from 'dayjs';
 
-module('Integration | Component | ComplementaryCertifications::TargetProfiles::History', function (hooks) {
+module('Integration | Component | complementary-certifications/target-profiles/history', function (hooks) {
   setupRenderingTest(hooks);
 
   test("it should display history for complementary certification's target profiles", async function (assert) {
