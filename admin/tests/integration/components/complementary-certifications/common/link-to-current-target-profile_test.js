@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { render } from '@1024pix/ember-testing-library';
 
 module(
-  'Integration | Component |  complementary-certifications/target-profiles/link-to-current-target-profile',
+  'Integration | Component | complementary-certifications/common/link-to-current-target-profile',
   function (hooks) {
     setupRenderingTest(hooks);
 
@@ -19,7 +19,7 @@ module(
 
       // when
       const screen = await render(
-        hbs`<ComplementaryCertifications::TargetProfiles::LinkToCurrentTargetProfile @model={{this.currentTargetProfile}} />`,
+        hbs`<ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{this.currentTargetProfile}} />`,
       );
 
       // then
