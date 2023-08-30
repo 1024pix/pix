@@ -94,19 +94,18 @@ describe('Unit | Service | ActivityChallenge', function () {
 
       expect(activityRepository.getAllByAssessmentId).to.have.been.calledOnceWith(assessmentId);
     });
-    it('calls getStartChallenge method', async function () {
+    it('calls getAlternativeVersion method', async function () {
       const assessmentId = 'assessment_id';
       const missionId = 'mission_id';
-      const challengeNumber = 1;
-
-      const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
-      const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
-      getNextActivityLevelStub.returns(Activity.levels.TRAINING);
-
       const challengeRepository = Symbol();
+      const getAlternativeVersionStub = sinon.stub(challengeService, 'getAlternativeVersion');
+      const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
+      const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
       const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
+      getNextActivityLevelStub.returns(Activity.levels.TRAINING);
       activityRepository.getAllByAssessmentId.resolves([]);
-      getStartChallengeStub.resolves({ alternativeVersion: undefined });
+      getAlternativeVersionStub.returns(undefined);
+      getChallengeStub.resolves({ alternativeVersion: undefined });
       await getNextActivityChallenge({
         missionId,
         assessmentId,
@@ -114,10 +113,9 @@ describe('Unit | Service | ActivityChallenge', function () {
         activityRepository,
       });
 
-      expect(getStartChallengeStub).to.have.been.calledOnceWith({
+      expect(getAlternativeVersionStub).to.have.been.calledOnceWith({
         missionId,
         activityLevel: Activity.levels.TRAINING,
-        challengeNumber,
         challengeRepository,
         alreadyPlayedAlternativeVersions: [],
       });
@@ -127,13 +125,15 @@ describe('Unit | Service | ActivityChallenge', function () {
         const assessmentId = 'assessment_id';
         const missionId = 'mission_id';
         const nextActivityLevel = Activity.levels.TRAINING;
-        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
+        const getAlternativeVersionStub = sinon.stub(challengeService, 'getAlternativeVersion');
+        const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
         const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
         getNextActivityLevelStub.returns(nextActivityLevel);
         const challengeRepository = Symbol();
         const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
         activityRepository.getAllByAssessmentId.resolves([]);
-        getStartChallengeStub.resolves({ alternativeVersion: undefined });
+        getAlternativeVersionStub.resolves(undefined);
+        getChallengeStub.resolves({ alternativeVersion: undefined });
         const activity = new Activity({
           assessmentId,
           level: nextActivityLevel,
@@ -159,8 +159,8 @@ describe('Unit | Service | ActivityChallenge', function () {
         const challengeRepository = Symbol();
         const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
         getNextActivityLevelStub.returns(nextActivityLevel);
-        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
-        getStartChallengeStub.resolves(challenge);
+        const getAlternativeVersionStub = sinon.stub(challengeService, 'getAlternativeVersion');
+        getAlternativeVersionStub.resolves(1);
         const activity = new Activity({
           assessmentId,
           level: nextActivityLevel,
@@ -169,6 +169,9 @@ describe('Unit | Service | ActivityChallenge', function () {
         });
         const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
         activityRepository.getAllByAssessmentId.resolves([]);
+        const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
+
+        getChallengeStub.resolves(challenge);
         await getNextActivityChallenge({
           missionId,
           assessmentId,
@@ -180,18 +183,19 @@ describe('Unit | Service | ActivityChallenge', function () {
       });
     });
     context('when the user already played activities with same level', function () {
-      it('calls getStartChallenge with already played alternative versions', async function () {
+      it('calls getAlternativeVersion with already played alternative versions', async function () {
         const assessmentId = 'assessment_id';
         const missionId = 'mission_id';
-        const challengeNumber = 1;
         const challenge = { alternativeVersion: 3 };
         const nextActivityLevel = Activity.levels.TRAINING;
 
         const challengeRepository = Symbol();
         const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
         getNextActivityLevelStub.returns(nextActivityLevel);
-        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
-        getStartChallengeStub.resolves(challenge);
+        const getAlternativeVersionStub = sinon.stub(challengeService, 'getAlternativeVersion');
+        getAlternativeVersionStub.resolves(3);
+        const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
+        getChallengeStub.resolves(challenge);
         const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
 
         activityRepository.getAllByAssessmentId.resolves([
@@ -206,29 +210,28 @@ describe('Unit | Service | ActivityChallenge', function () {
           activityRepository,
         });
 
-        expect(getStartChallengeStub).to.have.been.calledOnceWith({
+        expect(getAlternativeVersionStub).to.have.been.calledOnceWith({
           missionId,
           activityLevel: Activity.levels.TRAINING,
-          challengeNumber,
           challengeRepository,
           alreadyPlayedAlternativeVersions: [undefined, 2],
         });
       });
     });
     context('when the user never played an activity with the same level', function () {
-      it('calls getStartChallenge with already played alternative versions = empty array', async function () {
+      it('calls getAlternativeVersion with already played alternative versions = empty array', async function () {
         const assessmentId = 'assessment_id';
         const missionId = 'mission_id';
-        const challengeNumber = 1;
         const nextActivityLevel = Activity.levels.TRAINING;
         const challenge = { alternativeVersion: 1 };
         const challengeRepository = Symbol();
         const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
         getNextActivityLevelStub.returns(nextActivityLevel);
-        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
-        getStartChallengeStub.resolves(challenge);
+        const getAlternativeVersionStub = sinon.stub(challengeService, 'getAlternativeVersion');
         const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
-
+        const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
+        getAlternativeVersionStub.resolves(1);
+        getChallengeStub.resolves(challenge);
         activityRepository.getAllByAssessmentId.resolves([
           { alternativeVersion: 3, level: Activity.levels.VALIDATION },
         ]);
@@ -239,27 +242,27 @@ describe('Unit | Service | ActivityChallenge', function () {
           activityRepository,
         });
 
-        expect(getStartChallengeStub).to.have.been.calledOnceWith({
+        expect(getAlternativeVersionStub).to.have.been.calledOnceWith({
           missionId,
           activityLevel: Activity.levels.TRAINING,
-          challengeNumber,
           challengeRepository,
           alreadyPlayedAlternativeVersions: [],
         });
       });
     });
     context('when the user never played any activity', function () {
-      it('calls getStartChallenge with already played alternative versions = empty array', async function () {
+      it('calls getAlternativeVersion with already played alternative versions = empty array', async function () {
         const assessmentId = 'assessment_id';
         const missionId = 'mission_id';
-        const challengeNumber = 1;
         const nextActivityLevel = Activity.levels.TRAINING;
         const challenge = { alternativeVersion: 1 };
         const challengeRepository = Symbol();
         const getNextActivityLevelStub = sinon.stub(pix1dService, 'getNextActivityLevel');
         getNextActivityLevelStub.returns(nextActivityLevel);
-        const getStartChallengeStub = sinon.stub(challengeService, 'getStartChallenge');
-        getStartChallengeStub.resolves(challenge);
+        const getAlternativeVersionStub = sinon.stub(challengeService, 'getAlternativeVersion');
+        getAlternativeVersionStub.resolves(1);
+        const getChallengeStub = sinon.stub(challengeService, 'getChallenge');
+        getChallengeStub.resolves(challenge);
         const activityRepository = { getAllByAssessmentId: sinon.stub(), save: sinon.stub() };
 
         activityRepository.getAllByAssessmentId.resolves([]);
@@ -270,10 +273,9 @@ describe('Unit | Service | ActivityChallenge', function () {
           activityRepository,
         });
 
-        expect(getStartChallengeStub).to.have.been.calledOnceWith({
+        expect(getAlternativeVersionStub).to.have.been.calledOnceWith({
           missionId,
           activityLevel: Activity.levels.TRAINING,
-          challengeNumber,
           challengeRepository,
           alreadyPlayedAlternativeVersions: [],
         });
