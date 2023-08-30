@@ -110,7 +110,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
       // when
       const result = await userLoginRepository.findByUsername('POUET@example.net');
 
-      // thens
+      // then
       expect(result).to.be.an.instanceOf(UserLogin);
       expect(result.id).to.equal(userLogin.id);
     });
@@ -125,7 +125,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
       // when
       const result = await userLoginRepository.findByUsername('WINry123');
 
-      // thens
+      // then
       expect(result).to.be.an.instanceOf(UserLogin);
       expect(result.id).to.equal(userLogin.id);
     });
