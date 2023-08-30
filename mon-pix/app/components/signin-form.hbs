@@ -77,13 +77,13 @@
         <div class="sign-form-body__bottom-decoration">
           <span>{{t "pages.sign-in.or"}}</span>
         </div>
-        <LinkTo
-          @route="authentication.login-oidc"
-          @model="fwb"
-          class="sign-form-body__oidc-connect-link oidc-provider-fwb"
-        >
-          <img src="/images/logo/fwb-connect-logo.svg" alt="{{t 'pages.sign-in.fwb.link.img'}}" />
-          <span>{{t "pages.sign-in.fwb.title"}}</span>
+        <LinkTo @route="authentication.login-oidc" @model="fwb" class="sign-form-body__fwb-oidc-connect-link">
+          <img
+            src="/images/logo/fwb-connect-logo.svg"
+            alt="{{t 'pages.sign-in.fwb.link.img'}}"
+            class="sign-form-body__fwb-oidc-connect-link__logo"
+          />
+          <p class="oidc-provider-fwb">{{t "pages.sign-in.fwb.title"}}</p>
         </LinkTo>
       {{/if}}
     {{/if}}
