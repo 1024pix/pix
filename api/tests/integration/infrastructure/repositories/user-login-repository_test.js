@@ -2,6 +2,8 @@ import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import * as userLoginRepository from '../../../../lib/infrastructure/repositories/user-login-repository.js';
 import { UserLogin } from '../../../../lib/domain/models/UserLogin.js';
 
+const USER_LOGINS_TABLE_NAME = 'user-logins';
+
 describe('Integration | Repository | UserLoginRepository', function () {
   describe('#findByUserId', function () {
     it('should return the found user-login', async function () {
@@ -33,7 +35,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
 
   describe('#create', function () {
     afterEach(async function () {
-      await knex('user-logins').delete();
+      await knex(USER_LOGINS_TABLE_NAME).delete();
     });
 
     it('should return the created user-login', async function () {
@@ -108,7 +110,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
       // when
       const result = await userLoginRepository.findByUsername('POUET@example.net');
 
-      // thens
+      // then
       expect(result).to.be.an.instanceOf(UserLogin);
       expect(result.id).to.equal(userLogin.id);
     });
@@ -123,7 +125,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
       // when
       const result = await userLoginRepository.findByUsername('WINry123');
 
-      // thens
+      // then
       expect(result).to.be.an.instanceOf(UserLogin);
       expect(result.id).to.equal(userLogin.id);
     });
@@ -137,6 +139,51 @@ describe('Integration | Repository | UserLoginRepository', function () {
 
       // then
       expect(result).to.be.null;
+    });
+  });
+
+  describe('#updateLastLoggedAt', function () {
+    let clock;
+    const now = new Date('2020-01-02');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(async function () {
+      await knex(USER_LOGINS_TABLE_NAME).delete();
+      clock.restore();
+    });
+
+    context('when a user-login exists for given user id', function () {
+      it('updates lastLoggedAt column to "now" ', async function () {
+        // given
+        const lastLoggedAt = new Date();
+        const { userId } = databaseBuilder.factory.buildUserLogin({ lastLoggedAt });
+        await databaseBuilder.commit();
+
+        // when
+        await userLoginRepository.updateLastLoggedAt({ userId });
+
+        // then
+        const userLoginsUpdated = await knex(USER_LOGINS_TABLE_NAME).select().where({ userId }).first();
+        expect(userLoginsUpdated.lastLoggedAt).to.deep.equal(now);
+      });
+    });
+
+    context('when a user-login does not exist for given user id', function () {
+      it('inserts a new line and set lastLoggedAt to now', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        // when
+        await userLoginRepository.updateLastLoggedAt({ userId });
+
+        // then
+        const userLoginsUpdated = await knex(USER_LOGINS_TABLE_NAME).select().where({ userId }).first();
+        expect(userLoginsUpdated.lastLoggedAt).to.deep.equal(now);
+      });
     });
   });
 });

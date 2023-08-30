@@ -19,6 +19,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
   let obfuscationService;
   let authenticationMethodRepository;
   let userRepository;
+  let userLoginRepository;
 
   beforeEach(function () {
     tokenService = {
@@ -38,6 +39,9 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
     userRepository = {
       getBySamlId: sinon.stub(),
       getForObfuscation: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
+    };
+    userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
   });
@@ -75,6 +79,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
@@ -113,10 +118,12 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
     it("should throw an UnexpectedUserAccountError (with expected user's username or email) when the authenticated user does not match the expected one", async function () {
@@ -150,6 +157,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
+        userLoginRepository,
       });
 
       // then
@@ -186,6 +194,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -224,6 +233,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -275,6 +285,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -323,6 +334,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
+          userLoginRepository,
         });
 
         // then
@@ -354,6 +366,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         tokenService,
         pixAuthenticationService,
         userRepository,
+        userLoginRepository,
       });
 
       // then
@@ -380,6 +393,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         tokenService,
         pixAuthenticationService,
         userRepository,
+        userLoginRepository,
       });
 
       // then

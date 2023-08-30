@@ -9,6 +9,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
   let authenticationMethodRepository;
   let campaignRepository;
   let userRepository;
+  let userLoginRepository;
   let organizationLearnerRepository;
   let studentRepository;
 
@@ -26,6 +27,9 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
     };
     userRepository = {
       getBySamlId: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
+    };
+    userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
     userService = {
@@ -59,12 +63,14 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userLoginRepository,
         organizationLearnerRepository,
         studentRepository,
       });
 
       // then
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
     it('should return an access token', async function () {
@@ -94,6 +100,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userLoginRepository,
         organizationLearnerRepository,
         studentRepository,
       });
@@ -130,12 +137,14 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userLoginRepository,
         organizationLearnerRepository,
         studentRepository,
       });
 
       // then
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
     it('should return an access token', async function () {
@@ -166,6 +175,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userLoginRepository,
         organizationLearnerRepository,
         studentRepository,
       });
