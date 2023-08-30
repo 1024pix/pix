@@ -367,8 +367,10 @@ async function countByOrganizationsWhichNeedToComputeCertificability() {
       'organization-features.organizationId',
     )
     .join('features', 'organization-features.featureId', '=', 'features.id')
+    .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
     .where('view-active-organization-learners.isDisabled', false)
+    .where('users.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`))
     .count('view-active-organization-learners.id');
   return count;
 }
@@ -382,8 +384,10 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset } 
       'organization-features.organizationId',
     )
     .join('features', 'organization-features.featureId', '=', 'features.id')
+    .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
-    .where('view-active-organization-learners.isDisabled', false);
+    .where('view-active-organization-learners.isDisabled', false)
+    .where('users.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`));
 
   if (limit) {
     queryBuilder.limit(limit);
