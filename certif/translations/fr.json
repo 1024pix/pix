@@ -445,6 +445,7 @@
             "description": "Refuser le signalement permet la reprise de la question en cours. Sélectionnez un motif pour valider le signalement et permettre le changement de question.",
             "dismiss-alert-button": "Refuser le signalement"
           },
+          "error-rejecting-live-alert": "Une erreur a eu lieu. Merci de réessayer ultérieurement.",
           "no-current-live-alert": "Aucun signalement en cours pour ce candidat",
           "rejected": {
             "banner": "Le signalement a bien été refusé.",

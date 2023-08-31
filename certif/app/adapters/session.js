@@ -59,4 +59,9 @@ export default class SessionAdapter extends ApplicationAdapter {
 
     return super.updateRecord(...arguments);
   }
+
+  dismissLiveAlert(sessionId, candidateId) {
+    const url = `${this.host}/${this.namespace}/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`;
+    return this.ajax(url, 'PATCH');
+  }
 }

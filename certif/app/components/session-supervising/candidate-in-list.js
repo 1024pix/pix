@@ -13,6 +13,7 @@ const Modals = {
 export default class CandidateInList extends Component {
   @service notifications;
   @service intl;
+  @service store;
 
   @tracked isMenuOpen = false;
   @tracked displayedModal = null;
@@ -150,8 +151,17 @@ export default class CandidateInList extends Component {
   }
 
   @action
-  rejectLiveAlert() {
-    this.displayedModal = Modals.DismissLiveAlertSuccess;
+  async rejectLiveAlert() {
+    try {
+      const adapter = this.store.adapterFor('session');
+      await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
+      this.displayedModal = Modals.DismissLiveAlertSuccess;
+    } catch (err) {
+      const errorMessage = this.intl.t(
+        'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-rejecting-live-alert',
+      );
+      this.notifications.error(errorMessage);
+    }
   }
 
   @action

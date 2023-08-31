@@ -3,6 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { click, fillIn } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
+import { Response } from 'miragejs';
 import sinon from 'sinon';
 import ENV from 'pix-certif/config/environment';
 
@@ -239,36 +240,76 @@ module('Acceptance | Session supervising', function (hooks) {
     });
 
     module('when there is a current alert', function () {
-      test('it does not display an error notification', async function (assert) {
-        // given
-        const sessionId = 12345;
-        this.sessionForSupervising = server.create('session-for-supervising', {
-          id: sessionId,
-          certificationCandidates: [
-            server.create('certification-candidate-for-supervising', {
-              id: 123,
-              firstName: 'John',
-              lastName: 'Doe',
-              birthdate: '1984-05-28',
-              extraTimePercentage: null,
-              authorizedToStart: true,
-              assessmentStatus: 'started',
-              liveAlertStatus: 'ongoing',
-            }),
-          ],
+      module('when there is no error', function () {
+        test('it dismisses the live alert', async function (assert) {
+          // given
+          const sessionId = 12345;
+          this.sessionForSupervising = server.create('session-for-supervising', {
+            id: sessionId,
+            certificationCandidates: [
+              server.create('certification-candidate-for-supervising', {
+                userId: 123,
+                firstName: 'John',
+                lastName: 'Doe',
+                birthdate: '1984-05-28',
+                extraTimePercentage: null,
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+                liveAlertStatus: 'ongoing',
+              }),
+            ],
+          });
+
+          const screen = await visit('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByText('Refuser le signalement'));
+
+          // then
+          assert.dom(screen.getByText('Le signalement a bien été refusé.')).exists();
         });
+      });
 
-        const firstVisit = await visit('/connexion-espace-surveillant');
-        await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-        await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
-        await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
+      module('when there is an error', function () {
+        test('it displays an error notification', async function (assert) {
+          // given
+          const sessionId = 123;
+          const candidateId = 12345;
+          server.patch(`/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`, () => new Response(400));
+          this.sessionForSupervising = server.create('session-for-supervising', {
+            id: sessionId,
+            certificationCandidates: [
+              server.create('certification-candidate-for-supervising', {
+                userId: candidateId,
+                firstName: 'John',
+                lastName: 'Doe',
+                birthdate: '1984-05-28',
+                extraTimePercentage: null,
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+                liveAlertStatus: 'ongoing',
+              }),
+            ],
+          });
 
-        // when
-        await click(firstVisit.getByRole('button', { name: 'Afficher les options du candidat' }));
-        await click(firstVisit.getByRole('button', { name: 'Gérer un signalement' }));
+          const screen = await visit('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '123');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
-        // then
-        assert.notContains('Aucun signalement en cours pour ce candidat');
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByText('Refuser le signalement'));
+
+          // then
+          assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+        });
       });
     });
   });
