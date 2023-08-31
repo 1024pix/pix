@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import ENV from 'pix-certif/config/environment';
 
 module('Unit | Adapter | session', function (hooks) {
   setupTest(hooks);
@@ -65,7 +66,7 @@ module('Unit | Adapter | session', function (hooks) {
         ];
 
         const expectedStudentIdList = [1, 2];
-        const expectedUrl = 'http://localhost:3000/api/sessions/123/enrol-students-to-session';
+        const expectedUrl = `${ENV.APP.API_HOST}/api/sessions/123/enrol-students-to-session`;
         const expectedMethod = 'PUT';
         const expectedData = {
           data: {
@@ -131,7 +132,7 @@ module('Unit | Adapter | session', function (hooks) {
         await adapter.updateRecord(store, { modelName: 'session' }, snapshot);
 
         // then
-        const expectedUrl = 'http://localhost:3000/api/sessions/123/finalization';
+        const expectedUrl = `${ENV.APP.API_HOST}/api/sessions/123/finalization`;
         const expectedData = {
           data: {
             data: {
@@ -162,6 +163,26 @@ module('Unit | Adapter | session', function (hooks) {
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
         assert.ok(true);
       });
+    });
+  });
+
+  module('#dismissLiveAlert', () => {
+    test('should build save url from session id and candidate id', async function (assert) {
+      // given
+      adapter.ajax = sinon.stub();
+      const sessionId = 123;
+      const candidateId = 456;
+
+      // when
+      await adapter.dismissLiveAlert(sessionId, candidateId);
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(
+          `${ENV.APP.API_HOST}/api/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`,
+          'PATCH',
+        ),
+      );
     });
   });
 });

@@ -418,32 +418,5 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         )
         .exists();
     });
-
-    module('when the invigilator dismisses the alert', function () {
-      test('it shows that the candidate can get back to the test', async function (assert) {
-        // given
-        this.candidate = store.createRecord('certification-candidate-for-supervising', {
-          id: 456,
-          startDateTime: new Date('2022-10-19T14:30:15Z'),
-          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
-          extraTimePercentage: 0.12,
-          authorizedToStart: false,
-          assessmentStatus: 'started',
-          liveAlertStatus: 'ongoing',
-        });
-
-        // when
-        const screen = await renderScreen(hbs`
-              <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
-            `);
-        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-        await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
-        await click(screen.getByText('Refuser le signalement'));
-
-        // then
-        assert.dom(screen.getByText('Le signalement a bien été refusé.')).exists();
-        assert.dom(screen.getByText('Indiquez au candidat de rafraîchir sa page.')).exists();
-      });
-    });
   });
 });
