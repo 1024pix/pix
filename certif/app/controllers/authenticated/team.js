@@ -22,7 +22,7 @@ export default class Team extends Controller {
 
   get membersSelectOptionsSortedByLastName() {
     return this.model.members
-      .toArray()
+      .slice()
       .sort((member1, member2) => member1.lastName.localeCompare(member2.lastName, 'fr-FR', { sensitivity: 'base' }))
       .filter((member) => !member.isReferer)
       .map((member) => ({ value: member.id, label: `${member.firstName} ${member.lastName}` }));
@@ -37,7 +37,7 @@ export default class Team extends Controller {
   async onValidateReferer() {
     if (this.selectedReferer !== '') {
       const userId = this.selectedReferer;
-      const member = this.model.members.toArray().find((member) => member.id === userId);
+      const member = this.model.members.find((member) => member.id === userId);
 
       try {
         await member.updateReferer({ userId: member.id, isReferer: true });
@@ -57,9 +57,9 @@ export default class Team extends Controller {
 }
 
 function _hasAtLeastOneMemberAndNoReferer(members) {
-  return members.length > 0 && !members.toArray().some((member) => member.isReferer);
+  return members.length > 0 && !members.some((member) => member.isReferer);
 }
 
 function _hasAtLeastTwoMembersAndOneReferer(members) {
-  return members.length > 1 && members.toArray().some((member) => member.isReferer);
+  return members.length > 1 && members.some((member) => member.isReferer);
 }

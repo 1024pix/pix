@@ -24,7 +24,7 @@ export default class CertificationCandidatesController extends Controller {
 
   @computed('certificationCandidates', 'certificationCandidates.@each.isLinked')
   get importAllowed() {
-    return every(this.certificationCandidates.toArray(), (certificationCandidate) => {
+    return every(this.certificationCandidates, (certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
