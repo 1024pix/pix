@@ -60,7 +60,8 @@
         "CANDIDATE_SESSION_ID_NOT_A_NUMBER": "The field \"Session No.\" is invalid",
         "CANDIDATE_SESSION_ID_REQUIRED": "The field \"Session No.\" is required",
         "CANDIDATE_SEX_NOT_VALID": "The field \"Gender\" accepts the values \"M\" for a man or \"F\" for a woman",
-        "CANDIDATE_SEX_REQUIRED": "The field \"Gender\" is required"
+        "CANDIDATE_SEX_REQUIRED": "The field \"Gender\" is required",
+        "DUPLICATE_CANDIDATE": "Please delete duplicate candidate(s) before re-uploading"
       },
       "gateway-timeout-error": "The service is being slow. Please try again later.",
       "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",

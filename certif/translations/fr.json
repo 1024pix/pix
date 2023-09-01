@@ -60,7 +60,8 @@
         "CANDIDATE_SESSION_ID_NOT_A_NUMBER": "Le champ \"Numéro de session\" est invalide",
         "CANDIDATE_SESSION_ID_REQUIRED": "Le champ \"Numéro de session\" est obligatoire",
         "CANDIDATE_SEX_NOT_VALID": "Le champ \"Sexe\" accepte les valeurs \"M\" pour un homme ou \"F\" pour une femme",
-        "CANDIDATE_SEX_REQUIRED": "Le champ \"Sexe\" est obligatoire"
+        "CANDIDATE_SEX_REQUIRED": "Le champ \"Sexe\" est obligatoire",
+        "DUPLICATE_CANDIDATE": "Veuillez supprimer le(s) doublon(s) de candidats avant de réimporter."
       },
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
       "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
