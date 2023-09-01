@@ -1,5 +1,5 @@
 {
-  "extends": ["standard-with-typescript", "prettier"],
+  "extends": ["@1024pix", "standard-with-typescript", "prettier"],
   "env": {
     "node": true
   },
