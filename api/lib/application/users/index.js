@@ -46,6 +46,20 @@ const register = async function (server) {
               ])(request, h),
           },
         ],
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          query: Joi.object({
+            'filter[id]': identifiersType.userId.empty('').allow(null).optional(),
+            'filter[firstName]': Joi.string().empty('').allow(null).optional(),
+            'filter[lastName]': Joi.string().empty('').allow(null).optional(),
+            'filter[email]': Joi.string().email().empty('').allow(null).optional(),
+            'filter[username]': Joi.string().empty('').allow(null).optional(),
+            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
+            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+          }),
+        },
         handler: userController.findPaginatedFilteredUsers,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
