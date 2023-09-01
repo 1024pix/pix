@@ -55,6 +55,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
 
   certificationCandidatesDataByLine = _filterOutEmptyCandidateData(certificationCandidatesDataByLine);
 
+  const _checkForDuplication = _handleDuplicateCandidate();
   return await bluebird.mapSeries(
     Object.entries(certificationCandidatesDataByLine),
     async ([line, certificationCandidateData]) => {
@@ -151,6 +152,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
 
       try {
         certificationCandidate.validate(isSco);
+        _checkForDuplication(certificationCandidate);
       } catch (err) {
         throw new CertificationCandidatesError({
           code: err.code,
@@ -209,6 +211,20 @@ function _handleVersionError() {
 
 function _handleParsingError() {
   throw new CertificationCandidatesError({ code: 'INVALID_DOCUMENT', message: 'Le document est invalide.' });
+}
+
+function _handleDuplicateCandidate() {
+  const candidateFootprints = new Set();
+  return ({ firstName, lastName, birthdate }) => {
+    const candidateInformationFootprint = firstName.toLowerCase() + lastName.toLowerCase() + birthdate;
+    if (candidateFootprints.has(candidateInformationFootprint)) {
+      throw new CertificationCandidatesError({
+        code: 'DUPLICATE_CANDIDATE',
+      });
+    } else {
+      candidateFootprints.add(candidateInformationFootprint);
+    }
+  };
 }
 
 async function _buildComplementaryCertificationsForLine({
