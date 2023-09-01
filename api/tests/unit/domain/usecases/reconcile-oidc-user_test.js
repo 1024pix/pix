@@ -4,16 +4,11 @@ import { AuthenticationKeyExpired, MissingUserAccountError } from '../../../../l
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 
 describe('Unit | UseCase | reconcile-oidc-user', function () {
-  let authenticationMethodRepository,
-    userRepository,
-    userLoginRepository,
-    authenticationSessionService,
-    oidcAuthenticationService;
+  let authenticationMethodRepository, userLoginRepository, authenticationSessionService, oidcAuthenticationService;
   const identityProvider = 'POLE_EMPLOI';
 
   beforeEach(function () {
     authenticationMethodRepository = { create: sinon.stub() };
-    userRepository = { updateLastLoggedAt: sinon.stub() };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
@@ -45,7 +40,6 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       oidcAuthenticationService,
       authenticationSessionService,
       authenticationMethodRepository,
-      userRepository,
       userLoginRepository,
     });
 
@@ -74,7 +68,6 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       oidcAuthenticationService,
       authenticationSessionService,
       authenticationMethodRepository,
-      userRepository,
       userLoginRepository,
     });
 
@@ -112,14 +105,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       oidcAuthenticationService,
       authenticationSessionService,
       authenticationMethodRepository,
-      userRepository,
       userLoginRepository,
     });
 
     // then
     sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
     sinon.assert.calledOnce(oidcAuthenticationService.saveIdToken);
-    sinon.assert.calledOnceWithExactly(userRepository.updateLastLoggedAt, { userId });
     sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId });
     expect(result).to.deep.equal({
       accessToken: 'accessToken',
@@ -138,7 +129,6 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
-        userRepository,
         userLoginRepository,
       });
 
@@ -161,7 +151,6 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
-        userRepository,
         userLoginRepository,
       });
 
