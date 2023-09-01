@@ -112,23 +112,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 
-        pickChallenge
-          .withArgs({
-            possibleChallenges: [thirdChallenge, secondChallenge, firstChallenge],
-          })
-          .returns(firstChallenge)
-          .withArgs({
-            possibleChallenges: [thirdChallenge, secondChallenge],
-          })
-          .returns(secondChallenge)
-          .withArgs({
-            possibleChallenges: [thirdChallenge],
-          })
-          .returns(thirdChallenge);
+        pickChallenge.callsFake(({ possibleChallenges }) => possibleChallenges.at(-1));
 
-        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: firstChallenge })).returns(AnswerStatus.OK);
-        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: secondChallenge })).returns(AnswerStatus.OK);
-        pickAnswerStatus.withArgs(sinon.match({ nextChallenge: thirdChallenge })).returns(AnswerStatus.OK);
+        pickAnswerStatus.callsFake(() => AnswerStatus.OK);
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({

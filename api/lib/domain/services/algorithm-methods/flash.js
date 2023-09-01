@@ -13,6 +13,8 @@ const DEFAULT_PROBABILITY_TO_ANSWER = 1;
 const DEFAULT_ERROR_RATE = 5;
 const ERROR_RATE_CLASS_INTERVAL = 9 / 80;
 
+const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
+
 export {
   getPossibleNextChallenges,
   getEstimatedLevelAndErrorRate,
@@ -25,7 +27,12 @@ function getPossibleNextChallenges({
   allAnswers,
   challenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
-  options: { warmUpLength = 0, forcedCompetences = [], challengesBetweenSameCompetence = 0 } = {},
+  options: {
+    warmUpLength = 0,
+    forcedCompetences = [],
+    challengesBetweenSameCompetence = 0,
+    minimalSuccessRate = 0,
+  } = {},
 } = {}) {
   let nonAnsweredChallenges = getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
@@ -67,7 +74,7 @@ function getPossibleNextChallenges({
 
   return {
     hasAssessmentEnded: false,
-    possibleChallenges: _findBestPossibleChallenges(challengesWithReward),
+    possibleChallenges: _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel),
   };
 }
 
@@ -184,9 +191,18 @@ function _getLastAnswersCompetenceIds(allAnswers, allChallenges, numberOfAnswers
   return competenceIds;
 }
 
-function _findBestPossibleChallenges(challengesWithReward) {
-  const MAX_NUMBER_OF_RETURNED_CHALLENGES = 5;
-  const orderedChallengesWithReward = orderBy(challengesWithReward, 'reward', 'desc');
+function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, estimatedLevel) {
+  const hasMinimumSuccessRate = ({ challenge }) => {
+    const successProbability = _getProbability({ ...challenge, estimatedLevel });
+
+    return successProbability >= minimumSuccessRate;
+  };
+
+  const orderedChallengesWithReward = orderBy(
+    challengesWithReward,
+    [hasMinimumSuccessRate, 'reward'],
+    ['desc', 'desc'],
+  );
 
   const possibleChallengesWithReward = orderedChallengesWithReward.slice(0, MAX_NUMBER_OF_RETURNED_CHALLENGES);
 
