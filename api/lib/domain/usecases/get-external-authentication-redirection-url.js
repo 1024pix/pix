@@ -23,7 +23,6 @@ const getExternalAuthenticationRedirectionUrl = async function ({
       user,
       externalUser,
       tokenService,
-      userRepository,
       userLoginRepository,
       authenticationMethodRepository,
     });
@@ -38,12 +37,10 @@ async function _getUrlWithAccessToken({
   user,
   externalUser,
   tokenService,
-  userRepository,
   userLoginRepository,
   authenticationMethodRepository,
 }) {
   const token = tokenService.createAccessTokenForSaml(user.id);
-  await userRepository.updateLastLoggedAt({ userId: user.id });
   await userLoginRepository.updateLastLoggedAt({ userId: user.id });
   await _saveUserFirstAndLastName({ authenticationMethodRepository, user, externalUser });
   return `/connexion/gar#${encodeURIComponent(token)}`;
