@@ -118,6 +118,7 @@ const getUserDetailsForAdmin = async function (userId) {
       'user-logins.failureCount',
       'user-logins.temporaryBlockedUntil',
       'user-logins.blockedAt',
+      'user-logins.lastLoggedAt AS lastLoggedAt',
       'anonymisedBy.firstName AS anonymisedByFirstName',
       'anonymisedBy.lastName AS anonymisedByLastName',
     ])

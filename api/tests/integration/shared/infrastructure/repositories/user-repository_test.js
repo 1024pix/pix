@@ -207,7 +207,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         });
       });
 
-      it('returns only ther user matching "id" if given in filter', async function () {
+      it('returns only the user matching "id" if given in filter', async function () {
         // given
         const filter = { id: '123456' };
         const page = { number: 1, size: 10 };
@@ -1093,6 +1093,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
           emailConfirmedAt,
         });
+        await databaseBuilder.factory.buildUserLogin({ userId: userInDB.id, lastLoggedAt });
         await databaseBuilder.commit();
 
         // when
