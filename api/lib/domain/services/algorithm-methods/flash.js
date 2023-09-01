@@ -27,6 +27,7 @@ function getPossibleNextChallenges({
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
   warmUpLength = 0,
   forcedCompetences = [],
+  minimalSuccessRate,
 } = {}) {
   let nonAnsweredChallenges = getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
@@ -47,7 +48,19 @@ function getPossibleNextChallenges({
       possibleChallenges: [],
     };
   }
-  const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
+
+  console.log(nonAnsweredChallenges, minimalSuccessRate);
+
+  const challengesWithSufficientSuccessRates = nonAnsweredChallenges.filter(
+    (challenge) =>
+      _getProbability({
+        estimatedLevel,
+        discriminant: challenge.discriminant,
+        difficulty: challenge.difficulty,
+      }) > minimalSuccessRate,
+  );
+
+  const challengesWithReward = challengesWithSufficientSuccessRates.map((challenge) => {
     return {
       challenge,
       reward: getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
