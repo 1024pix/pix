@@ -409,12 +409,6 @@ const findAnotherUserByUsername = async function (userId, username) {
     .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
 };
 
-const updateLastLoggedAt = async function ({ userId }) {
-  const now = new Date();
-
-  await knex('users').where({ id: userId }).update({ lastLoggedAt: now });
-};
-
 const updateLastDataProtectionPolicySeenAt = async function ({ userId }) {
   const now = new Date();
 
@@ -454,7 +448,6 @@ export {
   updateHasSeenLevelSevenInfoToTrue,
   updateHasSeenNewDashboardInfoToTrue,
   updateLastDataProtectionPolicySeenAt,
-  updateLastLoggedAt,
   updatePixCertifTermsOfServiceAcceptedToTrue,
   updatePixOrgaTermsOfServiceAcceptedToTrue,
   updateUserDetailsForAdministration,
