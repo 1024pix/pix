@@ -368,9 +368,10 @@ async function countByOrganizationsWhichNeedToComputeCertificability() {
     )
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
+    .join('user-logins', 'view-active-organization-learners.userId', '=', 'user-logins.userId')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
     .where('view-active-organization-learners.isDisabled', false)
-    .where('users.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`))
+    .where('user-logins.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`))
     .count('view-active-organization-learners.id');
   return count;
 }
@@ -385,9 +386,10 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset } 
     )
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
+    .join('user-logins', 'view-active-organization-learners.userId', '=', 'user-logins.userId')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
     .where('view-active-organization-learners.isDisabled', false)
-    .where('users.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`));
+    .where('user-logins.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`));
 
   if (limit) {
     queryBuilder.limit(limit);
