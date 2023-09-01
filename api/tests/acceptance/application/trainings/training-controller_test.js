@@ -303,8 +303,10 @@ describe('Acceptance | Controller | training-controller', function () {
             type: 'training-summaries',
             id: '1',
             attributes: {
+              'goal-threshold': undefined,
+              'prerequisite-threshold': undefined,
+              'target-profiles-count': 0,
               title: training.title,
-              'is-recommendable': false,
             },
           },
         };

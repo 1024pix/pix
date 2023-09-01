@@ -1,8 +1,10 @@
 class TrainingSummary {
-  constructor({ id, title, isRecommendable } = {}) {
+  constructor({ id, title, prerequisiteThreshold, goalThreshold, targetProfilesCount } = {}) {
     this.id = id;
     this.title = title;
-    this.isRecommendable = isRecommendable;
+    this.prerequisiteThreshold = prerequisiteThreshold;
+    this.goalThreshold = goalThreshold;
+    this.targetProfilesCount = targetProfilesCount;
   }
 }
 
