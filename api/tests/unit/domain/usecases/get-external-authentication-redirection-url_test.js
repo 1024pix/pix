@@ -14,7 +14,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
   beforeEach(function () {
     userRepository = {
       getBySamlId: sinon.stub(),
-      updateLastLoggedAt: sinon.stub(),
     };
 
     userLoginRepository = {
@@ -141,7 +140,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       });
 
       // then
-      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
       expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
     });
 
