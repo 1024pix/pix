@@ -57,7 +57,6 @@ describe('Acceptance | Scripts | create-users-accounts-for-contest', function ()
         isAnonymous: false,
         emailConfirmedAt: null,
         hasSeenFocusedChallengeTooltip: false,
-        lastLoggedAt: null,
         hasSeenOtherChallengesTooltip: false,
         lastPixOrgaTermsOfServiceValidatedAt: null,
         lastPixCertifTermsOfServiceValidatedAt: null,
