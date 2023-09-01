@@ -166,15 +166,26 @@ describe('Integration | Repository | training-repository', function () {
     context('when trainings exist', function () {
       it('should return paginated results', async function () {
         // given
-        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1, isRecommendable: true });
-        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, isRecommendable: false });
-        const trainingSummary3 = domainBuilder.buildTrainingSummary({ id: 3 });
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({
+          id: 1,
+          prerequisiteThreshold: 0,
+          goalThreshold: 100,
+          targetProfilesCount: 2,
+        });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({
+          id: 2,
+          prerequisiteThreshold: 10,
+          goalThreshold: 90,
+        });
+        const trainingSummary3 = domainBuilder.buildTrainingSummary({
+          id: 3,
+          prerequisiteThreshold: undefined,
+          goalThreshold: undefined,
+        });
 
-        databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
-        databaseBuilder.factory.buildTraining({ ...trainingSummary2 });
-        databaseBuilder.factory.buildTraining({ ...trainingSummary3 });
-
-        databaseBuilder.factory.buildTrainingTrigger({ trainingId: trainingSummary1.id });
+        createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary1, databaseBuilder });
+        createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary2, databaseBuilder });
+        createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary3, databaseBuilder });
 
         await databaseBuilder.commit();
         const filter = {};
@@ -259,25 +270,32 @@ describe('Integration | Repository | training-repository', function () {
     context('when trainings exist', function () {
       it('should return paginated results', async function () {
         // given
-        const trainingSummary1 = domainBuilder.buildTrainingSummary({ id: 1, isRecommendable: true });
-        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, isRecommendable: false });
+        const trainingSummary1 = domainBuilder.buildTrainingSummary({
+          id: 1,
+          goalThreshold: 10,
+          prerequisiteThreshold: 20,
+        });
+        const trainingSummary2 = domainBuilder.buildTrainingSummary({ id: 2, goalThreshold: 30 });
         const trainingSummaryLinkToAnotherTargetProfile = domainBuilder.buildTrainingSummary({ id: 3 });
 
-        databaseBuilder.factory.buildTraining({ ...trainingSummary1 });
-        databaseBuilder.factory.buildTraining({ ...trainingSummary2 });
-        databaseBuilder.factory.buildTraining({ ...trainingSummaryLinkToAnotherTargetProfile });
+        createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary1, databaseBuilder });
+        createDatabaseRepresentationForTrainingSummary({ trainingSummary: trainingSummary2, databaseBuilder });
+        createDatabaseRepresentationForTrainingSummary({
+          trainingSummary: trainingSummaryLinkToAnotherTargetProfile,
+          databaseBuilder,
+        });
 
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
 
         databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId, trainingId: trainingSummary1.id });
+        trainingSummary1.targetProfilesCount = 1;
         databaseBuilder.factory.buildTargetProfileTraining({ targetProfileId, trainingId: trainingSummary2.id });
+        trainingSummary2.targetProfilesCount = 1;
         databaseBuilder.factory.buildTargetProfileTraining({
           targetProfileId: anotherTargetProfileId,
           trainingId: trainingSummaryLinkToAnotherTargetProfile.id,
         });
-
-        databaseBuilder.factory.buildTrainingTrigger({ trainingId: trainingSummary1.id });
 
         await databaseBuilder.commit();
         const page = { size: 2, number: 1 };
@@ -760,3 +778,29 @@ describe('Integration | Repository | training-repository', function () {
     });
   });
 });
+
+function createDatabaseRepresentationForTrainingSummary({ trainingSummary, databaseBuilder }) {
+  const training = databaseBuilder.factory.buildTraining({ ...trainingSummary });
+  if (trainingSummary.prerequisiteThreshold !== undefined) {
+    databaseBuilder.factory.buildTrainingTrigger({
+      trainingId: training.id,
+      type: TrainingTrigger.types.PREREQUISITE,
+      threshold: trainingSummary.prerequisiteThreshold,
+    });
+  }
+  if (trainingSummary.goalThreshold !== undefined) {
+    databaseBuilder.factory.buildTrainingTrigger({
+      trainingId: training.id,
+      type: TrainingTrigger.types.GOAL,
+      threshold: trainingSummary.goalThreshold,
+    });
+  }
+  if (trainingSummary.targetProfilesCount) {
+    _.times(trainingSummary.targetProfilesCount, () => {
+      databaseBuilder.factory.buildTargetProfileTraining({
+        trainingId: training.id,
+        targetProfileId: databaseBuilder.factory.buildTargetProfile().id,
+      });
+    });
+  }
+}

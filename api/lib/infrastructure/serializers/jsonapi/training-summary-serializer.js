@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (trainingSummaries, meta) {
   return new Serializer('training-summaries', {
-    attributes: ['title', 'isRecommendable'],
+    attributes: ['title', 'targetProfilesCount', 'prerequisiteThreshold', 'goalThreshold'],
     meta,
   }).serialize(trainingSummaries);
 };
