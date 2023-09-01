@@ -6,7 +6,7 @@ export default class List extends Component {
   onBadgeUpdated(badgeId, event) {
     this.args.onBadgeUpdated({
       badgeId,
-      fieldName: event.target.id,
+      fieldName: event.target.name,
       fieldValue: event.target.value
     });
   }

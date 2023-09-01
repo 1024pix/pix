@@ -16,7 +16,8 @@ module('Unit | Controller | attach-target-profile', function (hooks) {
 
       // then
       assert.strictEqual(controller.selectedTargetProfile, undefined);
-      assert.strictEqual(controller.targetProfileBadges, undefined);
+      assert.strictEqual(controller.isSubmitDisabled, true);
+      assert.strictEqual(controller.isSubmitting, false);
     });
   });
 });

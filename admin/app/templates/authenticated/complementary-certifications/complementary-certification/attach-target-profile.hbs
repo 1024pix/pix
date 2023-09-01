@@ -5,23 +5,24 @@
   </h1>
   <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
 
-  <Card @title="1. Renseigner le nouveau profil cible à rattacher">
-    <ComplementaryCertifications::AttachBadges::TargetProfileSelector
-      @onError={{this.onError}}
-      @onSelection={{this.onSelection}}
-      @onChange={{this.onReset}}
-    />
-  </Card>
-
-  {{#if this.selectedTargetProfile}}
-    <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
-      <ComplementaryCertifications::AttachBadges::Badges
-        @targetProfile={{this.selectedTargetProfile}}
-          @onError={{this.onError}}
-          @onBadgeUpdated={{this.onBadgeUpdated}}
+  <form class="form" {{on "submit" this.onSubmit}}>
+    <Card @title="1. Renseigner le nouveau profil cible à rattacher">
+      <ComplementaryCertifications::AttachBadges::TargetProfileSelector
+        @onError={{this.onError}}
+        @onSelection={{this.onSelection}}
+        @onChange={{this.onReset}}
       />
     </Card>
-  {{/if}}
+
+    {{#if this.selectedTargetProfile}}
+      <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
+        <ComplementaryCertifications::AttachBadges::Badges
+          @targetProfile={{this.selectedTargetProfile}}
+          @onError={{this.onError}}
+          @onBadgeUpdated={{this.onBadgeUpdated}}
+        />
+      </Card>
+    {{/if}}
 
     <div class="attach-target-profile__actions">
       <PixButton
@@ -30,7 +31,7 @@
         @isBorderVisible={{true}}
         @isDisabled={{this.isSubmitDisabled}}
         aria-disabled={{this.isSubmitDisabled}}
-        @triggerAction={{this.onSubmit}}
+        @isLoading={{this.isSubmitting}}
       >
         Rattacher le profil cible
       </PixButton>
