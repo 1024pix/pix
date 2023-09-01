@@ -1091,7 +1091,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           lastTermsOfServiceValidatedAt,
           lastPixOrgaTermsOfServiceValidatedAt,
           lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
-          lastLoggedAt,
           emailConfirmedAt,
         });
         await databaseBuilder.commit();
