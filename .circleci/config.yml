@@ -224,9 +224,17 @@ jobs:
                 git checkout --force -B "$CIRCLE_BRANCH" "$CIRCLE_SHA1"
                 git --no-pager log --no-color -n 1 --format='HEAD is now at %h %s'
             fi
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-root-npm-{{ checksum "cachekey" }}
       - run:
           name: Install root dependencies
           command: npm ci
+      - save_cache:
+          key: v7-root-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
       - run:
           name: Remove .git folder
           command: rm -rf .git/
