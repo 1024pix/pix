@@ -67,6 +67,20 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         assert.ok(true);
       });
     });
+
+    module('when an error occurs', function () {
+      test('returns an empty array', async function (assert) {
+        // given
+        params.id = '1';
+
+        route.store.query = sinon.stub().rejects();
+        // then
+        const users = await route.model(params);
+
+        // then
+        assert.deepEqual(users, []);
+      });
+    });
   });
 
   module('#resetController', function (hooks) {
