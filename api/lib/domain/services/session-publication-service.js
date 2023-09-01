@@ -11,14 +11,11 @@ const { some, uniqBy } = lodash;
 import { logger } from '../../infrastructure/logger.js';
 
 async function publishSession({
-  i18n,
   publishedAt = new Date(),
   sessionId,
-  certificationCenterRepository,
   certificationRepository,
   finalizedSessionRepository,
   sessionRepository,
-  dependencies = { mailService },
 }) {
   const session = await sessionRepository.getWithCertificationCandidates(sessionId);
   if (session.isPublished()) {
@@ -31,14 +28,7 @@ async function publishSession({
 
   await _updateFinalizedSession(finalizedSessionRepository, sessionId, publishedAt);
 
-  await manageEmails({
-    i18n,
-    session,
-    publishedAt,
-    certificationCenterRepository,
-    sessionRepository,
-    dependencies,
-  });
+  return session;
 }
 
 async function manageEmails({
