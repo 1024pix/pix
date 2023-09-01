@@ -46,7 +46,6 @@ const authenticateOidcUser = async function ({
     idToken: sessionContent.idToken,
     userId: user.id,
   });
-  userRepository.updateLastLoggedAt({ userId: user.id });
   userLoginRepository.updateLastLoggedAt({ userId: user.id });
 
   return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
