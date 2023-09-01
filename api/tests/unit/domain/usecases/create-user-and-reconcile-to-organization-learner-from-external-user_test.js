@@ -27,7 +27,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
     };
     userRepository = {
       getBySamlId: sinon.stub(),
-      updateLastLoggedAt: sinon.stub(),
     };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
@@ -69,7 +68,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       });
 
       // then
-      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
       expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
@@ -143,7 +141,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       });
 
       // then
-      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
       expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
