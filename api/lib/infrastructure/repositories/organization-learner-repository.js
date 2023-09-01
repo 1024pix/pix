@@ -260,7 +260,9 @@ const getOrganizationLearnerForAdmin = async function (organizationLearnerId) {
 };
 
 const dissociateUserFromOrganizationLearner = async function (organizationLearnerId) {
-  await knex('organization-learners').where({ id: organizationLearnerId }).update({ userId: null });
+  await knex('organization-learners')
+    .where({ id: organizationLearnerId })
+    .update({ userId: null, certifiableAt: null, isCertifiable: null });
 };
 
 const dissociateAllStudentsByUserId = async function ({
