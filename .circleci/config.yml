@@ -159,7 +159,66 @@ jobs:
       name: node-docker
     working_directory: ~/pix
     steps:
-      - checkout
+      - run:
+          name: Git clone --depth=1
+          command: |
+            #!/bin/sh
+            set -e
+            GIT_CLONE_DEPTH="1"
+            # Workaround old docker images with incorrect $HOME
+            # check https://github.com/docker/docker/issues/2968 for details
+            if [ "${HOME}" = "/" ]
+            then
+              export HOME=$(getent passwd $(id -un) | cut -d: -f6)
+            fi
+            export SSH_CONFIG_DIR=${SSH_CONFIG_DIR:-"${HOME}/.ssh"}
+            echo "Using SSH Config Dir '$SSH_CONFIG_DIR'"
+            git --version
+
+            mkdir -p "$SSH_CONFIG_DIR"
+            chmod 0700 "$SSH_CONFIG_DIR"
+
+            printf "%s" 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=
+            github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+            github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+            ' >>"$SSH_CONFIG_DIR/known_hosts"
+            chmod 0600 "$SSH_CONFIG_DIR/known_hosts"
+
+            rm -f "$SSH_CONFIG_DIR/id_rsa"
+            printf "%s" "$CHECKOUT_KEY" >"$SSH_CONFIG_DIR/id_rsa"
+            chmod 0600 "$SSH_CONFIG_DIR/id_rsa"
+            if (: "${CHECKOUT_KEY_PUBLIC?}") 2>/dev/null; then
+                rm -f "$SSH_CONFIG_DIR/id_rsa.pub"
+                printf "%s" "$CHECKOUT_KEY_PUBLIC" >"$SSH_CONFIG_DIR/id_rsa.pub"
+            fi
+
+            export GIT_SSH_COMMAND="ssh -i \"$SSH_CONFIG_DIR/id_rsa\" -o UserKnownHostsFile=\"$SSH_CONFIG_DIR/known_hosts\""
+
+            # use git+ssh instead of https
+            git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
+            git config --global gc.auto 0 || true
+
+            echo 'Cloning git repository'
+            mkdir -p '/home/circleci/pix'
+            cd '/home/circleci/pix'
+            git clone --depth="$GIT_CLONE_DEPTH" --no-checkout "$CIRCLE_REPOSITORY_URL" .
+
+            echo 'Fetching from remote repository'
+            if [ -n "$CIRCLE_TAG" ]; then
+                git fetch --depth=${GIT_CLONE_DEPTH} --force --tags origin "+refs/tags/${CIRCLE_TAG}:refs/tags/${CIRCLE_TAG}"
+            else
+                git fetch --depth=${GIT_CLONE_DEPTH} --force origin "+refs/heads/${CIRCLE_BRANCH}:refs/remotes/origin/${CIRCLE_BRANCH}"
+            fi
+
+            if [ -n "$CIRCLE_TAG" ]; then
+                echo 'Checking out tag'
+                git checkout --force "$CIRCLE_TAG"
+                git reset --hard "$CIRCLE_SHA1"
+            else
+                echo 'Checking out branch'
+                git checkout --force -B "$CIRCLE_BRANCH" "$CIRCLE_SHA1"
+                git --no-pager log --no-color -n 1 --format='HEAD is now at %h %s'
+            fi
       - run:
           name: Lint and test root
           command: |
