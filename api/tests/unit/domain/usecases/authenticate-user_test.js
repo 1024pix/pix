@@ -30,7 +30,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
-      updateLastLoggedAt: sinon.stub(),
       update: sinon.stub(),
     };
     userLoginRepository = {
@@ -292,7 +291,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     });
 
     // then
-    expect(userRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
     expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
   });
 
