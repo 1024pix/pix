@@ -8,6 +8,7 @@ describe('Unit | UseCase | publish-session', function () {
     const sessionId = Symbol('a session id');
     const session = Symbol('a session');
     const certificationRepository = Symbol('the certification repository');
+    const certificationCenterRepository = Symbol('the certification center repository');
     const finalizedSessionRepository = Symbol('the finalizedSessionRepository');
     const publishedAt = Symbol('a publication date');
 
@@ -18,11 +19,9 @@ describe('Unit | UseCase | publish-session', function () {
 
     const sessionPublicationService = {
       publishSession: sinon.stub(),
+      manageEmails: sinon.stub(),
     };
-
-    const certificationCenterRepository = {
-      getRefererEmails: sinon.stub(),
-    };
+    sessionPublicationService.publishSession.resolves(session);
 
     // when
     const result = await publishSession({
@@ -38,13 +37,18 @@ describe('Unit | UseCase | publish-session', function () {
 
     // then
     expect(sessionPublicationService.publishSession).to.have.been.calledWithExactly({
-      i18n,
       sessionId,
+      publishedAt,
       certificationRepository,
-      certificationCenterRepository,
       finalizedSessionRepository,
       sessionRepository,
+    });
+    expect(sessionPublicationService.manageEmails).to.have.been.calledWithExactly({
+      i18n,
+      session,
       publishedAt,
+      certificationCenterRepository,
+      sessionRepository,
     });
     expect(result).to.equal(session);
   });
