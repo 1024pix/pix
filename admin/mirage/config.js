@@ -430,6 +430,10 @@ function routes() {
     };
   });
 
+  this.put('admin/complementary-certifications/:id/badges', () => {
+    return new Response(204);
+  });
+
   this.put('/admin/sessions/:id/comment', (schema, request) => {
     const sessionToUpdate = schema.sessions.find(request.params.id);
     const params = JSON.parse(request.requestBody);

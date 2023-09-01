@@ -6,7 +6,7 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 import { fillIn } from '@ember/test-helpers';
 import sinon from 'sinon';
 
-module('Integration | Component | ComplementaryCertifications::AttachForm::Badges::Row', function (hooks) {
+module('Integration | Component | ComplementaryCertifications::AttachBadges::Badges::Row', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
@@ -14,9 +14,9 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
     test('it should display the header label with no required mark and no tooltip by default', async function (assert) {
       // given
     // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::Header>
+    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
         LABEL
-      </ComplementaryCertifications::AttachForm::Badges::Header>
+      </ComplementaryCertifications::AttachBadges::Badges::Header>
     `);
 
     // then
@@ -29,9 +29,9 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
     test('it should display the mandatory mark if header is required', async function (assert) {
       // given
     // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::Header @isRequired="true">
+    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header @isRequired="true">
         LABEL
-      </ComplementaryCertifications::AttachForm::Badges::Header>
+      </ComplementaryCertifications::AttachBadges::Badges::Header>
     `);
 
     // then
@@ -42,10 +42,10 @@ module('Integration | Component | ComplementaryCertifications::AttachForm::Badge
     test('it should display the tooltip if provided', async function (assert) {
       // given
     // when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachForm::Badges::Header>
+    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
         <:default>Label</:default>
         <:tooltip>A compléter</:tooltip>
-      </ComplementaryCertifications::AttachForm::Badges::Header>
+      </ComplementaryCertifications::AttachBadges::Badges::Header>
     `);
 
     // then

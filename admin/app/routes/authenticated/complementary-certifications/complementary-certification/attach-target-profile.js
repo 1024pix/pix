@@ -22,8 +22,7 @@ export default class AttachTargetProfileRoute extends Route {
 
   resetController(controller, isExiting) {
     if (isExiting) {
-      controller.selectedTargetProfile = undefined;
-      controller.targetProfileBadges = undefined;
+      controller.onReset();
     }
   }
 }

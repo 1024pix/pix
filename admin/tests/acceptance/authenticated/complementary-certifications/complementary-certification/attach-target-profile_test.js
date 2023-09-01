@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import dayjs from 'dayjs';
@@ -144,6 +144,52 @@ module(
             .exists();
           assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' })).exists();
           assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
+        });
+      });
+
+      module('when user submits the form', function () {
+        test('it should save the new attached target profile', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          server.create('complementary-certification', {
+            id: 1,
+            key: 'KEY',
+            label: 'MARIANNE CERTIF',
+            targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
+          });
+          server.create('attachable-target-profile', {
+            id: 5,
+            name: 'ALEX TARGET',
+          });
+          const badge = server.create('badge', {
+            id: 200,
+            title: 'Badge Arène Feu',
+          });
+          server.create('target-profile', {
+            id: 5,
+            name: 'ALEX TARGET',
+            badges: [badge],
+          });
+          const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+          const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+          await fillIn(input, '5');
+          await screen.findByRole('listbox');
+          const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
+          await targetProfileSelectable.click();
+          await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' });
+
+
+          await fillIn(screen.getByRole('spinbutton', {name: 'niveau'}), '1');
+          await fillIn(screen.getByRole('textbox', {name: 'image certificat Pix App'}), 'IMAGE1.svg');
+          await fillIn(screen.getByRole('textbox', {name: 'label du certificat'}), 'LABEL');
+          await fillIn(screen.getByRole('textbox', {name: 'macaron du certificat'}), 'MACARON.pdf');
+          await fillIn(screen.getByRole('textbox', {name: 'message du certificat'}), 'MESSAGE');
+          await fillIn(screen.getByRole('textbox', {name: 'message temporaire du certificat'}), 'TEMP MESSAGE');
+          // when
+          await clickByName('Rattacher le profil cible');
+
+          // then
+          assert.dom(await screen.findByText('Target profile rattaché avec succès')).exists();
         });
       });
     });
