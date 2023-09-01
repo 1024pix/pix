@@ -66,7 +66,6 @@ const authenticateUser = async function ({
       await userRepository.update({ id: foundUser.id, locale: foundUser.locale });
     }
 
-    await userRepository.updateLastLoggedAt({ userId: foundUser.id });
     await userLoginRepository.updateLastLoggedAt({ userId: foundUser.id });
 
     return { accessToken, refreshToken, expirationDelaySeconds };
