@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.30.0 (04/09/2023)
+
+
+### :rocket: Amélioration
+- [#6960](https://github.com/1024pix/pix/pull/6960) [FEATURE] Ordonner la liste des certifications complémentaires dans Pix Admin. (PIX-8943).
+- [#6968](https://github.com/1024pix/pix/pull/6968) [FEATURE] Afficher de nouvelles informations sur la liste des contenus formatifs (PIX-8342).
+- [#6958](https://github.com/1024pix/pix/pull/6958) [FEATURE] Ajouter un script pour synchroniser les données de users.lastLoggedAt et de user-logins.lastLoggedAt (PIX-9009).
+- [#6957](https://github.com/1024pix/pix/pull/6957) [FEATURE] Changer la couleur du bouton de connexion de la FWB (PIX-8661).
+- [#6952](https://github.com/1024pix/pix/pull/6952) [FEATURE] Ajouter et alimenter une colonne lastLoggedAt dans la table user-logins (PIX-9008).
+- [#6918](https://github.com/1024pix/pix/pull/6918) [FEATURE] Créer les seeds pour des campagnes avec paliers (PIX-8906).
+
+### :building_construction: Tech
+- [#6959](https://github.com/1024pix/pix/pull/6959) [TECH] Supprime script certif obsolète (PIX-9016).
+- [#6971](https://github.com/1024pix/pix/pull/6971) [TECH] Améliorer les performances de la remontée de la certif auto (PIX-9019).
+- [#6965](https://github.com/1024pix/pix/pull/6965) [TECH] Remise à "null" les colonnes liées à la certificabilité d'un organization-learner dissocié (PIX-9017).
+- [#6967](https://github.com/1024pix/pix/pull/6967) [TECH] Utiliser du clonage superficiel pour la CI.
+- [#6947](https://github.com/1024pix/pix/pull/6947) [TECH] Restructuration de l'arborescence du versioning des profils cibles (PIX-8990).
+- [#6962](https://github.com/1024pix/pix/pull/6962) [TECH] Paralléliser les lint et test de l'API.
+- [#6955](https://github.com/1024pix/pix/pull/6955) [TECH] Suppression de toutes les occurences à Sendinblue.
+
+### :bug: Correction
+- [#6954](https://github.com/1024pix/pix/pull/6954) [BUGFIX] Obliger la saisie de nombre sur le champs 'ID' dans la recherche d'utilisateur (PIX-9005).
+- [#6953](https://github.com/1024pix/pix/pull/6953) [BUGFIX] Afficher correctement les déclencheurs des CF sur Pix Admin (PIX-9014).
+
+### :arrow_up: Montée de version
+- [#6973](https://github.com/1024pix/pix/pull/6973) [BUMP] Update browser-tools orb to v1.4.4 (.circleci).
+- [#6937](https://github.com/1024pix/pix/pull/6937) [BUMP] Update Node.js to ^v16.20.2.
+
 ## v4.29.0 (29/08/2023)
 
 
