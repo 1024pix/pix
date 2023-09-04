@@ -2,6 +2,7 @@ import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import * as campaignCreatorRepository from '../../../../lib/infrastructure/repositories/campaign-creator-repository.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../lib/domain/errors.js';
 import * as apps from '../../../../lib/domain/constants.js';
+import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.js';
 
 describe('Integration | Repository | CampaignCreatorRepository', function () {
   describe('#get', function () {
@@ -162,6 +163,28 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
         // then
         expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
         expect(error.message).to.equal(`Owner does not have an access to the organization ${organizationId}`);
+      });
+
+      it('return the campaign creator', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const ownerId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const shouldOwnerBeFromOrganization = false;
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await campaignCreatorRepository.get({
+          userId,
+          organizationId,
+          ownerId,
+          shouldOwnerBeFromOrganization,
+        });
+
+        // then
+        expect(result).to.be.instanceOf(CampaignCreator);
       });
     });
   });
