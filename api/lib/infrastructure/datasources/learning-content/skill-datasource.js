@@ -69,4 +69,4 @@ const skillDatasource = datasource.extend({
   },
 });
 
-export { skillDatasource };
+export { skillDatasource, ACTIVE_STATUS };
