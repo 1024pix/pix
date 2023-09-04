@@ -13,7 +13,11 @@ class FlashAssessmentAlgorithm {
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
   }
 
-  getPossibleNextChallenges({ allAnswers, challenges, initialCapacity }) {
+  getPossibleNextChallenges({
+    allAnswers,
+    challenges,
+    initialCapacity = config.v3Certification.defaultCandidateCapacity,
+  }) {
     if (allAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
