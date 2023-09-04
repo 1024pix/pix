@@ -382,4 +382,33 @@ describe('Integration | Repository | Badge', function () {
       });
     });
   });
+
+  describe('#findAllByIds', function () {
+    it('should find requested badge ids', async function () {
+      // given
+      const badge1 = databaseBuilder.factory.buildBadge({ key: 'BADGE_1' });
+      databaseBuilder.factory.buildBadge({ id: 2, key: 'BADGE_2' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findAllByIds({ ids: [badge1.id] });
+
+      // then
+      expect(badges).to.deep.equal([
+        {
+          id: badge1.id,
+          altMessage: badge1.altMessage,
+          imageUrl: badge1.imageUrl,
+          message: badge1.message,
+          targetProfileId: badge1.targetProfileId,
+          key: badge1.key,
+          title: badge1.title,
+          isCertifiable: badge1.isCertifiable,
+          isAlwaysVisible: badge1.isAlwaysVisible,
+          complementaryCertificationBadge: null,
+        },
+      ]);
+    });
+  });
 });
