@@ -286,4 +286,62 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       });
     });
   });
+
+  context('when there is no badges associated to target profile', function () {
+    it('should throw an error', async function () {
+      // given
+      const domainTransaction = {
+        knexTransaction: Symbol('transaction'),
+      };
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback(domainTransaction);
+      });
+      const badge1 = domainBuilder.buildBadge({ id: 123 });
+      const badge2 = domainBuilder.buildBadge({ id: 456 });
+
+      const complementaryCertificationRepository = {
+        getById: sinon
+          .stub()
+          .withArgs(123)
+          .resolves(
+            domainBuilder.buildComplementaryCertification({
+              id: 123,
+            }),
+          ),
+      };
+      const badgeRepository = {
+        findAllByIds: sinon.stub().withArgs([123, 456]).resolves([badge1, badge2]),
+      };
+      const complementaryCertificationBadgesRepository = {
+        attach: sinon.stub().resolves(),
+        detachByIds: sinon.stub(),
+        getAllIdsByTargetProfileId: sinon.stub(),
+      };
+      const complementaryCertificationBadgeToAttachValidator = {
+        validate: sinon.stub().resolves(),
+      };
+      complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
+        .withArgs({ targetProfileId: 789 })
+        .resolves([]);
+
+      // when
+      const error = await catchErr(attachBadgesToComplementaryCertification)({
+        userId: 1234,
+        complementaryCertificationBadgesToAttachDTO: [
+          { badgeId: 123, level: 2, label: 'badge_1' },
+          { badgeId: 456, level: 1, label: 'badge_2' },
+        ],
+        targetProfileIdToDetach: 789,
+        complementaryCertificationId: 123,
+        complementaryCertificationBadgeToAttachValidator,
+        badgeRepository,
+        complementaryCertificationRepository,
+        complementaryCertificationBadgesRepository,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal('No badges for this target profile.');
+    });
+  });
 });

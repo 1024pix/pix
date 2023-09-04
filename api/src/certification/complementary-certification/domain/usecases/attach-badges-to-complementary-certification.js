@@ -45,25 +45,23 @@ const attachBadgesToComplementaryCertification = async function ({
         targetProfileId,
       });
 
-    if (relatedComplementaryCertificationBadgesIds.length) {
-      await _detachExistingComplementaryCertificationBadge({
+    await _detachExistingComplementaryCertificationBadge({
+      complementaryCertificationBadgesRepository,
+      relatedComplementaryCertificationBadgesIds,
+      domainTransaction,
+    });
+
+    for (const complementaryCertificationBadgeToAttach of complementaryCertificationBadgesToAttach) {
+      const complementaryCertificationBadge = ComplementaryCertificationBadgeToAttach.from({
+        ...complementaryCertificationBadgeToAttach,
+        complementaryCertificationId,
+        userId,
+      });
+      await _attachNewComplementaryCertificationBadge({
         complementaryCertificationBadgesRepository,
-        relatedComplementaryCertificationBadgesIds,
+        complementaryCertificationBadge,
         domainTransaction,
       });
-
-      for (const complementaryCertificationBadgeToAttach of complementaryCertificationBadgesToAttach) {
-        const complementaryCertificationBadge = ComplementaryCertificationBadgeToAttach.from({
-          ...complementaryCertificationBadgeToAttach,
-          complementaryCertificationId,
-          userId,
-        });
-        await _attachNewComplementaryCertificationBadge({
-          complementaryCertificationBadgesRepository,
-          complementaryCertificationBadge,
-          domainTransaction,
-        });
-      }
     }
   });
 };
@@ -86,6 +84,10 @@ async function _detachExistingComplementaryCertificationBadge({
   relatedComplementaryCertificationBadgesIds,
   domainTransaction,
 }) {
+  if (relatedComplementaryCertificationBadgesIds.length === 0) {
+    throw new NotFoundError('No badges for this target profile.');
+  }
+
   await complementaryCertificationBadgesRepository.detachByIds({
     complementaryCertificationBadgeIds: relatedComplementaryCertificationBadgesIds,
     domainTransaction,
