@@ -68,7 +68,25 @@ const remove = async function (badgeId, { knexTransaction } = DomainTransaction.
   return true;
 };
 
-export { findByCampaignId, isAssociated, isRelatedToCertification, get, save, update, isKeyAvailable, remove };
+const findAllByIds = async function ({ ids }) {
+  const badges = await knex.from('badges').whereIn('id', ids);
+
+  return badges.map((badge) => {
+    return new Badge(badge);
+  });
+};
+
+export {
+  findByCampaignId,
+  isAssociated,
+  isRelatedToCertification,
+  get,
+  save,
+  update,
+  isKeyAvailable,
+  remove,
+  findAllByIds,
+};
 
 function _adaptModelToDb(badge) {
   return omit(badge, ['id', 'badgeCriteria', 'complementaryCertificationBadge']);
