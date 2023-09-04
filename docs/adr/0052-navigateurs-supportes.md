@@ -44,10 +44,6 @@ Nous pourrions nous baser uniquement sur une liste de navigateur, mais cela dema
 - d'avoir une liste assez exhaustive des navigateurs pour s'assurer de ne pas avoir d'oubli de situation
 - de mettre plus souvent à jour la liste des navigateurs, notamment en cas d'arrivée d'un navigateur web ou mobile avec une forte utilisation.
 
-Donc l'utilisation de la liste précise et du pourcentage d'utilisation en même temps nous semble être la meilleure approche.
-
-Ces listes devront être mise à jour régulièrement. La majorité des utilisations de Pix étant dans un cadre scolaire, une mise à jour annuelle durant l'été pourrait être une solution cohérente.
-
 De plus, le fichier `/config/target.js` est présent dans les différentes applications front.
 Nous pourrions avoir des règles différentes par applications, ou la même règle pour toutes les applications.
 Pour des soucis de cohérence, la même règle pour toutes les applications semble être la meilleure solution. De plus : 
@@ -64,7 +60,7 @@ Les applications front de Pix supportent les navigateurs qui ont *au moins 4 ans
 
 Pour cela, nous proposons d'utiliser la même valeur par défaut que BrowserList et d'ajouter notre limite de 4 ans (`last 4 years`)
 
-Par conséquent, la liste des navigateurs dans `/config/target.js` serait :
+Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
 ```
 "browserslist": [
   "> 0.5%",
@@ -75,9 +71,9 @@ Par conséquent, la liste des navigateurs dans `/config/target.js` serait :
 ]
 ```
 
-Cela permet de ne pas avoir à maintenir à jour le document.
+Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet browserslist et de ses dépendances.
 
-Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type : `npx browserslist "> 0.5%, not dead, Firefox ESR, last 4 years"`
+Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type : `npx browserslist "> 0.5%, last 2 versions, Firefox ESR, not dead, last 4 years"`
 
 Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor et les différents pix-sites (https://pix.org/, https://pix.fr/, etc.).
 
