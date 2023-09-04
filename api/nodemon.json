@@ -1,6 +1,7 @@
 {
   "signal": "SIGTERM",
   "watch": [
+    "src",
     "lib",
     "index.js",
     "server.js",
