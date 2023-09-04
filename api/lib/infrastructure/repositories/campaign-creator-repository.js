@@ -2,9 +2,11 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignCreator } from '../../../lib/domain/models/CampaignCreator.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../domain/errors.js';
 
-async function get({ userId, organizationId, ownerId }) {
+async function get({ userId, organizationId, ownerId, shouldOwnerBeFromOrganization = true }) {
   await _checkUserIsAMemberOfOrganization({ organizationId, userId });
-  await _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId });
+  if (shouldOwnerBeFromOrganization) {
+    await _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId });
+  }
 
   const availableTargetProfileIds = await knex('target-profiles')
     .leftJoin('target-profile-shares', 'targetProfileId', 'target-profiles.id')
