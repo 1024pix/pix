@@ -9,22 +9,28 @@ const createCampaigns = async function ({
 }) {
   const enrichedCampaignsData = await Promise.all(
     campaignsToCreate.map(async (campaign) => {
-      const [administrator] = await membershipRepository.findAdminsByOrganizationId({
-        organizationId: campaign.organizationId,
-      });
+      let ownerId;
+      if (campaign.ownerId) {
+        ownerId = campaign.ownerId;
+      } else {
+        const [administrator] = await membershipRepository.findAdminsByOrganizationId({
+          organizationId: campaign.organizationId,
+        });
+        ownerId = administrator.user.id;
+      }
 
       const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
       const campaignCreator = await campaignCreatorRepository.get({
         userId: campaign.creatorId,
         organizationId: campaign.organizationId,
-        ownerId: administrator.user.id,
+        shouldOwnerBeFromOrganization: false,
       });
 
       return campaignCreator.createCampaign({
         ...campaign,
         type: CampaignTypes.ASSESSMENT,
         code: generatedCampaignCode,
-        ownerId: administrator.user.id,
+        ownerId,
       });
     }),
   );
