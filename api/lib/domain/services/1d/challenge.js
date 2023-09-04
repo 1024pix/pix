@@ -1,5 +1,4 @@
 import { NotFoundError } from '../../errors.js';
-import { activityChallengesService } from './activity-challenges.js';
 
 async function getChallenge({ missionId, activityLevel, challengeNumber, alternativeVersion, challengeRepository }) {
   try {
@@ -28,10 +27,9 @@ async function getAlternativeVersion({
   alreadyPlayedAlternativeVersions,
   challengeRepository,
 }) {
-  const activityChallenges = await activityChallengesService.getAllChallenges({
+  const activityChallenges = await challengeRepository.getActivityChallengesFor1d({
     missionId,
     activityLevel,
-    challengeRepository,
   });
   let challengeWithMaxNumberOfVersions = activityChallenges[0];
   for (const challengeAlternatives of activityChallenges) {

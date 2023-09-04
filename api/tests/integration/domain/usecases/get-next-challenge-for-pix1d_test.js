@@ -1,10 +1,11 @@
-import { databaseBuilder, domainBuilder, expect, knex, mockLearningContent, sinon } from '../../../test-helper.js';
+import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../test-helper.js';
 import { Activity, Assessment, Challenge } from '../../../../lib/domain/models/index.js';
 import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
 import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
+import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
   describe('#getNextChallengeForPix1d', function () {
@@ -22,36 +23,60 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
       const tubeIdVal = 'tubeIdVal';
       const tubeIdEn = 'tubeIdEn';
       const tubeIdDefi = 'tubeIdDefi';
-      const skillVal1 = domainBuilder.buildSkill({ id: 'recSkillVal1', name: '@rechercher_va1', tubeId: tubeIdVal });
-      const skillVal2 = domainBuilder.buildSkill({ id: 'recSkillVal2', name: '@rechercher_va2', tubeId: tubeIdVal });
-      const skillEn1 = domainBuilder.buildSkill({ id: 'recSkillEn2', name: '@rechercher_en1', tubeId: tubeIdEn });
-      const skillDefi = domainBuilder.buildSkill({ id: 'recSkillDefi', name: '@rechercher_de1', tubeId: tubeIdDefi });
+      const skillVal1 = learningContentBuilder.buildSkill({
+        id: 'recSkillVal1',
+        name: '@rechercher_va1',
+        tubeId: tubeIdVal,
+      });
+      const skillVal2 = learningContentBuilder.buildSkill({
+        id: 'recSkillVal2',
+        name: '@rechercher_va2',
+        tubeId: tubeIdVal,
+      });
+      const skillEn1 = learningContentBuilder.buildSkill({
+        id: 'recSkillEn2',
+        name: '@rechercher_en1',
+        tubeId: tubeIdEn,
+      });
+      const skillDefi = learningContentBuilder.buildSkill({
+        id: 'recSkillDefi',
+        name: '@rechercher_de1',
+        tubeId: tubeIdDefi,
+      });
 
-      const tubeVal = domainBuilder.buildTube({
+      const tubeVal = learningContentBuilder.buildTube({
         id: tubeIdVal,
         thematicId: missionId,
-        name: '@rechercher_val',
-        skills: [skillVal1, skillVal2],
+        name: '@rechercher_va',
+        skillIds: [skillVal1.id, skillVal2.id],
       });
-      const tubeEn = domainBuilder.buildTube({
+      const tubeEn = learningContentBuilder.buildTube({
         id: tubeIdEn,
         thematicId: missionId,
         name: '@rechercher_en',
-        skills: [skillEn1],
+        skillIds: [skillEn1.id],
       });
-      const tubeDefi = domainBuilder.buildTube({
+      const tubeDefi = learningContentBuilder.buildTube({
         id: tubeIdDefi,
         thematicId: missionId,
         name: '@rechercher_en',
-        skills: [skillDefi],
+        skillIds: [skillDefi.id],
       });
 
-      challengeVal1 = _buildChallenge({ id: 'challengeVal1', skillId: skillVal1.id });
-      challengeAlterVal1 = _buildChallenge({ id: 'challengeAlterVal1', skillId: skillVal1.id, alternativeVersion });
-      challengeVal2 = _buildChallenge({ id: 'challengeVal2', skillId: skillVal2.id });
-      challengeAlterVal2 = _buildChallenge({ id: 'challengeAlterVal2', skillId: skillVal2.id, alternativeVersion });
-      challengeEn1 = _buildChallenge({ id: 'challengeEn1', skillId: skillEn1.id });
-      challengeDefi = _buildChallenge({ id: 'challengeDefi1', skillId: skillDefi.id });
+      challengeVal1 = learningContentBuilder.buildChallenge({ id: 'challengeVal1', skillId: skillVal1.id });
+      challengeAlterVal1 = learningContentBuilder.buildChallenge({
+        id: 'challengeAlterVal1',
+        skillId: skillVal1.id,
+        alternativeVersion,
+      });
+      challengeVal2 = learningContentBuilder.buildChallenge({ id: 'challengeVal2', skillId: skillVal2.id });
+      challengeAlterVal2 = learningContentBuilder.buildChallenge({
+        id: 'challengeAlterVal2',
+        skillId: skillVal2.id,
+        alternativeVersion,
+      });
+      challengeEn1 = learningContentBuilder.buildChallenge({ id: 'challengeEn1', skillId: skillEn1.id });
+      challengeDefi = learningContentBuilder.buildChallenge({ id: 'challengeDefi1', skillId: skillDefi.id });
 
       const learningContent = {
         tubes: [tubeDefi, tubeVal, tubeEn],
@@ -414,32 +439,4 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
       });
     });
   });
-  function _buildChallenge({ id, skillId, status = 'validé', alternativeVersion }) {
-    return {
-      id,
-      attachments: ['URL pièce jointe'],
-      format: 'petit',
-      illustrationUrl: "Une URL vers l'illustration",
-      illustrationAlt: "Le texte de l'illustration",
-      instruction: 'Des instructions',
-      alternativeInstruction: 'Des instructions alternatives',
-      proposals: 'Une proposition',
-      status,
-      timer: '',
-      focusable: true,
-      type: Challenge.Type.QCM,
-      locales: ['fr'],
-      autoReply: false,
-      discriminant: 1,
-      difficulty: 0,
-      answer: undefined,
-      responsive: 'Smartphone/Tablette',
-      competenceId: 'recCOMP1',
-      skillId,
-      alpha: 1,
-      delta: 0,
-      shuffled: false,
-      alternativeVersion: alternativeVersion || undefined,
-    };
-  }
 });
