@@ -79,6 +79,6 @@ Cela permet de ne pas avoir à maintenir à jour le document.
 
 Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type : `npx browserslist "> 0.5%, not dead, Firefox ESR, last 4 years"`
 
-Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI et Pix Editor.
+Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor et les différents pix-sites (https://pix.org/, https://pix.fr/, etc.).
 
 [Liste des navigateurs et leur date de release](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
