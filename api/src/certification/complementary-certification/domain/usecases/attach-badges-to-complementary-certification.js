@@ -8,7 +8,7 @@ import { InvalidBadgeLevelError } from '../../../shared/domain/errors.js';
 const attachBadgesToComplementaryCertification = async function ({
   complementaryCertificationId,
   userId,
-  targetProfileId,
+  targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
   badgeRepository,
   complementaryCertificationRepository,
@@ -42,7 +42,7 @@ const attachBadgesToComplementaryCertification = async function ({
   return DomainTransaction.execute(async (domainTransaction) => {
     const relatedComplementaryCertificationBadgesIds =
       await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
-        targetProfileId,
+        targetProfileId: targetProfileIdToDetach,
       });
 
     await _detachExistingComplementaryCertificationBadge({
@@ -131,7 +131,9 @@ async function _verifyThatComplementaryCertificationExists({
   complementaryCertificationId,
   complementaryCertificationRepository,
 }) {
-  const complementaryCertification = await complementaryCertificationRepository.getById(complementaryCertificationId);
+  const complementaryCertification = await complementaryCertificationRepository.getById({
+    complementaryCertificationId,
+  });
   if (!complementaryCertification) {
     throw new NotFoundError('The complementary certification does not exist');
   }
@@ -143,7 +145,7 @@ async function _verifyThatBadgesToAttachExist({ complementaryCertificationBadges
   }
 
   const ids = complementaryCertificationBadgesToAttachDTO.map((ccBadgeToAttach) => ccBadgeToAttach.badgeId);
-  const badges = await badgeRepository.findAllByIds(ids);
+  const badges = await badgeRepository.findAllByIds({ ids });
 
   if (badges?.length !== ids.length) {
     throw new NotFoundError("One or several badges don't exist.");
