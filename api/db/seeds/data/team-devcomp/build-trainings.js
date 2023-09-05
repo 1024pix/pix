@@ -2,7 +2,7 @@ import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 
 export function buildTrainings(databaseBuilder) {
   const frTrainingId = databaseBuilder.factory.buildTraining({
-    title: 'Eating Croissants the French way',
+    title: 'Apprendre à manger un croissant comme les français',
     locale: 'fr',
   }).id;
 
@@ -41,6 +41,28 @@ export function buildTrainings(databaseBuilder) {
 
   databaseBuilder.factory.buildTrainingTriggerTube({
     trainingTriggerId: frFrTrainingTriggerId,
+    tubeId: 'tube1NLpOetQhutFlA',
+    level: 2,
+  });
+
+  const enTrainingId = databaseBuilder.factory.buildTraining({
+    title: 'Eat a croissant like the french',
+    locale: 'en',
+  }).id;
+
+  databaseBuilder.factory.buildTargetProfileTraining({
+    targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
+    trainingId: enTrainingId,
+  });
+
+  const enTrainingTrigger = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId: enTrainingId,
+    threshold: 0,
+    type: 'prerequisite',
+  }).id;
+
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: enTrainingTrigger,
     tubeId: 'tube1NLpOetQhutFlA',
     level: 2,
   });
