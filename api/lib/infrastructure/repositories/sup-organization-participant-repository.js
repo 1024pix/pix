@@ -46,8 +46,10 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
       ),
     ])
     .from('view-active-organization-learners')
+    .leftJoin('users', 'view-active-organization-learners.userId', 'users.id')
     .join('campaign-participations', function () {
       this.on('view-active-organization-learners.id', 'campaign-participations.organizationLearnerId')
+        .andOn('view-active-organization-learners.userId', 'campaign-participations.userId')
         .andOnVal('campaign-participations.status', CampaignParticipationStatuses.SHARED)
         .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
     })
@@ -116,9 +118,11 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
       ),
     ])
     .from('view-active-organization-learners')
+    .leftJoin('users', 'view-active-organization-learners.userId', 'users.id')
     .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
     .leftJoin('campaign-participations', function () {
       this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
+        .andOn('view-active-organization-learners.userId', 'campaign-participations.userId')
         .andOnVal('campaign-participations.isImproved', false)
         .andOnVal('campaign-participations.deletedAt', knex.raw('is'), knex.raw('null'));
     })
