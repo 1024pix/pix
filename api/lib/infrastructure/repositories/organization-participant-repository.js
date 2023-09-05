@@ -69,21 +69,22 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
       ),
     ])
     .from('view-active-organization-learners')
-    .join(
-      'campaign-participations',
-      'campaign-participations.organizationLearnerId',
-      'view-active-organization-learners.id',
-    )
+    .join('campaign-participations', function () {
+      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
+        .andOnVal('campaign-participations.isImproved', false)
+        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
+    })
     .join('campaigns', function () {
-      this.on('campaign-participations.campaignId', 'campaigns.id');
-      this.on('campaigns.organizationId', organizationId);
+      this.on('campaign-participations.campaignId', 'campaigns.id').andOnVal(
+        'campaigns.organizationId',
+        organizationId,
+      );
     })
     .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
-    .leftJoin('users', 'view-active-organization-learners.userId', 'users.id')
+    .join('users', function () {
+      this.on('view-active-organization-learners.userId', 'users.id').andOnVal('users.isAnonymous', false);
+    })
     .where('view-active-organization-learners.organizationId', organizationId)
-    .where('users.isAnonymous', '=', false)
-    .whereNull('campaign-participations.deletedAt')
-    .where('campaign-participations.isImproved', '=', false)
     .orderBy(orderByClause)
     .distinct('view-active-organization-learners.id')
     .modify(_filterBySearch, filters)
