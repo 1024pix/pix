@@ -83,10 +83,9 @@ export default class Url extends Service {
   get levelSevenNewsUrl() {
     const currentLanguage = this.intl.t('current-lang');
 
-    // TODO change these url when they are available
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
-      return 'https://pix.org/en/news/european-commission-pix-wins-european-digital-skills-awards';
+      return 'https://pix.org/en/news/discover-level-7-on-pix';
     }
-    return 'https://pix.fr/actualites/commission-europeenne-pix-remporte-european-digital-skills-awards';
+    return 'https://pix.fr/actualites/decouvrez-le-niveau-7-des-maintenant-sur-pix';
   }
 }
