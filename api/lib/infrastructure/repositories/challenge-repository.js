@@ -197,7 +197,7 @@ const findOperativeFlashCompatible = async function ({
   return _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold });
 };
 
-const findFlashCompatible = async function ({ locale, useObsoleteChallenges }) {
+const findFlashCompatible = async function ({ locale, useObsoleteChallenges } = {}) {
   const challengeDataObjects = await challengeDatasource.findFlashCompatible({ locale, useObsoleteChallenges });
   const skills = await skillDatasource.list();
   return _toDomainCollection({ challengeDataObjects, skills });

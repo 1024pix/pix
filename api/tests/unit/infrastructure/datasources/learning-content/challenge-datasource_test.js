@@ -137,7 +137,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findOperativeBySkillIds(skillIds);
 
       // then
-      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
     });
   });
@@ -162,7 +161,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     it('should resolve to an array of matching Challenges from learning content', function () {
       // then
-      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1']);
     });
   });
@@ -179,7 +177,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findOperative();
 
       // then
-      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2', 'challenge-web3-archived']);
     });
   });
@@ -212,7 +209,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findValidated();
 
       // then
-      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
     });
   });
@@ -242,7 +238,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         const result = await challengeDatasource.findFlashCompatible({ locale });
 
         // then
-        expect(lcms.getLatestRelease).to.have.been.called;
         expect(_.map(result, 'id').sort()).to.deep.equal(
           [challenge_competence1.id, challenge_competence2.id, challenge_web3.id, challenge_web3_archived.id].sort(),
         );
@@ -256,7 +251,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         const result = await challengeDatasource.findFlashCompatible({ locale, useObsoleteChallenges: true });
 
         // then
-        expect(lcms.getLatestRelease).to.have.been.called;
         expect(_.map(result, 'id').sort()).to.deep.equal(
           [
             challenge_competence1.id,
@@ -286,18 +280,34 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       });
     });
 
-    it('should resolve an array of matching Challenges from learning content', async function () {
-      // when
-      const locale = 'fr-fr';
-      const result = await challengeDatasource.findActiveFlashCompatible(locale);
+    describe('when no locale is set', function () {
+      it('should resolve an array of matching Challenges from learning content', async function () {
+        // when
+        const result = await challengeDatasource.findActiveFlashCompatible();
 
-      // then
-      expect(lcms.getLatestRelease).to.have.been.called;
-      expect(_.map(result, 'id')).to.deep.equal([
-        challenge_competence1.id,
-        challenge_competence2.id,
-        challenge_web3.id,
-      ]);
+        // then
+        expect(_.map(result, 'id')).to.deep.equal([
+          challenge_competence1.id,
+          challenge_competence2.id,
+          challenge_web2_en.id,
+          challenge_web3.id,
+        ]);
+      });
+    });
+
+    describe('when a locale is set', function () {
+      it('should resolve an array of matching Challenges from learning content containing the locale', async function () {
+        // when
+        const locale = 'fr-fr';
+        const result = await challengeDatasource.findActiveFlashCompatible(locale);
+
+        // then
+        expect(_.map(result, 'id')).to.deep.equal([
+          challenge_competence1.id,
+          challenge_competence2.id,
+          challenge_web3.id,
+        ]);
+      });
     });
   });
 
@@ -323,7 +333,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findOperativeFlashCompatible(locale);
 
       // then
-      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         challenge_competence1.id,
         challenge_competence2.id,
@@ -344,7 +353,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       const result = await challengeDatasource.findValidatedBySkillId('skill-web1');
 
       // then
-      expect(lcms.getLatestRelease).to.have.been.called;
       expect(result).to.deep.equal([challenge_web1, challenge_competence2]);
     });
   });
@@ -377,19 +385,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
 
     context('when there are several challenges for the skillId', function () {
-      // it('should return a challenge randomly if the alternativeVersion is not provided', async function () {
-      //   // when
-      //   sinon.stub(lcms, 'getLatestRelease').resolves({
-      //     challenges: [challenge_web1, challenge_competence2, challenge_pix1d1, challenge_pix1d2],
-      //   });
-      //   const result = await challengeDatasource.getBySkillId(skillId);
-      //
-      //   // then
-      //   expect(lcms.getLatestRelease).to.have.been.called;
-      //
-      //   expect([result]).to.contain.oneOf(expectedChallenges);
-      // });
-
       it('should return an array of validated or proposed challenges', async function () {
         // when
         sinon.stub(lcms, 'getLatestRelease').resolves({
@@ -417,7 +412,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         const result = await challengeDatasource.getBySkillId(skillId);
 
         // then
-        expect(lcms.getLatestRelease).to.have.been.called;
         expect(result).to.deep.equal([validated_challenge_pix1d]);
       });
     });

@@ -77,7 +77,7 @@ const challengeDatasource = datasource.extend({
 
     return challenges.filter(
       (challengeData) =>
-        _.includes(challengeData.locales, locale) &&
+        (!locale || _.includes(challengeData.locales, locale)) &&
         challengeData.alpha != null &&
         challengeData.delta != null &&
         challengeData.skillId &&
