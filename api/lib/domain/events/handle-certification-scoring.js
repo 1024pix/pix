@@ -5,6 +5,8 @@ import bluebird from 'bluebird';
 import { CertificationComputeError } from '../errors.js';
 import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -17,11 +19,26 @@ async function handleCertificationScoring({
   certificationCourseRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  answerRepository,
+  challengeRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
   if (event.isCertificationType) {
     const certificationAssessment = await certificationAssessmentRepository.get(event.assessmentId);
+
+    if (certificationAssessment.version === CertificationVersion.V3) {
+      return _handleV3CertificationScoring({
+        challengeRepository,
+        answerRepository,
+        assessmentId: event.assessmentId,
+        certificationAssessment,
+        assessmentResultRepository,
+        certificationCourseRepository,
+        competenceMarkRepository,
+      });
+    }
+
     return _calculateCertificationScore({
       certificationAssessment,
       assessmentResultRepository,
@@ -70,6 +87,39 @@ async function _calculateCertificationScore({
       certificationComputeError: error,
     });
   }
+}
+
+async function _handleV3CertificationScoring({
+  challengeRepository,
+  answerRepository,
+  assessmentId,
+  certificationAssessment,
+  assessmentResultRepository,
+  certificationCourseRepository,
+  competenceMarkRepository,
+}) {
+  const allAnswers = await answerRepository.findByAssessment(assessmentId);
+  const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
+  const challenges = await challengeRepository.getMany(challengeIds);
+
+  const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+    challenges,
+    allAnswers,
+  });
+
+  await _saveResult({
+    certificationAssessment,
+    certificationAssessmentScore,
+    assessmentResultRepository,
+    certificationCourseRepository,
+    competenceMarkRepository,
+  });
+
+  return new CertificationScoringCompleted({
+    userId: certificationAssessment.userId,
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+  });
 }
 
 async function _saveResult({
