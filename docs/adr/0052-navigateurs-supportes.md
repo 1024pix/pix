@@ -52,7 +52,11 @@ Pour des soucis de cohérence, la même règle pour toutes les applications semb
 
 Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble être celle proposée ci-dessous.
 
-À noter que la valeur par défaut de BrowserList est : `> 0.5%, last 2 versions, Firefox ESR, not dead`
+À noter que la valeur par défaut de BrowserList est :
+
+```dotenv
+> 0.5%, last 2 versions, Firefox ESR, not dead
+```
 
 ## Décision finale
 
@@ -61,7 +65,8 @@ Les applications front de Pix supportent les navigateurs qui ont *au moins 4 ans
 Pour cela, nous proposons d'utiliser la même valeur par défaut que BrowserList et d'ajouter notre limite de 4 ans (`last 4 years`)
 
 Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
-```
+
+```json
 "browserslist": [
   "> 0.5%",
   "last 2 versions",
@@ -73,7 +78,11 @@ Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
 
 Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet browserslist et de ses dépendances.
 
-Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type : `npx browserslist "> 0.5%, last 2 versions, Firefox ESR, not dead, last 4 years"`
+Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type :
+
+```shell
+npx browserslist "> 0.5%, last 2 versions, Firefox ESR, not dead, last 4 years"
+```
 
 Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor et les différents pix-sites (https://pix.org/, https://pix.fr/, etc.).
 
