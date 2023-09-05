@@ -292,8 +292,7 @@ module('Unit | Service | locale', function (hooks) {
       const service = this.owner.lookup('service:url');
       service.currentDomain = { isFranceDomain: true };
       service.intl = { t: sinon.stub().returns(FRENCH_INTERNATIONAL_LOCALE) };
-      const expectedLevelSevenNewsUrl =
-        'https://pix.fr/actualites/commission-europeenne-pix-remporte-european-digital-skills-awards';
+      const expectedLevelSevenNewsUrl = 'https://pix.fr/actualites/decouvrez-le-niveau-7-des-maintenant-sur-pix';
 
       // when
       const levelSevenNewsUrl = service.levelSevenNewsUrl;
@@ -308,8 +307,7 @@ module('Unit | Service | locale', function (hooks) {
         const service = this.owner.lookup('service:url');
         service.currentDomain = { isFranceDomain: false };
         service.intl = { t: sinon.stub().returns(ENGLISH_INTERNATIONAL_LOCALE) };
-        const expectedLevelSevenNewsUrl =
-          'https://pix.org/en/news/european-commission-pix-wins-european-digital-skills-awards';
+        const expectedLevelSevenNewsUrl = 'https://pix.org/en/news/discover-level-7-on-pix';
 
         // when
         const levelSevenNewsUrl = service.levelSevenNewsUrl;
