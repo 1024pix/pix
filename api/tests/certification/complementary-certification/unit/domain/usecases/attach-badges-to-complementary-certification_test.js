@@ -201,7 +201,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
             { badgeId: 123, level: 2, label: 'badge_1' },
             { badgeId: 456, level: 1, label: 'badge_2' },
           ],
-          targetProfileId: 789,
+          targetProfileIdToDetach: 789,
           complementaryCertificationId: 123,
           badgeRepository,
           complementaryCertificationRepository,
@@ -265,7 +265,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
         await attachBadgesToComplementaryCertification({
           userId: 1234,
           complementaryCertificationBadgesToAttachDTO: [complementaryCertificationBadge],
-          targetProfileId: 456,
+          targetProfileIdToDetach: 456,
           complementaryCertificationId: 123,
           badgeRepository,
           complementaryCertificationRepository,
