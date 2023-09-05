@@ -184,9 +184,12 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
         value = value.trim();
       }
       if (
-        ["Identifiant de l'organisation*", 'Identifiant du profil cible*', 'Identifiant du créateur*'].includes(
-          columnName,
-        )
+        [
+          "Identifiant de l'organisation*",
+          'Identifiant du profil cible*',
+          'Identifiant du créateur*',
+          'Identifiant du propriétaire',
+        ].includes(columnName)
       ) {
         value = parseInt(value, 10);
       }
@@ -210,6 +213,7 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     title: data['Titre du parcours'],
     customLandingPageText: data['Descriptif du parcours'],
     multipleSendings: data['Envoi multiple'].toLowerCase() === 'oui' ? true : false,
+    ownerId: data['Identifiant du propriétaire'] || null,
   }));
 }
 
