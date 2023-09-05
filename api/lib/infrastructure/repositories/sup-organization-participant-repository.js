@@ -46,17 +46,17 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
       ),
     ])
     .from('view-active-organization-learners')
-    .join(
-      'campaign-participations',
-      'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId',
-    )
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .where('campaign-participations.status', CampaignParticipationStatuses.SHARED)
-    .where('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
-    .where('view-active-organization-learners.organizationId', organizationId)
-    .where('campaigns.organizationId', organizationId)
-    .where('campaign-participations.deletedAt', null);
+    .join('campaign-participations', function () {
+      this.on('view-active-organization-learners.id', 'campaign-participations.organizationLearnerId')
+        .andOnVal('campaign-participations.status', CampaignParticipationStatuses.SHARED)
+        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
+    })
+    .join('campaigns', function () {
+      this.on('campaigns.id', 'campaign-participations.campaignId')
+        .andOnVal('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
+        .andOnVal('campaigns.organizationId', organizationId);
+    })
+    .where('view-active-organization-learners.organizationId', organizationId);
 }
 
 const findPaginatedFilteredSupParticipants = async function ({ organizationId, filter, page = {}, sort = {} }) {
@@ -119,8 +119,8 @@ const findPaginatedFilteredSupParticipants = async function ({ organizationId, f
     .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
     .leftJoin('campaign-participations', function () {
       this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
-        .andOn('campaign-participations.isImproved', '=', knex.raw('false'))
-        .andOn('campaign-participations.deletedAt', knex.raw('is'), knex.raw('null'));
+        .andOnVal('campaign-participations.isImproved', false)
+        .andOnVal('campaign-participations.deletedAt', knex.raw('is'), knex.raw('null'));
     })
     .leftJoin('campaigns', function () {
       this.on('campaigns.id', 'campaign-participations.campaignId').andOn(
