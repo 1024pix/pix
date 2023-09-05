@@ -1,5 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { createCampaigns } from '../../../../../lib/domain/usecases/campaigns-administration/create-campaigns.js';
+import { CampaignTypes } from '../../../../../lib/domain/models/CampaignTypes.js';
 
 describe('Unit | UseCase | campaign-administration | create-campaign', function () {
   it('should create campaigns', async function () {
@@ -9,12 +10,15 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
     const code1 = Symbol('code1');
     const code2 = Symbol('code2');
     const administrator = domainBuilder.buildUser();
-    const organization = domainBuilder.buildOrganization({ id: 3, externalId: '1237457A', ownerId: administrator.id });
+    const someoneId = 454756;
+    const otherOrganization = domainBuilder.buildOrganization({ id: 3 });
+    const organization = domainBuilder.buildOrganization({ id: 4 });
     const administratorMembership = domainBuilder.buildMembership({
       user: administrator,
-      organization,
+      organization: otherOrganization,
       organizationRole: 'ADMIN',
     });
+
     const campaignCodeGeneratorStub = {
       generate: sinon.stub().withArgs(campaignRepository).onFirstCall().resolves(code1).onSecondCall().resolves(code2),
     };
@@ -24,60 +28,72 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
         organizationId: organization.id,
         name: 'My Campaign',
         targetProfileId: 3,
-        creatorId: 1,
+        creatorId: 2,
+        ownerId: someoneId,
       },
       {
-        organizationId: organization.id,
-        name: 'My Campaign',
+        organizationId: otherOrganization.id,
+        name: 'My other Campaign',
         targetProfileId: 3,
-        creatorId: 2,
+        creatorId: 1,
       },
     ];
 
     const campaignsWithAllData = [
       {
-        organizationId: organization.id,
-        name: 'My Campaign',
+        ...campaignsToCreate[0],
         type: 'ASSESSMENT',
-        targetProfileId: 3,
-        ownerId: administrator.id,
-        creatorId: 1,
         code: code1,
       },
       {
-        organizationId: organization.id,
-        name: 'My Campaign',
+        ...campaignsToCreate[1],
         type: 'ASSESSMENT',
-        targetProfileId: 3,
         ownerId: administrator.id,
-        creatorId: 2,
         code: code2,
       },
     ];
 
     const campaignCreatorPOJO = {
-      createCampaign: sinon
-        .stub()
-        .onFirstCall()
-        .resolves(campaignsWithAllData[0])
-        .onSecondCall()
-        .resolves(campaignsWithAllData[1]),
+      createCampaign: sinon.stub(),
     };
+
+    campaignCreatorPOJO.createCampaign
+      .withArgs({ ...campaignsToCreate[0], type: CampaignTypes.ASSESSMENT, code: code1, ownerId: someoneId })
+      .resolves(campaignsWithAllData[0]);
+    campaignCreatorPOJO.createCampaign
+      .withArgs({ ...campaignsToCreate[1], type: CampaignTypes.ASSESSMENT, code: code2, ownerId: administrator.id })
+      .resolves(campaignsWithAllData[1]);
 
     const campaignCreatorRepositoryStub = {
-      get: sinon.stub().resolves(campaignCreatorPOJO),
+      get: sinon.stub(),
     };
 
-    campaignRepository.save.withArgs(campaignsWithAllData).resolves();
+    campaignCreatorRepositoryStub.get
+      .withArgs({
+        userId: campaignsToCreate[0].creatorId,
+        organizationId: campaignsToCreate[0].organizationId,
+        shouldOwnerBeFromOrganization: false,
+      })
+      .resolves(campaignCreatorPOJO);
+    campaignCreatorRepositoryStub.get
+      .withArgs({
+        userId: campaignsToCreate[1].creatorId,
+        organizationId: campaignsToCreate[1].organizationId,
+        shouldOwnerBeFromOrganization: false,
+      })
+      .resolves(campaignCreatorPOJO);
+
+    const createdCampaignsSymbol = Symbol('');
+    campaignRepository.save.withArgs(campaignsWithAllData).resolves(createdCampaignsSymbol);
 
     const membershipRepository = {
       findAdminsByOrganizationId: sinon.stub(),
     };
     membershipRepository.findAdminsByOrganizationId
-      .withArgs({ organizationId: organization.id })
+      .withArgs({ organizationId: otherOrganization.id })
       .resolves([administratorMembership]);
 
-    await createCampaigns({
+    const result = await createCampaigns({
       campaignsToCreate,
       membershipRepository,
       campaignRepository,
@@ -85,7 +101,6 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       campaignCreatorRepository: campaignCreatorRepositoryStub,
     });
 
-    expect(campaignRepository.save).to.have.been.calledWith(campaignsWithAllData);
-    expect(membershipRepository.findAdminsByOrganizationId).to.have.been.calledTwice;
+    expect(result).to.equal(createdCampaignsSymbol);
   });
 });
