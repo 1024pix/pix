@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (courses) {
   return new Serializer('course', {
-    attributes: ['name', 'description', 'nbChallenges', 'imageUrl'],
+    attributes: ['name', 'description', 'nbChallenges'],
   }).serialize(courses);
 };
 

@@ -4,7 +4,6 @@ const buildCourse = function ({
   id = 'recCOUR123',
   description = 'description',
   isActive = true,
-  imageUrl = 'imageURL',
   name = 'name',
   assessment,
   challenges = [],
@@ -17,7 +16,6 @@ const buildCourse = function ({
     // attributes
     description,
     isActive,
-    imageUrl,
     name,
     // relations
     assessment,
