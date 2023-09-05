@@ -69,6 +69,7 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .from('view-active-organization-learners')
     .join('campaign-participations', function () {
       this.on('view-active-organization-learners.id', 'campaign-participations.organizationLearnerId')
+        .andOn('view-active-organization-learners.userId', 'campaign-participations.userId')
         .andOnVal('campaign-participations.status', CampaignParticipationStatuses.SHARED)
         .andOn('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
     })
@@ -152,6 +153,7 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     .leftJoin('users', 'users.id', 'view-active-organization-learners.userId')
     .leftJoin('campaign-participations', function () {
       this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
+        .andOn('campaign-participations.userId', 'view-active-organization-learners.userId')
         .andOnVal('campaign-participations.isImproved', false)
         .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
     })
