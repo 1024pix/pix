@@ -14,19 +14,19 @@ Nos frameworks et nos packages permettent de supporter les anciens navigateurs j
 
 Le choix de supporter tels ou tels navigateurs a un impact écologique qu'il faut mentionner. D'un côté supporter des vieux navigateurs permet aux utilisateurs de pouvoir utiliser de vieux ordinateurs et téléphones et ainsi aux utilisateurs de garder leurs matériels informatiques plus longtemps. Mais d'un autre côté s'appuyer sur les nouvelles fonctionnalités natives des navigateurs récents (que ce soit au niveau de JavaScript ou des CSS) permet une réduction significative de la taille des paquets (bundles) produits téléchargés par les matériels des utilisateurs.
 
-Enfin, le support utilisateur a besoin de connaitre le plus facilement possible les navigateurs supportés par Pix.
-À noter que pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, et que les établissements peuvent mettre à jour durant la période des vacances scolaires. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
+De plus pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, et que les établissements peuvent mettre à jour durant la période des vacances scolaires. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
 
-Techniquement, le support navigateur se fait via le fichier `/config/target.js` disponible dans les différents projets front. C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/).
-Ces sites utilisent les statistiques d'utilisation des navigateurs dans le monde.
+De plus, [EmberJs ne supporte plus les trop vieux navigateurs](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon statcounter.
 
-Pour supporter les navigateurs très utilisés sur nos publics, anciens mais aussi nouveaux, il faut  mettre à jour la configuration du framework. 
+Par ailleurs le *Support Utilisateur* a besoin de connaitre le plus facilement possible les navigateurs supportés par Pix.
 
-De plus, [EmberJs ne supporte pas tous les navigateurs](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon statcounter. 
+Enfin, techniquement, le support navigateur se fait via un fichier de configuration dans chaque projet front (via le fichier `/config/target.js` pour les applications Ember, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
+
+Actuellement le fichier `/config/target.js` des applications Ember contient la configuration `'> 1%', 'firefox 58'` qui contient en dur une très vielle version d'un navigateur spécifique. Ce type de configuration avec des versions en dur oblige une mise à jour manuelle des fichiers qui peut être oubliée.
 
 ## Possibilités et réflexions
 
-Par rapport au cahier des charges des centres de certifications, nous devons supporter au moins les navigateurs qui ont trois ans. 
+Par rapport au cahier des charges des centres de certifications, nous devons supporter au moins les navigateurs qui ont 3 ans.
 Nous pourrions choisir de supporter des navigateurs plus anciens, pour éviter de pousser les personnes à changer de navigateur.
 Mais si nous supportons des navigateurs trop anciens, nous avons d'autres problèmes : 
 - certains de nos packages ne supportent plus les navigateurs trop vieux, ce qui demanderait de gros efforts de notre coté
@@ -60,11 +60,26 @@ Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble
 
 ## Décision finale
 
-Les applications front de Pix supportent les navigateurs qui ont *au moins 4 ans*.
+Les applications front de Pix supportent les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
 
-Pour cela, nous proposons d'utiliser la même valeur par défaut que *Browserslist* et d'ajouter notre limite de 4 ans (`last 4 years`).
+Pour cela, nous proposons d'utiliser la même valeur par défaut que *Browserslist* et d'ajouter notre allongement supplémentaire de 4 ans (`last 4 years`).
 
-Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
+Par conséquent, la liste des navigateurs supportés devient celle définie ci-dessous.
+
+Format fichier de configuration `browserslist`, `.browserslistrc`, etc. :
+
+```dotenv
+# browserslist defaults
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead # no browsers without security updates
+
+# Pix additional rule to support more old browsers
+last 4 years
+```
+
+Format fichier de configuration `package.json`, `/config/target.js`, etc. :
 
 ```json
 "browserslist": [
@@ -78,7 +93,7 @@ Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
 
 Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet `browserslist` et de ses dépendances.
 
-Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type :
+Pour l'équipe *Support Utilisateur* de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type :
 
 ```shell
 npx browserslist "> 0.5%, last 2 versions, Firefox ESR, not dead, last 4 years"
