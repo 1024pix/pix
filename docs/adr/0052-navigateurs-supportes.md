@@ -17,7 +17,7 @@ Le choix de supporter tels ou tels navigateurs a un impact écologique qu'il fau
 Enfin, le support utilisateur a besoin de connaitre le plus facilement possible les navigateurs supportés par Pix.
 À noter que pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, et que les établissements peuvent mettre à jour durant la période des vacances scolaires. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
 
-Techniquement, le support navigateur se fait via le fichier `/config/target.js` disponible dans les différents projets front. C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [BrowserList](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/).
+Techniquement, le support navigateur se fait via le fichier `/config/target.js` disponible dans les différents projets front. C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/).
 Ces sites utilisent les statistiques d'utilisation des navigateurs dans le monde.
 
 Pour supporter les navigateurs très utilisés sur nos publics, anciens mais aussi nouveaux, il faut  mettre à jour la configuration du framework. 
@@ -52,7 +52,7 @@ Pour des soucis de cohérence, la même règle pour toutes les applications semb
 
 Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble être celle proposée ci-dessous.
 
-À noter que la valeur par défaut de BrowserList est :
+À noter que la valeur par défaut de *Browserslist* est :
 
 ```dotenv
 > 0.5%, last 2 versions, Firefox ESR, not dead
@@ -62,7 +62,7 @@ Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble
 
 Les applications front de Pix supportent les navigateurs qui ont *au moins 4 ans*.
 
-Pour cela, nous proposons d'utiliser la même valeur par défaut que BrowserList et d'ajouter notre limite de 4 ans (`last 4 years`)
+Pour cela, nous proposons d'utiliser la même valeur par défaut que *Browserslist* et d'ajouter notre limite de 4 ans (`last 4 years`).
 
 Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
 
@@ -76,7 +76,7 @@ Par conséquent, la liste des navigateurs dans `/config/target.js` devient :
 ]
 ```
 
-Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet browserslist et de ses dépendances.
+Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet `browserslist` et de ses dépendances.
 
 Pour l'équipe Support Utilisateur de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type :
 
