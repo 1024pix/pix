@@ -16,13 +16,12 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
         knex.raw('false'),
       );
     })
-    .join(
-      'campaign-participations',
-      'campaign-participations.organizationLearnerId',
-      'view-active-organization-learners.id',
-    )
+    .join('campaign-participations', function () {
+      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
+        .andOn('campaign-participations.userId', 'view-active-organization-learners.userId')
+        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
+    })
     .where({ organizationId: organizationId, isDisabled: false })
-    .where({ 'campaign-participations.deletedAt': null })
     .first();
   const totalParticipants = count ?? 0;
 
@@ -72,7 +71,8 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
     .join('campaign-participations', function () {
       this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
         .andOnVal('campaign-participations.isImproved', false)
-        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
+        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'))
+        .andOn('campaign-participations.userId', 'view-active-organization-learners.userId');
     })
     .join('campaigns', function () {
       this.on('campaign-participations.campaignId', 'campaigns.id').andOnVal(

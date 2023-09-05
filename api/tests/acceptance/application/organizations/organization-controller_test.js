@@ -824,6 +824,7 @@ describe('Acceptance | Application | organization-controller', function () {
         participation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: organizationLearner.id,
+          userId: user.id,
           isCertifiable: true,
         });
 
