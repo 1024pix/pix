@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v4.31.0 (05/09/2023)
+
+
+### :rocket: Amélioration
+- [#6997](https://github.com/1024pix/pix/pull/6997) [FEATURE] Changer l'url de la bannière de l'ouverture du niveau 7 (PIX-8651).
+- [#6987](https://github.com/1024pix/pix/pull/6987) [FEATURE] Mettre à jour le wording du texte descriptif pour les contenus formatifs (PIX-9037).
+- [#6988](https://github.com/1024pix/pix/pull/6988) [FEATURE] Ajoute la colonne propriétaire dans la création de campagne en masse (PIX-9069).
+
+### :bug: Correction
+- [#6985](https://github.com/1024pix/pix/pull/6985) [BUGFIX] Corriger l'affichage du menu dans Pix Orga (Pix-9066).
+
+### :arrow_up: Montée de version
+- [#6999](https://github.com/1024pix/pix/pull/6999) [BUMP] Update actions/checkout action to v4 (workflows).
+- [#6994](https://github.com/1024pix/pix/pull/6994) [BUMP] Update dependency ember-truth-helpers to v4 (admin).
+- [#6991](https://github.com/1024pix/pix/pull/6991) [BUMP] Update dependency ember-truth-helpers to v4 (mon-pix).
+
 ## v4.30.0 (04/09/2023)
 
 
