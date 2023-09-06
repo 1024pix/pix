@@ -3,14 +3,8 @@ import lodash from 'lodash';
 
 const { isEmpty, isNil, each } = lodash;
 
-import { SiecleXmlImportError } from '../../../domain/errors.js';
+import { SiecleXmlImportError, SIECLE_ERRORS } from '../../../domain/errors.js';
 
-const ERRORS = {
-  INE_REQUIRED: 'INE_REQUIRED',
-  INE_UNIQUE: 'INE_UNIQUE',
-  SEX_CODE_REQUIRED: 'SEX_CODE_REQUIRED',
-  BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT: 'BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT',
-};
 const DIVISION = 'D';
 
 const FRANCE_COUNTRY_CODE = '100';
@@ -48,16 +42,16 @@ class XMLOrganizationLearnersSet {
     const birthCityCode = _getValueFromParsedElement(xmlNode.CODE_COMMUNE_INSEE_NAISS);
 
     if (_frenchBornHasEmptyCityCode({ birthCountryCode, birthCityCode })) {
-      throw new SiecleXmlImportError(ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT);
+      throw new SiecleXmlImportError(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT, { nationalStudentId });
     }
     if (isEmpty(sexCode)) {
-      throw new SiecleXmlImportError(ERRORS.SEX_CODE_REQUIRED);
+      throw new SiecleXmlImportError(SIECLE_ERRORS.SEX_CODE_REQUIRED);
     }
     if (isEmpty(nationalStudentId)) {
-      throw new SiecleXmlImportError(ERRORS.INE_REQUIRED);
+      throw new SiecleXmlImportError(SIECLE_ERRORS.INE_REQUIRED);
     }
     if (this.studentIds.includes(nationalStudentId)) {
-      throw new SiecleXmlImportError(ERRORS.INE_UNIQUE, { nationalStudentId });
+      throw new SiecleXmlImportError(SIECLE_ERRORS.INE_UNIQUE, { nationalStudentId });
     }
   }
 

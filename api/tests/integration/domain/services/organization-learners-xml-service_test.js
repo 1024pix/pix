@@ -1,6 +1,6 @@
 import * as url from 'url';
 import { expect, catchErr } from '../../../test-helper.js';
-import { SiecleXmlImportError } from '../../../../lib/domain/errors.js';
+import { SiecleXmlImportError, SIECLE_ERRORS } from '../../../../lib/domain/errors.js';
 import * as organizationLearnersXmlService from '../../../../lib/domain/services/organization-learners-xml-service.js';
 
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
@@ -176,6 +176,7 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
       it('should abort parsing and reject with missing birth city code ', async function () {
         // given
         const validUAIFromSIECLE = '123ABC';
+        const nationalStudentIdFromFile = '1234';
         const organization = { externalId: validUAIFromSIECLE };
         const path = `${fixturesDirPath}/siecle-file/siecle-french-student-with-no-birth-city-code.xml`;
         // when
@@ -186,6 +187,8 @@ describe('Integration | Services | organization-learnerz-xml-service', function 
 
         //then
         expect(error).to.be.instanceof(SiecleXmlImportError);
+        expect(error.code).to.be.equal(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT);
+        expect(error.meta).to.contains({ nationalStudentId: nationalStudentIdFromFile });
       });
     });
   });
