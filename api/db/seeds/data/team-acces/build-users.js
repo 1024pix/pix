@@ -36,7 +36,25 @@ function _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder) {
   });
 }
 
+function _buildUsers(databaseBuilder) {
+  databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Salvor',
+    lastName: 'Hardin',
+    username: 'salvor.hardin',
+    email: 'salvor.hardin@foundation.verse',
+  });
+
+  const userWithLastLoggedAt = databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Gaal',
+    lastName: 'Dornick',
+    username: 'gaal.dornick',
+    email: 'gaal.dornick@foundation.verse',
+  });
+  databaseBuilder.factory.buildUserLogin({ userId: userWithLastLoggedAt.id, lastLoggedAt: new Date('1970-01-01') });
+}
+
 export function buildUsers(databaseBuilder) {
+  _buildUsers(databaseBuilder);
   _buildUserWithCnavAuthenticationMethod(databaseBuilder);
   _buildUserWithFwbAuthenticationMethod(databaseBuilder);
   _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder);

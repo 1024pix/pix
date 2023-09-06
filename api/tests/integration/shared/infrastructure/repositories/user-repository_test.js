@@ -207,7 +207,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         });
       });
 
-      it('returns only ther user matching "id" if given in filter', async function () {
+      it('returns only the user matching "id" if given in filter', async function () {
         // given
         const filter = { id: '123456' };
         const page = { number: 1, size: 10 };
@@ -1091,9 +1091,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           lastTermsOfServiceValidatedAt,
           lastPixOrgaTermsOfServiceValidatedAt,
           lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
-          lastLoggedAt,
           emailConfirmedAt,
         });
+        await databaseBuilder.factory.buildUserLogin({ userId: userInDB.id, lastLoggedAt });
         await databaseBuilder.commit();
 
         // when
@@ -1652,33 +1652,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
         // then
         expect(actualUser.hasSeenOtherChallengesTooltip).to.be.true;
-      });
-    });
-
-    describe('#updateLastLoggedAt', function () {
-      let clock;
-      const now = new Date('2020-01-02');
-
-      beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
-      });
-
-      afterEach(function () {
-        clock.restore();
-      });
-
-      it('should update the last login date to now', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser();
-        const userId = user.id;
-        await databaseBuilder.commit();
-
-        // when
-        await userRepository.updateLastLoggedAt({ userId });
-
-        // then
-        const userUpdated = await knex('users').select().where({ id: userId }).first();
-        expect(userUpdated.lastLoggedAt).to.deep.equal(now);
       });
     });
   });

@@ -39,7 +39,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
     userRepository = {
       getBySamlId: sinon.stub(),
       getForObfuscation: sinon.stub(),
-      updateLastLoggedAt: sinon.stub(),
     };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
@@ -122,7 +121,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       });
 
       // then
-      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
       expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 

@@ -62,6 +62,7 @@ describe('Acceptance | Controller | users-controller-get-user-details-for-admin'
           blockedAt,
           temporaryBlockedUntil,
           userId: user.id,
+          lastLoggedAt: new Date(),
         }).id;
 
         await databaseBuilder.commit();
