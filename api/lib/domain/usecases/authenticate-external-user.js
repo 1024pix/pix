@@ -54,7 +54,6 @@ async function authenticateExternalUser({
 
     const token = tokenService.createAccessTokenForSaml(userFromCredentials.id);
 
-    await userRepository.updateLastLoggedAt({ userId: userFromCredentials.id });
     await userLoginRepository.updateLastLoggedAt({ userId: userFromCredentials.id });
 
     return token;

@@ -32,10 +32,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       save: sinon.stub(),
     };
 
-    userRepository = {
-      findByExternalIdentifier: sinon.stub(),
-      updateLastLoggedAt: sinon.stub(),
-    };
+    userRepository = { findByExternalIdentifier: sinon.stub() };
     userLoginRepository = {
       updateLastLoggedAt: sinon.stub(),
     };
@@ -175,7 +172,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       // then
       expect(oidcAuthenticationService.saveIdToken).to.not.have.been.called;
       expect(oidcAuthenticationService.createAccessToken).to.not.have.been.called;
-      expect(userRepository.updateLastLoggedAt).to.not.have.been.called;
       expect(userLoginRepository.updateLastLoggedAt).to.not.have.been.called;
     });
   });
@@ -264,7 +260,6 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       // then
       sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
-      sinon.assert.calledOnceWithExactly(userRepository.updateLastLoggedAt, { userId: 10 });
       sinon.assert.calledOnceWithExactly(userLoginRepository.updateLastLoggedAt, { userId: 10 });
       expect(accessToken).to.deep.equal({
         pixAccessToken: 'accessTokenForExistingExternalUser',

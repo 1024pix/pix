@@ -81,7 +81,6 @@ const buildUser = function buildUser({
   isAnonymous = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-  lastLoggedAt = new Date(),
   emailConfirmedAt = null,
   hasBeenAnonymised = false,
   hasBeenAnonymisedBy = null,
@@ -112,7 +111,6 @@ const buildUser = function buildUser({
     isAnonymous,
     createdAt,
     updatedAt,
-    lastLoggedAt,
     emailConfirmedAt,
     hasBeenAnonymised,
     hasBeenAnonymisedBy,
@@ -145,7 +143,6 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   updatedAt = new Date(),
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
-  lastLoggedAt = new Date('2022-04-28T02:42:00Z'),
   emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
 } = {}) {
   email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
@@ -168,7 +165,6 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     hasSeenAssessmentInstructions,
     createdAt,
     updatedAt,
-    lastLoggedAt,
     emailConfirmedAt,
   };
 

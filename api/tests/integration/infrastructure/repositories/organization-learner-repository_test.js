@@ -2112,12 +2112,17 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return count of organization learners from organization that can compute certificability', async function () {
       // given
-      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
       databaseBuilder.factory.buildOrganizationLearner({ organizationId, isDisabled: true });
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
-      const { organizationId: otherOrganizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
+
+      const { organizationId: otherOrganizationId, userId: otherUserId } =
+        databaseBuilder.factory.buildOrganizationLearner();
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId: otherOrganizationId });
       databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildUserLogin({ userId: otherUserId, lastLoggedAt: new Date() });
+
       await databaseBuilder.commit();
 
       // when
@@ -2129,8 +2134,13 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return count of organization learners with lastLoggedAt in the past 24hours', async function () {
       // given
-      const userRecentlyConnectedId = databaseBuilder.factory.buildUser({ lastLoggedAt: new Date() }).id;
-      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser({ lastLoggedAt: new Date('2023-07-01') }).id;
+      const userRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({ userId: userRecentlyConnectedId, lastLoggedAt: new Date() });
+      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({
+        userId: userNotRecentlyConnectedId,
+        lastLoggedAt: new Date('2023-07-01'),
+      });
 
       const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: userRecentlyConnectedId });
       databaseBuilder.factory.buildOrganizationLearner({ userId: userNotRecentlyConnectedId, organizationId });
@@ -2157,8 +2167,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return an organization learner id from organizations that can compute certificability', async function () {
       // given
-      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
+      const { id: organizationLearnerId, organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
       await databaseBuilder.commit();
 
       // when
@@ -2170,8 +2181,13 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return only organization learner with lastLoggedAt in the past 24hours', async function () {
       // given
-      const userRecentlyConnectedId = databaseBuilder.factory.buildUser({ lastLoggedAt: new Date() }).id;
-      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser({ lastLoggedAt: new Date('2023-07-01') }).id;
+      const userRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({ userId: userRecentlyConnectedId, lastLoggedAt: new Date() });
+      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({
+        userId: userNotRecentlyConnectedId,
+        lastLoggedAt: new Date('2023-07-01'),
+      });
 
       const { id: organizationLearnerRecentlyConnecterId, organizationId } =
         databaseBuilder.factory.buildOrganizationLearner({ userId: userRecentlyConnectedId });
@@ -2228,8 +2244,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should limit ids returned', async function () {
       // given
-      const { id: organizationLearnerId, organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-      databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const { id: organizationLearnerId, organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
+      const { userId: otherUserId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildUserLogin({ userId: otherUserId, lastLoggedAt: new Date() });
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
       await databaseBuilder.commit();
 
@@ -2244,8 +2262,12 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should return ids from offset', async function () {
       // given
-      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner();
-      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
+      const { id: organizationLearnerId, userId: otherUserId } = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+      });
+      databaseBuilder.factory.buildUserLogin({ userId: otherUserId, lastLoggedAt: new Date() });
       databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
       await databaseBuilder.commit();
 

@@ -117,7 +117,6 @@ const createUserAndReconcileToOrganizationLearnerFromExternalUser = async functi
   }
   const tokenUserId = userWithSamlId ? userWithSamlId.id : userId;
   const accessToken = tokenService.createAccessTokenForSaml(tokenUserId);
-  await userRepository.updateLastLoggedAt({ userId: tokenUserId });
   await userLoginRepository.updateLastLoggedAt({ userId: tokenUserId });
   return accessToken;
 };
