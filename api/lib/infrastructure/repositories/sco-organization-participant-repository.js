@@ -46,9 +46,16 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
   }
   if (certificability) {
     qb.where(function (query) {
-      query.whereInArray('subquery.isCertifiableFromCampaign', certificability);
+      query.whereInArray(
+        knex.raw(
+          'case when "certifiableAtFromCampaign" > "view-active-organization-learners"."certifiableAt" OR "view-active-organization-learners"."certifiableAt" IS NULL then "isCertifiableFromCampaign" else "view-active-organization-learners"."isCertifiable" end',
+        ),
+        certificability,
+      );
       if (certificability.includes(null)) {
-        query.orWhereRaw('"subquery"."isCertifiableFromCampaign" IS NULL');
+        query.orWhere(function (query) {
+          query.whereNull('certifiableAtFromCampaign').whereNull('view-active-organization-learners.certifiableAt');
+        });
       }
     });
   }
@@ -132,6 +139,8 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
       'authentication-methods.externalIdentifier as samlId',
       'subquery.isCertifiableFromCampaign',
       'subquery.certifiableAtFromCampaign',
+      'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
+      'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
       knex.raw(
         'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"',
       ),
