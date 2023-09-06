@@ -26,7 +26,7 @@ const getNextChallengeForCertification = async function ({
       return challengeRepository.get(lastNonAnsweredCertificationChallenge.challengeId);
     }
 
-    const { allAnswers, challenges, estimatedLevel } = await algorithmDataFetcherService.fetchForFlashCampaigns({
+    const { allAnswers, challenges } = await algorithmDataFetcherService.fetchForFlashCampaigns({
       assessmentId: assessment.id,
       answerRepository,
       challengeRepository,
@@ -41,7 +41,6 @@ const getNextChallengeForCertification = async function ({
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
       allAnswers,
       challenges,
-      estimatedLevel,
     });
 
     const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });

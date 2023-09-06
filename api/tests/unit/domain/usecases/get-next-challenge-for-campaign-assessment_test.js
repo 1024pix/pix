@@ -179,7 +179,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           chooseNextChallenge
             .withArgs({
-              possibleChallenges: [thirdChallenge, secondChallenge],
+              possibleChallenges: [secondChallenge, thirdChallenge],
             })
             .returns(secondChallenge);
 
