@@ -10,7 +10,8 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
   let importStudentStub;
 
   hooks.beforeEach(function () {
-    this.owner.lookup('service:intl').setLocale('fr');
+    this.intl = this.owner.lookup('service:intl');
+    this.intl.setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/sco-organization-participants/list');
     controller.send = sinon.stub();
     controller.currentUser = currentUser;
@@ -103,6 +104,24 @@ module('Unit | Controller | authenticated/sco-organization-participants/list', f
         assert.strictEqual(
           notificationMessage,
           '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>',
+        );
+      });
+
+      test('should use error code and meta if provided', async function (assert) {
+        importStudentStub.rejects({
+          errors: [{ status: '422', code: 'SEX_CODE_REQUIRED', meta: { nationalStudentId: '1234' } }],
+        });
+
+        // when
+        await controller.importStudents(files);
+
+        // then
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.toString();
+
+        assert.true(
+          notificationMessage.includes(
+            this.intl.t('api-error-messages.student-xml-import.sex-code-required', { nationalStudentId: '1234' }),
+          ),
         );
       });
     });
