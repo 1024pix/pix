@@ -67,17 +67,18 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
       ),
     ])
     .from('view-active-organization-learners')
-    .join(
-      'campaign-participations',
-      'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId',
-    )
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .where('campaign-participations.status', CampaignParticipationStatuses.SHARED)
-    .where('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
-    .where('view-active-organization-learners.organizationId', organizationId)
-    .where('campaigns.organizationId', organizationId)
-    .where('campaign-participations.deletedAt', null);
+    .join('campaign-participations', function () {
+      this.on('view-active-organization-learners.id', 'campaign-participations.organizationLearnerId')
+        .andOn('view-active-organization-learners.userId', 'campaign-participations.userId')
+        .andOnVal('campaign-participations.status', CampaignParticipationStatuses.SHARED)
+        .andOn('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
+    })
+    .join('campaigns', function () {
+      this.on('campaigns.id', 'campaign-participations.campaignId')
+        .andOnVal('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
+        .andOnVal('campaigns.organizationId', organizationId);
+    })
+    .where('view-active-organization-learners.organizationId', organizationId);
 }
 
 const findPaginatedFilteredScoParticipants = async function ({ organizationId, filter, page = {}, sort = {} }) {
@@ -149,12 +150,13 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     ])
     .from('view-active-organization-learners')
     .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
+    .leftJoin('users', 'users.id', 'view-active-organization-learners.userId')
     .leftJoin('campaign-participations', function () {
       this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
-        .andOn('campaign-participations.isImproved', '=', knex.raw('false'))
-        .andOn('campaign-participations.deletedAt', knex.raw('is'), knex.raw('null'));
+        .andOn('campaign-participations.userId', 'view-active-organization-learners.userId')
+        .andOnVal('campaign-participations.isImproved', false)
+        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
     })
-    .leftJoin('users', 'users.id', 'view-active-organization-learners.userId')
     .leftJoin('authentication-methods', function () {
       this.on('users.id', 'authentication-methods.userId').andOnVal(
         'authentication-methods.identityProvider',
