@@ -9,7 +9,6 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column table__column--id">ID Membre</th>
             <th class="table__column table__column--id">ID Utilisateur</th>
             <th class="table__column table__column--wide">Prénom</th>
             <th class="table__column table__column--wide">Nom</th>
@@ -29,7 +28,6 @@
                   {{certificationCenterMembership.user.lastName}}
                 "
               >
-                <td>{{certificationCenterMembership.id}}</td>
                 <td>
                   <LinkTo @route="authenticated.users.get" @model={{certificationCenterMembership.user.id}}>
                     {{certificationCenterMembership.user.id}}
