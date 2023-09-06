@@ -1,4 +1,4 @@
-import { TargetProfile } from '../../domain/models/TargetProfile.js';
+import { TargetProfile } from '../../domain/models/index.js';
 import { Badge } from '../../domain/models/Badge.js';
 import * as skillAdapter from './skill-adapter.js';
 

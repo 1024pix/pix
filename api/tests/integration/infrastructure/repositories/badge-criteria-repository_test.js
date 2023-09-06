@@ -1,8 +1,5 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
-import lodash from 'lodash';
-const { omit } = lodash;
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
 
 describe('Integration | Repository | Badge Criteria Repository', function () {
   afterEach(async function () {
@@ -21,46 +18,54 @@ describe('Integration | Repository | Badge Criteria Repository', function () {
         badgeId,
       };
 
-      const expectedBadgeCriterion = {
+      // when
+      await badgeCriteriaRepository.save({ badgeCriterion });
+
+      // then
+      const savedBadgeCriterion = await knex('badge-criteria')
+        .select('name', 'threshold', 'cappedTubes', 'scope')
+        .where({ badgeId });
+      expect(savedBadgeCriterion).to.have.length(1);
+      expect(savedBadgeCriterion[0]).to.deep.equal({
+        name: null,
         threshold: 90,
         scope: 'CampaignParticipation',
-        badgeId,
-        skillSetIds: null,
-      };
-
-      // when
-      const result = await badgeCriteriaRepository.save({ badgeCriterion });
-
-      // then
-      expect(result).to.be.instanceOf(BadgeCriterion);
-      expect(omit(result, 'id')).to.deep.equal(expectedBadgeCriterion);
+        cappedTubes: null,
+      });
     });
 
-    it('should save SkillSet badge-criterion', async function () {
+    it('should save CappedTubes badge-criterion', async function () {
       // given
       const { id: badgeId } = databaseBuilder.factory.buildBadge();
-      const { id: skillSetId } = databaseBuilder.factory.buildSkillSet();
       await databaseBuilder.commit();
       const badgeCriterion = {
-        threshold: 80,
-        scope: 'SkillSet',
+        threshold: 50,
+        scope: 'CappedTubes',
         badgeId,
-        skillSetIds: [skillSetId],
-      };
-
-      const expectedBadgeCriterion = {
-        threshold: 80,
-        scope: 'SkillSet',
-        badgeId,
-        skillSetIds: [skillSetId],
+        name: 'Un nom pour mon critère',
+        cappedTubes: [
+          { id: 'tubeABC', level: 2 },
+          { id: 'tubeDEF', level: 8 },
+        ],
       };
 
       // when
-      const result = await badgeCriteriaRepository.save({ badgeCriterion });
+      await badgeCriteriaRepository.save({ badgeCriterion });
 
       // then
-      expect(result).to.be.instanceOf(BadgeCriterion);
-      expect(omit(result, 'id')).to.deep.equal(expectedBadgeCriterion);
+      const savedBadgeCriterion = await knex('badge-criteria')
+        .select('name', 'threshold', 'cappedTubes', 'scope')
+        .where({ badgeId });
+      expect(savedBadgeCriterion).to.have.length(1);
+      expect(savedBadgeCriterion[0]).to.deep.equal({
+        name: 'Un nom pour mon critère',
+        threshold: 50,
+        scope: 'CappedTubes',
+        cappedTubes: [
+          { id: 'tubeABC', level: 2 },
+          { id: 'tubeDEF', level: 8 },
+        ],
+      });
     });
   });
 });

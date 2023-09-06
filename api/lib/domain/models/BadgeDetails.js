@@ -1,4 +1,7 @@
-import { SCOPES } from './BadgeCriterion.js';
+const SCOPES = {
+  CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
+  CAPPED_TUBES: 'CappedTubes',
+};
 
 class BadgeDetails {
   constructor({ id, key, altMessage, imageUrl, message, title, isCertifiable, isAlwaysVisible, criteria }) {
@@ -15,12 +18,11 @@ class BadgeDetails {
 }
 
 class BadgeCriterion {
-  constructor({ id, name, scope, threshold, skillSets, cappedTubes }) {
+  constructor({ id, name, scope, threshold, cappedTubes }) {
     this.id = id;
     this.name = name;
     this.scope = scope;
     this.threshold = threshold;
-    this.skillSets = skillSets;
     this.cappedTubes = cappedTubes;
   }
 
@@ -30,22 +32,7 @@ class BadgeCriterion {
       name: this.name,
       scope: this.scope,
       threshold: this.threshold,
-      skillSets: this.skillSets.map((skillSet) => skillSet.toDTO()),
       cappedTubes: this.cappedTubes.map((cappedTube) => cappedTube.toDTO()),
-    };
-  }
-}
-
-class SkillSet {
-  constructor({ name, skillIds }) {
-    this.name = name;
-    this.skillIds = skillIds;
-  }
-
-  toDTO() {
-    return {
-      name: this.name,
-      skillIds: this.skillIds,
     };
   }
 }
@@ -64,10 +51,4 @@ class CappedTube {
   }
 }
 
-BadgeCriterion.SCOPES = {
-  CAMPAIGN_PARTICIPATION: 'CampaignParticipation',
-  SKILL_SET: 'SkillSet',
-  CAPPED_TUBES: 'CappedTubes',
-};
-
-export { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES };
+export { BadgeDetails, BadgeCriterion, CappedTube, SCOPES };

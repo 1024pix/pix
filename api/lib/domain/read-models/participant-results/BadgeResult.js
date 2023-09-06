@@ -1,8 +1,5 @@
-import { SkillSetResult } from './SkillSetResult.js';
-
 class BadgeResult {
-  constructor(badge, participationResults) {
-    const { acquiredBadgeIds, knowledgeElements } = participationResults;
+  constructor(badge, acquiredBadgeIds) {
     this.id = badge.id;
     this.title = badge.title;
     this.message = badge.message;
@@ -14,18 +11,7 @@ class BadgeResult {
     this.isCertifiable = badge.isCertifiable;
     this.isValid = badge.isValid;
     this.acquisitionPercentage = badge.acquisitionPercentage;
-
-    this.skillSetResults = badge.badgeCompetences.map((badgeCompetence) =>
-      _buildSkillSetResult(badgeCompetence, knowledgeElements),
-    );
   }
-}
-
-function _buildSkillSetResult(badgeCompetence, knowledgeElements) {
-  const skillIds = badgeCompetence.skillIds;
-  const competenceKnowledgeElements = knowledgeElements.filter(({ skillId }) => skillIds.includes(skillId));
-
-  return new SkillSetResult(badgeCompetence, competenceKnowledgeElements);
 }
 
 export { BadgeResult };

@@ -1,5 +1,6 @@
 import { createServer } from '../../../../server.js';
-
+import _ from 'lodash';
+import { SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 import {
   expect,
   databaseBuilder,
@@ -8,9 +9,6 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
 
-import _ from 'lodash';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
-
 describe('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';
   const EMERALD_COLOR = 'emerald';
@@ -18,7 +16,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
 
   let user, campaign, assessment, campaignParticipation, targetProfile, campaignSkills;
 
-  let server, badge1, badge2, skillSet, stage;
+  let server, badge1, badge2, stage;
 
   beforeEach(async function () {
     server = await createServer();
@@ -86,13 +84,13 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
 
     databaseBuilder.factory.buildBadgeCriterion({
       badgeId: 1,
-      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+      scope: SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 0,
     });
 
     databaseBuilder.factory.buildBadgeCriterion({
       badgeId: 2,
-      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+      scope: SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 90,
     });
 
@@ -100,22 +98,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
       userId: user.id,
       campaignParticipationId: campaignParticipation.id,
       badgeId: badge1.id,
-    });
-
-    skillSet = databaseBuilder.factory.buildSkillSet({
-      id: 1,
-      badgeId: 1,
-      name: 'Pix Emploi',
-      color: 'emerald',
-      skillIds,
-    });
-
-    databaseBuilder.factory.buildSkillSet({
-      id: 2,
-      badgeId: 2,
-      name: 'Pix Emploi',
-      color: 'pink',
-      skillIds,
     });
 
     stage = databaseBuilder.factory.buildStage({
@@ -283,30 +265,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
         included: [
           {
             attributes: {
-              'area-color': undefined,
-              'mastery-percentage': 38,
-              name: 'Pix Emploi',
-              'tested-skills-count': 5,
-              'total-skills-count': 8,
-              'validated-skills-count': 3,
-            },
-            id: skillSet.id.toString(),
-            type: 'skillSetResults',
-          },
-          {
-            attributes: {
-              'area-color': undefined,
-              'mastery-percentage': 38,
-              name: 'Pix Emploi',
-              'tested-skills-count': 5,
-              'total-skills-count': 8,
-              'validated-skills-count': 3,
-            },
-            id: skillSet.id.toString(),
-            type: 'partnerCompetenceResults',
-          },
-          {
-            attributes: {
               'acquisition-percentage': 100,
               'alt-message': 'Low threshold badge',
               'image-url': '/img/banana.svg',
@@ -320,48 +278,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             },
             id: '1',
             type: 'campaignParticipationBadges',
-            relationships: {
-              'skill-set-results': {
-                data: [
-                  {
-                    id: '1',
-                    type: 'skillSetResults',
-                  },
-                ],
-              },
-              'partner-competence-results': {
-                data: [
-                  {
-                    id: '1',
-                    type: 'partnerCompetenceResults',
-                  },
-                ],
-              },
-            },
-          },
-          {
-            attributes: {
-              'area-color': undefined,
-              'mastery-percentage': 38,
-              name: 'Pix Emploi',
-              'tested-skills-count': 5,
-              'total-skills-count': 8,
-              'validated-skills-count': 3,
-            },
-            id: '2',
-            type: 'skillSetResults',
-          },
-          {
-            attributes: {
-              'area-color': undefined,
-              'mastery-percentage': 38,
-              name: 'Pix Emploi',
-              'tested-skills-count': 5,
-              'total-skills-count': 8,
-              'validated-skills-count': 3,
-            },
-            id: '2',
-            type: 'partnerCompetenceResults',
           },
           {
             attributes: {
@@ -378,24 +294,6 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             },
             id: '2',
             type: 'campaignParticipationBadges',
-            relationships: {
-              'skill-set-results': {
-                data: [
-                  {
-                    id: '2',
-                    type: 'skillSetResults',
-                  },
-                ],
-              },
-              'partner-competence-results': {
-                data: [
-                  {
-                    id: '2',
-                    type: 'partnerCompetenceResults',
-                  },
-                ],
-              },
-            },
           },
           {
             type: 'competenceResults',

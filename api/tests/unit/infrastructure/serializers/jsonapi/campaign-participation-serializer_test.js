@@ -1,64 +1,11 @@
 import { expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
-import { CampaignParticipation } from '../../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipation, CampaignParticipationStatuses } from '../../../../../lib/domain/models/index.js';
 const { SHARED } = CampaignParticipationStatuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', function () {
   describe('#serialize', function () {
     const campaign = { id: 1, code: 'LJA123', title: 'Désobéir' };
-    const competenceResults = [
-      {
-        id: '1',
-        isCompleted: true,
-        masteryPercentage: 40,
-        testedSkillsCount: 5,
-        totalSkillsCount: 10,
-        validatedSkillsCount: 4,
-      },
-      {
-        id: '2',
-        isCompleted: true,
-        masteryPercentage: 33,
-        testedSkillsCount: 5,
-        totalSkillsCount: 6,
-        validatedSkillsCount: 2,
-      },
-    ];
-    const skillSetResults = [
-      {
-        id: '1',
-        isCompleted: true,
-        masteryPercentage: 50,
-        testedSkillsCount: 5,
-        totalSkillsCount: 10,
-        validatedSkillsCount: 5,
-      },
-      {
-        id: '2',
-        isCompleted: true,
-        masteryPercentage: 66,
-        testedSkillsCount: 5,
-        totalSkillsCount: 6,
-        validatedSkillsCount: 4,
-      },
-    ];
-    const campaignParticipationBadge = {
-      id: 5,
-      skillSetResults: skillSetResults,
-    };
-    const campaignParticipationResult = {
-      id: 1,
-      isCompleted: true,
-      masteryPercentage: 40,
-      totalSkillsCount: 10,
-      testedSkillsCount: 5,
-      validatedSkillsCount: 4,
-      progress: 1,
-      competenceResults,
-      campaignParticipationBadges: [campaignParticipationBadge],
-    };
-    const campaignAnalysis = {};
     const campaignParticipation = new CampaignParticipation({
       id: 5,
       status: SHARED,
@@ -68,8 +15,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       createdAt: new Date('2018-02-05T14:12:44Z'),
       campaign,
       assessments: [{ id: 4, createdAt: new Date('2018-02-06T14:12:44Z') }],
-      campaignParticipationResult,
-      campaignAnalysis,
     });
 
     let expectedSerializedCampaignParticipation;

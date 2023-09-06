@@ -33,39 +33,11 @@ const serialize = function (results) {
         'imageUrl',
         'key',
         'isAcquired',
-        'skillSetResults',
-        'partnerCompetenceResults',
         'isAlwaysVisible',
         'isCertifiable',
         'isValid',
         'acquisitionPercentage',
       ],
-      skillSetResults: {
-        ref: 'id',
-        included: true,
-        attributes: [
-          'name',
-          'index',
-          'areaColor',
-          'masteryPercentage',
-          'totalSkillsCount',
-          'testedSkillsCount',
-          'validatedSkillsCount',
-        ],
-      },
-      partnerCompetenceResults: {
-        ref: 'id',
-        included: true,
-        attributes: [
-          'name',
-          'index',
-          'areaColor',
-          'masteryPercentage',
-          'totalSkillsCount',
-          'testedSkillsCount',
-          'validatedSkillsCount',
-        ],
-      },
     },
     competenceResults: {
       ref: 'id',
@@ -97,17 +69,6 @@ export { serialize };
 function transform(record) {
   return {
     ...record,
-    campaignParticipationBadges: record.badgeResults.map(mapBadgeResult),
-  };
-}
-
-function mapBadgeResult(badgeResult) {
-  const skillSetResults = badgeResult.skillSetResults.map((skillSetResult) => {
-    return { ...skillSetResult, areaColor: skillSetResult.color };
-  });
-  return {
-    ...badgeResult,
-    skillSetResults,
-    partnerCompetenceResults: skillSetResults,
+    campaignParticipationBadges: record.badgeResults,
   };
 }
