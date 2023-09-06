@@ -124,7 +124,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     expect(error.code).to.equal(CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_FOREIGN_INSEE_CODE_NOT_VALID.code);
   });
 
-  it('should throw a CertificationCandidatesImportError if there are email errors', async function () {
+  it('should throw a CertificationCandidatesError if there are email errors', async function () {
     // given
     const odsFilePath = `${__dirname}/attendance_sheet_extract_recipient_email_ko_test.ods`;
     const odsBuffer = await readFile(odsFilePath);
@@ -153,6 +153,38 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
 
     expect(error).to.deepEqualInstance(certificationCandidatesError);
+  });
+
+  context('when there is duplicate certification candidate', function () {
+    it('should throw a CertificationCandidatesError', async function () {
+      // given
+      const odsFilePath = `${__dirname}/attendance_sheet_extract_duplicate_candidate_ko_test.ods`;
+      const odsBuffer = await readFile(odsFilePath);
+
+      // when
+      const error = await catchErr(
+        certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet,
+      )({
+        i18n,
+        sessionId,
+        odsBuffer,
+        certificationCpfService,
+        certificationCpfCountryRepository,
+        certificationCpfCityRepository,
+        certificationCenterRepository,
+        complementaryCertificationRepository,
+        isSco: true,
+        mailCheck,
+      });
+
+      // then
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: CERTIFICATION_CANDIDATES_ERRORS.DUPLICATE_CANDIDATE.code,
+        meta: { line: 14 },
+      });
+
+      expect(error).to.deepEqualInstance(certificationCandidatesError);
+    });
   });
 
   it('should return extracted and validated certification candidates', async function () {
@@ -293,7 +325,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
   context('when certification center has habilitations', function () {
     context('when a candidate is imported with more than one complementary certification', function () {
-      it('should throw un error', async function () {
+      it('should throw an error', async function () {
         // given
         const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'CléA Numérique',
@@ -601,6 +633,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     // then
     expect(actualCertificationCandidates).to.deep.equal(expectedCertificationCandidates);
   });
+
   it('should return extracted and validated certification candidates without billing information when certification center is AEFE', async function () {
     // given
     const isSco = true;
