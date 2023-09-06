@@ -13,6 +13,7 @@
             <th class="table__column table__column--wide">Prénom</th>
             <th class="table__column table__column--wide">Nom</th>
             <th class="table__column table__column--wide">Adresse e-mail</th>
+            <th class="table__column table__column--wide">Rôle</th>
             <th class="table__column table__column--wide">Date de rattachement</th>
             <th class="table__column table__column--wide">Actions</th>
           </tr>
@@ -36,6 +37,7 @@
                 <td class="member-information">{{certificationCenterMembership.user.firstName}}</td>
                 <td class="member-information">{{certificationCenterMembership.user.lastName}}</td>
                 <td class="member-information">{{certificationCenterMembership.user.email}}</td>
+                <td class="member-information">{{t certificationCenterMembership.roleLabelKey}}</td>
                 <td>
                   {{dayjs-format certificationCenterMembership.createdAt "DD-MM-YYYY - HH:mm:ss"}}
                 </td>
