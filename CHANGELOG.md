@@ -1,5 +1,33 @@
 # Pix Changelog
 
+## v4.32.0 (06/09/2023)
+
+
+### :rocket: Amélioration
+- [#7006](https://github.com/1024pix/pix/pull/7006) [FEATURE] Mettre à jour le wording de la bannière d'information de l'ouverture du niveau 7 (PIX-9092).
+- [#6977](https://github.com/1024pix/pix/pull/6977) [FEATURE] Utiliser uniquement la colonne user-logins.lastLoggedAt pour lire et écrire la date de dernière connexion (PIX-9010).
+- [#6989](https://github.com/1024pix/pix/pull/6989) [FEATURE] Diminution de la capacité initiale en certif V3 (PIX-9072).
+- [#6998](https://github.com/1024pix/pix/pull/6998) [FEATURE] Ajout d'une colonne "role" sur la table certification-center-memberships (PIX-4994).
+
+### :building_construction: Tech
+- [#6975](https://github.com/1024pix/pix/pull/6975) [TECH] Obtenir les sourcemaps dans les fronts ember en developpement (PIX-9045).
+- [#6883](https://github.com/1024pix/pix/pull/6883) [TECH] Récupérer les paliers acquis dans la page "Mes parcours" (PIX-8912).
+- [#7003](https://github.com/1024pix/pix/pull/7003) [TECH] Retirer les mentions à l'attribut "imageUrl" des tests statiques, l'attribut est déprécié (PIX-9079).
+- [#6963](https://github.com/1024pix/pix/pull/6963) [TECH] Mutualiser une partie des seeds (Orga/User) (Pix-9020).
+- [#6860](https://github.com/1024pix/pix/pull/6860) [TECH] Nettoyage du code relatif aux skill-sets - code mort (PIX-6697).
+- [#6964](https://github.com/1024pix/pix/pull/6964) [TECH] Augmentation du timeout du test courant en cas de truncate sur la BDD.
+
+### :bug: Correction
+- [#7001](https://github.com/1024pix/pix/pull/7001) [BUGFIX] Exclure les participations qui ne sont pas liés aux participants par le userId (Pix-9068).
+
+### :arrow_up: Montée de version
+- [#7004](https://github.com/1024pix/pix/pull/7004) [BUMP] Update dependency ember-cli to ~5.2.0 (admin).
+- [#6945](https://github.com/1024pix/pix/pull/6945) [BUMP] Update dependency ember-cli-babel to v8 (1d).
+- [#6946](https://github.com/1024pix/pix/pull/6946) [BUMP] Update dependency ember-cli-babel to v8 (admin).
+- [#6974](https://github.com/1024pix/pix/pull/6974) [BUMP] Update dependency ember-cli to ~5.2.0 (1d).
+- [#6996](https://github.com/1024pix/pix/pull/6996) [BUMP] Update dependency ember-truth-helpers to v4 (orga).
+- [#6995](https://github.com/1024pix/pix/pull/6995) [BUMP] Update dependency ember-truth-helpers to v4 (certif).
+
 ## v4.31.0 (05/09/2023)
 
 
