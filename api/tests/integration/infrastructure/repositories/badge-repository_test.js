@@ -1,83 +1,20 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import { Badge } from '../../../../lib/domain/models/Badge.js';
-import { BadgeCriterion } from '../../../../lib/domain/models/BadgeCriterion.js';
-import { SkillSet } from '../../../../lib/domain/models/SkillSet.js';
+import { Badge } from '../../../../lib/domain/models/index.js';
 import lodash from 'lodash';
 import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
 
 const { omit } = lodash;
 
 describe('Integration | Repository | Badge', function () {
-  let targetProfileWithSkillSets;
   let targetProfileWithoutBadge;
   let targetProfileWithSeveralBadges;
-
-  let badgeWithSkillSets;
-  let badgeCriterionForBadgeWithSkillSets;
-  let skillSet_1;
-  let skillSet_2;
   let badgeWithSameTargetProfile_1;
   let badgeWithSameTargetProfile_2;
-  let badgeCriterionForBadgeWithSameTargetProfile_1;
-  let badgeCriterionForBadgeWithSameTargetProfile_2;
 
   beforeEach(async function () {
     targetProfileWithoutBadge = databaseBuilder.factory.buildTargetProfile();
-    setupTargetProfileWithSkillSets();
-    setupTargetProfileWithSeveralBadges();
-    await databaseBuilder.commit();
-  });
-
-  function setupTargetProfileWithSkillSets() {
-    targetProfileWithSkillSets = databaseBuilder.factory.buildTargetProfile();
-
-    badgeWithSkillSets = databaseBuilder.factory.buildBadge({
-      altMessage: 'You won the Toto badge!',
-      imageUrl: '/img/toto.svg',
-      message: 'Congrats, you won the Toto badge!',
-      key: 'TOTO',
-      targetProfileId: targetProfileWithSkillSets.id,
-    });
-
-    skillSet_1 = {
-      id: 1,
-      badgeId: badgeWithSkillSets.id,
-      name: 'Idenfier des éléments',
-      skillIds: ['recA1B2', 'recC3D4'],
-    };
-
-    skillSet_2 = {
-      id: 2,
-      badgeId: badgeWithSkillSets.id,
-      name: 'Rechercher des éléments',
-      skillIds: ['recABC1', 'recDEF2'],
-    };
-
-    badgeCriterionForBadgeWithSkillSets = {
-      id: 123,
-      scope: BadgeCriterion.SCOPES.SKILL_SET,
-      threshold: 53,
-      skillSetIds: [1, 2],
-      badgeId: badgeWithSkillSets.id,
-    };
-
-    databaseBuilder.factory.buildBadgeCriterion({
-      ...badgeCriterionForBadgeWithSkillSets,
-    });
-    databaseBuilder.factory.buildSkillSet({
-      ...skillSet_1,
-      badgeId: badgeWithSkillSets.id,
-    });
-    databaseBuilder.factory.buildSkillSet({
-      ...skillSet_2,
-      badgeId: badgeWithSkillSets.id,
-    });
-  }
-
-  function setupTargetProfileWithSeveralBadges() {
     targetProfileWithSeveralBadges = databaseBuilder.factory.buildTargetProfile();
-
     badgeWithSameTargetProfile_1 = databaseBuilder.factory.buildBadge({
       altMessage: 'You won the YELLOW badge!',
       imageUrl: '/img/toto.svg',
@@ -85,17 +22,6 @@ describe('Integration | Repository | Badge', function () {
       key: 'YELLOW',
       targetProfileId: targetProfileWithSeveralBadges.id,
     });
-    badgeCriterionForBadgeWithSameTargetProfile_1 = {
-      id: 456,
-      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-      threshold: 88,
-      skillSetIds: [],
-      badgeId: badgeWithSameTargetProfile_1.id,
-    };
-    databaseBuilder.factory.buildBadgeCriterion({
-      ...badgeCriterionForBadgeWithSameTargetProfile_1,
-    });
-
     badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
       altMessage: 'You won the GREEN badge!',
       imageUrl: '/img/toto.svg',
@@ -103,21 +29,10 @@ describe('Integration | Repository | Badge', function () {
       key: 'GREEN',
       targetProfileId: targetProfileWithSeveralBadges.id,
     });
-    badgeCriterionForBadgeWithSameTargetProfile_2 = {
-      id: 789,
-      scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-      threshold: 35,
-      skillSetIds: [],
-      badgeId: badgeWithSameTargetProfile_2.id,
-    };
-    databaseBuilder.factory.buildBadgeCriterion({
-      ...badgeCriterionForBadgeWithSameTargetProfile_2,
-    });
-  }
+    await databaseBuilder.commit();
+  });
 
   afterEach(async function () {
-    await knex('skill-sets').delete();
-    await knex('badge-criteria').delete();
     await knex('badge-acquisitions').delete();
     await knex('complementary-certification-badges').delete();
     await knex('badges').delete();
@@ -135,44 +50,8 @@ describe('Integration | Repository | Badge', function () {
 
       // then
       expect(badges).to.have.length(2);
-
-      const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
-      expect(firstBadge).deep.equal({
-        ...badgeWithSameTargetProfile_1,
-        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
-        skillSets: [],
-        complementaryCertificationBadge: null,
-      });
-
-      const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-      expect(secondBadge).deep.equal({
-        ...badgeWithSameTargetProfile_2,
-        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
-        skillSets: [],
-        complementaryCertificationBadge: null,
-      });
-    });
-
-    it('should return the badge linked to the given campaign with related badge criteria and badge partner competences', async function () {
-      // given
-      const targetProfileId = targetProfileWithSkillSets.id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const badges = await badgeRepository.findByCampaignId(campaignId);
-
-      // then
-      expect(badges).to.have.lengthOf(1);
-      expect(badges[0]).to.be.an.instanceOf(Badge);
-      expect(badges[0].badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
-      expect(badges[0].skillSets[0]).to.be.an.instanceOf(SkillSet);
-      expect(badges[0]).to.deep.equal({
-        ...badgeWithSkillSets,
-        badgeCriteria: [badgeCriterionForBadgeWithSkillSets],
-        skillSets: [skillSet_1, skillSet_2],
-        complementaryCertificationBadge: null,
-      });
+      expect(badges[0].id).to.equal(badgeWithSameTargetProfile_1.id);
+      expect(badges[1].id).to.equal(badgeWithSameTargetProfile_2.id);
     });
 
     it('should return an empty array when the given campaign has no badges', async function () {
@@ -204,18 +83,20 @@ describe('Integration | Repository | Badge', function () {
   });
 
   describe('#get', function () {
-    let badge;
+    let badge, targetProfileId;
 
     beforeEach(async function () {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       badge = databaseBuilder.factory.buildBadge({
         id: 1,
+        key: 'TOTO2',
         altMessage: 'You won the Toto badge!',
         imageUrl: 'data:,',
         message: 'Congrats, you won the Toto badge!',
-        key: 'TOTO2',
+        targetProfileId,
+        isCertifiable: true,
+        isAlwaysVisible: true,
       });
-      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
-      databaseBuilder.factory.buildSkillSet({ badgeId: badge.id });
       await databaseBuilder.commit();
     });
 
@@ -223,16 +104,16 @@ describe('Integration | Repository | Badge', function () {
       const myBadge = await badgeRepository.get(badge.id);
 
       expect(myBadge.id).to.equal(1);
+      expect(myBadge.key).to.equal('TOTO2');
+      expect(myBadge.altMessage).to.equal('You won the Toto badge!');
+      expect(myBadge.imageUrl).to.equal('data:,');
+      expect(myBadge.message).to.equal('Congrats, you won the Toto badge!');
+      expect(myBadge.targetProfileId).to.equal(targetProfileId);
+      expect(myBadge.isCertifiable).to.be.true;
+      expect(myBadge.isAlwaysVisible).to.be.true;
     });
 
-    it('should return a badge with badgeCriteria and skillSets', async function () {
-      const myBadge = await badgeRepository.get(badge.id);
-
-      expect(myBadge.badgeCriteria.length).to.equal(1);
-      expect(myBadge.skillSets.length).to.equal(1);
-    });
-
-    describe('when badge does not exist', function () {
+    context('when badge does not exist', function () {
       it('should throw an error', async function () {
         const notExistingBadgeId = 123;
 
@@ -251,8 +132,6 @@ describe('Integration | Repository | Badge', function () {
         imageUrl: 'data:,',
         message: 'Congrats, you won the Toto badge!',
         key: 'TOTO230',
-        badgeCriteria: [],
-        skillSets: [],
         complementaryCertificationBadge: null,
         targetProfileId: null,
         isCertifiable: false,
@@ -276,8 +155,6 @@ describe('Integration | Repository | Badge', function () {
           imageUrl: 'data:,',
           message: 'Congrats, you won the Toto badge!',
           key: 'TOTO28',
-          badgeCriteria: [],
-          skillSets: [],
           targetProfileId: null,
           isCertifiable: false,
           isAlwaysVisible: true,
@@ -299,7 +176,7 @@ describe('Integration | Repository | Badge', function () {
     it('should update the badge', async function () {
       // given
       const targetProfileId = targetProfileWithSeveralBadges.id;
-      const badge = databaseBuilder.factory.buildBadge({
+      databaseBuilder.factory.buildBadge({
         id: 1,
         altMessage: 'You won the Toto badge!',
         imageUrl: 'data:,',
@@ -309,7 +186,6 @@ describe('Integration | Repository | Badge', function () {
         isAlwaysVisible: true,
         isCertifiable: false,
       });
-      databaseBuilder.factory.buildBadgeCriterion({ badgeId: badge.id });
       await databaseBuilder.commit();
 
       const updatedData = {
@@ -330,8 +206,6 @@ describe('Integration | Repository | Badge', function () {
         title: 'title',
         key: 'TOTO_UPDATED',
         isCertifiable: true,
-        badgeCriteria: [],
-        skillSets: [],
         complementaryCertificationBadge: null,
         targetProfileId,
         isAlwaysVisible: false,
@@ -462,12 +336,12 @@ describe('Integration | Repository | Badge', function () {
     });
   });
 
-  describe('#delete', function () {
+  describe('#remove', function () {
     describe('when the record to delete is in the table', function () {
       it('should return true when deletion goes well', async function () {
         // given
         const badgeId = databaseBuilder.factory.buildBadge().id;
-        databaseBuilder.factory.buildSkillSet({ badgeId });
+        databaseBuilder.factory.buildBadgeCriterion({ badgeId });
         await databaseBuilder.commit();
 
         // when
@@ -475,8 +349,8 @@ describe('Integration | Repository | Badge', function () {
 
         // then
         expect(isDeleted).to.be.true;
-        const skillSetRowsCountAfterDeletion = await knex('skill-sets').where({ badgeId }).count();
-        expect(skillSetRowsCountAfterDeletion[0].count).to.equal(0);
+        const badgeCriteriaRowsCountAfterDeletion = await knex('badge-criteria').where({ badgeId }).count();
+        expect(badgeCriteriaRowsCountAfterDeletion[0].count).to.equal(0);
       });
 
       it('should delete a single row in the table', async function () {

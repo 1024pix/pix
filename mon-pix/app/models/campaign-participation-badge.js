@@ -1,7 +1,4 @@
-/* eslint ember/no-computed-properties-in-native-classes: 0 */
-
-import { attr, belongsTo, hasMany } from '@ember-data/model';
-import { mapBy, max } from '@ember/object/computed';
+import { attr, belongsTo } from '@ember-data/model';
 import Badge from 'mon-pix/models/badge';
 
 export default class CampaignParticipationBadge extends Badge {
@@ -13,10 +10,5 @@ export default class CampaignParticipationBadge extends Badge {
   @attr('number') acquisitionPercentage;
 
   // includes
-  @hasMany('skillSetResult') skillSetResults;
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
-
-  // methods
-  @mapBy('skillSetResults', 'totalSkillsCount') totalSkillSetResultSkillsCounts;
-  @max('totalSkillSetResultSkillsCounts') maxTotalSkillsCountInSkillSets;
 }

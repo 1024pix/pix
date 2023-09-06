@@ -247,11 +247,9 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
   });
 
   module('#showStages', function () {
-    test('should showStages when clea badge is not acquired and have a reachedStage', function (assert) {
+    test('should showStages when have a reachedStage', function (assert) {
       // given
       component.args.model.campaignParticipationResult.hasReachedStage = true;
-      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: false, isCertifiable: true, isValid: true }];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
       const showStages = component.showStages;
@@ -260,55 +258,15 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
       assert.true(showStages);
     });
 
-    test('should not show showStages when clea badge is acquired and have not a reachedStage', function (assert) {
+    test('should not show showStages when have not a reachedStage', function (assert) {
       // given
       component.args.model.campaignParticipationResult.hasReachedStage = false;
-      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
       const showStages = component.showStages;
 
       // then
       assert.false(showStages);
-    });
-
-    test('should not show showStages when clea badge is acquired and have a reachedStage', function (assert) {
-      // given
-      component.args.model.campaignParticipationResult.hasReachedStage = true;
-      const badges = [{ key: 'PIX_EMPLOI_CLEA', id: 33, isAcquired: true, isCertifiable: true, isValid: true }];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
-
-      // when
-      const showStages = component.showStages;
-
-      // then
-      assert.false(showStages);
-    });
-  });
-
-  module('#showCleaCompetences', function () {
-    test('should showCleaCompetences when campaignParticipationResult has a clea badge', function (assert) {
-      // given
-      const cleaBadge = { id: 111 };
-      component.args.model.campaignParticipationResult.cleaBadge = cleaBadge;
-
-      // when
-      const shouldShowCleaCompetences = component.showCleaCompetences;
-
-      // then
-      assert.true(shouldShowCleaCompetences);
-    });
-
-    test('should not show clea competence when there is no cleaBadge', function (assert) {
-      // given
-      component.args.model.campaignParticipationResult.cleaBadge = undefined;
-
-      // when
-      const shouldShowCleaCompetences = component.showCleaCompetences;
-
-      // then
-      assert.false(shouldShowCleaCompetences);
     });
   });
 

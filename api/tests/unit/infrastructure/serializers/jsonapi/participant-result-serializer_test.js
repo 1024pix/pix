@@ -1,7 +1,7 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
 import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
@@ -72,7 +72,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           title: 'Badge2 Title',
           imageUrl: 'Badge2 ImgUrl',
           key: 'Badge2 Key',
-          badgeCompetences: [{ id: 31, name: 'BadgeC1', color: 'BadgeColor', skillIds: ['skill1'] }],
           isAlwaysVisible: true,
           isCertifiable: false,
           isValid: true,
@@ -139,30 +138,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         included: [
           {
             attributes: {
-              'area-color': undefined,
-              'mastery-percentage': 100,
-              name: 'BadgeC1',
-              'tested-skills-count': 1,
-              'total-skills-count': 1,
-              'validated-skills-count': 1,
-            },
-            id: '31',
-            type: 'skillSetResults',
-          },
-          {
-            attributes: {
-              'area-color': undefined,
-              'mastery-percentage': 100,
-              name: 'BadgeC1',
-              'tested-skills-count': 1,
-              'total-skills-count': 1,
-              'validated-skills-count': 1,
-            },
-            id: '31',
-            type: 'partnerCompetenceResults',
-          },
-          {
-            attributes: {
               'alt-message': 'Badge2 AltMessage',
               message: 'Badge2 Message',
               title: 'Badge2 Title',
@@ -176,24 +151,6 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             },
             id: '3',
             type: 'campaignParticipationBadges',
-            relationships: {
-              'skill-set-results': {
-                data: [
-                  {
-                    id: '31',
-                    type: 'skillSetResults',
-                  },
-                ],
-              },
-              'partner-competence-results': {
-                data: [
-                  {
-                    id: '31',
-                    type: 'partnerCompetenceResults',
-                  },
-                ],
-              },
-            },
           },
           {
             attributes: {

@@ -1,8 +1,7 @@
 import { buildOrganization } from './build-organization.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildUser } from './build-user.js';
-import { CampaignTypes } from '../../../lib/domain/models/CampaignTypes.js';
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { CampaignTypes, Assessment } from '../../../lib/domain/models/index.js';
 import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
 

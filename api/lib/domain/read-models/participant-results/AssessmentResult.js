@@ -56,7 +56,7 @@ class AssessmentResult {
       });
     });
 
-    this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults));
+    this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults.acquiredBadgeIds));
 
     if (stageCollection.totalStages > 0) {
       this.reachedStage = stageCollection.getReachedStage(this.validatedSkillsCount, this.masteryRate * 100);

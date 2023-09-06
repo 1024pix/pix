@@ -343,7 +343,6 @@ function _createBadgeCriteria({ databaseBuilder, badgeId, configBadge, cappedTub
       badgeId,
       scope: criterion.scope,
       threshold: criterion.threshold,
-      skillSetIds: [],
       cappedTubes: JSON.stringify(cappedTubesForCriterion),
     });
   }

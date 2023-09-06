@@ -17,9 +17,6 @@ describe('Unit | Serializer | JSONAPI | badge-creation-serializer', function () 
             'is-certifiable': false,
             'is-always-visible': true,
             'campaign-threshold': 99,
-            'skill-set-threshold': 66,
-            'skill-set-name': "le nom du lot d'acquis",
-            'skill-set-skills-ids': ['skillId1', 'skillId2', 'skillId4'],
           },
         },
       };
@@ -37,9 +34,6 @@ describe('Unit | Serializer | JSONAPI | badge-creation-serializer', function () 
         isCertifiable: false,
         isAlwaysVisible: true,
         campaignThreshold: 99,
-        skillSetThreshold: 66,
-        skillSetName: "le nom du lot d'acquis",
-        skillSetSkillsIds: ['skillId1', 'skillId2', 'skillId4'],
       };
       expect(badgeCreation).to.deep.equal(expectedBadgeCreation);
     });

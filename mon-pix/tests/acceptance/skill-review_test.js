@@ -40,7 +40,6 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
 
     module('When user is logged in', function (hooks) {
       const competenceResultName = 'Competence Nom';
-      const skillSetResultName = 'badge skill set nom';
 
       hooks.beforeEach(async function () {
         // given
@@ -91,40 +90,6 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
           assert.ok(screen.getByText('Parcours restreint'));
         });
-      });
-
-      test('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function (assert) {
-        // given
-        const BADGE_SKILL_SET_MASTERY_PERCENTAGE = '80%';
-
-        const skillSetResult = server.create('skill-set-result', {
-          name: skillSetResultName,
-          totalSkillsCount: 5,
-          validatedSkillsCount: 4,
-          masteryPercentage: 80,
-        });
-
-        const badge = server.create('campaign-participation-badge', {
-          altMessage: 'Yon won a Pix Emploi badge',
-          imageUrl: '/images/badges/Pix-emploi.svg',
-          message: 'Congrats, you won a Pix Emploi badge',
-          key: 'PIX_EMPLOI_CLEA',
-          isAcquired: true,
-          isCertifiable: true,
-          isValid: true,
-          skillSetResults: [skillSetResult],
-        });
-
-        campaignParticipationResult.update({
-          campaignParticipationBadges: [badge],
-        });
-
-        // when
-        const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-
-        // then
-        assert.ok(screen.getByText(skillSetResultName));
-        assert.strictEqual(screen.getByRole('progressbar').textContent.trim(), BADGE_SKILL_SET_MASTERY_PERCENTAGE);
       });
 
       test('should display the Pix emploi badge when badge is acquired', async function (assert) {
@@ -287,38 +252,6 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           assert.ok(screen.getByText('area1'));
           assert.ok(screen.getByText('85 % de réussite'));
           assert.ok(screen.getByText('2 étoiles acquises sur 4'));
-        });
-
-        test('should not display reached stage when CLEA badge acquired', async function (assert) {
-          // given
-          const reachedStage = server.create('reached-stage', {
-            title: 'You reached Stage 1',
-            message: 'You are almost a rock star',
-            reachedStage: 2,
-            totalStage: 3,
-          });
-          const cleaBadge = server.create('campaign-participation-badge', {
-            altMessage: 'Vous avez validé le badge Pix Emploi.',
-            imageUrl: 'url.svg',
-            isAcquired: true,
-            isCertifiable: true,
-            isValid: true,
-            message:
-              'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
-            title: 'Pix Emploi - Clea',
-            id: '100',
-            key: 'PIX_EMPLOI_CLEA',
-          });
-
-          campaignParticipationResult.campaignParticipationBadges = [cleaBadge];
-          campaignParticipationResult.update({ reachedStage });
-
-          // when
-          const screen = await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
-
-          // then
-          assert.notOk(screen.queryByText('You reached Stage 1'));
-          assert.ok(screen.getAllByAltText(cleaBadge.altMessage)[0]);
         });
       });
 

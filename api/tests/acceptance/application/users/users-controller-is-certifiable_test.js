@@ -46,6 +46,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                         id: 'skillId@web3',
                         name: '@web3',
                         status: 'actif',
+                        level: 3,
                       },
                     ],
                   },
@@ -72,6 +73,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                         id: 'skillId@fichier3',
                         name: '@fichier3',
                         status: 'actif',
+                        level: 3,
                       },
                     ],
                   },
@@ -98,6 +100,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                         id: 'skillId@tri3',
                         name: '@tri3',
                         status: 'actif',
+                        level: 3,
                       },
                     ],
                   },
@@ -134,6 +137,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                         id: 'skillId@spam3',
                         name: '@spam3',
                         status: 'actif',
+                        level: 3,
                       },
                     ],
                   },
@@ -160,6 +164,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                         id: 'skillId@vocRS3',
                         name: '@vocRS3',
                         status: 'actif',
+                        level: 3,
                       },
                     ],
                   },
@@ -182,15 +187,15 @@ describe('Acceptance | users-controller-is-certifiable', function () {
       isCertifiable: true,
       targetProfileId,
     }).id;
-    const skillSetId = databaseBuilder.factory.buildSkillSet({
-      targetProfileId,
-      badgeId: cleaBadgeId,
-      skillIds: `{${learningContent.skills.map(({ id }) => id).join(',')}}`,
-    }).id;
     databaseBuilder.factory.buildBadgeCriterion({
       badgeId: cleaBadgeId,
       threshold: 75,
-      skillSetIds: `{${skillSetId}}`,
+      cappedTubes: JSON.stringify(
+        learningContent.tubes.map(({ id }) => ({
+          id,
+          level: 8,
+        })),
+      ),
     });
 
     const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;

@@ -1,6 +1,5 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/badge-serializer.js';
-import { BadgeCriterion } from '../../../../../lib/domain/models/BadgeCriterion.js';
 
 describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
   describe('#serialize', function () {
@@ -16,8 +15,6 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
         targetProfileId: '1',
         isCertifiable: false,
         isAlwaysVisible: true,
-        badgeCriteria: [domainBuilder.buildBadgeCriterion({ skillSetIds: null })],
-        skillSets: [],
       });
 
       const expectedSerializedBadge = {
@@ -92,13 +89,6 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
         targetProfileId: '1',
         isCertifiable: false,
         isAlwaysVisible: true,
-        badgeCriteria: [
-          domainBuilder.buildBadgeCriterion({
-            scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-            threshold: 40,
-            skillSetIds: [],
-          }),
-        ],
       });
 
       const expectedSerializedBadge = {
@@ -140,9 +130,6 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
             'is-certifiable': false,
             'is-always-visible': true,
             'campaign-threshold': 99,
-            'skill-set-threshold': 66,
-            'skill-set-name': "le nom du lot d'acquis",
-            'skill-set-skills-ids': ['skillId1', 'skillId2', 'skillId4'],
           },
         },
       };

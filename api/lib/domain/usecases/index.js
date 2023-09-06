@@ -160,7 +160,6 @@ import * as sessionSummaryRepository from '../../infrastructure/repositories/ses
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as sessionXmlService from '../../domain/services/session-xml-service.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
-import * as skillSetRepository from '../../infrastructure/repositories/skill-set-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
@@ -376,7 +375,6 @@ const dependencies = {
   sessionXmlService,
   sessionsImportValidationService,
   skillRepository,
-  skillSetRepository,
   smartRandom,
   stageCollectionRepository,
   stageCollectionForTargetProfileRepository,

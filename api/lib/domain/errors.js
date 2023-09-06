@@ -1214,12 +1214,6 @@ class CandidateNotAuthorizedToResumeCertificationTestError extends DomainError {
   }
 }
 
-class InvalidSkillSetError extends DomainError {
-  constructor(message = 'Acquis non valide') {
-    super(message);
-  }
-}
-
 class OrganizationLearnerCannotBeDissociatedError extends DomainError {
   constructor(message = 'Impossible de dissocier') {
     super(message);
@@ -1381,7 +1375,6 @@ export {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   InvalidSessionSupervisingLoginError,
-  InvalidSkillSetError,
   InvalidStageError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,

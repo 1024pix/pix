@@ -1,7 +1,7 @@
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
-import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
 import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function () {
@@ -382,7 +382,6 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           altMessage: 'Badge Blue Alt Message',
           key: 'Blue',
           imageUrl: 'blue.svg',
-          badgeCompetences: [],
         },
         {
           id: 1,
@@ -391,7 +390,6 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           altMessage: 'Yellow Alt Message',
           key: 'YELLOW',
           imageUrl: 'yellow.svg',
-          badgeCompetences: [],
         },
       ];
 
