@@ -6,6 +6,7 @@ import { buildUsers } from './build-users.js';
 import { buildOrganizationUsers } from './build-organization-users.js';
 import { buildArchivedOrganizations } from './build-archived-organizations.js';
 import { buildScoOrganizationLearners } from './build-sco-organization-learners.js';
+import { buildCertificationCenters } from './build-certification-centers.js';
 
 async function teamAccesDataBuilder(databaseBuilder) {
   buildPixAdminRoles(databaseBuilder);
@@ -16,6 +17,7 @@ async function teamAccesDataBuilder(databaseBuilder) {
   buildScoOrganizations(databaseBuilder);
   buildArchivedOrganizations(databaseBuilder);
   buildScoOrganizationLearners(databaseBuilder);
+  await buildCertificationCenters(databaseBuilder);
 }
 
 export { teamAccesDataBuilder };

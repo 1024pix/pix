@@ -4,10 +4,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
+import setupIntl from '../../../../helpers/setup-intl';
 
 module('Acceptance | authenticated/certification-centers/get/team', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   test('should display Certification center memberships', async function (assert) {
     // given
@@ -20,11 +22,13 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
     const user1 = server.create('user', { firstName: 'Eric', lastName: 'Hochet' });
     server.create('certification-center-membership', {
       certificationCenter,
+      role: 'MEMBER',
       user: user1,
     });
     const user2 = server.create('user', { firstName: 'Gilles', lastName: 'Parbal' });
     server.create('certification-center-membership', {
       certificationCenter,
+      role: 'MEMBER',
       user: user2,
     });
 
@@ -39,7 +43,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
     assert.dom(screen.getByRole('link', { name: user2.id })).exists();
   });
 
-  test('should be possible to desactive a certification center membership', async function (assert) {
+  test('should be possible to deactivate a certification center membership', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     const user = server.create('user', { firstName: 'Lili' });
@@ -52,6 +56,7 @@ module('Acceptance | authenticated/certification-centers/get/team', function (ho
       createdAt: new Date('2018-02-15T05:06:07Z'),
       certificationCenter,
       user,
+      role: 'MEMBER',
     });
 
     // when
