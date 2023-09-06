@@ -37,10 +37,11 @@ module('Unit | Service | Error messages', function (hooks) {
     test('should return the message when error code is found', function (assert) {
       // Given
       const errorMessages = this.owner.lookup('service:errorMessages');
+      const nationalStudentId = '1234';
       // When
-      const message = errorMessages.getErrorMessage('SEX_CODE_REQUIRED');
+      const message = errorMessages.getErrorMessage('SEX_CODE_REQUIRED', { nationalStudentId });
       // Then
-      assert.strictEqual(message, t('api-error-messages.student-xml-import.sex-code-required'));
+      assert.strictEqual(message, t('api-error-messages.student-xml-import.sex-code-required', { nationalStudentId }));
     });
   });
 
@@ -48,12 +49,13 @@ module('Unit | Service | Error messages', function (hooks) {
     test('should return the message when error code is found', function (assert) {
       // Given
       const errorMessages = this.owner.lookup('service:errorMessages');
+      const nationalStudentId = '1234';
       // When
-      const message = errorMessages.getErrorMessage('BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT');
+      const message = errorMessages.getErrorMessage('BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT', { nationalStudentId });
       // Then
       assert.strictEqual(
         message,
-        t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student'),
+        t('api-error-messages.student-xml-import.birth-city-code-required-for-french-student', { nationalStudentId }),
       );
     });
   });
