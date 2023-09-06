@@ -25,6 +25,7 @@ export { createOrganization };
  * @param {Date} archivedAt
  * @param {string} identityProviderForCampaigns
  * @param {number} adminUserId
+ * @param {Array<number>} adminIds
  * @param {Array<number>} memberIds
  * @param {Array<number>} tagIds
  * @param {Array<number>} featureIds
@@ -52,7 +53,7 @@ async function createOrganization({
   archivedBy,
   archivedAt,
   identityProviderForCampaigns,
-  adminUserId,
+  adminIds = [],
   memberIds = [],
   tagIds = [],
   featureIds = [],
@@ -84,7 +85,7 @@ async function createOrganization({
   _buildMemberships({
     databaseBuilder,
     organizationId,
-    adminUserId,
+    adminIds,
     memberIds,
   });
 
@@ -162,14 +163,14 @@ function _buildOrganizationTags({ databaseBuilder, organizationId, tagIds }) {
   );
 }
 
-function _buildMemberships({ databaseBuilder, organizationId, adminUserId, memberIds }) {
-  if (adminUserId) {
+function _buildMemberships({ databaseBuilder, organizationId, adminIds, memberIds }) {
+  adminIds.forEach((adminId) =>
     databaseBuilder.factory.buildMembership({
-      userId: adminUserId,
+      userId: adminId,
       organizationId,
       organizationRole: 'ADMIN',
-    });
-  }
+    }),
+  );
 
   memberIds.forEach((memberId) =>
     databaseBuilder.factory.buildMembership({

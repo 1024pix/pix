@@ -1,13 +1,14 @@
-import { PIX_EDU_SMALL_TARGET_PROFILE_ID, SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from './constants.js';
-import { createAssessmentCampaign, createProfilesCollectionCampaign } from '../common/tooling/campaign-tooling.js';
+import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
+import { SCO_ORGANIZATION_ID, SCO_ORGANIZATION_USER_ID } from '../common/constants.js';
+import { createAssessmentCampaign } from '../common/tooling/campaign-tooling.js';
 
 async function _createScoCampaigns(databaseBuilder) {
   await createAssessmentCampaign({
     databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
     ownerId: SCO_ORGANIZATION_USER_ID,
-    name: "Campagne d'évaluation SCO - envoi simple",
-    code: 'SCOSIMPLE',
+    name: 'PIX+ EDU - SCO - envoi simple',
+    code: 'EDUSIMPLE',
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     configCampaign: { participantCount: 0 },
   });
@@ -15,32 +16,11 @@ async function _createScoCampaigns(databaseBuilder) {
     databaseBuilder,
     organizationId: SCO_ORGANIZATION_ID,
     ownerId: SCO_ORGANIZATION_USER_ID,
-    name: "Campagne d'évaluation SCO - envoi multiple",
-    code: 'SCOMULTIP',
+    name: 'PIX+ EDU - SCO- envoi multiple',
+    code: 'EDUMULTIP',
     multipleSendings: true,
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     configCampaign: { participantCount: 0 },
-  });
-  await createProfilesCollectionCampaign({
-    databaseBuilder,
-    organizationId: SCO_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
-    name: 'Campagne de collecte de profil SCO - envoi simple',
-    type: 'PROFILES_COLLECTION',
-    code: 'COLLECSIM',
-    title: null,
-    configCampaign: { participantCount: 0, profileDistribution: {} },
-  });
-  await createProfilesCollectionCampaign({
-    databaseBuilder,
-    organizationId: SCO_ORGANIZATION_ID,
-    ownerId: SCO_ORGANIZATION_USER_ID,
-    name: 'Campagne de collecte de profil SCO - envoi multiple',
-    type: 'PROFILES_COLLECTION',
-    code: 'COLLECMUL',
-    title: null,
-    multipleSendings: true,
-    configCampaign: { participantCount: 0, profileDistribution: {} },
   });
 }
 

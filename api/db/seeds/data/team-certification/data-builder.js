@@ -179,7 +179,7 @@ async function _createScoOrganization({ databaseBuilder }) {
     name: 'Orga team Certification',
     isManagingStudents: true,
     externalId: CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID,
-    adminUserId: SCO_CERTIFICATION_MANAGING_STUDENTS_ORGANIZATION_USER_ID,
+    adminIds: [SCO_CERTIFICATION_MANAGING_STUDENTS_ORGANIZATION_USER_ID],
     configOrganization: {
       learnerCount: 8,
     },
@@ -211,7 +211,7 @@ async function _createProOrganization({ databaseBuilder }) {
     name: 'Orga team Certification',
     isManagingStudents: true,
     externalId: PRO_EXTERNAL_ID,
-    adminUserId: PRO_ORGANIZATION_USER_ID,
+    adminIds: [PRO_ORGANIZATION_USER_ID],
     configOrganization: {
       learnerCount: 8,
     },
