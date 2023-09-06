@@ -14,8 +14,8 @@ class ScoOrganizationParticipant {
     campaignName,
     campaignType,
     participationStatus,
-    isCertifiable,
-    certifiableAt,
+    isCertifiableFromCampaign,
+    certifiableAtFromCampaign,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -31,8 +31,8 @@ class ScoOrganizationParticipant {
     this.campaignName = campaignName;
     this.campaignType = campaignType;
     this.participationStatus = participationStatus;
-    this.isCertifiable = isCertifiable;
-    this.certifiableAt = isCertifiable ? certifiableAt : null;
+    this.isCertifiable = isCertifiableFromCampaign;
+    this.certifiableAt = isCertifiableFromCampaign ? certifiableAtFromCampaign : null;
   }
 }
 
