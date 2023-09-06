@@ -211,6 +211,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: expectedOrganizationLearner.id,
+          userId: expectedOrganizationLearner.userId,
           status: CampaignParticipationStatuses.SHARED,
           isCertifiable: true,
         });
@@ -223,6 +224,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: otherOrganizationLearner.id,
+          userId: otherOrganizationLearner.userId,
           status: CampaignParticipationStatuses.SHARED,
           isCertifiable: false,
         });
@@ -256,6 +258,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: eligibleOrganizationLearner.id,
+          userId: eligibleOrganizationLearner.userId,
           status: CampaignParticipationStatuses.SHARED,
           isCertifiable: true,
         });
@@ -268,6 +271,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: notEligibleOrganizationLearner.id,
+          userId: notEligibleOrganizationLearner.userId,
           status: CampaignParticipationStatuses.SHARED,
           isCertifiable: false,
         });
@@ -280,6 +284,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           organizationLearnerId: notCommunicatedOrganizationLearner.id,
+          userId: notCommunicatedOrganizationLearner.userId,
           status: CampaignParticipationStatuses.STARTED,
           isCertifiable: null,
         });
@@ -401,9 +406,10 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           name: 'some campaign name',
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, userId });
         await databaseBuilder.commit();
 
         const expectedAttributes = {
@@ -474,11 +480,13 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           name: 'some campaign name',
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.TO_SHARE,
         });
         await databaseBuilder.commit();
@@ -519,10 +527,16 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaignId, organizationLearnerId });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, userId });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          userId,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -542,17 +556,21 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           deletedAt: null,
           deletedBy: null,
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
           organizationLearnerId,
+          userId,
           deletedAt: new Date(),
           deletedBy,
         });
@@ -573,10 +591,22 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, isImproved: true });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId, isImproved: false });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          userId,
+          isImproved: true,
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          userId,
+          isImproved: false,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -609,96 +639,94 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
     });
 
     describe('When sup participants are sorted', function () {
-      it('should return sup participants sorted by ascendant participation count', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+      context('sorting participation count', function () {
+        let organizationId, organizationLearnerId1, organizationLearnerId2, organizationLearnerId3;
+        beforeEach(async function () {
+          organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: otherCampaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId3,
-        });
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId,
-          sort: {
-            participationCount: 'asc',
-          },
-        });
+          const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+          const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
 
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(organizationLearnerId2);
-        expect(participants[1].id).to.equal(organizationLearnerId3);
-        expect(participants[2].id).to.equal(organizationLearnerId1);
-      });
-      it('should return sup participants sorted by descendant participation count', async function () {
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          organizationLearnerId1 = organizationLearner1.id;
+          organizationLearnerId2 = organizationLearner2.id;
+          organizationLearnerId3 = organizationLearner3.id;
 
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: otherCampaignId,
-          organizationLearnerId: organizationLearnerId1,
-        });
-        databaseBuilder.factory.buildCampaignParticipation({
-          campaignId: campaignId,
-          organizationLearnerId: organizationLearnerId3,
-        });
-        await databaseBuilder.commit();
-        // when
-        const { data: participants } = await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
-          organizationId,
-          sort: {
-            participationCount: 'desc',
-          },
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId1,
+            userId: organizationLearner1.userId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: otherCampaignId,
+            organizationLearnerId: organizationLearnerId1,
+            userId: organizationLearner1.userId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId,
+            organizationLearnerId: organizationLearnerId3,
+            userId: organizationLearner3.userId,
+          });
+          await databaseBuilder.commit();
         });
 
-        // then
-        expect(participants.length).to.equal(3);
-        expect(participants[0].id).to.equal(organizationLearnerId1);
-        expect(participants[1].id).to.equal(organizationLearnerId3);
-        expect(participants[2].id).to.equal(organizationLearnerId2);
+        it('should return sup participants sorted by ascendant participation count', async function () {
+          // when
+          const { data: participants } =
+            await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+              organizationId,
+              sort: {
+                participationCount: 'asc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(organizationLearnerId2);
+          expect(participants[1].id).to.equal(organizationLearnerId3);
+          expect(participants[2].id).to.equal(organizationLearnerId1);
+        });
+
+        it('should return sup participants sorted by descendant participation count', async function () {
+          // when
+          const { data: participants } =
+            await supOrganizationParticipantRepository.findPaginatedFilteredSupParticipants({
+              organizationId,
+              sort: {
+                participationCount: 'desc',
+              },
+            });
+
+          // then
+          expect(participants.length).to.equal(3);
+          expect(participants[0].id).to.equal(organizationLearnerId1);
+          expect(participants[1].id).to.equal(organizationLearnerId3);
+          expect(participants[2].id).to.equal(organizationLearnerId2);
+        });
       });
 
       it('should return sup participants sorted by name if participation count are identical', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({
+        const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           lastName: 'Aaaah',
-        }).id;
-        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
+        });
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           lastName: 'Dupont',
-        }).id;
-        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
+        });
+        const { id: organizationLearnerId3 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           lastName: 'Dupond',
-        }).id;
+        });
 
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaignId,
           organizationLearnerId: organizationLearnerId1,
+          userId: userId1,
         });
         await databaseBuilder.commit();
         // when
@@ -849,16 +877,20 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           createdAt: new Date('2022-01-01'),
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
           organizationLearnerId,
+          userId,
           createdAt: new Date('2021-01-01'),
         });
         await databaseBuilder.commit();
@@ -880,11 +912,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           deletedAt: null,
           deletedBy: null,
           createdAt: new Date('2021-02-01'),
@@ -892,6 +927,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
           organizationLearnerId,
+          userId,
           deletedAt: new Date(),
           deletedBy,
           createdAt: new Date('2022-01-01'),
@@ -914,17 +950,21 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           isImproved: true,
           createdAt: new Date('2022-01-01'),
         });
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           isImproved: false,
           createdAt: new Date('2021-01-01'),
         });
@@ -972,11 +1012,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
           isCertifiable: false,
@@ -985,6 +1028,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.STARTED,
           sharedAt: null,
           isCertifiable: true,
@@ -1041,11 +1085,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
           isCertifiable: true,
@@ -1054,6 +1101,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2021-01-01'),
           isCertifiable: false,
@@ -1083,11 +1131,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId,
           type: CampaignTypes.ASSESSMENT,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: profileCollectionCampaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2021-01-01'),
           isCertifiable: true,
@@ -1095,6 +1146,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: assessmentCampaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
           isCertifiable: false,
@@ -1124,11 +1176,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2021-01-01'),
           isCertifiable: true,
@@ -1162,11 +1217,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
           isCertifiable: true,
@@ -1204,11 +1262,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId: otherOrganizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2021-01-01'),
           isCertifiable: true,
@@ -1242,11 +1303,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
             organizationId,
             type: CampaignTypes.PROFILES_COLLECTION,
           }).id;
-          const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+          const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+          });
 
           const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             organizationLearnerId,
+            userId,
             status: CampaignParticipationStatuses.SHARED,
             sharedAt: new Date('2021-01-01'),
             isCertifiable: true,
