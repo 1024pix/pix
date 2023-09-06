@@ -2,6 +2,8 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+const isDeveloppement = process.env.NODE_ENV === 'development';
+
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
@@ -42,5 +44,10 @@ module.exports = function (defaults) {
     staticHelpers: true,
     staticModifiers: true,
     staticComponents: true,
+    packagerOptions: {
+      webpackConfig: {
+        devtool: isDeveloppement ? 'eval-source-map' : false,
+      },
+    },
   });
 };
