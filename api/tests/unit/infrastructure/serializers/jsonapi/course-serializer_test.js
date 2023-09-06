@@ -9,7 +9,6 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function () {
         id: 'course_id',
         name: 'Name of the course',
         description: 'Description of the course',
-        imageUrl: 'http://image.url',
         challenges: ['rec_challenge_1', 'rec_challenge_2', 'rec_challenge_3', 'rec_challenge_4', 'rec_challenge_5'],
       });
 
@@ -24,7 +23,6 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function () {
           attributes: {
             name: course.name,
             description: course.description,
-            'image-url': 'http://image.url',
             'nb-challenges': 5,
           },
         },
