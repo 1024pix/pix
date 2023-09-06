@@ -140,6 +140,10 @@ const CERTIFICATION_CANDIDATES_ERRORS = {
     code: 'CANDIDATE_SEX_REQUIRED',
     getMessage: () => '',
   },
+  DUPLICATE_CANDIDATE: {
+    code: 'DUPLICATE_CANDIDATE',
+    getMessage: () => '',
+  },
 };
 
 export { CERTIFICATION_CANDIDATES_ERRORS };
