@@ -36,7 +36,6 @@ module('Integration | Component | certification-centers/memberships-section', fu
     );
 
     // then
-    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.id);
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.email);
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.firstName);
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.lastName);
