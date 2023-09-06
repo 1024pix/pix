@@ -9,7 +9,6 @@ function _toDomain(courseDataObject) {
     name: courseDataObject.name,
     description: courseDataObject.description,
     isActive: courseDataObject.isActive,
-    imageUrl: courseDataObject.imageUrl,
     challenges: courseDataObject.challenges,
     competences: courseDataObject.competences,
   });
