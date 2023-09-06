@@ -18,6 +18,7 @@ const buildCertificationCenterMembership = function ({
   createdAt = new Date('2020-01-01'),
   disabledAt,
   isReferer = false,
+  role = 'MEMBER',
 } = {}) {
   return new CertificationCenterMembership({
     id,
@@ -26,6 +27,7 @@ const buildCertificationCenterMembership = function ({
     createdAt,
     disabledAt,
     isReferer,
+    role,
   });
 };
 
