@@ -98,4 +98,31 @@ module('Unit | Model | certification report', function (hooks) {
       });
     });
   });
+
+  module('#toJSON', function () {
+    test('it should create JSON from the object props', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationReport = store.createRecord('certification-report', {
+        id: 123,
+        certificationIssueReports: A([]),
+        hasSeenEndTestScreen: true,
+        certificationCourseId: 1,
+        firstName: 'A',
+        lastName: 'B',
+        isCompleted: true,
+        abortReason: true,
+      });
+      // when / then
+      assert.deepEqual(certificationReport.toJSON(), {
+        id: '123',
+        hasSeenEndTestScreen: true,
+        certificationCourseId: 1,
+        firstName: 'A',
+        lastName: 'B',
+        isCompleted: true,
+        abortReason: true,
+      });
+    });
+  });
 });

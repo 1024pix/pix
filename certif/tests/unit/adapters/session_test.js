@@ -98,24 +98,29 @@ module('Unit | Adapter | session', function (hooks) {
         const certifReportAttributes1 = {
           certificationCourseId: 1,
           firstName: 'Laura',
-          LastName: 'Carray',
+          lastName: 'Carray',
           hasSeenEndTestScreen: true,
+          id: '1',
+          isCompleted: true,
+          abortReason: null,
         };
-        const certificationReport1 = {
+        const certificationReport1 = store.createRecord('certification-report', {
           get: sinon.stub().returns(1),
-          toJSON: sinon.stub().returns(certifReportAttributes1),
-        };
+          ...certifReportAttributes1,
+        });
         const certifReportAttributes2 = {
           certificationCourseId: 2,
           firstName: 'Tom',
-          LastName: 'Jedusor',
+          lastName: 'Jedusor',
           hasSeenEndTestScreen: false,
+          id: '2',
+          isCompleted: true,
+          abortReason: null,
         };
-        const certificationReport2 = {
-          firstIssueReportDescription: 'Il a eu un soucis',
+        const certificationReport2 = store.createRecord('certification-report', {
           get: sinon.stub().returns(2),
-          toJSON: sinon.stub().returns(certifReportAttributes2),
-        };
+          ...certifReportAttributes2,
+        });
         const session = {
           examinerGlobalComment,
           hasIncident,
