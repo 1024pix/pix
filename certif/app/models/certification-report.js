@@ -23,6 +23,18 @@ export default class CertificationReport extends Model {
     return !this.isCompleted && this.abortReason === null;
   }
 
+  toJSON() {
+    return {
+      id: this.id,
+      certificationCourseId: this.certificationCourseId,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      hasSeenEndTestScreen: this.hasSeenEndTestScreen,
+      isCompleted: this.isCompleted,
+      abortReason: this.abortReason,
+    };
+  }
+
   abort = memberAction({
     type: 'post',
     urlType: 'abort-certification',

@@ -71,6 +71,8 @@ export default class SessionsFinalizeController extends Controller {
       await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification(this.intl.t('pages.session-finalization.notification.success'));
     } catch (responseError) {
+      // eslint-disable-next-line no-console
+      console.error({ responseError });
       const error = responseError?.errors?.[0];
       if (error?.code) {
         this.showConfirmModal = false;
