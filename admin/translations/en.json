@@ -39,6 +39,12 @@
         }
       }
     },
+    "memberships-section": {
+      "roles": {
+        "admin": "Administrator",
+        "member": "Member"
+      }
+    },
     "organizations": {
       "all-tags": {
         "recently-used-tags": "List of tags recently used with {tagName}"
