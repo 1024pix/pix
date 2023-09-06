@@ -1,8 +1,10 @@
+import { SCO_ORGANIZATION_ID } from '../common/constants.js';
 import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 
 export function buildTargetProfiles(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_SMALL_TARGET_PROFILE_ID,
+    ownerOrganizationId: SCO_ORGANIZATION_ID,
     imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
     description: null,
     name: '[Pix+Édu 1D FC] Prêt pour la certification du volet 1',
