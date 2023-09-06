@@ -45,7 +45,7 @@ class XMLOrganizationLearnersSet {
       throw new SiecleXmlImportError(SIECLE_ERRORS.BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT, { nationalStudentId });
     }
     if (isEmpty(sexCode)) {
-      throw new SiecleXmlImportError(SIECLE_ERRORS.SEX_CODE_REQUIRED);
+      throw new SiecleXmlImportError(SIECLE_ERRORS.SEX_CODE_REQUIRED, { nationalStudentId });
     }
     if (isEmpty(nationalStudentId)) {
       throw new SiecleXmlImportError(SIECLE_ERRORS.INE_REQUIRED);
