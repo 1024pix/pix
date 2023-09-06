@@ -11,7 +11,7 @@ export { createCertificationCenter };
  * @param {string} externalId
  * @param {Date} createdAt
  * @param {Date} updatedAt
- * @param {Array<number>} memberIds
+ * @param {Array<{id: number, role: string}>} members
  * @param {boolean} isV3Pilot
  * @param {Array<number>} complementaryCertificationIds
  * @returns {Promise<{certificationCenterId: number}>}
@@ -24,9 +24,9 @@ async function createCertificationCenter({
   externalId,
   createdAt,
   updatedAt,
-  memberIds = [],
+  members = [],
   isV3Pilot = false,
-  complementaryCertificationIds,
+  complementaryCertificationIds = [],
 }) {
   _buildCertificationCenter({
     databaseBuilder,
@@ -42,7 +42,7 @@ async function createCertificationCenter({
   _buildCertificationCenterMemberships({
     databaseBuilder,
     certificationCenterId,
-    memberIds,
+    members,
   });
 
   _buildCertificationCenterHabilitations({
@@ -68,10 +68,11 @@ function _buildCertificationCenterHabilitations({
   );
 }
 
-function _buildCertificationCenterMemberships({ databaseBuilder, certificationCenterId, memberIds }) {
-  memberIds.forEach((memberId) =>
+function _buildCertificationCenterMemberships({ databaseBuilder, certificationCenterId, members }) {
+  members.forEach(({ id, role }) =>
     databaseBuilder.factory.buildCertificationCenterMembership({
-      userId: memberId,
+      userId: id,
+      role,
       certificationCenterId,
       createdAt: new Date(),
       isReferer: false,
