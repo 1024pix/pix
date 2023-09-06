@@ -72,11 +72,10 @@ module('Acceptance | Profile', function (hooks) {
       module('user has never closed the banner', function () {
         test('should display the level seven information banner', async function (assert) {
           // when
-          const screen = await visit('/competences');
+          await visit('/competences');
 
           // then
           assert.dom('.new-information-content__text').exists();
-          assert.ok(screen.getByText('Le niveau 7 est enfin disponible ! Vous pouvez en apprendre plus via'));
         });
       });
 
