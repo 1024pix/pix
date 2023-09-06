@@ -507,11 +507,13 @@ describe('Acceptance | API | Certification Center', function () {
         expect(response.result.data[0].attributes['created-at']).to.deep.equal(
           certificationCenterMembership1.createdAt,
         );
+        expect(response.result.data[0].attributes['role']).to.deep.equal(certificationCenterMembership1.role);
 
         expect(response.result.data[1].id).to.equal(certificationCenterMembership2.id.toString());
         expect(response.result.data[1].attributes['created-at']).to.deep.equal(
           certificationCenterMembership2.createdAt,
         );
+        expect(response.result.data[1].attributes['role']).to.deep.equal(certificationCenterMembership2.role);
 
         const expectedIncluded = [
           {
