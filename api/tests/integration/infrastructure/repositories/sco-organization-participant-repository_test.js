@@ -484,8 +484,8 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
-          isCertifiable: null,
-          certifiableAt: null,
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
         });
         await databaseBuilder.commit();
 
@@ -532,8 +532,8 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
-          isCertifiable: null,
-          certifiableAt: null,
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
         });
         await databaseBuilder.commit();
 
@@ -573,8 +573,8 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
-          isCertifiable: null,
-          certifiableAt: null,
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
         });
         await databaseBuilder.commit();
 

@@ -46,9 +46,9 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
   }
   if (certificability) {
     qb.where(function (query) {
-      query.whereInArray('subquery.isCertifiable', certificability);
+      query.whereInArray('subquery.isCertifiableFromCampaign', certificability);
       if (certificability.includes(null)) {
-        query.orWhereRaw('"subquery"."isCertifiable" IS NULL');
+        query.orWhereRaw('"subquery"."isCertifiableFromCampaign" IS NULL');
       }
     });
   }
@@ -60,10 +60,10 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .select([
       'view-active-organization-learners.id as organizationLearnerId',
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
+        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiableFromCampaign"',
       ),
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
+        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAtFromCampaign"',
       ),
     ])
     .from('view-active-organization-learners')
@@ -130,8 +130,8 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
       'users.username',
       'users.email',
       'authentication-methods.externalIdentifier as samlId',
-      'subquery.isCertifiable',
-      'subquery.certifiableAt',
+      'subquery.isCertifiableFromCampaign',
+      'subquery.certifiableAtFromCampaign',
       knex.raw(
         'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"',
       ),
