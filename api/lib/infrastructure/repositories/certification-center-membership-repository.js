@@ -40,6 +40,7 @@ function _toDomain(certificationCenterMembershipDTO) {
     user,
     createdAt: certificationCenterMembershipDTO.createdAt,
     updatedAt: certificationCenterMembershipDTO.updatedAt,
+    role: certificationCenterMembershipDTO.role,
   });
 }
 
