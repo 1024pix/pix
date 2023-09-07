@@ -66,6 +66,7 @@ function _createTube(variableName, mobile, tablet, thematic, server) {
     practicalDescription: `${variableName} practicalDescription`,
     mobile,
     tablet,
+    level: 8,
     skills: [],
     competenceId: null,
   });

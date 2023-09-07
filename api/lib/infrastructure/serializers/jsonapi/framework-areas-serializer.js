@@ -20,7 +20,7 @@ const serialize = function (framework, { withoutThematics = false } = {}) {
         tubes: {
           include: true,
           ref: 'id',
-          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet'],
+          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'level'],
         },
       },
     },
@@ -41,7 +41,7 @@ const serialize = function (framework, { withoutThematics = false } = {}) {
                 .filter(({ id }) => {
                   return thematic.tubeIds.includes(id);
                 })
-                .map((tube) => ({ ...tube, mobile: tube.isMobileCompliant, tablet: tube.isTabletCompliant })),
+                .map((tube) => ({ ...tube, mobile: tube.isMobileCompliant, tablet: tube.isTabletCompliant, level: 8 })),
             };
           })
           .filter((thematic) => {
