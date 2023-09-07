@@ -13,21 +13,21 @@ export default class ComplementaryCertificationAdapter extends ApplicationAdapte
 
   async updateRecord(store, type, complementaryCertification) {
     if (complementaryCertification.adapterOptions?.attachBadges === true) {
-      const {detachedTargetProfileId, attachedTargetProfileId} = complementaryCertification.adapterOptions;
-      const payload = this.serialize(complementaryCertification, {includeId: true});
+      const payload = this.serialize(complementaryCertification);
+      delete payload.data.attributes['key'];
+      delete payload.data.attributes['label'];
       delete payload.data.attributes['target-profiles-history'];
 
-      payload.data.attributes.attachedTargetProfileId = attachedTargetProfileId;
-      payload.data.attributes.detachedTargetProfileId = detachedTargetProfileId;
+      const {targetProfileId} = complementaryCertification.adapterOptions;
+      payload.data.attributes['target-profile-id'] = targetProfileId;
 
-      const relatedBadges = complementaryCertification.hasMany('complementaryCertificationBadges') ?? [];
-      payload.data.attributes.badges = relatedBadges
-        .filterBy('isNew', true)
+      const complementaryCertificationBadges = complementaryCertification.hasMany('complementaryCertificationBadges') ?? [];
+      payload.data.attributes['complementary-certification-badges'] = complementaryCertificationBadges
         .map(complementaryCertificationBadge => {
           return this.serialize(complementaryCertificationBadge, {includeId: true});
         });
 
-      return this.ajax(this.urlForUpdateRecord(complementaryCertification.id, type.modelName, complementaryCertification), 'PUT', payload);
+      return this.ajax(this.urlForUpdateRecord(complementaryCertification.id, type.modelName, complementaryCertification), 'PUT', { data: payload });
     }
 
     return super.updateRecord(...arguments);

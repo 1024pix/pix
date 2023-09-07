@@ -74,15 +74,14 @@ export default class AttachTargetProfileController extends Controller {
       await complementaryCertification.save({
         adapterOptions: {
           attachBadges: true,
-          detachedTargetProfileId: this.model.currentTargetProfile.id,
-          attachedTargetProfileId: this.selectedTargetProfile.id,
+          targetProfileId: this.model.currentTargetProfile.id,
         }
       });
       this.notifications.success('Target profile rattaché avec succès');
 
     } catch (error) {
       console.log(error);
-      this.store.peekAll('complementary-certification-badge').filterBy('isNew', true).forEach(function(model){
+      this.store.peekAll('complementary-certification-badge').forEach(function(model){
         model.deleteRecord();
       });
       await this.onError("Une erreur est survenue lors de l'enregistrement du profil cible.");
