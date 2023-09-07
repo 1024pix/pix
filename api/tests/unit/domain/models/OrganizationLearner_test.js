@@ -5,7 +5,7 @@ import range from 'lodash/range.js';
 
 describe('Unit | Domain | Models | OrganizationLearner', function () {
   describe('#updateCertificability', function () {
-    it('should update certificability', function () {
+    it('should update certificability if certifiable', function () {
       // given
       const certifiableDate = new Date('2023-01-01');
       const organizationLearner = new OrganizationLearner({ isCertifiable: false });
@@ -26,7 +26,7 @@ describe('Unit | Domain | Models | OrganizationLearner', function () {
       expect(new Date(organizationLearner.certifiableAt)).to.deep.equal(placementProfile.profileDate);
     });
 
-    it('should not update certifiableAt if not certifiable', function () {
+    it('should update certifiableAt if not certifiable', function () {
       // given
       const profileDate = new Date('2023-01-01');
       const organizationLearner = new OrganizationLearner({ isCertifiable: false });
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | OrganizationLearner', function () {
 
       //then
       expect(organizationLearner.isCertifiable).to.be.false;
-      expect(organizationLearner.certifiableAt).to.be.null;
+      expect(new Date(organizationLearner.certifiableAt)).to.deep.equal(placementProfile.profileDate);
     });
   });
 });

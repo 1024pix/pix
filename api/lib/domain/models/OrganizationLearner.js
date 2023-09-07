@@ -52,12 +52,7 @@ class OrganizationLearner {
   }
 
   updateCertificability(placementProfile) {
-    if (placementProfile.isCertifiable()) {
-      this.certifiableAt = placementProfile.profileDate;
-    } else {
-      this.certifiableAt = null;
-    }
-
+    this.certifiableAt = placementProfile.profileDate;
     this.isCertifiable = placementProfile.isCertifiable();
   }
 }
