@@ -63,7 +63,7 @@ not dead
 
 ## Décision finale
 
-Les applications front de Pix supportent les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
+Toutes les applications front de Pix supportent les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
 
 Pour cela, nous proposons d'utiliser la définition par défaut des versions des navigateurs supportées de *Browserslist*, à travers l'alias `defaults`, et d'y ajouter un allongement supplémentaire de 4 ans avec l'instruction `last 4 years`.
 
@@ -98,6 +98,6 @@ Pour l'équipe *Support Utilisateur* de Pix, nous proposons de faire à la deman
 npx browserslist "defaults, last 4 years"
 ```
 
-Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor et les différents pix-sites (https://pix.org/, https://pix.fr/, etc.).
+Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor, les différents pix-sites (https://pix.org/, https://pix.fr/, etc.), etc.
 
 [Liste des navigateurs et leur date de release](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
