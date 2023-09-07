@@ -2,9 +2,11 @@
 
 Date : 2023-08-16
 
+
 ## État
 
 En cours
+
 
 ## Contexte
 
@@ -23,6 +25,7 @@ Par ailleurs le *Support Utilisateur* a besoin de connaître le plus facilement 
 Enfin, techniquement, le support navigateur se fait via un fichier de configuration dans chaque projet front (via le fichier `/config/target.js` pour les applications Ember, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
 
 Actuellement le fichier `/config/target.js` des applications Ember contient la configuration `'> 1%', 'firefox 58'` qui contient en dur une très vielle version d'un navigateur spécifique. Ce type de configuration avec des versions en dur oblige une mise à jour manuelle des fichiers qui peut être oubliée.
+
 
 ## Possibilités et réflexions
 
@@ -60,6 +63,7 @@ last 2 versions
 Firefox ESR
 not dead
 ```
+
 
 ## Décision finale
 
@@ -100,4 +104,11 @@ npx browserslist "defaults, last 4 years"
 
 Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor, les différents pix-sites (https://pix.org/, https://pix.fr/, etc.), etc.
 
-[Liste des navigateurs et leur date de release](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
+
+## Références
+
+* [Liste des navigateurs et leur date de release](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
+
+* [Firefox ESR](https://support.mozilla.org/fr/kb/passer-firefox-edition-longue-duree-esr)
+
+* [How to target last 2 versions of FF ESR?](https://github.com/browserslist/browserslist/issues/148)
