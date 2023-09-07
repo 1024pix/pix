@@ -1014,13 +1014,20 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
 />`);
+      const element = screen.getByLabelText(
+        this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
+      );
 
+      await click(element);
+      await screen.findByRole('tooltip');
       // then
+      assert.dom(element).exists();
+
       assert
         .dom(
-          screen.getByLabelText(
-            this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
-          ),
+          screen.getByRole('tooltip', {
+            name: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.content'),
+          }),
         )
         .exists();
     });
