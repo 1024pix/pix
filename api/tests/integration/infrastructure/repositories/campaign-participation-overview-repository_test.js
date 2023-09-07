@@ -1,4 +1,10 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
+import {
+  expect,
+  databaseBuilder,
+  mockLearningContent,
+  learningContentBuilder,
+  domainBuilder,
+} from '../../../test-helper.js';
 
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
@@ -80,8 +86,8 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           campaignTitle: 'Campaign ABCD',
           organizationName: 'Organization ABCD',
           masteryRate: 0.1,
-          totalStagesCount: undefined,
-          validatedStagesCount: undefined,
+          totalStagesCount: 1,
+          validatedStagesCount: 1,
           status: 'SHARED',
         });
       });
@@ -571,10 +577,9 @@ describe('Integration | Repository | Campaign Participation Overview', function 
           await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
         // then
+        const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({ campaignId, stages: [] });
         expect(campaignParticipationOverviews).to.deep.equal([
           {
-            campaignId,
-            targetProfileId: null,
             campaignCode: 'FLASH',
             campaignTitle: 'Campaign FLASH',
             createdAt: new Date('2020-01-01T00:00:00Z'),
@@ -585,9 +590,8 @@ describe('Integration | Repository | Campaign Participation Overview', function 
             sharedAt: new Date('2020-01-02T00:00:00Z'),
             status: 'SHARED',
             disabledAt: null,
+            stageCollection,
             validatedSkillsCount: 3,
-            totalStagesCount: undefined,
-            validatedStagesCount: undefined,
           },
         ]);
       });

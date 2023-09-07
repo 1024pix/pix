@@ -1,8 +1,10 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';
+import { fetchPage } from '../utils/knex-utils.js';
+import bluebird from 'bluebird';
+import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 
 const findByUserIdWithFilters = async function ({ userId, states, page }) {
   const queryBuilder = _findByUserId({ userId });
@@ -13,10 +15,10 @@ const findByUserIdWithFilters = async function ({ userId, states, page }) {
 
   const { results, pagination } = await fetchPage(queryBuilder, page);
 
+  const campaignParticipationOverviews = await _toReadModel(results);
+
   return {
-    campaignParticipationOverviews: results.map(
-      (campaignParticipationOverview) => new CampaignParticipationOverview(campaignParticipationOverview),
-    ),
+    campaignParticipationOverviews,
     pagination,
   };
 };
@@ -90,4 +92,15 @@ function _sortEndedBySharedAt() {
 
 function _filterByStates(queryBuilder, states) {
   queryBuilder.whereIn('participationState', states);
+}
+
+function _toReadModel(campaignParticipationOverviews) {
+  return bluebird.mapSeries(campaignParticipationOverviews, async (data) => {
+    const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId: data.campaignId });
+
+    return new CampaignParticipationOverview({
+      ...data,
+      stageCollection,
+    });
+  });
 }

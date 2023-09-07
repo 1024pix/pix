@@ -10,33 +10,39 @@ class CampaignParticipationOverview {
     sharedAt,
     organizationName,
     status,
-    campaignId,
-    targetProfileId,
     campaignCode,
     campaignTitle,
     campaignArchivedAt,
     deletedAt,
     masteryRate,
-    totalStagesCount,
-    validatedStagesCount,
     validatedSkillsCount,
+    stageCollection,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
-    this.targetProfileId = targetProfileId;
     this.isShared = status === SHARED;
     this.sharedAt = sharedAt;
     this.organizationName = organizationName;
     this.status = status;
-    this.campaignId = campaignId;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
+    this.stageCollection = stageCollection;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
     this.validatedSkillsCount = validatedSkillsCount;
+
     const dates = [deletedAt, campaignArchivedAt].filter((a) => a != null);
-    this.totalStagesCount = totalStagesCount;
-    this.validatedStagesCount = validatedStagesCount;
+
     this.disabledAt = _.min(dates) || null;
+  }
+
+  get validatedStagesCount() {
+    if (this.stageCollection.totalStages === 0 || !this.isShared) return null;
+
+    return this.stageCollection.getReachedStage(this.validatedSkillsCount, this.masteryRate * 100).reachedStage;
+  }
+
+  get totalStagesCount() {
+    return this.stageCollection.totalStages;
   }
 }
 
