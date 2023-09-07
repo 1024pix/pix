@@ -302,11 +302,20 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
+    const element = screen.getByLabelText(
+      this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
+    );
+
+    await click(element);
+    await screen.findByRole('tooltip');
+    // then
+    assert.dom(element).exists();
+
     assert
       .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
-        ),
+        screen.getByRole('tooltip', {
+          name: this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.content'),
+        }),
       )
       .exists();
   });
