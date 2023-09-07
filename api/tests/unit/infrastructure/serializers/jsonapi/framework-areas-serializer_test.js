@@ -57,6 +57,7 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
               'practical-description': 'description pratique',
               mobile: true,
               tablet: false,
+              level: 8,
             },
           },
           {

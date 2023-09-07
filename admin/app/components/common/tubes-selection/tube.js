@@ -11,7 +11,7 @@ export default class Tube extends Component {
   }
 
   get _maxLevel() {
-    return this.args.tube.level ?? 8;
+    return this.args.tube.level;
   }
 
   get state() {
