@@ -40,7 +40,7 @@
       "user-does-not-belong-to-organization-error": "Vous n'avez plus les droits pour cette organisation."
     },
     "student-xml-import": {
-      "birth-city-code-required-for-french-student": "Le champ code commune de naissance est obligatoire pour chaque élève née en France.",
+      "birth-city-code-required-for-french-student": "L'élève ayant pour INE {nationalStudentId} n'a pas de champ code commune de naissance renseigné. Il est obligatoire pour chaque élève né en France.",
       "empty": "Les élèves doivent posséder un INE ainsi qu'une classe.",
       "encoding-not-supported": "Encodage du fichier non supporté.",
       "ine-required": "Le champ INE est obligatoire pour chaque élève.",
@@ -48,7 +48,7 @@
       "invalid-file": "Le fichier n’est pas conforme.",
       "invalid-file-extension": "Extension {fileExtension} non supportée.",
       "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
-      "sex-code-required": "Le champ sexe est obligatoire pour chaque élève.",
+      "sex-code-required": "L’élève ayant pour INE {nationalStudentId} n’a pas le champ sexe renseigné. Il est obligatoire pour chaque élève.",
       "uai-mismatched": "L’UAI du fichier SIECLE ne correspond pas à celui de votre établissement."
     }
   },
