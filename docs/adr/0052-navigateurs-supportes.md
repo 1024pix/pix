@@ -52,41 +52,40 @@ Pour des soucis de cohérence, la même règle pour toutes les applications semb
 
 Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble être celle proposée ci-dessous.
 
-À noter que la valeur par défaut de *Browserslist* est :
+À noter qu'au moment de l'écriture de cette ADR la définition par défaut des versions des navigateurs supportées de *Browserslist* au format texte colonne est :
 
 ```dotenv
-> 0.5%, last 2 versions, Firefox ESR, not dead
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead
 ```
 
 ## Décision finale
 
 Les applications front de Pix supportent les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
 
-Pour cela, nous proposons d'utiliser la valeur par défaut de *Browserslist* et d'y ajouter un allongement supplémentaire de 4 ans avec l'instruction `last 4 years`.
+Pour cela, nous proposons d'utiliser la définition par défaut des versions des navigateurs supportées de *Browserslist*, à travers l'alias `defaults`, et d'y ajouter un allongement supplémentaire de 4 ans avec l'instruction `last 4 years`.
+
+L'utilisation de l'alias `defaults`, plutôt que l'utilisation d'une définition statique comme `> 0.5%, last 2 versions, Firefox ESR, not dead`, garantit de suivre les évolutions possibles de la définition par défaut de *Browserslist*.
 
 Par conséquent, la définition des versions de navigateurs supportées devient celle définie ci-dessous, déclinée dans les différents formats de fichiers possibles.
 
-Format fichier de configuration `browserslist`, `.browserslistrc`, etc. :
+Fichier de configuration au format texte en colonne (qui a l'avantage de pouvoir faire figurer des commentaires) pour les fichiers `browserslist`, `.browserslistrc`, etc. :
 
 ```dotenv
-# browserslist defaults
-> 0.5%
-last 2 versions
-Firefox ESR
-not dead # no browsers without security updates
+# Browserslist defaults
+defaults
 
 # Pix additional rule to support more old browsers
 last 4 years
 ```
 
-Format fichier de configuration `package.json`, `/config/target.js`, etc. :
+Fichier de configuration au format JSON pour les fichiers `package.json`, `/config/target.js`, etc. :
 
 ```json
 "browserslist": [
-  "> 0.5%",
-  "last 2 versions",
-  "Firefox ESR",
-  "not dead",
+  "defaults",
   "last 4 years",
 ]
 ```
@@ -96,7 +95,7 @@ Cela permet de ne pas avoir à mettre à jour régulièrement une définition st
 Pour l'équipe *Support Utilisateur* de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type :
 
 ```shell
-npx browserslist "> 0.5%, last 2 versions, Firefox ESR, not dead, last 4 years"
+npx browserslist "defaults, last 4 years"
 ```
 
 Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor et les différents pix-sites (https://pix.org/, https://pix.fr/, etc.).
