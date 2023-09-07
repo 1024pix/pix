@@ -62,9 +62,9 @@ Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble
 
 Les applications front de Pix supportent les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
 
-Pour cela, nous proposons d'utiliser la même valeur par défaut que *Browserslist* et d'ajouter notre allongement supplémentaire de 4 ans (`last 4 years`).
+Pour cela, nous proposons d'utiliser la valeur par défaut de *Browserslist* et d'y ajouter un allongement supplémentaire de 4 ans avec l'instruction `last 4 years`.
 
-Par conséquent, la liste des navigateurs supportés devient celle définie ci-dessous.
+Par conséquent, la définition des versions de navigateurs supportées devient celle définie ci-dessous, déclinée dans les différents formats de fichiers possibles.
 
 Format fichier de configuration `browserslist`, `.browserslistrc`, etc. :
 
