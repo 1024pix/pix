@@ -1,4 +1,4 @@
-import { expect } from '../../../../test-helper.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import { CampaignParticipationOverview } from '../../../../../lib/domain/read-models/CampaignParticipationOverview.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
@@ -10,6 +10,20 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
     let campaignParticipationOverview, expectedSerializedCampaignParticipationOverview;
 
     beforeEach(function () {
+      const stageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({
+        campaignId: 3,
+        stages: [
+          {
+            threshold: 0,
+          },
+          {
+            threshold: 30,
+          },
+          {
+            threshold: 70,
+          },
+        ],
+      });
       campaignParticipationOverview = new CampaignParticipationOverview({
         id: 5,
         sharedAt: new Date('2018-02-06T14:12:44Z'),
@@ -19,11 +33,9 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
         campaignCode: '1234',
         campaignTitle: 'My campaign',
         campaignArchivedAt: new Date('2021-01-01'),
+        stageCollection,
         masteryRate: 0.5,
-        totalStagesCount: 3,
-        validatedStagesCount: 2,
       });
-
       expectedSerializedCampaignParticipationOverview = {
         data: {
           type: 'campaign-participation-overviews',
@@ -57,6 +69,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
   describe('#serializeForPaginatedList', function () {
     it('should call serialize method by destructuring passed parameter', function () {
       // given
+      const emptyStageCollection = domainBuilder.buildStageCollectionForUserCampaignResults({ stages: [] });
       const campaignParticipationOverviews = [
         new CampaignParticipationOverview({
           id: 6,
@@ -68,10 +81,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
           masteryRate: null,
-          totalStagesCount: 0,
-          validatedStagesCount: null,
+          stageCollection: emptyStageCollection,
         }),
-
         new CampaignParticipationOverview({
           id: 7,
           status: STARTED,
@@ -82,8 +93,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
           masteryRate: null,
-          totalStagesCount: 0,
-          validatedStagesCount: null,
+          stageCollection: emptyStageCollection,
         }),
       ];
       const pagination = {
