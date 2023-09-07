@@ -923,6 +923,7 @@
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
       },
+      "banner": "Students' status is updated automatically to display eligibility for certification.",
       "connection-types": {
         "email": "Email address",
         "empty": "–",
