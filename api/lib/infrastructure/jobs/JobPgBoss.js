@@ -4,21 +4,20 @@ class JobPgBoss {
     this.retryLimit = config.retryLimit || 0;
     this.retryDelay = config.retryDelay || 30;
     this.retryBackoff = config.retryBackoff || false;
+    this.expireIn = config.expireIn || '00:15:00';
     this.queryBuilder = queryBuilder;
   }
 
   async schedule(data) {
-    await this.queryBuilder.raw(
-      'INSERT INTO pgboss.job (name, data, retryLimit, retryDelay, retryBackoff, on_complete) VALUES (:name, :data, :retryLimit, :retryDelay, :retryBackoff, :on_complete)',
-      {
-        name: this.name,
-        retryLimit: this.retryLimit,
-        retryDelay: this.retryDelay,
-        retryBackoff: this.retryBackoff,
-        data,
-        on_complete: true,
-      },
-    );
+    await this.queryBuilder('pgboss.job').insert({
+      name: this.name,
+      retrylimit: this.retryLimit,
+      retrydelay: this.retryDelay,
+      retrybackoff: this.retryBackoff,
+      expirein: this.expireIn,
+      data,
+      on_complete: true,
+    });
   }
 }
 
