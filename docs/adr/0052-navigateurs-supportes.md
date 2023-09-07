@@ -16,7 +16,7 @@ Le choix de supporter tel ou tel navigateur a un impact écologique qu'il faut m
 
 De plus pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, et que les établissements peuvent mettre à jour durant la période des vacances scolaires. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
 
-De plus, [EmberJs ne supporte plus les navigateurs trop vieux](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon statcounter.
+De plus, [EmberJs ne supporte plus les navigateurs trop vieux](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon [statcounter](https://gs.statcounter.com/browser-market-share).
 
 Par ailleurs le *Support Utilisateur* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
 
