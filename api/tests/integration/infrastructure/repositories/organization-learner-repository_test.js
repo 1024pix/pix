@@ -2154,6 +2154,30 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       // then
       expect(result).to.equal(1);
     });
+
+    it('should return count of all organization learners if "skipLoggedLastDayCheck" option is passed', async function () {
+      // given
+      const userRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({ userId: userRecentlyConnectedId, lastLoggedAt: new Date() });
+      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUser({
+        userId: userNotRecentlyConnectedId,
+      });
+
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: userRecentlyConnectedId });
+      databaseBuilder.factory.buildOrganizationLearner({ userId: userNotRecentlyConnectedId, organizationId });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        skipLoggedLastDayCheck: true,
+      });
+
+      // then
+      expect(result).to.equal(2);
+    });
   });
 
   describe('#findByOrganizationsWhichNeedToComputeCertificability', function () {
