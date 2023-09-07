@@ -8,7 +8,7 @@ En cours
 
 ## Contexte
 
-Pix est un service public, sans condition d'inscription. Il est en ligne, donc accessible via un navigateur web. Pix n'a pas la possibilité d'imposer un navigateur à ses utilisateurs, et doit pouvoir répondre à un large public, avec des navigateurs desktop/mobiles, obsolètes/à jour.
+Pix est un service public, sans condition d'inscription. Il est en ligne, donc accessible via un navigateur web. Pix n'a pas la possibilité d'imposer un navigateur à ses utilisateurs, et doit pouvoir répondre à un large public, avec des navigateurs desktop/mobiles, qui peuvent parfois être obsolètes.
 
 Nos frameworks et nos packages permettent de supporter les anciens navigateurs jusqu'à une certaine version.
 
