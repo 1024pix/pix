@@ -386,7 +386,7 @@ async function countByOrganizationsWhichNeedToComputeCertificability({ skipLogge
 }
 
 function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset, skipLoggedLastDayCheck = false } = {}) {
-  const queryBuilder = knex('view-active-organization-learners')
+  return knex('view-active-organization-learners')
     .join(
       'organization-features',
       'view-active-organization-learners.organizationId',
@@ -407,17 +407,14 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset, s
           );
         });
       }
-    });
-
-  if (limit) {
-    queryBuilder.limit(limit);
-  }
-
-  if (offset) {
-    queryBuilder.offset(offset);
-  }
-
-  return queryBuilder.pluck('view-active-organization-learners.id');
+      if (limit) {
+        queryBuilder.limit(limit);
+      }
+      if (offset) {
+        queryBuilder.offset(offset);
+      }
+    })
+    .pluck('view-active-organization-learners.id');
 }
 
 export {
