@@ -358,7 +358,7 @@ async function updateCertificability(organizationLearner) {
   });
 }
 
-async function countByOrganizationsWhichNeedToComputeCertificability() {
+async function countByOrganizationsWhichNeedToComputeCertificability({ skipLoggedLastDayCheck = false } = {}) {
   const [{ count }] = await knex('view-active-organization-learners')
     .join(
       'organization-features',
@@ -368,10 +368,19 @@ async function countByOrganizationsWhichNeedToComputeCertificability() {
     )
     .join('features', 'organization-features.featureId', '=', 'features.id')
     .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
-    .join('user-logins', 'view-active-organization-learners.userId', '=', 'user-logins.userId')
     .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
     .where('view-active-organization-learners.isDisabled', false)
-    .where('user-logins.lastLoggedAt', '>', knex.raw(`(now()- interval '1 days')`))
+    .modify(function (queryBuilder) {
+      if (!skipLoggedLastDayCheck) {
+        queryBuilder.join('user-logins', function () {
+          this.on('view-active-organization-learners.userId', 'user-logins.userId').andOnVal(
+            'user-logins.lastLoggedAt',
+            '>',
+            knex.raw(`(now()- interval '1 days')`),
+          );
+        });
+      }
+    })
     .count('view-active-organization-learners.id');
   return count;
 }
