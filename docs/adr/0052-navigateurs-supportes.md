@@ -12,7 +12,7 @@ Pix est un service public, sans condition d'inscription. Il est en ligne, donc a
 
 Nos frameworks et nos packages permettent de supporter les anciens navigateurs jusqu'à une certaine version.
 
-Le choix de supporter tels ou tels navigateurs a un impact écologique qu'il faut mentionner. D'un côté supporter des vieux navigateurs permet aux utilisateurs de pouvoir utiliser de vieux ordinateurs et téléphones et ainsi aux utilisateurs de garder leurs matériels informatiques plus longtemps. Mais d'un autre côté s'appuyer sur les nouvelles fonctionnalités natives des navigateurs récents (que ce soit au niveau de JavaScript ou des CSS) permet une réduction significative de la taille des paquets (bundles) produits téléchargés par les matériels des utilisateurs.
+Le choix de supporter tel ou tel navigateur a un impact écologique qu'il faut mentionner. D'un côté supporter des vieux navigateurs permet aux utilisateurs de pouvoir utiliser de vieux ordinateurs et téléphones et ainsi aux utilisateurs de garder leurs matériels informatiques plus longtemps. Mais d'un autre côté s'appuyer sur les nouvelles fonctionnalités natives des navigateurs récents (que ce soit au niveau de JavaScript ou des CSS) permet une réduction significative de la taille des paquets (bundles) produits téléchargés par les matériels des utilisateurs.
 
 De plus pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, et que les établissements peuvent mettre à jour durant la période des vacances scolaires. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
 
