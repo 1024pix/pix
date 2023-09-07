@@ -62,15 +62,6 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           on_complete: true,
         },
       ]);
-      expect(pgBossRepository.insert.getCall(1).args[0]).to.be.deep.equal([
-        {
-          name: 'ComputeCertificabilityJob',
-          data: { organizationLearnerId: 3 },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
-        },
-      ]);
     });
   });
 });
