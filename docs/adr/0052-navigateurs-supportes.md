@@ -45,7 +45,7 @@ Nous pourrions nous baser uniquement sur une liste de navigateurs, mais cela dem
 - de mettre plus souvent à jour la liste des navigateurs, notamment en cas d'arrivée d'un navigateur web ou mobile avec une forte utilisation.
 
 De plus, le fichier `/config/target.js` est présent dans les différentes applications front.
-Nous pourrions avoir des règles différentes par applications, ou la même règle pour toutes les applications.
+Nous pourrions avoir des règles différentes par application, ou la même règle pour toutes les applications.
 Pour des soucis de cohérence, la même règle pour toutes les applications semble être la meilleure solution. De plus : 
 - l'équipe de développement travaille sur tous les front, donc une cohérence entre les versions de packages permettent d'éviter une adaptation à chaque front
 - les front se basent sur Pix-UI pour le design, donc il faudrait une cohérence entre les front pour éviter d'avoir à gérer des navigateurs (et donc des packages possiblement) différents
