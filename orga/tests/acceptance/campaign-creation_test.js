@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit, selectOptionInRadioGroup } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -62,7 +62,11 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
       await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
 
-      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
+      const externalIdentifier = screen
+        .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
+        .closest('fieldset');
+      const element = within(externalIdentifier).getByRole('radio', { name: 'Non' });
+      await click(element);
 
       // when
       await clickByName('Créer la campagne');
@@ -76,10 +80,14 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function (assert) {
       // given
-      await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation');
       await fillByLabel('* Nom de la campagne', 'Ma Campagne');
       await clickByName('Collecter les profils Pix des participants');
-      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
+      const externalIdentifier = screen
+        .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
+        .closest('fieldset');
+      const element = within(externalIdentifier).getByRole('radio', { name: 'Non' });
+      await click(element);
 
       // when
       await clickByName('Créer la campagne');
@@ -137,7 +145,11 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByName('Évaluer les participants');
       await click(screen.getByLabelText(`* ${this.intl.t('pages.campaign-creation.target-profiles-list-label')}`));
       await click(await screen.findByRole('option', { name: expectedTargetProfileName }));
-      await selectOptionInRadioGroup('Souhaitez-vous demander un identifiant externe ?', 'Non');
+      const externalIdentifier = screen
+        .getByText('Souhaitez-vous demander un identifiant externe ?', { selector: 'legend' })
+        .closest('fieldset');
+      const element = within(externalIdentifier).getByRole('radio', { name: 'Non' });
+      await click(element);
       await clickByName('Créer la campagne');
 
       // then
