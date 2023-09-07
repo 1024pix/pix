@@ -16,9 +16,9 @@ Le choix de supporter tels ou tels navigateurs a un impact écologique qu'il fau
 
 De plus pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, et que les établissements peuvent mettre à jour durant la période des vacances scolaires. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
 
-De plus, [EmberJs ne supporte plus les trop vieux navigateurs](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon statcounter.
+De plus, [EmberJs ne supporte plus les navigateurs trop vieux](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon statcounter.
 
-Par ailleurs le *Support Utilisateur* a besoin de connaitre le plus facilement possible les navigateurs supportés par Pix.
+Par ailleurs le *Support Utilisateur* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
 
 Enfin, techniquement, le support navigateur se fait via un fichier de configuration dans chaque projet front (via le fichier `/config/target.js` pour les applications Ember, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
 
@@ -40,7 +40,7 @@ Donc si nous voulons gérer les navigateurs de nos utilisateurs avec un peu de m
 Nous pourrions aussi nous baser uniquement sur des statistiques et les pourcentages d'utilisation mondiales ou français. Ces statistiques sont intéressantes pour s'assurer un bon service pour une population globale. Mais dans la population des utilisateurs Pix, il y a aussi des utilisateurs très identifiés (des associations, des écoles, etc.) qui ont une gestion qui peut être spécifique à leur parc informatique.
 De plus, se baser uniquement sur le pourcentage ne permet pas d'avoir une liste claire de navigateurs supportés pour aider l'équipe Support Utilisateur à savoir sur quels navigateurs Pix fonctionne.
 
-Nous pourrions nous baser uniquement sur une liste de navigateur, mais cela demanderait : 
+Nous pourrions nous baser uniquement sur une liste de navigateurs, mais cela demanderait : 
 - d'avoir une liste assez exhaustive des navigateurs pour s'assurer de ne pas avoir d'oubli de situation
 - de mettre plus souvent à jour la liste des navigateurs, notamment en cas d'arrivée d'un navigateur web ou mobile avec une forte utilisation.
 
