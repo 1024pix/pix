@@ -5,25 +5,31 @@ import { SessionPublicationBatchResult } from '../models/SessionPublicationBatch
 const publishSessionsInBatch = async function ({
   i18n,
   sessionIds,
+  publishedAt = new Date(),
+  batchId = randomUUID(),
   certificationCenterRepository,
   certificationRepository,
   finalizedSessionRepository,
-  sessionPublicationService,
   sessionRepository,
-  publishedAt = new Date(),
-  batchId = randomUUID(),
+  sessionPublicationService,
 }) {
   const result = new SessionPublicationBatchResult(batchId);
   for (const sessionId of sessionIds) {
     try {
-      await sessionPublicationService.publishSession({
-        i18n,
+      const session = await sessionPublicationService.publishSession({
         sessionId,
+        publishedAt,
         certificationRepository,
-        certificationCenterRepository,
         finalizedSessionRepository,
         sessionRepository,
+      });
+
+      await sessionPublicationService.manageEmails({
+        i18n,
+        session,
         publishedAt,
+        certificationCenterRepository,
+        sessionRepository,
       });
     } catch (error) {
       result.addPublicationError(sessionId, error);

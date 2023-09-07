@@ -1,21 +1,27 @@
 const publishSession = async function ({
   i18n,
   sessionId,
+  publishedAt = new Date(),
   certificationRepository,
   certificationCenterRepository,
   finalizedSessionRepository,
   sessionRepository,
   sessionPublicationService,
-  publishedAt = new Date(),
 }) {
-  await sessionPublicationService.publishSession({
-    i18n,
+  const session = await sessionPublicationService.publishSession({
     sessionId,
+    publishedAt,
     certificationRepository,
-    certificationCenterRepository,
     finalizedSessionRepository,
     sessionRepository,
+  });
+
+  await sessionPublicationService.manageEmails({
+    i18n,
+    session,
     publishedAt,
+    certificationCenterRepository,
+    sessionRepository,
   });
 
   return sessionRepository.get(sessionId);
