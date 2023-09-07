@@ -40,7 +40,7 @@
       "user-does-not-belong-to-organization-error": "You no longer have the rights for this organisation."
     },
     "student-xml-import": {
-      "birth-city-code-required-for-french-student": "The field birth city code is mandatory for each student born in France.",
+      "birth-city-code-required-for-french-student": "Student with {nationalStudentId} INE has no birth city code filled out. This field is mandatory for each student born in France.",
       "empty": "Each student must have an INE and a class.",
       "encoding-not-supported": "File encoding not supported.",
       "ine-required": "INE is mandatory for each student.",
@@ -48,7 +48,7 @@
       "invalid-file": "File does not match the requirements.",
       "invalid-file-extension": "File with extension {fileExtension} not supported.",
       "payload-too-large": "The file must be less than {maxSize}MB.",
-      "sex-code-required": "The field sex is mandatory for each student.",
+      "sex-code-required": "Student with {nationalStudentId} INE has no sex code filled out. This field is mandatory for each student.",
       "uai-mismatched": "The UAI of your SIECLE file does not match your school."
     }
   },

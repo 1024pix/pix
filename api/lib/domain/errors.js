@@ -1080,6 +1080,13 @@ class CsvImportError extends DomainError {
   }
 }
 
+const SIECLE_ERRORS = {
+  INE_REQUIRED: 'INE_REQUIRED',
+  INE_UNIQUE: 'INE_UNIQUE',
+  SEX_CODE_REQUIRED: 'SEX_CODE_REQUIRED',
+  BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT: 'BIRTH_CITY_CODE_REQUIRED_FOR_FR_STUDENT',
+};
+
 class SiecleXmlImportError extends DomainError {
   constructor(code, meta) {
     super('An error occurred during Siecle XML import');
@@ -1467,4 +1474,5 @@ export {
   UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
   YamlParsingError,
+  SIECLE_ERRORS,
 };
