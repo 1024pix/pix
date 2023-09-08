@@ -19,4 +19,12 @@ const getByLabel = async function ({ label }) {
   return _toDomain(result);
 };
 
-export { findAll, getByLabel };
+const getById = async function ({ complementaryCertificationId }) {
+  const complementaryCertification = await knex
+    .from('complementary-certifications')
+    .where({ id: complementaryCertificationId })
+    .first();
+  return _toDomain(complementaryCertification);
+};
+
+export { findAll, getByLabel, getById };

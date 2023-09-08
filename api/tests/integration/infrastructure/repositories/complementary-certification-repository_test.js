@@ -101,4 +101,31 @@ describe('Integration | Repository | complementary-certification-repository', fu
       expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
     });
   });
+
+  describe('#getById', function () {
+    it('should return the complementary certification by its id', async function () {
+      // given
+      const complementaryCertificationId = 1;
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: complementaryCertificationId,
+        key: 'EDU_1ER_DEGRE',
+        label: 'Pix+ Édu 1er degré',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const complementaryCertification = await complementaryCertificationRepository.getById({
+        complementaryCertificationId,
+      });
+
+      // then
+      const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
+        id: 1,
+        key: 'EDU_1ER_DEGRE',
+        label: 'Pix+ Édu 1er degré',
+      });
+      expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
+    });
+  });
 });
