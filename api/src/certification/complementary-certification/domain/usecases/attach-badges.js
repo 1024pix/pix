@@ -2,10 +2,10 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import uniq from 'lodash/uniq.js';
 
-import { ComplementaryCertificationBadgeToAttach } from '../models/ComplementaryCertificationBadgeToAttach.js';
-import { InvalidBadgeLevelError } from '../../../shared/domain/errors.js';
+import { InvalidBadgeLevelError } from '../errors.js';
+import { BadgeToAttach } from '../models/BadgeToAttach.js';
 
-const attachBadgesToComplementaryCertification = async function ({
+const attachBadges = async function ({
   complementaryCertificationId,
   userId,
   targetProfileIdToDetach,
@@ -29,13 +29,13 @@ const attachBadgesToComplementaryCertification = async function ({
   });
 
   const complementaryCertificationBadgesToAttach = complementaryCertificationBadgesToAttachDTO.map(
-    (complementaryCertificationBadgeToAttachDTO) => {
-      const complementaryCertificationBadgeToAttach = ComplementaryCertificationBadgeToAttach.from({
-        ...complementaryCertificationBadgeToAttachDTO,
+    (badgeToAttachDTO) => {
+      const badgeToAttach = BadgeToAttach.from({
+        ...badgeToAttachDTO,
         complementaryCertificationId,
         userId,
       });
-      return complementaryCertificationBadgeToAttach;
+      return badgeToAttach;
     },
   );
 
@@ -51,9 +51,9 @@ const attachBadgesToComplementaryCertification = async function ({
       domainTransaction,
     });
 
-    for (const complementaryCertificationBadgeToAttach of complementaryCertificationBadgesToAttach) {
-      const complementaryCertificationBadge = ComplementaryCertificationBadgeToAttach.from({
-        ...complementaryCertificationBadgeToAttach,
+    for (const badgeToAttach of complementaryCertificationBadgesToAttach) {
+      const complementaryCertificationBadge = BadgeToAttach.from({
+        ...badgeToAttach,
         complementaryCertificationId,
         userId,
       });
@@ -66,7 +66,7 @@ const attachBadgesToComplementaryCertification = async function ({
   });
 };
 
-export { attachBadgesToComplementaryCertification };
+export { attachBadges };
 
 async function _attachNewComplementaryCertificationBadge({
   complementaryCertificationBadgesRepository,

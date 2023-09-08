@@ -1,8 +1,8 @@
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-import { ComplementaryCertificationBadgeToAttach } from '../../../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationBadgeToAttach.js';
+import { BadgeToAttach } from '../../../../../../src/certification/complementary-certification/domain/models/BadgeToAttach.js';
 
-describe('Unit | Domain | Models | Certification Badge', function () {
+describe('Unit | Domain | Models | BadgeToAttach', function () {
   let clock;
   const now = new Date('2023-02-02');
   beforeEach(function () {
@@ -13,7 +13,7 @@ describe('Unit | Domain | Models | Certification Badge', function () {
   });
 
   describe('static from', function () {
-    it('should build a Complementary Certification Badge to attach', function () {
+    it('should build a Badge to attach', function () {
       // given
       const rawData = {
         badgeId: 123,
@@ -29,11 +29,11 @@ describe('Unit | Domain | Models | Certification Badge', function () {
       };
 
       // when
-      const complementaryCertificationBadgeToAttach = ComplementaryCertificationBadgeToAttach.from(rawData);
+      const badgeToAttach = BadgeToAttach.from(rawData);
 
       // then
-      expect(complementaryCertificationBadgeToAttach).to.deepEqualInstance(
-        domainBuilder.buildComplementaryCertificationBadgeToAttach({
+      expect(badgeToAttach).to.deepEqualInstance(
+        domainBuilder.buildBadgeToAttach({
           badgeId: 123,
           createdAt: now,
           label: 'badge_1',

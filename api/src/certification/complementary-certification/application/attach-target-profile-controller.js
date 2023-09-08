@@ -6,7 +6,7 @@ const attachTargetProfile = async function (request, h, dependencies = { complem
   const { complementaryCertificationId } = request.params;
   const { targetProfileId, complementaryCertificationBadges } =
     await dependencies.complementaryCertificationBadgeSerializer.deserialize(request.payload);
-  await usecases.attachBadgesToComplementaryCertification({
+  await usecases.attachBadges({
     userId,
     complementaryCertificationId,
     targetProfileIdToDetach: targetProfileId,
