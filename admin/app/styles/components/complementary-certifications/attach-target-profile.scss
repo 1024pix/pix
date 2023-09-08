@@ -10,6 +10,10 @@
     line-height: 36px;
   }
 
+  &__card {
+    margin-bottom: $pix-spacing-l;
+  }
+
   &__card-badges {
     .card__content {
       position: relative;
@@ -37,7 +41,6 @@
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    padding: 16px 0;
 
     .pix-button {
       margin-right: 16px;

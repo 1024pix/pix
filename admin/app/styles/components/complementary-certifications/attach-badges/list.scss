@@ -27,7 +27,11 @@
       tr {
         height: 180px;
 
-        td {
+        th {
+          font-weight: normal
+        }
+
+        th, td {
           padding: $pix-spacing-s;
           border: 1px solid $pix-neutral-20;
 
