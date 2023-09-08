@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 class ScoOrganizationParticipant {
   constructor({
     id,
@@ -14,8 +15,10 @@ class ScoOrganizationParticipant {
     campaignName,
     campaignType,
     participationStatus,
-    isCertifiable,
-    certifiableAt,
+    isCertifiableFromCampaign,
+    certifiableAtFromCampaign,
+    isCertifiableFromLearner,
+    certifiableAtFromLearner,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -31,8 +34,31 @@ class ScoOrganizationParticipant {
     this.campaignName = campaignName;
     this.campaignType = campaignType;
     this.participationStatus = participationStatus;
-    this.isCertifiable = isCertifiable;
-    this.certifiableAt = isCertifiable ? certifiableAt : null;
+
+    this._buildCertificability({
+      isCertifiableFromCampaign,
+      certifiableAtFromCampaign,
+      isCertifiableFromLearner,
+      certifiableAtFromLearner,
+    });
+  }
+
+  _buildCertificability({
+    isCertifiableFromCampaign,
+    certifiableAtFromCampaign,
+    isCertifiableFromLearner,
+    certifiableAtFromLearner,
+  }) {
+    const isCertifiableFromCampaignMostRecent =
+      certifiableAtFromLearner === null || dayjs(certifiableAtFromCampaign).isAfter(dayjs(certifiableAtFromLearner));
+
+    if (isCertifiableFromCampaignMostRecent) {
+      this.isCertifiable = isCertifiableFromCampaign;
+      this.certifiableAt = this.isCertifiable ? certifiableAtFromCampaign : null;
+    } else {
+      this.isCertifiable = isCertifiableFromLearner;
+      this.certifiableAt = this.isCertifiable ? certifiableAtFromLearner : null;
+    }
   }
 }
 

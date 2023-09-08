@@ -46,9 +46,16 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
   }
   if (certificability) {
     qb.where(function (query) {
-      query.whereInArray('subquery.isCertifiable', certificability);
+      query.whereInArray(
+        knex.raw(
+          'case when "certifiableAtFromCampaign" > "view-active-organization-learners"."certifiableAt" OR "view-active-organization-learners"."certifiableAt" IS NULL then "isCertifiableFromCampaign" else "view-active-organization-learners"."isCertifiable" end',
+        ),
+        certificability,
+      );
       if (certificability.includes(null)) {
-        query.orWhereRaw('"subquery"."isCertifiable" IS NULL');
+        query.orWhere(function (query) {
+          query.whereNull('certifiableAtFromCampaign').whereNull('view-active-organization-learners.certifiableAt');
+        });
       }
     });
   }
@@ -60,10 +67,10 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .select([
       'view-active-organization-learners.id as organizationLearnerId',
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
+        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiableFromCampaign"',
       ),
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
+        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAtFromCampaign"',
       ),
     ])
     .from('view-active-organization-learners')
@@ -130,8 +137,10 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
       'users.username',
       'users.email',
       'authentication-methods.externalIdentifier as samlId',
-      'subquery.isCertifiable',
-      'subquery.certifiableAt',
+      'subquery.isCertifiableFromCampaign',
+      'subquery.certifiableAtFromCampaign',
+      'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
+      'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
       knex.raw(
         'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"',
       ),
