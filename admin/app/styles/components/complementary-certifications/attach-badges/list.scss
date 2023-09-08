@@ -20,10 +20,6 @@
     tbody {
       vertical-align: top;
 
-      > tr:nth-child(even) {
-        background-color: rgb(0 0 0 / 3%);
-      }
-
       tr {
         height: 180px;
 
@@ -39,6 +35,10 @@
             height: 100%;
           }
         }
+      }
+
+      > tr:nth-child(even) {
+        background-color: rgb(0 0 0 / 3%);
       }
     }
   }

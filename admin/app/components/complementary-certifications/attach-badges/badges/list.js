@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import {action} from '@ember/object';
+import { action } from '@ember/object';
 
 export default class List extends Component {
   @action
@@ -7,7 +7,7 @@ export default class List extends Component {
     this.args.onBadgeUpdated({
       badgeId,
       fieldName: event.target.name,
-      fieldValue: event.target.value
+      fieldValue: event.target.value,
     });
   }
 }
