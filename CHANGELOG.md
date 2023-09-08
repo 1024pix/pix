@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v4.33.0 (08/09/2023)
+
+
+### :rocket: Amélioration
+- [#7011](https://github.com/1024pix/pix/pull/7011) [FEATURE] Ajouter la date de certificabilité même si l'apprenant n'est pas certifiable (PIX-9119).
+- [#7009](https://github.com/1024pix/pix/pull/7009) [FEATURE] Augmenter le expirein du job qui schedule le calcul de la certificabilité (PIX-9028).
+- [#7007](https://github.com/1024pix/pix/pull/7007) [FEATURE] Ajouter l'INE dans les messages d'erreurs lors d'un import SIECLE (PIX-9094).
+- [#6979](https://github.com/1024pix/pix/pull/6979) [FEATURE] Appeler la nouvelle méthode "manageEmails" dans les usecases publishSession et publishSessionInBatch (PIX-8215).
+- [#6980](https://github.com/1024pix/pix/pull/6980) [FEATURE] Empêcher l'import d'une liste de candidats à une session si doublon sur Pix Certif (PIX-8109).
+
+### :bug: Correction
+- [#7010](https://github.com/1024pix/pix/pull/7010) [BUGFIX] Le niveau des sujets disponible pouvaient être incorrect lorsqu'on créé un nouveau profil cible (PIX-9043).
+- [#7013](https://github.com/1024pix/pix/pull/7013) [BUGFIX] Récupérer les paliers acquis dans la page "Mes parcours" (PIX-8912).
+
 ## v4.32.0 (06/09/2023)
 
 
