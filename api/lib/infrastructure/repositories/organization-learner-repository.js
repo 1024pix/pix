@@ -359,33 +359,27 @@ async function updateCertificability(organizationLearner) {
 }
 
 async function countByOrganizationsWhichNeedToComputeCertificability({ skipLoggedLastDayCheck = false } = {}) {
-  const [{ count }] = await knex('view-active-organization-learners')
-    .join(
-      'organization-features',
-      'view-active-organization-learners.organizationId',
-      '=',
-      'organization-features.organizationId',
-    )
-    .join('features', 'organization-features.featureId', '=', 'features.id')
-    .join('users', 'view-active-organization-learners.userId', '=', 'users.id')
-    .where('features.key', '=', ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key)
-    .where('view-active-organization-learners.isDisabled', false)
-    .modify(function (queryBuilder) {
-      if (!skipLoggedLastDayCheck) {
-        queryBuilder.join('user-logins', function () {
-          this.on('view-active-organization-learners.userId', 'user-logins.userId').andOnVal(
-            'user-logins.lastLoggedAt',
-            '>',
-            knex.raw(`(now()- interval '1 days')`),
-          );
-        });
-      }
-    })
-    .count('view-active-organization-learners.id');
+  const queryBuilder = _queryBuilderForCertificability(skipLoggedLastDayCheck);
+  const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
   return count;
 }
 
 function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset, skipLoggedLastDayCheck = false } = {}) {
+  const queryBuilder = _queryBuilderForCertificability(skipLoggedLastDayCheck);
+
+  return queryBuilder
+    .modify(function (qB) {
+      if (limit) {
+        qB.limit(limit);
+      }
+      if (offset) {
+        qB.offset(offset);
+      }
+    })
+    .pluck('view-active-organization-learners.id');
+}
+
+function _queryBuilderForCertificability(skipLoggedLastDayCheck) {
   return knex('view-active-organization-learners')
     .join(
       'organization-features',
@@ -407,14 +401,7 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset, s
           );
         });
       }
-      if (limit) {
-        queryBuilder.limit(limit);
-      }
-      if (offset) {
-        queryBuilder.offset(offset);
-      }
-    })
-    .pluck('view-active-organization-learners.id');
+    });
 }
 
 export {
