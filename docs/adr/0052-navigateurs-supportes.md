@@ -20,7 +20,7 @@ De plus pour la certification, le cahier des charges des centres de certificatio
 
 De plus, [EmberJs ne supporte plus les navigateurs trop vieux](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon [statcounter](https://gs.statcounter.com/browser-market-share).
 
-Par ailleurs le *Support Utilisateur* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
+Par ailleurs l'équipe *Support utilisateurs* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
 
 Enfin, techniquement, le support navigateur se fait via un fichier de configuration dans chaque projet front (via le fichier `/config/target.js` pour les applications Ember, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
 
@@ -41,7 +41,7 @@ En août 2023, en analysant les navigateurs utilisés sur le mois de mai 2023, n
 Donc si nous voulons gérer les navigateurs de nos utilisateurs avec un peu de marge, une limite à 4 ans est intéressante.
 
 Nous pourrions aussi nous baser uniquement sur des statistiques et les pourcentages d'utilisation mondiales ou français. Ces statistiques sont intéressantes pour s'assurer un bon service pour une population globale. Mais dans la population des utilisateurs Pix, il y a aussi des utilisateurs très identifiés (des associations, des écoles, etc.) qui ont une gestion qui peut être spécifique à leur parc informatique.
-De plus, se baser uniquement sur le pourcentage ne permet pas d'avoir une liste claire de navigateurs supportés pour aider l'équipe Support Utilisateur à savoir sur quels navigateurs Pix fonctionne.
+De plus, se baser uniquement sur le pourcentage ne permet pas d'avoir une liste claire de navigateurs supportés pour aider l'équipe *Support utilisateurs* à savoir sur quels navigateurs Pix fonctionne.
 
 Nous pourrions nous baser uniquement sur une liste de navigateurs, mais cela demanderait : 
 - d'avoir une liste assez exhaustive des navigateurs pour s'assurer de ne pas avoir d'oubli de situation
@@ -96,7 +96,7 @@ Fichier de configuration au format JSON pour les fichiers `package.json`, `/conf
 
 Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet `browserslist` et de ses dépendances.
 
-Nous pourrons générer automatiquement la liste des versions des navigateurs supportées par chaque application front Pix au moment de son build, et rendre cette liste facilement disponible en ligne, notamment pour l'équipe *Support Utilisateur* de Pix et plus généralement pour tous les utilisateurs de Pix via une commande du type :
+Nous pourrons générer automatiquement la liste des versions des navigateurs supportées par chaque application front Pix au moment de son build, et rendre cette liste facilement disponible en ligne, notamment pour l'équipe *Support utilisateurs* de Pix et plus généralement pour tous les utilisateurs de Pix via une commande du type :
 
 ```shell
 npx browserslist "defaults, last 4 years"
