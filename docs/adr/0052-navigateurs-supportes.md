@@ -96,7 +96,13 @@ Fichier de configuration au format JSON pour les fichiers `package.json`, `/conf
 
 Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet `browserslist` et de ses dépendances.
 
-Pour l'équipe *Support Utilisateur* de Pix, nous proposons de faire à la demande du support la liste des navigateurs supportés, via une commande de type :
+Nous pourrons générer automatiquement la liste des versions des navigateurs supportées par chaque application front Pix au moment de son build, et rendre cette liste facilement disponible en ligne, notamment pour l'équipe *Support Utilisateur* de Pix et plus généralement pour tous les utilisateurs de Pix via une commande du type :
+
+```shell
+npx browserslist "defaults, last 4 years"
+```
+
+Le processus technique de mise à disposition automatique de cette information sort du cadre de cette ADR. Néanmoins indépendamment de la mise en place d'un tel processus automatique, compte tenu des builds et déploiements réguliers des applications Pix (généralement rarement espacés de plus de 2 semaines) une très bonne approximation de la liste des versions des navigateurs supportées par chaque application front Pix pourra toujours être obtenue par un développeur/une développeuse via la même commande :
 
 ```shell
 npx browserslist "defaults, last 4 years"
