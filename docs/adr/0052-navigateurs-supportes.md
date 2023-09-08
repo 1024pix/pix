@@ -20,6 +20,8 @@ De plus pour la certification, le cahier des charges des centres de certificatio
 
 De plus, [EmberJs ne supporte plus les navigateurs trop vieux](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon [statcounter](https://gs.statcounter.com/browser-market-share).
 
+De plus, les utilisateurs de Pix utilisent généralement plusieurs applications front de Pix les unes à la suite des autres, voire simultanément, certaines applications étant plus ou moins couplées. Ainsi il serait absurde que certains utilisateurs soient bloqués dans leur parcours et utilisation de Pix par manque d'homogénéité dans les configurations de versions des navigateurs web supportées des dites applications.
+
 Par ailleurs l'équipe *Support utilisateurs* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
 
 Enfin, techniquement, le support navigateur se fait via un fichier de configuration dans chaque projet front (via le fichier `/config/target.js` pour les applications Ember, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
@@ -67,7 +69,9 @@ not dead
 
 ## Décision finale
 
-Toutes les applications front de Pix supportent les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
+Pour permettre un parcours utilisateur continu et homogène, toutes les applications front de Pix (les applications du repository Pix, Pix-UI, les différents pix-sites, Pix Editor, etc.) sont configurées avec la même définition de versions des navigateurs supportées.
+
+Toutes les applications front de Pix sont configurées pour supporter les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
 
 Pour cela, nous proposons d'utiliser la définition par défaut des versions des navigateurs supportées de *Browserslist*, à travers l'alias `defaults`, et d'y ajouter un allongement supplémentaire de 4 ans avec l'instruction `last 4 years`.
 
@@ -97,6 +101,8 @@ Fichier de configuration au format JSON pour les fichiers `package.json`, `/conf
 Cela permet de ne pas avoir à mettre à jour régulièrement une définition statique des navigateurs supportés, la liste des navigateurs supportés évoluant d'elle-même lors des montées de version du paquet `browserslist` et de ses dépendances.
 
 Précisons que la liste exacte des versions de navigateur supportées par chaque application est mise à jour d'après la configuration *Browserslist* à chaque build (ou pour les utilisateurs de Pix, à chaque déploiement en production).
+Compte tenu des builds et déploiements réguliers des applications front Pix (généralement rarement espacés de plus de 2 semaines), en pratique toutes les applications front Pix supporteront les mêmes versions des navigateurs à quelques jours près.
+Et si jamais on rencontrait un problème de navigateur supporté sur une application/site particulier on devrait alors se poser la question du dernier build+déploiement et d'en refaire alors un si cela était nécessaire.
 
 Nous pourrons générer automatiquement la liste des versions des navigateurs supportées par chaque application front Pix au moment de son build, et rendre cette liste facilement disponible en ligne, notamment pour l'équipe *Support utilisateurs* de Pix et plus généralement pour tous les utilisateurs de Pix via une commande du type :
 
@@ -104,13 +110,11 @@ Nous pourrons générer automatiquement la liste des versions des navigateurs su
 npx browserslist "defaults, last 4 years"
 ```
 
-Le processus technique de mise à disposition automatique de cette information sort du cadre de cette ADR. Néanmoins indépendamment de la mise en place d'un tel processus automatique, compte tenu des builds et déploiements réguliers des applications Pix (généralement rarement espacés de plus de 2 semaines) une très bonne approximation de la liste des versions des navigateurs supportées par chaque application front Pix pourra toujours être obtenue par un développeur/une développeuse via la même commande :
+Le processus technique de mise à disposition automatique de cette information sort du cadre de cette ADR. Néanmoins indépendamment de la mise en place d'un tel processus automatique, compte tenu des builds et déploiements réguliers des applications front Pix, une très bonne approximation de la liste des versions des navigateurs supportées par chaque application front Pix pourra toujours être obtenue par un développeur/une développeuse via la même commande :
 
 ```shell
 npx browserslist "defaults, last 4 years"
 ```
-
-Les versions supportées sont les mêmes pour toutes les applications Pix : les applications du repository Pix, Pix-UI, Pix Editor, les différents pix-sites (https://pix.org/, https://pix.fr/, etc.), etc.
 
 
 ## Références
