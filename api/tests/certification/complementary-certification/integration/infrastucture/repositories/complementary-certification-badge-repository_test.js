@@ -107,7 +107,7 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const badgeId = databaseBuilder.factory.buildBadge({ targetProfileId }).id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-      const complementaryCertificationBadgeToAttach = domainBuilder.buildComplementaryCertificationBadgeToAttach({
+      const badgeToAttach = domainBuilder.buildBadgeToAttach({
         badgeId,
         createdBy: userId,
         complementaryCertificationId,
@@ -123,7 +123,7 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
       await DomainTransaction.execute(async (domainTransaction) => {
         await complementaryCertificationBadgeRepository.attach({
           complementaryCertificationId,
-          complementaryCertificationBadge: complementaryCertificationBadgeToAttach,
+          complementaryCertificationBadge: badgeToAttach,
           domainTransaction,
         });
       });

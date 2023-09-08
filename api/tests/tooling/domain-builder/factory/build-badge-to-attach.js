@@ -1,6 +1,6 @@
-import { ComplementaryCertificationBadgeToAttach } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationBadgeToAttach.js';
+import { BadgeToAttach } from '../../../../src/certification/complementary-certification/domain/models/BadgeToAttach.js';
 
-const buildComplementaryCertificationBadgeToAttach = function ({
+const buildBadgeToAttach = function ({
   level = 1,
   complementaryCertificationId,
   badgeId,
@@ -12,7 +12,7 @@ const buildComplementaryCertificationBadgeToAttach = function ({
   stickerUrl = 'http://stiker-url.fr',
   createdBy = null,
 }) {
-  return new ComplementaryCertificationBadgeToAttach({
+  return new BadgeToAttach({
     level,
     complementaryCertificationId,
     badgeId,
@@ -26,4 +26,4 @@ const buildComplementaryCertificationBadgeToAttach = function ({
   });
 };
 
-export { buildComplementaryCertificationBadgeToAttach };
+export { buildBadgeToAttach };

@@ -1,10 +1,10 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { attachBadgesToComplementaryCertification } from '../../../../../../src/certification/complementary-certification/domain/usecases/attach-badges-to-complementary-certification.js';
+import { attachBadges } from '../../../../../../src/certification/complementary-certification/domain/usecases/attach-badges.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
-import { InvalidBadgeLevelError } from '../../../../../../src/certification/shared/domain/errors.js';
+import { InvalidBadgeLevelError } from '../../../../../../src/certification/complementary-certification/domain/errors.js';
 
-describe('Unit | UseCase | attach-badges-to-complementary-certification', function () {
+describe('Unit | UseCase | attach-badges', function () {
   let clock;
   const now = new Date('2023-02-02');
   beforeEach(function () {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       const emptyBadgesList = [];
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: emptyBadgesList,
       });
 
@@ -37,7 +37,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       ];
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: badgesWithALevel0,
       });
 
@@ -55,7 +55,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       ];
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: twoBadgesWithALevelThree,
       });
 
@@ -70,7 +70,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       const badgesAndOneWithoutALevel = [{ badgeId: 100, level: 1 }, { badgeId: 101 }];
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: badgesAndOneWithoutALevel,
       });
 
@@ -85,7 +85,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       const badgesWithoutUniqLevel = [{ badgeId: 100, level: 1 }, { badgeId: 1 }];
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: badgesWithoutUniqLevel,
       });
 
@@ -105,7 +105,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
       };
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: [
           { badgeId: 1, level: 1 },
           { badgeId: 2, level: 2 },
@@ -139,7 +139,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
           };
 
           // when
-          const error = await catchErr(attachBadgesToComplementaryCertification)({
+          const error = await catchErr(attachBadges)({
             complementaryCertificationId: 12,
             complementaryCertificationBadgesToAttachDTO: [
               { badgeId: 1, level: 1 },
@@ -195,7 +195,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
           .resolves([1, 2]);
 
         // when
-        await attachBadgesToComplementaryCertification({
+        await attachBadges({
           userId: 1234,
           complementaryCertificationBadgesToAttachDTO: [
             { badgeId: 123, level: 2, label: 'badge_1' },
@@ -252,7 +252,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
           attach: sinon.stub(),
           detachByIds: sinon.stub().resolves(),
           getAllIdsByTargetProfileId: sinon.stub().resolves([
-            domainBuilder.buildComplementaryCertificationBadgeToAttach({
+            domainBuilder.buildBadgeToAttach({
               id: 1,
               label: 'pix+ label 1',
               badgeId: 123,
@@ -262,7 +262,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
         };
 
         // when
-        await attachBadgesToComplementaryCertification({
+        await attachBadges({
           userId: 1234,
           complementaryCertificationBadgesToAttachDTO: [complementaryCertificationBadge],
           targetProfileIdToDetach: 456,
@@ -273,7 +273,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
         });
 
         // then
-        const newComplementaryCertificationBadge = domainBuilder.buildComplementaryCertificationBadgeToAttach({
+        const newComplementaryCertificationBadge = domainBuilder.buildBadgeToAttach({
           ...complementaryCertificationBadge,
           createdAt: now,
           complementaryCertificationId: 123,
@@ -317,7 +317,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
         detachByIds: sinon.stub(),
         getAllIdsByTargetProfileId: sinon.stub(),
       };
-      const complementaryCertificationBadgeToAttachValidator = {
+      const BadgeToAttachValidator = {
         validate: sinon.stub().resolves(),
       };
       complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
@@ -325,7 +325,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
         .resolves([]);
 
       // when
-      const error = await catchErr(attachBadgesToComplementaryCertification)({
+      const error = await catchErr(attachBadges)({
         userId: 1234,
         complementaryCertificationBadgesToAttachDTO: [
           { badgeId: 123, level: 2, label: 'badge_1' },
@@ -333,7 +333,7 @@ describe('Unit | UseCase | attach-badges-to-complementary-certification', functi
         ],
         targetProfileIdToDetach: 789,
         complementaryCertificationId: 123,
-        complementaryCertificationBadgeToAttachValidator,
+        BadgeToAttachValidator,
         badgeRepository,
         complementaryCertificationRepository,
         complementaryCertificationBadgesRepository,

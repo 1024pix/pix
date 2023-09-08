@@ -1,4 +1,4 @@
-class ComplementaryCertificationBadgeToAttach {
+class BadgeToAttach {
   constructor({
     level,
     complementaryCertificationId,
@@ -34,7 +34,7 @@ class ComplementaryCertificationBadgeToAttach {
     stickerUrl,
     userId,
   }) {
-    return new ComplementaryCertificationBadgeToAttach({
+    return new BadgeToAttach({
       id: undefined,
       level,
       complementaryCertificationId,
@@ -51,4 +51,4 @@ class ComplementaryCertificationBadgeToAttach {
   }
 }
 
-export { ComplementaryCertificationBadgeToAttach };
+export { BadgeToAttach };
