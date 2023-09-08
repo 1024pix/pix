@@ -140,7 +140,9 @@ module(
 
           // then
           assert
-            .dom(await screen.findByRole('heading', { name: '2. Complétez les informations des résultats thématiques' }))
+            .dom(
+              await screen.findByRole('heading', { name: '2. Complétez les informations des résultats thématiques' }),
+            )
             .exists();
           assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' })).exists();
           assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
@@ -178,13 +180,21 @@ module(
           await targetProfileSelectable.click();
           await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' });
 
-
-          await fillIn(screen.getByRole('spinbutton', {name: 'niveau'}), '1');
-          await fillIn(screen.getByRole('textbox', {name: 'image certificat Pix App'}), 'IMAGE1.svg');
-          await fillIn(screen.getByRole('textbox', {name: 'label du certificat'}), 'LABEL');
-          await fillIn(screen.getByRole('textbox', {name: 'macaron du certificat'}), 'MACARON.pdf');
-          await fillIn(screen.getByRole('textbox', {name: 'message du certificat'}), 'MESSAGE');
-          await fillIn(screen.getByRole('textbox', {name: 'message temporaire du certificat'}), 'TEMP MESSAGE');
+          await fillIn(screen.getByRole('spinbutton', { name: '200 Badge Arène Feu Niveau' }), '1');
+          await fillIn(
+            screen.getByRole('textbox', { name: '200 Badge Arène Feu Image svg certificat Pix App' }),
+            'IMAGE1.svg',
+          );
+          await fillIn(screen.getByRole('textbox', { name: '200 Badge Arène Feu Label du certificat' }), 'LABEL');
+          await fillIn(
+            screen.getByRole('textbox', { name: "200 Badge Arène Feu Macaron de l'attestation PDF" }),
+            'MACARON.pdf',
+          );
+          await fillIn(screen.getByRole('textbox', { name: '200 Badge Arène Feu Message du certificat' }), 'MESSAGE');
+          await fillIn(
+            screen.getByRole('textbox', { name: '200 Badge Arène Feu Message temporaire certificat' }),
+            'TEMP MESSAGE',
+          );
           // when
           await clickByName('Rattacher le profil cible');
 

@@ -1,7 +1,7 @@
-import {action} from '@ember/object';
-import {service} from '@ember/service';
+import { action } from '@ember/object';
+import { service } from '@ember/service';
 import Controller from '@ember/controller';
-import {tracked} from '@glimmer/tracking';
+import { tracked } from '@glimmer/tracking';
 
 export default class AttachTargetProfileController extends Controller {
   @service notifications;
@@ -38,8 +38,8 @@ export default class AttachTargetProfileController extends Controller {
   }
 
   @action
-  onBadgeUpdated({badges, update: {badgeId, fieldName, fieldValue}}) {
-    this.#updateBadge({badgeId, fieldName, fieldValue});
+  onBadgeUpdated({ update: { badgeId, fieldName, fieldValue } }) {
+    this.#updateBadge({ badgeId, fieldName, fieldValue });
   }
 
   @action
@@ -55,6 +55,10 @@ export default class AttachTargetProfileController extends Controller {
 
     try {
       const complementaryCertification = this.model.complementaryCertification;
+
+      this.store.peekAll('complementary-certification-badge').forEach(function (model) {
+        model.deleteRecord();
+      });
 
       this.#targetProfileBadges.forEach((badge, badgeId) => {
         const aBadge = this.store.createRecord('complementary-certification-badge', {
@@ -74,25 +78,21 @@ export default class AttachTargetProfileController extends Controller {
         adapterOptions: {
           attachBadges: true,
           targetProfileId: this.model.currentTargetProfile.id,
-        }
+        },
       });
       this.notifications.success('Profil cible rattaché avec succès');
-
     } catch (error) {
-      this.store.peekAll('complementary-certification-badge').forEach(function(model){
-        model.deleteRecord();
-      });
+      console.log(error);
       await this.onError("Une erreur est survenue lors de l'enregistrement du profil cible.");
     } finally {
       this.isSubmitting = false;
     }
   }
 
-  #updateBadge({badgeId, fieldName, fieldValue}) {
+  #updateBadge({ badgeId, fieldName, fieldValue }) {
     const currentBadge = this.#targetProfileBadges.get(badgeId);
     this.#targetProfileBadges.set(badgeId, {
       ...currentBadge,
-      id: badgeId,
       [fieldName]: fieldValue,
     });
   }

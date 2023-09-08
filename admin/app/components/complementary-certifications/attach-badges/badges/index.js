@@ -1,7 +1,7 @@
-import {action} from '@ember/object';
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import {service} from '@ember/service';
-import {tracked} from '@glimmer/tracking';
+import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export default class Badges extends Component {
   @tracked isLoading;
@@ -22,12 +22,12 @@ export default class Badges extends Component {
   }
 
   @action
-  onBadgeUpdated({badgeId, fieldName, fieldValue}) {
+  onBadgeUpdated({ badgeId, fieldName, fieldValue }) {
     if (!badgeId) {
       return;
     }
 
-    this.args.onBadgeUpdated({badges: this.badges, update: {badgeId, fieldName, fieldValue}});
+    this.args.onBadgeUpdated({ update: { badgeId, fieldName, fieldValue } });
   }
 
   #initBadges(targetProfile) {
@@ -55,7 +55,7 @@ export default class Badges extends Component {
       .finally(() => (this.isLoading = false));
   }
 
-  #onfetchBadgesError(error) {
+  #onfetchBadgesError() {
     this.args.onError('Une erreur est survenue lors de la recherche de résultats thématiques.');
   }
 
