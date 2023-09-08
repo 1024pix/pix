@@ -103,7 +103,7 @@
     "lodash": "^4.17.21",
     "miragejs": "^0.1.46",
     "p-queue": "^7.4.1",
-    "prettier": "^3.0.0",
+    "prettier": "^3.0.3",
     "qunit": "^2.19.3",
     "qunit-dom": "^2.0.0",
     "sinon": "^16.0.0",
