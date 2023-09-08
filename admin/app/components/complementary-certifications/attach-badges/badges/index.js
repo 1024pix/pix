@@ -56,7 +56,6 @@ export default class Badges extends Component {
   }
 
   #onfetchBadgesError(error) {
-    console.log(error);
     this.args.onError('Une erreur est survenue lors de la recherche de résultats thématiques.');
   }
 
