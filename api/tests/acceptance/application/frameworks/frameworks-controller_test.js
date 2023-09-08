@@ -384,4 +384,376 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       expect(response.result).to.deep.equal(expectedResult);
     });
   });
+
+  describe('GET /api/admin/frameworks/{id}/areas', function () {
+    let user;
+
+    beforeEach(function () {
+      user = databaseBuilder.factory.buildUser.withRole();
+      return databaseBuilder.commit();
+    });
+
+    it('should return the areas in the framework', async function () {
+      // given
+      const learningContent = {
+        frameworks: [
+          {
+            id: 'fmk1',
+            name: 'mon super framework',
+          },
+        ],
+        areas: [
+          {
+            id: 'recAreaA',
+            title_i18n: {
+              fr: 'titleFRA',
+            },
+            color: 'colorA',
+            code: 'codeA',
+            frameworkId: 'fmk1',
+            competenceIds: ['recCompA', 'recCompB'],
+          },
+          {
+            id: 'areaNotInFmwId',
+            title_i18n: {
+              fr: 'PAS DANS LE FRAMEWORK',
+            },
+            color: 'une couleur',
+            code: 'un code',
+            frameworkId: 'anotherFMK',
+            competenceIds: ['recCompC'],
+          },
+        ],
+        competences: [
+          {
+            id: 'recCompA',
+            name_i18n: {
+              fr: 'nameFRA',
+            },
+            index: '1',
+            areaId: 'recAreaA',
+            origin: 'Pix',
+            thematicIds: ['recThemA', 'recThemB'],
+          },
+          {
+            id: 'recCompB',
+            name_i18n: {
+              fr: 'nameFRB',
+            },
+            index: '5',
+            areaId: 'recAreaA',
+            origin: 'Pix',
+            thematicIds: ['recThemC', 'recThemD'],
+          },
+        ],
+        thematics: [
+          {
+            id: 'recThemA',
+            name_i18n: {
+              fr: 'nameFRA',
+            },
+            index: '1',
+            competenceId: 'recCompA',
+            tubeIds: ['recTube1'],
+          },
+          {
+            id: 'recThemB',
+            name_i18n: {
+              fr: 'nameFRB',
+            },
+            index: '2',
+            competenceId: 'recCompA',
+            tubeIds: ['recTube2'],
+          },
+          {
+            id: 'recThemC',
+            name_i18n: {
+              fr: 'nameFRC',
+            },
+            index: '3',
+            competenceId: 'recCompB',
+            tubeIds: ['recTube3'],
+          },
+          {
+            id: 'recThemD',
+            name_i18n: {
+              fr: 'nameFRD',
+            },
+            index: '4',
+            competenceId: 'recCompB',
+            tubeIds: ['recTube4'],
+          },
+        ],
+        tubes: [
+          {
+            id: 'recTube1',
+            competenceId: 'recCompA',
+            thematicId: 'recThemA',
+            name: 'tubeName1',
+            practicalTitle_i18n: {
+              fr: 'practicalTitleFR1',
+            },
+            isMobileCompliant: false,
+            isTabletCompliant: true,
+          },
+          {
+            id: 'recTube2',
+            competenceId: 'recCompA',
+            thematicId: 'recThemB',
+            name: 'tubeName2',
+            practicalTitle_i18n: {
+              fr: 'practicalTitleFR2',
+            },
+            isMobileCompliant: true,
+            isTabletCompliant: true,
+          },
+          {
+            id: 'recTube3',
+            competenceId: 'recCompB',
+            thematicId: 'recThemC',
+            name: 'tubeName3',
+            practicalTitle_i18n: {
+              fr: 'practicalTitleFR3',
+            },
+            isMobileCompliant: false,
+            isTabletCompliant: false,
+          },
+          {
+            id: 'recTube4',
+            competenceId: 'recCompB',
+            thematicId: 'recThemD',
+            name: 'tubeName4',
+            practicalTitle_i18n: {
+              fr: 'practicalTitleFR4',
+            },
+            isMobileCompliant: true,
+            isTabletCompliant: false,
+          },
+        ],
+        skills: [
+          {
+            id: 'recSkillTube1',
+            tubeId: 'recTube1',
+            status: 'actif',
+          },
+          {
+            id: 'recSkillTube2',
+            tubeId: 'recTube2',
+            status: 'actif',
+          },
+          {
+            id: 'recSkillTube3',
+            tubeId: 'recTube3',
+            status: 'actif',
+          },
+          {
+            id: 'recSkillTube4',
+            tubeId: 'recTube4',
+            status: 'actif',
+          },
+        ],
+      };
+      mockLearningContent(learningContent);
+      const options = {
+        method: 'GET',
+        url: `/api/admin/frameworks/fmk1/areas`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([
+        {
+          type: 'areas',
+          id: 'recAreaA',
+          attributes: {
+            code: 'codeA',
+            color: 'colorA',
+            title: 'titleFRA',
+          },
+          relationships: {
+            competences: {
+              data: [
+                {
+                  type: 'competences',
+                  id: 'recCompA',
+                },
+                {
+                  type: 'competences',
+                  id: 'recCompB',
+                },
+              ],
+            },
+          },
+        },
+      ]);
+      expect(response.result.included).to.deep.equal([
+        {
+          type: 'tubes',
+          id: 'recTube1',
+          attributes: {
+            name: 'tubeName1',
+            'practical-title': 'practicalTitleFR1',
+            mobile: false,
+            tablet: true,
+            level: 8,
+          },
+        },
+        {
+          type: 'thematics',
+          id: 'recThemA',
+          attributes: {
+            index: '1',
+            name: 'nameFRA',
+          },
+          relationships: {
+            tubes: {
+              data: [
+                {
+                  type: 'tubes',
+                  id: 'recTube1',
+                },
+              ],
+            },
+          },
+        },
+        {
+          id: 'recTube2',
+          type: 'tubes',
+          attributes: {
+            name: 'tubeName2',
+            'practical-title': 'practicalTitleFR2',
+            mobile: true,
+            tablet: true,
+            level: 8,
+          },
+        },
+        {
+          type: 'thematics',
+          id: 'recThemB',
+          attributes: {
+            index: '2',
+            name: 'nameFRB',
+          },
+          relationships: {
+            tubes: {
+              data: [
+                {
+                  type: 'tubes',
+                  id: 'recTube2',
+                },
+              ],
+            },
+          },
+        },
+        {
+          type: 'competences',
+          id: 'recCompA',
+          attributes: {
+            index: '1',
+            name: 'nameFRA',
+          },
+          relationships: {
+            thematics: {
+              data: [
+                {
+                  type: 'thematics',
+                  id: 'recThemA',
+                },
+                {
+                  type: 'thematics',
+                  id: 'recThemB',
+                },
+              ],
+            },
+          },
+        },
+        {
+          type: 'tubes',
+          id: 'recTube3',
+          attributes: {
+            name: 'tubeName3',
+            'practical-title': 'practicalTitleFR3',
+            mobile: false,
+            tablet: false,
+            level: 8,
+          },
+        },
+        {
+          type: 'thematics',
+          id: 'recThemC',
+          attributes: {
+            index: '3',
+            name: 'nameFRC',
+          },
+          relationships: {
+            tubes: {
+              data: [
+                {
+                  type: 'tubes',
+                  id: 'recTube3',
+                },
+              ],
+            },
+          },
+        },
+        {
+          type: 'tubes',
+          id: 'recTube4',
+          attributes: {
+            level: 8,
+            mobile: true,
+            name: 'tubeName4',
+            'practical-title': 'practicalTitleFR4',
+            tablet: false,
+          },
+        },
+        {
+          type: 'thematics',
+          id: 'recThemD',
+          attributes: {
+            index: '4',
+            name: 'nameFRD',
+          },
+          relationships: {
+            tubes: {
+              data: [
+                {
+                  type: 'tubes',
+                  id: 'recTube4',
+                },
+              ],
+            },
+          },
+        },
+        {
+          type: 'competences',
+          id: 'recCompB',
+          attributes: {
+            index: '5',
+            name: 'nameFRB',
+          },
+          relationships: {
+            thematics: {
+              data: [
+                {
+                  type: 'thematics',
+                  id: 'recThemC',
+                },
+                {
+                  type: 'thematics',
+                  id: 'recThemD',
+                },
+              ],
+            },
+          },
+        },
+      ]);
+    });
+  });
 });
