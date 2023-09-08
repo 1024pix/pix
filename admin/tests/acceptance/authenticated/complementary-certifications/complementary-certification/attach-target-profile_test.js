@@ -140,7 +140,7 @@ module(
 
           // then
           assert
-            .dom(await screen.findByRole('heading', { name: '2. Complétez les niveaux des résultats thématiques' }))
+            .dom(await screen.findByRole('heading', { name: '2. Complétez les informations des résultats thématiques' }))
             .exists();
           assert.dom(await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' })).exists();
           assert.dom(await screen.queryByRole('img', { name: 'loader' })).doesNotExist();
@@ -189,7 +189,7 @@ module(
           await clickByName('Rattacher le profil cible');
 
           // then
-          assert.dom(await screen.findByText('Target profile rattaché avec succès')).exists();
+          assert.dom(await screen.findByText('Profil cible rattaché avec succès')).exists();
         });
       });
     });

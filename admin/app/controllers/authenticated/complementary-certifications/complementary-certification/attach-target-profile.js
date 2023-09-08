@@ -39,7 +39,6 @@ export default class AttachTargetProfileController extends Controller {
 
   @action
   onBadgeUpdated({badges, update: {badgeId, fieldName, fieldValue}}) {
-    console.log('A badge has been updated: ', {badges, update: {badgeId, fieldName, fieldValue}});
     this.#updateBadge({badgeId, fieldName, fieldValue});
   }
 
@@ -77,10 +76,9 @@ export default class AttachTargetProfileController extends Controller {
           targetProfileId: this.model.currentTargetProfile.id,
         }
       });
-      this.notifications.success('Target profile rattaché avec succès');
+      this.notifications.success('Profil cible rattaché avec succès');
 
     } catch (error) {
-      console.log(error);
       this.store.peekAll('complementary-certification-badge').forEach(function(model){
         model.deleteRecord();
       });

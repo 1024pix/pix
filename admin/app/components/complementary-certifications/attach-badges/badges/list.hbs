@@ -1,9 +1,4 @@
 <div class="complementary-certification-attach-badges">
-  <p class="complementary-certification-attach-badges__description">
-    Les niveaux de RT sont déterminés en fonction de leur difficulté, avec le chiffre le plus bas étant le plus facile à
-    obtenir et le chiffre le plus haut étant le chiffre le plus difficile à obtenir (1 &#60; 3).
-  </p>
-
   {{#if @error}}
     <PixMessage role="alert" @type="error" @withIcon={{true}} class="complementary-certification-attach-badges__error">
       {{@error}}
@@ -44,7 +39,7 @@
           <ComplementaryCertifications::AttachBadges::Badges::Header @isRequired="true">
             <:default>Macaron de l'attestation PDF</:default>
             <:tooltip>
-              Renseignez l’URL de l’image au format .svg (fournie par les devs) pour l’attestation de certification PDF
+              Renseignez l’URL de l’image au format .pdf (fournie par les devs) pour l’attestation de certification PDF
               du candidat.
             </:tooltip>
           </ComplementaryCertifications::AttachBadges::Badges::Header>

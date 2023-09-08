@@ -15,7 +15,7 @@
     </Card>
 
     {{#if this.selectedTargetProfile}}
-      <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
+      <Card class="attach-target-profile__card-badges" @title="2. Complétez les informations des résultats thématiques">
         <ComplementaryCertifications::AttachBadges::Badges
           @targetProfile={{this.selectedTargetProfile}}
           @onError={{this.onError}}
