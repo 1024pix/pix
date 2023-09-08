@@ -54,7 +54,7 @@ const register = async function (server) {
             'filter[id]': identifiersType.userId.empty('').allow(null).optional(),
             'filter[firstName]': Joi.string().empty('').allow(null).optional(),
             'filter[lastName]': Joi.string().empty('').allow(null).optional(),
-            'filter[email]': Joi.string().email().empty('').allow(null).optional(),
+            'filter[email]': Joi.string().empty('').allow(null).optional(),
             'filter[username]': Joi.string().empty('').allow(null).optional(),
             'page[number]': Joi.number().integer().empty('').allow(null).optional(),
             'page[size]': Joi.number().integer().empty('').allow(null).optional(),
