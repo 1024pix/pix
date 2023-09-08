@@ -363,7 +363,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
 
       context('when participants are filterd by certificability', function () {
         context('when one value is given for certificability', function () {
-          it('should return sco participants filtered by the given value', async function () {
+          it('should return certifiable sco participants', async function () {
             const organizationId = databaseBuilder.factory.buildOrganization().id;
             const campaignId = databaseBuilder.factory.buildCampaign({
               organizationId,
@@ -374,6 +374,8 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             });
             const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
               organizationId,
+              isCertifiable: true,
+              certifiableAt: new Date('2021-01-01'),
             });
 
             databaseBuilder.factory.buildCampaignParticipation({
@@ -396,6 +398,80 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
             const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
               organizationId,
               filter: { certificability: [true] },
+            });
+
+            // then
+            expect(data.length).to.deep.equal(1);
+            expect(data[0].id).to.deep.equal(organizationLearnerId1);
+          });
+
+          it('should return non certifiable sco participants', async function () {
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const campaignId = databaseBuilder.factory.buildCampaign({
+              organizationId,
+              type: CampaignTypes.PROFILES_COLLECTION,
+            }).id;
+            const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+            });
+            const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+              isCertifiable: true,
+              certifiableAt: new Date('2021-01-01'),
+            });
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId1,
+              userId: userId1,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: true,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId2,
+              userId: userId2,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: false,
+            });
+            await databaseBuilder.commit();
+            const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              filter: { certificability: [false] },
+            });
+
+            // then
+            expect(data.length).to.deep.equal(1);
+            expect(data[0].id).to.deep.equal(organizationLearnerId2);
+          });
+
+          it('should return non communicate sco participants', async function () {
+            const organizationId = databaseBuilder.factory.buildOrganization().id;
+            const campaignId = databaseBuilder.factory.buildCampaign({
+              organizationId,
+              type: CampaignTypes.PROFILES_COLLECTION,
+            }).id;
+            const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+            });
+            const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId,
+            });
+
+            databaseBuilder.factory.buildCampaignParticipation({
+              campaignId,
+              organizationLearnerId: organizationLearnerId2,
+              userId: userId2,
+              status: CampaignParticipationStatuses.SHARED,
+              sharedAt: new Date('2022-01-01'),
+              isCertifiable: false,
+            });
+            await databaseBuilder.commit();
+            const { data } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+              organizationId,
+              filter: { certificability: [null] },
             });
 
             // then
@@ -484,8 +560,10 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
-          isCertifiable: null,
-          certifiableAt: null,
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
+          isCertifiableFromLearner: null,
+          certifiableAtFromLearner: null,
         });
         await databaseBuilder.commit();
 
@@ -532,8 +610,10 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
-          isCertifiable: null,
-          certifiableAt: null,
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
+          isCertifiableFromLearner: null,
+          certifiableAtFromLearner: null,
         });
         await databaseBuilder.commit();
 
@@ -573,8 +653,10 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
           campaignName: null,
           campaignType: null,
           participationStatus: null,
-          isCertifiable: null,
-          certifiableAt: null,
+          isCertifiableFromCampaign: null,
+          certifiableAtFromCampaign: null,
+          isCertifiableFromLearner: null,
+          certifiableAtFromLearner: null,
         });
         await databaseBuilder.commit();
 
@@ -1294,6 +1376,42 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
     });
 
     context('#isCertifiable', function () {
+      it('should take the learner certifiable value', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          certifiableAt: new Date('2023-01-01'),
+          isCertifiable: false,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          userId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: true,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const {
+          data: [{ isCertifiable, certifiableAt }],
+        } = await scoOrganizationParticipantRepository.findPaginatedFilteredScoParticipants({
+          organizationId,
+        });
+
+        // then
+        expect(isCertifiable).to.be.false;
+        expect(certifiableAt).to.be.null;
+      });
+
       it('should take the shared participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
