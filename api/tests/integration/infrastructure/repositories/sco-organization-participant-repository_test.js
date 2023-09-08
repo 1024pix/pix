@@ -1378,6 +1378,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
     context('#isCertifiable', function () {
       it('should take the learner certifiable value', async function () {
         // given
+        const certifiableDate = '2023-01-01';
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({
           organizationId,
@@ -1385,7 +1386,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         }).id;
         const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
-          certifiableAt: new Date('2023-01-01'),
+          certifiableAt: new Date(certifiableDate),
           isCertifiable: false,
         });
 
@@ -1409,7 +1410,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
 
         // then
         expect(isCertifiable).to.be.false;
-        expect(certifiableAt).to.be.null;
+        expect(certifiableAt).to.be.deep.equal(certifiableDate);
       });
 
       it('should take the shared participation', async function () {
