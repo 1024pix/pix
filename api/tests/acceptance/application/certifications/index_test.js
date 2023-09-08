@@ -20,39 +20,6 @@ describe('Acceptance | API | Certifications', function () {
   beforeEach(async function () {
     server = await createServer();
 
-    userId = databaseBuilder.factory.buildUser().id;
-    session = databaseBuilder.factory.buildSession({ publishedAt: new Date('2018-12-01T01:02:03Z') });
-    badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
-    certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-      sessionId: session.id,
-      userId,
-      isPublished: true,
-      maxReachableLevelOnCertificationDate: 3,
-      verificationCode: await generateCertificateVerificationCode(),
-    });
-    assessment = databaseBuilder.factory.buildAssessment({
-      userId,
-      certificationCourseId: certificationCourse.id,
-      type: Assessment.types.CERTIFICATION,
-      state: 'completed',
-    });
-    assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
-      certificationCourseId: certificationCourse.id,
-      assessmentId: assessment.id,
-      level: 1,
-      pixScore: 23,
-      emitter: 'PIX-ALGO',
-      status: 'validated',
-    });
-    const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-      certificationCourseId: certificationCourse.id,
-      name: 'patisseries au fruits',
-    });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-      complementaryCertificationCourseId: id,
-      partnerKey: badge.key,
-    });
-
     const learningContent = [
       {
         id: 'recvoGdo7z2z7pXWa',
@@ -139,68 +106,150 @@ describe('Acceptance | API | Certifications', function () {
 
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
-
-    return databaseBuilder.commit();
   });
 
   describe('GET /api/certifications', function () {
-    it('should return 200 HTTP status code', async function () {
-      options = {
-        method: 'GET',
-        url: '/api/certifications',
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-      // when
-      const response = await server.inject(options);
+    context('when certification is v2', function () {
+      beforeEach(async function () {
+        ({ userId, session, badge, certificationCourse, assessment, assessmentResult } =
+          await _buildDatabaseForV2Certification());
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.deep.equal([
-        {
-          type: 'certifications',
-          id: `${certificationCourse.id}`,
-          attributes: {
-            birthdate: certificationCourse.birthdate,
-            birthplace: certificationCourse.birthplace,
-            'certification-center': session.certificationCenter,
-            'comment-for-candidate': assessmentResult.commentForCandidate,
-            date: certificationCourse.createdAt,
-            'first-name': certificationCourse.firstName,
-            'delivered-at': session.publishedAt,
-            'is-published': certificationCourse.isPublished,
-            'last-name': certificationCourse.lastName,
-            'pix-score': assessmentResult.pixScore,
-            status: assessmentResult.status,
-            'certified-badge-images': [],
-            'verification-code': certificationCourse.verificationCode,
-            'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
-          },
-          relationships: {
-            'result-competence-tree': {
-              data: null,
+        await databaseBuilder.commit();
+      });
+      it('should return 200 HTTP status code', async function () {
+        options = {
+          method: 'GET',
+          url: '/api/certifications',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([
+          {
+            type: 'certifications',
+            id: `${certificationCourse.id}`,
+            attributes: {
+              birthdate: certificationCourse.birthdate,
+              birthplace: certificationCourse.birthplace,
+              'certification-center': session.certificationCenter,
+              'comment-for-candidate': assessmentResult.commentForCandidate,
+              date: certificationCourse.createdAt,
+              'first-name': certificationCourse.firstName,
+              'delivered-at': session.publishedAt,
+              'is-published': certificationCourse.isPublished,
+              'last-name': certificationCourse.lastName,
+              'pix-score': assessmentResult.pixScore,
+              status: assessmentResult.status,
+              'certified-badge-images': [],
+              'verification-code': certificationCourse.verificationCode,
+              'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+            },
+            relationships: {
+              'result-competence-tree': {
+                data: null,
+              },
             },
           },
-        },
-      ]);
+        ]);
+      });
+
+      it('should return 401 HTTP status code if user is not authenticated', async function () {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/certifications',
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
     });
 
-    it('should return 401 HTTP status code if user is not authenticated', async function () {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/certifications',
-      };
+    context('when certification is v3', function () {
+      beforeEach(async function () {
+        userId = databaseBuilder.factory.buildUser().id;
+        session = databaseBuilder.factory.buildSession({
+          publishedAt: new Date('2018-12-01T01:02:03Z'),
+          version: 3,
+        });
+        certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+          userId,
+          isPublished: true,
+          maxReachableLevelOnCertificationDate: 3,
+          verificationCode: await generateCertificateVerificationCode(),
+          version: 3,
+        });
 
-      // when
-      const response = await server.inject(options);
+        assessment = databaseBuilder.factory.buildAssessment({
+          userId,
+          certificationCourseId: certificationCourse.id,
+          type: Assessment.types.CERTIFICATION,
+          state: 'completed',
+        });
+        assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId: certificationCourse.id,
+          assessmentId: assessment.id,
+          level: 1,
+          pixScore: 23,
+          emitter: 'PIX-ALGO',
+          status: 'validated',
+        });
 
-      // then
-      expect(response.statusCode).to.equal(401);
+        await databaseBuilder.commit();
+      });
+      it('should return 200 HTTP status code', async function () {
+        options = {
+          method: 'GET',
+          url: '/api/certifications',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([
+          {
+            type: 'certifications',
+            id: `${certificationCourse.id}`,
+            attributes: {
+              birthdate: certificationCourse.birthdate,
+              birthplace: certificationCourse.birthplace,
+              'certification-center': session.certificationCenter,
+              'comment-for-candidate': assessmentResult.commentForCandidate,
+              date: certificationCourse.createdAt,
+              'first-name': certificationCourse.firstName,
+              'delivered-at': session.publishedAt,
+              'is-published': certificationCourse.isPublished,
+              'last-name': certificationCourse.lastName,
+              'pix-score': assessmentResult.pixScore,
+              status: assessmentResult.status,
+              'certified-badge-images': [],
+              'verification-code': certificationCourse.verificationCode,
+              'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
+            },
+            relationships: {
+              'result-competence-tree': {
+                data: null,
+              },
+            },
+          },
+        ]);
+      });
     });
   });
 
   describe('GET /api/certifications/:id', function () {
-    beforeEach(function () {
+    beforeEach(async function () {
+      ({ userId, session, badge, certificationCourse, assessment, assessmentResult } =
+        await _buildDatabaseForV2Certification());
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -209,7 +258,7 @@ describe('Acceptance | API | Certifications', function () {
         assessmentResultId: assessmentResult.id,
         acquiredComplementaryCertifications: [badge.key],
       });
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     it('should return 200 HTTP status code and the certification with the result competence tree included', async function () {
@@ -353,7 +402,9 @@ describe('Acceptance | API | Certifications', function () {
   });
 
   describe('GET /api/shared-certifications', function () {
-    beforeEach(function () {
+    beforeEach(async function () {
+      ({ userId, session, badge, certificationCourse, assessment, assessmentResult } =
+        await _buildDatabaseForV2Certification());
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -362,7 +413,7 @@ describe('Acceptance | API | Certifications', function () {
         assessmentResultId: assessmentResult.id,
         acquiredComplementaryCertifications: [badge.key],
       });
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     context('when the given verificationCode is correct', function () {
@@ -523,7 +574,9 @@ describe('Acceptance | API | Certifications', function () {
   });
 
   describe('GET /api/attestation/pdf', function () {
-    beforeEach(function () {
+    beforeEach(async function () {
+      ({ userId, session, badge, certificationCourse, assessment, assessmentResult } =
+        await _buildDatabaseForV2Certification());
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -612,3 +665,39 @@ describe('Acceptance | API | Certifications', function () {
     });
   });
 });
+
+async function _buildDatabaseForV2Certification() {
+  const userId = databaseBuilder.factory.buildUser().id;
+  const session = databaseBuilder.factory.buildSession({ publishedAt: new Date('2018-12-01T01:02:03Z') });
+  const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
+  const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+    sessionId: session.id,
+    userId,
+    isPublished: true,
+    maxReachableLevelOnCertificationDate: 3,
+    verificationCode: await generateCertificateVerificationCode(),
+  });
+  const assessment = databaseBuilder.factory.buildAssessment({
+    userId,
+    certificationCourseId: certificationCourse.id,
+    type: Assessment.types.CERTIFICATION,
+    state: 'completed',
+  });
+  const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId: certificationCourse.id,
+    assessmentId: assessment.id,
+    level: 1,
+    pixScore: 23,
+    emitter: 'PIX-ALGO',
+    status: 'validated',
+  });
+  const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
+    certificationCourseId: certificationCourse.id,
+    name: 'patisseries au fruits',
+  });
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId: id,
+    partnerKey: badge.key,
+  });
+  return { userId, session, badge, certificationCourse, assessment, assessmentResult };
+}
