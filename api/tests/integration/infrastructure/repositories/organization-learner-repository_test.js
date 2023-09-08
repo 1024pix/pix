@@ -2154,6 +2154,30 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       // then
       expect(result).to.equal(1);
     });
+
+    it('should return count of all organization learners if "skipLoggedLastDayCheck" option is passed', async function () {
+      // given
+      const userRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({ userId: userRecentlyConnectedId, lastLoggedAt: new Date() });
+      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUser({
+        userId: userNotRecentlyConnectedId,
+      });
+
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: userRecentlyConnectedId });
+      databaseBuilder.factory.buildOrganizationLearner({ userId: userNotRecentlyConnectedId, organizationId });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        skipLoggedLastDayCheck: true,
+      });
+
+      // then
+      expect(result).to.equal(2);
+    });
   });
 
   describe('#findByOrganizationsWhichNeedToComputeCertificability', function () {
@@ -2201,6 +2225,34 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(result).to.deep.equal([organizationLearnerRecentlyConnecterId]);
+    });
+
+    it('should return all organization learners if "skippLoggedLastDayCheck" option is passed', async function () {
+      // given
+      const userRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUserLogin({ userId: userRecentlyConnectedId, lastLoggedAt: new Date('2023-07-01') });
+      const userNotRecentlyConnectedId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildUser({
+        userId: userNotRecentlyConnectedId,
+      });
+
+      const { id: organizationLearnerRecentlyConnecterId, organizationId } =
+        databaseBuilder.factory.buildOrganizationLearner({ userId: userRecentlyConnectedId });
+      const { id: organizationLearnerNotRecentlyConnectedId } = databaseBuilder.factory.buildOrganizationLearner({
+        userId: userNotRecentlyConnectedId,
+        organizationId,
+      });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+        skipLoggedLastDayCheck: true,
+      });
+
+      // then
+      expect(result).to.deep.equal([organizationLearnerRecentlyConnecterId, organizationLearnerNotRecentlyConnectedId]);
     });
 
     it('should not return a disabled organization learner id for organizations that cannot compute certificability', async function () {
