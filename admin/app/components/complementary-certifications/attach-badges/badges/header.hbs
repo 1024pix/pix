@@ -5,7 +5,7 @@
       <abbr title="obligatoire" class="mandatory-mark">*</abbr>
     {{/if}}
     {{#if (has-block "tooltip")}}
-      <PixTooltip role="tooltip" @isLight={{true}} @isWide={{true}} @position="bottom">
+      <PixTooltip role="tooltip" @isLight={{true}} @isWide={{true}} @position="bottom-left" class="content_tooltip">
         <:triggerElement><FaIcon @icon="circle-info" /></:triggerElement>
         <:tooltip>{{yield to="tooltip"}}</:tooltip>
       </PixTooltip>
