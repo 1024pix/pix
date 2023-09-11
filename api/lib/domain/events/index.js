@@ -7,6 +7,7 @@ import _ from 'lodash';
 import perf_hooks from 'perf_hooks';
 import * as eventBusBuilder from '../../infrastructure/events/EventBusBuilder.js';
 
+import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
@@ -19,6 +20,7 @@ import * as certificationAssessmentRepository from '../../infrastructure/reposit
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository.js';
+import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
@@ -33,7 +35,6 @@ import * as userRepository from '../../../src/shared/infrastructure/repositories
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
-import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
@@ -57,9 +58,10 @@ function requirePoleEmploiNotifier() {
 }
 
 const dependencies = {
-  authenticationMethodRepository,
+  answerRepository,
   assessmentRepository,
   assessmentResultRepository,
+  authenticationMethodRepository,
   badgeAcquisitionRepository,
   badgeRepository,
   campaignRepository,
@@ -69,23 +71,23 @@ const dependencies = {
   certificationCenterRepository,
   certificationCourseRepository,
   certificationIssueReportRepository,
+  challengeRepository,
   competenceMarkRepository,
   competenceRepository,
   complementaryCertificationScoringCriteriaRepository,
+  finalizedSessionRepository,
+  juryCertificationSummaryRepository,
   knowledgeElementRepository,
+  logger,
   organizationRepository,
+  participantResultsSharedRepository,
+  poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   scoringCertificationService,
   skillRepository,
   supervisorAccessRepository,
   targetProfileRepository,
   userRepository,
-  participantResultsSharedRepository,
-  poleEmploiNotifier: requirePoleEmploiNotifier(),
-  juryCertificationSummaryRepository,
-  finalizedSessionRepository,
-  challengeRepository,
-  logger,
 };
 
 const partnerCertificationScoringRepository = injectDependencies(dependency, dependencies);

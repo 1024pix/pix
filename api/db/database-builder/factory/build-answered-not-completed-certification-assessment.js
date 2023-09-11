@@ -8,11 +8,12 @@ const buildAnsweredNotCompletedCertificationAssessment = function ({
   certifiableUserId,
   competenceIdSkillIdPairs,
   limitDate,
+  version = 2,
 }) {
   const certificationCourseId = buildCertificationCourse({
     userId: certifiableUserId,
     createdAt: limitDate,
-    version: 2,
+    version,
   }).id;
   const certificationAssessment = buildAssessment({
     certificationCourseId,
