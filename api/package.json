@@ -131,6 +131,7 @@
     "db:rollback:latest": "knex --knexfile db/knexfile.js migrate:down",
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
     "db:seed": "knex --knexfile db/knexfile.js seed:run",
+    "db:reload": "npm run db:empty && npm run db:seed",
     "db:reset": "npm run db:prepare && npm run db:seed",
     "lint": "run-p --continue-on-error 'lint:!(fix)'",
     "lint:fix": "run-p --continue-on-error lint:*:fix",
