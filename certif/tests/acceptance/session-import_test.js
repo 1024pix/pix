@@ -207,9 +207,8 @@ module('Acceptance | Session Import', function (hooks) {
             });
 
             // when
-            const { getAllByRole, getByLabelText, getByRole, getByText, queryByLabelText } = await visit(
-              '/sessions/import',
-            );
+            const { getAllByRole, getByLabelText, getByRole, getByText, queryByLabelText } =
+              await visit('/sessions/import');
             const input = getByLabelText('Importer le modèle complété');
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = getByRole('button', { name: 'Continuer' });
