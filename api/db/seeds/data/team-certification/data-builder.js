@@ -87,7 +87,7 @@ async function _createScoCertificationCenter({ databaseBuilder }) {
     externalId: CERTIFICATION_SCO_MANAGING_STUDENTS_EXTERNAL_ID,
     createdAt: new Date(),
     updatedAt: new Date(),
-    memberIds: [SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID],
+    members: [{ id: SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID }],
     complementaryCertificationIds: [],
   });
 }
@@ -118,7 +118,7 @@ async function _createV3PilotCertificationCenter({ databaseBuilder }) {
     externalId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
-    memberIds: [V3_CERTIFICATION_CENTER_USER_ID],
+    members: [{ id: V3_CERTIFICATION_CENTER_USER_ID }],
     isV3Pilot: true,
     complementaryCertificationIds: [],
   });
@@ -150,7 +150,7 @@ async function _createProCertificationCenter({ databaseBuilder }) {
     externalId: PRO_EXTERNAL_ID,
     createdAt: new Date(),
     updatedAt: new Date(),
-    memberIds: [PRO_CERTIFICATION_CENTER_USER_ID],
+    members: [{ id: PRO_CERTIFICATION_CENTER_USER_ID }],
     complementaryCertificationIds,
   });
 }
