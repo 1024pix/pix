@@ -168,6 +168,26 @@ describe('Unit | Class | BrevoProvider', function () {
           expect(error.message).to.equal('email is not valid in to');
         });
       });
+
+      context('when an underlying infrascture error is thrown', function () {
+        it('should throw an error with the message', async function () {
+          // given
+          const options = {
+            from: senderEmailAddress,
+            to: userEmailAddress,
+            fromName: 'Ne pas repondre',
+            subject: 'Creation de compte',
+            template: templateId,
+          };
+          stubbedBrevoSMTPApi.sendTransacEmail.rejects(new Error('Error: write EPROTO routines:ssl3_read_bytes:tlsv1'));
+
+          // when
+          const error = await catchErr(mailingProvider.sendEmail, mailingProvider)(options);
+
+          // then
+          expect(error.message).to.equal('Error: write EPROTO routines:ssl3_read_bytes:tlsv1');
+        });
+      });
     });
   });
 });
