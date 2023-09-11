@@ -140,7 +140,7 @@
 - [#6911](https://github.com/1024pix/pix/pull/6911) [FEATURE] Seeds pour prescription (PIX-8548).
 
 ### :building_construction: Tech
-- [#6839](https://github.com/1024pix/pix/pull/6839) [TECH] Mise en place de la nouvelle arborescence API sur la création de session (PIX-8833).
+- [#6839](https://github.com/1024pix/pix/pull/6839) [TECH] Mise en place de la nouvelle arborescence API sur la création de session (PIX-8733).
 - [#6916](https://github.com/1024pix/pix/pull/6916) [TECH] Remplacer le SDK Sendinblue par le SDK Brevo.
 
 ### :bug: Correction
