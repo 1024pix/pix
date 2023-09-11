@@ -251,13 +251,13 @@ jobs:
       - attach_workspace:
           at: ~/pix
       - run:
-          name: Lint root scripts
+          name: Lint scripts
           command: npm run lint:scripts
       - run:
-          name: Lint root yaml
+          name: Lint yaml
           command: npm run lint:yaml
       - run:
-          name: Test root
+          name: Test
           command: npm run test:root
 
   api_install:
