@@ -5,29 +5,9 @@ describe('Integration | Repository | attachable-target-profiles', function () {
   describe('#find', function () {
     it('should return attachable target profiles ordered by name asc, then id desc', async function () {
       // given
-      const firstResult = {
-        id: 100,
-        name: 'AAA',
-        isPublic: false,
-        outdated: false,
-      };
-      databaseBuilder.factory.buildTargetProfile(firstResult);
-
-      const secondResult = {
-        id: 300,
-        name: 'BBB',
-        isPublic: true,
-        outdated: false,
-      };
-      databaseBuilder.factory.buildTargetProfile(secondResult);
-      const thirdResult = {
-        id: 200,
-        name: 'BBB',
-        isPublic: false,
-        outdated: false,
-      };
-      databaseBuilder.factory.buildTargetProfile(thirdResult);
-
+      new TargetProfileFactory({ id: 100, name: 'AAA' }).withBadge();
+      new TargetProfileFactory({ id: 300, name: 'BBB' }).withBadge();
+      new TargetProfileFactory({ id: 200, name: 'BBB' }).withBadge();
       await databaseBuilder.commit();
 
       // when
@@ -43,19 +23,8 @@ describe('Integration | Repository | attachable-target-profiles', function () {
 
     it('should not return outdated target profiles', async function () {
       // given
-      databaseBuilder.factory.buildTargetProfile({
-        id: 100,
-        name: 'NOTOUTDATED',
-        isPublic: false,
-        outdated: false,
-      });
-
-      databaseBuilder.factory.buildTargetProfile({
-        id: 300,
-        name: 'OUTDATED',
-        isPublic: true,
-        outdated: true,
-      });
+      new TargetProfileFactory({ id: 100, name: 'NOTOUTDATED' }).withBadge();
+      new TargetProfileFactory({ id: 300, name: 'OUTDATED', outdated: true }).withBadge();
       await databaseBuilder.commit();
 
       // when
@@ -65,40 +34,40 @@ describe('Integration | Repository | attachable-target-profiles', function () {
       expect(results).to.deep.equal([{ id: 100, name: 'NOTOUTDATED' }]);
     });
 
-    context('when the target profiles is not linked to any badges', function () {
-      it('should return attachable target profiles', async function () {
+    context('when the target profile has no link to a complementary', function () {
+      it('should return it as an attachable target profile', async function () {
         // given
-        databaseBuilder.factory.buildTargetProfile({
-          id: 100,
-          name: 'Not tied to a complementary',
-          isPublic: false,
-          outdated: false,
-        });
-
+        new TargetProfileFactory({ id: 200, name: 'Target profile with a badge' }).withBadge();
         await databaseBuilder.commit();
 
         // when
         const results = await attachableTargetProfileRepository.find();
 
         // then
-        expect(results).to.deep.equal([{ id: 100, name: 'Not tied to a complementary' }]);
+        expect(results).to.deep.equal([{ id: 200, name: 'Target profile with a badge' }]);
       });
     });
 
-    context('when the target profiles has been linked to a complementary certification', function () {
+    context('when the target profile is not linked to any badges', function () {
+      it('should return it as an attachable target profiles', async function () {
+        // given
+        new TargetProfileFactory({ id: 100, name: 'Not tied to a badge' });
+        await databaseBuilder.commit();
+
+        // when
+        const results = await attachableTargetProfileRepository.find();
+
+        // then
+        expect(results).to.deep.equal([{ id: 100, name: 'Not tied to a badge' }]);
+      });
+    });
+
+    context('when the target profile has been linked to a complementary certification', function () {
       it('should not return target profiles currently attached to a complementary', async function () {
         // given
-        const targetProfile = databaseBuilder.factory.buildTargetProfile({
-          id: 100,
-          name: 'currentlyAttachedToATargetProfile',
-          isPublic: false,
-          outdated: false,
-        });
-        _createComplementaryCertificationBadge({
-          targetProfileId: targetProfile.id,
-          detachedAt: null,
-        });
-
+        new TargetProfileFactory({ id: 100, name: 'currentlyAttachedToATargetProfile' })
+          .withBadge()
+          .withComplementaryCertificationBadge({ detachedAt: null });
         await databaseBuilder.commit();
 
         // when
@@ -110,17 +79,9 @@ describe('Integration | Repository | attachable-target-profiles', function () {
 
       it('should return attached target profiles detached from a complementary', async function () {
         // given
-        const targetProfile = databaseBuilder.factory.buildTargetProfile({
-          id: 100,
-          name: 'currentlyDetached',
-          isPublic: false,
-          outdated: false,
-        });
-        _createComplementaryCertificationBadge({
-          targetProfileId: targetProfile.id,
-          detachedAt: new Date(),
-        });
-
+        new TargetProfileFactory({ id: 100, name: 'currentlyDetached' })
+          .withBadge()
+          .withComplementaryCertificationBadge({ detachedAt: new Date() });
         await databaseBuilder.commit();
 
         // when
@@ -135,36 +96,11 @@ describe('Integration | Repository | attachable-target-profiles', function () {
       context('when I am searching for a target profile by its name', function () {
         it('should return attachable target profiles matching the search term in their name', async function () {
           // given
-          databaseBuilder.factory.buildTargetProfile({
-            id: 1,
-            name: 'notAValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 11,
-            name: 'notAValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 2,
-            name: 'CLEA aValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 3,
-            name: 'aValidResult CLEA',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 4,
-            name: 'aValidCLEAResult',
-            isPublic: false,
-            outdated: false,
-          });
+          new TargetProfileFactory({ id: 1, name: 'notAValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 11, name: 'notAValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 2, name: 'CLEA aValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 3, name: 'aValidResult CLEA' }).withBadge();
+          new TargetProfileFactory({ id: 4, name: 'aValidCLEAResult' }).withBadge();
           await databaseBuilder.commit();
 
           const searchTerm = 'CLEA';
@@ -182,30 +118,10 @@ describe('Integration | Repository | attachable-target-profiles', function () {
 
         it('should not be case sensitive', async function () {
           // given
-          databaseBuilder.factory.buildTargetProfile({
-            id: 2,
-            name: 'CLÉA aValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 3,
-            name: 'aValidResult CléA',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 4,
-            name: 'aValidCLéAResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 5,
-            name: 'cléa',
-            isPublic: false,
-            outdated: false,
-          });
+          new TargetProfileFactory({ id: 2, name: 'CLÉA aValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 3, name: 'aValidResult CléA' }).withBadge();
+          new TargetProfileFactory({ id: 4, name: 'aValidCLéAResult' }).withBadge();
+          new TargetProfileFactory({ id: 5, name: 'cléa' }).withBadge();
           await databaseBuilder.commit();
 
           const searchTerm = 'cléa';
@@ -226,30 +142,10 @@ describe('Integration | Repository | attachable-target-profiles', function () {
       context('when I am searching for a target profile by its ID', function () {
         it('should return attachable target profiles matching the search term in their id', async function () {
           // given
-          databaseBuilder.factory.buildTargetProfile({
-            id: 1,
-            name: 'notAValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 2,
-            name: 'aValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 12,
-            name: 'aValidResult',
-            isPublic: false,
-            outdated: false,
-          });
-          databaseBuilder.factory.buildTargetProfile({
-            id: 21,
-            name: 'aValidResult',
-            isPublic: false,
-            outdated: false,
-          });
+          new TargetProfileFactory({ id: 1, name: 'notAValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 2, name: 'aValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 12, name: 'aValidResult' }).withBadge();
+          new TargetProfileFactory({ id: 21, name: 'aValidResult' }).withBadge();
           await databaseBuilder.commit();
 
           const searchTerm = '2';
@@ -269,16 +165,39 @@ describe('Integration | Repository | attachable-target-profiles', function () {
   });
 });
 
-function _createComplementaryCertificationBadge({ targetProfileId, detachedAt }) {
-  const badgeId = databaseBuilder.factory.buildBadge({
-    targetProfileId,
-  }).id;
+class TargetProfileFactory {
+  #targetProfile;
+  #badge;
+  #complementaryCertificationBadge;
 
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    badgeId,
-    complementaryCertificationId: null,
-    detachedAt,
-  });
+  constructor(targetProfileOpts = {}) {
+    const _targetProfileOpts = { isPublic: true, outdated: false, ...targetProfileOpts };
+    this.withTargetProfile(_targetProfileOpts);
+  }
 
-  return badgeId;
+  withTargetProfile(targetProfileOpts) {
+    const _targetProfileOpts = { isPublic: true, outdated: false, ...targetProfileOpts };
+    this.#targetProfile = databaseBuilder.factory.buildTargetProfile(_targetProfileOpts);
+    return this;
+  }
+
+  withBadge(badgeOpts) {
+    const _badgeOpts = { targetProfileId: this.#targetProfile.id, ...badgeOpts };
+    this.#badge = databaseBuilder.factory.buildBadge(_badgeOpts);
+    return this;
+  }
+
+  withComplementaryCertificationBadge(complementaryCertificationBadgeOpts) {
+    const _badgeId = this.#badge?.id ?? this.withBadge();
+    const _complementaryCertificationBadgeOpts = {
+      badgeId: _badgeId,
+      complementaryCertificationId: null,
+      detachedAt: null,
+      ...complementaryCertificationBadgeOpts,
+    };
+    this.#complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge(
+      _complementaryCertificationBadgeOpts,
+    );
+    return this;
+  }
 }

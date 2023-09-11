@@ -49,7 +49,7 @@ function _excludeAllOutdatedTargetProfiles(builder) {
 }
 
 function _includeAllTargetProfilesNotLinkedToAComplementaryCertification(builder) {
-  return builder.whereNull('badges.targetProfileId');
+  return builder.whereNull('complementary-certification-badges.badgeId');
 }
 
 function _includeTargetProfileLinkedToAComplementaryOnlyWhenDetached(builder) {
