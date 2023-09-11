@@ -1,13 +1,12 @@
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../../../lib/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
-import { ComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { TargetProfileHistoryForAdmin } from '../../../../lib/domain/models/TargetProfileHistoryForAdmin.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../../../lib/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 
 describe('Integration | Repository | complementary-certification-target-profile-history-repository', function () {
-  describe('#getByComplementaryCertificationId', function () {
+  describe('#getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId', function () {
     describe('when there is only one current target profile associated to complementary certification', function () {
-      it('should return the complementary certification and current target profile with badges', async function () {
+      it('should return the current target profile with badges', async function () {
         // given
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
@@ -29,14 +28,14 @@ describe('Integration | Repository | complementary-certification-target-profile-
           targetProfileId: currentTarget.id,
           complementaryCertificationId: complementaryCertification.id,
           createdAt: new Date('2023-10-10'),
-          label: 'badgeGood',
+          label: 'goodBadge',
           level: 1,
         });
         const currentBadgeId2 = _createComplementaryCertificationBadge({
           targetProfileId: currentTarget.id,
           complementaryCertificationId: complementaryCertification.id,
           createdAt: new Date('2023-10-10'),
-          label: 'badgeGood2',
+          label: 'goodBadge2',
           level: 1,
         });
         _createComplementaryCertificationBadge({
@@ -51,45 +50,98 @@ describe('Integration | Repository | complementary-certification-target-profile-
         await databaseBuilder.commit();
 
         // when
-        const result = await complementaryCertificationTargetProfileHistoryRepository.getByComplementaryCertificationId(
-          {
-            complementaryCertificationId: complementaryCertification.id,
-          },
-        );
+        const result =
+          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
+            {
+              complementaryCertificationId: complementaryCertification.id,
+            },
+          );
 
-        const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
-          id: 3,
-          key: 'EDU_2ND_DEGRE',
-          label: 'Pix+ Édu 2nd degré',
-        });
-
-        const expectedTargetProfilesHistory = [
+        // then
+        expect(result).to.deepEqualInstance([
           new TargetProfileHistoryForAdmin({
             id: 999,
             name: 'currentTarget',
             attachedAt: new Date('2023-10-10'),
             detachedAt: null,
             badges: [
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId, level: 1, label: 'badgeGood' }),
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId2, level: 1, label: 'badgeGood2' }),
+              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId, level: 1, label: 'goodBadge' }),
+              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId2, level: 1, label: 'goodBadge2' }),
             ],
           }),
-          new TargetProfileHistoryForAdmin({
-            id: 222,
-            name: 'oldTarget',
-            attachedAt: new Date('2020-10-10'),
-            detachedAt: new Date('2021-10-10'),
-            badges: [],
-          }),
-        ];
+        ]);
+      });
+    });
+
+    describe('when re-attaching an oldest target profile', function () {
+      it('should return the current target profile with badges', async function () {
+        // given
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          key: 'EDU_1ER_DEGRE',
+          label: 'Pix+ Édu 1er degré',
+        });
+
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          id: 3,
+          key: 'EDU_2ND_DEGRE',
+          label: 'Pix+ Édu 2nd degré',
+        });
+
+        const oldTarget = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'oldTarget' });
+
+        const oldReattachedTargetProfile = databaseBuilder.factory.buildTargetProfile({
+          id: 222,
+          name: 'oldReattachedTarget',
+        });
+
+        _createComplementaryCertificationBadge({
+          targetProfileId: oldTarget.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2021-10-10'),
+          detachedAt: new Date('2023-10-10'),
+          label: 'oldBadge',
+          level: 1,
+        });
+
+        const newBadgeId1 = _createComplementaryCertificationBadge({
+          targetProfileId: oldReattachedTargetProfile.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2023-10-10'),
+          label: 'badgeReattached',
+          level: 1,
+        });
+        _createComplementaryCertificationBadge({
+          targetProfileId: oldReattachedTargetProfile.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2020-10-10'),
+          label: 'oldDetachedBadge',
+          level: 1,
+          detachedAt: new Date('2021-10-10'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result =
+          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
+            {
+              complementaryCertificationId: complementaryCertification.id,
+            },
+          );
 
         // then
-        expect(result).to.deepEqualInstance(
-          new ComplementaryCertificationTargetProfileHistory({
-            ...expectedComplementaryCertification,
-            targetProfilesHistory: expectedTargetProfilesHistory,
+        expect(result).to.deepEqualInstance([
+          new TargetProfileHistoryForAdmin({
+            id: 222,
+            name: 'oldReattachedTarget',
+            attachedAt: new Date('2023-10-10'),
+            detachedAt: null,
+            badges: [
+              new ComplementaryCertificationBadgeForAdmin({ id: newBadgeId1, level: 1, label: 'badgeReattached' }),
+            ],
           }),
-        );
+        ]);
       });
     });
 
@@ -140,19 +192,15 @@ describe('Integration | Repository | complementary-certification-target-profile-
         await databaseBuilder.commit();
 
         // when
-        const result = await complementaryCertificationTargetProfileHistoryRepository.getByComplementaryCertificationId(
-          {
-            complementaryCertificationId: complementaryCertification.id,
-          },
-        );
+        const result =
+          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
+            {
+              complementaryCertificationId: complementaryCertification.id,
+            },
+          );
 
-        const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
-          id: 3,
-          key: 'EDU_2ND_DEGRE',
-          label: 'Pix+ Édu 2nd degré',
-        });
-
-        const expectedTargetProfilesHistory = [
+        // then
+        expect(result).to.deepEqualInstance([
           new TargetProfileHistoryForAdmin({
             id: 999,
             name: 'currentTarget',
@@ -176,17 +224,143 @@ describe('Integration | Repository | complementary-certification-target-profile-
               }),
             ],
           }),
-        ];
-
-        // then
-        expect(result).to.deepEqualInstance(
-          new ComplementaryCertificationTargetProfileHistory({
-            ...expectedComplementaryCertification,
-            targetProfilesHistory: expectedTargetProfilesHistory,
-          }),
-        );
+        ]);
       });
     });
+  });
+
+  describe('#getDetachedTargetProfilesHistoryByComplementaryCertificationId', function () {
+    describe('when there is no previous attached target profiles', function () {
+      it('should return an empty list', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          key: 'EDU_1ER_DEGRE',
+          label: 'Pix+ Édu 1er degré',
+        });
+
+        const currentTarget = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'currentTarget' });
+
+        _createComplementaryCertificationBadge({
+          targetProfileId: currentTarget.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2020-10-10'),
+          label: 'badge',
+          level: 1,
+          detachedAt: null,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result =
+          await complementaryCertificationTargetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
+            {
+              complementaryCertificationId: complementaryCertification.id,
+            },
+          );
+
+        // then
+        expect(result).to.be.empty;
+      });
+    });
+
+    describe('when there are detached target profiles', function () {
+      it('should return ordered target profile history', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          key: 'EDU_2ND_DEGRE',
+        });
+        const otherComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          id: 2,
+          key: 'EDU_3E_DEGRE',
+        });
+
+        _createComplementaryCertificationBadgeWithTargetProfile({
+          complementaryCertificationId: otherComplementaryCertification.id,
+          targetProfileId: 1000,
+          targetProfileName: 'otherTarget',
+          badgeLabel: 'otherBadge',
+          createdAt: new Date('2022-06-01'),
+          detachedAt: new Date('2022-06-01'),
+        });
+
+        _createComplementaryCertificationBadgeWithTargetProfile({
+          complementaryCertificationId: complementaryCertification.id,
+          targetProfileId: 999,
+          targetProfileName: 'currentTarget',
+          badgeLabel: 'currentBadge',
+          createdAt: new Date('2022-06-01'),
+          detachedAt: null,
+        });
+
+        _createComplementaryCertificationBadgeWithTargetProfile({
+          complementaryCertificationId: complementaryCertification.id,
+          targetProfileId: 998,
+          targetProfileName: 'oldTarget',
+          badgeLabel: 'oldBadge',
+          createdAt: new Date('2020-05-01'),
+          detachedAt: new Date('2022-06-01'),
+        });
+
+        _createComplementaryCertificationBadgeWithTargetProfile({
+          complementaryCertificationId: complementaryCertification.id,
+          targetProfileId: 997,
+          targetProfileName: 'olderTarget',
+          badgeLabel: 'olderBadge',
+          createdAt: new Date('2019-05-01'),
+          detachedAt: new Date('2020-05-01'),
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result =
+          await complementaryCertificationTargetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
+            {
+              complementaryCertificationId: complementaryCertification.id,
+            },
+          );
+
+        // then
+        expect(result).to.deepEqualInstance([
+          new TargetProfileHistoryForAdmin({
+            id: 998,
+            name: 'oldTarget',
+            attachedAt: new Date('2020-05-01'),
+            detachedAt: new Date('2022-06-01'),
+            badges: [],
+          }),
+          new TargetProfileHistoryForAdmin({
+            id: 997,
+            name: 'olderTarget',
+            attachedAt: new Date('2019-05-01'),
+            detachedAt: new Date('2020-05-01'),
+            badges: [],
+          }),
+        ]);
+      });
+    });
+
+    function _createComplementaryCertificationBadgeWithTargetProfile({
+      complementaryCertificationId,
+      targetProfileId,
+      targetProfileName,
+      badgeLabel,
+      createdAt,
+      detachedAt,
+    }) {
+      databaseBuilder.factory.buildTargetProfile({ id: targetProfileId, name: targetProfileName });
+      _createComplementaryCertificationBadge({
+        targetProfileId: targetProfileId,
+        complementaryCertificationId,
+        createdAt,
+        detachedAt,
+        label: badgeLabel,
+        level: 1,
+      });
+    }
   });
 });
 
