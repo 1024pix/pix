@@ -10,6 +10,5 @@ export function initialize(/* applicationInstance */) {
 }
 
 export default {
-  before: 'ember-simple-auth',
   initialize,
 };
