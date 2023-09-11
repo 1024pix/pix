@@ -40,6 +40,7 @@ function _toDomain(certificationCenterMembershipDTO) {
     user,
     createdAt: certificationCenterMembershipDTO.createdAt,
     updatedAt: certificationCenterMembershipDTO.updatedAt,
+    role: certificationCenterMembershipDTO.role,
   });
 }
 
@@ -68,19 +69,27 @@ const findByUserId = async function (userId) {
 };
 
 const findActiveByCertificationCenterIdSortedById = async function ({ certificationCenterId }) {
-  const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({
-    certificationCenterId,
-    disabledAt: null,
-  })
-    .orderBy('id', 'ASC')
-    .fetchAll({
-      withRelated: ['certificationCenter', 'user'],
-    });
+  const certificationCenterMemberships = await knex('certification-center-memberships')
+    .select(
+      'certification-center-memberships.*',
+      'users.firstName',
+      'users.lastName',
+      'users.email',
+      'certification-centers.name',
+      'certification-centers.type',
+      'certification-centers.externalId',
+      'certification-centers.createdAt AS certificationCenterCreatedAt',
+      'certification-centers.updatedAt AS certificationCenterUpdatedAt',
+    )
+    .join('certification-centers', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
+    .join('users', 'certification-center-memberships.userId', 'users.id')
+    .where({
+      certificationCenterId,
+      disabledAt: null,
+    })
+    .orderBy('certification-center-memberships.id', 'ASC');
 
-  return bookshelfToDomainConverter.buildDomainObjects(
-    BookshelfCertificationCenterMembership,
-    certificationCenterMemberships,
-  );
+  return certificationCenterMemberships.map(_toDomain);
 };
 
 const save = async function ({ userId, certificationCenterId }) {

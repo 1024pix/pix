@@ -224,6 +224,7 @@ function routes() {
     return schema.certificationCenterMemberships.create({
       certificationCenter,
       createdAt: new Date(),
+      role: 'MEMBER',
       user,
     });
   });

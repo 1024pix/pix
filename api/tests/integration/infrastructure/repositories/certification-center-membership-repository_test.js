@@ -114,7 +114,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       const certificationCenterMembership = certificationCenterMemberships[0];
       expect(certificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
-      expect(certificationCenterMembership.id).to.equal(expectedCertificationCenterMembership.id);
+      expect(certificationCenterMembership.id).to.deep.equal(expectedCertificationCenterMembership.id);
 
       const associatedCertificationCenter = certificationCenterMembership.certificationCenter;
       expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
