@@ -613,17 +613,19 @@ describe('Unit | Router | user-router', function () {
         expect(response.statusCode).to.equal(403);
       });
 
-      describe('when the email provided in users filter is not valid', function () {
-        it('returns a BadRequest error (400)', async function () {
+      describe('when the search value in the search email field in users filter is a string and not a full email', function () {
+        it('is accepted and the search is performed', async function () {
           // given
+          sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+          sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
 
           // when
-          const response = await httpTestServer.request('GET', '/api/admin/users?filter[email]=999');
+          const response = await httpTestServer.request('GET', '/api/admin/users?filter[email]=some-value');
 
           // then
-          expect(response.statusCode).to.equal(400);
+          expect(response.statusCode).to.equal(200);
         });
       });
 
