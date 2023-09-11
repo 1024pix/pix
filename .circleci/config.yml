@@ -459,10 +459,10 @@ jobs:
       - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v7-admin-npm-{{ checksum "cachekey" }}
+            - v8-admin-npm-{{ checksum "cachekey" }}
       - run: npm ci
       - save_cache:
-          key: v7-admin-npm-{{ checksum "cachekey" }}
+          key: v8-admin-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
       - run:
