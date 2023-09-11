@@ -94,6 +94,11 @@ workflows:
       - checkout:
           context: Pix
 
+      - root_lint_and_test:
+          context: Pix
+          requires:
+            - checkout
+
       - api_install:
           context: Pix
           requires:
@@ -219,18 +224,41 @@ jobs:
                 git checkout --force -B "$CIRCLE_BRANCH" "$CIRCLE_SHA1"
                 git --no-pager log --no-color -n 1 --format='HEAD is now at %h %s'
             fi
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-root-npm-{{ checksum "cachekey" }}
       - run:
-          name: Lint and test root
-          command: |
-            npm ci
-            npm run lint:scripts
-            npm run lint:yaml
-            npm run test:root
-            rm -rf .git/
+          name: Install root dependencies
+          command: npm ci
+      - save_cache:
+          key: v7-root-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Remove .git folder
+          command: rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
           paths:
             - .
+
+  root_lint_and_test:
+    executor:
+      name: node-docker
+    working_directory: ~/pix
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          name: Lint scripts
+          command: npm run lint:scripts
+      - run:
+          name: Lint yaml
+          command: npm run lint:yaml
+      - run:
+          name: Test
+          command: npm run test:root
 
   api_install:
     executor:
