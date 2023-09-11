@@ -30,6 +30,13 @@ function _generateTimeSeriesChartConfiguration(data) {
             },
           },
         ],
+        yAxes: [
+          {
+            ticks: {
+              min: 0,
+            },
+          },
+        ],
       },
     },
   };
