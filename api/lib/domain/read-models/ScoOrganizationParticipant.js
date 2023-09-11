@@ -54,10 +54,10 @@ class ScoOrganizationParticipant {
 
     if (isCertifiableFromCampaignMostRecent) {
       this.isCertifiable = isCertifiableFromCampaign;
-      this.certifiableAt = this.isCertifiable ? certifiableAtFromCampaign : null;
+      this.certifiableAt = certifiableAtFromCampaign;
     } else {
       this.isCertifiable = isCertifiableFromLearner;
-      this.certifiableAt = this.isCertifiable ? certifiableAtFromLearner : null;
+      this.certifiableAt = certifiableAtFromLearner;
     }
   }
 }

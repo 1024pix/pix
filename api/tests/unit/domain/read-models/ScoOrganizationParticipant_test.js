@@ -31,7 +31,7 @@ describe('Unit | Domain | Read-models | ScoOrganizationParticipant', function ()
 
     // then
     expect(organizationParticipant.isCertifiable).to.be.false;
-    expect(organizationParticipant.certifiableAt).to.be.null;
+    expect(organizationParticipant.certifiableAt).to.be.deep.equal(new Date('2023-01-01'));
   });
 
   it('should return certificability from learner when campaign is null', function () {
