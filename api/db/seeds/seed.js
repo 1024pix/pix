@@ -23,7 +23,7 @@ const seed = async function (knex) {
   await teamDevcompDataBuilder({ databaseBuilder });
 
   await teamAccesDataBuilder(databaseBuilder);
-  await team1dDataBuilder({ databaseBuilder });
+  await team1dDataBuilder(databaseBuilder);
   await teamContenuDataBuilder({ databaseBuilder });
   await teamCertificationDataBuilder({ databaseBuilder });
   await teamEvaluationDataBuilder({ databaseBuilder });
