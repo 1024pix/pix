@@ -10,11 +10,20 @@ import {
 import { Assessment, TrainingTrigger } from '../../../../lib/domain/models/index.js';
 import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
 import { createServer } from '../../../../server.js';
+import _ from 'lodash';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
   let server;
   let user, assessment;
+  const easyChallengeParams = {
+    alpha: 1,
+    delta: -3,
+  };
+  const hardChallengeParams = {
+    alpha: 1,
+    delta: 3,
+  };
   const learningContent = [
     {
       id: 'recArea0',
@@ -29,17 +38,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                   id: 'recSkill0_0',
                   nom: '@recSkill0_0',
                   level: 2,
-                  challenges: [{ id: 'recChallenge0_0_0' }],
+                  challenges: [{ id: 'recChallenge0_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill0_1',
                   nom: '@recSkill0_1',
-                  challenges: [{ id: 'recChallenge0_1_0' }],
+                  challenges: [{ id: 'recChallenge0_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill0_2',
                   nom: '@recSkill0_2',
-                  challenges: [{ id: 'recChallenge0_2_0' }],
+                  challenges: [{ id: 'recChallenge0_2_0', ...hardChallengeParams }],
                 },
               ],
             },
@@ -54,17 +63,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill1_0',
                   nom: '@recSkill1_0',
-                  challenges: [{ id: 'recChallenge1_0_0' }],
+                  challenges: [{ id: 'recChallenge1_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill1_1',
                   nom: '@recSkill1_1',
-                  challenges: [{ id: 'recChallenge1_1_0' }],
+                  challenges: [{ id: 'recChallenge1_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill1_2',
                   nom: '@recSkill1_2',
-                  challenges: [{ id: 'recChallenge1_2_0' }],
+                  challenges: [{ id: 'recChallenge1_2_0', ...hardChallengeParams }],
                 },
               ],
             },
@@ -79,17 +88,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill2_0',
                   nom: '@recSkill2_0',
-                  challenges: [{ id: 'recChallenge2_0_0' }],
+                  challenges: [{ id: 'recChallenge2_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill2_1',
                   nom: '@recSkill2_1',
-                  challenges: [{ id: 'recChallenge2_1_0' }],
+                  challenges: [{ id: 'recChallenge2_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill2_2',
                   nom: '@recSkill2_2',
-                  challenges: [{ id: 'recChallenge2_2_0' }],
+                  challenges: [{ id: 'recChallenge2_2_0', ...hardChallengeParams }],
                 },
               ],
             },
@@ -104,17 +113,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill3_0',
                   nom: '@recSkill3_0',
-                  challenges: [{ id: 'recChallenge3_0_0' }],
+                  challenges: [{ id: 'recChallenge3_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill3_1',
                   nom: '@recSkill3_1',
-                  challenges: [{ id: 'recChallenge3_1_0' }],
+                  challenges: [{ id: 'recChallenge3_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill3_2',
                   nom: '@recSkill3_2',
-                  challenges: [{ id: 'recChallenge3_2_0' }],
+                  challenges: [{ id: 'recChallenge3_2_0', ...hardChallengeParams }],
                 },
               ],
             },
@@ -129,17 +138,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill4_0',
                   nom: '@recSkill4_0',
-                  challenges: [{ id: 'recChallenge4_0_0' }],
+                  challenges: [{ id: 'recChallenge4_0_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill4_1',
                   nom: '@recSkill4_1',
-                  challenges: [{ id: 'recChallenge4_1_0' }],
+                  challenges: [{ id: 'recChallenge4_1_0', ...easyChallengeParams }],
                 },
                 {
                   id: 'recSkill4_2',
                   nom: '@recSkill4_2',
-                  challenges: [{ id: 'recChallenge4_2_0' }],
+                  challenges: [{ id: 'recChallenge4_2_0', ...hardChallengeParams }],
                 },
               ],
             },
@@ -323,51 +332,135 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   });
 
   context('when assessment is of type certification', function () {
-    let certifiableUserId;
-    let certificationAssessmentId;
+    context('when certification is v2', function () {
+      let certifiableUserId;
+      let certificationAssessmentId;
 
-    beforeEach(function () {
-      const limitDate = new Date('2020-01-01T00:00:00Z');
-      const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
-      certifiableUserId = databaseBuilder.factory.buildUser().id;
+      beforeEach(function () {
+        const limitDate = new Date('2020-01-01T00:00:00Z');
+        const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
+        certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-      const competenceIdSkillIdPairs =
-        databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-          learningContent,
+        const competenceIdSkillIdPairs =
+          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
+            learningContent,
+            userId: certifiableUserId,
+            placementDate: limitDate,
+            earnedPix: 8,
+          });
+
+        certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
+          certifiableUserId,
+          competenceIdSkillIdPairs,
+          limitDate: dateAfterLimitDate,
+        }).id;
+
+        return databaseBuilder.commit();
+      });
+
+      afterEach(async function () {
+        await knex('certification-courses-last-assessment-results').delete();
+        await knex('competence-marks').delete();
+        await knex('assessment-results').delete();
+      });
+
+      it('should complete the certification assessment', async function () {
+        // given
+        options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
+    context('when certification is v3', function () {
+      let certifiableUserId;
+      let certificationAssessment;
+
+      beforeEach(function () {
+        const limitDate = new Date('2020-01-01T00:00:00Z');
+        certifiableUserId = databaseBuilder.factory.buildUser().id;
+
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
           userId: certifiableUserId,
-          placementDate: limitDate,
-          earnedPix: 8,
+          createdAt: limitDate,
+          version: 3,
+        }).id;
+        certificationAssessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId,
+          userId: certifiableUserId,
+          state: Assessment.states.STARTED,
+          type: Assessment.types.CERTIFICATION,
+          createdAt: limitDate,
         });
 
-      certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
-        certifiableUserId,
-        competenceIdSkillIdPairs,
-        limitDate: dateAfterLimitDate,
-      }).id;
-      databaseBuilder.factory.buildBadge().id;
+        _buildValidAnswersAndCertificationChallenges({
+          assessmentId: certificationAssessment.id,
+          certificationCourseId,
+        });
+        databaseBuilder.factory.buildBadge();
 
-      return databaseBuilder.commit();
-    });
+        return databaseBuilder.commit();
+      });
 
-    afterEach(async function () {
-      await knex('certification-courses-last-assessment-results').delete();
-      await knex('competence-marks').delete();
-      await knex('assessment-results').delete();
-    });
+      afterEach(async function () {
+        await knex('certification-courses-last-assessment-results').delete();
+        await knex('competence-marks').delete();
+        await knex('assessment-results').delete();
+      });
 
-    it('should complete the certification assessment', async function () {
-      // given
-      options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
-      options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+      it('should complete the certification assessment', async function () {
+        // given
+        options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
 
-      // when
-      const response = await server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      expect(response.statusCode).to.equal(204);
+        // then
+        expect(response.statusCode).to.equal(204);
+
+        const assessmentResult = await knex('assessment-results')
+          .where({
+            assessmentId: certificationAssessment.id,
+          })
+          .first();
+
+        expect(assessmentResult.pixScore).to.exist;
+      });
     });
   });
 });
+
+function _buildValidAnswersAndCertificationChallenges({ certificationCourseId, assessmentId }) {
+  const answers = _.flatten(
+    _.range(0, 3).map((skillIndex) =>
+      _.range(0, 3).map((level) => {
+        return databaseBuilder.factory.buildAnswer({
+          challengeId: `recChallenge${skillIndex}_${level}_0`,
+          result: 'ok',
+          assessmentId: assessmentId,
+        });
+      }),
+    ),
+  );
+
+  const certificationChallenges = answers.map(({ challengeId }) =>
+    databaseBuilder.factory.buildCertificationChallenge({
+      challengeId,
+      courseId: certificationCourseId,
+    }),
+  );
+
+  return {
+    answers,
+    certificationChallenges,
+  };
+}
 
 async function _createAndCompleteCampaignParticipation({ user, campaign, badge, options, server }) {
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({

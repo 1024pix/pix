@@ -27,6 +27,7 @@ import { buildCampaignToStartParticipation } from './build-campaign-to-start-par
 import { buildCertifiableBadgeAcquisition } from './build-certifiable-badge-acquisition.js';
 import { buildCertificationAssessment } from './build-certification-assessment.js';
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
+import { buildCertificationAssessmentScoreV3 } from './build-certification-assessment-score-v3.js';
 import { buildCertificationCandidate } from './build-certification-candidate.js';
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
@@ -182,6 +183,7 @@ export {
   buildCertifiableBadgeAcquisition,
   buildCertificationAssessment,
   buildCertificationAssessmentScore,
+  buildCertificationAssessmentScoreV3,
   buildCertificationCandidate,
   buildCertificationCandidateForSupervising,
   buildCertificationCandidateSubscription,
