@@ -5,6 +5,7 @@ import { Validator } from '../../../../lib/domain/models/Validator.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Activity } from '../../../../lib/domain/models/Activity.js';
+import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {
@@ -285,6 +286,112 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(challenges[0].validator.solution.id).to.equal(challenge.id);
       expect(challenges[0].validator.solution.type).to.equal(challenge.type);
       expect(challenges[0].validator.solution.value).to.equal(challenge.solution);
+    });
+  });
+
+  describe('#getActivitiyChallengesFor1d', function () {
+    it('should return an error when the mission is not found', async function () {
+      // given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TUTORIAL;
+
+      mockLearningContent({
+        tubes: [],
+      });
+
+      // when
+      const error = await catchErr(challengeRepository.getActivityChallengesFor1d)({
+        missionId,
+        activityLevel,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal("Aucune mission trouvée pour l'identifiant : recCHAL1");
+    });
+    it('should return an error when the tube associated to the activity level is not found', async function () {
+      // given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TRAINING;
+      const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId: 'tubeId' });
+      const otherLevelTube = learningContentBuilder.buildTube({
+        id: 'otherTubeId',
+        thematicId: missionId,
+        name: '@rechercher_va',
+      });
+
+      mockLearningContent({
+        skills: [skill],
+        tubes: [otherLevelTube],
+      });
+
+      // when
+      const error = await catchErr(challengeRepository.getActivityChallengesFor1d)({
+        missionId,
+        activityLevel,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal('Aucun challenge trouvé pour la mission : recCHAL1 et le niveau TRAINING');
+    });
+    it('should return the challenges of the activity ', async function () {
+      // given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TRAINING;
+      const skill1 = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_en1', tubeId: 'tubeId' });
+      const skill2 = learningContentBuilder.buildSkill({ id: 'recSkill2', name: '@rechercher_en2', tubeId: 'tubeId' });
+      const tube = learningContentBuilder.buildTube({ id: 'tubeId', thematicId: missionId, name: '@rechercher_en' });
+      const challenge1 = learningContentBuilder.buildChallenge({ id: 'challengeId', skillId: skill1.id });
+      const challenge2 = learningContentBuilder.buildChallenge({ id: 'challengeId2', skillId: skill2.id });
+
+      mockLearningContent({
+        skills: [skill1, skill2],
+        challenges: [challenge1, challenge2],
+        tubes: [tube],
+      });
+
+      // when
+      const challenges = await challengeRepository.getActivityChallengesFor1d({ missionId, activityLevel });
+
+      // then
+      const expectedChallenge1 = domainBuilder.buildChallenge({ id: challenge1.id, skill: null });
+      const expectedChallenge2 = domainBuilder.buildChallenge({ id: challenge2.id, skill: null });
+
+      expect(challenges).to.have.lengthOf(2);
+      expect(challenges[0]).to.have.lengthOf(1);
+      expect(_.omit(challenges[0][0], ['validator'])).to.deep.equal(_.omit(expectedChallenge1, ['validator']));
+      expect(challenges[1]).to.have.lengthOf(1);
+      expect(_.omit(challenges[1][0], ['validator'])).to.deep.equal(_.omit(expectedChallenge2, ['validator']));
+    });
+    it('should return the challenges of the activity with alternatives', async function () {
+      // given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TRAINING;
+      const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_en1', tubeId: 'tubeId' });
+      const tube = learningContentBuilder.buildTube({ id: 'tubeId', thematicId: missionId, name: '@rechercher_en' });
+      const challenge = learningContentBuilder.buildChallenge({ id: 'challengeId', skillId: skill.id });
+      const challengeAlternative = learningContentBuilder.buildChallenge({ id: 'challengeId2', skillId: skill.id });
+
+      mockLearningContent({
+        skills: [skill],
+        challenges: [challenge, challengeAlternative],
+        tubes: [tube],
+      });
+
+      // when
+      const challenges = await challengeRepository.getActivityChallengesFor1d({ missionId, activityLevel });
+
+      // then
+      const expectedChallenge = domainBuilder.buildChallenge({ id: challenge.id, skill: null });
+      const expectedChallengeAlternative = domainBuilder.buildChallenge({ id: challengeAlternative.id, skill: null });
+
+      expect(challenges).to.have.lengthOf(1);
+      expect(challenges[0]).to.have.lengthOf(2);
+      expect(_.omit(challenges[0][0], ['validator'])).to.deep.equal(_.omit(expectedChallenge, ['validator']));
+      expect(_.omit(challenges[0][1], ['validator'])).to.deep.equal(
+        _.omit(expectedChallengeAlternative, ['validator']),
+      );
     });
   });
 

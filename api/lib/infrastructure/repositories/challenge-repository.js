@@ -48,7 +48,7 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
     if (missionNamePrefix.length === 0) {
       throw new NotFoundError(`Aucune mission trouvée pour l'identifiant : ${missionId}`);
     }
-    const skillNamePrefix = _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel);
+    const skillNamePrefix = _getPix1dActivityLevelTubeName(missionNamePrefix, activityLevel);
     const skillName = `${skillNamePrefix}${challengeNumber}`;
     const skills = await skillDatasource.findAllByName(skillName);
     if (skills.length === 0) {
@@ -68,13 +68,37 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
   }
 };
 
+const getActivityChallengesFor1d = async function ({ missionId, activityLevel }) {
+  const missionNamePrefix = await _getMissionNamePrefix(missionId);
+  if (missionNamePrefix.length === 0) {
+    throw new NotFoundError(`Aucune mission trouvée pour l'identifiant : ${missionId}`);
+  }
+  const activityLevelTubeName = _getPix1dActivityLevelTubeName(missionNamePrefix, activityLevel);
+  const [activityLevelTube] = await tubeDatasource.findByNames([activityLevelTubeName]);
+  if (activityLevelTube === undefined) {
+    _throwNotFoundError(activityLevel, missionId);
+  }
+  const skills = await skillDatasource.findActiveByTubeId(activityLevelTube.id);
+
+  let allLevelChallenges;
+  try {
+    allLevelChallenges = await Promise.all(skills.map((skill) => challengeDatasource.getBySkillId(skill.id)));
+  } catch (error) {
+    if (error instanceof LearningContentResourceNotFound) {
+      _throwNotFoundError(activityLevel, missionId);
+    }
+    throw error;
+  }
+  return allLevelChallenges.map((challenges) => _toDomainCollection({ challengeDataObjects: challenges }));
+};
+
 async function _getMissionNamePrefix(missionId) {
   const [firstTube] = await tubeDatasource.findByThematicId(missionId);
   const activityName = firstTube === undefined ? '' : firstTube.name;
   return activityName.split('_')[0];
 }
 
-function _getPix1dSkillNamePrefix(missionNamePrefix, activityLevel) {
+function _getPix1dActivityLevelTubeName(missionNamePrefix, activityLevel) {
   return `${missionNamePrefix}_${_getPix1dLevelName(activityLevel)}`;
 }
 
@@ -97,9 +121,12 @@ function _getPix1dLevelName(activityLevel) {
 }
 
 function _throwNotFoundError(activityLevel, missionId, challengeNumber) {
-  throw new NotFoundError(
-    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
-  );
+  if (challengeNumber) {
+    throw new NotFoundError(
+      `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
+    );
+  }
+  throw new NotFoundError(`Aucun challenge trouvé pour la mission : ${missionId} et le niveau ${activityLevel}`);
 }
 
 const getMany = async function (ids) {
@@ -185,6 +212,7 @@ const findValidatedBySkillId = async function (skillId) {
 export {
   get,
   getChallengeFor1d,
+  getActivityChallengesFor1d,
   getMany,
   list,
   findValidated,
