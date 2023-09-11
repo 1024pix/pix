@@ -1,7 +1,7 @@
 import { Activity } from '../../models/Activity.js';
 import { logger } from '../../../infrastructure/logger.js';
 
-export { getNextActivityLevel };
+export const pix1dService = { getNextActivityLevel };
 
 const { TUTORIAL, TRAINING, VALIDATION, CHALLENGE } = Activity.levels;
 const { SUCCEEDED, FAILED, SKIPPED } = Activity.status;

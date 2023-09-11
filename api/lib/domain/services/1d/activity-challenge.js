@@ -1,6 +1,8 @@
 import { challengeService } from './challenge.js';
 import { Activity } from '../../models/index.js';
 import { getLastAnswerStatus } from './last-answer-status.js';
+import { pix1dService } from '../algorithm-methods/pix1d.js';
+
 const FIRST_CHALLENGE_NB = 1;
 
 async function getChallengeForCurrentActivity({ currentActivity, missionId, challengeRepository, answers }) {
@@ -11,7 +13,7 @@ async function getChallengeForCurrentActivity({ currentActivity, missionId, chal
       activityLevel: currentActivity.level,
       challengeNumber,
       challengeRepository,
-      alternativeVersion: currentActivity.alternativeVersion,
+      alternativeVersion: _convertAlternativeVersionToUndefined(currentActivity.alternativeVersion),
     });
   }
 }
@@ -20,17 +22,20 @@ function _shouldLookForNextChallengeInActivity(answers) {
   return getLastAnswerStatus(answers) === 'ok' || answers.length === 0;
 }
 
-async function getNextActivityChallenge({
-  missionId,
-  assessmentId,
-  nextActivityLevel,
-  challengeRepository,
-  activityRepository,
-}) {
-  const challenge = await challengeService.getStartChallenge({
+async function getNextActivityChallenge({ missionId, assessmentId, challengeRepository, activityRepository }) {
+  const allActivities = await activityRepository.getAllByAssessmentId(assessmentId);
+  const nextActivityLevel = pix1dService.getNextActivityLevel(allActivities);
+
+  const alreadyPlayedAlternativeVersions = allActivities
+    .filter((activity) => activity.level === nextActivityLevel)
+    .map((activity) => _convertAlternativeVersionToUndefined(activity.alternativeVersion));
+  if (nextActivityLevel === undefined) {
+    return;
+  }
+  const alternativeVersion = await challengeService.getAlternativeVersion({
     missionId,
     activityLevel: nextActivityLevel,
-    challengeNumber: FIRST_CHALLENGE_NB,
+    alreadyPlayedAlternativeVersions,
     challengeRepository,
   });
 
@@ -39,15 +44,29 @@ async function getNextActivityChallenge({
       assessmentId,
       level: nextActivityLevel,
       status: Activity.status.STARTED,
-      alternativeVersion: _getAlternativeVersion(challenge.alternativeVersion),
+      alternativeVersion: _convertAlternativeVersionTo0(alternativeVersion),
     }),
   );
-  return challenge;
+
+  return await challengeService.getChallenge({
+    missionId,
+    activityLevel: nextActivityLevel,
+    challengeNumber: FIRST_CHALLENGE_NB,
+    alternativeVersion,
+    challengeRepository,
+  });
 }
 
-function _getAlternativeVersion(alternativeVersion) {
+function _convertAlternativeVersionTo0(alternativeVersion) {
   if (alternativeVersion === undefined) {
-    alternativeVersion = 0;
+    return 0;
+  }
+  return alternativeVersion;
+}
+
+function _convertAlternativeVersionToUndefined(alternativeVersion) {
+  if (alternativeVersion === 0) {
+    return undefined;
   }
   return alternativeVersion;
 }
