@@ -261,7 +261,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
       describe('#participantCount', function () {
         it('should only count learners in currentOrganization', async function () {
           // given
-          expectedPrescriber.userOrgaSettings = userOrgaSettings;
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
           });
@@ -278,7 +277,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         it('should not count anonymous users', async function () {
           // given
           const userId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
-          expectedPrescriber.userOrgaSettings = userOrgaSettings;
           databaseBuilder.factory.buildOrganizationLearner({
             userId,
             organizationId: organization.id,
@@ -294,7 +292,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
 
         it('should not count disabled organization learners', async function () {
           // given
-          expectedPrescriber.userOrgaSettings = userOrgaSettings;
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             isDisabled: true,
@@ -310,7 +307,6 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
 
         it('should count all organization learners when several exists', async function () {
           // given
-          expectedPrescriber.userOrgaSettings = userOrgaSettings;
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
           });

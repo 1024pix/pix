@@ -94,9 +94,8 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
     );
-
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'))).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'), { exact: true })).exists();
     assert.dom(screen.getAllByText(this.intl.t('pages.campaign-creation.owner.title'))[0]).exists();
   });
 
@@ -133,14 +132,19 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('common.form.mandatory-fields'))).exists();
+    assert
+      .dom(
+        screen.getByText(this.intl.t('common.form.mandatory-fields'), {
+          exact: false,
+        }),
+      )
+      .exists();
   });
 
   module('when campaign is of type ASSESSMENT', function () {
     test('it should have checked ASSESSMENT', async function (assert) {
       // given
       this.campaign.type = 'ASSESSMENT';
-
       // when
       const screen = await render(
         hbs`<Campaign::CreateForm
