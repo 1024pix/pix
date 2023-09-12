@@ -10,6 +10,10 @@
     line-height: 36px;
   }
 
+  &__card {
+    margin-bottom: $pix-spacing-l;
+  }
+
   &__card-badges {
     .card__content {
       position: relative;
@@ -30,6 +34,16 @@
           left: 50%;
         }
       }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+
+    .pix-button {
+      margin-right: 16px;
     }
   }
 }

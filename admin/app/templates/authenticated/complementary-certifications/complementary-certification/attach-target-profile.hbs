@@ -5,31 +5,47 @@
   </h1>
   <ComplementaryCertifications::Common::LinkToCurrentTargetProfile @model={{@model.currentTargetProfile}} />
 
-  <Card @title="1. Renseigner le nouveau profil cible à rattacher">
-    <ComplementaryCertifications::AttachBadges::TargetProfileSelector
-      @onError={{this.onError}}
-      @onSelection={{this.onSelection}}
-      @onChange={{this.onReset}}
-    />
-  </Card>
-
-  {{#if this.selectedTargetProfile}}
-    <Card class="attach-target-profile__card-badges" @title="2. Complétez les niveaux des résultats thématiques">
-      <ComplementaryCertifications::AttachBadges::Badges
-        @targetProfile={{this.selectedTargetProfile}}
+  <form class="form" {{on "submit" this.onSubmit}}>
+    <Card class="attach-target-profile__card" @title="1. Renseigner le nouveau profil cible à rattacher">
+      <ComplementaryCertifications::AttachBadges::TargetProfileSelector
         @onError={{this.onError}}
-        @onBadgeUpdated={{this.onBadgeUpdated}}
+        @onSelection={{this.onSelection}}
+        @onChange={{this.onReset}}
       />
     </Card>
-  {{/if}}
 
-  <div>
-    <PixButton
-      @size="small"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.cancel}}
-    >Annuler
-    </PixButton>
-  </div>
+    {{#if this.selectedTargetProfile}}
+      <Card
+        class="attach-target-profile__card attach-target-profile__card-badges"
+        @title="2. Complétez les informations des résultats thématiques"
+      >
+        <ComplementaryCertifications::AttachBadges::Badges
+          @targetProfile={{this.selectedTargetProfile}}
+          @onError={{this.onError}}
+          @onBadgeUpdated={{this.onBadgeUpdated}}
+        />
+      </Card>
+    {{/if}}
+
+    <div class="attach-target-profile__actions">
+      <PixButton
+        @type="submit"
+        @size="big"
+        @isBorderVisible={{true}}
+        @isDisabled={{this.isSubmitDisabled}}
+        aria-disabled={{this.isSubmitDisabled}}
+        @isLoading={{this.isSubmitting}}
+      >
+        Rattacher le profil cible
+      </PixButton>
+      <PixButton
+        @size="big"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.onCancel}}
+      >
+        Annuler
+      </PixButton>
+    </div>
+  </form>
 </div>

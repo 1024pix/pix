@@ -22,12 +22,12 @@ export default class Badges extends Component {
   }
 
   @action
-  onBadgeUpdated(badgeId, badgeLevel) {
+  onBadgeUpdated({ badgeId, fieldName, fieldValue }) {
     if (!badgeId) {
       return;
     }
 
-    this.args.onBadgeUpdated({ badgeId, badgeLevel });
+    this.args.onBadgeUpdated({ update: { badgeId, fieldName, fieldValue } });
   }
 
   #initBadges(targetProfile) {
@@ -55,8 +55,7 @@ export default class Badges extends Component {
       .finally(() => (this.isLoading = false));
   }
 
-  #onfetchBadgesError(error) {
-    console.log(error);
+  #onfetchBadgesError() {
     this.args.onError('Une erreur est survenue lors de la recherche de résultats thématiques.');
   }
 
