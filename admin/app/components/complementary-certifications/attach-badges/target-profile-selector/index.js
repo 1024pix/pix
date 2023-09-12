@@ -7,19 +7,22 @@ export default class TargetProfileSelectorComponent extends Component {
   @service notifications;
   @service store;
 
-  @tracked attachableTargetProfiles = [];
+  @tracked attachableTargetProfiles = undefined;
   @tracked isAttachableTargetProfilesLoading = false;
   @tracked selectedTargetProfile;
+  @tracked isNoResult = false;
 
   @action
   onChange() {
     this.selectedTargetProfile = undefined;
-    this.attachableTargetProfiles = [];
+    this.attachableTargetProfiles = undefined;
     this.args.onChange();
   }
 
   @action
   async onSearch(value) {
+    this.isNoResult = false;
+    this.attachableTargetProfiles = undefined;
     const searchTerm = value?.trim();
     const isSearchById = searchTerm && /^\d+$/.test(searchTerm);
     const isSearchByName = searchTerm?.length >= 2;
@@ -28,6 +31,12 @@ export default class TargetProfileSelectorComponent extends Component {
       try {
         this.isAttachableTargetProfilesLoading = true;
         const attachableTargetProfiles = await this.store.query('attachable-target-profile', { searchTerm });
+
+        if (attachableTargetProfiles.length === 0) {
+          this.isNoResult = true;
+          return;
+        }
+
         this.attachableTargetProfiles = attachableTargetProfiles.map((attachableTargetProfile) => ({
           label: `${attachableTargetProfile.id} - ${attachableTargetProfile.name}`,
           value: attachableTargetProfile,
@@ -37,8 +46,6 @@ export default class TargetProfileSelectorComponent extends Component {
       } finally {
         this.isAttachableTargetProfilesLoading = false;
       }
-    } else {
-      this.attachableTargetProfiles = [];
     }
   }
 
