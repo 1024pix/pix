@@ -45,7 +45,7 @@ const serializeMembers = function (certificationCenterMemberships) {
 
 const serializeForAdmin = function (certificationCenterMemberships) {
   return new Serializer('certification-center-memberships', {
-    attributes: ['createdAt', 'certificationCenter', 'user'],
+    attributes: ['role', 'createdAt', 'updatedAt', 'certificationCenter', 'user'],
     certificationCenter: {
       ref: 'id',
       included: true,
