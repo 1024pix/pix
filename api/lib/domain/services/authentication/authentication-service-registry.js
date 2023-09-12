@@ -14,9 +14,16 @@ const allOidcProviderServices = [
 ];
 
 const readyOidcProviderServices = allOidcProviderServices.filter((oidcProvider) => oidcProvider.isReady);
+const readyOidcProviderServicesForPixAdmin = allOidcProviderServices.filter(
+  (oidcProvider) => oidcProvider.isReadyForPixAdmin,
+);
 
 function getReadyOidcProviderServices() {
   return readyOidcProviderServices;
+}
+
+function getReadyOidcProviderServicesForPixAdmin() {
+  return readyOidcProviderServicesForPixAdmin;
 }
 
 function getAllOidcProviderServices() {
@@ -27,7 +34,9 @@ function getOidcProviderServiceByCode(identityProvider, source = 'pix-app') {
   let oidcProviderService;
 
   if (source === 'pix-admin') {
-    oidcProviderService = allOidcProviderServices.find((service) => identityProvider === service.code);
+    oidcProviderService = getReadyOidcProviderServicesForPixAdmin().find(
+      (service) => identityProvider === service.code,
+    );
   } else {
     oidcProviderService = readyOidcProviderServices.find((service) => identityProvider === service.code);
   }
@@ -39,4 +48,9 @@ function getOidcProviderServiceByCode(identityProvider, source = 'pix-app') {
   return oidcProviderService;
 }
 
-export { getReadyOidcProviderServices, getOidcProviderServiceByCode, getAllOidcProviderServices };
+export {
+  getReadyOidcProviderServices,
+  getReadyOidcProviderServicesForPixAdmin,
+  getOidcProviderServiceByCode,
+  getAllOidcProviderServices,
+};

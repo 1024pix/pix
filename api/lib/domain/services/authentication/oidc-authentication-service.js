@@ -26,6 +26,7 @@ const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session
 
 class OidcAuthenticationService {
   #isReady = false;
+  #isReadyForPixAdmin = false;
 
   constructor(
     {
@@ -77,7 +78,8 @@ class OidcAuthenticationService {
     }
 
     const isEnabledInConfig = config[this.configKey].isEnabled;
-    if (!isEnabledInConfig) {
+    const isEnabledInPixAdmin = config[this.configKey].isEnabledInPixAdmin;
+    if (!isEnabledInConfig && !isEnabledInPixAdmin) {
       return;
     }
 
@@ -103,6 +105,7 @@ class OidcAuthenticationService {
 
     this.temporaryStorageConfig = config[this.configKey].temporaryStorage;
     this.#isReady = true;
+    this.#isReadyForPixAdmin = isEnabledInPixAdmin;
   }
 
   get code() {
@@ -111,6 +114,10 @@ class OidcAuthenticationService {
 
   get isReady() {
     return this.#isReady;
+  }
+
+  get isReadyForPixAdmin() {
+    return this.#isReadyForPixAdmin;
   }
 
   createAccessToken(userId) {

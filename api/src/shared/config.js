@@ -108,6 +108,7 @@ const configuration = (function () {
       redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
     },
     cnav: {
+      isEnabledInPixAdmin: false,
       isEnabled: isFeatureEnabled(process.env.CNAV_ENABLED),
       clientId: process.env.CNAV_CLIENT_ID,
       authenticationUrl: process.env.CNAV_AUTHENTICATION_URL,
@@ -176,6 +177,7 @@ const configuration = (function () {
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
     },
     fwb: {
+      isEnabledInPixAdmin: false,
       isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
       clientId: process.env.FWB_CLIENT_ID,
       clientSecret: process.env.FWB_CLIENT_SECRET,
@@ -188,6 +190,16 @@ const configuration = (function () {
       temporaryStorage: {
         idTokenLifespanMs: ms(process.env.FWB_ID_TOKEN_LIFESPAN || '7d'),
       },
+    },
+    google: {
+      isEnabled: false,
+      isEnabledInPixAdmin: isFeatureEnabled(process.env.GOOGLE_ENABLED_IN_PIX_ADMIN),
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      tokenUrl: process.env.GOOGLE_TOKEN_URL,
+      authenticationUrl: process.env.GOOGLE_AUTHENTICATION_URL,
+      userInfoUrl: process.env.GOOGLE_USER_INFO_URL,
+      accessTokenLifespanMs: ms(process.env.GOOGLE_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
     hapi: {
       options: {},
@@ -257,6 +269,7 @@ const configuration = (function () {
       fetchTimeOut: ms(process.env.FETCH_TIMEOUT_MILLISECONDS || '20s'),
     },
     paysdelaloire: {
+      isEnabledInPixAdmin: false,
       isEnabled: isFeatureEnabled(process.env.PAYSDELALOIRE_ENABLED),
       clientId: process.env.PAYSDELALOIRE_CLIENT_ID,
       clientSecret: process.env.PAYSDELALOIRE_CLIENT_SECRET,
@@ -277,6 +290,7 @@ const configuration = (function () {
       monitorStateIntervalSeconds: _getNumber(process.env.PGBOSS_MONITOR_STATE_INTERVAL_SECONDS, undefined),
     },
     poleEmploi: {
+      isEnabledInPixAdmin: false,
       isEnabled: isFeatureEnabled(process.env.POLE_EMPLOI_ENABLED),
       clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
@@ -411,6 +425,13 @@ const configuration = (function () {
 
     config.fwb.isEnabled = false;
     config.fwb.logoutUrl = 'http://logout-url.org';
+
+    config.google.isEnabled = false;
+    config.google.clientId = 'PIX_google_CLIENT_ID';
+    config.google.authenticationUrl = 'http://idp.google/auth';
+    config.google.userInfoUrl = 'http://userInfoUrl.fr';
+    config.google.tokenUrl = 'http://idp.google/token';
+    config.google.clientSecret = 'PIX_GOOGLE_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
 

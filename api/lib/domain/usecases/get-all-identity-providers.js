@@ -1,5 +1,5 @@
 const getAllIdentityProviders = function ({ authenticationServiceRegistry }) {
-  return authenticationServiceRegistry.getAllOidcProviderServices();
+  return authenticationServiceRegistry.getReadyOidcProviderServicesForPixAdmin();
 };
 
 export { getAllIdentityProviders };
