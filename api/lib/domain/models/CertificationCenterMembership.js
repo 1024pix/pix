@@ -20,6 +20,12 @@ class CertificationCenterMembership {
     this.updatedByUserId = updatedByUserId;
     this.updatedAt = updatedAt;
   }
+
+  updateRole({ role, updatedByUserId }) {
+    this.role = role;
+    this.updatedByUserId = updatedByUserId;
+    this.updatedAt = new Date();
+  }
 }
 
 export { CertificationCenterMembership };
