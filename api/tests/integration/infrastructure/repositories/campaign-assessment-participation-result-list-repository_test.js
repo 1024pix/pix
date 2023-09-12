@@ -233,6 +233,75 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
+    context('when there are stages acquired', function () {
+      let stage1, stage2, campaignParticipation1, campaignParticipation2;
+
+      beforeEach(async function () {
+        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
+
+        stage1 = databaseBuilder.factory.buildStage({
+          threshold: 10,
+          campaignId: campaign.id,
+          targetProfileId: campaign.targetProfileId,
+        });
+
+        stage2 = databaseBuilder.factory.buildStage({
+          threshold: 20,
+          campaignId: campaign.id,
+          targetProfileId: campaign.targetProfileId,
+        });
+
+        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+        });
+        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+        });
+
+        databaseBuilder.factory.buildStageAcquisition({
+          campaignParticipationId: campaignParticipation1.id,
+          stageId: stage1.id,
+        });
+        databaseBuilder.factory.buildStageAcquisition({
+          campaignParticipationId: campaignParticipation1.id,
+          stageId: stage2.id,
+        });
+
+        databaseBuilder.factory.buildStageAcquisition({
+          campaignParticipationId: campaignParticipation2.id,
+          stageId: stage1.id,
+        });
+        await databaseBuilder.commit();
+        const learningContent = [
+          {
+            id: 'recArea1',
+            competences: [
+              {
+                id: 'recCompetence1',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [{ id: 'Skill1', name: '@Acquis1', challenges: [] }],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+        const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
+        mockLearningContent(learningContentObjects);
+      });
+
+      it('returns acquired badges during the campaign', async function () {
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        expect(participations[0].reachedStage).to.equal(2);
+        expect(participations[1].reachedStage).to.equal(1);
+      });
+    });
+
     context('when there is a participation deleted', function () {
       beforeEach(async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();

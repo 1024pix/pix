@@ -1,18 +1,24 @@
 import bluebird from 'bluebird';
 import { knex } from '../../../db/knex-database-connection.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
+import * as stageRepository from './stage-repository.js';
+import * as stageAcquisitionRepository from './stage-acquisition-repository.js';
 import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { StageCollection } from '../../domain/models/user-campaign-results/StageCollection.js';
+import { compare } from '../../domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
 async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-  const stageCollection = await stageCollectionRepository.findStageCollection({ campaignId });
+  const stages = await stageRepository.getByCampaignId(campaignId);
+  const acquiredStages = await stageAcquisitionRepository.getByCampaignId(campaignId);
+
+  const stageCollection = await new StageCollection({ campaignId, stages });
 
   const { results, pagination } = await _getResultListPaginated(campaignId, stageCollection, filters, page);
+  const participations = await _buildCampaignAssessmentParticipationResultList(results, stages, acquiredStages);
 
-  const participations = await _buildCampaignAssessmentParticipationResultList(results, stageCollection);
   return {
     participations,
     pagination,
@@ -131,20 +137,22 @@ function _filterByStage(queryBuilder, stageCollection, filters) {
   });
 }
 
-async function _buildCampaignAssessmentParticipationResultList(results, stageCollection) {
+async function _buildCampaignAssessmentParticipationResultList(results, stages, acquiredStages) {
   return await bluebird.mapSeries(results, async (result) => {
     const badges = await getAcquiredBadges(result.campaignParticipationId);
-    const participantReachedStage = stageCollection.getReachedStage(
-      result.validatedSkillsCount,
-      result.masteryRate * 100,
+
+    const acquiredStagesForThisParticipation = acquiredStages.filter(
+      ({ campaignParticipationId }) => campaignParticipationId === result.campaignParticipationId,
     );
+
+    const acquisitionsInfo = compare(stages, acquiredStagesForThisParticipation);
 
     return new CampaignAssessmentParticipationResultMinimal({
       ...result,
-      reachedStage: participantReachedStage.reachedStage,
-      totalStage: participantReachedStage.totalStage,
-      prescriberTitle: participantReachedStage.prescriberTitle,
-      prescriberDescription: participantReachedStage.prescriberDescription,
+      reachedStage: acquisitionsInfo.reachedStageNumber,
+      totalStage: acquisitionsInfo.totalNumberOfStages,
+      prescriberTitle: acquisitionsInfo.reachedStage?.prescriberTitle,
+      prescriberDescription: acquisitionsInfo.reachedStage?.prescriberDescription,
       badges,
     });
   });
