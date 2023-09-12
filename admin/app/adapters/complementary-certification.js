@@ -11,7 +11,7 @@ export default class ComplementaryCertificationAdapter extends ApplicationAdapte
     return `${this.host}/${this.namespace}/complementary-certifications/${id}/badges`;
   }
 
-  async updateRecord(store, type, complementaryCertification) {
+  async updateRecord(_, type, complementaryCertification) {
     if (complementaryCertification.adapterOptions?.attachBadges) {
       const payload = this.serialize(complementaryCertification);
       delete payload.data.attributes['key'];
@@ -19,8 +19,9 @@ export default class ComplementaryCertificationAdapter extends ApplicationAdapte
       delete payload.data.attributes['has-external-jury'];
       delete payload.data.attributes['target-profiles-history'];
 
-      const { targetProfileId } = complementaryCertification.adapterOptions;
+      const { targetProfileId, notifyOrganizations } = complementaryCertification.adapterOptions;
       payload.data.attributes['target-profile-id'] = targetProfileId;
+      payload.data.attributes['notify-organizations'] = notifyOrganizations;
 
       const complementaryCertificationBadges =
         complementaryCertification.hasMany('complementaryCertificationBadges') ?? [];
