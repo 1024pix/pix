@@ -76,7 +76,7 @@
     "scalingo": "^0.8.0",
     "schemalint": "^1.0.0",
     "validator": "^13.7.0",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.1/xlsx-0.19.1.tgz",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.6.0",
     "xmlbuilder2": "^3.0.2",
