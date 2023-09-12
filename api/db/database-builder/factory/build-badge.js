@@ -1,6 +1,7 @@
 import { databaseBuffer } from '../database-buffer.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import _ from 'lodash';
+import { randomUUID } from 'crypto';
 
 function buildBadge({
   id = databaseBuffer.getNextId(),
@@ -8,11 +9,12 @@ function buildBadge({
   imageUrl = '/img_funny.svg',
   message = 'message',
   title = 'title',
-  key = 'key',
+  key,
   isCertifiable = false,
   targetProfileId,
   isAlwaysVisible = false,
 } = {}) {
+  key = _.isUndefined(key) ? `key_${randomUUID()}` : key;
   targetProfileId = !_.isUndefined(targetProfileId) ? targetProfileId : buildTargetProfile().id;
 
   const values = {
