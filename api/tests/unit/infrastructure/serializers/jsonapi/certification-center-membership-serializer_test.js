@@ -157,7 +157,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
             id: certificationCenterMembership.id.toString(),
             type: 'certification-center-memberships',
             attributes: {
+              role: certificationCenterMembership.role,
               'created-at': certificationCenterMembership.createdAt,
+              'updated-at': certificationCenterMembership.updatedAt,
             },
             relationships: {
               'certification-center': {
