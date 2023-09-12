@@ -23,6 +23,11 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       assert.dom(getByText(rows[0], 'ID')).exists();
       assert.dom(getByText(rows[0], 'Nom')).exists();
       assert.dom(getByText(rows[0], 'Niveau')).exists();
+      assert.dom(getByText(rows[0], 'Image svg certificat Pix App')).exists();
+      assert.dom(getByText(rows[0], 'Label du certificat')).exists();
+      assert.dom(getByText(rows[0], "Macaron de l'attestation PDF")).exists();
+      assert.dom(getByText(rows[0], 'Message du certificat')).exists();
+      assert.dom(getByText(rows[0], 'Message temporaire certificat')).exists();
     });
   });
 
@@ -36,33 +41,52 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       // when
       const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @options={{this.options}}
-        @onUpdateLevel={{this.noop}}
+        @onBadgeUpdated={{this.noop}}
       />`);
 
       // then
       assert.strictEqual(screen.getAllByRole('row').length, 2);
       assert.dom(screen.getByRole('row', { name: 'Résultat thématique 12 BoyNextDoor One And Only' })).exists();
-      assert.dom(screen.getByRole('spinbutton')).exists();
+      assert.dom(screen.getByText('12')).exists();
+      assert.dom(screen.getByText('BoyNextDoor One And Only')).exists();
+      assert.dom(screen.getByRole('spinbutton', { name: '12 BoyNextDoor One And Only Niveau' })).exists();
+      assert
+        .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' }))
+        .exists();
+      assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Label du certificat' })).exists();
+      assert
+        .dom(screen.getByRole('textbox', { name: "12 BoyNextDoor One And Only Macaron de l'attestation PDF" }))
+        .exists();
+      assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message du certificat' })).exists();
+      assert
+        .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message temporaire certificat' }))
+        .exists();
     });
 
-    test('it should call trigger on level update', async function (assert) {
+    test('it should call trigger action when a badge is updated', async function (assert) {
       // given
       const badges = [{ id: 12, label: 'BoyNextDoor One And Only' }];
       this.set('options', badges);
-      const onUpdateLevel = sinon.stub();
-      this.set('onUpdateLevel', onUpdateLevel);
+      const onBadgeUpdated = sinon.stub();
+      this.set('onBadgeUpdated', onBadgeUpdated);
 
       // when
       const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
         @options={{this.options}}
-        @onUpdateLevel={{this.onUpdateLevel}}
+        @onBadgeUpdated={{this.onBadgeUpdated}}
       />`);
 
-      const input = screen.getByRole('spinbutton');
-      await fillIn(input, '1');
+      const input = screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' });
+      await fillIn(input, 'image');
 
       // then
-      assert.ok(onUpdateLevel.calledOnceWith('12', '1'));
+      assert.ok(
+        onBadgeUpdated.calledOnceWith({
+          badgeId: 12,
+          fieldName: 'certificate-image',
+          fieldValue: 'image',
+        }),
+      );
     });
   });
 

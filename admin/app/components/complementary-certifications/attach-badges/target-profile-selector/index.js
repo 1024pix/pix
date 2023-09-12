@@ -33,7 +33,6 @@ export default class TargetProfileSelectorComponent extends Component {
           value: attachableTargetProfile,
         }));
       } catch (e) {
-        console.log(e);
         this.args.onError('Une erreur est survenue lors de la recherche de profils cibles.');
       } finally {
         this.isAttachableTargetProfilesLoading = false;
