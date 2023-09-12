@@ -116,7 +116,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     // Acquired + Certifiables
     {
       altMessage: '1 RT certifiable, acquis et valide',
-      imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+      imageUrl: 'https://images.pix.fr/badges/Badge_Pixome%CC%80tre-plane%CC%80te.svg',
       message: '1 RT certifiable, acquis et valide',
       title: '1 RT certifiable, acquis et valide',
       isCertifiable: true,
