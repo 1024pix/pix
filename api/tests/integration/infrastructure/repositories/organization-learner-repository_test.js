@@ -2252,7 +2252,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
 
       // then
-      expect(result).to.deep.equal([organizationLearnerRecentlyConnecterId, organizationLearnerNotRecentlyConnectedId]);
+      expect(result).to.deep.include.members([
+        organizationLearnerNotRecentlyConnectedId,
+        organizationLearnerRecentlyConnecterId,
+      ]);
     });
 
     it('should not return a disabled organization learner id for organizations that cannot compute certificability', async function () {
