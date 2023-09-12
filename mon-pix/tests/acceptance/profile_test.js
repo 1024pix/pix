@@ -1,5 +1,5 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, getByTextWithHtml, queryByTextWithHtml } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { authenticate } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-qunit';
@@ -14,6 +14,7 @@ module('Acceptance | Profile', function (hooks) {
 
   hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
+    this.url = this.owner.lookup('service:url');
   });
 
   module('Authenticated cases as simple user', function (hooks) {
@@ -75,20 +76,29 @@ module('Acceptance | Profile', function (hooks) {
           await visit('/competences');
 
           // then
-          assert.dom('.new-information-content__text').exists();
+          assert.ok(
+            getByTextWithHtml(
+              this.intl.t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
+            ),
+          );
         });
       });
 
       module('user has closed the banner', function () {
         test('should not display the level seven information banner', async function (assert) {
           // given
-          await visit('/competences');
+          const screen = await visit('/competences');
 
           // when
-          await click('.new-information__close.new-information--black-text');
+          await click(screen.getByRole('button', { name: this.intl.t('common.new-information-banner.close-label') }));
 
           // then
-          assert.dom('.new-information-content__text').doesNotExist();
+          assert.strictEqual(
+            queryByTextWithHtml(
+              this.intl.t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
+            ),
+            null,
+          );
         });
       });
     });
@@ -102,8 +112,12 @@ module('Acceptance | Profile', function (hooks) {
         // when
         await visit('/competences');
 
-        // then
-        assert.dom('.new-information-content__text').doesNotExist();
+        assert.strictEqual(
+          queryByTextWithHtml(
+            this.intl.t('common.new-information-banner.lvl-seven', { lvlSevenUrl: this.url.levelSevenNewsUrl }),
+          ),
+          null,
+        );
       });
     });
   });
