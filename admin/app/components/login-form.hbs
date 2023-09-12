@@ -1,10 +1,11 @@
-<form class="login-form" {{on "submit" this.authenticateUser}}>
+<header class="login-form__header">
+  <img class="login-form__logo" src="/logo-pix.png" alt="Pix Admin" />
+  <h1 class="screen-reader-only">Connectez-vous</h1>
+</header>
 
-  {{#if this.errorMessage}}
-    <div class="login-form__control">
-      <p class="login-form__error">{{this.errorMessage}}</p>
-    </div>
-  {{/if}}
+<p class="login-form__information">L'accès à Pix Admin est limité aux administrateurs de la plateforme.</p>
+
+<form class="login-form" {{on "submit" this.authenticateUser}}>
 
   <div class="login-form__control">
     <Input
@@ -28,6 +29,12 @@
       autocomplete="true"
     />
   </div>
+
+  {{#if this.errorMessage}}
+    <PixMessage @type="alert">
+      {{this.errorMessage}}
+    </PixMessage>
+  {{/if}}
 
   <div class="login-form__control">
     <PixButton @type="submit" @size="small" class="login-form__button">Je me connecte</PixButton>

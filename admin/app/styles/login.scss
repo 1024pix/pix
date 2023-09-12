@@ -5,69 +5,61 @@
   left: 0;
   width: 100%;
   height: 100%;
-  color: $pix-neutral-0;
-  background: $pix-primary-app-gradient;
-}
+  color: $pix-neutral-80;
+  background: linear-gradient(180deg, #ac3dff 0%, #7712ff 100%);
 
-.login-page__main {
-  width: 400px;
-  margin: 0 auto;
-}
-
-.login-page__header {
-  height: 129px;
-  margin-top: 48px;
-  text-align: center;
-
-  &__title {
-    margin-bottom: $pix-spacing-s;
+  &__main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-size: cover;
   }
-}
 
-.login-page__section--login-form {
-  margin: 48px 0;
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: $pix-spacing-m;
+    align-items: center;
+    max-width: 609px;
+    margin-bottom: $pix-spacing-s;
+    padding: 40px 60px;
+    background-color: $pix-neutral-0;
+    border-radius: 10px;
+  }
 }
 
 .login-form {
-  box-sizing: border-box;
-  padding: 48px;
-  background: $pix-neutral-0;
-  border-radius: 3px;
-  box-shadow: 0 10px 10px rgb(0 0 0 / 10%);
-}
+  display: flex;
+  flex-direction: column;
+  gap: $pix-spacing-m;
+  width: 100%;
 
-.login-form__error {
-  padding: 8px;
-  color: $pix-neutral-0;
-  background-color: $pix-error-50;
-  border-radius: 3px;
-  
-  & a {
-    text-decoration: underline;
+  &__field {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  &__button {
+    width: 100%;
+  }
+
+  &__information {
+    padding-bottom: 30px;
+    color: $pix-neutral-80;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__logo {
+    width: 120px;
   }
 }
 
-.login-form__control {
-  box-sizing: border-box;
-  width: 100%;
-  margin-top: 24px;
-  cursor: pointer;
-}
-
-.login-form__control:first-child {
-  margin-top: 0;
-}
-
-.login-form__field {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 8px;
-  font-size: 14px;
-  line-height: 22px;
-  border: 1px solid $pix-neutral-22;
-  border-radius: 3px;
-}
-
-.login-form__button {
-  width: 100%;
-}

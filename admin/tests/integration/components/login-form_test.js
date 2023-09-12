@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render as renderScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
@@ -13,22 +13,23 @@ const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 module('Integration | Component | login-form', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  test('should displays login information', async function (assert) {
+    // when
+    const screen = await render(hbs`<LoginForm />`);
+
+    // then
+    assert.dom(screen.getByRole('heading', { name: 'Connectez-vous' })).exists();
+    assert.dom(screen.getByText("L'accès à Pix Admin est limité aux administrateurs de la plateforme.")).exists();
+  });
+
   test('it displays a entry form', async function (assert) {
     // when
-    const screen = await renderScreen(hbs`<LoginForm />`);
+    const screen = await render(hbs`<LoginForm />`);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
     assert.dom(screen.getByLabelText('Mot de passe')).exists();
     assert.dom(screen.getByRole('button', { name: 'Je me connecte' })).exists();
-  });
-
-  test('should hide error message by default', async function (assert) {
-    // when
-    await renderScreen(hbs`<LoginForm />`);
-
-    // then
-    assert.dom('p.login-form__error').doesNotExist();
   });
 
   module('Error management', function (hooks) {
@@ -58,7 +59,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await renderScreen(hbs`<LoginForm />`);
+      const screen = await render(hbs`<LoginForm />`);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
@@ -84,7 +85,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await renderScreen(hbs`<LoginForm />`);
+      const screen = await render(hbs`<LoginForm />`);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@');
@@ -103,7 +104,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await renderScreen(hbs`<LoginForm />`);
+      const screen = await render(hbs`<LoginForm />`);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
@@ -129,7 +130,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await renderScreen(hbs`<LoginForm />`);
+      const screen = await render(hbs`<LoginForm />`);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
@@ -148,7 +149,7 @@ module('Integration | Component | login-form', function (hooks) {
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
-      const screen = await renderScreen(hbs`<LoginForm />`);
+      const screen = await render(hbs`<LoginForm />`);
 
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
