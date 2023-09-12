@@ -9,13 +9,26 @@
       @triggerFiltering={{this.onSearchValueInput}}
       autocomplete="off"
     />
-    {{#if (or @isLoading @options.length)}}
-      <ul role="listbox" class="attach-target-profile-search__results" aria-busy="{{@isLoading}}">
-        {{#if @isLoading}}
-          <li class="attach-target-profile-search__results__loader" role="progressbar">
-            Recherche en cours...
-          </li>
-        {{/if}}
+
+    {{#if @isLoading}}
+      <span class="attach-target-profile-search__loader" role="progressbar">
+        Recherche en cours...
+      </span>
+    {{/if}}
+
+    {{#if @isNoResult}}
+      <span class="attach-target-profile-search__no-result">
+        Aucun résultat
+      </span>
+    {{/if}}
+
+    {{#if @options.length}}
+      <ul
+        id="target-profiles-list"
+        role="listbox"
+        class="attach-target-profile-search__results"
+        aria-busy="{{@isLoading}}"
+      >
         {{#each @options as |option|}}
           <li
             class="attach-target-profile-search__results__option"

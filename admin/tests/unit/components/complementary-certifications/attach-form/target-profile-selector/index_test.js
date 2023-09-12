@@ -8,7 +8,7 @@ module('Unit | Component | complementary-certifications/attach-badges/target-pro
 
   module('#onSearch', function () {
     module('when there is no searchTerm', function () {
-      test('it should update attachableTargetProfiles options with an empty array', async function (assert) {
+      test('it should not have attachable target profiles options yet', async function (assert) {
         const store = this.owner.lookup('service:store');
         store.query = sinon.stub();
         const component = createGlimmerComponent(
@@ -20,7 +20,7 @@ module('Unit | Component | complementary-certifications/attach-badges/target-pro
 
         // then
         sinon.assert.notCalled(store.query);
-        assert.deepEqual(component.attachableTargetProfiles, []);
+        assert.deepEqual(component.attachableTargetProfiles, undefined);
       });
     });
 
@@ -74,7 +74,7 @@ module('Unit | Component | complementary-certifications/attach-badges/target-pro
       });
 
       module('when there is a searchTerm with less than 2 characters other than number', function () {
-        test('it should update searchResults with the list of attachable target profiles', async function (assert) {
+        test('it should not trigger a search', async function (assert) {
           const store = this.owner.lookup('service:store');
           store.query = sinon.stub();
           const component = createGlimmerComponent(
@@ -86,7 +86,7 @@ module('Unit | Component | complementary-certifications/attach-badges/target-pro
 
           // then
           assert.notOk(store.query.called);
-          assert.deepEqual(component.attachableTargetProfiles, []);
+          assert.deepEqual(component.attachableTargetProfiles, undefined);
         });
       });
 
@@ -162,7 +162,7 @@ module('Unit | Component | complementary-certifications/attach-badges/target-pro
 
       // then
       assert.strictEqual(component.selectedTargetProfile, undefined);
-      assert.deepEqual(component.attachableTargetProfiles, []);
+      assert.deepEqual(component.attachableTargetProfiles, undefined);
       assert.ok(component.args.onChange.calledWithExactly());
     });
   });
