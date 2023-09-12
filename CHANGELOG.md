@@ -1,5 +1,61 @@
 # Pix Changelog
 
+## v4.34.0 (12/09/2023)
+
+
+### :rocket: Amélioration
+- [#6969](https://github.com/1024pix/pix/pull/6969) [FEATURE] Envoyer les informations de RT certifiants pour attacher un PC à une complémentaire  (PIX-9001).
+- [#7000](https://github.com/1024pix/pix/pull/7000) [FEATURE] Ajout du scoring pour les certifications V3 (PIX-9050).
+- [#6950](https://github.com/1024pix/pix/pull/6950) [FEATURE] Jouer des épreuves avec des déclinaisons pas encore rencontrées.(Pix-8941).
+- [#7024](https://github.com/1024pix/pix/pull/7024) [FEATURE] Afficher la date de certificabilité même si le prescrit SCO est non certifiable (PIX-9128).
+- [#7008](https://github.com/1024pix/pix/pull/7008) [FEATURE] Afficher la nouvelle colonne "rôle" sur le tableau listant les membres d'un centre de certification (PIX-4995).
+- [#7022](https://github.com/1024pix/pix/pull/7022) [FEATURE] Migration des données users.lastLoggedAt vers user-logins.lastLoggedAt (PIX-9122).
+- [#6981](https://github.com/1024pix/pix/pull/6981) [FEATURE] Création de la route pour rattacher un PC à une certification complémentaire. (PIX-8848).
+- [#6970](https://github.com/1024pix/pix/pull/6970) [FEATURE] Utiliser l'information de certificabilité la plus récente (PIX-9018).
+- [#7015](https://github.com/1024pix/pix/pull/7015) [FEATURE] Ajoute une option pour calculer la certificabilité de tous les prescrits du SCO (PIX-9062).
+
+### :building_construction: Tech
+- [#7054](https://github.com/1024pix/pix/pull/7054) [TECH] Corriger un test flacky sur organization learner repository (PIX-9150).
+- [#7053](https://github.com/1024pix/pix/pull/7053) [TECH] Utilise une version publiée de ember-cli-notifications pour réparer la CI.
+- [#6835](https://github.com/1024pix/pix/pull/6835) [TECH] Supprime le code de l'auto answer.
+- [#6978](https://github.com/1024pix/pix/pull/6978) [TECH] Casser les dépendances de librairie entre racine et application.
+- [#6976](https://github.com/1024pix/pix/pull/6976) [TECH] Ne pas attendre les lint et test de root pour exécuter les jobs suivants.
+- [#6972](https://github.com/1024pix/pix/pull/6972) [TECH] Afficher l'état d'avancement absolu de la migration des usecases.
+- [#6966](https://github.com/1024pix/pix/pull/6966) [TECH] Ajout d'un script pour récupérer les difficultés des challenges depuis redis.
+
+### :bug: Correction
+- [#7041](https://github.com/1024pix/pix/pull/7041) [BUGFIX] Réparer le cas nominal de la recherche de profils cibles pour une complémentaire (PIX-9130).
+- [#7043](https://github.com/1024pix/pix/pull/7043) [BUGFIX] Gérer les erreurs d'emailing qui ne suivent pas le format d'erreur Brevo.
+- [#7020](https://github.com/1024pix/pix/pull/7020) [BUGFIX] Pix Admin - Dans la recherche d'utilisateur permettre à nouveau la saisie de texte dans le champ « Adresse e-mail »  (PIX-9112).
+
+### :arrow_up: Montée de version
+- [#7061](https://github.com/1024pix/pix/pull/7061) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.8.0 (mon-pix).
+- [#7059](https://github.com/1024pix/pix/pull/7059) [BUMP] Lock file maintenance (mon-pix).
+- [#7058](https://github.com/1024pix/pix/pull/7058) [BUMP] Lock file maintenance (audit-logger).
+- [#7040](https://github.com/1024pix/pix/pull/7040) [BUMP] Lock file maintenance (orga).
+- [#7039](https://github.com/1024pix/pix/pull/7039) [BUMP] Update dependency stylelint-config-standard-scss to v11 (certif).
+- [#7037](https://github.com/1024pix/pix/pull/7037) [BUMP] Update dependency stylelint-config-standard-scss to v11 (admin).
+- [#7036](https://github.com/1024pix/pix/pull/7036) [BUMP] Update dependency stylelint-config-standard-scss to v11 (1d).
+- [#7045](https://github.com/1024pix/pix/pull/7045) [BUMP] Lock file maintenance (admin).
+- [#7034](https://github.com/1024pix/pix/pull/7034) [BUMP] Update dependency eslint-config-standard-with-typescript to v39 (audit-logger).
+- [#7038](https://github.com/1024pix/pix/pull/7038) [BUMP] Lock file maintenance (admin).
+- [#7035](https://github.com/1024pix/pix/pull/7035) [BUMP] Lock file maintenance (certif).
+- [#7033](https://github.com/1024pix/pix/pull/7033) [BUMP] Update dependency eslint-config-standard-with-typescript to v38 (audit-logger).
+- [#7032](https://github.com/1024pix/pix/pull/7032) [BUMP] Update dependency ember-simple-auth to v6 (orga).
+- [#7031](https://github.com/1024pix/pix/pull/7031) [BUMP] Update dependency ember-simple-auth to v6 (mon-pix).
+- [#7030](https://github.com/1024pix/pix/pull/7030) [BUMP] Update dependency ember-simple-auth to v6 (certif).
+- [#7028](https://github.com/1024pix/pix/pull/7028) [BUMP] Lock file maintenance (api).
+- [#7029](https://github.com/1024pix/pix/pull/7029) [BUMP] Update dependency ember-simple-auth to v6 (admin).
+- [#7027](https://github.com/1024pix/pix/pull/7027) [BUMP] Update browser-tools orb to v1.4.5 (.circleci).
+- [#7026](https://github.com/1024pix/pix/pull/7026) [BUMP] Update dependency ember-cli-babel to v8 (orga).
+- [#7025](https://github.com/1024pix/pix/pull/7025) [BUMP] Update dependency ember-cli-babel to v8 (mon-pix).
+- [#6993](https://github.com/1024pix/pix/pull/6993) [BUMP] Update dependency stylelint-config-standard-scss to v11 (orga).
+- [#6948](https://github.com/1024pix/pix/pull/6948) [BUMP] Update dependency ember-cli-babel to v8 (certif).
+- [#6992](https://github.com/1024pix/pix/pull/6992) [BUMP] Update dependency stylelint-config-standard-scss to v11 (mon-pix).
+
+### :coffee: Autre
+- [#6931](https://github.com/1024pix/pix/pull/6931) [DOCS] Modification d'une mauvaise référence de ticket JIRA.
+
 ## v4.33.0 (08/09/2023)
 
 
