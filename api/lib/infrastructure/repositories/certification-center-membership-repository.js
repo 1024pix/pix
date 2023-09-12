@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import * as knexUtils from '../utils/knex-utils.js';
 import { BookshelfCertificationCenterMembership } from '../orm-models/CertificationCenterMembership.js';
 import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
@@ -38,7 +40,9 @@ function _toDomain(certificationCenterMembershipDTO) {
     id: certificationCenterMembershipDTO.id,
     certificationCenter,
     user,
+    isReferer: certificationCenterMembershipDTO.isReferer,
     createdAt: certificationCenterMembershipDTO.createdAt,
+    updatedByUserId: certificationCenterMembershipDTO.updatedByUserId,
     updatedAt: certificationCenterMembershipDTO.updatedAt,
     role: certificationCenterMembershipDTO.role,
   });
@@ -181,6 +185,17 @@ const disableMembershipsByUserId = async function ({
     .update({ disabledAt: new Date(), updatedByUserId });
 };
 
+const update = async function (certificationCenterMembership) {
+  const data = _.pick(certificationCenterMembership, [
+    'disabledAt',
+    'isReferer',
+    'role',
+    'updatedByUserId',
+    'updatedAt',
+  ]);
+  await knex('certification-center-memberships').update(data).where({ id: certificationCenterMembership.id });
+};
+
 export {
   findByUserId,
   findActiveByCertificationCenterIdSortedById,
@@ -190,4 +205,5 @@ export {
   updateRefererStatusByUserIdAndCertificationCenterId,
   getRefererByCertificationCenterId,
   disableMembershipsByUserId,
+  update,
 };

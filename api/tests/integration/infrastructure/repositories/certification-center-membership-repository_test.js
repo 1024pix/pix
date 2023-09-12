@@ -664,4 +664,35 @@ describe('Integration | Repository | Certification Center Membership', function 
       });
     });
   });
+
+  describe('#update', function () {
+    const now = new Date('2023-09-12');
+
+    it('updates user membership from "MEMBER" to "ADMIN"', async function () {
+      // given
+      const updatedByUserId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterMembershipToUpdate = databaseBuilder.factory.buildCertificationCenterMembership({
+        role: 'MEMBER',
+      });
+      const certificationCenterMembership = new CertificationCenterMembership({
+        ...certificationCenterMembershipToUpdate,
+        role: 'ADMIN',
+        updatedByUserId,
+        updatedAt: now,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.update(certificationCenterMembership);
+
+      // then
+      const updatedCertificationCenterMembership = await knex('certification-center-memberships')
+        .where({ id: certificationCenterMembershipToUpdate.id })
+        .first();
+
+      expect(updatedCertificationCenterMembership.updatedByUserId).to.equal(updatedByUserId);
+      expect(updatedCertificationCenterMembership.role).to.equal('ADMIN');
+      expect(updatedCertificationCenterMembership.updatedAt).to.deep.equal(now);
+    });
+  });
 });
