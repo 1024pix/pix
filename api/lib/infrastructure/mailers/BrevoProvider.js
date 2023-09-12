@@ -55,9 +55,11 @@ class BrevoProvider extends MailingProvider {
     try {
       return await this._client.sendTransacEmail(payload);
     } catch (err) {
-      const responseText = JSON.parse(err.response.text);
-      if (responseText.code === 'invalid_parameter') {
-        throw new MailingProviderInvalidEmailError(responseText.message);
+      if (err?.response?.text) {
+        const responseText = JSON.parse(err.response.text);
+        if (responseText.code === 'invalid_parameter') {
+          throw new MailingProviderInvalidEmailError(responseText.message);
+        }
       }
 
       throw err;
