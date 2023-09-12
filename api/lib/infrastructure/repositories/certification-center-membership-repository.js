@@ -8,6 +8,7 @@ import {
   CertificationCenterMembershipCreationError,
   AlreadyExistingMembershipError,
   CertificationCenterMembershipDisableError,
+  NotFoundError,
 } from '../../domain/errors.js';
 
 import { knex } from '../../../db/knex-database-connection.js';
@@ -196,6 +197,31 @@ const update = async function (certificationCenterMembership) {
   await knex('certification-center-memberships').update(data).where({ id: certificationCenterMembership.id });
 };
 
+const findById = async function (certificationCenterMembershipId) {
+  const certificationCenterMembership = await knex('certification-center-memberships')
+    .select(
+      'certification-center-memberships.*',
+      'users.lastName',
+      'users.firstName',
+      'users.email',
+      'certification-centers.name',
+      'certification-centers.type',
+      'certification-centers.externalId',
+      'certification-centers.createdAt AS certificationCenterCreatedAt',
+      'certification-centers.updatedAt AS certificationCenterUpdatedAt',
+    )
+    .join('users', 'certification-center-memberships.userId', 'users.id')
+    .join('certification-centers', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
+    .where({ 'certification-center-memberships.id': certificationCenterMembershipId })
+    .first();
+
+  if (!certificationCenterMembership) {
+    throw new NotFoundError(`Cannot find a certification center membership for id ${certificationCenterMembershipId}`);
+  }
+
+  return _toDomain(certificationCenterMembership);
+};
+
 export {
   findByUserId,
   findActiveByCertificationCenterIdSortedById,
@@ -206,4 +232,5 @@ export {
   getRefererByCertificationCenterId,
   disableMembershipsByUserId,
   update,
+  findById,
 };
