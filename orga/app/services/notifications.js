@@ -1,4 +1,4 @@
-import NotificationsService from 'ember-cli-notifications/services/notifications';
+import NotificationsService from '@1024pix/ember-cli-notifications/services/notifications';
 import config from 'pix-orga/config/environment';
 
 const defaultAutoClear = config['ember-cli-notifications'].autoClear;
