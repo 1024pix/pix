@@ -121,6 +121,8 @@ npx browserslist "defaults, last 4 years"
 
 * [Liste des navigateurs et leur date de release](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
 
+* [Ember New Browser Support Policy RFC](https://rfcs.emberjs.com/id/0685-new-browser-support-policy/)
+
 * [Firefox ESR](https://support.mozilla.org/fr/kb/passer-firefox-edition-longue-duree-esr)
 
 * [How to target last 2 versions of FF ESR?](https://github.com/browserslist/browserslist/issues/148)
