@@ -22,37 +22,10 @@
         {{#if @certificationCenterMemberships}}
           <tbody>
             {{#each @certificationCenterMemberships as |certificationCenterMembership|}}
-              <tr
-                aria-label="
-                  Informations du membre
-                  {{certificationCenterMembership.user.firstName}}
-                  {{certificationCenterMembership.user.lastName}}
-                "
-              >
-                <td>
-                  <LinkTo @route="authenticated.users.get" @model={{certificationCenterMembership.user.id}}>
-                    {{certificationCenterMembership.user.id}}
-                  </LinkTo>
-                </td>
-                <td class="member-information">{{certificationCenterMembership.user.firstName}}</td>
-                <td class="member-information">{{certificationCenterMembership.user.lastName}}</td>
-                <td class="member-information">{{certificationCenterMembership.user.email}}</td>
-                <td class="member-information">{{t certificationCenterMembership.roleLabelKey}}</td>
-                <td>
-                  {{dayjs-format certificationCenterMembership.createdAt "DD-MM-YYYY - HH:mm:ss"}}
-                </td>
-                <td>
-                  <PixButton
-                    @size="small"
-                    @backgroundColor="red"
-                    @triggerAction={{fn @disableCertificationCenterMembership certificationCenterMembership}}
-                    class="member-item-actions__button"
-                    @iconBefore="trash"
-                  >
-                    Désactiver
-                  </PixButton>
-                </td>
-              </tr>
+              <CertificationCenters::MembershipItem
+                @certificationCenterMembership={{certificationCenterMembership}}
+                @disableCertificationCenterMembership={{@disableCertificationCenterMembership}}
+              />
             {{/each}}
           </tbody>
         {{/if}}
