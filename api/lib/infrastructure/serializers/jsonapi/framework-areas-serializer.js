@@ -20,7 +20,12 @@ const serialize = function (areas, { withoutThematics = false } = {}) {
         tubes: {
           include: true,
           ref: 'id',
-          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'level'],
+          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'level', 'skills'],
+          skills: {
+            include: true,
+            ref: 'id',
+            attributes: ['difficulty'],
+          },
         },
       },
     },

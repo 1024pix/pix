@@ -495,6 +495,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             },
             isMobileCompliant: false,
             isTabletCompliant: true,
+            skillIds: ['recSkillTube1'],
           },
           {
             id: 'recTube2',
@@ -506,6 +507,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             },
             isMobileCompliant: true,
             isTabletCompliant: true,
+            skillIds: ['recSkillTube2'],
           },
           {
             id: 'recTube3',
@@ -517,6 +519,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             },
             isMobileCompliant: false,
             isTabletCompliant: false,
+            skillIds: ['recSkillTube3'],
           },
           {
             id: 'recTube4',
@@ -528,6 +531,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             },
             isMobileCompliant: true,
             isTabletCompliant: false,
+            skillIds: ['recSkillTube4'],
           },
         ],
         skills: [
@@ -535,21 +539,25 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             id: 'recSkillTube1',
             tubeId: 'recTube1',
             status: 'actif',
+            level: 1,
           },
           {
             id: 'recSkillTube2',
             tubeId: 'recTube2',
             status: 'actif',
+            level: 2,
           },
           {
             id: 'recSkillTube3',
             tubeId: 'recTube3',
             status: 'actif',
+            level: 3,
           },
           {
             id: 'recSkillTube4',
             tubeId: 'recTube4',
             status: 'actif',
+            level: 4,
           },
         ],
       };
@@ -594,6 +602,13 @@ describe('Acceptance | Controller | frameworks-controller', function () {
       ]);
       expect(response.result.included).to.deep.equal([
         {
+          type: 'skills',
+          id: 'recSkillTube1',
+          attributes: {
+            difficulty: 1,
+          },
+        },
+        {
           type: 'tubes',
           id: 'recTube1',
           attributes: {
@@ -602,6 +617,16 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             mobile: false,
             tablet: true,
             level: 8,
+          },
+          relationships: {
+            skills: {
+              data: [
+                {
+                  type: 'skills',
+                  id: 'recSkillTube1',
+                },
+              ],
+            },
           },
         },
         {
@@ -623,6 +648,13 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           },
         },
         {
+          type: 'skills',
+          id: 'recSkillTube2',
+          attributes: {
+            difficulty: 2,
+          },
+        },
+        {
           id: 'recTube2',
           type: 'tubes',
           attributes: {
@@ -631,6 +663,16 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             mobile: true,
             tablet: true,
             level: 8,
+          },
+          relationships: {
+            skills: {
+              data: [
+                {
+                  type: 'skills',
+                  id: 'recSkillTube2',
+                },
+              ],
+            },
           },
         },
         {
@@ -674,6 +716,13 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           },
         },
         {
+          type: 'skills',
+          id: 'recSkillTube3',
+          attributes: {
+            difficulty: 3,
+          },
+        },
+        {
           type: 'tubes',
           id: 'recTube3',
           attributes: {
@@ -682,6 +731,16 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             mobile: false,
             tablet: false,
             level: 8,
+          },
+          relationships: {
+            skills: {
+              data: [
+                {
+                  type: 'skills',
+                  id: 'recSkillTube3',
+                },
+              ],
+            },
           },
         },
         {
@@ -703,6 +762,13 @@ describe('Acceptance | Controller | frameworks-controller', function () {
           },
         },
         {
+          type: 'skills',
+          id: 'recSkillTube4',
+          attributes: {
+            difficulty: 4,
+          },
+        },
+        {
           type: 'tubes',
           id: 'recTube4',
           attributes: {
@@ -711,6 +777,16 @@ describe('Acceptance | Controller | frameworks-controller', function () {
             name: 'tubeName4',
             'practical-title': 'practicalTitleFR4',
             tablet: false,
+          },
+          relationships: {
+            skills: {
+              data: [
+                {
+                  type: 'skills',
+                  id: 'recSkillTube4',
+                },
+              ],
+            },
           },
         },
         {

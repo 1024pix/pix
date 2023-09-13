@@ -38,6 +38,11 @@ const skillDatasource = datasource.extend({
     );
   },
 
+  async findActiveByRecordIds(skillIds) {
+    const skills = await this.list();
+    return _.filter(skills, (skillData) => skillData.status === ACTIVE_STATUS && _.includes(skillIds, skillData.id));
+  },
+
   async findByTubeIdFor1d(tubeId) {
     const skills = await this.list();
     return skills.filter(

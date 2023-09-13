@@ -1,6 +1,6 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
-import { TargetProfileForAdmin } from '../../../../../lib/domain/models/TargetProfileForAdmin.js';
+import { TargetProfileForAdmin } from '../../../../../lib/domain/models/index.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -146,6 +146,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               practicalTitle: 'Super tube',
               isMobileCompliant: true,
               isTabletCompliant: false,
+              skillIds: ['recSkill1'],
             }),
             thematicId: 'recThem1',
             level: 7,
@@ -171,6 +172,13 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             }),
             thematicId: 'recThem2',
             level: 6,
+          },
+        ],
+        skills: [
+          {
+            id: 'recSkill1',
+            difficulty: 1,
+            tubeId: 'recTube1',
           },
         ],
       });
@@ -368,12 +376,29 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             type: 'stageCollections',
           },
           {
+            type: 'skills',
+            id: 'recSkill1',
+            attributes: {
+              difficulty: 1,
+            },
+          },
+          {
             attributes: {
               level: 7,
               mobile: true,
               name: '@nomTube',
               'practical-title': 'Super tube',
               tablet: false,
+            },
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recSkill1',
+                    type: 'skills',
+                  },
+                ],
+              },
             },
             id: 'recTube1',
             type: 'tubes',
@@ -442,6 +467,11 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               'practical-title': 'Super tube2',
               tablet: false,
             },
+            relationships: {
+              skills: {
+                data: [],
+              },
+            },
             id: 'recTube2',
             type: 'tubes',
           },
@@ -452,6 +482,11 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               name: '@nomTube3',
               'practical-title': 'Super tube3',
               tablet: false,
+            },
+            relationships: {
+              skills: {
+                data: [],
+              },
             },
             id: 'recTube3',
             type: 'tubes',

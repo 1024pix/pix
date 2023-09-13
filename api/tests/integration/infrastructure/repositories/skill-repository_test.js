@@ -166,7 +166,7 @@ describe('Integration | Repository | skill-repository', function () {
   });
 
   describe('#findOperativeByIds', function () {
-    it('should resolve all skills passed by ids', async function () {
+    it('should resolve operative skills passed by ids', async function () {
       // given
       const competenceId = 'recCompetenceId';
       const activeSkill = domainBuilder.buildSkill({ competenceId });
@@ -217,6 +217,35 @@ describe('Integration | Repository | skill-repository', function () {
         // then
         expect(error).to.be.instanceOf(NotFoundError).and.have.property('message', 'Erreur, compétence introuvable');
       });
+    });
+  });
+
+  describe('#findActiveByRecordIds', function () {
+    it('should resolve active skills passed by ids', async function () {
+      // given
+      const competenceId = 'recCompetenceId';
+      const activeSkill = domainBuilder.buildSkill({ competenceId });
+      const archivedSkill = domainBuilder.buildSkill({ competenceId });
+      const nonOperativeSkill = domainBuilder.buildSkill({ competenceId });
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif', level: activeSkill.difficulty },
+          { ...archivedSkill, status: 'archivé', level: archivedSkill.difficulty },
+          { ...nonOperativeSkill, status: 'BLABLA', level: nonOperativeSkill.difficulty },
+        ],
+      };
+      mockLearningContent(learningContent);
+      // when
+      const skills = await skillRepository.findActiveByRecordIds([
+        activeSkill.id,
+        archivedSkill.id,
+        nonOperativeSkill.id,
+      ]);
+
+      // then
+      expect(skills).to.have.lengthOf(1);
+      expect(skills[0]).to.be.instanceof(Skill);
+      expect(skills).to.deep.include.members([activeSkill]);
     });
   });
 });
