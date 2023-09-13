@@ -153,11 +153,6 @@ workflows:
           requires:
             - checkout
 
-      - algo_test:
-          context: Pix
-          requires:
-            - checkout
-
 jobs:
   checkout:
     executor:
@@ -614,45 +609,3 @@ jobs:
           command: npm run test:ci:orga
       - store_test_results:
           path: /home/circleci/test-results
-
-  algo_test:
-    executor:
-      name: node-docker
-    parallelism: 1
-    working_directory: ~/pix/high-level-tests/test-algo
-    steps:
-      - attach_workspace:
-          at: ~/pix
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm ci --no-optional
-      - run:
-          command: cat package*.json > cachekey
-
-      - restore_cache:
-          keys:
-            - v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
-      - run:
-          name: Install test algo
-          command: npm ci
-      - save_cache:
-          key: v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
-          paths:
-            - ~/.npm
-
-      - run:
-          name: Lint
-          command: npm run lint
-
-      - run:
-          name: Test
-          command: npm run test:ci
