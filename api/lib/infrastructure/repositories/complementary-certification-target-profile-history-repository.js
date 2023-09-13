@@ -1,11 +1,12 @@
-import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { TargetProfileHistoryForAdmin } from '../../domain/models/TargetProfileHistoryForAdmin.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../domain/models/ComplementaryCertificationBadgeForAdmin.js';
+import bluebird from 'bluebird';
 
-const getByComplementaryCertificationId = async function ({ complementaryCertificationId }) {
-  const targetProfiles = await knex('complementary-certification-badges')
+const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = async function ({
+  complementaryCertificationId,
+}) {
+  const currentTargetProfiles = await knex('complementary-certification-badges')
     .select({
       id: 'target-profiles.id',
       name: 'target-profiles.name',
@@ -16,30 +17,42 @@ const getByComplementaryCertificationId = async function ({ complementaryCertifi
     .leftJoin('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
     .groupBy('target-profiles.id')
     .where({ complementaryCertificationId })
+    .whereNull('complementary-certification-badges.detachedAt')
     .orderBy('attachedAt', 'desc');
 
-  const currentTargetProfiles = targetProfiles.filter((targetProfile) => !targetProfile.detachedAt);
-
-  for (const currentTargetProfile of currentTargetProfiles) {
-    currentTargetProfile.badges = await _getBadgesForCurrentTargetProfiles({ currentTargetProfile });
-  }
-
-  const complementaryCertificationDTO = await knex
-    .from('complementary-certifications')
-    .where({ id: complementaryCertificationId })
-    .first();
-
-  const targetProfilesHistory = targetProfiles.map((targetProfile) => new TargetProfileHistoryForAdmin(targetProfile));
-  const complementaryCertification = new ComplementaryCertification(complementaryCertificationDTO);
-  return new ComplementaryCertificationTargetProfileHistory({
-    ...complementaryCertification,
-    targetProfilesHistory,
+  return bluebird.mapSeries(currentTargetProfiles, async (targetProfile) => {
+    const badges = await _getBadgesForCurrentTargetProfiles({ targetProfile });
+    return new TargetProfileHistoryForAdmin({ ...targetProfile, badges });
   });
 };
 
-export { getByComplementaryCertificationId };
+const getDetachedTargetProfilesHistoryByComplementaryCertificationId = async function ({
+  complementaryCertificationId,
+}) {
+  const detachedTargetProfiles = await knex('complementary-certification-badges')
+    .select({
+      id: 'target-profiles.id',
+      name: 'target-profiles.name',
+      attachedAt: 'complementary-certification-badges.createdAt',
+      detachedAt: 'complementary-certification-badges.detachedAt',
+    })
+    .leftJoin('badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .leftJoin('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
+    .where({ complementaryCertificationId })
+    .whereNotNull('complementary-certification-badges.detachedAt')
+    .orderBy('attachedAt', 'desc');
 
-async function _getBadgesForCurrentTargetProfiles({ currentTargetProfile }) {
+  return bluebird.mapSeries(detachedTargetProfiles, async (targetProfile) => {
+    return new TargetProfileHistoryForAdmin(targetProfile);
+  });
+};
+
+export {
+  getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId,
+  getDetachedTargetProfilesHistoryByComplementaryCertificationId,
+};
+
+async function _getBadgesForCurrentTargetProfiles({ targetProfile }) {
   const badgesDTO = await knex('badges')
     .select({
       id: 'badges.id',
@@ -47,7 +60,8 @@ async function _getBadgesForCurrentTargetProfiles({ currentTargetProfile }) {
       level: 'complementary-certification-badges.level',
     })
     .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
-    .where('targetProfileId', currentTargetProfile.id);
+    .where('targetProfileId', targetProfile.id)
+    .whereNull('complementary-certification-badges.detachedAt');
 
   return badgesDTO.map((badge) => new ComplementaryCertificationBadgeForAdmin({ ...badge }));
 }
