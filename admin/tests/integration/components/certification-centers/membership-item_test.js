@@ -53,5 +53,7 @@ module('Integration | Component |  certification-centers/membership-item', funct
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.email);
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText('Membre');
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(expectedDate);
+    assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
   });
 });

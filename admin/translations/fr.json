@@ -1,5 +1,8 @@
 {
   "common": {
+    "actions": {
+      "deactivate": "Désactiver"
+    },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
       "gateway-timeout-error": "Le service subit des ralentissements. Veuillez réessayer ultérieurement.",
@@ -33,6 +36,13 @@
           "success": "Les organisations ont bien été créées."
         },
         "upload-button": "Importer un fichier CSV"
+      }
+    },
+    "certification-centers": {
+      "membership-item": {
+        "actions": {
+          "edit-role": "Modifier le rôle"
+        }
       }
     },
     "complementary-certifications": {

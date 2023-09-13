@@ -1,5 +1,8 @@
 {
   "common": {
+    "actions": {
+      "deactivate": "Deactivate"
+    },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
       "gateway-timeout-error": "The service is being slow. Please try again later.",
@@ -25,6 +28,13 @@
           "success": "The organizations have been created."
         },
         "upload-button": "Import CSV file"
+      }
+    },
+    "certification-centers": {
+      "membership-item": {
+        "actions": {
+          "edit-role": "Edit role"
+        }
       }
     },
     "complementary-certifications": {
