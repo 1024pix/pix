@@ -13,11 +13,18 @@ export default class CertificationCentersMembershipItemComponent extends Compone
   @action
   saveMembershipRole() {
     this.isEditionMode = false;
+    this.args.onCertificationCenterMembershipRoleChange(this.args.certificationCenterMembership);
   }
 
   @action
   cancelMembershipRoleEditing() {
-    if (this.args.certificationCenterMembership.hasDirtyAttributes) {
+    const changedAttributes = this.args.certificationCenterMembership.changedAttributes();
+    // hack to fix EmberData behaviour in integration testing
+    const certificationCenterMembershipAttributesHaveChanged = changedAttributes.length && !!changedAttributes[0];
+    const shouldRollbackCertificationCenterMembershipAttributes =
+      this.args.certificationCenterMembership.hasDirtyAttributes && certificationCenterMembershipAttributesHaveChanged;
+
+    if (shouldRollbackCertificationCenterMembershipAttributes) {
       this.args.certificationCenterMembership.rollbackAttributes();
     }
 
