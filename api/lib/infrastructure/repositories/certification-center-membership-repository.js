@@ -123,6 +123,20 @@ const save = async function ({ userId, certificationCenterId }) {
   }
 };
 
+const isAdminOfCertificationCenter = async function ({ userId, certificationCenterId }) {
+  const certificationCenterMembershipId = await knex('certification-center-memberships')
+    .select('id')
+    .where({
+      userId,
+      certificationCenterId,
+      disabledAt: null,
+      role: 'ADMIN',
+    })
+    .first();
+
+  return Boolean(certificationCenterMembershipId);
+};
+
 const isMemberOfCertificationCenter = async function ({ userId, certificationCenterId }) {
   const certificationCenterMembershipId = await knex('certification-center-memberships')
     .select('id')
@@ -226,6 +240,7 @@ export {
   findByUserId,
   findActiveByCertificationCenterIdSortedById,
   save,
+  isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
   disableById,
   updateRefererStatusByUserIdAndCertificationCenterId,
