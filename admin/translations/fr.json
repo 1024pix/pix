@@ -14,6 +14,10 @@
     "notifications": {
       "generic-error": "Une erreur est survenue."
     },
+    "roles": {
+      "admin": "Administrateur",
+      "member": "Membre"
+    },
     "words": {
       "no": "Non",
       "yes": "Oui"
@@ -43,6 +47,9 @@
         "actions": {
           "edit-role": "Modifier le rôle"
         }
+      },
+      "membership-item-role": {
+        "select-role": "Sélectionner un rôle"
       }
     },
     "complementary-certifications": {
