@@ -1,7 +1,9 @@
 {
   "common": {
     "actions": {
-      "deactivate": "Désactiver"
+      "cancel": "Annuler",
+      "deactivate": "Désactiver",
+      "save": "Enregistrer"
     },
     "api-error-messages": {
       "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
