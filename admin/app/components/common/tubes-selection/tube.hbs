@@ -15,6 +15,15 @@
     @value={{this.selectedLevel}}
     @isDisabled={{not this.checked}}
   />
+  {{#if @displaySkillDifficultyAvailability}}
+    <div class="skill-availability">
+      {{#each this.skillAvailabilityMap as |skillAvailability|}}
+        <div
+          class="skill-square skill-square__{{skillAvailability.availability}}"
+        >{{skillAvailability.difficulty}}</div>
+      {{/each}}
+    </div>
+  {{/if}}
 </td>
 {{#if @displayDeviceCompatibility}}
   <td class="table__column--center">
