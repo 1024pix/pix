@@ -21,6 +21,7 @@ class TargetProfileForAdmin {
     competences = [],
     thematics = [],
     tubes = [],
+    skills = [],
   } = {}) {
     this.id = id;
     this.name = name;
@@ -48,6 +49,7 @@ class TargetProfileForAdmin {
           allCompetences: competences,
           allThematics: thematics,
           allTubes: tubes,
+          allSkills: skills,
         }),
     );
   }

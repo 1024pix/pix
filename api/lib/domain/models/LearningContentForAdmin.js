@@ -1,5 +1,5 @@
 class AreaForAdmin {
-  constructor({ id, frameworkId, title, code, color, allCompetences, allThematics, allTubes }) {
+  constructor({ id, frameworkId, title, code, color, allCompetences, allThematics, allTubes, allSkills }) {
     this.id = id;
     this.frameworkId = frameworkId;
     this.title = title;
@@ -15,6 +15,7 @@ class AreaForAdmin {
             index: competence.index,
             allThematics,
             allTubes,
+            allSkills,
           }),
       );
   }
@@ -45,7 +46,7 @@ class AreaForAdmin {
 }
 
 class CompetenceForAdmin {
-  constructor({ id, name, index, allThematics, allTubes }) {
+  constructor({ id, name, index, allThematics, allTubes, allSkills }) {
     this.id = id;
     this.name = name;
     this.index = index;
@@ -58,6 +59,7 @@ class CompetenceForAdmin {
             name: thematic.name,
             index: thematic.index,
             allTubes,
+            allSkills,
           }),
       )
       .filter((thematic) => {
@@ -88,7 +90,7 @@ class CompetenceForAdmin {
 }
 
 class ThematicForAdmin {
-  constructor({ id, name, index, allTubes }) {
+  constructor({ id, name, index, allTubes, allSkills }) {
     this.id = id;
     this.name = name;
     this.index = index;
@@ -103,6 +105,7 @@ class ThematicForAdmin {
             level: tube.level,
             mobile: tube.isMobileCompliant,
             tablet: tube.isTabletCompliant,
+            allSkills,
           }),
       );
   }
@@ -122,13 +125,22 @@ class ThematicForAdmin {
 }
 
 class TubeForAdmin {
-  constructor({ id, name, practicalTitle, level, mobile, tablet }) {
+  constructor({ id, name, practicalTitle, level, mobile, tablet, allSkills }) {
     this.id = id;
     this.name = name;
     this.practicalTitle = practicalTitle;
     this.level = level || 8;
     this.mobile = mobile;
     this.tablet = tablet;
+    this.skills = allSkills
+      .filter((skill) => skill.tubeId === id && skill.difficulty <= this.level)
+      .map(
+        (skill) =>
+          new SkillForAdmin({
+            id: skill.id,
+            difficulty: skill.difficulty,
+          }),
+      );
   }
 
   asCappedTubeDTO() {
@@ -148,4 +160,11 @@ class TubeForAdmin {
   }
 }
 
-export { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin };
+class SkillForAdmin {
+  constructor({ id, difficulty }) {
+    this.id = id;
+    this.difficulty = difficulty;
+  }
+}
+
+export { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin, SkillForAdmin };

@@ -73,7 +73,12 @@ const serialize = function (targetProfiles) {
           tubes: {
             ref: 'id',
             included: true,
-            attributes: ['name', 'practicalTitle', 'level', 'mobile', 'tablet'],
+            attributes: ['name', 'practicalTitle', 'level', 'mobile', 'tablet', 'skills'],
+            skills: {
+              ref: 'id',
+              included: true,
+              attributes: ['difficulty'],
+            },
           },
         },
       },
