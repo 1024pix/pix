@@ -17,12 +17,21 @@
     <div class="membership-item-actions">
       <PixButton
         @size="small"
+        class="member-item-actions__button"
+        aria-label="Modifier le rôle"
+        @iconBefore="pen-to-square"
+      >
+        {{t "components.certification-centers.membership-item.actions.edit-role"}}
+      </PixButton>
+
+      <PixButton
+        @size="small"
         @backgroundColor="red"
         @triggerAction={{fn @disableCertificationCenterMembership @certificationCenterMembership}}
         class="member-item-actions__button"
         @iconBefore="trash"
       >
-        Désactiver
+        {{t "common.actions.deactivate"}}
       </PixButton>
     </div>
   </td>
