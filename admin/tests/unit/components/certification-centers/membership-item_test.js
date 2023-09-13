@@ -26,6 +26,7 @@ module('Unit | Component | certification-centers/membership-item', function (hoo
       const certificationCenterMembership = {
         hasDirtyAttributes: false,
         rollbackAttributes: sinon.stub(),
+        changedAttributes: sinon.stub().returns([]),
       };
       const component = createGlimmerComponent('component:certification-centers/membership-item', {
         certificationCenterMembership,
@@ -45,6 +46,7 @@ module('Unit | Component | certification-centers/membership-item', function (hoo
         const certificationCenterMembership = {
           hasDirtyAttributes: true,
           rollbackAttributes: sinon.stub(),
+          changedAttributes: sinon.stub().returns(['MEMBER', 'ADMIN']),
         };
         const component = createGlimmerComponent('component:certification-centers/membership-item', {
           certificationCenterMembership,

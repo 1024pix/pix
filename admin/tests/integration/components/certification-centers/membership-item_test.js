@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { render as renderScreen, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import dayjs from 'dayjs';
+import { click } from '@ember/test-helpers';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -88,6 +89,47 @@ module('Integration | Component |  certification-centers/membership-item', funct
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       assert.dom(screen.queryByRole('button', { name: 'Modifier le rôle' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Désactiver' })).doesNotExist();
+    });
+
+    module('when saving role modification', function () {
+      test('deactivates edition mode and saves the new role', async function (assert) {
+        // given
+        const user = store.createRecord('user', {
+          id: 1,
+          firstName: 'Jojo',
+          lastName: 'La Gringue',
+          email: 'jojo@example.net',
+        });
+        const certificationCenterMembership = store.createRecord('certification-center-membership', {
+          id: 1,
+          user,
+          role: 'MEMBER',
+          createdAt: new Date('2023-09-13T10:47:07Z'),
+        });
+        const onCertificationCenterMembershipRoleChange = sinon.stub();
+
+        this.set('certificationCenterMembership', certificationCenterMembership);
+        this.set('disableCertificationCenterMembership', sinon.stub());
+        this.set('onCertificationCenterMembershipRoleChange', onCertificationCenterMembershipRoleChange);
+
+        // when
+        const screen = await renderScreen(
+          hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} @onCertificationCenterMembershipRoleChange={{this.onCertificationCenterMembershipRoleChange}} />`,
+        );
+        await clickByName('Modifier le rôle');
+        await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Administrateur' }));
+        await clickByName('Enregistrer');
+
+        // then
+        sinon.assert.calledWith(onCertificationCenterMembershipRoleChange, certificationCenterMembership);
+        assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+        assert.dom(screen.queryByRole('button', { name: 'Sélectionner un rôle' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Enregistrer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+      });
     });
 
     module('when canceling edition mode', function () {
