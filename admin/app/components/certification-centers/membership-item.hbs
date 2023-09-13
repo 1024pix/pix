@@ -24,6 +24,9 @@
     <CertificationCenters::MembershipItemActions
       @isEditionMode={{this.isEditionMode}}
       @onDeactivateMembershipButtonClicked={{fn @disableCertificationCenterMembership @certificationCenterMembership}}
+      @onModifyRoleButtonClicked={{this.editMembershipRole}}
+      @onSaveRoleButtonClicked={{this.saveMembershipRole}}
+      @onCancelButtonClicked={{this.cancelMembershipRoleEditing}}
     />
   </td>
 </tr>

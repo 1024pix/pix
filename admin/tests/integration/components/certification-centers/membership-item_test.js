@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render as renderScreen, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import dayjs from 'dayjs';
 
@@ -55,5 +55,74 @@ module('Integration | Component |  certification-centers/membership-item', funct
     assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(expectedDate);
     assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+  });
+
+  module('when clicking on "Modifier le rôle" button', function () {
+    test('displays a role selector input, save and cancel buttons instead of "Modifier le rôle" button', async function (assert) {
+      // given
+      const user = store.createRecord('user', {
+        id: 1,
+        firstName: 'Jojo',
+        lastName: 'La Gringue',
+        email: 'jojo@example.net',
+      });
+      const certificationCenterMembership = store.createRecord('certification-center-membership', {
+        id: 1,
+        user,
+        role: 'MEMBER',
+        createdAt: new Date('2023-09-13T10:47:07Z'),
+      });
+
+      this.set('certificationCenterMembership', certificationCenterMembership);
+      this.set('disableCertificationCenterMembership', sinon.stub());
+
+      // when
+      const screen = await renderScreen(
+        hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
+      );
+      await clickByName('Modifier le rôle');
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Sélectionner un rôle' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Modifier le rôle' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Désactiver' })).doesNotExist();
+    });
+
+    module('when canceling edition mode', function () {
+      test('hides role selector input, displays current role, "Modifier le rôle" and "Désactiver" buttons', async function (assert) {
+        // given
+        const user = store.createRecord('user', {
+          id: 1,
+          firstName: 'Jojo',
+          lastName: 'La Gringue',
+          email: 'jojo@example.net',
+        });
+        const certificationCenterMembership = store.createRecord('certification-center-membership', {
+          id: 1,
+          user,
+          role: 'MEMBER',
+          createdAt: new Date('2023-09-13T10:47:07Z'),
+        });
+
+        this.set('certificationCenterMembership', certificationCenterMembership);
+        this.set('disableCertificationCenterMembership', sinon.stub());
+
+        // when
+        const screen = await renderScreen(
+          hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
+        );
+        await clickByName('Modifier le rôle');
+        await clickByName('Annuler');
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+        assert.dom(screen.queryByRole('button', { name: 'Sélectionner un rôle' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Enregistrer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+      });
+    });
   });
 });
