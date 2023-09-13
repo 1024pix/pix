@@ -140,7 +140,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         // given
         uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
 
-        const sexIsBad = domainBuilder.buildCpfCertificationResult({
+        const incorrectCpfCertificationResult = domainBuilder.buildCpfCertificationResult({
           id: 1234,
           firstName: 'Bart',
           lastName: 'Haba',
@@ -162,7 +162,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
 
         // when
         cpfCertificationXmlExportService.buildXmlExport({
-          cpfCertificationResults: [sexIsBad],
+          cpfCertificationResults: [incorrectCpfCertificationResult],
           writableStream,
           uuidService,
         });
@@ -174,7 +174,6 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         parsedXmlToExport.validate(parsedXsd);
 
         // then
-        expect(parsedXmlToExport.validationErrors).not.to.be.empty;
         expect(parsedXmlToExport.validationErrors[0].message).to.equal(
           "Element '{urn:cdc:cpf:pc5:schema:1.0.0}sexe': [facet 'enumeration'] The value '' is not an element of the set {'M', 'F'}.\n",
         );
