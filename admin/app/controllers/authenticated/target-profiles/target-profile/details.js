@@ -36,6 +36,14 @@ export default class TargetProfileDetailsController extends Controller {
       level: tube.level,
       mobile: tube.mobile,
       tablet: tube.tablet,
+      skills: tube.skills.sortBy('difficulty').map((skill) => this.buildSkillViewModel(skill)),
+    };
+  }
+
+  buildSkillViewModel(skill) {
+    return {
+      id: skill.id,
+      difficulty: skill.difficulty,
     };
   }
 }

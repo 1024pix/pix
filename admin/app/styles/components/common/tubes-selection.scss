@@ -157,3 +157,24 @@
     box-shadow: none;
   }
 }
+
+.skill-availability {
+  display: flex;
+}
+
+.skill-square {
+  min-width: 15px;
+  min-height: 15px;
+
+  &__active {
+    background-color: $pix-success-30;
+  }
+
+  &__missing {
+    background-color: $pix-error-30;
+  }
+
+  &__out-of-bound {
+    background-color: $pix-neutral-30;
+  }
+}
