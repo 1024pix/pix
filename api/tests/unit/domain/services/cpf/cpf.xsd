@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:cpf="urn:cdc:cpf:pc5:schema:1.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:cdc:cpf:pc5:schema:1.0.0" elementFormDefault="qualified" version="1.1.2">
+   <xsd:complexType name="flux">
+      <xsd:all>
+         <xsd:element name="idFlux">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="50"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="horodatage">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:dateTime">
+                  <xsd:pattern value="(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])T(2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9](\+|-)(:2[0-3]|[01][0-9]):[0-5][0-9]"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="emetteur" type="cpf:emetteur"/>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="emetteur">
+      <xsd:all>
+         <xsd:element name="idClient">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:length value="8"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="certificateurs" type="cpf:certificateurs"/>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="certificateurs">
+      <xsd:all>
+         <xsd:element name="certificateur" type="cpf:certificateur"/>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="certificateur">
+      <xsd:all>
+         <xsd:element name="idClient">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:length value="8"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="idContrat">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="certifications">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:choice maxOccurs="unbounded">
+                     <xsd:element name="certification" type="cpf:certification"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="certification">
+      <xsd:all>
+         <xsd:element name="type">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="code">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="100"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="natureDeposant" type="cpf:natureDeposant" minOccurs="0"/>
+         <xsd:element name="passageCertifications">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:choice maxOccurs="unbounded">
+                     <xsd:element name="passageCertification" type="cpf:passageCertification"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="passageCertification">
+      <xsd:all>
+         <xsd:element name="idTechnique">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="urlPreuve" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="libelleOption" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="obtentionCertification" type="cpf:obtentionCertification"/>
+         <xsd:element name="donneeCertifiee" type="xsd:boolean"/>
+         <xsd:element name="dateDebutExamen" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:date">
+                  <xsd:pattern value="(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="dateFinExamen" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:date">
+                  <xsd:pattern value="(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="modalitePassageExamen" type="cpf:modalitePassageExamen" minOccurs="0"/>
+         <xsd:element name="codePostalCentreExamen" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="9"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="dateDebutValidite">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:date">
+                  <xsd:pattern value="(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="dateFinValidite" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:date">
+                  <xsd:pattern value="(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="presenceNiveauLangueEuro" type="xsd:boolean"/>
+         <xsd:element name="niveauLangueEuropeen" type="cpf:niveauCECRL" minOccurs="0"/>
+         <xsd:element name="presenceNiveauNumeriqueEuro" type="xsd:boolean"/>
+         <xsd:element name="niveauNumeriqueEuropeen" type="cpf:niveauNumeriqueEuropeen" minOccurs="0"/>
+         <xsd:element name="scoring" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="mentionValidee" type="cpf:mention" nillable="true"/>
+         <xsd:element name="modalitesInscription" type="cpf:modalitesInscription"/>
+         <xsd:element name="identificationTitulaire" type="cpf:identificationTitulaire"/>
+         <xsd:element name="verbatim" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="255"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="niveauNumeriqueEuropeen">
+      <xsd:all>
+         <xsd:element name="scoreGeneral" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="1"/>
+                  <xsd:maxInclusive value="1000"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="resultats" minOccurs="0">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:choice maxOccurs="unbounded">
+                     <xsd:element name="resultat" type="cpf:resultat" minOccurs="0"/>
+                  </xsd:choice>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="resultat">
+      <xsd:all>
+         <xsd:element name="niveau" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="1"/>
+                  <xsd:maxInclusive value="8"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="domaineCompetenceId" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:length value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="competenceId" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:length value="1"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="modalitesInscription">
+      <xsd:all>
+         <xsd:element name="modaliteAcces" type="cpf:modaliteAcces" nillable="true"/>
+         <xsd:element name="voieAccessVAE" type="cpf:voieAccesVAE" minOccurs="0"/>
+         <xsd:element name="initiativeInscription" type="cpf:initiativeInscription" minOccurs="0"/>
+         <xsd:element name="dateInscription" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:date">
+                  <xsd:pattern value="(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="identificationTitulaire">
+      <xsd:sequence>
+         <xsd:choice>
+            <xsd:element name="dossierFormation" type="cpf:dossierFormation"/>
+            <xsd:element name="titulaire" type="cpf:titulaire"/>
+         </xsd:choice>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="dossierFormation">
+      <xsd:all>
+         <xsd:element name="idDossier">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="13"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="nomTitulaire">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="30"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="prenom1Titulaire">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="20"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="titulaire">
+      <xsd:all>
+         <xsd:element name="nomNaissance">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="nomUsage" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="prenom1">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="prenom2" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="prenom3" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="anneeNaissance">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="1900"/>
+                  <xsd:maxInclusive value="2099"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="moisNaissance" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="1"/>
+                  <xsd:maxInclusive value="12"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="jourNaissance" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:int">
+                  <xsd:minInclusive value="1"/>
+                  <xsd:maxInclusive value="31"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="sexe" type="cpf:genre"/>
+         <xsd:element name="codeCommuneNaissance" type="cpf:codeCommuneNaissance"/>
+         <xsd:element name="libelleCommuneNaissance" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="codePaysNaissance" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:length value="3"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="libellePaysNaissance" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="60"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+         <xsd:element name="commentairesMEN" minOccurs="0">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="250"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:all>
+   </xsd:complexType>
+   <xsd:complexType name="codeCommuneNaissance">
+      <xsd:sequence>
+         <xsd:choice>
+            <xsd:element name="codeInseeNaissance" type="cpf:codeInsee"/>
+            <xsd:element name="codePostalNaissance" type="cpf:codePostal"/>
+         </xsd:choice>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="codeInsee">
+      <xsd:sequence>
+         <xsd:element name="codeInsee">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:length value="5"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="codePostal">
+      <xsd:sequence>
+         <xsd:element name="codePostal" nillable="true">
+            <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"/>
+                  <xsd:maxLength value="9"/>
+               </xsd:restriction>
+            </xsd:simpleType>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="flux" type="cpf:flux"/>
+   <xsd:simpleType name="natureDeposant">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="CERTIFICATEUR"/>
+         <xsd:enumeration value="TIERS_CONFIANCE"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="obtentionCertification">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="PAR_ADMISSION"/>
+         <xsd:enumeration value="PAR_SCORING"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="modalitePassageExamen">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="A_DISTANCE"/>
+         <xsd:enumeration value="EN_PRESENTIEL"/>
+         <xsd:enumeration value="MIXTE"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="niveauCECRL">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="A1"/>
+         <xsd:enumeration value="A2"/>
+         <xsd:enumeration value="B1"/>
+         <xsd:enumeration value="B2"/>
+         <xsd:enumeration value="C1"/>
+         <xsd:enumeration value="C2"/>
+         <xsd:enumeration value="INSUFFISANT"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="mention">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="SANS_MENTION"/>
+         <xsd:enumeration value="MENTION_ASSEZ_BIEN"/>
+         <xsd:enumeration value="MENTION_BIEN"/>
+         <xsd:enumeration value="MENTION_TRES_BIEN"/>
+         <xsd:enumeration value="MENTION_TRES_BIEN_AVEC_FELICITATIONS_DU_JURY"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="modaliteAcces">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="FORMATION_INITIALE_HORS_APPRENTISSAGE"/>
+         <xsd:enumeration value="FORMATION_INITIALE_APPRENTISSAGE"/>
+         <xsd:enumeration value="FORMATION_CONTINUE_HORS_CONTRAT_DE_PROFESSIONNALISATION"/>
+         <xsd:enumeration value="FORMATION_CONTINUE_CONTRAT_DE_PROFESSIONNALISATION"/>
+         <xsd:enumeration value="VAE"/>
+         <xsd:enumeration value="EQUIVALENCE_DIPLOME_ETRANGER"/>
+         <xsd:enumeration value="CANDIDAT_LIBRE"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="voieAccesVAE">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="CONGES_VAE"/>
+         <xsd:enumeration value="VAE_CLASSIQUE"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="initiativeInscription">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="CERTIFIE"/>
+         <xsd:enumeration value="OF"/>
+         <xsd:enumeration value="POLE_EMPLOI"/>
+         <xsd:enumeration value="EMPLOYEUR"/>
+         <xsd:enumeration value="AUTRE"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="genre">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="M"/>
+         <xsd:enumeration value="F"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+</xsd:schema>
