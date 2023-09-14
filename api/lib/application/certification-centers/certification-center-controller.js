@@ -137,6 +137,15 @@ const createCertificationCenterMembershipByEmail = async function (
     .created();
 };
 
+const findPendingInvitations = async function (request, h) {
+  const certificationCenterId = request.params.certificationCenterId;
+
+  const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
+    certificationCenterId,
+  });
+  return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
+};
+
 const findPendingInvitationsForAdmin = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
 
@@ -240,6 +249,7 @@ const certificationCenterController = {
   findCertificationCenterMembershipsByCertificationCenter,
   findCertificationCenterMemberships,
   createCertificationCenterMembershipByEmail,
+  findPendingInvitations,
   findPendingInvitationsForAdmin,
   updateReferer,
   sendInvitationForAdmin,
