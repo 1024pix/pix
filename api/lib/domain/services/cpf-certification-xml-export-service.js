@@ -145,11 +145,12 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
     }
     communeNaissance
             .up()
-
-    details
-          .ele('cpf:libelleCommuneNaissance').txt(birthplace)
+    if (birthplace) {
+      details
+            .ele('cpf:libelleCommuneNaissance').txt(birthplace)
+            .up()
           .up()
-        .up()
+    }
     if (countryCode) {
       details
         .ele('cpf:codePaysNaissance').txt(countryCode)

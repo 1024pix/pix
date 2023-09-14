@@ -178,6 +178,49 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
           "Element '{urn:cdc:cpf:pc5:schema:1.0.0}sexe': [facet 'enumeration'] The value '' is not an element of the set {'M', 'F'}.\n",
         );
       });
+
+      context('when there is no birthPlace for the candidate', function () {
+        it('it should generate a valid XML', async function () {
+          // given
+          uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+          const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({
+            id: 1234,
+            firstName: 'Bart',
+            lastName: 'Haba',
+            birthdate: '1993-05-23',
+            sex: 'M',
+            birthINSEECode: null,
+            birthPostalCode: '75002',
+            birthplace: null,
+            birthCountry: 'FRANCE',
+            publishedAt: '2022-01-03',
+            pixScore: 324,
+            competenceMarks: [
+              { competenceCode: '2.1', level: 4 },
+              { competenceCode: '3.2', level: 3 },
+            ],
+          });
+
+          const writableStream = new PassThrough();
+
+          // when
+          cpfCertificationXmlExportService.buildXmlExport({
+            cpfCertificationResults: [cpfCertificationResult],
+            writableStream,
+            uuidService,
+          });
+
+          const xmlExport = await streamToPromise(writableStream);
+
+          const parsedXsd = parseXml(cpfXsd);
+          const parsedXmlToExport = parseXml(xmlExport);
+          parsedXmlToExport.validate(parsedXsd);
+
+          // then
+          expect(parsedXmlToExport.validationErrors).to.be.empty;
+        });
+      });
     });
   });
 });
