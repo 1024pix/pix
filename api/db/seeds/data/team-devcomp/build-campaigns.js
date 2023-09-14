@@ -10,7 +10,7 @@ async function _createScoCampaigns(databaseBuilder) {
     name: 'PIX+ EDU - SCO - envoi simple',
     code: 'EDUSIMPLE',
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    configCampaign: { participantCount: 0 },
+    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
   });
   await createAssessmentCampaign({
     databaseBuilder,
@@ -20,7 +20,7 @@ async function _createScoCampaigns(databaseBuilder) {
     code: 'EDUMULTIP',
     multipleSendings: true,
     targetProfileId: PIX_EDU_SMALL_TARGET_PROFILE_ID,
-    configCampaign: { participantCount: 0 },
+    configCampaign: { participantCount: 3, profileDistribution: { beginner: 1, perfect: 1, blank: 1 } },
   });
 }
 
