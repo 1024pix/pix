@@ -22,7 +22,7 @@
 version: 2.1
 
 orbs:
-  browser-tools: circleci/browser-tools@1.4.5
+  browser-tools: circleci/browser-tools@1.4.6
 
 executors:
   node-docker:
