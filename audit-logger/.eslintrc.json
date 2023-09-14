@@ -1,9 +1,9 @@
 {
-  "extends": ["@1024pix", "standard-with-typescript", "prettier"],
+  "extends": ["@1024pix", "standard-with-typescript"],
   "env": {
     "node": true
   },
-  "plugins": ["knex", "prettier"],
+  "plugins": ["knex"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module",
