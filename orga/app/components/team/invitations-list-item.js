@@ -29,7 +29,7 @@ export default class InvitationsListItem extends Component {
         this.intl.t('pages.team-new.success.invitation', { email: organizationInvitation.email }),
       );
     } catch (e) {
-      this.notifications.sendError(this.intl.t('api-errors-messages.global'));
+      this.notifications.sendError(this.intl.t('api-error-messages.global'));
     } finally {
       setTimeout(() => {
         this.isResending = false;
