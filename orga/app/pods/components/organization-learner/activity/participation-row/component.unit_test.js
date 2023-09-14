@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../../../helpers/tests/create-glimmer-component';
 import { setupTest } from 'ember-qunit';
 
 module('Unit | Component | OrganizationLearner | Activity::ParticipationRow', function (hooks) {
