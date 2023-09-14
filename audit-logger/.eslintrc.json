@@ -3,6 +3,7 @@
   "env": {
     "node": true
   },
+  "ignorePatterns": ["vitest.config.ts"],
   "plugins": ["knex"],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -10,22 +11,32 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "comma-dangle": ["error", "only-multiline"],
-    "object-curly-spacing": ["error", "always"],
-    "quotes": [
+    "comma-dangle": "off",
+    "indent": "off",
+    "member-delimiter-style": "off",
+    "quotes": "off",
+    "semi": "off",
+    "space-before-function-paren": "off",
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/indent": [
       "error",
-      "single",
+      2,
       {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
+        "SwitchCase": 1
       }
     ],
-    "semi": ["error", "always"],
-    "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/strict-boolean-expressions": [
+    "@typescript-eslint/member-delimiter-style": [
       "error",
       {
-        "allowNumber": true
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        }
       }
     ],
     "@typescript-eslint/naming-convention": [
@@ -36,10 +47,33 @@
         "selector": "default"
       }
     ],
+    "@typescript-eslint/quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
     "@typescript-eslint/restrict-template-expressions": [
       "error",
       {
         "allowAny": true
+      }
+    ],
+    "@typescript-eslint/semi": ["error", "always"],
+    "@typescript-eslint/space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "ignore"
+      }
+    ],
+    "@typescript-eslint/strict-boolean-expressions": [
+      "error",
+      {
+        "allowNumber": true
       }
     ]
   }
