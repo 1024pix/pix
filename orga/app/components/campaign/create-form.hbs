@@ -4,7 +4,7 @@
     {{t "common.form.mandatory-fields"}}
   </p>
 
-  <div class="form__field">
+  <Ui::FormField>
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
@@ -24,134 +24,154 @@
         {{display-campaign-errors @errors.name}}
       </div>
     {{/if}}
-  </div>
+  </Ui::FormField>
 
-  <div class="form__field">
-    <PixSelect
-      @options={{this.campaignOwnerOptions}}
-      @onChange={{this.onChangeCampaignOwner}}
-      @value="{{this.campaign.ownerId}}"
-      @isSearchable={{true}}
-      @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
-      @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
-      @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-      @label={{t "pages.campaign-creation.owner.label"}}
-      @requiredText={{t "common.form.mandatory-fields-title"}}
-      @hideDefaultOption={{true}}
-    />
+  <Ui::FormField>
+    <:default>
+      <PixSelect
+        class="pix-select-owner"
+        @options={{this.campaignOwnerOptions}}
+        @onChange={{this.onChangeCampaignOwner}}
+        @value="{{this.campaign.ownerId}}"
+        @isSearchable={{true}}
+        @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
+        @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
+        @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
+        @label={{t "pages.campaign-creation.owner.label"}}
+        @requiredText={{t "common.form.mandatory-fields-title"}}
+        @hideDefaultOption={{true}}
+      />
+    </:default>
 
-    <Ui::ExplanationCard>
-      <:title>{{t "pages.campaign-creation.owner.title"}}</:title>
-      <:message>{{t "pages.campaign-creation.owner.info"}}</:message>
-    </Ui::ExplanationCard>
-  </div>
+    <:information>
+      <Ui::ExplanationCard>
+        <:title>{{t "pages.campaign-creation.owner.title"}}</:title>
 
-  <Ui::PixFieldset @required={{true}} aria-labelledby="collect-profiles-label" role="radiogroup">
-    <:title>{{t "pages.campaign-creation.purpose.label"}}</:title>
-    <:content>
-      <div>
-        <PixRadioButton
-          name="campaign-goal"
-          @value="assess-participants"
-          {{on "change" this.setCampaignGoal}}
-          aria-describedby="campaign-goal-assessment-info"
-          checked={{this.isCampaignGoalAssessment}}
-        >
-          {{t "pages.campaign-creation.purpose.assessment"}}
-        </PixRadioButton>
+        <:message>{{t "pages.campaign-creation.owner.info"}}</:message>
+      </Ui::ExplanationCard>
+    </:information>
+  </Ui::FormField>
 
-        <PixRadioButton
-          name="campaign-goal"
-          @value="collect-participants-profile"
-          {{on "change" this.setCampaignGoal}}
-          aria-describedby="campaign-goal-profiles-collection-info"
-          checked={{this.isCampaignGoalProfileCollection}}
-        >
-          {{t "pages.campaign-creation.purpose.profiles-collection"}}
-        </PixRadioButton>
-        {{#if @errors.type}}
-          <div class="form__error error-message">
-            {{display-campaign-errors @errors.type}}
-          </div>
-        {{/if}}
-      </div>
+  <Ui::FormField>
+    <:default>
+      <Ui::PixFieldset @required={{true}} aria-labelledby="collect-profiles-label" role="radiogroup">
+        <:title>{{t "pages.campaign-creation.purpose.label"}}</:title>
+        <:content>
+          <PixRadioButton
+            name="campaign-goal"
+            @value="assess-participants"
+            {{on "change" this.setCampaignGoal}}
+            aria-describedby="campaign-goal-assessment-info"
+            checked={{this.isCampaignGoalAssessment}}
+          >
+            {{t "pages.campaign-creation.purpose.assessment"}}
+          </PixRadioButton>
 
+          <PixRadioButton
+            name="campaign-goal"
+            @value="collect-participants-profile"
+            {{on "change" this.setCampaignGoal}}
+            aria-describedby="campaign-goal-profiles-collection-info"
+            checked={{this.isCampaignGoalProfileCollection}}
+          >
+            {{t "pages.campaign-creation.purpose.profiles-collection"}}
+          </PixRadioButton>
+          {{#if @errors.type}}
+            <div class="form__error error-message">
+              {{display-campaign-errors @errors.type}}
+            </div>
+          {{/if}}
+        </:content>
+      </Ui::PixFieldset>
+    </:default>
+    <:information>
       {{#if this.isCampaignGoalAssessment}}
         <Ui::ExplanationCard id="campaign-goal-assessment-info">
           <:title>{{t "pages.campaign-creation.purpose.assessment"}}</:title>
+
           <:message>{{t "pages.campaign-creation.purpose.assessment-info"}}</:message>
         </Ui::ExplanationCard>
       {{else if this.isCampaignGoalProfileCollection}}
         <Ui::ExplanationCard id="campaign-goal-profiles-collection-info">
           <:title>{{t "pages.campaign-creation.purpose.profiles-collection"}}</:title>
+
           <:message>{{t "pages.campaign-creation.purpose.profiles-collection-info"}}</:message>
         </Ui::ExplanationCard>
       {{/if}}
-    </:content>
-  </Ui::PixFieldset>
+    </:information>
+  </Ui::FormField>
 
   {{#if this.isCampaignGoalAssessment}}
-    <div class="form__field">
-      <PixFilterableAndSearchableSelect
-        @label={{t "pages.campaign-creation.target-profiles-list-label"}}
-        @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
-        @options={{this.targetProfilesOptions}}
-        @hideDefaultOption={{true}}
-        @onChange={{this.selectTargetProfile}}
-        @categoriesLabel={{t "pages.campaign-creation.target-profiles-category-label"}}
-        @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
-        @value={{this.campaign.targetProfile.id}}
-        @requiredText={{t "common.form.mandatory-fields-title"}}
-        @errorMessage={{if @errors.targetProfile (t "api-error-messages.campaign-creation.target-profile-required")}}
-        @isSearchable={{true}}
-        @searchLabel={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
-      />
-      {{#if this.campaign.targetProfile}}
-        <Ui::ExplanationCard id="target-profile-info">
-          <:title>{{this.campaign.targetProfile.name}}</:title>
-          <:message>
-            <Campaign::TargetProfileDetails
-              class="form__field-info-message"
-              @targetProfileDescription={{this.campaign.targetProfile.description}}
-              @hasStages={{this.campaign.targetProfile.hasStage}}
-              @hasBadges={{gt this.campaign.targetProfile.thematicResultCount 0}}
-              @targetProfileTubesCount={{this.campaign.targetProfile.tubeCount}}
-              @targetProfileThematicResultCount={{this.campaign.targetProfile.thematicResultCount}}
-            />
-          </:message>
-        </Ui::ExplanationCard>
-      {{/if}}
-    </div>
+    <Ui::FormField>
+      <:default>
+        <PixFilterableAndSearchableSelect
+          @label={{t "pages.campaign-creation.target-profiles-list-label"}}
+          @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
+          @options={{this.targetProfilesOptions}}
+          @hideDefaultOption={{true}}
+          @onChange={{this.selectTargetProfile}}
+          @categoriesLabel={{t "pages.campaign-creation.target-profiles-category-label"}}
+          @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
+          @value={{this.campaign.targetProfile.id}}
+          @requiredText={{t "common.form.mandatory-fields-title"}}
+          @errorMessage={{if @errors.targetProfile (t "api-error-messages.campaign-creation.target-profile-required")}}
+          @isSearchable={{true}}
+          @searchLabel={{t "pages.campaign-creation.target-profiles-search-placeholder"}}
+        />
+      </:default>
+      <:information>
+        {{#if this.campaign.targetProfile}}
+          <Ui::ExplanationCard id="target-profile-info">
+            <:title>{{this.campaign.targetProfile.name}}</:title>
+
+            <:message>
+              <Campaign::TargetProfileDetails
+                class="form__field-info-message"
+                @targetProfileDescription={{this.campaign.targetProfile.description}}
+                @hasStages={{this.campaign.targetProfile.hasStage}}
+                @hasBadges={{gt this.campaign.targetProfile.thematicResultCount 0}}
+                @targetProfileTubesCount={{this.campaign.targetProfile.tubeCount}}
+                @targetProfileThematicResultCount={{this.campaign.targetProfile.thematicResultCount}}
+              />
+            </:message>
+          </Ui::ExplanationCard>
+        {{/if}}
+      </:information>
+    </Ui::FormField>
   {{/if}}
 
   {{#if this.isMultipleSendingEnabled}}
-    <Ui::PixFieldset @required={{true}} aria-labelledby="multiple-sendings-label" role="radiogroup">
-      <:title>{{t this.multipleSendingWording.label}}</:title>
-      <:content>
-        <div>
-          <PixRadioButton
-            name="multiple-sendings-label"
-            @value="false"
-            {{on "change" (fn this.selectMultipleSendingsStatus false)}}
-            aria-describedby="multiple-sendings-info"
-            checked={{not this.campaign.multipleSendings}}
-          >
-            {{t "pages.campaign-creation.no"}}
-          </PixRadioButton>
+    <Ui::FormField>
+      <:default>
+        <Ui::PixFieldset @required={{true}} aria-labelledby="multiple-sendings-label" role="radiogroup">
+          <:title>{{t this.multipleSendingWording.label}}</:title>
+          <:content>
+            <PixRadioButton
+              name="multiple-sendings-label"
+              @value="false"
+              {{on "change" (fn this.selectMultipleSendingsStatus false)}}
+              aria-describedby="multiple-sendings-info"
+              checked={{not this.campaign.multipleSendings}}
+            >
+              {{t "pages.campaign-creation.no"}}
+            </PixRadioButton>
 
-          <PixRadioButton
-            name="multiple-sendings-label"
-            @value="true"
-            {{on "change" (fn this.selectMultipleSendingsStatus true)}}
-            aria-describedby="multiple-sendings-info"
-            checked={{this.campaign.multipleSendings}}
-          >
-            {{t "pages.campaign-creation.yes"}}
-          </PixRadioButton>
-        </div>
-
+            <PixRadioButton
+              name="multiple-sendings-label"
+              @value="true"
+              {{on "change" (fn this.selectMultipleSendingsStatus true)}}
+              aria-describedby="multiple-sendings-info"
+              checked={{this.campaign.multipleSendings}}
+            >
+              {{t "pages.campaign-creation.yes"}}
+            </PixRadioButton>
+          </:content>
+        </Ui::PixFieldset>
+      </:default>
+      <:information>
         <Ui::ExplanationCard id="multiple-sendings-info">
           <:title>{{t "pages.campaign-creation.multiple-sendings.info-title"}}</:title>
+
           <:message>
             {{t this.multipleSendingWording.info}}
             {{#if this.campaign.targetProfile.areKnowledgeElementsResettable}}
@@ -159,14 +179,14 @@
             {{/if}}
           </:message>
         </Ui::ExplanationCard>
-      </:content>
-    </Ui::PixFieldset>
+      </:information>
+    </Ui::FormField>
   {{/if}}
 
-  <Ui::PixFieldset @required={{true}} aria-labelledby="external-ids-label" role="radiogroup">
-    <:title>{{t "pages.campaign-creation.external-id-label.question-label"}}</:title>
-    <:content>
-      <div>
+  <Ui::FormField>
+    <Ui::PixFieldset aria-labelledby="external-ids-label" role="radiogroup">
+      <:title>{{t "pages.campaign-creation.external-id-label.question-label"}}</:title>
+      <:content>
         <PixRadioButton
           name="external-id-label"
           @value="false"
@@ -183,12 +203,12 @@
         >
           {{t "pages.campaign-creation.yes"}}
         </PixRadioButton>
-      </div>
-    </:content>
-  </Ui::PixFieldset>
+      </:content>
+    </Ui::PixFieldset>
+  </Ui::FormField>
 
   {{#if this.wantIdPix}}
-    <div class="form__field">
+    <Ui::FormField>
       <PixInput
         @id="external-id-label"
         @name="external-id-label"
@@ -204,11 +224,11 @@
           {{display-campaign-errors @errors.idPixLabel}}
         </div>
       {{/if}}
-    </div>
+    </Ui::FormField>
   {{/if}}
 
   {{#if this.isCampaignGoalAssessment}}
-    <div class="form__field">
+    <Ui::FormField>
       <PixInput
         @label={{t "pages.campaign-creation.test-title.label"}}
         @id="campaign-title"
@@ -217,10 +237,10 @@
         {{on "change" (fn this.onChangeCampaignValue "title")}}
         @value={{this.campaign.title}}
       />
-    </div>
+    </Ui::FormField>
   {{/if}}
 
-  <div class="form__field">
+  <Ui::FormField>
     <PixTextarea
       @label={{t "pages.campaign-creation.landing-page-text.label"}}
       @id="custom-landing-page-text"
@@ -229,7 +249,7 @@
       {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows="8"
     />
-  </div>
+  </Ui::FormField>
 
   <div class="form__validation">
     <PixButton @triggerAction={{@onCancel}} @backgroundColor="transparent-light" @isBorderVisible={{true}}>
@@ -246,5 +266,4 @@
       {{t "pages.campaign-creation.legal-warning"}}
     </div>
   {{/if}}
-
 </form>
