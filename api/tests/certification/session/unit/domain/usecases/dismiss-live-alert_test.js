@@ -1,7 +1,7 @@
-import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
-import { dismissLiveAlert } from '../../../../lib/domain/usecases/dismiss-live-alert.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { dismissLiveAlert } from '../../../../../../src/certification/session/domain/usecases/dismiss-live-alert.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | dismiss-live-alert', function () {
   let certificationChallengeLiveAlertRepository;

@@ -1,8 +1,8 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
-import { createServer } from '../../../../server.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } from '../../../../test-helper.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
+import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | Controller | sessions-controller', function () {
+describe('Certification | Session | Acceptance | Controller | session-live-alert-controller', function () {
   let server;
 
   beforeEach(async function () {

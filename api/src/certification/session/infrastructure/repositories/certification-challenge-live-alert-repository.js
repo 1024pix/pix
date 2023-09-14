@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationChallengeLiveAlert } from '../../domain/models/index.js';
-import { CertificationChallengeLiveAlertStatus } from '../../domain/models/CertificationChallengeLiveAlert.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CertificationChallengeLiveAlert } from '../../../../../lib/domain/models/index.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
 
 const save = async function ({ certificationChallengeLiveAlert }) {
   return knex('certification-challenge-live-alerts')
