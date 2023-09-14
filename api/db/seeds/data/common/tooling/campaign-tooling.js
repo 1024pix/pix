@@ -127,8 +127,8 @@ async function createAssessmentCampaign({
   );
 
   for (const { userId, organizationLearnerId } of userAndLearnerIds) {
-    const createdDate = dayjs(createdAt).subtract(30, 'days').add(_.random(2, 10), 'day').toDate();
-    const sharedDate = dayjs(createdDate).add(_.random(2, 20), 'day').toDate();
+    const createdDate = dayjs(createdAt).subtract(30, 'days').add(_.random(2, 10), 'days').toDate();
+    const sharedDate = dayjs(createdDate).add(_.random(2, 20), 'days').toDate();
 
     const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadges } =
       await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
