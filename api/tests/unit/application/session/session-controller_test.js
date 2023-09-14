@@ -1155,27 +1155,6 @@ describe('Unit | Controller | sessionController', function () {
       );
     });
   });
-
-  describe('#dismissLiveAlert', function () {
-    it('should call dismissLiveAlert', async function () {
-      const sessionId = 123;
-      const userId = 456;
-      const request = buildRequest(sessionId);
-      request.deserializedPayload = { userId };
-
-      sinon.stub(usecases, 'dismissLiveAlert');
-      usecases.dismissLiveAlert
-        .withArgs({
-          sessionId,
-          userId,
-        })
-        .resolves();
-
-      const response = await sessionController.dismissLiveAlert(request, hFake);
-
-      expect(response.statusCode).to.equal(204);
-    });
-  });
 });
 
 function buildRequest(sessionId, userId, firstName, lastName, birthdate) {

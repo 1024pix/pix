@@ -11,7 +11,6 @@ import { authorization } from '../preHandlers/authorization.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
-import { responseObjectErrorDoc } from '../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc.js';
 
 const register = async function (server) {
   server.route([
@@ -859,44 +858,6 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           "Elle retourne toutes les infos des candidats d'une session ayant obtenu la certification Clea, sous format CSV",
-        ],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/sessions/{id}/candidates/{candidateId}/dismiss-live-alert',
-      config: {
-        plugins: {
-          'hapi-swagger': {
-            produces: ['application/json'],
-            consumes: ['application/json'],
-          },
-        },
-        response: {
-          failAction: 'log',
-          status: {
-            204: Joi.string.empty,
-            401: responseObjectErrorDoc,
-            403: responseObjectErrorDoc,
-          },
-        },
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-            candidateId: identifiersType.userId,
-          }),
-        },
-        pre: [
-          {
-            method: assessmentSupervisorAuthorization.verifyBySessionId,
-            assign: 'isSupervisorForSession',
-          },
-        ],
-        handler: sessionController.dismissLiveAlert,
-        tags: ['api', 'sessions', 'liveAlerts', 'certifV3'],
-        notes: [
-          'Cette route est restreinte au surveillant',
-          'Elle permet de rejeter une alerte relevée par le candidat',
         ],
       },
     },
