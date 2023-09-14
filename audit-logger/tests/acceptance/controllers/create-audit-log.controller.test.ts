@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
-import { HapiServer } from '../../../src/lib/server';
 import { type Server, type ServerInjectOptions } from '@hapi/hapi';
-import { knex } from '../../../src/db/knex-database-connection';
+
+import { HapiServer } from '../../../src/lib/server.js';
+import { knex } from '../../../src/db/knex-database-connection.js';
 
 describe('Acceptance | Controllers | CreateAuditLogController', () => {
   let server: Server;
@@ -26,7 +27,7 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
       },
       headers: {
         Authorization: `Basic ${base64EncodedCredentials}`,
-      }
+      },
     };
   });
 
@@ -40,8 +41,8 @@ describe('Acceptance | Controllers | CreateAuditLogController', () => {
       // when
       options = {
         ...options,
-        headers: {}
-      }
+        headers: {},
+      };
       const response = await server.inject(options);
 
       // then

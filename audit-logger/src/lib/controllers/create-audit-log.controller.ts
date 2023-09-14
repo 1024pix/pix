@@ -10,15 +10,15 @@ export class CreateAuditLogController {
   constructor(private readonly createAuditLogUseCase: CreateAuditLogUseCase) {}
 
   async handle(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
-      const auditLog = request.payload as AuditLog;
+    const auditLog = request.payload as AuditLog;
 
-      await this.createAuditLogUseCase.execute(auditLog);
+    await this.createAuditLogUseCase.execute(auditLog);
 
     return h.response().code(204);
   }
 }
 
-const createAuditLogController=  new CreateAuditLogController(createAuditLogUseCase);
+const createAuditLogController = new CreateAuditLogController(createAuditLogUseCase);
 
 export const CREATE_AUDIT_LOG_ROUTE: ServerRoute = {
   method: 'POST',

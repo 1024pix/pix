@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { areCredentialsValid } from '../../../../src/lib/infrastructure/services/authentication.service.js'
+import { areCredentialsValid } from '../../../../src/lib/infrastructure/services/authentication.service.js';
 
 describe('Unit | Infrastructure | Services | authentication', () => {
   describe('#areCredentialsValid', () => {

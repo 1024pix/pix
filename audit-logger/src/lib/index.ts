@@ -2,7 +2,7 @@ import { HapiServer } from './server.js';
 import { logger } from './infrastructure/logger.js';
 import { config } from './config.js';
 
-process.on('SIGTERM',   (): void => {
+process.on('SIGTERM', (): void => {
   _exitOnSignal('SIGTERM').then(() => {}, () => {});
 });
 process.on('SIGINT', () => {
