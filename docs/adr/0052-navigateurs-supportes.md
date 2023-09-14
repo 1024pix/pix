@@ -42,7 +42,7 @@ Donc nous souhaitons supporter les versions de navigateurs publiées jusqu'à il
 En août 2023, en analysant les navigateurs utilisés sur le mois de mai 2023, nous observons que la 5eme version la plus utilisée de Firefox est la version 78 (qui a 3 ans et demi), avec une utilisation globale autour de 0,8%.
 Donc si nous voulons gérer les navigateurs de nos utilisateurs avec un peu de marge, une limite à 4 ans est intéressante.
 
-Nous pourrions aussi nous baser uniquement sur des statistiques et les pourcentages d'utilisation mondiales ou français. Ces statistiques sont intéressantes pour s'assurer un bon service pour une population globale. Mais dans la population des utilisateurs Pix, il y a aussi des utilisateurs très identifiés (des associations, des écoles, etc.) qui ont une gestion qui peut être spécifique à leur parc informatique.
+Nous pourrions aussi nous baser uniquement sur des statistiques et les pourcentages d'utilisation mondiales ou français. Ces statistiques sont intéressantes pour s'assurer un bon service pour une population globale. Mais dans la population des utilisateurs Pix, il y a aussi des utilisateurs très identifiés (des grandes structures, des associations, des écoles, etc.) qui peuvent avoir une gestion de leur parc informatique spécifique avec des temporalités longues.
 De plus, se baser uniquement sur le pourcentage ne permet pas d'avoir une liste claire de navigateurs supportés pour aider l'équipe *Support utilisateurs* à savoir sur quels navigateurs Pix fonctionne.
 
 Nous pourrions nous baser uniquement sur une liste de navigateurs, mais cela demanderait : 
@@ -57,7 +57,8 @@ Pour des soucis de cohérence, la même règle pour toutes les applications semb
 
 Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble être celle proposée ci-dessous.
 
-À noter qu'au moment de l'écriture de cette ADR la définition par défaut des versions des navigateurs supportées de *Browserslist* au format texte colonne est :
+À noter qu'au moment de l'écriture de cette ADR la définition par défaut des versions des navigateurs supportées de *Browserslist* au format texte colonne est celle ci-dessous.
+L'ensemble des versions supportées est l'union des versions définies par chaque ligne. C'est à dire que chaque nouvelle ligne augmente le périmètre.
 
 ```dotenv
 > 0.5%
@@ -71,7 +72,9 @@ not dead
 
 Pour permettre un parcours utilisateur continu et homogène, toutes les applications front de Pix (les applications du repository Pix, Pix-UI, les différents pix-sites, Pix Editor, etc.) sont configurées avec la même définition de versions des navigateurs supportées.
 
-Toutes les applications front de Pix sont configurées pour supporter les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs *jusqu'à 4 ans d’ancienneté*.
+Toutes les applications front de Pix sont configurées pour supporter les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs ayant *jusqu'à 4 ans d’ancienneté*.
+
+Cela ne veut pas dire que seules les versions de navigateurs étant sorties il y a moins de 4 ans seront supportées. Cela veut au contraire dire *qu'en plus de toutes les versions des navigateurs déjà supportées par défaut par Browserslist*, les versions de navigateurs étant sorties il y a moins de 4 ans sont aussi supportées. Cela augmente donc le périmètre des versions supportées par défaut de *Browserslist* suivant un critère de temporalité qui correspond aux cycles de déploiement des navigateurs dans des grandes structures comme les administrations, l'éducation ou les grands groupes.
 
 Pour cela, nous proposons d'utiliser la définition par défaut des versions des navigateurs supportées de *Browserslist*, à travers l'alias `defaults`, et d'y ajouter un allongement supplémentaire de 4 ans avec l'instruction `last 4 years`.
 
