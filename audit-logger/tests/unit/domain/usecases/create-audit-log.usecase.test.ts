@@ -17,7 +17,7 @@ describe('Unit | UseCases | Create audit log', () => {
       });
 
       const auditLogRepository: AuditLogRepository = {
-        create: vi.fn(async () =>  {}),
+        create: vi.fn(async () => {}),
       };
 
       const createAuditLog = new CreateAuditLogUseCase(auditLogRepository);

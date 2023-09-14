@@ -1,10 +1,10 @@
-import { beforeEach, afterEach, describe, expect, test , beforeAll, vi } from 'vitest';
+import { beforeEach, afterEach, describe, expect, test, vi } from 'vitest';
 import { AuditLog } from '../../../../src/lib/domain/models/audit-log.js';
 import { auditLogPostgresRepository } from '../../../../src/lib/infrastructure/repositories/audit-log-postgres.repository.js';
 import { knex } from '../../../../src/db/knex-database-connection.js';
 
 describe('Integration | Infrastructure | Repositories | AuditLogPostgresRepository', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     vi.useFakeTimers({ now: new Date('2023-08-29') });
   });
 
@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Repositories | AuditLogPostgresReposito
     test('creates new audit log', async () => {
       // given
       const auditLog = new AuditLog({
-        occurredAt: new Date (),
+        occurredAt: new Date(),
         action: 'ANONYMIZATION',
         userId: '1',
         targetUserId: '2',
