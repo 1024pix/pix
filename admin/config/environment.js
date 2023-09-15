@@ -101,6 +101,14 @@ module.exports = function (environment) {
         minValue: 250,
       }),
     },
+
+    searchTargetProfiles: {
+      debounce: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'SEARCH_TARGET_PROFILE_DEBOUNCE_TIMEOUT',
+        defaultValue: 250,
+        minValue: 0,
+      }),
+    },
   };
 
   if (environment === 'development') {
@@ -133,6 +141,7 @@ module.exports = function (environment) {
     };
 
     ENV.pagination.debounce = 0;
+    ENV.searchTargetProfiles.debounce = 0;
   }
 
   if (environment === 'production') {

@@ -1,9 +1,10 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import ENV from 'pix-admin/config/environment';
 
 export default class SearchBar extends Component {
   get debounce() {
-    return 0;
+    return ENV.searchTargetProfiles.debounce;
   }
 
   @action
