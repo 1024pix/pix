@@ -9,13 +9,14 @@
     min-width: 40%;
   }
 
-  &__results {
+  &__results, &__loader, &__no-result {
     position: absolute;
     z-index: 200;
     width: inherit;
     max-height: 12.5rem;
     padding: $pix-spacing-xs $pix-spacing-s;
     overflow-y: auto;
+    color: $pix-neutral-50;
     white-space: nowrap;
     list-style-type: none;
     background-color: $pix-neutral-0;
@@ -24,8 +25,8 @@
     box-shadow: 0 6px 12px rgb(7 20 46 / 8%);
     transition: all 0.1s ease-in-out;
 
-    &__loader {
-      color: $pix-neutral-30;
+    &__option {
+      color: $pix-neutral-80;
     }
 
     &__option:hover,

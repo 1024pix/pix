@@ -97,7 +97,7 @@ module(
           await fillIn(input, '3');
 
           await screen.findByRole('listbox');
-          const targetProfileSelectable = screen.getByRole('option', { name: '3 - ALEX TARGET' });
+          const targetProfileSelectable = await screen.findByRole('option', { name: '3 - ALEX TARGET' });
 
           // when
           await targetProfileSelectable.click();
@@ -133,7 +133,7 @@ module(
           const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
           await fillIn(input, '5');
           await screen.findByRole('listbox');
-          const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
+          const targetProfileSelectable = await screen.findByRole('option', { name: '5 - ALEX TARGET' });
 
           // when
           await targetProfileSelectable.click();
