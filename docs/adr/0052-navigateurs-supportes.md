@@ -70,7 +70,9 @@ not dead
 
 ## Décision finale
 
-Pour permettre un parcours utilisateur continu et homogène, toutes les applications front de Pix (les applications du repository Pix, Pix-UI, les différents pix-sites, Pix Editor, etc.) sont configurées avec la même définition de versions des navigateurs supportées.
+Pour permettre un parcours utilisateur continu et homogène, *toutes les applications front de Pix* (les applications du repository Pix, Pix-UI, les différents pix-sites, Pix Editor, etc.) doivent être compatibles a minima avec un ensemble de versions de navigateurs identifiées.
+
+Cet ensemble de versions de navigateurs identifiées avec lesquelles toutes les applications front de Pix doivent être compatibles est défini grâce au logiciel *Browserslist*. Chaque application front de Pix a cette obligation de compatibilité, que l'application utilise *Browserslist* dans ses dépendances logicielles, ou pas, ou seulement en partie (par exemple uniquement pour les CSS et pas pour le JS). L'obligation de compatibilité reste la même quelle que soit la chaîne logicielle.
 
 Toutes les applications front de Pix sont configurées pour supporter les versions des navigateurs définies par défaut dans *Browserslist* **et en plus** les versions des navigateurs ayant *jusqu'à 4 ans d’ancienneté*.
 
