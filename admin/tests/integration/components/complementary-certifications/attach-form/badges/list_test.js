@@ -10,6 +10,14 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
+  test('[a11y] it should display a message that all inputs are required', async function (assert) {
+    // given & when
+    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
+
+    // then
+    assert.dom(screen.getByText('Tous les champs sont obligatoires.')).exists();
+  });
+
   module('Without badges', function () {
     test('it should display an empty table of target profile badges', async function (assert) {
       // given & when
