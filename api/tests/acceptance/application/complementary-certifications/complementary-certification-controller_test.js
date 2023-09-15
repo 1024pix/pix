@@ -82,14 +82,14 @@ describe('Acceptance | API | complementary-certification-controller', function (
 
       databaseBuilder.factory.buildComplementaryCertification({
         id: 3,
-        key: 'EDU_1ER_DEGRE',
         label: 'Pix+ Édu 1er degré',
+        hasExternalJury: true,
       });
 
       const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         id: complementaryCertificationId,
-        key: 'EDU_2ND_DEGRE',
         label: 'Pix+ Édu 2nd degré',
+        hasExternalJury: true,
       });
 
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'Target' });
@@ -133,7 +133,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
           id: '1',
           attributes: {
             label: 'Pix+ Édu 2nd degré',
-            key: 'EDU_2ND_DEGRE',
+            'has-external-jury': true,
             'target-profiles-history': [
               {
                 id: 999,
