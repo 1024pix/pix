@@ -1,5 +1,5 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { getComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/usecases/get-complementary-certification-target-profile-history.js';
+import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
+import { getComplementaryCertificationTargetProfileHistory } from '../../../../../../src/certification/complementary-certification/domain/usecases/get-complementary-certification-target-profile-history.js';
 
 describe('Unit | UseCase | get-complementary-certification-target-profile-history', function () {
   let complementaryCertificationTargetProfileHistoryRepository;

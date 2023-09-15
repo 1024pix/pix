@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { TargetProfileHistoryForAdmin } from '../../domain/models/TargetProfileHistoryForAdmin.js';
-import { ComplementaryCertificationBadgeForAdmin } from '../../domain/models/ComplementaryCertificationBadgeForAdmin.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { TargetProfileHistoryForAdmin } from '../../../../../lib/domain/models/TargetProfileHistoryForAdmin.js';
+import { ComplementaryCertificationBadgeForAdmin } from '../../../../../lib/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 import bluebird from 'bluebird';
 
 const getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId = async function ({
