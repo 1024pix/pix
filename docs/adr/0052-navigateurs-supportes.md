@@ -12,21 +12,42 @@ En cours
 
 Pix est un service public, sans condition d'inscription. Il est en ligne, donc accessible via un navigateur web. Pix n'a ni la volonté ni la possibilité d'imposer un navigateur à ses utilisateurs, et doit pouvoir répondre à un large public, avec des navigateurs desktop/mobiles, qui peuvent parfois être obsolètes.
 
-Nos frameworks et nos packages permettent de supporter les anciens navigateurs jusqu'à une certaine version.
+Nos frameworks et nos packages permettent de supporter les anciens navigateurs jusqu'à un certain point.
 
-Le choix de supporter tel ou tel navigateur a un impact écologique qu'il faut mentionner. D'un côté supporter des vieux navigateurs permet aux utilisateurs de pouvoir utiliser de vieux ordinateurs et téléphones et ainsi aux utilisateurs de garder leurs matériels informatiques plus longtemps. Mais d'un autre côté s'appuyer sur les nouvelles fonctionnalités natives des navigateurs récents (que ce soit au niveau de JavaScript ou des CSS) permet une réduction significative de la taille des paquets (bundles) produits téléchargés par les matériels des utilisateurs.
+Le choix d'assurer la compatibilité avec tel ou tel navigateur a un impact écologique qu'il faut mentionner. D'un côté supporter des vieux navigateurs permet aux utilisateurs de pouvoir utiliser de vieux ordinateurs et téléphones et ainsi aux utilisateurs de garder leurs matériels informatiques plus longtemps. Mais d'un autre côté s'appuyer sur les nouvelles fonctionnalités natives des navigateurs récents (que ce soit au niveau de JavaScript ou des CSS) permet une réduction significative de la taille des paquets (bundles) produits téléchargés par les matériels des utilisateurs.
 
 De plus pour la certification, le cahier des charges des centres de certifications indiquent que les navigateurs doivent avoir moins de 2 ans, mais que les établissements peuvent attendre la fin de l'année scolaire pour effectuer la mise à jour. Par sécurité avec les agendas scolaires, nous ajoutons un an à ce support minimum, nous gérons donc officiellement les navigateurs de moins de 3 ans.
 
-De plus, [EmberJs ne supporte plus les navigateurs trop vieux](https://emberjs.com/browser-support/) : Ember 4.0.0 ne supporte plus Internet Explorer, et globalement les navigateurs qui détiennent au moins 0,25 % de l'utilisation de la part de marché mondiale sur les mobiles et les ordinateurs de bureau, selon [statcounter](https://gs.statcounter.com/browser-market-share).
+De plus, EmberJs (le framework le plus utilisé pour développer les applications front de Pix) assure une *compatibilité garantie et testée* avec un ensemble de versions de navigateurs défini dans https://emberjs.com/browser-support/ qui pour simplifier correspond à :
+* la dernière version des navigateurs les plus utilisés (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari)
+* la dernière version de Firefox édition longue durée (Firefox ESR), souvent utilisée dans les grandes structures, dans le secteur public, etc.
+* les versions de navigateurs qui détiennent un minimum de 0,25% d'utilisation au niveau mondial
 
 De plus, les utilisateurs de Pix utilisent généralement plusieurs applications front de Pix les unes à la suite des autres, voire simultanément, certaines applications étant plus ou moins couplées. Ainsi il serait absurde que certains utilisateurs soient bloqués dans leur parcours et utilisation de Pix par manque d'homogénéité dans les configurations de versions des navigateurs web supportées des dites applications.
 
-Par ailleurs l'équipe *Support utilisateurs* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
+Techniquement, généralement la configuration du support navigateur se fait via un fichier dans chaque projet front (via le fichier `/config/target.js` pour les applications EmberJs, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
 
-Enfin, techniquement, le support navigateur se fait via un fichier de configuration dans chaque projet front (via le fichier `/config/target.js` pour les applications Ember, ou via un autre fichier pour les autres frameworks/applications). C'est Babel qui s'occupe de la rétrocompatibilité, en utilisant [Browserslist](https://github.com/browserslist/browserslist) et [Can I Use](https://caniuse.com/) qui se basent sur les statistiques mondiales d'utilisation des navigateurs.
+Au moment de l'écriture de cette ADR la définition par défaut des versions des navigateurs supportées de *Browserslist* au format texte colonne est celle ci-dessous.
+L'ensemble des versions supportées est l'union des versions définies par chaque ligne. C'est à dire que chaque nouvelle ligne augmente le périmètre.
 
-Actuellement le fichier `/config/target.js` des applications Ember contient la configuration `'> 1%', 'firefox 58'` qui contient en dur une très vielle version d'un navigateur spécifique. Ce type de configuration avec des versions en dur oblige une mise à jour manuelle des fichiers qui peut être oubliée.
+```dotenv
+> 0.5%
+last 2 versions
+Firefox ESR
+not dead
+```
+
+Actuellement le fichier `/config/target.js` des applications Pix réalisées avec EmberJs contient la configuration suivante :
+
+```
+`'> 1%', 'firefox 58'`
+```
+
+Cette configuration a plusieurs problèmes :
+* cette configuration définit un périmètre beaucoup plus large que la *compatibilité garantie et testée d'EmberJs* et cherche donc à assurer une compatibilité souhaitée mais trop décalée par rapport à la réalité des contraintes de fonctionnement d'EmberJs
+* cette configuration contient en dur une version spécifique d'un navigateur, ce qui oblige à une mise à jour manuelle régulière des fichiers et qui peut être oubliée
+
+Enfin par ailleurs l'équipe *Support utilisateurs* a besoin de connaître le plus facilement possible les navigateurs supportés par Pix.
 
 
 ## Possibilités et réflexions
@@ -49,23 +70,14 @@ Nous pourrions nous baser uniquement sur une liste de navigateurs, mais cela dem
 - d'avoir une liste assez exhaustive des navigateurs pour s'assurer de ne pas avoir d'oubli de situation
 - de mettre plus souvent à jour la liste des navigateurs, notamment en cas d'arrivée d'un navigateur web ou mobile avec une forte utilisation.
 
-De plus, le fichier `/config/target.js` est présent dans les différentes applications front.
 Nous pourrions avoir des règles différentes par application, ou la même règle pour toutes les applications.
 Pour des soucis de cohérence, la même règle pour toutes les applications semble être la meilleure solution. De plus : 
 - l'équipe de développement travaille sur tous les front, donc une cohérence entre les versions de packages permettent d'éviter une adaptation à chaque front
 - les front se basent sur Pix-UI pour le design, donc il faudrait une cohérence entre les front pour éviter d'avoir à gérer des navigateurs (et donc des packages possiblement) différents
 
+Il faut noter qu'on ne peut pas établir une correspondance *véritablement exacte* entre une configuration *Browserslist* et la *compatibilité garantie et testée d'EmberJs* car les outils se basant sur *Browserslist* ont à la fois une approche additive et soustractive qui fait que par recherche d'optimisation tout ce qui ne sera pas utile aux versions des navigateurs souhaitées sera supprimé. Concrètement, une version de navigateur ancienne non listee dans les versions dont la compatibilité est garantie et testée dans EmberJs pourrait quand même fonctionner avec EmberJs, alors que si une configuration *Browserslist* ne stipule pas la compatibilité avec cette version alors il y aura une forte probabilité que l'application se basant sur cette configuration ne fonctionnera pas avec cette version. Ainsi lorsque des configurations *Browserslist* sont utilisées il serait contre-productif qu'elles cherchent à trop étendre la *compatibilité garantie et testée d'EmberJs*, et par ailleurs chercher à utiliser l'exacte *compatibilité garantie et testée d'EmberJs* serait source d'exclusion.
+
 Pour toutes ces raisons, la solution pour les navigateurs supportés nous semble être celle proposée ci-dessous.
-
-À noter qu'au moment de l'écriture de cette ADR la définition par défaut des versions des navigateurs supportées de *Browserslist* au format texte colonne est celle ci-dessous.
-L'ensemble des versions supportées est l'union des versions définies par chaque ligne. C'est à dire que chaque nouvelle ligne augmente le périmètre.
-
-```dotenv
-> 0.5%
-last 2 versions
-Firefox ESR
-not dead
-```
 
 
 ## Décision finale
@@ -124,9 +136,9 @@ npx browserslist "defaults, last 4 years"
 
 ## Références
 
-* [Liste des navigateurs et leur date de release](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
+* [Liste des navigateurs et leur date de sortie](https://en.wikipedia.org/wiki/Timeline_of_web_browsers)
 
-* [Ember New Browser Support Policy RFC](https://rfcs.emberjs.com/id/0685-new-browser-support-policy/)
+* [Statistiques StatCounter utilisées pour déterminer l'utilisation mondiale des différents navigateurs et de leurs versions](https://gs.statcounter.com/)
 
 * [Firefox ESR](https://support.mozilla.org/fr/kb/passer-firefox-edition-longue-duree-esr)
 
