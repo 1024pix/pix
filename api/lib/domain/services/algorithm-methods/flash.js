@@ -25,8 +25,7 @@ function getPossibleNextChallenges({
   allAnswers,
   challenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
-  warmUpLength = 0,
-  forcedCompetences = [],
+  options: { warmUpLength = 0, forcedCompetences = [] } = {},
 } = {}) {
   let nonAnsweredChallenges = getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 

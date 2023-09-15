@@ -32,8 +32,10 @@ class FlashAssessmentAlgorithm {
       allAnswers,
       challenges,
       estimatedLevel,
-      warmUpLength: this.warmUpLength,
-      forcedCompetences: this.forcedCompetences,
+      options: {
+        warmUpLength: this.warmUpLength,
+        forcedCompetences: this.forcedCompetences,
+      },
     });
 
     if (hasAssessmentEnded) {

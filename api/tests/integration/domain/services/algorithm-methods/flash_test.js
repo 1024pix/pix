@@ -431,7 +431,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
                 challenges: listChallenges,
                 allAnswers,
                 estimatedLevel,
-                forcedCompetences,
+                options: {
+                  forcedCompetences,
+                },
               });
 
               // then
@@ -485,8 +487,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
                 challenges: listChallenges,
                 allAnswers,
                 estimatedLevel,
-                forcedCompetences,
-                warmUpLength,
+                options: {
+                  forcedCompetences,
+                  warmUpLength,
+                },
               });
 
               // then
