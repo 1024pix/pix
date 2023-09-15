@@ -54,24 +54,26 @@
       {{on "input" (fn @onFieldUpdate @badgeId)}}
     />
   </td>
-  <td>
-    <PixTextarea
-      @id="{{@badgeId}}-certificate-message"
-      name="certificate-message"
-      placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
-      aria-label="{{@badgeId}} {{@badgeLabel}} Message du certificat"
-      title="{{@badgeId}} {{@badgeLabel}} Message du certificat"
-      {{on "input" (fn @onFieldUpdate @badgeId)}}
-    />
-  </td>
-  <td>
-    <PixTextarea
-      @id="{{@badgeId}}-certificate-temporary-message"
-      name="certificate-temporary-message"
-      placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
-      aria-label="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
-      title="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
-      {{on "input" (fn @onFieldUpdate @badgeId)}}
-    />
-  </td>
+  {{#if @hasExternalJury}}
+    <td>
+      <PixTextarea
+        @id="{{@badgeId}}-certificate-message"
+        name="certificate-message"
+        placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
+        aria-label="{{@badgeId}} {{@badgeLabel}} Message du certificat"
+        title="{{@badgeId}} {{@badgeLabel}} Message du certificat"
+        {{on "input" (fn @onFieldUpdate @badgeId)}}
+      />
+    </td>
+    <td>
+      <PixTextarea
+        @id="{{@badgeId}}-certificate-temporary-message"
+        name="certificate-temporary-message"
+        placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
+        aria-label="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
+        title="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
+        {{on "input" (fn @onFieldUpdate @badgeId)}}
+      />
+    </td>
+  {{/if}}
 </tr>

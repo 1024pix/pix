@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | ComplementaryCertifications::AttachBadges::Badges::Row', function (hooks) {
+module('Integration | Component | ComplementaryCertifications::AttachBadges::Badges::Header', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
