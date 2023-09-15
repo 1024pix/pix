@@ -43,11 +43,11 @@
     "esm": true
   },
   "exclude": [
-    "src/tests/**/*",
     "vitest.config.ts"
   ],
   "include": [
     "src/**/*",
+    "tests/**/*",
     "package.json"
   ]
 }
