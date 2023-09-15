@@ -124,11 +124,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
           uuidService,
         });
 
-        const xmlExport = await streamToPromise(writableStream);
-
-        const parsedXsd = parseXml(cpfXsd);
-        const parsedXmlToExport = parseXml(xmlExport);
-        parsedXmlToExport.validate(parsedXsd);
+        const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
 
         // then
         expect(parsedXmlToExport.validationErrors).to.be.empty;
@@ -165,11 +161,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
           uuidService,
         });
 
-        const xmlExport = await streamToPromise(writableStream);
-
-        const parsedXsd = parseXml(cpfXsd);
-        const parsedXmlToExport = parseXml(xmlExport);
-        parsedXmlToExport.validate(parsedXsd);
+        const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
 
         // then
         expect(parsedXmlToExport.validationErrors[0].message).to.equal(
@@ -177,7 +169,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         );
       });
 
-      context('when there is no birthPlace for the candidate', function () {
+      context('when there is no birthplace for the candidate', function () {
         it('it should generate a valid XML', async function () {
           // given
           uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
@@ -209,11 +201,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
             uuidService,
           });
 
-          const xmlExport = await streamToPromise(writableStream);
-
-          const parsedXsd = parseXml(cpfXsd);
-          const parsedXmlToExport = parseXml(xmlExport);
-          parsedXmlToExport.validate(parsedXsd);
+          const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
 
           // then
           expect(parsedXmlToExport.validationErrors).to.be.empty;
@@ -252,11 +240,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
             uuidService,
           });
 
-          const xmlExport = await streamToPromise(writableStream);
-
-          const parsedXsd = parseXml(cpfXsd);
-          const parsedXmlToExport = parseXml(xmlExport);
-          parsedXmlToExport.validate(parsedXsd);
+          const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
 
           // then
           expect(parsedXmlToExport.validationErrors).to.be.empty;
@@ -506,4 +490,14 @@ function _getExpectedXmlExport() {
     </cpf:certificateurs>
   </cpf:emetteur>
 </cpf:flux>`;
+}
+
+async function _parseAndValidateXmlWithXsd({ writableStream, cpfXsd }) {
+  const xmlExport = await streamToPromise(writableStream);
+
+  const parsedXsd = parseXml(cpfXsd);
+  const parsedXmlToExport = parseXml(xmlExport);
+  parsedXmlToExport.validate(parsedXsd);
+
+  return parsedXmlToExport;
 }
