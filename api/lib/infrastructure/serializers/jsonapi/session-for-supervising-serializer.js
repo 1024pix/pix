@@ -10,6 +10,7 @@ const serialize = function (sessions) {
 
       cloneSession.certificationCandidates.forEach((candidate) => {
         candidate.enrolledComplementaryCertificationLabel = candidate.enrolledComplementaryCertification?.label ?? null;
+        candidate.liveAlertStatus = candidate.liveAlertStatus ?? null;
       });
 
       return cloneSession;
