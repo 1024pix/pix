@@ -1,7 +1,13 @@
-import { expect, domainBuilder, sinon, streamToPromise } from '../../../test-helper.js';
+import { expect, domainBuilder, sinon, streamToPromise } from '../../../../test-helper.js';
 import stream from 'stream';
+// eslint-disable-next-line n/no-unpublished-import
+import { parseXml } from 'libxmljs2';
+import { readFile } from 'fs/promises';
+import * as url from 'url';
 
 const { PassThrough } = stream;
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
@@ -10,7 +16,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import * as cpfCertificationXmlExportService from '../../../../lib/domain/services/cpf-certification-xml-export-service.js';
+import * as cpfCertificationXmlExportService from '../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 
 describe('Unit | Services | cpf-certification-xml-export-service', function () {
   let clock;
@@ -80,6 +86,98 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
       const expectedXmlExport = _getExpectedXmlExport();
       const xmlExport = await streamToPromise(writableStream);
       expect(xmlExport).to.equal(expectedXmlExport.replace(/\n| {2}/g, ''));
+    });
+
+    describe('CPF XSD validation', function () {
+      let cpfXsd;
+
+      before(async function () {
+        cpfXsd = await readFile(`${__dirname}/cpf.xsd`, 'utf8');
+      });
+
+      it('it should validate our generated XML', async function () {
+        // given
+        uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({
+          id: 1234,
+          firstName: 'Bart',
+          lastName: 'Haba',
+          birthdate: '1993-05-23',
+          sex: 'M',
+          birthINSEECode: null,
+          birthPostalCode: '75002',
+          birthplace: 'PARIS',
+          birthCountry: 'FRANCE',
+          publishedAt: '2022-01-03',
+          pixScore: 324,
+          competenceMarks: [
+            { competenceCode: '2.1', level: 4 },
+            { competenceCode: '3.2', level: 3 },
+          ],
+        });
+
+        const writableStream = new PassThrough();
+
+        // when
+        cpfCertificationXmlExportService.buildXmlExport({
+          cpfCertificationResults: [cpfCertificationResult],
+          writableStream,
+          uuidService,
+        });
+
+        const xmlExport = await streamToPromise(writableStream);
+
+        const parsedXsd = parseXml(cpfXsd);
+        const parsedXmlToExport = parseXml(xmlExport);
+        parsedXmlToExport.validate(parsedXsd);
+
+        // then
+        expect(parsedXmlToExport.validationErrors).to.be.empty;
+      });
+
+      it('it should detect CPF schema errors', async function () {
+        // given
+        uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+        const incorrectCpfCertificationResult = domainBuilder.buildCpfCertificationResult({
+          id: 1234,
+          firstName: 'Bart',
+          lastName: 'Haba',
+          birthdate: '1993-05-23',
+          sex: null,
+          birthINSEECode: null,
+          birthPostalCode: '75002',
+          birthplace: 'PARIS',
+          birthCountry: 'FRANCE',
+          publishedAt: '2022-01-03',
+          pixScore: 324,
+          competenceMarks: [
+            { competenceCode: '2.1', level: 4 },
+            { competenceCode: '3.2', level: 3 },
+          ],
+        });
+
+        const writableStream = new PassThrough();
+
+        // when
+        cpfCertificationXmlExportService.buildXmlExport({
+          cpfCertificationResults: [incorrectCpfCertificationResult],
+          writableStream,
+          uuidService,
+        });
+
+        const xmlExport = await streamToPromise(writableStream);
+
+        const parsedXsd = parseXml(cpfXsd);
+        const parsedXmlToExport = parseXml(xmlExport);
+        parsedXmlToExport.validate(parsedXsd);
+
+        // then
+        expect(parsedXmlToExport.validationErrors[0].message).to.equal(
+          "Element '{urn:cdc:cpf:pc5:schema:1.0.0}sexe': [facet 'enumeration'] The value '' is not an element of the set {'M', 'F'}.\n",
+        );
+      });
     });
   });
 });
