@@ -62,6 +62,7 @@
         placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
         aria-label="{{@badgeId}} {{@badgeLabel}} Message du certificat"
         title="{{@badgeId}} {{@badgeLabel}} Message du certificat"
+        required="true"
         {{on "input" (fn @onFieldUpdate @badgeId)}}
       />
     </td>
@@ -72,6 +73,7 @@
         placeholder="Ex : Vous avez obtenu la certification Pix+Édu niveau “Initié (entrée dans le métier)”"
         aria-label="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
         title="{{@badgeId}} {{@badgeLabel}} Message temporaire certificat"
+        required="true"
         {{on "input" (fn @onFieldUpdate @badgeId)}}
       />
     </td>
