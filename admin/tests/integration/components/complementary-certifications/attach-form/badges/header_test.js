@@ -8,7 +8,7 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
-  test('it should display the header label with no required mark and no tooltip by default', async function (assert) {
+  test('it should display the header label with no tooltip by default', async function (assert) {
     // given & when
     const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
           LABEL
@@ -17,21 +17,8 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
 
     // then
     assert.dom(screen.getByText('LABEL')).exists();
-    assert.dom(screen.queryByTitle('obligatoire')).doesNotExist();
     assert.dom(screen.queryByRole('info')).doesNotExist();
     assert.dom(screen.queryByRole('tooltip')).doesNotExist();
-  });
-
-  test('it should display the mandatory mark if header is required', async function (assert) {
-    // given & when
-    const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header @isRequired="true">
-          LABEL
-        </ComplementaryCertifications::AttachBadges::Badges::Header>
-      `);
-
-    // then
-    assert.dom(screen.getByText('LABEL')).exists();
-    assert.dom(screen.getByTitle('obligatoire')).exists();
   });
 
   test('it should display the tooltip if provided', async function (assert) {

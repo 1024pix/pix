@@ -1,9 +1,6 @@
 <th class="attach-badges-header">
   <span class="attach-badges-header__content">
     {{yield}}
-    {{#if @isRequired}}
-      <abbr title="obligatoire" class="mandatory-mark">*</abbr>
-    {{/if}}
     {{#if (has-block "tooltip")}}
       <PixTooltip role="tooltip" @isLight={{true}} @isWide={{true}} @position="bottom-left" class="content_tooltip">
         <:triggerElement><FaIcon @icon="circle-info" /></:triggerElement>
