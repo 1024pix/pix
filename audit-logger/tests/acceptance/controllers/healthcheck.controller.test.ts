@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import { type Server, type ServerInjectOptions } from '@hapi/hapi';
 
-import { HapiServer } from '../../../src/lib/server';
+import { HapiServer } from '../../../src/lib/server.js';
 
 describe('Acceptance | Controllers | HealthcheckController', () => {
   let server: Server;
@@ -15,7 +15,7 @@ describe('Acceptance | Controllers | HealthcheckController', () => {
     await server.stop();
   });
 
-  test("returns a 200 HTTP status code", async () => {
+  test('returns a 200 HTTP status code', async () => {
     // given
     const options: ServerInjectOptions = {
       method: 'GET',
