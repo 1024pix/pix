@@ -150,7 +150,7 @@ module(
       });
 
       module('when user submits the form', function () {
-        test('it should save the new attached target profile', async function (assert) {
+        test('it should save the new attached target profile and redirect to complementary certification list', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('complementary-certification', {
@@ -199,7 +199,14 @@ module(
           await clickByName('Rattacher le profil cible');
 
           // then
-          assert.dom(await screen.findByText('Profil cible rattaché avec succès')).exists();
+          assert
+            .dom(
+              await screen.findByText(
+                'Profil cible rattaché à la certification MARIANNE CERTIF mis à jour avec succès !',
+              ),
+            )
+            .exists();
+          assert.strictEqual(currentURL(), '/complementary-certifications/list');
         });
       });
     });
