@@ -7,14 +7,6 @@ const findComplementaryCertifications = async function () {
   return complementaryCertificationSerializer.serialize(complementaryCertifications);
 };
 
-const getComplementaryCertificationTargetProfileHistory = async function (request) {
-  const complementaryCertificationId = request.params.id;
-  const complementaryCertification = await usecases.getComplementaryCertificationTargetProfileHistory({
-    complementaryCertificationId,
-  });
-  return complementaryCertificationSerializer.serializeForAdmin(complementaryCertification);
-};
-
 const searchAttachableTargetProfilesForComplementaryCertifications = async function (request) {
   const searchTerm = request.query.searchTerm;
   const attachableTargetProfiles = await usecases.searchAttachableTargetProfiles({ searchTerm });
@@ -23,7 +15,6 @@ const searchAttachableTargetProfilesForComplementaryCertifications = async funct
 
 const complementaryCertificationController = {
   findComplementaryCertifications,
-  getComplementaryCertificationTargetProfileHistory,
   searchAttachableTargetProfilesForComplementaryCertifications,
 };
 export { complementaryCertificationController };
