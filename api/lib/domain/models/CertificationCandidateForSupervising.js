@@ -15,7 +15,6 @@ class CertificationCandidateForSupervising {
     theoricalEndDateTime,
     enrolledComplementaryCertification,
     stillValidBadgeAcquisitions = [],
-    liveAlertStatus = null,
   } = {}) {
     this.id = id;
     this.userId = userId;
@@ -29,7 +28,6 @@ class CertificationCandidateForSupervising {
     this.theoricalEndDateTime = theoricalEndDateTime;
     this.enrolledComplementaryCertification = enrolledComplementaryCertification;
     this.stillValidBadgeAcquisitions = stillValidBadgeAcquisitions;
-    this.liveAlertStatus = liveAlertStatus;
   }
 
   authorizeToStart() {

@@ -4,6 +4,8 @@ import { CertificationCandidateForSupervising } from '../../../domain/models/Cer
 import { CertificationChallengeLiveAlertStatus } from '../../../domain/models/CertificationChallengeLiveAlert.js';
 import { ComplementaryCertificationForSupervising } from '../../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../../domain/read-models/SessionForSupervising.js';
+import { CertificationCandidateForSupervisingV3 } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 
 const get = async function (idSession) {
   const results = await knex
@@ -21,6 +23,7 @@ const get = async function (idSession) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       certificationCenterName: 'certification-centers.name',
+      version: 'sessions.version',
       certificationCandidates: knex.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
@@ -78,15 +81,27 @@ function _toDomainComplementaryCertification(complementaryCertification) {
   return null;
 }
 
+function _buildCertificationCandidateForSupervising(candidateDto) {
+  return new CertificationCandidateForSupervising({
+    ...candidateDto,
+    enrolledComplementaryCertification: _toDomainComplementaryCertification(candidateDto.complementaryCertification),
+  });
+}
+
+function _buildCertificationCandidateForSupervisingV3(candidateDto) {
+  return new CertificationCandidateForSupervisingV3({
+    ...candidateDto,
+    enrolledComplementaryCertification: _toDomainComplementaryCertification(candidateDto.complementaryCertification),
+  });
+}
+
 function _toDomain(results) {
   const certificationCandidates = results.certificationCandidates
     .filter((candidate) => candidate?.id !== null)
-    .map(
-      (candidate) =>
-        new CertificationCandidateForSupervising({
-          ...candidate,
-          enrolledComplementaryCertification: _toDomainComplementaryCertification(candidate.complementaryCertification),
-        }),
+    .map((candidate) =>
+      results.version === CertificationVersion.V3
+        ? _buildCertificationCandidateForSupervisingV3(candidate)
+        : _buildCertificationCandidateForSupervising(candidate),
     );
 
   return new SessionForSupervising({
