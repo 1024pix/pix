@@ -14,13 +14,31 @@ module('Unit | Service | current-user', function (hooks) {
       const allowedCertificationCenterAccesseA = store.createRecord('allowed-certification-center-access', {
         id: 789,
       });
+
       const allowedCertificationCenterAccesseB = store.createRecord('allowed-certification-center-access', {
         id: 456,
       });
+
+      const certificationCenterMembershipA = store.createRecord('certification-center-membership', {
+        id: 1231,
+        certificationCenterId: 789,
+        userId: 123,
+        role: 'ADMIN',
+      });
+
+      const certificationCenterMembershipB = store.createRecord('certification-center-membership', {
+        id: 1232,
+        certificationCenterId: 456,
+        userId: 123,
+        role: 'MEMBER',
+      });
+
       const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
         id: 124,
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB],
+        certificationCenterMemberships: [certificationCenterMembershipA, certificationCenterMembershipB],
       });
+
       sinon.stub(store, 'queryRecord').resolves(certificationPointOfContact);
 
       class SessionStub extends Service {
@@ -36,6 +54,8 @@ module('Unit | Service | current-user', function (hooks) {
       // then
       assert.strictEqual(currentUser.certificationPointOfContact, certificationPointOfContact);
       assert.strictEqual(currentUser.currentAllowedCertificationCenterAccess, allowedCertificationCenterAccesseA);
+      assert.deepEqual(currentUser.currentCertificationCenterMembership, certificationCenterMembershipA);
+      assert.true(currentUser.isAdminOfCurrentCertificationCenter);
     });
   });
 
@@ -140,19 +160,38 @@ module('Unit | Service | current-user', function (hooks) {
   module('#updateCurrentCertificationCenter', function () {
     test('should modify the current allowed certification center access', function (assert) {
       // given
+      const userId = 123;
       const store = this.owner.lookup('service:store');
+
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 111,
       });
+
       const newAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 222,
       });
+
+      const currentCertificationCenterMembership = store.createRecord('certification-center-membership', {
+        id: 1231,
+        certificationCenterId: 111,
+        userId,
+        role: 'MEMBER',
+      });
+
+      const newCertificationCenterMembership = store.createRecord('certification-center-membership', {
+        id: 1232,
+        certificationCenterId: 222,
+        userId,
+        role: 'ADMIN',
+      });
+
       const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
         id: 124,
         allowedCertificationCenterAccesses: [
           currentAllowedCertificationCenterAccess,
           newAllowedCertificationCenterAccess,
         ],
+        certificationCenterMemberships: [currentCertificationCenterMembership, newCertificationCenterMembership],
       });
 
       const currentUser = this.owner.lookup('service:currentUser');
@@ -165,6 +204,8 @@ module('Unit | Service | current-user', function (hooks) {
       // then
 
       assert.strictEqual(currentUser.currentAllowedCertificationCenterAccess, newAllowedCertificationCenterAccess);
+      assert.strictEqual(currentUser.currentCertificationCenterMembership, newCertificationCenterMembership);
+      assert.true(currentUser.isAdminOfCurrentCertificationCenter);
     });
   });
 });
