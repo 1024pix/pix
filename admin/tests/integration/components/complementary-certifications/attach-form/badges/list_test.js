@@ -42,7 +42,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
     });
 
     module('When there are badges', function () {
-      test('it should display the list of badges', async function (assert) {
+      test('it should display the list of badges with required inputs', async function (assert) {
         // given
         const badges = [{ id: 12, label: 'BoyNextDoor One And Only' }];
         this.set('options', badges);
@@ -60,18 +60,24 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
         assert.dom(screen.getByRole('row', { name: 'Résultat thématique 12 BoyNextDoor One And Only' })).exists();
         assert.dom(screen.getByText('12')).exists();
         assert.dom(screen.getByText('BoyNextDoor One And Only')).exists();
-        assert.dom(screen.getByRole('spinbutton', { name: '12 BoyNextDoor One And Only Niveau' })).exists();
+        assert
+          .dom(screen.getByRole('spinbutton', { name: '12 BoyNextDoor One And Only Niveau' }))
+          .hasAttribute('required');
         assert
           .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' }))
-          .exists();
-        assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Label du certificat' })).exists();
+          .hasAttribute('required');
+        assert
+          .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Label du certificat' }))
+          .hasAttribute('required');
         assert
           .dom(screen.getByRole('textbox', { name: "12 BoyNextDoor One And Only Macaron de l'attestation PDF" }))
-          .exists();
-        assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message du certificat' })).exists();
+          .hasAttribute('required');
+        assert
+          .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message du certificat' }))
+          .hasAttribute('required');
         assert
           .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message temporaire certificat' }))
-          .exists();
+          .hasAttribute('required');
       });
     });
   });
