@@ -28,7 +28,7 @@ const attachBadges = async function ({
     complementaryCertificationId,
   });
 
-  if (_isComplementaryCertificationHasExternalJury({ complementaryCertification })) {
+  if (_hasExternalJury({ complementaryCertification })) {
     if (_isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO))
       throw new MissingAttributesError(
         'Certificate and temporary certificate messages are required for complementary certification with external jury',
@@ -142,7 +142,7 @@ function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAtta
   }
 }
 
-function _isComplementaryCertificationHasExternalJury({ complementaryCertification }) {
+function _hasExternalJury({ complementaryCertification }) {
   return !!complementaryCertification.hasExternalJury;
 }
 

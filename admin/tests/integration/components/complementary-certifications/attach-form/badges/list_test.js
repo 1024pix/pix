@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render, getByText } from '@1024pix/ember-testing-library';
+import { render, getByText, queryByText } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -12,57 +12,107 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
 
   module('Without badges', function () {
     test('it should display an empty table of target profile badges', async function (assert) {
-      // given
-      // when
+      // given & when
       const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List />`);
 
       // then
       assert.dom(screen.getByRole('table', { name: 'Liste des résultats thématiques' })).exists();
       const rows = screen.getAllByRole('row');
       assert.strictEqual(rows.length, 1);
-      assert.dom(getByText(rows[0], 'ID')).exists();
-      assert.dom(getByText(rows[0], 'Nom')).exists();
-      assert.dom(getByText(rows[0], 'Niveau')).exists();
-      assert.dom(getByText(rows[0], 'Image svg certificat Pix App')).exists();
-      assert.dom(getByText(rows[0], 'Label du certificat')).exists();
-      assert.dom(getByText(rows[0], "Macaron de l'attestation PDF")).exists();
-      assert.dom(getByText(rows[0], 'Message du certificat')).exists();
-      assert.dom(getByText(rows[0], 'Message temporaire certificat')).exists();
+    });
+  });
+
+  module('when the complementary certification has an external jury', function () {
+    test('it should display all columns', async function (assert) {
+      // given & when
+      const screen = await render(
+        hbs`<ComplementaryCertifications::AttachBadges::Badges::List @hasExternalJury={{true}} />`,
+      );
+
+      // then
+      const [firstRow] = screen.getAllByRole('row');
+      assert.dom(getByText(firstRow, 'ID')).exists();
+      assert.dom(getByText(firstRow, 'Nom')).exists();
+      assert.dom(getByText(firstRow, 'Niveau')).exists();
+      assert.dom(getByText(firstRow, 'Image svg certificat Pix App')).exists();
+      assert.dom(getByText(firstRow, 'Label du certificat')).exists();
+      assert.dom(getByText(firstRow, "Macaron de l'attestation PDF")).exists();
+      assert.dom(getByText(firstRow, 'Message du certificat')).exists();
+      assert.dom(getByText(firstRow, 'Message temporaire certificat')).exists();
+    });
+
+    module('When there are badges', function () {
+      test('it should display the list of badges', async function (assert) {
+        // given
+        const badges = [{ id: 12, label: 'BoyNextDoor One And Only' }];
+        this.set('options', badges);
+        this.set('noop', () => {});
+
+        // when
+        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
+        @options={{this.options}}
+        @onBadgeUpdated={{this.noop}}
+        @hasExternalJury={{true}}
+      />`);
+
+        // then
+        assert.strictEqual(screen.getAllByRole('row').length, 2);
+        assert.dom(screen.getByRole('row', { name: 'Résultat thématique 12 BoyNextDoor One And Only' })).exists();
+        assert.dom(screen.getByText('12')).exists();
+        assert.dom(screen.getByText('BoyNextDoor One And Only')).exists();
+        assert.dom(screen.getByRole('spinbutton', { name: '12 BoyNextDoor One And Only Niveau' })).exists();
+        assert
+          .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' }))
+          .exists();
+        assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Label du certificat' })).exists();
+        assert
+          .dom(screen.getByRole('textbox', { name: "12 BoyNextDoor One And Only Macaron de l'attestation PDF" }))
+          .exists();
+        assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message du certificat' })).exists();
+        assert
+          .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message temporaire certificat' }))
+          .exists();
+      });
+    });
+  });
+
+  module('when the complementary certification has no external jury', function () {
+    test('it should not display temporary-certificate-message and certificate-message columns', async function (assert) {
+      // given & when
+      const screen = await render(
+        hbs`<ComplementaryCertifications::AttachBadges::Badges::List @hasExternalJury={{false}} />`,
+      );
+
+      // then
+      const [firstRow] = screen.getAllByRole('row');
+      assert.dom(queryByText(firstRow, 'Message du certificat')).doesNotExist();
+      assert.dom(queryByText(firstRow, 'Message temporaire certificat')).doesNotExist();
+    });
+
+    module('When there are badges', function () {
+      test('it should not display temporary-certificate-message and certificate-message inputs', async function (assert) {
+        // given
+        const badges = [{ id: 12, label: 'BadgeLabel' }];
+        this.set('options', badges);
+        this.set('noop', () => {});
+
+        // when
+        const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
+        @options={{this.options}}
+        @onBadgeUpdated={{this.noop}}
+        @hasExternalJury={{false}}
+      />`);
+
+        // then
+        assert.dom(screen.queryByText('textbox', { name: '12 BadgeLabel Message du certificat' })).doesNotExist();
+        assert
+          .dom(screen.queryByText('textbox', { name: '12 BadgeLabel Message temporaire certificat' }))
+          .doesNotExist();
+      });
     });
   });
 
   module('When there are badges', function () {
-    test('it should display the list of badges', async function (assert) {
-      // given
-      const badges = [{ id: 12, label: 'BoyNextDoor One And Only' }];
-      this.set('options', badges);
-      this.set('noop', () => {});
-
-      // when
-      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::List
-        @options={{this.options}}
-        @onBadgeUpdated={{this.noop}}
-      />`);
-
-      // then
-      assert.strictEqual(screen.getAllByRole('row').length, 2);
-      assert.dom(screen.getByRole('row', { name: 'Résultat thématique 12 BoyNextDoor One And Only' })).exists();
-      assert.dom(screen.getByText('12')).exists();
-      assert.dom(screen.getByText('BoyNextDoor One And Only')).exists();
-      assert.dom(screen.getByRole('spinbutton', { name: '12 BoyNextDoor One And Only Niveau' })).exists();
-      assert
-        .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Image svg certificat Pix App' }))
-        .exists();
-      assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Label du certificat' })).exists();
-      assert
-        .dom(screen.getByRole('textbox', { name: "12 BoyNextDoor One And Only Macaron de l'attestation PDF" }))
-        .exists();
-      assert.dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message du certificat' })).exists();
-      assert
-        .dom(screen.getByRole('textbox', { name: '12 BoyNextDoor One And Only Message temporaire certificat' }))
-        .exists();
-    });
-
     test('it should call trigger action when a badge is updated', async function (assert) {
       // given
       const badges = [{ id: 12, label: 'BoyNextDoor One And Only' }];
