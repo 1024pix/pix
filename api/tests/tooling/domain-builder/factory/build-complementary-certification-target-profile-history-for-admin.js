@@ -3,13 +3,13 @@ import { ComplementaryCertificationTargetProfileHistory } from '../../../../lib/
 const buildComplementaryCertificationTargetProfileHistory = function ({
   id = 1,
   label = 'Complementary certification name',
-  key = 'COMPLEMENTARY_CERTIFICATION_KEY',
+  hasExternalJury = false,
   targetProfilesHistory = [],
 } = {}) {
   return new ComplementaryCertificationTargetProfileHistory({
     id,
     label,
-    key,
+    hasExternalJury,
     targetProfilesHistory,
   });
 };
