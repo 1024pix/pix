@@ -58,7 +58,7 @@ Le W3C définit le *format BCP 47* et les locales Unicode comme étant le format
 
 La plateforme Java, dans sa classe [`java.util.Locale`](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Locale.html) définit maintenant également le *format BCP 47* comme étant le format à utiliser pour les identifiants de locales, mais continue d'utiliser la forme POSIX pour sa méthode `toString` uniquement pour des raisons de compatibilité tout en dépréciant cette utilisation depuis *Java 19*.
 
-Enfin, le langage JavaScript intègre le *format BCP 47* dans son coeur avec le namespace [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) et notamment le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale).
+Enfin, le langage JavaScript intègre le *format BCP 47* dans son coeur avec des fonctionnalités natives comme le namespace [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) et notamment le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) et la méthode statique [`Intl.getCanonicalLocales()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/getCanonicalLocales).
 
 ### Format BCP 47, identifiants de locales
 
