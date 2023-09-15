@@ -1,5 +1,7 @@
 import { AllowedCertificationCenterAccess } from '../../../../lib/domain/read-models/AllowedCertificationCenterAccess.js';
 
+const ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID = 123;
+
 function buildAllowedCertificationCenterAccess({
   id = 123,
   name = 'Sunnydale Center',
@@ -30,4 +32,4 @@ buildAllowedCertificationCenterAccess.notSco = function ({
   });
 };
 
-export { buildAllowedCertificationCenterAccess };
+export { ALLOWED_CERTIFICATION_CENTER_ACCESS_BUILDER_DEFAULT_ID, buildAllowedCertificationCenterAccess };
