@@ -1,8 +1,8 @@
 class ComplementaryCertificationTargetProfileHistory {
-  constructor({ id, label, key, targetProfilesHistory }) {
+  constructor({ id, label, hasExternalJury, targetProfilesHistory }) {
     this.id = id;
     this.label = label;
-    this.key = key;
+    this.hasExternalJury = hasExternalJury;
     this.targetProfilesHistory = targetProfilesHistory;
   }
 }
