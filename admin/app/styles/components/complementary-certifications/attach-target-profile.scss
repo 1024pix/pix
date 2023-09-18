@@ -14,14 +14,16 @@
     margin-bottom: $pix-spacing-l;
   }
 
-  &__checkbox {
+  &__notification {
     display: flex;
+
+    &__checkbox {
+      margin-right: 8px;
+    }
 
     .pix-tooltip__trigger-element{
       margin: 0 8px;
     }
-
-
   }
 
   &__card-badges {

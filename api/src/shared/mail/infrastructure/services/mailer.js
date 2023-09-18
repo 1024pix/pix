@@ -94,6 +94,10 @@ class Mailer {
   get acquiredCleaResultTemplateId() {
     return mailing[this._providerName].templates.acquiredCleaResultTemplateId;
   }
+
+  get targetProfileNotCertifiableTemplateId() {
+    return mailing[this._providerName].templates.targetProfileNotCertifiableTemplateId;
+  }
 }
 
 const mailer = new Mailer();
