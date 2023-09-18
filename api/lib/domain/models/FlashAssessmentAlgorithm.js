@@ -7,10 +7,18 @@ import {
 import { config } from '../../config.js';
 
 class FlashAssessmentAlgorithm {
-  constructor({ warmUpLength, forcedCompetences, maximumAssessmentLength } = {}) {
+  /**
+   * Model to interact with the flash algorithm
+   * @param warmUpLength - define a warmup when the algorithm do not go through the competences
+   * @param forcedCompetences - force the algorithm to ask questions on the specified competences
+   * @param maximumAssessmentLength - override the default limit for an assessment length
+   * @param challengesBetweenSameCompetence - define a number of questions between the same competence
+   */
+  constructor({ warmUpLength, forcedCompetences, maximumAssessmentLength, challengesBetweenSameCompetence } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
+    this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
   }
 
   getPossibleNextChallenges({
@@ -35,6 +43,7 @@ class FlashAssessmentAlgorithm {
       options: {
         warmUpLength: this.warmUpLength,
         forcedCompetences: this.forcedCompetences,
+        challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
       },
     });
 
