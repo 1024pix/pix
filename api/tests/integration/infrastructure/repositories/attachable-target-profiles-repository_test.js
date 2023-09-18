@@ -90,6 +90,28 @@ describe('Integration | Repository | attachable-target-profiles', function () {
         // then
         expect(results).to.deep.equal([{ id: 100, name: 'currentlyDetached' }]);
       });
+
+      context('when the target profile has an history where it has been detached', function () {
+        it('should not return a target profile even if it was detached in the past', async function () {
+          // given
+          new TargetProfileFactory({ id: 100, name: 'a_PC_attached_now_but_who_got_detached_also_in_the_past' })
+            .withBadge({ id: 876, title: 'this_badge_will_be_both_linked_to_an_attached_and_detached_ccbadge' })
+            .withComplementaryCertificationBadge({ detachedAt: null });
+
+          databaseBuilder.factory.buildComplementaryCertificationBadge({
+            badgeId: 876,
+            complementaryCertificationId: null,
+            detachedAt: new Date(),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const results = await attachableTargetProfileRepository.find();
+
+          // then
+          expect(results).to.deep.equal([]);
+        });
+      });
     });
 
     context('when there is a term to search for', function () {

@@ -4,7 +4,15 @@ import { AttachableTargetProfile } from '../../domain/models/AttachableTargetPro
 
 const find = async function ({ searchTerm } = {}) {
   const targetProfiles = await knex('target-profiles')
+    .with('current_attached_badges', (queryBuilder) => {
+      queryBuilder
+        .select('complementary-certification-badges.badgeId')
+        .from('complementary-certification-badges')
+        .whereNull('complementary-certification-badges.detachedAt')
+        .distinct();
+    })
     .select('target-profiles.id', 'target-profiles.name')
+    .from('target-profiles')
     .leftJoin('badges', 'target-profiles.id', 'badges.targetProfileId')
     .leftJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .orderBy('target-profiles.name', 'ASC')
@@ -43,9 +51,12 @@ function _includeNeverAttachedTargetProfile(builder) {
 }
 
 function _includeDetachedTargetProfile(builder) {
-  return builder
-    .whereNotNull('badges.targetProfileId')
-    .andWhereNot('complementary-certification-badges.detachedAt', null);
+  return builder.whereNotNull('badges.targetProfileId').whereNotExists((queryBuilder) => {
+    queryBuilder
+      .select(1)
+      .from('current_attached_badges')
+      .whereRaw('"current_attached_badges"."badgeId" = "badges"."id"');
+  });
 }
 
 function _toDomain(targetProfiles) {
