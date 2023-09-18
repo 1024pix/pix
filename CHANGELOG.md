@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v4.35.0 (18/09/2023)
+
+
+### :rocket: Amélioration
+- [#7087](https://github.com/1024pix/pix/pull/7087) [FEATURE] Ajouter une variable au script de mise à jour des acquisitions de paliers (PIX-9125).
+- [#7066](https://github.com/1024pix/pix/pull/7066) [FEATURE] Afficher un message dans le champ de recherche des profils cibles attachables lorsqu'il n'y a aucun résultat - Pix Admin (PIX-8948).
+- [#7083](https://github.com/1024pix/pix/pull/7083) [FEATURE] Rediriger vers la liste des certifications complémentaire après le rattachement d'un profil cible sur Pix Admin (PIX-9022).
+- [#7077](https://github.com/1024pix/pix/pull/7077) [FEATURE] Ajouter une route de monitoring sur Audit-logger (PIX-9129).
+
+### :building_construction: Tech
+- [#7072](https://github.com/1024pix/pix/pull/7072) [TECH] Ajouter un test manquant pour le calcul de la certificabilitée auto (PIX-9169).
+- [#7046](https://github.com/1024pix/pix/pull/7046) [TECH] Ajoute deux organisations pour Pix 1D  (PIX-9083).
+- [#6983](https://github.com/1024pix/pix/pull/6983) [TECH] Supprimer la colonne "lastLoggedAt" de la table "Users" (PIX-9032).
+- [#7080](https://github.com/1024pix/pix/pull/7080) [TECH][AUDIT-LOGGER] Régler le problème de lint (PIX-9197).
+- [#7079](https://github.com/1024pix/pix/pull/7079) [TECH] Création d'un script pour valider un fichier XML via XSD pour le CPF. (PIX-9095).
+- [#7023](https://github.com/1024pix/pix/pull/7023) [TECH] Mettre à jour @1024pix/ember-testing-library en v0.8.1 (PIX-9132).
+- [#7048](https://github.com/1024pix/pix/pull/7048) [TECH] Suppression de high-level-tests/test-algo.
+- [#6906](https://github.com/1024pix/pix/pull/6906) [TECH] Suppression du code mort autour des acquis de profil cible et suppression de la table "target-profile_skills" (PIX-8134).
+- [#6938](https://github.com/1024pix/pix/pull/6938) [TECH] Mettre à jour la dépendance xlsx de 0.19.1 vers 0.19.3.
+
+### :bug: Correction
+- [#7089](https://github.com/1024pix/pix/pull/7089) [BUGFIX] Revoir l'affichage des réponses des QROC (PIX-8637).
+- [#7064](https://github.com/1024pix/pix/pull/7064) [BUGFIX] Fixer une largeur pour les badges des RT certifiants (PIX-9151).
+- [#7076](https://github.com/1024pix/pix/pull/7076) [BUGFIX] [Orga] Corriger la clé de traduction de la notification d'erreur pour l'action « Renvoyer l'invitation » (PIX-9141).
+- [#7042](https://github.com/1024pix/pix/pull/7042) [BUGFIX] Fixer la récupération d'infos d'un profil cible détaché puis rattaché à la même certification complémentaire (PIX-9131).
+
+### :arrow_up: Montée de version
+- [#7086](https://github.com/1024pix/pix/pull/7086) [BUMP] Lock file maintenance (api).
+- [#7074](https://github.com/1024pix/pix/pull/7074) [BUMP] Update browser-tools orb to v1.4.6 (.circleci).
+- [#7070](https://github.com/1024pix/pix/pull/7070) [BUMP] Lock file maintenance (dossier racine).
+- [#7069](https://github.com/1024pix/pix/pull/7069) [BUMP] Lock file maintenance (1d).
+
+### :coffee: Autre
+- [#7067](https://github.com/1024pix/pix/pull/7067) [DOCS] Consigner la décision de ne pas convertir le monorepo aux workspaces.
+
 ## v4.34.0 (12/09/2023)
 
 
