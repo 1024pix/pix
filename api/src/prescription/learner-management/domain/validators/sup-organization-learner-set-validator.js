@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 
 const validationConfiguration = { allowUnknown: true };
 

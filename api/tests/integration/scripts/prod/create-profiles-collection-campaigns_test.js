@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { prepareCampaigns, checkData } from '../../../../scripts/prod/create-profiles-collection-campaigns.js';
 

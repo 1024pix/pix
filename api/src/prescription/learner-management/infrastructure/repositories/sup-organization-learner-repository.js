@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { OrganizationLearnersCouldNotBeSavedError } from '../../domain/errors.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { BookshelfOrganizationLearner } from '../orm-models/OrganizationLearner.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 
 const ATTRIBUTES_TO_SAVE = [
   'firstName',
@@ -22,32 +21,27 @@ const ATTRIBUTES_TO_SAVE = [
 ];
 
 const updateStudentNumber = async function (studentId, studentNumber) {
-  await BookshelfOrganizationLearner.where('id', studentId).save(
-    { studentNumber },
-    {
-      patch: true,
-    },
-  );
+  await knex('organization-learners').where('id', studentId).update({ studentNumber });
 };
 
 const findOneByStudentNumberAndBirthdate = async function ({ organizationId, studentNumber, birthdate }) {
-  const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
-    qb.where('organizationId', organizationId);
-    qb.where('birthdate', birthdate);
-    qb.where('isDisabled', false);
-    qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-  }).fetch({ require: false });
+  const organizationLearner = await knex('organization-learners')
+    .where('organizationId', organizationId)
+    .where('birthdate', birthdate)
+    .where('isDisabled', false)
+    .whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber'])
+    .first();
 
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
+  return organizationLearner ? new OrganizationLearner(organizationLearner) : null;
 };
 
 const findOneByStudentNumber = async function ({ organizationId, studentNumber }) {
-  const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
-    qb.where('organizationId', organizationId);
-    qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-  }).fetch({ require: false });
+  const organizationLearner = await knex('organization-learners')
+    .where('organizationId', organizationId)
+    .whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber'])
+    .first();
 
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
+  return organizationLearner ? new OrganizationLearner(organizationLearner) : null;
 };
 
 const addStudents = async function (supOrganizationLearners) {

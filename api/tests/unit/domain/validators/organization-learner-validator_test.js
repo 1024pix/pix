@@ -2,7 +2,7 @@ import { expect, catchErr } from '../../../test-helper.js';
 import {
   checkValidation,
   FRANCE_COUNTRY_CODE,
-} from '../../../../lib/domain/validators/organization-learner-validator.js';
+} from '../../../../src/prescription/learner-management/domain/validators/organization-learner-validator.js';
 
 describe('Unit | Domain | Organization Learner validator', function () {
   context('#checkValidation', function () {

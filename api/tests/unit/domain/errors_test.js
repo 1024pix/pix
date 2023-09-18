@@ -1,6 +1,7 @@
 import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
 import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
+import { CsvImportError, ForbiddenAccess, EntityValidationError } from '../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {
@@ -73,10 +74,6 @@ describe('Unit | Domain | Errors', function () {
 
   it('should export a UserNotAuthorizedToFindTrainings', function () {
     expect(errors.UserNotAuthorizedToFindTrainings).to.exist;
-  });
-
-  it('should export a CsvImportError', function () {
-    expect(errors.CsvImportError).to.exist;
   });
 
   it('should export a SiecleXmlImportError', function () {
@@ -235,7 +232,7 @@ describe('Unit | Domain | Errors', function () {
         ];
 
         // when
-        const error = errors.EntityValidationError.fromJoiErrors(joiErrors);
+        const error = EntityValidationError.fromJoiErrors(joiErrors);
 
         // then
         expect(error.invalidAttributes).to.deep.equal([
@@ -254,7 +251,7 @@ describe('Unit | Domain | Errors', function () {
     context('#fromEntityValidationError', function () {
       it('should populate the invalidAttributes key', function () {
         //given
-        const error1 = new errors.EntityValidationError({
+        const error1 = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'name',
@@ -266,7 +263,7 @@ describe('Unit | Domain | Errors', function () {
             },
           ],
         });
-        const error2 = new errors.EntityValidationError({
+        const error2 = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'card',
@@ -280,7 +277,7 @@ describe('Unit | Domain | Errors', function () {
         });
 
         // when
-        const error = errors.EntityValidationError.fromMultipleEntityValidationErrors([error1, error2]);
+        const error = EntityValidationError.fromMultipleEntityValidationErrors([error1, error2]);
 
         // then
         expect(error.invalidAttributes).to.deep.equal([
@@ -430,5 +427,13 @@ describe('Unit | Domain | Errors', function () {
 
     // then
     expect(error.message).to.equal(expectedErrorMessage);
+  });
+
+  it('should export a CsvImportError', function () {
+    expect(CsvImportError).to.exist;
+  });
+
+  it('should export a ForbiddenAccess', function () {
+    expect(ForbiddenAccess).to.exist;
   });
 });

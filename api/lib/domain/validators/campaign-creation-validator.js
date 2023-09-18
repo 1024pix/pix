@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import lodash from 'lodash';
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { CampaignTypes } from '../models/CampaignTypes.js';
 
 const { first } = lodash;

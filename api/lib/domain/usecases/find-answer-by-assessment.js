@@ -1,4 +1,5 @@
-import { UserNotAuthorizedToAccessEntityError, EntityValidationError } from '../errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 
 const findAnswerByAssessment = async function ({ assessmentId, userId, answerRepository, assessmentRepository } = {}) {
   const integerAssessmentId = parseInt(assessmentId);

@@ -8,7 +8,6 @@ import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
-import * as supOrganizationLearnerWarningSerializer from '../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
 import * as targetProfileForSpecifierSerializer from '../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
 import * as organizationPlacesLotManagementSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
@@ -19,7 +18,6 @@ import * as scoOrganizationParticipantsSerializer from '../../infrastructure/ser
 import * as supOrganizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
-import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import {
   extractUserIdFromRequest,
@@ -343,27 +341,6 @@ const importOrganizationLearnersFromSIECLE = async function (request, h) {
   return h.response(null).code(204);
 };
 
-const importSupOrganizationLearners = async function (request, h) {
-  const organizationId = request.params.id;
-  const buffer = request.payload;
-  const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
-  const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
-
-  return h.response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings })).code(200);
-};
-
-const replaceSupOrganizationLearners = async function (request, h) {
-  const organizationId = request.params.id;
-  const buffer = request.payload;
-  const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
-  const warnings = await usecases.replaceSupOrganizationLearners({
-    organizationId,
-    supOrganizationLearnerParser,
-  });
-
-  return h.response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings })).code(200);
-};
-
 const sendInvitations = async function (request, h) {
   const organizationId = request.params.id;
   const emails = request.payload.data.attributes.email.split(',');
@@ -494,8 +471,6 @@ const organizationController = {
   findPaginatedFilteredScoParticipants,
   findPaginatedFilteredSupParticipants,
   importOrganizationLearnersFromSIECLE,
-  importSupOrganizationLearners,
-  replaceSupOrganizationLearners,
   sendInvitations,
   resendInvitation,
   cancelOrganizationInvitation,

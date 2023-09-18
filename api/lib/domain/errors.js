@@ -632,28 +632,6 @@ class CsvParsingError extends DomainError {
   }
 }
 
-class EntityValidationError extends DomainError {
-  constructor({ invalidAttributes }) {
-    super("Échec de validation de l'entité.");
-    this.invalidAttributes = invalidAttributes;
-  }
-
-  static fromJoiErrors(joiErrors) {
-    const invalidAttributes = joiErrors.map((error) => {
-      return { attribute: error.context.key, message: error.message };
-    });
-    return new EntityValidationError({ invalidAttributes });
-  }
-
-  static fromMultipleEntityValidationErrors(entityValidationErrors) {
-    const invalidAttributes = entityValidationErrors.reduce((invalidAttributes, entityValidationError) => {
-      invalidAttributes.push(...entityValidationError.invalidAttributes);
-      return invalidAttributes;
-    }, []);
-    return new EntityValidationError({ invalidAttributes });
-  }
-}
-
 class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   constructor(message = 'Le niveau maximum est déjà atteint pour cette compétence.') {
     super(message);
@@ -1072,14 +1050,6 @@ class WrongDateFormatError extends DomainError {
   }
 }
 
-class CsvImportError extends DomainError {
-  constructor(code, meta) {
-    super('An error occurred during CSV import');
-    this.code = code;
-    this.meta = meta;
-  }
-}
-
 const SIECLE_ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',
   INE_UNIQUE: 'INE_UNIQUE',
@@ -1360,14 +1330,12 @@ export {
   ChallengeToBeDeneutralizedNotFoundError,
   CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   CompetenceResetError,
-  CsvImportError,
   CsvParsingError,
   DeprecatedCertificationIssueReportCategoryError,
   DeprecatedCertificationIssueReportSubcategoryError,
   DifferentExternalIdentifierError,
   DomainError,
   EmailModificationDemandNotFoundOrExpiredError,
-  EntityValidationError,
   FileValidationError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,

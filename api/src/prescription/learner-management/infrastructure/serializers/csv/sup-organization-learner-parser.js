@@ -1,5 +1,5 @@
 import { SupOrganizationLearnerSet } from '../../../domain/models/SupOrganizationLearnerSet.js';
-import { CsvImportError } from '../../../domain/errors.js';
+import { CsvImportError } from '../../../../../shared/domain/errors.js';
 import { CsvOrganizationLearnerParser } from './csv-learner-parser.js';
 import { SupOrganizationLearnerImportHeader } from './sup-organization-learner-import-header.js';
 

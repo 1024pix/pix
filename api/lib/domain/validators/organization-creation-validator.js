@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
