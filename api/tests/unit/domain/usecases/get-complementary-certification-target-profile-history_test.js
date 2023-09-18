@@ -3,23 +3,23 @@ import { getComplementaryCertificationTargetProfileHistory } from '../../../../l
 
 describe('Unit | UseCase | get-complementary-certification-target-profile-history', function () {
   let complementaryCertificationTargetProfileHistoryRepository;
-  let complementaryCertificationRepository;
+  let complementaryCertificationForAdminRepository;
 
   beforeEach(function () {
     complementaryCertificationTargetProfileHistoryRepository = {
       getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId: sinon.stub(),
       getDetachedTargetProfilesHistoryByComplementaryCertificationId: sinon.stub(),
     };
-    complementaryCertificationRepository = {
+    complementaryCertificationForAdminRepository = {
       getById: sinon.stub(),
     };
   });
 
   it('should get the complementary certification', async function () {
     // given
-    const complementaryCertification = domainBuilder.buildComplementaryCertification();
+    const complementaryCertification = domainBuilder.buildComplementaryCertificationForAdmin();
     const complementaryCertificationId = complementaryCertification.id;
-    complementaryCertificationRepository.getById
+    complementaryCertificationForAdminRepository.getById
       .withArgs({ complementaryCertificationId })
       .resolves(complementaryCertification);
 
@@ -44,7 +44,7 @@ describe('Unit | UseCase | get-complementary-certification-target-profile-histor
     const result = await getComplementaryCertificationTargetProfileHistory({
       complementaryCertificationId,
       complementaryCertificationTargetProfileHistoryRepository,
-      complementaryCertificationRepository,
+      complementaryCertificationForAdminRepository,
     });
 
     // then
