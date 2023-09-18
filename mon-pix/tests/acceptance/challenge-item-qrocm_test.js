@@ -205,6 +205,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         hint: 'Sortir de paris !',
         tutorials: [tutorial],
         learningMoreTutorials: [learningMoreTutorial],
+        answersEvaluation: [false, false],
+        solutionsWithoutGoodAnswers: ['Versailles-Chantiers', 'Poissy'],
       });
       server.create('answer', {
         value: "station1: 'Republique'\nstation2: 'Chatelet'\n",
@@ -212,8 +214,6 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
         assessmentId: assessment.id,
         challengeId: qrocmDepChallenge.id,
         correction: correctionDep,
-        resultDetails:
-          'answersEvaluation:\n  - false\n  - false\nsolutionsWithoutGoodAnswers:\n  - Versailles-Chantiers\n  - Poissy\n',
       });
       correctionInd = server.create('correction', {
         solution: 'titre:\n- Le petit prince\nauteur:\n- Saint-Exupéry',

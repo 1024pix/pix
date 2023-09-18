@@ -185,6 +185,41 @@ describe('Unit | Repository | correction-repository', function () {
             expect(correction.answersEvaluation).to.deep.equal([]);
           });
         });
+
+        it('should call solution service and return solution blocks', async function () {
+          // given
+          challengeDataObject = ChallengeLearningContentDataObjectFixture({
+            skillId: 'recIdSkill003',
+            solution: '1, 5',
+            type: 'QROCM-dep',
+          });
+          challengeDatasource.get.resolves(challengeDataObject);
+
+          const answerValue = Symbol('answerValue');
+          const solution = Symbol('solution');
+          fromDatasourceObject.withArgs(challengeDataObject).returns(solution);
+          const getCorrectionStub = sinon.stub();
+          const answersEvaluation = Symbol('answersEvaluation');
+          const solutionsWithoutGoodAnswers = Symbol('solutionsWithoutGoodAnswers');
+          getCorrectionStub
+            .withArgs({ solution, answerValue })
+            .returns({ answersEvaluation, solutionsWithoutGoodAnswers });
+
+          // when
+          const correction = await correctionRepository.getByChallengeId({
+            challengeId: recordId,
+            answerValue,
+            userId,
+            locale,
+            tutorialRepository,
+            fromDatasourceObject,
+            getCorrection: getCorrectionStub,
+          });
+
+          // then
+          expect(getCorrectionStub).to.have.been.calledWithExactly({ solution, answerValue });
+          expect(correction.answersEvaluation).to.equal(answersEvaluation);
+        });
       });
     });
   });
