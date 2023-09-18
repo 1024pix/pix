@@ -393,7 +393,8 @@
         "assessment-info": "An assessment campaign tests participants on specific topics.",
         "label": "What is the purpose of your campaign?",
         "profiles-collection": "Collect the participants' Pix profiles",
-        "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score."
+        "profiles-collection-info": "A profile collection campaign retrieves the participants’ Pix profile: their level for each competence and their pix score.",
+        "profiles-collection-info-certificability-calculation": "The “Eligible for certification” status is updated automatically in the '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Students'</a>' tab."
       },
       "tags": {
         "COMPETENCES": "Pix Competences",

@@ -17,6 +17,7 @@ export default class CreateForm extends Component {
     this.campaign = this.args.campaign;
     this._setTargetProfilesOptions(this.args.targetProfiles);
     this.isMultipleSendingAssessmentEnabled = this.currentUser.prescriber.enableMultipleSendingAssessment;
+    this.isComputeLearnerCertificabilityEnabled = this.currentUser.prescriber.computeOrganizationLearnerCertificability;
   }
 
   _setTargetProfilesOptions(targetProfiles) {

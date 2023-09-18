@@ -396,7 +396,8 @@
         "assessment-info": "Une campagne d’évaluation permet de tester les participants sur des sujets précis.",
         "label": "Quel est l'objectif de votre campagne ?",
         "profiles-collection": "Collecter les profils Pix des participants",
-        "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix."
+        "profiles-collection-info": "Une campagne de collecte de profils permet de récupérer le profil des participants : niveaux par compétence et score pix.",
+        "profiles-collection-info-certificability-calculation": "Le statut Certifiable est mis à jour automatiquement dans l’onglet '<'a href=\"/eleves\" class=\"{linkClasses}\"'>'Élèves'</a>'."
       },
       "tags": {
         "COMPETENCES": "Les 16 compétences",
