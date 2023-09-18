@@ -1003,6 +1003,44 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     assert.ok(true);
   });
 
+  test('it should not display the explanation of automatic compute certificability if the feature is not activated', async function (assert) {
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+    await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
+
+    // then
+    assert.dom(screen.queryByRole('link', { name: 'Élèves' })).doesNotExist();
+  });
+
+  test('it should display the explanation of automatic compute certificability if the feature is activated', async function (assert) {
+    // when
+    prescriber.set('computeOrganizationLearnerCertificability', true);
+
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+    await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
+
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Élèves' })).exists();
+  });
+
   module('when there are errors', function () {
     test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty', async function (assert) {
       // given

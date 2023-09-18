@@ -95,7 +95,16 @@
         <Ui::ExplanationCard id="campaign-goal-profiles-collection-info">
           <:title>{{t "pages.campaign-creation.purpose.profiles-collection"}}</:title>
 
-          <:message>{{t "pages.campaign-creation.purpose.profiles-collection-info"}}</:message>
+          <:message>
+            {{t "pages.campaign-creation.purpose.profiles-collection-info"}}
+            {{#if this.isComputeLearnerCertificabilityEnabled}}
+              {{t
+                "pages.campaign-creation.purpose.profiles-collection-info-certificability-calculation"
+                linkClasses="link link--banner link--bold link--underlined"
+                htmlSafe=true
+              }}
+            {{/if}}
+          </:message>
         </Ui::ExplanationCard>
       {{/if}}
     </:information>
