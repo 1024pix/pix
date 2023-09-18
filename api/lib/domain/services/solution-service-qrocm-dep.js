@@ -4,7 +4,6 @@ import { YamlParsingError } from '../../domain/errors.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 import { validateAnswer } from './string-comparison-service.js';
 import { AnswerStatus } from '../models/AnswerStatus.js';
-import { Validation } from '../models/index.js';
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
@@ -21,7 +20,7 @@ function applyTreatmentsToAnswers(answers, enabledTreatments) {
   );
 }
 
-function getAnswerStatus(scoring, numberOfGoodAnswers, nbOfAnswers) {
+function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
   if (!scoring || Object.keys(scoring).length === 0) {
     return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
   } else {
@@ -92,17 +91,16 @@ function treatAnswersAndSolutions(deactivations, solutions, answers) {
 const match = function ({
   answerValue,
   solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+
   dependencies = {
     applyPreTreatments,
     convertYamlToJsObjects,
     treatAnswersAndSolutions,
   },
 }) {
-  // If challenge is skipped, return ko validation
-  const properlyFormattedYamlSolution = String(yamlSolution).includes('\n');
-
-  if (typeof answerValue !== 'string' || !answerValue.length || !properlyFormattedYamlSolution) {
-    return new Validation({ result: AnswerStatus.KO, resultDetails: null });
+  // Input checking
+  if (typeof answerValue !== 'string' || !answerValue.length || !String(yamlSolution).includes('\n')) {
+    return AnswerStatus.KO;
   }
 
   // Pre-Treatments
@@ -118,15 +116,30 @@ const match = function ({
     answers,
   );
   const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
-  const answerStatus = getAnswerStatus(scoring, numberOfGoodAnswers, Object.keys(answers).length);
 
-  return new Validation({
-    result: answerStatus,
-    resultDetails:
-      answerStatus.status !== AnswerStatus.OK.status
-        ? getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions)
-        : null,
-  });
+  return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
 };
 
-export { match, getCorrectionDetails };
+const getCorrection = function ({
+  answerValue,
+  solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+
+  dependencies = {
+    applyPreTreatments,
+    convertYamlToJsObjects,
+    treatAnswersAndSolutions,
+  },
+}) {
+  // Pre-Treatments
+  const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
+  const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
+  const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
+    deactivations,
+    solutions,
+    answers,
+  );
+
+  return getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
+};
+
+export { match, getCorrection, getCorrectionDetails };

@@ -8,6 +8,8 @@ export default class Correction extends Model {
   @attr('string') solution;
   @attr('string') solutionToDisplay;
   @attr('string') hint;
+  @attr('array') answersEvaluation;
+  @attr('array') solutionsWithoutGoodAnswers;
 
   // includes
   @hasMany('tutorial', { inverse: null }) tutorials;
