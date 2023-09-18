@@ -4,7 +4,7 @@ import { _ } from '../../infrastructure/utils/lodash-utils.js';
 import { logger } from '../../infrastructure/logger.js';
 import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
 import { YamlParsingError } from '../../domain/errors.js';
-import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../constants.js';
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
 import { useLevenshteinRatio } from './services-utils.js';
 import { AnswerStatus } from '../models/AnswerStatus.js';
 

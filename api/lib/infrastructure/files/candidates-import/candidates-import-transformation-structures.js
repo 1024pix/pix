@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { convertDateValue } from '../../utils/date-utils.js';
+import { convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import {
   CLEA,
   PIX_PLUS_DROIT,

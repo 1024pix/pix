@@ -1,0 +1,7 @@
+const LEVENSHTEIN_DISTANCE_MAX_RATE = 0.25;
+
+const constants = {
+  LEVENSHTEIN_DISTANCE_MAX_RATE,
+};
+
+export { constants, LEVENSHTEIN_DISTANCE_MAX_RATE };

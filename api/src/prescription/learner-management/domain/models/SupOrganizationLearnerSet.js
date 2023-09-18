@@ -1,8 +1,7 @@
 import { SupOrganizationLearner } from './SupOrganizationLearner.js';
 import { checkValidation } from '../validators/sup-organization-learner-set-validator.js';
-import { areTwoStringsCloseEnough } from '../services/string-comparison-service.js';
-
-const RATIO = 0.25;
+import { areTwoStringsCloseEnough } from '../../../../shared/domain/services/string-comparison-service.js';
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../../shared/domain/constants.js';
 
 const STUDY_SCHEMES = [
   'csv-import-values.sup-organization-learner.study-schemes.initial-training',
@@ -47,7 +46,7 @@ class SupOrganizationLearnerSet {
     const transformedLearner = this._transform(learner);
     this.learners.push(transformedLearner);
 
-    checkValidation(this);
+    checkValidation(this); // TODO : use full ? already validated upper in model ?
   }
 
   addWarning(studentNumber, field, value, code) {
@@ -73,7 +72,7 @@ class SupOrganizationLearnerSet {
     return keys.some((key) => {
       const reference = this.i18n.__(key).toLowerCase();
       const input = valueToCheck.toLowerCase();
-      return areTwoStringsCloseEnough(input, reference, RATIO);
+      return areTwoStringsCloseEnough(input, reference, LEVENSHTEIN_DISTANCE_MAX_RATE);
     });
   }
   _transform(learner) {

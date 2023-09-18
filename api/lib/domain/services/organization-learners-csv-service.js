@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises';
 
-import { OrganizationLearnerParser } from '../../infrastructure/serializers/csv/organization-learner-parser.js';
+import { OrganizationLearnerParser } from '../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-parser.js';
 
 export { extractOrganizationLearnersInformation };
 

@@ -1,7 +1,7 @@
 import { expect } from '../../../test-helper.js';
 import * as categories from '../../../../lib/domain/constants/organization-places-categories.js';
 import { OrganizationPlacesLot } from '../../../../lib/domain/models/index.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 const CODE_CATEGORY_T0 = categories.T0;
 const CODE_CATEGORY_T1 = categories.T1;

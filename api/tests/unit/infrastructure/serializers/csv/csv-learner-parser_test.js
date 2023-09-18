@@ -1,6 +1,6 @@
 import iconv from 'iconv-lite';
 import { sinon, expect, catchErr } from '../../../../test-helper.js';
-import { CsvOrganizationLearnerParser } from '../../../../../lib/infrastructure/serializers/csv/csv-learner-parser.js';
+import { CsvOrganizationLearnerParser } from '../../../../../src/prescription/learner-management/infrastructure/serializers/csv/csv-learner-parser.js';
 import { CsvColumn } from '../../../../../lib/infrastructure/serializers/csv/csv-column.js';
 
 class FakeLearnerSet {

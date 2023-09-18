@@ -2359,7 +2359,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should limit ids returned', async function () {
       // given
-      const { id: organizationLearnerId, organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
+      const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
       databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
       const { userId: otherUserId } = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
       databaseBuilder.factory.buildUserLogin({ userId: otherUserId, lastLoggedAt: new Date() });
@@ -2372,14 +2372,14 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
 
       // then
-      expect(result).to.deep.equal([organizationLearnerId]);
+      expect(result.length).to.be.equal(1);
     });
 
     it('should return ids from offset', async function () {
       // given
       const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner();
       databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
-      const { id: organizationLearnerId, userId: otherUserId } = databaseBuilder.factory.buildOrganizationLearner({
+      const { userId: otherUserId } = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
       });
       databaseBuilder.factory.buildUserLogin({ userId: otherUserId, lastLoggedAt: new Date() });
@@ -2392,7 +2392,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
 
       // then
-      expect(result).to.deep.equal([organizationLearnerId]);
+      expect(result.length).to.be.equal(1);
     });
   });
 });

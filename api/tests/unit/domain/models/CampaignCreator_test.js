@@ -4,9 +4,9 @@ import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';
 import {
   UserNotAuthorizedToCreateCampaignError,
-  EntityValidationError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
 } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import * as apps from '../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | CampaignCreator', function () {

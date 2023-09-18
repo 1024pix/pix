@@ -1,7 +1,7 @@
 import BaseJoi from 'joi';
 import JoiDate from '@joi/date';
 const Joi = BaseJoi.extend(JoiDate);
-import { EntityValidationError } from '../errors.js';
+import { EntityValidationError } from '../../../../shared/domain/errors.js';
 import { OrganizationLearner } from '../models/OrganizationLearner.js';
 
 const { STUDENT, APPRENTICE } = OrganizationLearner.STATUS;

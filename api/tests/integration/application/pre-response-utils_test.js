@@ -12,7 +12,7 @@ import {
   UnprocessableEntityError,
 } from '../../../lib/application/http-errors.js';
 
-import { EntityValidationError } from '../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
 
 describe('Integration | Application | PreResponse-utils', function () {

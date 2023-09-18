@@ -4,7 +4,7 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
 import { WrongDateFormatError } from '../../../domain/errors.js';
-import { isValidDate } from '../../utils/date-utils.js';
+import { isValidDate } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import _ from 'lodash';
 
 const serialize = function (certificationCandidates) {

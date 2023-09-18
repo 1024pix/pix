@@ -5,7 +5,7 @@ import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
 import * as translations from '../../translations/index.js';
-import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
+import { ForbiddenAccess, EntityValidationError, CsvImportError } from '../../src/shared/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 
@@ -373,7 +373,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.CsvImportError) {
+  if (error instanceof CsvImportError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.SiecleXmlImportError) {
@@ -512,7 +512,7 @@ function _mapToHttpError(error) {
 }
 
 function handle(request, h, error) {
-  if (error instanceof DomainErrors.EntityValidationError) {
+  if (error instanceof EntityValidationError) {
     const locale = extractLocaleFromRequest(request).split('-')[0];
 
     const jsonApiError = new JSONAPIError(

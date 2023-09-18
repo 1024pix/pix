@@ -6,7 +6,7 @@ import { EventEmitter } from 'events';
 EventEmitter.defaultMaxListeners = 60;
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { OrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/organization-learner-import-header.js';
+import { OrganizationLearnerImportHeader } from '../../../../src/prescription/learner-management/infrastructure/serializers/csv/organization-learner-import-header.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
 
