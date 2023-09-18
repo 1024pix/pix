@@ -8,6 +8,7 @@ import * as tutorialRepository from './tutorial-repository.js';
 import * as userRecommendedTrainingRepository from './user-recommended-training-repository.js';
 
 import { fromDatasourceObject } from '../adapters/solution-adapter.js';
+import { getCorrection } from '../../domain/services/solution-service-qrocm-dep.js';
 
 const repositoriesWithoutInjectedDependencies = {
   correctionRepository,
@@ -20,6 +21,7 @@ const repositoriesWithoutInjectedDependencies = {
 
 const dependencies = {
   fromDatasourceObject,
+  getCorrection,
   tutorialRepository,
 };
 
