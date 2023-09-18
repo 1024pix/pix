@@ -58,7 +58,7 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
         ];
       });
 
-      context('When the scenario is force to pass some competences', function () {
+      context('When the scenario is forced to pass through some competences', function () {
         context('When there is no warmup', function () {
           it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
             // given
@@ -118,6 +118,67 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               ]),
             );
           });
+        });
+      });
+
+      context('When the scenario is forced to space competences', function () {
+        it('should call the usecase with the right parameters', async function () {
+          // given
+          const answerStatusArray = ['ok'];
+          const assessmentId = '13802DK';
+          const challengesBetweenSameCompetence = 2;
+
+          const pickChallengeImplementation = sinon.stub();
+          pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+          const pickAnswerStatusFromArrayImplementation = sinon.stub();
+          pickAnswerStatusService.pickAnswerStatusFromArray
+            .withArgs(['ok'])
+            .returns(pickAnswerStatusFromArrayImplementation);
+
+          usecases.simulateFlashDeterministicAssessmentScenario
+            .withArgs({
+              pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+              locale: 'en',
+              pickChallenge: pickChallengeImplementation,
+              initialCapacity,
+              challengesBetweenSameCompetence,
+            })
+            .resolves(simulationResults);
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/scenario-simulator',
+            {
+              assessmentId,
+              initialCapacity,
+              answerStatusArray,
+              type: 'deterministic',
+              challengesBetweenSameCompetence,
+            },
+            null,
+            { 'accept-language': 'en' },
+          );
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal(
+            _generateScenarioSimulatorBatch([
+              [
+                {
+                  challengeId: challenge1.id,
+                  errorRate: errorRate1,
+                  estimatedLevel: estimatedLevel1,
+                  minimumCapability: 0.6190392084062237,
+                  answerStatus: 'ok',
+                  reward: reward1,
+                  difficulty: challenge1.difficulty,
+                  discriminant: challenge1.discriminant,
+                },
+              ],
+            ]),
+          );
         });
       });
 
