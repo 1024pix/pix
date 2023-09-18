@@ -25,7 +25,7 @@ function getPossibleNextChallenges({
   allAnswers,
   challenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
-  options: { warmUpLength = 0, forcedCompetences = [] } = {},
+  options: { warmUpLength = 0, forcedCompetences = [], challengesBetweenSameCompetence = 0 } = {},
 } = {}) {
   let nonAnsweredChallenges = getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
@@ -46,7 +46,19 @@ function getPossibleNextChallenges({
       possibleChallenges: [],
     };
   }
-  const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
+
+  const lastCompetenceIds = _getLastAnswersCompetenceIds(allAnswers, challenges, challengesBetweenSameCompetence);
+
+  const challengesWithNoRecentlyAnsweredCompetence = nonAnsweredChallenges.filter(
+    ({ competenceId }) => !lastCompetenceIds.includes(competenceId),
+  );
+
+  const possibleChallenges =
+    challengesWithNoRecentlyAnsweredCompetence.length > 0
+      ? challengesWithNoRecentlyAnsweredCompetence
+      : nonAnsweredChallenges;
+
+  const challengesWithReward = possibleChallenges.map((challenge) => {
     return {
       challenge,
       reward: getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
@@ -160,6 +172,16 @@ function _filterAlreadyAnsweredCompetences({ answers, challenges, forcedCompeten
   return nonAnsweredChallenges.filter(
     ({ competenceId }) => allCompetencesAreAnswered || remainingCompetenceIds.includes(competenceId),
   );
+}
+
+function _getLastAnswersCompetenceIds(allAnswers, allChallenges, numberOfAnswers) {
+  const lastAnswers = allAnswers.slice(-numberOfAnswers);
+  const competenceIds = lastAnswers.map((answer) => {
+    const challenge = _findChallengeForAnswer(allChallenges, answer);
+    return challenge.competenceId;
+  });
+
+  return competenceIds;
 }
 
 function _findBestPossibleChallenges(challengesWithReward) {
