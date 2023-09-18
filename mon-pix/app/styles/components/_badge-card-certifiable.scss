@@ -40,6 +40,8 @@
   }
 
   &__image {
+    width: 130px;
+
     &--not-acquired {
       filter: grayscale(1);
     }
