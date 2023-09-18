@@ -453,6 +453,18 @@ function sendNotificationToCertificationCenterRefererForCleaResults({ email, ses
   return mailer.sendEmail(options);
 }
 
+function sendNotificationToOrganizationMembersForTargetProfileDetached({ email, complementaryCertificationName }) {
+  const options = {
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_NAME_FR,
+    to: email,
+    template: mailer.targetProfileNotCertifiableTemplateId,
+    variables: { complementaryCertificationName },
+  };
+
+  return mailer.sendEmail(options);
+}
+
 const mailService = {
   sendAccountCreationEmail,
   sendAccountRecoveryEmail,
@@ -464,6 +476,7 @@ const mailService = {
   sendVerificationCodeEmail,
   sendCpfEmail,
   sendNotificationToCertificationCenterRefererForCleaResults,
+  sendNotificationToOrganizationMembersForTargetProfileDetached,
 };
 export {
   sendAccountCreationEmail,
@@ -476,5 +489,6 @@ export {
   sendVerificationCodeEmail,
   sendCpfEmail,
   sendNotificationToCertificationCenterRefererForCleaResults,
+  sendNotificationToOrganizationMembersForTargetProfileDetached,
   mailService,
 };
