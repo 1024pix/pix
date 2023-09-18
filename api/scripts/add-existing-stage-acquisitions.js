@@ -49,13 +49,19 @@ function getAllArgs() {
       demand: true,
       description: 'id du dernier assessment',
     })
+    .option('maxRangeSize', {
+      type: 'number',
+      demand: true,
+      description: `taille de la plage d'assessments à parcourir`,
+    })
     .help().argv;
 }
 
-function normalizeRange({ idMin, idMax }) {
+function normalizeRange({ idMin, idMax, maxRangeSize }) {
   const rangeSize = idMax - idMin;
-  if (rangeSize > MAX_RANGE_SIZE) {
-    const newIdMax = idMin + MAX_RANGE_SIZE;
+  const range = maxRangeSize || MAX_RANGE_SIZE;
+  if (rangeSize > range) {
+    const newIdMax = idMin + range;
     logger.info(`Max range size exceeded : new idMax is ${newIdMax}`);
     return { idMin, idMax: newIdMax };
   }
@@ -66,8 +72,8 @@ async function main() {
   const startTime = performance.now();
 
   logger.info('\n---\n* Starting existing stage-acquisitions insertions.\n---\n');
-  const { idMin, idMax } = getAllArgs();
-  const range = normalizeRange({ idMin, idMax });
+  const { idMin, idMax, maxRangeSize } = getAllArgs();
+  const range = normalizeRange({ idMin, idMax, maxRangeSize });
 
   await handleStageAcquisitions({ ...range, throwError: false });
   logger.info('\n---\n* Done.\n---\n');
