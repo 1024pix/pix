@@ -2178,6 +2178,36 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       // then
       expect(result).to.equal(2);
     });
+
+    it('should not count organization learners not reconciliated', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: null });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.equal(0);
+    });
+
+    it('should not count organization learners not reconciliated with option skipLoggedLastDayCheck', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: null });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        skipLoggedLastDayCheck: true,
+      });
+
+      // then
+      expect(result).to.equal(0);
+    });
   });
 
   describe('#findByOrganizationsWhichNeedToComputeCertificability', function () {
@@ -2268,7 +2298,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
 
       // then
-      expect(result).to.deep.equal([]);
+      expect(result).to.be.empty;
     });
 
     it('should not return an organization learner id for organizations that cannot compute certificability', async function () {
@@ -2280,7 +2310,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
 
       // then
-      expect(result).to.deep.equal([]);
+      expect(result).to.be.empty;
     });
 
     it('should not return an organization learner id for organizations with other features', async function () {
@@ -2295,6 +2325,36 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(result).to.deep.equal([]);
+    });
+
+    it('should not return an organization learner not reconciliated', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: null });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+
+      // then
+      expect(result).to.be.empty;
+    });
+
+    it('should not return an organization learner not reconciliated with option skipLoggedLastDayCheck', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: null });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+        skipLoggedLastDayCheck: true,
+      });
+
+      // then
+      expect(result).to.be.empty;
     });
 
     it('should limit ids returned', async function () {
