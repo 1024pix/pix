@@ -86,7 +86,7 @@ async function createAssessmentCampaign({
     completionDistribution.push(
       ...Array(configCampaign.participantCount - completionDistribution.length).fill('SHARED'),
     );
-  const { realCampaignId, realOrganizationId } = _buildCampaign({
+  const { realCampaignId, realOrganizationId, realCreatedAt } = _buildCampaign({
     databaseBuilder,
     campaignId,
     name,
@@ -127,8 +127,12 @@ async function createAssessmentCampaign({
   );
 
   for (const { userId, organizationLearnerId } of userAndLearnerIds) {
-    const createdDate = dayjs(createdAt).add(_.random(2, 10), 'day').toDate();
-    const sharedDate = dayjs(createdDate).add(_.random(2, 20), 'day').toDate();
+    const createdDate = dayjs(realCreatedAt)
+      .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(realCreatedAt)), 'days')
+      .toDate();
+    const sharedDate = dayjs(createdDate)
+      .add(_.random(0, _numberOfDaysBetweenNowAndCreationDate(createdDate)), 'days')
+      .toDate();
 
     const { status, answersAndKnowledgeElements, validatedSkillsCount, masteryRate, pixScore, buildBadges } =
       await _getCompletionCampaignParticipationData(completionDistribution.shift(), campaignSkills, sharedDate);
@@ -203,6 +207,10 @@ async function createAssessmentCampaign({
 
   await databaseBuilder.commit();
   return { campaignId: realCampaignId };
+}
+
+function _numberOfDaysBetweenNowAndCreationDate(date) {
+  return dayjs().diff(date, 'day');
 }
 
 /**
@@ -399,7 +407,11 @@ function _buildCampaign({
   multipleSendings,
   assessmentMethod,
 }) {
-  const { id: realCampaignId, organizationId: realOrganizationId } = databaseBuilder.factory.buildCampaign({
+  const {
+    id: realCampaignId,
+    organizationId: realOrganizationId,
+    createdAt: realCreatedAt,
+  } = databaseBuilder.factory.buildCampaign({
     id: campaignId,
     name,
     code,
@@ -423,7 +435,7 @@ function _buildCampaign({
     multipleSendings,
     assessmentMethod,
   });
-  return { realCampaignId, realOrganizationId };
+  return { realCampaignId, realOrganizationId, realCreatedAt };
 }
 
 let emailIndex = 0;

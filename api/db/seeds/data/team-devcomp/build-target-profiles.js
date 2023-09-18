@@ -1,7 +1,7 @@
 import { SCO_ORGANIZATION_ID } from '../common/constants.js';
 import { PIX_EDU_SMALL_TARGET_PROFILE_ID } from './constants.js';
 
-export function buildTargetProfiles(databaseBuilder) {
+export async function buildTargetProfiles(databaseBuilder) {
   databaseBuilder.factory.buildTargetProfile({
     id: PIX_EDU_SMALL_TARGET_PROFILE_ID,
     ownerOrganizationId: SCO_ORGANIZATION_ID,
@@ -24,4 +24,5 @@ export function buildTargetProfiles(databaseBuilder) {
       level,
     });
   });
+  await databaseBuilder.commit();
 }
