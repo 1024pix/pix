@@ -13,6 +13,7 @@
       <p class="text__body"><b>Objectif de la mission :</b>
         Connaître la notion de données personnelles et savoir les protéger</p>
     {{/if}}
-    <MissionCard @title={{@model.name}} @route="mission.resume" @id={{@model}} @buttonLabel="Je commence" />
+    <MissionCard @title={{@model.name}} />
+    <LinkTo class="pix1d-button pix1d-button--small" @route="mission.resume" id={{@model}}>Je commence</LinkTo>
   </div>
 </div>
