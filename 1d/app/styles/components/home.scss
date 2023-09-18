@@ -3,17 +3,44 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: var(--pix-color-secondary);
+  background: linear-gradient(74.05deg, rgba(255, 188, 87, 0.06) 12.69%, rgba(61, 104, 255, 0.06) 75.92%), linear-gradient(0deg, #FFFFFF, #FFFFFF);
+}
+
+.robot-speaking {
+  display: flex;
+  flex-direction: row;
+  padding: 40px;
+  width: 100%;
+
+  .robot-logo {
+    width: 128px;
+  }
 }
 
 .cards {
-  display : flex;
-}
-
-.logo {
-  margin: 20px;
+  display: flex;
+  gap: 24px;
 }
 
 .instruction {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  position: relative;
+  padding: 12px;
+  background: #C3D0FF;
+  border-radius: 16px 16px 16px 0;
+  margin-left: 20px;
+  margin-top: 8px;
+  height: fit-content;
+}
+
+.instruction::after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  display: block;
+  width: 0;
+  bottom: 0;
+  left: -8px;
+  border-width: 12px 8px 0 0;
+  border-color: transparent #C3D0FF;
 }
