@@ -1,6 +1,8 @@
 .challenge-embed-simulator {
-  width: calc(100% + 8px);
+  width: calc(100% + 10px);
   margin: 35px 0 50px -4px;
+  border-top: 1px solid var(--pix-neutral-22, #c1c7d0);
+  border-bottom: 1px solid var(--pix-neutral-22, #c1c7d0);
 }
 
 .embed {
