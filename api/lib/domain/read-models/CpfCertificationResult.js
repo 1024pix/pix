@@ -41,7 +41,7 @@ class CpfCertificationResult {
 
   get countryCode() {
     if (!this.birthINSEECode) return null;
-    if (!this.birthINSEECode.startsWith('99')) return null;
+    if (_isAFrenchBirthINSEECode(this.birthINSEECode)) return null;
     return this.birthINSEECode.slice(2);
   }
 
@@ -50,6 +50,10 @@ class CpfCertificationResult {
     if (this.birthPostalCode.length !== 5) return null;
     return this.birthPostalCode;
   }
+}
+
+function _isAFrenchBirthINSEECode(birthINSEECode) {
+  return !birthINSEECode.startsWith('99');
 }
 
 export { CpfCertificationResult };
