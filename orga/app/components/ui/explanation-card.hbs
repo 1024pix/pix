@@ -1,0 +1,9 @@
+<div class="explanation-card" ...attributes>
+  <span class="explanation-card__title">
+    <FaIcon @icon="circle-info" class="explanation-card__icon" />
+    <span>{{yield to="title"}}</span>
+  </span>
+  <p class="explanation-card__message">
+    {{yield to="message"}}
+  </p>
+</div>
