@@ -2,14 +2,6 @@
   position: absolute;
   top: 50%;
   left: 50%;
-
-  &--red {
-    color: #EC667B;
-  }
-
-  &--blue {
-    color: #317CED;
-  }
 }
 
 .mission-title {
@@ -17,3 +9,24 @@
   top: 50%;
   left: 50%;
 }
+
+.stop-start-gradient {
+  &--red {
+    stop-color: #EC667B;
+  }
+
+  &--bluue {
+    stop-color: #317CED;
+  }
+}
+
+.stop-end-gradient {
+  &--red {
+    stop-color: #EC5D64;
+  }
+
+  &--bluue {
+    stop-color: #4461EF;
+  }
+}
+
