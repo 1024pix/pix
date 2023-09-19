@@ -287,12 +287,11 @@ describe('Unit | UseCase | attach-badges', function () {
         // then
         const newComplementaryCertificationBadge = domainBuilder.buildBadgeToAttach({
           ...complementaryCertificationBadge,
-          createdAt: now,
           complementaryCertificationId: 123,
           createdBy: 1234,
         });
         expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWith({
-          complementaryCertificationBadge: newComplementaryCertificationBadge,
+          complementaryCertificationBadges: [newComplementaryCertificationBadge],
           domainTransaction,
         });
       });
