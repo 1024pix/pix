@@ -683,7 +683,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
             await click(screen.getByRole('button', { name: 'Rafraîchir la page' }));
 
             // then
-            assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
+            assert.dom(screen.queryByRole('button', { name: 'Signaler un problème avec la question' })).doesNotExist();
             assert
               .dom(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }))
               .hasAttribute('disabled');

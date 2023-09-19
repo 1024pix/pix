@@ -63,9 +63,6 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
             hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
           );
 
-          // when
-          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
-
           // then
           assert.dom(screen.getByText('En attente du surveillant...')).exists();
           assert
@@ -86,9 +83,6 @@ module('Integration | Component | feedback-panel-v3', function (hooks) {
           const screen = await render(
             hbs`<FeedbackPanelV3 @submitLiveAlert={{this.submitLiveAlert}} @assessment={{this.assessment}}/>`,
           );
-
-          // when
-          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
           // then
           assert.dom(screen.getByText('En attente du surveillant...')).exists();
