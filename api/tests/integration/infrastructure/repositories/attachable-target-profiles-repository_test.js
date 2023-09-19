@@ -91,8 +91,31 @@ describe('Integration | Repository | attachable-target-profiles', function () {
         expect(results).to.deep.equal([{ id: 100, name: 'currentlyDetached' }]);
       });
 
+      context('when the target profile has been multiple times detached', function () {
+        it('should appear only once in the results', async function () {
+          // given
+          new TargetProfileFactory({ id: 100, name: 'currentlyDetached' })
+            .withBadge({ id: 875, title: 'this_badge_has_been_detached_twice' })
+            .withComplementaryCertificationBadge({ detachedAt: new Date() });
+
+          databaseBuilder.factory.buildComplementaryCertificationBadge({
+            badgeId: 875,
+            complementaryCertificationId: null,
+            detachedAt: new Date(),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const results = await attachableTargetProfileRepository.find();
+
+          // then
+          expect(results).to.deep.equal([{ id: 100, name: 'currentlyDetached' }]);
+        });
+      });
+
       context('when the target profile has an history where it has been detached', function () {
-        it('should not return a target profile even if it was detached in the past', async function () {
+        it('should not be returned', async function () {
           // given
           new TargetProfileFactory({ id: 100, name: 'a_PC_attached_now_but_who_got_detached_also_in_the_past' })
             .withBadge({ id: 876, title: 'this_badge_will_be_both_linked_to_an_attached_and_detached_ccbadge' })
@@ -101,7 +124,7 @@ describe('Integration | Repository | attachable-target-profiles', function () {
           databaseBuilder.factory.buildComplementaryCertificationBadge({
             badgeId: 876,
             complementaryCertificationId: null,
-            detachedAt: new Date(),
+            detachedAt: new Date('2021-01-01'),
           });
           await databaseBuilder.commit();
 
@@ -109,7 +132,7 @@ describe('Integration | Repository | attachable-target-profiles', function () {
           const results = await attachableTargetProfileRepository.find();
 
           // then
-          expect(results).to.deep.equal([]);
+          expect(results).to.be.empty;
         });
       });
     });
