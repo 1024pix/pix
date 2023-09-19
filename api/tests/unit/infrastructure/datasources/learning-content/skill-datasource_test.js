@@ -198,6 +198,41 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
+  describe('#findByTubeIdFor1d', function () {
+    beforeEach(function () {
+      const acquixActive = { id: 'recSkillActive', status: 'actif', competenceId: 'recCompetence', tubeId: 'recTube' };
+      const acquixInBuild = {
+        id: 'recSkillInBuild',
+        status: 'en construction',
+        competenceId: 'recCompetence',
+        tubeId: 'recTube',
+      };
+      const acquixExpired = {
+        id: 'recSkillExpired',
+        status: 'périmé',
+        competenceId: 'recCompetence',
+        tubeId: 'recTube',
+      };
+      const acquixOtherTube = {
+        id: 'recSkillOtherTube',
+        status: 'actif',
+        competenceId: 'recOtherCompetence',
+        tubeId: 'recOtherTube',
+      };
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ skills: [acquixActive, acquixInBuild, acquixExpired, acquixOtherTube] });
+    });
+
+    it('should retrieve all skills from learning content for one competence', async function () {
+      // when
+      const skills = await skillDatasource.findByTubeIdFor1d('recTube');
+
+      // then
+      expect(_.map(skills, 'id')).to.have.members(['recSkillActive', 'recSkillInBuild']);
+    });
+  });
+
   describe('#findOperativeByCompetenceId', function () {
     beforeEach(function () {
       const acquix1 = { id: 'recSkill1', status: 'actif', competenceId: 'recCompetence' };
