@@ -54,6 +54,19 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
           assert.dom(screen.getByRole('button', { hidden: true })).exists();
         });
+
+        test('a message should be display when importing ', async function (assert) {
+          screen = await render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} @isLoading={{true}} />`,
+          );
+          assert
+            .dom(
+              await screen.findByText(
+                this.intl.t('pages.sco-organization-participants.actions.import-file.information'),
+              ),
+            )
+            .exists();
+        });
       });
 
       module('when organization is SCO and tagged as Agriculture and CFA', (hooks) => {
@@ -78,6 +91,19 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
           );
 
           assert.dom(screen.getByRole('button', { hidden: true })).exists();
+        });
+
+        test('a message should be display when importing ', async function (assert) {
+          screen = await render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} @isLoading={{true}} />`,
+          );
+          assert
+            .dom(
+              await screen.findByText(
+                this.intl.t('pages.sco-organization-participants.actions.import-file.information'),
+              ),
+            )
+            .exists();
         });
       });
     });

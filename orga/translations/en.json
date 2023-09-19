@@ -919,7 +919,9 @@
       "actions": {
         "import-file": {
           "file-type-separator": " or ",
+          "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
           "label": "Import ({types})"
+
         },
         "manage-account": "Manage the account",
         "show-actions": "Show actions"

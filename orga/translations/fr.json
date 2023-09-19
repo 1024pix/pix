@@ -922,6 +922,7 @@
       "actions": {
         "import-file": {
           "file-type-separator": " ou ",
+          "information": "L'import de votre fichier peut prendre quelques minutes. Certaines fonctionnalités sont temporairement inaccessibles.",
           "label": "Importer ({types})"
         },
         "manage-account": "Gérer le compte",
