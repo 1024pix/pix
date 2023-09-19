@@ -82,18 +82,26 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
       });
     });
 
-    module('when user is not admin in organization', (hooks) => {
-      hooks.beforeEach(function () {
+    module('when user is not admin in organization', () => {
+      test('it should not display import button', async function (assert) {
         class CurrentUserStub extends Service {
           isAdminInOrganization = false;
         }
         this.owner.register('service:current-user', CurrentUserStub);
-        return render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
-      });
+        const screen = await render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
 
-      test('it should not display import button', async function (assert) {
-        assert.notContains('Importer (.xml)');
-        assert.notContains('Importer (.csv)');
+        assert.strictEqual(
+          screen.queryByLabelText(
+            this.intl.t('pages.sco-organization-participants.actions.import-file.label', { types: '.csv' }),
+          ),
+          null,
+        );
+        assert.strictEqual(
+          screen.queryByLabelText(
+            this.intl.t('pages.sco-organization-participants.actions.import-file.label', { types: '.xml ou .zip' }),
+          ),
+          null,
+        );
       });
     });
   });
