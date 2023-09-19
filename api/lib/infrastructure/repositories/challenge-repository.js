@@ -78,7 +78,7 @@ const getActivityChallengesFor1d = async function ({ missionId, activityLevel })
   if (activityLevelTube === undefined) {
     _throwNotFoundError(activityLevel, missionId);
   }
-  const skills = await skillDatasource.findActiveByTubeId(activityLevelTube.id);
+  const skills = await skillDatasource.findByTubeIdFor1d(activityLevelTube.id);
 
   let allLevelChallenges;
   try {
