@@ -272,46 +272,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
           id: 1,
           key: 'EDU_2ND_DEGRE',
         });
-        const otherComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-          id: 2,
-          key: 'EDU_3E_DEGRE',
-        });
+        _createMultipleTargetProfileWithBadges({ complementaryCertificationId: complementaryCertification.id });
 
-        _createComplementaryCertificationBadgeWithTargetProfile({
-          complementaryCertificationId: otherComplementaryCertification.id,
-          targetProfileId: 1000,
-          targetProfileName: 'otherTarget',
-          badgeLabel: 'otherBadge',
-          createdAt: new Date('2022-06-01'),
-          detachedAt: new Date('2022-06-01'),
-        });
-
-        _createComplementaryCertificationBadgeWithTargetProfile({
-          complementaryCertificationId: complementaryCertification.id,
-          targetProfileId: 999,
-          targetProfileName: 'currentTarget',
-          badgeLabel: 'currentBadge',
-          createdAt: new Date('2022-06-01'),
-          detachedAt: null,
-        });
-
-        _createComplementaryCertificationBadgeWithTargetProfile({
-          complementaryCertificationId: complementaryCertification.id,
-          targetProfileId: 998,
-          targetProfileName: 'oldTarget',
-          badgeLabel: 'oldBadge',
-          createdAt: new Date('2020-05-01'),
-          detachedAt: new Date('2022-06-01'),
-        });
-
-        _createComplementaryCertificationBadgeWithTargetProfile({
-          complementaryCertificationId: complementaryCertification.id,
-          targetProfileId: 997,
-          targetProfileName: 'olderTarget',
-          badgeLabel: 'olderBadge',
-          createdAt: new Date('2019-05-01'),
-          detachedAt: new Date('2020-05-01'),
-        });
+        _createAnotherComplementaryCertificationWithTargetProfileAndBadge();
 
         await databaseBuilder.commit();
 
@@ -326,15 +289,15 @@ describe('Integration | Repository | complementary-certification-target-profile-
         // then
         expect(result).to.deepEqualInstance([
           new TargetProfileHistoryForAdmin({
-            id: 998,
-            name: 'oldTarget',
-            attachedAt: new Date('2020-05-01'),
-            detachedAt: new Date('2022-06-01'),
+            id: 3,
+            name: 'target profile v3',
+            attachedAt: new Date('2019-09-01'),
+            detachedAt: new Date('2019-09-01'),
             badges: [],
           }),
           new TargetProfileHistoryForAdmin({
-            id: 997,
-            name: 'olderTarget',
+            id: 2,
+            name: 'target profile v1',
             attachedAt: new Date('2019-05-01'),
             detachedAt: new Date('2020-05-01'),
             badges: [],
@@ -343,21 +306,79 @@ describe('Integration | Repository | complementary-certification-target-profile-
       });
     });
 
-    function _createComplementaryCertificationBadgeWithTargetProfile({
-      complementaryCertificationId,
-      targetProfileId,
-      targetProfileName,
-      badgeLabel,
-      createdAt,
-      detachedAt,
-    }) {
-      databaseBuilder.factory.buildTargetProfile({ id: targetProfileId, name: targetProfileName });
+    function _createAnotherComplementaryCertificationWithTargetProfileAndBadge() {
+      const otherComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        id: 2,
+        key: 'EDU_3E_DEGRE',
+      });
+      const targetProfileId = 1000;
+
+      databaseBuilder.factory.buildTargetProfile({ id: targetProfileId, name: 'otherTarget' });
       _createComplementaryCertificationBadge({
         targetProfileId: targetProfileId,
+        complementaryCertificationId: otherComplementaryCertification.id,
+        createdAt: new Date('2022-06-01'),
+        detachedAt: new Date('2022-06-01'),
+        label: 'otherBadge',
+        level: 1,
+      });
+    }
+
+    function _createMultipleTargetProfileWithBadges({ complementaryCertificationId }) {
+      databaseBuilder.factory.buildTargetProfile({ id: '2', name: 'target profile v1' });
+      const badgeId = databaseBuilder.factory.buildBadge({
+        targetProfileId: '2',
+        key: 'labelBadge',
+      }).id;
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId,
         complementaryCertificationId,
-        createdAt,
-        detachedAt,
-        label: badgeLabel,
+        createdAt: new Date('2020-05-01'),
+        detachedAt: null,
+        label: 'cc badge current',
+        level: 1,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId,
+        complementaryCertificationId,
+        createdAt: new Date('2019-05-01'),
+        detachedAt: new Date('2020-05-01'),
+        label: 'cclabel detached',
+        level: 1,
+      });
+
+      const badgeId2 = databaseBuilder.factory.buildBadge({
+        targetProfileId: '2',
+        key: 'labelBadge 2',
+      }).id;
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: badgeId2,
+        complementaryCertificationId,
+        createdAt: new Date('2020-05-01'),
+        detachedAt: null,
+        label: 'cc badge current 2',
+        level: 1,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: badgeId2,
+        complementaryCertificationId,
+        createdAt: new Date('2019-05-01'),
+        detachedAt: new Date('2020-05-01'),
+        label: 'cclabel detached 2',
+        level: 1,
+      });
+
+      databaseBuilder.factory.buildTargetProfile({ id: '3', name: 'target profile v3' });
+      const badgeId3 = databaseBuilder.factory.buildBadge({
+        targetProfileId: '3',
+        key: 'labelBadge 3',
+      }).id;
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: badgeId3,
+        complementaryCertificationId,
+        createdAt: new Date('2019-09-01'),
+        detachedAt: new Date('2019-09-01'),
+        label: 'cclabel 3',
         level: 1,
       });
     }
