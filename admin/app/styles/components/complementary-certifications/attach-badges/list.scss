@@ -1,44 +1,52 @@
 .complementary-certification-attach-badges {
-  &__description, &__error, &__list {
+  &__description, &__error, &__section {
     margin-top: $pix-spacing-s;
   }
+}
 
-  &__list table {
-    height: 100%;
-    margin-top: $pix-spacing-s;
-    margin-bottom: $pix-spacing-s;
+.complementary-certification-attach-badges-section {
 
-    thead tr{
-      height: 72px;
+  &__table {
+    display: flex;
+    flex-direction: column-reverse;
 
-      th {
-        padding: $pix-spacing-s;
-        border: 1px solid $pix-neutral-20;
-      }
-    }
+    table {
+      height: 100%;
+      margin-top: $pix-spacing-s;
+      margin-bottom: $pix-spacing-s;
 
-    tbody {
-      vertical-align: top;
-
-      tr {
-        height: 180px;
+      thead tr{
+        height: 72px;
 
         th {
-          font-weight: normal
-        }
-
-        th, td {
           padding: $pix-spacing-s;
           border: 1px solid $pix-neutral-20;
-
-          .pix-textarea, .pix-textarea textarea {
-            height: 100%;
-          }
         }
       }
 
-      > tr:nth-child(even) {
-        background-color: rgb(0 0 0 / 3%);
+      tbody {
+        vertical-align: top;
+
+        tr {
+          height: 180px;
+
+          th {
+            font-weight: normal
+          }
+
+          th, td {
+            padding: $pix-spacing-s;
+            border: 1px solid $pix-neutral-20;
+
+            .pix-textarea, .pix-textarea textarea {
+              height: 100%;
+            }
+          }
+        }
+
+        > tr:nth-child(even) {
+          background-color: rgb(0 0 0 / 3%);
+        }
       }
     }
   }
