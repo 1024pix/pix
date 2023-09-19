@@ -1,8 +1,10 @@
 import { module, test } from 'qunit';
 import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { triggerEvent } from '@ember/test-helpers';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
+import sinon from 'sinon';
 
 module('Integration | Component | ScoOrganizationParticipant::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -39,12 +41,29 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
     module('when user is admin in organization', () => {
       module('when organization is SCO', (hooks) => {
         let screen;
+        let importStudentsSpyStub;
         hooks.beforeEach(async function () {
           class CurrentUserStub extends Service {
             isAdminInOrganization = true;
           }
           this.owner.register('service:current-user', CurrentUserStub);
-          this.set('importStudentsSpy', () => {});
+          importStudentsSpyStub = sinon.stub();
+          this.set('importStudentsSpy', importStudentsSpyStub);
+        });
+
+        test('it trigger importStudentsSpy when clicking on the import button', async function (assert) {
+          screen = await render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} @isLoading={{false}} />`,
+          );
+
+          const file = new Blob(['foo'], { type: 'valid-file' });
+
+          const input = screen.getByLabelText(
+            this.intl.t('pages.sco-organization-participants.actions.import-file.label', { types: '.xml ou .zip' }),
+          );
+          await triggerEvent(input, 'change', { files: [file] });
+
+          assert.ok(importStudentsSpyStub.called);
         });
 
         test('the import button should be in loading state when importing', async function (assert) {
