@@ -54,7 +54,7 @@
     "@embroider/webpack": "^3.0.0",
     "@faker-js/faker": "^8.0.0",
     "@formatjs/intl": "^2.5.1",
-    "@fortawesome/ember-fontawesome": "^1.0.0",
+    "@fortawesome/ember-fontawesome": "^2.0.0",
     "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
