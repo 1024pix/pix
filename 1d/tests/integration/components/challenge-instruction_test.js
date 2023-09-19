@@ -20,6 +20,7 @@ module('Integration | Component | ChallengeInstruction', (hooks) => {
     });
 
     test('should oralize given text without markdown symbols', async function (assert) {
+      //⚠️ Ce test échoue si l'option hide container est activée
       const text = "blabla même s'il y a du **gras**";
       const expectedText = "blabla même s'il y a du gras";
 
