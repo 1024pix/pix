@@ -47,7 +47,7 @@
         @onChange={{this.onSelectStage}}
         @values={{@selectedStages}}
         @options={{this.stageOptions}}
-        class="participant-filter-banner__stages-select"
+        @className="participant-filter-banner__stages-select"
         as |stage|
       >
         <PixStars
@@ -67,7 +67,7 @@
         @onChange={{this.onSelectBadge}}
         @values={{@selectedBadges}}
         @options={{this.badgeOptions}}
-        class="participant-filter-banner__badges"
+        @className="participant-filter-banner__badges"
         as |badge|
       >
         {{badge.label}}
