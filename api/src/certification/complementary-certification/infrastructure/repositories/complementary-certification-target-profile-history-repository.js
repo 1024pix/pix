@@ -40,6 +40,12 @@ const getDetachedTargetProfilesHistoryByComplementaryCertificationId = async fun
     .leftJoin('target-profiles', 'target-profiles.id', 'badges.targetProfileId')
     .where({ complementaryCertificationId })
     .whereNotNull('complementary-certification-badges.detachedAt')
+    .groupBy(
+      'target-profiles.id',
+      'target-profiles.name',
+      'complementary-certification-badges.createdAt',
+      'complementary-certification-badges.detachedAt',
+    )
     .orderBy('attachedAt', 'desc');
 
   return bluebird.mapSeries(detachedTargetProfiles, async (targetProfile) => {
