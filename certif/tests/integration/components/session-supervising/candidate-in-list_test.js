@@ -315,27 +315,55 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.getByText('+ temps majoré 12 %')).exists();
     });
 
-    test('it renders the menu', async function (assert) {
-      // given
-      this.candidate = store.createRecord('certification-candidate-for-supervising', {
-        id: 456,
-        startDateTime: new Date('2022-10-19T14:30:15Z'),
-        theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
-        extraTimePercentage: 0.12,
-        authorizedToStart: false,
-        assessmentStatus: 'started',
-      });
+    module('when there is no current live alert', () => {
+      test('it renders the menu without the handle live alert button', async function (assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 0.12,
+          authorizedToStart: false,
+          assessmentStatus: 'started',
+        });
 
-      // when
-      const screen = await renderScreen(hbs`
+        // when
+        const screen = await renderScreen(hbs`
         <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
       `);
-      await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
 
-      // then
-      assert.dom(screen.getByText('Autoriser la reprise du test')).exists();
-      assert.dom(screen.getByText('Gérer un signalement')).exists();
-      assert.dom(screen.getByText('Terminer le test')).exists();
+        // then
+        assert.dom(screen.getByText('Autoriser la reprise du test')).exists();
+        assert.dom(screen.getByText('Terminer le test')).exists();
+        assert.dom(screen.queryByText('Gérer un signalement')).doesNotExist();
+      });
+    });
+
+    module('when there is a current live alert', () => {
+      test('it renders the menu without the handle live alert button', async function (assert) {
+        // given
+        this.candidate = store.createRecord('certification-candidate-for-supervising', {
+          id: 456,
+          startDateTime: new Date('2022-10-19T14:30:15Z'),
+          theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+          extraTimePercentage: 0.12,
+          authorizedToStart: false,
+          assessmentStatus: 'started',
+          liveAlertStatus: 'ongoing',
+        });
+
+        // when
+        const screen = await renderScreen(hbs`
+        <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+      `);
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+
+        // then
+        assert.dom(screen.getByText('Autoriser la reprise du test')).exists();
+        assert.dom(screen.getByText('Gérer un signalement')).exists();
+        assert.dom(screen.getByText('Terminer le test')).exists();
+      });
     });
   });
 
