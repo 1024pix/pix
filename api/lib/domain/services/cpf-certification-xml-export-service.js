@@ -1,45 +1,46 @@
 import { config } from '../../config.js';
 import xmlbuilder2 from 'xmlbuilder2';
-
-const { create, fragment } = xmlbuilder2;
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
+
+const { create, fragment } = xmlbuilder2;
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const schemaVersion = '1.0.0';
 const { cpf } = config;
+
 // prettier-ignore
-async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}, uuidService}) {
-  const overrideOpts = { allowEmptyTags: true, };
+async function buildXmlExport({ cpfCertificationResults, writableStream, opts = {}, uuidService }) {
+  const overrideOpts = { allowEmptyTags: true };
   const PLACEHOLDER = 'PLACEHOLDER';
   const formatedDate = dayjs().tz('Europe/Paris').format('YYYY-MM-DDThh:mm:ss') + '+01:00';
   const root = create()
     .ele('cpf:flux', {
       'xmlns:cpf': `urn:cdc:cpf:pc5:schema:${schemaVersion}`,
-      'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+      'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance'
     })
-      .ele('cpf:idFlux').txt(uuidService.randomUUID()).up()
-      .ele('cpf:horodatage').txt(formatedDate).up()
-      .ele('cpf:emetteur')
-        .ele('cpf:idClient').txt(cpf.idClient).up()
-        .ele('cpf:certificateurs')
-          .ele('cpf:certificateur')
-            .ele('cpf:idClient').txt(cpf.idClient).up()
-            .ele('cpf:idContrat').txt(cpf.idContrat).up()
-            .ele('cpf:certifications')
-              .ele('cpf:certification')
-                .ele('cpf:type').txt('RS').up()
-                .ele('cpf:code').txt(cpf.codeFranceConnect).up()
-                .ele('cpf:natureDeposant').txt('CERTIFICATEUR').up()
-                .ele('cpf:passageCertifications').txt(PLACEHOLDER);
-  const [headerOpeningTag, headerClosingTag] = root.end( {...opts, ...overrideOpts}).split(PLACEHOLDER);
+    .ele('cpf:idFlux').txt(uuidService.randomUUID()).up()
+    .ele('cpf:horodatage').txt(formatedDate).up()
+    .ele('cpf:emetteur')
+    .ele('cpf:idClient').txt(cpf.idClient).up()
+    .ele('cpf:certificateurs')
+    .ele('cpf:certificateur')
+    .ele('cpf:idClient').txt(cpf.idClient).up()
+    .ele('cpf:idContrat').txt(cpf.idContrat).up()
+    .ele('cpf:certifications')
+    .ele('cpf:certification')
+    .ele('cpf:type').txt('RS').up()
+    .ele('cpf:code').txt(cpf.codeFranceConnect).up()
+    .ele('cpf:natureDeposant').txt('CERTIFICATEUR').up()
+    .ele('cpf:passageCertifications').txt(PLACEHOLDER);
+  const [headerOpeningTag, headerClosingTag] = root.end({ ...opts, ...overrideOpts }).split(PLACEHOLDER);
 
   await _write(writableStream, headerOpeningTag);
 
-  for(const {
+  for (const {
     id,
     publishedAt,
     pixScore,
@@ -53,115 +54,118 @@ async function buildXmlExport({ cpfCertificationResults, writableStream, opts = 
     countryCode,
     birthCountry,
     europeanNumericLevels,
-  } of  cpfCertificationResults) {
+  } of cpfCertificationResults) {
     const [yearOfBirth, monthOfBirth, dayOfBirth] = birthdate.split('-');
     const line = fragment()
       .ele('cpf:passageCertification')
-        .ele('cpf:idTechnique').txt(id)
-        .up()
-        .ele('cpf:obtentionCertification').txt('PAR_SCORING')
-        .up()
-        .ele('cpf:donneeCertifiee').txt(true)
-        .up()
-        .ele('cpf:dateDebutValidite').txt(dayjs(publishedAt).format('YYYY-MM-DD'))
-        .up()
-        .ele('cpf:dateFinValidite', { 'xsi:nil': true })
-        .up()
-        .ele('cpf:presenceNiveauLangueEuro').txt(false)
-        .up()
-        .ele('cpf:presenceNiveauNumeriqueEuro').txt(true)
-        .up();
+      .ele('cpf:idTechnique').txt(id)
+      .up()
+      .ele('cpf:obtentionCertification').txt('PAR_SCORING')
+      .up()
+      .ele('cpf:donneeCertifiee').txt(true)
+      .up()
+      .ele('cpf:dateDebutValidite').txt(dayjs(publishedAt).format('YYYY-MM-DD'))
+      .up()
+      .ele('cpf:dateFinValidite', { 'xsi:nil': true })
+      .up()
+      .ele('cpf:presenceNiveauLangueEuro').txt(false)
+      .up()
+      .ele('cpf:presenceNiveauNumeriqueEuro').txt(true)
+      .up();
     const niveauNumeriqueEuropeen = line
-        .ele('cpf:niveauNumeriqueEuropeen')
-          .ele('cpf:scoreGeneral').txt(pixScore)
-          .up();
+      .ele('cpf:niveauNumeriqueEuropeen')
+      .ele('cpf:scoreGeneral').txt(pixScore)
+      .up();
     const resultats = niveauNumeriqueEuropeen
-          .ele('cpf:resultats');
+      .ele('cpf:resultats');
 
     europeanNumericLevels.forEach(({ domainCompetenceId, competenceId, level }) => {
       resultats
-            .ele('cpf:resultat')
-              .ele('cpf:niveau').txt(level)
-              .up()
-              .ele('cpf:domaineCompetenceId').txt(domainCompetenceId)
-              .up()
-              .ele('cpf:competenceId').txt(competenceId)
-              .up()
-            .up();
+        .ele('cpf:resultat')
+        .ele('cpf:niveau').txt(level)
+        .up()
+        .ele('cpf:domaineCompetenceId').txt(domainCompetenceId)
+        .up()
+        .ele('cpf:competenceId').txt(competenceId)
+        .up()
+        .up();
     });
 
     resultats
-          .up();
+      .up();
     niveauNumeriqueEuropeen
-        .up();
+      .up();
 
     const details = line
-        .ele('cpf:scoring').txt(pixScore)
-        .up()
-        .ele('cpf:mentionValidee', { 'xsi:nil': true })
-        .up()
-        .ele('cpf:modalitesInscription')
-          .ele('cpf:modaliteAcces', { 'xsi:nil': true })
-          .up()
-        .up()
-        .ele('cpf:identificationTitulaire')
-          .ele('cpf:titulaire')
-            .ele('cpf:nomNaissance').txt(lastName)
-            .up()
-            .ele('cpf:nomUsage', { 'xsi:nil': true })
-            .up()
-            .ele('cpf:prenom1').txt(firstName)
-            .up()
-            .ele('cpf:anneeNaissance').txt(yearOfBirth)
-            .up()
-            .ele('cpf:moisNaissance').txt(monthOfBirth)
-            .up()
-            .ele('cpf:jourNaissance').txt(dayOfBirth)
-            .up()
-            .ele('cpf:sexe').txt(sex)
-            .up()
+      .ele('cpf:scoring').txt(pixScore)
+      .up()
+      .ele('cpf:mentionValidee', { 'xsi:nil': true })
+      .up()
+      .ele('cpf:modalitesInscription')
+      .ele('cpf:modaliteAcces', { 'xsi:nil': true })
+      .up()
+      .up()
+      .ele('cpf:identificationTitulaire')
+      .ele('cpf:titulaire')
+      .ele('cpf:nomNaissance').txt(lastName)
+      .up()
+      .ele('cpf:nomUsage', { 'xsi:nil': true })
+      .up()
+      .ele('cpf:prenom1').txt(firstName)
+      .up()
+      .ele('cpf:anneeNaissance').txt(yearOfBirth)
+      .up()
+      .ele('cpf:moisNaissance').txt(monthOfBirth)
+      .up()
+      .ele('cpf:jourNaissance').txt(dayOfBirth)
+      .up()
+      .ele('cpf:sexe').txt(sex)
+      .up();
 
     const communeNaissance = details
-            .ele('cpf:codeCommuneNaissance');
+      .ele('cpf:codeCommuneNaissance');
 
     if (inseeCode) {
       communeNaissance
-              .ele('cpf:codeInseeNaissance')
-                .ele('cpf:codeInsee').txt(inseeCode)
-                .up()
-              .up();
+        .ele('cpf:codeInseeNaissance')
+        .ele('cpf:codeInsee').txt(inseeCode)
+        .up()
+        .up();
     } else if (postalCode) {
       communeNaissance
-              .ele('cpf:codePostalNaissance')
-                .ele('cpf:codePostal').txt(postalCode)
-                .up()
-              .up();
+        .ele('cpf:codePostalNaissance')
+        .ele('cpf:codePostal').txt(postalCode)
+        .up()
+        .up();
     } else {
       communeNaissance
-              .ele('cpf:codePostalNaissance')
-                .ele('cpf:codePostal', { 'xsi:nil': true })
-                .up()
-              .up();
+        .ele('cpf:codePostalNaissance')
+        .ele('cpf:codePostal', { 'xsi:nil': true })
+        .up()
+        .up();
     }
     communeNaissance
-            .up()
-
-    details
-          .ele('cpf:libelleCommuneNaissance').txt(birthplace)
-          .up()
+      .up();
+    if (birthplace) {
+      details
+        .ele('cpf:libelleCommuneNaissance').txt(birthplace)
         .up()
+        .up();
+    }
     if (countryCode) {
       details
         .ele('cpf:codePaysNaissance').txt(countryCode)
         .up();
     }
-    details
+    if (birthCountry) {
+      details
         .ele('cpf:libellePaysNaissance').txt(birthCountry)
         .up();
+    }
 
     line
       .up();
-    await _write(writableStream, line.end({ ...opts, ...overrideOpts,  }));
+    await _write(writableStream, line.end({ ...opts, ...overrideOpts }));
   }
 
   await _write(writableStream, headerClosingTag);

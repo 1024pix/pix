@@ -311,13 +311,13 @@ describe('Unit | Domain | Read-models | EuropeanNumericLevelFactory', function (
       });
     });
 
-    context('when there is european numeric levels with a level of 0 after computing', function () {
+    context('when there is european numeric levels with a level < 1 after computing', function () {
       it('should remove these european numeric levels', function () {
         // given
         const competenceMarks = [
           { competenceCode: '1.1', level: 0 },
-          { competenceCode: '2.1', level: 0 },
-          { competenceCode: '3.1', level: 0 },
+          { competenceCode: '2.1', level: -1 },
+          { competenceCode: '3.1', level: -1 },
           { competenceCode: '3.2', level: 0 },
         ];
 

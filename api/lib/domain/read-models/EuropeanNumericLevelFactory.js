@@ -66,7 +66,7 @@ class EuropeanNumericLevelFactory {
       );
     }
 
-    remove(europeanNumericLevels, ({ level }) => level === 0);
+    remove(europeanNumericLevels, ({ level }) => level < 1);
 
     return europeanNumericLevels;
   }

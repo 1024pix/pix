@@ -1,22 +1,20 @@
-import { expect, domainBuilder, sinon, streamToPromise } from '../../../../test-helper.js';
+import { domainBuilder, expect, sinon, streamToPromise } from '../../../../test-helper.js';
 import stream from 'stream';
 // eslint-disable-next-line n/no-unpublished-import
 import { parseXml } from 'libxmljs2';
 import { readFile } from 'fs/promises';
 import * as url from 'url';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+import * as cpfCertificationXmlExportService from '../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 
 const { PassThrough } = stream;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc.js';
-import timezone from 'dayjs/plugin/timezone.js';
-
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-import * as cpfCertificationXmlExportService from '../../../../../lib/domain/services/cpf-certification-xml-export-service.js';
 
 describe('Unit | Services | cpf-certification-xml-export-service', function () {
   let clock;
@@ -99,23 +97,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         // given
         uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
 
-        const cpfCertificationResult = domainBuilder.buildCpfCertificationResult({
-          id: 1234,
-          firstName: 'Bart',
-          lastName: 'Haba',
-          birthdate: '1993-05-23',
-          sex: 'M',
-          birthINSEECode: null,
-          birthPostalCode: '75002',
-          birthplace: 'PARIS',
-          birthCountry: 'FRANCE',
-          publishedAt: '2022-01-03',
-          pixScore: 324,
-          competenceMarks: [
-            { competenceCode: '2.1', level: 4 },
-            { competenceCode: '3.2', level: 3 },
-          ],
-        });
+        const cpfCertificationResult = _buildCpfCertificationResult();
 
         const writableStream = new PassThrough();
 
@@ -126,11 +108,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
           uuidService,
         });
 
-        const xmlExport = await streamToPromise(writableStream);
-
-        const parsedXsd = parseXml(cpfXsd);
-        const parsedXmlToExport = parseXml(xmlExport);
-        parsedXmlToExport.validate(parsedXsd);
+        const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
 
         // then
         expect(parsedXmlToExport.validationErrors).to.be.empty;
@@ -140,23 +118,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
         // given
         uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
 
-        const incorrectCpfCertificationResult = domainBuilder.buildCpfCertificationResult({
-          id: 1234,
-          firstName: 'Bart',
-          lastName: 'Haba',
-          birthdate: '1993-05-23',
-          sex: null,
-          birthINSEECode: null,
-          birthPostalCode: '75002',
-          birthplace: 'PARIS',
-          birthCountry: 'FRANCE',
-          publishedAt: '2022-01-03',
-          pixScore: 324,
-          competenceMarks: [
-            { competenceCode: '2.1', level: 4 },
-            { competenceCode: '3.2', level: 3 },
-          ],
-        });
+        const incorrectCpfCertificationResult = _buildCpfCertificationResult({ sex: null });
 
         const writableStream = new PassThrough();
 
@@ -167,16 +129,190 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
           uuidService,
         });
 
-        const xmlExport = await streamToPromise(writableStream);
-
-        const parsedXsd = parseXml(cpfXsd);
-        const parsedXmlToExport = parseXml(xmlExport);
-        parsedXmlToExport.validate(parsedXsd);
+        const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
 
         // then
         expect(parsedXmlToExport.validationErrors[0].message).to.equal(
           "Element '{urn:cdc:cpf:pc5:schema:1.0.0}sexe': [facet 'enumeration'] The value '' is not an element of the set {'M', 'F'}.\n",
         );
+      });
+
+      context('when optional property has empty value', function () {
+        context('when there is no birthplace for the candidate', function () {
+          it('it should generate a valid XML', async function () {
+            // given
+            uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+            const cpfCertificationResult = _buildCpfCertificationResult({ birthplace: null });
+
+            const writableStream = new PassThrough();
+
+            // when
+            cpfCertificationXmlExportService.buildXmlExport({
+              cpfCertificationResults: [cpfCertificationResult],
+              writableStream,
+              uuidService,
+            });
+
+            const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
+
+            // then
+            expect(parsedXmlToExport.validationErrors).to.be.empty;
+          });
+        });
+
+        context('when there is no birthCountry for the candidate', function () {
+          it('it should generate a valid XML', async function () {
+            // given
+            uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+            const cpfCertificationResult = _buildCpfCertificationResult({ birthCountry: null });
+
+            const writableStream = new PassThrough();
+
+            // when
+            cpfCertificationXmlExportService.buildXmlExport({
+              cpfCertificationResults: [cpfCertificationResult],
+              writableStream,
+              uuidService,
+            });
+
+            const parsedXmlToExport = await _parseAndValidateXmlWithXsd({ writableStream, cpfXsd });
+
+            // then
+            expect(parsedXmlToExport.validationErrors).to.be.empty;
+          });
+        });
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        [
+          { emptyKey: 'birthCountry', xmlNode: 'libellePaysNaissance' },
+          {
+            emptyKey: 'birthplace',
+            xmlNode: 'libelleCommuneNaissance',
+          },
+          {
+            emptyKey: 'birthINSEECode',
+            xmlNode: 'codeInseeNaissance',
+          },
+          {
+            emptyKey: 'countryCode',
+            xmlNode: 'codePaysNaissance',
+          },
+        ].forEach(({ emptyKey, xmlNode }) => {
+          context(`when ${emptyKey} is empty`, function () {
+            it(`it should not add a cpf:${xmlNode} node`, async function () {
+              // given
+              uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+              const cpfCertificationResult = _buildCpfCertificationResult({ [emptyKey]: null });
+              const writableStream = new PassThrough();
+
+              // when
+              cpfCertificationXmlExportService.buildXmlExport({
+                cpfCertificationResults: [cpfCertificationResult],
+                writableStream,
+                uuidService,
+              });
+
+              const xmlExport = await streamToPromise(writableStream);
+              const parsedXmlToExport = parseXml(xmlExport);
+
+              // then
+              expect(parsedXmlToExport.get(`//cpf:${xmlNode}`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' })).to.be
+                .undefined;
+            });
+          });
+        });
+      });
+
+      context('when there is an birthINSEECode for the candidate', function () {
+        it(`it should not add codePostalNaissance node`, async function () {
+          // given
+          uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+          const cpfCertificationResult = _buildCpfCertificationResult({ birthINSEECode: '75115' });
+
+          const writableStream = new PassThrough();
+
+          // when
+          cpfCertificationXmlExportService.buildXmlExport({
+            cpfCertificationResults: [cpfCertificationResult],
+            writableStream,
+            uuidService,
+          });
+
+          const xmlExport = await streamToPromise(writableStream);
+          const parsedXmlToExport = parseXml(xmlExport);
+
+          // then
+          expect(
+            parsedXmlToExport.get(`//cpf:codeInseeNaissance`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' }).child(0).text(),
+          ).to.be.equal('75115');
+          expect(parsedXmlToExport.get(`//cpf:codePostalNaissance`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' })).to.be
+            .undefined;
+        });
+      });
+
+      context('when there is an birthPostalCode and no birthINSEECode for the candidate', function () {
+        it(`it should not add codeInseeNaissance node`, async function () {
+          // given
+          uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+          const cpfCertificationResult = _buildCpfCertificationResult({
+            birthINSEECode: null,
+            birthPostalCode: '75002',
+          });
+
+          const writableStream = new PassThrough();
+
+          // when
+          cpfCertificationXmlExportService.buildXmlExport({
+            cpfCertificationResults: [cpfCertificationResult],
+            writableStream,
+            uuidService,
+          });
+
+          const xmlExport = await streamToPromise(writableStream);
+          const parsedXmlToExport = parseXml(xmlExport);
+
+          // then
+          expect(
+            parsedXmlToExport.get(`//cpf:codePostalNaissance`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' }).child(0).text(),
+          ).to.be.equal('75002');
+          expect(parsedXmlToExport.get(`//cpf:codeInseeNaissance`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' })).to.be
+            .undefined;
+        });
+      });
+
+      context('when there is no birthPostalCode and no birthINSEECode for the candidate', function () {
+        it(`it should not add codeInseeNaissance and add an empty codePostal node`, async function () {
+          // given
+          uuidService.randomUUID.returns('5d079a5d-0a4d-45ac-854d-256b01cacdfe');
+
+          const cpfCertificationResult = _buildCpfCertificationResult({
+            birthINSEECode: null,
+            birthPostalCode: null,
+          });
+
+          const writableStream = new PassThrough();
+
+          // when
+          cpfCertificationXmlExportService.buildXmlExport({
+            cpfCertificationResults: [cpfCertificationResult],
+            writableStream,
+            uuidService,
+          });
+
+          const xmlExport = await streamToPromise(writableStream);
+          const parsedXmlToExport = parseXml(xmlExport);
+
+          // then
+          expect(
+            parsedXmlToExport.get(`//cpf:codePostalNaissance`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' }).child(0).text(),
+          ).to.be.equal('');
+          expect(parsedXmlToExport.get(`//cpf:codeInseeNaissance`, { cpf: 'urn:cdc:cpf:pc5:schema:1.0.0' })).to.be
+            .undefined;
+        });
       });
     });
   });
@@ -422,4 +558,35 @@ function _getExpectedXmlExport() {
     </cpf:certificateurs>
   </cpf:emetteur>
 </cpf:flux>`;
+}
+
+async function _parseAndValidateXmlWithXsd({ writableStream, cpfXsd }) {
+  const xmlExport = await streamToPromise(writableStream);
+
+  const parsedXsd = parseXml(cpfXsd);
+  const parsedXmlToExport = parseXml(xmlExport);
+  parsedXmlToExport.validate(parsedXsd);
+
+  return parsedXmlToExport;
+}
+
+function _buildCpfCertificationResult(props) {
+  return domainBuilder.buildCpfCertificationResult({
+    id: 1234,
+    firstName: 'Bart',
+    lastName: 'Haba',
+    birthdate: '1993-05-23',
+    sex: 'M',
+    birthINSEECode: '75115',
+    birthPostalCode: null,
+    birthplace: null,
+    birthCountry: 'France',
+    publishedAt: '2022-01-03',
+    pixScore: 324,
+    competenceMarks: [
+      { competenceCode: '2.1', level: 4 },
+      { competenceCode: '3.2', level: 3 },
+    ],
+    ...props,
+  });
 }
