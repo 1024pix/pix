@@ -1,21 +1,16 @@
 {{page-title "Home"}}
 <div class="container">
-  <img class="logo" alt="Bienvenue Pix 456" width="300" src="/images/logo_456_pix.png" />
-  <p class="instruction">Choisis une mission</p>
+  <div class="robot-speaking">
+    <img class="robot-logo" alt="mascotte pix1d" src="/images/happy-robot.svg" />
+    <p class="instruction">Choisi ta mission parmi celles qui te sont proposées ci-dessous !</p>
+  </div>
   <div class="cards">
-    <MissionCard
-      @title="Recherche sur internet"
-      @route="mission"
-      @id="recExjO7RHeDI48HK"
-      @buttonLabel="Aller à la mission"
-    />
-    <MissionCard
-      @title="Données personnelles"
-      @route="mission"
-      @id="recZtwymXXrtdXRrx"
-      @buttonLabel="Aller à la mission"
-    />
+    <LinkTo @route="mission" @model="recExjO7RHeDI48HK">
+      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
+    </LinkTo>
+
+    <LinkTo @route="mission" @model="recZtwymXXrtdXRrx">
+      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
+    </LinkTo>
   </div>
 </div>
-
-{{outlet}}
