@@ -740,10 +740,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    const radiogroup = screen.getByRole('radiogroup', {
-      name: t('pages.campaign-creation.external-id-label.question-label'),
-    });
-    assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+    const externalIdentifier = screen
+      .getByText(t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
+      .closest('fieldset');
+    const element = within(externalIdentifier).getByRole('radio', { name: t('pages.campaign-creation.yes') });
+
+    assert.dom(element).isChecked();
     assert
       .dom(
         screen.getByRole('textbox', {
@@ -772,10 +774,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    const radiogroup = screen.getByRole('radiogroup', {
-      name: t('pages.campaign-creation.external-id-label.question-label'),
-    });
-    assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.no'))).isChecked();
+    const externalIdentifier = screen
+      .getByText(t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
+      .closest('fieldset');
+    const element = within(externalIdentifier).getByRole('radio', { name: t('pages.campaign-creation.no') });
+
+    assert.dom(element).isChecked();
   });
 
   module('when user has not chosen yet to ask or not an external user ID', function () {
@@ -793,11 +797,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       );
 
       // then
-      const radiogroup = screen.getByRole('radiogroup', {
-        name: t('pages.campaign-creation.external-id-label.question-label'),
-      });
-      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.no'))).isNotChecked();
-      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isNotChecked();
+      const externalIdentifier = screen
+        .getByText(t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
+        .closest('fieldset');
+
+      assert.dom(within(externalIdentifier).getByLabelText(t('pages.campaign-creation.no'))).isNotChecked();
+      assert.dom(within(externalIdentifier).getByLabelText(t('pages.campaign-creation.yes'))).isNotChecked();
     });
 
     test('it should not display gdpr footnote', async function (assert) {

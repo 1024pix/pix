@@ -1,0 +1,5 @@
+.pix-fieldset {
+  &__label {
+    @include label;
+  }
+}
