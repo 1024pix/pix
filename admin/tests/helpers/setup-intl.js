@@ -1,8 +1,9 @@
-export default function setupIntl(hooks, locale = ['fr']) {
-  hooks.beforeEach(function () {
-    this.intl = this.owner.lookup('service:intl');
-    this.intl.setLocale(locale);
+import { setupIntl as setupIntlFromEmberIntl } from 'ember-intl/test-support';
 
+export default function setupIntl(hooks, locale = ['fr']) {
+  setupIntlFromEmberIntl(hooks, locale[0]);
+
+  hooks.beforeEach(function () {
     this.dayjs = this.owner.lookup('service:dayjs');
     this.dayjs.setLocale(locale[0]);
   });
