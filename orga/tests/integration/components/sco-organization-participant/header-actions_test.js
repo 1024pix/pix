@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
@@ -14,7 +13,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
       this.set('participantCount', 0);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
@@ -27,7 +26,7 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
       this.set('participantCount', 5);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<ScoOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
@@ -39,24 +38,27 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
   module('user rights', () => {
     module('when user is admin in organization', () => {
       module('when organization is SCO', (hooks) => {
-        hooks.beforeEach(function () {
+        let screen;
+        hooks.beforeEach(async function () {
           class CurrentUserStub extends Service {
             isAdminInOrganization = true;
           }
           this.owner.register('service:current-user', CurrentUserStub);
           this.set('importStudentsSpy', () => {});
-          return render(
-            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`,
-          );
         });
 
-        test('it should display import XML file button', async function (assert) {
-          assert.contains('Importer (.xml ou .zip)');
+        test('the import button should be in loading state when importing', async function (assert) {
+          screen = await render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} @isLoading={{true}} />`,
+          );
+
+          assert.dom(screen.getByRole('button', { hidden: true })).exists();
         });
       });
 
       module('when organization is SCO and tagged as Agriculture and CFA', (hooks) => {
-        hooks.beforeEach(function () {
+        let screen;
+        hooks.beforeEach(async function () {
           class CurrentUserStub extends Service {
             isAdminInOrganization = true;
             isAgriculture = true;
@@ -68,13 +70,14 @@ module('Integration | Component | ScoOrganizationParticipant::HeaderActions', fu
 
           this.set('importStudentsSpy', () => {});
           this.owner.register('service:current-user', CurrentUserStub);
-          return render(
-            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} />`,
-          );
         });
 
-        test('it should still display import CSV file button', async function (assert) {
-          assert.contains('Importer (.csv)');
+        test('the import button should be in loading state when importing', async function (assert) {
+          screen = await render(
+            hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudentsSpy}} @isLoading={{true}} />`,
+          );
+
+          assert.dom(screen.getByRole('button', { hidden: true })).exists();
         });
       });
     });
