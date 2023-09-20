@@ -1,122 +1,149 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { attachBadges } from '../../../../../../src/certification/complementary-certification/domain/usecases/attach-badges.js';
-import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { MissingAttributesError, NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 import { InvalidBadgeLevelError } from '../../../../../../src/certification/complementary-certification/domain/errors.js';
 
 describe('Unit | UseCase | attach-badges', function () {
+  let complementaryCertificationForTargetProfileAttachmentRepository, badgeRepository;
   let clock;
   const now = new Date('2023-02-02');
+
   beforeEach(function () {
+    complementaryCertificationForTargetProfileAttachmentRepository = {
+      getById: sinon.stub(),
+    };
+    badgeRepository = {
+      findAllByIds: sinon.stub(),
+    };
     clock = sinon.useFakeTimers(now);
   });
   afterEach(function () {
     clock.restore();
   });
-  context('check badges levels business rules', function () {
-    it('should have at least one badge', async function () {
-      // given
-      const emptyBadgesList = [];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: emptyBadgesList,
+  context('when levels checks are not ok', function () {
+    context('when there is no complementary certification badges to attach', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const emptyBadgesList = [];
+
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: emptyBadgesList,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow a level below 1', async function () {
-      // given
-      const badgesWithALevel0 = [
-        { badgeId: 100, level: 1 },
-        { badgeId: 101, level: 0 },
-      ];
+    context('when there is a level below 1', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const badgesWithALevel0 = [
+          { badgeId: 100, level: 1 },
+          { badgeId: 101, level: 0 },
+        ];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: badgesWithALevel0,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: badgesWithALevel0,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow a level above the number of badges (4 badges, max level = 4)', async function () {
-      // given
-      const twoBadgesWithALevelThree = [
-        { badgeId: 100, level: 1 },
-        { badgeId: 101, level: 3 },
-      ];
+    context('when there is a level above the number of badges (4 badges, max level = 4)', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const twoBadgesWithALevelThree = [
+          { badgeId: 100, level: 1 },
+          { badgeId: 101, level: 3 },
+        ];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: twoBadgesWithALevelThree,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: twoBadgesWithALevelThree,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow a badge without a level', async function () {
-      // given
-      const badgesAndOneWithoutALevel = [{ badgeId: 100, level: 1 }, { badgeId: 101 }];
+    context('when there is a badge without a level', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const badgesAndOneWithoutALevel = [{ badgeId: 100, level: 1 }, { badgeId: 101 }];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: badgesAndOneWithoutALevel,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: badgesAndOneWithoutALevel,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow badges where level are not uniq', async function () {
-      // given
-      const badgesWithoutUniqLevel = [{ badgeId: 100, level: 1 }, { badgeId: 1 }];
+    context('when levels are not uniq', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const badgesWithoutUniqLevel = [{ badgeId: 100, level: 1 }, { badgeId: 1 }];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: badgesWithoutUniqLevel,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: badgesWithoutUniqLevel,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
   });
 
-  context('when complementary certification does not exist', function () {
-    it('should throw a not found error', async function () {
+  context('when complementary certification has external jury and one required attributes is missing', function () {
+    it('should return MissingAttributesError', async function () {
       // given
-      const unknownComplementaryCertificationId = 12;
-      const complementaryCertificationRepository = {
-        getById: sinon.stub().withArgs(unknownComplementaryCertificationId).resolves(undefined),
-      };
+      complementaryCertificationForTargetProfileAttachmentRepository.getById
+        .withArgs({ complementaryCertificationId: 123 })
+        .resolves(
+          domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+            id: 123,
+            hasExternalJury: true,
+          }),
+        );
+      badgeRepository.findAllByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
 
       // when
       const error = await catchErr(attachBadges)({
         complementaryCertificationBadgesToAttachDTO: [
-          { badgeId: 1, level: 1 },
-          { badgeId: 2, level: 2 },
+          { badgeId: 1, level: 1, certificateMessage: 'message', temporaryCertificateMessage: 'temporary message' },
+          { badgeId: 2, level: 2, certificateMessage: null, temporaryCertificateMessage: 'temporary message' },
         ],
-        complementaryCertificationId: unknownComplementaryCertificationId,
-        complementaryCertificationRepository,
+        complementaryCertificationId: 123,
+        badgeRepository,
+        complementaryCertificationForTargetProfileAttachmentRepository,
       });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('The complementary certification does not exist');
+      expect(error).to.be.instanceOf(MissingAttributesError);
+      expect(error.message).to.equal(
+        'Certificate and temporary certificate messages are required for complementary certification with external jury',
+      );
     });
   });
 
@@ -131,12 +158,7 @@ describe('Unit | UseCase | attach-badges', function () {
       context(`when  ${assessment.label}`, function () {
         it('should throw a not found error', async function () {
           // given
-          const complementaryCertificationRepository = {
-            getById: sinon.stub().withArgs(12).resolves({ id: 12 }),
-          };
-          const badgeRepository = {
-            findAllByIds: sinon.stub().resolves(assessment.resolve),
-          };
+          badgeRepository.findAllByIds.resolves(assessment.resolve);
 
           // when
           const error = await catchErr(attachBadges)({
@@ -145,12 +167,10 @@ describe('Unit | UseCase | attach-badges', function () {
               { badgeId: 1, level: 1 },
               { badgeId: 2, level: 2 },
             ],
-            complementaryCertificationRepository,
             badgeRepository,
           });
 
           // then
-          expect(complementaryCertificationRepository.getById).to.have.been.calledOnce;
           expect(error).to.be.instanceOf(NotFoundError);
           expect(error.message).to.equal("One or several badges don't exist.");
         });
@@ -158,7 +178,7 @@ describe('Unit | UseCase | attach-badges', function () {
     });
   });
 
-  context('when complementary certification does exist and levels checks are ok', function () {
+  context('when levels checks are ok', function () {
     context('when complementary certification badges are already attached to the profile', function () {
       it('should detach old complementary certification badges', async function () {
         // given
@@ -171,19 +191,15 @@ describe('Unit | UseCase | attach-badges', function () {
         const badge1 = domainBuilder.buildBadge({ id: 123 });
         const badge2 = domainBuilder.buildBadge({ id: 456 });
 
-        const complementaryCertificationRepository = {
-          getById: sinon
-            .stub()
-            .withArgs(123)
-            .resolves(
-              domainBuilder.buildComplementaryCertification({
-                id: 123,
-              }),
-            ),
-        };
-        const badgeRepository = {
-          findAllByIds: sinon.stub().withArgs([123, 456]).resolves([badge1, badge2]),
-        };
+        complementaryCertificationForTargetProfileAttachmentRepository.getById
+          .withArgs({ complementaryCertificationId: 123 })
+          .resolves(
+            domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+              id: 123,
+              hasExternalJury: false,
+            }),
+          );
+        badgeRepository.findAllByIds.resolves([badge1, badge2]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub().resolves(),
           detachByIds: sinon.stub(),
@@ -204,7 +220,7 @@ describe('Unit | UseCase | attach-badges', function () {
           targetProfileIdToDetach: 789,
           complementaryCertificationId: 123,
           badgeRepository,
-          complementaryCertificationRepository,
+          complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
         });
 
@@ -235,19 +251,15 @@ describe('Unit | UseCase | attach-badges', function () {
           temporaryCertificateMessage: null,
         };
 
-        const complementaryCertificationRepository = {
-          getById: sinon
-            .stub()
-            .withArgs(123)
-            .resolves(
-              domainBuilder.buildComplementaryCertification({
-                id: 123,
-              }),
-            ),
-        };
-        const badgeRepository = {
-          findAllByIds: sinon.stub().withArgs([123]).resolves([badge1]),
-        };
+        complementaryCertificationForTargetProfileAttachmentRepository.getById
+          .withArgs({ complementaryCertificationId: 123 })
+          .resolves(
+            domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+              id: 123,
+              hasExternalJury: false,
+            }),
+          );
+        badgeRepository.findAllByIds.resolves([badge1]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub(),
           detachByIds: sinon.stub().resolves(),
@@ -268,7 +280,7 @@ describe('Unit | UseCase | attach-badges', function () {
           targetProfileIdToDetach: 456,
           complementaryCertificationId: 123,
           badgeRepository,
-          complementaryCertificationRepository,
+          complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
         });
 
@@ -299,19 +311,15 @@ describe('Unit | UseCase | attach-badges', function () {
       const badge1 = domainBuilder.buildBadge({ id: 123 });
       const badge2 = domainBuilder.buildBadge({ id: 456 });
 
-      const complementaryCertificationRepository = {
-        getById: sinon
-          .stub()
-          .withArgs(123)
-          .resolves(
-            domainBuilder.buildComplementaryCertification({
-              id: 123,
-            }),
-          ),
-      };
-      const badgeRepository = {
-        findAllByIds: sinon.stub().withArgs([123, 456]).resolves([badge1, badge2]),
-      };
+      complementaryCertificationForTargetProfileAttachmentRepository.getById
+        .withArgs({ complementaryCertificationId: 123 })
+        .resolves(
+          domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+            id: 123,
+            hasExternalJury: false,
+          }),
+        );
+      badgeRepository.findAllByIds.resolves([badge1, badge2]);
       const complementaryCertificationBadgesRepository = {
         attach: sinon.stub().resolves(),
         detachByIds: sinon.stub(),
@@ -335,7 +343,7 @@ describe('Unit | UseCase | attach-badges', function () {
         complementaryCertificationId: 123,
         BadgeToAttachValidator,
         badgeRepository,
-        complementaryCertificationRepository,
+        complementaryCertificationForTargetProfileAttachmentRepository,
         complementaryCertificationBadgesRepository,
       });
 

@@ -10,18 +10,6 @@ const serialize = function (complementaryCertifications) {
   }).serialize(complementaryCertifications);
 };
 
-const serializeForAdmin = function (complementaryCertification) {
-  return new Serializer('complementary-certification', {
-    attributes: ['label', 'key', 'targetProfilesHistory'],
-    targetProfilesHistory: {
-      attributes: ['id', 'name', 'attachedAt', 'detachedAt', 'badges'],
-      badges: {
-        attributes: ['id', 'label', 'level'],
-      },
-    },
-  }).serialize(complementaryCertification);
-};
-
 const deserialize = function (jsonAPI) {
   return new ComplementaryCertification({
     id: jsonAPI.data.id,
@@ -30,4 +18,4 @@ const deserialize = function (jsonAPI) {
   });
 };
 
-export { serialize, serializeForAdmin, deserialize };
+export { serialize, deserialize };

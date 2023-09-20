@@ -16,6 +16,7 @@ export default class ComplementaryCertificationAdapter extends ApplicationAdapte
       const payload = this.serialize(complementaryCertification);
       delete payload.data.attributes['key'];
       delete payload.data.attributes['label'];
+      delete payload.data.attributes['has-external-jury'];
       delete payload.data.attributes['target-profiles-history'];
 
       const { targetProfileId } = complementaryCertification.adapterOptions;

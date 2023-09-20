@@ -1,9 +1,9 @@
-import { ComplementaryCertificationTargetProfileHistory } from '../../domain/models/ComplementaryCertificationTargetProfileHistory.js';
+import { ComplementaryCertificationTargetProfileHistory } from '../models/ComplementaryCertificationTargetProfileHistory.js';
 
 const getComplementaryCertificationTargetProfileHistory = async function ({
   complementaryCertificationId,
   complementaryCertificationTargetProfileHistoryRepository,
-  complementaryCertificationRepository,
+  complementaryCertificationForTargetProfileAttachmentRepository,
 }) {
   const currentsTargetProfileHistoryWithBadgesByComplementaryCertification =
     await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
@@ -19,7 +19,7 @@ const getComplementaryCertificationTargetProfileHistory = async function ({
       },
     );
 
-  const complementaryCertification = await complementaryCertificationRepository.getById({
+  const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
     complementaryCertificationId,
   });
 

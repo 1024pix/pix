@@ -1,7 +1,8 @@
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
-import uniq from 'lodash/uniq.js';
+import lodash from 'lodash';
+const { isNil, uniq } = lodash;
 
+import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
 
@@ -11,22 +12,28 @@ const attachBadges = async function ({
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
   badgeRepository,
-  complementaryCertificationRepository,
+  complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationBadgesRepository,
 }) {
   _verifyThatLevelsAreConsistent({
     complementaryCertificationBadgesToAttachDTO,
   });
 
-  await _verifyThatComplementaryCertificationExists({
-    complementaryCertificationId,
-    complementaryCertificationRepository,
-  });
-
   await _verifyThatBadgesToAttachExist({
     complementaryCertificationBadgesToAttachDTO,
     badgeRepository,
   });
+
+  const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
+    complementaryCertificationId,
+  });
+
+  if (complementaryCertification.hasExternalJury) {
+    if (_isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO))
+      throw new MissingAttributesError(
+        'Certificate and temporary certificate messages are required for complementary certification with external jury',
+      );
+  }
 
   const complementaryCertificationBadgesToAttach = complementaryCertificationBadgesToAttachDTO.map(
     (badgeToAttachDTO) => {
@@ -67,6 +74,14 @@ const attachBadges = async function ({
 };
 
 export { attachBadges };
+
+function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO) {
+  return complementaryCertificationBadgesToAttachDTO.some(
+    (complementaryCertificationBadge) =>
+      isNil(complementaryCertificationBadge.certificateMessage) ||
+      isNil(complementaryCertificationBadge.temporaryCertificateMessage),
+  );
+}
 
 async function _attachNewComplementaryCertificationBadge({
   complementaryCertificationBadgesRepository,
@@ -124,18 +139,6 @@ function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAtta
 
   if (_isLastLevelDifferentThanExpectedMaximum({ sortedUniqLevels, complementaryCertificationBadgesToAttachDTO })) {
     throw new InvalidBadgeLevelError();
-  }
-}
-
-async function _verifyThatComplementaryCertificationExists({
-  complementaryCertificationId,
-  complementaryCertificationRepository,
-}) {
-  const complementaryCertification = await complementaryCertificationRepository.getById({
-    complementaryCertificationId,
-  });
-  if (!complementaryCertification) {
-    throw new NotFoundError('The complementary certification does not exist');
   }
 }
 

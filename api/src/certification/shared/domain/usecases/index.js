@@ -4,6 +4,8 @@ import { dirname, join } from 'node:path';
 import * as badgeRepository from '../../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
+import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
+import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
@@ -18,6 +20,8 @@ const dependencies = {
   certificationCenterRepository,
   complementaryCertificationBadgesRepository,
   complementaryCertificationRepository,
+  complementaryCertificationForTargetProfileAttachmentRepository,
+  complementaryCertificationTargetProfileHistoryRepository,
   sessionCodeService,
   sessionRepository,
   sessionValidator,

@@ -156,6 +156,7 @@ module(
           server.create('complementary-certification', {
             id: 1,
             key: 'KEY',
+            hasExternalJury: true,
             label: 'MARIANNE CERTIF',
             targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
           });
