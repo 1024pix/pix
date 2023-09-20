@@ -20,6 +20,7 @@ const REAL_PIX_SUPER_ADMIN_ID = 90000;
 const CLEA_V1_TARGET_PROFILE_ID = 56;
 const CLEA_V2_TARGET_PROFILE_ID = 78;
 const PIX_DROIT_TARGET_PROFILE_ID = 59;
+const PIX_DROIT_TARGET_PROFILE_2_ID = 84;
 const PIX_EDU_1ER_DEGRE_FI_TARGET_PROFILE_ID = 66;
 const PIX_EDU_1ER_DEGRE_FC_TARGET_PROFILE_ID = 81;
 const PIX_EDU_2ND_DEGRE_TARGET_PROFILE_ID = 67;
@@ -41,8 +42,6 @@ const PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID = 71;
 const CLEA_V1_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 58;
 const CLEA_V2_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 80;
 const PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 63;
-const PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 64;
-const PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 65;
 const PIX_EDU_1ER_DEGRE_FI_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 72;
 const PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 73;
 const PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID = 83;
@@ -74,8 +73,6 @@ export {
   PIX_EDU_2ND_DEGRE_CONFIRME_CERTIFIABLE_BADGE_ID,
   CLEA_V1_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_DROIT_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-  PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FI_INITIE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FI_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
   PIX_EDU_1ER_DEGRE_FC_CONFIRME_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
@@ -475,9 +472,20 @@ function _createDroit(databaseBuilder) {
     databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: PIX_DROIT_TARGET_PROFILE_ID, tubeId, level });
   });
 
+  databaseBuilder.factory.buildTargetProfile({
+    id: PIX_DROIT_TARGET_PROFILE_2_ID,
+    imageUrl: 'https://images.pix.fr/profil-cible/Illu_GEN.svg',
+    description: null,
+    name: '[Pix+Droit (PC 2)] Prêt pour la certification',
+    isSimplifiedAccess: false,
+    category: 'PREDEFINED',
+    isPublic: true,
+    ownerOrganizationId: PRO_ORGANIZATION_ID,
+  });
+
   databaseBuilder.factory.buildBadge({
     id: PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
-    targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_2_ID,
     message:
       "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Avancé. Vous avez fait preuve d'une maîtrise des compétences numériques nécessaires à l'exercice des métiers du droit dans tous les domaines. En perfectionnant encore vos compétences, vous pourrez obtenir le niveau Expert.",
     altMessage: 'Pix+Droit niveau Avancé',
@@ -541,21 +549,9 @@ function _createDroit(databaseBuilder) {
     });
   });
 
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_DROIT_AVANCE_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_DROIT_AVANCE_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-    level: 2,
-    imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/avance.svg',
-    label: 'Pix+ Droit Avancé',
-    certificateMessage: null,
-    temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_PIX_DROIT_avance.pdf',
-  });
-
   databaseBuilder.factory.buildBadge({
     id: PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
-    targetProfileId: PIX_DROIT_TARGET_PROFILE_ID,
+    targetProfileId: PIX_DROIT_TARGET_PROFILE_2_ID,
     message:
       "Félicitations ! Votre profil est prêt pour vous présenter à une certification Pix+Droit de niveau Expert. Les compétences numériques nécessaires à l'exercice des métiers du droit n'ont plus de secret pour vous.",
     altMessage: 'Pix+Droit niveau Expert',
@@ -589,18 +585,6 @@ function _createDroit(databaseBuilder) {
       cappedTubes,
       name,
     });
-  });
-
-  databaseBuilder.factory.buildComplementaryCertificationBadge({
-    id: PIX_DROIT_EXPERT_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
-    badgeId: PIX_DROIT_EXPERT_CERTIFIABLE_BADGE_ID,
-    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-    level: 3,
-    imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-    label: 'Pix+ Droit Expert',
-    certificateMessage: null,
-    temporaryCertificateMessage: null,
-    stickerUrl: 'https://images.pix.fr/stickers/macaron_droit_expert.pdf',
   });
 
   databaseBuilder.factory.buildBadge({
