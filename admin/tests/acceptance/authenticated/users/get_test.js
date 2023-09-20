@@ -319,6 +319,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       });
       const certificationCenterMembership = this.server.create('certification-center-membership', {
         certificationCenter,
+        role: 'MEMBER',
       });
       const user = this.server.create('user', {
         email: 'john.harry@example.net',
