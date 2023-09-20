@@ -1,5 +1,40 @@
 # Pix Changelog
 
+## v4.36.0 (20/09/2023)
+
+
+### :rocket: Amélioration
+- [#7111](https://github.com/1024pix/pix/pull/7111) [FEATURE] Ajouter un loading state au bouton d'import et informer pour le SCO (PIX-9276).
+- [#7088](https://github.com/1024pix/pix/pull/7088) [FEATURE] Pix1D - Appliquer le nouveau design à la pages des missions (PIX-9212).
+- [#7090](https://github.com/1024pix/pix/pull/7090) [FEATURE] Ajouter une bordure autour des simulateurs d'épreuve (PIX-9198).
+
+### :building_construction: Tech
+- [#7081](https://github.com/1024pix/pix/pull/7081) [TECH] Affiner les modèles métier Module et Grain (PIX-8969).
+- [#7078](https://github.com/1024pix/pix/pull/7078) [TECH] Mise à jour des regles d'envoi de champs CPF. (PIX-9176).
+- [#7075](https://github.com/1024pix/pix/pull/7075) [TECH] ajoute les learners dans les seeds de devcomp (Pix-9158).
+
+### :bug: Correction
+- [#7100](https://github.com/1024pix/pix/pull/7100) [BUGFIX] Eliminer les doublons de recherches de profils cibles attachables (PIX-9165).
+- [#7017](https://github.com/1024pix/pix/pull/7017) [BUGFIX] Corriger la position des modules d'explication sur la page de création de campagne dans Pix Orga (Pix-9116).
+
+### :arrow_up: Montée de version
+- [#7109](https://github.com/1024pix/pix/pull/7109) [BUMP] Update dependency ember-intl to v6 (certif).
+- [#7107](https://github.com/1024pix/pix/pull/7107) [BUMP] Update dependency ember-intl to v6 (admin).
+- [#7112](https://github.com/1024pix/pix/pull/7112) [BUMP] Update dependency ember-qunit to v8 (certif).
+- [#7101](https://github.com/1024pix/pix/pull/7101) [BUMP] Update dependency @1024pix/pix-ui to v40 (certif).
+- [#7110](https://github.com/1024pix/pix/pull/7110) [BUMP] Update dependency ember-qunit to v8 (orga).
+- [#7106](https://github.com/1024pix/pix/pull/7106) [BUMP] Update dependency ember-intl to v6 (1d).
+- [#7108](https://github.com/1024pix/pix/pull/7108) [BUMP] Update dependency ember-qunit to v8 (admin).
+- [#7096](https://github.com/1024pix/pix/pull/7096) [BUMP] Update dependency @1024pix/pix-ui to v40 (1d).
+- [#7102](https://github.com/1024pix/pix/pull/7102) [BUMP] Update dependency @1024pix/pix-ui to v40 (mon-pix).
+- [#7104](https://github.com/1024pix/pix/pull/7104) [BUMP] Update dependency ember-qunit to v8 (mon-pix).
+- [#7103](https://github.com/1024pix/pix/pull/7103) [BUMP] Update dependency ember-qunit to v8 (1d).
+- [#7098](https://github.com/1024pix/pix/pull/7098) [BUMP] Update dependency @fortawesome/ember-fontawesome to v2 (orga).
+- [#7095](https://github.com/1024pix/pix/pull/7095) [BUMP] Update dependency @fortawesome/ember-fontawesome to v2 (certif).
+- [#7094](https://github.com/1024pix/pix/pull/7094) [BUMP] Update dependency @fortawesome/ember-fontawesome to v2 (admin).
+- [#7092](https://github.com/1024pix/pix/pull/7092) [BUMP] Update dependency @fortawesome/ember-fontawesome to v2 (1d).
+- [#7091](https://github.com/1024pix/pix/pull/7091) [BUMP] Update dependency @fortawesome/ember-fontawesome to v2 (mon-pix).
+
 ## v4.35.0 (18/09/2023)
 
 
