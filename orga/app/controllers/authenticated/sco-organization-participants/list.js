@@ -73,7 +73,11 @@ export default class ListController extends Controller {
     const adapter = this.store.adapterFor('students-import');
     const organizationId = this.currentUser.organization.id;
     const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
-
+    const confirmBeforeClose = (event) => {
+      event.preventDefault();
+      return (event.returnValue = '');
+    };
+    window.addEventListener('beforeunload', confirmBeforeClose);
     this.isLoading = true;
     this.notifications.clearAll();
     try {
@@ -85,6 +89,7 @@ export default class ListController extends Controller {
       this.isLoading = false;
       this._handleError(errorResponse);
     }
+    window.removeEventListener('beforeunload', confirmBeforeClose);
   }
 
   _handleError(errorResponse) {
