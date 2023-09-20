@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, knex, domainBuilder } from '../../../../../test-helper.js';
+import { expect, databaseBuilder, knex, domainBuilder, sinon } from '../../../../../test-helper.js';
 import lodash from 'lodash';
 const { omit } = lodash;
 import * as complementaryCertificationBadgeRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
@@ -97,7 +97,15 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
   });
 
   context('#attach', function () {
+    let clock;
+    const createdAt = new Date('2023-09-19T01:02:03Z');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(createdAt);
+    });
+
     afterEach(async function () {
+      clock.restore();
       return knex('complementary-certification-badges').delete();
     });
 
@@ -105,48 +113,75 @@ describe('Integration | Infrastructure | Repository | complementary-certificatio
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const badgeId = databaseBuilder.factory.buildBadge({ targetProfileId }).id;
+      const badgeId1 = databaseBuilder.factory.buildBadge({ targetProfileId }).id;
+      const badgeId2 = databaseBuilder.factory.buildBadge({ targetProfileId }).id;
       const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-      const badgeToAttach = domainBuilder.buildBadgeToAttach({
-        badgeId,
-        createdBy: userId,
-        complementaryCertificationId,
-        level: 1,
-        label: 'PIX+ Toto',
-        imageUrl: 'svg.pix.toto.com',
-        stickerUrl: 'svg.pix.toto.com',
-      });
+      const badgesToAttach = [
+        domainBuilder.buildBadgeToAttach({
+          badgeId: badgeId1,
+          createdBy: userId,
+          complementaryCertificationId,
+          level: 1,
+          label: 'PIX+ Toto',
+          imageUrl: 'svg.pix.toto.com',
+          stickerUrl: 'pdf.pix.toto.com',
+        }),
+
+        domainBuilder.buildBadgeToAttach({
+          badgeId: badgeId2,
+          createdBy: userId,
+          complementaryCertificationId,
+          level: 2,
+          label: 'PIX+ Toto 2',
+          imageUrl: '2.svg.pix.toto.com',
+          stickerUrl: '2.pdf.pix.toto.com',
+        }),
+      ];
 
       await databaseBuilder.commit();
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
         await complementaryCertificationBadgeRepository.attach({
-          complementaryCertificationId,
-          complementaryCertificationBadge: badgeToAttach,
+          complementaryCertificationBadges: badgesToAttach,
           domainTransaction,
         });
       });
 
       // then
-      const complementaryCertificationBadge = await knex('complementary-certification-badges')
-        .where({
-          label: 'PIX+ Toto',
-        })
-        .first();
-
-      expect(omit(complementaryCertificationBadge, ['id', 'createdAt'])).to.deep.equal({
-        badgeId,
-        certificateMessage: null,
-        temporaryCertificateMessage: null,
-        createdBy: userId,
-        detachedAt: null,
+      const complementaryCertificationBadges = await knex('complementary-certification-badges').where({
         complementaryCertificationId,
-        level: 1,
-        label: 'PIX+ Toto',
-        imageUrl: 'svg.pix.toto.com',
-        stickerUrl: 'svg.pix.toto.com',
       });
+
+      const results = complementaryCertificationBadges.map((badge) => omit(badge, ['id']));
+      expect(results).to.deep.equal([
+        {
+          badgeId: badgeId1,
+          certificateMessage: null,
+          temporaryCertificateMessage: null,
+          createdBy: userId,
+          createdAt,
+          detachedAt: null,
+          complementaryCertificationId,
+          level: 1,
+          label: 'PIX+ Toto',
+          imageUrl: 'svg.pix.toto.com',
+          stickerUrl: 'pdf.pix.toto.com',
+        },
+        {
+          badgeId: badgeId2,
+          certificateMessage: null,
+          temporaryCertificateMessage: null,
+          createdBy: userId,
+          createdAt,
+          detachedAt: null,
+          complementaryCertificationId,
+          level: 2,
+          label: 'PIX+ Toto 2',
+          imageUrl: '2.svg.pix.toto.com',
+          stickerUrl: '2.pdf.pix.toto.com',
+        },
+      ]);
     });
   });
 });

@@ -1,10 +1,10 @@
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import lodash from 'lodash';
-const { isNil, uniq } = lodash;
-
 import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
+
+const { isNil, uniq } = lodash;
 
 const attachBadges = async function ({
   complementaryCertificationId,
@@ -35,16 +35,13 @@ const attachBadges = async function ({
       );
   }
 
-  const complementaryCertificationBadgesToAttach = complementaryCertificationBadgesToAttachDTO.map(
-    (badgeToAttachDTO) => {
-      const badgeToAttach = BadgeToAttach.from({
-        ...badgeToAttachDTO,
-        complementaryCertificationId,
-        userId,
-      });
-      return badgeToAttach;
-    },
-  );
+  const complementaryCertificationBadges = complementaryCertificationBadgesToAttachDTO.map((badgeToAttachDTO) => {
+    return BadgeToAttach.from({
+      ...badgeToAttachDTO,
+      complementaryCertificationId,
+      userId,
+    });
+  });
 
   return DomainTransaction.execute(async (domainTransaction) => {
     const relatedComplementaryCertificationBadgesIds =
@@ -58,18 +55,11 @@ const attachBadges = async function ({
       domainTransaction,
     });
 
-    for (const badgeToAttach of complementaryCertificationBadgesToAttach) {
-      const complementaryCertificationBadge = BadgeToAttach.from({
-        ...badgeToAttach,
-        complementaryCertificationId,
-        userId,
-      });
-      await _attachNewComplementaryCertificationBadge({
-        complementaryCertificationBadgesRepository,
-        complementaryCertificationBadge,
-        domainTransaction,
-      });
-    }
+    await _attachNewComplementaryCertificationBadges({
+      complementaryCertificationBadgesRepository,
+      complementaryCertificationBadges,
+      domainTransaction,
+    });
   });
 };
 
@@ -83,13 +73,13 @@ function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachD
   );
 }
 
-async function _attachNewComplementaryCertificationBadge({
+async function _attachNewComplementaryCertificationBadges({
   complementaryCertificationBadgesRepository,
-  complementaryCertificationBadge,
+  complementaryCertificationBadges,
   domainTransaction,
 }) {
   await complementaryCertificationBadgesRepository.attach({
-    complementaryCertificationBadge,
+    complementaryCertificationBadges,
     domainTransaction,
   });
 }
