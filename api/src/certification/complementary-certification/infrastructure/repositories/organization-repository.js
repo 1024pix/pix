@@ -1,12 +1,13 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 
-const getOrganizationUserEmailsFromTargetProfileId = async function ({ targetProfileId }) {
+const getOrganizationUserEmailByCampaignTargetProfileId = async function (targetProfileId) {
   return knex('campaigns')
-    .innerJoin('organization', 'campaigns.organizationId', 'organization.id')
-    .innerJoin('memberships', 'organization.id', 'memberships.organizationId')
+    .innerJoin('organizations', 'campaigns.organizationId', 'organizations.id')
+    .innerJoin('memberships', 'organizations.id', 'memberships.organizationId')
     .innerJoin('users', 'users.id', 'memberships.userId')
     .where({ targetProfileId })
-    .pluck('email');
+    .distinct()
+    .pluck('users.email');
 };
 
-export { getOrganizationUserEmailsFromTargetProfileId };
+export { getOrganizationUserEmailByCampaignTargetProfileId };
