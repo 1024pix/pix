@@ -24,18 +24,18 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         const oldTargetProfile = databaseBuilder.factory.buildTargetProfile({ id: 222, name: 'oldTarget' });
 
-        const currentBadgeId = _createComplementaryCertificationBadge({
-          targetProfileId: currentTarget.id,
-          complementaryCertificationId: complementaryCertification.id,
-          createdAt: new Date('2023-10-10'),
-          label: 'goodBadge',
-          level: 1,
-        });
         const currentBadgeId2 = _createComplementaryCertificationBadge({
           targetProfileId: currentTarget.id,
           complementaryCertificationId: complementaryCertification.id,
           createdAt: new Date('2023-10-10'),
           label: 'goodBadge2',
+          level: 2,
+        });
+        const currentBadgeId = _createComplementaryCertificationBadge({
+          targetProfileId: currentTarget.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2023-10-10'),
+          label: 'goodBadge',
           level: 1,
         });
         _createComplementaryCertificationBadge({
@@ -66,7 +66,7 @@ describe('Integration | Repository | complementary-certification-target-profile-
             detachedAt: null,
             badges: [
               new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId, level: 1, label: 'goodBadge' }),
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId2, level: 1, label: 'goodBadge2' }),
+              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId2, level: 2, label: 'goodBadge2' }),
             ],
           }),
         ]);
