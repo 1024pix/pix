@@ -4,6 +4,7 @@
   <ScoOrganizationParticipant::HeaderActions
     @onImportStudents={{this.importStudents}}
     @participantCount={{@model.meta.participantCount}}
+    @isLoading={{this.isLoading}}
   />
   <ScoOrganizationParticipant::List
     @students={{@model}}
@@ -21,8 +22,4 @@
     @divisionSort={{this.divisionSort}}
     @lastnameSort={{this.lastnameSort}}
   />
-
-  {{#if this.isLoading}}
-    <Ui::PixLoader />
-  {{/if}}
 </div>
