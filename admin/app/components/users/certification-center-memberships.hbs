@@ -11,6 +11,7 @@
           <th>Nom</th>
           <th>Type</th>
           <th>Identifiant externe</th>
+          <th>{{t "components.certification-centers.table-headers.roleLabel"}}</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -31,6 +32,7 @@
               <td>{{certificationCenterMembership.certificationCenter.name}}</td>
               <td>{{certificationCenterMembership.certificationCenter.type}}</td>
               <td>{{certificationCenterMembership.certificationCenter.externalId}}</td>
+              <td>{{t certificationCenterMembership.roleLabelKey}}</td>
               <td>
                 <PixButton
                   @size="small"

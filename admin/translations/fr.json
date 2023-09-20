@@ -52,6 +52,9 @@
       },
       "membership-item-role": {
         "select-role": "Sélectionner un rôle"
+      },
+      "table-headers" : {
+        "roleLabel": "Rôle"
       }
     },
     "complementary-certifications": {
