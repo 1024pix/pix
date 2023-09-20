@@ -8,7 +8,7 @@ import setupIntl from '../../helpers/setup-intl';
 module('Acceptance | Login', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks, ['fr', 'en']);
+  setupIntl(hooks);
 
   module('when current url does not contain french tld (.fr)', function () {
     module('when accessing the signin page with "Français" as default language', function () {
