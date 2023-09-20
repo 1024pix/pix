@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import { render } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | users | user-detail-personal-information', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   class AccessControlStub extends Service {
     hasAccessToUsersActionsScope = true;
