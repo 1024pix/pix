@@ -13,6 +13,12 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     const organizationLearner = server.create('organization-learner', { firstName: 'John' });
     const pixAuthenticationMethod = server.create('authentication-method', { identityProvider: 'PIX' });
     const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
+    const organizationMembership1 = server.create('organization-membership');
+    const organizationMembership2 = server.create('organization-membership');
+    const certificationCenterMembership1 = server.create('certification-center-membership');
+    const certificationCenterMembership2 = server.create('certification-center-membership');
+    const certificationCenterMembership3 = server.create('certification-center-membership');
+    const participation = server.create('user-participation');
     const user = server.create('user', {
       'first-name': 'john',
       'last-name': 'harry',
@@ -20,6 +26,13 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       username,
       'is-authenticated-from-gar': false,
     });
+    user.organizationMemberships = [organizationMembership1, organizationMembership2];
+    user.certificationCenterMemberships = [
+      certificationCenterMembership1,
+      certificationCenterMembership2,
+      certificationCenterMembership3,
+    ];
+    user.participations = [participation];
     user.organizationLearners = [organizationLearner];
     user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
     user.save();
@@ -28,7 +41,6 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       isSuperAdmin: true,
     });
     await createAuthenticateSession({ userId: user.id });
-
     return user;
   }
 
@@ -44,6 +56,9 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   test('should display user detail information page', async function (assert) {
     // given
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
+    const expectedOrganizationMembershipsCount = 2;
+    const expectedParticipationCount = 1;
+    const expectedCertificationCenterCount = 3;
 
     // when
     const screen = await visit(`/users/${user.id}`);
@@ -56,10 +71,13 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     const userNavigation = within(screen.getByLabelText("Navigation de la section détails d'un utilisateur"));
     assert.dom(userNavigation.getByRole('link', { name: 'Détails' })).exists();
     assert.dom(userNavigation.getByRole('link', { name: 'Profil' })).exists();
-    assert.dom(userNavigation.getByRole('link', { name: 'Participations' })).exists();
+    assert.dom(userNavigation.getByRole('link', { name: `Participations (${expectedParticipationCount})` })).exists();
     assert
-      .dom(userNavigation.getByRole('link', { name: 'Centres de certification auxquels appartient l´utilisateur' }))
-      .exists();
+      .dom(userNavigation.getByLabelText('Centres de certification auxquels appartient l´utilisateur'))
+      .hasText(`Pix Certif (${expectedCertificationCenterCount})`);
+    assert
+      .dom(userNavigation.getByLabelText('Organisations de l’utilisateur'))
+      .hasText(`Pix Orga (${expectedOrganizationMembershipsCount})`);
   });
 
   test('should redirect to list users page when click page title', async function (assert) {

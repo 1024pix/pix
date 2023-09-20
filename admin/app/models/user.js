@@ -39,4 +39,14 @@ export default class User extends Model {
   get language() {
     return this.lang?.toUpperCase();
   }
+
+  get organizationMembershipsCount() {
+    return this.organizationMemberships.length;
+  }
+  get certificationCenterMembershipsCount() {
+    return this.certificationCenterMemberships.length;
+  }
+  get participationsCount() {
+    return this.participations.length;
+  }
 }
