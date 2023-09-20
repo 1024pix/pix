@@ -78,6 +78,16 @@
     }
   },
   "pages": {
+    "certification-centers": {
+      "notifications": {
+        "failure": {
+          "update-certification-center-membership-role": "An error has occurred, the member's role has not been changed."
+        },
+        "success": {
+          "update-certification-center-membership-role": "The member's role has been modified."
+        }
+      }
+    },
     "login": {
       "api-error-messages": {
         "login-no-permission": "You don't have the permission to connect."
