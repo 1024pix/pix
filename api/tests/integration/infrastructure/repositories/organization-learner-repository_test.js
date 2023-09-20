@@ -11,6 +11,7 @@ import {
   OrganizationLearnerNotFound,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
+  OrganizationLearnerCertificabilityNotUpdatedError,
 } from '../../../../lib/domain/errors.js';
 
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
@@ -2158,6 +2159,21 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         .first();
       expect(isCertifiable).to.be.true;
       expect(new Date(certifiableAt)).to.deep.equal(organizationLearner.certifiableAt);
+    });
+
+    it('should throw an error if it does not update anything', async function () {
+      // given
+      const notExistingOrganizationLearner = new OrganizationLearner({ id: 1 });
+      await databaseBuilder.commit();
+
+      // when
+      notExistingOrganizationLearner.isCertifiable = true;
+      notExistingOrganizationLearner.certifiableAt = new Date('2023-01-01');
+
+      const error = await catchErr(organizationLearnerRepository.updateCertificability)(notExistingOrganizationLearner);
+
+      // then
+      expect(error).to.be.instanceof(OrganizationLearnerCertificabilityNotUpdatedError);
     });
   });
   describe('#countByOrganizationsWhichNeedToComputeCertificability', function () {
