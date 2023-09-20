@@ -1,8 +1,8 @@
 import { databaseBuilder, domainBuilder, expect, catchErr } from '../../../../../test-helper.js';
-import * as complementaryCertificationForAdminRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-for-admin-repository.js';
+import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 
-describe('Integration | Repository | complementary-certification-for-admin-repository', function () {
+describe('Integration | Repository | complementary-certification-for-target-profile-attachment-repository', function () {
   describe('#getById', function () {
     it('should return the complementary certification by its id', async function () {
       // given
@@ -16,17 +16,18 @@ describe('Integration | Repository | complementary-certification-for-admin-repos
       await databaseBuilder.commit();
 
       // when
-      const complementaryCertification = await complementaryCertificationForAdminRepository.getById({
+      const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
         complementaryCertificationId,
       });
 
       // then
-      const expectedComplementaryCertification = domainBuilder.buildComplementaryCertificationForAdmin({
-        id: 1,
-        label: 'Pix+ Édu 1er degré',
-        hasExternalJury: true,
-      });
-      expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
+      const expectedComplementaryCertification =
+        domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+          id: 1,
+          label: 'Pix+ Édu 1er degré',
+          hasExternalJury: true,
+        });
+      expect(complementaryCertification).to.deepEqualInstance(expectedComplementaryCertification);
     });
 
     describe('when complementary certification does not exist', function () {
@@ -41,7 +42,7 @@ describe('Integration | Repository | complementary-certification-for-admin-repos
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(complementaryCertificationForAdminRepository.getById)({
+        const error = await catchErr(complementaryCertificationForTargetProfileAttachmentRepository.getById)({
           complementaryCertificationId: 2,
         });
 

@@ -12,7 +12,7 @@ const attachBadges = async function ({
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
   badgeRepository,
-  complementaryCertificationForAdminRepository,
+  complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationBadgesRepository,
 }) {
   _verifyThatLevelsAreConsistent({
@@ -24,11 +24,11 @@ const attachBadges = async function ({
     badgeRepository,
   });
 
-  const complementaryCertification = await complementaryCertificationForAdminRepository.getById({
+  const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
     complementaryCertificationId,
   });
 
-  if (_hasExternalJury({ complementaryCertification })) {
+  if (complementaryCertification.hasExternalJury) {
     if (_isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO))
       throw new MissingAttributesError(
         'Certificate and temporary certificate messages are required for complementary certification with external jury',
@@ -140,10 +140,6 @@ function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAtta
   if (_isLastLevelDifferentThanExpectedMaximum({ sortedUniqLevels, complementaryCertificationBadgesToAttachDTO })) {
     throw new InvalidBadgeLevelError();
   }
-}
-
-function _hasExternalJury({ complementaryCertification }) {
-  return !!complementaryCertification.hasExternalJury;
 }
 
 async function _verifyThatBadgesToAttachExist({ complementaryCertificationBadgesToAttachDTO, badgeRepository }) {

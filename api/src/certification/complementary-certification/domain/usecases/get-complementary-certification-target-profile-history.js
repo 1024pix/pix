@@ -3,7 +3,7 @@ import { ComplementaryCertificationTargetProfileHistory } from '../models/Comple
 const getComplementaryCertificationTargetProfileHistory = async function ({
   complementaryCertificationId,
   complementaryCertificationTargetProfileHistoryRepository,
-  complementaryCertificationForAdminRepository,
+  complementaryCertificationForTargetProfileAttachmentRepository,
 }) {
   const currentsTargetProfileHistoryWithBadgesByComplementaryCertification =
     await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
@@ -19,7 +19,7 @@ const getComplementaryCertificationTargetProfileHistory = async function ({
       },
     );
 
-  const complementaryCertification = await complementaryCertificationForAdminRepository.getById({
+  const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
     complementaryCertificationId,
   });
 

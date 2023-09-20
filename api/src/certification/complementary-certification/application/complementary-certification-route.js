@@ -22,7 +22,7 @@ const register = async function (server) {
         tags: ['api', 'admin'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin, Support et Métier',
-          "Elle renvoie le profil cible courant et ses badges associés, ainsi que l'historique des profils cibles qui ont été rattaché à la certification complémentaire.",
+          "Elle renvoie les profils cibles courants et ses badges associés, ainsi que l'historique des profils cibles qui ont été rattachés à la certification complémentaire.",
         ],
       },
     },

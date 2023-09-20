@@ -5,12 +5,12 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { InvalidBadgeLevelError } from '../../../../../../src/certification/complementary-certification/domain/errors.js';
 
 describe('Unit | UseCase | attach-badges', function () {
-  let complementaryCertificationForAdminRepository, badgeRepository;
+  let complementaryCertificationForTargetProfileAttachmentRepository, badgeRepository;
   let clock;
   const now = new Date('2023-02-02');
 
   beforeEach(function () {
-    complementaryCertificationForAdminRepository = {
+    complementaryCertificationForTargetProfileAttachmentRepository = {
       getById: sinon.stub(),
     };
     badgeRepository = {
@@ -22,98 +22,110 @@ describe('Unit | UseCase | attach-badges', function () {
     clock.restore();
   });
 
-  context('check badges levels business rules', function () {
-    it('should have at least one badge', async function () {
-      // given
-      const emptyBadgesList = [];
+  context('when levels checks are not ok', function () {
+    context('when there is no complementary certification badges to attach', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const emptyBadgesList = [];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: emptyBadgesList,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: emptyBadgesList,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow a level below 1', async function () {
-      // given
-      const badgesWithALevel0 = [
-        { badgeId: 100, level: 1 },
-        { badgeId: 101, level: 0 },
-      ];
+    context('when there is a level below 1', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const badgesWithALevel0 = [
+          { badgeId: 100, level: 1 },
+          { badgeId: 101, level: 0 },
+        ];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: badgesWithALevel0,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: badgesWithALevel0,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow a level above the number of badges (4 badges, max level = 4)', async function () {
-      // given
-      const twoBadgesWithALevelThree = [
-        { badgeId: 100, level: 1 },
-        { badgeId: 101, level: 3 },
-      ];
+    context('when there is a level above the number of badges (4 badges, max level = 4)', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const twoBadgesWithALevelThree = [
+          { badgeId: 100, level: 1 },
+          { badgeId: 101, level: 3 },
+        ];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: twoBadgesWithALevelThree,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: twoBadgesWithALevelThree,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow a badge without a level', async function () {
-      // given
-      const badgesAndOneWithoutALevel = [{ badgeId: 100, level: 1 }, { badgeId: 101 }];
+    context('when there is a badge without a level', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const badgesAndOneWithoutALevel = [{ badgeId: 100, level: 1 }, { badgeId: 101 }];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: badgesAndOneWithoutALevel,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: badgesAndOneWithoutALevel,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
 
-    it('should not allow badges where level are not uniq', async function () {
-      // given
-      const badgesWithoutUniqLevel = [{ badgeId: 100, level: 1 }, { badgeId: 1 }];
+    context('when levels are not uniq', function () {
+      it('should throw InvalidBadgeLevelError', async function () {
+        // given
+        const badgesWithoutUniqLevel = [{ badgeId: 100, level: 1 }, { badgeId: 1 }];
 
-      // when
-      const error = await catchErr(attachBadges)({
-        complementaryCertificationBadgesToAttachDTO: badgesWithoutUniqLevel,
+        // when
+        const error = await catchErr(attachBadges)({
+          complementaryCertificationBadgesToAttachDTO: badgesWithoutUniqLevel,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidBadgeLevelError);
+        expect(error.code).to.equal('INVALID_BADGE_LEVEL');
+        expect(error.message).to.equal('Badge level inconsistency');
       });
-
-      // then
-      expect(error).to.be.instanceOf(InvalidBadgeLevelError);
-      expect(error.code).to.equal('INVALID_BADGE_LEVEL');
-      expect(error.message).to.equal('Badge level inconsistency');
     });
   });
 
   context('when complementary certification has external jury and one required attributes is missing', function () {
     it('should return MissingAttributesError', async function () {
       // given
-      complementaryCertificationForAdminRepository.getById.withArgs({ complementaryCertificationId: 123 }).resolves(
-        domainBuilder.buildComplementaryCertificationForAdmin({
-          id: 123,
-          hasExternalJury: true,
-        }),
-      );
+      complementaryCertificationForTargetProfileAttachmentRepository.getById
+        .withArgs({ complementaryCertificationId: 123 })
+        .resolves(
+          domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+            id: 123,
+            hasExternalJury: true,
+          }),
+        );
       badgeRepository.findAllByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
 
       // when
@@ -124,7 +136,7 @@ describe('Unit | UseCase | attach-badges', function () {
         ],
         complementaryCertificationId: 123,
         badgeRepository,
-        complementaryCertificationForAdminRepository,
+        complementaryCertificationForTargetProfileAttachmentRepository,
       });
 
       // then
@@ -179,12 +191,14 @@ describe('Unit | UseCase | attach-badges', function () {
         const badge1 = domainBuilder.buildBadge({ id: 123 });
         const badge2 = domainBuilder.buildBadge({ id: 456 });
 
-        complementaryCertificationForAdminRepository.getById.withArgs({ complementaryCertificationId: 123 }).resolves(
-          domainBuilder.buildComplementaryCertificationForAdmin({
-            id: 123,
-            hasExternalJury: false,
-          }),
-        );
+        complementaryCertificationForTargetProfileAttachmentRepository.getById
+          .withArgs({ complementaryCertificationId: 123 })
+          .resolves(
+            domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+              id: 123,
+              hasExternalJury: false,
+            }),
+          );
         badgeRepository.findAllByIds.resolves([badge1, badge2]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub().resolves(),
@@ -206,7 +220,7 @@ describe('Unit | UseCase | attach-badges', function () {
           targetProfileIdToDetach: 789,
           complementaryCertificationId: 123,
           badgeRepository,
-          complementaryCertificationForAdminRepository,
+          complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
         });
 
@@ -237,12 +251,14 @@ describe('Unit | UseCase | attach-badges', function () {
           temporaryCertificateMessage: null,
         };
 
-        complementaryCertificationForAdminRepository.getById.withArgs({ complementaryCertificationId: 123 }).resolves(
-          domainBuilder.buildComplementaryCertificationForAdmin({
-            id: 123,
-            hasExternalJury: false,
-          }),
-        );
+        complementaryCertificationForTargetProfileAttachmentRepository.getById
+          .withArgs({ complementaryCertificationId: 123 })
+          .resolves(
+            domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+              id: 123,
+              hasExternalJury: false,
+            }),
+          );
         badgeRepository.findAllByIds.resolves([badge1]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub(),
@@ -264,7 +280,7 @@ describe('Unit | UseCase | attach-badges', function () {
           targetProfileIdToDetach: 456,
           complementaryCertificationId: 123,
           badgeRepository,
-          complementaryCertificationForAdminRepository,
+          complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
         });
 
@@ -295,12 +311,14 @@ describe('Unit | UseCase | attach-badges', function () {
       const badge1 = domainBuilder.buildBadge({ id: 123 });
       const badge2 = domainBuilder.buildBadge({ id: 456 });
 
-      complementaryCertificationForAdminRepository.getById.withArgs({ complementaryCertificationId: 123 }).resolves(
-        domainBuilder.buildComplementaryCertificationForAdmin({
-          id: 123,
-          hasExternalJury: false,
-        }),
-      );
+      complementaryCertificationForTargetProfileAttachmentRepository.getById
+        .withArgs({ complementaryCertificationId: 123 })
+        .resolves(
+          domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+            id: 123,
+            hasExternalJury: false,
+          }),
+        );
       badgeRepository.findAllByIds.resolves([badge1, badge2]);
       const complementaryCertificationBadgesRepository = {
         attach: sinon.stub().resolves(),
@@ -325,7 +343,7 @@ describe('Unit | UseCase | attach-badges', function () {
         complementaryCertificationId: 123,
         BadgeToAttachValidator,
         badgeRepository,
-        complementaryCertificationForAdminRepository,
+        complementaryCertificationForTargetProfileAttachmentRepository,
         complementaryCertificationBadgesRepository,
       });
 
