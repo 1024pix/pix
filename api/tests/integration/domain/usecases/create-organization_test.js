@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-
+import * as pix1dOrganizationRepository from '../../../../lib/infrastructure/repositories/pix1d-organization-repository.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
@@ -8,6 +8,7 @@ import { createOrganization } from '../../../../lib/domain/usecases/create-organ
 
 describe('Integration | UseCases | create-organization', function () {
   afterEach(async function () {
+    await knex('pix1d-organizations').delete();
     await knex('data-protection-officers').delete();
     await knex('organizations').delete();
   });
@@ -30,6 +31,7 @@ describe('Integration | UseCases | create-organization', function () {
       dataProtectionOfficerRepository,
       organizationForAdminRepository,
       organizationCreationValidator,
+      pix1dOrganizationRepository,
     });
 
     // then
