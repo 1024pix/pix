@@ -1,4 +1,4 @@
-class ComplementaryCertificationForAdmin {
+class ComplementaryCertificationForTargetProfileAttachment {
   constructor({ id, label, hasExternalJury }) {
     this.id = id;
     this.label = label;
@@ -6,4 +6,4 @@ class ComplementaryCertificationForAdmin {
   }
 }
 
-export { ComplementaryCertificationForAdmin };
+export { ComplementaryCertificationForTargetProfileAttachment };
