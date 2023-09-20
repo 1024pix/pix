@@ -82,7 +82,7 @@
     "ember-file-upload": "^8.0.0",
     "ember-flatpickr": "^4.0.0",
     "ember-inputmask": "^0.11.0",
-    "ember-intl": "^5.7.2",
+    "ember-intl": "^6.0.0",
     "ember-keyboard": "^8.0.0",
     "ember-load-initializers": "^2.1.2",
     "ember-modifier": "^4.1.0",
