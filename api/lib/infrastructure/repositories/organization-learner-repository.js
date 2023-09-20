@@ -6,6 +6,7 @@ import {
   OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
+  OrganizationLearnerCertificabilityNotUpdatedError,
 } from '../../domain/errors.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
@@ -357,10 +358,15 @@ const isActive = async function ({ userId, campaignId }) {
 };
 
 async function updateCertificability(organizationLearner) {
-  await knex('organization-learners').where({ id: organizationLearner.id }).update({
+  const result = await knex('organization-learners').where({ id: organizationLearner.id }).update({
     isCertifiable: organizationLearner.isCertifiable,
     certifiableAt: organizationLearner.certifiableAt,
   });
+  if (result === 0) {
+    throw new OrganizationLearnerCertificabilityNotUpdatedError(
+      `Could not update certificability for OrganizationLearner with ID ${organizationLearner.id}.`,
+    );
+  }
 }
 
 async function countByOrganizationsWhichNeedToComputeCertificability({
