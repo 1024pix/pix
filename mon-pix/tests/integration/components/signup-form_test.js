@@ -20,13 +20,7 @@ const userEmpty = EmberObject.create({});
 module('Integration | Component | SignupForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('Localization', function (hooks) {
-    const originalLocale = ENV.APP.LOCALE;
-
-    hooks.afterEach(function () {
-      this.intl.setLocale(originalLocale);
-    });
-
+  module('Localization', function () {
     [
       { locale: 'fr', expectedFormTitle: 'Inscrivez-vous' },
       { locale: 'en', expectedFormTitle: 'Sign up' },
