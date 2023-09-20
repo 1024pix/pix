@@ -7,20 +7,18 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column--id">{{t
-                "components.complementary-certifications.target-profiles.badges-list.header.id"
-              }}</th>
             <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.name"}}</th>
             <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.level"}}</th>
+            <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.id"}}</th>
           </tr>
         </thead>
 
         <tbody>
           {{#each this.currentTargetProfileBadges as |badge|}}
             <tr>
-              <td>{{badge.id}}</td>
               <td>{{badge.label}}</td>
               <td>{{badge.level}}</td>
+              <td>{{badge.id}}</td>
             </tr>
           {{/each}}
         </tbody>
