@@ -86,6 +86,16 @@
     }
   },
   "pages": {
+    "certification-centers": {
+      "notifications": {
+        "failure": {
+          "update-certification-center-membership-role": "Une erreur est survenue, le rôle du membre n'a pas été modifié."
+        },
+        "success": {
+          "update-certification-center-membership-role": "Le rôle du membre a été modifié."
+        }
+      }
+    },
     "login": {
       "api-error-messages": {
         "login-no-permission": "Vous n'avez pas les droits pour vous connecter."

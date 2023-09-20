@@ -235,4 +235,57 @@ module('Unit | Controller | authenticated/certification-centers/get/team', funct
       });
     });
   });
+
+  module('#updateCertificationCenterMembershipRole', function (hooks) {
+    let certificationCenterMembership, notifications;
+
+    hooks.beforeEach(function () {
+      certificationCenterMembership = {
+        save: sinon.stub(),
+        rollbackAttributes: sinon.stub(),
+      };
+      notifications = {
+        error: sinon.stub(),
+        success: sinon.stub(),
+      };
+    });
+
+    module('when certification center membership is saved', function () {
+      test('calls success method from notifications service', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/certification-centers/get/team');
+        controller.notifications = notifications;
+        certificationCenterMembership.save.resolves();
+
+        // when
+        await controller.updateCertificationCenterMembershipRole(certificationCenterMembership);
+
+        // then
+        sinon.assert.calledOnce(certificationCenterMembership.save);
+        sinon.assert.calledOnce(controller.notifications.success);
+        sinon.assert.notCalled(certificationCenterMembership.rollbackAttributes);
+        sinon.assert.notCalled(controller.notifications.error);
+        assert.ok(true);
+      });
+    });
+
+    module('when an error occurs during certification center membership save', function () {
+      test('calls error method from notifications service', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/certification-centers/get/team');
+        controller.notifications = notifications;
+        certificationCenterMembership.save.rejects();
+
+        // when
+        await controller.updateCertificationCenterMembershipRole(certificationCenterMembership);
+
+        // then
+        sinon.assert.calledOnce(certificationCenterMembership.save);
+        sinon.assert.notCalled(controller.notifications.success);
+        sinon.assert.calledOnce(certificationCenterMembership.rollbackAttributes);
+        sinon.assert.calledOnce(controller.notifications.error);
+        assert.ok(true);
+      });
+    });
+  });
 });

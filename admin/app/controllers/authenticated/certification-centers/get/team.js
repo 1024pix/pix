@@ -8,6 +8,7 @@ export default class AuthenticatedCertificationCentersGetTeamController extends 
   @service notifications;
   @service errorResponseHandler;
   @service store;
+  @service intl;
 
   @tracked userEmailToAdd;
   @tracked errorMessage;
@@ -65,6 +66,21 @@ export default class AuthenticatedCertificationCentersGetTeamController extends 
       this.notifications.success('Le membre a correctement été désactivé.');
     } catch (e) {
       this.notifications.error("Une erreur est survenue, le membre n'a pas été désactivé.");
+    }
+  }
+
+  @action
+  async updateCertificationCenterMembershipRole(certificationCenterMembership) {
+    try {
+      await certificationCenterMembership.save();
+      this.notifications.success(
+        this.intl.t('pages.certification-centers.notifications.success.update-certification-center-membership-role'),
+      );
+    } catch (_) {
+      certificationCenterMembership.rollbackAttributes();
+      this.notifications.error(
+        this.intl.t('pages.certification-centers.notifications.failure.update-certification-center-membership-role'),
+      );
     }
   }
 
