@@ -9,7 +9,7 @@ import { authenticate } from '../../helpers/authentication';
 module('Acceptance | Campaigns | campaign-landing-page', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks, ['fr', 'en']);
+  setupIntl(hooks, 'fr');
 
   let campaign;
 
