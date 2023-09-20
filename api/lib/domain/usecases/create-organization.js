@@ -5,7 +5,8 @@ const createOrganization = async function ({
   dataProtectionOfficerRepository,
   organizationForAdminRepository,
   organizationCreationValidator,
-  pix1dOrganizationRepository,
+  schoolRepository,
+  codeGenerator,
 }) {
   organizationCreationValidator.validate(organization);
   const savedOrganization = await organizationForAdminRepository.save(organization);
@@ -18,7 +19,8 @@ const createOrganization = async function ({
   });
 
   if (savedOrganization.type === Organization.types.SCO1D) {
-    await pix1dOrganizationRepository.save({ organizationId: savedOrganization.id });
+    const code = await codeGenerator.generate(schoolRepository);
+    await schoolRepository.save({ organizationId: savedOrganization.id, code });
   }
   return await organizationForAdminRepository.get(savedOrganization.id);
 };

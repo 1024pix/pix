@@ -6,10 +6,12 @@ import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 describe('Unit | UseCase | create-organization', function () {
   let organizationCreationValidator;
   let pix1dOrganizationRepository;
+  let codeGenerator;
 
   beforeEach(function () {
     organizationCreationValidator = { validate: sinon.stub() };
     pix1dOrganizationRepository = { save: sinon.stub() };
+    codeGenerator = { generate: sinon.stub() };
   });
 
   it('validates organization properties and saves it', async function () {
@@ -52,10 +54,11 @@ describe('Unit | UseCase | create-organization', function () {
   });
 
   context('When the type is SCO-1D', function () {
-    it('should call pix1dOrganizationRepository ', async function () {
+    it('should call the method to create a new code', async function () {
       // given
 
       const organization = new OrganizationForAdmin({
+        id: 4,
         name: 'ACME',
         type: 'SCO-1D',
         documentationUrl: 'https://pix.fr',
@@ -74,10 +77,43 @@ describe('Unit | UseCase | create-organization', function () {
         organizationForAdminRepository,
         organizationCreationValidator,
         pix1dOrganizationRepository,
+        codeGenerator,
       });
 
       // then
-      expect(pix1dOrganizationRepository.save).to.have.been.calledWith({ organizationId: organization.id });
+      expect(codeGenerator.generate).to.have.been.calledWith(pix1dOrganizationRepository);
+    });
+
+    it('should call pix1dOrganizationRepository ', async function () {
+      // given
+
+      const organization = new OrganizationForAdmin({
+        id: 4,
+        name: 'ACME',
+        type: 'SCO-1D',
+        documentationUrl: 'https://pix.fr',
+      });
+
+      const organizationForAdminRepository = {
+        save: sinon.stub().resolves(organization),
+        get: sinon.stub().resolves({ id: 1 }),
+      };
+      const dataProtectionOfficerRepository = { create: sinon.stub() };
+      const code = 'HAPPYY123';
+      codeGenerator.generate.returns(code);
+
+      // when
+      await createOrganization({
+        organization,
+        dataProtectionOfficerRepository,
+        organizationForAdminRepository,
+        organizationCreationValidator,
+        pix1dOrganizationRepository,
+        codeGenerator,
+      });
+
+      // then
+      expect(pix1dOrganizationRepository.save).to.have.been.calledWith({ organizationId: organization.id, code });
     });
   });
 
