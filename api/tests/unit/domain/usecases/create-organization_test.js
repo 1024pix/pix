@@ -5,8 +5,11 @@ import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organization', function () {
   let organizationCreationValidator;
+  let pix1dOrganizationRepository;
+
   beforeEach(function () {
     organizationCreationValidator = { validate: sinon.stub() };
+    pix1dOrganizationRepository = { save: sinon.stub() };
   });
 
   it('validates organization properties and saves it', async function () {
@@ -34,6 +37,7 @@ describe('Unit | UseCase | create-organization', function () {
       organization,
       organizationForAdminRepository,
       organizationCreationValidator,
+      pix1dOrganizationRepository,
     });
 
     // then
@@ -45,6 +49,36 @@ describe('Unit | UseCase | create-organization', function () {
       email: 'justin.ptipeu@example.net',
     });
     expect(organizationForAdminRepository.save).to.have.been.calledWithExactly(organization);
+  });
+
+  context('When the type is SCO-1D', function () {
+    it('should call pix1dOrganizationRepository ', async function () {
+      // given
+
+      const organization = new OrganizationForAdmin({
+        name: 'ACME',
+        type: 'SCO-1D',
+        documentationUrl: 'https://pix.fr',
+      });
+
+      const organizationForAdminRepository = {
+        save: sinon.stub().resolves(organization),
+        get: sinon.stub().resolves({ id: 1 }),
+      };
+      const dataProtectionOfficerRepository = { create: sinon.stub() };
+
+      // when
+      await createOrganization({
+        organization,
+        dataProtectionOfficerRepository,
+        organizationForAdminRepository,
+        organizationCreationValidator,
+        pix1dOrganizationRepository,
+      });
+
+      // then
+      expect(pix1dOrganizationRepository.save).to.have.been.calledWith({ organizationId: organization.id });
+    });
   });
 
   context('Error cases', function () {
