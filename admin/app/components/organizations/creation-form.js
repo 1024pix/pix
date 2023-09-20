@@ -6,6 +6,7 @@ export default class OrganizationCreationForm extends Component {
     { value: 'PRO', label: 'Organisation professionnelle' },
     { value: 'SCO', label: 'Établissement scolaire' },
     { value: 'SUP', label: 'Établissement supérieur' },
+    { value: 'SCO-1D', label: 'Établissement scolaire du premier degré' },
   ];
 
   @action
