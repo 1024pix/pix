@@ -1,10 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { setupIntl } from 'ember-intl/test-support';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | challenge', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('displays embed', async function (assert) {
     this.set('challenge', { hasValidEmbedDocument: true, autoReply: true });
