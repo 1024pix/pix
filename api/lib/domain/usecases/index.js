@@ -29,7 +29,7 @@ import * as campaignAnalysisRepository from '../../infrastructure/repositories/c
 import * as campaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import * as campaignCodeGenerator from '../services/campaigns/campaign-code-generator.js';
+import * as codeGenerator from '../services/code-generator.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignCsvExportService from '../../domain/services/campaign-csv-export-service.js';
@@ -237,7 +237,7 @@ const dependencies = {
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultListRepository,
   campaignAssessmentParticipationResultRepository,
-  campaignCodeGenerator,
+  codeGenerator,
   campaignCollectiveResultRepository,
   campaignCreatorRepository,
   campaignCsvExportService,

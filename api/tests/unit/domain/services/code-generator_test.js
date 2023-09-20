@@ -1,9 +1,9 @@
-import { expect, sinon } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 import randomString from 'randomstring';
-import * as campaignCodeGenerator from '../../../../../lib/domain/services/campaigns/campaign-code-generator.js';
+import * as codeGenerator from '../../../../lib/domain/services/code-generator.js';
 
-describe('Unit | Domain | Services | campaign code generator', function () {
-  describe('#createCampaignCode', function () {
+describe('Unit | Domain | Services | code generator', function () {
+  describe('#createCode', function () {
     const campaignRepository = {
       isCodeAvailable: () => undefined,
     };
@@ -15,7 +15,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
 
     it('should create a code with a length of 9 characters', function () {
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository);
+      const promise = codeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((code) => {
@@ -25,7 +25,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
 
     it('should create a code beginning with 6 letters', function () {
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository);
+      const promise = codeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((code) => {
@@ -36,7 +36,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
 
     it('should create a code finishing with 3 numbers', function () {
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository);
+      const promise = codeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((code) => {
@@ -51,7 +51,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
       campaignRepository.isCodeAvailable.onCall(1).resolves(true);
 
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository);
+      const promise = codeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((generatedCode) => {
@@ -66,7 +66,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
       sinon.spy(randomString, 'generate');
 
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository);
+      const promise = codeGenerator.generate(campaignRepository);
 
       // then
       return promise.then(() => {
@@ -79,7 +79,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
       sinon.spy(randomString, 'generate');
 
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository);
+      const promise = codeGenerator.generate(campaignRepository);
 
       // then
       return promise.then(() => {
@@ -104,7 +104,7 @@ describe('Unit | Domain | Services | campaign code generator', function () {
       randomString.generate.onCall(3).returns('543');
 
       // when
-      const promise = campaignCodeGenerator.generate(campaignRepository, [pendingCode]);
+      const promise = codeGenerator.generate(campaignRepository, [pendingCode]);
 
       // then
       return promise.then((generatedCode) => {

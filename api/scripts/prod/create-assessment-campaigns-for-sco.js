@@ -2,7 +2,7 @@ import bluebird from 'bluebird';
 import _ from 'lodash';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { CampaignTypes } from '../../lib/domain/models/CampaignTypes.js';
-import * as campaignCodeGenerator from '../../lib/domain/services/campaigns/campaign-code-generator.js';
+import * as codeGenerator from '../../lib/domain/services/code-generator.js';
 import * as campaignValidator from '../../lib/domain/validators/campaign-validator.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
@@ -45,7 +45,7 @@ async function prepareCampaigns(campaignsData) {
     };
 
     campaignValidator.validate(campaign);
-    campaign.code = await campaignCodeGenerator.generate(campaignRepository);
+    campaign.code = await codeGenerator.generate(campaignRepository);
     if (isLaunchedFromCommandLine)
       process.stdout.write(`Campagne ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`);
     return campaign;

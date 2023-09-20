@@ -6,12 +6,12 @@ import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.j
 describe('Unit | UseCase | create-campaign', function () {
   let campaignRepository;
   let campaignCreatorRepository;
-  let campaignCodeGeneratorStub;
+  let codeGeneratorStub;
 
   beforeEach(function () {
     campaignRepository = { save: sinon.stub() };
     campaignCreatorRepository = { get: sinon.stub() };
-    campaignCodeGeneratorStub = {
+    codeGeneratorStub = {
       generate: sinon.stub(),
     };
   });
@@ -43,7 +43,7 @@ describe('Unit | UseCase | create-campaign', function () {
       .withArgs({ ...campaignData, code })
       .returns(campaignToCreate);
 
-    campaignCodeGeneratorStub.generate.resolves(code);
+    codeGeneratorStub.generate.resolves(code);
     campaignCreatorRepository.get.withArgs({ userId: creatorId, organizationId, ownerId }).resolves(campaignCreator);
     campaignRepository.save.withArgs(campaignToCreate).resolves(savedCampaign);
 
@@ -52,7 +52,7 @@ describe('Unit | UseCase | create-campaign', function () {
       campaign: campaignData,
       campaignRepository,
       campaignCreatorRepository,
-      campaignCodeGenerator: campaignCodeGeneratorStub,
+      codeGenerator: codeGeneratorStub,
     });
 
     // then
