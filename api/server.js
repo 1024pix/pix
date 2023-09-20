@@ -5,7 +5,10 @@ import { config } from './lib/config.js';
 import * as preResponseUtils from './lib/application/pre-response-utils.js';
 import { routes } from './lib/routes.js';
 import { certificationSessionRoutes } from './src/certification/session/routes.js';
-import { attachTargetProfileRoutes } from './src/certification/complementary-certification/routes.js';
+import {
+  attachTargetProfileRoutes,
+  complementaryCertificationRoutes,
+} from './src/certification/complementary-certification/routes.js';
 import { plugins } from './lib/infrastructure/plugins/index.js';
 import { swaggers } from './lib/swaggers.js';
 import { authentication } from './lib/infrastructure/authentication.js';
@@ -103,7 +106,13 @@ const setupAuthentication = function (server) {
 };
 
 const setupRoutesAndPlugins = async function (server) {
-  const configuration = [].concat(plugins, routes, certificationSessionRoutes, attachTargetProfileRoutes);
+  const configuration = [].concat(
+    plugins,
+    routes,
+    certificationSessionRoutes,
+    attachTargetProfileRoutes,
+    complementaryCertificationRoutes,
+  );
   await server.register(configuration);
 };
 

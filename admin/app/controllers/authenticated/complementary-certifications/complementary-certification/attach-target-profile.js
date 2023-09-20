@@ -13,6 +13,10 @@ export default class AttachTargetProfileController extends Controller {
   @tracked selectedTargetProfile;
   #targetProfileBadges = new Map();
 
+  get hasExternalJury() {
+    return this.model.complementaryCertification.hasExternalJury;
+  }
+
   @action
   async onError(errorMessage) {
     if (errorMessage) {

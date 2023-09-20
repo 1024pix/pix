@@ -1,25 +1,25 @@
-import { expect, domainBuilder, sinon } from '../../../test-helper.js';
-import { getComplementaryCertificationTargetProfileHistory } from '../../../../lib/domain/usecases/get-complementary-certification-target-profile-history.js';
+import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
+import { getComplementaryCertificationTargetProfileHistory } from '../../../../../../src/certification/complementary-certification/domain/usecases/get-complementary-certification-target-profile-history.js';
 
 describe('Unit | UseCase | get-complementary-certification-target-profile-history', function () {
   let complementaryCertificationTargetProfileHistoryRepository;
-  let complementaryCertificationRepository;
+  let complementaryCertificationForTargetProfileAttachmentRepository;
 
   beforeEach(function () {
     complementaryCertificationTargetProfileHistoryRepository = {
       getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId: sinon.stub(),
       getDetachedTargetProfilesHistoryByComplementaryCertificationId: sinon.stub(),
     };
-    complementaryCertificationRepository = {
+    complementaryCertificationForTargetProfileAttachmentRepository = {
       getById: sinon.stub(),
     };
   });
 
   it('should get the complementary certification', async function () {
     // given
-    const complementaryCertification = domainBuilder.buildComplementaryCertification();
+    const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment();
     const complementaryCertificationId = complementaryCertification.id;
-    complementaryCertificationRepository.getById
+    complementaryCertificationForTargetProfileAttachmentRepository.getById
       .withArgs({ complementaryCertificationId })
       .resolves(complementaryCertification);
 
@@ -44,7 +44,7 @@ describe('Unit | UseCase | get-complementary-certification-target-profile-histor
     const result = await getComplementaryCertificationTargetProfileHistory({
       complementaryCertificationId,
       complementaryCertificationTargetProfileHistoryRepository,
-      complementaryCertificationRepository,
+      complementaryCertificationForTargetProfileAttachmentRepository,
     });
 
     // then
