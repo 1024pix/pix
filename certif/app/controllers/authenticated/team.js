@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class Team extends Controller {
+  @service currentUser;
   @service featureToggles;
   @service router;
   @service notifications;
@@ -11,6 +12,10 @@ export default class Team extends Controller {
 
   @tracked shouldShowRefererSelectionModal = false;
   @tracked selectedReferer = '';
+
+  get shouldDisplayNavbarSection() {
+    return this.currentUser.isAdminOfCurrentCertificationCenter;
+  }
 
   get shouldDisplayNoRefererSection() {
     return this.model.hasCleaHabilitation && _hasAtLeastOneMemberAndNoReferer(this.model.members);

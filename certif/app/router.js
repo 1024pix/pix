@@ -35,7 +35,11 @@ Router.map(function () {
       });
       this.route('add-student', { path: '/:session_id/inscription-eleves' });
     });
-    this.route('team', { path: '/equipe' });
+    this.route('team', { path: '/equipe' }, function () {
+      this.route('list', { path: '/' }, function () {
+        this.route('members', { path: '/membres' });
+      });
+    });
   });
 
   this.route('logout');
