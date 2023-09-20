@@ -37,4 +37,29 @@ module('Integration | Component | complementary-certifications/target-profiles/b
     assert.dom(screen.getByRole('row', { name: 'Badge Cascade 3 1023' })).exists();
     assert.dom(screen.getByRole('row', { name: 'Badge Volcan 1 1025' })).exists();
   });
+
+  test('it should contain a link for each target profile badge', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const complementaryCertification = store.createRecord('complementary-certification', {
+      label: 'CERTIF',
+      targetProfilesHistory: [
+        {
+          detachedAt: null,
+          name: 'TARGET PROFILE',
+          id: 85,
+          badges: [{ id: 75, label: 'Badge Feu', level: 3 }],
+        },
+      ],
+    });
+    this.currentTargetProfile = complementaryCertification.currentTargetProfiles[0];
+
+    // when
+    const screen = await render(
+      hbs`<ComplementaryCertifications::TargetProfiles::BadgesList @currentTargetProfile={{this.currentTargetProfile}} />`,
+    );
+
+    // then
+    assert.dom(screen.getByRole('link', { name: '75' })).hasAttribute('href', '/target-profiles/85/badges/75');
+  });
 });
