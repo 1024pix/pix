@@ -1,10 +1,21 @@
 <div class="organization-participant-list-page__header">
   <h1 class="page__title page-title">{{t "pages.sco-organization-participants.title" count=@participantCount}}</h1>
   {{#if this.currentUser.isAdminInOrganization}}
+    {{#if @isLoading}}
+      <PixMessage @type="information" @withIcon="true">
+        {{t "pages.sco-organization-participants.actions.import-file.information"}}
+      </PixMessage>
+    {{/if}}
     <div class="organization-participant-list-page__import-students-button hide-on-mobile">
-      <PixButtonUpload @id="students-file-upload" @onChange={{@onImportStudents}} accept={{this.acceptedFileType}}>
-        {{this.importButtonLabel}}
-      </PixButtonUpload>
+      {{#if @isLoading}}
+        <PixButton @id="students-file-upload" @onChange={{@onImportStudents}} @isDisabled="true" @isLoading="true">
+          {{this.importButtonLabel}}
+        </PixButton>
+      {{else}}
+        <PixButtonUpload @id="students-file-upload" @onChange={{@onImportStudents}} accept={{this.acceptedFileType}}>
+          {{this.importButtonLabel}}
+        </PixButtonUpload>
+      {{/if}}
     </div>
   {{/if}}
 </div>
