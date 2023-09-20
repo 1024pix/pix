@@ -8,7 +8,7 @@ import setupIntl from '../helpers/setup-intl';
 module('Acceptance | Inscription', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks, ['fr', 'en']);
+  setupIntl(hooks);
 
   module('International domain (.org)', function () {
     module('when accessing the inscription page with "Français" as default language', function () {

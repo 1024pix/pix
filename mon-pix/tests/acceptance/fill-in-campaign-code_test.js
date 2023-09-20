@@ -11,7 +11,7 @@ import { waitForDialog } from '../helpers/wait-for';
 module('Acceptance | Fill in campaign code page', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  setupIntl(hooks, ['fr', 'en']);
+  setupIntl(hooks);
 
   let user;
 
