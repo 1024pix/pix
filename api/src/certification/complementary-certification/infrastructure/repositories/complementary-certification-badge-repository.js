@@ -21,10 +21,16 @@ const detachByIds = async function ({ complementaryCertificationBadgeIds, domain
     .update({ detachedAt: now });
 };
 
-const attach = async function ({ domainTransaction, complementaryCertificationBadge }) {
+const attach = async function ({ domainTransaction, complementaryCertificationBadges }) {
   const knexConn = domainTransaction.knexTransaction;
+  const createdAt = new Date();
 
-  return await knexConn('complementary-certification-badges').insert(complementaryCertificationBadge);
+  for (const complementaryCertificationBadge of complementaryCertificationBadges) {
+    await knexConn('complementary-certification-badges').insert({
+      ...complementaryCertificationBadge,
+      createdAt,
+    });
+  }
 };
 
 export { getAllIdsByTargetProfileId, detachByIds, attach };

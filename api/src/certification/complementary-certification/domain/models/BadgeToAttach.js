@@ -3,7 +3,6 @@ class BadgeToAttach {
     level,
     complementaryCertificationId,
     badgeId,
-    createdAt,
     imageUrl,
     label,
     certificateMessage,
@@ -14,7 +13,6 @@ class BadgeToAttach {
     this.level = level;
     this.complementaryCertificationId = complementaryCertificationId;
     this.badgeId = badgeId;
-    this.createdAt = createdAt;
     this.imageUrl = imageUrl;
     this.label = label;
     this.certificateMessage = certificateMessage;
@@ -39,7 +37,6 @@ class BadgeToAttach {
       level,
       complementaryCertificationId,
       badgeId,
-      createdAt: new Date(),
       imageUrl,
       label,
       certificateMessage,
