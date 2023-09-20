@@ -296,6 +296,151 @@ describe('Unit | UseCase | attach-badges', function () {
         });
       });
     });
+
+    context('when notifyOrganizations is true', function () {
+      it('should send an email to members', async function () {
+        // given
+        const domainTransaction = {
+          knexTransaction: Symbol('transaction'),
+        };
+        sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+          return callback(domainTransaction);
+        });
+        const badge1 = domainBuilder.buildBadge({ id: 123 });
+
+        const complementaryCertificationForTargetProfileAttachmentRepository = {
+          getById: sinon.stub().resolves(
+            domainBuilder.buildComplementaryCertification({
+              id: 123,
+              label: 'complementary certification label',
+            }),
+          ),
+        };
+        const badgeRepository = {
+          findAllByIds: sinon.stub().withArgs([123]).resolves([badge1]),
+        };
+        const complementaryCertificationBadgesRepository = {
+          attach: sinon.stub().resolves(),
+          detachByIds: sinon.stub(),
+          getAllIdsByTargetProfileId: sinon.stub(),
+        };
+
+        complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
+          .withArgs({ targetProfileId: 789 })
+          .resolves([1]);
+
+        const organizationRepository = {
+          getOrganizationUserEmailByCampaignTargetProfileId: sinon.stub(),
+        };
+        organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId
+          .withArgs(789)
+          .resolves(['toto@gmail.com', 'tata@gmail.com']);
+
+        const mailService = {
+          sendNotificationToOrganizationMembersForTargetProfileDetached: sinon.stub().resolves(),
+        };
+
+        // when
+        await attachBadges({
+          userId: 1234,
+          complementaryCertificationBadgesToAttachDTO: [{ badgeId: 123, level: 1, label: 'badge_1' }],
+          targetProfileIdToDetach: 789,
+          complementaryCertificationId: 123,
+          notifyOrganizations: true,
+          badgeRepository,
+          complementaryCertificationForTargetProfileAttachmentRepository,
+          complementaryCertificationBadgesRepository,
+          organizationRepository,
+          mailService,
+        });
+
+        // then
+        expect(complementaryCertificationBadgesRepository.detachByIds).to.have.been.calledWith({
+          complementaryCertificationBadgeIds: [1],
+          domainTransaction,
+        });
+
+        expect(
+          mailService.sendNotificationToOrganizationMembersForTargetProfileDetached.withArgs({
+            email: 'toto@gmail.com',
+            complementaryCertificationName: 'complementary certification label',
+          }),
+        ).to.have.been.calledOnce;
+        expect(
+          mailService.sendNotificationToOrganizationMembersForTargetProfileDetached.withArgs({
+            email: 'tata@gmail.com',
+            complementaryCertificationName: 'complementary certification label',
+          }),
+        ).to.have.been.calledOnce;
+      });
+    });
+
+    context('when notifyOrganizations is false', function () {
+      it('should not send an email to members', async function () {
+        // given
+        const domainTransaction = {
+          knexTransaction: Symbol('transaction'),
+        };
+        sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+          return callback(domainTransaction);
+        });
+        const badge1 = domainBuilder.buildBadge({ id: 123 });
+
+        const complementaryCertificationForTargetProfileAttachmentRepository = {
+          getById: sinon.stub().resolves(
+            domainBuilder.buildComplementaryCertification({
+              id: 123,
+              label: 'complementary certification label',
+            }),
+          ),
+        };
+        const badgeRepository = {
+          findAllByIds: sinon.stub().withArgs([123]).resolves([badge1]),
+        };
+        const complementaryCertificationBadgesRepository = {
+          attach: sinon.stub().resolves(),
+          detachByIds: sinon.stub(),
+          getAllIdsByTargetProfileId: sinon.stub(),
+        };
+
+        complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
+          .withArgs({ targetProfileId: 789 })
+          .resolves([1]);
+
+        const organizationRepository = {
+          getOrganizationUserEmailByCampaignTargetProfileId: sinon.stub(),
+        };
+        organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId
+          .withArgs(789)
+          .resolves(['toto@gmail.com', 'tata@gmail.com']);
+
+        const mailService = {
+          sendNotificationToOrganizationMembersForTargetProfileDetached: sinon.stub().resolves(),
+        };
+
+        // when
+        await attachBadges({
+          userId: 1234,
+          complementaryCertificationBadgesToAttachDTO: [{ badgeId: 123, level: 1, label: 'badge_1' }],
+          targetProfileIdToDetach: 789,
+          complementaryCertificationId: 123,
+          notifyOrganizations: false,
+          badgeRepository,
+          complementaryCertificationForTargetProfileAttachmentRepository,
+          complementaryCertificationBadgesRepository,
+          organizationRepository,
+          mailService,
+        });
+
+        // then
+        expect(complementaryCertificationBadgesRepository.detachByIds).to.have.been.calledWith({
+          complementaryCertificationBadgeIds: [1],
+          domainTransaction,
+        });
+
+        expect(mailService.sendNotificationToOrganizationMembersForTargetProfileDetached).not.to.have.been.called;
+      });
+    });
   });
 
   context('when there is no badges associated to target profile', function () {

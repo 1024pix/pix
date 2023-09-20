@@ -3,6 +3,8 @@ import lodash from 'lodash';
 import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
+import bluebird from 'bluebird';
+import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
 
 const { isNil, uniq } = lodash;
 
@@ -11,9 +13,12 @@ const attachBadges = async function ({
   userId,
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
+  notifyOrganizations,
   badgeRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationBadgesRepository,
+  organizationRepository,
+  mailService,
 }) {
   _verifyThatLevelsAreConsistent({
     complementaryCertificationBadgesToAttachDTO,
@@ -43,7 +48,7 @@ const attachBadges = async function ({
     });
   });
 
-  return DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async (domainTransaction) => {
     const relatedComplementaryCertificationBadgesIds =
       await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
         targetProfileId: targetProfileIdToDetach,
@@ -61,6 +66,23 @@ const attachBadges = async function ({
       domainTransaction,
     });
   });
+
+  if (notifyOrganizations) {
+    const emails =
+      await organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId(targetProfileIdToDetach);
+
+    if (emails.length) {
+      await bluebird.map(
+        emails,
+        (email) =>
+          mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
+            complementaryCertificationName: complementaryCertification.label,
+            email,
+          }),
+        { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
+      );
+    }
+  }
 };
 
 export { attachBadges };
