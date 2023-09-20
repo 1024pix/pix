@@ -37,7 +37,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
   await tooling.organization.createOrganization({
     databaseBuilder,
     organizationId: TEAM_1D_ORGANIZATION_1_ID,
-    type: 'SCO',
+    type: 'SCO-1D',
     name: 'Ecole des Pyrénées - Pix1D',
     isManagingStudents: true,
     externalId: 'PIX1D_1',
@@ -52,7 +52,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
   await tooling.organization.createOrganization({
     databaseBuilder,
     organizationId: TEAM_1D_ORGANIZATION_2_ID,
-    type: 'SCO',
+    type: 'SCO-1D',
     name: 'Ecole des Alpes - Pix1D',
     isManagingStudents: true,
     externalId: 'PIX1D_2',
