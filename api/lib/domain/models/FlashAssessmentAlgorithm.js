@@ -14,7 +14,12 @@ class FlashAssessmentAlgorithm {
    * @param maximumAssessmentLength - override the default limit for an assessment length
    * @param challengesBetweenSameCompetence - define a number of questions before getting another one on the same competence
    */
-  constructor({ warmUpLength, forcedCompetences, maximumAssessmentLength, challengesBetweenSameCompetence } = {}) {
+  constructor({
+    warmUpLength,
+    forcedCompetences,
+    maximumAssessmentLength,
+    challengesBetweenSameCompetence = config.v3Certification.challengesBetweenSameCompetence,
+  } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
