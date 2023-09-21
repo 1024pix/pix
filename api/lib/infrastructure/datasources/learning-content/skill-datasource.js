@@ -2,6 +2,7 @@ import _ from 'lodash';
 import * as datasource from './datasource.js';
 
 const ACTIVE_STATUS = 'actif';
+const IN_BUILD_STATUS = 'en construction';
 const OPERATIVE_STATUSES = ['actif', 'archivé'];
 
 const skillDatasource = datasource.extend({
@@ -34,6 +35,14 @@ const skillDatasource = datasource.extend({
     const skills = await this.list();
     return skills.filter(
       (skillData) => _.includes(OPERATIVE_STATUSES, skillData.status) && _.includes(skillIds, skillData.id),
+    );
+  },
+
+  async findByTubeIdFor1d(tubeId) {
+    const skills = await this.list();
+    return skills.filter(
+      (skillData) =>
+        _.includes([ACTIVE_STATUS, IN_BUILD_STATUS], skillData.status) && _.includes(tubeId, skillData.tubeId),
     );
   },
 
