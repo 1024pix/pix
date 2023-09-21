@@ -9,6 +9,7 @@ import { User } from '../../../../lib/domain/models/User.js';
 import {
   CertificationCenterMembershipDisableError,
   AlreadyExistingMembershipError,
+  NotFoundError,
 } from '../../../../lib/domain/errors.js';
 
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
@@ -661,6 +662,65 @@ describe('Integration | Repository | Certification Center Membership', function 
           .whereNotNull('disabledAt')
           .andWhere({ userId });
         expect(disabledMemberships.length).to.equal(2);
+      });
+    });
+  });
+
+  describe('#update', function () {
+    const now = new Date('2023-09-12');
+
+    it('updates user membership from "MEMBER" to "ADMIN"', async function () {
+      // given
+      const updatedByUserId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterMembershipToUpdate = databaseBuilder.factory.buildCertificationCenterMembership({
+        role: 'MEMBER',
+      });
+      const certificationCenterMembership = new CertificationCenterMembership({
+        ...certificationCenterMembershipToUpdate,
+        role: 'ADMIN',
+        updatedByUserId,
+        updatedAt: now,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.update(certificationCenterMembership);
+
+      // then
+      const updatedCertificationCenterMembership = await knex('certification-center-memberships')
+        .where({ id: certificationCenterMembershipToUpdate.id })
+        .first();
+
+      expect(updatedCertificationCenterMembership.updatedByUserId).to.equal(updatedByUserId);
+      expect(updatedCertificationCenterMembership.role).to.equal('ADMIN');
+      expect(updatedCertificationCenterMembership.updatedAt).to.deep.equal(now);
+    });
+  });
+
+  describe('#findById', function () {
+    it('returns certification center membership', async function () {
+      // given
+      const certificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership().id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCenterMembership = await certificationCenterMembershipRepository.findById(
+        certificationCenterMembershipId,
+      );
+
+      // then
+      expect(certificationCenterMembership).to.be.instanceof(CertificationCenterMembership);
+      expect(certificationCenterMembership.id).to.equal(certificationCenterMembershipId);
+    });
+
+    context('when certification center membership does not exist', function () {
+      it('throws an error', async function () {
+        // when
+        const error = await catchErr(certificationCenterMembershipRepository.findById)(15);
+
+        // then
+        expect(error).to.be.instanceof(NotFoundError);
+        expect(error.message).to.equal('Cannot find a certification center membership for id 15');
       });
     });
   });

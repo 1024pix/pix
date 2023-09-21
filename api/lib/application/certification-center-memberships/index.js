@@ -27,6 +27,30 @@ const register = async function (server) {
         tags: ['api', 'certification-center-membership'],
       },
     },
+
+    {
+      method: 'PATCH',
+      path: '/api/admin/certification-center-memberships/{id}',
+      config: {
+        handler: certificationCenterMembershipController.update,
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Modification des informations d'un membre d'un centre de certification\n",
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
   ];
 
   server.route([...adminRoutes]);
