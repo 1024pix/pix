@@ -5,6 +5,7 @@ import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
 import bluebird from 'bluebird';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
 
 const { isNil, uniq } = lodash;
 
@@ -68,24 +69,49 @@ const attachBadges = async function ({
   });
 
   if (notifyOrganizations) {
-    const emails =
-      await organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId(targetProfileIdToDetach);
-
-    if (emails.length) {
-      await bluebird.map(
-        emails,
-        (email) =>
-          mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
-            complementaryCertificationName: complementaryCertification.label,
-            email,
-          }),
-        { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
-      );
-    }
+    await sendNotification({
+      targetProfileIdToDetach,
+      complementaryCertificationName: complementaryCertification.label,
+      organizationRepository,
+      mailService,
+    });
   }
 };
 
 export { attachBadges };
+
+async function sendNotification({
+  targetProfileIdToDetach,
+  complementaryCertificationName,
+  organizationRepository,
+  mailService,
+}) {
+  const emails =
+    await organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId(targetProfileIdToDetach);
+
+  if (emails.length) {
+    await bluebird.map(
+      emails,
+      (email) => {
+        try {
+          mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
+            complementaryCertificationName,
+            email,
+          });
+        } catch (error) {
+          logger.error(
+            `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
+          );
+          throw error;
+        }
+      },
+      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
+    );
+    logger.info(
+      `${emails.length} emails sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
+    );
+  }
+}
 
 function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO) {
   return complementaryCertificationBadgesToAttachDTO.some(
