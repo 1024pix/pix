@@ -63,5 +63,50 @@ describe('Unit | Service | certification-badges-service', function () {
       // then
       expect(stillValidBadgeAcquisitions).to.deepEqualArray([highestBadgeAcquisition1, highestBadgeAcquisition3]);
     });
+
+    describe('when a highest certifiable badge is detached', function () {
+      it('should not return it', async function () {
+        // given
+        const userId = 123;
+        const limitDate = new Date();
+        const domainTransaction = Symbol('domainTransaction');
+        const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({
+          badgeId: 1,
+          isDetached: true,
+        });
+        domainBuilder.buildBadgeForCalculation.mockObtainable({
+          id: highestBadgeAcquisition1.badgeId,
+        });
+        const certifiableBadgeAcquisitionRepository = {
+          findHighestCertifiable: sinon.stub(),
+        };
+        certifiableBadgeAcquisitionRepository.findHighestCertifiable
+          .withArgs({ userId, domainTransaction, limitDate })
+          .resolves([highestBadgeAcquisition1]);
+
+        const knowledgeElementRepository = {
+          findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+        };
+        const badgeForCalculationRepository = {
+          getByCertifiableBadgeAcquisition: sinon.stub(),
+        };
+
+        // when
+        const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+          userId,
+          domainTransaction,
+          limitDate,
+          dependencies: {
+            certifiableBadgeAcquisitionRepository,
+            knowledgeElementRepository,
+            badgeForCalculationRepository,
+          },
+        });
+
+        // then
+        expect(stillValidBadgeAcquisitions).to.be.empty;
+        expect(badgeForCalculationRepository.getByCertifiableBadgeAcquisition).to.not.be.called;
+      });
+    });
   });
 });
