@@ -598,6 +598,7 @@
           },
           "incident-report": {
             "extra-information": "Télécharger le PV d'incident",
+            "issue-report-sheet-url": "https://cloud.pix.fr/s/B76yA8ip9Radej9/download",
             "label": "PV d'incident"
           },
           "invigilator-kit": {
