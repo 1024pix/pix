@@ -1,0 +1,17 @@
+<div class="panel table content-text content-text--small">
+  <table>
+    <thead>
+      <tr>
+        <th class="table__column table__column--medium">{{t "pages.team-invitations.table.labels.email-address"}}</th>
+        <th class="table__column table__column--medium">{{t
+            "pages.team-invitations.table.labels.last-sending-date"
+          }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @invitations as |invitation|}}
+        <Team::InvitationsListItem @invitation={{invitation}} />
+      {{/each}}
+    </tbody>
+  </table>
+</div>
