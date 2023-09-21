@@ -118,6 +118,12 @@
           "tabName": "Triggers"
         }
       }
+    },
+    "user-details": {
+      "navbar": {
+        "certification-centers-list": "Pix Certif",
+        "organizations-list": "Pix Orga"
+      }
     }
   }
 }
