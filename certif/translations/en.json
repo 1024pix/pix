@@ -598,6 +598,7 @@
           },
           "incident-report": {
             "extra-information": "Download incident report",
+            "issue-report-sheet-url": "https://cloud.pix.fr/s/ro7jHtsZZbY5SCX/download",
             "label": "Incident report"
           },
           "invigilator-kit": {
