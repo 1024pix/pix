@@ -26,10 +26,16 @@ const findStillValidBadgeAcquisitions = async function ({
   const badgeAcquisitions = await bluebird.mapSeries(
     highestCertifiableBadgeAcquisitions,
     async (certifiableBadgeAcquisition) => {
+      if (certifiableBadgeAcquisition.isDetached) {
+        return null;
+      }
+
       const badgeForCalculation = await dependencies.badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
         certifiableBadgeAcquisition,
       });
-      if (!badgeForCalculation) return null;
+      if (!badgeForCalculation) {
+        return null;
+      }
       const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeElements);
       return isBadgeValid ? certifiableBadgeAcquisition : null;
     },

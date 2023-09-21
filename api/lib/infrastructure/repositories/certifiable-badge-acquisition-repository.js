@@ -24,10 +24,10 @@ const findHighestCertifiable = async function ({
           complementaryCertificationBadgeImageUrl: 'complementary-certification-badges.imageUrl',
           complementaryCertificationBadgeLabel: 'complementary-certification-badges.label',
           complementaryCertificationBadgeLevel: 'complementary-certification-badges.level',
+          complementaryCertificationBadgeDetachedAt: 'complementary-certification-badges.detachedAt',
         })
         .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
         .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
-        .whereNull('complementary-certification-badges.detachedAt')
         .where('badge-acquisitions.createdAt', '<=', limitDate)
         .where({
           'badge-acquisitions.userId': userId,
@@ -51,6 +51,7 @@ const findHighestCertifiable = async function ({
       complementaryCertificationBadgeImageUrl: 'user-badges.complementaryCertificationBadgeImageUrl',
       complementaryCertificationBadgeLabel: 'user-badges.complementaryCertificationBadgeLabel',
       complementaryCertificationBadgeLevel: 'user-badges.complementaryCertificationBadgeLevel',
+      complementaryCertificationBadgeDetachedAt: 'user-badges.complementaryCertificationBadgeDetachedAt',
     })
     .join('complementary-certifications', 'complementary-certifications.id', 'user-badges.complementaryCertificationId')
     .join('campaign-participations', 'campaign-participations.id', 'user-badges.campaignParticipationId')
@@ -78,6 +79,10 @@ export { findHighestCertifiable };
 
 function _toDomain(certifiableBadgeAcquisitionsDto) {
   return certifiableBadgeAcquisitionsDto.map(
-    (certifiableBadgeAcquisitionDto) => new CertifiableBadgeAcquisition(certifiableBadgeAcquisitionDto),
+    (certifiableBadgeAcquisitionDto) =>
+      new CertifiableBadgeAcquisition({
+        ...certifiableBadgeAcquisitionDto,
+        isDetached: !!certifiableBadgeAcquisitionDto.complementaryCertificationBadgeDetachedAt,
+      }),
   );
 }
