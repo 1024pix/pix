@@ -1,5 +1,15 @@
 class CertificationCenterMembership {
-  constructor({ id, certificationCenter, user, createdAt, disabledAt, isReferer, role } = {}) {
+  constructor({
+    id,
+    certificationCenter,
+    user,
+    createdAt,
+    disabledAt,
+    isReferer,
+    role,
+    updatedByUserId,
+    updatedAt,
+  } = {}) {
     this.id = id;
     this.certificationCenter = certificationCenter;
     this.user = user;
@@ -7,6 +17,14 @@ class CertificationCenterMembership {
     this.disabledAt = disabledAt;
     this.isReferer = isReferer;
     this.role = role;
+    this.updatedByUserId = updatedByUserId;
+    this.updatedAt = updatedAt;
+  }
+
+  updateRole({ role, updatedByUserId }) {
+    this.role = role;
+    this.updatedByUserId = updatedByUserId;
+    this.updatedAt = new Date();
   }
 }
 

@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { render } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
@@ -12,44 +11,6 @@ module('Integration | Component | certification-centers/memberships-section', fu
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
-  });
-
-  test('it should display certification center membership details', async function (assert) {
-    // given
-    const user = store.createRecord('user', {
-      id: 123,
-      firstName: 'Jojo',
-      lastName: 'La Gringue',
-      email: 'jojo@example.net',
-    });
-    const certificationCenterMembership = store.createRecord('certification-center-membership', {
-      id: 1,
-      user,
-      role: 'MEMBER',
-      createdAt: new Date('2018-02-15T05:06:07Z'),
-    });
-    this.set('certificationCenterMemberships', [certificationCenterMembership]);
-    this.set('disableCertificationCenterMembership', sinon.stub());
-
-    const expectedDate = dayjs(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
-
-    // when
-    const screen = await render(
-      hbs`<CertificationCenters::MembershipsSection
-  @certificationCenterMemberships={{this.certificationCenterMemberships}}
-  @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
-/>`,
-    );
-
-    // then
-    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.email);
-    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.firstName);
-    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.lastName);
-    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(expectedDate);
-    assert
-      .dom(screen.getByLabelText('Informations du membre Jojo La Gringue'))
-      .containsText(certificationCenterMembership.id);
-    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText('Membre');
   });
 
   test('it should display a list of certification center memberships', async function (assert) {

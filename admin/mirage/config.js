@@ -249,6 +249,24 @@ function routes() {
     schema.db.certificationCenterMemberships.remove(certificationCenterMembershipId);
     return new Response(204);
   });
+  this.patch('/admin/certification-center-memberships/:id', (schema, request) => {
+    const certificationCenterMembershipId = request.params.id;
+    const requestBody = JSON.parse(request.requestBody);
+    const role = requestBody.data.attributes.role;
+    const certificationCenterMembership = schema.certificationCenterMemberships.findBy({
+      id: certificationCenterMembershipId,
+    });
+    const user = schema.users.findBy({ id: certificationCenterMembership.userId });
+    const userFullName = `${user.firstName} ${user.lastName}`;
+
+    if (userFullName === 'Gilles Parbal') {
+      return new Response(500);
+    }
+
+    certificationCenterMembership.role = role;
+
+    return certificationCenterMembership;
+  });
 
   this.post('/admin/memberships', createOrganizationMembership);
   this.patch('/admin/memberships/:id', (schema, request) => {

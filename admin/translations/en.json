@@ -1,5 +1,10 @@
 {
   "common": {
+    "actions": {
+      "cancel": "Cancel",
+      "deactivate": "Deactivate",
+      "save": "Save"
+    },
     "api-error-messages": {
       "bad-request-error": "The data entered was not in the correct format.",
       "gateway-timeout-error": "The service is being slow. Please try again later.",
@@ -10,6 +15,10 @@
     },
     "notifications": {
       "generic-error": "An error occurred."
+    },
+    "roles": {
+      "admin": "Administrator",
+      "member": "Member"
     },
     "words": {
       "no": "No",
@@ -25,6 +34,16 @@
           "success": "The organizations have been created."
         },
         "upload-button": "Import CSV file"
+      }
+    },
+    "certification-centers": {
+      "membership-item": {
+        "actions": {
+          "edit-role": "Edit role"
+        }
+      },
+      "membership-item-role": {
+        "select-role": "Select role"
       }
     },
     "complementary-certifications": {
@@ -59,6 +78,16 @@
     }
   },
   "pages": {
+    "certification-centers": {
+      "notifications": {
+        "failure": {
+          "update-certification-center-membership-role": "An error has occurred, the member's role has not been changed."
+        },
+        "success": {
+          "update-certification-center-membership-role": "The member's role has been modified."
+        }
+      }
+    },
     "login": {
       "api-error-messages": {
         "login-no-permission": "You don't have the permission to connect."

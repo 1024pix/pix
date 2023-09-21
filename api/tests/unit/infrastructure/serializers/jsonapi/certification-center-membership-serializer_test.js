@@ -1,7 +1,29 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as certificationCenterMembershipSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
+import { CertificationCenterMembership } from '../../../../../lib/domain/models/CertificationCenterMembership.js';
 
 describe('Unit | Serializer | JSONAPI | certification-center-membership-serializer', function () {
+  describe('#deserialize', function () {
+    it('converts a request payload into a CertificationCenterMembership instance', function () {
+      // given
+      const payload = {
+        data: {
+          id: '1',
+          attributes: {
+            role: 'ADMIN',
+          },
+        },
+      };
+
+      // when
+      const certificationCenterMembership = certificationCenterMembershipSerializer.deserialize(payload);
+
+      // then
+      const expectedCertificationCenterMembership = new CertificationCenterMembership({ id: '1', role: 'ADMIN' });
+      expect(certificationCenterMembership).to.deepEqualInstance(expectedCertificationCenterMembership);
+    });
+  });
+
   describe('#serialize', function () {
     it('should convert a Certification Center Membership model object into JSON API data', function () {
       // given
@@ -135,7 +157,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
             id: certificationCenterMembership.id.toString(),
             type: 'certification-center-memberships',
             attributes: {
+              role: certificationCenterMembership.role,
               'created-at': certificationCenterMembership.createdAt,
+              'updated-at': certificationCenterMembership.updatedAt,
             },
             relationships: {
               'certification-center': {
