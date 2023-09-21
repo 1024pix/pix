@@ -7,7 +7,7 @@ module('Unit | Route | MissionResumeRoute', function (hooks) {
 
   module('#model', function () {
     test('should call queryRecord method', async function (assert) {
-      const route = this.owner.lookup('route:mission.resume');
+      const route = this.owner.lookup('route:missions.mission.resume');
       const store = this.owner.lookup('service:store');
       const missionId = 23;
       const transition = { to: { parent: { params: { mission_id: missionId } } } };
@@ -21,7 +21,7 @@ module('Unit | Route | MissionResumeRoute', function (hooks) {
 
   module('#afterModel', function () {
     test('should redirect to assessment resume route', async function (assert) {
-      const route = this.owner.lookup('route:mission.resume');
+      const route = this.owner.lookup('route:missions.mission.resume');
       const assessment = Symbol('assessment');
       sinon.stub(route.router, 'replaceWith');
 
