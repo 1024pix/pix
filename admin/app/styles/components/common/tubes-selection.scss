@@ -163,8 +163,14 @@
 }
 
 .skill-square {
-  min-width: 15px;
-  min-height: 15px;
+  min-width: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  max-height: 20px;
+  margin-right: 3px;
+  color: white;
+  font-weight: bold;
+  border-radius: 15px;
 
   &__active {
     background-color: $pix-success-30;
@@ -175,6 +181,6 @@
   }
 
   &__out-of-bound {
-    background-color: $pix-neutral-30;
+    background-color: $pix-neutral-20;
   }
 }
