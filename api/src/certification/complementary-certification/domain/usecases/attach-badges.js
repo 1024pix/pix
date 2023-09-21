@@ -108,7 +108,7 @@ async function sendNotification({
       { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
     );
     logger.info(
-      `${emails.length} emails sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
+      `${emails.length} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
     );
   }
 }
