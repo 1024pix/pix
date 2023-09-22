@@ -563,26 +563,46 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#disableAllOrganizationLearnersInOrganization', function () {
-    it('should disable all organization learners for the given organization', async function () {
+    it('should disable organization learners for the given organization and nationalStudentId not in the list', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+      const organizationLearnerActiveId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
-      });
-      const otherFirstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+        nationalStudentId: '1234',
+      }).id;
+      const organizationLearnerDisabledId = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        nationalStudentId: '5678',
+      }).id;
+
+      const otherOrganizationActiveOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+        nationalStudentId: '9876',
+      }).id;
+
       await databaseBuilder.commit();
 
       await DomainTransaction.execute((domainTransaction) => {
         return organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
           domainTransaction,
           organizationId: organization.id,
+          nationalStudentIds: ['1234'],
         });
       });
 
-      const results = await knex('organization-learners').select();
-      const expectedDisabled = results.find((result) => result.id === organizationLearner.id);
-      expect(expectedDisabled.isDisabled).to.be.true;
-      const expectedActive = results.find((result) => result.id === otherFirstOrganizationLearner.id);
-      expect(expectedActive.isDisabled).to.be.false;
+      const disabledOrganizationLearnerIds = await knex('organization-learners')
+        .select('id')
+        .where({ isDisabled: true })
+        .pluck('id');
+
+      const activeOrganizationLearnerIds = await knex('organization-learners')
+        .select('id')
+        .where({ isDisabled: false })
+        .pluck('id');
+
+      expect(disabledOrganizationLearnerIds).to.be.deep.members([organizationLearnerDisabledId]);
+      expect(activeOrganizationLearnerIds).to.be.deep.members([
+        organizationLearnerActiveId,
+        otherOrganizationActiveOrganizationLearnerId,
+      ]);
     });
 
     it('should update the date when an organization learner is disabled', async function () {
@@ -595,6 +615,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         return organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
           domainTransaction,
           organizationId: organizationLearner.organizationId,
+          nationalStudentIds: [],
         });
       });
 
@@ -613,6 +634,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
             domainTransaction,
             organizationId: organizationLearner.organizationId,
+            nationalStudentIds: [],
           });
           throw new Error('an error occurs within the domain transaction');
         });

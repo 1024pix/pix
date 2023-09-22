@@ -183,7 +183,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
       // then
       expect(
         organizationLearnerRepositoryStub.disableAllOrganizationLearnersInOrganization,
-      ).to.have.been.calledWithExactly({ domainTransaction, organizationId });
+      ).to.have.been.calledWithExactly({ domainTransaction, organizationId, nationalStudentIds: ['INE1'] });
     });
   });
 
