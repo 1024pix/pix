@@ -7,23 +7,27 @@
   </label>
 </td>
 <td class="table__column--center">
-  <PixSelect
-    @label="Sélection du niveau du sujet suivant : {{@tube.practicalTitle}}"
-    @screenReaderOnly={{true}}
-    @options={{this.levelOptions}}
-    @onChange={{this.setLevelTube}}
-    @value={{this.selectedLevel}}
-    @isDisabled={{not this.checked}}
-  />
-  {{#if @displaySkillDifficultyAvailability}}
-    <div class="skill-availability">
-      {{#each this.skillAvailabilityMap as |skillAvailability|}}
-        <div
-          class="skill-square skill-square__{{skillAvailability.availability}}"
-        >{{skillAvailability.difficulty}}</div>
-      {{/each}}
-    </div>
-  {{/if}}
+  <div class="level-selection">
+    <PixSelect
+      @label="Sélection du niveau du sujet suivant : {{@tube.practicalTitle}}"
+      @screenReaderOnly={{true}}
+      @options={{this.levelOptions}}
+      @onChange={{this.setLevelTube}}
+      @value={{this.selectedLevel}}
+      @isDisabled={{not this.checked}}
+      class="tubes-selection__level-select"
+      @isComputeWidthDisabled={{true}}
+    />
+    {{#if @displaySkillDifficultyAvailability}}
+      <div class="skill-availability">
+        {{#each this.skillAvailabilityMap as |skillAvailability|}}
+          <div
+            class="skill-square skill-square__{{skillAvailability.availability}}"
+          >{{skillAvailability.difficulty}}</div>
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
 </td>
 {{#if @displayDeviceCompatibility}}
   <td class="table__column--center">
