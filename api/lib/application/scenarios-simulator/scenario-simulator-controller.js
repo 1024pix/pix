@@ -28,6 +28,7 @@ async function simulateFlashAssessmentScenario(
     forcedCompetences,
     useObsoleteChallenges,
     challengePickProbability,
+    challengesBetweenSameCompetence,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
@@ -51,6 +52,7 @@ async function simulateFlashAssessmentScenario(
           warmUpLength,
           forcedCompetences,
           useObsoleteChallenges,
+          challengesBetweenSameCompetence,
         },
         _.isUndefined,
       );

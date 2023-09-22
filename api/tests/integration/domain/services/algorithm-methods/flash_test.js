@@ -2,9 +2,29 @@ import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as flash from '../../../../../lib/domain/services/algorithm-methods/flash.js';
 import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
 import { config } from '../../../../../lib/config.js';
+import { getPossibleNextChallenges } from '../../../../../lib/domain/services/algorithm-methods/flash.js';
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
   describe('#getPossibleNextChallenge', function () {
+    let listSkills;
+
+    beforeEach(function () {
+      listSkills = {
+        url5: domainBuilder.buildSkill({ id: 'url5', competenceId: 'url' }),
+        web3: domainBuilder.buildSkill({ id: 'web3', competenceId: 'web' }),
+        sourceinfo5: domainBuilder.buildSkill({ id: 'sourceinfo5', competenceId: 'sourceinfo' }),
+        installogiciel2: domainBuilder.buildSkill({ id: 'installogiciel2', competenceId: 'installogiciel' }),
+        fichier4: domainBuilder.buildSkill({ id: 'fichier4', competenceId: 'fichier' }),
+        sauvegarde5: domainBuilder.buildSkill({ id: 'sauvegarde5', competenceId: 'sauvegarde' }),
+        langbalise6: domainBuilder.buildSkill({ id: 'langbalise6', competenceId: 'langbalise' }),
+        pratiquesinternet4: domainBuilder.buildSkill({
+          id: 'pratiquesinternet4',
+          competenceId: 'pratiquesinternet4',
+        }),
+        langbalise7: domainBuilder.buildSkill({ id: 'langbalise7', competenceId: 'langbalise' }),
+      };
+    });
+
     context('when there is no challenge', function () {
       it('should return hasAssessmentEnded as true and possibleChallenges is empty', function () {
         // given
@@ -184,25 +204,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     });
 
     context('when the user answers a lot of challenges', function () {
-      let listSkills;
       let listChallenges;
 
       beforeEach(function () {
-        listSkills = {
-          url5: domainBuilder.buildSkill({ id: 'url5', competenceId: 'url' }),
-          web3: domainBuilder.buildSkill({ id: 'web3', competenceId: 'web' }),
-          sourceinfo5: domainBuilder.buildSkill({ id: 'sourceinfo5', competenceId: 'sourceinfo' }),
-          installogiciel2: domainBuilder.buildSkill({ id: 'installogiciel2', competenceId: 'installogiciel' }),
-          fichier4: domainBuilder.buildSkill({ id: 'fichier4', competenceId: 'fichier' }),
-          sauvegarde5: domainBuilder.buildSkill({ id: 'sauvegarde5', competenceId: 'sauvegarde' }),
-          langbalise6: domainBuilder.buildSkill({ id: 'langbalise6', competenceId: 'langbalise' }),
-          pratiquesinternet4: domainBuilder.buildSkill({
-            id: 'pratiquesinternet4',
-            competenceId: 'pratiquesinternet4',
-          }),
-          langbalise7: domainBuilder.buildSkill({ id: 'langbalise7', competenceId: 'langbalise' }),
-        };
-
         listChallenges = [
           domainBuilder.buildChallenge({
             id: 'recA',
@@ -431,7 +435,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
                 challenges: listChallenges,
                 allAnswers,
                 estimatedLevel,
-                forcedCompetences,
+                options: {
+                  forcedCompetences,
+                },
               });
 
               // then
@@ -485,8 +491,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
                 challenges: listChallenges,
                 allAnswers,
                 estimatedLevel,
-                forcedCompetences,
-                warmUpLength,
+                options: {
+                  forcedCompetences,
+                  warmUpLength,
+                },
               });
 
               // then
@@ -495,6 +503,150 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
               allAnswers.push(answer);
             }
           });
+        });
+      });
+    });
+
+    describe('when you space competences', function () {
+      let challenges;
+
+      beforeEach(function () {
+        challenges = [
+          domainBuilder.buildChallenge({
+            id: 'recCHAL1',
+            competenceId: 'compId1',
+            skill: listSkills.langbalise6,
+            difficulty: 3,
+            discriminant: 1,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'recCHAL2',
+            competenceId: 'compId1',
+            skill: listSkills.langbalise7,
+            difficulty: 3,
+            discriminant: 1,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'recCHAL3',
+            competenceId: 'compId2',
+            skill: listSkills.fichier4,
+            difficulty: -3,
+            discriminant: 1,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'recCHAL4',
+            competenceId: 'compId2',
+            skill: listSkills.sauvegarde5,
+            difficulty: -3,
+            discriminant: 1,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'recCHAL5',
+            competenceId: 'compId3',
+            skill: listSkills.url5,
+            difficulty: -3,
+            discriminant: 1,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'recCHAL6',
+            competenceId: 'compId3',
+            skill: listSkills.web3,
+            difficulty: -3,
+            discriminant: 1,
+          }),
+          domainBuilder.buildChallenge({
+            id: 'recCHAL7',
+            competenceId: 'compId3',
+            skill: listSkills.sourceinfo5,
+            difficulty: -3,
+            discriminant: 1,
+          }),
+        ];
+      });
+      describe('when there is not enough answers since last answer on the competence', function () {
+        it('should not offer a challenge for this competence', function () {
+          const answers = [
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL3',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL7',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL1',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL6',
+            }),
+          ];
+
+          const { possibleChallenges } = getPossibleNextChallenges({
+            allAnswers: answers,
+            challenges,
+            estimatedLevel: 3,
+            options: {
+              challengesBetweenSameCompetence: 3,
+            },
+          });
+          expect(possibleChallenges).not.to.include(challenges[1]);
+        });
+      });
+
+      describe('when there is enough answers since last answer on the competence', function () {
+        it('can offer a challenge for this competence', function () {
+          const answers = [
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL1',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL3',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL7',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL6',
+            }),
+          ];
+
+          const { possibleChallenges } = getPossibleNextChallenges({
+            allAnswers: answers,
+            challenges,
+            estimatedLevel: 3,
+            options: {
+              challengesBetweenSameCompetence: 3,
+            },
+          });
+          expect(possibleChallenges).to.include(challenges[1]);
+        });
+      });
+
+      describe('when there is no challenge with enough space', function () {
+        it('can offer any challenge', function () {
+          const answers = [
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL6',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL1',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL3',
+            }),
+            domainBuilder.buildAnswer({
+              challengeId: 'recCHAL7',
+            }),
+          ];
+
+          const { possibleChallenges } = getPossibleNextChallenges({
+            allAnswers: answers,
+            challenges,
+            estimatedLevel: 3,
+            options: {
+              challengesBetweenSameCompetence: 3,
+            },
+          });
+          expect(possibleChallenges).to.include(challenges[1]);
         });
       });
     });

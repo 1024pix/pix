@@ -317,6 +317,7 @@ const configuration = (function () {
       numberOfChallengesPerCourse: process.env.V3_CERTIFICATION_NUMBER_OF_CHALLENGES_PER_COURSE || 20,
       defaultProbabilityToPickChallenge: parseInt(process.env.DEFAULT_PROBABILITY_TO_PICK_CHALLENGE, 10) || 51,
       defaultCandidateCapacity: -3,
+      challengesBetweenSameCompetence: 2,
     },
     version: process.env.CONTAINER_VERSION || 'development',
   };
