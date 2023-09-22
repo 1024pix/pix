@@ -130,5 +130,72 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       ]);
     });
+
+    it('should test pagination with a lot of results', async function () {
+      // given
+      const skipLoggedLastDayCheck = false;
+      const pgBossRepository = {
+        insert: sinon.stub(),
+      };
+      const organizationLearnerRepository = {
+        findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
+        countByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
+      };
+      const chunkCount = 10;
+      const limit = 3;
+      const config = {
+        features: {
+          scheduleComputeOrganizationLearnersCertificability: {
+            chunkSize: limit,
+          },
+        },
+      };
+      organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
+        .withArgs({ skipLoggedLastDayCheck })
+        .resolves(30);
+
+      for (let index = 0; index < chunkCount; index++) {
+        organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
+          .withArgs({ limit, offset: index * limit, skipLoggedLastDayCheck })
+          .resolves([index * limit + 1, index * limit + 2, index * limit + 3]);
+      }
+
+      const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
+        new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
+          pgBossRepository,
+          organizationLearnerRepository,
+          config,
+        });
+
+      // when
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle();
+
+      // then
+      for (let index = 0; index < chunkCount; index++) {
+        expect(pgBossRepository.insert.getCall(index).args[0]).to.be.deep.equal([
+          {
+            name: 'ComputeCertificabilityJob',
+            data: { organizationLearnerId: index * limit + 1 },
+            retrylimit: 0,
+            retrydelay: 30,
+            on_complete: true,
+          },
+          {
+            name: 'ComputeCertificabilityJob',
+            data: { organizationLearnerId: index * limit + 2 },
+            retrylimit: 0,
+            retrydelay: 30,
+            on_complete: true,
+          },
+          {
+            name: 'ComputeCertificabilityJob',
+            data: { organizationLearnerId: index * limit + 3 },
+            retrylimit: 0,
+            retrydelay: 30,
+            on_complete: true,
+          },
+        ]);
+      }
+    });
   });
 });
