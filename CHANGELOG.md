@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.36.1 (22/09/2023)
+
+### :bug: Correction
+- [#7133](https://github.com/1024pix/pix/pull/7133) [BUGFIX] Ne plus activer tous les learners lors d'une nouvelle participation à une campagne (PIX-9353).
+
+
 ## v4.36.0 (20/09/2023)
 
 
