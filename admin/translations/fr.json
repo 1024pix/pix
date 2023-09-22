@@ -63,6 +63,7 @@
           "title": "Badges certifiés du profil cible actuel",
           "header": {
             "id": "ID du RT certifiant",
+            "image-url": "Image du badge certifié",
             "level": "Niveau du badge certifié",
             "name": "Nom du badge certifié"
           }
