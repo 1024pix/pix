@@ -279,6 +279,11 @@ function routes() {
     return new Response(204);
   });
 
+  this.get('/certification-centers/:id/invitations', async (schema, request) => {
+    const certificationCenterId = request.params.id;
+    return schema.certificationCenterInvitations.where({ certificationCenterId });
+  });
+
   this.get('/certification-center-invitations/:id', (schema, request) => {
     const certificationCenterInvitationId = request.params.id;
     const code = request.queryParams?.code;
