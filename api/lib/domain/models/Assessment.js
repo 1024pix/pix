@@ -1,5 +1,6 @@
 import { ObjectValidationError } from '../errors.js';
 import { Answer } from './Answer.js';
+import { CertificationChallengeLiveAlertStatus } from './CertificationChallengeLiveAlert.js';
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
@@ -63,7 +64,7 @@ class Assessment {
     method,
     campaignCode,
     missionId,
-    hasOngoingLiveAlert = false,
+    liveAlerts,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -86,7 +87,7 @@ class Assessment {
     this.method = method || Assessment.computeMethodFromType(this.type);
     this.campaignCode = campaignCode;
     this.missionId = missionId;
-    this.hasOngoingLiveAlert = hasOngoingLiveAlert;
+    this.liveAlerts = liveAlerts;
   }
 
   isCompleted() {
@@ -151,8 +152,20 @@ class Assessment {
     return this.method === methods.SMART_RANDOM;
   }
 
+  attachLiveAlerts(liveAlerts) {
+    this.liveAlerts = liveAlerts;
+  }
+
   get hasLastQuestionBeenFocusedOut() {
     return this.lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT;
+  }
+
+  get hasOngoingLiveAlert() {
+    if (!this.liveAlerts) {
+      return false;
+    }
+
+    return this.liveAlerts.some((liveAlert) => liveAlert.status === CertificationChallengeLiveAlertStatus.ONGOING);
   }
 
   static computeMethodFromType(type) {

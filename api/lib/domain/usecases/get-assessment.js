@@ -49,7 +49,7 @@ async function _addCertificationRelatedAttributes(assessment, liveAlertRepositor
   if (assessment.type === Assessment.types.CERTIFICATION) {
     const liveAlerts = await liveAlertRepository.getByAssessmentId(assessment.id);
 
-    assessment.hasOngoingLiveAlert = liveAlerts.length > 0;
+    assessment.attachLiveAlerts(liveAlerts);
   }
 }
 

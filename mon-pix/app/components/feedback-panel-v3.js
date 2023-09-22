@@ -27,6 +27,10 @@ export default class FeedbackPanelV3 extends Component {
     return this.isAssessmentPaused || this.isExpanded;
   }
 
+  get isToggleFeedbackFormHidden() {
+    return this.args.assessment.hasOngoingLiveAlert;
+  }
+
   @action
   toggleFeedbackForm() {
     if (this.isExpanded) {

@@ -358,4 +358,6 @@ function routes() {
       cgu: attributes.cgu,
     });
   });
+
+  this.patch('/sessions/:id/candidates/:candidateId/dismiss-live-alert', () => new Response(204));
 }

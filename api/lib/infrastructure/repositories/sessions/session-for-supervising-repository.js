@@ -1,11 +1,20 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
 import { CertificationCandidateForSupervising } from '../../../domain/models/CertificationCandidateForSupervising.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../domain/models/CertificationChallengeLiveAlert.js';
 import { ComplementaryCertificationForSupervising } from '../../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../../domain/read-models/SessionForSupervising.js';
+import { CertificationCandidateForSupervisingV3 } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
+import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 
 const get = async function (idSession) {
   const results = await knex
+    .with('ongoing-live-alerts', (queryBuilder) => {
+      queryBuilder
+        .select('*')
+        .from('certification-challenge-live-alerts')
+        .where({ status: CertificationChallengeLiveAlertStatus.ONGOING });
+    })
     .select({
       id: 'sessions.id',
       date: 'sessions.date',
@@ -14,6 +23,7 @@ const get = async function (idSession) {
       examiner: 'sessions.examiner',
       accessCode: 'sessions.accessCode',
       certificationCenterName: 'certification-centers.name',
+      version: 'sessions.version',
       certificationCandidates: knex.raw(`
         json_agg(json_build_object(
           'userId', "certification-candidates"."userId",
@@ -25,6 +35,7 @@ const get = async function (idSession) {
           'authorizedToStart', "certification-candidates"."authorizedToStart",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
+          'liveAlertStatus', "ongoing-live-alerts".status,
           'complementaryCertification', json_build_object(
             'key', "complementary-certifications"."key",
             'label', "complementary-certifications"."label",
@@ -51,6 +62,7 @@ const get = async function (idSession) {
       'complementary-certifications.id',
       'complementary-certification-subscriptions.complementaryCertificationId',
     )
+    .leftJoin('ongoing-live-alerts', 'ongoing-live-alerts.assessmentId', 'assessments.id')
     .groupBy('sessions.id', 'certification-centers.id')
     .where({ 'sessions.id': idSession })
     .first();
@@ -69,15 +81,27 @@ function _toDomainComplementaryCertification(complementaryCertification) {
   return null;
 }
 
+function _buildCertificationCandidateForSupervising(candidateDto) {
+  return new CertificationCandidateForSupervising({
+    ...candidateDto,
+    enrolledComplementaryCertification: _toDomainComplementaryCertification(candidateDto.complementaryCertification),
+  });
+}
+
+function _buildCertificationCandidateForSupervisingV3(candidateDto) {
+  return new CertificationCandidateForSupervisingV3({
+    ...candidateDto,
+    enrolledComplementaryCertification: _toDomainComplementaryCertification(candidateDto.complementaryCertification),
+  });
+}
+
 function _toDomain(results) {
   const certificationCandidates = results.certificationCandidates
     .filter((candidate) => candidate?.id !== null)
-    .map(
-      (candidate) =>
-        new CertificationCandidateForSupervising({
-          ...candidate,
-          enrolledComplementaryCertification: _toDomainComplementaryCertification(candidate.complementaryCertification),
-        }),
+    .map((candidate) =>
+      results.version === CertificationVersion.V3
+        ? _buildCertificationCandidateForSupervisingV3(candidate)
+        : _buildCertificationCandidateForSupervising(candidate),
     );
 
   return new SessionForSupervising({

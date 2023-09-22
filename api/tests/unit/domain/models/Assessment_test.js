@@ -1,5 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Unit | Domain | Models | Assessment', function () {
   describe('#constuctor', function () {
@@ -474,6 +475,50 @@ describe('Unit | Domain | Models | Assessment', function () {
 
         // then
         expect(method).to.equal(expectedMethod);
+      });
+    });
+  });
+
+  describe('#hasOngoingLiveAlert', function () {
+    describe('when assessment has no live alerts attached', function () {
+      it('should return false', function () {
+        const assessmentWithoutLiveAlert = domainBuilder.buildAssessment();
+
+        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.false;
+      });
+    });
+
+    describe('when assessment has live alerts attached but no ongoing', function () {
+      it('should return false', function () {
+        const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
+          liveAlerts: [
+            domainBuilder.buildCertificationChallengeLiveAlert({
+              status: CertificationChallengeLiveAlertStatus.DISMISSED,
+            }),
+            domainBuilder.buildCertificationChallengeLiveAlert({
+              status: CertificationChallengeLiveAlertStatus.ACCEPTED,
+            }),
+          ],
+        });
+
+        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.false;
+      });
+    });
+
+    describe('when assessment has an ongoing live alert ', function () {
+      it('should return true', function () {
+        const assessmentWithoutLiveAlert = domainBuilder.buildAssessment({
+          liveAlerts: [
+            domainBuilder.buildCertificationChallengeLiveAlert({
+              status: CertificationChallengeLiveAlertStatus.DISMISSED,
+            }),
+            domainBuilder.buildCertificationChallengeLiveAlert({
+              status: CertificationChallengeLiveAlertStatus.ONGOING,
+            }),
+          ],
+        });
+
+        expect(assessmentWithoutLiveAlert.hasOngoingLiveAlert).to.be.true;
       });
     });
   });
