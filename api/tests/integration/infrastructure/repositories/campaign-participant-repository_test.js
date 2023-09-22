@@ -54,24 +54,33 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
     });
 
     context('when user is disabled and the orga isManagingStudent is set to false', function () {
-      it('creates a campaign participation', async function () {
+      let learnerDisabled, otherLearnerDisabled, campaignParticipant;
+      beforeEach(async function () {
         const orga = databaseBuilder.factory.buildOrganization({
           isManagingStudents: false,
         });
-        const learnerDisabled = databaseBuilder.factory.buildOrganizationLearner({
+        learnerDisabled = databaseBuilder.factory.buildOrganizationLearner({
           userId: userIdentity.id,
           isDisabled: true,
           organizationId: orga.id,
         });
+
+        otherLearnerDisabled = databaseBuilder.factory.buildOrganizationLearner({
+          isDisabled: true,
+          organizationId: orga.id,
+        });
+
         await databaseBuilder.commit();
 
-        const campaignParticipant = await makeCampaignParticipant({
+        campaignParticipant = await makeCampaignParticipant({
           campaignAttributes: { organizationId: orga.id, idPixLabel: null },
           userIdentity,
           participantExternalId: 'null',
           isRestricted: orga.isManagingStudents,
         });
+      });
 
+      it('creates a campaign participation', async function () {
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
           await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
@@ -81,15 +90,29 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           .select(campaignParticipationDBAttributes)
           .first();
 
-        const { isDisabled } = await knex('organization-learners')
+        expect(campaignParticipation).to.deep.equal(
+          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant),
+        );
+      });
+
+      it('enabled only the learner assigned to the campaign participant', async function () {
+        // when
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        const { isDisabled: expectedEnabledLearner } = await knex('organization-learners')
           .select('isDisabled')
           .where('id', learnerDisabled.id)
           .first();
 
-        expect(campaignParticipation).to.deep.equal(
-          getExpectedCampaignParticipation(campaignParticipation.id, campaignParticipant),
-        );
-        expect(isDisabled).to.be.false;
+        const { isDisabled: expectedDisabledLearner } = await knex('organization-learners')
+          .select('isDisabled')
+          .where('id', otherLearnerDisabled.id)
+          .first();
+
+        expect(expectedEnabledLearner).to.be.false;
+        expect(expectedDisabledLearner).to.be.true;
       });
     });
 
