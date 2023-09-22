@@ -38,6 +38,7 @@ Router.map(function () {
     this.route('team', { path: '/equipe' }, function () {
       this.route('list', { path: '/' }, function () {
         this.route('members', { path: '/membres' });
+        this.route('invitations');
       });
     });
   });
