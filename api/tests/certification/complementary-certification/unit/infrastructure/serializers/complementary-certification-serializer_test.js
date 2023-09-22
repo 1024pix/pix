@@ -6,8 +6,18 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
     it('should convert a ComplementaryCertificationTargetProfileHistory model object into JSON API data', function () {
       // given
       const badges = [
-        domainBuilder.buildComplementaryCertificationBadgeForAdmin({ id: 1, label: 'badge 1', level: 1 }),
-        domainBuilder.buildComplementaryCertificationBadgeForAdmin({ id: 2, label: 'badge 2', level: 2 }),
+        domainBuilder.buildComplementaryCertificationBadgeForAdmin({
+          id: 1,
+          label: 'badge 1',
+          level: 1,
+          imageUrl: 'http://badge-image-url.fr',
+        }),
+        domainBuilder.buildComplementaryCertificationBadgeForAdmin({
+          id: 2,
+          label: 'badge 2',
+          level: 2,
+          imageUrl: 'http://badge-image-url.fr',
+        }),
       ];
 
       const currentTargetProfile = domainBuilder.buildTargetProfileHistoryForAdmin({
@@ -53,8 +63,8 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
                 attachedAt: new Date('2023-10-10'),
                 detachedAt: null,
                 badges: [
-                  { id: 1, label: 'badge 1', level: 1 },
-                  { id: 2, label: 'badge 2', level: 2 },
+                  { id: 1, label: 'badge 1', level: 1, imageUrl: 'http://badge-image-url.fr' },
+                  { id: 2, label: 'badge 2', level: 2, imageUrl: 'http://badge-image-url.fr' },
                 ],
               },
               {
