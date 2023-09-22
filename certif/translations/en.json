@@ -439,6 +439,21 @@
         "display-candidate-options": "Display the candidate's options",
         "end-date-time": "Theoretical ending time : ",
         "extratime": "+ extra time {extraTimePercentage}",
+        "handle-live-alert-modal": {
+          "title": "Signalement du candidat : {candidateFullName}",
+          "ask": {
+            "description": "Refuser le signalement permet la reprise de la question en cours. Sélectionnez un motif pour valider le signalement et permettre le changement de question.",
+            "dismiss-alert-button": "Refuser le signalement"
+          },
+          "error-rejecting-live-alert": "Une erreur a eu lieu. Merci de réessayer ultérieurement.",
+          "no-current-live-alert": "Aucun signalement en cours pour ce candidat",
+          "rejected": {
+            "banner": "Le signalement a bien été refusé.",
+            "close-button-label": "Fermer la fenêtre de confirmation",
+            "close-button-text": "Fermer",
+            "description": "Indiquez au candidat de rafraîchir sa page."
+          }
+        },
         "resume-test-modal": {
           "actions": {
             "confirm": "I confirm permission"
@@ -447,6 +462,7 @@
           "cancel-label": "Cancel and close the confirmation window",
           "description": "If the candidate has closed their Pix Certification exam window (by mistake, or because of a technical problem) and is still present in the exam room, you can allow them to resume their test where they left it.",
           "error": " An error has occurred, {firstName} {lastName} couldn't be allowed to resume his/her Pix certification exam.",
+          "handle-live-alert": "Gérer un signalement",
           "instruction-with-name": "Allow {firstName} {lastName} to resume their test ?",
           "success": "Success ! {firstName} {lastName} can resume his/her Pix certification exam."
         },

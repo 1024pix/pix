@@ -4,17 +4,31 @@ import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 import dayjs from 'dayjs';
 
+const Modals = {
+  Confirmation: 'Confirmation',
+  AskDismissLiveAlert: 'AskDismissLiveAlert',
+  DismissLiveAlertSuccess: 'DismissLiveAlertSuccess',
+};
+
 export default class CandidateInList extends Component {
   @service notifications;
   @service intl;
+  @service store;
 
   @tracked isMenuOpen = false;
-  @tracked isConfirmationModalDisplayed = false;
+  @tracked displayedModal = null;
   @tracked modalDescriptionText;
   @tracked modalCancelText;
   @tracked modalConfirmationText = this.intl.t('common.actions.confirm');
   @tracked modalInstructionText = this.intl.t('pages.session-supervising.candidate-in-list.default-modal-title');
   @tracked actionOnConfirmation;
+
+  get candidateFullName() {
+    const candidateFullName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
+    return this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.title', {
+      candidateFullName,
+    });
+  }
 
   get isConfirmButtonToBeDisplayed() {
     return !this.args.candidate.hasStarted && !this.args.candidate.hasCompleted;
@@ -104,7 +118,7 @@ export default class CandidateInList extends Component {
       },
     );
     set(this, 'actionOnConfirmation', this.authorizeTestResume);
-    this.isConfirmationModalDisplayed = true;
+    this.displayedModal = Modals.Confirmation;
   }
 
   @action
@@ -122,12 +136,37 @@ export default class CandidateInList extends Component {
       },
     );
     set(this, 'actionOnConfirmation', this.endAssessmentForCandidate);
-    this.isConfirmationModalDisplayed = true;
+    this.displayedModal = Modals.Confirmation;
+  }
+
+  @action
+  askUserToHandleLiveAlert() {
+    if (this._hasCertificationOngoingLiveAlert) {
+      this.displayedModal = Modals.AskDismissLiveAlert;
+    } else {
+      this.notifications.error(
+        this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert'),
+      );
+    }
+  }
+
+  @action
+  async rejectLiveAlert() {
+    try {
+      const adapter = this.store.adapterFor('session');
+      await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
+      this.displayedModal = Modals.DismissLiveAlertSuccess;
+    } catch (err) {
+      const errorMessage = this.intl.t(
+        'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-rejecting-live-alert',
+      );
+      this.notifications.error(errorMessage);
+    }
   }
 
   @action
   closeConfirmationModal() {
-    this.isConfirmationModalDisplayed = false;
+    this.displayedModal = null;
   }
 
   @action
@@ -180,6 +219,22 @@ export default class CandidateInList extends Component {
     }
   }
 
+  @action closeHandleLiveAlertModal() {
+    this.displayedModal = null;
+  }
+
+  get isConfirmationModalDisplayed() {
+    return this.displayedModal === Modals.Confirmation;
+  }
+
+  get isAskForLiveAlertRejectionDisplayed() {
+    return this.displayedModal === Modals.AskDismissLiveAlert;
+  }
+
+  get isLiveAlertRejectedModalDisplayed() {
+    return this.displayedModal === Modals.DismissLiveAlertSuccess;
+  }
+
   get actionMethod() {
     return this.actionOnConfirmation;
   }
@@ -192,5 +247,9 @@ export default class CandidateInList extends Component {
   get candidateTheoricalEndDateTime() {
     const theoricalEndDateTime = dayjs(this.args.candidate.theoricalEndDateTime).format('HH:mm');
     return theoricalEndDateTime;
+  }
+
+  get _hasCertificationOngoingLiveAlert() {
+    return this.args.candidate.liveAlertStatus === 'ongoing';
   }
 }

@@ -1,0 +1,19 @@
+<PixModal
+  @class="pix-modal-dialog ask-for-live-alert-rejection-modal"
+  @title={{@title}}
+  @onCloseButtonClick={{@closeConfirmationModal}}
+  @showModal={{@showModal}}
+>
+  <:content>
+    <div class="app-modal-body__warning ask-for-live-alert-rejection-modal__description">
+      <p>
+        {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.description"}}
+      </p>
+    </div>
+  </:content>
+  <:footer>
+    <PixButton @backgroundColor="red" @triggerAction={{@rejectLiveAlert}}>
+      {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button"}}
+    </PixButton>
+  </:footer>
+</PixModal>

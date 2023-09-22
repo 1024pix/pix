@@ -11,13 +11,14 @@ import * as sessionValidator from '../../../session/domain/validators/session-va
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
-
+import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
 const dependencies = {
   badgeRepository,
   certificationCenterRepository,
+  certificationChallengeLiveAlertRepository,
   complementaryCertificationBadgesRepository,
   complementaryCertificationRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,

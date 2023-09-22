@@ -5,7 +5,8 @@
   {{/if}}
   <h2 class="screen-reader-only">{{t "pages.challenge.parts.feedback-v3"}}</h2>
   <button
-    class="feedback-panel-v3__open-button"
+    class="feedback-panel-v3__open-button
+      {{if this.isToggleFeedbackFormHidden 'feedback-panel-v3__open-button--hidden'}}"
     {{on "click" this.toggleFeedbackForm}}
     disabled={{this.isToggleFeedbackFormDisabled}}
     aria-expanded={{this.isAriaExpanded}}

@@ -20,7 +20,7 @@
       align-items: center;
       margin: 0;
       padding: 0;
-      color: $pix-primary;
+      color: $pix-primary-70;
       font-weight: $font-bold;
     }
   }
@@ -47,12 +47,16 @@
   &[aria-expanded='true'] {
     color: $pix-neutral-90;
   }
-}
 
-.feedback-panel-v3__open-button:hover,
-.feedback-panel-v3__open-button:focus-visible,
-.feedback-panel-v3__open-button:active {
-  color: $pix-primary;
+  &--hidden {
+    visibility: hidden;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &:active {
+    color: $pix-primary;
+  }
 }
 
 .feedback-panel-v3__view {

@@ -101,6 +101,12 @@
         <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
           {{t "pages.session-supervising.candidate-in-list.resume-test-modal.allow-test-resume"}}
         </Dropdown::Item>
+        {{#if @candidate.liveAlertStatus}}
+          <Dropdown::Item @onClick={{this.askUserToHandleLiveAlert}}>
+            {{t "pages.session-supervising.candidate-in-list.resume-test-modal.handle-live-alert"}}
+          </Dropdown::Item>
+        {{/if}}
+
         <Dropdown::Item @onClick={{this.askUserToConfirmTestEnd}}>
           {{t "pages.session-supervising.candidate-in-list.test-end-modal.end-assessment"}}
         </Dropdown::Item>
@@ -121,5 +127,19 @@
       {{this.modalDescriptionText}}
     </:description>
   </SessionSupervising::ConfirmationModal>
+
+  <SessionSupervising::AskForLiveAlertRejectionModal
+    @showModal={{this.isAskForLiveAlertRejectionDisplayed}}
+    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+    @title={{this.candidateFullName}}
+    @rejectLiveAlert={{this.rejectLiveAlert}}
+    @candidateId={{@candidate.id}}
+  />
+
+  <SessionSupervising::LiveAlertRejectedModal
+    @showModal={{this.isLiveAlertRejectedModalDisplayed}}
+    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+    @title={{this.candidateFullName}}
+  />
 
 </li>
