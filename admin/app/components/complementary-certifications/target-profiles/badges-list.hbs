@@ -18,7 +18,15 @@
             <tr>
               <td>{{badge.label}}</td>
               <td>{{badge.level}}</td>
-              <td>{{badge.id}}</td>
+              <td>
+                <LinkTo
+                  @route="authenticated.target-profiles.target-profile.badges.badge"
+                  @models={{array @currentTargetProfile.id badge.id}}
+                  target="_blank"
+                >
+                  {{badge.id}}
+                </LinkTo>
+              </td>
             </tr>
           {{/each}}
         </tbody>
