@@ -8,7 +8,7 @@ import {
 } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdmin.js';
+import { TargetProfileForAdmin } from '../../../../lib/domain/models/index.js';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
   describe('#get', function () {
@@ -283,6 +283,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               isMobileCompliant: false,
               isTabletCompliant: true,
+              skillIds: ['recSkillTube1'],
             },
             {
               id: 'recTube2',
@@ -294,6 +295,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               isMobileCompliant: true,
               isTabletCompliant: true,
+              skillIds: ['recSkillTube2'],
             },
             {
               id: 'recTube3',
@@ -305,6 +307,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               isMobileCompliant: false,
               isTabletCompliant: false,
+              skillIds: ['recSkillTube3'],
             },
             {
               id: 'recTube4',
@@ -316,6 +319,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               isMobileCompliant: true,
               isTabletCompliant: false,
+              skillIds: ['recSkillTube4'],
             },
           ],
           skills: [
@@ -323,21 +327,25 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recSkillTube1',
               tubeId: 'recTube1',
               status: 'actif',
+              level: 1,
             },
             {
               id: 'recSkillTube2',
               tubeId: 'recTube2',
               status: 'actif',
+              level: 3,
             },
             {
               id: 'recSkillTube3',
               tubeId: 'recTube3',
-              status: 'actif',
+              status: 'archivé',
+              level: 5,
             },
             {
               id: 'recSkillTube4',
               tubeId: 'recTube4',
               status: 'actif',
+              level: 1,
             },
           ],
         };
@@ -347,6 +355,16 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1 });
 
         // then
+        const skill1_tube1_themA_compA_areaA = {
+          id: 'recSkillTube1',
+          difficulty: 1,
+          tubeId: 'recTube1',
+        };
+        const skill2_tube2_themB_compA_areaA = {
+          difficulty: 3,
+          id: 'recSkillTube2',
+          tubeId: 'recTube2',
+        };
         const tube1_themA_compA_areaA = {
           id: 'recTube1',
           name: 'tubeName1',
@@ -453,6 +471,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [compA_areaA, compB_areaA],
           thematics: [themA_compA_areaA, themB_compA_areaA, themC_compB_areaA],
           tubes: [tube1_themA_compA_areaA, tube2_themB_compA_areaA, tube3_themC_compB_areaA],
+          skills: [skill1_tube1_themA_compA_areaA, skill2_tube2_themB_compA_areaA],
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
       });
@@ -531,6 +550,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               },
               isMobileCompliant: false,
               isTabletCompliant: true,
+              skillIds: ['recSkillTube1'],
             },
           ],
           skills: [
@@ -538,6 +558,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
               id: 'recSkillTube1',
               tubeId: 'recTube1',
               status: 'actif',
+              level: 1,
             },
           ],
         };
@@ -547,6 +568,11 @@ describe('Integration | Repository | target-profile-for-admin', function () {
         const actualTargetProfile = await targetProfileForAdminRepository.get({ id: 1, locale: 'en' });
 
         // then
+        const skill1_tube1_themA_compA_areaA = {
+          id: 'recSkillTube1',
+          difficulty: 1,
+          tubeId: 'recTube1',
+        };
         const tube1_themA_compA_areaA = {
           id: 'recTube1',
           name: 'tubeName1',
@@ -598,6 +624,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [compA_areaA],
           thematics: [themA_compA_areaA],
           tubes: [tube1_themA_compA_areaA],
+          skills: [skill1_tube1_themA_compA_areaA],
           badges: [],
           stageCollection: expectedStageCollection,
         });

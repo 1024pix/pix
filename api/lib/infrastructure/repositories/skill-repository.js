@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../domain/errors.js';
 import { Skill } from '../../domain/models/Skill.js';
-import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
+import { skillDatasource } from '../datasources/learning-content/index.js';
 
 function _toDomain(skillData) {
   return new Skill({
@@ -64,6 +64,11 @@ const findByRecordIds = async function (skillIds) {
   return skillDatas.map(_toDomain);
 };
 
+const findActiveByRecordIds = async function (skillIds) {
+  const skillDatas = await skillDatasource.findActiveByRecordIds(skillIds);
+  return skillDatas.map(_toDomain);
+};
+
 export {
   get,
   list,
@@ -74,4 +79,5 @@ export {
   findOperativeByCompetenceIds,
   findOperativeByIds,
   findByRecordIds,
+  findActiveByRecordIds,
 };

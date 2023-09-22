@@ -9,6 +9,7 @@ import * as areaRepository from './area-repository.js';
 import * as competenceRepository from './competence-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as tubeRepository from './tube-repository.js';
+import * as skillRepository from './skill-repository.js';
 import { TargetProfileForAdmin } from '../../domain/models/index.js';
 import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
 import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
@@ -45,7 +46,11 @@ const get = async function ({ id, locale = FRENCH_FRANCE }) {
 export { get };
 
 async function _toDomain(targetProfileDTO, tubesData, locale) {
-  const { areas, competences, thematics, tubes } = await _getLearningContent(targetProfileDTO.id, tubesData, locale);
+  const { areas, competences, thematics, tubes, skills } = await _getLearningContent(
+    targetProfileDTO.id,
+    tubesData,
+    locale,
+  );
   const badges = await _findBadges(targetProfileDTO.id);
   const stageCollection = await _getStageCollection(targetProfileDTO.id);
   const hasLinkedCampaign = await _hasLinkedCampaign(targetProfileDTO.id);
@@ -58,6 +63,7 @@ async function _toDomain(targetProfileDTO, tubesData, locale) {
     competences,
     thematics,
     tubes,
+    skills,
     hasLinkedCampaign,
   });
 }
@@ -88,11 +94,15 @@ async function _getLearningContent(targetProfileId, tubesData, locale) {
     tube.level = tubeData.level;
   }
 
+  const skillIds = _.uniq(_.flatten(_.map(tubes, 'skillIds')));
+  const skills = await skillRepository.findActiveByRecordIds(skillIds);
+
   return {
     areas,
     competences,
     thematics,
     tubes,
+    skills,
   };
 }
 

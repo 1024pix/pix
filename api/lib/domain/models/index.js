@@ -150,6 +150,7 @@ import { ValidatorQCU } from './ValidatorQCU.js';
 import { ValidatorQROC } from './ValidatorQROC.js';
 import { ValidatorQROCMDep } from './ValidatorQROCMDep.js';
 import { ValidatorQROCMInd } from './ValidatorQROCMInd.js';
+import { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin } from './LearningContentForAdmin.js';
 
 export {
   AccountRecoveryDemand,
@@ -160,6 +161,7 @@ export {
   AnswerCollectionForScoring,
   AnswerStatus,
   Area,
+  AreaForAdmin,
   Assessment,
   FlashAssessmentAlgorithm,
   AssessmentResult,
@@ -215,6 +217,7 @@ export {
   Challenge,
   Competence,
   CompetenceEvaluation,
+  CompetenceForAdmin,
   CompetenceMark,
   CompetenceResult,
   CompetenceTree,
@@ -282,10 +285,12 @@ export {
   TargetProfileForCreation,
   TargetProfileSummaryForAdmin,
   Thematic,
+  ThematicForAdmin,
   Training,
   TrainingTrigger,
   TrainingTriggerTube,
   Tube,
+  TubeForAdmin,
   Tutorial,
   TutorialEvaluation,
   User,

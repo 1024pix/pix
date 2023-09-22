@@ -34,6 +34,10 @@
     padding-right: $pix-spacing-s;
     font-weight: 500;
   }
+
+  &__level-select {
+    width: 141px,
+  }
 }
 
 .select-tube-table {
@@ -155,5 +159,32 @@
   .pix-collapsible {
     border-radius: 0;
     box-shadow: none;
+  }
+}
+
+.level-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  padding: 10px 0;
+
+  .skill-availability {
+    display: flex;
+    gap: 2px;
+  }
+
+  .skill-square {
+    padding: 0 4px;
+    color: white;
+    border-radius: 4px;
+
+    &__active {
+      background-color: $pix-success-70;
+    }
+
+    &__missing {
+      background-color: $pix-error-70;
+    }
   }
 }

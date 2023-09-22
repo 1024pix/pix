@@ -1,8 +1,19 @@
 <td data-testid="title-{{@id}}">
   {{@title}}
 </td>
-<td class="table__column--center" data-testid="level-{{@id}}">
-  {{@level}}
+<td class="table__column--center">
+  <div class="level-selection">
+    <span data-testid="level-{{@id}}">{{@level}}</span>
+    {{#if @displaySkillDifficultyAvailability}}
+      <div class="skill-availability" data-testid="skill-availability-{{@id}}">
+        {{#each this.skillAvailabilityMap as |skillAvailability|}}
+          <div
+            class="skill-square skill-square__{{skillAvailability.availability}}"
+          >{{skillAvailability.difficulty}}</div>
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
 </td>
 {{#if @displayDeviceCompatibility}}
   <td class="table__column--center">
