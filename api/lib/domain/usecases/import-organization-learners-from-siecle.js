@@ -51,10 +51,13 @@ const importOrganizationLearnersFromSIECLEFormat = async function ({
 
   const organizationLearnersChunks = chunk(organizationLearnerData, ORGANIZATION_LEARNER_CHUNK_SIZE);
 
+  const nationalStudentIdData = organizationLearnerData.map((learner) => learner.nationalStudentId, []);
+
   return DomainTransaction.execute(async (domainTransaction) => {
     await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
       domainTransaction,
       organizationId,
+      nationalStudentIds: nationalStudentIdData,
     });
 
     await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
