@@ -133,7 +133,7 @@ import * as partnerCertificationScoringRepository from '../../infrastructure/rep
 import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as passwordValidator from '../validators/password-validator.js';
 import * as pixAuthenticationService from '../../domain/services/authentication/pix-authentication-service.js';
-import * as pix1dOrganizationRepository from '../../infrastructure/repositories/pix1d-organization-repository.js';
+import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
@@ -349,7 +349,6 @@ const dependencies = {
   passwordValidator,
   pickChallengeService,
   pixAuthenticationService,
-  pix1dOrganizationRepository,
   placementProfileService,
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
@@ -359,6 +358,7 @@ const dependencies = {
   refreshTokenService,
   resetPasswordDemandRepository,
   resetPasswordService,
+  schoolRepository,
   scoAccountRecoveryService,
   scoCertificationCandidateRepository,
   scoOrganizationParticipantRepository,

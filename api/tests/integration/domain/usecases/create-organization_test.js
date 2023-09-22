@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import * as pix1dOrganizationRepository from '../../../../lib/infrastructure/repositories/pix1d-organization-repository.js';
+import * as schoolRepository from '../../../../lib/infrastructure/repositories/school-repository.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/organizations-administration/OrganizationForAdmin.js';
@@ -31,7 +31,7 @@ describe('Integration | UseCases | create-organization', function () {
       dataProtectionOfficerRepository,
       organizationForAdminRepository,
       organizationCreationValidator,
-      pix1dOrganizationRepository,
+      schoolRepository,
     });
 
     // then
