@@ -41,8 +41,14 @@ async function _createNewOrganizationLearner(organizationLearner, queryBuilder) 
       .first();
 
     if (existingOrganizationLearner) {
-      const [{ id }] = await queryBuilder('organization-learners').update({ isDisabled: false }).returning('id');
-      return id;
+      if (existingOrganizationLearner.isDisabled) {
+        await queryBuilder('organization-learners')
+          .update({ isDisabled: false })
+          .where({ id: existingOrganizationLearner.id })
+          .returning('id');
+      }
+
+      return existingOrganizationLearner.id;
     } else {
       const [{ id }] = await queryBuilder('organization-learners').insert(
         {
