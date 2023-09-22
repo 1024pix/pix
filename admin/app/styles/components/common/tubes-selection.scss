@@ -34,6 +34,10 @@
     padding-right: $pix-spacing-s;
     font-weight: 500;
   }
+
+  &__level-select {
+    width: 141px,
+  }
 }
 
 .select-tube-table {
@@ -158,29 +162,34 @@
   }
 }
 
-.skill-availability {
+.level-selection {
   display: flex;
-}
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  gap: 4px;
 
-.skill-square {
-  min-width: 20px;
-  max-width: 20px;
-  min-height: 20px;
-  max-height: 20px;
-  margin-right: 3px;
-  color: white;
-  font-weight: bold;
-  border-radius: 15px;
-
-  &__active {
-    background-color: $pix-success-30;
+  .skill-availability {
+    display: flex;
+    gap: 2px;
   }
 
-  &__missing {
-    background-color: $pix-error-30;
-  }
+  .skill-square {
+    color: white;
+    border-radius: 4px;
+    padding: 0 4px;
 
-  &__out-of-bound {
-    background-color: $pix-neutral-20;
+    &__active {
+      background-color: $pix-success-70;
+    }
+
+    &__missing {
+      background-color: $pix-error-70;
+    }
+
+    &__out-of-bound {
+      background-color: $pix-neutral-20;
+      min-width: calc(1ch + 8px);
+    }
   }
 }
