@@ -148,12 +148,12 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       assert.dom(squares[3]).hasText('4');
       assert.dom(squares[4]).hasClass('skill-square__missing');
       assert.dom(squares[4]).hasText('5');
-      assert.dom(squares[5]).hasClass('skill-square__out-of-bound');
-      assert.dom(squares[5]).hasText('');
-      assert.dom(squares[6]).hasClass('skill-square__out-of-bound');
-      assert.dom(squares[6]).hasText('');
-      assert.dom(squares[7]).hasClass('skill-square__out-of-bound');
-      assert.dom(squares[7]).hasText('');
+      assert.dom(squares[5]).hasClass('skill-square__missing');
+      assert.dom(squares[5]).hasText('6');
+      assert.dom(squares[6]).hasClass('skill-square__missing');
+      assert.dom(squares[6]).hasText('7');
+      assert.dom(squares[7]).hasClass('skill-square__missing');
+      assert.dom(squares[7]).hasText('8');
       assert.dom('[aria-label="incompatible tablette"]').exists();
       assert.dom('[aria-label="compatible mobile"]').exists();
     });

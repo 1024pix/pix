@@ -133,7 +133,7 @@ class TubeForAdmin {
     this.mobile = mobile;
     this.tablet = tablet;
     this.skills = allSkills
-      .filter((skill) => skill.tubeId === id && skill.difficulty <= this.level)
+      .filter((skill) => skill.tubeId === id)
       .map(
         (skill) =>
           new SkillForAdmin({
