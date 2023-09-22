@@ -88,11 +88,13 @@ describe('Acceptance | API | complementary-certification-controller', function (
                     id: 198,
                     level: 1,
                     label: 'another badge label',
+                    imageUrl: 'http://badge-image-url.fr',
                   },
                   {
                     id: 298,
                     level: 1,
                     label: 'badge label',
+                    imageUrl: 'http://badge-image-url.fr',
                   },
                 ],
               },

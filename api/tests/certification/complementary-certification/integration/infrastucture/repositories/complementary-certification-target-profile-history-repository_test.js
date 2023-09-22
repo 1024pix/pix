@@ -30,6 +30,7 @@ describe('Integration | Repository | complementary-certification-target-profile-
           createdAt: new Date('2023-10-10'),
           label: 'goodBadge2',
           level: 2,
+          imageUrl: 'http://good-badge-2-url.net',
         });
         const currentBadgeId = _createComplementaryCertificationBadge({
           targetProfileId: currentTarget.id,
@@ -37,6 +38,7 @@ describe('Integration | Repository | complementary-certification-target-profile-
           createdAt: new Date('2023-10-10'),
           label: 'goodBadge',
           level: 1,
+          imageUrl: 'http://good-badge-url.net',
         });
         _createComplementaryCertificationBadge({
           targetProfileId: oldTargetProfile.id,
@@ -65,8 +67,18 @@ describe('Integration | Repository | complementary-certification-target-profile-
             attachedAt: new Date('2023-10-10'),
             detachedAt: null,
             badges: [
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId, level: 1, label: 'goodBadge' }),
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId2, level: 2, label: 'goodBadge2' }),
+              new ComplementaryCertificationBadgeForAdmin({
+                id: currentBadgeId,
+                level: 1,
+                label: 'goodBadge',
+                imageUrl: 'http://good-badge-url.net',
+              }),
+              new ComplementaryCertificationBadgeForAdmin({
+                id: currentBadgeId2,
+                level: 2,
+                label: 'goodBadge2',
+                imageUrl: 'http://good-badge-2-url.net',
+              }),
             ],
           }),
         ]);
@@ -138,7 +150,12 @@ describe('Integration | Repository | complementary-certification-target-profile-
             attachedAt: new Date('2023-10-10'),
             detachedAt: null,
             badges: [
-              new ComplementaryCertificationBadgeForAdmin({ id: newBadgeId1, level: 1, label: 'badgeReattached' }),
+              new ComplementaryCertificationBadgeForAdmin({
+                id: newBadgeId1,
+                level: 1,
+                label: 'badgeReattached',
+                imageUrl: 'http://badge-image-url.fr',
+              }),
             ],
           }),
         ]);
@@ -207,8 +224,18 @@ describe('Integration | Repository | complementary-certification-target-profile-
             attachedAt: new Date('2023-10-10'),
             detachedAt: null,
             badges: [
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId, level: 1, label: 'badgeGood' }),
-              new ComplementaryCertificationBadgeForAdmin({ id: currentBadgeId2, level: 1, label: 'badgeGood2' }),
+              new ComplementaryCertificationBadgeForAdmin({
+                id: currentBadgeId,
+                level: 1,
+                label: 'badgeGood',
+                imageUrl: 'http://badge-image-url.fr',
+              }),
+              new ComplementaryCertificationBadgeForAdmin({
+                id: currentBadgeId2,
+                level: 1,
+                label: 'badgeGood2',
+                imageUrl: 'http://badge-image-url.fr',
+              }),
             ],
           }),
           new TargetProfileHistoryForAdmin({
@@ -221,6 +248,7 @@ describe('Integration | Repository | complementary-certification-target-profile-
                 id: currentBadgeId3,
                 level: 1,
                 label: 'anotherCurrentBadge',
+                imageUrl: 'http://badge-image-url.fr',
               }),
             ],
           }),
@@ -392,6 +420,7 @@ function _createComplementaryCertificationBadge({
   detachedAt,
   label,
   level,
+  imageUrl,
 }) {
   const badgeId = databaseBuilder.factory.buildBadge({
     targetProfileId,
@@ -405,6 +434,7 @@ function _createComplementaryCertificationBadge({
     detachedAt,
     label,
     level,
+    imageUrl,
   });
 
   return badgeId;
