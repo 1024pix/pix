@@ -102,10 +102,15 @@ const isOrganizationLearnerIdLinkedToUserAndSCOOrganization = async function ({ 
   return Boolean(exist);
 };
 
-const disableAllOrganizationLearnersInOrganization = async function ({ domainTransaction, organizationId }) {
+const disableAllOrganizationLearnersInOrganization = async function ({
+  domainTransaction,
+  organizationId,
+  nationalStudentIds,
+}) {
   const knexConn = domainTransaction.knexTransaction;
   await knexConn('organization-learners')
     .where({ organizationId, isDisabled: false })
+    .whereNotIn('nationalStudentId', nationalStudentIds)
     .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
 };
 
