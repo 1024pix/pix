@@ -10,6 +10,25 @@ const findStillValidBadgeAcquisitions = async function ({
   limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
+  return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: false, dependencies });
+};
+
+const findLatestBadgeAcquisitions = async function ({
+  userId,
+  domainTransaction,
+  limitDate = new Date(),
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+}) {
+  return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: true, dependencies });
+};
+
+const _findBadgeAcquisitions = async function ({
+  userId,
+  domainTransaction,
+  limitDate = new Date(),
+  shouldGetOutdated = false,
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+}) {
   const highestCertifiableBadgeAcquisitions =
     await dependencies.certifiableBadgeAcquisitionRepository.findHighestCertifiable({
       userId,
@@ -26,7 +45,7 @@ const findStillValidBadgeAcquisitions = async function ({
   const badgeAcquisitions = await bluebird.mapSeries(
     highestCertifiableBadgeAcquisitions,
     async (certifiableBadgeAcquisition) => {
-      if (certifiableBadgeAcquisition.isDetached) {
+      if (!shouldGetOutdated && certifiableBadgeAcquisition.isOutdated) {
         return null;
       }
 
@@ -44,4 +63,4 @@ const findStillValidBadgeAcquisitions = async function ({
   return _.compact(badgeAcquisitions);
 };
 
-export { findStillValidBadgeAcquisitions };
+export { findStillValidBadgeAcquisitions, findLatestBadgeAcquisitions };

@@ -49,7 +49,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           complementaryCertificationBadgeId: complementaryCertificationBadge.id,
           complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
           complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
-          isDetached: false,
+          isOutdated: false,
         });
         expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
       });
@@ -91,7 +91,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             complementaryCertificationBadgeId: complementaryCertificationBadge.id,
             complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
             complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
-            isDetached: false,
+            isOutdated: false,
           });
           expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
         });
@@ -151,7 +151,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           complementaryCertificationBadgeId: complementaryCertificationBadge.id,
           complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
           complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
-          isDetached: false,
+          isOutdated: false,
         });
         expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
       });
@@ -278,7 +278,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             // then
             expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
             expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
-            expect(certifiableBadgesAcquiredByUser[0].isDetached).to.equal(true);
+            expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(true);
           });
         });
 
@@ -337,7 +337,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             // then
             expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
             expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
-            expect(certifiableBadgesAcquiredByUser[0].isDetached).to.equal(false);
+            expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(false);
           });
         });
       });

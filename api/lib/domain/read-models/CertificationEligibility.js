@@ -1,8 +1,8 @@
 class CertificationEligibility {
-  constructor({ id, pixCertificationEligible, eligibleComplementaryCertifications = [] }) {
+  constructor({ id, pixCertificationEligible, complementaryCertifications = [] }) {
     this.id = id;
     this.pixCertificationEligible = pixCertificationEligible;
-    this.eligibleComplementaryCertifications = eligibleComplementaryCertifications;
+    this.complementaryCertifications = complementaryCertifications;
   }
 
   static notCertifiable({ userId }) {

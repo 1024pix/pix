@@ -32,7 +32,8 @@ import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/ind
  *    $ node get-user-certifications-eligibility.js 147114 2000-01-22 11:52
  */
 
-async function getUserCertificationsEligibility({ userId, limitDate }) {
+// TODO : add "outdated" info display (PIX-9023))
+async function getUserCertificationEligibility({ userId, limitDate }) {
   logger.info('Starting script get-user-certifications-eligibility');
 
   const { pixCertificationEligible, eligibleComplementaryCertifications } =
@@ -58,7 +59,7 @@ async function main() {
   const limitHours = process.argv[4] ?? '23:59:59';
   const limitDate = limitDay ? new Date(`${limitDay} ${limitHours}`) : new Date();
 
-  await getUserCertificationsEligibility({ userId, limitDate });
+  await getUserCertificationEligibility({ userId, limitDate });
 }
 
 (async () => {
@@ -76,4 +77,4 @@ async function main() {
   }
 })();
 
-export { getUserCertificationsEligibility };
+export { getUserCertificationEligibility };
