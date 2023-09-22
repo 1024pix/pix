@@ -268,10 +268,11 @@ describe('Acceptance | users-controller-is-certifiable', function () {
             type: 'isCertifiables',
             attributes: {
               'is-certifiable': true,
-              'eligible-complementary-certifications': [
+              'complementary-certifications': [
                 {
                   imageUrl: 'http://badge-image-url.fr',
                   label: 'PARTNER_LABEL',
+                  isOutdated: false,
                 },
               ],
             },

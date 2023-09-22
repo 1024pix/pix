@@ -82,7 +82,7 @@ function _toDomain(certifiableBadgeAcquisitionsDto) {
     (certifiableBadgeAcquisitionDto) =>
       new CertifiableBadgeAcquisition({
         ...certifiableBadgeAcquisitionDto,
-        isDetached: !!certifiableBadgeAcquisitionDto.complementaryCertificationBadgeDetachedAt,
+        isOutdated: !!certifiableBadgeAcquisitionDto.complementaryCertificationBadgeDetachedAt,
       }),
   );
 }

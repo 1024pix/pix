@@ -3,12 +3,12 @@ import { CertificationEligibility } from '../../../../lib/domain/read-models/Cer
 const buildCertificationEligibility = function ({
   id = 123,
   pixCertificationEligible = false,
-  eligibleComplementaryCertifications = [],
+  complementaryCertifications = [],
 } = {}) {
   return new CertificationEligibility({
     id,
     pixCertificationEligible,
-    eligibleComplementaryCertifications,
+    complementaryCertifications,
   });
 };
 

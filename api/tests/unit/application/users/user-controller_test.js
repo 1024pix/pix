@@ -778,7 +778,7 @@ describe('Unit | Controller | user-controller', function () {
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
         pixCertificationEligible: true,
-        eligibleComplementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
+        complementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
       });
       sinon
         .stub(usecases, 'getUserCertificationEligibility')
@@ -802,7 +802,7 @@ describe('Unit | Controller | user-controller', function () {
           type: 'isCertifiables',
           attributes: {
             'is-certifiable': true,
-            'eligible-complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
+            'complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
           },
         },
       });
