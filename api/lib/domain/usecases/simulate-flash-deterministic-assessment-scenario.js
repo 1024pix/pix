@@ -10,6 +10,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   warmUpLength,
   forcedCompetences,
   useObsoleteChallenges,
+  challengesBetweenSameCompetence,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 
@@ -17,6 +18,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
     warmUpLength,
     forcedCompetences,
     maximumAssessmentLength: stopAtChallenge,
+    challengesBetweenSameCompetence,
   });
 
   const simulator = new AssessmentSimulator({
