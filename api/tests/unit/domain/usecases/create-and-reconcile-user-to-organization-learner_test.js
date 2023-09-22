@@ -4,11 +4,10 @@ import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
-  EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
 } from '../../../../lib/domain/errors.js';
-
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {

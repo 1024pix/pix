@@ -5,9 +5,9 @@ import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
-  EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
 } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { User } from '../models/User.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';

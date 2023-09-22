@@ -1,6 +1,6 @@
 import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { SupOrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import { SupOrganizationLearnerImportHeader } from '../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
 import { getI18n } from '../../../../tests/tooling/i18n/i18n.js';
 import { createServer } from '../../../../server.js';
 

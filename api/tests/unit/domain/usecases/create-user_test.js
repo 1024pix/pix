@@ -1,5 +1,6 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { AlreadyRegisteredEmailError, EntityValidationError } from '../../../../lib/domain/errors.js';
+import { AlreadyRegisteredEmailError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { createUser } from '../../../../lib/domain/usecases/create-user.js';
 

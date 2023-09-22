@@ -1,5 +1,5 @@
 import { expect, catchErr } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { prepareOrganizationPlacesLot } from '../../../../scripts/prod/create-organization-places-lot.js';
 
 describe('Integration | Scripts | create-organization-places-lot', function () {

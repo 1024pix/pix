@@ -1,6 +1,6 @@
 import { expect } from '../../../../test-helper.js';
 import * as creationCommandValidator from '../../../../../lib/domain/validators/target-profile/creation-command-validation.js';
-import { EntityValidationError } from '../../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../../src/shared/domain/errors.js';
 import { categories } from '../../../../../lib/domain/models/TargetProfile.js';
 
 describe('Unit | Domain | Validators | target-profile/creationCommandValidator', function () {

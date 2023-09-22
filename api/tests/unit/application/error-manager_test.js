@@ -8,7 +8,6 @@ import {
   AlreadyRegisteredUsernameError,
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
-  EntityValidationError,
   InvalidExternalAPIResponseError,
   MissingOrInvalidCredentialsError,
   MissingUserAccountError,
@@ -43,6 +42,7 @@ import {
   CertificationCandidateNotFoundError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../lib/application/http-errors.js';
 import { handle } from '../../../lib/application/error-manager.js';

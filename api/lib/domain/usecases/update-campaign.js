@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { UserNotAuthorizedToUpdateResourceError, EntityValidationError } from '../errors.js';
+import { UserNotAuthorizedToUpdateResourceError } from '../errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import * as campaignValidator from '../validators/campaign-validator.js';
 
 const updateCampaign = async function ({

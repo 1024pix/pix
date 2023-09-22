@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { isValidDate, convertDateValue } from '../../../../lib/infrastructure/utils/date-utils.js';
+import { isValidDate, convertDateValue } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 
 describe('Unit | Utils | date-utils', function () {
   describe('#isValidDate', function () {

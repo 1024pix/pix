@@ -1,7 +1,7 @@
 import * as url from 'url';
 import _ from 'lodash';
 import { expect, catchErr } from '../../../test-helper.js';
-import { CsvImportError } from '../../../../lib/domain/errors.js';
+import { CsvImportError } from '../../../../src/shared/domain/errors.js';
 import { extractOrganizationLearnersInformation } from '../../../../lib/domain/services/organization-learners-csv-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 const i18n = getI18n();
