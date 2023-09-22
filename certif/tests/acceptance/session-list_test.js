@@ -163,7 +163,7 @@ module('Acceptance | Session List', function (hooks) {
         assert
           .dom(
             screen.queryByText(
-              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la',
+              'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
             ),
           )
           .doesNotExist();
@@ -183,7 +183,7 @@ module('Acceptance | Session List', function (hooks) {
         assert
           .dom(
             screen.getByText(
-              'La certification Pix se déroulera du 14 novembre 2022 au 17 mars 2023 pour les lycées et du 6 mars au 16 juin 2023 pour les collèges. Pensez à consulter la',
+              'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
             ),
           )
           .exists();
