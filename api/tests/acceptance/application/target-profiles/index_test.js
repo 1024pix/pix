@@ -157,20 +157,9 @@ describe('Acceptance | Route | target-profiles', function () {
       };
     });
 
-    it('should return 200', async function () {
+    it('should return the target-profile corresponding to the given {id} and 200 status code', async function () {
       // given
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result.data.attributes['has-linked-campaign']).to.equal(false);
-    });
-
-    it('should return the target-profile corresponding to the given {id}', async function () {
-      // given
+      databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
       await databaseBuilder.commit();
       const expectedTargetProfile = {
         'are-knowledge-elements-resettable': false,
@@ -178,7 +167,7 @@ describe('Acceptance | Route | target-profiles', function () {
         comment: 'Un beau profil cible',
         description: 'Une description',
         'created-at': new Date('2020-01-01'),
-        'has-linked-campaign': false,
+        'has-linked-campaign': true,
         'image-url': 'https://test',
         'is-public': true,
         'is-simplified-access': false,
@@ -192,21 +181,8 @@ describe('Acceptance | Route | target-profiles', function () {
       const response = await server.inject(options);
 
       // then
+      expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes).to.deep.equal(expectedTargetProfile);
-    });
-
-    context('when target profile is linked to a campaign', function () {
-      it('should return a target profile with has-linked-campaign equal to true', async function () {
-        // given
-        databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.result.data.attributes['has-linked-campaign']).to.equal(true);
-      });
     });
   });
 

@@ -34,10 +34,19 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
                   nbTubes: 1,
                   tubes: [
                     {
+                      id: 'id-du-tube',
                       title: `Titre Tube 1 Nom Thematic 1 Competence 1 Area 1`,
                       level: 5,
                       mobile: true,
                       tablet: false,
+                      skills: [
+                        {
+                          difficulty: 4,
+                        },
+                        {
+                          difficulty: 2,
+                        },
+                      ],
                     },
                   ],
                 },
@@ -61,6 +70,11 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
                       level: 2,
                       mobile: false,
                       tablet: true,
+                      skills: [
+                        {
+                          difficulty: 1,
+                        },
+                      ],
                     },
                   ],
                 },
@@ -122,7 +136,24 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       // then
       assert.dom(screen.queryByText('Titre Tube 1 Nom Thematic 1 Competence 1 Area 1')).exists();
       assert.dom(screen.queryByText('Titre Tube 2 Nom Thematic 2 Competence 2 Area 2')).doesNotExist();
-      assert.dom(screen.queryByText('5')).exists();
+      assert.deepEqual(screen.getByTestId('level-id-du-tube').innerText, '5');
+      const squares = screen.getByTestId('skill-availability-id-du-tube').children;
+      assert.dom(squares[0]).hasClass('skill-square__missing');
+      assert.dom(squares[0]).hasText('1');
+      assert.dom(squares[1]).hasClass('skill-square__active');
+      assert.dom(squares[1]).hasText('2');
+      assert.dom(squares[2]).hasClass('skill-square__missing');
+      assert.dom(squares[2]).hasText('3');
+      assert.dom(squares[3]).hasClass('skill-square__active');
+      assert.dom(squares[3]).hasText('4');
+      assert.dom(squares[4]).hasClass('skill-square__missing');
+      assert.dom(squares[4]).hasText('5');
+      assert.dom(squares[5]).hasClass('skill-square__missing');
+      assert.dom(squares[5]).hasText('6');
+      assert.dom(squares[6]).hasClass('skill-square__missing');
+      assert.dom(squares[6]).hasText('7');
+      assert.dom(squares[7]).hasClass('skill-square__missing');
+      assert.dom(squares[7]).hasText('8');
       assert.dom('[aria-label="incompatible tablette"]').exists();
       assert.dom('[aria-label="compatible mobile"]').exists();
     });

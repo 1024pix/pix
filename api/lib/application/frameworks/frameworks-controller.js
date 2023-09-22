@@ -10,8 +10,8 @@ const getFrameworks = async function (request, h, dependencies = { frameworkSeri
 
 const getFrameworkAreas = async function (request, h, dependencies = { frameworkAreasSerializer }) {
   const frameworkId = request.params.id;
-  const framework = await usecases.getFrameworkAreas({ frameworkId });
-  return dependencies.frameworkAreasSerializer.serialize(framework);
+  const areas = await usecases.getFrameworkAreas({ frameworkId });
+  return dependencies.frameworkAreasSerializer.serialize(areas);
 };
 
 const getPixFrameworkAreasWithoutThematics = async function (
@@ -20,8 +20,8 @@ const getPixFrameworkAreasWithoutThematics = async function (
   dependencies = { extractLocaleFromRequest, frameworkAreasSerializer },
 ) {
   const locale = dependencies.extractLocaleFromRequest(request);
-  const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
-  return dependencies.frameworkAreasSerializer.serialize(framework, { withoutThematics: true });
+  const areas = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
+  return dependencies.frameworkAreasSerializer.serialize(areas, { withoutThematics: true });
 };
 
 const getFrameworksForTargetProfileSubmission = async function (

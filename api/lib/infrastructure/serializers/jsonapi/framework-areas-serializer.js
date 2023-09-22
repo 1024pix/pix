@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-const serialize = function (framework, { withoutThematics = false } = {}) {
+const serialize = function (areas, { withoutThematics = false } = {}) {
   return new Serializer('area', {
     ref: 'id',
     attributes: ['code', 'title', 'color', 'competences'],
@@ -20,37 +20,23 @@ const serialize = function (framework, { withoutThematics = false } = {}) {
         tubes: {
           include: true,
           ref: 'id',
-          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'level'],
+          attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'level', 'skills'],
+          skills: {
+            include: true,
+            ref: 'id',
+            attributes: ['difficulty'],
+          },
         },
       },
     },
 
     transform(area) {
       if (withoutThematics) {
-        return area;
+        return area.toDTOWithoutThematics();
       }
-      area.competences.forEach((competence) => {
-        competence.thematics = framework.thematics
-          .filter((thematic) => {
-            return competence.thematicIds.includes(thematic.id);
-          })
-          .map((thematic) => {
-            return {
-              ...thematic,
-              tubes: framework.tubes
-                .filter(({ id }) => {
-                  return thematic.tubeIds.includes(id);
-                })
-                .map((tube) => ({ ...tube, mobile: tube.isMobileCompliant, tablet: tube.isTabletCompliant, level: 8 })),
-            };
-          })
-          .filter((thematic) => {
-            return thematic.tubes.length > 0;
-          });
-      });
       return area;
     },
-  }).serialize(framework.areas);
+  }).serialize(areas);
 };
 
 export { serialize };

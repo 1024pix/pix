@@ -1,7 +1,10 @@
+import { AreaForAdmin } from '../models/index.js';
+
 const getFrameworkAreas = async function ({
   frameworkId,
   frameworkName,
   locale,
+  skillRepository,
   tubeRepository,
   thematicRepository,
   areaRepository,
@@ -22,7 +25,23 @@ const getFrameworkAreas = async function ({
   const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
   const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
 
-  return { areas: areasWithCompetences, thematics, tubes };
+  const skillIds = tubes.flatMap((tube) => tube.skillIds);
+  const skills = await skillRepository.findActiveByRecordIds(skillIds);
+
+  return areasWithCompetences.map(
+    (areaWithCompetences) =>
+      new AreaForAdmin({
+        id: areaWithCompetences.id,
+        frameworkId: areaWithCompetences.frameworkId,
+        title: areaWithCompetences.title,
+        code: areaWithCompetences.code,
+        color: areaWithCompetences.color,
+        allCompetences: areaWithCompetences.competences,
+        allThematics: thematics,
+        allTubes: tubes,
+        allSkills: skills,
+      }),
+  );
 };
 
 export { getFrameworkAreas };
