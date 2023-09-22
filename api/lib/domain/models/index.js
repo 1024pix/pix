@@ -122,8 +122,6 @@ import { Solution } from './Solution.js';
 import { Stage } from './Stage.js';
 import { StageAcquisition } from './StageAcquisition.js';
 import { Student } from './Student.js';
-import { SupOrganizationLearner } from './SupOrganizationLearner.js';
-import { SupOrganizationLearnerSet } from './SupOrganizationLearnerSet.js';
 import { Tag } from './Tag.js';
 import { TargetProfile } from './TargetProfile.js';
 import { TargetProfileForAdmin } from './TargetProfileForAdmin.js';
@@ -278,8 +276,6 @@ export {
   Stage,
   StageAcquisition,
   Student,
-  SupOrganizationLearner,
-  SupOrganizationLearnerSet,
   Tag,
   TargetProfile,
   TargetProfileForAdmin,

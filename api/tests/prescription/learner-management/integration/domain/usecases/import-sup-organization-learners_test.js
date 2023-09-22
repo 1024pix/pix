@@ -1,11 +1,11 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex } from '../../../../../test-helper.js';
 import iconv from 'iconv-lite';
 
-import { importSupOrganizationLearners as importSupOrganizationLearner } from '../../../../lib/domain/usecases/import-sup-organization-learners.js';
-import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
-import { SupOrganizationLearnerParser } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser.js';
-import { SupOrganizationLearnerImportHeader } from '../../../../lib/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { importSupOrganizationLearners } from '../../../../../../src/prescription/learner-management/domain/usecases/import-sup-organization-learners.js';
+import * as supOrganizationLearnerRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
+import { SupOrganizationLearnerParser } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-parser.js';
+import { SupOrganizationLearnerImportHeader } from '../../../../../../src/prescription/learner-management/infrastructure/serializers/csv/sup-organization-learner-import-header.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 const i18n = getI18n();
 
@@ -29,7 +29,7 @@ describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
 
       const organization = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
-      await importSupOrganizationLearner({
+      await importSupOrganizationLearners({
         organizationId: organization.id,
         supOrganizationLearnerRepository,
         supOrganizationLearnerParser: new SupOrganizationLearnerParser(encodedInput, organization.id, i18n),
@@ -60,7 +60,7 @@ describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
         });
 
         await databaseBuilder.commit();
-        await importSupOrganizationLearner({
+        await importSupOrganizationLearners({
           organizationId: organization.id,
           supOrganizationLearnerRepository,
           supOrganizationLearnerParser: new SupOrganizationLearnerParser(encodedInput, organization.id, i18n),
@@ -81,7 +81,7 @@ describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
     const organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
 
-    const warnings = await importSupOrganizationLearner({
+    const warnings = await importSupOrganizationLearners({
       organizationId: organization.id,
       supOrganizationLearnerRepository,
       supOrganizationLearnerParser: new SupOrganizationLearnerParser(encodedInput, organization.id, i18n),

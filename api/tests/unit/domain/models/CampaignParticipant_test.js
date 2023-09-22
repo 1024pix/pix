@@ -3,10 +3,9 @@ import { catchErr, domainBuilder, expect } from '../../../test-helper.js';
 
 import {
   AlreadyExistingCampaignParticipationError,
-  EntityValidationError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../../lib/domain/errors.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { ForbiddenAccess, EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Models | CampaignParticipant', function () {
   describe('#start', function () {

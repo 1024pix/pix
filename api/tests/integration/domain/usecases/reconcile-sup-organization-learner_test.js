@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as supOrganizationLearnerRepository from '../../../../lib/infrastructure/repositories/sup-organization-learner-repository.js';
+import * as supOrganizationLearnerRepository from '../../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import { NotFoundError, OrganizationLearnerAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
 import { reconcileSupOrganizationLearner } from '../../../../lib/domain/usecases/reconcile-sup-organization-learner.js';

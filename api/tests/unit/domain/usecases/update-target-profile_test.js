@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { EntityValidationError } from '../../../../lib/domain/errors.js';
+import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 const { updateTargetProfile } = usecases;

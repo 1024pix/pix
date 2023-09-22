@@ -12,10 +12,11 @@ import {
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
 } from '../errors.js';
 
-import { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
+import { isOneStringCloseEnoughFromMultipleStrings } from './string-comparison-service.js';
+import { areTwoStringsCloseEnough } from '../../../src/shared/domain/services/string-comparison-service.js';
 import { normalizeAndRemoveAccents, removeSpecialCharacters } from './validation-treatments.js';
+import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
 
-const MAX_ACCEPTABLE_RATIO = 0.25;
 const STRICT_MATCH_RATIO = 0;
 
 function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
@@ -28,7 +29,8 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
     STRICT_MATCH_RATIO,
   );
   return (
-    foundUserId || _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO)
+    foundUserId ||
+    _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, LEVENSHTEIN_DISTANCE_MAX_RATE)
   );
 }
 
@@ -172,14 +174,14 @@ function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, sta
 function _candidateHasSimilarFirstName(
   { firstName: userFirstName },
   candidateGivenName,
-  maxAcceptableRatio = MAX_ACCEPTABLE_RATIO,
+  maxAcceptableRatio = LEVENSHTEIN_DISTANCE_MAX_RATE,
 ) {
   return (candidate) =>
     candidate[candidateGivenName] &&
     areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], maxAcceptableRatio);
 }
 
-function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio = MAX_ACCEPTABLE_RATIO) {
+function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio = LEVENSHTEIN_DISTANCE_MAX_RATE) {
   return (candidate) => {
     const candidatesLastName = [candidate.lastName, candidate.preferredLastName].filter(
       (candidateLastName) => candidateLastName,

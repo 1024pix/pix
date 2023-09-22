@@ -6,7 +6,7 @@ import { userController } from './user-controller.js';
 import { sendJsonApiError, BadRequestError } from '../http-errors.js';
 import { userVerification } from '../preHandlers/user-existence-verification.js';
 import { config } from '../../config.js';
-import { EntityValidationError } from '../../domain/errors.js';
+import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import * as OidcIdentityProviders from '../../domain/constants/oidc-identity-providers.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../domain/constants/identity-providers.js';

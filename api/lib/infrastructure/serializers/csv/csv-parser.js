@@ -1,6 +1,7 @@
 import papa from 'papaparse';
 import iconv from 'iconv-lite';
-import { CsvImportError } from '../../../domain/errors.js';
+import { CsvImportError } from '../../../../src/shared/domain/errors.js';
+
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
   BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',

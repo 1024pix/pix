@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 import * as DomainErrors from '../../../lib/domain/errors.js';
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { ForbiddenAccess, EntityValidationError, CsvImportError } from '../../../src/shared/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
@@ -109,7 +109,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Precondition Failed when a CsvImportError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CsvImportError());
+      routeHandler.throws(new CsvImportError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
@@ -630,7 +630,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Le prénom n’est pas renseigné.',
         },
       ];
-      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -656,7 +656,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Le profile cible n’est pas renseigné.',
         },
       ];
-      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -682,7 +682,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Un identifiant externe est requis pour accèder à la campagne.',
         },
       ];
-      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -710,7 +710,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Vous devez renseigner une adresse e-mail et/ou un identifiant.',
         },
       ];
-      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);
@@ -746,7 +746,7 @@ describe('Integration | API | Controller Error', function () {
           message: 'Le profile cible n’est pas renseigné.',
         },
       ];
-      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+      routeHandler.throws(new EntityValidationError({ invalidAttributes }));
 
       // when
       const response = await server.requestObject(request);

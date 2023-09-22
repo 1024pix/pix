@@ -84,7 +84,6 @@ import * as countryRepository from '../../infrastructure/repositories/country-re
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
 import * as cpfCertificationResultRepository from '../../infrastructure/repositories/cpf-certification-result-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
-import * as dateUtils from '../../infrastructure/utils/date-utils.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as encryptionService from '../../domain/services/encryption-service.js';
@@ -163,7 +162,7 @@ import * as stageCollectionForTargetProfileRepository from '../../infrastructure
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
-import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
+import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
 import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForAdminRepository from '../../infrastructure/repositories/target-profile-for-admin-repository.js';
@@ -196,6 +195,8 @@ import { getCompetenceLevel } from '../services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import { tokenService } from '../services/token-service.js';
+
+import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 
 import { importNamedExportsFromDirectory } from '../../../src/shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
