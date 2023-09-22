@@ -360,6 +360,11 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           difficulty: 1,
           tubeId: 'recTube1',
         };
+        const skill2_tube2_themB_compA_areaA = {
+          difficulty: 3,
+          id: 'recSkillTube2',
+          tubeId: 'recTube2',
+        };
         const tube1_themA_compA_areaA = {
           id: 'recTube1',
           name: 'tubeName1',
@@ -466,7 +471,7 @@ describe('Integration | Repository | target-profile-for-admin', function () {
           competences: [compA_areaA, compB_areaA],
           thematics: [themA_compA_areaA, themB_compA_areaA, themC_compB_areaA],
           tubes: [tube1_themA_compA_areaA, tube2_themB_compA_areaA, tube3_themC_compB_areaA],
-          skills: [skill1_tube1_themA_compA_areaA],
+          skills: [skill1_tube1_themA_compA_areaA, skill2_tube2_themB_compA_areaA],
         });
         expect(actualTargetProfile).to.deepEqualInstance(expectedTargetProfile);
       });

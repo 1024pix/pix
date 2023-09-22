@@ -165,9 +165,9 @@
 .level-selection {
   display: flex;
   flex-direction: column;
+  gap: 4px;
   align-items: center;
   padding: 10px 0;
-  gap: 4px;
 
   .skill-availability {
     display: flex;
@@ -175,9 +175,9 @@
   }
 
   .skill-square {
+    padding: 0 4px;
     color: white;
     border-radius: 4px;
-    padding: 0 4px;
 
     &__active {
       background-color: $pix-success-70;
@@ -185,11 +185,6 @@
 
     &__missing {
       background-color: $pix-error-70;
-    }
-
-    &__out-of-bound {
-      background-color: $pix-neutral-20;
-      min-width: calc(1ch + 8px);
     }
   }
 }
