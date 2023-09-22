@@ -38,3 +38,14 @@
     width: fit-content;
   }
 }
+
+.complementary-certification-details-table {
+
+  &__complementary-certification-badge-name {
+    width: 50%;
+  }
+
+  &__complementary-certification-badge-image-url {
+    width: 80px;
+  }
+}

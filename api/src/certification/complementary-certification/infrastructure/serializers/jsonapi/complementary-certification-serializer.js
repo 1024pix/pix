@@ -3,7 +3,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Serializer } = jsonapiSerializer;
 
 const serializeForAdmin = function (complementaryCertification) {
-  const tutu = new Serializer('complementary-certification', {
+  return new Serializer('complementary-certification', {
     attributes: ['label', 'hasExternalJury', 'targetProfilesHistory'],
     targetProfilesHistory: {
       attributes: ['id', 'name', 'attachedAt', 'detachedAt', 'badges'],
@@ -12,7 +12,6 @@ const serializeForAdmin = function (complementaryCertification) {
       },
     },
   }).serialize(complementaryCertification);
-  return tutu;
 };
 
 export { serializeForAdmin };
