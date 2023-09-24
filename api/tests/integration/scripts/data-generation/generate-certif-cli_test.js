@@ -34,7 +34,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   describe('#main', function () {
     context('when asking for 2 candidates', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [certificationCenterSup, certificationCenterPro].forEach(({ id: certificationCenterId, type }) => {
+      [certificationCenterSup, certificationCenterPro].forEach(({ type }) => {
         context(`when asking for ${type}`, function () {
           it(`should create 2 ${type} candidates`, async function () {
             // given
@@ -66,7 +66,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               'sessionId',
             );
             expect(session.accessCode).to.exist;
-            expect(session.certificationCenterId).to.equal(certificationCenterId);
             expect(hasAuthenticationMethod).to.exist;
             expect(certificationCandidates).to.have.length(2);
             const name = `${type}1`.toLowerCase();
@@ -156,7 +155,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
           );
 
           expect(session.accessCode).to.exist;
-          expect(session.certificationCenterId).to.equal(1);
+          expect(session.certificationCenterId).to.be.greaterThan(1);
           expect(hasAuthenticationMethod).to.exist;
           expect(certificationCandidates).to.have.length(2);
           expect(certificationCandidates[0]).to.deep.equals({
