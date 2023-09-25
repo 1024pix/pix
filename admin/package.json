@@ -45,7 +45,7 @@
     "@1024pix/ember-testing-library": "^0.8.1",
     "@1024pix/eslint-config": "^1.0.3",
     "@1024pix/pix-ui": "^40.0.0",
-    "@1024pix/stylelint-config": "^4.0.1",
+    "@1024pix/stylelint-config": "^5.0.0",
     "@babel/eslint-parser": "^7.19.1",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^3.1.0",
@@ -112,7 +112,6 @@
     "sass": "^1.56.1",
     "sinon": "^16.0.0",
     "stylelint": "^15.0.0",
-    "stylelint-config-standard-scss": "^11.0.0",
     "tracked-built-ins": "^3.1.1",
     "webpack": "^5.88.2"
   }
