@@ -12,6 +12,10 @@
   &__instruction {
     font-size: 1rem;
 
+    ul, li {
+      list-style: unset;
+    }
+
     ul,
     ol {
       padding-left: 2em;
@@ -21,9 +25,6 @@
       }
     }
 
-    li {
-      list-style: unset;
-    }
   }
 
   &__default-message-container {
