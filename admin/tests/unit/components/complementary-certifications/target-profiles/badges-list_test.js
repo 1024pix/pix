@@ -10,10 +10,16 @@ module('Unit | Component | complementary-certifications/target-profiles/badges-l
     const component = createGlimmerComponent('component:complementary-certifications/target-profiles/badges-list');
 
     component.args = {
-      currentTargetProfile: { id: 1, name: 'current target', badges: [{ id: 1, level: 2, label: 'badge Pluie' }] },
+      currentTargetProfile: {
+        id: 1,
+        name: 'current target',
+        badges: [{ id: 1, level: 2, label: 'badge Pluie', imageUrl: 'http://badge-pluie.net' }],
+      },
     };
 
     // when & then
-    assert.deepEqual(component.currentTargetProfileBadges, [{ id: 1, level: 2, label: 'badge Pluie' }]);
+    assert.deepEqual(component.currentTargetProfileBadges, [
+      { id: 1, level: 2, label: 'badge Pluie', imageUrl: 'http://badge-pluie.net' },
+    ]);
   });
 });

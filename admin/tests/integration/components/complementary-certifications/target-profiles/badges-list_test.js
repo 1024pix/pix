@@ -17,8 +17,8 @@ module('Integration | Component | complementary-certifications/target-profiles/b
           name: 'ALEX TARGET',
           id: 3,
           badges: [
-            { id: 1023, label: 'Badge Cascade', level: 3 },
-            { id: 1025, label: 'Badge Volcan', level: 1 },
+            { id: 1023, label: 'Badge Cascade', level: 3, imageUrl: 'http://badge-cascade.net' },
+            { id: 1025, label: 'Badge Volcan', level: 1, imageUrl: 'http://badge-volcan.net' },
           ],
         },
       ],
@@ -31,11 +31,12 @@ module('Integration | Component | complementary-certifications/target-profiles/b
     );
 
     // then
+    assert.dom(screen.getByRole('columnheader', { name: 'Image du badge certifié' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Nom du badge certifié' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Niveau du badge certifié' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'ID du RT certifiant' })).exists();
-    assert.dom(screen.getByRole('row', { name: 'Badge Cascade 3 1023' })).exists();
-    assert.dom(screen.getByRole('row', { name: 'Badge Volcan 1 1025' })).exists();
+    assert.dom(screen.getByRole('row', { name: 'Badge Cascade Badge Cascade 3 1023' })).exists();
+    assert.dom(screen.getByRole('row', { name: 'Badge Volcan Badge Volcan 1 1025' })).exists();
   });
 
   test('it should contain a link for each target profile badge', async function (assert) {
