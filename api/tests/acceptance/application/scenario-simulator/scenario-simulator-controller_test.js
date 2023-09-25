@@ -187,7 +187,7 @@ ko,aband,ok`;
         const response = await server.inject(options);
         // then
         expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(3);
+        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
       });
     });
 
@@ -202,7 +202,7 @@ ko,aband,ok`;
 
         // then
         expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(5);
+        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
       });
     });
 
@@ -217,7 +217,7 @@ ko,aband,ok`;
 
         // then
         expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(5);
+        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
       });
     });
 

@@ -9,9 +9,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
     context('when no initial capacity is provided', function () {
       it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
         // given
-        const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill' });
-        const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill' });
-        const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill' });
+        const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill', tubeId: '1' });
+        const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill', tubeId: '2' });
+        const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill', tubeId: '3' });
         const firstChallenge = domainBuilder.buildChallenge({
           id: 'one',
           skill: firstSkill,
@@ -82,9 +82,9 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         // given
         const initialCapacity = 7;
 
-        const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill' });
-        const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill' });
-        const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill' });
+        const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill', tubeId: '1' });
+        const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill', tubeId: '2' });
+        const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill', tubeId: '3' });
         const firstChallenge = domainBuilder.buildChallenge({
           id: 'one',
           skill: firstSkill,
