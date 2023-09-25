@@ -33,6 +33,7 @@ class FlashAssessmentAlgorithm {
    * @param maximumAssessmentLength - override the default limit for an assessment length
    * @param challengesBetweenSameCompetence - define a number of questions before getting another one on the same competence
    * @param minimumEstimatedSuccessRateRanges - force a minimal estimated success rate for challenges chosen at specific indexes
+   * @param limitToOneQuestionPerTube - limits questions to one per tube
    */
   constructor({
     warmUpLength,
@@ -40,12 +41,14 @@ class FlashAssessmentAlgorithm {
     maximumAssessmentLength,
     challengesBetweenSameCompetence = config.v3Certification.challengesBetweenSameCompetence,
     minimumEstimatedSuccessRateRanges = defaultMinimumEstimatedSuccessRateRanges,
+    limitToOneQuestionPerTube = true,
   } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
+    this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
   }
 
   getPossibleNextChallenges({
@@ -74,6 +77,7 @@ class FlashAssessmentAlgorithm {
         forcedCompetences: this.forcedCompetences,
         challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
         minimalSuccessRate,
+        limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
       },
     });
 

@@ -650,6 +650,69 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         });
       });
     });
+
+    describe('when we limit to one question per tube', function () {
+      describe('when a tube has already been answered', function () {
+        it('should choose the challenge from an unanswered tube', function () {
+          // Given
+          const answeredTubeId = 'answeredTubeId';
+          const firstSkillWithAnsweredTube = domainBuilder.buildSkill({
+            id: 'skill1',
+            tubeId: answeredTubeId,
+          });
+
+          const secondSkillWithAnsweredTube = domainBuilder.buildSkill({
+            id: 'skill2',
+            tubeId: answeredTubeId,
+          });
+
+          const skillForUnansweredTube = domainBuilder.buildSkill({
+            id: 'skill3',
+            tubeId: 'unansweredTubeId',
+          });
+
+          const answeredChallenge = domainBuilder.buildChallenge({
+            id: 'recCHAL1',
+            skill: firstSkillWithAnsweredTube,
+          });
+
+          const unansweredChallengeAnsweredTube = domainBuilder.buildChallenge({
+            id: 'recCHAL2',
+            skill: secondSkillWithAnsweredTube,
+            difficulty: 2,
+            discriminant: 1,
+          });
+
+          const unansweredChallengeUnansweredTube = domainBuilder.buildChallenge({
+            id: 'recCHAL3',
+            skill: skillForUnansweredTube,
+            difficulty: -2,
+            discriminant: 1,
+          });
+
+          const challenges = [answeredChallenge, unansweredChallengeAnsweredTube, unansweredChallengeUnansweredTube];
+
+          const answers = [
+            domainBuilder.buildAnswer({
+              challengeId: answeredChallenge.id,
+            }),
+          ];
+
+          // when
+          const nextChallenges = getPossibleNextChallenges({
+            allAnswers: answers,
+            challenges,
+            estimatedLevel: 2,
+            options: {
+              limitToOneQuestionPerTube: true,
+            },
+          }).possibleChallenges;
+
+          // then
+          expect(nextChallenges).to.deep.equal([unansweredChallengeUnansweredTube]);
+        });
+      });
+    });
   });
 
   describe('#getEstimatedLevelAndErrorRate', function () {
