@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', function () {
@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
         pixCertificationEligible: true,
-        eligibleComplementaryCertifications: ['CléA Numérique', 'Pix+ Droit Expert', 'Pix+ Édu 1er degré Avancé'],
+        complementaryCertifications: ['CléA Numérique', 'Pix+ Droit Expert', 'Pix+ Édu 1er degré Avancé'],
       });
 
       // when
@@ -21,11 +21,7 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
           type: 'isCertifiables',
           attributes: {
             'is-certifiable': true,
-            'eligible-complementary-certifications': [
-              'CléA Numérique',
-              'Pix+ Droit Expert',
-              'Pix+ Édu 1er degré Avancé',
-            ],
+            'complementary-certifications': ['CléA Numérique', 'Pix+ Droit Expert', 'Pix+ Édu 1er degré Avancé'],
           },
         },
       });
