@@ -346,7 +346,7 @@
         "title": "Additional information (optional)",
         "candidates-joining-issue": {
           "label": "At least one candidate was present during the certification session but couldn’t join the session.",
-          "link": "You will find '<a class=\"link\" href=\"https://cloud.pix.fr/s/JmBn2q5rpzgrjxN/download\" target=\"_blank\" rel=\"noreferrer noopener\">'here a document to help you solve this kind of connexion difficulty for the next sessions. (PDF, 66ko).'</a>'"
+          "link": "You will find '<'a class=\"link\" href=\"{joiningIssueSheetUrl}\" target=\"_blank\" rel=\"noreferrer noopener\"'>'here a document to help you solve this kind of connexion difficulty for the next sessions. (PDF, 66ko).'</a>'"
         },
         "description": "You may indicate, if need be, the events that occurred during the session. It isn’t necessary to report any missing candidates.",
         "incident": "Despite an incident having occurred during the session, the candidates have been able to finish their Pix certification exam. Additional time has been granted to at least one of the candidates."
