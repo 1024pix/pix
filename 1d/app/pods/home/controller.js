@@ -5,10 +5,13 @@ import Controller from '@ember/controller';
 
 export default class Home extends Controller {
   @service router;
-  @tracked organizationCode;
+  @tracked schoolCode;
 
+  get upperCaseCode() {
+    return this.schoolCode.toUpperCase();
+  }
   @action
-  goToOrganization() {
-    this.router.transitionTo('organization', this.organizationCode);
+  goToSchool() {
+    this.router.transitionTo('school', this.upperCaseCode);
   }
 }
