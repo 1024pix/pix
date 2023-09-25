@@ -56,4 +56,13 @@ export default class Url extends Service {
     const currentLanguage = this.intl.t('current-lang');
     return currentLanguage === 'fr' ? 'https://support.pix.org' : 'https://support.pix.org/en/support/home';
   }
+
+  get joiningIssueSheetUrl() {
+    const currentLanguage = this.intl.t('current-lang');
+    if (currentLanguage === 'fr') {
+      return 'https://cloud.pix.fr/s/zf3fGimWwPQCeWF/download/Probl%C3%A8mes%20d%27acc%C3%A8s%20en%20session.pdf';
+    }
+
+    return 'https://cloud.pix.fr/s/JmBn2q5rpzgrjxN/download';
+  }
 }

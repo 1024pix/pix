@@ -23,7 +23,11 @@
 
     {{#if this.displayJoiningIssue}}
       <PixMessage @type="info" @withIcon={{true}}>
-        {{t "pages.session-finalization.complementary-information.candidates-joining-issue.link" htmlSafe=true}}
+        {{t
+          "pages.session-finalization.complementary-information.candidates-joining-issue.link"
+          htmlSafe=true
+          joiningIssueSheetUrl=this.joiningIssueSheetUrl
+        }}
       </PixMessage>
     {{/if}}
   </div>
