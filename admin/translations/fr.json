@@ -52,6 +52,9 @@
       },
       "membership-item-role": {
         "select-role": "Sélectionner un rôle"
+      },
+      "table-headers" : {
+        "roleLabel": "Rôle"
       }
     },
     "complementary-certifications": {
@@ -136,6 +139,12 @@
           },
           "tabName": "Déclencheurs"
         }
+      }
+    },
+    "user-details": {
+      "navbar": {
+        "certification-centers-list": "Pix Certif",
+        "organizations-list": "Pix Orga"
       }
     }
   }
