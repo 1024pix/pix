@@ -4,16 +4,16 @@
   <Input
     required
     aria-describedby="code-description"
-    id="organization-code"
+    id="school-code"
     class="input-code"
     @type="text"
-    @value={{this.organizationCode}}
+    @value={{this.schoolCode}}
     maxlength="9"
   />
 </div>
 
 <div>
-  <PixButton @triggerAction={{action "goToOrganization"}}>
-    {{t "pages.home.go-to-organization"}}
+  <PixButton @triggerAction={{this.goToSchool}}>
+    {{t "pages.home.go-to-school"}}
   </PixButton>
 </div>

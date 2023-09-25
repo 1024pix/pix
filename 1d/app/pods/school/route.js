@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
-export default class OrganizationRoute extends Route {
+export default class SchoolRoute extends Route {
   @service store;
 
   async model(params) {
-    return this.store.findRecord('organization', params.code);
+    return this.store.findRecord('school', params.code);
   }
 }
