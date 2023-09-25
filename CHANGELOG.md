@@ -1,5 +1,42 @@
 # Pix Changelog
 
+## v4.37.0 (25/09/2023)
+
+
+### :rocket: Amélioration
+- [#7120](https://github.com/1024pix/pix/pull/7120) [FEATURE] Afficher la nouvelle colonne "rôle" sur le tableau listant les centres de certification d'un utilisateur (PIX-9231). .
+- [#7068](https://github.com/1024pix/pix/pull/7068) [FEATURE] Afficher la disponibilité des niveaux pour les acquis dans les sujets sur PixAdmin (PIX-9168).
+- [#7114](https://github.com/1024pix/pix/pull/7114) [FEATURE] Espacer les questions de même compétence dans la certif v3 (PIX-9213).
+- [#6956](https://github.com/1024pix/pix/pull/6956) [FEATURE] Refus d'un signalement en direct par le surveillant (PIX-8798).
+- [#7119](https://github.com/1024pix/pix/pull/7119) [FEATURE] Ajout d'un lien direct vers le badge d'un target profile de complémentaire (PIX-9149).
+- [#7123](https://github.com/1024pix/pix/pull/7123) [FEATURE] Ordonner les badges des certifications complementaires par niveaux (PIX-9308).
+- [#7055](https://github.com/1024pix/pix/pull/7055) [FEATURE][ADMIN] Permettre la modification du rôle d'un membre d'un centre de certification (PIX-4996).
+- [#7117](https://github.com/1024pix/pix/pull/7117) [FEATURE] Modification de design pour le details d'une complementaire (PIX-9146).
+- [#7084](https://github.com/1024pix/pix/pull/7084) [FEATURE] Conditionner l'affichage des champs du tableau des RT certifiants selon le volet de la certification complémentaire sur Pix Admin (PIX-9006).
+
+### :building_construction: Tech
+- [#7125](https://github.com/1024pix/pix/pull/7125) [TECH] Exclure les learners toujours présent de la liste à désactiver (PIX-9345).
+- [#7115](https://github.com/1024pix/pix/pull/7115) [TECH] Migrer les routes SUP Import Replace dans son Bounded Context (PIX-9301).
+
+### :bug: Correction
+- [#7133](https://github.com/1024pix/pix/pull/7133) [BUGFIX] Ne plus activer tout les learners lors d'une nouvelle participation à une campagne (PIX-9353).
+- [#7099](https://github.com/1024pix/pix/pull/7099) [BUGFIX] ajoute le statut « en construction » au filtre des « skills » pris en compte pour pix1d.
+- [#7105](https://github.com/1024pix/pix/pull/7105) [BUGFIX] Corriger l'affichage de l'historique des profils cibles rattachés sur Pix Admin (PIX-9274).
+
+### :arrow_up: Montée de version
+- [#7132](https://github.com/1024pix/pix/pull/7132) [BUMP] Update dependency sinon to v16 (orga).
+- [#7128](https://github.com/1024pix/pix/pull/7128) [BUMP] Update dependency sinon to v16 (load-testing).
+- [#7131](https://github.com/1024pix/pix/pull/7131) [BUMP] Update dependency sinon to v16 (mon-pix).
+- [#7126](https://github.com/1024pix/pix/pull/7126) [BUMP] Update dependency sinon to v16 (api).
+- [#7127](https://github.com/1024pix/pix/pull/7127) [BUMP] Update dependency sinon to v16 (certif).
+- [#7097](https://github.com/1024pix/pix/pull/7097) [BUMP] Update dependency @1024pix/pix-ui to v40 (admin).
+- [#7121](https://github.com/1024pix/pix/pull/7121) [BUMP] Update dependency sinon to v16 (1d).
+- [#7122](https://github.com/1024pix/pix/pull/7122) [BUMP] Update dependency sinon to v16 (admin).
+- [#7113](https://github.com/1024pix/pix/pull/7113) [BUMP] Update dependency ember-intl to v6 (mon-pix).
+
+### :coffee: Autre
+- [#6986](https://github.com/1024pix/pix/pull/6986) [ADR] Compatibilité avec les différents navigateurs web (browser support).
+
 ## v4.36.0 (20/09/2023)
 
 
