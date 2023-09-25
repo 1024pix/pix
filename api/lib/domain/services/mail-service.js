@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { tokenService } from './token-service.js';
-import { mailer } from '../../infrastructure/mailers/mailer.js';
+import { mailer } from '../../../src/shared/infrastructure/mailers/mailer.js';
 import { config } from '../../config.js';
 
 import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
