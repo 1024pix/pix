@@ -1,1 +1,19 @@
 {{page-title "Home"}}
+
+<div>
+  <Input
+    required
+    aria-describedby="code-description"
+    id="organization-code"
+    class="input-code"
+    @type="text"
+    @value={{this.organizationCode}}
+    maxlength="9"
+  />
+</div>
+
+<div>
+  <PixButton @triggerAction={{action "goToOrganization"}}>
+    {{t "pages.home.go-to-organization"}}
+  </PixButton>
+</div>

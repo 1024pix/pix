@@ -5,6 +5,11 @@
         "placeholder": "Chargement de l'image en cours"
       }
     },
+    "home": {
+      "title": "Bienvenue chez Pix1D",
+      "code-description": "Ce code est composé de 9 chiffres et/ou lettres.",
+      "go-to-organization": "Accéder à mon école"
+    },
     "not-found": {
       "title": "Page non trouvée",
       "message": "La page que tu cherches n'existe pas sur Pix1D.",

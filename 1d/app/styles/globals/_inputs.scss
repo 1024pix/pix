@@ -1,0 +1,25 @@
+input.input-code {
+  box-sizing: content-box;
+  min-height: 50px;
+  padding: 0 1px 1px 0.5ch;
+  color: var(--pix-color-neutral-70);
+  font-size: 1.875rem;
+  font-family: $font-nunito;
+  letter-spacing: 0.5ch;
+  text-transform: uppercase;
+  background: repeating-linear-gradient(
+      90deg,
+      var(--pix-color-neutral-10) 0,
+      var(--pix-color-neutral-70) 1ch,
+      transparent 0,
+      transparent 1.5ch
+  ) 0 96% / 98% 2px no-repeat;
+  background-origin: content-box;
+  border: solid 2px var(--pix-color-neutral-70);
+  border-radius: 3px;
+
+  &::-ms-clear {
+    // not display cross that allow to clear field
+    display: none;
+  }
+}
