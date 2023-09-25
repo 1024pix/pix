@@ -65,4 +65,13 @@ export default class Url extends Service {
 
     return 'https://cloud.pix.fr/s/JmBn2q5rpzgrjxN/download';
   }
+
+  get urlToDownloadSessionIssueReportSheet() {
+    const currentLanguage = this.intl.t('current-lang');
+    if (currentLanguage === 'fr') {
+      return 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download';
+    }
+
+    return 'https://cloud.pix.fr/s/ro7jHtsZZbY5SCX/download';
+  }
 }

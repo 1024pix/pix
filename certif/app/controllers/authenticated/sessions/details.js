@@ -8,6 +8,7 @@ import { alias } from '@ember/object/computed';
 export default class SessionsDetailsController extends Controller {
   @service currentUser;
   @service intl;
+  @service url;
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
@@ -35,5 +36,9 @@ export default class SessionsDetailsController extends Controller {
 
   get shouldDisplayPrescriptionScoStudentRegistrationFeature() {
     return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
+  }
+
+  get urlToDownloadSessionIssueReportSheet() {
+    return this.url.urlToDownloadSessionIssueReportSheet;
   }
 }
