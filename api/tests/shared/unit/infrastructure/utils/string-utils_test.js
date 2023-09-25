@@ -1,5 +1,4 @@
-import { expect } from '../../../test-helper.js';
-
+import { expect } from '../../../../test-helper.js';
 import {
   isNumeric,
   cleanStringAndParseFloat,
@@ -8,9 +7,9 @@ import {
   normalizeAndSortChars,
   normalize,
   toArrayOfFixedLengthStringsConservingWords,
-} from '../../../../lib/infrastructure/utils/string-utils.js';
+} from '../../../../../src/shared/infrastructure/utils/string-utils.js';
 
-describe('Unit | Utils | string-utils', function () {
+describe('Unit | Shared | infrastructure | Utils | string-utils', function () {
   const zeroWidthSpaceChar = '​';
 
   describe('#isNumeric', function () {
