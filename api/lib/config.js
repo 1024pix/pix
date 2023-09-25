@@ -342,6 +342,7 @@ const configuration = (function () {
     config.features.dayBeforeImproving = 4;
     config.features.dayBeforeCompetenceResetV2 = 7;
     config.features.garAccessV2 = false;
+    config.features.maxReachableLevel = 5;
     config.features.numberOfChallengesForFlashMethod = 10;
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
