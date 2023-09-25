@@ -412,7 +412,10 @@
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
-        "complementary-certification-eligibility": "Vous êtes également éligible { count, plural, =1 {à la certification complémentaire} other {aux certifications complémentaires} } :",
+        "complementary-certification": {
+          "eligible": "Vous êtes également éligible { count, plural, =1 {à la certification complémentaire} other {aux certifications complémentaires} } :",
+          "outdated": "<strong>Vous n'êtes plus éligible à la certification {complementaryCertificationName} suite à son évolution.</strong><br />Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
+        },
         "link": {
           "text": "Comment se certifier ?",
           "url": "https://pix.fr/se-certifier#slice-2"

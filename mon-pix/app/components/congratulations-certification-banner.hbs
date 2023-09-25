@@ -5,7 +5,7 @@
   <p class="congratulations-banner__message">
     {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
   </p>
-  {{#if this.isEligible}}
+  {{#if (gt this.numberOfEligibleComplementaryCertifications 0)}}
     <div class="congratulations-banner__complementary-certifications">
       <div class="congratulations-banner-complementary-certifications__icons">
         {{#each @certificationEligibility.complementaryCertifications as |complementaryCertification|}}
@@ -14,7 +14,7 @@
       </div>
       <div class="congratulations-banner-complementary-certifications__list">
         <p class="congratulations-banner-complementary-certifications-list__message">
-          {{t "pages.certification-joiner.congratulation-banner.complementary-certification.eligible" count=@certificationEligibility.complementaryCertifications.length}}
+          {{t "pages.certification-joiner.congratulation-banner.complementary-certification.eligible" count=this.numberOfEligibleComplementaryCertifications}}
         </p>
         <ul class="congratulations-banner-complementary-certifications-list__labels">
           {{#each @certificationEligibility.complementaryCertifications as |complementaryCertification|}}
@@ -34,3 +34,23 @@
     </LinkTo>
   </div>
 </div>
+{{#if (gt this.numberOfOutdatedComplementaryCertifications 0)}}
+  <div class="oudated-certification-banners">
+    {{#each @certificationEligibility.complementaryCertifications as |complementaryCertification|}}
+      <div class="oudated-certification-banners__row">
+        <img
+          class="oudated-certification-banners__icon"
+          src={{complementaryCertification.imageUrl}}
+          alt={{complementaryCertification.label}}
+        />
+        <p class="oudated-certification-banners__message">
+          {{t
+            "pages.certification-joiner.congratulation-banner.complementary-certification.outdated"
+            complementaryCertificationName=complementaryCertification.label
+            htmlSafe=true
+          }}
+        </p>
+      </div>
+    {{/each}}
+  </div>
+{{/if}}
