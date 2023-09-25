@@ -49,6 +49,8 @@ async function _createSco1dOrganizations(databaseBuilder) {
     memberIds: [ALL_ORGANIZATION_USER_ID],
   });
 
+  await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_1_ID, code: 'MINIPIXOU' });
+
   await tooling.organization.createOrganization({
     databaseBuilder,
     organizationId: TEAM_1D_ORGANIZATION_2_ID,
@@ -62,6 +64,7 @@ async function _createSco1dOrganizations(databaseBuilder) {
     tagIds: [],
     adminIds: [TEAM_1D_USER_ID],
   });
+  await databaseBuilder.factory.buildSchool({ organizationId: TEAM_1D_ORGANIZATION_2_ID, code: 'MAXIPIXOU' });
 }
 
 export { team1dDataBuilder };
