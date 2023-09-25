@@ -303,7 +303,7 @@
           "select-subcategory": "Select a subcategory:",
           "select-subcategory-label": "Select a subcategory",
           "specify": "Specify",
-          "transmit-report": "Please transmit the fraud report filled in during the certification session by using '<span><a class=\"link\" href=\"https://form-eu.123formbuilder.com/41052/form\" target=\"_blank\" rel=\"noreferrer\">'this form'</a></span>'"
+          "transmit-report": "Please transmit the fraud report filled in during the certification session by using '<span><'a class=\"link\" href=\"{fraudFormUrl}\" target=\"_blank\" rel=\"noreferrer\"'>'this form'</a></span>'"
         },
         "category-labels": {
           "candidate-informations-changes": "Edit the candidate’s details",

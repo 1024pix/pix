@@ -14,21 +14,18 @@ export default class Url extends Service {
   }
 
   get cguUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') return 'https://pix.org/en-gb/terms-and-conditions';
+    if (this.#isEnglishSpoken()) return 'https://pix.org/en-gb/terms-and-conditions';
     return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
   }
 
   get dataProtectionPolicyUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'en') return 'https://pix.org/en-gb/personal-data-protection-policy';
+    if (this.#isEnglishSpoken()) return 'https://pix.org/en-gb/personal-data-protection-policy';
     return `https://pix.${this.currentDomain.getExtension()}/politique-protection-donnees-personnelles-app`;
   }
 
   get forgottenPasswordUrl() {
-    const currentLanguage = this.intl.t('current-lang');
     let url = `${this.pixAppUrlWithoutExtension}${this.currentDomain.getExtension()}/mot-de-passe-oublie`;
-    if (currentLanguage === 'en') {
+    if (this.#isEnglishSpoken()) {
       url += '?lang=en';
     }
     return url;
@@ -37,15 +34,13 @@ export default class Url extends Service {
   get legalNoticeUrl() {
     if (this.currentDomain.isFranceDomain) return 'https://pix.fr/mentions-legales';
 
-    const currentLanguage = this.intl.t('current-lang');
-    return currentLanguage === 'fr' ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en-gb/legal-notice';
+    return this.#isFrenchSpoken() ? 'https://pix.org/fr/mentions-legales' : 'https://pix.org/en-gb/legal-notice';
   }
 
   get accessibilityUrl() {
     if (this.currentDomain.isFranceDomain) return 'https://pix.fr/accessibilite-pix-certif';
 
-    const currentLanguage = this.intl.t('current-lang');
-    return currentLanguage === 'fr'
+    return this.#isFrenchSpoken()
       ? 'https://pix.org/fr/accessibilite-pix-certif'
       : 'https://pix.org/en-gb/accessibility-pix-certif';
   }
@@ -53,13 +48,11 @@ export default class Url extends Service {
   get supportUrl() {
     if (this.currentDomain.isFranceDomain) return 'https://support.pix.fr';
 
-    const currentLanguage = this.intl.t('current-lang');
-    return currentLanguage === 'fr' ? 'https://support.pix.org' : 'https://support.pix.org/en/support/home';
+    return this.#isFrenchSpoken() ? 'https://support.pix.org' : 'https://support.pix.org/en/support/home';
   }
 
   get joiningIssueSheetUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'fr') {
+    if (this.#isFrenchSpoken()) {
       return 'https://cloud.pix.fr/s/zf3fGimWwPQCeWF/download/Probl%C3%A8mes%20d%27acc%C3%A8s%20en%20session.pdf';
     }
 
@@ -67,11 +60,26 @@ export default class Url extends Service {
   }
 
   get urlToDownloadSessionIssueReportSheet() {
-    const currentLanguage = this.intl.t('current-lang');
-    if (currentLanguage === 'fr') {
+    if (this.#isFrenchSpoken()) {
       return 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download';
     }
 
     return 'https://cloud.pix.fr/s/ro7jHtsZZbY5SCX/download';
+  }
+
+  get fraudFormUrl() {
+    if (this.#isFrenchSpoken()) {
+      return 'https://form-eu.123formbuilder.com/41052/form';
+    }
+
+    return 'https://cloud.pix.fr/s/6Ltnqkf4emQEooS/download';
+  }
+
+  #isFrenchSpoken() {
+    return this.intl.t('current-lang') === 'fr';
+  }
+
+  #isEnglishSpoken() {
+    return this.intl.t('current-lang') === 'en';
   }
 }
