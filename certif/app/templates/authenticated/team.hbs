@@ -39,6 +39,9 @@
     <LinkTo @route="authenticated.team.list.members" class="navbar-item">
       {{t "pages.team.tabs.member" count=@model.members.length}}
     </LinkTo>
+    <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
+      {{t "pages.team.tabs.invitation" count=@model.invitations.length}}
+    </LinkTo>
   </nav>
   {{outlet}}
 
