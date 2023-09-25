@@ -1,9 +1,12 @@
 import { htmlSafe } from '@ember/template';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import setupIntl from '../../helpers/setup-intl';
 
 module('Unit | Helper | TextWithMultipleLang', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
+
   let helper;
   hooks.beforeEach(function () {
     helper = this.owner.factoryFor('helper:text-with-multiple-lang').create();
