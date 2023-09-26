@@ -1,6 +1,6 @@
 'use strict';
 
-const browsers = ['> 1%', 'firefox 58'];
+const browsers = ['defaults', 'last 4 years'];
 
 module.exports = {
   browsers,
