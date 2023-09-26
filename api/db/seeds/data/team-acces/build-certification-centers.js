@@ -30,7 +30,7 @@ export async function buildCertificationCenters(databaseBuilder) {
       email: 'lee-tige@example.net',
       username: 'lee.tige',
     },
-  ].map((user) => _buildUsersWithRawPassword({ databaseBuilder, ...user }));
+  ].map((user) => _buildUsersWithDefaultPassword({ databaseBuilder, ...user }));
 
   const { certificationCenterId } = await createCertificationCenter({
     name: 'Accèssorium',
@@ -47,7 +47,7 @@ export async function buildCertificationCenters(databaseBuilder) {
   });
 }
 
-function _buildUsersWithRawPassword({
+function _buildUsersWithDefaultPassword({
   databaseBuilder,
   firstName,
   lastName,
