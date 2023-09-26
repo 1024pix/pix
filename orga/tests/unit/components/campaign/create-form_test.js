@@ -2,11 +2,9 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
-import { setupIntl } from 'ember-intl/test-support';
 
 module('Unit | Component | Campaign::CreateForm', (hooks) => {
   setupTest(hooks);
-  setupIntl(hooks);
 
   module('#onChangeCampaignOwner', function () {
     test('should set new owner id', async function (assert) {
