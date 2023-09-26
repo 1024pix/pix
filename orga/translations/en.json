@@ -167,7 +167,7 @@
     },
     "form": {
       "mandatory-all-fields": "All fields are required.",
-      "mandatory-fields": " indicates a required field",
+      "mandatory-fields": "indicates a required field",
       "mandatory-fields-title": "required"
     },
     "fullname": "{firstName} {lastName}",
@@ -192,7 +192,7 @@
     },
     "target-profile-details": {
       "results": {
-        "common": "Success rate in ",
+        "common": "Success rate in",
         "percent": "percentage",
         "star": "stars"
       },
