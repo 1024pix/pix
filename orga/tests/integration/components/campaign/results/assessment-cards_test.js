@@ -2,11 +2,9 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupIntl, t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Results::AssessmentCards', function (hooks) {
   setupIntlRenderingTest(hooks);
-  setupIntl(hooks);
 
   module('When the campaign has no stages', function () {
     test('It should display average result card', async function (assert) {
@@ -17,7 +15,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} />`);
 
       //then
-      assert.contains(t('cards.participants-average-results.title'));
+      assert.contains(this.intl.t('cards.participants-average-results.title'));
     });
   });
 
@@ -38,7 +36,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       );
 
       //then
-      assert.contains(t('cards.participants-average-stages.title'));
+      assert.contains(this.intl.t('cards.participants-average-stages.title'));
     });
   });
 
@@ -52,6 +50,6 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
     );
 
     //then
-    assert.contains(t('cards.submitted-count.title'));
+    assert.contains(this.intl.t('cards.submitted-count.title'));
   });
 });
