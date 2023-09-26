@@ -49,7 +49,7 @@ describe('Unit | Controller | assessment-controller-save', function () {
         await controller.save(request, hFake, { assessmentRepository: assessmentRepositoryStub });
 
         // then
-        expect(assessmentRepositoryStub.save).to.have.been.calledWith({ assessment: expected });
+        expect(assessmentRepositoryStub.save).to.have.been.calledWithExactly({ assessment: expected });
       });
     });
   });

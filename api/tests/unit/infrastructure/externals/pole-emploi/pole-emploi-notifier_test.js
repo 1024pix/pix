@@ -127,7 +127,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
 
         // then
-        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWithExactly({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'send-results',
           'participation-state': 'PARTICIPATION_COMPLETED',
@@ -173,7 +173,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         await notify(userId, payload, { authenticationMethodRepository, httpAgent, httpErrorsHelper, monitoringTools });
 
         // then
-        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWithExactly({
           event: 'participation-send-pole-emploi',
           'pole-emploi-action': 'refresh-token',
           'participation-state': 'PARTICIPATION_STARTED',
@@ -205,7 +205,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           // then
           expect(
             authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
-          ).to.have.been.calledWith({
+          ).to.have.been.calledWithExactly({
             authenticationComplement,
             userId,
             identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
@@ -300,7 +300,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           });
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
             event: 'participation-send-pole-emploi',
             'pole-emploi-action': 'refresh-token',
             'participation-state': 'PARTICIPATION_STARTED',
@@ -361,7 +361,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           });
 
           // then
-          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+          expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
             event: 'participation-send-pole-emploi',
             'pole-emploi-action': 'send-results',
             'participation-state': 'PARTICIPATION_SHARED',

@@ -56,7 +56,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
             datasetId: 'datasetId',
             results: simulationResults,
           });
-          expect(usecases.simulateOldScoring).to.have.been.calledWith({
+          expect(usecases.simulateOldScoring).to.have.been.calledWithExactly({
             simulations: [
               new ScoringSimulation({
                 answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
@@ -120,7 +120,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
             datasetId: 'datasetId',
             results: simulationResults,
           });
-          expect(usecases.simulateFlashScoring).to.have.been.calledWith({
+          expect(usecases.simulateFlashScoring).to.have.been.calledWithExactly({
             simulations: [
               new ScoringSimulation({
                 user: {

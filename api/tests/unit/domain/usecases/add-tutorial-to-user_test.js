@@ -33,7 +33,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
         });
 
         // Then
-        expect(userSavedTutorialRepository.addTutorial).to.have.been.calledWith({ userId, tutorialId, skillId });
+        expect(userSavedTutorialRepository.addTutorial).to.have.been.calledWithExactly({ userId, tutorialId, skillId });
         expect(skillRepository.get).not.to.have.been.called;
       });
     });
@@ -58,8 +58,12 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
           });
 
           // Then
-          expect(userSavedTutorialRepository.addTutorial).to.have.been.calledWith({ userId, tutorialId, skillId });
-          expect(skillRepository.get).to.have.been.calledWith(skillId);
+          expect(userSavedTutorialRepository.addTutorial).to.have.been.calledWithExactly({
+            userId,
+            tutorialId,
+            skillId,
+          });
+          expect(skillRepository.get).to.have.been.calledWithExactly(skillId);
         });
       });
 
@@ -83,7 +87,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function () {
 
           // Then
           expect(error).to.be.instanceOf(NotFoundError);
-          expect(skillRepository.get).to.have.been.calledWith(skillId);
+          expect(skillRepository.get).to.have.been.calledWithExactly(skillId);
         });
       });
     });

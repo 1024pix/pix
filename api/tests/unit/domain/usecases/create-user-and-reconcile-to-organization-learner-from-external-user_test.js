@@ -68,7 +68,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
     });
 
     it('should return an access token', async function () {
@@ -141,7 +141,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-fro
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
     });
 
     it('should return an access token', async function () {

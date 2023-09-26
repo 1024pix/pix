@@ -53,7 +53,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       // then
       expect(error).to.be.an.instanceOf(UnexpectedOidcStateError);
-      expect(logger.error).to.have.been.calledWith(
+      expect(logger.error).to.have.been.calledWithExactly(
         `State sent ${stateSent} did not match the state received ${stateReceived}`,
       );
     });
@@ -99,7 +99,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     });
 
     // then
-    expect(oidcAuthenticationService.getUserInfo).to.have.been.calledWith({
+    expect(oidcAuthenticationService.getUserInfo).to.have.been.calledWithExactly({
       idToken: sessionContent.idToken,
       accessToken: sessionContent.accessToken,
     });
@@ -121,7 +121,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     });
 
     // then
-    expect(userRepository.findByExternalIdentifier).to.have.been.calledWith({
+    expect(userRepository.findByExternalIdentifier).to.have.been.calledWithExactly({
       externalIdentityId,
       identityProvider: oidcAuthenticationService.identityProvider,
     });
@@ -149,7 +149,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       });
 
       // then
-      expect(authenticationSessionService.save).to.have.been.calledWith(sessionContent);
+      expect(authenticationSessionService.save).to.have.been.calledWithExactly(sessionContent);
       expect(result).to.deep.equal({ authenticationKey, givenName, familyName, isAuthenticationComplete: false });
     });
 
@@ -227,7 +227,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         // then
         expect(
           authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
-        ).to.have.been.calledWith({
+        ).to.have.been.calledWithExactly({
           authenticationComplement,
           userId: 1,
           identityProvider: oidcAuthenticationService.identityProvider,
@@ -297,7 +297,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       // then
       expect(
         authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
-      ).to.have.been.calledWith({
+      ).to.have.been.calledWithExactly({
         authenticationComplement,
         userId: 10,
         identityProvider: oidcAuthenticationService.identityProvider,

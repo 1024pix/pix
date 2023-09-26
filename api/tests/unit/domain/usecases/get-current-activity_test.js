@@ -9,7 +9,7 @@ describe('Unit | Domain | Use Cases | get-current-activity', function () {
 
       await getCurrentActivity({ assessmentId, activityRepository });
 
-      expect(activityRepository.getLastActivity).to.have.been.calledWith(assessmentId);
+      expect(activityRepository.getLastActivity).to.have.been.calledWithExactly(assessmentId);
     });
   });
 });

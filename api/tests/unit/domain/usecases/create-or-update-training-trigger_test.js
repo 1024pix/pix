@@ -58,7 +58,7 @@ describe('Unit | UseCase | create-or-update-training-trigger', function () {
       });
 
       // then
-      expect(trainingTriggerRepository.createOrUpdate).to.have.been.calledWith({
+      expect(trainingTriggerRepository.createOrUpdate).to.have.been.calledWithExactly({
         trainingId,
         triggerTubesForCreation: tubes,
         type,

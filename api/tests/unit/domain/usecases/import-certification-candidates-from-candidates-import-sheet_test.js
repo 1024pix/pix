@@ -119,11 +119,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
           });
 
           // then
-          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWith({
+          expect(certificationCandidateRepository.deleteBySessionId).to.have.been.calledWithExactly({
             sessionId,
             domainTransaction,
           });
-          expect(certificationCandidateRepository.saveInSession).to.have.been.calledWith({
+          expect(certificationCandidateRepository.saveInSession).to.have.been.calledWithExactly({
             certificationCandidate,
             sessionId,
             domainTransaction,

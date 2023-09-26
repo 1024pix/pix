@@ -76,12 +76,12 @@ describe('Unit | UseCase | anonymize-user', function () {
       domainTransaction,
     });
     expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
-    expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWith({
+    expect(membershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
       userId,
       updatedByUserId,
       domainTransaction,
     });
-    expect(certificationCenterMembershipRepository.disableMembershipsByUserId).to.have.been.calledWith({
+    expect(certificationCenterMembershipRepository.disableMembershipsByUserId).to.have.been.calledWithExactly({
       updatedByUserId,
       userId,
       domainTransaction,
@@ -95,6 +95,6 @@ describe('Unit | UseCase | anonymize-user', function () {
       userId,
       domainTransaction,
     });
-    expect(adminMemberRepository.get).to.have.been.calledWith({ userId: updatedByUserId });
+    expect(adminMemberRepository.get).to.have.been.calledWithExactly({ userId: updatedByUserId });
   });
 });

@@ -31,7 +31,7 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
     });
 
     // then
-    expect(organizationLearnerRepositoryStub.dissociateUserFromOrganizationLearner).to.be.have.been.calledWith(
+    expect(organizationLearnerRepositoryStub.dissociateUserFromOrganizationLearner).to.be.have.been.calledWithExactly(
       organizationLearnerId,
     );
   });

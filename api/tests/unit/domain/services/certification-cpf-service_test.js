@@ -422,7 +422,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(cpfBirthInformationValidation);
-            expect(certificationCpfCityRepository.findByINSEECode).to.have.been.calledWith({
+            expect(certificationCpfCityRepository.findByINSEECode).to.have.been.calledWithExactly({
               INSEECode: birthInformation.birthINSEECode,
             });
           });
@@ -534,7 +534,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
             // then
             expect(result).to.deep.equal(cpfBirthInformationValidation);
-            expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWith({
+            expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWithExactly({
               postalCode: birthInformation.birthPostalCode,
             });
           });
@@ -582,7 +582,7 @@ describe('Unit | Service | Certification CPF service', function () {
 
               // then
               expect(result).to.deep.equal(cpfBirthInformationValidation);
-              expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWith({
+              expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWithExactly({
                 postalCode: birthInformation.birthPostalCode,
               });
             });

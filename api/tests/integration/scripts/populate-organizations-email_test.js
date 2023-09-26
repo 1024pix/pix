@@ -32,7 +32,7 @@ describe('Integration | Scripts | populate-organizations-email.js', function () 
       expect(organizations).to.deep.include(csvData[1]);
       expect(organizations).to.not.deep.include(csvData[2]);
       // eslint-disable-next-line no-console
-      expect(console.error).to.have.been.calledWith('Organization not found for External ID unknown');
+      expect(console.error).to.have.been.calledWithExactly('Organization not found for External ID unknown');
     });
   });
 });

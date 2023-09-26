@@ -426,13 +426,13 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               });
 
               // then
-              expect(certificationCandidateRepository.linkToUser).to.have.been.calledWith({
+              expect(certificationCandidateRepository.linkToUser).to.have.been.calledWithExactly({
                 id: certificationCandidate.id,
                 userId,
               });
               expect(
                 organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
-              ).to.have.been.calledWith({ userId, organizationLearnerId: organizationLearner.id });
+              ).to.have.been.calledWithExactly({ userId, organizationLearnerId: organizationLearner.id });
               expect(event).to.be.instanceOf(UserLinkedToCertificationCandidate);
             });
           });
@@ -508,7 +508,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               // then
               expect(
                 organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
-              ).to.have.been.calledWith({ userId, organizationLearnerId: organizationLearner.id });
+              ).to.have.been.calledWithExactly({ userId, organizationLearnerId: organizationLearner.id });
               expect(error).to.be.an.instanceof(UserAlreadyLinkedToCandidateInSessionError);
             });
           });

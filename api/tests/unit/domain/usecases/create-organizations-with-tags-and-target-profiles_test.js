@@ -115,7 +115,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     });
 
     // then
-    expect(organizationValidator.validate).to.have.been.calledWith(organizations[0]);
+    expect(organizationValidator.validate).to.have.been.calledWithExactly(organizations[0]);
   });
 
   it('should throw an error when organization tags not exists', async function () {
@@ -428,7 +428,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
     });
 
     // then
-    expect(organizationInvitationService.createProOrganizationInvitation).to.have.been.calledWith({
+    expect(organizationInvitationService.createProOrganizationInvitation).to.have.been.calledWithExactly({
       organizationRepository: organizationRepositoryStub,
       organizationInvitationRepository: organizationInvitationRepositoryStub,
       organizationId: firstOrganizationWithAdminRole.id,
@@ -437,7 +437,7 @@ describe('Unit | UseCase | create-organizations-with-tags-and-target-profiles', 
       role: firstOrganizationWithAdminRole.organizationInvitationRole,
       locale: firstOrganizationWithAdminRole.locale,
     });
-    expect(organizationInvitationService.createProOrganizationInvitation).to.have.been.calledWith({
+    expect(organizationInvitationService.createProOrganizationInvitation).to.have.been.calledWithExactly({
       organizationRepository: organizationRepositoryStub,
       organizationInvitationRepository: organizationInvitationRepositoryStub,
       organizationId: secondOrganizationWithMemberRole.id,

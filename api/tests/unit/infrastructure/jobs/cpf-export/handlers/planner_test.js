@@ -64,7 +64,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
       offset: 4,
       batchId: '237584-7648#2',
     });
-    expect(cpfCertificationResultRepository.countByTimeRange).to.have.been.calledWith({ startDate, endDate });
+    expect(cpfCertificationResultRepository.countByTimeRange).to.have.been.calledWithExactly({ startDate, endDate });
     expect(pgBoss.insert).to.have.been.calledOnceWith([
       {
         name: 'CpfExportBuilderJob',

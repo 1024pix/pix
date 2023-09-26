@@ -52,7 +52,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         sinon.stub(logger, 'error');
         csvSerializer.serializeLine([{}]);
         // then
-        expect(logger.error).to.have.been.calledWith(
+        expect(logger.error).to.have.been.calledWithExactly(
           'Unknown value type in _csvSerializeValue: object: [object Object]',
         );
       });
@@ -62,7 +62,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         sinon.stub(logger, 'error');
         csvSerializer.serializeLine([null]);
         // then
-        expect(logger.error).to.have.been.calledWith('Unknown value type in _csvSerializeValue: object: null');
+        expect(logger.error).to.have.been.calledWithExactly('Unknown value type in _csvSerializeValue: object: null');
       });
 
       it('given undefined', async function () {
@@ -70,7 +70,9 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
         sinon.stub(logger, 'error');
         csvSerializer.serializeLine([undefined]);
         // then
-        expect(logger.error).to.have.been.calledWith('Unknown value type in _csvSerializeValue: undefined: undefined');
+        expect(logger.error).to.have.been.calledWithExactly(
+          'Unknown value type in _csvSerializeValue: undefined: undefined',
+        );
       });
     });
   });
@@ -1059,7 +1061,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       });
 
       // then
-      expect(checkCsvHeaderStub).to.have.been.calledWith({ filePath, requiredFieldNames });
+      expect(checkCsvHeaderStub).to.have.been.calledWithExactly({ filePath, requiredFieldNames });
     });
   });
 

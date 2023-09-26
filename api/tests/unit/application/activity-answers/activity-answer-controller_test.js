@@ -54,7 +54,7 @@ describe('Unit | Controller | activity-answer-controller', function () {
       });
 
       // then
-      expect(usecases.correctAnswer).to.have.been.calledWith({
+      expect(usecases.correctAnswer).to.have.been.calledWithExactly({
         activityAnswer: deserializedPayload.activityAnswer,
         assessmentId,
       });

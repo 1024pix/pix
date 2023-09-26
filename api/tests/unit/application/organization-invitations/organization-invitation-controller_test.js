@@ -27,7 +27,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
-      expect(usecases.acceptOrganizationInvitation).to.have.been.calledWith({
+      expect(usecases.acceptOrganizationInvitation).to.have.been.calledWithExactly({
         organizationInvitationId: organizationInvitation.id,
         code,
         email,
@@ -58,7 +58,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationMember).to.have.been.calledWith({
+      expect(usecases.createCertificationCenterMembershipForScoOrganizationMember).to.have.been.calledWithExactly({
         membership,
       });
     });
@@ -85,7 +85,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       });
 
       // then
-      expect(usecases.getOrganizationInvitation).to.have.been.calledWith({
+      expect(usecases.getOrganizationInvitation).to.have.been.calledWithExactly({
         organizationInvitationId,
         organizationInvitationCode,
       });

@@ -13,7 +13,10 @@ describe('Event Choreography | Rescore Certification', function () {
     await eventDispatcher.dispatch(event);
 
     // then
-    expect(handlerStubs.handleCertificationRescoring).to.have.been.calledWith({ domainTransaction: undefined, event });
+    expect(handlerStubs.handleCertificationRescoring).to.have.been.calledWithExactly({
+      domainTransaction: undefined,
+      event,
+    });
   });
 
   it('Should trigger Certification Rescoring handler on ChallengeDeneutralized event', async function () {
@@ -25,6 +28,9 @@ describe('Event Choreography | Rescore Certification', function () {
     await eventDispatcher.dispatch(event);
 
     // then
-    expect(handlerStubs.handleCertificationRescoring).to.have.been.calledWith({ domainTransaction: undefined, event });
+    expect(handlerStubs.handleCertificationRescoring).to.have.been.calledWithExactly({
+      domainTransaction: undefined,
+      event,
+    });
   });
 });

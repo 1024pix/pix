@@ -21,7 +21,7 @@ describe('Unit | UseCase | find-latest-user-campaign-participations', function (
     });
 
     // then
-    expect(campaignParticipationRepository.findLatestOngoingByUserId).to.have.been.calledWith(userId);
+    expect(campaignParticipationRepository.findLatestOngoingByUserId).to.have.been.calledWithExactly(userId);
   });
 
   it('should return user with his campaign participations', async function () {

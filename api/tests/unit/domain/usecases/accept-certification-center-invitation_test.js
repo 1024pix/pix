@@ -59,8 +59,10 @@ describe('Unit | UseCase | accept-certification-center-invitation', function () 
     });
 
     // then
-    expect(certificationCenterInvitedUserRepository.save).to.have.been.calledWith(certificationCenterInvitedUser);
-    expect(userRepository.update).to.have.been.calledWith({ id: user.id, locale: 'fr-BE' });
+    expect(certificationCenterInvitedUserRepository.save).to.have.been.calledWithExactly(
+      certificationCenterInvitedUser,
+    );
+    expect(userRepository.update).to.have.been.calledWithExactly({ id: user.id, locale: 'fr-BE' });
   });
 
   it('does not sets the user locale if there is not a localeFromCookie, updates the invitation status to accepted with date and creates a membership for the user', async function () {

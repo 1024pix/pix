@@ -43,7 +43,7 @@ describe('Unit | Service | password-generator', function () {
       generatedPassword = service.generateComplexPassword();
 
       // then
-      expect(randomString.generate).to.have.been.calledWith({
+      expect(randomString.generate).to.have.been.calledWithExactly({
         length: 32,
         charset: 'alphanumeric',
       });

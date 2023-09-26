@@ -127,7 +127,7 @@ describe('Unit | UseCase | send-verification-code', function () {
     });
 
     // then
-    expect(mailService.sendVerificationCodeEmail).to.have.been.calledWith({
+    expect(mailService.sendVerificationCodeEmail).to.have.been.calledWithExactly({
       code,
       locale,
       email: newEmail,

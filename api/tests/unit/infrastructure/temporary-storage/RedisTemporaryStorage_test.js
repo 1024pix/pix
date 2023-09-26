@@ -85,7 +85,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       await redisTemporaryStorage.save({ value, expirationDelaySeconds });
 
       // then
-      expect(clientStub.set).to.have.been.calledWith(
+      expect(clientStub.set).to.have.been.calledWithExactly(
         sinon.match.any,
         JSON.stringify(value),
         EXPIRATION_PARAMETER,
@@ -123,7 +123,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       await redisTemporaryStorage.update(key, value);
 
       // then
-      expect(clientStub.set).to.have.been.calledWith(sinon.match.any, JSON.stringify(value), KEEPTTL_PARAMETER);
+      expect(clientStub.set).to.have.been.calledWithExactly(sinon.match.any, JSON.stringify(value), KEEPTTL_PARAMETER);
     });
   });
 
@@ -154,7 +154,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       await redisTemporaryStorage.expire({ key, expirationDelaySeconds });
 
       // then
-      expect(clientStub.expire).to.have.been.calledWith(key, expirationDelaySeconds);
+      expect(clientStub.expire).to.have.been.calledWithExactly(key, expirationDelaySeconds);
     });
   });
 
@@ -169,7 +169,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       const remainingTtl = await redisTemporaryStorage.ttl(key);
 
       // then
-      expect(clientStub.ttl).to.have.been.calledWith(key);
+      expect(clientStub.ttl).to.have.been.calledWithExactly(key);
       expect(remainingTtl).to.equal(12);
     });
   });
@@ -186,7 +186,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       await redisTemporaryStorage.lpush(key, value);
 
       // then
-      expect(clientStub.lpush).to.have.been.calledWith('key', 'valueToAdd');
+      expect(clientStub.lpush).to.have.been.calledWithExactly('key', 'valueToAdd');
     });
   });
 
@@ -202,7 +202,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       await redisTemporaryStorage.lrem(key, value);
 
       // then
-      expect(clientStub.lrem).to.have.been.calledWith('key', 0, 'valueToRemove');
+      expect(clientStub.lrem).to.have.been.calledWithExactly('key', 0, 'valueToRemove');
     });
   });
 
@@ -219,7 +219,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       await redisTemporaryStorage.lrange(key, start, stop);
 
       // then
-      expect(clientStub.lrange).to.have.been.calledWith('key', 0, -1);
+      expect(clientStub.lrange).to.have.been.calledWithExactly('key', 0, -1);
     });
   });
 });

@@ -28,7 +28,7 @@ describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-start
     });
 
     // then
-    expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWith({
+    expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWithExactly({
       id: updatedCertificationCandidateForSupervising.id,
       authorizedToStart: updatedCertificationCandidateForSupervising.authorizedToStart,
     });

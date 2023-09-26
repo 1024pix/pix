@@ -31,11 +31,11 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source, uuidGenerator });
 
       // then
-      expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWith({
+      expect(userRefreshTokensTemporaryStorage.lpush).to.have.been.calledWithExactly({
         key: 123,
         value: '123:aaaabbbb-1111-ffff-8888-7777dddd0000',
       });
-      expect(userRefreshTokensTemporaryStorage.expire).to.have.been.calledWith({
+      expect(userRefreshTokensTemporaryStorage.expire).to.have.been.calledWithExactly({
         key: 123,
         expirationDelaySeconds: settings.authentication.refreshTokenLifespanMs / 1000 + 60 * 60,
       });
@@ -101,8 +101,11 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       await refreshTokenService.revokeRefreshToken({ refreshToken });
 
       // then
-      expect(userRefreshTokensTemporaryStorage.lrem).to.have.been.calledWith({ key: 123, valueToRemove: refreshToken });
-      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith(refreshToken);
+      expect(userRefreshTokensTemporaryStorage.lrem).to.have.been.calledWithExactly({
+        key: 123,
+        valueToRemove: refreshToken,
+      });
+      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWithExactly(refreshToken);
     });
 
     it('should do nothing if the refresh token does not exist', async function () {
@@ -132,10 +135,10 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       await refreshTokenService.revokeRefreshTokensForUserId({ userId: '123' });
 
       // then
-      expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWith('123');
-      expect(userRefreshTokensTemporaryStorage.delete).to.have.been.calledWith('123');
-      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith('123:uuid1');
-      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWith('123:uuid2');
+      expect(userRefreshTokensTemporaryStorage.lrange).to.have.been.calledWithExactly('123');
+      expect(userRefreshTokensTemporaryStorage.delete).to.have.been.calledWithExactly('123');
+      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWithExactly('123:uuid1');
+      expect(refreshTokenTemporaryStorage.delete).to.have.been.calledWithExactly('123:uuid2');
     });
   });
 });

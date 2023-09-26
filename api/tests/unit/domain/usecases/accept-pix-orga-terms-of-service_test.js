@@ -17,7 +17,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', function () {
     const actualUpdatedUser = await acceptPixOrgaTermsOfService({ userId, userRepository });
 
     // then
-    expect(userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue).to.have.been.calledWith(userId);
+    expect(userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue).to.have.been.calledWithExactly(userId);
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
 });

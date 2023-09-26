@@ -45,10 +45,10 @@ describe('Unit | UseCase | neutralize-challenge', function () {
     });
 
     // then
-    expect(certificationAssessment.neutralizeChallengeByRecId).to.have.been.calledWith(
+    expect(certificationAssessment.neutralizeChallengeByRecId).to.have.been.calledWithExactly(
       challengeToBeNeutralized.challengeId,
     );
-    expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
+    expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(certificationAssessment);
   });
 
   it('return a ChallengeNeutralized event', async function () {

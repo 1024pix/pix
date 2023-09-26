@@ -13,7 +13,7 @@ describe('Toggle isForAbsoluteNovice campaign attribute', function () {
         await toggleIsForAbsoluteNoviceCampaignAttribute(1234);
 
         // then
-        expect(logger.error).to.have.been.calledWith('Campaign not found for id 1234');
+        expect(logger.error).to.have.been.calledWithExactly('Campaign not found for id 1234');
       });
     });
 

@@ -33,11 +33,11 @@ describe('Unit | UseCase | archive-organization', function () {
     });
 
     // then
-    expect(organizationForAdminRepository.archive).to.have.been.calledWith({
+    expect(organizationForAdminRepository.archive).to.have.been.calledWithExactly({
       id: organizationId,
       archivedBy: superAdminUser.id,
     });
-    expect(organizationForAdminRepository.get).to.have.been.calledWith(organizationId);
+    expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organizationId);
     expect(archivedOrganizationForAdmin).to.deep.equal(expectedArchivedOrganization);
     clock.restore();
   });

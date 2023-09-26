@@ -37,14 +37,14 @@ describe('Unit | UseCase | create-organization', function () {
     });
 
     // then
-    expect(organizationCreationValidator.validate).to.have.been.calledWith(organization);
-    expect(dataProtectionOfficerRepository.create).to.have.been.calledWith({
+    expect(organizationCreationValidator.validate).to.have.been.calledWithExactly(organization);
+    expect(dataProtectionOfficerRepository.create).to.have.been.calledWithExactly({
       organizationId: 1,
       firstName: '',
       lastName: '',
       email: 'justin.ptipeu@example.net',
     });
-    expect(organizationForAdminRepository.save).to.have.been.calledWith(organization);
+    expect(organizationForAdminRepository.save).to.have.been.calledWithExactly(organization);
   });
 
   context('Error cases', function () {

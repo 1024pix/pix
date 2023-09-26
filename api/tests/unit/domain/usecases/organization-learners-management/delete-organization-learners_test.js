@@ -30,13 +30,13 @@ describe('Unit | UseCase | Organization Learners Management | Delete Organizatio
     });
 
     // then
-    expect(campaignParticipationRepository.removeByOrganizationLearnerIds).to.have.been.calledWith({
+    expect(campaignParticipationRepository.removeByOrganizationLearnerIds).to.have.been.calledWithExactly({
       organizationLearnerIds,
       userId,
       domainTransaction,
     });
 
-    expect(organizationLearnerRepository.removeByIds).to.have.been.calledWith({
+    expect(organizationLearnerRepository.removeByIds).to.have.been.calledWithExactly({
       organizationLearnerIds,
       userId,
       domainTransaction,

@@ -225,7 +225,7 @@ describe('Unit | UseCase | attach-badges', function () {
         });
 
         // then
-        expect(complementaryCertificationBadgesRepository.detachByIds).to.have.been.calledWith({
+        expect(complementaryCertificationBadgesRepository.detachByIds).to.have.been.calledWithExactly({
           complementaryCertificationBadgeIds: [1, 2],
           domainTransaction,
         });
@@ -290,7 +290,7 @@ describe('Unit | UseCase | attach-badges', function () {
           complementaryCertificationId: 123,
           createdBy: 1234,
         });
-        expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWith({
+        expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
           complementaryCertificationBadges: [newComplementaryCertificationBadge],
           domainTransaction,
         });

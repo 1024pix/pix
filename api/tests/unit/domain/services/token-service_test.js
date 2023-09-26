@@ -33,9 +33,13 @@ describe('Unit | Domain | Service | Token Service', function () {
 
       // then
       expect(accessTokenForCampaignResults).to.equal(generatedAccessToken);
-      expect(jsonwebtoken.sign).to.have.been.calledWith({ access_id: userId, campaign_id: campaignId }, 'a secret', {
-        expiresIn: 10,
-      });
+      expect(jsonwebtoken.sign).to.have.been.calledWithExactly(
+        { access_id: userId, campaign_id: campaignId },
+        'a secret',
+        {
+          expiresIn: 10,
+        },
+      );
     });
   });
 
