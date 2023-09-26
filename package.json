@@ -20,6 +20,7 @@
   "bugs": {
     "url": "https://github.com/1024pix/pix/issues"
   },
+  "packageManager": "pnpm@8.7.4",
   "main": "index.js",
   "scripts": {
     "build": "run-s ci:front build:front",
