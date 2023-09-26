@@ -2,11 +2,9 @@ import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
-import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::CopyPasteButton', function (hooks) {
   setupRenderingTest(hooks);
-  setupIntl(hooks);
 
   const successMessage = 'Ouiiiiiii !';
   const defaultMessage = 'Ivre il clique sur le bouton et ....';
