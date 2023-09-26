@@ -3,7 +3,6 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
 import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
-import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Filter::CampaignFilters', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -24,12 +23,12 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
     );
 
     // then
-    assert.dom(screen.getByText('Filtres')).exists();
-    assert.dom(screen.getByLabelText('Rechercher une campagne')).exists();
-    assert.dom(screen.getByLabelText('Rechercher un propriétaire')).exists();
-    assert.dom(screen.getByLabelText('Archivées')).exists();
-    assert.dom(screen.getByLabelText('Actives')).exists();
-    assert.dom(screen.getByText('1 campagne')).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.title'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.archived.label'))).exists();
+    assert.dom(screen.getByLabelText(this.intl.t('pages.campaigns-list.action.ongoing.label'))).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.filter.results', { total: 1 }))).exists();
   });
 
   module('With clear all filters button', function () {
@@ -68,7 +67,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
       );
 
       // then
-      assert.dom(screen.queryByLabelText('Rechercher un propriétaire')).doesNotExist();
+      assert.dom(screen.queryByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner'))).doesNotExist();
     });
   });
 
@@ -86,7 +85,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
 />`,
     );
 
-    await fillByLabel(t('pages.campaigns-list.filter.by-name'), 'Sal');
+    await fillByLabel(this.intl.t('pages.campaigns-list.filter.by-name'), 'Sal');
 
     // then
     assert.ok(triggerFiltering.calledWith('name', 'Sal'));
@@ -106,7 +105,7 @@ module('Integration | Component | Campaign::Filter::CampaignFilters', function (
 />`,
     );
 
-    await fillByLabel(t('pages.campaigns-list.filter.by-owner'), 'Sal');
+    await fillByLabel(this.intl.t('pages.campaigns-list.filter.by-owner'), 'Sal');
 
     // then
     assert.ok(triggerFiltering.calledWith('ownerName', 'Sal'));
