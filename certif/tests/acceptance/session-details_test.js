@@ -114,7 +114,9 @@ module('Acceptance | Session Details', function (hooks) {
         assert.dom(screen.getByRole('heading', { name: 'Date', level: 2 })).exists();
         assert.dom(screen.getByText('14:00')).exists();
 
-        assert.dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" })).exists();
+        assert
+          .dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" }))
+          .hasAttribute('href', 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download');
         assert.dom(screen.getByRole('link', { name: 'Télécharger le kit surveillant' })).exists();
       });
 
