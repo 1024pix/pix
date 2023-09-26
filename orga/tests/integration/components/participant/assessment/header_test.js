@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { t } from 'ember-intl/test-support';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
@@ -49,7 +48,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
       hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
     );
 
-    assert.contains(t('pages.assessment-individual-results.progression'));
+    assert.contains(this.intl.t('pages.assessment-individual-results.progression'));
     assert.contains('75 %');
   });
 
@@ -67,7 +66,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.contains(t('pages.campaign-individual-results.shared-date'));
+        assert.contains(this.intl.t('pages.campaign-individual-results.shared-date'));
         assert.contains('02 janv. 2020');
       });
     });
@@ -81,7 +80,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains(t('pages.campaign-individual-results.shared-date'));
+        assert.notContains(this.intl.t('pages.campaign-individual-results.shared-date'));
       });
     });
   });
@@ -130,8 +129,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.notContains(t('pages.assessment-individual-results.progression'));
-        assert.notContains(t('common.result.percentage', { value: this.participation.progression }));
+        assert.notContains(this.intl.t('pages.assessment-individual-results.progression'));
+        assert.notContains(this.intl.t('common.result.percentage', { value: this.participation.progression }));
       });
 
       module('when the campaign has stages', function () {
@@ -154,8 +153,8 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.dom(`[aria-label="${t('pages.assessment-individual-results.result')}"]`).exists();
-          assert.dom(screen.getByText(t('common.result.stages', { count: 1, total: 2 }))).exists();
+          assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result'))).exists();
+          assert.dom(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 2 }))).exists();
         });
       });
 
@@ -177,11 +176,13 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.campaign = { hasBadges: true };
           this.participation = { isShared: true, masteryRate: 0.85, badges: [{ id: 1, title: 'Les bases' }] };
 
-          await render(
+          const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.dom(`[aria-label="${t('pages.assessment-individual-results.badges')}"]`).containsText('Les bases');
+          assert
+            .dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges')))
+            .containsText('Les bases');
         });
       });
 
@@ -190,11 +191,11 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.campaign = { hasBadges: false };
           this.participation = { isShared: true, masteryRate: 0.85, badges: [{ id: 1, title: 'Les bases' }] };
 
-          await render(
+          const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
 
-          assert.dom(`[aria-label="${t('pages.assessment-individual-results.badges')}"]`).doesNotExist();
+          assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges'))).doesNotExist();
         });
       });
 
@@ -203,11 +204,10 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
           this.campaign = { hasBadges: true };
           this.participation = { isShared: true, masteryRate: 0.85, badges: [] };
 
-          await render(
+          const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
           );
-
-          assert.dom(`[aria-label="${t('pages.assessment-individual-results.badges')}"]`).doesNotExist();
+          assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.badges'))).doesNotExist();
         });
       });
     });
@@ -217,11 +217,11 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
         this.participation = { isShared: false };
         this.campaign = {};
 
-        await render(
+        const screen = await render(
           hbs`<Participant::Assessment::Header @participation={{this.participation}} @campaign={{this.campaign}} />`,
         );
 
-        assert.dom(`[aria-label="${t('pages.assessment-individual-results.result')}"]`).doesNotExist();
+        assert.dom(screen.queryByLabelText(this.intl.t('pages.assessment-individual-results.result'))).doesNotExist();
       });
     });
   });
