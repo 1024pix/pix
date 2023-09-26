@@ -69,26 +69,6 @@ module('Unit | Model | session', function (hooks) {
     });
   });
 
-  module('#urlToDownloadSessionIssueReportSheet', function () {
-    test('it should return the correct urlToDownloadSessionIssueReportSheet', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      class SessionStub extends Service {
-        data = {
-          authenticated: {
-            access_token: '123',
-          },
-        };
-      }
-
-      const model = store.createRecord('session', { id: 1 });
-      this.owner.register('service:session', SessionStub);
-
-      // when/then
-      assert.strictEqual(model.urlToDownloadSessionIssueReportSheet, config.urlToDownloadSessionIssueReportSheet);
-    });
-  });
-
   module('#urlToDownloadCandidatesImportTemplate', function () {
     test('it should return the correct urlToDownloadCandidatesImportTemplate', function (assert) {
       // given

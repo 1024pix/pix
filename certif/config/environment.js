@@ -89,8 +89,6 @@ module.exports = function (environment) {
     },
 
     matomo: {},
-
-    urlToDownloadSessionIssueReportSheet: 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download',
   };
 
   if (environment === 'development') {

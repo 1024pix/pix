@@ -58,10 +58,6 @@ export default class Session extends Model {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/certification-candidates/import`;
   }
 
-  get urlToDownloadSessionIssueReportSheet() {
-    return ENV.urlToDownloadSessionIssueReportSheet;
-  }
-
   get completedCertificationReports() {
     return this.certificationReports.filter((certificationReport) => certificationReport.isCompleted);
   }
