@@ -355,7 +355,7 @@ const register = async function (server) {
             certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
-        handler: certificationCenterController.findPendingInvitationsForAdmin,
+        handler: certificationCenterController.findPendingInvitations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
             '- Récupération de la liste des invitations en attente liée un centre de certification',
