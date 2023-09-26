@@ -34,7 +34,7 @@ describe('Unit | UseCase | create-session', function () {
           certificationCenterRepository,
           sessionRepository,
           userRepository,
-          dependencies: { sessionValidator: sessionValidatorStub },
+          sessionValidator: sessionValidatorStub,
         });
 
         // then
@@ -74,7 +74,8 @@ describe('Unit | UseCase | create-session', function () {
             certificationCenterRepository,
             sessionRepository,
             userRepository,
-            dependencies: { sessionValidator: sessionValidatorStub, sessionCodeService: sessionCodeServiceStub },
+            sessionValidator: sessionValidatorStub,
+            sessionCodeService: sessionCodeServiceStub,
           });
 
           // then
@@ -99,7 +100,8 @@ describe('Unit | UseCase | create-session', function () {
             certificationCenterRepository,
             sessionRepository,
             userRepository,
-            dependencies: { sessionValidator: sessionValidatorStub, sessionCodeService: sessionCodeServiceStub },
+            sessionValidator: sessionValidatorStub,
+            sessionCodeService: sessionCodeServiceStub,
           });
 
           // then
@@ -133,7 +135,8 @@ describe('Unit | UseCase | create-session', function () {
             certificationCenterRepository,
             sessionRepository,
             userRepository,
-            dependencies: { sessionValidator: sessionValidatorStub, sessionCodeService: sessionCodeServiceStub },
+            sessionValidator: sessionValidatorStub,
+            sessionCodeService: sessionCodeServiceStub,
           });
 
           // then
