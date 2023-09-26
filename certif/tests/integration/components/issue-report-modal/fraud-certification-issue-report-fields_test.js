@@ -49,6 +49,8 @@ module('Integration | Component | issue-report-modal/fraud-certification-issue-r
         ),
       )
       .exists();
-    assert.dom(screen.getByText('ce formulaire')).exists();
+    assert
+      .dom(screen.getByRole('link', { name: 'ce formulaire' }))
+      .hasAttribute('href', 'https://form-eu.123formbuilder.com/41052/form');
   });
 });
