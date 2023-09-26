@@ -146,15 +146,6 @@ const findPendingInvitations = async function (request, h) {
   return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
 };
 
-const findPendingInvitationsForAdmin = async function (request, h) {
-  const certificationCenterId = request.params.certificationCenterId;
-
-  const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
-    certificationCenterId,
-  });
-  return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitations));
-};
-
 const updateReferer = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const { userId, isReferer } = request.payload.data.attributes;
@@ -250,7 +241,6 @@ const certificationCenterController = {
   findCertificationCenterMemberships,
   createCertificationCenterMembershipByEmail,
   findPendingInvitations,
-  findPendingInvitationsForAdmin,
   updateReferer,
   sendInvitationForAdmin,
   getSessionsImportTemplate,
