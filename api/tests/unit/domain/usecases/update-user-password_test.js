@@ -56,7 +56,7 @@ describe('Unit | UseCase | update-user-password', function () {
     });
 
     // then
-    expect(userRepository.get).to.have.been.calledWith(userId);
+    expect(userRepository.get).to.have.been.calledWithExactly(userId);
   });
 
   it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async function () {
@@ -91,7 +91,10 @@ describe('Unit | UseCase | update-user-password', function () {
     });
 
     // then
-    expect(resetPasswordService.hasUserAPasswordResetDemandInProgress).to.have.been.calledWith(user.email);
+    expect(resetPasswordService.hasUserAPasswordResetDemandInProgress).to.have.been.calledWithExactly(
+      user.email,
+      temporaryKey,
+    );
   });
 
   it('should update user password with a hashed password', async function () {
@@ -110,8 +113,8 @@ describe('Unit | UseCase | update-user-password', function () {
     });
 
     // then
-    expect(encryptionService.hashPassword).to.have.been.calledWith(password);
-    expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWith({
+    expect(encryptionService.hashPassword).to.have.been.calledWithExactly(password);
+    expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWithExactly({
       userId,
       hashedPassword,
     });
@@ -130,7 +133,7 @@ describe('Unit | UseCase | update-user-password', function () {
     });
 
     // then
-    expect(resetPasswordService.invalidateOldResetPasswordDemand).to.have.been.calledWith(user.email);
+    expect(resetPasswordService.invalidateOldResetPasswordDemand).to.have.been.calledWithExactly(user.email);
   });
 
   describe('When user has not a current password reset demand', function () {
