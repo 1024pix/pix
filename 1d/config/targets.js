@@ -1,6 +1,6 @@
 'use strict';
 
-const browsers = ['defaults', 'last 4 years'];
+const { browsers } = require('../../config/targets.js');
 
 module.exports = {
   browsers,
