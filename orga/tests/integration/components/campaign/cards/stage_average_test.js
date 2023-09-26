@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupIntl, t } from 'ember-intl/test-support';
 import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Cards::StageAverage', function (hooks) {
   setupIntlRenderingTest(hooks);
-  setupIntl(hooks);
 
   test('it should display average result card', async function (assert) {
     this.totalStage = 3;
@@ -21,7 +19,7 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
 />`,
     );
 
-    assert.contains(t('cards.participants-average-stages.title'));
-    assert.dom(screen.getByText(t('common.result.stages', { count: 1, total: 2 }))).exists();
+    assert.contains(this.intl.t('cards.participants-average-stages.title'));
+    assert.dom(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 2 }))).exists();
   });
 });
