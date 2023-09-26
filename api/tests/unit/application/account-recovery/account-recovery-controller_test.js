@@ -77,10 +77,10 @@ describe('Unit | Controller | account-recovery-controller', function () {
       await accountRecoveryController.checkAccountRecoveryDemand(request, hFake, dependencies);
 
       // then
-      expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
-      expect(studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery).to.have.been.calledWith(
-        studentInformation,
-      );
+      expect(usecases.getAccountRecoveryDetails).to.have.been.calledWithExactly({ temporaryKey });
+      expect(
+        studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery,
+      ).to.have.been.calledWithExactly(studentInformation);
     });
   });
 

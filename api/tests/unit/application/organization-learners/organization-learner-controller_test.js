@@ -31,8 +31,10 @@ describe('Unit | Application | Organization-Learner | organization-learner-contr
       });
 
       // then
-      expect(usecases.getOrganizationLearnerActivity).to.have.been.calledWith({ organizationLearnerId });
-      expect(organizationLearnerActivitySerializer.serialize).to.have.been.calledWith(organizationLearnerActivity);
+      expect(usecases.getOrganizationLearnerActivity).to.have.been.calledWithExactly({ organizationLearnerId });
+      expect(organizationLearnerActivitySerializer.serialize).to.have.been.calledWithExactly(
+        organizationLearnerActivity,
+      );
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.equal(serializedActivity);
     });
@@ -66,8 +68,8 @@ describe('Unit | Application | Organization-Learner | organization-learner-contr
       });
 
       // then
-      expect(usecases.getOrganizationLearner).to.have.been.calledWith({ organizationLearnerId });
-      expect(organizationLearnerSerializer.serialize).to.have.been.calledWith(organizationLearner);
+      expect(usecases.getOrganizationLearner).to.have.been.calledWithExactly({ organizationLearnerId });
+      expect(organizationLearnerSerializer.serialize).to.have.been.calledWithExactly(organizationLearner);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.equal(serializedLearner);
     });

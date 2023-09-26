@@ -16,7 +16,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       await httpTestServer.request('POST', '/api/admin/campaigns/archive-campaigns', {});
 
       // then
-      expect(securityPreHandlers.adminMemberHasAtLeastOneAccessOf).to.have.been.calledWith([
+      expect(securityPreHandlers.adminMemberHasAtLeastOneAccessOf).to.have.been.calledWithExactly([
         securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
         securityPreHandlers.checkAdminMemberHasRoleMetier,
       ]);

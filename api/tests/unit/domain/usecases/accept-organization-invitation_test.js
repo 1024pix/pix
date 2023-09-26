@@ -55,7 +55,7 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
       });
 
       // then
-      expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWith(organizationInvitation.id);
+      expect(organizationInvitationRepository.markAsAccepted).to.have.been.calledWithExactly(organizationInvitation.id);
       expect(error).to.be.instanceOf(AlreadyExistingMembershipError);
     });
   });
@@ -86,7 +86,7 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
         });
 
         // then
-        expect(organizationInvitedUserRepository.save).to.have.been.calledWith({ organizationInvitedUser });
+        expect(organizationInvitedUserRepository.save).to.have.been.calledWithExactly({ organizationInvitedUser });
         expect(result).to.deep.equal({
           id: organizationInvitedUser.currentMembershipId,
           isAdmin: false,
@@ -142,7 +142,7 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
           });
 
           // then
-          expect(userRepository.update).to.have.have.been.calledWith({ id: user.id, locale: 'fr-BE' });
+          expect(userRepository.update).to.have.have.been.calledWithExactly({ id: user.id, locale: 'fr-BE' });
         });
       });
     });

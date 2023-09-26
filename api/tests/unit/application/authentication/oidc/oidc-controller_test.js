@@ -123,7 +123,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         await oidcController.getRedirectLogoutUrl(request, hFake, dependencies);
 
         // then
-        expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWith({
+        expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWithExactly({
           userId: '123',
           logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
         });
@@ -156,7 +156,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.getAuthenticationUrl(request, hFake, dependencies);
 
       //then
-      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWith({
+      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWithExactly({
         redirectUri: 'http:/exemple.net/',
       });
     });
@@ -212,7 +212,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       await oidcController.authenticateUser(request, hFake, dependencies);
 
       // then
-      expect(usecases.authenticateOidcUser).to.have.been.calledWith({
+      expect(usecases.authenticateOidcUser).to.have.been.calledWithExactly({
         code,
         redirectUri,
         stateReceived,

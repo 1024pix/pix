@@ -21,7 +21,7 @@ describe('Event Choreography | Score Pix+ Certification', function () {
     await eventDispatcher.dispatch(certificationScoringCompleted);
 
     // then
-    expect(handlerStubs.handleComplementaryCertificationsScoring).to.have.been.calledWith({
+    expect(handlerStubs.handleComplementaryCertificationsScoring).to.have.been.calledWithExactly({
       event: certificationScoringCompleted,
       domainTransaction: undefined,
     });
@@ -43,7 +43,7 @@ describe('Event Choreography | Score Pix+ Certification', function () {
     await eventDispatcher.dispatch(certificationRescoringCompleted);
 
     // then
-    expect(handlerStubs.handleComplementaryCertificationsScoring).to.have.been.calledWith({
+    expect(handlerStubs.handleComplementaryCertificationsScoring).to.have.been.calledWithExactly({
       event: certificationRescoringCompleted,
       domainTransaction: undefined,
     });

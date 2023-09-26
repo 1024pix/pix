@@ -82,7 +82,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
     });
 
     // then
-    expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
+    expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWithExactly({
       certificationCourseIds: [12, 20],
       filename: expectedFileName,
     });

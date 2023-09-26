@@ -36,7 +36,7 @@ describe('Unit | Controller | training-controller', function () {
       );
 
       // then
-      expect(usecases.findPaginatedTrainingSummaries).to.have.been.calledWith(useCaseParameters);
+      expect(usecases.findPaginatedTrainingSummaries).to.have.been.calledWithExactly(useCaseParameters);
       expect(trainingSummarySerializer.serialize).to.have.been.calledOnce;
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
@@ -66,7 +66,7 @@ describe('Unit | Controller | training-controller', function () {
       );
 
       // then
-      expect(usecases.getTraining).to.have.been.calledWith({ trainingId });
+      expect(usecases.getTraining).to.have.been.calledWithExactly({ trainingId });
       expect(trainingSerializer.serializeForAdmin).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
@@ -116,7 +116,7 @@ describe('Unit | Controller | training-controller', function () {
       await trainingController.create({ payload }, hFake, { trainingSerializer });
 
       // then
-      expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
+      expect(trainingSerializer.deserialize).to.have.been.calledWithExactly(payload);
       expect(usecases.createTraining).to.have.been.calledOnceWithExactly({ training: deserializedTraining });
     });
 
@@ -148,7 +148,7 @@ describe('Unit | Controller | training-controller', function () {
       );
 
       // then
-      expect(trainingSerializer.serialize).to.have.been.calledWith(createdTraining);
+      expect(trainingSerializer.serialize).to.have.been.calledWithExactly(createdTraining);
       expect(response.source).to.deep.equal(expectedSerializedTraining);
     });
   });
@@ -196,8 +196,8 @@ describe('Unit | Controller | training-controller', function () {
         );
 
         // then
-        expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
-        expect(usecases.updateTraining).to.have.been.calledWith(useCaseParameters);
+        expect(trainingSerializer.deserialize).to.have.been.calledWithExactly(payload);
+        expect(usecases.updateTraining).to.have.been.calledWithExactly(useCaseParameters);
       });
 
       it('should return a serialized training', async function () {
@@ -226,7 +226,7 @@ describe('Unit | Controller | training-controller', function () {
         );
 
         // then
-        expect(trainingSerializer.serialize).to.have.been.calledWith(updatedTraining);
+        expect(trainingSerializer.serialize).to.have.been.calledWithExactly(updatedTraining);
         expect(response).to.deep.equal(expectedSerializedUser);
       });
     });
@@ -297,7 +297,7 @@ describe('Unit | Controller | training-controller', function () {
       );
 
       // then
-      expect(usecases.createOrUpdateTrainingTrigger).to.have.been.calledWith({
+      expect(usecases.createOrUpdateTrainingTrigger).to.have.been.calledWithExactly({
         trainingId: 145,
         threshold: deserializedTrigger.threshold,
         type: deserializedTrigger.type,
@@ -329,7 +329,7 @@ describe('Unit | Controller | training-controller', function () {
       });
 
       // then
-      expect(usecases.findTargetProfileSummariesForTraining).to.have.been.calledWith({ trainingId });
+      expect(usecases.findTargetProfileSummariesForTraining).to.have.been.calledWithExactly({ trainingId });
       expect(result).to.be.equal(serializedTargetProfileSummaries);
     });
   });
@@ -352,7 +352,7 @@ describe('Unit | Controller | training-controller', function () {
 
       // then
       expect(response.statusCode).to.equal(204);
-      expect(usecases.attachTargetProfilesToTraining).to.have.been.calledWith({ trainingId, targetProfileIds });
+      expect(usecases.attachTargetProfilesToTraining).to.have.been.calledWithExactly({ trainingId, targetProfileIds });
     });
   });
 });

@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | UserToCreate', function () {
       const userToCreate = new UserToCreate({ locale: 'fr-be', dependencies: { localeService: localeServiceStub } });
 
       // then
-      expect(localeServiceStub.getCanonicalLocale).to.have.been.calledWith('fr-be');
+      expect(localeServiceStub.getCanonicalLocale).to.have.been.calledWithExactly('fr-be');
       expect(userToCreate.locale).to.equal('fr-BE');
     });
 

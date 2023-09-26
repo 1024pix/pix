@@ -446,7 +446,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       });
 
       // then
-      expect(usecases.validateSessions).to.have.been.calledWith({
+      expect(usecases.validateSessions).to.have.been.calledWithExactly({
         sessions: ['session'],
         certificationCenterId: 123,
         userId: 2,
@@ -517,7 +517,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       await certificationCenterController.createSessionsForMassImport(request, hFake);
 
       // then
-      expect(usecases.createSessions).to.have.been.calledWith({
+      expect(usecases.createSessions).to.have.been.calledWithExactly({
         cachedValidatedSessionsKey: 'uuid',
         certificationCenterId: 123,
         userId: 2,

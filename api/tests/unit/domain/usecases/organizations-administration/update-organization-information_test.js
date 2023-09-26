@@ -35,13 +35,13 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     });
 
     // then
-    expect(organizationForAdminRepository.get).to.have.been.calledWith(givenOrganization.id, domainTransaction);
-    expect(existingOrganizationForAdmin.updateWithDataProtectionOfficerAndTags).to.have.been.calledWith(
+    expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(givenOrganization.id, domainTransaction);
+    expect(existingOrganizationForAdmin.updateWithDataProtectionOfficerAndTags).to.have.been.calledWithExactly(
       givenOrganization,
       givenOrganization.dataProtectionOfficer,
       givenOrganization.tags,
     );
-    expect(organizationForAdminRepository.update).to.have.been.calledWith(
+    expect(organizationForAdminRepository.update).to.have.been.calledWithExactly(
       existingOrganizationForAdmin,
       domainTransaction,
     );

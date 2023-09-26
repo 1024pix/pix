@@ -61,7 +61,7 @@ describe('Unit | UseCase | update-student-number', function () {
       });
 
       // then
-      expect(supOrganizationLearnerRepository.updateStudentNumber).to.have.been.calledWith(
+      expect(supOrganizationLearnerRepository.updateStudentNumber).to.have.been.calledWithExactly(
         organizationLearnerId,
         studentNumber,
       );

@@ -38,7 +38,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.upload({ filename: '', readableStream, dependencies: { s3Utils, logger } });
 
       // then
-      expect(s3Utils.getS3Client).to.have.been.calledWith({
+      expect(s3Utils.getS3Client).to.have.been.calledWithExactly({
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
         endpoint: 'endpoint',
@@ -65,7 +65,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream, dependencies: { s3Utils, logger } });
 
       // then
-      expect(s3Utils.startUpload).to.have.been.calledWith({
+      expect(s3Utils.startUpload).to.have.been.calledWithExactly({
         client: s3ClientMock,
         filename: 'filename.xml',
         bucket: 'bucket',
@@ -108,7 +108,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
 
       // then
-      expect(s3Utils.getS3Client).to.have.been.calledWith({
+      expect(s3Utils.getS3Client).to.have.been.calledWithExactly({
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
         endpoint: 'endpoint',
@@ -133,7 +133,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
 
       // then
-      expect(s3Utils.listFiles).to.have.been.calledWith({ client: s3ClientMock, bucket: 'bucket' });
+      expect(s3Utils.listFiles).to.have.been.calledWithExactly({ client: s3ClientMock, bucket: 'bucket' });
     });
 
     it('should pre sign files modified after a date', async function () {
@@ -168,7 +168,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date, dependencies: { s3Utils } });
 
       // then
-      expect(s3Utils.preSignFiles).to.have.been.calledWith({
+      expect(s3Utils.preSignFiles).to.have.been.calledWithExactly({
         client: s3ClientMock,
         bucket: 'bucket',
         keys: ['thirdFile', 'fourthFile'],

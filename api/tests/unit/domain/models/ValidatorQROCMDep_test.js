@@ -42,7 +42,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
 
     it('should call solutionServiceQROCMDep', function () {
       // then
-      expect(solutionServiceQROCMDepStub.match).to.have.been.calledWith({
+      expect(solutionServiceQROCMDepStub.match).to.have.been.calledWithExactly({
         answerValue: uncorrectedAnswer.value,
         solution,
       });

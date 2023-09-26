@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-pending-organization-invitations', function () {
     });
 
     // then
-    expect(organizationInvitationRepositoryStub.findPendingByOrganizationId).to.have.been.calledWith({
+    expect(organizationInvitationRepositoryStub.findPendingByOrganizationId).to.have.been.calledWithExactly({
       organizationId,
     });
   });

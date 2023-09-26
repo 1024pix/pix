@@ -18,9 +18,9 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
     });
 
     // then
-    expect(certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById).to.have.been.calledWith(
-      { certificationCenterId },
-    );
+    expect(
+      certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById,
+    ).to.have.been.calledWithExactly({ certificationCenterId });
     expect(foundCertificationCenterMemberships).to.deep.equal(certificationCenterMemberships);
   });
 });

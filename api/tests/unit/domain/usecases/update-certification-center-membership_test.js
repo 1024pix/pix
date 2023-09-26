@@ -44,7 +44,7 @@ describe('Unit | UseCase | update-certification-center-membership', function () 
     // then
     expect(updatedCertificationCenterMembership).to.be.instanceof(CertificationCenterMembership);
     expect(certificationCenterMembershipRepository.findById).to.have.been.calledTwice;
-    expect(certificationCenterMembershipRepository.update).to.have.been.calledWith(
+    expect(certificationCenterMembershipRepository.update).to.have.been.calledWithExactly(
       expectedCertificationCenterMembership,
     );
   });

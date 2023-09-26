@@ -60,7 +60,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(userRepository.updateEmail).to.have.been.calledWith({ id: user.id, email: null });
+      expect(userRepository.updateEmail).to.have.been.calledWithExactly({ id: user.id, email: null });
     });
 
     context('When user does not have a username', function () {
@@ -75,7 +75,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
         // then
-        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
           userId: user.id,
           identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         });
@@ -113,7 +113,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(userRepository.updateUsername).to.have.been.calledWith({ id: user.id, username: null });
+      expect(userRepository.updateUsername).to.have.been.calledWithExactly({ id: user.id, username: null });
     });
 
     context('When user does not have an email', function () {
@@ -128,7 +128,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
         // then
-        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+        expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
           userId: user.id,
           identityProvider: NON_OIDC_IDENTITY_PROVIDERS.PIX.code,
         });
@@ -166,7 +166,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
         userId: user.id,
         identityProvider: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
       });
@@ -186,7 +186,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
         userId: user.id,
         identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       });
@@ -206,7 +206,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
         userId: user.id,
         identityProvider: OidcIdentityProviders.CNAV.code,
       });
@@ -226,7 +226,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
 
       // then
-      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWith({
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
         userId: user.id,
         identityProvider: OidcIdentityProviders.FWB.code,
       });

@@ -12,6 +12,6 @@ describe('Unit | UseCase | revoke-refresh-token', function () {
     await revokeRefreshToken({ refreshToken, refreshTokenService });
 
     // then
-    expect(refreshTokenService.revokeRefreshToken).to.have.been.calledWith({ refreshToken });
+    expect(refreshTokenService.revokeRefreshToken).to.have.been.calledWithExactly({ refreshToken });
   });
 });

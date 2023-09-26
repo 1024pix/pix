@@ -76,7 +76,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       await campaignParticipationController.shareCampaignResult(request, hFake, dependencies);
 
       // then
-      expect(events.eventBus.publish).to.have.been.calledWith(
+      expect(events.eventBus.publish).to.have.been.calledWithExactly(
         campaignParticipationResultsSharedEvent,
         domainTransaction,
       );
@@ -183,7 +183,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       await campaignParticipationController.save(request, hFake, dependencies);
 
       // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationStartedEvent);
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(campaignParticipationStartedEvent);
     });
 
     it('should return the serialized campaign participation when it has been successfully created', async function () {
@@ -205,7 +205,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const response = await campaignParticipationController.save(request, hFake, dependencies);
 
       // then
-      expect(dependencies.campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
+      expect(dependencies.campaignParticipationSerializer.serialize).to.have.been.calledWithExactly(
+        campaignParticipation,
+      );
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });
@@ -230,10 +232,12 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const response = await campaignParticipationController.save(request, hFake, dependencies);
 
       // then
-      expect(dependencies.monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+      expect(dependencies.monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
         message: errorInHandler,
       });
-      expect(dependencies.campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
+      expect(dependencies.campaignParticipationSerializer.serialize).to.have.been.calledWithExactly(
+        campaignParticipation,
+      );
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });

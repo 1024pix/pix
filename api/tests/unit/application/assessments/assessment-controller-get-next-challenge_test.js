@@ -179,7 +179,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
         // then
         expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
-        expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
+        expect(usecases.getNextChallengeForCertification).to.have.been.calledWithExactly({
           assessment: certificationAssessment,
           locale,
         });
@@ -215,7 +215,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         await assessmentController.getNextChallenge({ params: { id: 1 } }, null, dependencies);
 
         // then
-        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
+        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWithExactly({
           assessment,
           locale: defaultLocale,
         });
@@ -238,7 +238,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         );
 
         // then
-        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWith({
+        expect(usecases.getNextChallengeForCampaignAssessment).to.have.been.calledWithExactly({
           assessment,
           locale,
         });
@@ -274,7 +274,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           await assessmentController.getNextChallenge(request, null, dependencies);
 
           // then
-          expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWith({
+          expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWithExactly({
             assessment,
             userId,
             locale,

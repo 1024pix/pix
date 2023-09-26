@@ -92,7 +92,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
           });
 
           // then
-          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWith(
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             new ComplementaryCertificationCourseResult({
               partnerKey: 'KEY_2',
               source: ComplementaryCertificationCourseResult.sources.EXTERNAL,

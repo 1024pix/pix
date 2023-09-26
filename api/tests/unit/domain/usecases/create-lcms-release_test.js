@@ -25,6 +25,6 @@ describe('Unit | UseCase | create-lcms-release', function () {
     await createLcmsRelease();
 
     // then
-    expect(learningContentCache.set).to.have.been.calledWith(learningContent);
+    expect(learningContentCache.set).to.have.been.calledWithExactly(learningContent);
   });
 });

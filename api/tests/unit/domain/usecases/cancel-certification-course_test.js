@@ -21,6 +21,6 @@ describe('Unit | UseCase | cancel-certification-course', function () {
 
     // then
     expect(certificationCourse.cancel).to.have.been.calledOnce;
-    expect(certificationCourseRepository.update).to.have.been.calledWith(certificationCourse);
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(certificationCourse);
   });
 });

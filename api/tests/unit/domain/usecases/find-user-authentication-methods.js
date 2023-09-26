@@ -15,6 +15,6 @@ describe('Unit | UseCase | find-user-authentication-methods', function () {
     await findUserAuthenticationMethods({ userId: user.id, authenticationMethodRepository });
 
     // then
-    expect(authenticationMethodRepository.findByUserId).to.have.been.calledWith({ userId: user.id });
+    expect(authenticationMethodRepository.findByUserId).to.have.been.calledWithExactly({ userId: user.id });
   });
 });

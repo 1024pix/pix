@@ -57,7 +57,7 @@ describe('Unit | Controller | create-session-controller', function () {
       await createSessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
-      expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
+      expect(usecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
     });
 
     it('should return the saved session in JSON API', async function () {
@@ -84,7 +84,7 @@ describe('Unit | Controller | create-session-controller', function () {
 
       // then
       expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializerStub.serialize).to.have.been.calledWith({ session: savedSession });
+      expect(sessionSerializerStub.serialize).to.have.been.calledWithExactly({ session: savedSession });
     });
   });
 });

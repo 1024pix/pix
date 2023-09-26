@@ -23,7 +23,7 @@ describe('Unit | Domain | Use Cases | authorize-certification-candidate-to-resum
     });
 
     // then
-    expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWith(
+    expect(certificationCandidateForSupervisingRepository.update).to.have.been.calledWithExactly(
       domainBuilder.buildCertificationCandidateForSupervising({
         authorizedToStart: true,
       }),

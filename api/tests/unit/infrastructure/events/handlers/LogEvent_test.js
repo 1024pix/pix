@@ -13,7 +13,7 @@ describe('Unit | Infrastructure | Events | Handler | LogEvent', function () {
       const handler = new LogEvent({ monitoringTools });
       await handler.handle(event);
 
-      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWithExactly({
         message: {
           type: 'EVENT_LOG',
           event: event.attributes,

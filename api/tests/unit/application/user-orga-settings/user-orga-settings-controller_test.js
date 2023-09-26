@@ -67,12 +67,12 @@ describe('Unit | Controller | user-orga-settings-controller', function () {
 
     it('should call the usecase to update the userOrgaSetting', async function () {
       // then
-      expect(usecases.createOrUpdateUserOrgaSettings).to.have.been.calledWith({ userId, organizationId });
+      expect(usecases.createOrUpdateUserOrgaSettings).to.have.been.calledWithExactly({ userId, organizationId });
     });
 
     it('should serialize the userOrgaSettings', function () {
       // then
-      expect(userOrgaSettingsSerializer.serialize).to.have.been.calledWith(expectedUserOrgaSettings);
+      expect(userOrgaSettingsSerializer.serialize).to.have.been.calledWithExactly(expectedUserOrgaSettings);
     });
 
     it('should return the serialized userOrgaSettings', function () {

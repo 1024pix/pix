@@ -22,8 +22,8 @@ describe('Unit | UseCase | change-user-lang', function () {
     const actualUpdatedUser = await changeUserLang({ userId, lang, userRepository });
 
     // then
-    expect(userRepository.update).to.have.been.calledWith({ id: userId, lang });
-    expect(userRepository.getFullById).to.have.been.calledWith(userId);
+    expect(userRepository.update).to.have.been.calledWithExactly({ id: userId, lang });
+    expect(userRepository.getFullById).to.have.been.calledWithExactly(userId);
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
 });

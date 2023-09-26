@@ -37,7 +37,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       await updateUserDetailsForAdministration({ userId, userDetailsForAdministration, userRepository });
 
       // then
-      expect(userRepository.findAnotherUserByEmail).to.have.been.calledWith(userId, email);
+      expect(userRepository.findAnotherUserByEmail).to.have.been.calledWithExactly(userId, email);
     });
 
     it('should not search existing users if email is empty', async function () {
@@ -68,7 +68,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
       await updateUserDetailsForAdministration({ userId, userDetailsForAdministration, userRepository });
 
       // then
-      expect(userRepository.findAnotherUserByUsername).to.have.been.calledWith(userId, username);
+      expect(userRepository.findAnotherUserByUsername).to.have.been.calledWithExactly(userId, username);
     });
 
     it('should not search existing user if username is empty', async function () {
@@ -110,7 +110,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
     });
 
     // then
-    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
       id: userId,
       userAttributes: attributesToUpdate,
     });
@@ -137,7 +137,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
 
       // then
       const expectedAttributes = { email, mustValidateTermsOfService: true };
-      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
         id: userId,
         userAttributes: expectedAttributes,
       });
@@ -163,7 +163,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
 
       // then
       const expectedAttributes = { email };
-      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+      expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
         id: userId,
         userAttributes: expectedAttributes,
       });

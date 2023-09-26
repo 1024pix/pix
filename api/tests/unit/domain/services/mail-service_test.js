@@ -757,7 +757,7 @@ describe('Unit | Service | MailService', function () {
       });
 
       // then
-      expect(mailer.sendEmail).to.have.been.calledWith({
+      expect(mailer.sendEmail).to.have.been.calledWithExactly({
         from: 'ne-pas-repondre@pix.fr',
         fromName: 'PIX - Ne pas répondre',
         to: email,
@@ -782,7 +782,7 @@ describe('Unit | Service | MailService', function () {
       });
 
       // then
-      expect(mailer.sendEmail).to.have.been.calledWith({
+      expect(mailer.sendEmail).to.have.been.calledWithExactly({
         from: 'ne-pas-repondre@pix.fr',
         fromName: 'PIX - Ne pas répondre',
         to: email,

@@ -112,12 +112,16 @@ describe('Delete Assessment Script', function () {
         return promise.then(() => {
           sinon.assert.callCount(clientStub.query_and_log, 4);
 
-          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM feedbacks WHERE "assessmentId" = 1345');
-          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM answers WHERE "assessmentId" = 1345');
-          expect(clientStub.query_and_log).to.have.been.calledWith(
+          expect(clientStub.query_and_log).to.have.been.calledWithExactly(
+            'DELETE FROM feedbacks WHERE "assessmentId" = 1345',
+          );
+          expect(clientStub.query_and_log).to.have.been.calledWithExactly(
+            'DELETE FROM answers WHERE "assessmentId" = 1345',
+          );
+          expect(clientStub.query_and_log).to.have.been.calledWithExactly(
             'DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = 1345 )',
           );
-          expect(clientStub.query_and_log).to.have.been.calledWith(
+          expect(clientStub.query_and_log).to.have.been.calledWithExactly(
             'DELETE FROM "assessment-results" WHERE "assessmentId" = 1345',
           );
         });

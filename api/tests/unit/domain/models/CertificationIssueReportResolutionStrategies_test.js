@@ -1509,7 +1509,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         await strategies.resolve({ certificationIssueReport, certificationAssessment });
 
         // then
-        expect(strategyStub).to.have.been.calledWith({
+        expect(strategyStub).to.have.been.calledWithExactly({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,

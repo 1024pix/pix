@@ -120,7 +120,7 @@ describe('Unit | UseCase | update-expired-password', function () {
       });
 
       // then
-      expect(logger.warn).to.have.been.calledWith('Trying to change his password with incorrect user id');
+      expect(logger.warn).to.have.been.calledWithExactly('Trying to change his password with incorrect user id');
     });
   });
 

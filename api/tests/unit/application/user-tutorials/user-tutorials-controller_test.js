@@ -60,7 +60,7 @@ describe('Unit | Controller | User-tutorials', function () {
         expect(addTutorialToUserArgs).to.have.property('userId', userId);
         expect(addTutorialToUserArgs).to.have.property('tutorialId', tutorialId);
         expect(addTutorialToUserArgs).to.have.property('skillId', skillId);
-        expect(userSavedTutorialSerializer.deserialize).to.have.been.calledWith(request.payload);
+        expect(userSavedTutorialSerializer.deserialize).to.have.been.calledWithExactly(request.payload);
       });
     });
   });

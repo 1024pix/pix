@@ -333,7 +333,7 @@ describe('Unit | Controller | target-profile-controller', function () {
       );
 
       // then
-      expect(usecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWith(useCaseParameters);
+      expect(usecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWithExactly(useCaseParameters);
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });

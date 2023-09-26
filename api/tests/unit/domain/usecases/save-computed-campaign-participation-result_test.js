@@ -17,7 +17,7 @@ describe('Unit | Domain | UseCases | SaveComputedCompaignParticipationResult', f
     });
 
     // then
-    expect(participantResultsSharedRepository.get).to.have.been.calledWith(1);
-    expect(participantResultsSharedRepository.save).to.have.been.calledWith(participationResultsShared);
+    expect(participantResultsSharedRepository.get).to.have.been.calledWithExactly(1);
+    expect(participantResultsSharedRepository.save).to.have.been.calledWithExactly(participationResultsShared);
   });
 });

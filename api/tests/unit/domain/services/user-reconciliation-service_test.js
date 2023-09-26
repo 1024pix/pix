@@ -736,7 +736,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // then
           expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
-          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
+          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWithExactly(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
           expect(error.meta.shortCode).to.equal('R32');
@@ -768,7 +768,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // then
           expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
-          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
+          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWithExactly(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
           expect(error.meta.shortCode).to.equal('R33');
@@ -839,7 +839,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // then
           expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
-          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
+          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWithExactly(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
           expect(error.meta.shortCode).to.equal('R12');
@@ -874,7 +874,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // then
           expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
-          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
+          expect(userRepositoryStub.getForObfuscation).to.have.been.calledWithExactly(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
           expect(error.meta.shortCode).to.equal('R13');
