@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, knex, domainBuilder } from '../../../test-helper.js';
-import * as supOrganizationLearnerRepository from '../../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
-import { OrganizationLearner } from '../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
+import { expect, databaseBuilder, knex, domainBuilder } from '../../../../../test-helper.js';
+import * as supOrganizationLearnerRepository from '../../../../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
+import { OrganizationLearner } from '../../../../../../src/prescription/learner-management/domain/models/OrganizationLearner.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-learner-repository', function () {
   describe('#findOneByStudentNumber', function () {
@@ -331,13 +331,22 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
   });
 
   describe('#replaceStudents', function () {
-    afterEach(function () {
+    let organization, userId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization();
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('campaign-participations').delete();
       return knex('organization-learners').delete();
     });
 
     context('when there is no organization learners for the given organizationId and student number', function () {
       it('creates the organization-learner', async function () {
-        const organization = databaseBuilder.factory.buildOrganization();
         const supOrganizationLearner1 = domainBuilder.buildSupOrganizationLearner({
           organization,
           firstName: 'O-Ren',
@@ -352,12 +361,12 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           studentNumber: '5',
           birthdate: '1990-07-02',
         });
-        await databaseBuilder.commit();
 
-        await supOrganizationLearnerRepository.replaceStudents(organization.id, [
-          supOrganizationLearner1,
-          supOrganizationLearner2,
-        ]);
+        await supOrganizationLearnerRepository.replaceStudents(
+          organization.id,
+          [supOrganizationLearner1, supOrganizationLearner2],
+          userId,
+        );
 
         const results = await knex('organization-learners')
           .select('*', 'status AS studyScheme')
@@ -368,69 +377,211 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
         expect(results[0].studentNumber).to.equal('4');
         expect(results[1].studentNumber).to.equal('5');
       });
+    });
 
-      context('when there is organization learners for the given organizationId and student number', function () {
+    context('when there is organization learners for the given organizationId and student number', function () {
+      let firstOrganizationLearnerId, secondOrganizationLearnerId;
+      beforeEach(async function () {
+        firstOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'O-Ren',
+          lastName: 'Ishii',
+          studentNumber: '4',
+          updatedAt: new Date('2000-01-01'),
+        }).id;
+
+        secondOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: organization.id,
+          firstName: 'Monique',
+          lastName: 'Du moulin à poivre',
+          studentNumber: '5',
+          updatedAt: new Date('2000-01-01'),
+        }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      context('organization-learners', function () {
         it('updates the organization-learners', async function () {
-          const organization = databaseBuilder.factory.buildOrganization();
-          const supOrganizationLearner = domainBuilder.buildSupOrganizationLearner({
+          const expectedOrganizationLearner = domainBuilder.buildSupOrganizationLearner({
             organization,
             firstName: 'O-Ren',
-            lastName: 'Ishii',
+            lastName: 'Ishii updated',
             studentNumber: '4',
             birthdate: '1990-07-01',
           });
 
+          await supOrganizationLearnerRepository.replaceStudents(
+            organization.id,
+            [expectedOrganizationLearner],
+            userId,
+          );
+
+          const results = await knex('organization-learners')
+            .where({ organizationId: organization.id })
+            .whereNull('deletedAt');
+
+          expect(results.length).to.equal(1);
+          expect(results[0].lastName).to.equal(expectedOrganizationLearner.lastName);
+          expect(results[0].updatedAt).to.not.deep.equal(new Date('2000-01-01'));
+        });
+
+        it('delete learners if not present in the new list', async function () {
+          await supOrganizationLearnerRepository.replaceStudents(organization.id, [], userId);
+
+          const deletedOrganizationLearners = await knex('organization-learners').whereNotNull('deletedAt');
+
+          expect(deletedOrganizationLearners.length).to.be.equal(2);
+          expect(deletedOrganizationLearners[0].studentNumber).to.be.equal('4');
+          expect(deletedOrganizationLearners[1].studentNumber).to.be.equal('5');
+
+          expect(deletedOrganizationLearners[0].deletedBy).to.be.equal(userId);
+          expect(deletedOrganizationLearners[1].deletedBy).to.be.equal(userId);
+        });
+
+        it('does not update already deleted learners', async function () {
+          const anotherUserId = databaseBuilder.factory.buildUser().id;
           databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
+            deletedAt: new Date('2022-05-01'),
+            studentNumber: '666',
+            deletedBy: anotherUserId,
+          });
+          await databaseBuilder.commit();
+
+          const firstLearner = domainBuilder.buildSupOrganizationLearner({
+            organization,
+            firstName: 'O-Ren',
+            lastName: 'Ishii updated',
+            studentNumber: '4',
+            birthdate: '1990-07-01',
+          });
+          const secondLearner = domainBuilder.buildSupOrganizationLearner({
+            organization,
+            firstName: 'Jean',
+            lastName: 'BonBeurre',
+            studentNumber: '5',
+            birthdate: '1986-07-01',
+          });
+
+          await supOrganizationLearnerRepository.replaceStudents(
+            organization.id,
+            [firstLearner, secondLearner],
+            userId,
+          );
+
+          const deletedOrganizationLearners = await knex('organization-learners')
+            .where({ organizationId: organization.id })
+            .whereNotNull('deletedAt');
+
+          expect(deletedOrganizationLearners.length).to.be.equal(1);
+          expect(deletedOrganizationLearners[0].studentNumber).to.be.equal('666');
+          expect(deletedOrganizationLearners[0].deletedAt).to.be.deep.equal(new Date('2022-05-01'));
+          expect(deletedOrganizationLearners[0].deletedBy).to.be.equal(anotherUserId);
+        });
+
+        it('do not delete learners from another organization', async function () {
+          databaseBuilder.factory.buildOrganizationLearner({
+            firstName: 'Kaiju',
+            lastName: 'Godzilla',
+            studentNumber: null,
+            updatedAt: new Date('2000-01-01'),
+          });
+
+          databaseBuilder.factory.buildOrganizationLearner({
+            firstName: 'Kaiju',
+            lastName: 'Gidora',
             studentNumber: '4',
             updatedAt: new Date('2000-01-01'),
           });
+
           await databaseBuilder.commit();
 
-          await supOrganizationLearnerRepository.replaceStudents(organization.id, [
-            { ...supOrganizationLearner, lastName: 'Ishii updated' },
+          await supOrganizationLearnerRepository.replaceStudents(organization.id, [], userId);
+
+          const activatedOrganizationLearnerFromAnotherOrganization =
+            await knex('organization-learners').whereNull('deletedAt');
+
+          expect(activatedOrganizationLearnerFromAnotherOrganization.length).to.equal(2);
+          expect([
+            activatedOrganizationLearnerFromAnotherOrganization[0].lastName,
+            activatedOrganizationLearnerFromAnotherOrganization[1].lastName,
+          ]).to.be.members(['Godzilla', 'Gidora']);
+
+          expect([
+            activatedOrganizationLearnerFromAnotherOrganization[0].deletedBy,
+            activatedOrganizationLearnerFromAnotherOrganization[1].deletedBy,
+          ]).to.be.members([null, null]);
+        });
+      });
+
+      context('campaign-participations', function () {
+        it('delete campaign participations for learners not in the list', async function () {
+          const campaigParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: firstOrganizationLearnerId,
+          }).id;
+          const anotherParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: secondOrganizationLearnerId,
+          }).id;
+
+          await databaseBuilder.commit();
+
+          await supOrganizationLearnerRepository.replaceStudents(organization.id, [], userId);
+
+          const deletedCampaignParticipations = await knex('campaign-participations').whereNotNull('deletedAt');
+
+          expect(deletedCampaignParticipations.length).to.be.equal(2);
+          expect([deletedCampaignParticipations[0].id, deletedCampaignParticipations[1].id]).to.be.members([
+            campaigParticipationId,
+            anotherParticipationId,
           ]);
+          expect([
+            deletedCampaignParticipations[0].deletedBy,
+            deletedCampaignParticipations[1].deletedBy,
+          ]).to.be.members([userId, userId]);
+        });
 
-          const results = await knex('organization-learners')
-            .select('*', 'status AS studyScheme')
-            .where({ organizationId: organization.id })
-            .orderBy('studentNumber');
+        it('not delete campaign participations already deleted', async function () {
+          const anotherUserId = databaseBuilder.factory.buildUser().id;
+          const campaigParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: firstOrganizationLearnerId,
+            deletedAt: new Date('2022-05-18'),
+            deletedBy: anotherUserId,
+          }).id;
 
-          expect(results.length).to.equal(1);
-          expect(results[0].lastName).to.equal('Ishii updated');
-          expect(results[0].updatedAt).to.not.deep.equal(new Date('2000-01-01'));
+          await databaseBuilder.commit();
+
+          await supOrganizationLearnerRepository.replaceStudents(organization.id, [], userId);
+
+          const deletedCampaignParticipations = await knex('campaign-participations')
+            .whereNotNull('deletedAt')
+            .orderBy('deletedAt', 'DESC');
+
+          expect(deletedCampaignParticipations.length).to.be.equal(1);
+          expect(deletedCampaignParticipations[0].id).to.be.equal(campaigParticipationId);
+          expect(deletedCampaignParticipations[0].deletedBy).to.be.equal(anotherUserId);
+        });
+
+        it('not delete campaign participations from another learner not in the organization', async function () {
+          const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+          const anotherLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: anotherOrganizationId,
+          }).id;
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId: anotherLearnerId,
+          });
+
+          await databaseBuilder.commit();
+
+          await supOrganizationLearnerRepository.replaceStudents(organization.id, [], userId);
+
+          const deletedCampaignParticipations = await knex('campaign-participations').whereNotNull('deletedAt');
+
+          expect(deletedCampaignParticipations.length).to.be.equal(0);
         });
       });
     });
-
-    context(
-      'when there is a disabled organization learners for the given organizationId and student number',
-      function () {
-        it('enables the organization-learners', async function () {
-          const organization = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            studentNumber: '4',
-            isDisabled: true,
-          });
-          await databaseBuilder.commit();
-
-          const supOrganizationLearner = domainBuilder.buildSupOrganizationLearner({
-            organization,
-            studentNumber: '4',
-          });
-          await supOrganizationLearnerRepository.replaceStudents(organization.id, [supOrganizationLearner]);
-
-          const result = await knex('organization-learners')
-            .select('isDisabled')
-            .where({ organizationId: organization.id })
-            .where({ studentNumber: '4' })
-            .first();
-
-          expect(result.isDisabled).to.be.false;
-        });
-      },
-    );
 
     context('when there is organization learners for an other organizationId and student number', function () {
       it('creates the organization-learners', async function () {
@@ -446,7 +597,11 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
           studentNumber: '4',
           birthdate: '1990-07-01',
         });
-        await supOrganizationLearnerRepository.replaceStudents(organization2.id, [{ ...supOrganizationLearner }]);
+        await supOrganizationLearnerRepository.replaceStudents(
+          organization2.id,
+          [{ ...supOrganizationLearner }],
+          userId,
+        );
 
         const results = await knex('organization-learners')
           .select('*', 'status AS studyScheme')
@@ -457,36 +612,6 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
         expect(results[0].studentNumber).to.equal('4');
       });
     });
-
-    context(
-      'when there is an enabled organization learners for the given organizationId which is not updated',
-      function () {
-        it('disables the organization-learners', async function () {
-          const organization = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildOrganizationLearner({
-            organizationId: organization.id,
-            studentNumber: '4',
-            isDisabled: false,
-            updatedAt: new Date('2000-01-01'),
-          });
-          await databaseBuilder.commit();
-
-          const supOrganizationLearner = domainBuilder.buildSupOrganizationLearner({
-            organization,
-            studentNumber: '5',
-          });
-          await supOrganizationLearnerRepository.replaceStudents(organization.id, [supOrganizationLearner]);
-
-          const result = await knex('organization-learners')
-            .select('isDisabled', 'updatedAt')
-            .where({ studentNumber: '4' })
-            .first();
-
-          expect(result.isDisabled).to.be.true;
-          expect(result.updatedAt).to.not.deep.equal(new Date('2000-01-01'));
-        });
-      },
-    );
 
     context('when there is a problem', function () {
       it('does not create registrations and does not change existing registrations', async function () {
@@ -499,7 +624,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
         await databaseBuilder.commit();
 
         try {
-          await supOrganizationLearnerRepository.replaceStudents(organization.id, [1]);
+          await supOrganizationLearnerRepository.replaceStudents(organization.id, [1], userId);
         } catch (err) {} // eslint-disable-line no-empty
 
         const result = await knex('organization-learners').select('isDisabled').where({ studentNumber: '4' }).first();
