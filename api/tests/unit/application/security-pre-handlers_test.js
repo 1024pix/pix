@@ -1045,7 +1045,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
   describe('#checkUserIsAdminOfCertificationCenter', function () {
     context('Successful case', function () {
-      it('authorizes access to resource when the user is authenticated and is admin in certification center', async function () {
+      it('authorizes access to resource when the user is authenticated and is admin of the certification center', async function () {
         // given
         const user = domainBuilder.buildUser();
         const certificationCenter = domainBuilder.buildCertificationCenter();

@@ -388,7 +388,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('returns an 403 HTTP error when user is not admin of the certification-center', async function () {
+    it('returns 403 when user is not admin of the certification-center', async function () {
       // given
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId, role: 'MEMBER' });
 
