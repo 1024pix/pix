@@ -8,7 +8,7 @@ describe('Unit | Router | create-session-route', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
     it('should return CREATED (200) when everything does as expected', async function () {
       // given
-      sinon.stub(createSessionController, 'saveSession').returns('ok');
+      sinon.stub(createSessionController, 'createSession').returns('ok');
       sinon
         .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
         .callsFake((request, h) => h.response(true));

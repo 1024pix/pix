@@ -1,6 +1,6 @@
 import { Session } from '../../../../../lib/domain/models/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
-import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { createSessionController } from '../../../../../src/certification/session/application/create-session-controller.js';
 
 describe('Unit | Controller | create-session-controller', function () {
