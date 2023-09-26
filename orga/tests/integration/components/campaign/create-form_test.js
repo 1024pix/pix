@@ -4,13 +4,11 @@ import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { setupRenderingTest } from 'ember-qunit';
-import { setupIntl, t } from 'ember-intl/test-support';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
 
 module('Integration | Component | Campaign::CreateForm', function (hooks) {
-  setupRenderingTest(hooks);
-  setupIntl(hooks);
+  setupIntlRenderingTest(hooks);
 
   let prescriber;
   let defaultMembers;
@@ -57,7 +55,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    assert.contains(t('pages.campaign-creation.name.label'));
+    assert.contains(this.intl.t('pages.campaign-creation.name.label'));
     assert.dom('button[type="submit"]').exists();
     assert.dom('input[type=text]').hasAttribute('maxLength', '255');
     assert.dom('textarea').hasAttribute('maxLength', '5000');
@@ -80,7 +78,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     assert
-      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.name.label') }))
+      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.campaign-creation.name.label') }))
       .hasValue('Campagne de test');
   });
 
@@ -98,8 +96,8 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText(t('pages.campaign-creation.owner.info'))).exists();
-    assert.dom(screen.getByText(t('pages.campaign-creation.owner.title'))).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'))).exists();
+    assert.dom(screen.getAllByText(this.intl.t('pages.campaign-creation.owner.title'))[0]).exists();
   });
 
   test("it should auto complete owner field with owner's full name", async function (assert) {
@@ -114,7 +112,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
     );
-    await click(screen.getByLabelText(t('pages.campaign-creation.owner.label'), { exact: false }));
+    await click(screen.getByLabelText(this.intl.t('pages.campaign-creation.owner.label'), { exact: false }));
     await screen.findByRole('listbox');
 
     // then
@@ -135,7 +133,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText(t('common.form.mandatory-fields'))).exists();
+    assert.dom(screen.getByText(this.intl.t('common.form.mandatory-fields'))).exists();
   });
 
   module('when campaign is of type ASSESSMENT', function () {
@@ -156,7 +154,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       );
 
       // then
-      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.assessment'))).isChecked();
+      assert.dom(screen.getByLabelText(this.intl.t('pages.campaign-creation.purpose.assessment'))).isChecked();
     });
 
     test('it should fill target-profile fields', async function (assert) {
@@ -185,7 +183,8 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
       // then
       assert.strictEqual(
-        screen.getByRole('button', { name: t('pages.campaign-creation.target-profiles-list-label') }).innerText,
+        screen.getByRole('button', { name: this.intl.t('pages.campaign-creation.target-profiles-list-label') })
+          .innerText,
         targetProfile.name,
       );
     });
@@ -210,9 +209,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
       // then
       const radiogroup = screen.getByRole('radiogroup', {
-        name: t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
+        name: this.intl.t('pages.campaign-creation.multiple-sendings.assessments.question-label'),
       });
-      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+      assert.dom(within(radiogroup).getByLabelText(this.intl.t('pages.campaign-creation.yes'))).isChecked();
     });
   });
 
@@ -233,7 +232,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 />`,
       );
 
-      assert.dom(screen.getByLabelText(t('pages.campaign-creation.purpose.profiles-collection'))).isChecked();
+      assert.dom(screen.getByLabelText(this.intl.t('pages.campaign-creation.purpose.profiles-collection'))).isChecked();
     });
 
     test('it should fill multiple sendings fields', async function (assert) {
@@ -255,9 +254,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
       // then
       const radiogroup = screen.getByRole('radiogroup', {
-        name: t('pages.campaign-creation.multiple-sendings.profiles.question-label'),
+        name: this.intl.t('pages.campaign-creation.multiple-sendings.profiles.question-label'),
       });
-      assert.dom(within(radiogroup).getByLabelText(t('pages.campaign-creation.yes'))).isChecked();
+      assert.dom(within(radiogroup).getByLabelText(this.intl.t('pages.campaign-creation.yes'))).isChecked();
     });
   });
 
@@ -274,11 +273,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.purpose.assessment'));
+      await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
       // then
-      assert.contains(t('pages.campaign-creation.test-title.label'));
-      assert.contains(t('pages.campaign-creation.purpose.label'));
+      assert.contains(this.intl.t('pages.campaign-creation.test-title.label'));
+      assert.contains(this.intl.t('pages.campaign-creation.purpose.label'));
     });
 
     test('it should display the purpose explanation of an assessment campaign', async function (assert) {
@@ -293,11 +292,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.purpose.assessment'));
+      await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
       // then
-      assert.contains(t('pages.campaign-creation.purpose.assessment-info'));
-      assert.notContains(t('pages.campaign-creation.purpose.profiles-collection-info'));
+      assert.contains(this.intl.t('pages.campaign-creation.purpose.assessment-info'));
+      assert.notContains(this.intl.t('pages.campaign-creation.purpose.profiles-collection-info'));
     });
 
     module('when the user chose a target profile', function () {
@@ -333,15 +332,17 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
         );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+        await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-        await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+        await click(
+          screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+        );
         await click(await screen.findByRole('option', { name: 'targetProfile1' }));
 
         // then
         assert.contains('description1');
-        assert.contains(t('common.target-profile-details.subjects', { value: 11 }));
-        assert.contains(t('common.target-profile-details.thematic-results', { value: 12 }));
+        assert.contains(this.intl.t('common.target-profile-details.subjects', { value: 11 }));
+        assert.contains(this.intl.t('common.target-profile-details.thematic-results', { value: 12 }));
       });
 
       test('it should display a message about result', async function (assert) {
@@ -376,13 +377,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
         );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+        await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-        await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+        await click(
+          screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+        );
         await click(await screen.findByRole('option', { name: 'targetProfile1' }));
 
         // then
-        assert.contains(t('common.target-profile-details.results.common'));
+        assert.contains(this.intl.t('common.target-profile-details.results.common'));
       });
 
       module('Displaying options and categories', function () {
@@ -438,9 +441,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
           );
-          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          await click(
+            screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+          );
           let options = await screen.findAllByRole('option');
 
           // then
@@ -484,9 +489,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
           );
-          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          await click(
+            screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+          );
           let options = await screen.findAllByRole('option');
 
           // then
@@ -523,11 +530,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
         );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+        await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
         // then
-        assert.notContains(t('pages.campaign-creation.multiple-sendings.assessments.question-label'));
-        assert.notContains(t('pages.campaign-creation.multiple-sendings.assessments.info'));
+        assert.notContains(this.intl.t('pages.campaign-creation.multiple-sendings.assessments.question-label'));
+        assert.notContains(this.intl.t('pages.campaign-creation.multiple-sendings.assessments.info'));
       });
 
       test('it should display multiple sendings field', async function (assert) {
@@ -563,13 +570,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
         );
-        await clickByName(t('pages.campaign-creation.purpose.assessment'));
+        await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-        await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+        await click(
+          screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+        );
         await click(await screen.findByRole('option', { name: 'targetProfile1' }));
 
         // then
-        assert.contains(t('common.target-profile-details.results.common'));
+        assert.contains(this.intl.t('common.target-profile-details.results.common'));
       });
 
       module('when target profile are knowledge elements resettable', function () {
@@ -607,13 +616,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
           );
-          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          await click(
+            screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+          );
           await click(await screen.findByRole('option', { name: 'targetProfile1' }));
 
           // then
-          assert.contains(t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'));
+          assert.contains(this.intl.t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'));
         });
       });
 
@@ -652,13 +663,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
           );
-          await clickByName(t('pages.campaign-creation.purpose.assessment'));
+          await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
-          await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+          await click(
+            screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+          );
           await click(await screen.findByRole('option', { name: 'targetProfile1' }));
 
           // then
-          assert.notContains(t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'));
+          assert.notContains(this.intl.t('pages.campaign-creation.multiple-sendings.knowledge-elements-resettable'));
         });
       });
     });
@@ -677,11 +690,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
+      await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
-      assert.notContains(t('pages.campaign-creation.test-title.label'));
-      assert.notContains(t('pages.campaign-creation.target-profiles-list-label'));
+      assert.notContains(this.intl.t('pages.campaign-creation.test-title.label'));
+      assert.notContains(this.intl.t('pages.campaign-creation.target-profiles-list-label'));
     });
 
     test('it should display fields for enabling multiple sendings', async function (assert) {
@@ -696,11 +709,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
+      await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
-      assert.contains(t('pages.campaign-creation.multiple-sendings.profiles.question-label'));
-      assert.contains(t('pages.campaign-creation.multiple-sendings.profiles.info'));
+      assert.contains(this.intl.t('pages.campaign-creation.multiple-sendings.profiles.question-label'));
+      assert.contains(this.intl.t('pages.campaign-creation.multiple-sendings.profiles.info'));
     });
 
     test('it should display the purpose explanation of a profiles collection campaign', async function (assert) {
@@ -715,11 +728,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.purpose.profiles-collection'));
+      await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
-      assert.contains(t('pages.campaign-creation.purpose.profiles-collection-info'));
-      assert.notContains(t('pages.campaign-creation.purpose.assessment-info'));
+      assert.contains(this.intl.t('pages.campaign-creation.purpose.profiles-collection-info'));
+      assert.notContains(this.intl.t('pages.campaign-creation.purpose.assessment-info'));
     });
   });
 
@@ -741,15 +754,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     // then
     const externalIdentifier = screen
-      .getByText(t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
+      .getByText(this.intl.t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
       .closest('fieldset');
-    const element = within(externalIdentifier).getByRole('radio', { name: t('pages.campaign-creation.yes') });
+    const element = within(externalIdentifier).getByRole('radio', { name: this.intl.t('pages.campaign-creation.yes') });
 
     assert.dom(element).isChecked();
     assert
       .dom(
         screen.getByRole('textbox', {
-          name: `${t('pages.campaign-creation.external-id-label.label')} ${t(
+          name: `${this.intl.t('pages.campaign-creation.external-id-label.label')} ${this.intl.t(
             'pages.campaign-creation.external-id-label.suggestion',
           )}`,
         }),
@@ -775,9 +788,9 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     // then
     const externalIdentifier = screen
-      .getByText(t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
+      .getByText(this.intl.t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
       .closest('fieldset');
-    const element = within(externalIdentifier).getByRole('radio', { name: t('pages.campaign-creation.no') });
+    const element = within(externalIdentifier).getByRole('radio', { name: this.intl.t('pages.campaign-creation.no') });
 
     assert.dom(element).isChecked();
   });
@@ -798,11 +811,11 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
       // then
       const externalIdentifier = screen
-        .getByText(t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
+        .getByText(this.intl.t('pages.campaign-creation.external-id-label.question-label'), { selector: 'legend' })
         .closest('fieldset');
 
-      assert.dom(within(externalIdentifier).getByLabelText(t('pages.campaign-creation.no'))).isNotChecked();
-      assert.dom(within(externalIdentifier).getByLabelText(t('pages.campaign-creation.yes'))).isNotChecked();
+      assert.dom(within(externalIdentifier).getByLabelText(this.intl.t('pages.campaign-creation.no'))).isNotChecked();
+      assert.dom(within(externalIdentifier).getByLabelText(this.intl.t('pages.campaign-creation.yes'))).isNotChecked();
     });
 
     test('it should not display gdpr footnote', async function (assert) {
@@ -819,7 +832,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       );
 
       // then
-      assert.notContains(t('pages.campaign-creation.legal-warning'));
+      assert.notContains(this.intl.t('pages.campaign-creation.legal-warning'));
     });
   });
 
@@ -836,10 +849,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.no'));
+      await clickByName(this.intl.t('pages.campaign-creation.no'));
 
       // then
-      assert.notContains(t('pages.campaign-creation.legal-warning'));
+      assert.notContains(this.intl.t('pages.campaign-creation.legal-warning'));
     });
   });
 
@@ -856,10 +869,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.yes'));
+      await clickByName(this.intl.t('pages.campaign-creation.yes'));
 
       // then
-      assert.contains(t('pages.campaign-creation.legal-warning'));
+      assert.contains(this.intl.t('pages.campaign-creation.legal-warning'));
     });
 
     test('it set the external id as required', async function (assert) {
@@ -874,10 +887,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.yes'));
+      await clickByName(this.intl.t('pages.campaign-creation.yes'));
 
       // then
-      const label = screen.getByLabelText(new RegExp(t('pages.campaign-creation.external-id-label.label')));
+      const label = screen.getByLabelText(new RegExp(this.intl.t('pages.campaign-creation.external-id-label.label')));
       assert.true(label.hasAttribute('aria-required', false));
     });
   });
@@ -900,7 +913,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     assert
-      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.test-title.label') }))
+      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.campaign-creation.test-title.label') }))
       .hasValue('Mon titre de parcours');
   });
 
@@ -921,7 +934,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     assert
-      .dom(screen.getByRole('textbox', { name: t('pages.campaign-creation.landing-page-text.label') }))
+      .dom(screen.getByRole('textbox', { name: this.intl.t('pages.campaign-creation.landing-page-text.label') }))
       .hasValue('Mon texte de landing page');
   });
 
@@ -941,13 +954,15 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
     );
-    await fillByLabel(`* ${t('pages.campaign-creation.name.label')}`, 'Ma campagne');
-    await clickByName(t('pages.campaign-creation.purpose.assessment'));
-    await click(screen.getByLabelText(t('pages.campaign-creation.target-profiles-list-label'), { exact: false }));
+    await fillByLabel(`* ${this.intl.t('pages.campaign-creation.name.label')}`, 'Ma campagne');
+    await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
+    await click(
+      screen.getByLabelText(this.intl.t('pages.campaign-creation.target-profiles-list-label'), { exact: false }),
+    );
     await click(await screen.findByRole('option', { name: targetProfile.name }));
 
     // when
-    await clickByName(t('pages.campaign-creation.actions.create'));
+    await clickByName(this.intl.t('pages.campaign-creation.actions.create'));
 
     sinon.assert.calledWithExactly(this.createCampaignSpy, this.campaign);
     // then
@@ -990,12 +1005,12 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.yes'));
+      await clickByName(this.intl.t('pages.campaign-creation.yes'));
 
       // then
-      assert.contains(t('api-error-messages.campaign-creation.name-required'));
-      assert.contains(t('api-error-messages.campaign-creation.purpose-required'));
-      assert.contains(t('api-error-messages.campaign-creation.external-user-id-required'));
+      assert.contains(this.intl.t('api-error-messages.campaign-creation.name-required'));
+      assert.contains(this.intl.t('api-error-messages.campaign-creation.purpose-required'));
+      assert.contains(this.intl.t('api-error-messages.campaign-creation.external-user-id-required'));
     });
 
     test('it should display errors messages when the target profile field is empty', async function (assert) {
@@ -1022,10 +1037,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
       );
-      await clickByName(t('pages.campaign-creation.purpose.assessment'));
+      await clickByName(this.intl.t('pages.campaign-creation.purpose.assessment'));
 
       // then
-      assert.contains(t('api-error-messages.campaign-creation.target-profile-required'));
+      assert.contains(this.intl.t('api-error-messages.campaign-creation.target-profile-required'));
     });
   });
 });
