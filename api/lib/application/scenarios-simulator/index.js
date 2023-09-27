@@ -2,6 +2,22 @@ import Joi from 'joi';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
+const _successRatesConfigurationValidator = Joi.alternatives(
+  Joi.object({
+    type: Joi.string().valid('fixed').required(),
+    startingChallengeIndex: Joi.number().integer().min(0).required(),
+    endingChallengeIndex: Joi.number().integer().min(Joi.ref('startingChallengeIndex')).required(),
+    value: Joi.number().min(0).max(1).required(),
+  }),
+  Joi.object({
+    type: Joi.string().valid('linear').required(),
+    startingChallengeIndex: Joi.number().integer().min(0).required(),
+    endingChallengeIndex: Joi.number().integer().min(Joi.ref('startingChallengeIndex')).required(),
+    startingValue: Joi.number().min(0).max(1).required(),
+    endingValue: Joi.number().min(0).max(1).required(),
+  }),
+);
+
 const _baseScenarioParametersValidator = Joi.object().keys({
   assessmentId: Joi.string().required(),
   initialCapacity: Joi.number().integer().min(-8).max(8),
@@ -13,6 +29,7 @@ const _baseScenarioParametersValidator = Joi.object().keys({
   challengePickProbability: Joi.number().min(0).max(100),
   challengesBetweenSameCompetence: Joi.number().min(0),
   limitToOneQuestionPerTube: Joi.boolean(),
+  minimumEstimatedSuccessRateRanges: Joi.array().items(_successRatesConfigurationValidator),
 });
 
 const register = async (server) => {

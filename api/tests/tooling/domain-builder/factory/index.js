@@ -79,6 +79,10 @@ import { buildCourse } from './build-course.js';
 import { buildCpfCertificationResult } from './build-cpf-certification-result.js';
 import * as buildDataProtectionOfficer from './build-data-protection-officer.js';
 import { buildFinalizedSession } from './build-finalized-session.js';
+import {
+  buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
+  buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
+} from './build-flash-assessment-algorithm-success-rate-handler.js';
 import { buildFramework } from './build-framework.js';
 import { buildHint } from './build-hint.js';
 import { buildSupOrganizationLearner } from './build-sup-organization-learner.js';
@@ -237,6 +241,8 @@ export {
   buildDataProtectionOfficer,
   buildFeedback,
   buildFinalizedSession,
+  buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
+  buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
   buildFramework,
   buildHint,
   buildSupOrganizationLearner,

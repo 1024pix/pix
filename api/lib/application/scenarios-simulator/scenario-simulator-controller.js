@@ -7,6 +7,7 @@ import { pickAnswerStatusService } from '../../domain/services/pick-answer-statu
 import { HttpErrors } from '../http-errors.js';
 import _ from 'lodash';
 import { pickChallengeService } from '../../domain/services/pick-challenge-service.js';
+import { FlashAssessmentSuccessRateHandler } from '../../domain/models/FlashAssessmentSuccessRateHandler.js';
 
 async function simulateFlashAssessmentScenario(
   request,
@@ -30,11 +31,16 @@ async function simulateFlashAssessmentScenario(
     challengePickProbability,
     challengesBetweenSameCompetence,
     limitToOneQuestionPerTube,
+    minimumEstimatedSuccessRateRanges: minimumEstimatedSuccessRateRangesDto,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
 
   const locale = dependencies.extractLocaleFromRequest(request);
+
+  const minimumEstimatedSuccessRateRanges = _minimumEstimatedSuccessRateRangesToDomain(
+    minimumEstimatedSuccessRateRangesDto,
+  );
 
   const result = await Promise.all(
     _.range(0, numberOfIterations).map(async (index) => {
@@ -55,6 +61,7 @@ async function simulateFlashAssessmentScenario(
           useObsoleteChallenges,
           challengesBetweenSameCompetence,
           limitToOneQuestionPerTube,
+          minimumEstimatedSuccessRateRanges,
         },
         _.isUndefined,
       );
@@ -123,6 +130,16 @@ function _isValidAnswerStatusArray(answerStatusArray) {
 
 function _generateAnswerStatusArray(random, probabilities, length) {
   return random.weightedRandoms(probabilities, length);
+}
+
+function _minimumEstimatedSuccessRateRangesToDomain(successRateRanges) {
+  if (!successRateRanges) {
+    return undefined;
+  }
+
+  return successRateRanges.map((successRateRange) => {
+    return FlashAssessmentSuccessRateHandler.create(successRateRange);
+  });
 }
 
 export const scenarioSimulatorController = { simulateFlashAssessmentScenario, importScenarios };
