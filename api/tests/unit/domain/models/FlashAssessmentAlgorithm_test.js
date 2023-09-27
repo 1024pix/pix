@@ -9,6 +9,7 @@ function initializeTestChallenges(hardAnsweredChallengesCount, difficulty, answe
   const defaultDiscriminantValue = 0.5;
   const defaultSkill = domainBuilder.buildSkill({
     id: 'recSK456',
+    tubeId: 'tube456',
   });
   const hardAnsweredChallenges = _.range(0, hardAnsweredChallengesCount).map((index) =>
     domainBuilder.buildChallenge({
@@ -36,7 +37,10 @@ function initializeTestChallenges(hardAnsweredChallengesCount, difficulty, answe
     id: 'recUnansweredMedium',
     difficulty: 0,
     discriminant: defaultDiscriminantValue,
-    skill: defaultSkill,
+    skill: domainBuilder.buildSkill({
+      id: `skill2`,
+      tubeId: 'tube2',
+    }),
   });
 
   const challenges = [...hardAnsweredChallenges, expectedUnansweredChallenge, mediumUnansweredChallenge];
@@ -176,6 +180,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             id: 'easyChallenge',
             skill: domainBuilder.buildSkill({
               id: 'skillEasy',
+              tubeId: 'tube4',
             }),
             competenceId: 'compEasy',
             discriminant,
@@ -188,6 +193,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             id: 'challengeWithRightSuccessRate',
             skill: domainBuilder.buildSkill({
               id: 'skillMedium',
+              tubeId: 'tube3',
             }),
             competenceId: 'compMedium',
             discriminant: challengeWithRightSuccessRateDiscriminant,
@@ -198,6 +204,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             id: 'hardChallenge2',
             skill: domainBuilder.buildSkill({
               id: 'skillHard2',
+              tubeId: 'tube2',
             }),
             competenceId: 'compHard2',
             discriminant,
@@ -208,6 +215,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             id: 'hardChallenge',
             skill: domainBuilder.buildSkill({
               id: 'skillHard',
+              tubeId: 'tube1',
             }),
             competenceId: 'compHard',
             discriminant,
