@@ -1,19 +1,17 @@
 {{page-title "Home"}}
-
-<div>
-  <Input
-    required
-    aria-describedby="code-description"
-    id="school-code"
-    class="input-code"
-    @type="text"
-    @value={{this.schoolCode}}
-    maxlength="9"
+<RobotDialog @instruction={{t "pages.home.code-instruction"}} />
+<div class="school-code">
+  <PixInputCode
+    @ariaLabel={{t "pages.home.field-description"}}
+    @legend={{t "pages.home.code-description"}}
+    @explanationOfUse="Détails d'utilisation du PixInputCode"
+    @numInputs={{9}}
+    @inputType="text"
+    @onAllInputsFilled={{this.updateCode}}
+    class="school-code__input"
   />
-</div>
 
-<div>
-  <PixButton @triggerAction={{this.goToSchool}}>
+  <PixButton class="pix1d-button" @triggerAction={{this.goToSchool}}>
     {{t "pages.home.go-to-school"}}
   </PixButton>
 </div>

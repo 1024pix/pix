@@ -16,7 +16,9 @@ module('Acceptance | School', function (hooks) {
       const school = this.server.create('school');
       // when
       const screen = await visit('/');
-      await fillIn('#school-code', 'MINIPIXOU');
+      const code = ['M', 'I', 'N', 'I', 'P', 'I', 'X', 'O', 'U'];
+
+      code.forEach((element, index) => fillIn(screen.getByLabelText(`Champ numéro ${index + 1}`), element));
       await clickByText(this.intl.t('pages.home.go-to-school'));
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU');
