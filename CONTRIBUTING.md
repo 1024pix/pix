@@ -116,6 +116,21 @@ Format (\*) | Description | Exemples
 
 (\*) : la description est en anglais
 
+## Règles de validation des pull-request
+
+Pour qu'une pull-request soit acccepté et puisse être mergé, il faut que : 
+
+- tous les checks de la CI soient verts : les applications se sont déployées, les tests sont passés ;
+- la description de la PR soit complète : Problème, proposition, remarque, pour tester
+- la PR a reçu assez d'*approvals*
+
+Le nombre de validations attendu peut légèrement changer selon les cas :
+
+- De base, il faut que **3 personnes** aient vu le code. Donc pour un contributeur, on demandera 2 *approvals* pour chaque PR.
+- Si la PR a été réalisé à plusieurs, il faut au moins 1 *approval* en plus des personnes ayant participé. Si l'équipe n'est pas assez grande : les 2 *approvals* peuvent être donnés par les personnes ayant participé : nous conseillons fortement de ne pas merger directement après le développement et de faire la review de sa propre PR à tête reposée.
+- Si la PR concerne plusieurs équipes, il faut alors 1 *approval* par équipe concernée. Cette règle s'ajoute à la règle des 2 *approvals*
+
+
 ## Autres
 
 ### Branche `dev`
