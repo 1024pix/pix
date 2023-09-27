@@ -68,11 +68,7 @@ export default class Url extends Service {
   }
 
   get fraudFormUrl() {
-    if (this.#isFrenchSpoken()) {
-      return 'https://form-eu.123formbuilder.com/41052/form';
-    }
-
-    return 'https://cloud.pix.fr/s/6Ltnqkf4emQEooS/download';
+    return 'https://form-eu.123formbuilder.com/41052/form';
   }
 
   #isFrenchSpoken() {
