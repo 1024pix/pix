@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+/* Pix UI */
+@import 'pix-design-tokens';
+
 // Globals
 @import 'globals/fonts';
 @import 'globals/a11y';
@@ -12,7 +15,6 @@
 @import 'components/challenge-actions';
 @import 'components/challenge-embed-simulator';
 @import 'components/challenge-illustration';
-@import 'components/challenge-instruction';
 @import 'components/challenge-item';
 @import 'components/challenge-item-proposals';
 @import 'components/error';
@@ -45,8 +47,8 @@ b {
 
 footer {
   margin-top: auto;
-  margin-bottom: 25px;
-  margin-left: 30px;
+  margin-bottom: 32px;
+  margin-left: 32px;
   text-align: start;
 
   img {
