@@ -80,8 +80,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       let locale;
 
       beforeEach(function () {
-        firstSkill = domainBuilder.buildSkill({ id: 'First' });
-        secondSkill = domainBuilder.buildSkill({ id: 'Second' });
+        firstSkill = domainBuilder.buildSkill({ id: 'First', tubeId: '1' });
+        secondSkill = domainBuilder.buildSkill({ id: 'Second', tubeId: '2' });
         firstChallenge = domainBuilder.buildChallenge({
           id: '1234',
           difficulty: -5,
