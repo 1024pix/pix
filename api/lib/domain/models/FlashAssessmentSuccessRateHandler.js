@@ -17,6 +17,15 @@ class FlashAssessmentSuccessRateHandler {
     return this._strategy.getMinimalSuccessRate(this.startingChallengeIndex, this.endingChallengeIndex, questionIndex);
   }
 
+  static create(successRateRange) {
+    if (successRateRange.type === 'linear') {
+      return FlashAssessmentSuccessRateHandler.createLinear(successRateRange);
+    }
+    if (successRateRange.type === 'fixed') {
+      return FlashAssessmentSuccessRateHandler.createFixed(successRateRange);
+    }
+  }
+
   static createFixed({ startingChallengeIndex, endingChallengeIndex, value }) {
     return new FlashAssessmentSuccessRateHandler({
       startingChallengeIndex,
