@@ -144,7 +144,7 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
         await updateCertificationInfos(dataFile, sessionIdsFile);
 
         // then
-        expect(logger.warn).to.have.been.calledWith('Certification for external id 123 not found');
+        expect(logger.warn).to.have.been.calledWithExactly('Certification for external id 123 not found');
       });
     });
 
@@ -247,7 +247,7 @@ describe('Acceptance | Scripts | update-certification-infos', function () {
         await updateCertificationInfos(dataFile, sessionIdsFile);
 
         // then
-        expect(logger.warn).to.have.been.calledWith('Certification for external id 123 not found');
+        expect(logger.warn).to.have.been.calledWithExactly('Certification for external id 123 not found');
       });
     });
   });

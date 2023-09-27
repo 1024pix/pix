@@ -300,7 +300,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
             userAttributes.email,
             locale,
             expectedRedirectionUrl,

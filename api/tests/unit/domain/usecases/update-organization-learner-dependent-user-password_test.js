@@ -70,7 +70,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     });
 
     // then
-    expect(userRepository.getWithMemberships).to.have.been.calledWith(userId);
+    expect(userRepository.getWithMemberships).to.have.been.calledWithExactly(userId);
   });
 
   it('should get student by his id', async function () {
@@ -87,7 +87,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     });
 
     // then
-    expect(organizationLearnerRepository.get).to.have.been.calledWith(organizationLearnerId);
+    expect(organizationLearnerRepository.get).to.have.been.calledWithExactly(organizationLearnerId);
   });
 
   it('should update user password with a hashed password', async function () {
@@ -104,8 +104,8 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     });
 
     // then
-    expect(encryptionService.hashPassword).to.have.been.calledWith(generatedPassword);
-    expect(authenticationMethodRepository.updatePasswordThatShouldBeChanged).to.have.been.calledWith({
+    expect(encryptionService.hashPassword).to.have.been.calledWithExactly(generatedPassword);
+    expect(authenticationMethodRepository.updatePasswordThatShouldBeChanged).to.have.been.calledWithExactly({
       userId: userStudent.id,
       hashedPassword: encryptedPassword,
     });

@@ -243,7 +243,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const expectedData = `client_secret=OIDC_CLIENT_SECRET&grant_type=authorization_code&code=AUTH_CODE&client_id=OIDC_CLIENT_ID&redirect_uri=pix.net%2Fconnexion%2Foidc`;
       const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
 
-      expect(httpAgent.post).to.have.been.calledWith({
+      expect(httpAgent.post).to.have.been.calledWithExactly({
         url: 'http://oidc.net/api/token',
         payload: expectedData,
         headers: expectedHeaders,
@@ -286,7 +286,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(error).to.be.an.instanceOf(OidcInvokingTokenEndpointError);
         expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: {
             customMessage: 'Erreur lors de la récupération des tokens du partenaire.',
             errorDetails: JSON.stringify(errorResponse.data),
@@ -507,7 +507,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(errorResponse.message).to.be.equal(
           'Une erreur est survenue en récupérant les informations des utilisateurs.',
         );
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: {
             customMessage: 'Une erreur est survenue en récupérant les informations des utilisateurs.',
             errorDetails: 'Pas de détails disponibles',
@@ -552,7 +552,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
         );
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.badResponseFormat.code);
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: {
             message: `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
             typeOfUserInfoContent: 'string',
@@ -599,7 +599,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error).to.be.instanceOf(OidcMissingFieldsError);
         expect(error.message).to.be.equal(errorMessage);
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.missingFields.code);
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith({
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: errorMessage,
           missingFields: 'Champs manquants : family_name',
           userInfoContent: {
@@ -658,7 +658,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
 
       // then
-      expect(authenticationMethodRepository.create).to.have.been.calledWith({
+      expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
         authenticationMethod: expectedAuthenticationMethod,
         domainTransaction,
       });

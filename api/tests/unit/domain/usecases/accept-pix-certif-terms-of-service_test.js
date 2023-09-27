@@ -18,7 +18,7 @@ describe('Unit | UseCase | accept-pix-certif-terms-of-service', function () {
     const actualUpdatedUser = await acceptPixCertifTermsOfService({ userId, userRepository });
 
     // then
-    expect(userRepository.updatePixCertifTermsOfServiceAcceptedToTrue).to.have.been.calledWith(userId);
+    expect(userRepository.updatePixCertifTermsOfServiceAcceptedToTrue).to.have.been.calledWithExactly(userId);
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
 });

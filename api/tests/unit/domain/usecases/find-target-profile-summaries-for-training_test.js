@@ -18,7 +18,7 @@ describe('Unit | UseCase | find-target-profile-summaries-for-training', function
     });
 
     // then
-    expect(targetProfileSummaryForAdminRepository.findByTraining).to.have.been.calledWith({ trainingId });
+    expect(targetProfileSummaryForAdminRepository.findByTraining).to.have.been.calledWithExactly({ trainingId });
     expect(result).to.equal(targetProfileSummaries);
   });
 });

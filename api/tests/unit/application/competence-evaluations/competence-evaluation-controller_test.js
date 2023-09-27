@@ -54,7 +54,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', function () 
       });
 
       // then
-      expect(competenceEvaluationSerializer.serialize).to.have.been.calledWith(competenceEvaluation);
+      expect(competenceEvaluationSerializer.serialize).to.have.been.calledWithExactly(competenceEvaluation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCompetenceEvaluation);
     });

@@ -148,11 +148,10 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
 
         expect(
           organizationLearnersXmlServiceStub.extractOrganizationLearnersInformationFromSIECLE,
-        ).to.have.been.calledWith(payload.path, { externalId: organizationUAI });
-        expect(organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners).to.have.been.calledWith(
-          organizationLearners,
-          organizationId,
-        );
+        ).to.have.been.calledWithExactly(payload.path, { externalId: organizationUAI });
+        expect(
+          organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners,
+        ).to.have.been.calledWithExactly(organizationLearners, organizationId, domainTransaction);
         expect(organizationLearnerRepositoryStub.addOrUpdateOrganizationOfOrganizationLearners).to.not.throw();
       });
     });

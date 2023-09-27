@@ -18,7 +18,7 @@ describe('Unit | UseCase | accept-pix-last-terms-of-service', function () {
     const actualUpdatedUser = await acceptPixLastTermsOfService({ userId, userRepository });
 
     // then
-    expect(userRepository.acceptPixLastTermsOfService).to.have.been.calledWith(userId);
+    expect(userRepository.acceptPixLastTermsOfService).to.have.been.calledWithExactly(userId);
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
 });

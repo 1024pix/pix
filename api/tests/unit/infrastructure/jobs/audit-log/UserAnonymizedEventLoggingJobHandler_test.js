@@ -40,7 +40,7 @@ describe('Unit | Infrastructure | Jobs | audit-log | ', function () {
         action: 'ANONYMIZATION',
         client: 'PIX_ADMIN',
       };
-      expect(auditLoggerRepository.logEvent).to.have.been.calledWith(expectedEvent);
+      expect(auditLoggerRepository.logEvent).to.have.been.calledWithExactly(expectedEvent);
     });
   });
 });

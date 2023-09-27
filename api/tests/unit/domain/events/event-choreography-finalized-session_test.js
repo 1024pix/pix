@@ -13,7 +13,7 @@ describe('Event Choreography | Finalized session', function () {
     await eventDispatcher.dispatch(event);
 
     // then
-    expect(handlerStubs.handleAutoJury).to.have.been.calledWith({ event, domainTransaction: undefined });
+    expect(handlerStubs.handleAutoJury).to.have.been.calledWithExactly({ event, domainTransaction: undefined });
   });
 
   it('Should trigger persisting a finalized session on Auto Jury Done event', async function () {
@@ -25,6 +25,6 @@ describe('Event Choreography | Finalized session', function () {
     await eventDispatcher.dispatch(event);
 
     // then
-    expect(handlerStubs.handleSessionFinalized).to.have.been.calledWith({ event, domainTransaction: undefined });
+    expect(handlerStubs.handleSessionFinalized).to.have.been.calledWithExactly({ event, domainTransaction: undefined });
   });
 });

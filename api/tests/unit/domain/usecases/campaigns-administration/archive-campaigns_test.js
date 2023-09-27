@@ -22,7 +22,7 @@ describe('Unit | UseCase | archive-campaign', function () {
         campaignAdministrationRepository,
       });
 
-      expect(campaignAdministrationRepository.archiveCampaigns).to.have.been.calledWith(campaignIds, userId);
+      expect(campaignAdministrationRepository.archiveCampaigns).to.have.been.calledWithExactly(campaignIds, userId);
     });
   });
 });

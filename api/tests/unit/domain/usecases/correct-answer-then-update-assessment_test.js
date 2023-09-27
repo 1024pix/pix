@@ -207,7 +207,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWith(completedAnswer);
+        expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWithExactly(completedAnswer, [
+          firstCreatedKnowledgeElement,
+          secondCreatedKnowledgeElement,
+        ]);
       });
 
       it('should call repositories to get needed information', async function () {
@@ -219,8 +222,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        expect(skillRepository.findActiveByCompetenceId).to.have.been.calledWith(assessment.competenceId);
-        expect(knowledgeElementRepository.findUniqByUserIdAndAssessmentId).to.have.been.calledWith({
+        expect(skillRepository.findActiveByCompetenceId).to.have.been.calledWithExactly(assessment.competenceId);
+        expect(knowledgeElementRepository.findUniqByUserIdAndAssessmentId).to.have.been.calledWithExactly({
           userId: assessment.userId,
           assessmentId: assessment.id,
         });
@@ -366,7 +369,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        expect(campaignRepository.findSkillsByCampaignParticipationId).to.have.been.calledWith({
+        expect(campaignRepository.findSkillsByCampaignParticipationId).to.have.been.calledWithExactly({
           campaignParticipationId: assessment.campaignParticipationId,
         });
       });
@@ -381,7 +384,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
         // then
         const expectedArgument = answer.challengeId;
-        expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
+        expect(challengeRepository.get).to.have.been.calledWithExactly(expectedArgument);
       });
 
       it('should create the knowledge elements for the answer', async function () {
@@ -403,7 +406,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           targetSkills: skills,
           userId: assessment.userId,
         };
-        expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
+        expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWithExactly(expectedArgument);
       });
 
       it('should return the saved answer - with the id', async function () {
@@ -569,7 +572,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
         // then
         const expectedArgument = answer.challengeId;
-        expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
+        expect(challengeRepository.get).to.have.been.calledWithExactly(expectedArgument);
       });
 
       it('should not create the knowledge elements for the answer', async function () {
@@ -607,7 +610,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           ...dependencies,
         });
 
-        expect(algorithmDataFetcherService.fetchForFlashLevelEstimation).to.have.been.calledWith({
+        expect(algorithmDataFetcherService.fetchForFlashLevelEstimation).to.have.been.calledWithExactly({
           assessment,
           answerRepository,
           challengeRepository,
@@ -622,7 +625,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           ...dependencies,
         });
 
-        expect(flashAlgorithmService.getEstimatedLevelAndErrorRate).to.have.been.calledWith(flashData);
+        expect(flashAlgorithmService.getEstimatedLevelAndErrorRate).to.have.been.calledWithExactly(flashData);
       });
 
       it('should call the flash assessment result repository to save estimatedLevel and errorRate', async function () {
@@ -633,7 +636,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           ...dependencies,
         });
 
-        expect(flashAssessmentResultRepository.save).to.have.been.calledWith({
+        expect(flashAssessmentResultRepository.save).to.have.been.calledWithExactly({
           answerId: id,
           estimatedLevel,
           errorRate,
@@ -728,7 +731,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
         // then
         const expectedArgument = completedAnswer;
-        expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWith(expectedArgument);
+        expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWithExactly(expectedArgument, []);
       });
 
       it('should call the challenge repository to get the answer challenge', async function () {
@@ -741,7 +744,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
         // then
         const expectedArgument = answer.challengeId;
-        expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
+        expect(challengeRepository.get).to.have.been.calledWithExactly(expectedArgument);
       });
 
       it('should not call the compute scorecard method', async function () {

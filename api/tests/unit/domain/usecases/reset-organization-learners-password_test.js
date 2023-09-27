@@ -67,9 +67,9 @@ describe('Unit | UseCases | Reset organization learners password', function () {
 
           // then
           expect(passwordGenerator.generateSimplePassword).to.have.been.callCount(2);
-          expect(encryptionService.hashPassword).to.have.been.calledWith(generatedPassword);
+          expect(encryptionService.hashPassword).to.have.been.calledWithExactly(generatedPassword);
           expect(encryptionService.hashPassword).to.have.been.callCount(2);
-          expect(authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged).to.have.been.calledWith({
+          expect(authenticationMethodRepository.batchUpdatePasswordThatShouldBeChanged).to.have.been.calledWithExactly({
             usersToUpdateWithNewPassword: userIdHashedPassword,
             domainTransaction,
           });
@@ -110,7 +110,7 @@ describe('Unit | UseCases | Reset organization learners password', function () {
         });
 
         // then
-        expect(organizationLearnerRepository.findByIds).to.have.been.calledWith({ ids: organizationLearnersId });
+        expect(organizationLearnerRepository.findByIds).to.have.been.calledWithExactly({ ids: organizationLearnersId });
         expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
         expect(error.code).to.equal(ORGANIZATION_LEARNER_DOES_NOT_BELONG_TO_ORGANIZATION_CODE);
       });
@@ -140,7 +140,7 @@ describe('Unit | UseCases | Reset organization learners password', function () {
           userRepository,
         });
         // then
-        expect(userRepository.getByIds).to.have.been.calledWith(studentIds);
+        expect(userRepository.getByIds).to.have.been.calledWithExactly(studentIds);
         expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
         expect(error.code).to.equal(ORGANIZATION_LEARNER_WITHOUT_USERNAME_CODE);
       });

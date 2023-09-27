@@ -81,7 +81,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
           // then
           return promise.then(() => {
-            return expect(redisCache.set).to.have.been.calledWith(CACHE_KEY, dataFromHandler);
+            return expect(redisCache.set).to.have.been.calledWithExactly(CACHE_KEY, dataFromHandler);
           });
         });
 
@@ -162,7 +162,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
       // then
       return expect(promise).to.have.been.fulfilled.then((result) => {
         expect(result).to.deep.equal(objectToCache);
-        expect(stubbedClient.set).to.have.been.calledWith(CACHE_KEY, JSON.stringify(objectToCache));
+        expect(stubbedClient.set).to.have.been.calledWithExactly(CACHE_KEY, JSON.stringify(objectToCache));
       });
     });
 

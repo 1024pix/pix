@@ -79,7 +79,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     });
 
     // then
-    expect(certificationCourseRepository.update).to.have.been.calledWith(
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(
       new CertificationCourse({
         ...certificationCourseToBeModified.toDTO(),
         firstName: 'Maurice',

@@ -125,7 +125,7 @@ describe('Unit | UseCase | session-publication-service', function () {
 
           // then
           expect(finalizedSession.publishedAt).to.equal(now);
-          expect(finalizedSessionRepository.save).to.have.been.calledWith(finalizedSession);
+          expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(finalizedSession);
         });
       });
     });
@@ -245,7 +245,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         });
 
         // then
-        expect(sessionRepository.flagResultsAsSentToPrescriber).to.have.been.calledWith({
+        expect(sessionRepository.flagResultsAsSentToPrescriber).to.have.been.calledWithExactly({
           id: sessionId,
           resultsSentToPrescriberAt: now,
         });
@@ -387,7 +387,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         });
 
         // then
-        expect(mailService.sendCertificationResultEmail).to.have.been.calledWith({
+        expect(mailService.sendCertificationResultEmail).to.have.been.calledWithExactly({
           sessionId,
           resultRecipientEmail: 'email1@example.net',
           daysBeforeExpiration: 30,
@@ -396,7 +396,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           email: 'email1@example.net',
           translate: i18n.__,
         });
-        expect(mailService.sendCertificationResultEmail).to.have.been.calledWith({
+        expect(mailService.sendCertificationResultEmail).to.have.been.calledWithExactly({
           sessionId,
           resultRecipientEmail: 'email2@example.net',
           daysBeforeExpiration: 30,

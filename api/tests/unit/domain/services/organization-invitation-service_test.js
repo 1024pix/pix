@@ -68,13 +68,13 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         // then
-        expect(organizationInvitationRepository.create).to.has.been.calledWith({
+        expect(organizationInvitationRepository.create).to.has.been.calledWithExactly({
           organizationId: organization.id,
           email: userEmailAddress,
           code: sinon.match.string,
           role,
         });
-        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith({
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWithExactly({
           email: userEmailAddress,
           organizationName: organization.name,
           organizationInvitationId: organizationInvitation.id,
@@ -160,7 +160,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           tags,
         };
 
-        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWithExactly(expectedParameters);
       });
 
       it('should update organization-invitation modification date', async function () {
@@ -187,7 +187,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         // then
-        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
+        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWithExactly(
           organizationInvitation.id,
         );
       });
@@ -289,7 +289,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           locale,
           tags,
         };
-        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWithExactly(expectedParameters);
       });
 
       it('should send an email with organizationId, email, code and tags', async function () {
@@ -338,7 +338,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           locale,
           tags,
         };
-        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWithExactly(expectedParameters);
       });
     });
 
@@ -383,7 +383,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           tags,
         };
 
-        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+        expect(mailService.sendScoOrganizationInvitationEmail).to.has.been.calledWithExactly(expectedParameters);
       });
 
       it('should update organization-invitation modification date', async function () {
@@ -414,7 +414,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         // then
-        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
+        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWithExactly(
           organizationInvitation.id,
         );
       });
@@ -468,7 +468,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         // then
-        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWithExactly(expectedParameters);
       });
     });
 
@@ -510,7 +510,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
           tags,
         };
 
-        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWith(expectedParameters);
+        expect(mailService.sendOrganizationInvitationEmail).to.has.been.calledWithExactly(expectedParameters);
       });
 
       it('should update organization-invitation modification date', async function () {
@@ -539,7 +539,7 @@ describe('Unit | Service | Organization-Invitation Service', function () {
         });
 
         // then
-        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWith(
+        expect(organizationInvitationRepository.updateModificationDate).to.have.been.calledWithExactly(
           organizationInvitation.id,
         );
       });

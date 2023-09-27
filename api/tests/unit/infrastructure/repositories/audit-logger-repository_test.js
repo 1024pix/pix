@@ -40,7 +40,7 @@ describe('Unit | Infrastructure | Repositories | audit-logger-repository', funct
         await auditLoggerRepository.logEvent(event);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWith({ url, payload, headers });
+        expect(httpAgent.post).to.have.been.calledWithExactly({ url, payload, headers });
       });
     });
 

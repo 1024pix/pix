@@ -38,10 +38,10 @@ describe('Unit | UseCase | deneutralize-challenge', function () {
     });
 
     // then
-    expect(certificationAssessment.deneutralizeChallengeByRecId).to.have.been.calledWith(
+    expect(certificationAssessment.deneutralizeChallengeByRecId).to.have.been.calledWithExactly(
       challengeToBeDeneutralized.challengeId,
     );
-    expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
+    expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(certificationAssessment);
   });
 
   it('return a ChallengeDeneutralized event', async function () {

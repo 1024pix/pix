@@ -82,7 +82,7 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
           shouldChangePassword: false,
         }),
       });
-      expect(authenticationMethodRepository.create).to.have.been.calledWith({
+      expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
         authenticationMethod: authenticationMethodFromPix,
       });
     });
@@ -110,7 +110,7 @@ describe('Unit | UseCase | add-pix-authentication-method-by-email', function () 
     });
 
     // then
-    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith({
+    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly({
       id: user.id,
       userAttributes: { email },
     });

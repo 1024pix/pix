@@ -68,16 +68,16 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
       });
 
       // then
-      expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWith({
+      expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWithExactly({
         cpfCertificationResults,
         writableStream: sinon.match(PassThrough),
         uuidService,
       });
-      expect(cpfExternalStorage.upload).to.have.been.calledWith({
+      expect(cpfExternalStorage.upload).to.have.been.calledWithExactly({
         filename: 'pix-cpf-export-20220101-114327.xml.gz',
         readableStream: sinon.match(Readable),
       });
-      expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWith({
+      expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWithExactly({
         certificationCourseIds: [12, 20, 33, 98, 114],
         filename: 'pix-cpf-export-20220101-114327.xml.gz',
       });

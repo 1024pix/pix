@@ -50,11 +50,13 @@ describe('Unit | Controller | PasswordController', function () {
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(usecases.createPasswordResetDemand).to.have.been.calledWith({
+      expect(usecases.createPasswordResetDemand).to.have.been.calledWithExactly({
         email,
         locale,
       });
-      expect(dependencies.passwordResetSerializer.serialize).to.have.been.calledWith(resetPasswordDemand.attributes);
+      expect(dependencies.passwordResetSerializer.serialize).to.have.been.calledWithExactly(
+        resetPasswordDemand.attributes,
+      );
     });
   });
 
@@ -83,8 +85,8 @@ describe('Unit | Controller | PasswordController', function () {
       await passwordController.checkResetDemand(request, hFake, dependencies);
 
       // then
-      expect(usecases.getUserByResetPasswordDemand).to.have.been.calledWith({ temporaryKey });
-      expect(dependencies.userSerializer.serialize).to.have.been.calledWith({ email });
+      expect(usecases.getUserByResetPasswordDemand).to.have.been.calledWithExactly({ temporaryKey });
+      expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly({ email });
     });
   });
 

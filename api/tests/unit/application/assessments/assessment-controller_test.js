@@ -21,7 +21,7 @@ describe('Unit | Controller | assessment-controller', function () {
       });
 
       expect(result.statusCode).to.be.equal(201);
-      expect(assessmentSerializer.serialize).to.have.been.calledWith(createdAssessment);
+      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(createdAssessment);
     });
   });
   describe('#createAssessmentPreviewForPix1d', function () {
@@ -36,7 +36,7 @@ describe('Unit | Controller | assessment-controller', function () {
       });
 
       expect(result.statusCode).to.be.equal(201);
-      expect(assessmentSerializer.serialize).to.have.been.calledWith(createdAssessment);
+      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(createdAssessment);
     });
   });
   describe('#get', function () {
@@ -191,7 +191,7 @@ describe('Unit | Controller | assessment-controller', function () {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(assessmentCompletedEvent);
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(assessmentCompletedEvent);
     });
   });
 

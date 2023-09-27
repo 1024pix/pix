@@ -19,7 +19,7 @@ describe('Unit | UseCase | unarchive-campaign', function () {
 
     await unarchiveCampaign({ campaignId: 1, campaignForArchivingRepository });
 
-    expect(campaignForArchivingRepository.get).to.have.been.calledWith(1);
-    expect(campaignForArchivingRepository.save).to.have.been.calledWith(expectedCampaign);
+    expect(campaignForArchivingRepository.get).to.have.been.calledWithExactly(1);
+    expect(campaignForArchivingRepository.save).to.have.been.calledWithExactly(expectedCampaign);
   });
 });

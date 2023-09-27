@@ -23,7 +23,7 @@ describe('Unit | UseCase | get-organisation-learner', function () {
     });
 
     // then
-    expect(organizationLearnerRepository.get).to.have.been.calledWith(organizationLearnerId);
+    expect(organizationLearnerRepository.get).to.have.been.calledWithExactly(organizationLearnerId);
     expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
     expect(organizationLearner.firstName).to.be.equal('Michael');
     expect(organizationLearner.lastName).to.be.equal('Jackson');

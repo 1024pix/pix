@@ -87,7 +87,10 @@ describe('Unit | Infrastructure | Mailers | mailer', function () {
           const result = await mailer.sendEmail({ to: recipient });
 
           // then
-          expect(logger.warn).to.have.been.calledWith({ err: expectedError }, "Email is not valid 'test@example.net'");
+          expect(logger.warn).to.have.been.calledWithExactly(
+            { err: expectedError },
+            "Email is not valid 'test@example.net'",
+          );
           expect(result).to.deep.equal(
             EmailingAttempt.failure('test@example.net', EmailingAttempt.errorCode.INVALID_DOMAIN),
           );

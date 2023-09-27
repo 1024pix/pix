@@ -15,7 +15,10 @@ describe('Unit | Controller | pole-emploi-controller', function () {
         await poleEmploiController.getSendings(request, hFake);
 
         //then
-        expect(usecases.getPoleEmploiSendings).have.been.calledWith({ cursor: 'azefvbjljhgrEDJNH', filters: {} });
+        expect(usecases.getPoleEmploiSendings).have.been.calledWithExactly({
+          cursor: 'azefvbjljhgrEDJNH',
+          filters: {},
+        });
       });
     });
     context('when there are filters', function () {
@@ -30,7 +33,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
           await poleEmploiController.getSendings(request, hFake);
 
           //then
-          expect(usecases.getPoleEmploiSendings).have.been.calledWith({
+          expect(usecases.getPoleEmploiSendings).have.been.calledWithExactly({
             cursor: 'azefvbjljhgrEDJNH',
             filters: { isSuccessful: true },
           });
@@ -47,7 +50,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
           await poleEmploiController.getSendings(request, hFake);
 
           //then
-          expect(usecases.getPoleEmploiSendings).have.been.calledWith({
+          expect(usecases.getPoleEmploiSendings).have.been.calledWithExactly({
             cursor: 'azefvbjljhgrEDJNH',
             filters: { isSuccessful: false },
           });

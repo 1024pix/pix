@@ -15,7 +15,7 @@ describe('Unit | Infrastructure | Events | Handler | SharedParticipationResultsT
       });
       await handler.handle(event);
 
-      expect(job.schedule).to.have.been.calledWith(event);
+      expect(job.schedule).to.have.been.calledWithExactly(event);
     });
   });
 });

@@ -86,7 +86,7 @@ describe('Unit | Controller | user-controller', function () {
           );
 
           // then
-          expect(dependencies.userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly(savedUser);
           expect(dependencies.localeService.getCanonicalLocale).to.not.have.been.called;
           expect(response.source).to.deep.equal(expectedSerializedUser);
           expect(response.statusCode).to.equal(201);
@@ -134,9 +134,9 @@ describe('Unit | Controller | user-controller', function () {
           );
 
           // then
-          expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
-          expect(dependencies.localeService.getCanonicalLocale).to.have.been.calledWith(localeFromCookie);
-          expect(dependencies.userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(usecases.createUser).to.have.been.calledWithExactly(useCaseParameters);
+          expect(dependencies.localeService.getCanonicalLocale).to.have.been.calledWithExactly(localeFromCookie);
+          expect(dependencies.userSerializer.serialize).to.have.been.calledWithExactly(savedUser);
           expect(response.statusCode).to.equal(201);
         });
       });
@@ -840,7 +840,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.getProfile(request, hFake, { profileSerializer, requestResponseUtils });
 
       // then
-      expect(usecases.getUserProfile).to.have.been.calledWith({ userId, locale });
+      expect(usecases.getUserProfile).to.have.been.calledWithExactly({ userId, locale });
     });
   });
 
@@ -870,7 +870,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.getProfileForAdmin(request, hFake, { profileSerializer, requestResponseUtils });
 
       // then
-      expect(usecases.getUserProfile).to.have.been.calledWith({ userId, locale });
+      expect(usecases.getUserProfile).to.have.been.calledWithExactly({ userId, locale });
     });
   });
 
@@ -905,7 +905,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.resetScorecard(request, hFake, { scorecardSerializer, requestResponseUtils });
 
       // then
-      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId, locale });
+      expect(usecases.resetScorecard).to.have.been.calledWithExactly({ userId, competenceId, locale });
     });
   });
 
@@ -986,10 +986,10 @@ describe('Unit | Controller | user-controller', function () {
       // then
       const expectedEvent = new UserAnonymized({ userId, updatedByUserId, role: 'SUPER_ADMIN' });
       expect(DomainTransaction.execute).to.have.been.called;
-      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId, updatedByUserId, domainTransaction });
-      expect(usecases.getUserDetailsForAdmin).to.have.been.calledWith({ userId });
-      expect(eventBus.publish).to.have.been.calledWith(expectedEvent, domainTransaction);
-      expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWith(userDetailsForAdmin);
+      expect(usecases.anonymizeUser).to.have.been.calledWithExactly({ userId, updatedByUserId, domainTransaction });
+      expect(usecases.getUserDetailsForAdmin).to.have.been.calledWithExactly({ userId });
+      expect(eventBus.publish).to.have.been.calledWithExactly(expectedEvent, domainTransaction);
+      expect(userAnonymizedDetailsForAdminSerializer.serialize).to.have.been.calledWithExactly(userDetailsForAdmin);
       expect(response.statusCode).to.equal(200);
       expect(response.source).to.deep.equal(anonymizedUserSerialized);
     });
@@ -1032,7 +1032,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.sendVerificationCode(request, hFake);
 
       // then
-      expect(usecases.sendVerificationCode).to.have.been.calledWith({
+      expect(usecases.sendVerificationCode).to.have.been.calledWithExactly({
         i18n,
         locale,
         newEmail,
@@ -1079,7 +1079,7 @@ describe('Unit | Controller | user-controller', function () {
       const response = await userController.updateUserEmailWithValidation(request, hFake, { updateEmailSerializer });
 
       // then
-      expect(usecases.updateUserEmailWithValidation).to.have.been.calledWith({
+      expect(usecases.updateUserEmailWithValidation).to.have.been.calledWithExactly({
         code,
         userId,
       });
@@ -1200,7 +1200,7 @@ describe('Unit | Controller | user-controller', function () {
         await userController.reassignAuthenticationMethods(request, hFake);
 
         // then
-        expect(usecases.reassignAuthenticationMethodToAnotherUser).to.have.been.calledWith({
+        expect(usecases.reassignAuthenticationMethodToAnotherUser).to.have.been.calledWithExactly({
           originUserId,
           targetUserId,
           authenticationMethodId,
@@ -1231,7 +1231,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.findUserOrganizationsForAdmin(request, hFake, { userOrganizationForAdminSerializer });
 
       // then
-      expect(usecases.findUserOrganizationsForAdmin).to.have.been.calledWith({ userId: 1 });
+      expect(usecases.findUserOrganizationsForAdmin).to.have.been.calledWithExactly({ userId: 1 });
     });
   });
 

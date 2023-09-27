@@ -61,13 +61,13 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     });
 
     // then
-    expect(campaignParticipant.start).to.have.been.calledWith({
+    expect(campaignParticipant.start).to.have.been.calledWithExactly({
       participantExternalId: 'YvoLoL',
       isReset: campaignParticipationAttributes.isReset,
     });
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
     expect(campaignParticipation).to.deep.equal(expectedCampaignParticipation);
-    expect(campaignRepository.areKnowledgeElementsResettable).to.have.been.calledWith({
+    expect(campaignRepository.areKnowledgeElementsResettable).to.have.been.calledWithExactly({
       id: campaignParticipationAttributes.campaignId,
       domainTransaction,
     });
@@ -152,7 +152,7 @@ describe('Unit | UseCase | start-campaign-participation', function () {
         });
 
         // then
-        expect(campaignRepository.findAllSkills).to.have.been.calledWith({
+        expect(campaignRepository.findAllSkills).to.have.been.calledWithExactly({
           campaignId: campaignParticipationAttributes.campaignId,
           domainTransaction,
         });

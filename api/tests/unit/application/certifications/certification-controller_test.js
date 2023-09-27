@@ -259,7 +259,7 @@ describe('Unit | Controller | certifications-controller', function () {
       await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
-      expect(usecases.neutralizeChallenge).to.have.been.calledWith({
+      expect(usecases.neutralizeChallenge).to.have.been.calledWithExactly({
         certificationCourseId: 1,
         challengeRecId: 'rec43mpMIR5dUzdjh',
         juryId: 7,
@@ -347,7 +347,7 @@ describe('Unit | Controller | certifications-controller', function () {
       await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
-      expect(usecases.deneutralizeChallenge).to.have.been.calledWith({
+      expect(usecases.deneutralizeChallenge).to.have.been.calledWithExactly({
         certificationCourseId: 1,
         challengeRecId: 'rec43mpMIR5dUzdjh',
         juryId: 7,
@@ -406,7 +406,7 @@ describe('Unit | Controller | certifications-controller', function () {
       await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
-      expect(eventsStub.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
+      expect(eventsStub.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);
     });
   });
 });

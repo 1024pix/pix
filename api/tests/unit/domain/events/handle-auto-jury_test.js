@@ -90,7 +90,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     // then
     expect(certificationIssueReport.isResolved()).to.be.true;
     expect(certificationIssueReport.hasBeenAutomaticallyResolved).to.be.true;
-    expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
+    expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(certificationAssessment);
   });
 
   it('returns an AutoJuryDone event as last event', async function () {
@@ -707,7 +707,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
 
       // then
       expect(certificationIssueReport2.isResolved()).to.be.true;
-      expect(logger.error).to.have.been.calledWith(anError);
+      expect(logger.error).to.have.been.calledWithExactly(anError);
     });
   });
 });

@@ -124,7 +124,7 @@ describe('Unit | Repository | correction-repository', function () {
         expect(getCorrectionStub).not.to.have.been.called;
         expect(result).to.be.an.instanceof(Correction);
         expect(result).to.deep.equal(expectedCorrection);
-        expect(challengeDatasource.get).to.have.been.calledWith(recordId);
+        expect(challengeDatasource.get).to.have.been.calledWithExactly(recordId);
         expect(expectedCorrection.tutorials.map(({ skillId }) => skillId)).to.deep.equal([
           'recSK0X22abcdefgh',
           'recSK0X22abcdefgh',

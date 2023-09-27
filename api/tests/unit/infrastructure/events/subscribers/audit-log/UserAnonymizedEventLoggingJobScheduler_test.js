@@ -18,7 +18,7 @@ describe('Unit | Infrastructure | Events | Subscribers | UserAnonymizedEventLogg
         scheduler.handle(event);
 
         // then
-        expect(userAnonymizedEventLoggingJob.schedule).to.not.have.been.calledWith(event);
+        expect(userAnonymizedEventLoggingJob.schedule).to.not.have.been.calledWithExactly(event);
       });
     });
 
@@ -36,7 +36,7 @@ describe('Unit | Infrastructure | Events | Subscribers | UserAnonymizedEventLogg
         scheduler.handle(event);
 
         // then
-        expect(userAnonymizedEventLoggingJob.schedule).to.have.been.calledWith(event);
+        expect(userAnonymizedEventLoggingJob.schedule).to.have.been.calledWithExactly(event);
       });
     });
   });

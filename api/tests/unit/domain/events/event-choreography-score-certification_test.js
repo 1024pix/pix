@@ -13,6 +13,6 @@ describe('Event Choreography | Score Certification', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(handlerStubs.handleCertificationScoring).to.have.been.calledWith({ domainTransaction, event });
+    expect(handlerStubs.handleCertificationScoring).to.have.been.calledWithExactly({ domainTransaction, event });
   });
 });

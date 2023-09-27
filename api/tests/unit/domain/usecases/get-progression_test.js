@@ -106,7 +106,7 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
           });
 
           // then
-          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({
+          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWithExactly({
             knowledgeElements,
             assessment,
             isRetrying: false,
@@ -170,7 +170,7 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
           });
 
           // then
-          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({
+          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWithExactly({
             knowledgeElements,
             assessment,
             isRetrying: true,
@@ -294,7 +294,7 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
         });
 
         // then
-        expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWith(assessmentId);
+        expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWithExactly(assessmentId);
       });
 
       it('should return the progression associated to the assessment', async function () {
@@ -352,7 +352,7 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
           });
 
           // then
-          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({
+          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWithExactly({
             knowledgeElements,
             assessment: competenceEvaluationAssessment,
           });

@@ -182,7 +182,7 @@ describe('Unit | Controller | sessionController', function () {
       await sessionController.importCertificationCandidatesFromCandidatesImportSheet(request);
 
       // then
-      expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWith({
+      expect(usecases.importCertificationCandidatesFromCandidatesImportSheet).to.have.been.calledWithExactly({
         sessionId,
         odsBuffer,
         i18n: request.i18n,
@@ -1080,7 +1080,7 @@ describe('Unit | Controller | sessionController', function () {
       });
 
       // then
-      expect(usecases.getSupervisorKitSessionInfo).to.have.been.calledWith({
+      expect(usecases.getSupervisorKitSessionInfo).to.have.been.calledWithExactly({
         userId,
         sessionId: sessionMainInfo.id,
       });

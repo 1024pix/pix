@@ -36,11 +36,11 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function ()
     });
 
     // then
-    expect(jurySessionRepository.assignCertificationOfficer).to.have.been.calledWith({
+    expect(jurySessionRepository.assignCertificationOfficer).to.have.been.calledWithExactly({
       id: finalizedSession.sessionId,
       assignedCertificationOfficerId: certificationOfficer.id,
     });
-    expect(finalizedSessionRepository.save).to.have.been.calledWith(finalizedSession);
+    expect(finalizedSessionRepository.save).to.have.been.calledWithExactly(finalizedSession);
     expect(actualSessionId).to.equal(returnedSessionId);
   });
 });

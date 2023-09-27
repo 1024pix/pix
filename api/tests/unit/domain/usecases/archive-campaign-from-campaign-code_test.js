@@ -30,6 +30,6 @@ describe('Unit | UseCase | archive-campaign', function () {
     await archiveCampaignFromCampaignCode({ userId, campaignCode, campaignForArchivingRepository });
 
     expect(campaignForArchivingRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
-    expect(campaignForArchivingRepository.save).to.have.been.calledWith(expectedCampaign);
+    expect(campaignForArchivingRepository.save).to.have.been.calledWithExactly(expectedCampaign);
   });
 });

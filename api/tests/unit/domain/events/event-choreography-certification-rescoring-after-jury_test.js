@@ -12,6 +12,9 @@ describe('Event Choreography | CertificationJuryDone', function () {
     await eventDispatcher.dispatch(event);
 
     // then
-    expect(handlerStubs.handleCertificationRescoring).to.have.been.calledWith({ event, domainTransaction: undefined });
+    expect(handlerStubs.handleCertificationRescoring).to.have.been.calledWithExactly({
+      event,
+      domainTransaction: undefined,
+    });
   });
 });

@@ -325,7 +325,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredCampaigns(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredOrganizationCampaigns).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredOrganizationCampaigns).to.have.been.calledWithExactly({
         organizationId,
         filter: expectedFilter,
         page: expectedPage,
@@ -422,7 +422,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedCampaignManagements(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWith({
+      expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWithExactly({
         organizationId,
         filter: expectedFilter,
         page: expectedPage,
@@ -592,7 +592,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredScoParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: {},
         page: {},
@@ -617,7 +617,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredScoParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', connectionTypes: ['email'], divisions: ['D1'] },
         page: {},
@@ -640,7 +640,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredScoParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: {},
         page: {},
@@ -661,7 +661,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredScoParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: {},
         page: { size: 10, number: 1 },
@@ -700,7 +700,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: { certificability: [true, false, null] },
         page: {},
@@ -754,7 +754,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSupParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: {},
         page: {},
@@ -778,7 +778,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSupParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', group: 'L1' },
         page: {},
@@ -801,7 +801,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSupParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: {},
         page: {},
@@ -820,7 +820,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSupParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: {},
         page: { size: 10, number: 1 },
@@ -860,7 +860,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSupParticipants(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWithExactly({
         organizationId,
         filter: { certificability: [true, false, null] },
         page: {},
@@ -898,7 +898,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importOrganizationLearnersFromSIECLEFormat).to.have.been.calledWith({
+      expect(usecases.importOrganizationLearnersFromSIECLEFormat).to.have.been.calledWithExactly({
         organizationId,
         payload,
         format,
@@ -939,7 +939,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.sendInvitations(request, hFake);
 
       // then
-      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails, locale });
+      expect(usecases.createOrganizationInvitations).to.have.been.calledWithExactly({ organizationId, emails, locale });
     });
   });
 
@@ -1066,8 +1066,10 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const response = await organizationController.findPendingInvitations(request, hFake, dependencies);
 
       // then
-      expect(usecases.findPendingOrganizationInvitations).to.have.been.calledWith({ organizationId: organization.id });
-      expect(dependencies.organizationInvitationSerializer.serialize).to.have.been.calledWith(
+      expect(usecases.findPendingOrganizationInvitations).to.have.been.calledWithExactly({
+        organizationId: organization.id,
+      });
+      expect(dependencies.organizationInvitationSerializer.serialize).to.have.been.calledWithExactly(
         resolvedOrganizationInvitations,
       );
       expect(response).to.deep.equal(serializedOrganizationInvitations);
@@ -1373,7 +1375,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake, dependencies);
 
       // then
-      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
+      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWithExactly({
         organizationId,
         filters: {},
         page: {},
@@ -1400,7 +1402,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake, dependencies);
 
       // then
-      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWith({
+      expect(usecases.getPaginatedParticipantsForAnOrganization).to.have.been.calledWithExactly({
         organizationId,
         filters: { certificability: [true, false, null] },
         page: {},

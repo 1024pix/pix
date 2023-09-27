@@ -96,7 +96,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
             });
 
             // then
-            expect(certificationCenterMembershipRepository.save).to.have.been.calledWith({
+            expect(certificationCenterMembershipRepository.save).to.have.been.calledWithExactly({
               userId: userWhoseOrganizationRoleIsToUpdate.id,
               certificationCenterId: existingCertificationCenter.id,
             });

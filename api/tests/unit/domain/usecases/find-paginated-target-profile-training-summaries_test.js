@@ -20,7 +20,7 @@ describe('Unit | UseCase | findPaginatedTargetProfileTrainingSummaries', functio
     });
 
     // then
-    expect(trainingRepository.findPaginatedSummariesByTargetProfileId).to.have.been.calledWith({
+    expect(trainingRepository.findPaginatedSummariesByTargetProfileId).to.have.been.calledWithExactly({
       targetProfileId,
       page,
     });

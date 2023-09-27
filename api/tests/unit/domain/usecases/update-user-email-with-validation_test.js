@@ -53,7 +53,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function () {
     });
 
     // then
-    expect(userRepository.updateWithEmailConfirmed).to.have.been.calledWith({
+    expect(userRepository.updateWithEmailConfirmed).to.have.been.calledWithExactly({
       id: userId,
       userAttributes: { email: newEmail, emailConfirmedAt: now },
     });

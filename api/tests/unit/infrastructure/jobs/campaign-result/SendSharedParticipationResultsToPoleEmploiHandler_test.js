@@ -24,7 +24,9 @@ describe('Unit | Infrastructure | Jobs | SendSharedParticipationResultsToPoleEmp
       await sendSharedParticipationResultsToPoleEmploiHandler.handle(event);
 
       // then
-      expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledWith({ campaignParticipationId });
+      expect(usecases.sendSharedParticipationResultsToPoleEmploi).to.have.been.calledWithExactly({
+        campaignParticipationId,
+      });
     });
   });
 });
