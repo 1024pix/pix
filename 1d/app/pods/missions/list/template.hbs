@@ -1,9 +1,6 @@
 {{page-title "Home"}}
-<div class="container">
-  <div class="robot-speaking">
-    <img class="robot-logo" alt="mascotte pix1d" src="/images/happy-robot.svg" />
-    <p class="instruction">Choisi ta mission parmi celles qui te sont proposées ci-dessous !</p>
-  </div>
+<div>
+  <RobotDialog @instruction={{t "pages.missions.list"}} />
   <div class="cards">
     <LinkTo @route="missions.mission" @model="recExjO7RHeDI48HK">
       <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />

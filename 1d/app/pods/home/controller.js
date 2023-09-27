@@ -10,6 +10,12 @@ export default class Home extends Controller {
   get upperCaseCode() {
     return this.schoolCode.toUpperCase();
   }
+
+  @action
+  updateCode(code) {
+    this.schoolCode = code;
+  }
+
   @action
   goToSchool() {
     this.router.transitionTo('school', this.upperCaseCode);

@@ -2,7 +2,6 @@
 
 // Globals
 @import 'globals/fonts';
-@import 'globals/inputs';
 @import 'globals/a11y';
 @import 'globals/colors';
 @import 'globals/buttons';
@@ -19,9 +18,14 @@
 @import 'components/error';
 @import 'components/home';
 @import 'components/mission';
+@import 'components/missions';
+@import 'components/robot-dialog';
 @import 'components/warning';
 
 body {
+  // Simuler l'affichage d'une tablette
+  max-width: 1194px;
+  margin: auto;
   color: #07142E;
   font-weight: 600;
   font-family: $font-nunito;
