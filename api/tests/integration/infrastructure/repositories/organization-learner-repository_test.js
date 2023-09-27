@@ -2283,6 +2283,90 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(result).to.equal(0);
     });
 
+    it('should not count a disabled organization learner', async function () {
+      // given
+      const { organizationId, userId } = databaseBuilder.factory.buildOrganizationLearner({ isDisabled: true });
+      databaseBuilder.factory.buildUserLogin({ userId, lastLoggedAt: new Date() });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.equal(0);
+    });
+
+    it('should not count organization learners already computed', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: true });
+      databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null, organizationId });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          onlyNotComputed: true,
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.equal(1);
+    });
+
+    it('should return count of organization learners with no certificability', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: null });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          onlyNotComputed: true,
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.equal(1);
+    });
+
+    it('should not use "onlyNotComputed" option if "skipLoggedLastDayCheck" is not true', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: true });
+      databaseBuilder.factory.buildOrganizationLearner({
+        isCertifiable: null,
+        organizationId,
+      });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: false,
+          onlyNotComputed: true,
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.equal(0);
+    });
+
     it('should not count organization learners not reconciliated with option skipLoggedLastDayCheck', async function () {
       // given
       const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ userId: null });
@@ -2472,6 +2556,76 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const result = await await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           skipLoggedLastDayCheck: true,
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.be.empty;
+    });
+
+    it('should not return organization learners already computed', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: true });
+      const { id: learnerNeverBeenComputed } = databaseBuilder.factory.buildOrganizationLearner({
+        isCertifiable: null,
+        organizationId,
+      });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          onlyNotComputed: true,
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.deep.equal([learnerNeverBeenComputed]);
+    });
+
+    it('should return organization learners with no certificability', async function () {
+      // given
+      const { organizationId, id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+        isCertifiable: null,
+      });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          onlyNotComputed: true,
+          domainTransaction,
+        });
+      });
+
+      // then
+      expect(result).to.deep.equal([organizationLearnerId]);
+    });
+
+    it('should not use "onlyNotComputed" option if "skipLoggedLastDayCheck" is not true', async function () {
+      // given
+      const { organizationId } = databaseBuilder.factory.buildOrganizationLearner({ isCertifiable: true });
+      databaseBuilder.factory.buildOrganizationLearner({
+        isCertifiable: null,
+        organizationId,
+      });
+
+      databaseBuilder.factory.buildOrganizationFeature({ featureId, organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: false,
+          onlyNotComputed: true,
           domainTransaction,
         });
       });

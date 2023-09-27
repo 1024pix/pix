@@ -14,7 +14,8 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
 
     it('should schedule multiple ComputeCertificabilityJob', async function () {
       // given
-      const skipLoggedLastDayCheck = false;
+      const skipLoggedLastDayCheck = undefined;
+      const onlyNotComputed = undefined;
       const pgBossRepository = {
         insert: sinon.stub(),
       };
@@ -30,13 +31,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
         new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
@@ -76,9 +77,10 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       ]);
     });
 
-    it('should schedule ComputeCertificabilityJob for all learners', async function () {
+    it('should take options from event', async function () {
       // given
       const skipLoggedLastDayCheck = true;
+      const onlyNotComputed = true;
       const pgBossRepository = {
         insert: sinon.stub(),
       };
@@ -94,13 +96,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
         new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
@@ -110,7 +112,10 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
       // when
-      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({ skipLoggedLastDayCheck });
+      await scheduleComputeOrganizationLearnersCertificabilityJobHandler.handle({
+        skipLoggedLastDayCheck,
+        onlyNotComputed,
+      });
 
       // then
       expect(pgBossRepository.insert.getCall(0).args[0]).to.be.deep.equal([
@@ -142,7 +147,8 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
 
     it('should test pagination with a lot of results', async function () {
       // given
-      const skipLoggedLastDayCheck = false;
+      const skipLoggedLastDayCheck = undefined;
+      const onlyNotComputed = undefined;
       const pgBossRepository = {
         insert: sinon.stub(),
       };
@@ -160,12 +166,12 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck, domainTransaction })
+        .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves(30);
 
       for (let index = 0; index < chunkCount; index++) {
         organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-          .withArgs({ limit, offset: index * limit, skipLoggedLastDayCheck, domainTransaction })
+          .withArgs({ limit, offset: index * limit, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
           .resolves([index * limit + 1, index * limit + 2, index * limit + 3]);
       }
 

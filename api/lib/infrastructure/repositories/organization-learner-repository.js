@@ -371,9 +371,10 @@ async function updateCertificability(organizationLearner) {
 
 async function countByOrganizationsWhichNeedToComputeCertificability({
   skipLoggedLastDayCheck = false,
+  onlyNotComputed = false,
   domainTransaction,
 } = {}) {
-  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, domainTransaction });
+  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
   const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
   return count;
 }
@@ -382,9 +383,10 @@ function findByOrganizationsWhichNeedToComputeCertificability({
   limit,
   offset,
   skipLoggedLastDayCheck = false,
+  onlyNotComputed = false,
   domainTransaction,
 } = {}) {
-  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, domainTransaction });
+  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
 
   return queryBuilder
     .modify(function (qB) {
@@ -398,7 +400,7 @@ function findByOrganizationsWhichNeedToComputeCertificability({
     .pluck('view-active-organization-learners.id');
 }
 
-function _queryBuilderForCertificability({ skipLoggedLastDayCheck, domainTransaction }) {
+function _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction }) {
   const knexConn = domainTransaction.knexTransaction || knex;
   return knexConn('view-active-organization-learners')
     .join(
@@ -420,6 +422,9 @@ function _queryBuilderForCertificability({ skipLoggedLastDayCheck, domainTransac
             knex.raw(`(now()- interval '1 days')`),
           );
         });
+      }
+      if (skipLoggedLastDayCheck && onlyNotComputed) {
+        queryBuilder.whereNull('view-active-organization-learners.isCertifiable');
       }
     });
 }
