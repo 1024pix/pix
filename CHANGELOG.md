@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v4.38.0 (27/09/2023)
+
+
+### :rocket: Amélioration
+- [#7150](https://github.com/1024pix/pix/pull/7150) [FEATURE] Ne pas poser 2 question sur le même sujet dans la certif v3 (PIX-9293).
+- [#7073](https://github.com/1024pix/pix/pull/7073) [FEATURE] Afficher les invitations en attente d'une équipe sur Pix Certif (PIX-138).
+- [#7144](https://github.com/1024pix/pix/pull/7144) [FEATURE] Suspicion de fraude en anglais (PIX-7766).
+- [#7129](https://github.com/1024pix/pix/pull/7129) [FEATURE] Version anglaise du PV d'incident (PIX-6675).
+- [#7138](https://github.com/1024pix/pix/pull/7138) [FEATURE] Afficher l'image du badge certifié dans la page de détails d'une certification complémentaire sur Pix Admin (PIX-9148).
+- [#7130](https://github.com/1024pix/pix/pull/7130) [FEATURE] Changement du texte et du lien quand un candidat n'a pas pu rejoindre une session (PIX-6678).
+- [#7137](https://github.com/1024pix/pix/pull/7137) [FEATURE] Mettre à jour les dates de certification pour les lycées et collèges sur Pix Certif (PIX-9314).
+- [#7118](https://github.com/1024pix/pix/pull/7118) [FEATURE] Augmenter le taux de réussite estimé au début de la certif v3.
+
+### :building_construction: Tech
+- [#7154](https://github.com/1024pix/pix/pull/7154) [TECH] Favoriser l'utilisation de calledWithExactly au lieu de calledWith.
+- [#7071](https://github.com/1024pix/pix/pull/7071) [TECH] Définir une valeur de MAX_REACHABLE_LEVEL pour les tests.
+- [#7149](https://github.com/1024pix/pix/pull/7149) [TECH] Mise à jour de @1024pix/stylelint-config en version 5.0.
+
+### :bug: Correction
+- [#7136](https://github.com/1024pix/pix/pull/7136) [BUGFIX] Réparer l'affichage du sélecteur de langue sur la page de connexion de Pix Certif (PIX-9350).
+- [#7143](https://github.com/1024pix/pix/pull/7143) [BUGFIX] Afficher les styles de liste dans la correction (PIX-9193).
+
+### :arrow_up: Montée de version
+- [#7158](https://github.com/1024pix/pix/pull/7158) [BUMP] Update dependency ember-data to ~4.12.0 (1d).
+- [#7152](https://github.com/1024pix/pix/pull/7152) [BUMP] Update dependency ember-cli to ~5.3.0 (admin).
+- [#7151](https://github.com/1024pix/pix/pull/7151) [BUMP] Update dependency ember-cli to ~5.3.0 (1d).
+
+### :coffee: Autre
+- [#7135](https://github.com/1024pix/pix/pull/7135) [HOTFIX] Hotfix v4.36.1.
+
 ## v4.37.0 (25/09/2023)
 
 
