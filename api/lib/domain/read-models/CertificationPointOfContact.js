@@ -7,6 +7,7 @@ class CertificationPointOfContact {
     lang,
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
+    certificationCenterMemberships,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -15,6 +16,7 @@ class CertificationPointOfContact {
     this.lang = lang;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.allowedCertificationCenterAccesses = allowedCertificationCenterAccesses;
+    this.certificationCenterMemberships = certificationCenterMemberships;
   }
 }
 

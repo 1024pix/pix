@@ -40,6 +40,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         lang: 'fr',
         pixCertifTermsOfServiceAccepted: true,
         allowedCertificationCenterAccesses: [],
+        certificationCenterMemberships: [],
       });
       expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
@@ -73,7 +74,8 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             email: 'jean.acajou@example.net',
             pixCertifTermsOfServiceAccepted: true,
           });
-          databaseBuilder.factory.buildCertificationCenterMembership({
+
+          const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
             certificationCenterId: 123,
             userId: 456,
           });
@@ -92,6 +94,16 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             relatedOrganizationTags: [],
             habilitations: [],
           });
+
+          const expectedCertificationCenterMemberships = [
+            {
+              id: certificationCenterMembership.id,
+              certificationCenterId: 123,
+              userId: 456,
+              role: 'MEMBER',
+            },
+          ];
+
           const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
             id: 456,
             firstName: 'Jean',
@@ -99,6 +111,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             email: 'jean.acajou@example.net',
             pixCertifTermsOfServiceAccepted: true,
             allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
+            certificationCenterMemberships: expectedCertificationCenterMemberships,
           });
           expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
         });
@@ -163,29 +176,55 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           email: 'jean.acajou@example.net',
           pixCertifTermsOfServiceAccepted: true,
         });
-        databaseBuilder.factory.buildCertificationCenterMembership({
-          certificationCenterId: 1,
-          userId: 123,
-        });
-        databaseBuilder.factory.buildCertificationCenterMembership({
-          certificationCenterId: 2,
-          userId: 123,
-        });
-        databaseBuilder.factory.buildCertificationCenterMembership({
-          certificationCenterId: 3,
-          userId: 123,
-        });
+
+        const [firstMembership, secondMembership, thirdMembership] = [
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: 1,
+            userId: 123,
+          }),
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: 2,
+            userId: 123,
+          }),
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: 3,
+            userId: 123,
+          }),
+        ];
+
         databaseBuilder.factory.buildCertificationCenterMembership({
           certificationCenterId: 4,
           userId: 123,
           disabledAt: now,
         });
+
         await databaseBuilder.commit();
 
         // when
         const certificationPointOfContact = await certificationPointOfContactRepository.get(123);
 
         // then
+        const expectedCertificationCenterMemberships = [
+          {
+            id: firstMembership.id,
+            certificationCenterId: 1,
+            userId: 123,
+            role: 'MEMBER',
+          },
+          {
+            id: secondMembership.id,
+            certificationCenterId: 2,
+            userId: 123,
+            role: 'MEMBER',
+          },
+          {
+            id: thirdMembership.id,
+            certificationCenterId: 3,
+            userId: 123,
+            role: 'MEMBER',
+          },
+        ];
+
         const expectedFirstAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
           id: 1,
           name: 'Centre de certif sans orga reliée',
@@ -224,6 +263,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             expectedSecondAllowedCertificationCenterAccess,
             expectedThirdAllowedCertificationCenterAccess,
           ],
+          certificationCenterMemberships: expectedCertificationCenterMemberships,
         });
         expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
       });
@@ -265,20 +305,39 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         email: 'jean.acajou@example.net',
         pixCertifTermsOfServiceAccepted: true,
       });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 1,
-        userId: 123,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 2,
-        userId: 123,
-      });
+
+      const [firstMembership, secondMembership] = [
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: 1,
+          userId: 123,
+        }),
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: 2,
+          userId: 123,
+        }),
+      ];
+
       await databaseBuilder.commit();
 
       // when
       const certificationPointOfContact = await certificationPointOfContactRepository.get(123);
 
       // then
+      const expectedCertificationCenterMemberships = [
+        {
+          id: firstMembership.id,
+          userId: 123,
+          certificationCenterId: 1,
+          role: 'MEMBER',
+        },
+        {
+          id: secondMembership.id,
+          userId: 123,
+          certificationCenterId: 2,
+          role: 'MEMBER',
+        },
+      ];
+
       const expectedFirstAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 1,
         name: 'Centre de certif sans orga reliée',
@@ -300,6 +359,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         relatedOrganizationTags: [],
         habilitations: [{ id: 3, label: 'Certif comp 3', key: 'COMP_3' }],
       });
+
       const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 123,
         firstName: 'Jean',
@@ -310,6 +370,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           expectedFirstAllowedCertificationCenterAccess,
           expectedSecondAllowedCertificationCenterAccess,
         ],
+        certificationCenterMemberships: expectedCertificationCenterMemberships,
       });
       expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
     });
@@ -364,7 +425,8 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             email: 'jean.acajou@example.net',
             pixCertifTermsOfServiceAccepted: true,
           });
-          databaseBuilder.factory.buildCertificationCenterMembership({
+
+          const membership = databaseBuilder.factory.buildCertificationCenterMembership({
             certificationCenterId: 1,
             userId: 123,
           });
@@ -374,6 +436,15 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           const certificationPointOfContact = await certificationPointOfContactRepository.get(123);
 
           // then
+          const expectedCertificationCenterMemberships = [
+            {
+              id: membership.id,
+              certificationCenterId: 1,
+              userId: 123,
+              role: 'MEMBER',
+            },
+          ];
+
           const expectedAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
             id: 1,
             name: 'Centre de certif',
@@ -393,10 +464,113 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
             email: 'jean.acajou@example.net',
             pixCertifTermsOfServiceAccepted: true,
             allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
+            certificationCenterMemberships: expectedCertificationCenterMemberships,
           });
           expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
         });
       },
     );
+
+    context('when user is linked and has an "ADMIN" role of an certification center', function () {
+      const userId = 123;
+      const certificationCenterId = 1;
+
+      let certificationCenter, user;
+
+      beforeEach(async function () {
+        user = databaseBuilder.factory.buildUser({
+          id: userId,
+          firstName: 'Jean',
+          lastName: 'Acajou',
+          email: 'jean.acajou@example.net',
+          pixCertifTermsOfServiceAccepted: true,
+        });
+
+        certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+          id: certificationCenterId,
+          name: 'Centre de certif Pro',
+          type: CertificationCenter.types.PRO,
+          externalId: 'Centre1',
+        });
+      });
+
+      context("when user's membership is not disabled", function () {
+        it('returns a certification-point-of-contact object with a certification-center-membership having "ADMIN" role', async function () {
+          // given
+          const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: certificationCenterId,
+            userId: userId,
+            disabledAt: null,
+            role: 'ADMIN',
+          });
+
+          await databaseBuilder.commit();
+
+          const expectedCertificationCenterMembership = {
+            id: certificationCenterMembership.id,
+            userId,
+            certificationCenterId,
+            role: 'ADMIN',
+          };
+
+          const expectedAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+            id: certificationCenterId,
+            name: certificationCenter.name,
+            externalId: certificationCenter.externalId,
+            type: certificationCenter.type,
+            isRelatedToManagingStudentsOrganization: false,
+            relatedOrganizationTags: [],
+            habilitations: [],
+          });
+
+          const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+            id: 123,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            pixCertifTermsOfServiceAccepted: user.pixCertifTermsOfServiceAccepted,
+            allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
+            certificationCenterMemberships: [expectedCertificationCenterMembership],
+          });
+
+          // when
+          const certificationPointOfContact = await certificationPointOfContactRepository.get(userId);
+
+          // then
+
+          expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
+        });
+      });
+
+      context("when user's membership is disabled", function () {
+        it('returns a certification-point-of-contact object without a certification-center-membership having "ADMIN" role', async function () {
+          // given
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: certificationCenterId,
+            userId: userId,
+            disabledAt: new Date(),
+          });
+
+          await databaseBuilder.commit();
+
+          const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+            id: 123,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            pixCertifTermsOfServiceAccepted: user.pixCertifTermsOfServiceAccepted,
+            allowedCertificationCenterAccesses: [],
+            certificationCenterMemberships: [],
+          });
+
+          // when
+          const certificationPointOfContact = await certificationPointOfContactRepository.get(userId);
+
+          // then
+
+          expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
+        });
+      });
+    });
   });
 });

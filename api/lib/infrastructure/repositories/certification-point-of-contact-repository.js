@@ -4,6 +4,8 @@ import { NotFoundError } from '../../domain/errors.js';
 import { CertificationPointOfContact } from '../../domain/read-models/CertificationPointOfContact.js';
 import { AllowedCertificationCenterAccess } from '../../domain/read-models/AllowedCertificationCenterAccess.js';
 
+const CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME = 'certification-center-memberships';
+
 const get = async function (userId) {
   const certificationPointOfContactDTO = await knex
     .select({
@@ -35,9 +37,12 @@ const get = async function (userId) {
     authorizedCertificationCenterIds,
   );
 
+  const certificationCenterMemberships = await _findNotDisabledCertificationCenterMemberships(userId);
+
   return new CertificationPointOfContact({
     ...certificationPointOfContactDTO,
     allowedCertificationCenterAccesses,
+    certificationCenterMemberships,
   });
 };
 
@@ -118,4 +123,13 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       .uniqBy('id')
       .value();
   }
+}
+
+async function _findNotDisabledCertificationCenterMemberships(userId) {
+  return knex(CERTIFICATION_CENTER_MEMBERSHIPS_TABLE_NAME)
+    .select('id', 'certificationCenterId', 'userId', 'role')
+    .where({
+      userId,
+      disabledAt: null,
+    });
 }

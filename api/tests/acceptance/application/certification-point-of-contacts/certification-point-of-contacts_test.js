@@ -13,10 +13,10 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
+      const certificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership({
         userId,
         certificationCenterId,
-      });
+      }).id;
       await databaseBuilder.commit();
       const options = {
         method: 'GET',
@@ -31,6 +31,27 @@ describe('Acceptance | Route | CertificationPointOfContact', function () {
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.id).to.equal(userId.toString());
       expect(response.result.data.attributes.lang).to.equal('fr');
+
+      expect(response.result.data.relationships).to.to.deep.include({
+        'certification-center-memberships': {
+          data: [
+            {
+              id: certificationCenterMembershipId.toString(),
+              type: 'certification-center-membership',
+            },
+          ],
+        },
+      });
+
+      expect(response.result.included).to.deep.include({
+        id: certificationCenterMembershipId.toString(),
+        type: 'certification-center-membership',
+        attributes: {
+          'certification-center-id': certificationCenterId,
+          'user-id': userId,
+          role: 'MEMBER',
+        },
+      });
     });
   });
 });

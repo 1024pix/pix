@@ -8,17 +8,29 @@ export default class CurrentUserService extends Service {
 
   @tracked certificationPointOfContact;
   @tracked currentAllowedCertificationCenterAccess;
+  @tracked currentCertificationCenterMembership;
+  @tracked isAdminOfCurrentCertificationCenter;
 
   async load() {
     if (this.session.isAuthenticated) {
       try {
         this.certificationPointOfContact = await this.store.queryRecord('certification-point-of-contact', {});
+
         this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact
           .hasMany('allowedCertificationCenterAccesses')
           .value().firstObject;
+
+        this.currentCertificationCenterMembership = this._findCertificationCenterMembershipByCertificationCenterId(
+          Number(this.currentAllowedCertificationCenterAccess?.id),
+        );
+
+        this.isAdminOfCurrentCertificationCenter = this.currentCertificationCenterMembership?.isAdmin;
       } catch (error) {
         this.certificationPointOfContact = null;
         this.currentAllowedCertificationCenterAccess = null;
+        this.currentCertificationCenterMembership = null;
+        this.isAdminOfCurrentCertificationCenter = false;
+
         return this.session.invalidate();
       }
     }
@@ -37,6 +49,17 @@ export default class CurrentUserService extends Service {
     if (this.currentAllowedCertificationCenterAccess.id !== String(certificationCenterId)) {
       this.currentAllowedCertificationCenterAccess =
         this.certificationPointOfContact.allowedCertificationCenterAccesses.findBy('id', String(certificationCenterId));
+
+      this.currentCertificationCenterMembership =
+        this._findCertificationCenterMembershipByCertificationCenterId(certificationCenterId);
+      this.isAdminOfCurrentCertificationCenter = this.currentCertificationCenterMembership?.isAdmin;
     }
+  }
+
+  _findCertificationCenterMembershipByCertificationCenterId(certificationCenterId) {
+    return this.certificationPointOfContact.certificationCenterMemberships.findBy(
+      'certificationCenterId',
+      certificationCenterId,
+    );
   }
 }

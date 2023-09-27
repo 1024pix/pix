@@ -333,6 +333,75 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkUserIsAdminOfCertificationCenter', function () {
+    let userId;
+    let certificationCenterId;
+    let options;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+      databaseBuilder.factory.options = {
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        method: 'GET',
+        url: `/api/organizations/${certificationCenterId}/invitations`,
+      };
+
+      await databaseBuilder.commit();
+
+      server.route({
+        method: 'GET',
+        path: '/test_route/certification-centers/admin/{certificationCenterId}',
+        handler: (r, h) => h.response({}).code(200),
+        config: {
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+            },
+          ],
+        },
+      });
+
+      options = {
+        method: 'GET',
+        url: `/test_route/certification-centers/admin/${certificationCenterId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+    });
+
+    it('returns 200 when user is admin of the certification-center', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        role: 'ADMIN',
+        disabledAt: null,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('returns 403 when user is not admin of the certification-center', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId, role: 'MEMBER' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('#checkUserIsMemberOfAnOrganization', function () {
     it('should return a well formed JSON API error when user is not authorized', async function () {
       // given

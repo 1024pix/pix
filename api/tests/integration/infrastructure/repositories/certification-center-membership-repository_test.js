@@ -270,6 +270,88 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#isAdminOfCertificationCenter', function () {
+    let certificationCenterId, userId;
+
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser().id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+      await databaseBuilder.commit();
+    });
+
+    it('returns false if user has no membership in given certification center', async function () {
+      // when
+      const isAdminOfCertificationCenter = await certificationCenterMembershipRepository.isAdminOfCertificationCenter({
+        userId,
+        certificationCenterId,
+      });
+
+      // then
+      expect(isAdminOfCertificationCenter).to.be.false;
+    });
+
+    it('returns false if user has a role "MEMBER" in given certification center', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        disabledAt: null,
+        role: 'MEMBER',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const isAdminOfCertificationCenter = await certificationCenterMembershipRepository.isAdminOfCertificationCenter({
+        userId,
+        certificationCenterId,
+      });
+
+      // then
+      expect(isAdminOfCertificationCenter).to.be.false;
+    });
+
+    it('returns false if user has a role "ADMIN" and a disabled membership in given certification center', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        disabledAt: new Date(),
+        role: 'ADMIN',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const isAdminOfCertificationCenter = await certificationCenterMembershipRepository.isAdminOfCertificationCenter({
+        userId,
+        certificationCenterId,
+      });
+
+      // then
+      expect(isAdminOfCertificationCenter).to.be.false;
+    });
+
+    it('returns true if user has a role "ADMIN" in given certification center and no disabled membership', async function () {
+      // given
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+        disabledAt: null,
+        role: 'ADMIN',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const isAdminOfCertificationCenter = await certificationCenterMembershipRepository.isAdminOfCertificationCenter({
+        userId,
+        certificationCenterId,
+      });
+
+      // then
+      expect(isAdminOfCertificationCenter).to.be.true;
+    });
+  });
+
   describe('#isMemberOfCertificationCenter', function () {
     it('should return false if user has no membership in given certification center', async function () {
       // given
@@ -283,13 +365,15 @@ describe('Integration | Repository | Certification Center Membership', function 
       await databaseBuilder.commit();
 
       // when
-      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
-        userId,
-        certificationCenterId: otherCertificationCenterId,
-      });
+      const isMemberOfCertificationCenter = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
+        {
+          userId,
+          certificationCenterId: otherCertificationCenterId,
+        },
+      );
 
       // then
-      expect(hasMembership).to.be.false;
+      expect(isMemberOfCertificationCenter).to.be.false;
     });
 
     it('should return false if user has a disabled membership in given certification center', async function () {
@@ -304,13 +388,15 @@ describe('Integration | Repository | Certification Center Membership', function 
       await databaseBuilder.commit();
 
       // when
-      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
-        userId,
-        certificationCenterId,
-      });
+      const isMemberOfCertificationCenter = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
+        {
+          userId,
+          certificationCenterId,
+        },
+      );
 
       // then
-      expect(hasMembership).to.be.false;
+      expect(isMemberOfCertificationCenter).to.be.false;
     });
 
     it('should return true if user has a not disabled membership in given certification center', async function () {
@@ -325,13 +411,15 @@ describe('Integration | Repository | Certification Center Membership', function 
       await databaseBuilder.commit();
 
       // when
-      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
-        userId,
-        certificationCenterId,
-      });
+      const isMemberOfCertificationCenter = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
+        {
+          userId,
+          certificationCenterId,
+        },
+      );
 
       // then
-      expect(hasMembership).to.be.true;
+      expect(isMemberOfCertificationCenter).to.be.true;
     });
   });
 

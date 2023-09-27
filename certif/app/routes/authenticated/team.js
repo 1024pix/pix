@@ -6,14 +6,23 @@ export default class AuthenticatedTeamRoute extends Route {
   @service currentUser;
   @service store;
 
-  model() {
+  async model() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    let invitations = [];
     const members = this.store.query('member', { certificationCenterId });
+
+    if (this.currentUser.isAdminOfCurrentCertificationCenter) {
+      invitations = await this.store.findAll('certification-center-invitation', {
+        adapterOptions: { certificationCenterId },
+      });
+    }
+
     const hasCleaHabilitation = this.store
       .peekRecord('allowed-certification-center-access', certificationCenterId)
       .habilitations?.some((habilitation) => habilitation.key === 'CLEA');
 
     return {
+      invitations,
       members,
       hasCleaHabilitation,
     };
