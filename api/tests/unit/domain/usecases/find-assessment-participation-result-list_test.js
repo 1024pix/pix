@@ -17,7 +17,7 @@ describe('Unit | UseCase | find-assessment-participation-result-list', function 
       campaignAssessmentParticipationResultListRepository: { findPaginatedByCampaignId },
     });
 
-    expect(findPaginatedByCampaignId).to.have.been.calledWith({ page, campaignId, filters });
+    expect(findPaginatedByCampaignId).to.have.been.calledWithExactly({ page, campaignId, filters });
     expect(results).to.equal(participations);
   });
 });

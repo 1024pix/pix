@@ -37,7 +37,7 @@ describe('Unit | Application | Use Case | checkUserBelongsToLearnersOrganization
 
     // then
     expect(response).to.equal(true);
-    expect(membershipRepositoryStub.findByUserIdAndOrganizationId).to.have.been.calledWith({
+    expect(membershipRepositoryStub.findByUserIdAndOrganizationId).to.have.been.calledWithExactly({
       userId,
       organizationId: sharedOrganization.id,
     });
@@ -65,7 +65,7 @@ describe('Unit | Application | Use Case | checkUserBelongsToLearnersOrganization
 
     // then
     expect(response).to.equal(false);
-    expect(membershipRepositoryStub.findByUserIdAndOrganizationId).to.have.been.calledWith({
+    expect(membershipRepositoryStub.findByUserIdAndOrganizationId).to.have.been.calledWithExactly({
       userId,
       organizationId: anotherOrganization.id,
     });

@@ -74,6 +74,6 @@ describe('Unit | UseCase | supervise-session', function () {
     });
 
     // then
-    expect(supervisorAccessRepository.create).to.have.been.calledWith({ sessionId, userId });
+    expect(supervisorAccessRepository.create).to.have.been.calledWithExactly({ sessionId, userId });
   });
 });

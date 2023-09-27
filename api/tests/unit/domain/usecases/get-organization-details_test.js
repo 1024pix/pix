@@ -18,7 +18,7 @@ describe('Unit | UseCase | get-organization-details', function () {
     const organization = await getOrganizationDetails({ organizationId, organizationForAdminRepository });
 
     // then
-    expect(organizationForAdminRepository.get).to.have.been.calledWith(organizationId);
+    expect(organizationForAdminRepository.get).to.have.been.calledWithExactly(organizationId);
     expect(organization).to.be.an.instanceOf(Organization);
     expect(organization).to.deep.equal(foundOrganization);
   });

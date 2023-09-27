@@ -121,7 +121,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
     });
 
     it("should throw an UnexpectedUserAccountError (with expected user's username or email) when the authenticated user does not match the expected one", async function () {
@@ -244,7 +244,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
             lastName: 'Le Terrier',
           }),
         });
-        expect(authenticationMethodRepository.create).to.have.been.calledWith({
+        expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
           authenticationMethod: expectedAuthenticationMethod,
         });
       });
@@ -296,7 +296,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
             lastName: 'Samoëns',
           }),
         });
-        expect(authenticationMethodRepository.create).to.have.been.calledWith({
+        expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
           authenticationMethod: expectedAuthenticationMethod,
         });
       });

@@ -14,10 +14,12 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', function () {
   const email = 'user@example.net';
 
   let resetPasswordService;
+  let resetPasswordDemandRepository;
   let tokenService;
   let userRepository;
 
   beforeEach(function () {
+    resetPasswordDemandRepository = sinon.stub();
     resetPasswordService = {
       verifyDemand: sinon.stub(),
     };
@@ -40,15 +42,19 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', function () {
     const result = await getUserByResetPasswordDemand({
       temporaryKey,
       resetPasswordService,
+      resetPasswordDemandRepository,
       tokenService,
       userRepository,
     });
 
     // then
     expect(result).to.be.an.instanceOf(User);
-    expect(resetPasswordService.verifyDemand).to.have.been.calledWith(temporaryKey);
-    expect(tokenService.decodeIfValid).to.have.been.calledWith(temporaryKey);
-    expect(userRepository.getByEmail).to.have.been.calledWith(email);
+    expect(resetPasswordService.verifyDemand).to.have.been.calledWithExactly(
+      temporaryKey,
+      resetPasswordDemandRepository,
+    );
+    expect(tokenService.decodeIfValid).to.have.been.calledWithExactly(temporaryKey);
+    expect(userRepository.getByEmail).to.have.been.calledWithExactly(email);
   });
 
   it('should throw InvalidTemporaryKeyError if TemporaryKey is invalid', async function () {

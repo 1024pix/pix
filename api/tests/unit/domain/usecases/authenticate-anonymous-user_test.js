@@ -47,7 +47,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
       lang: lang,
       hasSeenAssessmentInstructions: false,
     };
-    expect(campaignToJoinRepository.getByCode).to.have.been.calledWith(campaignCode);
+    expect(campaignToJoinRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
     expect(userToCreateRepository.create).to.have.been.calledWithMatch({ user: expectedUser });
   });
 

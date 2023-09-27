@@ -91,7 +91,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     });
 
     // then
-    expect(assessmentResultRepository.save).to.have.been.calledWith({
+    expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
       certificationCourseId: 123,
       assessmentResult: assessmentResultToBeSaved,
     });
@@ -481,7 +481,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         // then
-        expect(assessmentResultRepository.save).to.have.been.calledWith({
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
           certificationCourseId: 789,
           assessmentResult: assessmentResultToBeSaved,
         });

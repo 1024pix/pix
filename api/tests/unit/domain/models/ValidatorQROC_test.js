@@ -31,7 +31,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function () {
 
     it('should call solutionServiceQROC', function () {
       // then
-      expect(solutionServiceQROCStub.match).to.have.been.calledWith({
+      expect(solutionServiceQROCStub.match).to.have.been.calledWithExactly({
         answer: uncorrectedAnswer.value,
         solution: solution,
         challengeFormat,

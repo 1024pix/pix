@@ -13,6 +13,9 @@ describe('Event Choreography | Pole Emploi Participation Started', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(handlerStubs.handlePoleEmploiParticipationStarted).to.have.been.calledWith({ event, domainTransaction });
+    expect(handlerStubs.handlePoleEmploiParticipationStarted).to.have.been.calledWithExactly({
+      event,
+      domainTransaction,
+    });
   });
 });

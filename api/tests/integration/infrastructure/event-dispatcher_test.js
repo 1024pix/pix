@@ -23,7 +23,7 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
+    expect(eventHandler).to.have.been.calledWithExactly({ domainTransaction, event });
   });
 
   it('throws when duplicate subscription', async function () {
@@ -56,8 +56,8 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(eventHandler_1).to.have.been.calledWith({ domainTransaction, event });
-    expect(eventHandler_2).to.have.been.calledWith({ domainTransaction, event });
+    expect(eventHandler_1).to.have.been.calledWithExactly({ domainTransaction, event });
+    expect(eventHandler_2).to.have.been.calledWithExactly({ domainTransaction, event });
   });
 
   it('calls handler only for subscribed events', async function () {
@@ -76,8 +76,8 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(otherEvent, domainTransaction);
 
     // then
-    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
-    expect(eventHandler).not.to.have.been.calledWith({ domainTransaction, otherEvent });
+    expect(eventHandler).to.have.been.calledWithExactly({ domainTransaction, event });
+    expect(eventHandler).not.to.have.been.calledWithExactly({ domainTransaction, otherEvent });
   });
 
   it('dispatches event returned by eventHandlers', async function () {
@@ -96,7 +96,7 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent });
+    expect(eventHandler).to.have.been.calledWithExactly({ domainTransaction, event: returnedEvent });
   });
 
   it('dispatches events returned by eventHandlers', async function () {
@@ -116,8 +116,8 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent1 });
-    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent2 });
+    expect(eventHandler).to.have.been.calledWithExactly({ domainTransaction, event: returnedEvent1 });
+    expect(eventHandler).to.have.been.calledWithExactly({ domainTransaction, event: returnedEvent2 });
   });
 
   it('logs when dispatch starts', async function () {
@@ -134,7 +134,7 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(logger.onEventDispatchStarted).to.have.been.calledWith(event, 'handler 1');
+    expect(logger.onEventDispatchStarted).to.have.been.calledWithExactly(event, 'handler 1');
   });
 
   it('logs when a dispatch is successful', async function () {
@@ -151,7 +151,7 @@ describe('Integration | Infrastructure | EventHandler', function () {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(logger.onEventDispatchSuccess).to.have.been.calledWith(event, 'handler 1');
+    expect(logger.onEventDispatchSuccess).to.have.been.calledWithExactly(event, 'handler 1', 'Started Job Name');
   });
 
   it('logs and rethrow when a dispatch fails', async function () {
@@ -174,13 +174,13 @@ describe('Integration | Infrastructure | EventHandler', function () {
       error = e;
     }
     expect(error).to.equal(anError);
-    expect(logger.onEventDispatchFailure).to.have.been.calledWith(event, 'handler 1', anError);
+    expect(logger.onEventDispatchFailure).to.have.been.calledWithExactly(event, 'handler 1', anError);
   });
 });
 
 function _buildLoggerMock() {
   return {
-    onEventDispatchStarted: sinon.stub(),
+    onEventDispatchStarted: sinon.stub().returns('Started Job Name'),
     onEventDispatchSuccess: sinon.stub(),
     onEventDispatchFailure: sinon.stub(),
   };

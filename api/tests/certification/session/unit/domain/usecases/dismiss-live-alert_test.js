@@ -64,7 +64,7 @@ describe('Unit | UseCase | dismiss-live-alert', function () {
       });
 
       // then
-      expect(certificationChallengeLiveAlertRepository.save).to.have.been.calledWith({
+      expect(certificationChallengeLiveAlertRepository.save).to.have.been.calledWithExactly({
         certificationChallengeLiveAlert: domainBuilder.buildCertificationChallengeLiveAlert(dismissedLiveAlert),
       });
     });

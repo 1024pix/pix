@@ -44,7 +44,7 @@ describe('Unit | Controller | progression-controller', function () {
           const response = await progressionController.get(request, hFake);
 
           // Then
-          expect(usecases.getProgression).to.have.been.calledWith({
+          expect(usecases.getProgression).to.have.been.calledWithExactly({
             progressionId,
             userId,
           });

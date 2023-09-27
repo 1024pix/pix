@@ -17,7 +17,9 @@ describe('Unit | Infrastructure | Jobs | saveComputedCampaignParticipationResult
       await participationResultCalculationJobHandler.handle(event);
 
       // then
-      expect(usecases.saveComputedCampaignParticipationResult).to.have.been.calledWith({ campaignParticipationId });
+      expect(usecases.saveComputedCampaignParticipationResult).to.have.been.calledWithExactly({
+        campaignParticipationId,
+      });
     });
   });
 });

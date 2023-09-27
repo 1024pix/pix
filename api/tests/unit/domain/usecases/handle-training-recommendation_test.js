@@ -106,7 +106,7 @@ describe('Unit | UseCase | handle-training-recommendation', function () {
         });
 
         // then
-        expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.been.calledWith({
+        expect(findWithTriggersByCampaignParticipationIdAndLocaleStub).to.have.been.calledWithExactly({
           campaignParticipationId,
           locale,
           domainTransaction,

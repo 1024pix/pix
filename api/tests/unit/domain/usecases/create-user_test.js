@@ -88,7 +88,7 @@ describe('Unit | UseCase | create-user', function () {
       });
 
       // then
-      expect(userRepository.checkIfEmailIsAvailable).to.have.been.calledWith(userEmail);
+      expect(userRepository.checkIfEmailIsAvailable).to.have.been.calledWithExactly(userEmail);
     });
 
     it('should validate the user', async function () {
@@ -110,7 +110,7 @@ describe('Unit | UseCase | create-user', function () {
       });
 
       //then
-      expect(userValidator.validate).to.have.been.calledWith({ user });
+      expect(userValidator.validate).to.have.been.calledWithExactly({ user });
     });
 
     it('should validate the password', async function () {
@@ -132,7 +132,7 @@ describe('Unit | UseCase | create-user', function () {
       });
 
       // then
-      expect(passwordValidator.validate).to.have.been.calledWith(password);
+      expect(passwordValidator.validate).to.have.been.calledWithExactly(password);
     });
 
     context('when user email is already used', function () {
@@ -365,7 +365,7 @@ describe('Unit | UseCase | create-user', function () {
         });
 
         // then
-        expect(encryptionService.hashPassword).to.have.been.calledWith(password);
+        expect(encryptionService.hashPassword).to.have.been.calledWithExactly(password);
       });
 
       it('should throw Error when hash password function fails', async function () {
@@ -411,7 +411,7 @@ describe('Unit | UseCase | create-user', function () {
         });
 
         // then
-        expect(userService.createUserWithPassword).to.have.been.calledWith({
+        expect(userService.createUserWithPassword).to.have.been.calledWithExactly({
           user,
           hashedPassword,
           userToCreateRepository,
@@ -446,7 +446,7 @@ describe('Unit | UseCase | create-user', function () {
         });
 
         // then
-        expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
+        expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
           userEmail,
           localeFromHeader,
           expectedRedirectionUrl,
@@ -478,7 +478,7 @@ describe('Unit | UseCase | create-user', function () {
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
             userEmail,
             localeFromHeader,
             expectedRedirectionUrl,
@@ -512,7 +512,7 @@ describe('Unit | UseCase | create-user', function () {
           });
 
           // then
-          expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
+          expect(mailService.sendAccountCreationEmail).to.have.been.calledWithExactly(
             userEmail,
             localeFromHeader,
             expectedRedirectionUrl,

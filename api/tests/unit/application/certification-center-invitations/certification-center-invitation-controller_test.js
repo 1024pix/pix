@@ -27,7 +27,7 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
       );
 
       // then
-      expect(usecases.acceptCertificationCenterInvitation).to.have.been.calledWith({
+      expect(usecases.acceptCertificationCenterInvitation).to.have.been.calledWithExactly({
         certificationCenterInvitationId,
         code,
         email: notValidEmail.trim().toLowerCase(),

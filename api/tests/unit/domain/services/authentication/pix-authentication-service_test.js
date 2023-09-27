@@ -55,7 +55,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
         });
 
         // then
-        expect(userRepository.getByUsernameOrEmailWithRolesAndPassword).to.has.been.calledWith(username);
+        expect(userRepository.getByUsernameOrEmailWithRolesAndPassword).to.has.been.calledWithExactly(username);
       });
 
       it('should call the encryptionService check function', async function () {
@@ -71,7 +71,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
         });
 
         // then
-        expect(encryptionService.checkPassword).to.has.been.calledWith({
+        expect(encryptionService.checkPassword).to.has.been.calledWithExactly({
           password,
           passwordHash: expectedPasswordHash,
         });
@@ -131,7 +131,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
 
           // then
           expect(resetUserTemporaryBlockingStub).to.have.been.calledOnce;
-          expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
+          expect(userLoginRepository.update).to.have.been.calledWithExactly(userLogin);
         });
       });
     });
@@ -178,11 +178,11 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             });
 
             // then
-            expect(userLoginRepository.create).to.have.been.calledWith({ userId: user.id });
+            expect(userLoginRepository.create).to.have.been.calledWithExactly({ userId: user.id });
             expect(userLoginCreated.incrementFailureCount).to.have.been.calledOnce;
             expect(userLoginCreated.markUserAsTemporarilyBlocked).to.not.have.been.called;
             expect(userLoginCreated.markUserAsBlocked).to.not.have.been.called;
-            expect(userLoginRepository.update).to.have.been.calledWith(userLoginCreated);
+            expect(userLoginRepository.update).to.have.been.calledWithExactly(userLoginCreated);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
           });
         });
@@ -214,7 +214,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             expect(userLogin.incrementFailureCount).to.have.been.calledOnce;
             expect(userLogin.markUserAsTemporarilyBlocked).to.have.been.calledOnce;
             expect(userLogin.markUserAsBlocked).to.not.have.been.called;
-            expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
+            expect(userLoginRepository.update).to.have.been.calledWithExactly(userLogin);
             expect(error).to.be.an.instanceof(PasswordNotMatching);
           });
         });
@@ -247,7 +247,7 @@ describe('Unit | Domain | Services | pix-authentication-service', function () {
             expect(userLogin.incrementFailureCount).to.have.been.calledOnce;
             expect(userLogin.markUserAsBlocked).to.have.been.calledOnce;
             expect(userLogin.markUserAsTemporarilyBlocked).to.not.have.been.called;
-            expect(userLoginRepository.update).to.have.been.calledWith(userLogin);
+            expect(userLoginRepository.update).to.have.been.calledWithExactly(userLogin);
           });
         });
       });

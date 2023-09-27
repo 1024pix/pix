@@ -35,7 +35,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         });
 
         // then
-        expect(certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId).to.have.been.calledWith(
+        expect(certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId).to.have.been.calledWithExactly(
           156,
           54516,
         );
@@ -63,7 +63,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
         // then
         expect(challenge).to.equal(nextChallengeToAnswer);
-        expect(challengeRepository.get).to.have.been.calledWith(challengeId);
+        expect(challengeRepository.get).to.have.been.calledWithExactly(challengeId);
       });
     });
 

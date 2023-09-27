@@ -128,7 +128,7 @@ describe('Unit | Controller | answer-controller', function () {
 
       it('should call the usecase to save the answer', function () {
         // then
-        expect(usecases.correctAnswerThenUpdateAssessment).to.have.been.calledWith({
+        expect(usecases.correctAnswerThenUpdateAssessment).to.have.been.calledWithExactly({
           answer: deserializedAnswer,
           userId,
           locale,
@@ -137,7 +137,7 @@ describe('Unit | Controller | answer-controller', function () {
 
       it('should serialize the answer', function () {
         // then
-        expect(answerSerializerStub.serialize).to.have.been.calledWith(createdAnswer);
+        expect(answerSerializerStub.serialize).to.have.been.calledWithExactly(createdAnswer);
       });
       it('should return the serialized answer', function () {
         // then

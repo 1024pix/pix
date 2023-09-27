@@ -33,7 +33,9 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     await sendEmail({ cpfExternalStorage, mailService });
 
     // then
-    expect(cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter).to.have.been.calledWith({ date: expectedDate });
+    expect(cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter).to.have.been.calledWithExactly({
+      date: expectedDate,
+    });
   });
 
   it('should send an email with a list of generated files url', async function () {
@@ -52,7 +54,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     await sendEmail({ cpfExternalStorage, mailService });
 
     // then
-    expect(mailService.sendCpfEmail).to.have.been.calledWith({
+    expect(mailService.sendCpfEmail).to.have.been.calledWithExactly({
       email: 'teamcertif@example.net',
       generatedFiles: [
         'https://bucket.url.com/file1.xml',

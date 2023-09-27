@@ -79,7 +79,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
         }),
         userId: user.id,
       });
-      expect(authenticationMethodRepository.create).to.have.been.calledWith(
+      expect(authenticationMethodRepository.create).to.have.been.calledWithExactly(
         {
           authenticationMethod: expectedAuthenticationMethodFromPix,
         },
@@ -120,7 +120,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       });
 
       // then
-      expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWith(
+      expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWithExactly(
         {
           userId: user.id,
           hashedPassword,
@@ -183,7 +183,10 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
     });
 
     // then
-    expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWith(temporaryKey);
+    expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWithExactly(
+      temporaryKey,
+      domainTransaction,
+    );
   });
 
   it('should save last terms of service validated at date', async function () {
@@ -239,6 +242,6 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       },
       domainTransaction,
     };
-    expect(userRepository.updateWithEmailConfirmed).to.have.been.calledWith(expectedParams);
+    expect(userRepository.updateWithEmailConfirmed).to.have.been.calledWithExactly(expectedParams);
   });
 });

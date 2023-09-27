@@ -32,7 +32,11 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
       });
 
       // Then
-      expect(tutorialEvaluationRepository.createOrUpdate).to.have.been.calledWith({ userId, tutorialId, status });
+      expect(tutorialEvaluationRepository.createOrUpdate).to.have.been.calledWithExactly({
+        userId,
+        tutorialId,
+        status,
+      });
     });
   });
 

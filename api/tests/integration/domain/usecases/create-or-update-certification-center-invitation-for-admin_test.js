@@ -124,7 +124,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     });
 
     // then
-    expect(mailService.sendCertificationCenterInvitationEmail).to.has.been.calledWith({
+    expect(mailService.sendCertificationCenterInvitationEmail).to.has.been.calledWithExactly({
       email: 'some.user@example.net',
       certificationCenterName: 'Pixar',
       certificationCenterInvitationId,

@@ -25,7 +25,7 @@ describe('Unit | Controller | certification-issue-report-controller', function (
 
       // then
       expect(response).to.be.null;
-      expect(usecases.deleteCertificationIssueReport).to.have.been.calledWith({ certificationIssueReportId });
+      expect(usecases.deleteCertificationIssueReport).to.have.been.calledWithExactly({ certificationIssueReportId });
     });
   });
 

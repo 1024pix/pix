@@ -56,8 +56,8 @@ describe('Unit | UseCase | create-campaign', function () {
     });
 
     // then
-    expect(campaignCreator.createCampaign).to.have.been.calledWith({ ...campaignData, code });
-    expect(campaignRepository.save).to.have.been.calledWith(campaignToCreate);
+    expect(campaignCreator.createCampaign).to.have.been.calledWithExactly({ ...campaignData, code });
+    expect(campaignRepository.save).to.have.been.calledWithExactly(campaignToCreate);
     expect(campaign).to.deep.equal(savedCampaign);
   });
 });

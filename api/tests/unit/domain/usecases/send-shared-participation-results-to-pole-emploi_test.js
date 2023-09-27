@@ -215,7 +215,7 @@ describe('Unit | Domain | UseCase | send-shared-participation-results-to-pole-em
       });
 
       // then
-      expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
+      expect(poleEmploiSendingRepository.create).to.have.been.calledWithExactly({ poleEmploiSending });
     });
   });
 

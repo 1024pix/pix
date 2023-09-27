@@ -17,7 +17,7 @@ describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', func
     const actualUpdatedUser = await rememberUserHasSeenAssessmentInstructions({ userId, userRepository });
 
     // then
-    expect(userRepository.updateHasSeenAssessmentInstructionsToTrue).to.have.been.calledWith(userId);
+    expect(userRepository.updateHasSeenAssessmentInstructionsToTrue).to.have.been.calledWithExactly(userId);
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
 });

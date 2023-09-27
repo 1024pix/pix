@@ -39,7 +39,7 @@ describe('Unit | Domain | Models | User', function () {
       const user = new User({ locale: 'fr-be' }, dependencies);
 
       // then
-      expect(localeService.getCanonicalLocale).to.have.been.calledWith('fr-be');
+      expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('fr-be');
       expect(user.locale).to.equal('fr-BE');
     });
   });
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | User', function () {
         user.setLocaleIfNotAlreadySet('fr-fr');
 
         // then
-        expect(localeService.getCanonicalLocale).to.have.been.calledWith('fr-fr');
+        expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('fr-fr');
         expect(user.locale).to.equal('fr-FR');
         expect(user.hasBeenModified).to.be.true;
       });

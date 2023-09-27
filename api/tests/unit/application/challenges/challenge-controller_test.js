@@ -26,7 +26,7 @@ describe('Unit | Controller | challenge-controller', function () {
       });
 
       // then
-      expect(challengeRepository.get).to.have.been.calledWith(challengeId);
+      expect(challengeRepository.get).to.have.been.calledWithExactly(challengeId);
       expect(challengeSerializer.serialize).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });

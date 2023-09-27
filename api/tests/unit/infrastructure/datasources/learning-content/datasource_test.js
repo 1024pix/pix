@@ -199,7 +199,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
       await dataSource.refreshLearningContentCacheRecords();
 
       // then
-      expect(learningContentCache.set).to.have.been.calledWith(learningContent);
+      expect(learningContentCache.set).to.have.been.calledWithExactly(learningContent);
     });
   });
 

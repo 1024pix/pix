@@ -37,7 +37,7 @@ describe('Unit | UseCase | create-organization-invitations', function () {
 
       // then
       expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledOnce;
-      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledWith({
+      expect(organizationInvitationService.createOrUpdateOrganizationInvitation).to.has.been.calledWithExactly({
         organizationId,
         email: emails[0],
         locale,

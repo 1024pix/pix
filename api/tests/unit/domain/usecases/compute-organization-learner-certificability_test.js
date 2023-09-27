@@ -41,7 +41,7 @@ describe('Unit | UseCase | compute-organization-learner-certificabilty', functio
     });
 
     // then
-    expect(organizationLearner.updateCertificability).to.have.been.calledWith(placementProfile);
-    expect(organizationLearnerRepository.updateCertificability).to.have.been.calledWith(organizationLearner);
+    expect(organizationLearner.updateCertificability).to.have.been.calledWithExactly(placementProfile);
+    expect(organizationLearnerRepository.updateCertificability).to.have.been.calledWithExactly(organizationLearner);
   });
 });

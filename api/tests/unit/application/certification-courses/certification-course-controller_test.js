@@ -201,7 +201,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       await certificationCourseController.update(options, hFake, { certificationSerializer });
 
       // then
-      expect(usecases.correctCandidateIdentityInCertificationCourse).to.have.been.calledWith({
+      expect(usecases.correctCandidateIdentityInCertificationCourse).to.have.been.calledWithExactly({
         command: {
           firstName: 'Phil',
           lastName: 'Defer',
@@ -413,7 +413,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       await certificationCourseController.cancel(request, hFake);
 
       // then
-      expect(usecases.cancelCertificationCourse).to.have.been.calledWith({ certificationCourseId: 123 });
+      expect(usecases.cancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
     });
   });
 
@@ -432,7 +432,7 @@ describe('Unit | Controller | certification-course-controller', function () {
       await certificationCourseController.uncancel(request, hFake);
 
       // then
-      expect(usecases.uncancelCertificationCourse).to.have.been.calledWith({ certificationCourseId: 123 });
+      expect(usecases.uncancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
     });
   });
 });

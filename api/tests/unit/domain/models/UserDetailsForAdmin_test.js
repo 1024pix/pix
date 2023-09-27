@@ -33,7 +33,7 @@ describe('Unit | Domain | Models | UserDetailsForAdmin', function () {
       const user = new UserDetailsForAdmin({ locale: 'fr-be' }, dependencies);
 
       // then
-      expect(localeService.getCanonicalLocale).to.have.been.calledWith('fr-be');
+      expect(localeService.getCanonicalLocale).to.have.been.calledWithExactly('fr-be');
       expect(user.locale).to.equal('fr-BE');
     });
   });

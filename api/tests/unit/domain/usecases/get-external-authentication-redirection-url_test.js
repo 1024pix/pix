@@ -140,7 +140,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       });
 
       // then
-      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
+      expect(userLoginRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: 777 });
     });
 
     context("when user's authentication method does not contain first and last name", function () {
@@ -180,7 +180,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLastName: 'Lisitsa',
           externalIdentifier: 'saml-id',
         });
-        expect(authenticationMethodRepository.update).to.have.been.calledWith(expectedAuthenticationMethod);
+        expect(authenticationMethodRepository.update).to.have.been.calledWithExactly(expectedAuthenticationMethod);
       });
     });
 
@@ -216,7 +216,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLastName: 'Lisitsa',
           externalIdentifier: 'saml-id',
         });
-        expect(authenticationMethodRepository.update).to.have.been.calledWith(expectedAuthenticationMethod);
+        expect(authenticationMethodRepository.update).to.have.been.calledWithExactly(expectedAuthenticationMethod);
       });
     });
 
@@ -252,7 +252,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
           userLastName: 'Volk',
           externalIdentifier: 'saml-id',
         });
-        expect(authenticationMethodRepository.update).to.have.been.calledWith(expectedAuthenticationMethod);
+        expect(authenticationMethodRepository.update).to.have.been.calledWithExactly(expectedAuthenticationMethod);
       });
     });
 

@@ -459,7 +459,7 @@ describe('Unit | Application | Controller | Campaign', function () {
 
       // then
       expect(usecases.getCampaign).calledWith({ campaignId, userId });
-      expect(tokenServiceStub.createTokenForCampaignResults).to.have.been.calledWith({ userId, campaignId });
+      expect(tokenServiceStub.createTokenForCampaignResults).to.have.been.calledWithExactly({ userId, campaignId });
       expect(response).to.deep.equal(expectedResult);
     });
   });

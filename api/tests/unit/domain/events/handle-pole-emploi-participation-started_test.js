@@ -152,7 +152,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', fu
         });
 
         // then
-        expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
+        expect(poleEmploiSendingRepository.create).to.have.been.calledWithExactly({ poleEmploiSending });
       });
     });
 
