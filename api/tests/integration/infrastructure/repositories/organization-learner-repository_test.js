@@ -2185,7 +2185,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability();
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.equal(2);
@@ -2208,7 +2212,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability();
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.equal(1);
@@ -2230,8 +2238,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-        skipLoggedLastDayCheck: true,
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          domainTransaction,
+        });
       });
 
       // then
@@ -2246,7 +2257,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability();
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.equal(0);
@@ -2260,8 +2275,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-        skipLoggedLastDayCheck: true,
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          domainTransaction,
+        });
       });
 
       // then
@@ -2286,7 +2304,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.deep.equal([organizationLearnerId]);
@@ -2310,7 +2332,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.deep.equal([organizationLearnerRecentlyConnecterId]);
@@ -2336,8 +2362,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
-        skipLoggedLastDayCheck: true,
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          domainTransaction,
+        });
       });
 
       // then
@@ -2354,7 +2383,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.be.empty;
@@ -2366,7 +2399,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.be.empty;
@@ -2380,7 +2417,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.deep.equal([]);
@@ -2394,7 +2435,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability();
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          domainTransaction,
+        });
+      });
 
       // then
       expect(result).to.be.empty;
@@ -2408,8 +2453,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
-        skipLoggedLastDayCheck: true,
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck: true,
+          domainTransaction,
+        });
       });
 
       // then
@@ -2426,8 +2474,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
-        limit: 1,
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          limit: 1,
+          domainTransaction,
+        });
       });
 
       // then
@@ -2446,8 +2497,11 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
-        offset: 1,
+      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+          offset: 1,
+          domainTransaction,
+        });
       });
 
       // then

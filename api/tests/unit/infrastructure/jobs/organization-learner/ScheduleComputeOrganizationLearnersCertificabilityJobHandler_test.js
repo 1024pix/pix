@@ -1,8 +1,17 @@
 import { expect, sinon } from '../../../../test-helper.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from '../../../../../lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobHandler', function () {
   context('#handle', function () {
+    let domainTransaction;
+    beforeEach(function () {
+      domainTransaction = Symbol('domainTransaction');
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
+    });
+
     it('should schedule multiple ComputeCertificabilityJob', async function () {
       // given
       const skipLoggedLastDayCheck = false;
@@ -21,13 +30,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck })
+        .withArgs({ skipLoggedLastDayCheck, domainTransaction })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck })
+        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, domainTransaction })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck })
+        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, domainTransaction })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
         new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
@@ -85,13 +94,13 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck })
+        .withArgs({ skipLoggedLastDayCheck, domainTransaction })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck })
+        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, domainTransaction })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck })
+        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, domainTransaction })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
         new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
@@ -151,12 +160,12 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         },
       };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck })
+        .withArgs({ skipLoggedLastDayCheck, domainTransaction })
         .resolves(30);
 
       for (let index = 0; index < chunkCount; index++) {
         organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-          .withArgs({ limit, offset: index * limit, skipLoggedLastDayCheck })
+          .withArgs({ limit, offset: index * limit, skipLoggedLastDayCheck, domainTransaction })
           .resolves([index * limit + 1, index * limit + 2, index * limit + 3]);
       }
 
