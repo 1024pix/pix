@@ -8,7 +8,7 @@ import { createOrganization } from '../../../../lib/domain/usecases/create-organ
 
 describe('Integration | UseCases | create-organization', function () {
   afterEach(async function () {
-    await knex('pix1d-organizations').delete();
+    await knex('schools').delete();
     await knex('data-protection-officers').delete();
     await knex('organizations').delete();
   });

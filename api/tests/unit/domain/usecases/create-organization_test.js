@@ -5,12 +5,12 @@ import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organization', function () {
   let organizationCreationValidator;
-  let pix1dOrganizationRepository;
+  let schoolRepository;
   let codeGenerator;
 
   beforeEach(function () {
     organizationCreationValidator = { validate: sinon.stub() };
-    pix1dOrganizationRepository = { save: sinon.stub() };
+    schoolRepository = { save: sinon.stub() };
     codeGenerator = { generate: sinon.stub() };
   });
 
@@ -39,7 +39,7 @@ describe('Unit | UseCase | create-organization', function () {
       organization,
       organizationForAdminRepository,
       organizationCreationValidator,
-      pix1dOrganizationRepository,
+      schoolRepository,
     });
 
     // then
@@ -76,15 +76,15 @@ describe('Unit | UseCase | create-organization', function () {
         dataProtectionOfficerRepository,
         organizationForAdminRepository,
         organizationCreationValidator,
-        pix1dOrganizationRepository,
+        schoolRepository,
         codeGenerator,
       });
 
       // then
-      expect(codeGenerator.generate).to.have.been.calledWith(pix1dOrganizationRepository);
+      expect(codeGenerator.generate).to.have.been.calledWith(schoolRepository);
     });
 
-    it('should call pix1dOrganizationRepository ', async function () {
+    it('should call schoolRepository ', async function () {
       // given
 
       const organization = new OrganizationForAdmin({
@@ -108,12 +108,12 @@ describe('Unit | UseCase | create-organization', function () {
         dataProtectionOfficerRepository,
         organizationForAdminRepository,
         organizationCreationValidator,
-        pix1dOrganizationRepository,
+        schoolRepository,
         codeGenerator,
       });
 
       // then
-      expect(pix1dOrganizationRepository.save).to.have.been.calledWith({ organizationId: organization.id, code });
+      expect(schoolRepository.save).to.have.been.calledWith({ organizationId: organization.id, code });
     });
   });
 
