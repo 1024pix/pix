@@ -1,5 +1,13 @@
 .challenge-actions {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 850px;
+  margin: 0 auto 32px auto;
+  padding: 0 30px;
+
+  button:only-child {
+    margin-left: auto;
+  }
 }
 
