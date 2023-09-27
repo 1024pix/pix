@@ -18,6 +18,16 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
         isRelatedToManagingStudentsOrganization: false,
         relatedOrganizationTags: [],
       });
+
+      const certificationCenterMemberships = [
+        {
+          id: '1231',
+          certificationCenterId: 123,
+          userId: 789,
+          role: 'MEMBER',
+        },
+      ];
+
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 789,
         firstName: 'Buffy',
@@ -25,12 +35,15 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
         email: 'buffy.summers@example.net',
         pixCertifTermsOfServiceAccepted: true,
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+        certificationCenterMemberships,
       });
+
       const request = {
         auth: {
           credentials: { userId: 123 },
         },
       };
+
       usecases.getCertificationPointOfContact.withArgs({ userId: 123 }).resolves(certificationPointOfContact);
 
       // when
@@ -57,6 +70,14 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
                 },
               ],
             },
+            'certification-center-memberships': {
+              data: [
+                {
+                  id: '1231',
+                  type: 'certification-center-membership',
+                },
+              ],
+            },
           },
         },
         included: [
@@ -76,6 +97,15 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
               'pix-certif-sco-blocked-access-date-lycee': null,
               'related-organization-tags': [],
               habilitations: [],
+            },
+          },
+          {
+            id: '1231',
+            type: 'certification-center-membership',
+            attributes: {
+              'certification-center-id': 123,
+              'user-id': 789,
+              role: 'MEMBER',
             },
           },
         ],

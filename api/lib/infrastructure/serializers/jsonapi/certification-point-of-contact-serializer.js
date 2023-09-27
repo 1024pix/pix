@@ -3,6 +3,12 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
+const ALLOWED_CERTIFICATION_CENTER_ACCESS_ATTRIBUTE = 'allowedCertificationCenterAccesses';
+const ALLOWED_CERTIFICATION_CENTER_ACCESS_TYPE = 'allowed-certification-center-access';
+
+const CERTIFICATION_CENTER_MEMBERSHIP_ATTRIBUTE = 'certificationCenterMemberships';
+const CERTIFICATION_CENTER_MEMBERSHIP_TYPE = 'certification-center-membership';
+
 const serialize = function (certificationPointOfContact) {
   return new Serializer('certification-point-of-contact', {
     attributes: [
@@ -12,6 +18,7 @@ const serialize = function (certificationPointOfContact) {
       'lang',
       'pixCertifTermsOfServiceAccepted',
       'allowedCertificationCenterAccesses',
+      CERTIFICATION_CENTER_MEMBERSHIP_ATTRIBUTE,
     ],
     allowedCertificationCenterAccesses: {
       ref: 'id',
@@ -31,11 +38,20 @@ const serialize = function (certificationPointOfContact) {
         'pixCertifScoBlockedAccessDateCollege',
       ],
     },
+    certificationCenterMemberships: {
+      ref: 'id',
+      included: true,
+      attributes: ['certificationCenterId', 'userId', 'role'],
+    },
     typeForAttribute: function (attribute) {
-      if (attribute === 'allowedCertificationCenterAccesses') {
-        return 'allowed-certification-center-access';
+      switch (attribute) {
+        case ALLOWED_CERTIFICATION_CENTER_ACCESS_ATTRIBUTE:
+          return ALLOWED_CERTIFICATION_CENTER_ACCESS_TYPE;
+        case CERTIFICATION_CENTER_MEMBERSHIP_ATTRIBUTE:
+          return CERTIFICATION_CENTER_MEMBERSHIP_TYPE;
+        default:
+          return attribute;
       }
-      return attribute;
     },
     transform(certificationPointOfContact) {
       const transformedCertificationPointOfContact = _.clone(certificationPointOfContact);

@@ -12,21 +12,36 @@ export function createCertificationPointOfContact(
   certificationCenterName = 'Centre de certification du pix',
   isRelatedOrganizationManagingStudents = false,
   certificationCenterCount = 1,
+  certificationCenterRole = 'MEMBER',
 ) {
   const allowedCertificationCenterAccesses = _createCertificationCenters(certificationCenterCount, {
     certificationCenterName,
     certificationCenterType,
     isRelatedOrganizationManagingStudents,
   });
+
+  const certificationCenterIds = allowedCertificationCenterAccesses.map(
+    (certificationCenter) => certificationCenter.id,
+  );
+
+  const certificationCenterMemberships = _createCertificationCenterMemberships({
+    certificationCenterIds,
+    userId: 1,
+    role: certificationCenterRole,
+  });
+
   return createCertificationPointOfContactWithCustomCenters({
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
+    certificationCenterRole,
+    certificationCenterMemberships,
   });
 }
 
 export function createCertificationPointOfContactWithCustomCenters({
   pixCertifTermsOfServiceAccepted = false,
   allowedCertificationCenterAccesses = [],
+  certificationCenterMemberships = [],
 }) {
   return server.create('certification-point-of-contact', {
     firstName: 'Harry',
@@ -35,6 +50,7 @@ export function createCertificationPointOfContactWithCustomCenters({
     lang: 'fr',
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
+    certificationCenterMemberships,
   });
 }
 
@@ -45,6 +61,16 @@ function _createCertificationCenters(certificationCenterCount, certificationCent
     certificationCenters.push(certificationCenter);
   });
   return certificationCenters;
+}
+
+function _createCertificationCenterMemberships({ certificationCenterIds, userId, role }) {
+  return certificationCenterIds.map((certificationCenterId) =>
+    createCertificationCenterMembership({
+      certificationCenterId,
+      userId,
+      role,
+    }),
+  );
 }
 
 export function createAllowedCertificationCenterAccess({
@@ -64,6 +90,14 @@ export function createAllowedCertificationCenterAccess({
   });
 }
 
+export function createCertificationCenterMembership({ certificationCenterId, userId, role = 'MEMBER' }) {
+  return server.create('certification-center-membership', {
+    userId,
+    certificationCenterId,
+    role,
+  });
+}
+
 export function createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted() {
   return createCertificationPointOfContactWithTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix', true);
 }
@@ -72,12 +106,15 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(
   certificationCenterType = undefined,
   certificationCenterName = 'Centre de certification du pix',
   isRelatedOrganizationManagingStudents = false,
+  certificationCenterRole = 'MEMBER',
 ) {
   return createCertificationPointOfContact(
     true,
     certificationCenterType,
     certificationCenterName,
     isRelatedOrganizationManagingStudents,
+    1,
+    certificationCenterRole,
   );
 }
 

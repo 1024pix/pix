@@ -10,6 +10,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
       sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateLycee').value('2022-08-01');
 
       settings.features.pixCertifScoBlockedAccessDateLycee = '2022-08-01';
+
       const allowedCertificationCenterAccess1 = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 123,
         name: 'Sunnydale Center',
@@ -22,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
           { id: 2, name: 'Certif comp 2' },
         ],
       });
+
       const allowedCertificationCenterAccess2 = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 456,
         name: 'Hellmouth',
@@ -31,6 +33,22 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         relatedOrganizationTags: ['tag1'],
         habilitations: [],
       });
+
+      const certificationCenterMemberships = [
+        {
+          id: 1231,
+          certificationCenterId: 123,
+          userId: 789,
+          role: 'ADMIN',
+        },
+        {
+          id: 1232,
+          certificationCenterId: 456,
+          userId: 789,
+          role: 'MEMBER',
+        },
+      ];
+
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
         id: 789,
         firstName: 'Buffy',
@@ -38,6 +56,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         email: 'buffy.summers@example.net',
         pixCertifTermsOfServiceAccepted: true,
         allowedCertificationCenterAccesses: [allowedCertificationCenterAccess1, allowedCertificationCenterAccess2],
+        certificationCenterMemberships,
       });
 
       // when
@@ -65,6 +84,18 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
                 {
                   id: '456',
                   type: 'allowed-certification-center-access',
+                },
+              ],
+            },
+            'certification-center-memberships': {
+              data: [
+                {
+                  id: '1231',
+                  type: 'certification-center-membership',
+                },
+                {
+                  id: '1232',
+                  type: 'certification-center-membership',
                 },
               ],
             },
@@ -108,6 +139,24 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': ['tag1'],
               habilitations: [],
+            },
+          },
+          {
+            id: '1231',
+            type: 'certification-center-membership',
+            attributes: {
+              'certification-center-id': 123,
+              'user-id': 789,
+              role: 'ADMIN',
+            },
+          },
+          {
+            id: '1232',
+            type: 'certification-center-membership',
+            attributes: {
+              'certification-center-id': 456,
+              'user-id': 789,
+              role: 'MEMBER',
             },
           },
         ],

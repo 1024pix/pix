@@ -137,7 +137,7 @@ const createCertificationCenterMembershipByEmail = async function (
     .created();
 };
 
-const findPendingInvitationsForAdmin = async function (request, h) {
+const findPendingInvitations = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
 
   const certificationCenterInvitations = await usecases.findPendingCertificationCenterInvitations({
@@ -240,7 +240,7 @@ const certificationCenterController = {
   findCertificationCenterMembershipsByCertificationCenter,
   findCertificationCenterMemberships,
   createCertificationCenterMembershipByEmail,
-  findPendingInvitationsForAdmin,
+  findPendingInvitations,
   updateReferer,
   sendInvitationForAdmin,
   getSessionsImportTemplate,

@@ -312,6 +312,30 @@ const register = async function (server) {
 
     {
       method: 'GET',
+      path: '/api/certification-centers/{certificationCenterId}/invitations',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+            assign: 'isAdminOfCertificationCenter',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: certificationCenterController.findPendingInvitations,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification**\n' +
+            '- Récupération de la liste des invitations en attente liée un centre de certification',
+        ],
+        tags: ['api', 'certification-center', 'invitations'],
+      },
+    },
+
+    {
+      method: 'GET',
       path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
       config: {
         pre: [
@@ -331,7 +355,7 @@ const register = async function (server) {
             certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
-        handler: certificationCenterController.findPendingInvitationsForAdmin,
+        handler: certificationCenterController.findPendingInvitations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
             '- Récupération de la liste des invitations en attente liée un centre de certification',

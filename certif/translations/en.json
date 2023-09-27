@@ -870,7 +870,22 @@
         "empty-option": "--Sélectionner--",
         "label": "Sélectionner un référent Pix"
       },
+      "tabs": {
+        "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
+        "member": "Members ({count, plural, =0 {-} other {{count}}})"
+      },
       "update-referer-button": "Changer de référent"
+    },
+    "team-invitations": {
+      "table": {
+        "labels": {
+          "email-address": "Email address",
+          "last-sending-date": "Last sending date"
+        },
+        "row": {
+          "aria-label": "Pending invitations"
+        }
+      }
     },
     "terms-of-service": {
       "title": "Terms and conditions of use of the Pix Certif platform",

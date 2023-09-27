@@ -1043,6 +1043,63 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkUserIsAdminOfCertificationCenter', function () {
+    context('Successful case', function () {
+      it('authorizes access to resource when the user is authenticated and is admin of the certification center', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const certificationCenter = domainBuilder.buildCertificationCenter();
+        const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+          user,
+          certificationCenter,
+          role: 'ADMIN',
+        });
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: certificationCenterMembership.user.id } },
+          params: { certificationCenterId: certificationCenterMembership.certificationCenter.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        const checkUserIsAdminOfCertificationCenterUsecaseStub = {
+          execute: sinon.stub().resolves(true),
+        };
+
+        // when
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, {
+          checkUserIsAdminOfCertificationCenterUsecase: checkUserIsAdminOfCertificationCenterUsecaseStub,
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      it('forbids resource access when user is not admin in certification center', async function () {
+        // given
+        const user = domainBuilder.buildUser();
+        const certificationCenter = domainBuilder.buildCertificationCenter();
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: user.id } },
+          params: { certificationCenterId: certificationCenter.id },
+        };
+
+        sinon.stub(tokenService, 'extractTokenFromAuthChain');
+        const checkUserIsAdminOfCertificationCenterUsecaseStub = {
+          execute: sinon.stub().resolves(false),
+        };
+
+        // when
+        const response = await securityPreHandlers.checkUserIsAdminOfCertificationCenter(request, hFake, {
+          checkUserIsAdminOfCertificationCenterUsecase: checkUserIsAdminOfCertificationCenterUsecaseStub,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
   describe('#checkUserIsMemberOfCertificationCenter', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and is member in certification center', async function () {
