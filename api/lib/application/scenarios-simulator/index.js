@@ -12,6 +12,7 @@ const _baseScenarioParametersValidator = Joi.object().keys({
   useObsoleteChallenges: Joi.boolean(),
   challengePickProbability: Joi.number().min(0).max(100),
   challengesBetweenSameCompetence: Joi.number().min(0),
+  limitToOneQuestionPerTube: Joi.boolean(),
 });
 
 const register = async (server) => {
