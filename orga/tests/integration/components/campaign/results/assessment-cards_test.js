@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Results::AssessmentCards', function (hooks) {
@@ -12,10 +12,10 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       this.averageResult = 0.9;
 
       //when
-      await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} />`);
+      const screen = await render(hbs`<Campaign::Results::AssessmentCards @averageResult={{this.averageResult}} />`);
 
       //then
-      assert.contains(this.intl.t('cards.participants-average-results.title'));
+      assert.dom(screen.getByText(this.intl.t('cards.participants-average-results.title'))).exists();
     });
   });
 
@@ -27,7 +27,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       this.averageResult = 0.5;
 
       //when
-      await render(
+      const screen = await render(
         hbs`<Campaign::Results::AssessmentCards
   @averageResult={{this.averageResult}}
   @hasStages={{this.hasStages}}
@@ -36,7 +36,7 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
       );
 
       //then
-      assert.contains(this.intl.t('cards.participants-average-stages.title'));
+      assert.dom(screen.getByText(this.intl.t('cards.participants-average-stages.title'))).exists();
     });
   });
 
@@ -45,11 +45,11 @@ module('Integration | Component | Campaign::Results::AssessmentCards', function 
     this.sharedParticipationsCount = 10;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Campaign::Results::AssessmentCards @sharedParticipationsCount={{this.sharedParticipationsCount}} />`,
     );
 
     //then
-    assert.contains(this.intl.t('cards.submitted-count.title'));
+    assert.dom(screen.getByText(this.intl.t('cards.submitted-count.title'))).exists();
   });
 });
