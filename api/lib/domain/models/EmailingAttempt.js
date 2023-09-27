@@ -1,1 +1,1 @@
-export * from '../../../src/shared/domain/models/EmailingAttempt.js';
+export * from '../../../src/shared/mail/domain/models/EmailingAttempt.js';
