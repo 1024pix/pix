@@ -5,14 +5,14 @@ Date : 2022-12-07
 
 ## État
 
-En cours
+Accepté
 
 
 ## Contexte
 
 L’*accueil multilingue/multi-locales du site https://pix.org/ (pix-site)* doit être retravaillé à l'occasion du lancement de l'utilisation de Pix par la FWB (Belgique).
 
-C'est l'occasion de formaliser la logique et la stratégie de gestion des locales et des langues (locales & languages) dans Pix, qui semble-t-il ne l'est pas encore. C'est l'objet de cet ADR.
+C'est l'occasion de formaliser la logique et la stratégie de gestion des locales et des langues (*locales* & *languages*) dans Pix, qui ne l'est pas encore.
 
 Comme il est question du code logiciel de Pix écrit en anglais, dans toute la suite du document on utilisera exclusivement les mots qui sont utilisés dans le code : *locale* et *language*.
 
@@ -58,7 +58,7 @@ Le W3C définit le *format BCP 47* et les locales Unicode comme étant le format
 
 La plateforme Java, dans sa classe [`java.util.Locale`](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Locale.html) définit maintenant également le *format BCP 47* comme étant le format à utiliser pour les identifiants de locales, mais continue d'utiliser la forme POSIX pour sa méthode `toString` uniquement pour des raisons de compatibilité tout en dépréciant cette utilisation depuis *Java 19*.
 
-Enfin, le langage JavaScript intègre le *format BCP 47* dans son coeur avec le namespace [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) et notamment le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale).
+Enfin, le langage JavaScript intègre le *format BCP 47* dans son coeur avec des fonctionnalités natives comme le namespace [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) et notamment le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) et la méthode statique [`Intl.getCanonicalLocales()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/getCanonicalLocales).
 
 ### Format BCP 47, identifiants de locales
 
@@ -144,16 +144,16 @@ En ce qui concerne le format des identifiants de *language*/*locale*, c'est le f
 
 Dans le cas de Pix c'est la notion de *locale* qui est la plus importante car une *locale* est une association langue + autres données liées au groupe auquel on s'adresse, ce qui correspond bien aux cas d'utilisation de Pix où chaque utilisateur fait partie d'un groupe linguistique-géolocalisé, même si la géolocalisation de ce groupe peut parfois être très large.
 
-On souhaite donc :
+La solution proposée est donc de fonder tous les traitements sur la notion de *locales*. Mettre en oeuvre cette solution consiste notamment à :
 
 * associer à chaque utilisateur une *locale* (et non plus un *language*) au format BCP 47 avec persistance de ce choix en base de données
 * avoir les différentes versions des sites web identifiées par une *locale* au format BCP 47 (`fr`, `fr-FR`, `fr-BE`, `en`) et non plus des identifiants non-canoniques (les identifiants `fr`, `fr-fr`, `fr-be`, `en` ont la partie `region` en minuscules)
-* utiliser le builtin JavaScript [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) chaque fois que c'est possible
+* utiliser chaque fois que c'est possible les fonctionnalités natives de JavaScript pour manipuler les *locales* (comme le builtin [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale))
 
 **Avantage(s) :**
 
 - Traiter systématiquement des *locales* est une recommandation facile à comprendre et à suivre
-- Le builtin JavaScript `Intl.Locale` est un outil disponible. Même si `Intl.Locale` n'est pas disponible sur tous les navigateurs on pourrait ne l'utiliser d'abord que côté serveur et utiliser sa forme sérialisée par la méthode `toString` partout ailleurs.
+- Le builtin JavaScript `Intl.Locale` est un outil disponible. Même si, au moment de l'écriture de cette ADR, le builtin `Intl.Locale` n'est pas disponible dans tous les navigateurs on pourrait l'utiliser d'abord uniquement côté serveur et utiliser sa forme sérialisée par la méthode `toString` partout ailleurs.
 
 **Inconvénient(s) :**
 
@@ -161,13 +161,13 @@ On souhaite donc :
 
 ## Décision
 
-* Mettre en oeuvre cet ADR sur *pix-site* et le faire évoluer si besoin en fonction de l'expérience acquise.
+* Mettre en oeuvre la solution proposée dans *pix-site*
 
    Concrètement :
 
    * On ne change pas l'identifiant de la locale `fr` déjà existant car c'est un identifiant de locale valide. Cette locale propose une version internationale sans cibler une région particulière.
    * On changera l'identifiant `fr-fr` en `fr-FR`, car l'identifiant `fr-fr` n'a pas la forme recommandée (car la région doit être en majuscules).
    * On changera `en-us` et `en-gb` en simplement `en` car on souhaite proposer une version en anglais de manière internationale, sans cibler une région particulière.
-   * On changera les potentiels noms de propriétés et noms de colonnes qui seraient nommés `language` ou `lang` pour les nommer `locale`
+   * On changera les potentiels noms de propriétés et noms de colonnes qui seraient nommés `language` ou `lang` pour les nommer `locale`.
 
-* Une fois que l'expérience acquise sur l'utilisation de cet ADR dans *pix-site* sera suffisante, on retirera alors le statut *En cours* à cet ADR et on pourra commencer à le mettre en oeuvre dans tout le code de pix.
+* Mettre en oeuvre la solution proposée dans le monorepo *pix* progressivement
