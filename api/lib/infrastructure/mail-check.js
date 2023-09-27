@@ -1,1 +1,1 @@
-export * from '../../src/shared/infrastructure/mailers/mail-check.js';
+export * from '../../src/shared/mail/infrastructure/smtp/mail-check.js';
