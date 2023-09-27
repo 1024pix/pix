@@ -20,6 +20,7 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
     );
 
     assert.contains(this.intl.t('cards.participants-average-stages.title'));
+    assert.dom(screen.getByText(this.intl.t('cards.participants-average-stages.title'))).exists();
     assert.dom(screen.getByText(this.intl.t('common.result.stages', { count: 1, total: 2 }))).exists();
   });
 });
