@@ -6,6 +6,7 @@ import {
   OrganizationLearnersCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
+  OrganizationLearnerCertificabilityNotUpdatedError,
 } from '../../domain/errors.js';
 import { OrganizationLearner } from '../../domain/models/OrganizationLearner.js';
 import { OrganizationLearnerForAdmin } from '../../domain/read-models/OrganizationLearnerForAdmin.js';
@@ -357,20 +358,35 @@ const isActive = async function ({ userId, campaignId }) {
 };
 
 async function updateCertificability(organizationLearner) {
-  await knex('organization-learners').where({ id: organizationLearner.id }).update({
+  const result = await knex('organization-learners').where({ id: organizationLearner.id }).update({
     isCertifiable: organizationLearner.isCertifiable,
     certifiableAt: organizationLearner.certifiableAt,
   });
+  if (result === 0) {
+    throw new OrganizationLearnerCertificabilityNotUpdatedError(
+      `Could not update certificability for OrganizationLearner with ID ${organizationLearner.id}.`,
+    );
+  }
 }
 
-async function countByOrganizationsWhichNeedToComputeCertificability({ skipLoggedLastDayCheck = false } = {}) {
-  const queryBuilder = _queryBuilderForCertificability(skipLoggedLastDayCheck);
+async function countByOrganizationsWhichNeedToComputeCertificability({
+  skipLoggedLastDayCheck = false,
+  onlyNotComputed = false,
+  domainTransaction,
+} = {}) {
+  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
   const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
   return count;
 }
 
-function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset, skipLoggedLastDayCheck = false } = {}) {
-  const queryBuilder = _queryBuilderForCertificability(skipLoggedLastDayCheck);
+function findByOrganizationsWhichNeedToComputeCertificability({
+  limit,
+  offset,
+  skipLoggedLastDayCheck = false,
+  onlyNotComputed = false,
+  domainTransaction,
+} = {}) {
+  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
 
   return queryBuilder
     .modify(function (qB) {
@@ -384,8 +400,9 @@ function findByOrganizationsWhichNeedToComputeCertificability({ limit, offset, s
     .pluck('view-active-organization-learners.id');
 }
 
-function _queryBuilderForCertificability(skipLoggedLastDayCheck) {
-  return knex('view-active-organization-learners')
+function _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction }) {
+  const knexConn = domainTransaction.knexTransaction || knex;
+  return knexConn('view-active-organization-learners')
     .join(
       'organization-features',
       'view-active-organization-learners.organizationId',
@@ -405,6 +422,9 @@ function _queryBuilderForCertificability(skipLoggedLastDayCheck) {
             knex.raw(`(now()- interval '1 days')`),
           );
         });
+      }
+      if (skipLoggedLastDayCheck && onlyNotComputed) {
+        queryBuilder.whereNull('view-active-organization-learners.isCertifiable');
       }
     });
 }

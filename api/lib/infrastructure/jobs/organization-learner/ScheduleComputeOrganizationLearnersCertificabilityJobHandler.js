@@ -10,21 +10,25 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
   }
 
   async handle(event = {}) {
-    let skipLoggedLastDayCheck = false;
-    if (event) skipLoggedLastDayCheck = event.skipLoggedLastDayCheck;
+    const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
+    const onlyNotComputed = event?.onlyNotComputed;
     const chunkSize = this.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
-    const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-      skipLoggedLastDayCheck,
-    });
-    const chunkCount = Math.ceil(count / chunkSize);
-
     await DomainTransaction.execute(async (domainTransaction) => {
+      const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+        skipLoggedLastDayCheck,
+        onlyNotComputed,
+        domainTransaction,
+      });
+      const chunkCount = Math.ceil(count / chunkSize);
+
       for (let index = 0; index < chunkCount; index++) {
         const organizationLearnerIds =
           await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
             limit: chunkSize,
             offset: index * chunkSize,
             skipLoggedLastDayCheck,
+            onlyNotComputed,
+            domainTransaction,
           });
         await this.pgBossRepository.insert(
           organizationLearnerIds.map(

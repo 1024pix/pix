@@ -1265,6 +1265,12 @@ class AuditLoggerApiError extends DomainError {
   }
 }
 
+class OrganizationLearnerCertificabilityNotUpdatedError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 export {
   AuditLoggerApiError,
   LocaleFormatError,
@@ -1386,6 +1392,7 @@ export {
   OrganizationLearnerAlreadyLinkedToUserError,
   OrganizationLearnerAlreadyLinkedToInvalidUserError,
   OrganizationLearnerCannotBeDissociatedError,
+  OrganizationLearnerCertificabilityNotUpdatedError,
   OrganizationLearnerDisabledError,
   OrganizationLearnerNotFound,
   OrganizationLearnersCouldNotBeSavedError,
