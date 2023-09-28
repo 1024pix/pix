@@ -1,4 +1,4 @@
-import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 
 function buildAnswer({

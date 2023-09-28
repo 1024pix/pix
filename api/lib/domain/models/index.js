@@ -2,7 +2,7 @@ import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
 import { Activity } from './Activity.js';
 import { ActivityAnswer } from './ActivityAnswer.js';
 import { AdminMember } from './AdminMember.js';
-import { Answer } from './Answer.js';
+import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { AnswerStatus } from './AnswerStatus.js';
 import { Area } from './Area.js';
