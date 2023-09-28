@@ -3,9 +3,6 @@
   flex-direction: column;
   gap: 36px;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: var(--pix-color-secondary);
 
   &__header, &__body , &__body-start, &__body-finish {
     display: flex;
@@ -75,22 +72,57 @@
   }
 }
 
-.competences-list {
+.mission-page-end {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 280px;
-  font-weight: 400;
-  font-size: 18px;
-  text-align: left;
-}
+  align-items: center;
 
-.list-title {
-  font-weight: 600;
-  font-size: 18px;
-  text-align: left;
-}
+  &__competences {
+    display: flex;
+    flex-direction: column;
 
-.list-item {
-  padding-left: 20px;
+    .back-to-mission {
+      margin-top: 32px;
+      margin-left: auto;
+      padding: 16px 32px 16px 40px;
+      font-weight: 700;
+      font-size: 18px;
+      border-radius: 100px;
+
+      &__icon {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  .competences-list {
+    margin-top: 43px;
+    font-weight: 400;
+    text-align: left;
+
+    &__title {
+      margin-bottom: 16px;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    &__item {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 8px;
+
+      p {
+        line-height: 28px;
+      }
+    }
+  }
+
+  &__body-finish {
+    display: flex;
+    gap: 25px;
+    width: 960px;
+    padding-left: 60px;
+  }
+
 }

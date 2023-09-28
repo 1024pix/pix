@@ -18,7 +18,14 @@
       "backHome": "Retour à l'accueil"
     },
     "missions": {
-      "list":"Choisi ta mission parmi celles qui te sont proposées ci-dessous !"
+      "start-page": {
+        "list": "Choisis ta mission parmi celles qui te sont proposées ci-dessous !"
+      },
+      "end-page": {
+        "congratulations": "Bravo ! <br> Tu as terminé ta mission !",
+        "back-to-missions": "Voir d'autres missions",
+        "competences-list": "POUR CETTE MISSION, TU AS MONTRÉ QUE TU SAIS :"
+      }
     },
     "error": {
       "title": "Erreur",

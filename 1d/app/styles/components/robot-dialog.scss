@@ -15,6 +15,7 @@
     margin-left: 20px;
     padding: 12px;
     font-size: 1.5rem;
+    text-align: left;
     background-color: #C3D0FF;
     border-radius: 16px 16px 16px 0;
 
@@ -48,6 +49,7 @@
 
     &--happy {
       background-color: #C8F0D8;
+
       &::after {
         border-color: transparent #C8F0D8;
       }

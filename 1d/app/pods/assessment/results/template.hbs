@@ -1,27 +1,42 @@
-<div class="mission-page">
-  <div class="mission-page__header">
-    <p class="text__header">Mission terminée ! ✨</p>
-  </div>
-  <div class="mission-page__body">
-    <div class="label">
-      <p>Mission</p>
-    </div>
-    <div class="mission-page__body-finish">
-      <MissionCardSuccess @title={{@model.name}} />
+<div class="mission-page-end">
+  <RobotDialog @instruction={{t "pages.missions.end-page.congratulations"}} @class="happy" />
+  <div class="mission-page-end__body-finish">
+    {{#if (eq @model.id "recExjO7RHeDI48HK")}}
+      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
+    {{else}}
+      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
+    {{/if}}
+    <div class="mission-page-end__competences">
       <ul class="competences-list">
-        <li class="list-title">Pour cette mission, tu devais montrer que tu sais :</li>
+        <li class="competences-list__title">{{t "pages.missions.end-page.competences-list"}}</li>
         {{#if (eq @model.id "recExjO7RHeDI48HK")}}
-          <li class="list-item">ce qu'est un moteur de recherche et donner le nom d'un moteur de recherche que tu
-            connais,
+          <li class="competences-list__item">
+            <img src="/images/icons/objectif.svg" alt="" />
+            <p>ce qu'est un moteur de recherche et donner le nom d'un moteur de recherche que tu connais,</p>
           </li>
-          <li class="list-item">choisir correctement les mots pour faire une recherche,</li>
-          <li class="list-item">utiliser un moteur de recherche.</li>
+          <li class="competences-list__item">
+            <img src="/images/icons/objectif.svg" alt="" />
+            <p>choisir correctement les mots pour faire une recherche,</p>
+          </li>
+          <li class="competences-list__item">
+            <img src="/images/icons/objectif.svg" alt="" />
+            <p>utiliser un moteur de recherche.</p>
+          </li>
         {{else}}
-          <li class="list-item">ce qu'est une donnée personelle,</li>
-          <li class="list-item">protéger tes données personnelles en évitant de les diffuser.</li>
+          <li class="competences-list__item">
+            <img src="/images/icons/objectif.svg" alt="" />
+            <p>ce qu'est une donnée personelle,</p>
+          </li>
+          <li class="competences-list__item">
+            <img src="/images/icons/objectif.svg" alt="" />
+            <p>protéger tes données personnelles en évitant de les diffuser.</p>
+          </li>
         {{/if}}
       </ul>
+      <PixButtonLink @route="missions" @shape="rounded" class="back-to-mission">
+        <p>{{t "pages.missions.end-page.back-to-missions"}}</p>
+        <FaIcon @icon="arrow-right" class="back-to-mission__icon" />
+      </PixButtonLink>
     </div>
-    <LinkTo class="pix1d-button pix1d-button--small" @route="home">Retour aux missions</LinkTo>
   </div>
 </div>
