@@ -1,5 +1,4 @@
 import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
-import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
 const getCampaign = async function ({
   campaignId,
@@ -7,6 +6,7 @@ const getCampaign = async function ({
   badgeRepository,
   campaignRepository,
   campaignReportRepository,
+  stageCollectionRepository,
 }) {
   const integerCampaignId = parseInt(campaignId);
   if (!Number.isFinite(integerCampaignId)) {
