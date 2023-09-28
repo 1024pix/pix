@@ -147,19 +147,18 @@
 }
 
 .oudated-complementary-certification-banner {
-
   margin-top: $pix-spacing-s;
 
   &__row {
     display: flex;
+    padding: $pix-spacing-s;
     background-color: $pix-primary-10;
     border-radius: 16px;
-    padding: $pix-spacing-s;
   }
 
   &__icon {
     max-width: 64px;
-    margin-right: $pix-spacing-s;
     max-height: 64px;
+    margin-right: $pix-spacing-s;
   }
 }
