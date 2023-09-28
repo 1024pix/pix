@@ -1,4 +1,6 @@
 import { AssessmentNotCompletedError, NotFoundError } from '../errors.js';
+import { LearningContentResourceNotFound } from '../../infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { InternalServerError } from '../../application/http-errors.js';
 
 const getCorrectionForAnswer = async function ({
   assessmentRepository,
@@ -18,13 +20,22 @@ const getCorrectionForAnswer = async function ({
   }
 
   _validateCorrectionIsAccessible(assessment);
+  let response;
+  try {
+    response = await correctionRepository.getByChallengeId({
+      challengeId: answer.challengeId,
+      answerValue: answer.value,
+      userId,
+      locale,
+    });
+  } catch (error) {
+    if (error instanceof LearningContentResourceNotFound) {
+      throw new NotFoundError();
+    }
+    throw new InternalServerError();
+  }
 
-  return correctionRepository.getByChallengeId({
-    challengeId: answer.challengeId,
-    answerValue: answer.value,
-    userId,
-    locale,
-  });
+  return response;
 };
 
 export { getCorrectionForAnswer };
