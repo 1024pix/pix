@@ -1,0 +1,14 @@
+{{#if this.showCongratulationsBanner}}
+  <CertificationBanners::CongratulationsCertificationBanner
+    @complementaryCertifications={{@certificationEligibility.complementaryCertifications}}
+    @fullName={{@fullName}}
+    @closeBanner={{this.closeBanner}}
+    @eligibleComplementaryCertifications={{this.eligibleComplementaryCertifications}}
+  />
+{{/if}}
+
+{{#if (gt this.outdatedComplementaryCertifications.length 0)}}
+  <CertificationBanners::OutdatedComplementaryCertificationBanner
+    @complementaryCertifications={{this.outdatedComplementaryCertifications}}
+  />
+{{/if}}

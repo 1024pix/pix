@@ -10,10 +10,10 @@
   <p class="congratulations-banner__message">
     {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
   </p>
-  {{#if (gt this.eligibleComplementaryCertifications.length 0)}}
+  {{#if (gt @eligibleComplementaryCertifications.length 0)}}
     <div class="congratulations-banner__complementary-certifications">
       <div class="congratulations-banner-complementary-certifications__icons">
-        {{#each @certificationEligibility.complementaryCertifications as |complementaryCertification|}}
+        {{#each @complementaryCertifications as |complementaryCertification|}}
           <img src={{complementaryCertification.imageUrl}} alt={{complementaryCertification.label}} />
         {{/each}}
       </div>
@@ -21,11 +21,11 @@
         <p class="congratulations-banner-complementary-certifications-list__message">
           {{t
             "pages.certification-joiner.congratulation-banner.complementary-certification.eligible"
-            count=this.eligibleComplementaryCertifications.length
+            count=@eligibleComplementaryCertifications.length
           }}
         </p>
         <ul class="congratulations-banner-complementary-certifications-list__labels">
-          {{#each this.eligibleComplementaryCertifications as |complementaryCertification|}}
+          {{#each @eligibleComplementaryCertifications as |complementaryCertification|}}
             <li>{{complementaryCertification.label}}</li>
           {{/each}}
         </ul>
@@ -49,9 +49,3 @@
     </LinkTo>
   </div>
 </div>
-
-{{#if (gt this.outdatedComplementaryCertifications.length 0)}}
-  <CongratulationsCertificationBanner::OutdatedComplementaryCertificationBanner
-    @complementaryCertifications={{this.outdatedComplementaryCertifications}}
-  />
-{{/if}}
