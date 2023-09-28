@@ -145,7 +145,10 @@
     "user-details": {
       "navbar": {
         "certification-centers-list": "Pix Certif",
-        "organizations-list": "Pix Orga"
+        "details" : "Détails",
+        "organizations-list": "Pix Orga",
+        "participations-list": "Participations",
+        "profile" : "Profil"
       }
     }
   }

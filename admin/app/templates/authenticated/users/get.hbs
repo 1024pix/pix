@@ -15,15 +15,16 @@
 
   <nav class="navbar" aria-label="Navigation de la section détails d'un utilisateur">
     <LinkTo @route="authenticated.users.get.information" @model={{@model}} class="navbar-item">
-      Détails
+      {{t "pages.user-details.navbar.details"}}
     </LinkTo>
 
     <LinkTo @route="authenticated.users.get.profile" @model={{@model}} class="navbar-item">
-      Profil
+      {{t "pages.user-details.navbar.profile"}}
     </LinkTo>
 
     <LinkTo @route="authenticated.users.get.campaign-participations" @model={{@model}} class="navbar-item">
-      Participations
+      {{t "pages.user-details.navbar.participations-list"}}
+      ({{@model.participationsCount}})
     </LinkTo>
 
     <LinkTo
@@ -33,14 +34,15 @@
       class="navbar-item"
     >
       {{t "pages.user-details.navbar.organizations-list"}}
+      ({{@model.organizationMembershipsCount}})
     </LinkTo>
 
     <LinkTo
       @route="authenticated.users.get.certification-center-memberships"
-      class="navbar-item certification-center-navbar"
       aria-label="Centres de certification auxquels appartient l´utilisateur"
     >
       {{t "pages.user-details.navbar.certification-centers-list"}}
+      ({{@model.certificationCenterMembershipsCount}})
     </LinkTo>
   </nav>
 
