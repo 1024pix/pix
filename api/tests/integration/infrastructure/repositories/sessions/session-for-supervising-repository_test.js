@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { SessionForSupervising } from '../../../../../lib/domain/read-models/SessionForSupervising.js';
 import * as sessionForSupervisingRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
 

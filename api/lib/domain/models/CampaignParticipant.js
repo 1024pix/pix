@@ -5,7 +5,7 @@ import {
 import { ForbiddenAccess, EntityValidationError } from '../../../src/shared/domain/errors.js';
 
 import { CampaignParticipation } from './CampaignParticipation.js';
-import { Assessment } from './Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';

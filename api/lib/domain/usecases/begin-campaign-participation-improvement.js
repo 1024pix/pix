@@ -1,4 +1,4 @@
-import { Assessment } from '../models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 
 import { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
 

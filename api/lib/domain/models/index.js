@@ -6,7 +6,7 @@ import { Answer } from './Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { AnswerStatus } from './AnswerStatus.js';
 import { Area } from './Area.js';
-import { Assessment } from './Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { FlashAssessmentAlgorithm } from './FlashAssessmentAlgorithm.js';
 import { AssessmentResult } from './AssessmentResult.js';
 import { AssessmentSimulator } from './AssessmentSimulator.js';

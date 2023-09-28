@@ -8,7 +8,7 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common-builder.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 let verifCodeCount = 0;
 

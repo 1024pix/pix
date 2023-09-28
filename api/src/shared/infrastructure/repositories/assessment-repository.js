@@ -1,6 +1,6 @@
 import { BookshelfAssessment } from '../../../../lib/infrastructure/orm-models/Assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../domain/models/Assessment.js';
 import * as bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import lodash from 'lodash';
 import { NotFoundError } from '../../../../lib/domain/errors.js';

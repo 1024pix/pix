@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
 import * as campaignAssessmentParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository.js';

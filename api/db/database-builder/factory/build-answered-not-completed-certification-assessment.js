@@ -1,6 +1,6 @@
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildAssessment } from './build-assessment.js';
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { buildCertificationChallenge } from './build-certification-challenge.js';
 import { buildAnswer } from './build-answer.js';
 
