@@ -1,6 +1,8 @@
 import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
 import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
+
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
 const save = async function (request, h, dependencies = { answerSerializer, requestResponseUtils }) {
@@ -15,7 +17,7 @@ const save = async function (request, h, dependencies = { answerSerializer, requ
 const get = async function (request, _h, dependencies = { requestResponseUtils }) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const answerId = request.params.id;
-  const answer = await usecases.getAnswer({ answerId, userId });
+  const answer = await evaluationUsecases.getAnswer({ answerId, userId });
 
   return answerSerializer.serialize(answer);
 };
@@ -23,7 +25,7 @@ const get = async function (request, _h, dependencies = { requestResponseUtils }
 const update = async function (request, _h, dependencies = { requestResponseUtils }) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const answerId = request.params.id;
-  const answer = await usecases.getAnswer({ answerId, userId });
+  const answer = await evaluationUsecases.getAnswer({ answerId, userId });
 
   return answerSerializer.serialize(answer);
 };

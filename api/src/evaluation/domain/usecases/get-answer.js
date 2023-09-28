@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const getAnswer = async function ({ answerId, userId, answerRepository, assessmentRepository } = {}) {
   const integerAnswerId = parseInt(answerId);
