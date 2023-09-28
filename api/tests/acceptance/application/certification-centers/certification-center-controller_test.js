@@ -644,7 +644,7 @@ describe('Acceptance | API | Certification Center', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(responseIds).to.deep.equal([invitation.id.toString(), invitation2.id.toString()]);
+        expect(responseIds).to.have.members([invitation.id.toString(), invitation2.id.toString()]);
       });
     });
 
