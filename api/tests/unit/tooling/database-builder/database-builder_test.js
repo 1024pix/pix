@@ -1,4 +1,5 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
+// eslint-disable-next-line  import/no-restricted-paths
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
