@@ -1,44 +1,16 @@
-import * as defaultSkillRepository from '../../../infrastructure/repositories/skill-repository.js';
-import * as defaultStageRepository from '../../../infrastructure/repositories/stage-repository.js';
-import * as defaultCampaignRepository from '../../../infrastructure/repositories/campaign-repository.js';
-import * as defaultStageAcquisitionRepository from '../../../infrastructure/repositories/stage-acquisition-repository.js';
-import * as defaultCampaignParticipationRepository from '../../../infrastructure/repositories/campaign-participation-repository.js';
-import * as defaultKnowledgeElementRepositoryRepository from '../../../infrastructure/repositories/knowledge-element-repository.js';
-
-import * as defaultGetNewAcquiredStagesService from '../../services/stages/get-new-acquired-stages-service.js';
-import * as defaultGetMasteryPercentageService from '../../services/get-mastery-percentage-service.js';
-import * as defaultConvertLevelStagesIntoThresholdsService from '../../services/stages/convert-level-stages-into-thresholds-service.js';
-import * as defaultCampaignSkillRepository from '../../../infrastructure/repositories/campaign-skill-repository.js';
-
-/**
- * @param {Assessment} assessment
- * @param {DomainTransaction} domainTransaction
- * @param stageRepository
- * @param skillRepository
- * @param campaignRepository
- * @param campaignSkillRepository
- * @param stageAcquisitionRepository
- * @param knowledgeElementRepository
- * @param campaignParticipationRepository
- * @param getNewAcquiredStagesService
- * @param getMasteryPercentageService
- * @param convertLevelStagesIntoThresholdsService
- *
- * @returns {Promise<void>}
- */
 const handleStageAcquisition = async function ({
   assessment,
   domainTransaction,
-  stageRepository = defaultStageRepository,
-  skillRepository = defaultSkillRepository,
-  campaignRepository = defaultCampaignRepository,
-  campaignSkillRepository = defaultCampaignSkillRepository,
-  stageAcquisitionRepository = defaultStageAcquisitionRepository,
-  knowledgeElementRepository = defaultKnowledgeElementRepositoryRepository,
-  campaignParticipationRepository = defaultCampaignParticipationRepository,
-  getNewAcquiredStagesService = defaultGetNewAcquiredStagesService,
-  getMasteryPercentageService = defaultGetMasteryPercentageService,
-  convertLevelStagesIntoThresholdsService = defaultConvertLevelStagesIntoThresholdsService,
+  stageRepository,
+  skillRepository,
+  campaignRepository,
+  campaignSkillRepository,
+  stageAcquisitionRepository,
+  knowledgeElementRepository,
+  campaignParticipationRepository,
+  getNewAcquiredStagesService,
+  getMasteryPercentageService,
+  convertLevelStagesIntoThresholdsService,
 }) {
   if (!assessment.isForCampaign()) return;
 
