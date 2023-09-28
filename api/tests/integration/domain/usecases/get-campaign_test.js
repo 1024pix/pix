@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
 import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { getCampaign } from '../../../../lib/domain/usecases/get-campaign.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
@@ -8,7 +8,7 @@ import * as campaignReportRepository from '../../../../lib/infrastructure/reposi
 describe('Integration | UseCase | get-campaign', function () {
   context('Error case', function () {
     it('should throw a NotFoundError when the campaign not exist', async function () {
-      const error = await catchErr(getCampaign)({
+      const error = await catchErr(usecases.getCampaign)({
         campaignId: 'invalid Campaign Id',
         userId: 'whateverId',
         badgeRepository,
@@ -26,7 +26,7 @@ describe('Integration | UseCase | get-campaign', function () {
 
       await databaseBuilder.commit();
 
-      const error = await catchErr(getCampaign)({
+      const error = await catchErr(usecases.getCampaign)({
         campaignId,
         userId,
         badgeRepository,
@@ -103,7 +103,7 @@ describe('Integration | UseCase | get-campaign', function () {
 
     it('should get the campaign with no participation', async function () {
       // when
-      const resultCampaign = await getCampaign({
+      const resultCampaign = await usecases.getCampaign({
         campaignId: campaign.id,
         userId,
         badgeRepository,
@@ -126,7 +126,7 @@ describe('Integration | UseCase | get-campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const resultCampaign = await getCampaign({
+      const resultCampaign = await usecases.getCampaign({
         campaignId: campaign.id,
         userId,
         badgeRepository,
@@ -146,7 +146,7 @@ describe('Integration | UseCase | get-campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const resultCampaign = await getCampaign({
+      const resultCampaign = await usecases.getCampaign({
         campaignId: campaign.id,
         userId,
         badgeRepository,
@@ -185,7 +185,7 @@ describe('Integration | UseCase | get-campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const resultCampaign = await getCampaign({
+      const resultCampaign = await usecases.getCampaign({
         campaignId: campaign.id,
         userId,
         badgeRepository,
@@ -227,7 +227,7 @@ describe('Integration | UseCase | get-campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const resultCampaign = await getCampaign({
+      const resultCampaign = await usecases.getCampaign({
         campaignId,
         userId,
         badgeRepository,
