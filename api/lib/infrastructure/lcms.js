@@ -1,5 +1,6 @@
 import { httpAgent } from './http/http-agent.js';
 import { config } from '../config.js';
+import { logger } from './logger.js';
 
 const { lcms: lcmsConfig } = config;
 const getLatestRelease = async function () {
@@ -12,6 +13,11 @@ const getLatestRelease = async function () {
     throw new Error(`An error occurred while fetching ${lcmsConfig.url}`);
   }
 
+  const version = response.data.id;
+  const createdAt = response.data.createdAt;
+  const message = `Release ${version} created on ${createdAt} successfully received from LCMS`;
+
+  logger.info(message);
   return response.data.content;
 };
 
