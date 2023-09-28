@@ -4,9 +4,18 @@ import { logger } from './logger.js';
 
 const { lcms: lcmsConfig } = config;
 const getLatestRelease = async function () {
+  let signature;
+  // eslint-disable-next-line n/no-process-env
+  if (process.env.APP) {
+    // eslint-disable-next-line n/no-process-env
+    signature = `${process.env.APP}-${process.env.CONTAINER}@${process.env.REGION_NAME}`;
+  } else {
+    signature = 'pix-api';
+  }
+
   const response = await httpAgent.get({
     url: lcmsConfig.url + '/releases/latest',
-    headers: { Authorization: `Bearer ${lcmsConfig.apiKey}` },
+    headers: { Authorization: `Bearer ${lcmsConfig.apiKey}`, Referer: signature },
   });
 
   if (!response.isSuccessful) {
