@@ -820,8 +820,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     context('when there are only organizationLearners to update', function () {
       let firstOrganizationLearner;
       let organizationId;
+      let certifiableDate;
 
       beforeEach(async function () {
+        certifiableDate = '2023-09-09';
         organizationId = databaseBuilder.factory.buildOrganization().id;
         firstOrganizationLearner = {
           firstName: 'Lucy',
@@ -829,6 +831,8 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           birthdate: '1990-12-31',
           nationalStudentId: 'INE1',
           organizationId,
+          isCertifiable: true,
+          certifiableAt: new Date(certifiableDate),
         };
 
         databaseBuilder.factory.buildOrganizationLearner(firstOrganizationLearner);
@@ -868,6 +872,39 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           expect(updatedOrganizationLearner.firstName).to.be.equal(organizationLearners[0].firstName);
           expect(updatedOrganizationLearner.lastName).to.be.equal(organizationLearners[0].lastName);
           expect(updatedOrganizationLearner.birthdate).to.be.equal(organizationLearners[0].birthdate);
+        });
+
+        it('should not erase certificability status', async function () {
+          // given
+
+          await databaseBuilder.commit();
+
+          const organizationLearners = [
+            new OrganizationLearner({
+              firstName: 'Alex',
+              lastName: 'Terieur',
+              birthdate: '1992-07-07',
+              nationalStudentId: 'INE1',
+              organizationId,
+            }),
+          ];
+
+          // when
+          await DomainTransaction.execute((domainTransaction) => {
+            return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
+              organizationLearners,
+              organizationId,
+              domainTransaction,
+            );
+          });
+
+          // then
+          const [updatedOrganizationLearner] = await knex('organization-learners').where({
+            organizationId,
+          });
+
+          expect(updatedOrganizationLearner.isCertifiable).to.be.true;
+          expect(updatedOrganizationLearner.certifiableAt).to.deep.equal(certifiableDate);
         });
       });
 
