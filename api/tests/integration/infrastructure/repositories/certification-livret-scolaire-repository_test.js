@@ -283,25 +283,25 @@ describe('Integration | Repository | Certification-ls ', function () {
       buildValidatedPublishedCertificationData({
         user,
         organizationLearner,
-        certificationCreatedDate: new Date('2020-02-20T14:23:56Z'),
+        certificationCreatedDate: new Date('2022-02-20T14:23:56Z'),
       });
 
       const { certificationCourse: lastCertificationCourse } = buildValidatedPublishedCertificationData({
         user,
         organizationLearner,
-        certificationCreatedDate: new Date('2020-02-22T14:23:56Z'),
+        certificationCreatedDate: new Date('2022-02-22T14:23:56Z'),
       });
 
       buildValidatedPublishedCertificationData({
         user,
         organizationLearner,
-        certificationCreatedDate: new Date('2020-02-21T14:23:56Z'),
+        certificationCreatedDate: new Date('2022-02-21T14:23:56Z'),
       });
 
       buildCancelledCertificationData({
         user,
         organizationLearner,
-        certificationCreatedDate: new Date('2020-02-23T14:23:56Z'),
+        certificationCreatedDate: new Date('2022-02-23T14:23:56Z'),
       });
 
       await databaseBuilder.commit();
