@@ -1,5 +1,6 @@
 import lodash from 'lodash';
 import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js';
+import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { OrganizationLearnerForStartingParticipation } from '../../domain/read-models/OrganizationLearnerForStartingParticipation.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
 import { UserIdentity } from '../../domain/read-models/UserIdentity.js';
@@ -10,7 +11,14 @@ import { PreviousCampaignParticipation } from '../../domain/read-models/Previous
 
 const { pick } = lodash;
 
-async function save(campaignParticipant, domainTransaction) {
+async function save({
+  userId,
+  campaignParticipant,
+  domainTransaction,
+  competenceEvaluationRepository,
+  assessmentRepository,
+  knowledgeElementRepository,
+}) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
     campaignParticipant.organizationLearner,
     domainTransaction.knexTransaction,
@@ -28,7 +36,63 @@ async function save(campaignParticipant, domainTransaction) {
     campaignParticipant.campaignParticipation,
   );
   await _createAssessment(campaignParticipant.assessment, campaignParticipationId, domainTransaction.knexTransaction);
+
+  if (campaignParticipant.shouldResetKnowledgeElementsAndRestartAssessments) {
+    const skills = await campaignRepository.findAllSkills({
+      campaignId: campaignParticipant.campaignToStartParticipation.id,
+      domainTransaction,
+    });
+    const skillIds = skills.map(({ id }) => id);
+
+    await _resetKnowledgeElements({
+      userId,
+      skillIds,
+      knowledgeElementRepository,
+      domainTransaction,
+    });
+    await _restartAssessments({
+      userId,
+      skills,
+      competenceEvaluationRepository,
+      assessmentRepository,
+      domainTransaction,
+    });
+  }
+
   return campaignParticipationId;
+}
+
+async function _restartAssessments({
+  userId,
+  skills,
+  competenceEvaluationRepository,
+  assessmentRepository,
+  domainTransaction,
+}) {
+  const competenceEvaluations = await competenceEvaluationRepository.findByUserId(userId);
+  const competenceIds = skills.map(({ competenceId }) => competenceId);
+
+  const assessmentsToRestart = competenceEvaluations
+    .filter((competenceEvaluation) => competenceIds.includes(competenceEvaluation.competenceId))
+    .map(({ assessmentId }) => assessmentId);
+
+  await assessmentRepository.setAssessmentsAsStarted({
+    assessmentIds: assessmentsToRestart,
+    domainTransaction,
+  });
+}
+
+async function _resetKnowledgeElements({ userId, skillIds, knowledgeElementRepository, domainTransaction }) {
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, domainTransaction });
+
+  const knowledgeElementsToReset = knowledgeElements
+    .filter((ke) => skillIds.includes(ke.skillId))
+    .map(KnowledgeElement.reset);
+
+  await knowledgeElementRepository.batchSave({
+    knowledgeElements: knowledgeElementsToReset,
+    domainTransaction,
+  });
 }
 
 async function _createNewOrganizationLearner(organizationLearner, queryBuilder) {
@@ -102,8 +166,13 @@ async function _createAssessment(assessment, campaignParticipationId, queryBuild
   }
 }
 
-async function get({ userId, campaignId, domainTransaction }) {
+async function get({ userId, campaignId, domainTransaction, campaignRepository }) {
   const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);
+
+  const areKnowledgeElementsResettable = await campaignRepository.areKnowledgeElementsResettable({
+    id: campaignId,
+    domainTransaction,
+  });
 
   const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
 
@@ -121,6 +190,7 @@ async function get({ userId, campaignId, domainTransaction }) {
     campaignToStartParticipation,
     organizationLearner,
     previousCampaignParticipationForUser,
+    areKnowledgeElementsResettable,
   });
 }
 

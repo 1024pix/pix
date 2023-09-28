@@ -244,7 +244,7 @@ const dependencies = {
   campaignForArchivingRepository,
   campaignManagementRepository,
   campaignParticipantActivityRepository,
-  campaignParticipantRepository,
+  campaignParticipantRepository: repositories.campaignParticipantRepository,
   campaignParticipationInfoRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,

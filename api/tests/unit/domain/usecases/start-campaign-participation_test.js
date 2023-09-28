@@ -2,7 +2,6 @@ import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { startCampaignParticipation } from '../../../../lib/domain/usecases/start-campaign-participation.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;
@@ -33,8 +32,9 @@ describe('Unit | UseCase | start-campaign-participation', function () {
       organizationLearner: { id: null, hasParticipated: false },
       userIdentity: { id: userId },
     });
+    const campaignParticipationId = 1;
     const campaignParticipationAttributes = { campaignId: 12, participantExternalId: 'YvoLoL', isReset: false };
-    const expectedCampaignParticipation = domainBuilder.buildCampaignParticipation({ id: 12 });
+    const expectedCampaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId });
 
     const campaignParticipationStartedEvent = new CampaignParticipationStarted({
       campaignParticipationId: expectedCampaignParticipation.id,
@@ -46,9 +46,13 @@ describe('Unit | UseCase | start-campaign-participation', function () {
 
     sinon.stub(campaignParticipant, 'start');
 
-    campaignParticipantRepository.save.withArgs(sinon.match(campaignParticipant), domainTransaction).resolves(12);
+    campaignParticipantRepository.save
+      .withArgs({ userId, campaignParticipant, domainTransaction })
+      .resolves(campaignParticipationId);
 
-    campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves(expectedCampaignParticipation);
+    campaignParticipationRepository.get
+      .withArgs(campaignParticipationId, domainTransaction)
+      .resolves(expectedCampaignParticipation);
 
     // when
     const { event, campaignParticipation } = await startCampaignParticipation({
@@ -67,178 +71,5 @@ describe('Unit | UseCase | start-campaign-participation', function () {
     });
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
     expect(campaignParticipation).to.deep.equal(expectedCampaignParticipation);
-    expect(campaignRepository.areKnowledgeElementsResettable).to.have.been.calledWithExactly({
-      id: campaignParticipationAttributes.campaignId,
-      domainTransaction,
-    });
-    expect(campaignRepository.findAllSkills).not.to.have.been.called;
-  });
-
-  context('when there is a reset campaign participation', function () {
-    let domainTransaction;
-    let campaignParticipationAttributes;
-    let skills;
-    let assessmentRepository;
-    let knowledgeElementRepository;
-    let competenceEvaluationRepository;
-    let knowledgeElement;
-    let knowledgeElementToReset;
-
-    beforeEach(function () {
-      domainTransaction = Symbol('transaction');
-      const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation();
-      const campaignParticipant = new CampaignParticipant({
-        campaignToStartParticipation,
-        organizationLearner: { id: null, hasParticipated: false },
-        userIdentity: { id: userId },
-      });
-      campaignParticipationAttributes = { campaignId: 12, participantExternalId: 'YvoLoL' };
-
-      campaignParticipantRepository.get
-        .withArgs({ userId, campaignId: campaignParticipationAttributes.campaignId, domainTransaction })
-        .resolves(campaignParticipant);
-
-      knowledgeElementRepository = {
-        findUniqByUserId: sinon.stub(),
-        batchSave: sinon.stub(),
-      };
-      knowledgeElementToReset = domainBuilder.buildKnowledgeElement({ skillId: 'skillToReset' });
-      knowledgeElement = domainBuilder.buildKnowledgeElement();
-      knowledgeElementRepository.findUniqByUserId
-        .withArgs({ userId, domainTransaction })
-        .resolves([knowledgeElementToReset, knowledgeElement]);
-
-      const knowledgeElements = [KnowledgeElement.reset(knowledgeElementToReset)];
-
-      knowledgeElementRepository.batchSave.withArgs({ knowledgeElements, domainTransaction }).resolves();
-
-      competenceEvaluationRepository = {
-        findByUserId: sinon.stub(),
-      };
-
-      assessmentRepository = {
-        setAssessmentsAsStarted: sinon.stub(),
-      };
-
-      skills = [{ id: 'skillToReset', tubeId: 'tubeId1', competenceId: 'competenceId1' }];
-      campaignRepository.findAllSkills
-        .withArgs({ campaignId: campaignParticipationAttributes.campaignId, domainTransaction })
-        .resolves(skills);
-
-      sinon.stub(campaignParticipant, 'start');
-      campaignParticipantRepository.save.withArgs(sinon.match(campaignParticipant), domainTransaction).resolves(12);
-      campaignParticipationRepository.get.withArgs(12, domainTransaction).resolves();
-    });
-
-    context('when campaign is resettable', function () {
-      beforeEach(function () {
-        campaignParticipationAttributes.isReset = true;
-        campaignRepository.areKnowledgeElementsResettable
-          .withArgs({ id: campaignParticipationAttributes.campaignId, domainTransaction })
-          .resolves(true);
-      });
-
-      it('should retrieve skillIds to reset', async function () {
-        // when
-        await startCampaignParticipation({
-          campaignParticipation: campaignParticipationAttributes,
-          userId,
-          campaignRepository,
-          campaignParticipantRepository,
-          campaignParticipationRepository,
-          knowledgeElementRepository,
-          competenceEvaluationRepository,
-          domainTransaction,
-        });
-
-        // then
-        expect(campaignRepository.findAllSkills).to.have.been.calledWithExactly({
-          campaignId: campaignParticipationAttributes.campaignId,
-          domainTransaction,
-        });
-      });
-
-      it('should reset knowledgeElements of the campaign', async function () {
-        // given
-        const expectedKe = KnowledgeElement.reset(knowledgeElementToReset);
-        knowledgeElementRepository.batchSave
-          .withArgs({ knowledgeElements: [expectedKe], domainTransaction })
-          .resolves();
-
-        // when
-        await startCampaignParticipation({
-          campaignParticipation: campaignParticipationAttributes,
-          userId,
-          campaignRepository,
-          campaignParticipantRepository,
-          campaignParticipationRepository,
-          assessmentRepository,
-          knowledgeElementRepository,
-          competenceEvaluationRepository,
-          domainTransaction,
-        });
-
-        // then
-        expect(knowledgeElementRepository.batchSave).to.have.been.calledOnceWithExactly({
-          knowledgeElements: [expectedKe],
-          domainTransaction,
-        });
-      });
-
-      it('should update assessment on competenceIds', async function () {
-        // given
-        const expectedUpdatedAssessmentIds = [Symbol('assessmentId1')];
-        competenceEvaluationRepository.findByUserId.withArgs(userId).resolves([
-          {
-            competenceId: skills[0].competenceId,
-            assessmentId: expectedUpdatedAssessmentIds[0],
-          },
-          { assessmentId: Symbol('assessmentId2') },
-        ]);
-
-        // when
-        await startCampaignParticipation({
-          campaignParticipation: campaignParticipationAttributes,
-          userId,
-          campaignRepository,
-          campaignParticipantRepository,
-          campaignParticipationRepository,
-          assessmentRepository,
-          knowledgeElementRepository,
-          competenceEvaluationRepository,
-          domainTransaction,
-        });
-
-        // then
-        expect(competenceEvaluationRepository.findByUserId).to.have.been.calledOnceWithExactly(userId);
-        expect(assessmentRepository.setAssessmentsAsStarted).to.have.been.calledOnceWithExactly({
-          assessmentIds: expectedUpdatedAssessmentIds,
-          domainTransaction,
-        });
-      });
-    });
-
-    context('when campaign is not resettable', function () {
-      it('should not retrieve skillIds to reset', async function () {
-        campaignParticipationAttributes.isReset = true;
-        campaignRepository.areKnowledgeElementsResettable
-          .withArgs({ id: campaignParticipationAttributes.campaignId, domainTransaction })
-          .resolves(false);
-
-        // when
-        await startCampaignParticipation({
-          campaignParticipation: campaignParticipationAttributes,
-          userId,
-          assessmentRepository,
-          campaignRepository,
-          campaignParticipantRepository,
-          campaignParticipationRepository,
-          domainTransaction,
-        });
-
-        // then
-        expect(campaignRepository.findAllSkills).not.to.have.been.called;
-      });
-    });
   });
 });

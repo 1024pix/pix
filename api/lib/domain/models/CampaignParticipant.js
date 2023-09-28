@@ -16,6 +16,7 @@ class CampaignParticipant {
     organizationLearner,
     userIdentity,
     previousCampaignParticipationForUser,
+    areKnowledgeElementsResettable,
   }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
     this.userIdentity = userIdentity;
@@ -23,6 +24,7 @@ class CampaignParticipant {
     this.organizationLearnerId = organizationLearner.id;
     this.isOrganizationLearnerDisabled = organizationLearner.isDisabled;
     this.hasOrganizationLearnerParticipatedForAnotherUser = organizationLearner.hasParticipated;
+    this.areKnowledgeElementsResettable = areKnowledgeElementsResettable;
   }
 
   start({ participantExternalId, isReset }) {
@@ -59,6 +61,10 @@ class CampaignParticipant {
       organizationLearnerId: this.organizationLearnerId,
       participantExternalId: participantExternalIdToUse,
     });
+
+    if (this.areKnowledgeElementsResettable && isReset) {
+      this.shouldResetKnowledgeElementsAndRestartAssessments = true;
+    }
   }
 
   _shouldCreateOrganizationLearner() {

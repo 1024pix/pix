@@ -1,6 +1,10 @@
 import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
 import lodash from 'lodash';
@@ -45,7 +49,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
 
       const id = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        return campaignParticipantRepository.save({
+          campaignParticipant,
+          domainTransaction,
+          competenceEvaluationRepository,
+          assessmentRepository,
+          knowledgeElementRepository,
+        });
       });
 
       const [campaignParticipationId] = await knex('campaign-participations').pluck('id');
@@ -83,7 +93,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('creates a campaign participation', async function () {
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         const campaignParticipation = await knex('campaign-participations')
@@ -98,7 +114,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('enabled only the learner assigned to the campaign participant', async function () {
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         const { isDisabled: expectedEnabledLearner } = await knex('organization-learners')
@@ -126,7 +148,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         const campaignParticipation = await knex('campaign-participations')
@@ -147,7 +175,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         const assessments = await knex('assessments');
@@ -172,7 +206,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         //THEN
@@ -214,7 +254,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         //THEN
@@ -245,7 +291,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         //THEN
@@ -281,7 +333,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         //THEN
@@ -325,7 +383,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         //THEN
@@ -381,7 +445,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //WHEN
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         //THEN
@@ -401,7 +471,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          await campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         const campaignParticipation = await knex('campaign-participations')
@@ -443,7 +519,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         const id = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+          return campaignParticipantRepository.save({
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
         });
 
         const startedParticipation = await knex('campaign-participations').where('id', id).first();
@@ -482,7 +564,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           //WHEN
           const error = await catchErr(() => {
             return DomainTransaction.execute(async (domainTransaction) => {
-              await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+              await campaignParticipantRepository.save({
+                campaignParticipant,
+                domainTransaction,
+                competenceEvaluationRepository,
+                assessmentRepository,
+                knowledgeElementRepository,
+              });
             });
           })();
 
@@ -518,7 +606,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           //WHEN
           const error = await catchErr(() => {
             return DomainTransaction.execute(async (domainTransaction) => {
-              await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+              await campaignParticipantRepository.save({
+                campaignParticipant,
+                domainTransaction,
+                competenceEvaluationRepository,
+                assessmentRepository,
+                knowledgeElementRepository,
+              });
             });
           })();
 
@@ -560,7 +654,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         //WHEN
         await catchErr(() => {
           return DomainTransaction.execute(async (domainTransaction) => {
-            await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+            await campaignParticipantRepository.save({
+              campaignParticipant,
+              domainTransaction,
+              competenceEvaluationRepository,
+              assessmentRepository,
+              knowledgeElementRepository,
+            });
           });
         })();
 
@@ -594,6 +694,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         return campaignParticipantRepository.get({
           userId,
           campaignId: campaign.id,
+          campaignRepository,
           domainTransaction,
         });
       });
@@ -647,6 +748,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -669,6 +771,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -701,6 +804,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -725,6 +829,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -749,6 +854,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -780,6 +886,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
               return campaignParticipantRepository.get({
                 userId,
                 campaignId: campaignToStartParticipation.id,
+                campaignRepository,
                 domainTransaction,
               });
             });
@@ -807,6 +914,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
                 return campaignParticipantRepository.get({
                   userId,
                   campaignId: campaignToStartParticipation.id,
+                  campaignRepository,
                   domainTransaction,
                 });
               });
@@ -837,6 +945,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
               return campaignParticipantRepository.get({
                 userId,
                 campaignId: campaignToStartParticipation.id,
+                campaignRepository,
                 domainTransaction,
               });
             });
@@ -867,6 +976,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
                 return campaignParticipantRepository.get({
                   userId,
                   campaignId: campaignToStartParticipation.id,
+                  campaignRepository,
                   domainTransaction,
                 });
               });
@@ -910,6 +1020,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
                   return campaignParticipantRepository.get({
                     userId,
                     campaignId: campaignToStartParticipation.id,
+                    campaignRepository,
                     domainTransaction,
                   });
                 });
@@ -942,6 +1053,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             return campaignParticipantRepository.get({
               userId,
               campaignId: campaignToStartParticipation.id,
+              campaignRepository,
               domainTransaction,
             });
           });
@@ -968,6 +1080,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             return campaignParticipantRepository.get({
               userId,
               campaignId: campaignToStartParticipation.id,
+              campaignRepository,
               domainTransaction,
             });
           });
@@ -1007,6 +1120,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -1056,6 +1170,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           return campaignParticipantRepository.get({
             userId,
             campaignId: campaignToStartParticipation.id,
+            campaignRepository,
             domainTransaction,
           });
         });
@@ -1074,6 +1189,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           await campaignParticipantRepository.get({
             userId,
             campaignId: 12,
+            campaignRepository,
             domainTransaction,
           });
         });
