@@ -314,7 +314,7 @@ async function createStartedSession({
  * @param {Date} juryCommentedAt
  * @param {number} organizationId
  * @param {string} supervisorPassword
- * @param {learnersToRegisterCount: number, maxLevel: number } configSession
+ * @param {learnersToRegisterCount: number, maxLevel: number, sessionDate: Date } configSession
  * @returns {sessionId: number} sessionId
  */
 async function createPublishedScoSession({
@@ -393,7 +393,13 @@ async function createPublishedScoSession({
     certificationCandidates,
     maxLevel: configSession.maxLevel,
   });
-  await _makeCandidatesPassCertification(databaseBuilder, sessionId, certificationCandidates, coreProfileData);
+  await _makeCandidatesPassCertification({
+    databaseBuilder,
+    sessionId,
+    certificationCandidates,
+    coreProfileData,
+    configSession,
+  });
 
   await databaseBuilder.commit();
   return { sessionId };
@@ -426,7 +432,7 @@ async function createPublishedScoSession({
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
  * @param {string} supervisorPassword
- * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number } configSession
+ * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number, sessionDate: Date } configSession
  * @returns {sessionId: number} sessionId
  */
 async function createPublishedSession({
@@ -504,13 +510,14 @@ async function createPublishedSession({
     certificationCandidates,
     maxLevel: configSession.maxLevel,
   });
-  await _makeCandidatesPassCertification(
+  await _makeCandidatesPassCertification({
     databaseBuilder,
     sessionId,
     certificationCandidates,
     coreProfileData,
     complementaryCertificationsProfileData,
-  );
+    configSession,
+  });
 
   await databaseBuilder.commit();
   return { sessionId };
@@ -646,7 +653,7 @@ async function _registerCandidatesToSession({
         email: _generateEmail({ sessionId, index: i }),
         birthdate: '2000-01-04',
         sessionId,
-        createdAt: new Date(),
+        createdAt: configSession.sessionDate,
         extraTimePercentage: randomExtraTimePercentage,
         userId,
         organizationLearnerId: null,
@@ -1038,13 +1045,14 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
   return complementaryProfileData;
 }
 
-function _makeCandidatesPassCertification(
+function _makeCandidatesPassCertification({
   databaseBuilder,
   sessionId,
   certificationCandidates,
   coreProfileData,
   complementaryCertificationsProfileData,
-) {
+  configSession,
+}) {
   for (const certificationCandidate of certificationCandidates) {
     const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       userId: certificationCandidate.userId,
@@ -1059,9 +1067,9 @@ function _makeCandidatesPassCertification(
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
       hasSeenEndTestScreen: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      completedAt: new Date(),
+      createdAt: configSession.sessionDate,
+      updatedAt: configSession.sessionDate,
+      completedAt: configSession.sessionDate,
       isPublished: true,
       verificationCode: `P-${verifCodeCount}`.padEnd(10, 'A'),
       maxReachableLevelOnCertificationDate: 6,
@@ -1086,6 +1094,7 @@ function _makeCandidatesPassCertification(
         complementaryCertificationId: certificationCandidate.complementaryCertificationSubscribedId,
         complementaryCertificationBadgeId:
           certificationCandidate.complementaryCertificationBadgeInfo.complementaryCertificationBadgeId,
+        createdAt: configSession.sessionDate,
       }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         partnerKey: certificationCandidate.complementaryCertificationBadgeInfo.partnerKey,
@@ -1104,8 +1113,8 @@ function _makeCandidatesPassCertification(
               challengeId: challenge.id,
               competenceId: skill.competenceId,
               courseId: certificationCourseId,
-              createdAt: new Date(),
-              updatedAt: new Date(),
+              createdAt: configSession.sessionDate,
+              updatedAt: configSession.sessionDate,
               isNeutralized: false,
               hasBeenSkippedAutomatically: false,
               certifiableBadgeKey: null,
@@ -1115,8 +1124,8 @@ function _makeCandidatesPassCertification(
               result: 'ok',
               assessmentId,
               challengeId: challenge.id,
-              createdAt: new Date(),
-              updatedAt: new Date(),
+              createdAt: configSession.sessionDate,
+              updatedAt: configSession.sessionDate,
               timeout: null,
               resultDetails: 'dummy value',
             });
@@ -1138,7 +1147,7 @@ function _makeCandidatesPassCertification(
       commentForOrganization: '',
       juryId: null,
       assessmentId,
-      createdAt: new Date(),
+      createdAt: configSession.sessionDate,
       certificationCourseId,
     }).id;
     databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
@@ -1153,7 +1162,7 @@ function _makeCandidatesPassCertification(
         competence_code: `${competenceData.competence.index}`,
         competenceId: competenceData.competence.id,
         assessmentResultId,
-        createdAt: new Date(),
+        createdAt: configSession.sessionDate,
       });
       for (const { challenge, skill } of competenceData.threeMostDifficultSkillsAndChallenges) {
         databaseBuilder.factory.buildCertificationChallenge({
@@ -1162,8 +1171,8 @@ function _makeCandidatesPassCertification(
           challengeId: challenge.id,
           competenceId: skill.competenceId,
           courseId: certificationCourseId,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: configSession.sessionDate,
+          updatedAt: configSession.sessionDate,
           isNeutralized: false,
           hasBeenSkippedAutomatically: false,
           certifiableBadgeKey: null,
@@ -1173,8 +1182,8 @@ function _makeCandidatesPassCertification(
           result: 'ok',
           assessmentId,
           challengeId: challenge.id,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: configSession.sessionDate,
+          updatedAt: configSession.sessionDate,
           timeout: null,
           resultDetails: 'dummy value',
         });
