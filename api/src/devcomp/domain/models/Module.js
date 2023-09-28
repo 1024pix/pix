@@ -4,11 +4,22 @@ class Module {
   static #MINIMAL_NUMBER_OF_GRAINS = 2;
 
   #id;
-  constructor({ id, grains }) {
+  #title;
+  constructor({ id, title }) {
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un module");
-    this.#assertAtLeastTwoGrains(grains);
+    assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un module');
+    // this.#assertAtLeastTwoGrains(grains);
 
     this.#id = id;
+    this.#title = title;
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  get title() {
+    return this.#title;
   }
 
   #assertAtLeastTwoGrains(grains) {
