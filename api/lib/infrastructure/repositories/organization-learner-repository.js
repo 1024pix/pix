@@ -137,7 +137,7 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
 
   try {
     const organizationLearnersToSave = reconciledOrganizationLearnersToImport.map((organizationLearner) => ({
-      ..._.omit(organizationLearner, ['id', 'createdAt']),
+      ..._.omit(organizationLearner, ['id', 'createdAt', 'isCertifiable', 'certifiableAt']),
       updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
       isDisabled: false,
     }));
