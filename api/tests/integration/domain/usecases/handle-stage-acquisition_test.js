@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { STAGE_ACQUISITIONS_TABLE_NAME } from '../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
 

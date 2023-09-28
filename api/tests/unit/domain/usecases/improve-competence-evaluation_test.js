@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { improveCompetenceEvaluation } from '../../../../lib/domain/usecases/improve-competence-evaluation.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { MAX_REACHABLE_LEVEL } from '../../../../lib/domain/constants.js';
 import { ImproveCompetenceEvaluationForbiddenError } from '../../../../lib/domain/errors.js';
 

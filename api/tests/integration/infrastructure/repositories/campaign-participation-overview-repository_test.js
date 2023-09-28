@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
 import _ from 'lodash';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';

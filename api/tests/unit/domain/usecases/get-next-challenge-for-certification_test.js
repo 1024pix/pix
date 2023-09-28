@@ -1,6 +1,6 @@
 import { domainBuilder, expect, sinon, catchErr } from '../../../test-helper.js';
 import { getNextChallengeForCertification } from '../../../../lib/domain/usecases/get-next-challenge-for-certification.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 

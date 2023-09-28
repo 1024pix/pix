@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { CampaignAssessmentParticipation } from '../../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';

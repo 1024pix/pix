@@ -6,7 +6,7 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 const { TO_SHARE, STARTED } = CampaignParticipationStatuses;
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 describe('Integration | Usecase | Complete Assessment', function () {
   let userId, assessmentId, campaignParticipationId;

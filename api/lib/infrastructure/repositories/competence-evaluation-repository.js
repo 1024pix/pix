@@ -3,7 +3,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { CompetenceEvaluation } from '../../domain/models/CompetenceEvaluation.js';
-import { Assessment } from '../../domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 
 const save = async function ({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || knex;

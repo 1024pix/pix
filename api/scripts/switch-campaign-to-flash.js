@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 import { knex } from '../db/knex-database-connection.js';
-import { Assessment } from '../lib/domain/models/Assessment.js';
+import { Assessment } from '../src/shared/domain/models/Assessment.js';
 import * as url from 'url';
 
 async function switchCampaignToFlash(id) {
