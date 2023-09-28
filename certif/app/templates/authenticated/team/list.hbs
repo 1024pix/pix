@@ -1,0 +1,60 @@
+{{page-title (t "pages.team.title")}}
+
+<div class="team__header">
+  <h1 class="page__title page-title">{{t "pages.team.title"}}</h1>
+  {{#if this.shouldDisplayUpdateRefererButton}}
+    <PixButton
+      class="team__update-referer-button"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{this.toggleRefererModal}}
+    >{{t "pages.team.update-referer-button"}}</PixButton>
+  {{/if}}
+</div>
+
+{{#if this.shouldDisplayNoRefererSection}}
+  <div class="panel team__no-referer-container">
+    <div class="team__no-referer-container-grey">
+      <div class="team__no-referer-bell-icon">
+        <FaIcon @icon="bell" />
+      </div>
+      <div>
+        <h1 class="team__no-referer-title">
+          {{t "pages.team.no-referer-section.title"}}
+        </h1>
+        <p class="team__no-referer-description">
+          {{t "pages.team.no-referer-section.description"}}
+        </p>
+
+        <PixButton class="team__referer-add-button" @triggerAction={{this.toggleRefererModal}}>
+          {{t "pages.team.no-referer-section.select-referer-button"}}
+        </PixButton>
+      </div>
+    </div>
+  </div>
+{{/if}}
+
+{{#if this.shouldDisplayNavbarSection}}
+  <nav class="panel navbar team__tabs" aria-label="A ajouter">
+    <LinkTo @route="authenticated.team.list.members" class="navbar-item">
+      {{t "pages.team.tabs.member" count=@model.members.length}}
+    </LinkTo>
+    <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
+      {{t "pages.team.tabs.invitation" count=@model.invitations.length}}
+    </LinkTo>
+  </nav>
+  {{outlet}}
+
+{{else}}
+  <MembersList @members={{@model.members}} @hasCleaHabilitation={{@model.hasCleaHabilitation}} />
+{{/if}}
+
+<SelectRefererModal
+  @showModal={{this.shouldShowRefererSelectionModal}}
+  @toggleRefererModal={{this.toggleRefererModal}}
+  @onSelectReferer={{this.onSelectReferer}}
+  @onValidateReferer={{this.onValidateReferer}}
+  @noSelectedReferer={{not this.selectedReferer.length}}
+  @options={{this.membersSelectOptionsSortedByLastName}}
+  @selectedReferer={{this.selectedReferer}}
+/>
