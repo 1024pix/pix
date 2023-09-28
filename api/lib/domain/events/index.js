@@ -9,7 +9,7 @@ import * as eventBusBuilder from '../../infrastructure/events/EventBusBuilder.js
 
 import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
-import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
+import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';

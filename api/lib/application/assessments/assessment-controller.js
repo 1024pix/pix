@@ -4,7 +4,7 @@ import { AssessmentEndedError } from '../../domain/errors.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as events from '../../domain/events/index.js';
 import { logger } from '../../infrastructure/logger.js';
-import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
+import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as activitySerializer from '../../infrastructure/serializers/jsonapi/activity-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';

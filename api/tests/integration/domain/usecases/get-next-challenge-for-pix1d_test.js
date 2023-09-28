@@ -1,7 +1,7 @@
 import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../test-helper.js';
 import { Activity, Assessment, Challenge } from '../../../../lib/domain/models/index.js';
 import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
 import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
