@@ -52,5 +52,6 @@ module.exports = {
         ],
       },
     ],
+    'import/no-restricted-paths': ['error', { zones: [{ target: 'lib/domain', from: 'lib/infrastructure' }] }],
   },
 };
