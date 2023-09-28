@@ -110,13 +110,13 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                 .innerJoin('badges', 'badges.id', 'badge-acquisitions.badgeId')
                 .whereIn('key', [
                   'PIX_EMPLOI_CLEA_V2',
-                  'PIX_DROIT_EXPERT_CERTIF',
+                  'PIX_DROIT_INITIE_CERTIF',
                   'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
                   'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
                 ])
                 .pluck('key');
 
-              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V2', 'PIX_DROIT_EXPERT_CERTIF']);
+              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V2', 'PIX_DROIT_INITIE_CERTIF']);
               expect(habilitations).to.equal(2);
             });
           });
@@ -209,7 +209,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
     buildComplementaryCertification({
       complementaryCertificationId: 53,
       complementaryCertificationKey: 'DROIT',
-      complementaryCertificationBadgeKey: 'PIX_DROIT_EXPERT_CERTIF',
+      complementaryCertificationBadgeKey: 'PIX_DROIT_INITIE_CERTIF',
       userId,
     });
     buildComplementaryCertification({
