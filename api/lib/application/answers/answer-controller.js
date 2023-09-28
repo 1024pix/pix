@@ -39,7 +39,7 @@ const find = async function (request, _h, dependencies = { requestResponseUtils 
     answers = await evaluationUsecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
   }
   if (assessmentId && !challengeId) {
-    answers = await usecases.findAnswerByAssessment({ assessmentId, userId });
+    answers = await evaluationUsecases.findAnswerByAssessment({ assessmentId, userId });
   }
 
   return answerSerializer.serialize(answers);
