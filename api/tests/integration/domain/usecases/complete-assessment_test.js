@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { completeAssessment } from '../../../../lib/domain/usecases/complete-assessment.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
