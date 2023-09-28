@@ -3,6 +3,8 @@ import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { Answer } from '../../../../lib/domain/models/Answer.js';
 import { AssessmentNotCompletedError, NotFoundError } from '../../../../lib/domain/errors.js';
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { InternalServerError } from '../../../../lib/application/http-errors.js';
 
 describe('Unit | UseCase | getCorrectionForAnswer', function () {
   const assessmentRepository = { get: () => undefined };
@@ -130,6 +132,55 @@ describe('Unit | UseCase | getCorrectionForAnswer', function () {
 
       // then
       expect(result).to.equal(correction);
+    });
+    context('when challenge is missing in the repository', function () {
+      it('should throw a Not Found', async function () {
+        // given
+        const assessment = domainBuilder.buildAssessment({ state: 'completed' });
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+
+        correctionRepository.getByChallengeId
+          .withArgs({ challengeId, answerValue: answer.value, userId: assessment.userId, locale })
+          .rejects(new LearningContentResourceNotFound());
+
+        // when
+        const error = await catchErr(getCorrectionForAnswer)({
+          assessmentRepository,
+          answerRepository,
+          correctionRepository,
+          answerId,
+          userId: assessment.userId,
+          locale,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when the repository throws an error', function () {
+      it('should throw an internal error', async function () {
+        // given
+        const assessment = domainBuilder.buildAssessment({ state: 'completed' });
+        assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
+
+        correctionRepository.getByChallengeId
+          .withArgs({ challengeId, answerValue: answer.value, userId: assessment.userId, locale })
+          .rejects(new Error());
+
+        // when
+        const error = await catchErr(getCorrectionForAnswer)({
+          assessmentRepository,
+          answerRepository,
+          correctionRepository,
+          answerId,
+          userId: assessment.userId,
+          locale,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(InternalServerError);
+      });
     });
   });
 
