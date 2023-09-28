@@ -12,6 +12,6 @@ export default class AuthenticatedTeamListInvitationsRoute extends Route {
   }
 
   model() {
-    return this.modelFor('authenticated.team').invitations;
+    return this.modelFor('authenticated.team.list').invitations;
   }
 }
