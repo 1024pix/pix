@@ -1,4 +1,3 @@
-import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } from '../errors.js';
 
 const getCampaignParticipationsCountByStage = async function ({
@@ -6,6 +5,7 @@ const getCampaignParticipationsCountByStage = async function ({
   campaignId,
   campaignRepository,
   campaignParticipationRepository,
+  stageCollectionRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
