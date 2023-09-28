@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path';
 
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
-import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
+import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 
 const path = dirname(fileURLToPath(import.meta.url));

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Assessment } from '../../domain/models/index.js';
 import { AssessmentResult } from '../../domain/read-models/participant-results/AssessmentResult.js';
 import * as competenceRepository from './competence-repository.js';
-import * as answerRepository from './answer-repository.js';
+import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from './challenge-repository.js';
 import * as areaRepository from './area-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
