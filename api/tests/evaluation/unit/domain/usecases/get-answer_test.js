@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { getAnswer } from '../../../../lib/domain/usecases/get-answer.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, sinon } from '../../../../test-helper.js';
+import { getAnswer } from '../../../../../src/evaluation/domain/usecases/get-answer.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | get-answer', function () {
   const answerId = 1;
