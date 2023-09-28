@@ -52,6 +52,6 @@ module.exports = {
         ],
       },
     ],
-    'import/no-restricted-paths': ['error', { zones: [{ target: 'lib/domain', from: 'lib/infrastructure', except: ["logger.js","constants.js"] }] }],
+    'import/no-restricted-paths': ['error', { zones: [{ target: 'lib/domain', from: 'lib/infrastructure', except: ["logger.js","constants.js","DomainTransaction.js"] }] }],
   },
 };
