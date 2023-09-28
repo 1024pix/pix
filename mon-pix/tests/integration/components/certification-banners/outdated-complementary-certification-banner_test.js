@@ -3,8 +3,10 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | Certification Banners | Ourdated Complementary Certification Banner', function (hooks) {
-  setupIntlRenderingTest(hooks);
+module(
+  'Integration | Component | Certification Banners | Ourdated Complementary Certification Banner',
+  function (hooks) {
+    setupIntlRenderingTest(hooks);
 
     module('When there are outdated complementary certifications', function () {
       test(`renders the outdated complementary certification`, async function (assert) {
@@ -58,4 +60,5 @@ module('Integration | Component | Certification Banners | Ourdated Complementary
           .exists();
       });
     });
-});
+  },
+);
