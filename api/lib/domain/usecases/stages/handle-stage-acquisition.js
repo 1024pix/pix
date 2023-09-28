@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
 import * as defaultSkillRepository from '../../../infrastructure/repositories/skill-repository.js';
 import * as defaultStageRepository from '../../../infrastructure/repositories/stage-repository.js';
 import * as defaultCampaignRepository from '../../../infrastructure/repositories/campaign-repository.js';
