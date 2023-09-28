@@ -36,7 +36,7 @@ const find = async function (request, _h, dependencies = { requestResponseUtils 
   const assessmentId = request.query.assessmentId;
   let answers = [];
   if (challengeId && assessmentId) {
-    answers = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
+    answers = await evaluationUsecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
   }
   if (assessmentId && !challengeId) {
     answers = await usecases.findAnswerByAssessment({ assessmentId, userId });
