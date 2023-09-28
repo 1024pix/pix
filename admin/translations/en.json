@@ -123,7 +123,10 @@
     "user-details": {
       "navbar": {
         "certification-centers-list": "Pix Certif",
-        "organizations-list": "Pix Orga"
+        "details": "Details",
+        "organizations-list": "Pix Orga",
+        "participations-list": "Participations",
+        "profile": "Profile"
       }
     }
   }
