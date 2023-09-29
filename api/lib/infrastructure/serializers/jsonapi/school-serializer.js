@@ -1,6 +1,4 @@
-import jsonapiSerializer from 'jsonapi-serializer';
-
-const { Serializer } = jsonapiSerializer;
+import { Serializer } from 'jsonapi-serializer';
 
 const serialize = function (school) {
   return new Serializer('school', {
@@ -8,5 +6,4 @@ const serialize = function (school) {
   }).serialize(school);
 };
 
-const serializer = { serialize };
-export { serializer, serialize };
+export { serialize };
