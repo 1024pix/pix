@@ -105,6 +105,20 @@ module('Acceptance | authenticated | team', function (hooks) {
       });
     });
 
+    module('when visiting "/equipe/invitations" as an unauthorized user', function () {
+      test('redirects to "/equipe/membres" URL', async function (assert) {
+        // given
+        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visitScreen('/equipe/invitations');
+
+        // then
+        assert.strictEqual(currentURL(), '/equipe/membres');
+      });
+    });
+
     module('when visiting "/equipe/inviter" as an unauthorized user', function () {
       test('redirects to "/equipe/membres" URL', async function (assert) {
         // given
