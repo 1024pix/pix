@@ -7,7 +7,7 @@ export default class AuthenticatedTeamListInvitationsRoute extends Route {
 
   beforeModel() {
     if (!this.currentUser.isAdminOfCurrentCertificationCenter) {
-      this.router.replaceWith('authenticated.team.list.members');
+      this.router.replaceWith('authenticated.team');
     }
   }
 
