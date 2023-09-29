@@ -1,4 +1,9 @@
-import { DomainError } from '../../../lib/domain/errors.js';
+class DomainError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
 
 class ForbiddenAccess extends DomainError {
   constructor(message = 'Accès non autorisé.') {
@@ -36,4 +41,10 @@ class CsvImportError extends DomainError {
   }
 }
 
-export { DomainError, ForbiddenAccess, EntityValidationError, CsvImportError };
+class NotFoundError extends DomainError {
+  constructor(message = 'Erreur, ressource introuvable.') {
+    super(message);
+  }
+}
+
+export { DomainError, ForbiddenAccess, EntityValidationError, CsvImportError, NotFoundError };
