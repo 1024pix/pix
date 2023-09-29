@@ -4,6 +4,7 @@ import { memberAction } from 'ember-api-actions';
 export default class CertificationCenterInvitation extends Model {
   @attr('string') email;
   @attr('string') status;
+  @attr('date') updatedAt;
   @attr('string') certificationCenterName;
 
   accept = memberAction({
