@@ -50,6 +50,11 @@
   Avatar: Chimpanzé
   Contact: mackwic+pix@gmail.com
 
+  Name: Anne-Marie Esteves
+  Role: Développeur
+  Avatar: Cigogne
+  Contact: anne-marie.esteves@octo.com
+
 /* OTHERS */
 
 	Name: Roman Robin
