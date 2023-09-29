@@ -45,7 +45,7 @@ import { badges } from '../../db/constants.js';
 
 const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
   [PIXCLEA]: badges.keys.PIX_EMPLOI_CLEA_V2,
-  [PIXDROIT]: badges.keys.PIX_DROIT_EXPERT_CERTIF,
+  [PIXDROIT]: badges.keys.PIX_DROIT_INITIE_CERTIF,
   [PIXEDU1ERDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
   [PIXEDU2NDDEGRE]: badges.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
 };
@@ -121,7 +121,25 @@ async function main({ centerType, candidateNumber, complementaryCertifications =
     isManagingStudents: centerType === 'SCO',
     name: 'CERTIF_ORGA_' + new Date().getTime(),
   });
-  const certificationCenterId = await _getCertificationCenterIdByCenterType(centerType);
+  const { id: certificationCenterId } = databaseBuilder.factory.buildCertificationCenter({
+    organizationId,
+    name: 'CERTIF_CENTER_' + new Date().getTime(),
+    type: centerType,
+  });
+
+  const userIds = await knex('certification-center-memberships')
+    .pluck('certification-center-memberships.userId')
+    .innerJoin(
+      'certification-centers',
+      'certification-centers.id',
+      'certification-center-memberships.certificationCenterId',
+    )
+    .where({ 'certification-centers.type': centerType })
+    .distinct();
+
+  userIds.forEach((userId) =>
+    databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }),
+  );
 
   const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
   if (centerType === 'SCO') {
@@ -157,18 +175,6 @@ async function main({ centerType, candidateNumber, complementaryCertifications =
   if (!isInTest) {
     logger.info({ results });
   }
-}
-
-async function _getCertificationCenterIdByCenterType(centerType) {
-  const certificationCenter = await knex('certification-centers')
-    .select('id')
-    .where({ type: centerType })
-    .orderBy('id', 'asc')
-    .first();
-  if (!certificationCenter) {
-    throw new Error(`No ${centerType} certification center found`);
-  }
-  return certificationCenter.id;
 }
 
 async function _updateDatabaseBuilderSequenceNumber() {
