@@ -1,17 +1,15 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupRenderingTest } from 'ember-qunit';
-import { setupIntl, t } from 'ember-intl/test-support';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::NoCampaignPanel', function (hooks) {
-  setupRenderingTest(hooks);
-  setupIntl(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it displays the empty message', async function (assert) {
-    await render(hbs`<Campaign::NoCampaignPanel />`);
+    const screen = await render(hbs`<Campaign::NoCampaignPanel />`);
 
-    assert.contains(t('pages.campaigns-list.no-campaign'));
+    assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign'))).exists();
   });
 
   test('it displays the empty image', async function (assert) {

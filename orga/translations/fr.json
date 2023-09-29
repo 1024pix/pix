@@ -170,7 +170,7 @@
     },
     "form": {
       "mandatory-all-fields": "Tous les champs sont obligatoires.",
-      "mandatory-fields": " indique un champ obligatoire",
+      "mandatory-fields": "indique un champ obligatoire",
       "mandatory-fields-title": "obligatoire"
     },
     "fullname": "{firstName} {lastName}",
@@ -195,7 +195,7 @@
     },
     "target-profile-details": {
       "results": {
-        "common": "Résultats affichés en ",
+        "common": "Résultats affichés en",
         "percent": "pourcentage",
         "star": "étoile"
       },

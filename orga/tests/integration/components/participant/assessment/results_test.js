@@ -1,12 +1,10 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { setupIntl, t } from 'ember-intl/test-support';
 
 module('Integration | Component | Participant::Assessment::Results', function (hooks) {
   setupIntlRenderingTest(hooks);
-  setupIntl(hooks);
 
   let store;
 
@@ -16,10 +14,10 @@ module('Integration | Component | Participant::Assessment::Results', function (h
 
   test('it should display a sentence when displayResults is false', async function (assert) {
     // when
-    await render(hbs`<Participant::Assessment::Results @displayResults={{false}} />`);
+    const screen = await render(hbs`<Participant::Assessment::Results @displayResults={{false}} />`);
 
     // then
-    assert.contains('En attente de résultats');
+    assert.dom(screen.getByText(this.intl.t('pages.assessment-individual-results.table.empty'))).exists();
   });
 
   test('it should display results when displayResults is true', async function (assert) {
@@ -38,15 +36,19 @@ module('Integration | Component | Participant::Assessment::Results', function (h
     this.set('campaignAssessmentParticipationResult', campaignAssessmentParticipationResult);
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Participant::Assessment::Results @results={{this.campaignAssessmentParticipationResult}} @displayResults={{true}} />`,
     );
 
     // then
-    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).exists({ count: 1 });
+    assert.dom(screen.getByLabelText(this.intl.t('pages.assessment-individual-results.table.row-title'))).exists();
+
     assert
-      .dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`)
+      .dom(screen.getByLabelText(this.intl.t('pages.assessment-individual-results.table.row-title')))
       .containsText('Compétence 1');
-    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).containsText('50%');
+
+    assert
+      .dom(screen.getByLabelText(this.intl.t('pages.assessment-individual-results.table.row-title')))
+      .containsText('50%');
   });
 });
