@@ -2,8 +2,16 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignCreator } from '../../../lib/domain/models/CampaignCreator.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../domain/errors.js';
 
-async function get({ userId, organizationId, ownerId, shouldOwnerBeFromOrganization = true }) {
-  await _checkUserIsAMemberOfOrganization({ organizationId, userId });
+async function get({
+  userId,
+  organizationId,
+  ownerId,
+  shouldOwnerBeFromOrganization = true,
+  shouldCreatorBeFromOrganization = true,
+}) {
+  if (shouldCreatorBeFromOrganization) {
+    await _checkUserIsAMemberOfOrganization({ organizationId, userId });
+  }
   if (shouldOwnerBeFromOrganization) {
     await _checkOwnerIsAMemberOfOrganization({ organizationId, ownerId });
   }

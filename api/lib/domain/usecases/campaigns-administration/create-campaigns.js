@@ -24,6 +24,7 @@ const createCampaigns = async function ({
         userId: campaign.creatorId,
         organizationId: campaign.organizationId,
         shouldOwnerBeFromOrganization: false,
+        shouldCreatorBeFromOrganization: false,
       });
 
       return campaignCreator.createCampaign({

@@ -73,6 +73,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
         userId: campaignsToCreate[0].creatorId,
         organizationId: campaignsToCreate[0].organizationId,
         shouldOwnerBeFromOrganization: false,
+        shouldCreatorBeFromOrganization: false,
       })
       .resolves(campaignCreatorPOJO);
     campaignCreatorRepositoryStub.get
@@ -80,6 +81,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
         userId: campaignsToCreate[1].creatorId,
         organizationId: campaignsToCreate[1].organizationId,
         shouldOwnerBeFromOrganization: false,
+        shouldCreatorBeFromOrganization: false,
       })
       .resolves(campaignCreatorPOJO);
 
