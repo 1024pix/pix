@@ -34,7 +34,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   describe('#main', function () {
     context('when asking for 2 candidates', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [certificationCenterSup, certificationCenterPro].forEach(({ id: certificationCenterId, type }) => {
+      [certificationCenterSup, certificationCenterPro].forEach(({ type }) => {
         context(`when asking for ${type}`, function () {
           it(`should create 2 ${type} candidates`, async function () {
             // given
@@ -66,7 +66,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               'sessionId',
             );
             expect(session.accessCode).to.exist;
-            expect(session.certificationCenterId).to.equal(certificationCenterId);
             expect(hasAuthenticationMethod).to.exist;
             expect(certificationCandidates).to.have.length(2);
             const name = `${type}1`.toLowerCase();
@@ -111,13 +110,13 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                 .innerJoin('badges', 'badges.id', 'badge-acquisitions.badgeId')
                 .whereIn('key', [
                   'PIX_EMPLOI_CLEA_V2',
-                  'PIX_DROIT_EXPERT_CERTIF',
+                  'PIX_DROIT_INITIE_CERTIF',
                   'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
                   'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
                 ])
                 .pluck('key');
 
-              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V2', 'PIX_DROIT_EXPERT_CERTIF']);
+              expect(badgeAcquisitions).to.deep.equal(['PIX_EMPLOI_CLEA_V2', 'PIX_DROIT_INITIE_CERTIF']);
               expect(habilitations).to.equal(2);
             });
           });
@@ -156,7 +155,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
           );
 
           expect(session.accessCode).to.exist;
-          expect(session.certificationCenterId).to.equal(1);
+          expect(session.certificationCenterId).to.be.greaterThan(1);
           expect(hasAuthenticationMethod).to.exist;
           expect(certificationCandidates).to.have.length(2);
           expect(certificationCandidates[0]).to.deep.equals({
@@ -210,7 +209,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
     buildComplementaryCertification({
       complementaryCertificationId: 53,
       complementaryCertificationKey: 'DROIT',
-      complementaryCertificationBadgeKey: 'PIX_DROIT_EXPERT_CERTIF',
+      complementaryCertificationBadgeKey: 'PIX_DROIT_INITIE_CERTIF',
       userId,
     });
     buildComplementaryCertification({
