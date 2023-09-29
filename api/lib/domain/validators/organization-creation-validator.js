@@ -8,7 +8,7 @@ const organizationValidationJoiSchema = Joi.object({
     'string.empty': 'Le nom n’est pas renseigné.',
   }),
 
-  type: Joi.string().required().valid('SCO', 'SUP', 'PRO').messages({
+  type: Joi.string().required().valid('SCO', 'SUP', 'PRO', 'SCO-1D').messages({
     'string.empty': 'Le type n’est pas renseigné.',
     'any.only': 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
   }),

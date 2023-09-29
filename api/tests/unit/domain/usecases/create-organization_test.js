@@ -5,8 +5,13 @@ import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | create-organization', function () {
   let organizationCreationValidator;
+  let schoolRepository;
+  let codeGenerator;
+
   beforeEach(function () {
     organizationCreationValidator = { validate: sinon.stub() };
+    schoolRepository = { save: sinon.stub() };
+    codeGenerator = { generate: sinon.stub() };
   });
 
   it('validates organization properties and saves it', async function () {
@@ -34,6 +39,7 @@ describe('Unit | UseCase | create-organization', function () {
       organization,
       organizationForAdminRepository,
       organizationCreationValidator,
+      schoolRepository,
     });
 
     // then
@@ -45,6 +51,70 @@ describe('Unit | UseCase | create-organization', function () {
       email: 'justin.ptipeu@example.net',
     });
     expect(organizationForAdminRepository.save).to.have.been.calledWithExactly(organization);
+  });
+
+  context('When the type is SCO-1D', function () {
+    it('should call the method to create a new code', async function () {
+      // given
+
+      const organization = new OrganizationForAdmin({
+        id: 4,
+        name: 'ACME',
+        type: 'SCO-1D',
+        documentationUrl: 'https://pix.fr',
+      });
+
+      const organizationForAdminRepository = {
+        save: sinon.stub().resolves(organization),
+        get: sinon.stub().resolves({ id: 1 }),
+      };
+      const dataProtectionOfficerRepository = { create: sinon.stub() };
+
+      // when
+      await createOrganization({
+        organization,
+        dataProtectionOfficerRepository,
+        organizationForAdminRepository,
+        organizationCreationValidator,
+        schoolRepository,
+        codeGenerator,
+      });
+
+      // then
+      expect(codeGenerator.generate).to.have.been.calledWith(schoolRepository);
+    });
+
+    it('should call schoolRepository ', async function () {
+      // given
+
+      const organization = new OrganizationForAdmin({
+        id: 4,
+        name: 'ACME',
+        type: 'SCO-1D',
+        documentationUrl: 'https://pix.fr',
+      });
+
+      const organizationForAdminRepository = {
+        save: sinon.stub().resolves(organization),
+        get: sinon.stub().resolves({ id: 1 }),
+      };
+      const dataProtectionOfficerRepository = { create: sinon.stub() };
+      const code = 'HAPPYY123';
+      codeGenerator.generate.returns(code);
+
+      // when
+      await createOrganization({
+        organization,
+        dataProtectionOfficerRepository,
+        organizationForAdminRepository,
+        organizationCreationValidator,
+        schoolRepository,
+        codeGenerator,
+      });
+
+      // then
+      expect(schoolRepository.save).to.have.been.calledWith({ organizationId: organization.id, code });
+    });
   });
 
   context('Error cases', function () {

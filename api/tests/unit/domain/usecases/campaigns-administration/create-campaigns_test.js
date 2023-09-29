@@ -19,7 +19,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       organizationRole: 'ADMIN',
     });
 
-    const campaignCodeGeneratorStub = {
+    const codeGeneratorStub = {
       generate: sinon.stub().withArgs(campaignRepository).onFirstCall().resolves(code1).onSecondCall().resolves(code2),
     };
 
@@ -97,7 +97,7 @@ describe('Unit | UseCase | campaign-administration | create-campaign', function 
       campaignsToCreate,
       membershipRepository,
       campaignRepository,
-      campaignCodeGenerator: campaignCodeGeneratorStub,
+      codeGenerator: codeGeneratorStub,
       campaignCreatorRepository: campaignCreatorRepositoryStub,
     });
 

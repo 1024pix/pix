@@ -18,10 +18,14 @@ export default class Router extends EmberRouter {
 
 Router.map(function () {
   this.route('home', { path: '/' });
-  this.route('mission', { path: '/missions/:mission_id' }, function () {
-    this.route('resume');
+  this.route('school', { path: '/schools/:code' });
+  this.route('missions', function () {
+    this.route('list', { path: '/' });
+    this.route('mission', { path: '/:mission_id' }, function () {
+      this.route('resume');
+    });
   });
-  // route à activer pour les previews
+
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
 
   this.route('assessment', { path: '/assessments/:assessment_id' }, function () {

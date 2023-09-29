@@ -29,7 +29,7 @@ import * as campaignAnalysisRepository from '../../infrastructure/repositories/c
 import * as campaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
-import * as campaignCodeGenerator from '../services/campaigns/campaign-code-generator.js';
+import * as codeGenerator from '../services/code-generator.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignCsvExportService from '../../domain/services/campaign-csv-export-service.js';
@@ -133,6 +133,7 @@ import * as partnerCertificationScoringRepository from '../../infrastructure/rep
 import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as passwordValidator from '../validators/password-validator.js';
 import * as pixAuthenticationService from '../../domain/services/authentication/pix-authentication-service.js';
+import * as schoolRepository from '../../infrastructure/repositories/school-repository.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
@@ -236,7 +237,7 @@ const dependencies = {
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultListRepository,
   campaignAssessmentParticipationResultRepository,
-  campaignCodeGenerator,
+  codeGenerator,
   campaignCollectiveResultRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
@@ -357,6 +358,7 @@ const dependencies = {
   refreshTokenService,
   resetPasswordDemandRepository,
   resetPasswordService,
+  schoolRepository,
   scoAccountRecoveryService,
   scoCertificationCandidateRepository,
   scoOrganizationParticipantRepository,

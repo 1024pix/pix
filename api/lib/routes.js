@@ -44,7 +44,7 @@ import * as progressions from './application/progressions/index.js';
 import * as saml from './application/saml/index.js';
 import * as stageCollection from './application/stage-collections/index.js';
 import * as scoringSimulator from './application/scoring-simulator/index.js';
-
+import * as school from './application/school/index.js';
 import * as scenarioSimulator from './application/scenarios-simulator/index.js';
 import * as scorecards from './application/scorecards/index.js';
 import * as scoOrganizationLearners from './application/sco-organization-learners/index.js';
@@ -106,6 +106,7 @@ const routes = [
   progressions,
   saml,
   scenarioSimulator,
+  school,
   scoringSimulator,
   organizationInvitations,
   scorecards,
