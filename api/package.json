@@ -127,7 +127,7 @@
     "db:create": "node scripts/database/create-database",
     "db:delete": "node scripts/database/drop-database",
     "db:empty": "node scripts/database/empty-database",
-    "db:migrate": "npm run db:migrate-api && npm run check-return-code && npm run db:migrate-pgboss && npm run check-return-code",
+    "db:migrate": "npm run db:migrate-api || npm run check-return-code || npm run db:migrate-pgboss || npm run check-return-code",
     "db:migrate-api": "knex --knexfile db/knexfile.js migrate:latest",
     "db:migrate-pgboss": "node scripts/database/pg-boss-migration.js",
     "check-return-code": "echo $?",
