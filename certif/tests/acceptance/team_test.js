@@ -91,8 +91,8 @@ module('Acceptance | authenticated | team', function (hooks) {
   });
 
   module('when user is member', function () {
-    module('when visiting "/equipe/" url', function () {
-      test('redirects to "/equipe/membres" url', async function (assert) {
+    module('when visiting "/equipe/" URL', function () {
+      test('redirects to "/equipe/membres" URL', async function (assert) {
         // given
         const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
         await authenticateSession(certificationPointOfContact.id);
