@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { CampaignTypes } from '../../lib/domain/models/CampaignTypes.js';
-import * as campaignCodeGenerator from '../../lib/domain/services/campaigns/campaign-code-generator.js';
+import * as codeGenerator from '../../lib/domain/services/code-generator.js';
 import * as campaignValidator from '../../lib/domain/validators/campaign-validator.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
@@ -40,7 +40,7 @@ async function prepareCampaigns(campaignsData) {
       };
 
       campaignValidator.validate(campaign);
-      campaign.code = await campaignCodeGenerator.generate(campaignRepository, generatedList);
+      campaign.code = await codeGenerator.generate(campaignRepository, generatedList);
       generatedList.push(campaign.code);
 
       if (isLaunchedFromCommandLine)

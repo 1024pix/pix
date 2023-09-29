@@ -246,7 +246,7 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
         expect(error.invalidAttributes).to.eql([
           {
             attribute: 'type',
-            message: "Le type fourni doit avoir l'une des valeurs suivantes : SCO,SUP,PRO",
+            message: "Le type fourni doit avoir l'une des valeurs suivantes : SCO,SUP,PRO,SCO-1D",
           },
           {
             attribute: 'type',

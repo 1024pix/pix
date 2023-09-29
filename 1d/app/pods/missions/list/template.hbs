@@ -1,0 +1,13 @@
+{{page-title "Home"}}
+<div>
+  <RobotDialog @instruction={{t "pages.missions.list"}} />
+  <div class="cards">
+    <LinkTo @route="missions.mission" @model="recExjO7RHeDI48HK">
+      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
+    </LinkTo>
+
+    <LinkTo @route="missions.mission" @model="recZtwymXXrtdXRrx">
+      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
+    </LinkTo>
+  </div>
+</div>

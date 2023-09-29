@@ -1,16 +1,16 @@
 {{page-title "Home"}}
-<div class="container">
-  <div class="robot-speaking">
-    <img class="robot-logo" alt="mascotte pix1d" src="/images/happy-robot.svg" />
-    <p class="instruction">Choisi ta mission parmi celles qui te sont proposées ci-dessous !</p>
-  </div>
-  <div class="cards">
-    <LinkTo @route="mission" @model="recExjO7RHeDI48HK">
-      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
-    </LinkTo>
+<RobotDialog @instruction={{t "pages.home.code-instruction"}} />
+<div class="school-code">
+  <PixInputCode
+    @ariaLabel={{t "pages.home.field-description"}}
+    @legend={{t "pages.home.code-description"}}
+    @numInputs={{9}}
+    @inputType="text"
+    @onAllInputsFilled={{this.updateCode}}
+    class="school-code__input"
+  />
 
-    <LinkTo @route="mission" @model="recZtwymXXrtdXRrx">
-      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
-    </LinkTo>
-  </div>
+  <PixButton class="pix1d-button" @triggerAction={{this.goToSchool}}>
+    {{t "pages.home.go-to-school"}}
+  </PixButton>
 </div>

@@ -53,4 +53,11 @@ function routes() {
   this.get('/challenges/:challenge_id', (schema, request) => {
     return schema.challenges.find(request.params.challenge_id);
   });
+
+  this.get('/schools/:code', (schema, request) => {
+    if (request.params.code === 'MINIPIXOU') {
+      return schema.schools.first();
+    }
+    return new Response(404);
+  });
 }

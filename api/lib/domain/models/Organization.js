@@ -4,6 +4,7 @@ const types = {
   SCO: 'SCO',
   SUP: 'SUP',
   PRO: 'PRO',
+  SCO1D: 'SCO-1D',
 };
 
 const defaultValues = {

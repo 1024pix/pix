@@ -5,7 +5,7 @@ const createCampaigns = async function ({
   membershipRepository,
   campaignRepository,
   campaignCreatorRepository,
-  campaignCodeGenerator,
+  codeGenerator,
 }) {
   const enrichedCampaignsData = await Promise.all(
     campaignsToCreate.map(async (campaign) => {
@@ -19,7 +19,7 @@ const createCampaigns = async function ({
         ownerId = administrator.user.id;
       }
 
-      const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
+      const generatedCampaignCode = await codeGenerator.generate(campaignRepository);
       const campaignCreator = await campaignCreatorRepository.get({
         userId: campaign.creatorId,
         organizationId: campaign.organizationId,
