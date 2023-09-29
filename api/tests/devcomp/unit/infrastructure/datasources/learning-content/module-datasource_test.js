@@ -1,7 +1,7 @@
 import moduleDatasource from '../../../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import { expect } from '../../../../../test-helper.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/Module.js';
-import { LearningContentResourceNotFound } from '../../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasource', function () {
   describe('#getBySlug', function () {
