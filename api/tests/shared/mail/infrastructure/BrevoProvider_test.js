@@ -1,7 +1,7 @@
 import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
-import { config } from '../../../../lib/config.js';
-import { BrevoProvider } from '../../../../lib/infrastructure/mailers/BrevoProvider.js';
-import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
+import { config } from '../../../../src/shared/config.js';
+import { BrevoProvider } from '../../../../src/shared/mail/infrastructure/smtp/BrevoProvider.js';
+import { MailingProviderInvalidEmailError } from '../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
 const { mailing } = config;
 
 describe('Unit | Class | BrevoProvider', function () {

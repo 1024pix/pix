@@ -2,8 +2,8 @@ import _ from 'lodash';
 import Brevo from '@getbrevo/brevo';
 
 import { MailingProvider } from './MailingProvider.js';
-import { config } from '../../config.js';
-import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
+import { config } from '../../../config.js';
+import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
 
 const { mailing } = config;
 function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {

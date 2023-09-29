@@ -1,10 +1,10 @@
 import Debug from 'debug';
-import { BrevoProvider } from './BrevoProvider.js';
-import { config } from '../../config.js';
-import { logger } from '../logger.js';
-import * as mailCheck from '../mail-check.js';
+import { BrevoProvider } from '../smtp/BrevoProvider.js';
+import { config } from '../../../config.js';
+import { logger } from '../../../infrastructure/utils/logger.js';
+import * as mailCheck from '../smtp/mail-check.js';
 import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
-import { MailingProviderInvalidEmailError } from './MailingProviderInvalidEmailError.js';
+import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
 
 const { mailing } = config;
 const debugEmail = Debug('pix:mailer:email');
