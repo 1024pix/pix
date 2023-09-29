@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { setupIntl } from 'ember-intl/test-support';
+import setupIntl from '../../../../helpers/setup-intl';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/organization-participants', function (hooks) {
