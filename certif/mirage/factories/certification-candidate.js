@@ -12,7 +12,7 @@ export default Factory.extend({
   },
 
   birthdate() {
-    return dayjs(faker.date.past(30)).format('YYYY-MM-DD');
+    return dayjs(faker.date.past({ years: 30 })).format('YYYY-MM-DD');
   },
 
   birthCity() {

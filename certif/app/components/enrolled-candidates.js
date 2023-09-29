@@ -182,7 +182,8 @@ export default class EnrolledCandidates extends Component {
   }
 
   _isEntityUnprocessable(err) {
-    return get(err, 'errors[0].status') === '422';
+    const status = get(err, 'errors[0].status');
+    return status === '422' || status === '400';
   }
 
   _hasDuplicate(certificationCandidate) {

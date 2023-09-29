@@ -247,6 +247,41 @@ async function createStartedSession({
 
   await _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel: configSession.maxLevel });
 
+  certificationCandidates.forEach((certificationCandidate) => {
+    const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+      userId: certificationCandidate.userId,
+      sessionId,
+      firstName: certificationCandidate.firstName,
+      lastName: certificationCandidate.lastName,
+      birthdate: certificationCandidate.birthdate,
+      birthPostalCode: certificationCandidate.birthPostalCode,
+      birthINSEECode: certificationCandidate.birthINSEECode,
+      birthCountry: certificationCandidate.birthCountry,
+      sex: certificationCandidate.sex,
+      birthplace: certificationCandidate.birthCity,
+      externalId: certificationCandidate.externalId,
+      hasSeenEndTestScreen: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      completedAt: new Date(),
+      isPublished: true,
+      verificationCode: `P-${verifCodeCount}`.padEnd(10, 'A'),
+      maxReachableLevelOnCertificationDate: 6,
+      isCancelled: false,
+      abortReason: null,
+      cpfFilename: null,
+      cpfImportStatus: null,
+      pixCertificationStatus: 'validated',
+    }).id;
+    verifCodeCount++;
+    databaseBuilder.factory.buildAssessment({
+      certificationCourseId,
+      userId: certificationCandidate.userId,
+      type: 'CERTIFICATION',
+      state: 'started',
+    }).id;
+  });
+
   await databaseBuilder.commit();
   return { sessionId };
 }
