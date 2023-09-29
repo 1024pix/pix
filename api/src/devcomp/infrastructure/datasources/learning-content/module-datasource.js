@@ -1,4 +1,4 @@
-import { LearningContentResourceNotFound } from '../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { Module } from '../../../domain/models/Module.js';
 
 const moduleDatasource = {
