@@ -245,7 +245,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           status: 'validated',
           birthdate: '2001-05-21',
           birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
+          createdAt: new Date('2022-01-01T00:00:00Z'),
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
@@ -278,7 +278,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           status: 'validated',
           birthdate: '2001-05-21',
           birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
+          createdAt: new Date('2022-01-01T00:00:00Z'),
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
@@ -360,7 +360,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           status: 'validated',
           birthdate: '2001-05-21',
           birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
+          createdAt: new Date('2022-01-01T00:00:00Z'),
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({
@@ -878,7 +878,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           status: 'validated',
           birthdate: '2001-05-21',
           birthplace: 'Paris',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
+          createdAt: new Date('2022-01-01T00:00:00Z'),
           commentForOrganization: 'Some comment for organization',
           competencesWithMark: [
             domainBuilder.buildCompetenceMark({

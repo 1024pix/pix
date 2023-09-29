@@ -11,6 +11,7 @@ const cpfImportStatus = {
   READY_TO_SEND: 'READY_TO_SEND',
   PENDING: 'PENDING',
   SUCCESS: 'SUCCESS',
+  OUTDATED: 'OUTDATED',
 };
 
 class CertificationCourse {

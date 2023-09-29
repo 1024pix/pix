@@ -33,6 +33,7 @@ const SCO_DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const SCO_PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
 const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
+const PUBLISHED_SESSION_BEFORE_JULY_21_ID = TEAM_CERTIFICATION_OFFSET_ID + 6;
 const V3_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
 const PRO_STARTED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 5;
 const complementaryCertificationIds = [
@@ -57,6 +58,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createPublishedSession({ databaseBuilder });
   await _createProStartedSession({ databaseBuilder });
   await _createIssueReportCategories({ databaseBuilder });
+  await _createPublishedSessionBeforeJuly2021({ databaseBuilder });
 }
 
 export { teamCertificationDataBuilder };
@@ -240,6 +242,7 @@ async function _createScoSession({ databaseBuilder }) {
 }
 
 async function _createPublishedScoSession({ databaseBuilder }) {
+  const sessionDate = new Date();
   await tooling.session.createPublishedScoSession({
     databaseBuilder,
     sessionId: SCO_PUBLISHED_SESSION_ID,
@@ -248,7 +251,7 @@ async function _createPublishedScoSession({ databaseBuilder }) {
     address: '1 rue Certification sco',
     certificationCenter: 'Centre de certification sco managing students',
     certificationCenterId: SCO_CERTIFICATION_CENTER_ID,
-    date: new Date(),
+    date: sessionDate,
     description: 'une description',
     examiner: 'Un super examinateur',
     room: '42',
@@ -256,17 +259,18 @@ async function _createPublishedScoSession({ databaseBuilder }) {
     examinerGlobalComment: 'Session sans pb',
     hasIncident: false,
     hasJoiningIssue: false,
-    createdAt: new Date(),
-    finalizedAt: new Date(),
-    resultsSentToPrescriberAt: new Date(),
-    publishedAt: new Date(),
+    createdAt: sessionDate,
+    finalizedAt: sessionDate,
+    resultsSentToPrescriberAt: sessionDate,
+    publishedAt: sessionDate,
     assignedCertificationOfficerId: null,
     juryComment: '',
     juryCommentAuthorId: null,
-    juryCommentedAt: new Date(),
+    juryCommentedAt: sessionDate,
     configSession: {
       learnersToRegisterCount: 8,
       maxLevel: 3,
+      sessionDate,
     },
   });
 }
@@ -338,6 +342,7 @@ async function _createV3Session({ databaseBuilder }) {
 }
 
 async function _createPublishedSession({ databaseBuilder }) {
+  const sessionDate = new Date();
   await tooling.session.createPublishedSession({
     databaseBuilder,
     sessionId: PUBLISHED_SESSION_ID,
@@ -345,7 +350,7 @@ async function _createPublishedSession({ databaseBuilder }) {
     address: '1 rue Certification pro',
     certificationCenter: 'Centre de certification pro',
     certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
-    date: new Date(),
+    date: sessionDate,
     description: 'Pro published session',
     examiner: 'Un super examinateur',
     room: '42',
@@ -353,18 +358,53 @@ async function _createPublishedSession({ databaseBuilder }) {
     examinerGlobalComment: 'Session sans pb',
     hasIncident: false,
     hasJoiningIssue: false,
-    createdAt: new Date(),
-    finalizedAt: new Date(),
-    resultsSentToPrescriberAt: new Date(),
-    publishedAt: new Date(),
+    createdAt: sessionDate,
+    finalizedAt: sessionDate,
+    resultsSentToPrescriberAt: sessionDate,
+    publishedAt: sessionDate,
     assignedCertificationOfficerId: null,
     juryComment: '',
     juryCommentAuthorId: null,
-    juryCommentedAt: new Date(),
+    juryCommentedAt: sessionDate,
     configSession: {
       candidatesToRegisterCount: 4,
       hasComplementaryCertificationsToRegister: true,
       maxLevel: 3,
+      sessionDate,
+    },
+  });
+}
+
+async function _createPublishedSessionBeforeJuly2021({ databaseBuilder }) {
+  const sessionDate = new Date('2021-05-01');
+  await tooling.session.createPublishedSession({
+    databaseBuilder,
+    sessionId: PUBLISHED_SESSION_BEFORE_JULY_21_ID,
+    accessCode: 'SCOS78',
+    address: '1 rue Certification pro',
+    certificationCenter: 'Centre de certification pro',
+    certificationCenterId: PRO_CERTIFICATION_CENTER_ID,
+    date: sessionDate,
+    description: 'Pro published session bublished before july 2021',
+    examiner: 'Un super examinateur',
+    room: '42',
+    time: '12:00',
+    examinerGlobalComment: 'Session sans pb',
+    hasIncident: false,
+    hasJoiningIssue: false,
+    createdAt: sessionDate,
+    finalizedAt: sessionDate,
+    resultsSentToPrescriberAt: sessionDate,
+    publishedAt: sessionDate,
+    assignedCertificationOfficerId: null,
+    juryComment: '',
+    juryCommentAuthorId: null,
+    juryCommentedAt: sessionDate,
+    configSession: {
+      candidatesToRegisterCount: 4,
+      hasComplementaryCertificationsToRegister: false,
+      maxLevel: 3,
+      sessionDate,
     },
   });
 }
