@@ -1,4 +1,4 @@
-import { expect } from '../test-helper.js';
+import { expect } from '../../test-helper.js';
 import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
