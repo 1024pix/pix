@@ -272,7 +272,7 @@ module('Acceptance | Session List', function (hooks) {
               },
             ],
           }),
-          422,
+          404,
         );
         const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
@@ -306,7 +306,7 @@ module('Acceptance | Session List', function (hooks) {
               },
             ],
           }),
-          422,
+          400,
         );
         const screen = await visit('/sessions/liste');
         await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));

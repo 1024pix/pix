@@ -7,7 +7,7 @@ export default class SessionSupervisingRoute extends Route {
   @service store;
 
   async model(params) {
-    return await this.store.queryRecord('session-for-supervising', {
+    return this.store.queryRecord('session-for-supervising', {
       sessionId: params.session_id,
     });
   }

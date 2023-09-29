@@ -399,12 +399,13 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               () => ({
                 errors: [
                   {
-                    status: '422',
-                    detail: 'An error message',
+                    status: '400',
+                    title: 'Bad Request',
+                    detail: '"data.attributes.first-name" must be a number',
                   },
                 ],
               }),
-              422,
+              400,
             );
 
             // when
@@ -444,7 +445,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
                     },
                   ],
                 }),
-                422,
+                400,
               );
 
               // when

@@ -34,7 +34,7 @@ export default class SessionAdapter extends ApplicationAdapter {
               return {
                 type: 'certification-reports',
                 id: certificationReport.get('id'),
-                attributes: { ...certificationReport.toJSON() },
+                attributes: certificationReport.toJSON(),
               };
             }),
           },
