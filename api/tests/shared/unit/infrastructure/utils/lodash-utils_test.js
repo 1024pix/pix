@@ -1,8 +1,8 @@
-import { expect } from '../../../test-helper.js';
+import { expect } from '../../../../test-helper.js';
 import original_lodash from 'lodash';
-import { _ } from '../../../../lib/infrastructure/utils/lodash-utils.js';
+import { _ } from '../../../../../src/shared/infrastructure/utils/lodash-utils.js';
 
-describe('Unit | Utils | lodash-utils', function () {
+describe('Unit | Shared | infrastructure | Utils | lodash-utils', function () {
   describe('#scope', function () {
     it('should not affect original version of lodash', function () {
       expect(original_lodash.elementAfter).not.to.exist;
