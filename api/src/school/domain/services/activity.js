@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../errors.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 export async function getCurrentActivity(activityRepository, assessmentId) {
   try {

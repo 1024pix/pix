@@ -1,4 +1,4 @@
-import { NotFoundError } from '../../errors.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 async function getChallenge({ missionId, activityLevel, challengeNumber, alternativeVersion, challengeRepository }) {
   try {
