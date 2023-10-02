@@ -386,9 +386,6 @@
       "no": "Non",
       "owner": {
         "title": "Propriétaire de la campagne",
-        "clear-label": "Supprimer la sélection",
-        "collapse-label": "Réduire le menu déroulant",
-        "expand-label": "Ouvrir le menu déroulant",
         "info": "Le propriétaire de la campagne ainsi que les administrateurs de cette organisation, sont les seules personnes qui peuvent modifier ou archiver cette campagne.",
         "label": "Propriétaire de la campagne",
         "placeholder": "Nom et prénom du propriétaire",

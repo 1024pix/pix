@@ -24,20 +24,18 @@
   </div>
 
   <div class="form__field-with-info form__field">
-    <PixDropdown
-      @id="campaign-owner"
+    <PixSelect
+      class="pix-select-owner"
       @options={{this.campaignOwnerOptions}}
-      @onSelect={{this.onChangeCampaignOwner}}
-      @selectedOption={{this.ownerIdOption}}
+      @onChange={{this.onChangeCampaignOwner}}
+      @value={{this.ownerIdOption}}
       @isSearchable={{true}}
       @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
+      @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
       @searchPlaceholder={{t "pages.campaign-creation.owner.search-placeholder"}}
-      @clearLabel={{t "pages.campaign-creation.owner.clear-label"}}
-      @expandLabel={{t "pages.campaign-creation.owner.expand-label"}}
-      @collapseLabel={{t "pages.campaign-creation.owner.collapse-label"}}
-      @pageSize={{10}}
       @label={{t "pages.campaign-creation.owner.label"}}
-      @requiredLabel={{t "common.form.mandatory-fields-title"}}
+      @requiredText={{t "common.form.mandatory-fields-title"}}
+      @hideDefaultOption={{true}}
     />
     {{#if @campaign.errors.owner}}
       <div class="form__error error-message">
