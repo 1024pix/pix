@@ -89,6 +89,10 @@ module.exports = function (environment) {
     },
 
     matomo: {},
+
+    'ember-inputmask5': {
+      defaults: { showMaskOnHover: false },
+    },
   };
 
   if (environment === 'development') {
