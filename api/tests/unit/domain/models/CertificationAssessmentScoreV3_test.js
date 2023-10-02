@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/index.js';
 import { CertificationAssessmentScoreV3 } from '../../../../lib/domain/models/CertificationAssessmentScoreV3.js';
@@ -122,4 +124,57 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       expect(newScore.nbPix).to.be.greaterThan(baseScore.nbPix);
     });
   });
+
+  describe('when we reach an estimated level below the MINIMUM', function () {
+    it('the score should be 0', function () {
+      // given
+      const veryEasyDifficulty = -8;
+      const numberOfChallenges = 32;
+      const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
+      const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
+
+      // when
+      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({ challenges, allAnswers });
+
+      // then
+      expect(score.nbPix).to.equal(0);
+    });
+  });
+
+  describe('when we reach an estimated level above the MAXIMUM', function () {
+    it('the score should be 1024', function () {
+      // given
+      const veryHardDifficulty = 8;
+      const numberOfChallenges = 32;
+      const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
+      const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+
+      // when
+      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({ challenges, allAnswers });
+
+      // then
+      expect(score.nbPix).to.equal(1024);
+    });
+  });
 });
+
+const _buildChallenges = (difficulty, numberOfChallenges) => {
+  const discriminant = 1;
+
+  return _.range(0, numberOfChallenges).map((index) =>
+    domainBuilder.buildChallenge({
+      id: `recCHALL${index}`,
+      difficulty,
+      discriminant,
+    }),
+  );
+};
+
+const _buildAnswersForChallenges = (challenges, answerResult) => {
+  return challenges.map(({ id: challengeId }) =>
+    domainBuilder.buildAnswer({
+      result: answerResult,
+      challengeId,
+    }),
+  );
+};
