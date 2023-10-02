@@ -14,7 +14,7 @@ function handleDomainAndHttpErrors(
   if (response instanceof DomainError || response instanceof BaseHttpError) {
     return dependencies.errorManager.handle(request, h, response);
   }
-  // TODO @ask vincent pourquoi as-tu supprimé cette ligne dans ta branche de POC
+
   return h.continue;
 }
 
