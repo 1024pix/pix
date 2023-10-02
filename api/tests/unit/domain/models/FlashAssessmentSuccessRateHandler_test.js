@@ -78,4 +78,44 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', 
       });
     });
   });
+
+  describe('#create', function () {
+    describe('when type is fixed', function () {
+      it('should return the fixed value', function () {
+        const configSuccessRate = 0.8;
+        const fixedConfig = {
+          type: 'fixed',
+          startingChallengeIndex: 0,
+          endingChallengeIndex: 7,
+          value: configSuccessRate,
+        };
+
+        const flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.create(fixedConfig);
+
+        const questionIndex = 5;
+        const successRate = flashAssessmentSuccessRateHandler.getMinimalSuccessRate(questionIndex);
+
+        expect(successRate).to.equal(configSuccessRate);
+      });
+    });
+
+    describe('when type is linear', function () {
+      it('should return the linear value', function () {
+        const linearConfig = {
+          type: 'linear',
+          startingChallengeIndex: 0,
+          endingChallengeIndex: 2,
+          startingValue: 0.8,
+          endingValue: 0.6,
+        };
+
+        const flashAssessmentSuccessRateHandler = FlashAssessmentSuccessRateHandler.create(linearConfig);
+
+        const questionIndex = 1;
+        const successRate = flashAssessmentSuccessRateHandler.getMinimalSuccessRate(questionIndex);
+
+        expect(successRate).to.equal(0.7);
+      });
+    });
+  });
 });

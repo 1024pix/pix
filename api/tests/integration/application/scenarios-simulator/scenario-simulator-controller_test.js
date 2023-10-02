@@ -305,6 +305,223 @@ describe('Integration | Application | scenario-simulator-controller', function (
         });
       });
 
+      context('When configuring the minimum success rates', function () {
+        context('When providing valid parameters', function () {
+          it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+            // given
+            const answerStatusArray = ['ok'];
+            const assessmentId = '13802DK';
+
+            const minimumEstimatedSuccessRateRanges = [
+              {
+                type: 'fixed',
+                startingChallengeIndex: 0,
+                endingChallengeIndex: 7,
+                value: 0.8,
+              },
+              {
+                type: 'linear',
+                startingChallengeIndex: 8,
+                endingChallengeIndex: 15,
+                startingValue: 0.8,
+                endingValue: 0.5,
+              },
+            ];
+
+            const expectedSuccessRateRanges = [
+              domainBuilder.buildFlashAssessmentAlgorithmSuccessRateHandlerFixed({
+                startingChallengeIndex: 0,
+                endingChallengeIndex: 7,
+                value: 0.8,
+              }),
+              domainBuilder.buildFlashAssessmentAlgorithmSuccessRateHandlerLinear({
+                startingChallengeIndex: 8,
+                endingChallengeIndex: 15,
+                startingValue: 0.8,
+                endingValue: 0.5,
+              }),
+            ];
+
+            const pickChallengeImplementation = sinon.stub();
+            pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+            const pickAnswerStatusFromArrayImplementation = sinon.stub();
+            pickAnswerStatusService.pickAnswerStatusFromArray
+              .withArgs(['ok'])
+              .returns(pickAnswerStatusFromArrayImplementation);
+
+            usecases.simulateFlashDeterministicAssessmentScenario
+              .withArgs({
+                pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+                locale: 'en',
+                pickChallenge: pickChallengeImplementation,
+                initialCapacity,
+                minimumEstimatedSuccessRateRanges: expectedSuccessRateRanges,
+              })
+              .resolves(simulationResults);
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+            // when
+            const response = await httpTestServer.request(
+              'POST',
+              '/api/scenario-simulator',
+              {
+                assessmentId,
+                initialCapacity,
+                answerStatusArray,
+                type: 'deterministic',
+                minimumEstimatedSuccessRateRanges,
+              },
+              null,
+              { 'accept-language': 'en' },
+            );
+
+            // then
+            expect(response.statusCode).to.equal(200);
+            expect(response.result).to.deep.equal(
+              _generateScenarioSimulatorBatch([
+                [
+                  {
+                    challengeId: challenge1.id,
+                    errorRate: errorRate1,
+                    estimatedLevel: estimatedLevel1,
+                    minimumCapability: 0.6190392084062237,
+                    answerStatus: 'ok',
+                    reward: reward1,
+                    difficulty: challenge1.difficulty,
+                    discriminant: challenge1.discriminant,
+                  },
+                ],
+              ]),
+            );
+          });
+        });
+
+        context('When providing invalid fixed config', function () {
+          it('should respond with a 400 error', async function () {
+            // given
+            const answerStatusArray = ['ok'];
+            const assessmentId = '13802DK';
+
+            const minimumEstimatedSuccessRateRanges = [
+              {
+                type: 'fixed',
+                startingChallengeIndex: 0,
+                endingChallengeIndex: 7,
+                value: 0.8,
+              },
+              {
+                type: 'linear',
+                startingChallengeIndex: 8,
+                endingChallengeIndex: 7,
+                startingValue: 0.8,
+                endingValue: 0.5,
+              },
+            ];
+
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+            // when
+            const response = await httpTestServer.request(
+              'POST',
+              '/api/scenario-simulator',
+              {
+                assessmentId,
+                initialCapacity,
+                answerStatusArray,
+                type: 'deterministic',
+                minimumEstimatedSuccessRateRanges,
+              },
+              null,
+              { 'accept-language': 'en' },
+            );
+
+            // then
+            expect(response.statusCode).to.equal(400);
+          });
+        });
+
+        context('When providing invalid linear config', function () {
+          it('should respond with a 400 error', async function () {
+            // given
+            const answerStatusArray = ['ok'];
+            const assessmentId = '13802DK';
+
+            const minimumEstimatedSuccessRateRanges = [
+              {
+                type: 'fixed',
+                startingChallengeIndex: 0,
+                endingChallengeIndex: 7,
+                value: 0.8,
+              },
+              {
+                type: 'linear',
+                startingChallengeIndex: 8,
+                endingChallengeIndex: 15,
+                startingValue: 1.3,
+                endingValue: 0.5,
+              },
+            ];
+
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+            // when
+            const response = await httpTestServer.request(
+              'POST',
+              '/api/scenario-simulator',
+              {
+                assessmentId,
+                initialCapacity,
+                answerStatusArray,
+                type: 'deterministic',
+                minimumEstimatedSuccessRateRanges,
+              },
+              null,
+              { 'accept-language': 'en' },
+            );
+
+            // then
+            expect(response.statusCode).to.equal(400);
+          });
+        });
+
+        context('When providing invalid type', function () {
+          it('should respond with a 400 error', async function () {
+            // given
+            const answerStatusArray = ['ok'];
+            const assessmentId = '13802DK';
+
+            const minimumEstimatedSuccessRateRanges = [
+              {
+                type: 'toto',
+                startingChallengeIndex: 0,
+                endingChallengeIndex: 7,
+                value: 0.8,
+              },
+            ];
+
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+            // when
+            const response = await httpTestServer.request(
+              'POST',
+              '/api/scenario-simulator',
+              {
+                assessmentId,
+                initialCapacity,
+                answerStatusArray,
+                type: 'deterministic',
+                minimumEstimatedSuccessRateRanges,
+              },
+              null,
+              { 'accept-language': 'en' },
+            );
+
+            // then
+            expect(response.statusCode).to.equal(400);
+          });
+        });
+      });
+
       context('When the scenario is deterministic', function () {
         context('When the route is called with correct arguments', function () {
           context('When the route is called with an initial capacity', function () {
