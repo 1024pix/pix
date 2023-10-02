@@ -40,6 +40,14 @@ export async function buildCertificationCenters(databaseBuilder) {
     externalId: 'TEAM_ACCES_123',
   });
 
+  await createCertificationCenter({
+    name: 'Accèssovolt',
+    certificationCenterId: CERTIFICATION_CENTER_OFFSET_ID + 1,
+    databaseBuilder,
+    members: [{ id: userWithAdminRole.id }],
+    externalId: 'TEAM_ACCES_456',
+  });
+
   _buildCertificationCenterInvitations({
     databaseBuilder,
     users: [userWithInvitation, secondUserWithInvitation],
