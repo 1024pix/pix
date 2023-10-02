@@ -3,6 +3,7 @@ import Oppsy from 'oppsy';
 
 import { config } from './lib/config.js';
 import * as preResponseUtils from './lib/application/pre-response-utils.js';
+import * as sharedPreResponseUtils from './src/shared/application/pre-response-utils.js';
 import { routes } from './lib/routes.js';
 import { plugins } from './lib/infrastructure/plugins/index.js';
 import { swaggers } from './lib/swaggers.js';
@@ -89,6 +90,7 @@ const enableOpsMetrics = async function (server) {
 
 const setupErrorHandling = function (server) {
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
+  server.ext('onPreResponse', sharedPreResponseUtils.handleDomainAndHttpErrors);
 };
 
 const setupDeserialization = function (server) {
