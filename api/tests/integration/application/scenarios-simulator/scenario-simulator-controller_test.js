@@ -6,7 +6,7 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-answer-status-service.js';
 import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
 
-describe('Integration | Application | Scoring-simulator | scenario-simulator-controller', function () {
+describe('Integration | Application | scenario-simulator-controller', function () {
   let httpTestServer;
   let simulationResults;
   let reward1;
@@ -218,6 +218,67 @@ describe('Integration | Application | Scoring-simulator | scenario-simulator-con
               answerStatusArray,
               type: 'deterministic',
               challengePickProbability,
+            },
+            null,
+            { 'accept-language': 'en' },
+          );
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal(
+            _generateScenarioSimulatorBatch([
+              [
+                {
+                  challengeId: challenge1.id,
+                  errorRate: errorRate1,
+                  estimatedLevel: estimatedLevel1,
+                  minimumCapability: 0.6190392084062237,
+                  answerStatus: 'ok',
+                  reward: reward1,
+                  difficulty: challenge1.difficulty,
+                  discriminant: challenge1.discriminant,
+                },
+              ],
+            ]),
+          );
+        });
+      });
+
+      context('When configuring the limit of challenges per tube', function () {
+        it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+          // given
+          const limitToOneQuestionPerTube = true;
+          const answerStatusArray = ['ok'];
+          const assessmentId = '13802DK';
+
+          const pickChallengeImplementation = sinon.stub();
+          pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+          const pickAnswerStatusFromArrayImplementation = sinon.stub();
+          pickAnswerStatusService.pickAnswerStatusFromArray
+            .withArgs(['ok'])
+            .returns(pickAnswerStatusFromArrayImplementation);
+
+          usecases.simulateFlashDeterministicAssessmentScenario
+            .withArgs({
+              pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+              locale: 'en',
+              pickChallenge: pickChallengeImplementation,
+              initialCapacity,
+              limitToOneQuestionPerTube,
+            })
+            .resolves(simulationResults);
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/scenario-simulator',
+            {
+              assessmentId,
+              initialCapacity,
+              answerStatusArray,
+              type: 'deterministic',
+              limitToOneQuestionPerTube,
             },
             null,
             { 'accept-language': 'en' },
