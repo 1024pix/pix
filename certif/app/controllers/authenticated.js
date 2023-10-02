@@ -50,7 +50,7 @@ export default class AuthenticatedController extends Controller {
 
   @action
   async changeCurrentCertificationCenterAccess(certificationCenterAccess) {
-    this.currentUser.currentAllowedCertificationCenterAccess = certificationCenterAccess;
+    this.currentUser.updateCurrentCertificationCenter(certificationCenterAccess.id);
     this.router.replaceWith('authenticated');
   }
 }
