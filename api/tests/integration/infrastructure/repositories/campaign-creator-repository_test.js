@@ -145,6 +145,29 @@ describe('Integration | Repository | CampaignCreatorRepository', function () {
         expect(error).to.be.instanceOf(UserNotAuthorizedToCreateCampaignError);
         expect(error.message).to.equal(`User does not have an access to the organization ${organizationId}`);
       });
+
+      it('return the campaign creator', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const ownerId = databaseBuilder.factory.buildUser().id;
+
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildMembership({ organizationId, userId: ownerId });
+        const shouldCreatorBeFromOrganization = false;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await campaignCreatorRepository.get({
+          userId,
+          organizationId,
+          ownerId,
+          shouldCreatorBeFromOrganization,
+        });
+
+        // then
+        expect(result).to.be.instanceOf(CampaignCreator);
+      });
     });
 
     context('when the owner is not a member of the organization', function () {
