@@ -1,7 +1,7 @@
 import { challengeService } from './challenge.js';
-import { Activity } from '../../models/index.js';
+import { Activity } from '../models/Activity.js';
 import { getLastAnswerStatus } from './last-answer-status.js';
-import { pix1dService } from '../algorithm-methods/pix1d.js';
+import { pix1dService } from './algorithm-method.js';
 
 const FIRST_CHALLENGE_NB = 1;
 

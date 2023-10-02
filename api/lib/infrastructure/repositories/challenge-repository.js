@@ -9,7 +9,7 @@ import { NotFoundError } from '../../domain/errors.js';
 import { config } from '../../config.js';
 import { tubeDatasource } from '../datasources/learning-content/index.js';
 import { logger } from '../../infrastructure/logger.js';
-import { Activity } from '../../domain/models/Activity.js';
+import { Activity } from '../../../src/school/domain/models/Activity.js';
 
 const get = async function (id) {
   try {

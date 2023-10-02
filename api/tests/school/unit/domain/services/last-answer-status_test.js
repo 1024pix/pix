@@ -1,5 +1,5 @@
 import { expect } from '../../../../test-helper.js';
-import { getLastAnswerStatus } from '../../../../../lib/domain/services/1d/last-answer-status.js';
+import { getLastAnswerStatus } from '../../../../../src/school/domain/services/last-answer-status.js';
 import { ActivityAnswer } from '../../../../../lib/domain/models/index.js';
 
 describe('Unit | Service | getLastAnswerStatus', function () {

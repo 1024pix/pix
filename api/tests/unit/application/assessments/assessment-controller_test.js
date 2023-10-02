@@ -4,7 +4,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { Activity } from '../../../../lib/domain/models/Activity.js';
+import { Activity } from '../../../../src/school/domain/models/Activity.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#createForPix1d', function () {

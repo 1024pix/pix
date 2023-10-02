@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
-import { Activity } from '../../../../lib/domain/models/Activity.js';
+import { Activity } from '../../../../src/school/domain/models/Activity.js';
 
 describe('Integration | Repository | activityAnswerRepository', function () {
   describe('#findByActivity', function () {

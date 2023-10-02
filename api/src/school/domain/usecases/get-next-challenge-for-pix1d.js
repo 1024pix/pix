@@ -1,7 +1,7 @@
-import { getCurrentActivity } from '../services/1d/activity.js';
-import { getChallengeForCurrentActivity, getNextActivityChallenge } from '../services/1d/activity-challenge.js';
-import { getLastAnswerStatus } from '../services/1d/last-answer-status.js';
-import { Activity } from '../models/index.js';
+import { getCurrentActivity } from '../services/activity.js';
+import { getChallengeForCurrentActivity, getNextActivityChallenge } from '../services/activity-challenge.js';
+import { getLastAnswerStatus } from '../services/last-answer-status.js';
+import { Activity } from '../models/Activity.js';
 
 export async function getNextChallengeForPix1d({
   assessmentId,

@@ -1,11 +1,12 @@
-import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../test-helper.js';
-import { Activity, Assessment, Challenge } from '../../../../lib/domain/models/index.js';
-import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
+import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../test-helper.js';
+import { Assessment, Challenge } from '../../../../../lib/domain/models/index.js';
+import { Activity } from '../../../../../src/school/domain/models/Activity.js';
+import * as activityRepository from '../../../../../lib/infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
-import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
-import { getNextChallengeForPix1d } from '../../../../lib/domain/usecases/get-next-challenge-for-pix1d.js';
-import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';
+import * as challengeRepository from '../../../../../lib/infrastructure/repositories/challenge-repository.js';
+import * as activityAnswerRepository from '../../../../../lib/infrastructure/repositories/activity-answer-repository.js';
+import { getNextChallengeForPix1d } from '../../../../../src/school/domain/usecases/get-next-challenge-for-pix1d.js';
+import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
 describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
   describe('#getNextChallengeForPix1d', function () {
