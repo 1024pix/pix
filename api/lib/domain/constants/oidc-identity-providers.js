@@ -11,8 +11,13 @@ const FWB = {
   configKey: 'fwb',
 };
 
+const PAYSDELALOIRE = {
+  code: 'PAYSDELALOIRE',
+  configKey: 'paysdelaloire',
+};
+
 function getValidOidcProviderCodes() {
-  return [POLE_EMPLOI.code, CNAV.code, FWB.code];
+  return [POLE_EMPLOI.code, CNAV.code, FWB.code, PAYSDELALOIRE.code];
 }
 
-export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB };
+export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE };
