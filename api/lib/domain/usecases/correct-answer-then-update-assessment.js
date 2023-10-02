@@ -2,6 +2,7 @@ import {
   ChallengeNotAskedError,
   CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
+  AnswerEvaluationError,
 } from '../errors.js';
 
 import { Examiner } from '../models/Examiner.js';
@@ -121,13 +122,17 @@ export { correctAnswerThenUpdateAssessment };
 
 function _evaluateAnswer({ challenge, answer, assessment, examiner: injectedExaminer }) {
   const examiner = injectedExaminer ?? new Examiner({ validator: challenge.validator });
-  return examiner.evaluate({
-    answer,
-    challengeFormat: challenge.format,
-    isFocusedChallenge: challenge.focused,
-    hasLastQuestionBeenFocusedOut: assessment.hasLastQuestionBeenFocusedOut,
-    isCertificationEvaluation: assessment.isCertification(),
-  });
+  try {
+    return examiner.evaluate({
+      answer,
+      challengeFormat: challenge.format,
+      isFocusedChallenge: challenge.focused,
+      hasLastQuestionBeenFocusedOut: assessment.hasLastQuestionBeenFocusedOut,
+      isCertificationEvaluation: assessment.isCertification(),
+    });
+  } catch (error) {
+    throw new AnswerEvaluationError(challenge);
+  }
 }
 
 async function _getKnowledgeElements({
