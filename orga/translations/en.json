@@ -383,9 +383,6 @@
       "no": "No",
       "owner": {
         "title": "Campaign owner",
-        "clear-label": "Clear the selection",
-        "collapse-label": "Close the dropdown list",
-        "expand-label": "Open the dropdown list",
         "info": "The campaign owner, along with the organisation administrators, are the only ones who can modify or archive this campaign.",
         "label": "Campaign owner",
         "placeholder": "Owner’s first and last name",

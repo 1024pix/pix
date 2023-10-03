@@ -27,7 +27,7 @@
 
   .pix-select {
     @include device-is('desktop') {
-      width: 355px;
+      width: 100%;
     }
   }
 
