@@ -25,6 +25,10 @@ export default class AuthenticatedTeamListController extends Controller {
     return this.model.hasCleaHabilitation && _hasAtLeastTwoMembersAndOneReferer(this.model.members);
   }
 
+  get shouldDisplayInviteMemberButton() {
+    return !!this.currentUser.isAdminOfCurrentCertificationCenter;
+  }
+
   get membersSelectOptionsSortedByLastName() {
     return this.model.members
       .toArray()

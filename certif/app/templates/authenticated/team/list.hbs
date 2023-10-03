@@ -2,14 +2,21 @@
 
 <div class="team__header">
   <h1 class="page__title page-title">{{t "pages.team.title"}}</h1>
-  {{#if this.shouldDisplayUpdateRefererButton}}
-    <PixButton
-      class="team__update-referer-button"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @triggerAction={{this.toggleRefererModal}}
-    >{{t "pages.team.update-referer-button"}}</PixButton>
-  {{/if}}
+  <div class="team__header-admin-buttons">
+    {{#if this.shouldDisplayUpdateRefererButton}}
+      <PixButton
+        class="team__update-referer-button"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.toggleRefererModal}}
+      >{{t "pages.team.update-referer-button"}}</PixButton>
+    {{/if}}
+    {{#if this.shouldDisplayInviteMemberButton}}
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @route="authenticated.team.invite">{{t
+          "pages.team.invite-button"
+        }}</PixButton>
+    {{/if}}
+  </div>
 </div>
 
 {{#if this.shouldDisplayNoRefererSection}}

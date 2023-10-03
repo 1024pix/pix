@@ -851,6 +851,8 @@
     },
     "team": {
       "title": "Équipe",
+      "invite-button": "Inviter un membre",
+      "invite-member-button": "Inviter un membre",
       "no-referer-section": {
         "title": "Aucun référent Pix désigné",
         "description": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
@@ -886,6 +888,14 @@
           "aria-label": "Invitations en attente"
         }
       }
+    },
+    "team-invite": {
+      "title": "Inviter un membre",
+      "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
+      "input-label": "Adresse(s) e-mail",
+      "invite-button": "Inviter",
+      "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
+      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules."
     },
     "terms-of-service": {
       "title": "Conditions générales d'utilisation de la plateforme Pix Certif",

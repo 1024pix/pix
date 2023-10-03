@@ -5,6 +5,11 @@
     justify-content: space-between;
     align-items:center;
   }
+  &__header-admin-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: $pix-spacing-s;
+  }
 
   &__tabs {
     display: flex;
