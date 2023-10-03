@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class Team extends Controller {
+export default class AuthenticatedTeamListController extends Controller {
   @service currentUser;
   @service featureToggles;
   @service router;
@@ -23,6 +23,10 @@ export default class Team extends Controller {
 
   get shouldDisplayUpdateRefererButton() {
     return this.model.hasCleaHabilitation && _hasAtLeastTwoMembersAndOneReferer(this.model.members);
+  }
+
+  get shouldDisplayInviteMemberButton() {
+    return !!this.currentUser.isAdminOfCurrentCertificationCenter;
   }
 
   get membersSelectOptionsSortedByLastName() {

@@ -20,7 +20,7 @@ module('Acceptance | authenticated | team', function (hooks) {
   setupIntl(hooks);
 
   module('when user is admin', function () {
-    test('displays navbar with "members" and "invitations" links', async function (assert) {
+    test('displays navbar with "members" and "invitations" links and an invite a member button', async function (assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
         undefined,
@@ -41,8 +41,11 @@ module('Acceptance | authenticated | team', function (hooks) {
       assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
       assert.dom(screen.getByRole('cell', { name: 'Lee' })).exists();
       assert.dom(screen.getByRole('cell', { name: 'Tige' })).exists();
+
       assert.dom(screen.getByRole('link', { name: 'Membres (2)' })).exists();
       assert.dom(screen.getByRole('link', { name: 'Invitations (-)' })).exists();
+
+      assert.dom(screen.getByText(this.intl.t('pages.team.invite-button'))).exists();
     });
 
     module('when user clicks on invitations link', function () {
@@ -88,14 +91,42 @@ module('Acceptance | authenticated | team', function (hooks) {
   });
 
   module('when user is member', function () {
-    module('when visiting "/equipe/" url', function () {
-      test('redirects to "/equipe/membres" url', async function (assert) {
+    module('when visiting "/equipe/" URL', function () {
+      test('redirects to "/equipe/membres" URL', async function (assert) {
         // given
         const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
         await authenticateSession(certificationPointOfContact.id);
 
         // when
         await visitScreen('/equipe');
+
+        // then
+        assert.strictEqual(currentURL(), '/equipe/membres');
+      });
+    });
+
+    module('when visiting "/equipe/invitations" as an unauthorized user', function () {
+      test('redirects to "/equipe/membres" URL', async function (assert) {
+        // given
+        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visitScreen('/equipe/invitations');
+
+        // then
+        assert.strictEqual(currentURL(), '/equipe/membres');
+      });
+    });
+
+    module('when visiting "/equipe/inviter" as an unauthorized user', function () {
+      test('redirects to "/equipe/membres" URL', async function (assert) {
+        // given
+        const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+        await authenticateSession(certificationPointOfContact.id);
+
+        // when
+        await visitScreen('/equipe/inviter');
 
         // then
         assert.strictEqual(currentURL(), '/equipe/membres');

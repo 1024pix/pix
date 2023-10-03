@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/team', function (hooks) {
+module('Unit | Controller | authenticated/team/list', function (hooks) {
   setupTest(hooks);
 
   module('#shouldDisplayNoRefererSection', function () {
@@ -10,7 +10,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       module('when there is a referer', function () {
         test('should return false', function (assert) {
           // given
-          const controller = this.owner.lookup('controller:authenticated/team');
+          const controller = this.owner.lookup('controller:authenticated/team/list');
           const store = this.owner.lookup('service:store');
           const referer = store.createRecord('member', {
             isReferer: true,
@@ -28,7 +28,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       module('when there is no member', function () {
         test('should return false', function (assert) {
           // given
-          const controller = this.owner.lookup('controller:authenticated/team');
+          const controller = this.owner.lookup('controller:authenticated/team/list');
           controller.model = { members: [], hasCleaHabilitation: true };
 
           // when then
@@ -39,7 +39,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       module('when there is no referer', function () {
         test('should return true', function (assert) {
           // given
-          const controller = this.owner.lookup('controller:authenticated/team');
+          const controller = this.owner.lookup('controller:authenticated/team/list');
           const store = this.owner.lookup('service:store');
 
           const notReferer = store.createRecord('member', {
@@ -58,7 +58,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
     module('when shouldShowRefererSelectionModal is true', function () {
       test('should set the value to false', function (assert) {
         // given
-        const controller = this.owner.lookup('controller:authenticated/team');
+        const controller = this.owner.lookup('controller:authenticated/team/list');
 
         controller.shouldShowRefererSelectionModal = true;
 
@@ -73,7 +73,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
     module('when shouldShowRefererSelectionModal is false', function () {
       test('should set the value to true', function (assert) {
         // given
-        const controller = this.owner.lookup('controller:authenticated/team');
+        const controller = this.owner.lookup('controller:authenticated/team/list');
 
         controller.shouldShowRefererSelectionModal = false;
 
@@ -89,7 +89,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
   module('#membersSelectOptionsSortedByLastName', function () {
     test('should return an array of non referer members select options ordered by last name', function (assert) {
       // given
-      const controller = this.owner.lookup('controller:authenticated/team');
+      const controller = this.owner.lookup('controller:authenticated/team/list');
       const store = this.owner.lookup('service:store');
       const member1 = store.createRecord('member', {
         id: 102,
@@ -129,7 +129,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
     test('should select the id of a selected member', function (assert) {
       // given
       const optionSelected = 102;
-      const controller = this.owner.lookup('controller:authenticated/team');
+      const controller = this.owner.lookup('controller:authenticated/team/list');
 
       // when
       controller.onSelectReferer(optionSelected);
@@ -143,7 +143,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
     module('when a referer is selected', function () {
       test('should call updateReferer model method', function (assert) {
         // given
-        const controller = this.owner.lookup('controller:authenticated/team');
+        const controller = this.owner.lookup('controller:authenticated/team/list');
         const store = this.owner.lookup('service:store');
         const updateRefererStub = sinon.stub();
         const sendStub = sinon.stub();
@@ -169,7 +169,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
     module('when there is no referer selected', function () {
       test('should not call updateReferer model method', function (assert) {
         // given
-        const controller = this.owner.lookup('controller:authenticated/team');
+        const controller = this.owner.lookup('controller:authenticated/team/list');
         const store = this.owner.lookup('service:store');
         const updateRefererStub = sinon.stub();
         const sendStub = sinon.stub();
@@ -197,7 +197,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
     module('when there is only one member', function () {
       test('should return false', function (assert) {
         // given
-        const controller = this.owner.lookup('controller:authenticated/team');
+        const controller = this.owner.lookup('controller:authenticated/team/list');
         const store = this.owner.lookup('service:store');
         const isReferer = store.createRecord('member', {
           isReferer: true,
@@ -213,7 +213,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       module('when there is a referer', function () {
         test('should return true', function (assert) {
           // given
-          const controller = this.owner.lookup('controller:authenticated/team');
+          const controller = this.owner.lookup('controller:authenticated/team/list');
           const store = this.owner.lookup('service:store');
 
           const notReferer = store.createRecord('member', {
@@ -232,7 +232,7 @@ module('Unit | Controller | authenticated/team', function (hooks) {
       module('when there is no referer', function () {
         test('should return false', function (assert) {
           // given
-          const controller = this.owner.lookup('controller:authenticated/team');
+          const controller = this.owner.lookup('controller:authenticated/team/list');
           const store = this.owner.lookup('service:store');
 
           const notReferer = store.createRecord('member', {
