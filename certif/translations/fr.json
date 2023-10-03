@@ -149,7 +149,8 @@
         "insee-code": "Code INSEE",
         "lastname": "Nom",
         "none": "Aucune",
-        "postcode": "Code postal"
+        "postcode": "Code postal",
+        "role": "Rôle"
       },
       "line": "Ligne {line} : "
     },
