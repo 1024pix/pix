@@ -15,31 +15,7 @@
 
         <tbody>
           {{#each this.orderedMemberListWithRefererFirst as |member|}}
-            <tr aria-label="Membres du centre de certification">
-              <td>{{member.lastName}}</td>
-              <td>{{member.firstName}}</td>
-              {{#if this.shouldDisplayRefererColumn}}
-                <td>
-                  {{#if member.isReferer}}
-                    <div class="members-list__is-referer">
-                      <PixTag class="members-list__tag" @color="blue-light">
-                        {{t "pages.team.pix-referer"}}
-                      </PixTag>
-                      <PixTooltip class="members-list__tool-tip" @isWide="true" @position="bottom">
-                        <:triggerElement>
-                          <span tabindex="0">
-                            <FaIcon @icon="info-circle" />
-                          </span>
-                        </:triggerElement>
-                        <:tooltip>
-                          {{t "pages.team.pix-referer-tooltip"}}
-                        </:tooltip>
-                      </PixTooltip>
-                    </div>
-                  {{/if}}
-                </td>
-              {{/if}}
-            </tr>
+            <MembersListItem @member={{member}} @shouldDisplayRefererColumn={{this.shouldDisplayRefererColumn}} />
           {{/each}}
         </tbody>
       </table>
