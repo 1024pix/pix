@@ -162,6 +162,49 @@ module('Acceptance | authenticated', function (hooks) {
         .exists();
     });
 
+    test('updates current role in certification center', async function (assert) {
+      // given
+      const currentCertificationCenter = server.create('allowed-certification-center-access', {
+        name: 'Bibiche',
+        externalId: 'ABC123',
+      });
+      const anotherCertificationCenter = server.create('allowed-certification-center-access', {
+        name: 'Poupoune',
+        externalId: 'DEF456',
+      });
+
+      const currentCertificationCenterMembership = server.create('certification-center-membership', {
+        certificationCenterId: currentCertificationCenter.id,
+        role: 'MEMBER',
+      });
+
+      const anotherCertificationCenterMembership = server.create('certification-center-membership', {
+        certificationCenterId: anotherCertificationCenter.id,
+        role: 'ADMIN',
+      });
+
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentCertificationCenter, anotherCertificationCenter],
+        certificationCenterMemberships: [currentCertificationCenterMembership, anotherCertificationCenterMembership],
+      });
+
+      const currentUser = this.owner.lookup('service:current-user');
+
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      const screen = await visitScreen('/');
+      await click(screen.getByRole('button', { name: 'Buffy Summers Bibiche (ABC123) Ouvrir le menu utilisateur' }));
+      await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
+
+      // then
+      assert.strictEqual(currentUser.currentCertificationCenterMembership.id, anotherCertificationCenterMembership.id);
+      assert.true(currentUser.isAdminOfCurrentCertificationCenter);
+    });
+
     test('should redirect to sessions/liste URL when changing the current certification center', async function (assert) {
       // given
       const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {

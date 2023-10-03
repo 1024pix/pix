@@ -21,7 +21,7 @@ export default class CurrentUserService extends Service {
           .value().firstObject;
 
         this.currentCertificationCenterMembership = this._findCertificationCenterMembershipByCertificationCenterId(
-          Number(this.currentAllowedCertificationCenterAccess?.id),
+          this.currentAllowedCertificationCenterAccess?.id,
         );
 
         this.isAdminOfCurrentCertificationCenter = this.currentCertificationCenterMembership?.isAdmin;
@@ -59,7 +59,7 @@ export default class CurrentUserService extends Service {
   _findCertificationCenterMembershipByCertificationCenterId(certificationCenterId) {
     return this.certificationPointOfContact.certificationCenterMemberships.findBy(
       'certificationCenterId',
-      certificationCenterId,
+      Number(certificationCenterId),
     );
   }
 }
