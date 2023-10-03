@@ -1,34 +1,17 @@
 ignores:
   [
     '@babel/plugin-syntax-import-assertions',
-    '@1024pix/eslint-config',
     'bookshelf-validate',
-    'eslint-plugin-mocha',
     'hapi-swagger',
     'hapi-sentry',
-    'jscodeshift',
     'mocha-junit-reporter',
-    'pg-connection-string',
-    'pino-pretty',
   ]
 #  @babel/plugin-syntax-import-assertions is used by eslint
 # see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-assertions/README.md
 
-# "@1024pix/eslint-plugin" is used in ../.eslintrc.cjs
-# code =>  plugins: - @1024pix
-# see https://github.com/1024pix/eslint-plugin
-
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
 # see https://github.com/kripod/bookshelf-validate#configuration
-
-# "mocha-junit-reporter" is used in ../.circleci/config.yml
-# code =>  MOCHA_REPORTER: mocha-junit-reporter
-# see https://github.com/michaelleeallen/mocha-junit-reporter#usage
-
-# "eslint-plugin-mocha" is used in ../.eslintrc.cjs
-# code =>  plugins: - mocha
-# see https://github.com/lo1tuma/eslint-plugin-mocha#install-and-configure
 
 # "hapi-sentry" is used in ./lib/infrastructure/plugins/sentry.js
 # see https://github.com/hydra-newmedia/hapi-sentry
@@ -36,11 +19,6 @@ ignores:
 # "hapi-swagger" is used in ./lib/application/authentication/index.js
 # see https://github.com/hapi-swagger/hapi-swagger
 
-#  @babel/plugin-syntax-import-assertions is used by eslint
-# see https://github.com/babel/babel/blob/main/packages/babel-plugin-syntax-import-assertions/README.md
-
-# "pino-pretty" is used in ../lib/infrastructure/logger.js
-# code =>  target: 'pino-pretty'
-# see https://github.com/pinojs/pino-pretty#programmatic-integration
-
-# "pg-connection-string" is used in api/tests/acceptance/database/configuration.cjs
+# "mocha-junit-reporter" is used in ../.circleci/config.yml
+# code =>  MOCHA_REPORTER: mocha-junit-reporter
+# see https://github.com/michaelleeallen/mocha-junit-reporter#usage
