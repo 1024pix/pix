@@ -74,7 +74,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       allAnswers: baseAnswers,
     });
 
-    expect(score.nbPix).to.equal(658);
+    expect(score.nbPix).to.equal(640);
   });
 
   describe('when a wrong answer is added', function () {
