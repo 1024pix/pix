@@ -40,6 +40,7 @@ Router.map(function () {
         this.route('members', { path: '/membres' });
         this.route('invitations');
       });
+      this.route('invite', { path: '/inviter' });
     });
   });
 
