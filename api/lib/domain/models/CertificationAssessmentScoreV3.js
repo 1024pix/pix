@@ -1,6 +1,8 @@
 import { status } from './AssessmentResult.js';
 import { FlashAssessmentAlgorithm } from './FlashAssessmentAlgorithm.js';
 
+const MINIMUM_ESTIMATED_LEVEL = -8;
+const MAXIMUM_ESTIMATED_LEVEL = 8;
 /*
 Score should not be totally linear. It should be piecewise linear, so we define
 here the different intervals. See documentation here :
@@ -8,7 +10,7 @@ https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+scor
  */
 const scoreIntervals = [
   {
-    start: -8,
+    start: MINIMUM_ESTIMATED_LEVEL,
     end: -6,
   },
   {
@@ -37,7 +39,7 @@ const scoreIntervals = [
   },
   {
     start: 6,
-    end: 8,
+    end: MAXIMUM_ESTIMATED_LEVEL,
   },
 ];
 
@@ -78,16 +80,25 @@ class CertificationAssessmentScoreV3 {
 }
 
 const _findIntervalIndex = (estimatedLevel) =>
-  scoreIntervals.findIndex(({ start, end }) => estimatedLevel < end && estimatedLevel >= start);
+  scoreIntervals.findIndex(({ start, end }) => estimatedLevel <= end && estimatedLevel >= start);
 
 const _computeScore = (estimatedLevel) => {
-  const intervalIndex = _findIntervalIndex(estimatedLevel);
+  let normalizedEstimatedLevel = estimatedLevel;
+
+  if (normalizedEstimatedLevel < MINIMUM_ESTIMATED_LEVEL) {
+    normalizedEstimatedLevel = MINIMUM_ESTIMATED_LEVEL;
+  }
+  if (normalizedEstimatedLevel > MAXIMUM_ESTIMATED_LEVEL) {
+    normalizedEstimatedLevel = MAXIMUM_ESTIMATED_LEVEL;
+  }
+
+  const intervalIndex = _findIntervalIndex(normalizedEstimatedLevel);
 
   const intervalMaxValue = scoreIntervals[intervalIndex].end;
   const intervalWidth = scoreIntervals[intervalIndex].end - scoreIntervals[intervalIndex].start;
 
   // Formula is defined here : https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+score+2023#Le-score
-  const score = INTERVAL_HEIGHT * (intervalIndex + 1 + (estimatedLevel - intervalMaxValue) / intervalWidth);
+  const score = INTERVAL_HEIGHT * (intervalIndex + 1 + (normalizedEstimatedLevel - intervalMaxValue) / intervalWidth);
 
   return Math.round(score);
 };
