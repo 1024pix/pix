@@ -1,7 +1,6 @@
 import * as errorManager from './error-manager.js';
 import { BaseHttpError } from './http-errors.js';
-import { DomainError as OldDomainError } from '../domain/errors.js';
-import { DomainError } from '../../src/shared/domain/errors.js';
+import { DomainError } from '../domain/errors.js';
 
 function handleDomainAndHttpErrors(
   request,
@@ -12,10 +11,14 @@ function handleDomainAndHttpErrors(
 ) {
   const response = request.response;
 
-  if (response instanceof OldDomainError || response instanceof DomainError || response instanceof BaseHttpError) {
+  // TODO: delete this condition after migration to shared complete
+  if (response.fromShared) {
+    return h.continue;
+  }
+
+  if (response instanceof DomainError || response instanceof BaseHttpError) {
     return dependencies.errorManager.handle(request, h, response);
   }
-  // TODO @ask vincent pourquoi as-tu supprimé cette ligne dans ta branche de POC
   return h.continue;
 }
 
