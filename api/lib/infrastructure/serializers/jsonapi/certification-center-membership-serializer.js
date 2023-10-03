@@ -36,10 +36,10 @@ const serializeMembers = function (certificationCenterMemberships) {
   return new Serializer('members', {
     transform: function (record) {
       const { id, firstName, lastName } = record.user;
-      return { id, firstName, lastName, isReferer: record.isReferer };
+      return { id, firstName, lastName, isReferer: record.isReferer, role: record.role };
     },
     ref: 'id',
-    attributes: ['firstName', 'lastName', 'isReferer'],
+    attributes: ['firstName', 'lastName', 'isReferer', 'role'],
   }).serialize(certificationCenterMemberships);
 };
 
