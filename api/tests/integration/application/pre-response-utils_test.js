@@ -2,9 +2,9 @@ import { expect, hFake } from '../../test-helper.js';
 
 import {
   BadRequestError,
+  BaseHttpError,
   ConflictError,
   ForbiddenError,
-  BaseHttpError,
   MissingQueryParamError,
   NotFoundError,
   PreconditionFailedError,
@@ -12,18 +12,10 @@ import {
   UnprocessableEntityError,
 } from '../../../lib/application/http-errors.js';
 
-import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { handleDomainAndHttpErrors } from '../../../lib/application/pre-response-utils.js';
 
 describe('Integration | Application | PreResponse-utils', function () {
   describe('#handleDomainAndHttpErrors', function () {
-    const invalidAttributes = [
-      {
-        attribute: 'type',
-        message: 'Error message',
-      },
-    ];
-
     const successfulCases = [
       {
         should: 'should return HTTP code 400 when BadRequestError',
@@ -59,11 +51,6 @@ describe('Integration | Application | PreResponse-utils', function () {
         should: 'should return HTTP code 412 when PreconditionFailedError',
         response: new PreconditionFailedError('Error message'),
         expectedStatusCode: 412,
-      },
-      {
-        should: 'should return HTTP code 422 when EntityValidationError',
-        response: new EntityValidationError({ invalidAttributes }),
-        expectedStatusCode: 422,
       },
       {
         should: 'should return HTTP code 422 when UnprocessableEntityError',

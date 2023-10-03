@@ -1,65 +1,6 @@
-import _ from 'lodash';
-import jsonapiSerializer from 'jsonapi-serializer';
 import { HttpErrors } from './http-errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
-import { extractLocaleFromRequest } from '../infrastructure/utils/request-response-utils.js';
-import * as translations from '../../translations/index.js';
-import { ForbiddenAccess, EntityValidationError, CsvImportError } from '../../src/shared/domain/errors.js';
-
-const { Error: JSONAPIError } = jsonapiSerializer;
-
-const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
-
-function translateMessage(locale, key) {
-  // eslint-disable-next-line import/namespace
-  if (translations[locale]['entity-validation-errors'][key]) {
-    // eslint-disable-next-line import/namespace
-    return translations[locale]['entity-validation-errors'][key];
-  }
-  return key;
-}
-
-function _formatAttribute({ attribute, message, locale }) {
-  return {
-    status: '422',
-    source: {
-      pointer: `/data/attributes/${_.kebabCase(attribute)}`,
-    },
-    title: `Invalid data attribute "${attribute}"`,
-    detail: translateMessage(locale, message),
-  };
-}
-
-function _formatRelationship({ attribute, message, locale }) {
-  const relationship = attribute.replace('Id', '');
-  return {
-    status: '422',
-    source: {
-      pointer: `/data/relationships/${_.kebabCase(relationship)}`,
-    },
-    title: `Invalid relationship "${relationship}"`,
-    detail: translateMessage(locale, message),
-  };
-}
-
-function _formatUndefinedAttribute({ message, locale }) {
-  return {
-    status: '422',
-    title: 'Invalid data attributes',
-    detail: translateMessage(locale, message),
-  };
-}
-
-function _formatInvalidAttribute(locale, { attribute, message }) {
-  if (!attribute) {
-    return _formatUndefinedAttribute({ message, locale });
-  }
-  if (attribute.endsWith('Id') && !NOT_VALID_RELATIONSHIPS.includes(attribute)) {
-    return _formatRelationship({ attribute, message, locale });
-  }
-  return _formatAttribute({ attribute, message, locale });
-}
 
 function _mapToHttpError(error) {
   if (error instanceof HttpErrors.BaseHttpError) {
@@ -250,9 +191,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserCantBeCreatedError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
-  if (error instanceof ForbiddenAccess) {
-    return new HttpErrors.ForbiddenError(error.message);
-  }
   if (error instanceof DomainErrors.MembershipCreationError) {
     return new HttpErrors.BadRequestError(error.message);
   }
@@ -372,9 +310,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.UserCouldNotBeReconciledError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
-  }
-  if (error instanceof CsvImportError) {
-    return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.SiecleXmlImportError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
@@ -512,15 +447,6 @@ function _mapToHttpError(error) {
 }
 
 function handle(request, h, error) {
-  if (error instanceof EntityValidationError) {
-    const locale = extractLocaleFromRequest(request).split('-')[0];
-
-    const jsonApiError = new JSONAPIError(
-      error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)),
-    );
-    return h.response(jsonApiError).code(422);
-  }
-
   const httpError = _mapToHttpError(error);
 
   return h.response(errorSerializer.serialize(httpError)).code(httpError.status);

@@ -2,7 +2,6 @@ class DomainError extends Error {
   constructor(message) {
     super(message);
     this.name = this.constructor.name;
-    this.fromShared = true; // TODO: delete this property after migration to shared complete
   }
 }
 
