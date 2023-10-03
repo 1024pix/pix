@@ -1,5 +1,43 @@
 # Pix Changelog
 
+## v4.39.0 (03/10/2023)
+
+
+### :rocket: Amélioration
+- [#7195](https://github.com/1024pix/pix/pull/7195) [FEATURE] Mise à jour des seuils des mailles de scoring (PIX-9514).
+- [#7163](https://github.com/1024pix/pix/pull/7163) [FEATURE] Configurer les taux de réussite de la certif v3 dans les simulateurs (PIX-9396).
+- [#7161](https://github.com/1024pix/pix/pull/7161) [FEATURE] Ajout de la limite de questions par sujet dans le simulateur (PIX-9397).
+- [#7124](https://github.com/1024pix/pix/pull/7124) [FEATURE] Afficher la page d'accueil d'une organization (Pix-9084).
+- [#7176](https://github.com/1024pix/pix/pull/7176) [FEATURE] Ne pas écraser les données de certificabilité lors d'un import SIECLE (PIX-9378).
+- [#7145](https://github.com/1024pix/pix/pull/7145) [FEATURE] Ajout du nombre d'organisations, centres de certif et participations sur la page users de pix-admin .
+
+### :building_construction: Tech
+- [#7192](https://github.com/1024pix/pix/pull/7192) [TECH] Retirer l'usage du composant PixDropdown sur PixOrga (PIX-9205).
+- [#6331](https://github.com/1024pix/pix/pull/6331) [TECH] Ajoute une règle ESLint pour éviter les `sinon.stub().withArgs` en une ligne.
+- [#7186](https://github.com/1024pix/pix/pull/7186) [TECH] Ne pas vérifier la présence du créateur dans l'organisation sur la création de campagnes en masse (PIX-9490).
+- [#7188](https://github.com/1024pix/pix/pull/7188) [TECH] Loguer le recId d'un challenge lors d'une erreur au moment de l'évaluation d'une réponse (pix-9495).
+- [#7179](https://github.com/1024pix/pix/pull/7179) [TECH] Tracer la récupération de la release LCMS.
+- [#7170](https://github.com/1024pix/pix/pull/7170) [TECH] Création d'un nouveau statut "OUTDATED"  pour le cpfImportStatus (PIX-9096).
+- [#7140](https://github.com/1024pix/pix/pull/7140) [TECH] Extraire les fonctionalités mail vers src (PIX-9363).
+- [#6990](https://github.com/1024pix/pix/pull/6990) [TECH] Mise à jour des dépendences certifs.
+- [#7159](https://github.com/1024pix/pix/pull/7159) [TECH] Utiliser uniquement le setupIntl qui provient des helpers (PIX-9392).
+- [#7162](https://github.com/1024pix/pix/pull/7162) [TECH] Simplifier le script de lancement des tests de l'API.
+- [#7141](https://github.com/1024pix/pix/pull/7141) [TECH] Permettre d'accéder aux sessions créées avec le CLI certif (PIX-9364).
+- [#7168](https://github.com/1024pix/pix/pull/7168) [TECH] Eviter de contacter la BDD dans les tests unitaires via lint.
+- [#7172](https://github.com/1024pix/pix/pull/7172) [TECH] Eviter d'importer les repositories dans les use-cases via lint.
+- [#7093](https://github.com/1024pix/pix/pull/7093) [TECH] Ajoute une option onlyNotComputed sur le CRON du calcul de la certificabilité (PIX-9227).
+- [#7157](https://github.com/1024pix/pix/pull/7157) [TECH] Prendre en compte les tests liés aux contextes métier (PIX-9388).
+
+### :bug: Correction
+- [#7193](https://github.com/1024pix/pix/pull/7193) [BUGFIX] Borner les niveaux atteignables par le candidat. (PIX-9502).
+- [#7171](https://github.com/1024pix/pix/pull/7171) [BUGFIX] Corriger l'affichage de la date de dernier envoi d'invitation à un centre de certification (PIX-9427).
+- [#7166](https://github.com/1024pix/pix/pull/7166) [BUGFIX] Nouveau changement de l'url pour la suspicion de fraude (PIX-9435).
+- [#7175](https://github.com/1024pix/pix/pull/7175) [BUGFIX] La route GET /api/answers/{id}/correction renvoie une erreur 500 si le challenge n'est pas dans le référentiel.
+
+### :coffee: Autre
+- [#7165](https://github.com/1024pix/pix/pull/7165) [TEST] Validation de l'affichage du score de certification v3 dans le profil utilisateur (PIX-9063).
+- [#7085](https://github.com/1024pix/pix/pull/7085) [DOCS] Finaliser l'ADR 0040 sur les locales languages qui ne l'était pas encore.
+
 ## v4.38.0 (27/09/2023)
 
 
