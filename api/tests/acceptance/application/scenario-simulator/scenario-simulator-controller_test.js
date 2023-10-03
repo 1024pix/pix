@@ -14,7 +14,6 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
   let validRandomPayload;
   let validCapacityPayload;
   let validPayloadForBatch;
-  const assessmentId = '1234';
   const answerStatusArray = ['ok', 'ko', 'aband'];
 
   beforeEach(async function () {
@@ -27,12 +26,10 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
     await databaseBuilder.commit();
 
     validDeterministicPayload = {
-      assessmentId,
       answerStatusArray,
       type: 'deterministic',
     };
     validRandomPayload = {
-      assessmentId,
       type: 'random',
       probabilities: {
         ok: 0.3,
@@ -44,7 +41,6 @@ describe('Acceptance | Controller | scenario-simulator-controller', function () 
     validPayloadForBatch = `ok,ko,aband
 ko,aband,ok`;
     validCapacityPayload = {
-      assessmentId,
       capacity: 4.5,
       type: 'capacity',
     };

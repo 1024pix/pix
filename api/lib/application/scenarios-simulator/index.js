@@ -19,7 +19,6 @@ const _successRatesConfigurationValidator = Joi.alternatives(
 );
 
 const _baseScenarioParametersValidator = Joi.object().keys({
-  assessmentId: Joi.string().required(),
   initialCapacity: Joi.number().integer().min(-8).max(8),
   stopAtChallenge: Joi.number().integer().min(0),
   numberOfIterations: Joi.number().integer().min(0),
