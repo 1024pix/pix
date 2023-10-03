@@ -5,6 +5,7 @@ export default class Member extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('boolean') isReferer;
+  @attr('string') role;
 
   updateReferer = memberAction({
     type: 'post',
