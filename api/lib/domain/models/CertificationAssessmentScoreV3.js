@@ -11,34 +11,34 @@ https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+scor
 const scoreIntervals = [
   {
     start: MINIMUM_ESTIMATED_LEVEL,
-    end: -6,
+    end: -1.399264,
   },
   {
-    start: -6,
-    end: -4,
+    start: -1.399264,
+    end: -0.519812,
   },
   {
-    start: -4,
-    end: -2,
+    start: -0.519812,
+    end: 0.670847,
   },
   {
-    start: -2,
-    end: 0,
+    start: 0.670847,
+    end: 1.549962,
   },
   {
-    start: 0,
-    end: 2,
+    start: 1.549962,
+    end: 2.27406,
   },
   {
-    start: 2,
-    end: 4,
+    start: 2.27406,
+    end: 3.09502,
   },
   {
-    start: 4,
-    end: 6,
+    start: 3.09502,
+    end: 3.930395,
   },
   {
-    start: 6,
+    start: 3.930395,
     end: MAXIMUM_ESTIMATED_LEVEL,
   },
 ];

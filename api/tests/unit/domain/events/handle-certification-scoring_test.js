@@ -302,7 +302,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       it('should build and save an assessment result with the expected arguments', async function () {
         // given
         const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-          nbPix: 597,
+          nbPix: 479,
         });
         const assessmentResult = Symbol('AssessmentResult');
         const challenge1 = domainBuilder.buildChallenge();
