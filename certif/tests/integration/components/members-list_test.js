@@ -4,30 +4,33 @@ import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-module('Integration | Component | members-list', function (hooks) {
+module('Integration | Component | MembersList', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should show members firstName and lastName', async function (assert) {
-    // given
-    const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
-    const certifMember2 = EmberObject.create({ firstName: 'John', lastName: 'Williams', isReferer: false });
-    const members = [certifMember1, certifMember2];
-    this.set('members', members);
+  module('when there are members in certification center', function () {
+    test('it displays column headers and lists the team members', async function (assert) {
+      // given
+      const adminMembership = EmberObject.create({ firstName: 'Satoru', lastName: 'Gojô', role: 'ADMIN' });
+      const memberMembership = EmberObject.create({ firstName: 'Itadori', lastName: 'Yuji', role: 'MEMBER' });
+      const members = [adminMembership, memberMembership];
+      this.set('members', members);
 
-    // when
-    const screen = await renderScreen(hbs`<MembersList @members={{this.members}} />`);
+      // when
+      const screen = await renderScreen(
+        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
+      );
 
-    // then
-    assert.dom(screen.getByRole('columnheader', { name: 'Nom' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Prénom' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Maria' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Carré' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
-    assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
+      // then
+      assert.dom(screen.getByRole('columnheader', { name: 'Nom' })).exists();
+      assert.dom(screen.getByRole('columnheader', { name: 'Prénom' })).exists();
+      assert.strictEqual(members.length, 2);
+      assert.contains('Gojô');
+      assert.contains('Itadori');
+    });
   });
 
   module('when certification center is habilitated CléA', function () {
-    test('it should show the referer column', async function (assert) {
+    test('it shows the referer column', async function (assert) {
       // given
       const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
       const certifMember2 = EmberObject.create({ firstName: 'John', lastName: 'Williams', isReferer: true });
@@ -43,47 +46,47 @@ module('Integration | Component | members-list', function (hooks) {
       // then
       assert.dom(screen.getByRole('columnheader', { name: this.intl.t('pages.team.referer') })).exists();
     });
+  });
 
-    module('when a member is referer', function () {
-      test('it should show the referer tag', async function (assert) {
-        // given
-        const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
-        const certifMember2 = EmberObject.create({ firstName: 'John', lastName: 'Williams', isReferer: true });
-        const members = [certifMember1, certifMember2];
-        this.set('members', members);
-        this.set('hasCleaHabilitation', true);
+  module('when a member is referer', function () {
+    test('it shows the referer tag', async function (assert) {
+      // given
+      const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
+      const certifMember2 = EmberObject.create({ firstName: 'John', lastName: 'Williams', isReferer: true });
+      const members = [certifMember1, certifMember2];
+      this.set('members', members);
+      this.set('hasCleaHabilitation', true);
 
-        // when
-        const screen = await renderScreen(
-          hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
-        );
+      // when
+      const screen = await renderScreen(
+        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
+      );
 
-        // then
-        assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).exists();
-      });
+      // then
+      assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).exists();
     });
+  });
 
-    module('when there is no referer', function () {
-      test('it should not show the referer tag', async function (assert) {
-        // given
-        const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
-        const members = [certifMember1];
-        this.set('members', members);
-        this.set('hasCleaHabilitation', true);
+  module('when there is no referer', function () {
+    test('it does not show the referer tag', async function (assert) {
+      // given
+      const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
+      const members = [certifMember1];
+      this.set('members', members);
+      this.set('hasCleaHabilitation', true);
 
-        // when
-        const screen = await renderScreen(
-          hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
-        );
+      // when
+      const screen = await renderScreen(
+        hbs`<MembersList @members={{this.members}} @hasCleaHabilitation={{this.hasCleaHabilitation}} />`,
+      );
 
-        // then
-        assert.dom(screen.queryByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).doesNotExist();
-      });
+      // then
+      assert.dom(screen.queryByRole('cell', { name: this.intl.t('pages.team.pix-referer') })).doesNotExist();
     });
   });
 
   module('when certification center is not habilitated CléA', function () {
-    test('it should not show the referer column', async function (assert) {
+    test('it does not show the referer column', async function (assert) {
       // given
       const certifMember1 = EmberObject.create({ firstName: 'Maria', lastName: 'Carré', isReferer: false });
       const members = [certifMember1];
