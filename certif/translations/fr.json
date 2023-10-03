@@ -853,6 +853,12 @@
       "title": "Équipe",
       "invite-button": "Inviter un membre",
       "invite-member-button": "Inviter un membre",
+      "members": {
+        "role": {
+          "admin": "Administrateur",
+          "member": "Membre"
+        }
+      },
       "no-referer-section": {
         "title": "Aucun référent Pix désigné",
         "description": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
