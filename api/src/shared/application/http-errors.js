@@ -7,6 +7,7 @@ class BaseHttpError extends Error {
     super(message);
     this.title = 'Default Bad Request';
     this.status = 400;
+    this.fromShared = true; // TODO: delete this property after migration to shared complete
   }
 }
 
