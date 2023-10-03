@@ -21,7 +21,6 @@ async function simulateFlashAssessmentScenario(
   },
 ) {
   const {
-    assessmentId,
     stopAtChallenge,
     initialCapacity,
     numberOfIterations = 1,
@@ -44,10 +43,7 @@ async function simulateFlashAssessmentScenario(
 
   const result = await Promise.all(
     _.range(0, numberOfIterations).map(async (index) => {
-      const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(
-        `${assessmentId}-${index}`,
-        challengePickProbability,
-      );
+      const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(challengePickProbability);
 
       const usecaseParams = _.omitBy(
         {

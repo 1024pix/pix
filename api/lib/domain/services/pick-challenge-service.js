@@ -17,7 +17,6 @@ const pickChallenge = function ({ skills, randomSeed, locale }) {
 };
 
 const chooseNextChallenge = function (
-  seed,
   probabilityToPickChallenge = config.v3Certification.defaultProbabilityToPickChallenge,
 ) {
   return function ({ possibleChallenges }) {
