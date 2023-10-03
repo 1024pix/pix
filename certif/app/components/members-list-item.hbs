@@ -1,7 +1,7 @@
 <tr aria-label="Membres du centre de certification">
   <td>{{@member.lastName}}</td>
   <td>{{@member.firstName}}</td>
-  <td>{{@member.role}}</td>
+  <td>{{@member.roleLabel}}</td>
   {{#if @shouldDisplayRefererColumn}}
     <td>
       {{#if @member.isReferer}}
