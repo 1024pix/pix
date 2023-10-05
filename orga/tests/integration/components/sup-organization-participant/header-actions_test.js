@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
-import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import { hbs } from 'ember-cli-htmlbars';
 
@@ -14,7 +13,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       this.set('participantCount', 0);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 
@@ -27,7 +26,7 @@ module('Integration | Component | SupOrganizationParticipant::HeaderActions', fu
       this.set('participantCount', 5);
 
       // when
-      const screen = await renderScreen(
+      const screen = await render(
         hbs`<SupOrganizationParticipant::HeaderActions @participantCount={{this.participantCount}} />`,
       );
 

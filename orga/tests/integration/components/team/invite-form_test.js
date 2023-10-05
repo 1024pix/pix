@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::InviteForm', function (hooks) {
