@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Campaign::Analysis::Competences', function (hooks) {
