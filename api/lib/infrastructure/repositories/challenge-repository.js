@@ -227,7 +227,8 @@ export {
 };
 
 function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {
-  const lookupSkill = (id) => _.find(skills, { id });
+  const skillMap = _.keyBy(skills, 'id');
+  const lookupSkill = (id) => skillMap[id];
   const challenges = challengeDataObjects.map((challengeDataObject) => {
     const skillDataObject = lookupSkill(challengeDataObject.skillId);
 
