@@ -10,7 +10,7 @@
     {{#if (eq block.type "select")}}
       <PixSelect
         class="challenge-item-proposals__response challenge-item-proposals__response--selector"
-        @value={{this.selectAnswer}}
+        @value={{get this.answersValue block.input}}
         @label={{block.ariaLabel}}
         @screenReaderOnly={{true}}
         @placeholder={{block.placeholder}}

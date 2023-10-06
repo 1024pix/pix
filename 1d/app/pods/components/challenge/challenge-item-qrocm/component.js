@@ -5,9 +5,8 @@ import proposalsAsBlocks from '../../../..//utils/proposals-as-blocks';
 import { tracked } from '@glimmer/tracking';
 
 export default class ChallengeItemQrocm extends Component {
-  ARIA_LABEL_DELIMITATOR = '#';
   @tracked answersValue;
-  @tracked selectAnswer = '';
+
   constructor() {
     super(...arguments);
     this.answersValue = this._extractProposals();
@@ -34,6 +33,7 @@ export default class ChallengeItemQrocm extends Component {
       return block;
     });
   }
+
   @action
   onInputChange(key, event) {
     this.answersValue[key] = event.target.value;
@@ -42,8 +42,10 @@ export default class ChallengeItemQrocm extends Component {
 
   @action
   onSelectChange(key, value) {
-    this.answersValue[key] = value;
-    this.selectAnswer = value;
+    // Tracked property answersValue has to be reassigned to be considered as changed
+    const newAnswersValue = this.answersValue;
+    newAnswersValue[key] = value;
+    this.answersValue = newAnswersValue;
     this.args.setAnswerValue(JSON.stringify(this.answersValue));
   }
 }
