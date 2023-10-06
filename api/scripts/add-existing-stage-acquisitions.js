@@ -90,12 +90,15 @@ const isLaunchedFromCommandLine = process.argv[1] === modulePath;
   if (isLaunchedFromCommandLine) {
     try {
       await main();
+      process.exitCode = 0;
     } catch (error) {
       logger.error(error);
       process.exitCode = 1;
     } finally {
       await disconnect();
       await cache.quit();
+      // eslint-disable-next-line n/no-process-exit
+      process.exit();
     }
   }
 })();
