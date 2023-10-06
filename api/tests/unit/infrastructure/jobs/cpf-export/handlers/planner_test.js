@@ -16,7 +16,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
 
   beforeEach(function () {
     cpfCertificationResultRepository = {
-      countByTimeRange: sinon.stub(),
+      countExportableCertificationCoursesByTimeRange: sinon.stub(),
       markCertificationToExport: sinon.stub(),
       updateCertificationImportStatus: sinon.stub(),
     };
@@ -36,7 +36,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
     const startDate = dayjs().utc().subtract(3, 'months').startOf('month').toDate();
     const endDate = dayjs().utc().subtract(2, 'months').endOf('month').toDate();
 
-    cpfCertificationResultRepository.countByTimeRange.resolves(5);
+    cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange.resolves(5);
 
     // when
     await planner({ pgBoss, cpfCertificationResultRepository, logger, job });
@@ -64,7 +64,9 @@ describe('Unit | Infrastructure | jobs | cpf-export | planner', function () {
       offset: 4,
       batchId: '237584-7648#2',
     });
-    expect(cpfCertificationResultRepository.countByTimeRange).to.have.been.calledWithExactly({ startDate, endDate });
+    expect(
+      cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange,
+    ).to.have.been.calledWithExactly({ startDate, endDate });
     expect(pgBoss.insert).to.have.been.calledOnceWith([
       {
         name: 'CpfExportBuilderJob',

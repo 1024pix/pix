@@ -269,8 +269,6 @@ async function createStartedSession({
       maxReachableLevelOnCertificationDate: 6,
       isCancelled: false,
       abortReason: null,
-      cpfFilename: null,
-      cpfImportStatus: null,
       pixCertificationStatus: 'validated',
     }).id;
     verifCodeCount++;
@@ -1075,8 +1073,6 @@ function _makeCandidatesPassCertification({
       maxReachableLevelOnCertificationDate: 6,
       isCancelled: false,
       abortReason: null,
-      cpfFilename: null,
-      cpfImportStatus: null,
       pixCertificationStatus: 'validated',
     }).id;
     verifCodeCount++;

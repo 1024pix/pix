@@ -26,8 +26,6 @@ const buildCertificationCourse = function ({
   maxReachableLevelOnCertificationDate = 5,
   isCancelled = false,
   abortReason = null,
-  cpfFilename = null,
-  cpfImportStatus = null,
   pixCertificationStatus = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -55,8 +53,6 @@ const buildCertificationCourse = function ({
     maxReachableLevelOnCertificationDate,
     isCancelled,
     abortReason,
-    cpfFilename,
-    cpfImportStatus,
     pixCertificationStatus,
   };
   return databaseBuffer.pushInsertable({
