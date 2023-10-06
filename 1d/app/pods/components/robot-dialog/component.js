@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import * as markdownConverter from '1d/utils/markdown-converter';
 
-export default class ChallengeInstruction extends Component {
+export default class RobotDialog extends Component {
   @action
   readTheInstruction(text) {
     if (!window.speechSynthesis.speaking) {

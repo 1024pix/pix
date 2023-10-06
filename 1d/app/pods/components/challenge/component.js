@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class Item extends Component {
+export default class Challenge extends Component {
   @service store;
   @service router;
   @tracked answerHasBeenValidated = false;

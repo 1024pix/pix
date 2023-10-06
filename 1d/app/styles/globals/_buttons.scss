@@ -1,39 +1,21 @@
 .pix1d-button {
-  padding: 16px 48px;
-  color: var(--pix-color-neutral-0);
-  font-size: 1.25rem;
-  background-color: var(--pix-color-primary);
-  border: 1px solid var(--pix-color-primary);
-  border-radius: 30px;
-  box-shadow: 0 3px var(--pix-color-primary-60);
+  padding: 12px 32px;
+  font-weight: 700;
+  font-size: 1rem;
+  border: 1px solid $pix-primary;
 
   &--small {
     padding: 8px 24px;
-    font-size: 1rem;
     border-style: none;
     box-shadow: none;
   }
 
-  &:hover {
-    background-color: var(--pix-color-primary-60);
-  }
-
-  &--modal {
-    font-size: 1rem;
-  }
-
   &--skip {
-    color: var(--pix-color-primary);
+    color: $pix-primary;
     background-color: var(--pix-color-neutral-0);
 
     &:hover, &:focus {
       color: var(--pix-color-neutral-0);
     }
-  }
-}
-
-.pix-button--background-blue.pix1d-button {
-  &:hover, &:focus {
-    background-color: var(--pix-color-primary-60);
   }
 }
