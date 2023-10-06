@@ -45,7 +45,7 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', function () 
       ];
 
       // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line local-rules/no-sinon-stub-with-args-oneliner
+      // eslint-disable-next-line @1024pix/no-sinon-stub-with-args-oneliner
       const findByExternalIdsFetchingIdsOnlyStub = sinon.stub().withArgs(['A100', 'B200']).resolves([]);
       const organizationRepository = { findByExternalIdsFetchingIdsOnly: findByExternalIdsFetchingIdsOnlyStub };
 
