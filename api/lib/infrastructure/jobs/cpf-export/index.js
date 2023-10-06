@@ -5,9 +5,9 @@ import * as cpfCertificationXmlExportService from '../../../domain/services/cpf-
 import * as cpfExternalStorage from '../../external-storage/cpf-external-storage.js';
 import * as mailService from '../../../domain/services/mail-service.js';
 
-import * as planner from './handlers/planner.js';
-import * as createAndUpload from './handlers/create-and-upload.js';
-import * as sendEmail from './handlers/send-email.js';
+import { planner } from './handlers/planner.js';
+import { createAndUpload } from './handlers/create-and-upload.js';
+import { sendEmail } from './handlers/send-email.js';
 
 const dependencies = {
   cpfCertificationResultRepository,
