@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v4.40.0 (06/10/2023)
+
+
+### :rocket: Amélioration
+- [#7177](https://github.com/1024pix/pix/pull/7177) [FEATURE] Rendre disponible via l'API les données d'un module (PIX-9449).
+- [#7173](https://github.com/1024pix/pix/pull/7173) [FEATURE] [Certif] Afficher le bouton et la page pour envoyer des invitations (PIX-134).
+
+### :building_construction: Tech
+- [#7191](https://github.com/1024pix/pix/pull/7191) [TECH] Optimisation de la conversion des challenges en objets du domaine.
+- [#7197](https://github.com/1024pix/pix/pull/7197) [TECH] Automatiser l'execution du script de reprise de données des paliers (PIX-9497).
+- [#7202](https://github.com/1024pix/pix/pull/7202) [TECH] N'utiliser que le render provenant de @1024pix/ember-testing-library dans les tests (PIX-9521).
+
 ## v4.39.0 (03/10/2023)
 
 
