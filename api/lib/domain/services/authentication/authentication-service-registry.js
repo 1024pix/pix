@@ -2,11 +2,13 @@ import { InvalidIdentityProviderError } from '../../errors.js';
 import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authentication-service.js';
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
+import { PaysdelaloireOidcAuthenticationService } from './paysdelaloire-oidc-authentication-service.js';
 
 const allOidcProviderServices = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
+  new PaysdelaloireOidcAuthenticationService(),
 ];
 
 const readyOidcProviderServices = allOidcProviderServices.filter((oidcProvider) => oidcProvider.isReady);
