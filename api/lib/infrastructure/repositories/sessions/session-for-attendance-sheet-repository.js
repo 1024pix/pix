@@ -36,7 +36,7 @@ const getWithCertificationCandidates = async function (idSession) {
         'certification-centers.type',
       );
     })
-    .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
+    .innerJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .leftJoin(
       'view-active-organization-learners',
       'view-active-organization-learners.id',
@@ -47,7 +47,7 @@ const getWithCertificationCandidates = async function (idSession) {
     .first();
 
   if (!results) {
-    throw new NotFoundError("La session n'existe pas");
+    throw new NotFoundError("La session n'existe pas ou aucun candidat n'est inscrit à celle-ci");
   }
 
   return _toDomain(results);

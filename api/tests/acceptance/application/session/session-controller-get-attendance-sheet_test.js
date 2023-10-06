@@ -25,6 +25,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
       });
 
       sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed });
       sessionIdNotAllowed = databaseBuilder.factory.buildSession({
         certificationCenterId: otherCertificationCenterId,
       }).id;
@@ -41,13 +42,12 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
         url: `/api/sessions/${sessionIdAllowed}/attendance-sheet?accessToken=${token}`,
         payload: {},
       };
+
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
     it('should respond with a 403 when user cant access the session', async function () {
@@ -59,13 +59,12 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
         url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet?accessToken=${token}`,
         payload: {},
       };
+
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
-      });
+      expect(response.statusCode).to.equal(403);
     });
   });
 });
