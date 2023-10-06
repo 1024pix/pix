@@ -1,0 +1,19 @@
+{{page-title "Challenge"}}
+<div class="container">
+  <RobotDialog @instruction={{@challenge.instruction}} />
+  <Challenge::Item @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} @assessment={{@assessment}} />
+
+  <Challenge::ChallengeActions
+    @validateAnswer={{this.validateAnswer}}
+    @skipChallenge={{this.skipChallenge}}
+    @level={{@activity.level}}
+  />
+
+  <AnswerFeedback
+    @answer={{this.answer}}
+    @answerHasBeenValidated={{this.answerHasBeenValidated}}
+    @nextAction={{this.resume}}
+  />
+
+  <WarningFeedback @showWarningModal={{this.showWarningModal}} @onClose={{this.onCloseWarningModal}} />
+</div>
