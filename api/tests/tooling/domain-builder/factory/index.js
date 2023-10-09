@@ -29,6 +29,7 @@ import { buildCertificationAssessment } from './build-certification-assessment.j
 import { buildCertificationAssessmentScore } from './build-certification-assessment-score.js';
 import { buildCertificationAssessmentScoreV3 } from './build-certification-assessment-score-v3.js';
 import { buildCertificationCandidate } from './build-certification-candidate.js';
+import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
 import { buildCertificationCandidateForSupervising } from './build-certification-candidate-for-supervising.js';
 import { buildCertificationCandidateSubscription } from './build-certification-candidate-subscription.js';
 import { buildCertificationEligibility } from './build-certification-eligibility.js';
@@ -117,6 +118,7 @@ import { buildProgression } from './build-progression.js';
 import { buildReproducibilityRate } from './build-reproducibility-rate.js';
 import { buildResultCompetenceTree } from './build-result-competence-tree.js';
 import { buildSession } from './build-session.js';
+import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
 import { buildSessionForSupervising } from './build-session-for-supervising.js';
 import { buildSessionForSupervisorKit } from './build-session-for-supervisor-kit.js';
 import { buildSessionJuryComment } from './build-session-jury-comment.js';
@@ -190,6 +192,7 @@ export {
   buildCertificationAssessmentScore,
   buildCertificationAssessmentScoreV3,
   buildCertificationCandidate,
+  buildCertificationCandidateForAttendanceSheet,
   buildCertificationCandidateForSupervising,
   buildCertificationCandidateSubscription,
   buildCertificationEligibility,
@@ -277,6 +280,7 @@ export {
   buildReproducibilityRate,
   buildResultCompetenceTree,
   buildSession,
+  buildSessionForAttendanceSheet,
   buildSessionForSupervising,
   buildSessionForSupervisorKit,
   buildSessionJuryComment,

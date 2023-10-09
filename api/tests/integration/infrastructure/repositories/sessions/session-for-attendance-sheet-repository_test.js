@@ -140,12 +140,29 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
       });
     });
 
-    it('should return a Not found error when no session was found', async function () {
-      // when
-      const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)(12434354);
+    context('when no session was found', function () {
+      it('should return a Not found error', async function () {
+        // when
+        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)(12434354);
 
-      // then
-      expect(error).to.be.instanceOf(NotFoundError);
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when no certification candidates was found', function () {
+      it('should return a Not found error', async function () {
+        // given
+        const sessionId = 1234;
+        databaseBuilder.factory.buildSession({ id: sessionId });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)(sessionId);
+
+        // then<
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
     });
   });
 });
