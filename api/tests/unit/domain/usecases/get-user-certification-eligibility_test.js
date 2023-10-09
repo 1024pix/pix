@@ -9,13 +9,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
     getPlacementProfile: () => undefined,
   };
   const certificationBadgesService = {
-    findStillValidBadgeAcquisitions: () => undefined,
+    findLatestBadgeAcquisitions: () => undefined,
   };
 
   beforeEach(function () {
     clock = sinon.useFakeTimers(now);
     placementProfileService.getPlacementProfile = sinon.stub();
-    certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
+    certificationBadgesService.findLatestBadgeAcquisitions = sinon.stub();
   });
 
   afterEach(function () {
@@ -23,13 +23,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   });
 
   context('when pix certification is not eligible', function () {
-    it('should return the user certification eligibility with not eligible complementary certifications', async function () {
+    it('should return the user certification eligibility without eligible complementary certifications', async function () {
       // given
       const placementProfile = {
         isCertifiable: () => false,
       };
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.findStillValidBadgeAcquisitions.throws(new Error('I should not be called'));
+      certificationBadgesService.findLatestBadgeAcquisitions.throws(new Error('I should not be called'));
 
       // when
       const certificationEligibility = await getUserCertificationEligibility({
@@ -48,13 +48,13 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   });
 
   context(`when badge is not acquired`, function () {
-    it('should return the user certification eligibility with not eligible badge', async function () {
+    it('should return the user certification eligibility without eligible badge', async function () {
       // given
       const placementProfile = {
         isCertifiable: () => true,
       };
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
+      certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
 
       // when
       const certificationEligibility = await getUserCertificationEligibility({
@@ -64,12 +64,12 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       });
 
       // then
-      expect(certificationEligibility.eligibleComplementaryCertifications).to.be.empty;
+      expect(certificationEligibility.complementaryCertifications).to.be.empty;
     });
   });
 
   context('when badge is acquired', function () {
-    it('should return the user certification eligibility with the eligible badge', async function () {
+    it('should return the user certification eligibility with the acquired badge informations', async function () {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -79,8 +79,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         badgeKey: 'BADGE_KEY',
         complementaryCertificationBadgeLabel: 'BADGE_LABEL',
         complementaryCertificationBadgeImageUrl: 'http://www.image-url.com',
+        isOutdated: true,
       });
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([badgeAcquisition]);
+      certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
 
       // when
       const certificationEligibility = await getUserCertificationEligibility({
@@ -90,10 +91,11 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       });
 
       // then
-      expect(certificationEligibility.eligibleComplementaryCertifications).to.deep.equal([
+      expect(certificationEligibility.complementaryCertifications).to.deep.equal([
         {
           label: 'BADGE_LABEL',
           imageUrl: 'http://www.image-url.com',
+          isOutdated: true,
         },
       ]);
     });

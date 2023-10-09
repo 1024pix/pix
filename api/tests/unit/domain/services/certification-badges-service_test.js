@@ -1,4 +1,4 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import * as certificationBadgesService from '../../../../lib/domain/services/certification-badges-service.js';
 
 describe('Unit | Service | certification-badges-service', function () {
@@ -62,6 +62,100 @@ describe('Unit | Service | certification-badges-service', function () {
 
       // then
       expect(stillValidBadgeAcquisitions).to.deepEqualArray([highestBadgeAcquisition1, highestBadgeAcquisition3]);
+    });
+
+    describe('when a highest certifiable badge is detached', function () {
+      it('should not return it', async function () {
+        // given
+        const userId = 123;
+        const limitDate = new Date();
+        const domainTransaction = Symbol('domainTransaction');
+        const highestBadgeAcquisition1 = domainBuilder.buildCertifiableBadgeAcquisition({
+          badgeId: 1,
+          isOutdated: true,
+        });
+        domainBuilder.buildBadgeForCalculation.mockObtainable({
+          id: highestBadgeAcquisition1.badgeId,
+        });
+        const certifiableBadgeAcquisitionRepository = {
+          findHighestCertifiable: sinon.stub(),
+        };
+        certifiableBadgeAcquisitionRepository.findHighestCertifiable
+          .withArgs({ userId, domainTransaction, limitDate })
+          .resolves([highestBadgeAcquisition1]);
+
+        const knowledgeElementRepository = {
+          findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+        };
+        const badgeForCalculationRepository = {
+          getByCertifiableBadgeAcquisition: sinon.stub(),
+        };
+
+        // when
+        const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+          userId,
+          domainTransaction,
+          limitDate,
+          shouldGetOutdated: false,
+          dependencies: {
+            certifiableBadgeAcquisitionRepository,
+            knowledgeElementRepository,
+            badgeForCalculationRepository,
+          },
+        });
+
+        // then
+        expect(stillValidBadgeAcquisitions).to.be.empty;
+        expect(badgeForCalculationRepository.getByCertifiableBadgeAcquisition).to.not.be.called;
+      });
+    });
+  });
+
+  describe('#findLatestBadgeAcquisitions', function () {
+    it('should return all badge acquisitions based on highest certifiable ones', async function () {
+      // given
+      const userId = 123;
+      const limitDate = new Date();
+      const domainTransaction = Symbol('domainTransaction');
+      const highestBadgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+        badgeId: 1,
+        isDetached: true,
+      });
+      const badgeNotValid = domainBuilder.buildBadgeForCalculation.mockObtainable({
+        id: highestBadgeAcquisition.badgeId,
+      });
+      const certifiableBadgeAcquisitionRepository = {
+        findHighestCertifiable: sinon.stub(),
+      };
+      certifiableBadgeAcquisitionRepository.findHighestCertifiable
+        .withArgs({ userId, domainTransaction, limitDate })
+        .resolves([highestBadgeAcquisition]);
+
+      const knowledgeElementRepository = {
+        findUniqByUserId: sinon.stub().resolves([domainBuilder.buildKnowledgeElement()]),
+      };
+      const badgeForCalculationRepository = {
+        getByCertifiableBadgeAcquisition: sinon.stub(),
+      };
+
+      badgeForCalculationRepository.getByCertifiableBadgeAcquisition
+        .withArgs({ certifiableBadgeAcquisition: highestBadgeAcquisition })
+        .resolves(badgeNotValid);
+
+      // when
+      const badgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
+        userId,
+        domainTransaction,
+        limitDate,
+        dependencies: {
+          certifiableBadgeAcquisitionRepository,
+          knowledgeElementRepository,
+          badgeForCalculationRepository,
+        },
+      });
+
+      // then
+      expect(badgeAcquisitions).to.deepEqualArray([highestBadgeAcquisition]);
     });
   });
 });

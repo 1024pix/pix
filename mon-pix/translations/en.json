@@ -412,7 +412,10 @@
     "certification-joiner": {
       "title": "Join a certification session",
       "congratulation-banner": {
-        "complementary-certification-eligibility": "You are also eligible for the following complementary { count, plural, =1 {certification} other {certifications} } :",
+        "complementary-certification": {
+          "eligible": "You are also eligible for the following complementary { count, plural, =1 {certification} other {certifications} } :",
+          "outdated": "<strong>Vous n'êtes plus éligible à la certification {complementaryCertificationName} suite à son évolution.</strong><br />Recontactez votre établissement ou l’organisation vous ayant proposé le parcours afin de repasser une campagne et ainsi redevenir éligible. Votre progression a été conservée et vous n'aurez qu'à jouer les nouvelles épreuves, cela devrait être rapide."
+        },
         "link": {
           "text": "How do I certify my digital skills?",
           "url": "https://support.pix.org/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"

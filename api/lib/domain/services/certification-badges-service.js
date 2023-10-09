@@ -10,6 +10,25 @@ const findStillValidBadgeAcquisitions = async function ({
   limitDate = new Date(),
   dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
 }) {
+  return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: false, dependencies });
+};
+
+const findLatestBadgeAcquisitions = async function ({
+  userId,
+  domainTransaction,
+  limitDate = new Date(),
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+}) {
+  return _findBadgeAcquisitions({ userId, domainTransaction, limitDate, shouldGetOutdated: true, dependencies });
+};
+
+const _findBadgeAcquisitions = async function ({
+  userId,
+  domainTransaction,
+  limitDate = new Date(),
+  shouldGetOutdated = false,
+  dependencies = { certifiableBadgeAcquisitionRepository, knowledgeElementRepository, badgeForCalculationRepository },
+}) {
   const highestCertifiableBadgeAcquisitions =
     await dependencies.certifiableBadgeAcquisitionRepository.findHighestCertifiable({
       userId,
@@ -26,10 +45,16 @@ const findStillValidBadgeAcquisitions = async function ({
   const badgeAcquisitions = await bluebird.mapSeries(
     highestCertifiableBadgeAcquisitions,
     async (certifiableBadgeAcquisition) => {
+      if (!shouldGetOutdated && certifiableBadgeAcquisition.isOutdated) {
+        return null;
+      }
+
       const badgeForCalculation = await dependencies.badgeForCalculationRepository.getByCertifiableBadgeAcquisition({
         certifiableBadgeAcquisition,
       });
-      if (!badgeForCalculation) return null;
+      if (!badgeForCalculation) {
+        return null;
+      }
       const isBadgeValid = badgeForCalculation.shouldBeObtained(knowledgeElements);
       return isBadgeValid ? certifiableBadgeAcquisition : null;
     },
@@ -38,4 +63,4 @@ const findStillValidBadgeAcquisitions = async function ({
   return _.compact(badgeAcquisitions);
 };
 
-export { findStillValidBadgeAcquisitions };
+export { findStillValidBadgeAcquisitions, findLatestBadgeAcquisitions };

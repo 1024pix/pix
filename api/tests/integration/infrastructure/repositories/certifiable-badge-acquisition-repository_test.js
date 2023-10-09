@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import * as certifiableBadgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/certifiable-badge-acquisition-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
@@ -49,6 +49,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           complementaryCertificationBadgeId: complementaryCertificationBadge.id,
           complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
           complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
+          isOutdated: false,
         });
         expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
       });
@@ -90,6 +91,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
             complementaryCertificationBadgeId: complementaryCertificationBadge.id,
             complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
             complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
+            isOutdated: false,
           });
           expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
         });
@@ -149,6 +151,7 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           complementaryCertificationBadgeId: complementaryCertificationBadge.id,
           complementaryCertificationBadgeLabel: complementaryCertificationBadge.label,
           complementaryCertificationBadgeImageUrl: complementaryCertificationBadge.imageUrl,
+          isOutdated: false,
         });
         expect(certifiableBadgesAcquiredByUser).to.deepEqualArray([expectedCertifiableBadgeAcquisition]);
       });
@@ -221,48 +224,121 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
           expect(certifiableBadgesAcquiredByUser.map(({ badgeKey }) => badgeKey)).to.deep.equal(['level-2', 'level-3']);
         });
 
-        it('should return attached badge acquired for each complementary certification', async function () {
-          //given
-          const userId = databaseBuilder.factory.buildUser().id;
-          const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
-          const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
-
-          function createBadgeAcquisition({ detachedAt, key }) {
-            const firstBadge = databaseBuilder.factory.buildBadge.certifiable({
-              key,
+        describe('when the user latest campaign is outdated', function () {
+          it('should return the highest level and latest certifiable badge acquired even if is detached', async function () {
+            //given
+            const userId = databaseBuilder.factory.buildUser().id;
+            const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+            const oldComplementaryBadge = buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [{ key: 5, level: 5 }],
+              complementaryCertificationId,
             });
 
-            databaseBuilder.factory.buildComplementaryCertificationBadge({
-              badgeId: firstBadge.id,
-              complementaryCertificationId: complementaryCertification.id,
-              level: 12,
-              detachedAt,
+            const latestComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [
+                { key: 1, level: 1 },
+                { key: 2, level: 2 },
+              ],
+              complementaryCertificationId,
+              detachedAt: new Date('2022-09-30'),
             });
 
+            const latestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
             databaseBuilder.factory.buildBadgeAcquisition({
-              badgeId: firstBadge.id,
+              badgeId: latestComplementaryBadges[0].id,
               userId,
-              campaignParticipationId,
+              campaignParticipationId: latestCampaignParticipationId,
               createdAt: new Date('2022-09-29'),
             });
-          }
-
-          createBadgeAcquisition({ detachedAt: null, key: `attached-badge` });
-          createBadgeAcquisition({ detachedAt: new Date('2023-09-29'), key: `detached-badge` });
-
-          await databaseBuilder.commit();
-
-          // when
-          const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
-            return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: latestComplementaryBadges[1].id,
               userId,
-              domainTransaction,
+              campaignParticipationId: latestCampaignParticipationId,
+              createdAt: new Date('2022-09-29'),
             });
-          });
 
-          // then
-          expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-          expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.deep.equal('attached-badge');
+            const oldestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: oldComplementaryBadge[0].id,
+              userId,
+              campaignParticipationId: oldestCampaignParticipationId,
+              createdAt: new Date('2020-01-01'),
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+              return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+                userId,
+                domainTransaction,
+              });
+            });
+
+            // then
+            expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+            expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
+            expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(true);
+          });
+        });
+
+        describe('when an old campaign of the user is outdated', function () {
+          it('should return the highest level and latest certifiable badge acquired', async function () {
+            //given
+            const userId = databaseBuilder.factory.buildUser().id;
+            const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
+
+            const oldComplementaryBadge = buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [{ key: 5, level: 5 }],
+              complementaryCertificationId,
+              detachedAt: new Date('2022-09-01'),
+            });
+
+            const latestComplementaryBadges = buildComplementaryCertificationWithMultipleCertifiableBadges({
+              keyLevelList: [
+                { key: 1, level: 1 },
+                { key: 2, level: 2 },
+              ],
+              complementaryCertificationId,
+            });
+
+            const latestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: latestComplementaryBadges[0].id,
+              userId,
+              campaignParticipationId: latestCampaignParticipationId,
+              createdAt: new Date('2022-09-29'),
+            });
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: latestComplementaryBadges[1].id,
+              userId,
+              campaignParticipationId: latestCampaignParticipationId,
+              createdAt: new Date('2022-09-29'),
+            });
+
+            const oldestCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+            databaseBuilder.factory.buildBadgeAcquisition({
+              badgeId: oldComplementaryBadge[0].id,
+              userId,
+              campaignParticipationId: oldestCampaignParticipationId,
+              createdAt: new Date('2020-01-01'),
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            const certifiableBadgesAcquiredByUser = await DomainTransaction.execute(async (domainTransaction) => {
+              return certifiableBadgeAcquisitionRepository.findHighestCertifiable({
+                userId,
+                domainTransaction,
+              });
+            });
+
+            // then
+            expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+            expect(certifiableBadgesAcquiredByUser[0].badgeKey).to.equal('level-2');
+            expect(certifiableBadgesAcquiredByUser[0].isOutdated).to.equal(false);
+          });
         });
       });
 
@@ -334,9 +410,11 @@ describe('Integration | Repository | Certifiable Badge Acquisition', function ()
   });
 });
 
-function buildComplementaryCertificationWithMultipleCertifiableBadges({ keyLevelList = [] }) {
-  const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
-
+function buildComplementaryCertificationWithMultipleCertifiableBadges({
+  keyLevelList = [],
+  complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id,
+  detachedAt,
+}) {
   const badgeLevels = keyLevelList.map(({ key, level }) => {
     const badgeLevel = databaseBuilder.factory.buildBadge.certifiable({
       key: `level-${key}`,
@@ -346,6 +424,7 @@ function buildComplementaryCertificationWithMultipleCertifiableBadges({ keyLevel
       badgeId: badgeLevel.id,
       complementaryCertificationId,
       level,
+      detachedAt,
       imageUrl: 'complementary-certification-badge-url-2.fr',
     });
 

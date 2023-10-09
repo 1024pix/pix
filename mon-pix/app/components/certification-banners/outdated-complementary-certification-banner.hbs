@@ -1,0 +1,18 @@
+<div class="oudated-complementary-certification-banner">
+  {{#each @complementaryCertifications as |complementaryCertification|}}
+    <div class="oudated-complementary-certification-banner__row">
+      <img
+        class="oudated-complementary-certification-banner__icon"
+        src={{complementaryCertification.imageUrl}}
+        alt={{complementaryCertification.label}}
+      />
+      <p class="oudated-complementary-certification-banner__message">
+        {{t
+          "pages.certification-joiner.congratulation-banner.complementary-certification.outdated"
+          complementaryCertificationName=complementaryCertification.label
+          htmlSafe=true
+        }}
+      </p>
+    </div>
+  {{/each}}
+</div>
