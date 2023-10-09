@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CpfCertificationResult } from '../../domain/read-models/CpfCertificationResult.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
-import { cpfImportStatus } from '../../domain/models/CertificationCourse.js';
+import { ImportStatus } from '../../../src/certification/compte-personnel-formation/domain/models/ImportStatus.js';
 
 const findByBatchId = async function (batchId) {
   const cpfCertificationResults = await _selectCpfCertificationResults()
@@ -22,7 +22,7 @@ const findByBatchId = async function (batchId) {
 
 const markCertificationCoursesAsExported = async function ({ certificationCourseIds, filename }) {
   return knex('compte-personnel-formation')
-    .update({ filename, importStatus: cpfImportStatus.READY_TO_SEND, updatedAt: knex.fn.now() })
+    .update({ filename, importStatus: ImportStatus.READY_TO_SEND, updatedAt: knex.fn.now() })
     .whereIn('certificationCourseId', certificationCourseIds);
 };
 
@@ -50,7 +50,7 @@ const markCertificationToExport = async function ({ startDate, endDate, limit, o
         .select([
           'certification-courses.id as certificationCourseId',
           knex.raw('? as filename', [batchId]),
-          knex.raw('?  as importStatus', [cpfImportStatus.PENDING]),
+          knex.raw('?  as importStatus', [ImportStatus.PENDING]),
           knex.raw('? as createdAt', [knex.fn.now()]),
           knex.raw('? as updatedAt', [knex.fn.now()]),
         ])

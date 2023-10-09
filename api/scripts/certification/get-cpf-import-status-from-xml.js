@@ -7,7 +7,7 @@ import xml2js from 'xml2js';
 
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as cpfCertificationResultRepository from '../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
-import { cpfImportStatus } from '../../lib/domain/models/CertificationCourse.js';
+import { ImportStatus } from '../../src/certification/compte-personnel-formation/domain/models/ImportStatus.js';
 import * as url from 'url';
 
 const modulePath = url.fileURLToPath(import.meta.url);
@@ -22,14 +22,14 @@ async function main(path) {
   if (cpfImportErrorIds.length) {
     await cpfCertificationResultRepository.updateCertificationImportStatus({
       certificationCourseIds: cpfImportErrorIds,
-      cpfImportStatus: cpfImportStatus.ERROR,
+      cpfImportStatus: ImportStatus.ERROR,
     });
   }
 
   if (cpfImportSuccessIds.length) {
     await cpfCertificationResultRepository.updateCertificationImportStatus({
       certificationCourseIds: cpfImportSuccessIds,
-      cpfImportStatus: cpfImportStatus.SUCCESS,
+      cpfImportStatus: ImportStatus.SUCCESS,
     });
   }
 
