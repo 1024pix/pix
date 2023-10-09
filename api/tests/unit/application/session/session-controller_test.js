@@ -1,4 +1,4 @@
-import { expect, sinon, hFake, domainBuilder, catchErr } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
@@ -125,7 +125,6 @@ describe('Unit | Controller | sessionController', function () {
     const accessToken = 'ABC123';
 
     let request;
-    let odsBuffer;
 
     beforeEach(function () {
       request = {
@@ -136,27 +135,63 @@ describe('Unit | Controller | sessionController', function () {
         },
       };
 
-      odsBuffer = Buffer.alloc(5);
       sinon.stub(usecases, 'getAttendanceSheet');
     });
 
-    it("should return the feuille d'émargement", async function () {
-      // given
-      const tokenService = {
-        extractUserId: sinon.stub(),
-      };
-      tokenService.extractUserId.withArgs(accessToken).returns(userId);
-      usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves(odsBuffer);
+    describe('when the session type is SCO and managing students', function () {
+      it('should return the attendence sheet in ods format', async function () {
+        // given
+        const fileExtension = 'ods';
+        const contentType = 'application/vnd.oasis.opendocument.spreadsheet';
+        const attendanceSheet = Buffer.alloc(5);
+        const tokenService = {
+          extractUserId: sinon.stub(),
+        };
+        tokenService.extractUserId.withArgs(accessToken).returns(userId);
+        usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves({
+          fileExtension,
+          contentType,
+          attendanceSheet,
+        });
 
-      // when
-      const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
+        // when
+        const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
 
-      // then
-      const expectedHeaders = {
-        'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.ods`,
-        'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
-      };
-      expect(response.headers).to.deep.equal(expectedHeaders);
+        // then
+        const expectedHeaders = {
+          'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.ods`,
+          'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
+        };
+        expect(response.headers).to.deep.equal(expectedHeaders);
+      });
+    });
+
+    describe('when the session type is not SCO', function () {
+      it('should return the attendence sheet in ods format', async function () {
+        // given
+        const fileExtension = 'pdf';
+        const contentType = 'application/pdf';
+        const attendanceSheet = Buffer.alloc(5);
+        const tokenService = {
+          extractUserId: sinon.stub(),
+        };
+        tokenService.extractUserId.withArgs(accessToken).returns(userId);
+        usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves({
+          fileExtension,
+          contentType,
+          attendanceSheet,
+        });
+
+        // when
+        const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
+
+        // then
+        const expectedHeaders = {
+          'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.pdf`,
+          'Content-Type': 'application/pdf',
+        };
+        expect(response.headers).to.deep.equal(expectedHeaders);
+      });
     });
   });
 

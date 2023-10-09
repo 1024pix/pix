@@ -4,7 +4,6 @@ import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
 
 import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
-  NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
 } from './../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js';
@@ -20,13 +19,43 @@ const getAttendanceSheet = async function ({
   writeOdsUtils,
   readOdsUtils,
   sessionXmlService,
+  attendanceSheetPdfUtils,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
+  let fileExtension;
+  let contentType;
+  let attendanceSheet;
+
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
+
+  if (_isScoCertificationCenterAndManagingStudentOrganization({ session })) {
+    attendanceSheet = await _getAttendanceSheetOds({ session, readOdsUtils, writeOdsUtils, sessionXmlService });
+    contentType = 'application/vnd.oasis.opendocument.spreadsheet';
+    fileExtension = 'ods';
+  } else {
+    attendanceSheet = await attendanceSheetPdfUtils.getAttendanceSheetPdfBuffer({ session });
+    contentType = 'application/pdf';
+    fileExtension = 'pdf';
+  }
+
+  return {
+    fileExtension,
+    contentType,
+    attendanceSheet,
+  };
+};
+
+export { getAttendanceSheet };
+
+function _isScoCertificationCenterAndManagingStudentOrganization({ session }) {
+  return session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents;
+}
+
+async function _getAttendanceSheetOds({ session, readOdsUtils, writeOdsUtils, sessionXmlService }) {
   const odsFilePath = _getAttendanceSheetTemplatePath(
     session.certificationCenterType,
     session.isOrganizationManagingStudents,
@@ -42,9 +71,7 @@ const getAttendanceSheet = async function ({
     stringifiedXml: updatedStringifiedXml,
     odsFilePath,
   });
-};
-
-export { getAttendanceSheet };
+}
 
 function _updateXmlWithSession(stringifiedXml, session, sessionXmlService) {
   const sessionData = _.transform(session, _transformSessionIntoAttendanceSheetSessionData);
@@ -58,11 +85,7 @@ function _updateXmlWithSession(stringifiedXml, session, sessionXmlService) {
 }
 
 function _attendanceSheetWithCertificationCandidates(stringifiedXml, session, sessionXmlService) {
-  let candidateTemplateValues = NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
-
-  if (session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents) {
-    candidateTemplateValues = SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
-  }
+  const candidateTemplateValues = SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
 
   const candidatesData = _.map(session.certificationCandidates, (candidate, index) => {
     const candidateData = _.transform(candidate, _transformCandidateIntoAttendanceSheetCandidateData);
