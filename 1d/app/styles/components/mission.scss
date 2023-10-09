@@ -1,91 +1,18 @@
 .mission-page {
   display: flex;
   flex-direction: column;
-  gap: 36px;
   align-items: center;
 
-  &__header, &__body , &__body-start, &__body-finish {
-    display: flex;
-    justify-content: center;
-    width: 960px;
-  }
-
-  &__header {
-    flex-direction: column;
-    gap: 10px;
-    height: 140px;
-    background: #F2FDFF;
-    border-radius: 24px;
-    box-shadow: 0 4px 8px rgb(7 20 46 / 8%);
-  }
-
-  &__body, &__body-start , &__body-finish {
-    position: relative;
-    align-items: center;
-  }
-
-  &__body, &__body-start {
-    flex-direction: column;
-    height: 507px;
-    padding: 16px 24px 24px;
-    background: #F2FDFF;
-    border-radius: 24px;
-    box-shadow: 0 4px 8px rgb(7 20 46 / 8%);
-  }
-
-  &__body-start {
-    gap: 25px;
-  }
-
-  &__body-finish {
-    flex-direction: row;
-    gap: 25px;
-    padding: 16px 60px 24px;
-  }
-}
-
-.label {
-  position : absolute;
-  top: -17px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  width: 81px;
-  height: 34px;
-  padding: 8px 16px;
-  color: var(--pix-color-neutral-0);
-  background: #008A9F;
-  border-radius: 24px;
-}
-
-.text {
-  color: #000C3D;
-
-  &__header{
-    font-size: 20px;
-  }
-
-  &__body{
-    font-size: 18px;
-  }
-}
-
-.mission-page-end {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__competences {
+  &__details {
     display: flex;
     flex-direction: column;
+    margin-top: 43px;
+    text-align: left;
 
-    .back-to-mission {
+    .details-action {
       margin-top: 32px;
       margin-left: auto;
       padding: 16px 32px 16px 40px;
-      font-weight: 700;
       font-size: 18px;
       border-radius: 100px;
 
@@ -93,36 +20,46 @@
         margin-left: 8px;
       }
     }
-  }
 
-  .competences-list {
-    margin-top: 43px;
-    font-weight: 400;
-    text-align: left;
-
-    &__title {
-      margin-bottom: 16px;
-      font-weight: 800;
-      font-size: 18px;
+    .details-go-back {
+      margin-bottom: 21px;
+      color: $pix-primary;
+      text-decoration: underline;
     }
 
-    &__item {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 8px;
+    .details-list {
 
-      p {
-        line-height: 28px;
+      &__title {
+        margin-bottom: 16px;
+        font-weight: 800;
+        font-size: 18px;
+
+        &--big {
+          font-size: 28px;
+        }
+      }
+
+      &__item {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 8px;
+
+        p {
+          line-height: 28px;
+        }
+
+        .icon {
+          color: $pix-primary;
+        }
       }
     }
   }
 
-  &__body-finish {
+  &__body {
     display: flex;
     gap: 25px;
     width: 960px;
     padding-left: 60px;
   }
-
 }

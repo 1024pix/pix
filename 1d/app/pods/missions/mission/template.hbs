@@ -1,19 +1,31 @@
 <div class="mission-page">
-  <div class="mission-page__header">
-    <p class="text__header">Bienvenue pour ta nouvelle mission <b>{{@model.name}} </b>!</p>
-    <p class="text__header">Prépare-toi à résoudre des épreuves et relever des défis 👀</p>
-  </div>
-  <div class="mission-page__body-start">
-    <div class="label">
-      <p>Mission</p>
-    </div>
+  <RobotDialog @instruction={{t "pages.missions.start-page.welcome"}} />
+  <div class="mission-page__body">
     {{#if (eq @model.id "recExjO7RHeDI48HK")}}
-      <p class="text__body"><b>Objectif de la mission :</b> Savoir utiliser un moteur de recherche en ligne</p>
+      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
     {{else}}
-      <p class="text__body"><b>Objectif de la mission :</b>
-        Connaître la notion de données personnelles et savoir les protéger</p>
+      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
     {{/if}}
-    <MissionCard @title={{@model.name}} />
-    <LinkTo class="pix1d-button pix1d-button--small" @route="missions.mission.resume" id={{@model}}>Je commence</LinkTo>
+
+    <div class="mission-page__details">
+      <LinkTo @route="missions" class="details-go-back">{{t "pages.missions.start-page.back-to-missions"}}</LinkTo>
+      <p class="details-list__title details-list__title--big">{{t "pages.missions.start-page.purpose-title"}}</p>
+      <ul class="details-list">
+        <li class="details-list__item">
+          <FaIcon @icon="arrow-right" class="icon" />
+          {{#if (eq @model.id "recExjO7RHeDI48HK")}}
+            <p>Savoir utiliser un moteur de recherche en ligne</p>
+          {{else}}
+            <p>Connaître la notion de données personnelles et savoir les protéger</p>
+          {{/if}}
+        </li>
+      </ul>
+
+      <PixButtonLink @route="missions.mission.resume" @shape="rounded" class="details-action">
+        <p>{{t "pages.missions.start-page.start-mission"}}</p>
+        <FaIcon @icon="arrow-right" class="details-action__icon" />
+      </PixButtonLink>
+
+    </div>
   </div>
 </div>
