@@ -8,6 +8,7 @@ import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/
 import { logger } from '../../../../../lib/infrastructure/logger.js';
 
 const { isNil, uniq } = lodash;
+const EVENT_NAME = 'attach-target-profile-certif';
 
 const attachBadges = async function ({
   complementaryCertificationId,
@@ -90,26 +91,26 @@ async function sendNotification({
     await organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId(targetProfileIdToDetach);
 
   if (emails.length) {
-    await bluebird.map(
+    bluebird.map(
       emails,
-      (email) => {
-        try {
-          mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
-            complementaryCertificationName,
-            email,
+      async (email) => {
+        const result = await mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
+          complementaryCertificationName,
+          email,
+        });
+        if (result.hasFailed) {
+          logger.error({
+            event: EVENT_NAME,
+            message: `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
           });
-        } catch (error) {
-          logger.error(
-            `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
-          );
-          throw error;
         }
       },
       { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
     );
-    logger.info(
-      `${emails.length} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
-    );
+    logger.info({
+      event: EVENT_NAME,
+      message: `${emails.length} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
+    });
   }
 }
 
