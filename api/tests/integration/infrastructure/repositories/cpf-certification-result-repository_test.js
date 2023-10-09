@@ -1,7 +1,7 @@
 import { databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper.js';
 import * as cpfCertificationResultRepository from '../../../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
 import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse.js';
+import { ImportStatus } from '../../../../src/certification/compte-personnel-formation/domain/models/ImportStatus.js';
 
 describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#countExportableCertificationCoursesByTimeRange', function () {
@@ -157,7 +157,10 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         const publishedSessionId = databaseBuilder.factory.buildSession({
           publishedAt: new Date('2022-02-08'),
         }).id;
-        createCertificationCourseWithCompetenceMarks({ sessionId: publishedSessionId, cpfImportStatus: 'SUCCESS' });
+        createCertificationCourseWithCompetenceMarks({
+          sessionId: publishedSessionId,
+          cpfImportStatus: ImportStatus.SUCCESS,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -261,16 +264,16 @@ describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#markCertificationCoursesAsExported', function () {
     it('should save filename in cpfFilename', async function () {
       // given
-      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfImportStatus: null });
-      databaseBuilder.factory.buildCertificationCourse({ id: 789, cpfImportStatus: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456 });
+      databaseBuilder.factory.buildCertificationCourse({ id: 789 });
       databaseBuilder.factory.buildComptePersonnelFormation({
         certificationCourseId: 456,
-        importStatus: cpfImportStatus.PENDING,
+        importStatus: ImportStatus.PENDING,
         filename: 'WILL_BE_OVERRIDEN',
       });
       databaseBuilder.factory.buildComptePersonnelFormation({
         certificationCourseId: 789,
-        importStatus: cpfImportStatus.PENDING,
+        importStatus: ImportStatus.PENDING,
         filename: 'WILL_BE_OVERRIDEN',
       });
       await databaseBuilder.commit();
@@ -308,13 +311,13 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           createCertificationCourseWithCompetenceMarks({
             certificationCourseId: 123,
             sessionId: firstPublishedSessionId,
-            cpfImportStatus: 'PENDING',
+            cpfImportStatus: ImportStatus.PENDING,
             cpfFilename: 'toto#0',
           });
           createCertificationCourseWithCompetenceMarks({
             certificationCourseId: 456,
             sessionId: firstPublishedSessionId,
-            cpfImportStatus: 'PENDING',
+            cpfImportStatus: ImportStatus.PENDING,
             cpfFilename: 'toto#0',
           });
           const secondPublishedSessionId = databaseBuilder.factory.buildSession({
@@ -367,22 +370,22 @@ describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#updateCertificationImportStatus', function () {
     it('should update certification import status', async function () {
       // given
-      databaseBuilder.factory.buildCertificationCourse({ id: 123, cpfImportStatus: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
       databaseBuilder.factory.buildComptePersonnelFormation({
         certificationCourseId: 123,
-        importStatus: cpfImportStatus.ERROR,
+        importStatus: ImportStatus.ERROR,
       });
-      databaseBuilder.factory.buildCertificationCourse({ id: 456, cpfImportStatus: null });
+      databaseBuilder.factory.buildCertificationCourse({ id: 456 });
       databaseBuilder.factory.buildComptePersonnelFormation({
         certificationCourseId: 456,
-        importStatus: cpfImportStatus.ERROR,
+        importStatus: ImportStatus.ERROR,
       });
       await databaseBuilder.commit();
 
       // when
       await cpfCertificationResultRepository.updateCertificationImportStatus({
         certificationCourseIds: [123, 456],
-        cpfImportStatus: cpfImportStatus.PENDING,
+        cpfImportStatus: ImportStatus.PENDING,
       });
 
       // then
@@ -390,8 +393,8 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         .select('certificationCourseId', 'importStatus')
         .orderBy('id');
       expect(certificationCourses).to.deep.equal([
-        { certificationCourseId: 123, importStatus: cpfImportStatus.PENDING },
-        { certificationCourseId: 456, importStatus: cpfImportStatus.PENDING },
+        { certificationCourseId: 123, importStatus: ImportStatus.PENDING },
+        { certificationCourseId: 456, importStatus: ImportStatus.PENDING },
       ]);
     });
   });

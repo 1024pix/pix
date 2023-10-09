@@ -1,6 +1,6 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import { main } from '../../../../scripts/certification/get-cpf-import-status-from-xml.js';
-import { cpfImportStatus } from '../../../../lib/domain/models/CertificationCourse.js';
+import { ImportStatus } from '../../../../src/certification/compte-personnel-formation/domain/models/ImportStatus.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -19,17 +19,17 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
         databaseBuilder.factory.buildComptePersonnelFormation({
           certificationCourseId: 1234,
-          importStatus: cpfImportStatus.PENDING,
+          importStatus: ImportStatus.PENDING,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 4567 });
         databaseBuilder.factory.buildComptePersonnelFormation({
           certificationCourseId: 4567,
-          importStatus: cpfImportStatus.PENDING,
+          importStatus: ImportStatus.PENDING,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 891011 });
         databaseBuilder.factory.buildComptePersonnelFormation({
           certificationCourseId: 891011,
-          importStatus: cpfImportStatus.PENDING,
+          importStatus: ImportStatus.PENDING,
         });
         await databaseBuilder.commit();
 
@@ -45,15 +45,15 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
           .orderBy('certificationCourseId', 'asc');
         expect(certificationCourse1).to.deep.equal({
           certificationCourseId: 1234,
-          importStatus: cpfImportStatus.ERROR,
+          importStatus: ImportStatus.ERROR,
         });
         expect(certificationCourse2).to.deep.equal({
           certificationCourseId: 4567,
-          importStatus: cpfImportStatus.SUCCESS,
+          importStatus: ImportStatus.SUCCESS,
         });
         expect(certificationCourse3).to.deep.equal({
           certificationCourseId: 891011,
-          importStatus: cpfImportStatus.SUCCESS,
+          importStatus: ImportStatus.SUCCESS,
         });
       });
     });

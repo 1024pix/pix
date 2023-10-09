@@ -6,13 +6,6 @@ import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
 const ABORT_REASONS = ['candidate', 'technical'];
-const cpfImportStatus = {
-  ERROR: 'ERROR',
-  READY_TO_SEND: 'READY_TO_SEND',
-  PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  OUTDATED: 'OUTDATED',
-};
 
 class CertificationCourse {
   constructor({
@@ -265,6 +258,4 @@ function _sanitizedString(string) {
   return withUnifiedWithSpaces;
 }
 
-CertificationCourse.cpfImportStatus = cpfImportStatus;
-
-export { CertificationCourse, cpfImportStatus };
+export { CertificationCourse };
