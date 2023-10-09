@@ -204,6 +204,7 @@ import { importNamedExportsFromDirectory } from '../../../src/shared/infrastruct
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
+import * as attendanceSheetPdfUtils from '../../infrastructure/utils/pdf/attendance-sheet-pdf.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -411,6 +412,7 @@ const dependencies = {
   verifyCertificateCodeService,
   writeCsvUtils,
   writeOdsUtils,
+  attendanceSheetPdfUtils,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

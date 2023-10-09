@@ -18,11 +18,10 @@ import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates
 import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import lodash from 'lodash';
-
-const { trim } = lodash;
-
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import { logger } from '../../infrastructure/logger.js';
+
+const { trim } = lodash;
 
 const findPaginatedFilteredJurySessions = async function (
   request,
@@ -71,12 +70,12 @@ const getAttendanceSheet = async function (request, h, dependencies = { tokenSer
   const sessionId = request.params.id;
   const token = request.query.accessToken;
   const userId = dependencies.tokenService.extractUserId(token);
-  const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
+  const { fileExtension, contentType, attendanceSheet } = await usecases.getAttendanceSheet({ sessionId, userId });
 
-  const fileName = `feuille-emargement-session-${sessionId}.ods`;
+  const fileName = `feuille-emargement-session-${sessionId}.${fileExtension}`;
   return h
     .response(attendanceSheet)
-    .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
+    .header('Content-Type', contentType)
     .header('Content-Disposition', `attachment; filename=${fileName}`);
 };
 
