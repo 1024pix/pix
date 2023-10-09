@@ -506,6 +506,65 @@ describe('Integration | Application | scenario-simulator-controller', function (
         });
       });
 
+      context('When configuring the passage by all competences', function () {
+        it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
+          // given
+          const enablePassageByAllCompetences = true;
+          const answerStatusArray = ['ok'];
+
+          const pickChallengeImplementation = sinon.stub();
+          pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
+          const pickAnswerStatusFromArrayImplementation = sinon.stub();
+          pickAnswerStatusService.pickAnswerStatusFromArray
+            .withArgs(['ok'])
+            .returns(pickAnswerStatusFromArrayImplementation);
+
+          usecases.simulateFlashDeterministicAssessmentScenario
+            .withArgs({
+              pickAnswerStatus: pickAnswerStatusFromArrayImplementation,
+              locale: 'en',
+              pickChallenge: pickChallengeImplementation,
+              initialCapacity,
+              enablePassageByAllCompetences,
+            })
+            .resolves(simulationResults);
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.returns(() => true);
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/scenario-simulator',
+            {
+              initialCapacity,
+              answerStatusArray,
+              type: 'deterministic',
+              enablePassageByAllCompetences,
+            },
+            null,
+            { 'accept-language': 'en' },
+          );
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(response.result).to.deep.equal(
+            _generateScenarioSimulatorBatch([
+              [
+                {
+                  challengeId: challenge1.id,
+                  errorRate: errorRate1,
+                  estimatedLevel: estimatedLevel1,
+                  minimumCapability: 0.6190392084062237,
+                  answerStatus: 'ok',
+                  reward: reward1,
+                  difficulty: challenge1.difficulty,
+                  discriminant: challenge1.discriminant,
+                },
+              ],
+            ]),
+          );
+        });
+      });
+
       context('When the scenario is deterministic', function () {
         context('When the route is called with correct arguments', function () {
           context('When the route is called with an initial capacity', function () {
