@@ -145,3 +145,20 @@
 .congratulations-banner-links__link--icon {
   margin: auto 5px;
 }
+
+.oudated-complementary-certification-banner {
+  margin-top: $pix-spacing-s;
+
+  &__row {
+    display: flex;
+    padding: $pix-spacing-s;
+    background-color: $pix-primary-10;
+    border-radius: 16px;
+  }
+
+  &__icon {
+    max-width: 64px;
+    max-height: 64px;
+    margin-right: $pix-spacing-s;
+  }
+}

@@ -1,0 +1,20 @@
+<div class="congratulations-banner__complementary-certifications">
+  <div class="congratulations-banner-complementary-certifications__icons">
+    {{#each @complementaryCertifications as |complementaryCertification|}}
+      <img src={{complementaryCertification.imageUrl}} alt={{complementaryCertification.label}} />
+    {{/each}}
+  </div>
+  <div class="congratulations-banner-complementary-certifications__list">
+    <p class="congratulations-banner-complementary-certifications-list__message">
+      {{t
+        "pages.certification-joiner.congratulation-banner.complementary-certification.eligible"
+        count=@complementaryCertifications.length
+      }}
+    </p>
+    <ul class="congratulations-banner-complementary-certifications-list__labels">
+      {{#each @complementaryCertifications as |complementaryCertification|}}
+        <li>{{complementaryCertification.label}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

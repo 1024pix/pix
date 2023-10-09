@@ -9,7 +9,7 @@ const serialize = function (certificationEligibility) {
       clone.isCertifiable = clone.pixCertificationEligible;
       return clone;
     },
-    attributes: ['isCertifiable', 'eligibleComplementaryCertifications'],
+    attributes: ['isCertifiable', 'complementaryCertifications'],
   }).serialize(certificationEligibility);
 };
 

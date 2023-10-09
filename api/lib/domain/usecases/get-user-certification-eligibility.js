@@ -13,22 +13,23 @@ const getUserCertificationEligibility = async function ({
     return CertificationEligibility.notCertifiable({ userId });
   }
 
-  const stillValidBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+  const stillValidBadgeAcquisitions = await certificationBadgesService.findLatestBadgeAcquisitions({
     userId,
     limitDate,
   });
 
-  const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(
-    ({ complementaryCertificationBadgeLabel, complementaryCertificationBadgeImageUrl }) => ({
+  const complementaryCertifications = stillValidBadgeAcquisitions.map(
+    ({ complementaryCertificationBadgeLabel, complementaryCertificationBadgeImageUrl, isOutdated }) => ({
       label: complementaryCertificationBadgeLabel,
       imageUrl: complementaryCertificationBadgeImageUrl,
+      isOutdated,
     }),
   );
 
   return new CertificationEligibility({
     id: userId,
     pixCertificationEligible,
-    eligibleComplementaryCertifications,
+    complementaryCertifications,
   });
 };
 

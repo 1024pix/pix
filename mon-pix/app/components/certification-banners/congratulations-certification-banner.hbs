@@ -1,0 +1,30 @@
+<div class="congratulations-banner">
+  <button
+    aria-label={{t "common.actions.close"}}
+    class="icon-button congratulations-banner__icon"
+    {{on "click" @closeBanner}}
+    type="button"
+  >
+    <FaIcon @icon="xmark" />
+  </button>
+  <p class="congratulations-banner__message">
+    {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
+  </p>
+  {{yield to="eligibleComplementaryCertifications"}}
+  <div class="congratulations-banner__links">
+    <a
+      href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
+      class="congratulations-banner-links__link"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{t "pages.certification-joiner.congratulation-banner.link.text"}}
+      <FaIcon @icon="up-right-from-square" class="congratulations-banner-links__link--icon" />
+    </a>
+    <LinkTo @route="authenticated.user-certifications" class="congratulations-banner-links__link">{{t
+        "pages.certification-start.link-to-user-certification"
+      }}
+      <FaIcon @icon="eye" class="congratulations-banner-links__link--icon" />
+    </LinkTo>
+  </div>
+</div>

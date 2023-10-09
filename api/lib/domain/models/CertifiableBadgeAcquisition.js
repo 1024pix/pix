@@ -8,6 +8,7 @@ class CertifiableBadgeAcquisition {
     complementaryCertificationBadgeId,
     complementaryCertificationBadgeImageUrl,
     complementaryCertificationBadgeLabel,
+    isOutdated,
   }) {
     this.badgeId = badgeId;
     this.badgeKey = badgeKey;
@@ -17,6 +18,7 @@ class CertifiableBadgeAcquisition {
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.complementaryCertificationBadgeImageUrl = complementaryCertificationBadgeImageUrl;
     this.complementaryCertificationBadgeLabel = complementaryCertificationBadgeLabel;
+    this.isOutdated = isOutdated;
   }
 }
 
