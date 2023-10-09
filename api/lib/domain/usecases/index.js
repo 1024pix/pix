@@ -138,7 +138,6 @@ import * as placementProfileService from '../../domain/services/placement-profil
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as prescriberRepository from '../../infrastructure/repositories/prescriber-repository.js';
-import * as pseudoRandom from '../../infrastructure/utils/pseudo-random.js';
 import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import * as refreshTokenService from '../../domain/services/refresh-token-service.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
@@ -353,7 +352,6 @@ const dependencies = {
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   prescriberRepository,
-  pseudoRandom,
   readOdsUtils,
   refreshTokenService,
   resetPasswordDemandRepository,

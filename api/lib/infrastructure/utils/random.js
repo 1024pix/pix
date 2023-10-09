@@ -12,4 +12,18 @@ const weightedRandom = (values) => {
 
 const weightedRandoms = (values, length) => [...new Array(length)].map(() => weightedRandom(values));
 
-export const random = { weightedRandoms };
+const binaryTreeRandom = (probability, length) => {
+  if (length === 1) {
+    return 0;
+  }
+
+  const randomValue = Math.random() * 100;
+
+  if (randomValue < probability) {
+    return 0;
+  }
+
+  return 1 + binaryTreeRandom(probability, length - 1);
+};
+
+export const random = { weightedRandoms, binaryTreeRandom };

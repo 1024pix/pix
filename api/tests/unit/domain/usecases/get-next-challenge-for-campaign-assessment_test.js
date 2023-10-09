@@ -230,13 +230,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
-            pseudoRandom: {
-              create: () => ({
-                binaryTreeRandom: () => {
-                  return 0;
-                },
-              }),
-            },
           });
 
           // then
@@ -284,13 +277,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
-            pseudoRandom: {
-              create: () => ({
-                binaryTreeRandom: () => {
-                  return 0;
-                },
-              }),
-            },
           });
 
           // then

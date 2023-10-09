@@ -63,11 +63,10 @@ describe('Integration | Application | scenario-simulator-controller', function (
           it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
             // given
             const answerStatusArray = ['ok'];
-            const assessmentId = '13802DK';
             const forcedCompetences = ['compA', 'compB', 'compC'];
 
             const pickChallengeImplementation = sinon.stub();
-            pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+            pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
             const pickAnswerStatusFromArrayImplementation = sinon.stub();
             pickAnswerStatusService.pickAnswerStatusFromArray
               .withArgs(['ok'])
@@ -89,7 +88,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               'POST',
               '/api/scenario-simulator',
               {
-                assessmentId,
                 initialCapacity,
                 answerStatusArray,
                 type: 'deterministic',
@@ -125,11 +123,10 @@ describe('Integration | Application | scenario-simulator-controller', function (
         it('should call the usecase with the right parameters', async function () {
           // given
           const answerStatusArray = ['ok'];
-          const assessmentId = '13802DK';
           const challengesBetweenSameCompetence = 2;
 
           const pickChallengeImplementation = sinon.stub();
-          pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+          pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
             .withArgs(['ok'])
@@ -151,7 +148,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
             'POST',
             '/api/scenario-simulator',
             {
-              assessmentId,
               initialCapacity,
               answerStatusArray,
               type: 'deterministic',
@@ -186,12 +182,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
         it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
           // given
           const answerStatusArray = ['ok'];
-          const assessmentId = '13802DK';
           const challengePickProbability = 40;
 
           const pickChallengeImplementation = sinon.stub();
           pickChallengeService.chooseNextChallenge
-            .withArgs(`${assessmentId}-0`, challengePickProbability)
+            .withArgs(challengePickProbability)
             .returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
@@ -213,7 +208,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
             'POST',
             '/api/scenario-simulator',
             {
-              assessmentId,
               initialCapacity,
               answerStatusArray,
               type: 'deterministic',
@@ -249,10 +243,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
           // given
           const limitToOneQuestionPerTube = true;
           const answerStatusArray = ['ok'];
-          const assessmentId = '13802DK';
 
           const pickChallengeImplementation = sinon.stub();
-          pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+          pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
           const pickAnswerStatusFromArrayImplementation = sinon.stub();
           pickAnswerStatusService.pickAnswerStatusFromArray
             .withArgs(['ok'])
@@ -274,7 +267,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
             'POST',
             '/api/scenario-simulator',
             {
-              assessmentId,
               initialCapacity,
               answerStatusArray,
               type: 'deterministic',
@@ -310,7 +302,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
             // given
             const answerStatusArray = ['ok'];
-            const assessmentId = '13802DK';
 
             const minimumEstimatedSuccessRateRanges = [
               {
@@ -343,7 +334,7 @@ describe('Integration | Application | scenario-simulator-controller', function (
             ];
 
             const pickChallengeImplementation = sinon.stub();
-            pickChallengeService.chooseNextChallenge.withArgs(`${assessmentId}-0`).returns(pickChallengeImplementation);
+            pickChallengeService.chooseNextChallenge.withArgs().returns(pickChallengeImplementation);
             const pickAnswerStatusFromArrayImplementation = sinon.stub();
             pickAnswerStatusService.pickAnswerStatusFromArray
               .withArgs(['ok'])
@@ -365,7 +356,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               'POST',
               '/api/scenario-simulator',
               {
-                assessmentId,
                 initialCapacity,
                 answerStatusArray,
                 type: 'deterministic',
@@ -400,7 +390,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           it('should respond with a 400 error', async function () {
             // given
             const answerStatusArray = ['ok'];
-            const assessmentId = '13802DK';
 
             const minimumEstimatedSuccessRateRanges = [
               {
@@ -425,7 +414,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               'POST',
               '/api/scenario-simulator',
               {
-                assessmentId,
                 initialCapacity,
                 answerStatusArray,
                 type: 'deterministic',
@@ -444,7 +432,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           it('should respond with a 400 error', async function () {
             // given
             const answerStatusArray = ['ok'];
-            const assessmentId = '13802DK';
 
             const minimumEstimatedSuccessRateRanges = [
               {
@@ -469,7 +456,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               'POST',
               '/api/scenario-simulator',
               {
-                assessmentId,
                 initialCapacity,
                 answerStatusArray,
                 type: 'deterministic',
@@ -488,7 +474,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
           it('should respond with a 400 error', async function () {
             // given
             const answerStatusArray = ['ok'];
-            const assessmentId = '13802DK';
 
             const minimumEstimatedSuccessRateRanges = [
               {
@@ -506,7 +491,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
               'POST',
               '/api/scenario-simulator',
               {
-                assessmentId,
                 initialCapacity,
                 answerStatusArray,
                 type: 'deterministic',
@@ -528,12 +512,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
             it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
               // given
               const answerStatusArray = ['ok'];
-              const assessmentId = '13802DK';
 
               const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
-                .returns(pickChallengeImplementation);
+              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -554,7 +535,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   initialCapacity,
                   answerStatusArray,
                   type: 'deterministic',
@@ -588,12 +568,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
             it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
               // given
               const answerStatusArray = ['ok'];
-              const assessmentId = '13802DK';
 
               const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
-                .returns(pickChallengeImplementation);
+              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -613,7 +590,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   answerStatusArray,
                   type: 'deterministic',
                 },
@@ -646,14 +622,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
             it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
               // given
               const answerStatusArray = ['ok'];
-              const assessmentId = '13802DK';
               const numberOfIterations = 2;
 
               const pickChallengeImplementation = sinon.stub();
               pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
                 .returns(pickChallengeImplementation)
-                .withArgs(`${assessmentId}-1`)
                 .returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
@@ -674,7 +647,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   numberOfIterations,
                   answerStatusArray,
                   type: 'deterministic',
@@ -710,12 +682,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
               const length = 1;
               const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
-              const assessmentId = '13802DK';
 
               const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
-                .returns(pickChallengeImplementation);
+              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -735,7 +704,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   type: 'random',
                   probabilities,
                   length,
@@ -771,12 +739,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
               const length = 1;
               const probabilities = { ok: 0.3, ko: 0.4, aband: 0.3 };
               random.weightedRandoms.withArgs(probabilities, length).returns(['ok']);
-              const assessmentId = '13802DK';
 
               const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
-                .returns(pickChallengeImplementation);
+              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromArrayImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusFromArray
                 .withArgs(['ok'])
@@ -797,7 +762,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   type: 'random',
                   probabilities,
                   initialCapacity,
@@ -836,12 +800,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
             it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
               // given
               const capacity = -3.1;
-              const assessmentId = '13802DK';
 
               const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
-                .returns(pickChallengeImplementation);
+              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -861,7 +822,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   type: 'capacity',
                   capacity,
                 },
@@ -894,12 +854,9 @@ describe('Integration | Application | scenario-simulator-controller', function (
             it('should call simulateFlashDeterministicAssessmentScenario usecase with correct arguments', async function () {
               // given
               const capacity = -3.1;
-              const assessmentId = '13802DK';
 
               const pickChallengeImplementation = sinon.stub();
-              pickChallengeService.chooseNextChallenge
-                .withArgs(`${assessmentId}-0`)
-                .returns(pickChallengeImplementation);
+              pickChallengeService.chooseNextChallenge.returns(pickChallengeImplementation);
               const pickAnswerStatusFromCapacityImplementation = sinon.stub();
               pickAnswerStatusService.pickAnswerStatusForCapacity
                 .withArgs(capacity)
@@ -920,7 +877,6 @@ describe('Integration | Application | scenario-simulator-controller', function (
                 'POST',
                 '/api/scenario-simulator',
                 {
-                  assessmentId,
                   type: 'capacity',
                   capacity,
                   initialCapacity,
