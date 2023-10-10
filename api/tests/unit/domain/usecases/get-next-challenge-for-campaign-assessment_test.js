@@ -11,6 +11,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
     let answerRepository;
     let flashAssessmentResultRepository;
     let pickChallengeService;
+    let flashAlgorithmService;
 
     let assessment;
     let firstChallenge;
@@ -27,6 +28,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
       flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
       pickChallengeService = { pickChallenge: sinon.stub(), chooseNextChallenge: sinon.stub() };
+      flashAlgorithmService = {
+        getEstimatedLevelAndErrorRate: sinon.stub(),
+        getPossibleNextChallenges: sinon.stub(),
+        getReward: sinon.stub(),
+      };
     });
 
     describe('when no assessment method is defined', function () {
@@ -73,7 +79,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
     describe('when assessment method is flash', function () {
       let firstSkill;
       let secondSkill;
-      let thirdChallenge;
       let firstChallenge;
       let secondChallenge;
       let answerForFirstChallenge;
@@ -95,13 +100,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           skill: secondSkill,
         });
 
-        thirdChallenge = domainBuilder.buildChallenge({
-          id: '56789',
-          difficulty: 1,
-          discriminant: 1,
-          skill: secondSkill,
-        });
-
         answerForFirstChallenge = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: '1234' });
         locale = 'fr-fr';
         assessment.method = 'FLASH';
@@ -111,6 +109,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         it('should return the best next challenges', async function () {
           // given
           const challenges = [firstChallenge, secondChallenge];
+          const allAnswers = [answerForFirstChallenge];
 
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
@@ -135,55 +134,32 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               locale,
             })
             .resolves({
-              allAnswers: [answerForFirstChallenge],
+              allAnswers,
               challenges,
             });
 
-          // when
-          const bestChallenge = await getNextChallengeForCampaignAssessment({
-            challengeRepository,
-            answerRepository,
-            flashAssessmentResultRepository,
-            pickChallengeService,
-            assessment,
-            locale,
-            algorithmDataFetcherService: algorithmDataFetcherServiceStub,
-          });
-
-          // then
-          expect(bestChallenge).to.deep.equal(secondChallenge);
-        });
-      });
-
-      describe('when there are multiple remaining challenges', function () {
-        it('should return the best next challenges', async function () {
-          // given
-          const algorithmDataFetcherServiceStub = {
-            fetchForFlashCampaigns: sinon.stub(),
-          };
-
-          algorithmDataFetcherServiceStub.fetchForFlashCampaigns
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
-              assessmentId: assessment.id,
-              answerRepository,
-              challengeRepository,
-              flashAssessmentResultRepository,
-              locale,
+              challenges,
+              allAnswers,
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
             })
-            .resolves({
-              allAnswers: [answerForFirstChallenge],
-              challenges: [firstChallenge, secondChallenge, thirdChallenge],
+            .returns({
+              estimatedLevel: 0,
+              errorRate: 0.5,
             });
 
-          const chooseNextChallenge = sinon.stub();
-
-          chooseNextChallenge
+          flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              possibleChallenges: [secondChallenge, thirdChallenge],
+              challenges,
+              allAnswers,
+              estimatedLevel: 0,
+              options: sinon.match.object,
             })
-            .returns(secondChallenge);
-
-          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallenge);
+            .returns({
+              hasAssessmentEnded: false,
+              possibleChallenges: [secondChallenge],
+            });
 
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({
@@ -194,6 +170,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
+            flashAlgorithmService,
           });
 
           // then
@@ -204,6 +181,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       describe('when there is no challenge left', function () {
         it('should throw an AssessmentEndedError()', async function () {
           // given
+          const challenges = [firstChallenge];
+          const allAnswers = [answerForFirstChallenge];
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
@@ -217,8 +196,30 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               locale,
             })
             .resolves({
-              allAnswers: [answerForFirstChallenge],
-              challenges: [firstChallenge],
+              allAnswers,
+              challenges,
+            });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers,
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            })
+            .returns({
+              estimatedLevel: 0,
+              errorRate: 0.5,
+            });
+
+          flashAlgorithmService.getPossibleNextChallenges
+            .withArgs({
+              challenges,
+              allAnswers,
+              estimatedLevel: 0,
+              options: sinon.match.object,
+            })
+            .returns({
+              hasAssessmentEnded: true,
             });
 
           // when
@@ -230,6 +231,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
+            flashAlgorithmService,
           });
 
           // then
@@ -251,6 +253,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
         it('should throw an AssessmentEndedError()', async function () {
           // given
+          const challenges = [firstChallenge, secondChallenge];
+          const allAnswers = [answerForFirstChallenge];
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
@@ -264,8 +268,31 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               locale,
             })
             .resolves({
-              allAnswers: [answerForFirstChallenge],
-              challenges: [firstChallenge, secondChallenge],
+              allAnswers,
+              challenges,
+            });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers,
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            })
+            .returns({
+              estimatedLevel: 0,
+              errorRate: 0.5,
+            });
+
+          flashAlgorithmService.getPossibleNextChallenges
+            .withArgs({
+              challenges,
+              allAnswers,
+              estimatedLevel: 0,
+              options: sinon.match.object,
+            })
+            .returns({
+              hasAssessmentEnded: false,
+              possibleChallenges: [secondChallenge],
             });
 
           // when
@@ -277,6 +304,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
+            flashAlgorithmService,
           });
 
           // then

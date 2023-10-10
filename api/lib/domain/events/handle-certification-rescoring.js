@@ -23,6 +23,7 @@ async function handleCertificationRescoring({
   certificationCourseRepository,
   challengeRepository,
   answerRepository,
+  flashAlgorithmService,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -37,6 +38,7 @@ async function handleCertificationRescoring({
         answerRepository,
         certificationAssessment,
         assessmentResultRepository,
+        flashAlgorithmService,
       });
     }
 
@@ -68,6 +70,7 @@ async function _handleV3Certification({
   answerRepository,
   certificationAssessment,
   assessmentResultRepository,
+  flashAlgorithmService,
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
   const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
@@ -76,6 +79,7 @@ async function _handleV3Certification({
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,
     allAnswers,
+    flashAlgorithmService,
   });
 
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({

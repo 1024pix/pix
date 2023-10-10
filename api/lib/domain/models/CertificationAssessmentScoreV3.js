@@ -52,8 +52,10 @@ class CertificationAssessmentScoreV3 {
     this.percentageCorrectAnswers = percentageCorrectAnswers;
   }
 
-  static fromChallengesAndAnswers({ challenges, allAnswers }) {
-    const algorithm = new FlashAssessmentAlgorithm();
+  static fromChallengesAndAnswers({ challenges, allAnswers, flashAlgorithmService }) {
+    const algorithm = new FlashAssessmentAlgorithm({
+      flashAlgorithmImplementation: flashAlgorithmService,
+    });
     const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
       allAnswers,
