@@ -15,6 +15,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let competenceMarkRepository;
   let challengeRepository;
   let answerRepository;
+  let flashAlgorithmService;
 
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -297,12 +298,18 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           id: certificationCourseId,
           completedAt: null,
         });
+
+        flashAlgorithmService = {
+          getEstimatedLevelAndErrorRate: sinon.stub(),
+        };
       });
 
       it('should build and save an assessment result with the expected arguments', async function () {
         // given
+        const expectedEstimatedLevel = 2;
+        const scoreForEstimatedLevel = 592;
         const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
-          nbPix: 479,
+          nbPix: scoreForEstimatedLevel,
         });
         const assessmentResult = Symbol('AssessmentResult');
         const challenge1 = domainBuilder.buildChallenge();
@@ -311,10 +318,20 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.id, assessmentId });
         const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.id, assessmentId });
         const answers = [answer1, answer2];
+
         challengeRepository.getMany.withArgs([challenge1.id, challenge2.id]).resolves(challenges);
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
         certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
         sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
+        flashAlgorithmService.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers: answers,
+            estimatedLevel: sinon.match.number,
+          })
+          .returns({
+            estimatedLevel: expectedEstimatedLevel,
+          });
 
         // when
         await handleCertificationScoring({
@@ -326,6 +343,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           competenceMarkRepository,
           scoringCertificationService,
           certificationAssessmentRepository,
+          flashAlgorithmService,
         });
 
         // then
@@ -359,6 +377,15 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         challengeRepository.getMany.withArgs([challenge1.id, challenge2.id]).resolves(challenges);
         answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
         certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
+        flashAlgorithmService.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers: answers,
+            estimatedLevel: sinon.match.number,
+          })
+          .returns({
+            estimatedLevel: 2,
+          });
 
         // when
         const generatedEvent = await handleCertificationScoring({
@@ -368,6 +395,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           answerRepository,
           assessmentResultRepository,
           certificationCourseRepository,
+          flashAlgorithmService,
         });
 
         // then

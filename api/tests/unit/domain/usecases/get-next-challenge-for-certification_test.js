@@ -3,6 +3,7 @@ import { getNextChallengeForCertification } from '../../../../lib/domain/usecase
 import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
+import { config } from '../../../../src/shared/config.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function () {
   describe('#getNextChallengeForCertification', function () {
@@ -94,6 +95,10 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           const pickChallengeService = {
             chooseNextChallenge: sinon.stub(),
           };
+          const flashAlgorithmService = {
+            getPossibleNextChallenges: sinon.stub(),
+            getEstimatedLevelAndErrorRate: sinon.stub(),
+          };
           const locale = 'fr-FR';
 
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
@@ -115,6 +120,26 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               estimatedLevel: 0,
             });
 
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [],
+              challenges: [nextChallengeToAnswer],
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            })
+            .returns({ estimatedLevel: 0 });
+
+          flashAlgorithmService.getPossibleNextChallenges
+            .withArgs({
+              allAnswers: [],
+              challenges: [nextChallengeToAnswer],
+              estimatedLevel: 0,
+              options: sinon.match.any,
+            })
+            .returns({
+              hasAssessmentEnded: false,
+              possibleChallenges: [nextChallengeToAnswer],
+            });
+
           const chooseNextChallengeImpl = sinon.stub();
           chooseNextChallengeImpl
             .withArgs({
@@ -134,6 +159,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             certificationCourseRepository,
             certificationChallengeRepository,
             locale,
+            flashAlgorithmService,
           });
 
           // then
@@ -227,6 +253,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           };
           const locale = 'fr-FR';
 
+          const flashAlgorithmService = {
+            getPossibleNextChallenges: sinon.stub(),
+            getEstimatedLevelAndErrorRate: sinon.stub(),
+          };
+
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
           certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3
             .withArgs(assessment.id, assessment.certificationCourseId)
@@ -246,6 +277,28 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               estimatedLevel: 0,
             });
 
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [answer],
+              challenges: [answeredChallenge],
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+            })
+            .returns({
+              estimatedLevel: 2,
+            });
+
+          flashAlgorithmService.getPossibleNextChallenges
+            .withArgs({
+              allAnswers: [answer],
+              challenges: [answeredChallenge],
+              estimatedLevel: 2,
+              options: sinon.match.any,
+            })
+            .returns({
+              hasAssessmentEnded: true,
+              possibleChallenges: [],
+            });
+
           // when
           const error = await catchErr(getNextChallengeForCertification)({
             algorithmDataFetcherService,
@@ -256,6 +309,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             certificationCourseRepository,
             certificationChallengeRepository,
             locale,
+            flashAlgorithmService,
           });
 
           // then

@@ -6,10 +6,10 @@ import { CertificationAssessmentScoreV3 } from '../../../../lib/domain/models/Ce
 
 describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {
   const assessmentId = 1234;
-  const secondAssessmentId = 456;
 
   let answerRepository;
   let challengeRepository;
+  let flashAlgorithmService;
 
   let baseChallenges;
   let baseAnswers;
@@ -21,6 +21,9 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     };
     challengeRepository = {
       findFlashCompatible: sinon.stub(),
+    };
+    flashAlgorithmService = {
+      getEstimatedLevelAndErrorRate: sinon.stub(),
     };
 
     const challenge1 = domainBuilder.buildChallenge({
@@ -66,75 +69,55 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   });
 
   it('should return the score', async function () {
+    const expectedEstimatedLevel = 2;
+    const expectedScoreForEstimatedLevel = 592;
+
     answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
     challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
+    flashAlgorithmService.getEstimatedLevelAndErrorRate
+      .withArgs({
+        challenges: baseChallenges,
+        allAnswers: baseAnswers,
+        estimatedLevel: sinon.match.number,
+      })
+      .returns({
+        estimatedLevel: expectedEstimatedLevel,
+      });
 
     const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
       challenges: baseChallenges,
       allAnswers: baseAnswers,
+      flashAlgorithmService,
     });
 
-    expect(score.nbPix).to.equal(640);
-  });
-
-  describe('when a wrong answer is added', function () {
-    it('should decrease the score', async function () {
-      const wrongAnswer = domainBuilder.buildAnswer({
-        result: AnswerStatus.KO,
-        challengeId: challenge4.id,
-      });
-      answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-      answerRepository.findByAssessment.withArgs(secondAssessmentId).resolves([...baseAnswers, wrongAnswer]);
-      challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-
-      const baseScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-        challenges: baseChallenges,
-        allAnswers: baseAnswers,
-      });
-
-      const newScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-        challenges: baseChallenges,
-        allAnswers: [...baseAnswers, wrongAnswer],
-      });
-
-      expect(newScore.nbPix).to.be.lessThan(baseScore.nbPix);
-    });
-  });
-
-  describe('when a correct answer is added', function () {
-    it('should increase the score', async function () {
-      const correctAnswer = domainBuilder.buildAnswer({
-        result: AnswerStatus.OK,
-        challengeId: challenge4.id,
-      });
-      answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-      answerRepository.findByAssessment.withArgs(secondAssessmentId).resolves([...baseAnswers, correctAnswer]);
-      challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-
-      const baseScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-        challenges: baseChallenges,
-        allAnswers: baseAnswers,
-      });
-
-      const newScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-        challenges: baseChallenges,
-        allAnswers: [...baseAnswers, correctAnswer],
-      });
-
-      expect(newScore.nbPix).to.be.greaterThan(baseScore.nbPix);
-    });
+    expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
   });
 
   describe('when we reach an estimated level below the MINIMUM', function () {
     it('the score should be 0', function () {
       // given
+      const veryLowEstimatedLevel = -9;
       const veryEasyDifficulty = -8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
+      flashAlgorithmService.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers,
+          estimatedLevel: sinon.match.number,
+        })
+        .returns({
+          estimatedLevel: veryLowEstimatedLevel,
+        });
+
       // when
-      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({ challenges, allAnswers });
+      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+        challenges,
+        allAnswers,
+        flashAlgorithmService,
+      });
 
       // then
       expect(score.nbPix).to.equal(0);
@@ -144,13 +127,28 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   describe('when we reach an estimated level above the MAXIMUM', function () {
     it('the score should be 1024', function () {
       // given
+      const veryHighEstimatedLevel = 1200;
       const veryHardDifficulty = 8;
       const numberOfChallenges = 32;
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
+      flashAlgorithmService.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers,
+          estimatedLevel: sinon.match.number,
+        })
+        .returns({
+          estimatedLevel: veryHighEstimatedLevel,
+        });
+
       // when
-      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({ challenges, allAnswers });
+      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+        challenges,
+        allAnswers,
+        flashAlgorithmService,
+      });
 
       // then
       expect(score.nbPix).to.equal(1024);
