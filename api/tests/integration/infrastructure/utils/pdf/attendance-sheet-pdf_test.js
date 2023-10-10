@@ -12,6 +12,53 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
     _makePdfLibPredictable();
   });
 
+  context('when the certification center is SCO and organization managing students', function () {
+    it('should return full attendance sheet with division', async function () {
+      // given
+      const candidates = _createMultipleCandidate(2, 'CM1');
+      const session = domainBuilder.buildSessionForAttendanceSheet({
+        certificationCenterType: 'SCO',
+        isOrganizationManagingStudents: true,
+        certificationCandidates: candidates,
+      });
+      const outputFilename = '/attendance-sheet-with-division_expected.pdf';
+
+      // when
+      const buffer = await getAttendanceSheetPdfBuffer({
+        session,
+        creationDate: new Date('2021-01-01'),
+      });
+
+      await _writeFile({ outputFilename, buffer });
+
+      // then
+      expect(await isSameBinary(`${__dirname}${outputFilename}`, buffer)).to.be.true;
+    });
+  });
+
+  context('when the certification center is not SCO', function () {
+    it('should return full attendance sheet with external id', async function () {
+      // given
+      const candidates = _createMultipleCandidate(2);
+      const session = domainBuilder.buildSessionForAttendanceSheet({
+        certificationCenterType: 'SUP',
+        certificationCandidates: candidates,
+      });
+      const outputFilename = '/attendance-sheet-with-external-id_expected.pdf';
+
+      // when
+      const buffer = await getAttendanceSheetPdfBuffer({
+        session,
+        creationDate: new Date('2021-01-01'),
+      });
+
+      await _writeFile({ outputFilename, buffer });
+
+      // then
+      expect(await isSameBinary(`${__dirname}${outputFilename}`, buffer)).to.be.true;
+    });
+  });
+
   context('when there are less than 20 candidates', function () {
     it('should return full attendance sheet with 1 page as a buffer', async function () {
       // given
@@ -130,13 +177,14 @@ async function _writeFile({ buffer, outputFilename, dryRun = true }) {
   }
 }
 
-function _createMultipleCandidate(candidateCount) {
+function _createMultipleCandidate(candidateCount, division = null) {
   const candidates = [];
   for (let i = 0; i < candidateCount; i++) {
     candidates.push(
       domainBuilder.buildCertificationCandidateForAttendanceSheet({
         lastName: 'Potter',
         firstName: 'Harry',
+        division,
       }),
     );
   }
