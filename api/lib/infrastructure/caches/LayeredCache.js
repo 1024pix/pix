@@ -1,4 +1,5 @@
 import { Cache } from './Cache.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 class LayeredCache extends Cache {
   constructor(firstLevelCache, secondLevelCache) {
@@ -9,6 +10,10 @@ class LayeredCache extends Cache {
 
   get(key, generator) {
     return this._firstLevelCache.get(key, () => {
+      logger.info(
+        { event: 'cache-event', key },
+        'Cannot found the key from the firstLevelCache. Fetching on the second one.',
+      );
       return this._secondLevelCache.get(key, generator);
     });
   }
