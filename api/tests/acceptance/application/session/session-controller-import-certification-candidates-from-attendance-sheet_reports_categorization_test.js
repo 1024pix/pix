@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, sinon } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/smtp/mail-check.js';
+import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import fs from 'fs';
 import * as url from 'url';
 
