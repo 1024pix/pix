@@ -1,6 +1,6 @@
 import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
 import { config } from '../../../../src/shared/config.js';
-import { BrevoProvider } from '../../../../src/shared/mail/infrastructure/smtp/BrevoProvider.js';
+import { BrevoProvider } from '../../../../src/shared/mail/infrastructure/providers/BrevoProvider.js';
 import { MailingProviderInvalidEmailError } from '../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
 const { mailing } = config;
 

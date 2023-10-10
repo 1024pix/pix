@@ -1,8 +1,8 @@
 import Debug from 'debug';
-import { BrevoProvider } from '../smtp/BrevoProvider.js';
+import { BrevoProvider } from '../providers/BrevoProvider.js';
 import { config } from '../../../config.js';
 import { logger } from '../../../infrastructure/utils/logger.js';
-import * as mailCheck from '../smtp/mail-check.js';
+import * as mailCheck from '../services/mail-check.js';
 import { EmailingAttempt } from '../../domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../domain/models/MailingProviderInvalidEmailError.js';
 
