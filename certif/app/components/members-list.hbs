@@ -14,7 +14,7 @@
         </thead>
 
         <tbody>
-          {{#each this.orderedMemberListWithRefererFirst as |member|}}
+          {{#each @members as |member|}}
             <MembersListItem @member={{member}} @shouldDisplayRefererColumn={{this.shouldDisplayRefererColumn}} />
           {{/each}}
         </tbody>
