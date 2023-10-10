@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupTest } from '../../helpers/index';
+import { setupTest } from '../../helpers/tests';
 
 module('Unit | Model | Challenge', function (hooks) {
   setupTest(hooks);
