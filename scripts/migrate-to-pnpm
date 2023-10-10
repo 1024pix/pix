@@ -15,3 +15,6 @@ find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#np
 
 # Update npx
 find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npx#pnpm dlx#' {} \;
+
+# Remove package-lock.json files
+find . -regex ".*node_modules*" -prune -o -name package-lock.json -exec git rm {} \;
