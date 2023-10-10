@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import { render } from '@1024pix/ember-testing-library';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Layout::Sidebar', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when the user is authenticated on orga.pix.fr', function (hooks) {
     class CurrentDomainServiceStub extends Service {

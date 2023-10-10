@@ -1,12 +1,12 @@
-import { htmlSafe } from '@ember/template';
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
+import textWithMultipleLang from 'pix-orga/helpers/text-with-multiple-lang';
+import { htmlSafe } from '@ember/template';
 
 module('Unit | Helper | TextWithMultipleLang', function (hooks) {
-  setupTest(hooks);
   let helper;
   hooks.beforeEach(function () {
-    helper = this.owner.factoryFor('helper:text-with-multiple-lang').create();
+    helper = new textWithMultipleLang();
+    helper.intl = { locales: ['fr', 'en'] };
   });
 
   [
@@ -25,7 +25,7 @@ module('Unit | Helper | TextWithMultipleLang', function (hooks) {
   ].forEach((expected) => {
     test(`should return the text "${expected.outputText}" if the text is "${expected.text}" in lang ${expected.lang}`, function (assert) {
       // given
-      this.owner.lookup('service:intl').setLocale(expected.lang);
+      helper.intl.t = () => expected.lang;
 
       // when
       const computedText = helper.compute([expected.text]).toString();
