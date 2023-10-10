@@ -1,12 +1,17 @@
 #!/bin/sh
 
+case "$OSTYPE" in
+  darwin*) SED=gsed ;;
+  *) SED=sed ;;
+esac
+
 pnpm import
 
 # Update buildpack
-find . -name .buildpacks -exec sed -i 's#Scalingo/nodejs#1024pix/nodejs#' {} \;
+find . -regex ".*node_modules*" -prune -o -name .buildpacks -exec $SED -i 's#Scalingo/nodejs#1024pix/nodejs#' {} \;
 
 # Update npm run
-find . -name package.json -exec sed -i 's#npm run#pnpm run#' {} \;
+find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npm run#pnpm run#' {} \;
 
 # Update npx
-find . -name package.json -exec sed -i 's#npx#pnpm dlx#' {} \;
+find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npx#pnpm dlx#' {} \;
