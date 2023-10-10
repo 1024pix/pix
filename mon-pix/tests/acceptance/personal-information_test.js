@@ -11,7 +11,7 @@ module('Acceptance | personal-information', function (hooks) {
   module('When user is connected', function () {
     test('should display user personal information', async function (assert) {
       // given
-      const user = server.create('user', {
+      const user = this.server.create('user', {
         firstName: 'John',
         lastName: 'DOE',
         email: 'john.doe@example.net',

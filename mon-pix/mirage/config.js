@@ -37,7 +37,7 @@ import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 export default function makeServer(config) {
   const finalConfig = {
     ...config,
-    models: { ...discoverEmberDataModels(), ...config.models },
+    models: { ...discoverEmberDataModels(config.store), ...config.models },
     serializers: applyEmberDataSerializers(config.serializers),
     routes,
     logging: true,
