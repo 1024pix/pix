@@ -1,0 +1,12 @@
+#!/bin/sh
+
+pnpm import
+
+# Update buildpack
+find . -name .buildpacks -exec sed -i 's#Scalingo/nodejs#1024pix/nodejs#' {} \;
+
+# Update npm run
+find . -name package.json -exec sed -i 's#npm run#pnpm run#' {} \;
+
+# Update npx
+find . -name package.json -exec sed -i 's#npx#pnpm dlx#' {} \;
