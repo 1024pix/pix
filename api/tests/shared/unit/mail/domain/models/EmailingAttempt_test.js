@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
-import { EmailingAttempt } from '../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
+import { expect } from '../../../../../test-helper.js';
+import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
 
 describe('Unit | Domain | Models | EmailingAttempt', function () {
   describe('#hasFailed', function () {
