@@ -99,5 +99,10 @@
   },
   "peerDependencies": {
     "markdown-link-check": "^3.8.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "knex": "^3.0.0"
+    }
   }
 }
