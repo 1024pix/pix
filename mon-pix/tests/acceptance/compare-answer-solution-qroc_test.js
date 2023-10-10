@@ -10,9 +10,9 @@ module('Acceptance | Compare answers and solutions for QROC questions', function
   let assessment;
 
   hooks.beforeEach(function () {
-    assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-    const challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
-    server.create('answer', {
+    assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+    const challenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+    this.server.create('answer', {
       value: 'SomeAnswer',
       result: 'ko',
       challenge,

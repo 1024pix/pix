@@ -130,6 +130,10 @@ module.exports = function (environment) {
     sentry: {
       enabled: _isFeatureEnabled(process.env.SENTRY_ENABLED),
     },
+
+    'ember-cli-mirage': {
+      usingProxy: true,
+    },
   };
 
   if (environment === 'development') {
