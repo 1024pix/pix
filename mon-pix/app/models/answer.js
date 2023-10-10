@@ -2,7 +2,19 @@
 
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { equal, not } from '@ember/object/computed';
-import ValueAsArrayOfString from './answer/value-as-array-of-string-mixin';
+import { computed } from '@ember/object';
+import Mixin from '@ember/object/mixin';
+import jsyaml from 'js-yaml';
+
+const ValueAsArrayOfString = Mixin.create({
+  _valuesAsMap: computed('value', function () {
+    try {
+      return jsyaml.load(this.value);
+    } catch (e) {
+      return undefined;
+    }
+  }),
+});
 
 export default Model.extend(ValueAsArrayOfString, {
   value: attr('string'),
