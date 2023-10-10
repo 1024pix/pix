@@ -9,14 +9,3 @@
   border: 0;
   clip: rect(0, 0, 0, 0);
 }
-
-@mixin external-link {
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  margin: 0 0.2rem;
-  background-image: url('/images/icons/external-link-alt.svg');
-  background-repeat: no-repeat;
-  background-size: 1rem;
-  content: '';
-}
