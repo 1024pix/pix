@@ -19,9 +19,9 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
   let studentInfo;
 
   hooks.beforeEach(async function () {
-    studentInfo = server.create('user', 'withEmail');
+    studentInfo = this.server.create('user', 'withEmail');
     await authenticate(studentInfo);
-    campaign = server.create('campaign', { idPixLabel: 'email', type: PROFILES_COLLECTION });
+    campaign = this.server.create('campaign', { idPixLabel: 'email', type: PROFILES_COLLECTION });
     await resumeCampaignOfTypeProfilesCollectionByCode(campaign.code, true);
   });
 
@@ -95,8 +95,8 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
 
     module('When the campaign is restricted and organization learner is disabled', function (hooks) {
       hooks.beforeEach(async function () {
-        campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, type: PROFILES_COLLECTION });
-        server.create('campaign-participation', { campaign });
+        campaign = this.server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, type: PROFILES_COLLECTION });
+        this.server.create('campaign-participation', { campaign });
       });
 
       test('should be able to resume', async function (assert) {

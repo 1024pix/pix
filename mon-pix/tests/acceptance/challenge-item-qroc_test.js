@@ -13,15 +13,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
   module('with input format', function (hooks) {
     hooks.beforeEach(async function () {
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC');
+      assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      qrocChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROC');
     });
 
     module('When challenge is an auto validated embed (autoReply=true)', function (hooks) {
       hooks.beforeEach(async function () {
         // given
-        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
-        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
+        this.server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
+        this.server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withAutoReply', 'withEmbed');
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -63,7 +63,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     module('When challenge is an embed (without autoreply)', function (hooks) {
       hooks.beforeEach(async function () {
         // given
-        server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withEmbed');
+        this.server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withEmbed');
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -142,7 +142,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
     module('When challenge is already answered', function (hooks) {
       hooks.beforeEach(async function () {
         // given
-        server.create('answer', {
+        this.server.create('answer', {
           value: 'Reponse',
           result: 'ko',
           assessment,
@@ -166,15 +166,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       let correction, tutorial, learningMoreTutorial;
       hooks.beforeEach(async function () {
         // given
-        tutorial = server.create('tutorial');
-        learningMoreTutorial = server.create('tutorial');
-        correction = server.create('correction', {
+        tutorial = this.server.create('tutorial');
+        learningMoreTutorial = this.server.create('tutorial');
+        correction = this.server.create('correction', {
           solution: 'Mangue',
           hint: 'Manger des fruits',
           tutorials: [tutorial],
           learningMoreTutorials: [learningMoreTutorial],
         });
-        server.create('answer', {
+        this.server.create('answer', {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
@@ -224,9 +224,9 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       let qrocWithFile1Challenge, qrocWithFile2Challenge;
 
       hooks.beforeEach(async function () {
-        qrocWithFile1Challenge = server.create('challenge', 'forDemo', 'QROCwithFile1');
-        qrocWithFile2Challenge = server.create('challenge', 'forDemo', 'QROCwithFile2');
-        assessment = server.create('assessment', 'ofDemoType');
+        qrocWithFile1Challenge = this.server.create('challenge', 'forDemo', 'QROCwithFile1');
+        qrocWithFile2Challenge = this.server.create('challenge', 'forDemo', 'QROCwithFile2');
+        assessment = this.server.create('assessment', 'ofDemoType');
 
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
@@ -260,8 +260,8 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
   module('with text-area format', function (hooks) {
     hooks.beforeEach(async function () {
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withTextArea');
+      assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      qrocChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROC', 'withTextArea');
     });
 
     module('When challenge is not already answered', function (hooks) {
@@ -320,15 +320,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       let correction, tutorial, learningMoreTutorial;
       hooks.beforeEach(async function () {
         // given
-        tutorial = server.create('tutorial');
-        learningMoreTutorial = server.create('tutorial');
-        correction = server.create('correction', {
+        tutorial = this.server.create('tutorial');
+        learningMoreTutorial = this.server.create('tutorial');
+        correction = this.server.create('correction', {
           solution: 'Mangue',
           hint: 'Manger des fruits',
           tutorials: [tutorial],
           learningMoreTutorials: [learningMoreTutorial],
         });
-        server.create('answer', {
+        this.server.create('answer', {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
@@ -377,8 +377,8 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
 
   module('with select format', function (hooks) {
     hooks.beforeEach(async function () {
-      assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      qrocChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCWithSelect');
+      assessment = this.server.create('assessment', 'ofCompetenceEvaluationType');
+      qrocChallenge = this.server.create('challenge', 'forCompetenceEvaluation', 'QROCWithSelect');
     });
 
     module('When challenge is not already answered', function () {
@@ -442,15 +442,15 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       let correction, tutorial, learningMoreTutorial;
       hooks.beforeEach(async function () {
         // given
-        tutorial = server.create('tutorial');
-        learningMoreTutorial = server.create('tutorial');
-        correction = server.create('correction', {
+        tutorial = this.server.create('tutorial');
+        learningMoreTutorial = this.server.create('tutorial');
+        correction = this.server.create('correction', {
           solution: 'Mangue',
           hint: 'Manger des fruits',
           tutorials: [tutorial],
           learningMoreTutorials: [learningMoreTutorial],
         });
-        server.create('answer', {
+        this.server.create('answer', {
           value: 'Banane',
           result: 'ko',
           assessmentId: assessment.id,
