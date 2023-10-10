@@ -31,9 +31,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         .resolves(warnings);
 
       const makeOrganizationLearnerParserStub = sinon.stub();
-      makeOrganizationLearnerParserStub
-        .withArgs(payload, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
+      makeOrganizationLearnerParserStub.withArgs(payload, organizationId, i18n).returns(supOrganizationLearnerParser);
 
       // when
       const dependencies = {
@@ -86,9 +84,7 @@ describe('Unit | Controller | sup-organization-management-controller', function 
         .resolves(warnings);
 
       const makeOrganizationLearnerParserStub = sinon.stub();
-      makeOrganizationLearnerParserStub
-        .withArgs(payload, organizationId, i18n)
-        .returns(supOrganizationLearnerParser);
+      makeOrganizationLearnerParserStub.withArgs(payload, organizationId, i18n).returns(supOrganizationLearnerParser);
 
       // when
       const dependencies = {
