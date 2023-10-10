@@ -20,6 +20,10 @@ module.exports = function (environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
+
+    'ember-cli-mirage': {
+      usingProxy: true,
+    },
   };
 
   if (environment === 'development') {
