@@ -1,0 +1,9 @@
+packages:
+  - admin
+  - api
+  - audit-logger
+  - certif
+  - high-level-tests/e2e
+  - junior
+  - mon-pix
+  - orga
