@@ -8,8 +8,11 @@ import { ChallengeNeutralized } from './ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from './ChallengeDeneutralized.js';
 import { CertificationJuryDone } from './CertificationJuryDone.js';
 import { checkEventTypes } from './check-event-types.js';
+import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
+import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
+const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationRescoring({
   event,
@@ -18,6 +21,8 @@ async function handleCertificationRescoring({
   competenceMarkRepository,
   scoringCertificationService,
   certificationCourseRepository,
+  challengeRepository,
+  answerRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -26,30 +31,22 @@ async function handleCertificationRescoring({
   });
 
   try {
-    const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
-      certificationAssessment,
-      continueOnError: false,
-    });
+    if (certificationAssessment.version === CertificationVersion.V3) {
+      return _handleV3Certification({
+        challengeRepository,
+        answerRepository,
+        certificationAssessment,
+        assessmentResultRepository,
+      });
+    }
 
-    const assessmentResultId = await _saveAssessmentResult(
-      certificationAssessmentScore,
+    return await _handleV2Certification({
+      scoringCertificationService,
       certificationAssessment,
       event,
       assessmentResultRepository,
-    );
-    await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
-
-    await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
-      certificationCourseId: certificationAssessment.certificationCourseId,
-      hasEnoughNonNeutralizedChallengesToBeTrusted:
-        certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
+      competenceMarkRepository,
       certificationCourseRepository,
-    });
-
-    return new CertificationRescoringCompleted({
-      userId: certificationAssessment.userId,
-      certificationCourseId: certificationAssessment.certificationCourseId,
-      reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
     });
   } catch (error) {
     if (!(error instanceof CertificationComputeError)) {
@@ -64,6 +61,75 @@ async function handleCertificationRescoring({
       event,
     });
   }
+}
+
+async function _handleV3Certification({
+  challengeRepository,
+  answerRepository,
+  certificationAssessment,
+  assessmentResultRepository,
+}) {
+  const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
+  const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
+  const challenges = await challengeRepository.getMany(challengeIds);
+
+  const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+    challenges,
+    allAnswers,
+  });
+
+  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+    pixScore: certificationAssessmentScore.nbPix,
+    reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+    status: certificationAssessmentScore.status,
+    assessmentId: certificationAssessment.id,
+    emitter: EMITTER,
+  });
+
+  await assessmentResultRepository.save({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    assessmentResult,
+  });
+  return new CertificationRescoringCompleted({
+    userId: certificationAssessment.userId,
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
+  });
+}
+
+async function _handleV2Certification({
+  scoringCertificationService,
+  certificationAssessment,
+  event,
+  assessmentResultRepository,
+  competenceMarkRepository,
+  certificationCourseRepository,
+}) {
+  const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
+    certificationAssessment,
+    continueOnError: false,
+  });
+
+  const assessmentResultId = await _saveAssessmentResult(
+    certificationAssessmentScore,
+    certificationAssessment,
+    event,
+    assessmentResultRepository,
+  );
+  await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
+
+  await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    hasEnoughNonNeutralizedChallengesToBeTrusted:
+      certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
+    certificationCourseRepository,
+  });
+
+  return new CertificationRescoringCompleted({
+    userId: certificationAssessment.userId,
+    certificationCourseId: certificationAssessment.certificationCourseId,
+    reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
+  });
 }
 
 async function _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
