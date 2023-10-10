@@ -1,4 +1,10 @@
-import { catchErr, databaseBuilder, expect, mockLearningContent } from '../../../test-helper.js';
+import {
+  catchErr,
+  databaseBuilder,
+  expect,
+  mockLearningContent,
+  learningContentBuilder,
+} from '../../../test-helper.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
@@ -24,7 +30,7 @@ const campaignParticipationDBAttributes = [
 
 const assessmentAttributes = ['userId', 'method', 'state', 'type', 'courseId', 'isImproving'];
 
-describe('Integration | Infrastructure | Repository | CampaignParticipant', function () {
+describe.only('Integration | Infrastructure | Repository | CampaignParticipant', function () {
   describe('save', function () {
     let userIdentity;
 
@@ -32,9 +38,25 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       const user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
       userIdentity = { id: user.id, firstName: user.firstName, lastName: user.lastName };
+
+      const learningContent = [
+        {
+          id: 'area1',
+          competences: [
+            {
+              id: 'competence1',
+              tubes: [{ id: 'tube1', skills: [{ id: 'skill1' }] }],
+            },
+          ],
+        },
+      ];
+
+      mockLearningContent(learningContentBuilder.fromAreas(learningContent));
     });
 
     afterEach(async function () {
+      await knex('knowledge-elements').delete();
+      await knex('answers').delete();
       await knex('assessments').delete();
       await knex('campaign-participations').delete();
       await knex('organization-learners').delete();
@@ -531,6 +553,85 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const startedParticipation = await knex('campaign-participations').where('id', id).first();
 
         expect(startedParticipation.organizationLearnerId).not.to.equal(deletedOrganizationLearnerId);
+      });
+    });
+
+    context('when target profile is resettable', function () {
+      it.only('should reset ke', async function () {
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+        databaseBuilder.factory.buildKnowledgeElement({ userId: userIdentity.id, skillId: 'skill1' });
+
+        const campaignParticipant = await makeCampaignParticipant({
+          campaignAttributes: { multipleSendings: true, idPixLabel: null },
+          userIdentity,
+          participantExternalId: null,
+          isRestricted: false,
+          areKnowledgeElementsResettable: true,
+          isReset: true,
+          targetProfileId,
+        });
+        databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId,
+          tubeId: 'tube1',
+        });
+
+        await databaseBuilder.commit();
+
+        await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignParticipantRepository.save({
+            userId: userIdentity.id,
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
+        });
+
+        const knowledgeElementsFromCampaign = await knex('knowledge-elements').where('status', 'reset');
+
+        expect(knowledgeElementsFromCampaign.length).to.equal(1);
+      });
+
+      it.skip('should restart assessment', async function () {
+        databaseBuilder.factory.buildKnowledgeElement({ userId: userIdentity.id, skillId: 'skill1' });
+
+        const campaignParticipant = await makeCampaignParticipant({
+          campaignAttributes: { multipleSendings: true, idPixLabel: null },
+          userIdentity,
+          participantExternalId: null,
+          isRestricted: false,
+          areKnowledgeElementsResettable: true,
+          isReset: true,
+        });
+        databaseBuilder.factory.buildCampaignSkill({
+          skillId: 'skill1',
+          campaignId: campaignParticipant.campaignToStartParticipation.id,
+        });
+        databaseBuilder.factory.buildTargetProfileTube({
+          targetProfileId: campaignParticipant.campaignToStartParticipation.targetProfileId,
+          tubeId: 'tube1',
+        });
+        databaseBuilder.factory.buildAssessment({ userId: userIdentity.id, skillId: 'skill1' });
+
+        await databaseBuilder.commit();
+
+        await DomainTransaction.execute(async (domainTransaction) => {
+          return campaignParticipantRepository.save({
+            userId: userIdentity.id,
+            campaignParticipant,
+            domainTransaction,
+            competenceEvaluationRepository,
+            assessmentRepository,
+            knowledgeElementRepository,
+          });
+        });
+
+        const assessmentsFromCampaign = await knex('assessments')
+          .where('type', 'COMPETENCE_EVALUATION')
+          .where('state', 'STARTED');
+
+        expect(assessmentsFromCampaign.length).to.equal(2);
       });
     });
 
@@ -1228,6 +1329,8 @@ async function makeCampaignParticipant({
   organizationLearnerId,
   participantExternalId,
   isRestricted,
+  areKnowledgeElementsResettable = false,
+  isReset = false,
 }) {
   const campaign = databaseBuilder.factory.buildCampaign(campaignAttributes);
 
@@ -1243,9 +1346,10 @@ async function makeCampaignParticipant({
     organizationLearner,
     userIdentity,
     previousCampaignParticipationForUser: null,
+    areKnowledgeElementsResettable,
   });
 
-  campaignParticipant.start({ participantExternalId });
+  campaignParticipant.start({ participantExternalId, isReset });
   return campaignParticipant;
 }
 

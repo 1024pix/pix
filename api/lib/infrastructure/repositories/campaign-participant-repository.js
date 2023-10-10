@@ -44,6 +44,7 @@ async function save({
     });
     const skillIds = skills.map(({ id }) => id);
 
+    console.log('YOUHOU', skills);
     await _resetKnowledgeElements({
       userId,
       skillIds,
