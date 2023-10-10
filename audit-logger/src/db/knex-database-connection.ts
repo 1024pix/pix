@@ -16,7 +16,6 @@ types.setTypeParser(types.builtins.DATE, (value) => value);
 
 const { environment } = config;
 const knexConfig = knexConfigs[environment];
-// @ts-expect-error library types definitions are not correct
 const configuredKnex = knex(knexConfig);
 const databaseName = configuredKnex.client.database();
 const dbSpecificQueries = {
