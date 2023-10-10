@@ -125,7 +125,9 @@ const findActiveByCertificationCenterIdSortedById = async function ({ certificat
       certificationCenterId,
       disabledAt: null,
     })
-    .orderBy('certification-center-memberships.id', 'ASC');
+    .orderByRaw("CASE role WHEN 'ADMIN' THEN 1 ELSE 2 END")
+    .orderByRaw('LOWER("lastName") asc')
+    .orderByRaw('LOWER("firstName") asc');
 
   return certificationCenterMemberships.map(_toDomain);
 };
