@@ -110,6 +110,10 @@ module.exports = function (environment) {
     pagination: {
       debounce: 500,
     },
+
+    'ember-cli-mirage': {
+      usingProxy: true,
+    },
   };
 
   if (environment === 'development') {

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 import { currentURL, click } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
