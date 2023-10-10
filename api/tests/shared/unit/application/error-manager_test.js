@@ -1,10 +1,9 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+import { NotFoundError, EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {
   describe('#handle', function () {
