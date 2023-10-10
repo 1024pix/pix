@@ -28,7 +28,7 @@
     "lint:scss": "stylelint app/styles/*.scss 'app/styles/**/*.scss' 'app/**/*.scss'",
     "lint:scss:fix": "npm run lint:scss -- --fix",
     "preinstall": "npx check-engine",
-    "start": "ember serve --proxy http://localhost:3000",
+    "start": "ember serve --proxy http://localhost:3000  --environment development",
     "test": "ember test --reporter dot",
     "test:ci": "npm run test",
     "test:lint": "run-p --continue-on-error test lint"
