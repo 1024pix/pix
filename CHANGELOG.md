@@ -1,5 +1,47 @@
 # Pix Changelog
 
+## v4.41.0 (10/10/2023)
+
+
+### :rocket: Amélioration
+- [#7223](https://github.com/1024pix/pix/pull/7223) [FEATURE] Scoring d'une certif V3 terminée par le surveillant (PIX-9541).
+- [#7160](https://github.com/1024pix/pix/pull/7160) [FEATURE] Creation d'une migration pour passer tous les prescrits SUP désactivés à supprimés (PIX-9199).
+- [#7184](https://github.com/1024pix/pix/pull/7184) [FEATURE] Transformer la feuille d'émargement en PDF pour le non SCO (PIX-8449).
+- [#7194](https://github.com/1024pix/pix/pull/7194) [FEATURE] Appliquer le design sur la page de fin de mission (Pix-9367).
+- [#7198](https://github.com/1024pix/pix/pull/7198) [FEATURE] Remplacement du pseudo-aléatoire par de l'aléatoire dans la certif V3 (PIX-9510).
+- [#7134](https://github.com/1024pix/pix/pull/7134) [FEATURE] Afficher un message lorsqu'un candidat perd son éligibilité à une certification complémentaire sur Pix App (PIX-9023).
+- [#7167](https://github.com/1024pix/pix/pull/7167) [FEATURE] Affichage du challenge avec le nouveau design (PIX-9368).
+- [#7146](https://github.com/1024pix/pix/pull/7146) [FEATURE] Ajouter le SSO Pays de la Loire (PIX-9309).
+
+### :building_construction: Tech
+- [#7185](https://github.com/1024pix/pix/pull/7185) [TECH] Suppression du fichier humans.txt.
+- [#7207](https://github.com/1024pix/pix/pull/7207) [TECH] Corrige les imports ESM pour le CPF.
+- [#7206](https://github.com/1024pix/pix/pull/7206) [TECH] Déplacer les tests de la `EntityValidationError` du `error-manager` dans `src` (API).
+- [#7205](https://github.com/1024pix/pix/pull/7205) [TECH] Sécuriser le matching de tests (API).
+
+### :bug: Correction
+- [#7231](https://github.com/1024pix/pix/pull/7231) [BUGFIX] Corrige mirage en developement sur 1d.
+- [#7201](https://github.com/1024pix/pix/pull/7201) [BUGFIX] Correction d'une classe manquante sur le profil utilisateur sur pix-admin (PIX-9511).
+- [#7204](https://github.com/1024pix/pix/pull/7204) [BUGFIX] Relancer les tests unitaires.
+
+### :arrow_up: Montée de version
+- [#7230](https://github.com/1024pix/pix/pull/7230) [BUMP] Update dependency knex to v3 (audit-logger).
+- [#7220](https://github.com/1024pix/pix/pull/7220) [BUMP] Update dependency ember-cli-mirage to v3 (mon-pix).
+- [#7225](https://github.com/1024pix/pix/pull/7225) [BUMP] Update dependency ember-cli-mirage to v3 (orga).
+- [#7116](https://github.com/1024pix/pix/pull/7116) [BUMP] Update dependency ember-intl to v6 (orga).
+- [#7222](https://github.com/1024pix/pix/pull/7222) [BUMP] Update dependency ember-cli-mirage to v3 (1d).
+- [#7218](https://github.com/1024pix/pix/pull/7218) [BUMP] Lock file maintenance (dossier racine).
+- [#7217](https://github.com/1024pix/pix/pull/7217) [BUMP] Lock file maintenance (1d).
+- [#7214](https://github.com/1024pix/pix/pull/7214) [BUMP] Lock file maintenance (admin).
+- [#7213](https://github.com/1024pix/pix/pull/7213) [BUMP] Lock file maintenance (audit-logger).
+- [#7212](https://github.com/1024pix/pix/pull/7212) [BUMP] Lock file maintenance (orga).
+- [#7211](https://github.com/1024pix/pix/pull/7211) [BUMP] Lock file maintenance (certif).
+- [#7210](https://github.com/1024pix/pix/pull/7210) [BUMP] Lock file maintenance (mon-pix).
+- [#7209](https://github.com/1024pix/pix/pull/7209) [BUMP] Lock file maintenance (api).
+
+### :coffee: Autre
+- [#7199](https://github.com/1024pix/pix/pull/7199) [FIX] Pix1D - Afficher les éléments sélectionnés dans les menus déroulants des QROCM.
+
 ## v4.40.0 (06/10/2023)
 
 
