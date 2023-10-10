@@ -1,6 +1,6 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-import { NotFoundError, EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { EntityValidationError, NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
