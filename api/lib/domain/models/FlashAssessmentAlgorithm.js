@@ -1,9 +1,4 @@
 import { AssessmentEndedError } from '../errors.js';
-import {
-  getPossibleNextChallenges,
-  getEstimatedLevelAndErrorRate,
-  getReward,
-} from '../services/algorithm-methods/flash.js';
 import { config } from '../../config.js';
 import { FlashAssessmentSuccessRateHandler } from './FlashAssessmentSuccessRateHandler.js';
 
@@ -34,6 +29,7 @@ class FlashAssessmentAlgorithm {
    * @param challengesBetweenSameCompetence - define a number of questions before getting another one on the same competence
    * @param minimumEstimatedSuccessRateRanges - force a minimal estimated success rate for challenges chosen at specific indexes
    * @param limitToOneQuestionPerTube - limits questions to one per tube
+   * @param flashImplementation - the flash algorithm implementation
    */
   constructor({
     warmUpLength,
@@ -42,6 +38,7 @@ class FlashAssessmentAlgorithm {
     challengesBetweenSameCompetence = config.v3Certification.challengesBetweenSameCompetence,
     minimumEstimatedSuccessRateRanges = defaultMinimumEstimatedSuccessRateRanges,
     limitToOneQuestionPerTube = true,
+    flashAlgorithmImplementation,
   } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
@@ -49,6 +46,7 @@ class FlashAssessmentAlgorithm {
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
+    this.flashAlgorithmImplementation = flashAlgorithmImplementation;
   }
 
   getPossibleNextChallenges({
@@ -68,7 +66,7 @@ class FlashAssessmentAlgorithm {
 
     const minimalSuccessRate = this._computeMinimalSuccessRate(allAnswers.length);
 
-    const { possibleChallenges, hasAssessmentEnded } = getPossibleNextChallenges({
+    const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
       allAnswers,
       challenges,
       estimatedLevel,
@@ -104,12 +102,20 @@ class FlashAssessmentAlgorithm {
     );
   }
 
-  getEstimatedLevelAndErrorRate({ allAnswers, challenges, initialCapacity }) {
-    return getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel: initialCapacity });
+  getEstimatedLevelAndErrorRate({
+    allAnswers,
+    challenges,
+    initialCapacity = config.v3Certification.defaultCandidateCapacity,
+  }) {
+    return this.flashAlgorithmImplementation.getEstimatedLevelAndErrorRate({
+      allAnswers,
+      challenges,
+      estimatedLevel: initialCapacity,
+    });
   }
 
   getReward({ estimatedLevel, discriminant, difficulty }) {
-    return getReward({ estimatedLevel, discriminant, difficulty });
+    return this.flashAlgorithmImplementation.getReward({ estimatedLevel, discriminant, difficulty });
   }
 }
 

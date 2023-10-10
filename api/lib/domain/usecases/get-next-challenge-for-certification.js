@@ -12,6 +12,7 @@ const getNextChallengeForCertification = async function ({
   flashAssessmentResultRepository,
   locale,
   pickChallengeService,
+  flashAlgorithmService,
 }) {
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
@@ -36,6 +37,7 @@ const getNextChallengeForCertification = async function ({
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       maximumAssessmentLength: config.v3Certification.numberOfChallengesPerCourse,
+      flashAlgorithmImplementation: flashAlgorithmService,
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
