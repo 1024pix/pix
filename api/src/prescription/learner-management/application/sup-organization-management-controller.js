@@ -10,11 +10,7 @@ const importSupOrganizationLearners = async function (
 ) {
   const organizationId = request.params.id;
   const buffer = request.payload;
-  const supOrganizationLearnerParser = dependencies.makeOrganizationLearnerParser(
-    buffer,
-    organizationId,
-    request.i18n,
-  );
+  const supOrganizationLearnerParser = dependencies.makeOrganizationLearnerParser(buffer, organizationId, request.i18n);
   const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
 
   return h
@@ -30,11 +26,7 @@ const replaceSupOrganizationLearners = async function (
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
   const organizationId = request.params.id;
   const buffer = request.payload;
-  const supOrganizationLearnerParser = dependencies.makeOrganizationLearnerParser(
-    buffer,
-    organizationId,
-    request.i18n,
-  );
+  const supOrganizationLearnerParser = dependencies.makeOrganizationLearnerParser(buffer, organizationId, request.i18n);
   const warnings = await usecases.replaceSupOrganizationLearners({
     organizationId,
     userId,
