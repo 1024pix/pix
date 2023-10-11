@@ -26,6 +26,7 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
     let scorecardWithMaxLevel;
     let scorecardWithRemainingDaysBeforeImproving;
     let scorecardWithoutRemainingDaysBeforeImproving;
+    let scorecardWithMaxLevelAndNotImprovable;
 
     hooks.beforeEach(async function () {
       await authenticate(user);
@@ -35,6 +36,7 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
       scorecardWithMaxLevel = user.scorecards.models[3];
       scorecardWithRemainingDaysBeforeImproving = user.scorecards.models[4];
       scorecardWithoutRemainingDaysBeforeImproving = user.scorecards.models[5];
+      scorecardWithMaxLevelAndNotImprovable = user.scorecards.models[6];
     });
 
     test('should be able to visit URL of competence details page', async function (assert) {
@@ -216,6 +218,20 @@ module("Acceptance | Competence details | Afficher la page de détails d'une co
             ),
           );
           assert.dom('.scorecard-details__improve-button').doesNotExist();
+        });
+      });
+
+      module('when the user has reached max level and the competence is not improvable', function () {
+        test('should not display remaining days before improving nor retry button', async function (assert) {
+          // when
+          const screen = await visit(`/competences/${scorecardWithMaxLevelAndNotImprovable.competenceId}/details`);
+
+          // then
+          assert
+            .dom(screen.queryByRole('button', { name: 'Retenter la compétence Area_4_Competence_3_name' }))
+            .doesNotExist();
+          assert.dom('.competence-card__congrats').exists();
+          assert.notOk(screen.queryByText('0 jour.'));
         });
       });
 
