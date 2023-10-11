@@ -18,7 +18,7 @@ async function getAttendanceSheetPdfBuffer({
   creationDate = new Date(),
   session,
 } = {}) {
-  const templatePath = `${dirname}/files/FR-non-SCO-attendance-sheet.pdf`;
+  const templatePath = `${dirname}/files/attendance-sheet.pdf`;
   const templateBuffer = await readFile(templatePath);
 
   const pdfDoc = await PDFDocument.create();
@@ -27,8 +27,14 @@ async function getAttendanceSheetPdfBuffer({
   pdfDoc.setModificationDate(creationDate);
   pdfDoc.registerFontkit(fontkit);
 
-  const fontFile = await readFile(`${dirname}/files/Roboto-Regular.ttf`);
-  const font = await pdfDoc.embedFont(fontFile, { subset: true, customName: 'Roboto-Regular.ttf' });
+  const sessionLabelsAndCandidatesInformationFont = await _embedFontIntoPdf({
+    pdfDoc,
+    dirname,
+    font: 'Roboto-Regular.ttf',
+  });
+  const tableLabelsFont = await _embedFontIntoPdf({ pdfDoc, dirname, font: 'Roboto-Medium.ttf' });
+  const titleFont = await _embedFontIntoPdf({ pdfDoc, dirname, font: 'Nunito-Bold.ttf' });
+  const pageInformationFont = await _embedFontIntoPdf({ pdfDoc, dirname, font: 'Nunito-Regular.ttf' });
 
   const certificationCandidates = session.certificationCandidates;
   const certificationCandidatesSplitByPage = _.chunk(certificationCandidates, CANDIDATES_PER_PAGE);
@@ -39,18 +45,23 @@ async function getAttendanceSheetPdfBuffer({
     page.drawPage(templatePage);
     const pagesCount = certificationCandidatesSplitByPage.length;
 
-    _drawPageNumber({ pageIndex: index, pagesCount, page, font });
-    _drawSessionDate({ session, page, font });
-    _drawSessionStartTime({ session, page, font });
-    _drawSessionAddress({ session, page, font });
-    _drawSessionRoom({ session, page, font });
-    _drawSessionExaminer({ session, page, font });
-    _drawSessionId({ session, page, font });
+    _drawHeaderLabels({ page, titleFont, pageInformationFont });
+    _drawCertificationInformationLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont });
+    _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont });
+    _drawCandidatesTableLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont, tableLabelsFont });
+
+    _drawPageNumber({ pageIndex: index, pagesCount, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionStartTime({ session, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionAddress({ session, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionRoom({ session, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionExaminer({ session, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionId({ session, page, sessionLabelsAndCandidatesInformationFont });
 
     candidatesGroup.forEach((candidate, index) => {
-      const gap = 30;
-      const initialY = 603;
-      const y = initialY - gap * index;
+      const gapBetweenCandidates = 30;
+      const firstCandidateYPosition = 603;
+      const y = firstCandidateYPosition - gapBetweenCandidates * index;
       const firstName = _formatInformation(candidate.firstName);
       const lastName = _formatInformation(candidate.lastName);
       const externalId = _formatInformation(candidate.externalId);
@@ -62,7 +73,7 @@ async function getAttendanceSheetPdfBuffer({
         [305, y, externalId],
       ];
 
-      _drawCandidate({ parameters, page, font });
+      _drawCandidate({ parameters, page, sessionLabelsAndCandidatesInformationFont });
     });
   }
 
@@ -70,14 +81,105 @@ async function getAttendanceSheetPdfBuffer({
   return Buffer.from(pdfBytes);
 }
 
-function _drawPageNumber({ pageIndex, pagesCount, page, font }) {
+async function _embedFontIntoPdf({ pdfDoc, dirname, font }) {
+  const fontFile = await readFile(`${dirname}/files/${font}`);
+  return pdfDoc.embedFont(fontFile, { subset: true });
+}
+
+function _drawHeaderLabels({ page, titleFont, pageInformationFont }) {
+  [
+    [42, 807, 'Page', SESSION_DETAIL_FONT_SIZE, pageInformationFont],
+    [42, 784, "Feuille d'émargement", 24, titleFont],
+  ].forEach(([x, y, text, fontSize, font]) => {
+    page.drawText(text, {
+      x,
+      y,
+      size: fontSize,
+      font,
+      color: rgb(1, 1, 1),
+    });
+  });
+}
+
+function _drawCertificationInformationLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont }) {
+  [
+    [34, 739, 'La session de certification', 9, titleFont],
+    [230, 739, 'N°', 9, titleFont],
+    [34, 715, 'Date :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+    [189, 715, 'Heure locale (début) :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+    [34, 691, 'Nom du site :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+    [189, 691, 'Nom de la salle :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+  ].forEach(([x, y, text, fontSize, font]) => {
+    page.drawText(text, {
+      x,
+      y,
+      size: fontSize,
+      font,
+      color: SESSION_DETAIL_DEFAULT_COLOR,
+    });
+  });
+}
+
+function _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont }) {
+  [
+    [356, 739, 'Le(s) surveillants(s)', 9, titleFont],
+    [356, 717, 'Surveillé par :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+    [356, 697, 'Signature(s) :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+  ].forEach(([x, y, text, fontSize, font]) => {
+    page.drawText(text, {
+      x,
+      y,
+      size: fontSize,
+      font,
+      color: SESSION_DETAIL_DEFAULT_COLOR,
+    });
+  });
+}
+
+function _drawCandidatesTableLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont, tableLabelsFont }) {
+  [
+    [26, 660, 'Liste des candidats', 12, titleFont],
+    [33, 635, 'Nom de naissance', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [136, 635, 'Prénom', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [305, 635, 'Identifiant local', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [402, 635, 'Signature', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+  ].forEach(([x, y, text, fontSize, font]) => {
+    page.drawText(text, {
+      x,
+      y,
+      size: fontSize,
+      font,
+      color: SESSION_DETAIL_DEFAULT_COLOR,
+    });
+  });
+
+  _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont });
+}
+
+function _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont }) {
+  [
+    [239, 645, 'Date', tableLabelsFont],
+    [239, 636, 'de naissance', tableLabelsFont],
+    [239, 627, '(jj/mm/aaaa)', sessionLabelsAndCandidatesInformationFont],
+  ].forEach(([x, y, text, font]) => {
+    page.drawText(text, {
+      x,
+      y,
+      size: SESSION_DETAIL_FONT_SIZE,
+      font: font,
+      color: SESSION_DETAIL_DEFAULT_COLOR,
+    });
+  });
+}
+
+function _drawPageNumber({ pageIndex, pagesCount, page, sessionLabelsAndCandidatesInformationFont }) {
   const pageNumber = (pageIndex + 1).toString();
   const pagePagination = `${pageNumber}/${pagesCount}`;
   page.drawText(pagePagination, {
     x: 61,
     y: 807,
     size: SESSION_DETAIL_FONT_SIZE,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: rgb(1, 1, 1),
   });
 }
@@ -90,7 +192,7 @@ function _formatInformation(information, limit = 21) {
   return information;
 }
 
-function _drawSessionDate({ session, page, font }) {
+function _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont }) {
   const date = new Date(session.date);
   const day = date.getDate();
   const year = date.getFullYear();
@@ -103,76 +205,76 @@ function _drawSessionDate({ session, page, font }) {
     x: 62,
     y: 715,
     size: SESSION_DETAIL_FONT_SIZE,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: SESSION_DETAIL_DEFAULT_COLOR,
   });
 }
 
-function _drawSessionStartTime({ session, page, font }) {
+function _drawSessionStartTime({ session, page, sessionLabelsAndCandidatesInformationFont }) {
   const [hours, minutes] = session.time.split(':');
   const hour = `${hours}h${minutes}`;
   page.drawText(hour, {
     x: 272,
     y: 715,
     size: SESSION_DETAIL_FONT_SIZE,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: SESSION_DETAIL_DEFAULT_COLOR,
   });
 }
 
-function _drawSessionAddress({ session, page, font }) {
+function _drawSessionAddress({ session, page, sessionLabelsAndCandidatesInformationFont }) {
   const address = _formatInformation(session.address, 22);
   page.drawText(address, {
     x: 89,
     y: 691,
     size: SESSION_DETAIL_FONT_SIZE,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: SESSION_DETAIL_DEFAULT_COLOR,
   });
 }
 
-function _drawSessionRoom({ session, page, font }) {
+function _drawSessionRoom({ session, page, sessionLabelsAndCandidatesInformationFont }) {
   const room = _formatInformation(session.room);
 
   page.drawText(room, {
     x: 256,
     y: 691,
     size: SESSION_DETAIL_FONT_SIZE,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: SESSION_DETAIL_DEFAULT_COLOR,
   });
 }
 
-function _drawSessionExaminer({ session, page, font }) {
+function _drawSessionExaminer({ session, page, sessionLabelsAndCandidatesInformationFont }) {
   const examiner = _formatInformation(session.examiner, 40);
 
   page.drawText(examiner, {
     x: 410,
     y: 717,
     size: SESSION_DETAIL_FONT_SIZE,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: SESSION_DETAIL_DEFAULT_COLOR,
   });
 }
 
-function _drawSessionId({ session, page, font }) {
+function _drawSessionId({ session, page, sessionLabelsAndCandidatesInformationFont }) {
   const sessionId = String(session.id);
   page.drawText(sessionId, {
     x: 246,
     y: 739,
     size: 10,
-    font,
+    font: sessionLabelsAndCandidatesInformationFont,
     color: SESSION_DETAIL_DEFAULT_COLOR,
   });
 }
 
-function _drawCandidate({ page, font, parameters }) {
+function _drawCandidate({ page, sessionLabelsAndCandidatesInformationFont, parameters }) {
   parameters.forEach(([x, y, text]) => {
     page.drawText(text, {
       x,
       y,
       size: SESSION_DETAIL_FONT_SIZE,
-      font,
+      font: sessionLabelsAndCandidatesInformationFont,
       color: SESSION_DETAIL_DEFAULT_COLOR,
     });
   });
