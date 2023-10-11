@@ -59,6 +59,7 @@
     "@formatjs/intl-locale": "^3.0.11",
     "@formatjs/intl-pluralrules": "^5.1.8",
     "@fortawesome/ember-fontawesome": "^2.0.0",
+    "@fortawesome/fontawesome-svg-core": "6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",
@@ -113,8 +114,5 @@
     "striptags": "^3.2.0",
     "stylelint": "^15.0.0",
     "webpack": "^5.76.3"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.2.1"
   }
 }
