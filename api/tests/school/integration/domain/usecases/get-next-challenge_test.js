@@ -5,11 +5,11 @@ import * as activityRepository from '../../../../../lib/infrastructure/repositor
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../../lib/infrastructure/repositories/challenge-repository.js';
 import * as activityAnswerRepository from '../../../../../lib/infrastructure/repositories/activity-answer-repository.js';
-import { getNextChallengeForPix1d } from '../../../../../src/school/domain/usecases/get-next-challenge-for-pix1d.js';
+import { getNextChallenge } from '../../../../../src/school/domain/usecases/get-next-challenge.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
-describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
-  describe('#getNextChallengeForPix1d', function () {
+describe('Integration | Usecase | get-next-challenge', function () {
+  describe('#getNextChallenge', function () {
     const missionId = 'recCHAL1';
     let challengeVal1;
     let challengeAlterVal1;
@@ -103,7 +103,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
       it('should return the first challenge for the level Validation', async function () {
         // when
         sinon.stub(Math, 'random').returns(0.2);
-        const nextChallenge = await getNextChallengeForPix1d({
+        const nextChallenge = await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -118,7 +118,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
       it('should create an activity with status started', async function () {
         // when
         sinon.stub(Math, 'random').returns(0.2);
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -149,7 +149,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
 
       it('should return the first challenge', async function () {
         // when
-        const nextChallenge = await getNextChallengeForPix1d({
+        const nextChallenge = await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -163,7 +163,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
       });
       it('should not create a new activity', async function () {
         // when
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -200,7 +200,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
           await databaseBuilder.commit();
 
           // when
-          const nextChallenge = await getNextChallengeForPix1d({
+          const nextChallenge = await getNextChallenge({
             assessmentId: assessment.id,
             activityRepository,
             assessmentRepository,
@@ -241,7 +241,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
         await databaseBuilder.commit();
 
         // when
-        const nextChallenge = await getNextChallengeForPix1d({
+        const nextChallenge = await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -282,7 +282,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
 
       it('should return the first challenge of the training level', async function () {
         // when
-        const nextChallenge = await getNextChallengeForPix1d({
+        const nextChallenge = await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -296,7 +296,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
       });
       it('should create a new activity for the training level', async function () {
         // when
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -330,7 +330,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
 
         await databaseBuilder.commit();
         // when
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -361,7 +361,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
 
         await databaseBuilder.commit();
         // when
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -392,7 +392,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
 
         await databaseBuilder.commit();
         // when
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,
@@ -425,7 +425,7 @@ describe('Integration | Usecase | get-next-challenge-for-pix1d', function () {
 
         await databaseBuilder.commit();
         // when
-        await getNextChallengeForPix1d({
+        await getNextChallenge({
           assessmentId: assessment.id,
           activityRepository,
           assessmentRepository,

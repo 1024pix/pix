@@ -2,7 +2,7 @@ import * as challengeSerializer from '../../../../lib/infrastructure/serializers
 import { usecases } from '../../shared/usecases/index.js';
 const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
   const assessmentId = request.params.id;
-  const challenge = await usecases.getNextChallengeForPix1d({ assessmentId });
+  const challenge = await usecases.getNextChallenge({ assessmentId });
   return dependencies.challengeSerializer.serialize(challenge);
 };
 
