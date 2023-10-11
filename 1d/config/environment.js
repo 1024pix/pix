@@ -7,6 +7,7 @@ module.exports = function (environment) {
     environment,
     locationType: 'history',
     rootURL: '/',
+
     EmberENV: {
       EXTEND_PROTOTYPES: false,
       FEATURES: {
@@ -50,5 +51,8 @@ module.exports = function (environment) {
     // here you can enable a production-specific feature
   }
 
+  ENV['ember-component-css'] = {
+    namespacing: false,
+  };
   return ENV;
 };
