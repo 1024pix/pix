@@ -9,9 +9,7 @@ module.exports = function (defaults) {
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
     },
-    sourcemaps: { enabled: true },
     babel: {
-      sourceMaps: 'inline',
       plugins: [require.resolve('ember-auto-import/babel-plugin')],
     },
     flatpickr: {

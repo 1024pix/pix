@@ -9,10 +9,6 @@ module.exports = function (defaults) {
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
     },
-    sourcemaps: { enabled: true },
-    babel: {
-      sourceMaps: 'inline',
-    },
     'ember-simple-auth': {
       useSessionSetupMethod: true,
     },
