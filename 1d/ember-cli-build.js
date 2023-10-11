@@ -10,12 +10,8 @@ const sourceMapConfig = {
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
-    sourcemaps: { enabled: true },
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
-    },
-    babel: {
-      sourceMaps: 'inline',
     },
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
