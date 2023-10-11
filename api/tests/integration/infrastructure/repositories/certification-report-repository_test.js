@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { databaseBuilder, domainBuilder, expect, catchErr, knex } from '../../../test-helper.js';
 import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
 import { CertificationCourseUpdateError } from '../../../../lib/domain/errors.js';
 import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';

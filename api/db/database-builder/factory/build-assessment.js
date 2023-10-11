@@ -1,7 +1,7 @@
 import { buildCertificationCourse } from './build-certification-course.js';
 import { buildUser } from './build-user.js';
 import { databaseBuffer } from '../database-buffer.js';
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import _ from 'lodash';
 
 const buildAssessment = function ({

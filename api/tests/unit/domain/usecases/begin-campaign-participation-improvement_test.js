@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 import {

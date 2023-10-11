@@ -3,7 +3,7 @@ import * as campaignParticipationRepository from './campaign-participation-repos
 import * as campaignRepository from './campaign-repository.js';
 import * as competenceRepository from './competence-repository.js';
 import * as areaRepository from './area-repository.js';
-import * as assessmentRepository from './assessment-repository.js';
+import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 
 const campaignParticipationResultRepository = {

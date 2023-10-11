@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Unit | Domain | Models | Assessment', function () {
   describe('#constuctor', function () {

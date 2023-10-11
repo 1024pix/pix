@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/session-for-supervising-serializer.js';
-import { Assessment } from '../../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationCandidateForSupervising } from '../../../../../lib/domain/models/index.js';
 import { CertificationCandidateForSupervisingV3 } from '../../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';

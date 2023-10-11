@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';

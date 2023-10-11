@@ -8,7 +8,7 @@ import {
 } from '../../../test-helper.js';
 
 import { handlePoleEmploiParticipationStarted } from '../../../../lib/domain/events/handle-pole-emploi-participation-started.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';

@@ -1,4 +1,4 @@
-import { Assessment } from '../models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { CampaignTypes } from '../models/CampaignTypes.js';
 
 class CampaignToJoin {

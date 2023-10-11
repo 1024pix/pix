@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { buildAnswer } from './build-answer.js';
 import { buildCourse } from './build-course.js';
 import { buildKnowledgeElement } from './build-knowledge-element.js';

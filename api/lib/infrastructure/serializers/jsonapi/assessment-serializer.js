@@ -1,4 +1,4 @@
-import { Assessment } from '../../../domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { Progression } from '../../../domain/models/Progression.js';
 import jsonapiSerializer from 'jsonapi-serializer';
 

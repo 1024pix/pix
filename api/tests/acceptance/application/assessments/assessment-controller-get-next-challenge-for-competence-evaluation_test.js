@@ -9,7 +9,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 
 const competenceId = 'recCompetence';

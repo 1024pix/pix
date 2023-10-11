@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 import { ScoringSimulationResult } from '../../../../lib/domain/models/ScoringSimulationResult.js';
 import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulation.js';
-import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { ScoringSimulationContext } from '../../../../lib/domain/models/ScoringSimulationContext.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';

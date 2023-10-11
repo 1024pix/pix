@@ -4,7 +4,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as knowledgeElementSnapshotRepository from './knowledge-element-snapshot-repository.js';
 import { CampaignParticipation } from '../../domain/models/CampaignParticipation.js';
-import { Assessment } from '../../domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';

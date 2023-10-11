@@ -1,4 +1,4 @@
-import { Assessment } from '../models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { MAX_REACHABLE_LEVEL } from '../constants.js';
 import { ImproveCompetenceEvaluationForbiddenError } from '../errors.js';
 

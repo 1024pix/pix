@@ -8,7 +8,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 const competenceId = 'recCompetence';
 const skillWeb2Id = 'recAcquisWeb2';
