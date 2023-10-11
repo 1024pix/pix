@@ -568,7 +568,7 @@
       },
       "feedback-panel": {
         "actions": {
-          "open-close": "Signaler un problème"
+          "open-close": "Signaler un problème avec la question"
         },
         "description": "Pix est à l’écoute de vos remarques pour améliorer les épreuves proposées !*",
         "form": {

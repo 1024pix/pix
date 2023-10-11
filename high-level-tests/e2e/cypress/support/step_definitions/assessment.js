@@ -8,7 +8,7 @@ When(`je lance la preview du challenge {string}`, (challengeId) => {
   cy.visitMonPix(`/challenges/${challengeId}/preview`);
 });
 
-When(`je clique sur Signaler un problème`, () => {
+When(`je clique sur Signaler un problème avec la question`, () => {
   cy.get(".feedback-panel__open-button").click();
 });
 
