@@ -1,5 +1,6 @@
 import { Cache } from './Cache.js';
 import { RedisClient } from '../utils/RedisClient.js';
+import { logger } from '../../../src/shared/infrastructure/utils/logger.js';
 
 class DistributedCache extends Cache {
   constructor(underlyingCache, redisUrl, channel) {
@@ -15,6 +16,7 @@ class DistributedCache extends Cache {
       this._redisClientSubscriber.subscribe(this._channel);
     });
     this._redisClientSubscriber.on('message', () => {
+      logger.info({ event: 'cache-event' }, 'Flushing the local cache');
       return this._underlyingCache.flushAll();
     });
   }
