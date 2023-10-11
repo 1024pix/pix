@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v4.42.0 (11/10/2023)
+
+
+### :rocket: Amélioration
+- [#7237](https://github.com/1024pix/pix/pull/7237) [FEATURE] Ajouter le SSO "Pays de la Loire" en tant que méthode d'authentification dans la base de données (PIX-9581).
+- [#7226](https://github.com/1024pix/pix/pull/7226) [FEATURE] 1D - Appliquer le nouveau design à la page de début de mission (PIX-9366).
+
+### :building_construction: Tech
+- [#7178](https://github.com/1024pix/pix/pull/7178) [TECH] Déplacer les usecases answers et assessment dans la nouvelle arbo (PIX-9446).
+- [#7238](https://github.com/1024pix/pix/pull/7238) [TECH] Ajout explicite de la dépendance `@fortawesome/fontawesome-svg-core`.
+- [#7227](https://github.com/1024pix/pix/pull/7227) [TECH] Utiliser un template vide pour la feuille d'émargement (PIX-9540).
+- [#7232](https://github.com/1024pix/pix/pull/7232) [TECH] Améliorer la structure pods de Pix1d (PIX-9585).
+
+### :bug: Correction
+- [#7190](https://github.com/1024pix/pix/pull/7190) [BUGFIX] Ajuster la taille du select sur les épreuves dans Pix-App (PIX-8539).
+
 ## v4.41.1 (11/10/2023)
 
 
