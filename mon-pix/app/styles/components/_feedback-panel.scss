@@ -3,7 +3,6 @@
   padding: 0 $pix-spacing-s;
   color: $pix-neutral-60;
   font-size: 0.938rem;
-  background-color: white;
   border-radius: 10px;
 }
 
@@ -11,14 +10,16 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .feedback-panel__open-button {
+  gap: $pix-spacing-xxs;
   width: 100%;
   padding: 0.75rem 0;
-  color: $pix-neutral-50;
-  font-weight: $font-medium;
+  color: $pix-neutral-70;
+  font-weight: $font-normal;
   font-size: 0.875rem;
   font-family: $font-roboto;
   line-height: 20px;
   text-align: left;
+  text-decoration: underline;
   background-color: transparent;
   border: none;
   cursor: pointer;

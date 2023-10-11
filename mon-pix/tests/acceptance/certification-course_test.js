@@ -529,7 +529,7 @@ module('Acceptance | Certification | Certification Course', function (hooks) {
           await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
 
           // when
-          await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+          await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
           // then
           assert

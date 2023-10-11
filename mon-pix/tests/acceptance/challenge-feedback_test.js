@@ -27,7 +27,7 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
     test('should be able to directly send a feedback', async function (assert) {
       const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
       // then
-      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
     });
 
     module('when the feedback-panel button is clicked', function (hooks) {
@@ -35,12 +35,14 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
 
       hooks.beforeEach(async function () {
         screen = await visit(`/assessments/${assessment.id}/challenges/0`);
-        await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+        await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
       });
 
       test('should open the feedback form', function (assert) {
         // then
-        assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'true');
+        assert
+          .dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' }))
+          .hasAttribute('aria-expanded', 'true');
         assert.dom(screen.getByRole('button', { name: "J'ai un problème avec" })).exists();
       });
 
@@ -73,13 +75,13 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
           test('should not display the feedback form', async function (assert) {
             // then
             assert
-              .dom(screen.getByRole('button', { name: 'Signaler un problème' }))
+              .dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' }))
               .hasAttribute('aria-expanded', 'false');
             assert.dom(screen.queryByRole('button', { name: "J'ai un problème avec" })).doesNotExist();
           });
 
           test('should always reset the feedback form between two consecutive challenges', async function (assert) {
-            await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+            await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
             await click(screen.getByRole('button', { name: "J'ai un problème avec" }));
             await screen.findByRole('listbox');
             await click(
@@ -117,7 +119,9 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
       await screen.findByRole('dialog');
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'false');
+      assert
+        .dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' }))
+        .hasAttribute('aria-expanded', 'false');
       assert
         .dom(screen.queryByRole('button', { name: 'Sélectionner la catégorie du problème rencontré' }))
         .doesNotExist();
@@ -128,10 +132,12 @@ module('Acceptance | Giving feedback about a challenge', function (hooks) {
       await click(screen.getByRole('button', { name: 'Réponses et tutos' }));
       await screen.findByRole('dialog');
 
-      await click(screen.getByRole('button', { name: 'Signaler un problème' }));
+      await click(screen.getByRole('button', { name: 'Signaler un problème avec la question' }));
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).hasAttribute('aria-expanded', 'true');
+      assert
+        .dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' }))
+        .hasAttribute('aria-expanded', 'true');
       assert.dom(screen.getByRole('button', { name: "J'ai un problème avec" })).exists();
     });
   });
