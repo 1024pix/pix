@@ -9,14 +9,18 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
 
   hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/team/invite');
-    sinon.stub(controller.router, 'transitionTo');
   });
 
-  test('cancel action transitions to authenticated.team.list.invitations route', async function (assert) {
-    // when
-    await controller.send('cancel');
+  module('#cancel', function () {
+    test('cancel action transitions to authenticated.team.list.invitations route', async function (assert) {
+      // given
+      sinon.stub(controller.router, 'transitionTo');
 
-    // then
-    assert.ok(controller.router.transitionTo.calledWith('authenticated.team.list.invitations'));
+      // when
+      await controller.send('cancel');
+
+      // then
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.team.list.invitations'));
+    });
   });
 });
