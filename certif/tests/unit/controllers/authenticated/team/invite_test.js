@@ -12,11 +12,11 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
     sinon.stub(controller.router, 'transitionTo');
   });
 
-  test('cancel action transitions to authenticated.team route', async function (assert) {
+  test('cancel action transitions to authenticated.team.list.invitations route', async function (assert) {
     // when
     await controller.send('cancel');
 
     // then
-    assert.ok(controller.router.transitionTo.calledWith('authenticated.team'));
+    assert.ok(controller.router.transitionTo.calledWith('authenticated.team.list.invitations'));
   });
 });
