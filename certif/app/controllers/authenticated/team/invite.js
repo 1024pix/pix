@@ -15,6 +15,6 @@ export default class AuthenticatedTeamInviteController extends Controller {
 
   @action
   cancel() {
-    this.router.transitionTo('authenticated.team');
+    this.router.transitionTo('authenticated.team.list.invitations');
   }
 }
