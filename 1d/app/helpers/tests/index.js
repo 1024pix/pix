@@ -39,4 +39,6 @@ function setupTest(hooks, options) {
   // Additional setup for unit tests can be done here.
 }
 
-export { setupApplicationTest, setupRenderingTest, setupTest };
+import { setupIntl } from 'ember-intl/test-support';
+
+export { setupApplicationTest, setupRenderingTest, setupTest, setupIntl };
