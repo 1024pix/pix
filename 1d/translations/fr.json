@@ -19,12 +19,16 @@
     },
     "missions": {
       "start-page": {
-        "list": "Choisis ta mission parmi celles qui te sont proposées ci-dessous !"
+        "back-to-missions": "Voir toutes les missions",
+        "list": "Choisis ta mission parmi celles qui te sont proposées ci-dessous !",
+        "purpose-title": "Objectif de la mission :",
+        "start-mission": "C'est partix !",
+        "welcome": "Prépare-toi à résoudre des épreuves et relever des défis."
       },
       "end-page": {
         "congratulations": "Bravo ! <br> Tu as terminé ta mission !",
         "back-to-missions": "Voir d'autres missions",
-        "competences-list": "POUR CETTE MISSION, TU AS MONTRÉ QUE TU SAIS :"
+        "details-list": "POUR CETTE MISSION, TU AS MONTRÉ QUE TU SAIS :"
       }
     },
     "error": {
