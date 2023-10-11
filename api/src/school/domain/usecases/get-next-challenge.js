@@ -3,7 +3,7 @@ import { getChallengeForCurrentActivity, getNextActivityChallenge } from '../ser
 import { getLastAnswerStatus } from '../services/last-answer-status.js';
 import { Activity } from '../models/Activity.js';
 
-export async function getNextChallengeForPix1d({
+export async function getNextChallenge({
   assessmentId,
   assessmentRepository,
   activityAnswerRepository,

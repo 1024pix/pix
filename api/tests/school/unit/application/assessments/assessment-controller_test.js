@@ -16,7 +16,7 @@ describe('Unit | Controller | assessment-controller', function () {
         },
       };
 
-      sinon.stub(usecases, 'getNextChallengeForPix1d').withArgs({ assessmentId }).resolves(challenge);
+      sinon.stub(usecases, 'getNextChallenge').withArgs({ assessmentId }).resolves(challenge);
 
       // when
       const result = await assessmentController.getNextChallengeForPix1d(request, hFake, {
