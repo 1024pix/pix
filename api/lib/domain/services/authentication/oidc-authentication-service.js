@@ -12,7 +12,7 @@ import {
 } from '../../errors.js';
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
-import { config } from '../../../config.js';
+import { config } from '../../../../src/shared/config.js';
 import { httpAgent } from '../../../infrastructure/http/http-agent.js';
 import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
