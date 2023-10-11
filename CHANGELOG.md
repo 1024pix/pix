@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.41.1 (11/10/2023)
+
+
+### :rocket: Amélioration
+- [#7228](https://github.com/1024pix/pix/pull/7228) [FEATURE] Rajouter des logs dans les logs des caches.
+
 ## v4.41.0 (10/10/2023)
 
 
