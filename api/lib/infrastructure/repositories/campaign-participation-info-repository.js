@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { Assessment } from '../../domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipationInfo } from '../../domain/read-models/CampaignParticipationInfo.js';
 
 const findByCampaignId = async function (campaignId) {

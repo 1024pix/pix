@@ -1,4 +1,4 @@
-import { Answer } from '../../../domain/models/Answer.js';
+import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import jsonapiSerializer from 'jsonapi-serializer';
 import { AnswerStatusJsonApiAdapter } from '../../adapters/answer-status-json-api-adapter.js';
 

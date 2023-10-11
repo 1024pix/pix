@@ -10,7 +10,7 @@ import {
 
 import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {

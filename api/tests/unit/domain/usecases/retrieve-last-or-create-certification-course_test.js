@@ -10,7 +10,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 
 import { retrieveLastOrCreateCertificationCourse } from '../../../../lib/domain/usecases/retrieve-last-or-create-certification-course.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
 import { ComplementaryCertificationCourse } from '../../../../lib/domain/models/ComplementaryCertificationCourse.js';
 import _ from 'lodash';

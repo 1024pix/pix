@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { CertificationAssessment } from '../../domain/models/CertificationAssessment.js';
 import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
-import { Answer } from '../../domain/models/Answer.js';
+import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import * as challengeRepository from './challenge-repository.js';
 import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database-adapter.js';
 import { knex } from '../../../db/knex-database-connection.js';

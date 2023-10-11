@@ -1,4 +1,4 @@
-import { Answer } from '../../../../lib/domain/models/Answer.js';
+import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import * as correctionRepository from '../../../../lib/infrastructure/repositories/correction-repository.js';
 import { challengeDatasource } from '../../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';

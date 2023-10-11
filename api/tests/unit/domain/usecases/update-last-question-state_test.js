@@ -1,5 +1,5 @@
 import { sinon, domainBuilder } from '../../../test-helper.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { updateLastQuestionState } from '../../../../lib/domain/usecases/update-last-question-state.js';
 
 describe('Unit | UseCase | update-last-question-state', function () {

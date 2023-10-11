@@ -2,7 +2,7 @@ import { CampaignParticipation } from '../../../../lib/domain/models/CampaignPar
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { expect, domainBuilder, sinon, catchErr } from '../../../test-helper.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 import {
   ArchivedCampaignError,

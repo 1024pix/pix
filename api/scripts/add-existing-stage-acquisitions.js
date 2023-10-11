@@ -13,7 +13,7 @@ import { learningContentCache as cache } from '../lib/infrastructure/caches/lear
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import { batch } from '../db/batch-processing.js';
 import { usecases } from '../lib/domain/usecases/index.js';
-import { Assessment } from '../lib/domain/models/Assessment.js';
+import { Assessment } from '../src/shared/domain/models/Assessment.js';
 
 const MAX_RANGE_SIZE = 100_000;
 

@@ -2,7 +2,7 @@ import { expect, databaseBuilder, mockLearningContent } from '../../../test-help
 import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
 import * as certificationChallengesService from '../../../../lib/domain/services/certification-challenges-service.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
-import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
+import * as answerRepository from '../../../../src/evaluation/infrastructure/repositories/answer-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import { PIX_COUNT_BY_LEVEL } from '../../../../lib/domain/constants.js';
 

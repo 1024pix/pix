@@ -1,4 +1,4 @@
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildOrganization } from './build-organization.js';
 import { buildCampaignParticipation } from './build-campaign-participation.js';

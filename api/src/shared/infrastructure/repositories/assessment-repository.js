@@ -1,10 +1,10 @@
-import { BookshelfAssessment } from '../orm-models/Assessment.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { BookshelfAssessment } from '../../../../lib/infrastructure/orm-models/Assessment.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { Assessment } from '../../domain/models/Assessment.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
+import * as bookshelfToDomainConverter from '../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import lodash from 'lodash';
-import { NotFoundError } from '../../domain/errors.js';
-import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 
 const { groupBy, map, head, uniqBy, omit } = lodash;
 

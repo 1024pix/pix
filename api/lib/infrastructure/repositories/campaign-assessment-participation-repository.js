@@ -5,7 +5,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as campaignRepository from './campaign-repository.js';
 
-import { Assessment } from '../../../lib/domain/models/Assessment.js';
+import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 
 const getByCampaignIdAndCampaignParticipationId = async function ({ campaignId, campaignParticipationId }) {
   const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
