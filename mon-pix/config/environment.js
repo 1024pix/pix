@@ -175,5 +175,9 @@ module.exports = function (environment) {
     }
   }
 
+  ENV['ember-component-css'] = {
+    namespacing: false,
+  };
+
   return ENV;
 };
