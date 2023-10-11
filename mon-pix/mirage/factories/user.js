@@ -201,6 +201,36 @@ function _addDefaultScorecards(user, server) {
         remainingDaysBeforeImproving: 0,
       }),
     );
+
+    scorecards.push(
+      server.create('scorecard', {
+        id: `${user.id}_competence_4_3_id`,
+        name: 'Area_4_Competence_3_name',
+        description: 'Area_4_Competence_3_description',
+        earnedPix: 50,
+        level: 5,
+        pixScoreAheadOfNextLevel: 0,
+        percentageAheadOfNextLevel: 0,
+        isFinishedWithMaxLevel: true,
+        isFinished: true,
+        isNotStarted: false,
+        isStarted: false,
+        isMaxLevel: true,
+        isProgressable: false,
+        isImprovable: false,
+        shouldWaitBeforeImproving: false,
+        isResettable: true,
+        hasNotEarnedAnything: false,
+        hasNotReachedLevelOne: false,
+        hasReachedAtLeastLevelOne: true,
+        remainingPixToNextLevel: 0,
+        area: areas[3],
+        competenceId: 'competence_4_3_id',
+        index: `${areas[3].code}.3`,
+        remainingDaysBeforeReset: 3,
+        remainingDaysBeforeImproving: 0,
+      }),
+    );
     user.update({ scorecards });
   }
 }
