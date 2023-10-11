@@ -23,4 +23,14 @@ module('Unit | Controller | authenticated/team/invite', function (hooks) {
       assert.ok(controller.router.transitionTo.calledWith('authenticated.team.list.invitations'));
     });
   });
+
+  module('#updateEmail', function () {
+    test('updates controller emails attribute', function (assert) {
+      // when
+      controller.updateEmail({ target: { value: '        dev@example.net   ' } });
+
+      // then
+      assert.strictEqual(controller.emails, '        dev@example.net   ');
+    });
+  });
 });
