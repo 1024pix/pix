@@ -21,6 +21,7 @@ import {
 } from './src/certification/complementary-certification/routes.js';
 import { supOrganizationManangementRoutes } from './src/prescription/learner-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
+import { schoolRoutes } from './src/school/routes.js';
 
 monitoringTools.installHapiHook();
 
@@ -120,6 +121,7 @@ const setupRoutesAndPlugins = async function (server) {
     complementaryCertificationRoutes,
     devcompRoutes,
     supOrganizationManangementRoutes,
+    schoolRoutes,
   );
   await server.register(configuration);
 };
