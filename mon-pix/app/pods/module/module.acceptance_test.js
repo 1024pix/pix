@@ -39,4 +39,22 @@ module('Acceptance | modules/les-adresses-mail', function (hooks) {
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
   });
+
+  test('should include the module title inside the page title', async function (assert) {
+    // given
+    const module = {
+      title: 'Les adresses mail',
+    };
+
+    server.create('module', {
+      id: 'les-adresses-mail',
+      title: module.title,
+    });
+
+    // when
+    await visit('/modules/les-adresses-mail');
+
+    // then
+    assert.ok(document.title.includes(module.title));
+  });
 });
