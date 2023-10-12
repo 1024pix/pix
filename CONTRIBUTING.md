@@ -1,6 +1,6 @@
 # Contribuer à Pix
 
-L'organisation GitHub [1024pix](https://github.com/1024pix) héberge le code utilisé dans le projet [Pix](https://pix.fr). Les dépôts GitHub de l'organisation sont en évolution rapide et développés par plusieurs équipes dédiées chez Pix. Le dépôt GitHub [1024pix/pix](https://github.com/1024pix/pix) est la source canonique de nos équipes. Les développements que nous réalisons sont exclusivement dédiés à l'amélioration de la plateforme [Pix](https://pix.fr) et nous ne travaillons pas à l'heure actuelle à une version générique utilisable par toute et tous pour d'autres usages.
+L'organisation GitHub [1024pix](https://github.com/1024pix) héberge le code utilisé dans le projet [Pix](https://pix.fr). Les dépôts GitHub de l'organisation sont en évolution rapide et développés par plusieurs équipes dédiées chez Pix. Le dépôt GitHub [1024pix/pix](https://github.com/1024pix/pix) est la source canonique de nos équipes. Les développements que nous réalisons sont exclusivement dédiés à l'amélioration de la plateforme [Pix](https://pix.fr) et nous ne travaillons pas à l'heure actuelle à une version générique utilisable par toutes et tous pour d'autres usages.
 
 Cela signifie que nous ne pouvons pas promettre que les contributions externes seront sur un pied d'égalité avec les contributions internes. Les revues de code prennent du temps, et le travail nécessaire à Pix est prioritaire. Nous ne pouvons pas non plus promettre que nous accepterons toutes les contributions de fonctionnalités. Même si le code est déjà écrit, les revues et la maintenance ont un coût. Au sein de Pix, nous disposons d'une équipe de gestion des produits qui évalue soigneusement les fonctionnalités que nous devons proposer ou non, et de nombreuses idées générées en interne ne sont finalement pas retenues.
 
@@ -84,7 +84,7 @@ Si le message n'est pas 100 % autoportant, on peut ajouter une description (apr�
 
 On suit la convention que le sujet doit marcher comme une fin de phrase à `If applied, this commit will… `.
 
-L'utilisation des spécifications `Conventional Commits` est recommandé actuellement, mais n'est pas encore généralisé dans tous les commits.
+L'utilisation des spécifications `Conventional Commits` est recommandée actuellement, mais n'est pas encore généralisée dans tous les commits.
 
 > A properly formed Git commit subject line should always be able to complete the following sentence:
 >
@@ -131,7 +131,7 @@ Pour qu'une pull-request soit accceptée et puisse être mergée, il faut que :
 Le nombre de validations attendu peut légèrement changer selon les cas :
 
 - De base, il faut que **3 personnes** aient vu le code. Donc pour un contributeur, on demandera 2 *approvals* pour chaque PR.
-- Si la PR a été réalisé à plusieurs, il faut au moins 1 *approval* en plus des personnes ayant participé. Si l'équipe n'est pas assez grande : les 2 *approvals* peuvent être donnés par les personnes ayant participé : nous conseillons fortement de ne pas merger directement après le développement et de faire la review de sa propre PR à tête reposée.
+- Si la PR a été réalisée à plusieurs, il faut au moins 1 *approval* en plus des personnes ayant participé. Si l'équipe n'est pas assez grande : les 2 *approvals* peuvent être donnés par les personnes ayant participé : nous conseillons fortement de ne pas merger directement après le développement et de faire la review de sa propre PR à tête reposée.
 - Si la PR concerne plusieurs équipes, il faut alors 1 *approval* par équipe concernée. Cette règle s'ajoute à la règle des 2 *approvals*
 
 
