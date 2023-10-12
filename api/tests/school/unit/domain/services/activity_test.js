@@ -1,6 +1,6 @@
 import { expect, sinon, catchErr } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { getCurrentActivity } from '../../../../../lib/domain/services/1d/activity.js';
+import { getCurrentActivity } from '../../../../../src/school/domain/services/activity.js';
 
 describe('Unit | Service | Activity', function () {
   describe('#getCurrentActivity', function () {

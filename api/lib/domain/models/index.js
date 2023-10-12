@@ -1,5 +1,4 @@
 import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
-import { Activity } from './Activity.js';
 import { ActivityAnswer } from './ActivityAnswer.js';
 import { AdminMember } from './AdminMember.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
@@ -154,7 +153,6 @@ import { AreaForAdmin, CompetenceForAdmin, ThematicForAdmin, TubeForAdmin } from
 
 export {
   AccountRecoveryDemand,
-  Activity,
   ActivityAnswer,
   AdminMember,
   Answer,

@@ -1,4 +1,4 @@
-import { Activity } from '../../../../lib/domain/models/Activity.js';
+import { Activity } from '../../../../src/school/domain/models/Activity.js';
 
 function buildActivity({
   id = 123,
