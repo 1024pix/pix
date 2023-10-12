@@ -1,5 +1,6 @@
 import { AssessmentEndedError } from '../errors.js';
 import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
+import { config } from '../../../src/shared/config.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,
@@ -10,6 +11,7 @@ const getNextChallengeForCampaignAssessment = async function ({
   locale,
   algorithmDataFetcherService,
   smartRandom,
+  flashAlgorithmService,
 }) {
   let algoResult;
 
@@ -22,7 +24,10 @@ const getNextChallengeForCampaignAssessment = async function ({
       locale,
     });
 
-    const assessmentAlgorithm = new FlashAssessmentAlgorithm();
+    const assessmentAlgorithm = new FlashAssessmentAlgorithm({
+      flashAlgorithmImplementation: flashAlgorithmService,
+      maximumAssessmentLength: config.features.numberOfChallengesForFlashMethod,
+    });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
       allAnswers,
