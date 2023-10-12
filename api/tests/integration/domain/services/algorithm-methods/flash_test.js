@@ -164,7 +164,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             skill: FirstSkill,
           });
           const allChallenges = [worstNextChallenge, answeredBestNextChallenge, nonAnsweredBestNextChallenge];
-          const availableChallenges = allChallenges;
+          const availableChallenges = [worstNextChallenge, nonAnsweredBestNextChallenge];
           const allAnswers = [
             domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: answeredBestNextChallenge.id }),
           ];
@@ -722,7 +722,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const nextChallenges = getPossibleNextChallenges({
           allAnswers: answers,
           allChallenges: challenges,
-          availableChallenges: challenges,
+          availableChallenges: [firstNonAnsweredChallenge, secondNonAnsweredChallenge],
           options: {
             enablePassageByAllCompetences: true,
           },

@@ -3,6 +3,7 @@ import { config } from '../../../config.js';
 import { FlashAssessmentSuccessRateHandler } from '../FlashAssessmentSuccessRateHandler.js';
 import { FlashAssessmentAlgorithmRuleEngine } from './FlashAssessmentAlgorithmRuleEngine.js';
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
+import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
 
 const defaultMinimumEstimatedSuccessRateRanges = [
   // Between question 1 and question 8 included, we set the minimum estimated
@@ -22,7 +23,7 @@ const defaultMinimumEstimatedSuccessRateRanges = [
   }),
 ];
 
-const availableRules = [FlashAssessmentAlgorithmOneQuestionPerTubeRule];
+const availableRules = [FlashAssessmentAlgorithmOneQuestionPerTubeRule, FlashAssessmentAlgorithmNonAnsweredSkillsRule];
 
 class FlashAssessmentAlgorithm {
   /**

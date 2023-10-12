@@ -21,6 +21,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       getEstimatedLevelAndErrorRate: sinon.stub(),
     };
   });
+
   describe('#getPossibleNextChallenges', function () {
     context('when enough challenges have been answered', function () {
       it('should throw an AssessmentEndedError', function () {
@@ -121,8 +122,9 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
         });
       });
+
       context('with limitToOneQuestionPerTube=false', function () {
-        it('should pass all the challenges', function () {
+        it('should return challenges with non answered skills', function () {
           const alreadyAnsweredChallengesCount = 10;
           const remainingAnswersToGive = 1;
           const initialCapacity = config.v3Certification.defaultCandidateCapacity;
@@ -137,12 +139,15 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const skill1Tube1 = domainBuilder.buildSkill({
+            id: 'skill1',
             tubeId: 'tube1',
           });
           const skill2Tube1 = domainBuilder.buildSkill({
+            id: 'skill2',
             tubeId: 'tube1',
           });
           const skillTube2 = domainBuilder.buildSkill({
+            id: 'skill3',
             tubeId: 'tube2',
           });
 
@@ -152,12 +157,12 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const unansweredChallengeTube1 = domainBuilder.buildChallenge({
-            id: 'answeredChallengeTube1',
+            id: 'unansweredChallengeTube1',
             skill: skill2Tube1,
           });
 
           const unansweredChallengeTube2 = domainBuilder.buildChallenge({
-            id: 'answeredChallengeTube1',
+            id: 'unansweredChallengeTube2',
             skill: skillTube2,
           });
 
@@ -179,12 +184,12 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
               estimatedLevel: computedEstimatedLevel,
             });
 
-          const expectedChallenges = challenges;
+          const expectedChallenges = [unansweredChallengeTube1, unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               allAnswers,
               allChallenges: challenges,
-              availableChallenges: challenges,
+              availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: {
                 ...baseGetNextChallengeOptions,
@@ -291,6 +296,16 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             difficulty: easyDifficulty,
           });
 
+          const hardChallenge2 = domainBuilder.buildChallenge({
+            id: 'hardChallenge2',
+            skill: domainBuilder.buildSkill({
+              id: 'hardSkill2',
+            }),
+            competenceId: 'compHard2',
+            discriminant,
+            difficulty: hardDifficulty,
+          });
+
           const hardChallenge = domainBuilder.buildChallenge({
             id: 'hardChallenge',
             skill: domainBuilder.buildSkill({
@@ -301,7 +316,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             difficulty: hardDifficulty,
           });
 
-          const challenges = [hardChallenge, easyChallenge, hardChallenge, easyChallenge];
+          const challenges = [hardChallenge, easyChallenge, hardChallenge2];
           const allAnswers = [
             domainBuilder.buildAnswer({
               challengeId: hardChallenge.id,
@@ -322,13 +337,14 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             ],
           });
 
+          const expectedChallenges = [easyChallenge, hardChallenge2];
           flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
             estimatedLevel: 0,
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               allChallenges: challenges,
-              availableChallenges: challenges,
+              availableChallenges: expectedChallenges,
               allAnswers,
               estimatedLevel: 0,
               options: {
@@ -340,7 +356,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             })
             .returns({
               hasAssessmentEnded: false,
-              possibleChallenges: [easyChallenge, hardChallenge],
+              possibleChallenges: expectedChallenges,
             });
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
@@ -349,7 +365,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             initialCapacity,
           });
 
-          expect(nextChallenges).to.deep.equal([easyChallenge, hardChallenge]);
+          expect(nextChallenges).to.deep.equal([easyChallenge, hardChallenge2]);
         });
       });
     });

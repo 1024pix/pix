@@ -115,7 +115,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           .withArgs({
             allAnswers: [successAnswerMatcher],
             allChallenges,
-            availableChallenges: allChallenges,
+            availableChallenges: [secondChallenge, thirdChallenge],
             estimatedLevel: 1,
             options: getNextChallengesOptionsMatcher,
           })
@@ -126,7 +126,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           .withArgs({
             allAnswers: [successAnswerMatcher, successAnswerMatcher],
             allChallenges,
-            availableChallenges: allChallenges,
+            availableChallenges: [thirdChallenge],
             estimatedLevel: 2,
             options: getNextChallengesOptionsMatcher,
           })
