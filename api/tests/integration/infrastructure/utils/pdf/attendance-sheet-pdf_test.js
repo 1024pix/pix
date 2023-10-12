@@ -80,6 +80,30 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
       expect(await isSameBinary(`${__dirname}${outputFilename}`, buffer)).to.be.true;
     });
   });
+
+  context('when optional information are empty', function () {
+    it('should return full attendance sheet as a buffer', async function () {
+      // given
+      const candidate = domainBuilder.buildCertificationCandidateForAttendanceSheet({
+        lastName: 'Potter',
+        firstName: 'Harry',
+        externalId: null,
+      });
+      const session = domainBuilder.buildSessionForAttendanceSheet({ certificationCandidates: [candidate] });
+      const outputFilename = '/attendance-sheet-with-optional-value_expected.pdf';
+
+      // when
+      const buffer = await getAttendanceSheetPdfBuffer({
+        session,
+        creationDate: new Date('2021-01-01'),
+      });
+
+      await _writeFile({ outputFilename, buffer });
+
+      // then
+      expect(await isSameBinary(`${__dirname}${outputFilename}`, buffer)).to.be.true;
+    });
+  });
 });
 
 function _makePdfLibPredictable() {
