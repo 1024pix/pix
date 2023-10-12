@@ -1,5 +1,5 @@
-import { AnswerStatus, FlashAssessmentAlgorithm } from '../../../../lib/domain/models/index.js';
-import { domainBuilder, expect } from '../../../test-helper.js';
+import { FlashAssessmentAlgorithm } from '../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
 import { config } from '../../../../lib/config.js';
@@ -49,6 +49,22 @@ function initializeTestChallenges(hardAnsweredChallengesCount, difficulty, answe
 }
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
+  let flashAlgorithmImplementation;
+
+  const baseGetNextChallengeOptions = {
+    warmUpLength: undefined,
+    forcedCompetences: undefined,
+    challengesBetweenSameCompetence: 2,
+    minimalSuccessRate: 0,
+    limitToOneQuestionPerTube: true,
+  };
+
+  beforeEach(function () {
+    flashAlgorithmImplementation = {
+      getPossibleNextChallenges: sinon.stub(),
+      getEstimatedLevelAndErrorRate: sinon.stub(),
+    };
+  });
   describe('#getPossibleNextChallenges', function () {
     context('when enough challenges have been answered', function () {
       it('should throw an AssessmentEndedError', function () {
@@ -62,6 +78,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
         const estimatedLevel = 0;
         const algorithm = new FlashAssessmentAlgorithm({
           maximumAssessmentLength: 2,
+          flashAlgorithmImplementation,
         });
 
         expect(() =>
@@ -75,41 +92,44 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
     });
 
     context('when there are challenges left to answer', function () {
-      let algorithm;
-      const alreadyAnsweredChallengesCount = 10;
-      const remainingAnswersToGive = 1;
-
-      beforeEach(function () {
+      it('should choose a challenge', function () {
+        const alreadyAnsweredChallengesCount = 10;
+        const remainingAnswersToGive = 1;
+        const initialCapacity = config.v3Certification.defaultCandidateCapacity;
+        const computedEstimatedLevel = 2;
         config.features.numberOfChallengesForFlashMethod = 20;
-        algorithm = new FlashAssessmentAlgorithm({
-          warmUpLength: 0,
+        const algorithm = new FlashAssessmentAlgorithm({
+          flashAlgorithmImplementation,
           maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
+          minimumEstimatedSuccessRateRanges: [],
         });
-      });
-      context('when user has a strong level', function () {
-        it('should choose a hard challenge', function () {
-          const strongLevel = 6;
-          const { expectedUnansweredChallenge, mediumUnansweredChallenge, challenges, allAnswers } =
-            initializeTestChallenges(alreadyAnsweredChallengesCount, strongLevel);
+        const strongLevel = 6;
+        const { challenges, allAnswers } = initializeTestChallenges(alreadyAnsweredChallengesCount, strongLevel);
 
-          expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal([
-            expectedUnansweredChallenge,
-            mediumUnansweredChallenge,
-          ]);
-        });
-      });
+        flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+          .withArgs({
+            allAnswers,
+            challenges,
+            estimatedLevel: initialCapacity,
+          })
+          .returns({
+            estimatedLevel: computedEstimatedLevel,
+          });
 
-      context('when user has a weak level', function () {
-        it('should choose a weak challenge', function () {
-          const weakLevel = -6;
-          const { expectedUnansweredChallenge, mediumUnansweredChallenge, challenges, allAnswers } =
-            initializeTestChallenges(alreadyAnsweredChallengesCount, weakLevel, AnswerStatus.KO);
+        const expectedChallenges = challenges.slice(0, 2);
+        flashAlgorithmImplementation.getPossibleNextChallenges
+          .withArgs({
+            allAnswers,
+            challenges,
+            estimatedLevel: computedEstimatedLevel,
+            options: baseGetNextChallengeOptions,
+          })
+          .returns({
+            hasAssessmentEnded: false,
+            possibleChallenges: expectedChallenges,
+          });
 
-          expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal([
-            expectedUnansweredChallenge,
-            mediumUnansweredChallenge,
-          ]);
-        });
+        expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
       });
     });
     context('when specifying a minimal success rate', function () {
@@ -142,10 +162,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
           });
 
           const challenges = [hardChallenge, easyChallenge];
-          const answers = [];
+          const allAnswers = [];
 
           // when
           const algorithm = new FlashAssessmentAlgorithm({
+            flashAlgorithmImplementation,
             minimumEstimatedSuccessRateRanges: [
               FlashAssessmentSuccessRateHandler.createFixed({
                 startingChallengeIndex: 0,
@@ -154,8 +175,27 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
               }),
             ],
           });
+
+          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
+            estimatedLevel: 0,
+          });
+          flashAlgorithmImplementation.getPossibleNextChallenges
+            .withArgs({
+              challenges,
+              allAnswers,
+              estimatedLevel: 0,
+              options: {
+                ...baseGetNextChallengeOptions,
+                minimalSuccessRate: 0.8,
+              },
+            })
+            .returns({
+              hasAssessmentEnded: false,
+              possibleChallenges: [easyChallenge, hardChallenge],
+            });
+
           const nextChallenges = algorithm.getPossibleNextChallenges({
-            allAnswers: answers,
+            allAnswers,
             challenges,
             initialCapacity,
           });
@@ -169,68 +209,39 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
           // Given
           const easyDifficulty = -3;
           const hardDifficulty = 3;
-
-          const challengeWithRightSuccessRateDifficulty = 2.2;
-          const challengeWithRightSuccessRateDiscriminant = 1;
-
           const discriminant = 1;
-          const initialCapacity = 2;
+          const initialCapacity = 3;
 
           const easyChallenge = domainBuilder.buildChallenge({
             id: 'easyChallenge',
             skill: domainBuilder.buildSkill({
               id: 'skillEasy',
-              tubeId: 'tube4',
             }),
             competenceId: 'compEasy',
             discriminant,
             difficulty: easyDifficulty,
           });
 
-          // A challenge with an estimated success rate over 0.6, which is
-          // the lower limit of our linear configuration
-          const challengeWithRightSuccessRate = domainBuilder.buildChallenge({
-            id: 'challengeWithRightSuccessRate',
-            skill: domainBuilder.buildSkill({
-              id: 'skillMedium',
-              tubeId: 'tube3',
-            }),
-            competenceId: 'compMedium',
-            discriminant: challengeWithRightSuccessRateDiscriminant,
-            difficulty: challengeWithRightSuccessRateDifficulty,
-          });
-
-          const takenChallenge = domainBuilder.buildChallenge({
-            id: 'hardChallenge2',
-            skill: domainBuilder.buildSkill({
-              id: 'skillHard2',
-              tubeId: 'tube2',
-            }),
-            competenceId: 'compHard2',
-            discriminant,
-            difficulty: hardDifficulty,
-          });
-
           const hardChallenge = domainBuilder.buildChallenge({
             id: 'hardChallenge',
             skill: domainBuilder.buildSkill({
               id: 'skillHard',
-              tubeId: 'tube1',
             }),
             competenceId: 'compHard',
             discriminant,
             difficulty: hardDifficulty,
           });
 
-          const challenges = [hardChallenge, challengeWithRightSuccessRate, takenChallenge, easyChallenge];
-          const answers = [
+          const challenges = [hardChallenge, easyChallenge, hardChallenge, easyChallenge];
+          const allAnswers = [
             domainBuilder.buildAnswer({
-              challengeId: takenChallenge.id,
+              challengeId: hardChallenge.id,
             }),
           ];
 
           // when
           const algorithm = new FlashAssessmentAlgorithm({
+            flashAlgorithmImplementation,
             minimumEstimatedSuccessRateRanges: [
               FlashAssessmentSuccessRateHandler.createLinear({
                 startingChallengeIndex: 0,
@@ -241,19 +252,32 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm', function () {
             ],
           });
 
-          //when
+          flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
+            estimatedLevel: 0,
+          });
+          flashAlgorithmImplementation.getPossibleNextChallenges
+            .withArgs({
+              challenges,
+              allAnswers,
+              estimatedLevel: 0,
+              options: {
+                ...baseGetNextChallengeOptions,
+                // Due to JS having troubles with float numbers, we must use a matcher.
+                minimalSuccessRate: sinon.match((value) => value.toPrecision(1) === '0.6'),
+              },
+            })
+            .returns({
+              hasAssessmentEnded: false,
+              possibleChallenges: [easyChallenge, hardChallenge],
+            });
+
           const nextChallenges = algorithm.getPossibleNextChallenges({
-            allAnswers: answers,
+            allAnswers,
             challenges,
             initialCapacity,
           });
 
-          // then
-          const expectedChallenges = [challengeWithRightSuccessRate, easyChallenge, hardChallenge];
-          const expectedChallengeIds = expectedChallenges.map(({ id }) => id);
-          const challengeIds = nextChallenges.map(({ id }) => id);
-          expect(challengeIds).to.deep.equal(expectedChallengeIds);
-          expect(nextChallenges).to.deep.equal(expectedChallenges);
+          expect(nextChallenges).to.deep.equal([easyChallenge, hardChallenge]);
         });
       });
     });

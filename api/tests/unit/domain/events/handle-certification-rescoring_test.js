@@ -27,6 +27,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         getMany: sinon.stub(),
       };
 
+      const flashAlgorithmService = {
+        getEstimatedLevelAndErrorRate: sinon.stub(),
+      };
+
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         version: CertificationVersion.V3,
       });
@@ -48,6 +52,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         }),
       );
 
+      const expectedEstimatedLevel = 2;
+      const scoreForEstimatedLevel = 592;
       const { certificationCourseId } = certificationAssessment;
 
       certificationAssessmentRepository.getByCertificationCourseId
@@ -58,6 +64,16 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
 
+      flashAlgorithmService.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers: answers,
+          estimatedLevel: sinon.match.number,
+        })
+        .returns({
+          estimatedLevel: expectedEstimatedLevel,
+        });
+
       const event = new CertificationJuryDone({
         certificationCourseId,
       });
@@ -67,6 +83,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         answerRepository,
         challengeRepository,
         assessmentResultRepository,
+        flashAlgorithmService,
       };
 
       const result = await handleCertificationRescoring({
@@ -79,7 +96,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         assessmentResult: new AssessmentResult({
           commentForJury: 'Computed',
           emitter: 'PIX-ALGO',
-          pixScore: 479,
+          pixScore: scoreForEstimatedLevel,
           reproducibilityRate: 100,
           status: 'validated',
           competenceMarks: [],
