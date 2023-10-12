@@ -1,6 +1,6 @@
 'use strict';
 
-const browsers = ['> 1%'];
+const { browsers } = require('../../config/targets.js');
 
 module.exports = {
   browsers,
