@@ -3,10 +3,11 @@ import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { DomainTransaction } from '../../DomainTransaction.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
-  constructor({ organizationLearnerRepository, pgBossRepository, config }) {
+  constructor({ organizationLearnerRepository, pgBossRepository, config, logger }) {
     this.organizationLearnerRepository = organizationLearnerRepository;
     this.pgBossRepository = pgBossRepository;
     this.config = config;
+    this.logger = logger;
   }
 
   async handle(event = {}) {
@@ -20,16 +21,28 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
         domainTransaction,
       });
       const chunkCount = Math.ceil(count / chunkSize);
+      this.logger.info(
+        `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total learners to compute : ${count}`,
+      );
+
+      let totalJobsInserted = 0;
 
       for (let index = 0; index < chunkCount; index++) {
+        const offset = index * chunkSize;
+        this.logger.info(`ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`);
+
         const organizationLearnerIds =
           await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
             limit: chunkSize,
-            offset: index * chunkSize,
+            offset,
             skipLoggedLastDayCheck,
             onlyNotComputed,
             domainTransaction,
           });
+
+        this.logger.info(
+          `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
+        );
 
         const jobsToInsert = organizationLearnerIds.map((organizationLearnerId) => ({
           name: ComputeCertificabilityJob.name,
@@ -39,8 +52,17 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
           on_complete: true,
         }));
 
-        await this.pgBossRepository.insert(jobsToInsert, domainTransaction);
+        const jobsInserted = await this.pgBossRepository.insert(jobsToInsert, domainTransaction);
+        totalJobsInserted += jobsInserted.rowCount;
+
+        this.logger.info(
+          `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${jobsInserted.rowCount}`,
+        );
       }
+
+      this.logger.info(
+        `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total jobs inserted count : ${totalJobsInserted}`,
+      );
     });
   }
 
