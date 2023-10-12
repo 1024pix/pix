@@ -284,6 +284,23 @@ function routes() {
     return schema.certificationCenterInvitations.where({ certificationCenterId });
   });
 
+  this.post('/certification-centers/:id/invitations', (schema, request) => {
+    const certificationCenterId = request.params.id;
+    const requestBody = JSON.parse(request.requestBody);
+    const emails = requestBody.data.attributes.emails;
+
+    emails.forEach((email) => {
+      schema.certificationCenterInvitations.create({
+        certificationCenterId,
+        email,
+        status: 'PENDING',
+        createdAt: new Date(),
+      });
+    });
+
+    return new Response(204);
+  });
+
   this.get('/certification-center-invitations/:id', (schema, request) => {
     const certificationCenterInvitationId = request.params.id;
     const code = request.queryParams?.code;
