@@ -713,6 +713,48 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         });
       });
     });
+
+    describe('when we disable the passage by all competences', function () {
+      it('should return all non answered challenges', function () {
+        // given
+        const firstSkill = domainBuilder.buildSkill({
+          id: 'skill1',
+        });
+
+        const answeredChallenge = domainBuilder.buildChallenge({
+          id: 'recCHAL1',
+          skill: firstSkill.id,
+        });
+
+        const firstNonAnsweredChallenge = domainBuilder.buildChallenge({
+          id: 'recCHAL2',
+        });
+
+        const secondNonAnsweredChallenge = domainBuilder.buildChallenge({
+          id: 'recCHAL3',
+        });
+
+        const challenges = [answeredChallenge, firstNonAnsweredChallenge, secondNonAnsweredChallenge];
+
+        const answers = [
+          domainBuilder.buildAnswer({
+            challengeId: answeredChallenge.id,
+          }),
+        ];
+
+        // when
+        const nextChallenges = getPossibleNextChallenges({
+          allAnswers: answers,
+          challenges,
+          options: {
+            enablePassageByAllCompetences: true,
+          },
+        }).possibleChallenges;
+
+        // then
+        expect(nextChallenges).to.deep.equal([firstNonAnsweredChallenge, secondNonAnsweredChallenge]);
+      });
+    });
   });
 
   describe('#getEstimatedLevelAndErrorRate', function () {
