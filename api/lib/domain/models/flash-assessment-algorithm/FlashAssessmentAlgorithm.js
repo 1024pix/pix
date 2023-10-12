@@ -1,6 +1,8 @@
-import { AssessmentEndedError } from '../errors.js';
-import { config } from '../../config.js';
-import { FlashAssessmentSuccessRateHandler } from './FlashAssessmentSuccessRateHandler.js';
+import { AssessmentEndedError } from '../../errors.js';
+import { config } from '../../../config.js';
+import { FlashAssessmentSuccessRateHandler } from '../FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentAlgorithmRuleEngine } from './FlashAssessmentAlgorithmRuleEngine.js';
+import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
 
 const defaultMinimumEstimatedSuccessRateRanges = [
   // Between question 1 and question 8 included, we set the minimum estimated
@@ -19,6 +21,8 @@ const defaultMinimumEstimatedSuccessRateRanges = [
     endingValue: 0.5,
   }),
 ];
+
+const availableRules = [FlashAssessmentAlgorithmOneQuestionPerTubeRule];
 
 class FlashAssessmentAlgorithm {
   /**
@@ -47,6 +51,10 @@ class FlashAssessmentAlgorithm {
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
+
+    this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
+      limitToOneQuestionPerTube,
+    });
   }
 
   getPossibleNextChallenges({
@@ -66,9 +74,15 @@ class FlashAssessmentAlgorithm {
 
     const minimalSuccessRate = this._computeMinimalSuccessRate(allAnswers.length);
 
-    const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
+    const challengesAfterRulesApplication = this.ruleEngine.execute({
       allAnswers,
       challenges,
+    });
+
+    const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
+      allAnswers,
+      availableChallenges: challengesAfterRulesApplication,
+      allChallenges: challenges,
       estimatedLevel,
       options: {
         warmUpLength: this.warmUpLength,

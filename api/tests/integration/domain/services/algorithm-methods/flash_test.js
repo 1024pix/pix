@@ -28,11 +28,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
     context('when there is no challenge', function () {
       it('should return hasAssessmentEnded as true and possibleChallenges is empty', function () {
         // given
-        const challenges = [];
+        const allChallenges = [];
+        const availableChallenges = [];
         const allAnswers = [];
 
         // when
-        const result = flash.getPossibleNextChallenges({ challenges, allAnswers, estimatedLevel: 0 });
+        const result = flash.getPossibleNextChallenges({
+          allChallenges,
+          availableChallenges,
+          allAnswers,
+          estimatedLevel: 0,
+        });
 
         // then
         expect(result).to.deep.equal({
@@ -46,11 +52,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
       it('should return hasAssessmentEnded as false and possibleChallenges not empty', function () {
         // given
         const challenge = domainBuilder.buildChallenge();
-        const challenges = [challenge];
+        const allChallenges = [challenge];
+        const availableChallenges = [challenge];
         const allAnswers = [];
 
         // when
-        const result = flash.getPossibleNextChallenges({ challenges, allAnswers, estimatedLevel: 0 });
+        const result = flash.getPossibleNextChallenges({
+          allChallenges,
+          availableChallenges,
+          allAnswers,
+          estimatedLevel: 0,
+        });
 
         // then
         expect(result).to.deep.equal({
@@ -100,7 +112,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             skill: SecondSkill,
             id: 'rec123sixth',
           });
-          const challenges = [
+          const allChallenges = [
             firstChallenge,
             secondChallenge,
             thirdChallenge,
@@ -108,10 +120,17 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             fifthChallenge,
             sixthChallenge,
           ];
+
+          const availableChallenges = allChallenges;
           const allAnswers = [];
 
           // when
-          const result = flash.getPossibleNextChallenges({ challenges, allAnswers, estimatedLevel: 0 });
+          const result = flash.getPossibleNextChallenges({
+            allChallenges,
+            availableChallenges,
+            allAnswers,
+            estimatedLevel: 0,
+          });
 
           // then
           expect(result).to.deep.equal({
@@ -144,13 +163,19 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             discriminant: 3,
             skill: FirstSkill,
           });
-          const challenges = [worstNextChallenge, answeredBestNextChallenge, nonAnsweredBestNextChallenge];
+          const allChallenges = [worstNextChallenge, answeredBestNextChallenge, nonAnsweredBestNextChallenge];
+          const availableChallenges = allChallenges;
           const allAnswers = [
             domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: answeredBestNextChallenge.id }),
           ];
 
           // when
-          const result = flash.getPossibleNextChallenges({ challenges, allAnswers, estimatedLevel: 1.450557193743759 });
+          const result = flash.getPossibleNextChallenges({
+            allChallenges,
+            availableChallenges,
+            allAnswers,
+            estimatedLevel: 1.450557193743759,
+          });
 
           // then
           expect(result).to.deep.equal({
@@ -193,7 +218,11 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         const allAnswers = [answer1, answer2];
 
         // when
-        const result = flash.getPossibleNextChallenges({ challenges, allAnswers });
+        const result = flash.getPossibleNextChallenges({
+          allChallenges: challenges,
+          availableChallenges: challenges,
+          allAnswers,
+        });
 
         // then
         expect(result).to.deep.equal({
@@ -384,7 +413,12 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
         for (let i = 0; i < inputs.length; i++) {
           const { answer, estimatedLevel } = inputs[i];
-          result = flash.getPossibleNextChallenges({ challenges: listChallenges, allAnswers, estimatedLevel });
+          result = flash.getPossibleNextChallenges({
+            allChallenges: listChallenges,
+            availableChallenges: listChallenges,
+            allAnswers,
+            estimatedLevel,
+          });
 
           // then
           expect(result.possibleChallenges[0].id).to.equal(expectedChallengeIds[i]);
@@ -432,7 +466,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             for (let i = 0; i < inputs.length; i++) {
               const { answer, estimatedLevel } = inputs[i];
               result = flash.getPossibleNextChallenges({
-                challenges: listChallenges,
+                allChallenges: listChallenges,
+                availableChallenges: listChallenges,
                 allAnswers,
                 estimatedLevel,
                 options: {
@@ -488,7 +523,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             for (let i = 0; i < inputs.length; i++) {
               const { answer, estimatedLevel } = inputs[i];
               result = flash.getPossibleNextChallenges({
-                challenges: listChallenges,
+                allChallenges: listChallenges,
+                availableChallenges: listChallenges,
                 allAnswers,
                 estimatedLevel,
                 options: {
@@ -582,7 +618,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
           const { possibleChallenges } = getPossibleNextChallenges({
             allAnswers: answers,
-            challenges,
+            allChallenges: challenges,
+            availableChallenges: challenges,
             estimatedLevel: 3,
             options: {
               challengesBetweenSameCompetence: 3,
@@ -611,7 +648,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
           const { possibleChallenges } = getPossibleNextChallenges({
             allAnswers: answers,
-            challenges,
+            allChallenges: challenges,
+            availableChallenges: challenges,
             estimatedLevel: 3,
             options: {
               challengesBetweenSameCompetence: 3,
@@ -640,76 +678,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
 
           const { possibleChallenges } = getPossibleNextChallenges({
             allAnswers: answers,
-            challenges,
+            allChallenges: challenges,
+            availableChallenges: challenges,
             estimatedLevel: 3,
             options: {
               challengesBetweenSameCompetence: 3,
             },
           });
           expect(possibleChallenges).to.include(challenges[1]);
-        });
-      });
-    });
-
-    describe('when we limit to one question per tube', function () {
-      describe('when a tube has already been answered', function () {
-        it('should choose the challenge from an unanswered tube', function () {
-          // Given
-          const answeredTubeId = 'answeredTubeId';
-          const firstSkillWithAnsweredTube = domainBuilder.buildSkill({
-            id: 'skill1',
-            tubeId: answeredTubeId,
-          });
-
-          const secondSkillWithAnsweredTube = domainBuilder.buildSkill({
-            id: 'skill2',
-            tubeId: answeredTubeId,
-          });
-
-          const skillForUnansweredTube = domainBuilder.buildSkill({
-            id: 'skill3',
-            tubeId: 'unansweredTubeId',
-          });
-
-          const answeredChallenge = domainBuilder.buildChallenge({
-            id: 'recCHAL1',
-            skill: firstSkillWithAnsweredTube,
-          });
-
-          const unansweredChallengeAnsweredTube = domainBuilder.buildChallenge({
-            id: 'recCHAL2',
-            skill: secondSkillWithAnsweredTube,
-            difficulty: 2,
-            discriminant: 1,
-          });
-
-          const unansweredChallengeUnansweredTube = domainBuilder.buildChallenge({
-            id: 'recCHAL3',
-            skill: skillForUnansweredTube,
-            difficulty: -2,
-            discriminant: 1,
-          });
-
-          const challenges = [answeredChallenge, unansweredChallengeAnsweredTube, unansweredChallengeUnansweredTube];
-
-          const answers = [
-            domainBuilder.buildAnswer({
-              challengeId: answeredChallenge.id,
-            }),
-          ];
-
-          // when
-          const nextChallenges = getPossibleNextChallenges({
-            allAnswers: answers,
-            challenges,
-            estimatedLevel: 2,
-            options: {
-              limitToOneQuestionPerTube: true,
-            },
-          }).possibleChallenges;
-
-          // then
-          expect(nextChallenges).to.deep.equal([unansweredChallengeUnansweredTube]);
         });
       });
     });
@@ -745,7 +721,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         // when
         const nextChallenges = getPossibleNextChallenges({
           allAnswers: answers,
-          challenges,
+          allChallenges: challenges,
+          availableChallenges: challenges,
           options: {
             enablePassageByAllCompetences: true,
           },

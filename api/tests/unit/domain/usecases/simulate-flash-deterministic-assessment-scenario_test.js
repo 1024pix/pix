@@ -6,6 +6,10 @@ import _ from 'lodash';
 
 const locale = 'fr-fr';
 
+const successAnswerMatcher = sinon.match({
+  result: AnswerStatus.OK,
+});
+
 describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', function () {
   context('when there are enough flash challenges left', function () {
     context('when no initial capacity is provided', function () {
@@ -79,9 +83,57 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         // given
         const limitToOneQuestionPerTube = false;
 
-        const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs({
+        const {
+          challengeRepository,
+          pickChallenge,
+          pickAnswerStatus,
+          flashAlgorithmService: baseFlashAlgorithmService,
+          getNextChallengesOptionsMatcher,
+          allChallenges,
+        } = prepareStubs({
           limitToOneQuestionPerTube,
         });
+
+        const flashAlgorithmService = {
+          ...baseFlashAlgorithmService,
+          getPossibleNextChallenges: sinon.stub(),
+        };
+        const [firstChallenge, secondChallenge, thirdChallenge] = allChallenges;
+
+        flashAlgorithmService.getPossibleNextChallenges
+          .withArgs({
+            allAnswers: [],
+            allChallenges,
+            availableChallenges: allChallenges,
+            estimatedLevel: 0,
+            options: getNextChallengesOptionsMatcher,
+          })
+          .returns({
+            hasAssessmentEnded: false,
+            possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
+          })
+          .withArgs({
+            allAnswers: [successAnswerMatcher],
+            allChallenges,
+            availableChallenges: allChallenges,
+            estimatedLevel: 1,
+            options: getNextChallengesOptionsMatcher,
+          })
+          .returns({
+            hasAssessmentEnded: false,
+            possibleChallenges: [thirdChallenge, secondChallenge],
+          })
+          .withArgs({
+            allAnswers: [successAnswerMatcher, successAnswerMatcher],
+            allChallenges,
+            availableChallenges: allChallenges,
+            estimatedLevel: 2,
+            options: getNextChallengesOptionsMatcher,
+          })
+          .returns({
+            hasAssessmentEnded: false,
+            possibleChallenges: [thirdChallenge],
+          });
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
@@ -164,7 +216,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       flashAlgorithmService.getPossibleNextChallenges
         .withArgs(
           sinon.match({
-            challenges: [challenge],
+            allChallenges: [challenge],
+            availableChallenges: [challenge],
             allAnswers: [],
           }),
         )
@@ -173,7 +226,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           possibleChallenges: [challenge],
         })
         .withArgs({
-          challenges: [challenge],
+          allChallenges: [challenge],
+          availableChallenges: [challenge],
           allAnswers: [
             sinon.match({
               result: AnswerStatus.OK,
@@ -251,6 +305,8 @@ function prepareStubs({
     competenceId: 'rec3',
   });
 
+  const allChallenges = [firstChallenge, secondChallenge, thirdChallenge];
+
   const challengeRepository = {
     findFlashCompatible: sinon.stub(),
   };
@@ -261,10 +317,6 @@ function prepareStubs({
     getEstimatedLevelAndErrorRate: sinon.stub(),
     getReward: sinon.stub(),
   };
-
-  const successAnswerMatcher = sinon.match({
-    result: AnswerStatus.OK,
-  });
 
   const getNextChallengesOptionsMatcher = sinon.match(
     _.omitBy(
@@ -325,7 +377,8 @@ function prepareStubs({
   flashAlgorithmService.getPossibleNextChallenges
     .withArgs({
       allAnswers: [],
-      challenges: [firstChallenge, secondChallenge, thirdChallenge],
+      allChallenges,
+      availableChallenges: allChallenges,
       estimatedLevel: 0,
       options: getNextChallengesOptionsMatcher,
     })
@@ -335,7 +388,8 @@ function prepareStubs({
     })
     .withArgs({
       allAnswers: [successAnswerMatcher],
-      challenges: [firstChallenge, secondChallenge, thirdChallenge],
+      allChallenges,
+      availableChallenges: [secondChallenge, thirdChallenge],
       estimatedLevel: 1,
       options: getNextChallengesOptionsMatcher,
     })
@@ -345,7 +399,8 @@ function prepareStubs({
     })
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher],
-      challenges: [firstChallenge, secondChallenge, thirdChallenge],
+      allChallenges,
+      availableChallenges: [thirdChallenge],
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,
     })
@@ -380,5 +435,7 @@ function prepareStubs({
     challengeRepository,
     flashAlgorithmService,
     firstChallenge,
+    allChallenges,
+    getNextChallengesOptionsMatcher,
   };
 }
