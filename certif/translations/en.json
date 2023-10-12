@@ -893,6 +893,11 @@
       "input-label": "Email address(es)",
       "invite-button": "Invite",
       "invited-members": "By clicking on the link provided in the invitation, the invited members will be able to create an account or log in with an existing Pix account.",
+      "notifications": {
+        "success": {
+          "invitations": "An invitation has been sent to the {emailsCount, plural, one {e-mail address {email}.} other {e-mail addresses listed.}}"
+        }
+      },
       "several-email-requirement": "Invite several members by separating the email addresses with commas."
     },
     "terms-of-service": {
