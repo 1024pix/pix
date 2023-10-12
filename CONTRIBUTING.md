@@ -57,6 +57,10 @@ On suit la convention que la description doit marcher comme une fin de phrase à
 À laisser vide s'il n'y a pas de ticket associé.
 Actuellement, le format de cet `US_ID` est `PIX-Number`.
 
+Si la PR est liée à une Issue Github, `US_ID` est alors `ISSUE-#`.
+
+Si la PR n'est reliée à aucun ticket ou aucune issue, alors le format du titre de la PR est `[<TAG>] <DESCRIPTION>.` sans `US_ID`.
+
 ## Installation de l'environnement de développement local
 
 Voir [INSTALLATION](INSTALLATION.md)
@@ -80,7 +84,7 @@ Si le message n'est pas 100 % autoportant, on peut ajouter une description (apr�
 
 On suit la convention que le sujet doit marcher comme une fin de phrase à `If applied, this commit will… `.
 
-L'utilisation des spécifications `Conventional Commits` est accepté actuellement, mais encore utilisé dans tous les commits.
+L'utilisation des spécifications `Conventional Commits` est recommandé actuellement, mais n'est pas encore généralisé dans tous les commits.
 
 > A properly formed Git commit subject line should always be able to complete the following sentence:
 >
@@ -118,7 +122,7 @@ Format (\*) | Description | Exemples
 
 ## Règles de validation des pull-request
 
-Pour qu'une pull-request soit acccepté et puisse être mergé, il faut que : 
+Pour qu'une pull-request soit accceptée et puisse être mergée, il faut que : 
 
 - tous les checks de la CI soient verts : les applications se sont déployées, les tests sont passés ;
 - la description de la PR soit complète : Problème, proposition, remarque, pour tester
