@@ -31,6 +31,7 @@ async function simulateFlashAssessmentScenario(
     challengesBetweenSameCompetence,
     limitToOneQuestionPerTube,
     minimumEstimatedSuccessRateRanges: minimumEstimatedSuccessRateRangesDto,
+    enablePassageByAllCompetences,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
@@ -58,6 +59,7 @@ async function simulateFlashAssessmentScenario(
           challengesBetweenSameCompetence,
           limitToOneQuestionPerTube,
           minimumEstimatedSuccessRateRanges,
+          enablePassageByAllCompetences,
         },
         _.isUndefined,
       );

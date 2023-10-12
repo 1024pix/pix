@@ -33,13 +33,14 @@ function getPossibleNextChallenges({
     challengesBetweenSameCompetence = 0,
     minimalSuccessRate = 0,
     limitToOneQuestionPerTube = false,
+    enablePassageByAllCompetences = true,
   } = {},
 } = {}) {
   let nonAnsweredChallenges = limitToOneQuestionPerTube
     ? getChallengesForNonAnsweredTubes({ allAnswers, challenges })
     : getChallengesForNonAnsweredSkills({ allAnswers, challenges });
 
-  if (allAnswers.length >= warmUpLength) {
+  if (allAnswers.length >= warmUpLength && enablePassageByAllCompetences) {
     const answersAfterWarmup = _getAnswersAfterWarmup({ answers: allAnswers, warmUpLength });
 
     nonAnsweredChallenges = _filterAlreadyAnsweredCompetences({
