@@ -151,11 +151,14 @@ function _drawCandidatesTableLabels({
   sessionLabelsAndCandidatesInformationFont,
   tableLabelsFont,
 }) {
+  const divisionOrExternalIdLabel = _isScoCertificationCenterAndManagingStudentOrganization({ session })
+    ? 'Classe'
+    : 'Identifiant local';
   [
     [26, 660, 'Liste des candidats', 12, titleFont],
     [33, 635, 'Nom de naissance', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
     [136, 635, 'Prénom', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
-    [305, 635, 'Identifiant local', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [305, 635, divisionOrExternalIdLabel, SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
     [402, 635, 'Signature', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
   ].forEach(([x, y, text, fontSize, font]) => {
     page.drawText(text, {
@@ -168,18 +171,6 @@ function _drawCandidatesTableLabels({
   });
 
   _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont });
-
-  const divisionOrExternalIdLabel = _isScoCertificationCenterAndManagingStudentOrganization({ session })
-    ? 'Classe'
-    : 'Identifiant local';
-
-  page.drawText(divisionOrExternalIdLabel, {
-    x: 305,
-    y: 635,
-    size: SESSION_DETAIL_FONT_SIZE,
-    font: tableLabelsFont,
-    color: SESSION_DETAIL_DEFAULT_COLOR,
-  });
 }
 
 function _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont }) {
