@@ -25,7 +25,8 @@ export {
 
 function getPossibleNextChallenges({
   allAnswers,
-  challenges,
+  allChallenges,
+  availableChallenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
   options: {
     warmUpLength = 0,
@@ -37,8 +38,8 @@ function getPossibleNextChallenges({
   } = {},
 } = {}) {
   let nonAnsweredChallenges = limitToOneQuestionPerTube
-    ? getChallengesForNonAnsweredTubes({ allAnswers, challenges })
-    : getChallengesForNonAnsweredSkills({ allAnswers, challenges });
+    ? availableChallenges
+    : getChallengesForNonAnsweredSkills({ allAnswers, challenges: availableChallenges });
 
   if (allAnswers.length >= warmUpLength && enablePassageByAllCompetences) {
     const answersAfterWarmup = _getAnswersAfterWarmup({ answers: allAnswers, warmUpLength });
@@ -46,7 +47,7 @@ function getPossibleNextChallenges({
     nonAnsweredChallenges = _filterAlreadyAnsweredCompetences({
       answers: answersAfterWarmup,
       nonAnsweredChallenges,
-      challenges,
+      challenges: allChallenges,
       forcedCompetences,
     });
   }
@@ -58,7 +59,7 @@ function getPossibleNextChallenges({
     };
   }
 
-  const lastCompetenceIds = _getLastAnswersCompetenceIds(allAnswers, challenges, challengesBetweenSameCompetence);
+  const lastCompetenceIds = _getLastAnswersCompetenceIds(allAnswers, allChallenges, challengesBetweenSameCompetence);
 
   const challengesWithNoRecentlyAnsweredCompetence = nonAnsweredChallenges.filter(
     ({ competenceId }) => !lastCompetenceIds.includes(competenceId),
