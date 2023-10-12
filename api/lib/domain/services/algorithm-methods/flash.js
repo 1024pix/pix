@@ -33,13 +33,10 @@ function getPossibleNextChallenges({
     forcedCompetences = [],
     challengesBetweenSameCompetence = 0,
     minimalSuccessRate = 0,
-    limitToOneQuestionPerTube = false,
     enablePassageByAllCompetences = true,
   } = {},
 } = {}) {
-  let nonAnsweredChallenges = limitToOneQuestionPerTube
-    ? availableChallenges
-    : getChallengesForNonAnsweredSkills({ allAnswers, challenges: availableChallenges });
+  let nonAnsweredChallenges = availableChallenges;
 
   if (allAnswers.length >= warmUpLength && enablePassageByAllCompetences) {
     const answersAfterWarmup = _getAnswersAfterWarmup({ answers: allAnswers, warmUpLength });
@@ -137,15 +134,6 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel 
   const correctedErrorRate = Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
 
   return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
-}
-
-function getChallengesForNonAnsweredTubes({ allAnswers, challenges }) {
-  const alreadyAnsweredTubeIds = allAnswers.map((answer) => _findChallengeForAnswer(challenges, answer).skill.tubeId);
-
-  const isNonAnsweredTube = (skill) => !alreadyAnsweredTubeIds.includes(skill.tubeId);
-  const challengesForNonAnsweredTubes = challenges.filter((challenge) => isNonAnsweredTube(challenge.skill));
-
-  return challengesForNonAnsweredTubes;
 }
 
 function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
