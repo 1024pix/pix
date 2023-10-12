@@ -210,6 +210,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
             on_complete: true,
           },
         ]);
+        expect(pgBossRepository.insert.getCall(index).args[1]).to.be.deep.equal(domainTransaction);
       }
     });
   });
