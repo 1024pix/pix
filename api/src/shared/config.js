@@ -11,7 +11,7 @@ import * as url from 'url';
 
 dotenv.config();
 
-
+// coucouc
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 function parseJSONEnv(varName) {
