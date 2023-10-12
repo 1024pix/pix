@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.43.0 (12/10/2023)
+
+
+### :rocket: Amélioration
+- [#7216](https://github.com/1024pix/pix/pull/7216) [FEATURE] Possibilité de désactiver le passage par toutes les compétences dans le simulateur (PIX-9466).
+- [#7236](https://github.com/1024pix/pix/pull/7236) [FEATURE] Modifier le design du bouton de signalement dans les épreuves (PIX-9583).
+- [#7156](https://github.com/1024pix/pix/pull/7156) [FEATURE] Unifier la compatibilité des apps Ember.js avec les différents navigateurs web suivant l'ADR.
+
+### :building_construction: Tech
+- [#7240](https://github.com/1024pix/pix/pull/7240) [TECH] Refactoring de l'algo de choix des épreuves next-gen (PIX-9560).
+- [#7243](https://github.com/1024pix/pix/pull/7243) [TECH] Déclarer `eslint-plugin-118n-json` dans chaque application qui l'utilise.
+- [#7203](https://github.com/1024pix/pix/pull/7203) [TECH] Supprimer les scripts obsolètes (PIX-9229).
+
+### :bug: Correction
+- [#7244](https://github.com/1024pix/pix/pull/7244) [BUGFIX] Téléchargement de la feuille d'émargement KO pour CDC non SCO si identifiant local NULL. (PIX-9604).
+
+### :coffee: Autre
+- [#7189](https://github.com/1024pix/pix/pull/7189) [REFACTOR] move GetNextChallengeForPix1d to school bounded context (PIX-9496).
+
 ## v4.42.0 (11/10/2023)
 
 
