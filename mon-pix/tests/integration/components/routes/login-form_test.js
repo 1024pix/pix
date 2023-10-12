@@ -117,11 +117,6 @@ module('Integration | Component | routes/login-form', function (hooks) {
       }
       this.owner.register('service:store', StoreStub);
 
-      class RouterStub extends Service {
-        replaceWith = sinon.stub();
-      }
-      this.owner.register('service:router', RouterStub);
-
       const response = {
         responseJSON: {
           errors: [
@@ -139,6 +134,7 @@ module('Integration | Component | routes/login-form', function (hooks) {
       this.owner.register('service:session', SessionStub);
 
       const routerObserver = this.owner.lookup('service:router');
+      routerObserver.replaceWith = sinon.stub();
 
       // when
       const screen = await render(hbs`<Routes::LoginForm/>`);
