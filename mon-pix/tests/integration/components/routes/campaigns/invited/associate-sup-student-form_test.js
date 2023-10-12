@@ -11,13 +11,13 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
 
   let sessionStub;
   let storeStub;
-  let routerStub;
   let saveStub;
-  let transitionToStub;
+  let routerObserver;
 
   hooks.beforeEach(function () {
+    routerObserver = this.owner.lookup('service:router');
+    routerObserver.transitionTo = sinon.stub();
     saveStub = sinon.stub();
-    transitionToStub = sinon.stub();
     sessionStub = class StoreStub extends Service {};
     storeStub = class StoreStub extends Service {
       createRecord = () => ({
@@ -25,10 +25,6 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
         unloadRecord: () => sinon.stub(),
       });
     };
-    routerStub = class RouterStub extends Service {
-      transitionTo = transitionToStub;
-    };
-    this.owner.register('service:router', routerStub);
     this.owner.register('service:session', sessionStub);
     this.owner.register('service:store', storeStub);
   });
@@ -54,7 +50,11 @@ module('Integration | Component | routes/campaigns/invited/associate-sup-student
       await _fillInputsAndValidate({ screen });
 
       // then
-      sinon.assert.calledWithExactly(transitionToStub, 'campaigns.invited.fill-in-participant-external-id', 123);
+      sinon.assert.calledWithExactly(
+        routerObserver.transitionTo,
+        'campaigns.invited.fill-in-participant-external-id',
+        123,
+      );
       assert.ok(true);
     });
   });
