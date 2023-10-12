@@ -172,7 +172,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
       assert.ok(tutorialToLearnMore.textContent.includes(learningMoreTutorial.title));
 
       await screen.findByRole('dialog');
-      assert.dom(screen.getByRole('button', { name: 'Signaler un problème' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Signaler un problème avec la question' })).exists();
     });
   });
 });

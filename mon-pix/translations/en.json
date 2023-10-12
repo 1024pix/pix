@@ -568,7 +568,7 @@
       },
       "feedback-panel": {
         "actions": {
-          "open-close": "Report a problem"
+          "open-close": "Report a problem regarding the challenge"
         },
         "description": "Pix wants to hear from you so we can improve our tests!*",
         "form": {
