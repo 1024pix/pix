@@ -109,6 +109,9 @@ module.exports = function (environment) {
         minValue: 0,
       }),
     },
+    'ember-cli-mirage': {
+      usingProxy: true,
+    },
   };
 
   if (environment === 'development') {
