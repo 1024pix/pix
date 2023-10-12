@@ -3,24 +3,16 @@ import lodash from 'lodash';
 import { MissingAttributesError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import { InvalidBadgeLevelError } from '../errors.js';
 import { BadgeToAttach } from '../models/BadgeToAttach.js';
-import bluebird from 'bluebird';
-import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../shared/infrastructure/constants.js';
-import { logger } from '../../../../../lib/infrastructure/logger.js';
 
 const { isNil, uniq } = lodash;
-const EVENT_NAME = 'attach-target-profile-certif';
 
 const attachBadges = async function ({
-  complementaryCertificationId,
+  complementaryCertification,
   userId,
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
-  notifyOrganizations,
   badgeRepository,
-  complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationBadgesRepository,
-  organizationRepository,
-  mailService,
 }) {
   _verifyThatLevelsAreConsistent({
     complementaryCertificationBadgesToAttachDTO,
@@ -29,10 +21,6 @@ const attachBadges = async function ({
   await _verifyThatBadgesToAttachExist({
     complementaryCertificationBadgesToAttachDTO,
     badgeRepository,
-  });
-
-  const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
-    complementaryCertificationId,
   });
 
   if (complementaryCertification.hasExternalJury) {
@@ -45,7 +33,7 @@ const attachBadges = async function ({
   const complementaryCertificationBadges = complementaryCertificationBadgesToAttachDTO.map((badgeToAttachDTO) => {
     return BadgeToAttach.from({
       ...badgeToAttachDTO,
-      complementaryCertificationId,
+      complementaryCertificationId: complementaryCertification.id,
       userId,
     });
   });
@@ -68,51 +56,9 @@ const attachBadges = async function ({
       domainTransaction,
     });
   });
-
-  if (notifyOrganizations) {
-    await sendNotification({
-      targetProfileIdToDetach,
-      complementaryCertificationName: complementaryCertification.label,
-      organizationRepository,
-      mailService,
-    });
-  }
 };
 
 export { attachBadges };
-
-async function sendNotification({
-  targetProfileIdToDetach,
-  complementaryCertificationName,
-  organizationRepository,
-  mailService,
-}) {
-  const emails =
-    await organizationRepository.getOrganizationUserEmailByCampaignTargetProfileId(targetProfileIdToDetach);
-
-  if (emails.length) {
-    bluebird.map(
-      emails,
-      async (email) => {
-        const result = await mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
-          complementaryCertificationName,
-          email,
-        });
-        if (result.hasFailed) {
-          logger.error({
-            event: EVENT_NAME,
-            message: `Failed to send email to notify organisation user "${email}" of ${complementaryCertificationName}'s target profile change`,
-          });
-        }
-      },
-      { concurrency: CONCURRENCY_HEAVY_OPERATIONS },
-    );
-    logger.info({
-      event: EVENT_NAME,
-      message: `${emails.length} email(s) sent to notify organisation users of ${complementaryCertificationName}'s target profile change`,
-    });
-  }
-}
 
 function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachDTO) {
   return complementaryCertificationBadgesToAttachDTO.some(
