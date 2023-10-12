@@ -91,12 +91,6 @@ const getNextChallenge = async function (
   }
 };
 
-const getNextChallengeForPix1d = async function (request, h, dependencies = { challengeSerializer }) {
-  const assessmentId = request.params.id;
-  const challenge = await usecases.getNextChallengeForPix1d({ assessmentId });
-  return dependencies.challengeSerializer.serialize(challenge);
-};
-
 const getCurrentActivity = async function (request, h, dependencies = { activitySerializer }) {
   const assessmentId = request.params.id;
   const activity = await usecases.getCurrentActivity({ assessmentId });
@@ -176,7 +170,6 @@ const assessmentController = {
   get,
   getLastChallengeId,
   getNextChallenge,
-  getNextChallengeForPix1d,
   getCurrentActivity,
   completeAssessment,
   updateLastChallengeState,

@@ -1,6 +1,6 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
-import { pix1dService } from '../../../../../lib/domain/services/algorithm-methods/pix1d.js';
-import { Activity } from '../../../../../lib/domain/models/Activity.js';
+import { pix1dService } from '../../../../../src/school/domain/services/algorithm-method.js';
+import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 
 //attention : l'ordre de la liste d'activités passée en paramètre à getNextActivityLevel doit être antéchronologique
 describe('Unit | Domain | Algorithm-methods | Pix1d', function () {
