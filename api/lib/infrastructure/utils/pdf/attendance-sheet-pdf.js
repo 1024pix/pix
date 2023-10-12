@@ -185,11 +185,11 @@ function _drawPageNumber({ pageIndex, pagesCount, page, sessionLabelsAndCandidat
 }
 
 function _formatInformation(information, limit = 21) {
-  if (information.length > limit) {
+  if (information?.length > limit) {
     return information.slice(0, limit) + '...';
   }
 
-  return information;
+  return information || '';
 }
 
 function _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont }) {
