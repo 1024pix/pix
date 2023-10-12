@@ -30,18 +30,16 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
             onlyNotComputed,
             domainTransaction,
           });
-        await this.pgBossRepository.insert(
-          organizationLearnerIds.map(
-            (organizationLearnerId) => ({
-              name: ComputeCertificabilityJob.name,
-              data: { organizationLearnerId },
-              retrylimit: 0,
-              retrydelay: 30,
-              on_complete: true,
-            }),
-            domainTransaction,
-          ),
-        );
+
+        const jobsToInsert = organizationLearnerIds.map((organizationLearnerId) => ({
+          name: ComputeCertificabilityJob.name,
+          data: { organizationLearnerId },
+          retrylimit: 0,
+          retrydelay: 30,
+          on_complete: true,
+        }));
+
+        await this.pgBossRepository.insert(jobsToInsert, domainTransaction);
       }
     });
   }
