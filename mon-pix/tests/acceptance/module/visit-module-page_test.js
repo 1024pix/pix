@@ -4,11 +4,11 @@ import { currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-module('Acceptance | modules/les-adresses-mail', function (hooks) {
+module('Acceptance | Module | Routes | get', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('can visit /modules/les-adresses-mail', async function (assert) {
+  test('can visit /modules/:slug', async function (assert) {
     // given
     server.create('module', {
       id: 'les-adresses-mail',

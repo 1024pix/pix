@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | modules/les-adresses-mail', function (hooks) {
+module('Unit | Route | modules | get', function (hooks) {
   setupTest(hooks);
 
   test('should exist', function (assert) {
