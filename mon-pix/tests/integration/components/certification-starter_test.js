@@ -149,14 +149,6 @@ module('Integration | Component | certification-starter', function (hooks) {
             deleteRecord: sinon.stub(),
           };
 
-          const replaceWithStub = sinon.stub();
-
-          class RouterServiceStub extends Service {
-            replaceWith = replaceWithStub;
-          }
-
-          this.owner.register('service:router', RouterServiceStub);
-
           const createRecordStub = sinon.stub();
 
           class StoreServiceStub extends Service {
@@ -177,12 +169,15 @@ module('Integration | Component | certification-starter', function (hooks) {
             FocusedCertificationChallengeWarningManagerStub,
           );
 
+          const routerObserver = this.owner.lookup('service:router');
+          routerObserver.replaceWith = sinon.stub();
+
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`,
           );
           await fillIn('#certificationStarterSessionCode', 'ABC123');
-          replaceWithStub.returns('ok');
+          routerObserver.replaceWith.returns('ok');
 
           // when
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
@@ -194,7 +189,7 @@ module('Integration | Component | certification-starter', function (hooks) {
           });
           sinon.assert.calledOnce(certificationCourse.save);
           sinon.assert.calledOnce(resetStub);
-          sinon.assert.calledWithExactly(replaceWithStub, 'authenticated.certifications.resume', 456);
+          sinon.assert.calledWithExactly(routerObserver.replaceWith, 'authenticated.certifications.resume', 456);
           assert.ok(true);
         });
       });
