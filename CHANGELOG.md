@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.44.0 (13/10/2023)
+
+
+### :rocket: Amélioration
+- [#7242](https://github.com/1024pix/pix/pull/7242) [FEATURE] Afficher un module (PIX-9450).
+- [#7254](https://github.com/1024pix/pix/pull/7254) [FEATURE] Remettre les boutons d'actions dans une sticky barre en bas de l'écran (Pix-9536).
+- [#7235](https://github.com/1024pix/pix/pull/7235) [FEATURE] Générer la feuille d'émargement en PDF pour le SCO sur Pix Certif (PIX-9459).
+- [#7245](https://github.com/1024pix/pix/pull/7245) [FEATURE] Améliorer l'affichage des options de l'épreuve validation (Pix-9610).
+
+### :building_construction: Tech
+- [#7249](https://github.com/1024pix/pix/pull/7249) [TECH] Ajouter une variable d'env pour gérer les sources possibles pour les embeds (Pix-9615).
+
+### :bug: Correction
+- [#7253](https://github.com/1024pix/pix/pull/7253) [BUGFIX] Utiliser la domainTransaction pour l'insertion des jobs du CRON (PIX-9623).
+- [#7250](https://github.com/1024pix/pix/pull/7250) [BUGFIX] Admin ne se lance plus (PIX-9624).
+- [#7252](https://github.com/1024pix/pix/pull/7252) [BUGFIX] Ajouter une contrainte manquante pour le SSO "Pays de la Loire" dans le schéma de la base de données (PIX-9611).
+
+### :coffee: Autre
+- [#7164](https://github.com/1024pix/pix/pull/7164) [DOCS] Mise à jour du Contributing.MD.
+
 ## v4.43.0 (12/10/2023)
 
 
