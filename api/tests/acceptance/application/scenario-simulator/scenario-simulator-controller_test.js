@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import { createServer } from '../../../../server.js';
-import { databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent } from '../../../test-helper.js';
+import {
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+  parseJsonStream,
+} from '../../../test-helper.js';
 import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const {
@@ -169,7 +174,8 @@ ko,aband,ok`;
 
         // then
         expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
+        const parsedResponse = parseJsonStream(response);
+        expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
       });
     });
 
@@ -183,7 +189,8 @@ ko,aband,ok`;
         const response = await server.inject(options);
         // then
         expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
+        const parsedResponse = parseJsonStream(response);
+        expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
       });
     });
 
@@ -197,8 +204,8 @@ ko,aband,ok`;
         const response = await server.inject(options);
 
         // then
-        expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
+        const parsedResponse = parseJsonStream(response);
+        expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
       });
     });
 
@@ -212,8 +219,8 @@ ko,aband,ok`;
         const response = await server.inject(options);
 
         // then
-        expect(response).to.have.property('statusCode', 200);
-        expect(response.result.data[0].attributes['simulation-report']).to.have.lengthOf(2);
+        const parsedResponse = parseJsonStream(response);
+        expect(parsedResponse[0].simulationReport).to.have.lengthOf(2);
       });
     });
 
