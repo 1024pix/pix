@@ -3,14 +3,14 @@ export class FlashAssessmentAlgorithmOneQuestionPerTubeRule {
     return limitToOneQuestionPerTube;
   }
 
-  static execute({ allAnswers, challenges }) {
+  static execute({ allAnswers, allChallenges, availableChallenges }) {
     const alreadyAnsweredTubeIds = allAnswers.map(
       (answer) =>
-        FlashAssessmentAlgorithmOneQuestionPerTubeRule._findChallengeForAnswer(challenges, answer).skill.tubeId,
+        FlashAssessmentAlgorithmOneQuestionPerTubeRule._findChallengeForAnswer(allChallenges, answer).skill.tubeId,
     );
 
     const isNonAnsweredTube = (skill) => !alreadyAnsweredTubeIds.includes(skill.tubeId);
-    return challenges.filter((challenge) => isNonAnsweredTube(challenge.skill));
+    return availableChallenges.filter((challenge) => isNonAnsweredTube(challenge.skill));
   }
 
   static _findChallengeForAnswer(challenges, answer) {

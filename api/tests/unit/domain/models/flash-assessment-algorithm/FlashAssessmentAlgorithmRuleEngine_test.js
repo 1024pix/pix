@@ -11,46 +11,46 @@ const inactiveRule = {
 
 const ruleThatRemoveChallenge1 = {
   isApplicable: () => true,
-  execute: ({ challenges }) => challenges.filter((challenge) => challenge !== challenge1),
+  execute: ({ availableChallenges }) => availableChallenges.filter((challenge) => challenge !== challenge1),
 };
 
 const ruleThatRemoveChallenge2 = {
   isApplicable: () => true,
-  execute: ({ challenges }) => challenges.filter((challenge) => challenge !== challenge2),
+  execute: ({ availableChallenges }) => availableChallenges.filter((challenge) => challenge !== challenge2),
 };
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmRuleEngine', function () {
   describe('when there are no applicable rules', function () {
     it('should not apply the rule', function () {
-      const challenges = [challenge1, challenge2];
+      const allChallenges = [challenge1, challenge2];
 
       const availableRules = [inactiveRule];
       const engine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {});
 
-      expect(engine.execute({ allAnswers: [], challenges })).to.deep.equal(challenges);
+      expect(engine.execute({ allAnswers: [], allChallenges })).to.deep.equal(allChallenges);
     });
   });
 
   describe('when there is an applicable rule', function () {
     it('should apply the rule', function () {
-      const challenges = [challenge1, challenge2];
+      const allChallenges = [challenge1, challenge2];
 
       const availableRules = [ruleThatRemoveChallenge1];
       const engine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {});
 
-      expect(engine.execute({ allAnswers: [], challenges })).to.deep.equal([challenge2]);
+      expect(engine.execute({ allAnswers: [], allChallenges })).to.deep.equal([challenge2]);
     });
   });
 
   describe('when there are multiple applicable rules', function () {
     it('chain the rules', function () {
       const challenge3 = Symbol('challenge3');
-      const challenges = [challenge1, challenge2, challenge3];
+      const allChallenges = [challenge1, challenge2, challenge3];
 
       const availableRules = [inactiveRule, ruleThatRemoveChallenge1, ruleThatRemoveChallenge2];
       const engine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {});
 
-      expect(engine.execute({ allAnswers: [], challenges })).to.deep.equal([challenge3]);
+      expect(engine.execute({ allAnswers: [], allChallenges })).to.deep.equal([challenge3]);
     });
   });
 });
