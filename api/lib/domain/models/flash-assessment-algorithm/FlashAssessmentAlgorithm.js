@@ -5,6 +5,7 @@ import { FlashAssessmentAlgorithmRuleEngine } from './FlashAssessmentAlgorithmRu
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
 import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from './FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
+import { FlashAssessmentAlgorithmForcedCompetencesRule } from './FlashAssessmentAlgorithmForcedCompetencesRule.js';
 
 const defaultMinimumEstimatedSuccessRateRanges = [
   // Between question 1 and question 8 included, we set the minimum estimated
@@ -28,6 +29,7 @@ const availableRules = [
   FlashAssessmentAlgorithmOneQuestionPerTubeRule,
   FlashAssessmentAlgorithmNonAnsweredSkillsRule,
   FlashAssessmentAlgorithmPassageByAllCompetencesRule,
+  FlashAssessmentAlgorithmForcedCompetencesRule,
 ];
 
 class FlashAssessmentAlgorithm {
