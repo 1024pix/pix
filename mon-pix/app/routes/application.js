@@ -10,12 +10,14 @@ export default class ApplicationRoute extends Route {
   @service oidcIdentityProviders;
   @service session;
   @service splash;
+  @service metrics;
 
   activate() {
     this.splash.hide();
   }
 
   async beforeModel(transition) {
+    this.metrics.initialize();
     await this.session.setup();
     /*
     Ce code permet de définir une locale par défaut différente de celle d'ember-intl.
