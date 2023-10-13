@@ -105,11 +105,11 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel 
         value: sampleWithResults.sample,
       });
 
-      let probability = _getProbability({
-        estimatedLevel: sampleWithResults.sample,
-        discriminant: answeredChallenge.discriminant,
-        difficulty: answeredChallenge.difficulty,
-      });
+      let probability = _getProbability(
+        sampleWithResults.sample,
+        answeredChallenge.discriminant,
+        answeredChallenge.difficulty,
+      );
       probability = answer.isOk() ? probability : 1 - probability;
       sampleWithResults.probabilityToAnswer *= probability;
     }
@@ -206,7 +206,7 @@ function _getLastAnswersCompetenceIds(allAnswers, allChallenges, numberOfAnswers
 
 function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, estimatedLevel) {
   const hasMinimumSuccessRate = ({ challenge }) => {
-    const successProbability = _getProbability({ ...challenge, estimatedLevel });
+    const successProbability = _getProbability(estimatedLevel, challenge.discriminant, challenge.difficulty);
 
     return successProbability >= minimumSuccessRate;
   };
@@ -287,11 +287,14 @@ function _sumPixScoreAndScoreByCompetence(challenges) {
 }
 
 function getReward({ estimatedLevel, discriminant, difficulty }) {
-  const probability = _getProbability({ estimatedLevel, discriminant, difficulty });
+  const probability = _getProbability(estimatedLevel, discriminant, difficulty);
   return probability * (1 - probability) * Math.pow(discriminant, 2);
 }
 
-function _getProbability({ estimatedLevel, discriminant, difficulty }) {
+// Parameters are not wrapped inside an object for performance reasons
+// It avoids creating an object before each call which will trigger lots of
+// garbage collection, especially when running simulators
+function _getProbability(estimatedLevel, discriminant, difficulty) {
   return 1 / (1 + Math.exp(discriminant * (difficulty - estimatedLevel)));
 }
 
