@@ -3,11 +3,13 @@
   <RobotDialog @instruction={{@challenge.instruction}} />
   <Challenge::Item @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} @assessment={{@assessment}} />
 
-  <Challenge::ChallengeActions
-    @validateAnswer={{this.validateAnswer}}
-    @skipChallenge={{this.skipChallenge}}
-    @level={{@activity.level}}
-  />
+  <div class="container__actions">
+    <Challenge::ChallengeActions
+      @validateAnswer={{this.validateAnswer}}
+      @skipChallenge={{this.skipChallenge}}
+      @level={{@activity.level}}
+    />
+  </div>
 
   <AnswerFeedback
     @answer={{this.answer}}
