@@ -177,11 +177,8 @@ module('Unit | Component | routes/campaigns/join-sco-information-modal', functio
 
       this.owner.register('service:campaignStorage', CampaignStorageStub);
 
-      class RouterStub extends Service {
-        replaceWith = sinon.stub();
-      }
-
-      this.owner.register('service:router', RouterStub);
+      const routerObserver = this.owner.lookup('service:router');
+      routerObserver.replaceWith = sinon.stub();
 
       // when
       component.goToCampaignConnectionForm();

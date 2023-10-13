@@ -114,6 +114,8 @@ Router.map(function () {
     this.route('existing-participation', { path: '/participation-existante' });
   });
 
+  this.route('module/get', { path: '/modules/:slug' });
+
   this.route('terms-of-service', { path: '/cgu' });
 
   this.route('authentication', { path: '/connexion' }, function () {

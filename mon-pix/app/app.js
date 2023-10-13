@@ -1,7 +1,7 @@
 import Application from '@ember/application';
 import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from './config/environment';
+import config from 'mon-pix/config/environment';
 import { InitSentryForEmber } from '@sentry/ember';
 
 import '@formatjs/intl-locale/polyfill';
