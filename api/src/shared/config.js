@@ -170,7 +170,6 @@ const configuration = (function () {
       scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
     },
     featureToggles: {
-      isMassiveSessionManagementEnabled: isFeatureEnabled(process.env.FT_MASSIVE_SESSION_MANAGEMENT),
       isAlwaysOkValidateNextChallengeEndpointEnabled: isFeatureEnabled(
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
@@ -357,7 +356,6 @@ const configuration = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
-    config.featureToggles.isMassiveSessionManagementEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
     config.featureToggles.isTargetProfileVersioningEnabled = true;
 
