@@ -8,11 +8,8 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
   let flashAlgorithmImplementation;
 
   const baseGetNextChallengeOptions = {
-    warmUpLength: undefined,
-    forcedCompetences: undefined,
     challengesBetweenSameCompetence: 2,
     minimalSuccessRate: 0,
-    limitToOneQuestionPerTube: true,
   };
 
   beforeEach(function () {
@@ -57,9 +54,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const computedEstimatedLevel = 2;
           config.features.numberOfChallengesForFlashMethod = 20;
           const algorithm = new FlashAssessmentAlgorithm({
+            limitToOneQuestionPerTube: true,
             flashAlgorithmImplementation,
             maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
             minimumEstimatedSuccessRateRanges: [],
+            enablePassageByAllCompetences: false,
           });
 
           const skill1Tube1 = domainBuilder.buildSkill({
@@ -78,12 +77,12 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const unansweredChallengeTube1 = domainBuilder.buildChallenge({
-            id: 'answeredChallengeTube1',
+            id: 'unansweredChallengeTube1',
             skill: skill2Tube1,
           });
 
           const unansweredChallengeTube2 = domainBuilder.buildChallenge({
-            id: 'answeredChallengeTube1',
+            id: 'unansweredChallengeTube2',
             skill: skillTube2,
           });
 
@@ -193,7 +192,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
               estimatedLevel: computedEstimatedLevel,
               options: {
                 ...baseGetNextChallengeOptions,
-                limitToOneQuestionPerTube,
               },
             })
             .returns({
@@ -349,7 +347,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
               estimatedLevel: 0,
               options: {
                 ...baseGetNextChallengeOptions,
-                limitToOneQuestionPerTube: false,
                 // Due to JS having troubles with float numbers, we must use a matcher.
                 minimalSuccessRate: sinon.match((value) => value.toPrecision(1) === '0.6'),
               },

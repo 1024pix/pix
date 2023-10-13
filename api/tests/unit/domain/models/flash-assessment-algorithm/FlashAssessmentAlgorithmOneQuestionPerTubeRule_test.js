@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           id: 'rec3',
         });
 
-        const challenges = [
+        const allChallenges = [
           answeredTubeUnansweredSkillChallenge,
           answeredTubeAnsweredSkillChallenge,
           unansweredTubeUnansweredSkillChallenge,
@@ -69,7 +69,8 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
         expect(
           FlashAssessmentAlgorithmOneQuestionPerTubeRule.execute({
-            challenges,
+            allChallenges,
+            availableChallenges: allChallenges,
             allAnswers,
           }),
         ).to.deep.equal([unansweredTubeUnansweredSkillChallenge]);

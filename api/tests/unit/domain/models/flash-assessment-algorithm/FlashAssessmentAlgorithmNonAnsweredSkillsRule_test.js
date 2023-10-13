@@ -54,7 +54,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           challengeId: answeredSkillAnsweredChallenge.id,
         });
 
-        const challenges = [
+        const allChallenges = [
           unansweredSkillUnansweredChallenge,
           answeredSkillUnansweredChallenge,
           answeredSkillAnsweredChallenge,
@@ -64,7 +64,8 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
         expect(
           FlashAssessmentAlgorithmNonAnsweredSkillsRule.execute({
-            challenges,
+            allChallenges,
+            availableChallenges: allChallenges,
             allAnswers,
           }),
         ).to.deep.equal([unansweredSkillUnansweredChallenge]);

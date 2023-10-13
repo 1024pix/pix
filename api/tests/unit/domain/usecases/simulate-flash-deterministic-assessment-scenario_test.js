@@ -275,11 +275,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   });
 });
 
-function prepareStubs({
-  initialCapacity = config.v3Certification.defaultCandidateCapacity,
-  limitToOneQuestionPerTube,
-  minimalSuccessRate,
-} = {}) {
+function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidateCapacity, minimalSuccessRate } = {}) {
   const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill', tubeId: '1' });
   const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill', tubeId: '2' });
   const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill', tubeId: '3' });
@@ -321,7 +317,6 @@ function prepareStubs({
   const getNextChallengesOptionsMatcher = sinon.match(
     _.omitBy(
       {
-        limitToOneQuestionPerTube,
         minimalSuccessRate,
       },
       _.isUndefined,

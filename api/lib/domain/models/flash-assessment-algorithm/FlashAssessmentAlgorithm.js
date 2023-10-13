@@ -4,6 +4,7 @@ import { FlashAssessmentSuccessRateHandler } from '../FlashAssessmentSuccessRate
 import { FlashAssessmentAlgorithmRuleEngine } from './FlashAssessmentAlgorithmRuleEngine.js';
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
+import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from './FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
 
 const defaultMinimumEstimatedSuccessRateRanges = [
   // Between question 1 and question 8 included, we set the minimum estimated
@@ -23,7 +24,11 @@ const defaultMinimumEstimatedSuccessRateRanges = [
   }),
 ];
 
-const availableRules = [FlashAssessmentAlgorithmOneQuestionPerTubeRule, FlashAssessmentAlgorithmNonAnsweredSkillsRule];
+const availableRules = [
+  FlashAssessmentAlgorithmOneQuestionPerTubeRule,
+  FlashAssessmentAlgorithmNonAnsweredSkillsRule,
+  FlashAssessmentAlgorithmPassageByAllCompetencesRule,
+];
 
 class FlashAssessmentAlgorithm {
   /**
@@ -35,15 +40,17 @@ class FlashAssessmentAlgorithm {
    * @param minimumEstimatedSuccessRateRanges - force a minimal estimated success rate for challenges chosen at specific indexes
    * @param limitToOneQuestionPerTube - limits questions to one per tube
    * @param flashImplementation - the flash algorithm implementation
+   * @param enablePassageByAllCompetences - enable or disable the passage through all competences
    */
   constructor({
-    warmUpLength,
-    forcedCompetences,
+    warmUpLength = 0,
+    forcedCompetences = [],
     maximumAssessmentLength,
     challengesBetweenSameCompetence = config.v3Certification.challengesBetweenSameCompetence,
     minimumEstimatedSuccessRateRanges = defaultMinimumEstimatedSuccessRateRanges,
     limitToOneQuestionPerTube = true,
     flashAlgorithmImplementation,
+    enablePassageByAllCompetences = true,
   } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
@@ -52,6 +59,7 @@ class FlashAssessmentAlgorithm {
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
+    this.enablePassageByAllCompetences = enablePassageByAllCompetences;
 
     this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
       limitToOneQuestionPerTube,
@@ -77,7 +85,7 @@ class FlashAssessmentAlgorithm {
 
     const challengesAfterRulesApplication = this.ruleEngine.execute({
       allAnswers,
-      challenges,
+      allChallenges: challenges,
     });
 
     const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
@@ -86,11 +94,8 @@ class FlashAssessmentAlgorithm {
       allChallenges: challenges,
       estimatedLevel,
       options: {
-        warmUpLength: this.warmUpLength,
-        forcedCompetences: this.forcedCompetences,
         challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
         minimalSuccessRate,
-        limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
       },
     });
 

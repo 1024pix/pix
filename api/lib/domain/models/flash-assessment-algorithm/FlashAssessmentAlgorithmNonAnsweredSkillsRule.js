@@ -3,13 +3,15 @@ export class FlashAssessmentAlgorithmNonAnsweredSkillsRule {
     return !limitToOneQuestionPerTube;
   }
 
-  static execute({ allAnswers, challenges }) {
+  static execute({ allAnswers, allChallenges, availableChallenges }) {
     const alreadyAnsweredSkillsIds = allAnswers
-      .map((answer) => this._findChallengeForAnswer(challenges, answer))
+      .map((answer) => this._findChallengeForAnswer(allChallenges, answer))
       .map((challenge) => challenge.skill.id);
 
     const isNonAnsweredSkill = (skill) => !alreadyAnsweredSkillsIds.includes(skill.id);
-    const challengesForNonAnsweredSkills = challenges.filter((challenge) => isNonAnsweredSkill(challenge.skill));
+    const challengesForNonAnsweredSkills = availableChallenges.filter((challenge) =>
+      isNonAnsweredSkill(challenge.skill),
+    );
 
     return challengesForNonAnsweredSkills;
   }
