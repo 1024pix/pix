@@ -1,4 +1,4 @@
-import { expect, sinon, HttpTestServer, domainBuilder } from '../../../test-helper.js';
+import { expect, sinon, HttpTestServer, domainBuilder, parseJsonStream } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as moduleUnderTest from '../../../../lib/application/scenarios-simulator/index.js';
 import { random } from '../../../../lib/infrastructure/utils/random.js';
@@ -99,9 +99,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
             // then
             expect(response.statusCode).to.equal(200);
-            expect(response.result).to.deep.equal(
-              _generateScenarioSimulatorBatch([
-                [
+            const parsedResult = parseJsonStream(response);
+            expect(parsedResult).to.deep.equal([
+              {
+                index: 0,
+                simulationReport: [
                   {
                     challengeId: challenge1.id,
                     errorRate: errorRate1,
@@ -113,8 +115,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     discriminant: challenge1.discriminant,
                   },
                 ],
-              ]),
-            );
+              },
+            ]);
           });
         });
       });
@@ -159,9 +161,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(
-            _generateScenarioSimulatorBatch([
-              [
+          const parsedResult = parseJsonStream(response);
+          expect(parsedResult).to.deep.equal([
+            {
+              index: 0,
+              simulationReport: [
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
@@ -173,8 +177,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                   discriminant: challenge1.discriminant,
                 },
               ],
-            ]),
-          );
+            },
+          ]);
         });
       });
 
@@ -219,9 +223,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(
-            _generateScenarioSimulatorBatch([
-              [
+          const parsedResult = parseJsonStream(response);
+          expect(parsedResult).to.deep.equal([
+            {
+              index: 0,
+              simulationReport: [
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
@@ -233,8 +239,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                   discriminant: challenge1.discriminant,
                 },
               ],
-            ]),
-          );
+            },
+          ]);
         });
       });
 
@@ -278,9 +284,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(
-            _generateScenarioSimulatorBatch([
-              [
+          const parsedResult = parseJsonStream(response);
+          expect(parsedResult).to.deep.equal([
+            {
+              index: 0,
+              simulationReport: [
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
@@ -292,8 +300,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                   discriminant: challenge1.discriminant,
                 },
               ],
-            ]),
-          );
+            },
+          ]);
         });
       });
 
@@ -367,9 +375,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
             // then
             expect(response.statusCode).to.equal(200);
-            expect(response.result).to.deep.equal(
-              _generateScenarioSimulatorBatch([
-                [
+            const parsedResult = parseJsonStream(response);
+            expect(parsedResult).to.deep.equal([
+              {
+                index: 0,
+                simulationReport: [
                   {
                     challengeId: challenge1.id,
                     errorRate: errorRate1,
@@ -381,8 +391,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                     discriminant: challenge1.discriminant,
                   },
                 ],
-              ]),
-            );
+              },
+            ]);
           });
         });
 
@@ -546,9 +556,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
           // then
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal(
-            _generateScenarioSimulatorBatch([
-              [
+          const parsedResult = parseJsonStream(response);
+          expect(parsedResult).to.deep.equal([
+            {
+              index: 0,
+              simulationReport: [
                 {
                   challengeId: challenge1.id,
                   errorRate: errorRate1,
@@ -560,8 +572,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                   discriminant: challenge1.discriminant,
                 },
               ],
-            ]),
-          );
+            },
+          ]);
         });
       });
 
@@ -604,9 +616,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(
-                _generateScenarioSimulatorBatch([
-                  [
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
@@ -618,8 +632,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ]),
-              );
+                },
+              ]);
             });
           });
 
@@ -658,9 +672,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(
-                _generateScenarioSimulatorBatch([
-                  [
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
@@ -672,8 +688,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ]),
-              );
+                },
+              ]);
             });
           });
 
@@ -727,7 +743,18 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(_generateScenarioSimulatorBatch([[result], [result]]));
+
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [result],
+                },
+                {
+                  index: 1,
+                  simulationReport: [result],
+                },
+              ]);
             });
           });
         });
@@ -773,9 +800,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(
-                _generateScenarioSimulatorBatch([
-                  [
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
@@ -787,8 +816,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ]),
-              );
+                },
+              ]);
             });
           });
 
@@ -832,9 +861,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(
-                _generateScenarioSimulatorBatch([
-                  [
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
@@ -846,8 +877,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ]),
-              );
+                },
+              ]);
             });
           });
         });
@@ -890,9 +921,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(
-                _generateScenarioSimulatorBatch([
-                  [
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
@@ -904,8 +937,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ]),
-              );
+                },
+              ]);
             });
           });
 
@@ -946,9 +979,11 @@ describe('Integration | Application | scenario-simulator-controller', function (
 
               // then
               expect(response.statusCode).to.equal(200);
-              expect(response.result).to.deep.equal(
-                _generateScenarioSimulatorBatch([
-                  [
+              const parsedResult = parseJsonStream(response);
+              expect(parsedResult).to.deep.equal([
+                {
+                  index: 0,
+                  simulationReport: [
                     {
                       challengeId: challenge1.id,
                       errorRate: errorRate1,
@@ -960,8 +995,8 @@ describe('Integration | Application | scenario-simulator-controller', function (
                       discriminant: challenge1.discriminant,
                     },
                   ],
-                ]),
-              );
+                },
+              ]);
             });
           });
         });
@@ -1146,24 +1181,3 @@ describe('Integration | Application | scenario-simulator-controller', function (
     });
   });
 });
-
-function _generateScenarioSimulatorBatch(data) {
-  return {
-    data: data.map((scenario, index) => ({
-      type: 'scenario-simulator-batches',
-      id: `${index}`,
-      attributes: {
-        'simulation-report': scenario.map((scenarioSimulatorChallenge) => ({
-          'challenge-id': scenarioSimulatorChallenge.challengeId,
-          'error-rate': scenarioSimulatorChallenge.errorRate,
-          'estimated-level': scenarioSimulatorChallenge.estimatedLevel,
-          'minimum-capability': scenarioSimulatorChallenge.minimumCapability,
-          'answer-status': scenarioSimulatorChallenge.answerStatus,
-          reward: scenarioSimulatorChallenge.reward,
-          difficulty: scenarioSimulatorChallenge.difficulty,
-          discriminant: scenarioSimulatorChallenge.discriminant,
-        })),
-      },
-    })),
-  };
-}

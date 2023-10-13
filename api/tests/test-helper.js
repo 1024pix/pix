@@ -195,6 +195,13 @@ function streamToPromise(stream) {
   });
 }
 
+function parseJsonStream(response) {
+  return response.result
+    .split('\n')
+    .filter((row) => row !== '')
+    .map((r) => JSON.parse(r));
+}
+
 function catchErr(promiseFn, ctx) {
   return async (...args) => {
     try {
@@ -290,6 +297,7 @@ export {
   sinon,
   MockDate,
   streamToPromise,
+  parseJsonStream,
   catchErr,
   catchErrSync,
   testErr,
