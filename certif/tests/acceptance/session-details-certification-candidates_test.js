@@ -11,10 +11,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
   setupMirage(hooks);
   setupIntl(hooks);
 
-  hooks.beforeEach(function () {
-    server.create('feature-toggle', { isMassiveSessionManagementEnabled: true });
-  });
-
   hooks.afterEach(function () {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
@@ -362,9 +358,8 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           );
           await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
-          // TODO: remove this getAllByRole (isMassiveSessionManagementEnabled)
-          const closeButtons = screen.getAllByRole('button', { name: 'Fermer' });
-          await click(closeButtons[1]);
+          const closeButton = screen.getByRole('button', { name: 'Fermer' });
+          await click(closeButton);
 
           // when
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));

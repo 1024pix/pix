@@ -68,12 +68,6 @@
 
     {{/if}}
 
-    {{#if this.showMassImportBanner}}
-      <PixBanner @canCloseBanner="true">
-        {{t "pages.banner.information" htmlSafe=true}}
-      </PixBanner>
-    {{/if}}
-
     <div class="page">
       {{outlet}}
     </div>
