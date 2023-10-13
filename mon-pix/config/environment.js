@@ -111,7 +111,10 @@ module.exports = function (environment) {
       strikethrough: true,
     },
 
-    matomo: {},
+    metrics: {
+      enabled: analyticsEnabled,
+      matomoUrl: process.env.WEB_ANALYTICS_URL,
+    },
 
     '@sentry/ember': {
       disablePerformance: true,
@@ -164,6 +167,7 @@ module.exports = function (environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
+    ENV.metrics.enabled = false;
   }
 
   if (environment === 'production') {
