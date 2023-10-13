@@ -70,12 +70,11 @@ const getAttendanceSheet = async function (request, h, dependencies = { tokenSer
   const sessionId = request.params.id;
   const token = request.query.accessToken;
   const userId = dependencies.tokenService.extractUserId(token);
-  const { fileExtension, contentType, attendanceSheet } = await usecases.getAttendanceSheet({ sessionId, userId });
-
-  const fileName = `feuille-emargement-session-${sessionId}.${fileExtension}`;
+  const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
+  const fileName = `feuille-emargement-session-${sessionId}.pdf`;
   return h
     .response(attendanceSheet)
-    .header('Content-Type', contentType)
+    .header('Content-Type', 'application/pdf')
     .header('Content-Disposition', `attachment; filename=${fileName}`);
 };
 

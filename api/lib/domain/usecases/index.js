@@ -138,7 +138,6 @@ import * as placementProfileService from '../../domain/services/placement-profil
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
 import * as prescriberRepository from '../../infrastructure/repositories/prescriber-repository.js';
-import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import * as refreshTokenService from '../../domain/services/refresh-token-service.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
@@ -157,7 +156,6 @@ import * as sessionsImportValidationService from '../../domain/services/sessions
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
-import * as sessionXmlService from '../../domain/services/session-xml-service.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository.js';
@@ -189,7 +187,6 @@ import * as userToCreateRepository from '../../infrastructure/repositories/user-
 import * as userValidator from '../validators/user-validator.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
-import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
@@ -353,7 +350,6 @@ const dependencies = {
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
   prescriberRepository,
-  readOdsUtils,
   refreshTokenService,
   resetPasswordDemandRepository,
   resetPasswordService,
@@ -372,7 +368,6 @@ const dependencies = {
   sessionRepository,
   sessionSummaryRepository,
   sessionValidator,
-  sessionXmlService,
   sessionsImportValidationService,
   skillRepository,
   smartRandom,
@@ -411,7 +406,6 @@ const dependencies = {
   userValidator,
   verifyCertificateCodeService,
   writeCsvUtils,
-  writeOdsUtils,
   attendanceSheetPdfUtils,
 };
 
