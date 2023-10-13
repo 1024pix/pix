@@ -27,9 +27,6 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
           class CurrentUserStub extends Service {
             currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
           }
-          class FeatureTogglesStub extends Service {
-            featureToggles = { isMassiveSessionManagementEnabled: sinon.stub().returns(true) };
-          }
           class CurrentDomainStub extends Service {
             getExtension = sinon.stub().returns('org');
           }
@@ -38,7 +35,6 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
           }
 
           this.owner.register('service:current-domain', CurrentDomainStub);
-          this.owner.register('service:featureToggles', FeatureTogglesStub);
           this.owner.register('service:current-user', CurrentUserStub);
           this.owner.register('service:intl', IntlStub);
 
@@ -61,9 +57,6 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
           class CurrentUserStub extends Service {
             currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
           }
-          class FeatureTogglesStub extends Service {
-            featureToggles = { isMassiveSessionManagementEnabled: sinon.stub().returns(true) };
-          }
           class CurrentDomainStub extends Service {
             getExtension = sinon.stub().returns('org');
           }
@@ -72,7 +65,6 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
           }
 
           this.owner.register('service:current-domain', CurrentDomainStub);
-          this.owner.register('service:featureToggles', FeatureTogglesStub);
           this.owner.register('service:current-user', CurrentUserStub);
           this.owner.register('service:intl', IntlStub);
 
@@ -97,9 +89,6 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
         class CurrentUserStub extends Service {
           currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
         }
-        class FeatureTogglesStub extends Service {
-          featureToggles = { isMassiveSessionManagementEnabled: sinon.stub().returns(true) };
-        }
         class CurrentDomainStub extends Service {
           getExtension = sinon.stub().returns('fr');
         }
@@ -108,7 +97,6 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
         }
 
         this.owner.register('service:current-domain', CurrentDomainStub);
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
         this.owner.register('service:current-user', CurrentUserStub);
         this.owner.register('service:intl', IntlStub);
 
