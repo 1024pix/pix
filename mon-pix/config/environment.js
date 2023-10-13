@@ -135,6 +135,10 @@ module.exports = function (environment) {
     'ember-cli-mirage': {
       usingProxy: true,
     },
+
+    'ember-component-css': {
+      namespacing: false,
+    },
   };
 
   if (environment === 'development') {
@@ -174,10 +178,6 @@ module.exports = function (environment) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
     }
   }
-
-  ENV['ember-component-css'] = {
-    namespacing: false,
-  };
 
   return ENV;
 };
