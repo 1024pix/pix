@@ -76,7 +76,7 @@ module.exports = {
     },
     // test files
     {
-      files: ['tests/**/*.js', '**/*_test.js'],
+      files: ['tests/**/*.js'],
       excludedFiles: ['tests/dummy/**/*.js'],
       env: {
         embertest: true,
