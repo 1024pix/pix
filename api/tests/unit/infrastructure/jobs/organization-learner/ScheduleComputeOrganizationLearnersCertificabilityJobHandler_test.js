@@ -5,10 +5,29 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobHandler', function () {
   context('#handle', function () {
     let domainTransaction;
+    let pgBossRepository;
+    let organizationLearnerRepository;
+    let logger;
+
     beforeEach(function () {
       domainTransaction = Symbol('domainTransaction');
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
+      };
+
+      pgBossRepository = {
+        insert: sinon.stub(),
+      };
+
+      pgBossRepository.insert.resolves([]);
+
+      organizationLearnerRepository = {
+        findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
+        countByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
+      };
+
+      logger = {
+        info: sinon.stub(),
       };
     });
 
@@ -16,13 +35,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       // given
       const skipLoggedLastDayCheck = undefined;
       const onlyNotComputed = undefined;
-      const pgBossRepository = {
-        insert: sinon.stub(),
-      };
-      const organizationLearnerRepository = {
-        findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
-        countByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
-      };
+
       const config = {
         features: {
           scheduleComputeOrganizationLearnersCertificability: {
@@ -30,6 +43,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           },
         },
       };
+
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
         .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
         .resolves(3);
@@ -44,6 +58,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           pgBossRepository,
           organizationLearnerRepository,
           config,
+          logger,
         });
 
       // when
@@ -81,13 +96,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       // given
       const skipLoggedLastDayCheck = true;
       const onlyNotComputed = true;
-      const pgBossRepository = {
-        insert: sinon.stub(),
-      };
-      const organizationLearnerRepository = {
-        findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
-        countByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
-      };
+
       const config = {
         features: {
           scheduleComputeOrganizationLearnersCertificability: {
@@ -109,6 +118,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           pgBossRepository,
           organizationLearnerRepository,
           config,
+          logger,
         });
 
       // when
@@ -149,13 +159,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       // given
       const skipLoggedLastDayCheck = undefined;
       const onlyNotComputed = undefined;
-      const pgBossRepository = {
-        insert: sinon.stub(),
-      };
-      const organizationLearnerRepository = {
-        findByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
-        countByOrganizationsWhichNeedToComputeCertificability: sinon.stub(),
-      };
+
       const chunkCount = 10;
       const limit = 3;
       const config = {
@@ -180,6 +184,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
           pgBossRepository,
           organizationLearnerRepository,
           config,
+          logger,
         });
 
       // when
@@ -210,6 +215,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
             on_complete: true,
           },
         ]);
+        expect(pgBossRepository.insert.getCall(index).args[1]).to.be.deep.equal(domainTransaction);
       }
     });
   });
