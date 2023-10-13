@@ -138,60 +138,30 @@ describe('Unit | Controller | sessionController', function () {
       sinon.stub(usecases, 'getAttendanceSheet');
     });
 
-    describe('when the session type is SCO and managing students', function () {
-      it('should return the attendence sheet in ods format', async function () {
-        // given
-        const fileExtension = 'ods';
-        const contentType = 'application/vnd.oasis.opendocument.spreadsheet';
-        const attendanceSheet = Buffer.alloc(5);
-        const tokenService = {
-          extractUserId: sinon.stub(),
-        };
-        tokenService.extractUserId.withArgs(accessToken).returns(userId);
-        usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves({
-          fileExtension,
-          contentType,
-          attendanceSheet,
-        });
-
-        // when
-        const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
-
-        // then
-        const expectedHeaders = {
-          'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.ods`,
-          'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
-        };
-        expect(response.headers).to.deep.equal(expectedHeaders);
+    it('should return the attendence sheet in pdf format', async function () {
+      // given
+      const fileExtension = 'pdf';
+      const contentType = 'application/pdf';
+      const attendanceSheet = Buffer.alloc(5);
+      const tokenService = {
+        extractUserId: sinon.stub(),
+      };
+      tokenService.extractUserId.withArgs(accessToken).returns(userId);
+      usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves({
+        fileExtension,
+        contentType,
+        attendanceSheet,
       });
-    });
 
-    describe('when the session type is not SCO', function () {
-      it('should return the attendence sheet in ods format', async function () {
-        // given
-        const fileExtension = 'pdf';
-        const contentType = 'application/pdf';
-        const attendanceSheet = Buffer.alloc(5);
-        const tokenService = {
-          extractUserId: sinon.stub(),
-        };
-        tokenService.extractUserId.withArgs(accessToken).returns(userId);
-        usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves({
-          fileExtension,
-          contentType,
-          attendanceSheet,
-        });
+      // when
+      const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
 
-        // when
-        const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
-
-        // then
-        const expectedHeaders = {
-          'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.pdf`,
-          'Content-Type': 'application/pdf',
-        };
-        expect(response.headers).to.deep.equal(expectedHeaders);
-      });
+      // then
+      const expectedHeaders = {
+        'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.pdf`,
+        'Content-Type': 'application/pdf',
+      };
+      expect(response.headers).to.deep.equal(expectedHeaders);
     });
   });
 

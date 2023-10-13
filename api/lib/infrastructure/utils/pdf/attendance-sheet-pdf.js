@@ -48,7 +48,13 @@ async function getAttendanceSheetPdfBuffer({
     _drawHeaderLabels({ page, titleFont, pageInformationFont });
     _drawCertificationInformationLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont });
     _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont });
-    _drawCandidatesTableLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont, tableLabelsFont });
+    _drawCandidatesTableLabels({
+      page,
+      session,
+      titleFont,
+      sessionLabelsAndCandidatesInformationFont,
+      tableLabelsFont,
+    });
 
     _drawPageNumber({ pageIndex: index, pagesCount, page, sessionLabelsAndCandidatesInformationFont });
     _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont });
@@ -64,13 +70,15 @@ async function getAttendanceSheetPdfBuffer({
       const y = firstCandidateYPosition - gapBetweenCandidates * index;
       const firstName = _formatInformation(candidate.firstName);
       const lastName = _formatInformation(candidate.lastName);
-      const externalId = _formatInformation(candidate.externalId);
+      const divisionOrExternalIdValue = _isScoCertificationCenterAndManagingStudentOrganization({ session })
+        ? _formatInformation(candidate.division)
+        : _formatInformation(candidate.externalId);
 
       const parameters = [
         [30, y, firstName],
         [133, y, lastName],
         [238, y, _formatDate(candidate.birthdate)],
-        [305, y, externalId],
+        [305, y, divisionOrExternalIdValue],
       ];
 
       _drawCandidate({ parameters, page, sessionLabelsAndCandidatesInformationFont });
@@ -136,12 +144,21 @@ function _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidate
   });
 }
 
-function _drawCandidatesTableLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont, tableLabelsFont }) {
+function _drawCandidatesTableLabels({
+  session,
+  page,
+  titleFont,
+  sessionLabelsAndCandidatesInformationFont,
+  tableLabelsFont,
+}) {
+  const divisionOrExternalIdLabel = _isScoCertificationCenterAndManagingStudentOrganization({ session })
+    ? 'Classe'
+    : 'Identifiant local';
   [
     [26, 660, 'Liste des candidats', 12, titleFont],
     [33, 635, 'Nom de naissance', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
     [136, 635, 'Prénom', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
-    [305, 635, 'Identifiant local', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [305, 635, divisionOrExternalIdLabel, SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
     [402, 635, 'Signature', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
   ].forEach(([x, y, text, fontSize, font]) => {
     page.drawText(text, {
@@ -282,6 +299,10 @@ function _drawCandidate({ page, sessionLabelsAndCandidatesInformationFont, param
 
 function _formatDate(date) {
   return dayjs(date).format('DD/MM/YYYY');
+}
+
+function _isScoCertificationCenterAndManagingStudentOrganization({ session }) {
+  return session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents;
 }
 
 export { getAttendanceSheetPdfBuffer };
