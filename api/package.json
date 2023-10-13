@@ -53,7 +53,7 @@
     "jsonapi-serializer": "^3.6.7",
     "jsonwebtoken": "^9.0.0",
     "jszip": "^3.10.0",
-    "knex": "^2.1.0",
+    "knex": "^3.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
@@ -120,7 +120,7 @@
   },
   "overrides": {
     "bookshelf": {
-      "knex": "^2.1.0"
+      "knex": "^3.0.0"
     }
   },
   "scripts": {
