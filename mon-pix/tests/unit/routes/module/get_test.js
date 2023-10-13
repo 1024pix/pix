@@ -24,7 +24,7 @@ module('Unit | Route | modules/les-adresses-mail', function (hooks) {
     store.findRecord.withArgs('module', 'the-module').resolves(module);
 
     // when
-    const model = await route.model({ module_slug: 'the-module' });
+    const model = await route.model({ slug: 'the-module' });
 
     // then
     assert.strictEqual(model, module);
