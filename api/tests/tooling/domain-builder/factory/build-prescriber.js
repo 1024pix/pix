@@ -54,6 +54,7 @@ const buildPrescriber = function ({
   memberships = _buildMemberships(),
   userOrgaSettings = _buildUserOrgaSettings(),
   enableMultipleSendingAssessment = false,
+  computeOrganizationLearnerCertificability = false,
 } = {}) {
   return new Prescriber({
     id,
@@ -65,6 +66,7 @@ const buildPrescriber = function ({
     memberships,
     userOrgaSettings,
     enableMultipleSendingAssessment,
+    computeOrganizationLearnerCertificability,
   });
 };
 
