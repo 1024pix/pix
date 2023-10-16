@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sup-organization-participants/list', function (hooks) {
   setupTest(hooks);
@@ -57,6 +58,29 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       assert.deepEqual(controller.certificability, []);
       assert.strictEqual(controller.pageNumber, null);
       assert.strictEqual(controller.pageSize, 10);
+    });
+  });
+
+  module('#deleteStudents', function () {
+    test('calls adapter deleteParticipants method', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentUser = this.owner.lookup('service:currentUser');
+      const adapter = store.adapterFor('sup-organization-participant');
+      sinon.stub(adapter, 'deleteParticipants');
+
+      const learner1 = { id: 1 };
+      const learner2 = { id: 2 };
+      const organizationId = 3;
+      currentUser.organization = {
+        id: organizationId,
+      };
+
+      // when
+      await controller.deleteStudents([learner1, learner2]);
+
+      // then
+      assert.ok(adapter.deleteParticipants.calledWith(organizationId, [learner1.id, learner2.id]));
     });
   });
 });
