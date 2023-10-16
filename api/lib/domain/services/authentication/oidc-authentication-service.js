@@ -18,28 +18,36 @@ import * as httpErrorsHelper from '../../../infrastructure/http/errors-helper.js
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
 import { monitoringTools } from '../../../infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../constants.js';
+import { temporaryStorage } from '../../../infrastructure/temporary-storage/index.js';
 
 const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
+
+const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
 class OidcAuthenticationService {
   #isReady = false;
 
-  constructor({
-    identityProvider,
-    configKey,
-    source,
-    slug,
-    organizationName,
-    hasLogoutUrl = false,
-    jwtOptions,
-    clientSecret,
-    clientId,
-    tokenUrl,
-    authenticationUrl,
-    authenticationUrlParameters,
-    userInfoUrl,
-    additionalRequiredProperties,
-  }) {
+  constructor(
+    {
+      identityProvider,
+      configKey,
+      source,
+      slug,
+      organizationName,
+      hasLogoutUrl = false,
+      jwtOptions,
+      clientSecret,
+      clientId,
+      tokenUrl,
+      authenticationUrl,
+      authenticationUrlParameters,
+      userInfoUrl,
+      endSessionUrl,
+      postLogoutRedirectUri,
+      additionalRequiredProperties,
+    },
+    { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
+  ) {
     this.identityProvider = identityProvider;
     this.configKey = configKey;
     this.source = source;
@@ -53,7 +61,9 @@ class OidcAuthenticationService {
     this.authenticationUrl = authenticationUrl;
     this.authenticationUrlParameters = authenticationUrlParameters;
     this.userInfoUrl = userInfoUrl;
-
+    this.endSessionUrl = endSessionUrl;
+    this.postLogoutRedirectUri = postLogoutRedirectUri;
+    this.sessionTemporaryStorage = sessionTemporaryStorage;
     if (!this.configKey) {
       logger.error(`${this.constructor.name}: Missing configKey`);
       return;
@@ -84,6 +94,7 @@ class OidcAuthenticationService {
       return;
     }
 
+    this.temporaryStorageConfig = config[this.configKey].temporaryStorage;
     this.#isReady = true;
   }
 
@@ -103,8 +114,24 @@ class OidcAuthenticationService {
     return null;
   }
 
-  saveIdToken() {
-    return null;
+  async saveIdToken({ idToken, userId } = {}) {
+    if (!(this.endSessionUrl || this.hasLogoutUrl)) {
+      return null;
+    }
+
+    // The session ID must be unpredictable, thus we disable the entropy cache
+    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
+    const uuid = randomUUID({ disableEntropyCache: true });
+
+    const { idTokenLifespanMs } = this.temporaryStorageConfig;
+
+    await this.sessionTemporaryStorage.save({
+      key: `${userId}:${uuid}`,
+      value: idToken,
+      expirationDelaySeconds: idTokenLifespanMs / 1000,
+    });
+
+    return uuid;
   }
 
   async exchangeCodeForTokens({ code, redirectUri }) {
@@ -265,8 +292,24 @@ class OidcAuthenticationService {
     return createdUserId;
   }
 
-  getRedirectLogoutUrl() {
-    return null;
+  async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
+    if (!this.endSessionUrl) {
+      return null;
+    }
+
+    const redirectTarget = new URL(this.endSessionUrl);
+    const key = `${userId}:${logoutUrlUUID}`;
+    const idToken = await this.sessionTemporaryStorage.get(key);
+    const params = [
+      { key: 'post_logout_redirect_uri', value: this.postLogoutRedirectUri },
+      { key: 'id_token_hint', value: idToken },
+    ];
+
+    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+    await this.sessionTemporaryStorage.delete(key);
+
+    return redirectTarget.toString();
   }
 }
 
