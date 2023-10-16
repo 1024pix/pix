@@ -1,5 +1,5 @@
 import { AssessmentEndedError } from '../errors.js';
-import { FlashAssessmentAlgorithm } from '../models/FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithm } from '../models/flash-assessment-algorithm/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
@@ -12,6 +12,11 @@ const getNextChallengeForCampaignAssessment = async function ({
   algorithmDataFetcherService,
   smartRandom,
   flashAlgorithmService,
+  warmUpLength = 0,
+  forcedCompetences = [],
+  limitToOneQuestionPerTube = false,
+  minimumEstimatedSuccessRateRanges = [],
+  enablePassageByAllCompetences = false,
 }) {
   let algoResult;
 
@@ -27,6 +32,11 @@ const getNextChallengeForCampaignAssessment = async function ({
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
       maximumAssessmentLength: config.features.numberOfChallengesForFlashMethod,
+      warmUpLength,
+      forcedCompetences,
+      limitToOneQuestionPerTube,
+      minimumEstimatedSuccessRateRanges,
+      enablePassageByAllCompetences,
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
