@@ -41,7 +41,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
 
     this.logoutUrl = config[configKey].logoutUrl;
     this.afterLogoutUrl = config[configKey].afterLogoutUrl;
-    this.temporaryStorage = config[configKey].temporaryStorage;
+    this.temporaryStorageConfig = config[configKey].temporaryStorage;
   }
 
   // Override because we need idToken to send results after a campaign
@@ -90,7 +90,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     // The session ID must be unpredictable, thus we disable the entropy cache
     // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
     const uuid = randomUUID({ disableEntropyCache: true });
-    const { idTokenLifespanMs } = this.temporaryStorage;
+    const { idTokenLifespanMs } = this.temporaryStorageConfig;
 
     await logoutUrlTemporaryStorage.save({
       key: `${userId}:${uuid}`,
