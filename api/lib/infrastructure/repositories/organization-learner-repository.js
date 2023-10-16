@@ -266,9 +266,7 @@ const getOrganizationLearnerForAdmin = async function (organizationLearnerId) {
 };
 
 const dissociateUserFromOrganizationLearner = async function (organizationLearnerId) {
-  await knex('organization-learners')
-    .where({ id: organizationLearnerId })
-    .update({ userId: null, certifiableAt: null, isCertifiable: null });
+  await _queryBuilderDissociation(knex).where({ id: organizationLearnerId });
 };
 
 const dissociateAllStudentsByUserId = async function ({
@@ -276,14 +274,22 @@ const dissociateAllStudentsByUserId = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
-  await knexConn('organization-learners')
-    .update({ userId: null, updatedAt: knex.fn.now() })
+  await _queryBuilderDissociation(knexConn)
     .where({ userId })
     .whereIn(
       'organization-learners.organizationId',
       knex.select('id').from('organizations').where({ isManagingStudents: true }),
     );
 };
+
+function _queryBuilderDissociation(knexConn) {
+  return knexConn('organization-learners').update({
+    userId: null,
+    certifiableAt: null,
+    isCertifiable: null,
+    updatedAt: new Date(),
+  });
+}
 
 const findOneByUserIdAndOrganizationId = async function ({
   userId,
