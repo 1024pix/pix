@@ -327,32 +327,71 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         });
       });
 
-      describe('#enableMultipleSendingAssessment', function () {
-        it('should return activated feature for current organization', async function () {
-          // given
-          expectedPrescriber.userOrgaSettings = userOrgaSettings;
-          const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
-          databaseBuilder.factory.buildOrganizationFeature({ featureId: feature.id, organizationId: organization.id });
-          await databaseBuilder.commit();
+      context('features', function () {
+        describe('#enableMultipleSendingAssessment', function () {
+          it('should return activated feature for current organization', async function () {
+            // given
+            const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+            databaseBuilder.factory.buildOrganizationFeature({
+              featureId: feature.id,
+              organizationId: organization.id,
+            });
+            await databaseBuilder.commit();
 
-          // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+            // when
+            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
-          // then
-          expect(foundPrescriber.enableMultipleSendingAssessment).to.be.true;
+            // then
+            expect(foundPrescriber.enableMultipleSendingAssessment).to.be.true;
+          });
+
+          it('should return deactivated feature for current organization', async function () {
+            // given
+            expectedPrescriber.userOrgaSettings = userOrgaSettings;
+            databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+            await databaseBuilder.commit();
+
+            // when
+            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+            // then
+            expect(foundPrescriber.enableMultipleSendingAssessment).to.be.false;
+          });
         });
+        describe('#isComputeOrganizationLearnerCertificabilityEnabled', function () {
+          it('should return activated feature for current organization', async function () {
+            // given
+            const feature = databaseBuilder.factory.buildFeature(
+              apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+            );
+            databaseBuilder.factory.buildOrganizationFeature({
+              featureId: feature.id,
+              organizationId: organization.id,
+            });
+            await databaseBuilder.commit();
 
-        it('should return deactivated feature for current organization', async function () {
-          // given
-          expectedPrescriber.userOrgaSettings = userOrgaSettings;
-          databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
-          await databaseBuilder.commit();
+            // when
+            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
-          // when
-          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+            // then
+            expect(foundPrescriber.computeOrganizationLearnerCertificability).to.be.true;
+          });
 
-          // then
-          expect(foundPrescriber.enableMultipleSendingAssessment).to.be.false;
+          it('should return deactivated feature for current organization', async function () {
+            // given
+            expectedPrescriber.userOrgaSettings = userOrgaSettings;
+            databaseBuilder.factory.buildFeature(
+              apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+            );
+
+            await databaseBuilder.commit();
+
+            // when
+            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+            // then
+            expect(foundPrescriber.computeOrganizationLearnerCertificability).to.be.false;
+          });
         });
       });
     });
