@@ -333,6 +333,36 @@ const register = async function (server) {
         tags: ['api', 'certification-center', 'invitations'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/certification-centers/{certificationCenterId}/invitations',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+            assign: 'isAdminOfCertificationCenter',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                emails: Joi.array().items(Joi.string().email()).required(),
+              },
+            },
+          }),
+        },
+        handler: certificationCenterController.sendInvitations,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables à un centre de certification**\n' +
+            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification via leur **email**",
+        ],
+        tags: ['api', 'certification-center', 'invitations'],
+      },
+    },
 
     {
       method: 'GET',
