@@ -19,7 +19,7 @@ import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
 } from './src/certification/complementary-certification/routes.js';
-import { supOrganizationManangementRoutes } from './src/prescription/learner-management/routes.js';
+import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 
@@ -120,7 +120,7 @@ const setupRoutesAndPlugins = async function (server) {
     attachTargetProfileRoutes,
     complementaryCertificationRoutes,
     devcompRoutes,
-    supOrganizationManangementRoutes,
+    learnerManagementRoutes,
     schoolRoutes,
   );
   await server.register(configuration);
