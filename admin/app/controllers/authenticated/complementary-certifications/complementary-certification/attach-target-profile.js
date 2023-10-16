@@ -94,7 +94,7 @@ export default class AttachTargetProfileController extends Controller {
         },
       });
 
-      this.router.transitionTo('authenticated.complementary-certifications.list');
+      this.router.transitionTo('authenticated.complementary-certifications.complementary-certification.details');
 
       this.notifications.success(
         `Profil cible rattaché à la certification ${complementaryCertification.label} mis à jour avec succès !`,
