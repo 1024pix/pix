@@ -1,7 +1,7 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CpfCertificationResult } from '../../domain/read-models/CpfCertificationResult.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
-import { ImportStatus } from '../../../src/certification/compte-personnel-formation/domain/models/ImportStatus.js';
+import { CpfImportStatus } from '../../../src/certification/courses/domain/models/CpfImportStatus.js';
 
 const findByBatchId = async function (batchId) {
   const cpfCertificationResults = await _selectCpfCertificationResults()
@@ -15,14 +15,14 @@ const findByBatchId = async function (batchId) {
       ) ORDER BY "competence-marks"."competence_code" asc) as "competenceMarks"`),
     )
     .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .where('compte-personnel-formation.filename', batchId)
+    .where('certification-courses-cpf-infos.filename', batchId)
     .groupBy('certification-courses.id', 'assessment-results.pixScore', 'sessions.publishedAt');
   return cpfCertificationResults.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
 };
 
 const markCertificationCoursesAsExported = async function ({ certificationCourseIds, filename }) {
-  return knex('compte-personnel-formation')
-    .update({ filename, importStatus: ImportStatus.READY_TO_SEND, updatedAt: knex.fn.now() })
+  return knex('certification-courses-cpf-infos')
+    .update({ filename, importStatus: CpfImportStatus.READY_TO_SEND, updatedAt: knex.fn.now() })
     .whereIn('certificationCourseId', certificationCourseIds);
 };
 
@@ -37,7 +37,7 @@ const markCertificationToExport = async function ({ startDate, endDate, limit, o
   return await knex
     .into(
       knex.raw('?? (??, ??, ??, ??, ??)', [
-        'compte-personnel-formation',
+        'certification-courses-cpf-infos',
         'certificationCourseId',
         'filename',
         'importStatus',
@@ -50,7 +50,7 @@ const markCertificationToExport = async function ({ startDate, endDate, limit, o
         .select([
           'certification-courses.id as certificationCourseId',
           knex.raw('? as filename', [batchId]),
-          knex.raw('?  as importStatus', [ImportStatus.PENDING]),
+          knex.raw('?  as importStatus', [CpfImportStatus.PENDING]),
           knex.raw('? as createdAt', [knex.fn.now()]),
           knex.raw('? as updatedAt', [knex.fn.now()]),
         ])
@@ -61,7 +61,7 @@ const markCertificationToExport = async function ({ startDate, endDate, limit, o
 };
 
 const updateCertificationImportStatus = async function ({ certificationCourseIds, cpfImportStatus }) {
-  return knex('compte-personnel-formation')
+  return knex('certification-courses-cpf-infos')
     .update({ importStatus: cpfImportStatus, updatedAt: knex.fn.now() })
     .whereIn('certificationCourseId', certificationCourseIds);
 };
@@ -89,9 +89,9 @@ function _selectCpfCertificationResults(qb = knex) {
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin(
-      'compte-personnel-formation',
+      'certification-courses-cpf-infos',
       'certification-courses.id',
-      'compte-personnel-formation.certificationCourseId',
+      'certification-courses-cpf-infos.certificationCourseId',
     );
 }
 
@@ -107,6 +107,6 @@ function _filterQuery(qb = knex, startDate, endDate) {
 
 const _findSchedulableCpfCertificationResults = ({ qb = knex, startDate, endDate }) => {
   return _filterQuery(_selectCpfCertificationResults(qb), startDate, endDate).whereNull(
-    'compte-personnel-formation.importStatus',
+    'certification-courses-cpf-infos.importStatus',
   );
 };
