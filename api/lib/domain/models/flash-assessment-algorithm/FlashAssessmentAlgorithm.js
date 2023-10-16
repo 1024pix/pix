@@ -45,26 +45,27 @@ class FlashAssessmentAlgorithm {
    * @param enablePassageByAllCompetences - enable or disable the passage through all competences
    */
   constructor({
-    warmUpLength = 0,
-    forcedCompetences = [],
+    warmUpLength,
+    forcedCompetences,
     maximumAssessmentLength,
     challengesBetweenSameCompetence = config.v3Certification.challengesBetweenSameCompetence,
     minimumEstimatedSuccessRateRanges = defaultMinimumEstimatedSuccessRateRanges,
-    limitToOneQuestionPerTube = true,
+    limitToOneQuestionPerTube,
     flashAlgorithmImplementation,
-    enablePassageByAllCompetences = true,
+    enablePassageByAllCompetences,
   } = {}) {
-    this.warmUpLength = warmUpLength;
-    this.forcedCompetences = forcedCompetences;
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
-    this.enablePassageByAllCompetences = enablePassageByAllCompetences;
 
     this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
       limitToOneQuestionPerTube,
+      challengesBetweenSameCompetence,
+      forcedCompetences,
+      warmUpLength,
+      enablePassageByAllCompetences,
     });
   }
 

@@ -7,14 +7,14 @@ export async function simulateFlashDeterministicAssessmentScenario({
   pickAnswerStatus,
   stopAtChallenge,
   initialCapacity,
-  warmUpLength,
-  forcedCompetences,
   useObsoleteChallenges,
-  challengesBetweenSameCompetence,
-  limitToOneQuestionPerTube,
-  minimumEstimatedSuccessRateRanges,
   flashAlgorithmService,
-  enablePassageByAllCompetences,
+  warmUpLength = 0,
+  forcedCompetences = [],
+  challengesBetweenSameCompetence = 0,
+  limitToOneQuestionPerTube = true,
+  minimumEstimatedSuccessRateRanges = [],
+  enablePassageByAllCompetences = false,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 

@@ -12,6 +12,11 @@ const getNextChallengeForCampaignAssessment = async function ({
   algorithmDataFetcherService,
   smartRandom,
   flashAlgorithmService,
+  warmUpLength = 0,
+  forcedCompetences = [],
+  limitToOneQuestionPerTube = false,
+  minimumEstimatedSuccessRateRanges = [],
+  enablePassageByAllCompetences = false,
 }) {
   let algoResult;
 
@@ -27,6 +32,11 @@ const getNextChallengeForCampaignAssessment = async function ({
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
       maximumAssessmentLength: config.features.numberOfChallengesForFlashMethod,
+      warmUpLength,
+      forcedCompetences,
+      limitToOneQuestionPerTube,
+      minimumEstimatedSuccessRateRanges,
+      enablePassageByAllCompetences,
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({

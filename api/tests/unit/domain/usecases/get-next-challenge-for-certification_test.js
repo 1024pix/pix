@@ -161,6 +161,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             certificationChallengeRepository,
             locale,
             flashAlgorithmService,
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
           });
 
           // then
@@ -312,6 +314,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             certificationChallengeRepository,
             locale,
             flashAlgorithmService,
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
           });
 
           // then

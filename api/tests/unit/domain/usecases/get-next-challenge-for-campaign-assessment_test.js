@@ -172,6 +172,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             flashAlgorithmService,
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
           });
 
           // then
@@ -234,6 +236,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             flashAlgorithmService,
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
           });
 
           // then

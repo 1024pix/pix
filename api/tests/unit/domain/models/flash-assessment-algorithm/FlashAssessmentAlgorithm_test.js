@@ -7,6 +7,14 @@ import { FlashAssessmentSuccessRateHandler } from '../../../../../lib/domain/mod
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithm', function () {
   let flashAlgorithmImplementation;
 
+  const baseFlashAssessmentAlgorithmConfig = {
+    warmUpLength: 0,
+    forcedCompetences: [],
+    minimumEstimatedSuccessRateRanges: [],
+    limitToOneQuestionPerTube: false,
+    enablePassageByAllCompetences: false,
+  };
+
   const baseGetNextChallengeOptions = {
     challengesBetweenSameCompetence: 2,
     minimalSuccessRate: 0,
@@ -33,6 +41,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         const algorithm = new FlashAssessmentAlgorithm({
           maximumAssessmentLength: 2,
           flashAlgorithmImplementation,
+          ...baseFlashAssessmentAlgorithmConfig,
         });
 
         expect(() =>
@@ -54,11 +63,10 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const computedEstimatedLevel = 2;
           config.features.numberOfChallengesForFlashMethod = 20;
           const algorithm = new FlashAssessmentAlgorithm({
-            limitToOneQuestionPerTube: true,
             flashAlgorithmImplementation,
             maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
-            minimumEstimatedSuccessRateRanges: [],
-            enablePassageByAllCompetences: false,
+            ...baseFlashAssessmentAlgorithmConfig,
+            limitToOneQuestionPerTube: true,
           });
 
           const skill1Tube1 = domainBuilder.buildSkill({
@@ -129,12 +137,10 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const initialCapacity = config.v3Certification.defaultCandidateCapacity;
           const computedEstimatedLevel = 2;
           config.features.numberOfChallengesForFlashMethod = 20;
-          const limitToOneQuestionPerTube = false;
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
             maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
-            minimumEstimatedSuccessRateRanges: [],
-            limitToOneQuestionPerTube,
+            ...baseFlashAssessmentAlgorithmConfig,
           });
 
           const skill1Tube1 = domainBuilder.buildSkill({
@@ -190,9 +196,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
               allChallenges: challenges,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
-              options: {
-                ...baseGetNextChallengeOptions,
-              },
+              options: baseGetNextChallengeOptions,
             })
             .returns({
               hasAssessmentEnded: false,
@@ -203,6 +207,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         });
       });
     });
+
     context('when specifying a minimal success rate', function () {
       context('when a fixed minimal success rate has been set', function () {
         it('should choose a challenge that has the required success rate first', function () {
@@ -238,6 +243,8 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           // when
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
+            ...baseFlashAssessmentAlgorithmConfig,
+            limitToOneQuestionPerTube: true,
             minimumEstimatedSuccessRateRanges: [
               FlashAssessmentSuccessRateHandler.createFixed({
                 startingChallengeIndex: 0,
@@ -324,6 +331,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           // when
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
+            ...baseFlashAssessmentAlgorithmConfig,
             limitToOneQuestionPerTube: false,
             minimumEstimatedSuccessRateRanges: [
               FlashAssessmentSuccessRateHandler.createLinear({
