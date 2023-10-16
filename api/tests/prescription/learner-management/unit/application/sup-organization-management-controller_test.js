@@ -1,4 +1,4 @@
-import { usecases } from '../../../../../src/prescription/shared/usecases/index.js';
+import { usecases } from '../../../../../src/prescription/shared/domain/usecases/index.js';
 import { supOrganizationManagementController } from '../../../../../src/prescription/learner-management/application/sup-organization-management-controller.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 
