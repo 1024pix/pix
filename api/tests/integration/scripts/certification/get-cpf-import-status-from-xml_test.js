@@ -1,12 +1,12 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import { main } from '../../../../scripts/certification/get-cpf-import-status-from-xml.js';
-import { ImportStatus } from '../../../../src/certification/compte-personnel-formation/domain/models/ImportStatus.js';
+import { CpfImportStatus } from '../../../../src/certification/courses/domain/models/CpfImportStatus.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml', function () {
   afterEach(async function () {
-    await knex('compte-personnel-formation').delete();
+    await knex('certification-courses-cpf-infos').delete();
     await knex('certification-courses').delete();
     await knex('sessions').delete();
     await knex('users').delete();
@@ -17,19 +17,19 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         // given
         const xmlPath = `${__dirname}/files/xml/cpfImportLog.xml`;
         databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
-        databaseBuilder.factory.buildComptePersonnelFormation({
+        databaseBuilder.factory.buildCertificationCoursesCpfInfos({
           certificationCourseId: 1234,
-          importStatus: ImportStatus.PENDING,
+          importStatus: CpfImportStatus.PENDING,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 4567 });
-        databaseBuilder.factory.buildComptePersonnelFormation({
+        databaseBuilder.factory.buildCertificationCoursesCpfInfos({
           certificationCourseId: 4567,
-          importStatus: ImportStatus.PENDING,
+          importStatus: CpfImportStatus.PENDING,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 891011 });
-        databaseBuilder.factory.buildComptePersonnelFormation({
+        databaseBuilder.factory.buildCertificationCoursesCpfInfos({
           certificationCourseId: 891011,
-          importStatus: ImportStatus.PENDING,
+          importStatus: CpfImportStatus.PENDING,
         });
         await databaseBuilder.commit();
 
@@ -38,22 +38,22 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
 
         // then
         const [certificationCourse1, certificationCourse2, certificationCourse3] = await knex(
-          'compte-personnel-formation',
+          'certification-courses-cpf-infos',
         )
           .select('certificationCourseId', 'importStatus')
           .whereIn('certificationCourseId', [1234, 4567, 891011])
           .orderBy('certificationCourseId', 'asc');
         expect(certificationCourse1).to.deep.equal({
           certificationCourseId: 1234,
-          importStatus: ImportStatus.ERROR,
+          importStatus: CpfImportStatus.ERROR,
         });
         expect(certificationCourse2).to.deep.equal({
           certificationCourseId: 4567,
-          importStatus: ImportStatus.SUCCESS,
+          importStatus: CpfImportStatus.SUCCESS,
         });
         expect(certificationCourse3).to.deep.equal({
           certificationCourseId: 891011,
-          importStatus: ImportStatus.SUCCESS,
+          importStatus: CpfImportStatus.SUCCESS,
         });
       });
     });
@@ -63,18 +63,39 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         // given
         const xmlPath = `${__dirname}/files/xml/cpfImportLogEmpty.xml`;
         databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
+        databaseBuilder.factory.buildCertificationCoursesCpfInfos({
+          certificationCourseId: 1234,
+          importStatus: CpfImportStatus.PENDING,
+          filename: 'cpf.gzip',
+        });
+
         databaseBuilder.factory.buildCertificationCourse({ id: 4567 });
+        databaseBuilder.factory.buildCertificationCoursesCpfInfos({
+          certificationCourseId: 4567,
+          importStatus: CpfImportStatus.ERROR,
+          filename: 'cpf.gzip',
+        });
         databaseBuilder.factory.buildCertificationCourse({ id: 891011 });
+        databaseBuilder.factory.buildCertificationCoursesCpfInfos({
+          certificationCourseId: 891011,
+          importStatus: CpfImportStatus.READY_TO_SEND,
+          filename: 'cpf.gzip',
+        });
+
         await databaseBuilder.commit();
 
         // when
         await main(xmlPath);
 
         // then
-        const results = await knex('compte-personnel-formation')
-          .select('certificationCourseId')
+        const results = await knex('certification-courses-cpf-infos')
+          .select('certificationCourseId', 'importStatus', 'filename')
           .whereIn('certificationCourseId', [1234, 4567, 891011]);
-        expect(results).to.be.empty;
+        expect(results).to.deep.equal([
+          { certificationCourseId: 1234, importStatus: 'PENDING', filename: 'cpf.gzip' },
+          { certificationCourseId: 4567, importStatus: 'ERROR', filename: 'cpf.gzip' },
+          { certificationCourseId: 891011, importStatus: 'READY_TO_SEND', filename: 'cpf.gzip' },
+        ]);
       });
     });
   });

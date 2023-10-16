@@ -1,4 +1,4 @@
-class ImportStatus {
+class CpfImportStatus {
   static ERROR = 'ERROR';
   static READY_TO_SEND = 'READY_TO_SEND';
   static PENDING = 'PENDING';
@@ -6,4 +6,4 @@ class ImportStatus {
   static OUTDATED = 'OUTDATED';
 }
 
-export { ImportStatus };
+export { CpfImportStatus };

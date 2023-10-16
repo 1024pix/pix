@@ -1,6 +1,6 @@
 import { databaseBuffer } from '../database-buffer.js';
 
-const buildComptePersonnelFormation = function ({
+const buildCertificationCoursesCpfInfos = function ({
   certificationCourseId = null,
   filename = null,
   importStatus = null,
@@ -11,9 +11,9 @@ const buildComptePersonnelFormation = function ({
     importStatus,
   };
   return databaseBuffer.pushInsertable({
-    tableName: 'compte-personnel-formation',
+    tableName: 'certification-courses-cpf-infos',
     values,
   });
 };
 
-export { buildComptePersonnelFormation };
+export { buildCertificationCoursesCpfInfos };
