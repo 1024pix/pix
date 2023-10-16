@@ -160,6 +160,8 @@ import * as skillRepository from '../../infrastructure/repositories/skill-reposi
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
+import * as stageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
@@ -187,6 +189,8 @@ import * as userToCreateRepository from '../../infrastructure/repositories/user-
 import * as userValidator from '../validators/user-validator.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as writeCsvUtils from '../../infrastructure/utils/csv/write-csv-utils.js';
+import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
+import * as stageAndStageAcquisitionComparisonService from '../../domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
@@ -212,7 +216,6 @@ function requirePoleEmploiNotifier() {
 }
 
 const dependencies = {
-  TargetProfileForSpecifierRepository,
   accountRecoveryDemandRepository,
   activityAnswerRepository,
   activityRepository,
@@ -222,6 +225,7 @@ const dependencies = {
   areaRepository,
   assessmentRepository,
   assessmentResultRepository,
+  attachableTargetProfileRepository,
   authenticationMethodRepository,
   authenticationServiceRegistry,
   authenticationSessionService,
@@ -234,7 +238,6 @@ const dependencies = {
   campaignAssessmentParticipationRepository,
   campaignAssessmentParticipationResultListRepository,
   campaignAssessmentParticipationResultRepository,
-  codeGenerator,
   campaignCollectiveResultRepository,
   campaignCreatorRepository,
   campaignCsvExportService,
@@ -282,6 +285,7 @@ const dependencies = {
   certificationResultRepository,
   challengeRepository,
   cleaCertifiedCandidateRepository,
+  codeGenerator,
   codeUtils,
   competenceEvaluationRepository,
   competenceMarkRepository,
@@ -334,9 +338,9 @@ const dependencies = {
   organizationPlacesCapacityRepository,
   organizationPlacesLotRepository,
   organizationRepository,
+  organizationsToAttachToTargetProfileRepository,
   organizationTagRepository,
   organizationValidator,
-  organizationsToAttachToTargetProfileRepository,
   participantResultRepository,
   participantResultsSharedRepository,
   participationsForCampaignManagementRepository,
@@ -371,15 +375,18 @@ const dependencies = {
   sessionsImportValidationService,
   skillRepository,
   smartRandom,
-  stageCollectionRepository,
+  stageAndStageAcquisitionComparisonService,
   stageCollectionForTargetProfileRepository,
+  stageCollectionRepository,
+  stageRepository,
+  stageAcquisitionRepository,
   studentRepository,
+  supervisorAccessRepository,
   supOrganizationLearnerRepository,
   supOrganizationParticipantRepository,
-  supervisorAccessRepository,
   tagRepository,
-  attachableTargetProfileRepository,
   targetProfileForAdminRepository,
+  TargetProfileForSpecifierRepository,
   targetProfileForUpdateRepository,
   targetProfileRepository,
   targetProfileShareRepository,
@@ -395,8 +402,8 @@ const dependencies = {
   tutorialRepository: repositories.tutorialRepository,
   userEmailRepository,
   userLoginRepository,
-  userOrgaSettingsRepository,
   userOrganizationsForAdminRepository,
+  userOrgaSettingsRepository,
   userRecommendedTrainingRepository: repositories.userRecommendedTrainingRepository,
   userReconciliationService,
   userRepository,
@@ -406,6 +413,7 @@ const dependencies = {
   userValidator,
   verifyCertificateCodeService,
   writeCsvUtils,
+  writeOdsUtils,
   attendanceSheetPdfUtils,
 };
 
