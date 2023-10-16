@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import ENV from 'pix-orga/config/environment';
 
 module('Unit | Adapters | organization-participant', function (hooks) {
   setupTest(hooks);
@@ -21,6 +22,25 @@ module('Unit | Adapters | organization-participant', function (hooks) {
 
       assert.ok(url.endsWith('/api/organizations/organizationId1/participants'));
       assert.strictEqual(query.organizationId, undefined);
+    });
+  });
+
+  module('#deleteParticipants', () => {
+    test('should call participant deletion endpoint', async function (assert) {
+      // given
+      const organizationId = 1;
+      const learner1Id = 2;
+      const learner2Id = 3;
+
+      // when
+      adapter.deleteParticipants(organizationId, [learner1Id, learner2Id]);
+
+      // then
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/organization-learners`;
+      const expectedData = {
+        listLearners: [learner1Id, learner2Id],
+      };
+      assert.ok(ajaxStub.calledWithExactly(url, 'DELETE', { data: expectedData }));
     });
   });
 });
