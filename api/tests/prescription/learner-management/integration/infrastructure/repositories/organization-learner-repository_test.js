@@ -1,6 +1,6 @@
-import { expect, knex, databaseBuilder, sinon } from '../../../../test-helper.js';
-import { removeByIds } from '../../../../../lib/infrastructure/repositories/organization-learners-management/organization-learner-repository.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { expect, knex, databaseBuilder, sinon } from '../../../../../test-helper.js';
+import { removeByIds } from '../../../../../../src/prescription/learner-management/infrastructure/repositories/organization-learner-repository.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Organization Learner Management | Organization Learner', function () {
   describe('#removeByIds', function () {
