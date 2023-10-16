@@ -26,4 +26,9 @@ export default class SupOrganizationParticipantAdapter extends ApplicationAdapte
 
     return super.updateRecord(store, type, snapshot);
   }
+
+  deleteParticipants(organizationId, ids) {
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners`;
+    return this.ajax(url, 'DELETE', { data: { listLearners: ids } });
+  }
 }
