@@ -66,7 +66,7 @@ async function _getBadgesForCurrentTargetProfiles({ targetProfile }) {
       level: 'complementary-certification-badges.level',
       imageUrl: 'complementary-certification-badges.imageUrl',
     })
-    .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .where('targetProfileId', targetProfile.id)
     .whereNull('complementary-certification-badges.detachedAt')
     .orderBy('level', 'asc');

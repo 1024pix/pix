@@ -255,6 +255,75 @@ describe('Integration | Repository | complementary-certification-target-profile-
         ]);
       });
     });
+
+    describe('when there are badges without complementary certification badge', function () {
+      it('should return the current target profile with only the badges associated with complementary certification badges', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+          id: 3,
+          key: 'EDU_2ND_DEGRE',
+          label: 'Pix+ Édu 2nd degré',
+        });
+
+        const currentTarget = databaseBuilder.factory.buildTargetProfile({ id: 999, name: 'currentTarget' });
+
+        databaseBuilder.factory.buildBadge({
+          targetProfileId: currentTarget.id,
+          key: 'badge sans ccbadge',
+        });
+
+        const currentBadgeId2 = _createComplementaryCertificationBadge({
+          targetProfileId: currentTarget.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2023-10-10'),
+          label: 'goodBadge2',
+          level: 2,
+          imageUrl: 'http://good-badge-2-url.net',
+        });
+        const currentBadgeId = _createComplementaryCertificationBadge({
+          targetProfileId: currentTarget.id,
+          complementaryCertificationId: complementaryCertification.id,
+          createdAt: new Date('2023-10-10'),
+          label: 'goodBadge',
+          level: 1,
+          imageUrl: 'http://good-badge-url.net',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result =
+          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
+            {
+              complementaryCertificationId: complementaryCertification.id,
+            },
+          );
+
+        // then
+        expect(result).to.deepEqualInstance([
+          new TargetProfileHistoryForAdmin({
+            id: 999,
+            name: 'currentTarget',
+            attachedAt: new Date('2023-10-10'),
+            detachedAt: null,
+            badges: [
+              new ComplementaryCertificationBadgeForAdmin({
+                id: currentBadgeId,
+                level: 1,
+                label: 'goodBadge',
+                imageUrl: 'http://good-badge-url.net',
+              }),
+              new ComplementaryCertificationBadgeForAdmin({
+                id: currentBadgeId2,
+                level: 2,
+                label: 'goodBadge2',
+                imageUrl: 'http://good-badge-2-url.net',
+              }),
+            ],
+          }),
+        ]);
+      });
+    });
   });
 
   describe('#getDetachedTargetProfilesHistoryByComplementaryCertificationId', function () {
