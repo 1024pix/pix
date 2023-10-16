@@ -21,6 +21,8 @@ class PaysdelaloireOidcAuthenticationService extends OidcAuthenticationService {
       authenticationUrl: config.paysdelaloire.authenticationUrl,
       authenticationUrlParameters: [{ key: 'scope', value: 'openid profile' }],
       userInfoUrl: config.paysdelaloire.userInfoUrl,
+      endSessionUrl: config.paysdelaloire.endSessionUrl,
+      postLogoutRedirectUri: config.paysdelaloire.postLogoutRedirectUri,
     });
   }
 }

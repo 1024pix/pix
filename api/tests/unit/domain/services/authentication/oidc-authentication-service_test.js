@@ -152,15 +152,54 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getRedirectLogoutUrl', function () {
-    it('returns null', function () {
-      // given
-      const oidcAuthenticationService = new OidcAuthenticationService({});
+    context('when there is no endSessionEndpoint', function () {
+      it('returns null', async function () {
+        // given
+        const oidcAuthenticationService = new OidcAuthenticationService({});
 
-      // when
-      const result = oidcAuthenticationService.getRedirectLogoutUrl();
+        // when
+        const result = await oidcAuthenticationService.getRedirectLogoutUrl();
 
-      // then
-      expect(result).to.be.null;
+        // then
+        expect(result).to.be.null;
+      });
+    });
+
+    context('when there is an endSessionEndpoint', function () {
+      it('returns a redirect URL for the user browser', async function () {
+        // given
+        const idToken = 'some_dummy_id_token';
+        const userId = 'some_dummy_user_id';
+        const logoutUrlUUID = 'some_dummy_logout_url_uuid';
+        const sessionTemporaryStorage = {
+          get: sinon.stub().resolves(idToken),
+          delete: sinon.stub().resolves(),
+        };
+        settings.someOidcProviderService = {
+          isEnabled: true,
+          clientId: 'anId',
+          clientSecret: 'aSecret',
+          authenticationUrl: 'https://example.net/authorize',
+          tokenUrl: 'https://example.net/token',
+          userInfoUrl: 'https://example.net/userinfo',
+        };
+        const oidcAuthenticationService = new OidcAuthenticationService(
+          {
+            configKey: 'someOidcProviderService',
+            endSessionUrl: 'https://example.net/logout',
+            postLogoutRedirectUri: 'https://app.pix.fr/connexion',
+          },
+          { sessionTemporaryStorage },
+        );
+
+        // when
+        const result = await oidcAuthenticationService.getRedirectLogoutUrl({ userId, logoutUrlUUID });
+
+        // then
+        expect(result).to.equal(
+          'https://example.net/logout?post_logout_redirect_uri=https%3A%2F%2Fapp.pix.fr%2Fconnexion&id_token_hint=some_dummy_id_token',
+        );
+      });
     });
   });
 

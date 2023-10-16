@@ -263,7 +263,12 @@ const configuration = (function () {
       tokenUrl: process.env.PAYSDELALOIRE_TOKEN_URL,
       userInfoUrl: process.env.PAYSDELALOIRE_USER_INFO_URL,
       authenticationUrl: process.env.PAYSDELALOIRE_AUTHENTICATION_URL,
+      endSessionUrl: process.env.PAYSDELALOIRE_END_SESSION_URL,
+      postLogoutRedirectUri: process.env.PAYSDELALOIRE_POST_LOGOUT_REDIRECT_URI,
       accessTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ACCESS_TOKEN_LIFESPAN || '7d'),
+      temporaryStorage: {
+        idTokenLifespanMs: ms(process.env.PAYSDELALOIRE_ID_TOKEN_LIFESPAN || '7d'),
+      },
     },
     pgBoss: {
       connexionPoolMaxSize: _getNumber(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 2),
