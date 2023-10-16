@@ -3,6 +3,7 @@ import {
   getByCampaignIds,
   getByCampaignId,
   getByCampaignParticipationId,
+  getByTargetProfileIds,
 } from '../../../../lib/infrastructure/repositories/stage-repository.js';
 import { Stage } from '../../../../lib/domain/models/Stage.js';
 describe('Integration | Repository | Stage Acquisition', function () {
@@ -104,12 +105,48 @@ describe('Integration | Repository | Stage Acquisition', function () {
 
     it('should return the expected stages', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
-      expect(result.length).to.deep.equal(3);
+      expect(result).to.have.deep.members(stages);
     });
 
     it('should sort stages by threshold', async function () {
       const result = await getByCampaignParticipationId(campaignParticipation.id);
-      expect(result[0].id).to.deep.equal(stages[1].id);
+      expect(result[0].id).to.equal(stages[1].id);
+    });
+  });
+
+  describe('getByTargetProfileIds', function () {
+    let targetProfile1;
+    let targetProfile2;
+    let stages;
+
+    beforeEach(async function () {
+      targetProfile1 = databaseBuilder.factory.buildTargetProfile();
+      targetProfile2 = databaseBuilder.factory.buildTargetProfile();
+
+      stages = [
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 40 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile1.id, threshold: 10 }),
+
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 10 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 30 }),
+        databaseBuilder.factory.buildStage({ targetProfileId: targetProfile2.id, threshold: 40 }),
+      ];
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async function () {
+      await knex('stages').delete();
+    });
+
+    it('should return Stage instances', async function () {
+      const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
+      expect(result[0]).to.be.instanceof(Stage);
+    });
+
+    it('should return the expected stages', async function () {
+      const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
+      expect(result).to.have.deep.members(stages);
     });
   });
 });

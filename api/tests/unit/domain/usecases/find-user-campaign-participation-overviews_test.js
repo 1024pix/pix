@@ -1,15 +1,23 @@
 import { sinon } from '../../../test-helper.js';
 import { findUserCampaignParticipationOverviews } from '../../../../lib/domain/usecases/find-user-campaign-participation-overviews.js';
 describe('Unit | UseCase | find-user-campaign-participation-overviews', function () {
-  let campaignParticipationOverviewRepository;
+  let compareStagesAndAcquiredStagesService,
+    campaignParticipationOverviewRepository,
+    stageRepository,
+    stageAcquisitionRepository;
 
   beforeEach(function () {
+    compareStagesAndAcquiredStagesService = {
+      compare: sinon.stub().returns([]),
+    };
     campaignParticipationOverviewRepository = {
       findByUserIdWithFilters: sinon.stub().resolves({
         campaignParticipationOverviews: [],
         pagination: {},
       }),
     };
+    stageRepository = { getByTargetProfileIds: sinon.stub().resolves([]) };
+    stageAcquisitionRepository = { getByCampaignParticipations: sinon.stub().resolves([]) };
   });
 
   context('when states is undefined', function () {
@@ -22,7 +30,10 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
       await findUserCampaignParticipationOverviews({
         userId,
         states,
+        compareStagesAndAcquiredStagesService,
         campaignParticipationOverviewRepository,
+        stageRepository,
+        stageAcquisitionRepository,
       });
 
       // then
@@ -45,8 +56,11 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
       await findUserCampaignParticipationOverviews({
         userId,
         states,
-        campaignParticipationOverviewRepository,
         page,
+        compareStagesAndAcquiredStagesService,
+        campaignParticipationOverviewRepository,
+        stageRepository,
+        stageAcquisitionRepository,
       });
 
       // then
@@ -69,8 +83,11 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', function
       await findUserCampaignParticipationOverviews({
         userId,
         states,
-        campaignParticipationOverviewRepository,
         page,
+        compareStagesAndAcquiredStagesService,
+        campaignParticipationOverviewRepository,
+        stageRepository,
+        stageAcquisitionRepository,
       });
 
       // then
