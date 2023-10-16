@@ -24,6 +24,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           pickChallenge,
           pickAnswerStatus,
           flashAlgorithmService,
+          enablePassageByAllCompetences: false,
         });
 
         // then
@@ -64,6 +65,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           pickAnswerStatus,
           initialCapacity,
           flashAlgorithmService,
+          limitToOneQuestionPerTube: false,
+          enablePassageByAllCompetences: false,
         });
 
         // then
@@ -82,6 +85,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
         // given
         const limitToOneQuestionPerTube = false;
+        const enablePassageByAllCompetences = false;
 
         const {
           challengeRepository,
@@ -143,6 +147,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           pickAnswerStatus,
           limitToOneQuestionPerTube,
           flashAlgorithmService,
+          enablePassageByAllCompetences,
         });
 
         // then
@@ -160,6 +165,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
     context('when we set a minimum estimated success rate range', function () {
       it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
         // given
+        const limitToOneQuestionPerTube = false;
+        const enablePassageByAllCompetences = false;
         const minimumEstimatedSuccessRateRanges = [
           domainBuilder.buildFlashAssessmentAlgorithmSuccessRateHandlerFixed({
             startingChallengeIndex: 0,
@@ -180,6 +187,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           pickAnswerStatus,
           minimumEstimatedSuccessRateRanges,
           flashAlgorithmService,
+          limitToOneQuestionPerTube,
+          enablePassageByAllCompetences,
         });
 
         // then
@@ -198,6 +207,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   context('when there are not enough flash challenges left', function () {
     it('should stop simulating', async function () {
       // given
+      const limitToOneQuestionPerTube = false;
+      const enablePassageByAllCompetences = false;
       const challenge = domainBuilder.buildChallenge({ id: 1 });
       const challengeRepository = {
         findFlashCompatible: sinon.stub(),
@@ -259,6 +270,8 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         pickChallenge,
         pickAnswerStatus,
         flashAlgorithmService,
+        limitToOneQuestionPerTube,
+        enablePassageByAllCompetences,
       });
 
       // then
