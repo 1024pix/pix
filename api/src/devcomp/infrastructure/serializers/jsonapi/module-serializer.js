@@ -4,7 +4,19 @@ const { Serializer } = jsonapiSerializer;
 
 function serialize(module) {
   return new Serializer('module', {
-    attributes: ['title'],
+    transform(module) {
+      return {
+        id: module.id,
+        title: module.title,
+        element: module.list.map((element) => ({ id: element.id, content: element.content })),
+      };
+    },
+    attributes: ['title', 'element'],
+    element: {
+      ref: 'id',
+      includes: true,
+      attributes: ['content'],
+    },
   }).serialize(module);
 }
 
