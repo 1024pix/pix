@@ -71,4 +71,16 @@ const getByCampaignParticipationId = async (campaignParticipationId, knexConnect
       .where('campaign-participations.id', campaignParticipationId),
   );
 
-export { getByCampaignIds, getByCampaignId, getByCampaignParticipationId };
+/**
+ * Return campaign stages for several target profile ids,
+ * this is convenient for campaign overviews
+ *
+ * @param {[number]} targetProfileIds
+ * @param knexConnection
+ *
+ * @returns Promise<Stage[]>
+ */
+const getByTargetProfileIds = async (targetProfileIds, knexConnection = knex) =>
+  toDomain(await knexConnection('stages').select('stages.*').whereIn('stages.targetProfileId', targetProfileIds));
+
+export { getByCampaignIds, getByCampaignId, getByCampaignParticipationId, getByTargetProfileIds };
