@@ -791,4 +791,27 @@ describe('Unit | Service | MailService', function () {
       });
     });
   });
+
+  describe('#sendNotificationToOrganizationMembersForTargetProfileDetached', function () {
+    it(`should call sendEmail with the right options`, async function () {
+      // given
+      const email = 'user@example.net';
+      const complementaryCertificationName = 'what a complementary';
+
+      // when
+      await mailService.sendNotificationToOrganizationMembersForTargetProfileDetached({
+        email,
+        complementaryCertificationName,
+      });
+
+      // then
+      expect(mailer.sendEmail).to.have.been.calledWith({
+        from: 'ne-pas-repondre@pix.fr',
+        fromName: 'PIX - Ne pas répondre',
+        to: email,
+        template: mailer.targetProfileNotCertifiableTemplateId,
+        variables: { complementaryCertificationName },
+      });
+    });
+  });
 });

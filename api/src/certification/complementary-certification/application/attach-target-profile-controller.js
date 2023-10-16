@@ -4,14 +4,25 @@ import { usecases } from '../../shared/domain/usecases/index.js';
 const attachTargetProfile = async function (request, h, dependencies = { complementaryCertificationBadgeSerializer }) {
   const { userId } = request.auth.credentials;
   const { complementaryCertificationId } = request.params;
-  const { targetProfileId, complementaryCertificationBadges } =
+  const { targetProfileId, notifyOrganizations, complementaryCertificationBadges } =
     await dependencies.complementaryCertificationBadgeSerializer.deserialize(request.payload);
+  const complementaryCertification = await usecases.getComplementaryCertificationForTargetProfileAttachmentRepository({
+    complementaryCertificationId,
+  });
+
   await usecases.attachBadges({
     userId,
-    complementaryCertificationId,
+    complementaryCertification,
     targetProfileIdToDetach: targetProfileId,
     complementaryCertificationBadgesToAttachDTO: complementaryCertificationBadges,
   });
+
+  if (notifyOrganizations) {
+    usecases.sendTargetProfileNotifications({
+      targetProfileIdToDetach: targetProfileId,
+      complementaryCertification,
+    });
+  }
 
   return h.response().code(204);
 };

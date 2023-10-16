@@ -26,6 +26,25 @@
           @hasExternalJury={{this.hasExternalJury}}
         />
       </Card>
+
+      <div class="badge-edit-form__field attach-target-profile__notification">
+        <Input
+          class="badge-edit-form__control attach-target-profile__notification__checkbox"
+          @type="checkbox"
+          @checked="false"
+          {{on "change" this.onNotificationUpdated}}
+          id="notification-checkbox"
+        />
+        <label for="notification-checkbox">Notifier les organisations avec une campagne basée sur l’ancien PC</label>
+        <PixTooltip @position="top-left" @isLight={{true}} @isWide={{true}}>
+          <:triggerElement>
+            <FaIcon @icon="circle-question" tabindex="0" />
+          </:triggerElement>
+          <:tooltip>
+            Un email sera envoyé à chaque membre de l'organisation
+          </:tooltip>
+        </PixTooltip>
+      </div>
     {{/if}}
 
     <div class="attach-target-profile__actions">

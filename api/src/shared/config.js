@@ -249,6 +249,7 @@ const configuration = (function () {
           emailVerificationCodeTemplateId: process.env.BREVO_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
           cpfEmailTemplateId: process.env.BREVO_CPF_TEMPLATE_ID,
           acquiredCleaResultTemplateId: process.env.BREVO_CLEA_ACQUIRED_RESULT_TEMPLATE_ID,
+          targetProfileNotCertifiableTemplateId: process.env.BREVO_TARGET_PROFILE_NOT_CERTIFIABLE_TEMPLATE_ID,
         },
       },
     },
@@ -374,6 +375,8 @@ const configuration = (function () {
     config.mailing.brevo.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
     config.mailing.brevo.templates.cpfEmailTemplateId = 'test-cpf-email-template-id';
     config.mailing.brevo.templates.acquiredCleaResultTemplateId = 'test-acquired-clea-result-template-id';
+    config.mailing.brevo.templates.targetProfileNotCertifiableTemplateId =
+      'test-target-profile-no-certifiable-template-id';
 
     config.bcryptNumberOfSaltRounds = 1;
 
