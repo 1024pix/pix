@@ -1513,111 +1513,161 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     });
   });
 
-  describe('#dissociateUserFromOrganizationLearner', function () {
-    it('should delete association between user and organizationLearner', async function () {
-      // given
-      const userToNotDissociate = databaseBuilder.factory.buildUser();
-      const organizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: userToNotDissociate.id,
+  context('Organizationlearners to dissocate', function () {
+    let clock;
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers({
+        now: new Date('2023-10-12'),
+        toFake: ['Date'],
       });
-      const userToDissociate = databaseBuilder.factory.buildUser();
-      const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: userToDissociate.id,
-      });
-      await databaseBuilder.commit();
-
-      // when
-      await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
-
-      // then
-      const organizationLearnerPatched = await knex('organization-learners')
-        .where({ id: organizationLearnerToDissociate.id })
-        .first();
-      expect(organizationLearnerPatched.userId).to.equal(null);
-
-      const robotInBDD = await knex('organization-learners')
-        .where({ id: organizationLearnerToNotDissociate.id })
-        .first();
-      expect(robotInBDD.userId).to.equal(userToNotDissociate.id);
     });
 
-    it('should reset isCertifiable and certifiableAt to null', async function () {
-      // given
-      const userToDissociate = databaseBuilder.factory.buildUser();
-      const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: userToDissociate.id,
-        isCertifiable: true,
-        certifiableAt: new Date(),
-      });
-      await databaseBuilder.commit();
-
-      // when
-      await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
-
-      // then
-      const organizationLearnerPatched = await knex('organization-learners')
-        .where({ id: organizationLearnerToDissociate.id })
-        .first();
-      expect(organizationLearnerPatched.isCertifiable).to.equal(null);
-      expect(organizationLearnerPatched.certifiableAt).to.equal(null);
+    afterEach(async function () {
+      clock.restore();
     });
-  });
 
-  describe('#dissociateAllStudentsByUserId', function () {
-    it('should delete association between user and organization learner in a managing student organization', async function () {
-      // given
-      const notManagingStudentOrganization = databaseBuilder.factory.buildOrganization({ isManagingStudents: false });
-      const managingStudentOrganization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-      const otherManagingStudentOrganization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
+    describe('#dissociateUserFromOrganizationLearner', function () {
+      it('should delete association between user and organizationLearner', async function () {
+        // given
+        const userToNotDissociate = databaseBuilder.factory.buildUser();
+        const organizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userToNotDissociate.id,
+        });
+        const userToDissociate = databaseBuilder.factory.buildUser();
+        const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userToDissociate.id,
+        });
+        await databaseBuilder.commit();
 
-      const otherUser = databaseBuilder.factory.buildUser();
-      const userIdToDissociate = databaseBuilder.factory.buildUser().id;
+        // when
+        await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
 
-      const initialDate = new Date('2023-01-01');
+        // then
+        const organizationLearnerDissociate = await knex('organization-learners')
+          .where({ id: organizationLearnerToDissociate.id })
+          .first();
+        const organizationLearnerNotDissociate = await knex('organization-learners')
+          .where({ id: organizationLearnerToNotDissociate.id })
+          .first();
 
-      const otherOrganizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: otherUser.id,
-        organizationId: managingStudentOrganization.id,
+        expect(organizationLearnerDissociate.userId).to.equal(null);
+        expect(organizationLearnerNotDissociate.userId).to.equal(userToNotDissociate.id);
       });
-      const organizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: userIdToDissociate,
-        organizationId: notManagingStudentOrganization.id,
-      });
-      const firstOrganizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: userIdToDissociate,
-        organizationId: managingStudentOrganization.id,
-        updatedAt: initialDate,
-      });
-      const secondOrganizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
-        userId: userIdToDissociate,
-        organizationId: otherManagingStudentOrganization.id,
-        updatedAt: initialDate,
-      });
-      await databaseBuilder.commit();
 
-      // when
-      await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId: userIdToDissociate });
+      it('should set updatedAt to today', async function () {
+        // given
+        const userToDissociate = databaseBuilder.factory.buildUser();
+        const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userToDissociate.id,
+          isCertifiable: true,
+          certifiableAt: new Date(),
+        });
+        await databaseBuilder.commit();
 
-      // then
-      const firstOrganizationLearnerDissociated = await knex('organization-learners')
-        .where({ id: firstOrganizationLearnerToDissociate.id })
-        .first();
-      expect(firstOrganizationLearnerDissociated.userId).to.equal(null);
-      expect(firstOrganizationLearnerDissociated.updatedAt).to.be.above(initialDate);
-      const secondOrganizationLearnerDissociated = await knex('organization-learners')
-        .where({ id: secondOrganizationLearnerToDissociate.id })
-        .first();
-      expect(secondOrganizationLearnerDissociated.userId).to.equal(null);
-      expect(secondOrganizationLearnerDissociated.updatedAt).to.be.above(initialDate);
+        // when
+        await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
 
-      const otherOrganizationLearnerInDb = await knex('organization-learners')
-        .where({ id: otherOrganizationLearnerToNotDissociate.id })
-        .first();
-      expect(otherOrganizationLearnerInDb.userId).to.equal(otherUser.id);
-      const organizationLearnerToNotDissociateInDb = await knex('organization-learners')
-        .where({ id: organizationLearnerToNotDissociate.id })
-        .first();
-      expect(organizationLearnerToNotDissociateInDb.userId).to.equal(userIdToDissociate);
+        // then
+        const organizationLearnerPatched = await knex('organization-learners')
+          .where({ id: organizationLearnerToDissociate.id })
+          .first();
+        expect(organizationLearnerPatched.updatedAt).to.deep.equal(new Date('2023-10-12'));
+      });
+
+      it('should reset isCertifiable and certifiableAt to null', async function () {
+        // given
+        const userToDissociate = databaseBuilder.factory.buildUser();
+        const organizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userToDissociate.id,
+          isCertifiable: true,
+          certifiableAt: new Date(),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearnerToDissociate.id);
+
+        // then
+        const organizationLearnerPatched = await knex('organization-learners')
+          .where({ id: organizationLearnerToDissociate.id })
+          .first();
+        expect(organizationLearnerPatched.isCertifiable).to.equal(null);
+        expect(organizationLearnerPatched.certifiableAt).to.equal(null);
+      });
+    });
+
+    describe('#dissociateAllStudentsByUserId', function () {
+      it('should delete association between user and organization learner in a managing student organization', async function () {
+        // given
+        const notManagingStudentOrganization = databaseBuilder.factory.buildOrganization({ isManagingStudents: false });
+        const managingStudentOrganization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
+        const otherManagingStudentOrganization = databaseBuilder.factory.buildOrganization({
+          isManagingStudents: true,
+        });
+
+        const otherUser = databaseBuilder.factory.buildUser();
+        const userIdToDissociate = databaseBuilder.factory.buildUser().id;
+
+        const initialDate = new Date('2023-01-01');
+
+        const otherOrganizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: otherUser.id,
+          organizationId: managingStudentOrganization.id,
+          updatedAt: initialDate,
+        });
+        const organizationLearnerToNotDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userIdToDissociate,
+          organizationId: notManagingStudentOrganization.id,
+          updatedAt: initialDate,
+        });
+        const firstOrganizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userIdToDissociate,
+          organizationId: managingStudentOrganization.id,
+          updatedAt: initialDate,
+        });
+        const secondOrganizationLearnerToDissociate = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userIdToDissociate,
+          organizationId: otherManagingStudentOrganization.id,
+          updatedAt: initialDate,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await organizationLearnerRepository.dissociateAllStudentsByUserId({ userId: userIdToDissociate });
+
+        // then
+        const allDissociatedOrganizationLearners = await knex('organization-learners').whereNull('userId');
+        const dissociatedUserIds = [];
+        const dissociatedUpdatedAt = [];
+
+        allDissociatedOrganizationLearners.forEach((organizationLearner) => {
+          dissociatedUserIds.push(organizationLearner.id);
+          dissociatedUpdatedAt.push(organizationLearner.updatedAt);
+        });
+
+        expect(allDissociatedOrganizationLearners.length).to.be.equal(2);
+        expect(dissociatedUserIds).to.be.members([
+          firstOrganizationLearnerToDissociate.id,
+          secondOrganizationLearnerToDissociate.id,
+        ]);
+        expect(dissociatedUpdatedAt).to.be.deep.members([new Date('2023-10-12'), new Date('2023-10-12')]);
+
+        const allNonDissociatedOrganizationLearners = await knex('organization-learners').whereNotNull('userId');
+        const nonDissociatedUserIds = [];
+        const nonDissociatedUpdatedAt = [];
+
+        allNonDissociatedOrganizationLearners.forEach((organizationLearner) => {
+          nonDissociatedUserIds.push(organizationLearner.id);
+          nonDissociatedUpdatedAt.push(organizationLearner.updatedAt);
+        });
+        expect(allNonDissociatedOrganizationLearners.length).to.be.equal(2);
+        expect(nonDissociatedUserIds).to.be.members([
+          otherOrganizationLearnerToNotDissociate.id,
+          organizationLearnerToNotDissociate.id,
+        ]);
+        expect(nonDissociatedUpdatedAt).to.be.deep.members([initialDate, initialDate]);
+      });
     });
   });
 
