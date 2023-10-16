@@ -13,6 +13,7 @@ import lodash from 'lodash';
 import * as csvHelpers from './csvHelpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const { map } = lodash;
 
@@ -229,23 +230,34 @@ const createSessionsForMassImport = async function (request, h) {
   return h.response().code(201);
 };
 
+const sendInvitations = async function (request, h) {
+  const certificationCenterId = request.params.certificationCenterId;
+  const emails = request.payload.data.attributes.emails;
+  const locale = extractLocaleFromRequest(request);
+
+  await usecases.createOrUpdateCertificationCenterInvitation({ certificationCenterId, emails, locale });
+
+  return h.response().code(204);
+};
+
 const certificationCenterController = {
   create,
-  update,
-  getCertificationCenterDetails,
+  createCertificationCenterMembershipByEmail,
+  createSessionsForMassImport,
+  findCertificationCenterMemberships,
+  findCertificationCenterMembershipsByCertificationCenter,
   findPaginatedFilteredCertificationCenters,
   findPaginatedSessionSummaries,
-  getStudents,
-  getDivisions,
-  findCertificationCenterMembershipsByCertificationCenter,
-  findCertificationCenterMemberships,
-  createCertificationCenterMembershipByEmail,
   findPendingInvitations,
-  updateReferer,
-  sendInvitationForAdmin,
+  getCertificationCenterDetails,
+  getDivisions,
   getSessionsImportTemplate,
+  getStudents,
+  sendInvitationForAdmin,
+  sendInvitations,
+  update,
+  updateReferer,
   validateSessionsForMassImport,
-  createSessionsForMassImport,
 };
 
 export { certificationCenterController };
