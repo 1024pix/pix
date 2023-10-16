@@ -60,6 +60,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       logoutUrlUuid: data.logout_url_uuid,
       user_id: decodedAccessToken.user_id,
       source: identityProvider.source,
+      useEndSession: identityProvider.useEndSession,
       hasLogoutUrl: identityProvider.hasLogoutUrl,
       identityProviderCode: identityProvider.code,
     };
@@ -74,9 +75,14 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     });
   }
 
+  /**
+   * @param {Object} data - The current authenticated session data
+   */
   async invalidate(data) {
-    const { access_token, hasLogoutUrl, identityProviderCode, logoutUrlUuid } = data || {};
-    if (!hasLogoutUrl) return;
+    const { access_token, useEndSession, hasLogoutUrl, identityProviderCode, logoutUrlUuid } = data || {};
+    if (!(useEndSession || hasLogoutUrl)) {
+      return;
+    }
 
     const response = await fetch(
       `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=${identityProviderCode}&logout_url_uuid=${logoutUrlUuid}`,
