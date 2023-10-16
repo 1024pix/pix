@@ -7,12 +7,11 @@ import { BadgeToAttach } from '../models/BadgeToAttach.js';
 const { isNil, uniq } = lodash;
 
 const attachBadges = async function ({
-  complementaryCertificationId,
+  complementaryCertification,
   userId,
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
   badgeRepository,
-  complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationBadgesRepository,
 }) {
   _verifyThatLevelsAreConsistent({
@@ -22,10 +21,6 @@ const attachBadges = async function ({
   await _verifyThatBadgesToAttachExist({
     complementaryCertificationBadgesToAttachDTO,
     badgeRepository,
-  });
-
-  const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
-    complementaryCertificationId,
   });
 
   if (complementaryCertification.hasExternalJury) {
@@ -38,12 +33,12 @@ const attachBadges = async function ({
   const complementaryCertificationBadges = complementaryCertificationBadgesToAttachDTO.map((badgeToAttachDTO) => {
     return BadgeToAttach.from({
       ...badgeToAttachDTO,
-      complementaryCertificationId,
+      complementaryCertificationId: complementaryCertification.id,
       userId,
     });
   });
 
-  return DomainTransaction.execute(async (domainTransaction) => {
+  await DomainTransaction.execute(async (domainTransaction) => {
     const relatedComplementaryCertificationBadgesIds =
       await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
         targetProfileId: targetProfileIdToDetach,

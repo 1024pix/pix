@@ -32,6 +32,15 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
       const targetProfile = databaseBuilder.factory.buildTargetProfile({
         id: 12,
       });
+      const organization = databaseBuilder.factory.buildOrganization();
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: superAdmin.id,
+      });
+      databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+      });
       const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 3,
@@ -47,6 +56,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
           data: {
             attributes: {
               'target-profile-id': 12,
+              'notify-organizations': true,
               'complementary-certification-badges': [
                 {
                   data: {

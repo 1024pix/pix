@@ -6,6 +6,8 @@ import * as complementaryCertificationBadgesRepository from '../../../complement
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import * as mailService from '../services/mail-service.js';
+import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
@@ -23,7 +25,9 @@ const dependencies = {
   complementaryCertificationRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationTargetProfileHistoryRepository,
+  organizationRepository,
   sessionCodeService,
+  mailService,
   sessionRepository,
   sessionValidator,
   userRepository,

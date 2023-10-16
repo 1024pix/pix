@@ -196,9 +196,14 @@ module(
             screen.getByRole('textbox', { name: '200 Badge Arène Feu Message temporaire certificat' }),
             'TEMP MESSAGE',
           );
+          await click(
+            screen.getByRole('checkbox', {
+              name: 'Notifier les organisations avec une campagne basée sur l’ancien PC',
+            }),
+          );
+
           // when
           await clickByName('Rattacher le profil cible');
-
           // then
           assert
             .dom(

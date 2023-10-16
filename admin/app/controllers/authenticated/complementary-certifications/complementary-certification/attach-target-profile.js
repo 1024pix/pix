@@ -11,6 +11,8 @@ export default class AttachTargetProfileController extends Controller {
   @tracked isSubmitDisabled = true;
   @tracked isSubmitting = false;
   @tracked selectedTargetProfile;
+
+  #notifyOrganizations = true;
   #targetProfileBadges = new Map();
 
   get hasExternalJury() {
@@ -37,6 +39,7 @@ export default class AttachTargetProfileController extends Controller {
   onReset() {
     this.selectedTargetProfile = undefined;
     this.#targetProfileBadges = new Map();
+    this.#notifyOrganizations = true;
     this.isSubmitDisabled = true;
     this.isSubmitting = false;
   }
@@ -44,6 +47,11 @@ export default class AttachTargetProfileController extends Controller {
   @action
   onBadgeUpdated({ update: { badgeId, fieldName, fieldValue } }) {
     this.#updateBadge({ badgeId, fieldName, fieldValue });
+  }
+
+  @action
+  onNotificationUpdated({ target }) {
+    this.#notifyOrganizations = target.checked;
   }
 
   @action
@@ -82,6 +90,7 @@ export default class AttachTargetProfileController extends Controller {
         adapterOptions: {
           attachBadges: true,
           targetProfileId: this.model.currentTargetProfile.id,
+          notifyOrganizations: this.#notifyOrganizations,
         },
       });
 

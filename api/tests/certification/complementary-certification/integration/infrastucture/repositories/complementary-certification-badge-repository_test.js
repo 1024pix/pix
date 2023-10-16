@@ -4,7 +4,7 @@ const { omit } = lodash;
 import * as complementaryCertificationBadgeRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 
-describe('Integration | Infrastructure | Repository | complementary-certification-badge-repository', function () {
+describe('Integration | Infrastructure | Repository | Certification | Complementary-certification | complementary-certification-badge-repository', function () {
   context('#getAllIdsByTargetProfileId', function () {
     context('when complementary certification badges are linked to a target profile', function () {
       it('should return complementary certification badge ids', async function () {

@@ -118,14 +118,10 @@ describe('Unit | UseCase | attach-badges', function () {
   context('when complementary certification has external jury and one required attributes is missing', function () {
     it('should return MissingAttributesError', async function () {
       // given
-      complementaryCertificationForTargetProfileAttachmentRepository.getById
-        .withArgs({ complementaryCertificationId: 123 })
-        .resolves(
-          domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
-            id: 123,
-            hasExternalJury: true,
-          }),
-        );
+      const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+        id: 123,
+        hasExternalJury: true,
+      });
       badgeRepository.findAllByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
 
       // when
@@ -134,7 +130,7 @@ describe('Unit | UseCase | attach-badges', function () {
           { badgeId: 1, level: 1, certificateMessage: 'message', temporaryCertificateMessage: 'temporary message' },
           { badgeId: 2, level: 2, certificateMessage: null, temporaryCertificateMessage: 'temporary message' },
         ],
-        complementaryCertificationId: 123,
+        complementaryCertification,
         badgeRepository,
         complementaryCertificationForTargetProfileAttachmentRepository,
       });
@@ -191,14 +187,10 @@ describe('Unit | UseCase | attach-badges', function () {
         const badge1 = domainBuilder.buildBadge({ id: 123 });
         const badge2 = domainBuilder.buildBadge({ id: 456 });
 
-        complementaryCertificationForTargetProfileAttachmentRepository.getById
-          .withArgs({ complementaryCertificationId: 123 })
-          .resolves(
-            domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
-              id: 123,
-              hasExternalJury: false,
-            }),
-          );
+        const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+          id: 123,
+          hasExternalJury: false,
+        });
         badgeRepository.findAllByIds.resolves([badge1, badge2]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub().resolves(),
@@ -218,7 +210,7 @@ describe('Unit | UseCase | attach-badges', function () {
             { badgeId: 456, level: 1, label: 'badge_2' },
           ],
           targetProfileIdToDetach: 789,
-          complementaryCertificationId: 123,
+          complementaryCertification,
           badgeRepository,
           complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
@@ -251,14 +243,10 @@ describe('Unit | UseCase | attach-badges', function () {
           temporaryCertificateMessage: null,
         };
 
-        complementaryCertificationForTargetProfileAttachmentRepository.getById
-          .withArgs({ complementaryCertificationId: 123 })
-          .resolves(
-            domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
-              id: 123,
-              hasExternalJury: false,
-            }),
-          );
+        const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+          id: 123,
+          hasExternalJury: false,
+        });
         badgeRepository.findAllByIds.resolves([badge1]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub(),
@@ -278,7 +266,7 @@ describe('Unit | UseCase | attach-badges', function () {
           userId: 1234,
           complementaryCertificationBadgesToAttachDTO: [complementaryCertificationBadge],
           targetProfileIdToDetach: 456,
-          complementaryCertificationId: 123,
+          complementaryCertification,
           badgeRepository,
           complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
@@ -310,14 +298,10 @@ describe('Unit | UseCase | attach-badges', function () {
       const badge1 = domainBuilder.buildBadge({ id: 123 });
       const badge2 = domainBuilder.buildBadge({ id: 456 });
 
-      complementaryCertificationForTargetProfileAttachmentRepository.getById
-        .withArgs({ complementaryCertificationId: 123 })
-        .resolves(
-          domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
-            id: 123,
-            hasExternalJury: false,
-          }),
-        );
+      const complementaryCertification = domainBuilder.buildComplementaryCertificationForTargetProfileAttachment({
+        id: 123,
+        hasExternalJury: false,
+      });
       badgeRepository.findAllByIds.resolves([badge1, badge2]);
       const complementaryCertificationBadgesRepository = {
         attach: sinon.stub().resolves(),
@@ -339,7 +323,7 @@ describe('Unit | UseCase | attach-badges', function () {
           { badgeId: 456, level: 1, label: 'badge_2' },
         ],
         targetProfileIdToDetach: 789,
-        complementaryCertificationId: 123,
+        complementaryCertification,
         BadgeToAttachValidator,
         badgeRepository,
         complementaryCertificationForTargetProfileAttachmentRepository,
