@@ -1,0 +1,49 @@
+<tr>
+  <Table::Header @size="wide">
+    {{t "pages.sup-organization-participants.table.column.student-number"}}
+  </Table::Header>
+  <Table::HeaderSort
+    @display="left"
+    @size="medium"
+    @onSort={{@sortByLastname}}
+    @order={{@lastnameSort}}
+    @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.last-name.ariaLabelDefaultSort"}}
+    @ariaLabelSortUp={{t "pages.organization-participants.table.column.last-name.ariaLabelSortUp"}}
+    @ariaLabelSortDown={{t "pages.organization-participants.table.column.last-name.ariaLabelSortDown"}}
+  >
+    {{t "pages.organization-participants.table.column.last-name.label"}}
+  </Table::HeaderSort>
+  <Table::Header @size="wide">{{t "pages.sup-organization-participants.table.column.first-name"}}</Table::Header>
+  <Table::Header @size="medium">
+    {{t "pages.sup-organization-participants.table.column.date-of-birth"}}
+  </Table::Header>
+  <Table::Header @size="wide">{{t "pages.sup-organization-participants.table.column.group"}}</Table::Header>
+  <Table::HeaderSort
+    @size="medium"
+    @align="center"
+    @onSort={{@sortByParticipationCount}}
+    @order={{@participationCountOrder}}
+    @ariaLabelDefaultSort={{t
+      "pages.sup-organization-participants.table.column.participation-count.ariaLabelDefaultSort"
+    }}
+    @ariaLabelSortUp={{t "pages.sup-organization-participants.table.column.participation-count.ariaLabelSortUp"}}
+    @ariaLabelSortDown={{t "pages.sup-organization-participants.table.column.participation-count.ariaLabelSortDown"}}
+  >
+    {{t "pages.sup-organization-participants.table.column.participation-count.label"}}
+  </Table::HeaderSort>
+  <Table::Header @size="medium" @align="center">
+    {{t "pages.sup-organization-participants.table.column.last-participation-date"}}
+  </Table::Header>
+  <Table::Header @size="medium" @align="center">
+    <div class="sup-organization-participant-list-page__certificability-header">
+      {{t "pages.sup-organization-participants.table.column.is-certifiable.label"}}
+      <Ui::CertificabilityTooltip
+        @aria-label={{t "pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
+        @content={{t "pages.sup-organization-participants.table.column.is-certifiable.tooltip.content"}}
+      />
+    </div>
+  </Table::Header>
+  <Table::Header class="hide-on-mobile organization-participant-list-page__actions-header">
+    {{t "common.actions.global"}}
+  </Table::Header>
+</tr>
