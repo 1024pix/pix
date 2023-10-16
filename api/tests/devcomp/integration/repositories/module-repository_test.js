@@ -1,14 +1,18 @@
 import { catchErr, expect } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
-import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import { Module } from '../../../../src/devcomp/domain/models/Module.js';
+import { Lesson } from '../../../../src/devcomp/domain/models/Lesson.js';
+import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
     it('should throw an error if the module does not exist', async function () {
+      // given
+      const nonExistingModuleSlug = 'dresser-des-pokemons';
+
       // when
-      const error = await catchErr(moduleRepository.getBySlug)({ slug: 'foo' });
+      const error = await catchErr(moduleRepository.getBySlug)({ slug: nonExistingModuleSlug, moduleDatasource });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -16,14 +20,19 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
     it('should return a module if it exists', async function () {
       // given
-      const existingModuleId = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
+      const existingModuleSlug = 'les-adresses-mail';
 
       // when
-      const module = await moduleRepository.getBySlug({ slug: 'les-adresses-mail', moduleDatasource });
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource,
+      });
 
       // then
       expect(module).to.be.instanceOf(Module);
-      expect(module.id).equal(existingModuleId);
+      for (const lesson of module.list) {
+        expect(lesson).to.be.instanceOf(Lesson);
+      }
     });
   });
 });
