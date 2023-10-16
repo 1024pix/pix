@@ -3,7 +3,6 @@ class CpfImportStatus {
   static READY_TO_SEND = 'READY_TO_SEND';
   static PENDING = 'PENDING';
   static SUCCESS = 'SUCCESS';
-  static OUTDATED = 'OUTDATED';
 }
 
 export { CpfImportStatus };
