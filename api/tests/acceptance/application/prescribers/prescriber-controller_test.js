@@ -27,6 +27,7 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
           'participant-count': 0,
           lang: user.lang,
           'enable-multiple-sending-assessment': false,
+          'compute-organization-learner-certificability': false,
         },
         relationships: {
           memberships: {

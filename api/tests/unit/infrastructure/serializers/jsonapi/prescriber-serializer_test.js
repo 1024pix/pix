@@ -166,6 +166,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           memberships: [membership],
           userOrgaSettings,
           enableMultipleSendingAssessment: true,
+          computeOrganizationLearnerCertificability: true,
         });
 
         const expectedPrescriberSerialized = createExpectedPrescriberSerialized({
@@ -204,7 +205,8 @@ function createExpectedPrescriberSerializedWithOneMoreField({
         'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
-        'enable-multiple-sending-assessment': false,
+        'enable-multiple-sending-assessment': prescriber.enableMultipleSendingAssessment,
+        'compute-organization-learner-certificability': prescriber.computeOrganizationLearnerCertificability,
       },
       relationships: {
         memberships: {
@@ -309,7 +311,8 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
         'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
-        'enable-multiple-sending-assessment': true,
+        'enable-multiple-sending-assessment': prescriber.enableMultipleSendingAssessment,
+        'compute-organization-learner-certificability': prescriber.computeOrganizationLearnerCertificability,
       },
       relationships: {
         memberships: {
