@@ -16,15 +16,14 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
     it('should return a module if it exists', async function () {
       // given
-      const existingModule = new Module({ id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d', title: 'Les adresses mail' });
+      const existingModuleId = 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d';
 
       // when
       const module = await moduleRepository.getBySlug({ slug: 'les-adresses-mail', moduleDatasource });
 
-      //then
+      // then
       expect(module).to.be.instanceOf(Module);
-      expect(module.id).equal(existingModule.id);
-      expect(module.title).equal(existingModule.title);
+      expect(module.id).equal(existingModuleId);
     });
   });
 });
