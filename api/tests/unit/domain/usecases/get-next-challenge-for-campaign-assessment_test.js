@@ -151,7 +151,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              challenges,
+              allChallenges: challenges,
+              availableChallenges: [secondChallenge],
               allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
@@ -171,6 +172,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             flashAlgorithmService,
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
           });
 
           // then
@@ -213,7 +216,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              challenges,
+              allChallenges: challenges,
+              availableChallenges: [],
               allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
@@ -232,6 +236,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             flashAlgorithmService,
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
           });
 
           // then

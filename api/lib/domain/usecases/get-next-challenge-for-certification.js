@@ -13,6 +13,11 @@ const getNextChallengeForCertification = async function ({
   locale,
   pickChallengeService,
   flashAlgorithmService,
+  warmUpLength = 0,
+  forcedCompetences = [],
+  limitToOneQuestionPerTube = false,
+  minimumEstimatedSuccessRateRanges = [],
+  enablePassageByAllCompetences = false,
 }) {
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
@@ -38,6 +43,11 @@ const getNextChallengeForCertification = async function ({
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       maximumAssessmentLength: config.v3Certification.numberOfChallengesPerCourse,
       flashAlgorithmImplementation: flashAlgorithmService,
+      warmUpLength,
+      forcedCompetences,
+      limitToOneQuestionPerTube,
+      minimumEstimatedSuccessRateRanges,
+      enablePassageByAllCompetences,
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({

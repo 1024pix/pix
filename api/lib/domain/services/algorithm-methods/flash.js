@@ -25,31 +25,12 @@ export {
 
 function getPossibleNextChallenges({
   allAnswers,
-  challenges,
+  allChallenges,
+  availableChallenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
-  options: {
-    warmUpLength = 0,
-    forcedCompetences = [],
-    challengesBetweenSameCompetence = 0,
-    minimalSuccessRate = 0,
-    limitToOneQuestionPerTube = false,
-    enablePassageByAllCompetences = true,
-  } = {},
+  options: { challengesBetweenSameCompetence = 0, minimalSuccessRate = 0 } = {},
 } = {}) {
-  let nonAnsweredChallenges = limitToOneQuestionPerTube
-    ? getChallengesForNonAnsweredTubes({ allAnswers, challenges })
-    : getChallengesForNonAnsweredSkills({ allAnswers, challenges });
-
-  if (allAnswers.length >= warmUpLength && enablePassageByAllCompetences) {
-    const answersAfterWarmup = _getAnswersAfterWarmup({ answers: allAnswers, warmUpLength });
-
-    nonAnsweredChallenges = _filterAlreadyAnsweredCompetences({
-      answers: answersAfterWarmup,
-      nonAnsweredChallenges,
-      challenges,
-      forcedCompetences,
-    });
-  }
+  const nonAnsweredChallenges = availableChallenges;
 
   if (nonAnsweredChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
     return {
@@ -58,7 +39,7 @@ function getPossibleNextChallenges({
     };
   }
 
-  const lastCompetenceIds = _getLastAnswersCompetenceIds(allAnswers, challenges, challengesBetweenSameCompetence);
+  const lastCompetenceIds = _getLastAnswersCompetenceIds(allAnswers, allChallenges, challengesBetweenSameCompetence);
 
   const challengesWithNoRecentlyAnsweredCompetence = nonAnsweredChallenges.filter(
     ({ competenceId }) => !lastCompetenceIds.includes(competenceId),
@@ -138,15 +119,6 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel 
   return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
 }
 
-function getChallengesForNonAnsweredTubes({ allAnswers, challenges }) {
-  const alreadyAnsweredTubeIds = allAnswers.map((answer) => _findChallengeForAnswer(challenges, answer).skill.tubeId);
-
-  const isNonAnsweredTube = (skill) => !alreadyAnsweredTubeIds.includes(skill.tubeId);
-  const challengesForNonAnsweredTubes = challenges.filter((challenge) => isNonAnsweredTube(challenge.skill));
-
-  return challengesForNonAnsweredTubes;
-}
-
 function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
   const alreadyAnsweredSkillsIds = allAnswers
     .map((answer) => _findChallengeForAnswer(challenges, answer))
@@ -172,26 +144,6 @@ function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, es
   ]);
 
   return pixScoreAndScoreByCompetence;
-}
-
-function _getAnswersAfterWarmup({ answers, warmUpLength }) {
-  return answers.slice(warmUpLength);
-}
-
-function _filterAlreadyAnsweredCompetences({ answers, challenges, forcedCompetences, nonAnsweredChallenges }) {
-  const answeredCompetenceIds = answers.map(
-    ({ challengeId }) => lodash.find(challenges, { id: challengeId }).competenceId,
-  );
-
-  const remainingCompetenceIds = forcedCompetences.filter(
-    (competenceId) => !answeredCompetenceIds.includes(competenceId),
-  );
-
-  const allCompetencesAreAnswered = remainingCompetenceIds.length === 0;
-
-  return nonAnsweredChallenges.filter(
-    ({ competenceId }) => allCompetencesAreAnswered || remainingCompetenceIds.includes(competenceId),
-  );
 }
 
 function _getLastAnswersCompetenceIds(allAnswers, allChallenges, numberOfAnswers) {
