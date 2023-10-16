@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 module.exports = function (environment) {
   const ENV = {
     modulePrefix: '1d',
