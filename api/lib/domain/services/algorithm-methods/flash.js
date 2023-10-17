@@ -2,8 +2,6 @@ import lodash from 'lodash';
 
 const { orderBy, range, sortBy, sortedUniqBy, sumBy } = lodash;
 
-import { config } from '../../../config.js';
-
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
 const STEP_OF_SAMPLES = 18 / 80;
@@ -24,18 +22,10 @@ export {
 };
 
 function getPossibleNextChallenges({
-  allAnswers,
   availableChallenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
   options: { minimalSuccessRate = 0 } = {},
 } = {}) {
-  if (availableChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
-    return {
-      hasAssessmentEnded: true,
-      possibleChallenges: [],
-    };
-  }
-
   const challengesWithReward = availableChallenges.map((challenge) => {
     return {
       challenge,
