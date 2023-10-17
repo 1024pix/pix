@@ -6,6 +6,7 @@ import * as activityRepository from '../../../../lib/infrastructure/repositories
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
+import * as organizationLearnersRepository from '../../../../src/school/infrastructure/repositories/organization-learners-repository.js';
 
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
@@ -16,6 +17,7 @@ const dependencies = {
   assessmentRepository,
   challengeRepository,
   schoolRepository,
+  organizationLearnersRepository,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
