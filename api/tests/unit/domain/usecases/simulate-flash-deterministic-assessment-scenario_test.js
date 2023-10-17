@@ -112,10 +112,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
             estimatedLevel: 0,
             options: getNextChallengesOptionsMatcher,
           })
-          .returns({
-            hasAssessmentEnded: false,
-            possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
-          })
+          .returns([firstChallenge, thirdChallenge, secondChallenge])
           .withArgs({
             allAnswers: [successAnswerMatcher],
             allChallenges,
@@ -123,10 +120,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
             estimatedLevel: 1,
             options: getNextChallengesOptionsMatcher,
           })
-          .returns({
-            hasAssessmentEnded: false,
-            possibleChallenges: [thirdChallenge, secondChallenge],
-          })
+          .returns([thirdChallenge, secondChallenge])
           .withArgs({
             allAnswers: [successAnswerMatcher, successAnswerMatcher],
             allChallenges,
@@ -134,10 +128,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
             estimatedLevel: 2,
             options: getNextChallengesOptionsMatcher,
           })
-          .returns({
-            hasAssessmentEnded: false,
-            possibleChallenges: [thirdChallenge],
-          });
+          .returns([thirdChallenge]);
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
@@ -232,10 +223,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
             allAnswers: [],
           }),
         )
-        .returns({
-          hasAssessmentEnded: false,
-          possibleChallenges: [challenge],
-        })
+        .returns([challenge])
         .withArgs({
           allChallenges: [challenge],
           availableChallenges: [challenge],
@@ -245,9 +233,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
             }),
           ],
         })
-        .returns({
-          hasAssessmentEnded: true,
-        });
+        .returns([]);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
         estimatedLevel: 0,
@@ -390,10 +376,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       estimatedLevel: 0,
       options: getNextChallengesOptionsMatcher,
     })
-    .returns({
-      hasAssessmentEnded: false,
-      possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
-    })
+    .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
       allAnswers: [successAnswerMatcher],
       allChallenges,
@@ -401,10 +384,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       estimatedLevel: 1,
       options: getNextChallengesOptionsMatcher,
     })
-    .returns({
-      hasAssessmentEnded: false,
-      possibleChallenges: [thirdChallenge, secondChallenge],
-    })
+    .returns([thirdChallenge, secondChallenge])
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher],
       allChallenges,
@@ -412,10 +392,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,
     })
-    .returns({
-      hasAssessmentEnded: false,
-      possibleChallenges: [thirdChallenge],
-    });
+    .returns([thirdChallenge]);
 
   challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 

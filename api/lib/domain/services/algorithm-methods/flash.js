@@ -33,10 +33,7 @@ function getPossibleNextChallenges({
     };
   });
 
-  return {
-    hasAssessmentEnded: false,
-    possibleChallenges: _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel),
-  };
+  return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel);
 }
 
 function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL }) {
