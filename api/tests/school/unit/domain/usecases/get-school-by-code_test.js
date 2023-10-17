@@ -1,6 +1,6 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { usecases } from '../../../../../src/school/shared/usecases/index.js';
 
 describe('Unit | UseCase | get-school-by-code', function () {
   let schoolRepository;

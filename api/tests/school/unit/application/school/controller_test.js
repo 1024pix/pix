@@ -1,7 +1,7 @@
-import { expect, hFake, sinon } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { schoolController } from '../../../../lib/application/school/school-controller.js';
-import { School } from '../../../../lib/domain/models/School.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
+import { usecases } from '../../../../../src/school/shared/usecases/index.js';
+import { schoolController } from '../../../../../src/school/application/school/controller.js';
+import { School } from '../../../../../src/school/domain/models/School.js';
 
 describe('Unit | Controller | school-controller', function () {
   describe('#getSchool', function () {
