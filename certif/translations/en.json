@@ -182,9 +182,6 @@
     }
   },
   "pages": {
-    "banner": {
-      "information": "Important : depuis le 30 juin une nouvelle fonctionnalité est disponible pour vous permettre de créer ou éditer plusieurs sessions à la fois. L'ancienne méthode de création individuelle de session reste disponible. '<br>' Consultez '<a href=\"https://cloud.pix.fr/s/m4pDYQAAMo5ZE9P\" class=\"link\" target=\"_blank\" rel=\"noreferrer\">'ici'</a>' le guide d'utilisation de la gestion massive des sessions."
-    },
     "candidates": {
       "add": {
         "actions": {
