@@ -14,6 +14,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
   let campaignId;
   let userId;
   let stage1, stage2, stage3;
+  let campaignParticipation1, campaignParticipation2, campaignParticipation3, campaignParticipation4;
 
   beforeEach(async function () {
     const learningContentObjects = learningContentBuilder.fromAreas([
@@ -58,10 +59,12 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     stage2 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 30 });
     stage3 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 70 });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
-    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId1' });
-    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId2' });
-    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId3' });
-    databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: 'recSkillId4' });
+    campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+    campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+    campaignParticipation3 = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+    campaignParticipation4 = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+    await databaseBuilder.commit();
   });
 
   context('when requesting user is not allowed to access campaign informations', function () {
@@ -81,8 +84,9 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 
-  context('when the campaign doesnt manage stages', function () {
+  context('when the campaign has no stages', function () {
     it('should throw a NoStagesForCampaign error', async function () {
+      // given
       const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId });
       databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign2.id, skillId: 'recSkillId1' });
       await databaseBuilder.commit();
@@ -99,11 +103,48 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 
-  context('when the campaign manage stages', function () {
-    it('should return participations counts by stages', async function () {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.31 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.72 });
+  context('when the campaign has stages', function () {
+    it('should return acquisitions counts by stages', async function () {
+      // given
+      [
+        // campaignParticipation1
+        {
+          stageId: stage1.id,
+          campaignParticipationId: campaignParticipation1.id,
+        },
+        {
+          stageId: stage2.id,
+          campaignParticipationId: campaignParticipation1.id,
+        },
+        {
+          stageId: stage3.id,
+          campaignParticipationId: campaignParticipation1.id,
+        },
+        // campaignParticipation2
+        {
+          stageId: stage1.id,
+          campaignParticipationId: campaignParticipation2.id,
+        },
+        {
+          stageId: stage2.id,
+          campaignParticipationId: campaignParticipation2.id,
+        },
+        // campaignParticipation3
+        {
+          stageId: stage1.id,
+          campaignParticipationId: campaignParticipation3.id,
+        },
+        // campaignParticipation4
+        {
+          stageId: stage1.id,
+          campaignParticipationId: campaignParticipation4.id,
+        },
+        {
+          stageId: stage2.id,
+          campaignParticipationId: campaignParticipation4.id,
+        },
+      ].map(databaseBuilder.factory.buildStageAcquisition);
+
       await databaseBuilder.commit();
 
       // when
@@ -119,14 +160,12 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
           reachedStage: 1,
           totalStage: 3,
         },
-        { id: stage2.id, value: 1, title: null, description: null, reachedStage: 2, totalStage: 3 },
+        { id: stage2.id, value: 2, title: null, description: null, reachedStage: 2, totalStage: 3 },
         { id: stage3.id, value: 1, title: null, description: null, reachedStage: 3, totalStage: 3 },
       ]);
     });
 
-    it('should set to 0 all participation counts when no participations', async function () {
-      await databaseBuilder.commit();
-
+    it('should set to 0 all participation counts when no stage acquisitions', async function () {
       // when
       const result = await usecases.getCampaignParticipationsCountByStage({ userId, campaignId });
 

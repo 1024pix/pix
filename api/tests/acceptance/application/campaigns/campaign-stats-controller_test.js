@@ -16,7 +16,7 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
   });
 
   describe('GET /api/campaigns/{id}/stats/participations-by-stage', function () {
-    it('should return the campaign by id', async function () {
+    it('should return the campaign with stages information', async function () {
       // given
       const learningContentObjects = learningContentBuilder.fromAreas([
         {
@@ -58,7 +58,32 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
       databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId1' });
       databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: 'recSkillId2' });
       const userId = databaseBuilder.factory.buildUser().id;
+      const anotherUserId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({ organizationId: campaign.organizationId, userId });
+      databaseBuilder.factory.buildMembership({ organizationId: campaign.organizationId, userId: anotherUserId });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId: campaign.id,
+      });
+      const anotherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        userId: anotherUserId,
+        campaignId: campaign.id,
+      });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: stage1.id,
+        userId,
+        campaignParticipationId: campaignParticipation.id,
+      });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: stage2.id,
+        userId,
+        campaignParticipationId: campaignParticipation.id,
+      });
+      databaseBuilder.factory.buildStageAcquisition({
+        stageId: stage1.id,
+        userId: anotherUserId,
+        campaignParticipationId: anotherCampaignParticipation.id,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -74,13 +99,20 @@ describe('Acceptance | API | Campaign Stats Controller', function () {
       expect(response.result.data.attributes.data).to.deep.equal([
         {
           id: stage1.id,
-          value: 0,
+          value: 1,
           title: stage1.prescriberTitle,
           description: stage1.prescriberDescription,
           'reached-stage': 1,
           'total-stage': 2,
         },
-        { id: stage2.id, value: 0, title: null, description: null, 'reached-stage': 2, 'total-stage': 2 },
+        {
+          id: stage2.id,
+          value: 1,
+          title: stage2.prescriberTitle,
+          description: stage2.prescriberDescription,
+          'reached-stage': 2,
+          'total-stage': 2,
+        },
       ]);
     });
 
