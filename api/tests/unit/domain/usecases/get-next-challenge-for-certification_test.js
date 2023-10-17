@@ -136,10 +136,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               estimatedLevel: 0,
               options: sinon.match.any,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: [nextChallengeToAnswer],
-            });
+            .returns([nextChallengeToAnswer]);
 
           const chooseNextChallengeImpl = sinon.stub();
           chooseNextChallengeImpl

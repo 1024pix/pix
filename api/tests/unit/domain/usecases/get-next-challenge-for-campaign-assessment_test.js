@@ -157,10 +157,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               estimatedLevel: 0,
               options: sinon.match.object,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: [secondChallenge],
-            });
+            .returns([secondChallenge]);
 
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({

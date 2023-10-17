@@ -100,7 +100,7 @@ class FlashAssessmentAlgorithm {
       throw new AssessmentEndedError();
     }
 
-    const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
+    return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       allAnswers,
       availableChallenges: challengesAfterRulesApplication,
       allChallenges: challenges,
@@ -110,12 +110,6 @@ class FlashAssessmentAlgorithm {
         minimalSuccessRate,
       },
     });
-
-    if (hasAssessmentEnded) {
-      throw new AssessmentEndedError();
-    }
-
-    return possibleChallenges;
   }
 
   _computeMinimalSuccessRate(questionIndex) {

@@ -21,10 +21,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         });
 
         // then
-        expect(result).to.deep.equal({
-          hasAssessmentEnded: false,
-          possibleChallenges: [challenge],
-        });
+        expect(result).to.deep.equal([challenge]);
       });
 
       it('should return at most the five best next challenges', function () {
@@ -88,10 +85,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         });
 
         // then
-        expect(result).to.deep.equal({
-          hasAssessmentEnded: false,
-          possibleChallenges: [secondChallenge, fifthChallenge, sixthChallenge, firstChallenge, thirdChallenge],
-        });
+        expect(result).to.deep.equal([secondChallenge, fifthChallenge, sixthChallenge, firstChallenge, thirdChallenge]);
       });
     });
   });

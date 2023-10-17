@@ -121,10 +121,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: expectedChallenges,
-            });
+            .returns(expectedChallenges);
 
           expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
         });
@@ -198,10 +195,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: expectedChallenges,
-            });
+            .returns(expectedChallenges);
 
           expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
         });
@@ -268,10 +262,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
                 minimalSuccessRate: 0.8,
               },
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: [easyChallenge, hardChallenge],
-            });
+            .returns([easyChallenge, hardChallenge]);
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
             allAnswers,
@@ -359,10 +350,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
                 minimalSuccessRate: sinon.match((value) => value.toPrecision(1) === '0.6'),
               },
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: expectedChallenges,
-            });
+            .returns(expectedChallenges);
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
             allAnswers,
@@ -370,7 +358,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             initialCapacity,
           });
 
-          expect(nextChallenges).to.deep.equal([easyChallenge, hardChallenge2]);
+          expect(nextChallenges).to.deep.equal(expectedChallenges);
         });
       });
     });
