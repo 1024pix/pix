@@ -2,7 +2,11 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-const isDeveloppement = process.env.EMBER_ENV === 'development';
+const sourceMapConfig = {
+  production: 'source-map',
+  test: false,
+  default: 'eval-source-map',
+};
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
@@ -37,7 +41,7 @@ module.exports = function (defaults) {
   return require('@embroider/compat').compatBuild(app, Webpack, {
     packagerOptions: {
       webpackConfig: {
-        devtool: isDeveloppement ? 'eval-source-map' : 'source-map',
+        devtool: sourceMapConfig[process.env.CI ? 'test' : process.env.NODE_ENV ?? 'default'],
       },
     },
   });

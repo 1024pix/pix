@@ -34,7 +34,7 @@
     "lint:translations": "eslint --ext .json --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "preinstall": "npx check-engine",
-    "start": "ember serve --proxy http://localhost:3000  --environment development",
+    "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
     "test:ci": "npm run test",
     "test:lint": "npm test && npm run lint",

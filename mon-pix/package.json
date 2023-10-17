@@ -34,7 +34,7 @@
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "preinstall": "npx check-engine",
-    "start": "ember serve --proxy http://localhost:3000  --environment development",
+    "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
     "test:ci": "npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot",
     "test:lint": "npm test && npm run lint",
