@@ -5,7 +5,14 @@
   <p class="import-students-page-section__details">
     {{t "pages.sup-organization-participants-import.actions.replace.details"}}
   </p>
-  <PixButtonUpload @id="students-file-upload-replace" @size="small" @onChange={{@onReplaceStudents}} accept=".csv">
+
+  <PixButton @triggerAction={{this.toggleModal}}>
     {{t "pages.sup-organization-participants-import.actions.replace.label"}}
-  </PixButtonUpload>
+  </PixButton>
+
+  <SupOrganizationParticipant::Modal::ReplaceStudentsModal
+    @onClose={{this.toggleModal}}
+    @display={{this.displayModal}}
+    @onReplaceStudents={{@onReplaceStudents}}
+  />
 </section>
