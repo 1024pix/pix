@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.46.0 (17/10/2023)
+
+
+### :rocket: Amélioration
+- [#7260](https://github.com/1024pix/pix/pull/7260) [FEATURE] Accéder à une leçon textuelle (PIX-9673).
+- [#7002](https://github.com/1024pix/pix/pull/7002) [FEATURE] Afficher les stages en fin de parcours depuis la base de données (PIX-8913).
+
+### :building_construction: Tech
+- [#7233](https://github.com/1024pix/pix/pull/7233) [TECH] Ajouter un service d'envoi de mail via SMTP.
+
+### :bug: Correction
+- [#7270](https://github.com/1024pix/pix/pull/7270) [BUGFIX] Utiliser la bonne configuration pour la knex transaction du CRON de certificabilitée (PIX-9676).
+
 ## v4.45.0 (17/10/2023)
 
 
