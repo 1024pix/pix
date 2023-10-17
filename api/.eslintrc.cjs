@@ -22,7 +22,7 @@ module.exports = {
   globals: {
     include: true,
   },
-  plugins: ['knex', 'unicorn', 'local-rules'],
+  plugins: ['knex', 'unicorn'],
   rules: {
     'no-console': 'error',
     'mocha/no-hooks-for-single-case': 'off',
@@ -67,6 +67,5 @@ module.exports = {
         ],
       },
     ],
-    'local-rules/no-sinon-stub-with-args-oneliner': 'error',
   },
 };
