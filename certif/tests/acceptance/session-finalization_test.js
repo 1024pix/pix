@@ -18,8 +18,6 @@ module('Acceptance | Session Finalization', function (hooks) {
   let session;
 
   hooks.beforeEach(function () {
-    server.create('feature-toggle', { isMassiveSessionManagementEnabled: true });
-
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       isAccessBlockedCollege: false,
       isAccessBlockedLycee: false,
@@ -209,9 +207,8 @@ module('Acceptance | Session Finalization', function (hooks) {
           const allDeleteIssueReportButtons = screen.getAllByRole('button', { name: 'Supprimer le signalement' });
           await click(allDeleteIssueReportButtons[0]);
 
-          // TODO: remove this getAllByRole (isMassiveSessionManagementEnabled)
-          const closeButtons = screen.getAllByRole('button', { name: 'Fermer' });
-          await click(closeButtons[1]);
+          const closeButton = screen.getByRole('button', { name: 'Fermer' });
+          await click(closeButton);
 
           // then
           assert.dom(screen.getByText('1 signalement')).exists();
