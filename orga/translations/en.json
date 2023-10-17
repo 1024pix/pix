@@ -918,7 +918,6 @@
           "file-type-separator": " or ",
           "information": "Importing your file may take a few minutes. Some features may be temporarily inaccessible.",
           "label": "Import ({types})"
-
         },
         "manage-account": "Manage the account",
         "show-actions": "Show actions"
@@ -1114,6 +1113,14 @@
         "students-count": "{count, plural, =0 {0 students} =1 {1 student} other {{count} students}}"
       },
       "page-title": "Students",
+      "replace-students-modal": {
+        "title": "Are you sure you want to overwrite the existing students?",
+        "confirm": "Yes, overwrite",
+        "confirmation-checkbox": "I have fully understood the effect of this action",
+        "footer-content": "Existing students in the application and included in the new import will not be affected.",
+        "last-warning": "Please note that this action is irreversible, students who are not included in the new import will be deleted from Pix Orga.",
+        "main-content": "All of their campaign participations will be deleted. This will have an impact on the results and analytics of your campaigns. They will no longer be able to take part in any previous campaigns. However, they will still be able to take part in new campaigns."
+      },
       "table": {
         "column": {
           "date-of-birth": "Date of birth",
