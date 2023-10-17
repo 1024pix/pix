@@ -22,6 +22,10 @@ class SessionForAttendanceSheet {
     this.certificationCandidates = certificationCandidates;
     this.isOrganizationManagingStudents = isOrganizationManagingStudents;
   }
+
+  get isSco() {
+    return this.certificationCenterType === 'SCO' && this.isOrganizationManagingStudents;
+  }
 }
 
 export { SessionForAttendanceSheet };

@@ -1,5 +1,37 @@
 {
   "current-lang": "en",
+  "attendance-sheet": {
+    "certification-information": {
+      "date": "Date:",
+      "local-time": "Local time (start):",
+      "location-name": "Location name:",
+      "number": "No.",
+      "room-name": "Room name:",
+      "session": "The certification session"
+    },
+    "examiner-information": {
+      "title": "The invigilator(s)",
+      "invigilated-by": "Invigilated by:",
+      "signature": "Signature(s):"
+    },
+    "file-name": "attendance-sheet-session-",
+    "header": {
+      "title": "Attendance sheet",
+      "page": "Page"
+    },
+    "table": {
+      "title": "List of candidates",
+      "birth-name": "Birth name",
+      "date-of-birth": {
+        "example": "(dd/mm/yyyy)",
+        "label": "Date of birth"
+      },
+      "division": "Division",
+      "external-id": "External user ID",
+      "first-name": "First name",
+      "signature": "Signature"
+    }
+  },
   "campaign-export": {
     "assessment": {
       "competence-area": {
