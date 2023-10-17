@@ -1,17 +1,19 @@
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
 
 class Module {
-  static #MINIMAL_NUMBER_OF_GRAINS = 2;
-
   #id;
   #title;
-  constructor({ id, title }) {
+  #list;
+
+  constructor({ id, title, list }) {
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un module");
     assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un module');
-    // this.#assertAtLeastTwoGrains(grains);
+    assertNotNullOrUndefined(list, 'Une liste est obligatoire pour un module');
+    this.#assertListIsAnArray(list);
 
     this.#id = id;
     this.#title = title;
+    this.#list = list;
   }
 
   get id() {
@@ -22,14 +24,14 @@ class Module {
     return this.#title;
   }
 
-  #assertAtLeastTwoGrains(grains) {
-    if (!this.#atLeastTwoGrains(grains)) {
-      throw new Error('Un module doit forcément avoir au moins deux grains');
-    }
+  get list() {
+    return this.#list;
   }
 
-  #atLeastTwoGrains(grains) {
-    return Array.isArray(grains) && grains.length >= Module.#MINIMAL_NUMBER_OF_GRAINS;
+  #assertListIsAnArray(list) {
+    if (!Array.isArray(list)) {
+      throw new Error('Un Module doit forcément posséder une liste');
+    }
   }
 }
 
