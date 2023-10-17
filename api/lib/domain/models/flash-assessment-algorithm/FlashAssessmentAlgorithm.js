@@ -103,7 +103,6 @@ class FlashAssessmentAlgorithm {
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       allAnswers,
       availableChallenges: challengesAfterRulesApplication,
-      allChallenges: challenges,
       estimatedLevel,
       options: {
         challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
