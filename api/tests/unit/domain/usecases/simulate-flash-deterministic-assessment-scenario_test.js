@@ -107,7 +107,6 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
             allAnswers: [],
-            allChallenges,
             availableChallenges: allChallenges,
             estimatedLevel: 0,
             options: getNextChallengesOptionsMatcher,
@@ -115,7 +114,6 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           .returns([firstChallenge, thirdChallenge, secondChallenge])
           .withArgs({
             allAnswers: [successAnswerMatcher],
-            allChallenges,
             availableChallenges: [secondChallenge, thirdChallenge],
             estimatedLevel: 1,
             options: getNextChallengesOptionsMatcher,
@@ -123,7 +121,6 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
           .returns([thirdChallenge, secondChallenge])
           .withArgs({
             allAnswers: [successAnswerMatcher, successAnswerMatcher],
-            allChallenges,
             availableChallenges: [thirdChallenge],
             estimatedLevel: 2,
             options: getNextChallengesOptionsMatcher,
@@ -218,14 +215,12 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       flashAlgorithmService.getPossibleNextChallenges
         .withArgs(
           sinon.match({
-            allChallenges: [challenge],
             availableChallenges: [challenge],
             allAnswers: [],
           }),
         )
         .returns([challenge])
         .withArgs({
-          allChallenges: [challenge],
           availableChallenges: [challenge],
           allAnswers: [
             sinon.match({
@@ -371,7 +366,6 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
   flashAlgorithmService.getPossibleNextChallenges
     .withArgs({
       allAnswers: [],
-      allChallenges,
       availableChallenges: allChallenges,
       estimatedLevel: 0,
       options: getNextChallengesOptionsMatcher,
@@ -379,7 +373,6 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
     .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
       allAnswers: [successAnswerMatcher],
-      allChallenges,
       availableChallenges: [secondChallenge, thirdChallenge],
       estimatedLevel: 1,
       options: getNextChallengesOptionsMatcher,
@@ -387,7 +380,6 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
     .returns([thirdChallenge, secondChallenge])
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher],
-      allChallenges,
       availableChallenges: [thirdChallenge],
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,

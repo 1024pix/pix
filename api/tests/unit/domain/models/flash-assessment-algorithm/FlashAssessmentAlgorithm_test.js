@@ -116,7 +116,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               allAnswers,
-              allChallenges: challenges,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
@@ -190,7 +189,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               allAnswers,
-              allChallenges: challenges,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
@@ -253,7 +251,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: challenges,
               allAnswers,
               estimatedLevel: 0,
@@ -340,7 +337,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: expectedChallenges,
               allAnswers,
               estimatedLevel: 0,

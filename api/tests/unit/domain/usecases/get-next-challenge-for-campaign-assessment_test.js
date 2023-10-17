@@ -151,7 +151,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: [secondChallenge],
               allAnswers,
               estimatedLevel: 0,
@@ -213,7 +212,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: [],
               allAnswers,
               estimatedLevel: 0,
