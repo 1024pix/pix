@@ -9,12 +9,12 @@ import * as areaRepository from './area-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
 import * as campaignRepository from './campaign-repository.js';
-import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 import * as flash from '../../domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import { NotFoundError } from '../../domain/errors.js';
+import { StageCollection } from '../../domain/models/user-campaign-results/StageCollection.js';
 
-const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, locale }) {
+const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, reachedStage, stages, locale }) {
   const participationResults = await _getParticipationResults(userId, campaignId, locale);
   let flashScoringResults;
   if (participationResults.isFlash) {
@@ -24,7 +24,7 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, l
   const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
   const isCampaignArchived = await _isCampaignArchived(campaignId);
   const competences = await _findTargetedCompetences(campaignId, locale);
-  const stageCollection = await _getStageCollection(campaignId);
+  const stageCollection = new StageCollection({ campaignId, stages });
   const isTargetProfileResetAllowed = await _getTargetProfileResetAllowed(campaignId);
 
   return new AssessmentResult({
@@ -32,6 +32,7 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, l
     competences,
     badgeResultsDTO: badges,
     stageCollection,
+    reachedStage,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
     isCampaignArchived,
@@ -168,10 +169,6 @@ async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
 
 async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
   return knex('badge-acquisitions').select('badgeId').where({ userId, campaignParticipationId });
-}
-
-function _getStageCollection(campaignId) {
-  return stageCollectionRepository.findStageCollection({ campaignId });
 }
 
 async function _getTargetProfileResetAllowed(campaignId) {
