@@ -1,6 +1,6 @@
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
-import { DomainTransaction } from '../../DomainTransaction.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
   constructor({ organizationLearnerRepository, pgBossRepository, config, logger }) {
@@ -14,56 +14,63 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
     const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
     const onlyNotComputed = event?.onlyNotComputed;
     const chunkSize = this.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
-    await DomainTransaction.execute(async (domainTransaction) => {
-      const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
-        skipLoggedLastDayCheck,
-        onlyNotComputed,
-        domainTransaction,
-      });
-      const chunkCount = Math.ceil(count / chunkSize);
-      this.logger.info(
-        `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total learners to compute : ${count}`,
-      );
 
-      let totalJobsInserted = 0;
+    const isolationLevel = 'repeatable read';
 
-      for (let index = 0; index < chunkCount; index++) {
-        const offset = index * chunkSize;
-        this.logger.info(`ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`);
+    await knex.transaction(
+      async (trx) => {
+        const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction: { knexTransaction: trx },
+        });
 
-        const organizationLearnerIds =
-          await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
-            limit: chunkSize,
-            offset,
-            skipLoggedLastDayCheck,
-            onlyNotComputed,
-            domainTransaction,
-          });
-
+        const chunkCount = Math.ceil(count / chunkSize);
         this.logger.info(
-          `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
+          `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total learners to compute : ${count}`,
         );
 
-        const jobsToInsert = organizationLearnerIds.map((organizationLearnerId) => ({
-          name: ComputeCertificabilityJob.name,
-          data: { organizationLearnerId },
-          retrylimit: 0,
-          retrydelay: 30,
-          on_complete: true,
-        }));
+        let totalJobsInserted = 0;
 
-        const jobsInserted = await this.pgBossRepository.insert(jobsToInsert, domainTransaction);
-        totalJobsInserted += jobsInserted.rowCount;
+        for (let index = 0; index < chunkCount; index++) {
+          const offset = index * chunkSize;
+          this.logger.info(`ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Offset : ${offset}`);
+
+          const organizationLearnerIds =
+            await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
+              limit: chunkSize,
+              offset,
+              skipLoggedLastDayCheck,
+              onlyNotComputed,
+              domainTransaction: { knexTransaction: trx },
+            });
+
+          this.logger.info(
+            `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Ids count  : ${organizationLearnerIds.length}`,
+          );
+
+          const jobsToInsert = organizationLearnerIds.map((organizationLearnerId) => ({
+            name: ComputeCertificabilityJob.name,
+            data: { organizationLearnerId },
+            retrylimit: 0,
+            retrydelay: 30,
+            on_complete: true,
+          }));
+
+          const jobsInserted = await this.pgBossRepository.insert(jobsToInsert, { knexTransaction: trx });
+          totalJobsInserted += jobsInserted.rowCount;
+
+          this.logger.info(
+            `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${jobsInserted.rowCount}`,
+          );
+        }
 
         this.logger.info(
-          `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Jobs inserted count  : ${jobsInserted.rowCount}`,
+          `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total jobs inserted count : ${totalJobsInserted}`,
         );
-      }
-
-      this.logger.info(
-        `ScheduleComputeOrganizationLearnersCertificabilityJobHandler - Total jobs inserted count : ${totalJobsInserted}`,
-      );
-    });
+      },
+      { isolationLevel },
+    );
   }
 
   get name() {
