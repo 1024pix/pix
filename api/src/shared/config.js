@@ -236,6 +236,7 @@ const configuration = (function () {
     mailing: {
       enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
       provider: process.env.MAILING_PROVIDER || 'brevo',
+      smtpUrl: process.env.MAILING_SMTP_URL || 'smtp://username:password@localhost:1025/',
       brevo: {
         apiKey: process.env.BREVO_API_KEY,
         templates: {
@@ -362,6 +363,7 @@ const configuration = (function () {
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';
+    config.mailing.smtpUrl = 'smtp://username:password@localhost:1025/';
 
     config.mailing.brevo.apiKey = 'test-api-key';
     config.mailing.brevo.templates.accountCreationTemplateId = 'test-account-creation-template-id';
