@@ -8,6 +8,7 @@ import { HttpErrors } from '../http-errors.js';
 import _ from 'lodash';
 import { pickChallengeService } from '../../domain/services/pick-challenge-service.js';
 import { FlashAssessmentSuccessRateHandler } from '../../domain/models/FlashAssessmentSuccessRateHandler.js';
+import { Readable } from 'stream';
 
 async function simulateFlashAssessmentScenario(
   request,
@@ -42,8 +43,10 @@ async function simulateFlashAssessmentScenario(
     minimumEstimatedSuccessRateRangesDto,
   );
 
-  const result = await Promise.all(
-    _.range(0, numberOfIterations).map(async (index) => {
+  async function* generate() {
+    const iterations = _.range(0, numberOfIterations);
+
+    for (const index of iterations) {
       const pickChallenge = dependencies.pickChallengeService.chooseNextChallenge(challengePickProbability);
 
       const usecaseParams = _.omitBy(
@@ -63,14 +66,27 @@ async function simulateFlashAssessmentScenario(
         },
         _.isUndefined,
       );
-      return {
-        index,
-        simulationReport: await usecases.simulateFlashDeterministicAssessmentScenario(usecaseParams),
-      };
-    }),
-  );
 
-  return dependencies.scenarioSimulatorBatchSerializer.serialize(result);
+      const simulationReport = await usecases.simulateFlashDeterministicAssessmentScenario(usecaseParams);
+
+      yield JSON.stringify({
+        index,
+        simulationReport: simulationReport.map((answer) => ({
+          challengeId: answer.challenge.id,
+          minimumCapability: answer.challenge.minimumCapability,
+          difficulty: answer.challenge.difficulty,
+          discriminant: answer.challenge.discriminant,
+          reward: answer.reward,
+          errorRate: answer.errorRate,
+          answerStatus: answer.answerStatus,
+          estimatedLevel: answer.estimatedLevel,
+        })),
+      }) + '\n';
+    }
+  }
+
+  const generatedResponse = Readable.from(generate(), { objectMode: false });
+  return h.response(generatedResponse).type('text/event-stream; charset=utf-8');
 }
 
 async function importScenarios(
