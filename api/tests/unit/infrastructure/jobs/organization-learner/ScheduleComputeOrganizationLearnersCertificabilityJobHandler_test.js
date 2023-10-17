@@ -1,6 +1,5 @@
-import { expect, sinon } from '../../../../test-helper.js';
+import { expect, sinon, knex } from '../../../../test-helper.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from '../../../../../lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobHandler', function () {
   context('#handle', function () {
@@ -10,9 +9,16 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
     let logger;
 
     beforeEach(function () {
-      domainTransaction = Symbol('domainTransaction');
-      DomainTransaction.execute = (lambda) => {
-        return lambda(domainTransaction);
+      const transaction = Symbol('domainTransaction');
+      sinon
+        .stub(knex, 'transaction')
+        .withArgs(sinon.match.func, { isolationLevel: 'repeatable read' })
+        .callsFake((lambda) => {
+          return lambda(transaction);
+        });
+
+      domainTransaction = {
+        knexTransaction: transaction,
       };
 
       pgBossRepository = {
