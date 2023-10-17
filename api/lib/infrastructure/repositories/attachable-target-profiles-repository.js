@@ -4,21 +4,15 @@ import { AttachableTargetProfile } from '../../domain/models/AttachableTargetPro
 
 const find = async function ({ searchTerm } = {}) {
   const targetProfiles = await knex('target-profiles')
-    .with('current_attached_badges', (queryBuilder) => {
-      queryBuilder
-        .select('complementary-certification-badges.badgeId')
-        .from('complementary-certification-badges')
-        .whereNull('complementary-certification-badges.detachedAt');
-    })
     .select('target-profiles.id', 'target-profiles.name')
     .distinct()
     .leftJoin('badges', 'target-profiles.id', 'badges.targetProfileId')
     .leftJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .orderBy('target-profiles.name', 'ASC')
-    .orderBy('target-profiles.id', 'DESC')
     .where('target-profiles.outdated', false)
-    .where((builder) => _includeNeverAttachedTargetProfile(builder).orWhere(_includeNotAttachedTargetProfile))
-    .where((builder) => _searchByCritieria({ builder, searchTerm }));
+    .where(_allowOnlyNeverAttachedTargetProfiles)
+    .where((builder) => _searchByCritieria({ builder, searchTerm }))
+    .orderBy('target-profiles.name', 'ASC')
+    .orderBy('target-profiles.id', 'DESC');
 
   return _toDomain(targetProfiles);
 };
@@ -45,17 +39,8 @@ function _searchOnId({ builder, searchTerm }) {
   return builder.whereRaw('CAST("target-profiles"."id" AS TEXT) LIKE ?', [`%${searchTerm}%`]);
 }
 
-function _includeNeverAttachedTargetProfile(builder) {
+function _allowOnlyNeverAttachedTargetProfiles(builder) {
   return builder.whereNull('complementary-certification-badges.badgeId');
-}
-
-function _includeNotAttachedTargetProfile(builder) {
-  return builder.whereNotNull('badges.targetProfileId').whereNotExists((queryBuilder) => {
-    queryBuilder
-      .select(1)
-      .from('current_attached_badges')
-      .whereRaw('"current_attached_badges"."badgeId" = "badges"."id"');
-  });
 }
 
 function _toDomain(targetProfiles) {
