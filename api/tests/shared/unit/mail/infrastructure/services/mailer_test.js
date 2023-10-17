@@ -1,9 +1,9 @@
-import { sinon, expect } from '../../../test-helper.js';
-import { config } from '../../../../src/shared/config.js';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
-import { Mailer } from '../../../../src/shared/mail/infrastructure/services/mailer.js';
-import { EmailingAttempt } from '../../../../src/shared/mail/domain/models/EmailingAttempt.js';
-import { MailingProviderInvalidEmailError } from '../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
+import { sinon, expect } from '../../../../../test-helper.js';
+import { config } from '../../../../../../src/shared/config.js';
+import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
+import { Mailer } from '../../../../../../src/shared/mail/infrastructure/services/mailer.js';
+import { EmailingAttempt } from '../../../../../../src/shared/mail/domain/models/EmailingAttempt.js';
+import { MailingProviderInvalidEmailError } from '../../../../../../src/shared/mail/domain/models/MailingProviderInvalidEmailError.js';
 
 const { mailing } = config;
 
