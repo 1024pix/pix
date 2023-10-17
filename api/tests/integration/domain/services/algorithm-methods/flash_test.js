@@ -1,33 +1,9 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as flash from '../../../../../lib/domain/services/algorithm-methods/flash.js';
 import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
-import { config } from '../../../../../lib/config.js';
 
 describe('Integration | Domain | Algorithm-methods | Flash', function () {
   describe('#getPossibleNextChallenge', function () {
-    context('when there is no challenge', function () {
-      it('should return hasAssessmentEnded as true and possibleChallenges is empty', function () {
-        // given
-        const allChallenges = [];
-        const availableChallenges = [];
-        const allAnswers = [];
-
-        // when
-        const result = flash.getPossibleNextChallenges({
-          allChallenges,
-          availableChallenges,
-          allAnswers,
-          estimatedLevel: 0,
-        });
-
-        // then
-        expect(result).to.deep.equal({
-          hasAssessmentEnded: true,
-          possibleChallenges: [],
-        });
-      });
-    });
-
     context('when there is a challenge', function () {
       it('should return hasAssessmentEnded as false and possibleChallenges not empty', function () {
         // given
@@ -115,52 +91,6 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         expect(result).to.deep.equal({
           hasAssessmentEnded: false,
           possibleChallenges: [secondChallenge, fifthChallenge, sixthChallenge, firstChallenge, thirdChallenge],
-        });
-      });
-    });
-
-    context('when we reach the maximum number of asked challenges', function () {
-      let numberOfChallengesForFlashMethod;
-
-      beforeEach(function () {
-        numberOfChallengesForFlashMethod = config.features.numberOfChallengesForFlashMethod;
-        config.features.numberOfChallengesForFlashMethod = 2;
-      });
-
-      afterEach(function () {
-        config.features.numberOfChallengesForFlashMethod = numberOfChallengesForFlashMethod;
-      });
-
-      it('should not propose another challenge to the user', function () {
-        // given
-        const challenge1 = domainBuilder.buildChallenge({
-          difficulty: -5,
-          discriminant: -5,
-        });
-        const challenge2 = domainBuilder.buildChallenge({
-          difficulty: 1,
-          discriminant: 5,
-        });
-        const challenge3 = domainBuilder.buildChallenge({
-          difficulty: 1,
-          discriminant: 5,
-        });
-        const challenges = [challenge1, challenge2, challenge3];
-        const answer1 = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id });
-        const answer2 = domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id });
-        const allAnswers = [answer1, answer2];
-
-        // when
-        const result = flash.getPossibleNextChallenges({
-          allChallenges: challenges,
-          availableChallenges: challenges,
-          allAnswers,
-        });
-
-        // then
-        expect(result).to.deep.equal({
-          hasAssessmentEnded: true,
-          possibleChallenges: [],
         });
       });
     });

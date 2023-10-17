@@ -93,6 +93,13 @@ class FlashAssessmentAlgorithm {
       allChallenges: challenges,
     });
 
+    if (
+      challengesAfterRulesApplication?.length === 0 ||
+      allAnswers.length >= config.features.numberOfChallengesForFlashMethod
+    ) {
+      throw new AssessmentEndedError();
+    }
+
     const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
       allAnswers,
       availableChallenges: challengesAfterRulesApplication,
