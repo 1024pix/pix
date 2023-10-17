@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.45.0 (17/10/2023)
+
+
+### :rocket: Amélioration
+- [#7257](https://github.com/1024pix/pix/pull/7257) [FEATURE] Suppression du bandeau d'information concernant la gestion massive des sessions sur Pix Certif (PIX-9562).
+- [#7065](https://github.com/1024pix/pix/pull/7065) [FEATURE] Envoyer un email aux organisations avec une campagne basée sur l’ancien PC (PIX-8932).
+
+### :building_construction: Tech
+- [#7261](https://github.com/1024pix/pix/pull/7261) [TECH] Utilisation de stream pour renvoyer la réponse des simulateurs (PIX-9669).
+- [#7050](https://github.com/1024pix/pix/pull/7050) [TECH] Récupérer les paliers acquis dans la page "Mes parcours" (PIX-8912).
+- [#7256](https://github.com/1024pix/pix/pull/7256) [TECH] Pix1D - Ajout du support d'un fichier .env (PIX-9628).
+- [#7247](https://github.com/1024pix/pix/pull/7247) [TECH] Refacto des filtres appliqués sur l'algorithme flash (PIX-9613).
+- [#7259](https://github.com/1024pix/pix/pull/7259) [TECH] Amélioration des performances des simulateurs de la certification v3.
+
+### :bug: Correction
+- [#7263](https://github.com/1024pix/pix/pull/7263) [BUGFIX] Ne pas afficher les RT qui n'ont pas de badge certifié (PIx-9596).
+- [#7246](https://github.com/1024pix/pix/pull/7246) [BUGFIX] Réinitialiser la certificabilité lors de l'anonymisation d'un utilisateur (PIX-9614).
+
+### :arrow_up: Montée de version
+- [#7255](https://github.com/1024pix/pix/pull/7255) [BUMP] Update dependency knex to v3 (api).
+
 ## v4.44.0 (13/10/2023)
 
 
