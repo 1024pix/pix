@@ -1,13 +1,22 @@
-import { NotFoundError, NoCampaignParticipationForUserAndCampaign } from '../errors.js';
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
+import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../errors.js';
+import * as defaultCompareStageAndAcquiredStagesService from '../services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as defaultStageRepository from '../../infrastructure/repositories/stage-repository.js';
+import * as defaultStageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
+import * as defaultParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,
   campaignId,
   locale,
-  participantResultRepository,
+  participantResultRepository = defaultParticipantResultRepository,
   badgeRepository,
   knowledgeElementRepository,
   badgeForCalculationRepository,
+  stageRepository = defaultStageRepository,
+  stageAcquisitionRepository = defaultStageAcquisitionRepository,
+  compareStagesAndAcquiredStages = defaultCompareStageAndAcquiredStagesService,
 }) {
   try {
     const [badges, knowledgeElements] = await Promise.all([
@@ -33,14 +42,25 @@ const getUserCampaignAssessmentResult = async function ({
       ).acquisitionPercentage,
     }));
 
-    const assessmentResult = await participantResultRepository.getByUserIdAndCampaignId({
+    const [stages, acquiredStages] = await Promise.all([
+      stageRepository.getByCampaignId(campaignId),
+      stageAcquisitionRepository.getByCampaignIdAndUserId(campaignId, userId),
+    ]);
+
+    const stagesAcquisitionService = compareStagesAndAcquiredStages.compare(stages, acquiredStages);
+
+    return await participantResultRepository.getByUserIdAndCampaignId({
       userId,
       campaignId,
       locale,
       badges: badgesWithValidity,
+      stages,
+      reachedStage: {
+        ...stagesAcquisitionService.reachedStage,
+        totalStage: stagesAcquisitionService.totalNumberOfStages,
+        reachedStage: stagesAcquisitionService.reachedStageNumber,
+      },
     });
-
-    return assessmentResult;
   } catch (error) {
     if (error instanceof NotFoundError) throw new NoCampaignParticipationForUserAndCampaign();
     throw error;

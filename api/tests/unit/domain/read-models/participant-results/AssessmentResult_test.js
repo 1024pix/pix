@@ -256,7 +256,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
   });
 
   describe('when the target profile has stages', function () {
-    it('gives the reached stage and competence reached stage', function () {
+    it('gives the competence reached stage', function () {
       const competences = [
         {
           competence: domainBuilder.buildCompetence({
@@ -339,16 +339,6 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         competences,
         isCampaignMultipleSendings: false,
         isOrganizationLearnerActive: false,
-      });
-
-      expect(assessmentResult.reachedStage).to.deep.equal({
-        id: 3,
-        title: 'Stage2',
-        message: 'message2',
-        prescriberDescription: 'yolo',
-        prescriberTitle: 'coucou',
-        totalStage: 4,
-        reachedStage: 3,
       });
 
       expect(assessmentResult.competenceResults[0].reachedStage).to.equal(2);

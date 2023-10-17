@@ -15,6 +15,7 @@ class AssessmentResult {
     isTargetProfileResetAllowed,
     isCampaignArchived,
     competences,
+    reachedStage,
     badgeResultsDTO,
     stageCollection,
     flashScoringResults,
@@ -57,10 +58,7 @@ class AssessmentResult {
     });
 
     this.badgeResults = badgeResultsDTO.map((badge) => new BadgeResult(badge, participationResults.acquiredBadgeIds));
-
-    if (stageCollection.totalStages > 0) {
-      this.reachedStage = stageCollection.getReachedStage(this.validatedSkillsCount, this.masteryRate * 100);
-    }
+    this.reachedStage = reachedStage;
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt, this.isShared);
     this.isDisabled = this._computeIsDisabled(isCampaignArchived, participationResults.isDeleted);
     this.canRetry = this._computeCanRetry(
