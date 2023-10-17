@@ -66,6 +66,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@glimmer/component": "^1.1.2",
     "@sentry/ember": "^7.17.4",
+    "buffer": "^6.0.3",
     "dayjs": "^1.11.6",
     "dotenv": "^16.0.3",
     "ember-api-actions": "^0.2.9",
