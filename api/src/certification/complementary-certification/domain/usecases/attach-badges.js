@@ -11,7 +11,6 @@ const attachBadges = async function ({
   userId,
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
-  badgeRepository,
   complementaryCertificationBadgesRepository,
 }) {
   _verifyThatLevelsAreConsistent({
@@ -20,7 +19,7 @@ const attachBadges = async function ({
 
   await _verifyThatBadgesToAttachExist({
     complementaryCertificationBadgesToAttachDTO,
-    badgeRepository,
+    complementaryCertificationBadgesRepository,
   });
 
   if (complementaryCertification.hasExternalJury) {
@@ -127,15 +126,18 @@ function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAtta
   }
 }
 
-async function _verifyThatBadgesToAttachExist({ complementaryCertificationBadgesToAttachDTO, badgeRepository }) {
+async function _verifyThatBadgesToAttachExist({
+  complementaryCertificationBadgesToAttachDTO,
+  complementaryCertificationBadgesRepository,
+}) {
   if (complementaryCertificationBadgesToAttachDTO?.length <= 0) {
-    throw new NotFoundError("One or several badges don't exist.");
+    throw new NotFoundError('One or several badges are not attachable.');
   }
 
   const ids = complementaryCertificationBadgesToAttachDTO.map((ccBadgeToAttach) => ccBadgeToAttach.badgeId);
-  const badges = await badgeRepository.findAllByIds({ ids });
+  const badges = await complementaryCertificationBadgesRepository.findAttachableBadgesByIds({ ids });
 
   if (badges?.length !== ids.length) {
-    throw new NotFoundError("One or several badges don't exist.");
+    throw new NotFoundError('One or several badges are not attachable.');
   }
 }
