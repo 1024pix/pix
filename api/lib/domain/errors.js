@@ -416,18 +416,21 @@ class DeprecatedCertificationIssueReportSubcategoryError extends DomainError {
 class SendingEmailError extends DomainError {
   constructor() {
     super("Échec lors de l'envoi de l'email.");
+    this.code = 'SENDING_EMAIL_FAILED';
   }
 }
 
 class SendingEmailToInvalidDomainError extends DomainError {
   constructor(emailAddress) {
     super(`Failed to send email to ${emailAddress} because domain seems to be invalid.`);
+    this.code = 'INVALID_EMAIL_DOMAIN';
   }
 }
 
 class SendingEmailToInvalidEmailAddressError extends DomainError {
   constructor(emailAddress, errorMessage) {
     super(`Failed to send email to ${emailAddress} because email address seems to be invalid.`);
+    this.code = 'INVALID_EMAIL_ADDRESS_FORMAT';
     this.meta = {
       emailAddress,
       errorMessage,
