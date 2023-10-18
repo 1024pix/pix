@@ -79,4 +79,23 @@ module('Acceptance | School', function (hooks) {
       assert.strictEqual(currentURL(), '/missions');
     });
   });
+
+  module('When there is no queryparams in the division url', function () {
+    test('redirect to school page', async function (assert) {
+      // given
+      this.server.create('school');
+
+      // when
+      //Lorsqu'on souhaite tester un transitioTo, on doit utiliser un try/catch 🤯
+      //https://github.com/emberjs/ember-test-helpers/issues/332
+      try {
+        await visit('/schools/MINIPIXOU/division');
+      } catch (e) {
+        console.error(e);
+      }
+
+      // then
+      assert.strictEqual(currentURL(), '/schools/MINIPIXOU');
+    });
+  });
 });
