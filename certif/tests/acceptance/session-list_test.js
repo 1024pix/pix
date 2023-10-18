@@ -87,18 +87,15 @@ module('Acceptance | Session List', function (hooks) {
       assert.strictEqual(currentURL(), '/sessions/creation');
     });
 
-    module('isMassiveSessionManagementEnabled feature toggle is true', function () {
-      test('it should redirect to the import session page when clicked on create/edit sessions button', async function (assert) {
-        // given
-        server.create('feature-toggle', { isMassiveSessionManagementEnabled: true });
-        const screen = await visit('/sessions/liste');
+    test('it should redirect to the import session page when clicked on create/edit sessions button', async function (assert) {
+      // given
+      const screen = await visit('/sessions/liste');
 
-        // when
-        await click(screen.getByRole('link', { name: 'Créer plusieurs sessions' }));
+      // when
+      await click(screen.getByRole('link', { name: 'Créer plusieurs sessions' }));
 
-        // then
-        assert.strictEqual(currentURL(), '/sessions/import');
-      });
+      // then
+      assert.strictEqual(currentURL(), '/sessions/import');
     });
 
     module('when some sessions exist', function () {

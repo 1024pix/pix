@@ -72,7 +72,6 @@ module('Acceptance | Session Import', function (hooks) {
           });
           await authenticateSession(certificationPointOfContact.id);
           server.create('session-summary', { certificationCenterId: certificationCenter.id });
-          server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
         });
 
         test('it should display an error', async function (assert) {
@@ -107,7 +106,6 @@ module('Acceptance | Session Import', function (hooks) {
           });
           await authenticateSession(certificationPointOfContact.id);
           server.create('session-summary', { certificationCenterId: certificationCenter.id });
-          server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
         });
 
         test('it should disable the import button before and after import', async function (assert) {
