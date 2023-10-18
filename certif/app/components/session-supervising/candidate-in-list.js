@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 
 const Modals = {
   Confirmation: 'Confirmation',
-  AskDismissLiveAlert: 'AskDismissLiveAlert',
+  HandleLiveAlert: 'HandleLiveAlert',
   DismissLiveAlertSuccess: 'DismissLiveAlertSuccess',
 };
 
@@ -142,7 +142,7 @@ export default class CandidateInList extends Component {
   @action
   askUserToHandleLiveAlert() {
     if (this._hasCertificationOngoingLiveAlert) {
-      this.displayedModal = Modals.AskDismissLiveAlert;
+      this.displayedModal = Modals.HandleLiveAlert;
     } else {
       this.notifications.error(
         this.intl.t('pages.session-supervising.candidate-in-list.handle-live-alert-modal.no-current-live-alert'),
@@ -227,8 +227,8 @@ export default class CandidateInList extends Component {
     return this.displayedModal === Modals.Confirmation;
   }
 
-  get isAskForLiveAlertRejectionDisplayed() {
-    return this.displayedModal === Modals.AskDismissLiveAlert;
+  get isHandleLiveAlertModalDisplayed() {
+    return this.displayedModal === Modals.HandleLiveAlert;
   }
 
   get isLiveAlertRejectedModalDisplayed() {
