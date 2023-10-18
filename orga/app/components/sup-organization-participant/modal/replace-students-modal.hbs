@@ -1,0 +1,46 @@
+<PixModal
+  @title={{t "pages.sup-organization-participants.replace-students-modal.title"}}
+  @showModal={{@display}}
+  @onCloseButtonClick={{@onClose}}
+>
+  <:content>
+    <div class="replace-students-modal">
+      <p class="replace-students-modal__content">
+        {{t "pages.sup-organization-participants.replace-students-modal.main-content"}}
+      </p>
+      <p class="replace-students-modal__content">
+        {{t "pages.sup-organization-participants.replace-students-modal.footer-content"}}
+      </p>
+      <p class="replace-students-modal__content">
+        <strong>{{t "pages.sup-organization-participants.replace-students-modal.last-warning"}}</strong>
+      </p>
+      <PixCheckbox {{on "click" this.giveDeletionPermission}} @labelSize="small" @checked={{this.allowDeletion}}>
+        <strong>{{t "pages.sup-organization-participants.replace-students-modal.confirmation-checkbox"}}</strong>
+      </PixCheckbox>
+    </div>
+  </:content>
+  <:footer>
+    <PixButton @triggerAction={{@onClose}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
+    </PixButton>
+    {{#if this.allowDeletion}}
+      <PixButtonUpload
+        @id="students-file-upload-replace"
+        @onChange={{@onReplaceStudents}}
+        @backgroundColor="red"
+        accept=".csv"
+      >
+        {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
+      </PixButtonUpload>
+    {{else}}
+      <PixButton
+        @id="students-file-upload-replace"
+        @triggerAction={{(@onReplaceStudents)}}
+        @isDisabled={{true}}
+        @backgroundColor="red"
+      >
+        {{t "pages.sup-organization-participants.replace-students-modal.confirm"}}
+      </PixButton>
+    {{/if}}
+  </:footer>
+</PixModal>
