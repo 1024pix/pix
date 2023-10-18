@@ -28,6 +28,7 @@ class RedisClient {
     this.del = this._wrapWithPrefix(this._client.del).bind(this._client);
     this.expire = this._wrapWithPrefix(this._client.expire).bind(this._client);
     this.lpush = this._wrapWithPrefix(this._client.lpush).bind(this._client);
+    this.rpush = this._wrapWithPrefix(this._client.rpush).bind(this._client);
     this.lrem = this._wrapWithPrefix(this._client.lrem).bind(this._client);
     this.lrange = this._wrapWithPrefix(this._client.lrange).bind(this._client);
     this.ping = this._client.ping.bind(this._client);
