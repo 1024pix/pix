@@ -19,7 +19,7 @@ export default class AuthenticatedTeamInviteController extends Controller {
     event.preventDefault();
 
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
-    const emails = this.emails?.replace(/ /g, '').split(',');
+    const emails = this.emails?.replace(/[\s\r\n]/g, '').split(',');
 
     try {
       await this.store.adapterFor('certification-center-invitation').sendInvitations({ certificationCenterId, emails });

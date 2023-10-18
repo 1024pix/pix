@@ -11,7 +11,7 @@ const createOrUpdateCertificationCenterInvitation = async function ({
   const certificationCenter = await certificationCenterRepository.get(certificationCenterId);
 
   const uniqueEmails = [...new Set(emails)];
-  const trimmedUniqueEmails = uniqueEmails.map((email) => email.replace(/ /g, ''));
+  const trimmedUniqueEmails = uniqueEmails.map((email) => email.replace(/[\s\r\n]/g, ''));
 
   return bluebird.mapSeries(trimmedUniqueEmails, (email) =>
     certificationCenterInvitationService.createOrUpdateCertificationCenterInvitation({
