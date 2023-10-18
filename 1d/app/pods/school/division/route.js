@@ -1,13 +1,19 @@
 import Route from '@ember/routing/route';
-
+import { service } from '@ember/service';
 export default class DivisionRoute extends Route {
+  @service router;
   async model(_, transition) {
-    const division = transition.to.queryParams.division;
     const school = await this.modelFor('school');
-    const divisionLearners = school.organizationLearners.filter((learner) => learner.division === division);
-    return {
-      division,
-      organizationLearners: divisionLearners,
-    };
+    if (transition.to.queryParams.division) {
+      const division = transition.to.queryParams.division;
+      const divisionLearners = school.organizationLearners.filter((learner) => learner.division === division);
+      return {
+        division,
+        organizationLearners: divisionLearners,
+      };
+    } else {
+      console.log('tese', school);
+      return this.router.replaceWith('school', school);
+    }
   }
 }
