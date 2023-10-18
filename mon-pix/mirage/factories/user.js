@@ -201,7 +201,6 @@ function _addDefaultScorecards(user, server) {
         remainingDaysBeforeImproving: 0,
       }),
     );
-
     scorecards.push(
       server.create('scorecard', {
         id: `${user.id}_competence_4_3_id`,

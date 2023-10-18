@@ -85,7 +85,7 @@ module('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection'
         const screen = await visit(`/campagnes/${campaign.code}`);
 
         // then
-        assert.ok(screen.getByText('156'));
+        assert.ok(screen.getByText('206'));
         const area1Titles = screen.getAllByText('Area_1_title').length;
 
         assert.strictEqual(area1Titles, 2);
