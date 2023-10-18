@@ -1,6 +1,5 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import {
-  getByCampaignId,
   getByCampaignIdAndUserId,
   getByCampaignParticipation,
   getByCampaignParticipations,
@@ -109,8 +108,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
 
       // then
       expect(result.length).to.deep.equal(2);
-      expect(result[0].campaignParticipationId).to.equal(firstStage.campaignParticipationId);
-      expect(result[1].campaignParticipationId).to.equal(secondStage.campaignParticipationId);
     });
   });
 
@@ -153,62 +150,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
     it('should return the expected stages', async function () {
       // when
       const result = await getByCampaignIdAndUserId(campaign.id, user.id);
-
-      // then
-      expect(result[0].stageId).to.deep.equal(stage.id);
-    });
-  });
-
-  describe('getByCampaignId', function () {
-    let stage;
-    let campaign;
-    let campaignParticipation, campaignParticipation2, campaignParticipation3;
-    let targetProfile;
-
-    beforeEach(async function () {
-      // given
-      targetProfile = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id });
-      campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-      stage = databaseBuilder.factory.buildStage({ campaignId: campaign.id });
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
-      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
-      campaignParticipation3 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
-      databaseBuilder.factory.buildStageAcquisition({
-        campaignParticipationId: campaignParticipation.id,
-        stageId: stage.id,
-      });
-      databaseBuilder.factory.buildStageAcquisition({
-        campaignParticipationId: campaignParticipation2.id,
-        stageId: stage.id,
-      });
-      databaseBuilder.factory.buildStageAcquisition({
-        campaignParticipationId: campaignParticipation3.id,
-        stageId: stage.id,
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('stage-acquisitions').delete();
-    });
-
-    it('should return StageAcquisition instances', async function () {
-      // when
-      const stageAcquisitions = await getByCampaignId(campaign.id);
-
-      // then
-      expect(stageAcquisitions[0]).to.be.instanceof(StageAcquisition);
-      expect(stageAcquisitions.length).to.equal(3);
-      expect(stageAcquisitions[0].campaignParticipationId).to.equal(campaignParticipation.id);
-      expect(stageAcquisitions[1].campaignParticipationId).to.equal(campaignParticipation2.id);
-      expect(stageAcquisitions[2].campaignParticipationId).to.equal(campaignParticipation3.id);
-    });
-
-    it('should return the expected stages', async function () {
-      // when
-      const result = await getByCampaignId(campaign.id);
 
       // then
       expect(result[0].stageId).to.deep.equal(stage.id);
