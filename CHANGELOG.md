@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.47.0 (18/10/2023)
+
+
+### :rocket: Amélioration
+- [#7258](https://github.com/1024pix/pix/pull/7258) [FEATURE] Suppression du feature toggle MASSIVE_SESSION_MANAGEMENT (PIX-9630).
+- [#7016](https://github.com/1024pix/pix/pull/7016) [FEATURE] Mettre à jour la route de récupération de stages dans orga (PIX-8914) .
+
+### :building_construction: Tech
+- [#7208](https://github.com/1024pix/pix/pull/7208) [TECH] Remplacer la lib `eslint-plugin-local-rules` par `@1024pix/eslint-plugin`.
+
+### :bug: Correction
+- [#7268](https://github.com/1024pix/pix/pull/7268) [BUGFIX] Restaurer la dépendance buffer nécessaire pour js-yaml.
+
 ## v4.46.0 (17/10/2023)
 
 
