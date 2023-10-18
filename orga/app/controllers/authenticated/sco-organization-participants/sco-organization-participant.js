@@ -3,6 +3,11 @@ import Controller from '@ember/controller';
 
 export default class ScoOrganizationParticipant extends Controller {
   @service intl;
+  @service currentUser;
+
+  get hasComputeOrganizationLearnerCertificabilityEnabled() {
+    return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
+  }
 
   get breadcrumbLinks() {
     return [
