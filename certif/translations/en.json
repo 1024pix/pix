@@ -894,6 +894,13 @@
       "invite-button": "Invite",
       "invited-members": "By clicking on the link provided in the invitation, the invited members will be able to create an account or log in with an existing Pix account.",
       "notifications": {
+        "error": {
+          "invitations": {
+            "invalid-email-domain": "The domain of one or more e-mail addresses is incorrect.",
+            "invalid-email-format": "The format of one or more e-mail addresses is incorrect.",
+            "mailer-provider-unavailable": "The e-mail service is currently unavailable. Please try again later."
+          }
+        },
         "success": {
           "invitations": "An invitation has been sent to the {emailsCount, plural, one {e-mail address {email}.} other {e-mail addresses listed.}}"
         }
