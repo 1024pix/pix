@@ -123,5 +123,43 @@ module('Integration | Component | Ui::LearnerHeaderInfo', function (hooks) {
       );
       assert.strictEqual(screen.queryByText('01/01/2023'), null);
     });
+
+    test('it do not display certifiableAt when hideCertifiableAt is true', async function (assert) {
+      const isCertifiable = true;
+      const certifiableAt = '01/01/2023';
+      const hideCertifiableAt = true;
+
+      this.set('isCertifiable', isCertifiable);
+      this.set('certifiableAt', certifiableAt);
+      this.set('hideCertifiableAt', hideCertifiableAt);
+
+      const screen = await render(
+        hbs`<Ui::LearnerHeaderInfo
+  @isCertifiable={{this.isCertifiable}}
+  @certifiableAt={{this.certifiableAt}}
+  @hideCertifiableAt={{this.hideCertifiableAt}}
+/>`,
+      );
+      assert.strictEqual(screen.queryByText(certifiableAt), null);
+    });
+
+    test('it display certifiableAt when hideCertifiableAt is false', async function (assert) {
+      const isCertifiable = true;
+      const certifiableAt = '01/01/2023';
+      const hideCertifiableAt = false;
+
+      this.set('isCertifiable', isCertifiable);
+      this.set('certifiableAt', certifiableAt);
+      this.set('hideCertifiableAt', hideCertifiableAt);
+
+      const screen = await render(
+        hbs`<Ui::LearnerHeaderInfo
+  @isCertifiable={{this.isCertifiable}}
+  @certifiableAt={{this.certifiableAt}}
+  @hideCertifiableAt={{this.hideCertifiableAt}}
+/>`,
+      );
+      assert.strictEqual(screen.getByRole('definition').textContent.trim(), certifiableAt);
+    });
   });
 });
