@@ -2,13 +2,18 @@
   <PixModal
     class="handle-live-alert-modal"
     @title={{@title}}
-    @onCloseButtonClick={{@closeConfirmationModal}}
+    @onCloseButtonClick={{this.onClose}}
     @showModal={{@showModal}}
   >
     <:content>
       <fieldset>
         {{#each this.reportOptions as |option|}}
-          <PixRadioButton name="reportCategory" @value={{option.subCategory}}>
+          <PixRadioButton
+            name="reportCategory"
+            @value={{option.subCategory}}
+            {{on "change" this.setIssueReportReason}}
+            checked={{if (eq option.subCategory this.issueReportReason) true}}
+          >
             <b>{{option.code}}</b>
             {{t option.label}}
           </PixRadioButton>
@@ -23,10 +28,10 @@
           </p>
         </div>
         <div class="handle-live-alert-modal__actions-list">
-          <PixButton @backgroundColor="red" @triggerAction={{@rejectLiveAlert}}>
+          <PixButton @backgroundColor="red" @triggerAction={{this.onReject}}>
             {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button"}}
           </PixButton>
-          <PixButton @backgroundColor="green" @type="submit">
+          <PixButton @backgroundColor="green" @type="submit" @isDisabled={{this.isValidateButtonDisabled}}>
             {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.validate-alert-button"}}
           </PixButton>
         </div>
