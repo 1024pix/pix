@@ -24,6 +24,11 @@ class LayeredCache extends Cache {
     return cachedObject;
   }
 
+  async patch(key, patch) {
+    await this._firstLevelCache.patch(key, patch);
+    return this._secondLevelCache.patch(key, patch);
+  }
+
   async flushAll() {
     await this._firstLevelCache.flushAll();
     return this._secondLevelCache.flushAll();
