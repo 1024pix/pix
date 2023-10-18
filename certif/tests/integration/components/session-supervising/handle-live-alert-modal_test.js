@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
-module('Integration | Component | ask-for-live-alert-rejection-modal', function (hooks) {
+module('Integration | Component | handle-live-alert-modal', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it shows candidate details with action buttons', async function (assert) {
@@ -23,7 +23,7 @@ module('Integration | Component | ask-for-live-alert-rejection-modal', function 
 
     // when
     const screen = await renderScreen(hbs`
-        <SessionSupervising::AskForLiveAlertRejectionModal
+        <SessionSupervising::HandleLiveAlertModal
           @showModal={{this.isModalDisplayed}}
           @closeConfirmationModal={{this.closeModal}}
           @title={{this.candidateFullName}}
