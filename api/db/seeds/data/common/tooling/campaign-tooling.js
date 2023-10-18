@@ -443,6 +443,11 @@ let emailIndex = 0;
 async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId, requiredParticipantCount) {
   const userAndLearnerIds = [];
 
+  const result = await databaseBuilder
+    .knex('organizations')
+    .select('type', 'isManagingStudents')
+    .where({ id: organizationId })
+    .first();
   const existingReconciliatedOrganizationLearnerIds = await databaseBuilder
     .knex('view-active-organization-learners')
     .select({
@@ -454,8 +459,22 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
     .limit(requiredParticipantCount);
   userAndLearnerIds.push(...existingReconciliatedOrganizationLearnerIds);
   const learnersCountToCreate = requiredParticipantCount - userAndLearnerIds.length;
-  const divisions = ['1ere A', '2nde B', 'Terminale C'];
+  const groups = ['1ere A', '2nde B', 'Terminale C'];
+  const divisions = ['3eme A', '4eme A', '5eme A', '6eme A', '3eme B', '4eme B', '5eme B', '6eme B'];
   for (let i = 0; i < learnersCountToCreate; ++i) {
+    let division = null,
+      group = null,
+      studentNumber = null,
+      nationalStudentId = null;
+
+    if (result.type === 'SCO' && result.isManagingStudents) {
+      division = divisions[emailIndex + (i % divisions.length)];
+      nationalStudentId = emailIndex + '_SCO';
+    } else if (result.type === 'SUP' && result.isManagingStudents) {
+      group = groups[emailIndex + (i % groups.length)];
+      studentNumber = emailIndex + '_SUP';
+    }
+
     const userId = databaseBuilder.factory.buildUser.withRawPassword({
       firstName: `first-name${emailIndex}`,
       lastName: `last-name${emailIndex}`,
@@ -475,7 +494,10 @@ async function _createOrRetrieveUsersAndLearners(databaseBuilder, organizationId
       birthCityCode: '75115',
       birthCountryCode: '100',
       birthProvinceCode: null,
-      division: divisions[emailIndex + (i % divisions.length)],
+      division,
+      group,
+      studentNumber,
+      nationalStudentId,
       isDisabled: false,
       createdAt: new Date(),
       updatedAt: new Date(),

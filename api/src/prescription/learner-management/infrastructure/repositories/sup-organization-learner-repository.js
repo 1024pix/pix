@@ -48,9 +48,10 @@ const addStudents = async function (supOrganizationLearners) {
   await _upsertStudents(knex, supOrganizationLearners);
 };
 
-const replaceStudents = async function (organizationId, supOrganizationLearners) {
+const replaceStudents = async function (organizationId, supOrganizationLearners, userId) {
+  const studentNumberList = supOrganizationLearners.map((learner) => learner.studentNumber);
   await knex.transaction(async (transaction) => {
-    await _disableAllOrganizationLearners(transaction, organizationId);
+    await _deleteOrganizationLearnersNotInList(transaction, organizationId, studentNumberList, userId);
     await _upsertStudents(transaction, supOrganizationLearners);
   });
 };
@@ -63,10 +64,20 @@ export {
   replaceStudents,
 };
 
-async function _disableAllOrganizationLearners(queryBuilder, organizationId) {
-  await queryBuilder('organization-learners')
-    .update({ isDisabled: true, updatedAt: knex.raw('CURRENT_TIMESTAMP') })
-    .where({ organizationId, isDisabled: false });
+async function _deleteOrganizationLearnersNotInList(queryBuilder, organizationId, studentNumberList, userId) {
+  const deletedOrganizationLearners = await queryBuilder('organization-learners')
+    .update({ deletedBy: userId, deletedAt: knex.raw('CURRENT_TIMESTAMP') })
+    .where({ organizationId })
+    .whereNull('deletedAt')
+    .whereNotIn('studentNumber', studentNumberList)
+    .returning('*');
+
+  const deletedOrganizationLearnerIds = deletedOrganizationLearners.map((deletedLearner) => deletedLearner.id);
+
+  await queryBuilder('campaign-participations')
+    .update({ deletedBy: userId, deletedAt: knex.raw('CURRENT_TIMESTAMP') })
+    .whereIn('organizationLearnerId', deletedOrganizationLearnerIds)
+    .whereNull('deletedAt');
 }
 
 async function _upsertStudents(queryBuilder, supOrganizationLearners) {
