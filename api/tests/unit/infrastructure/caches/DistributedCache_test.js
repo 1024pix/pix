@@ -10,6 +10,7 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
     underlyingCache = {
       get: sinon.stub(),
       set: sinon.stub(),
+      patch: sinon.stub(),
       flushAll: sinon.stub(),
     };
     const redisUrl = 'redis://url.example.net';
@@ -33,7 +34,7 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
   });
 
   describe('#set', function () {
-    it('should resovle the underlying cache result for set() method', async function () {
+    it('should resolve the underlying cache result for set() method', async function () {
       // given
       const cacheKey = 'cache-key';
       const objectToCache = { foo: 'bar' };
@@ -44,6 +45,38 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
 
       // then
       expect(result).to.deep.equal(objectToCache);
+    });
+  });
+
+  describe('#patch', function () {
+    it('should publish the patch on the redis channel', async function () {
+      // given
+      distributedCacheInstance._redisClientPublisher = {
+        publish: sinon.stub(),
+      };
+      const cacheKey = 'cache-key';
+      const patch = {
+        operation: 'assign',
+        path: 'challenges[0]',
+        value: { id: 'recChallenge1', instruction: 'Nouvelle consigne' },
+      };
+
+      const message = {
+        patch,
+        cacheKey,
+        type: 'patch',
+      };
+      const messageAsString = JSON.stringify(message);
+      distributedCacheInstance._redisClientPublisher.publish.withArgs(channel, messageAsString).resolves(true);
+
+      // when
+      await distributedCacheInstance.patch(cacheKey, patch);
+
+      // then
+      expect(distributedCacheInstance._redisClientPublisher.publish).to.have.been.calledOnceWith(
+        channel,
+        messageAsString,
+      );
     });
   });
 
@@ -60,6 +93,40 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
 
       // then
       expect(result).to.be.true;
+    });
+  });
+
+  describe('receive message', function () {
+    it('should flushAll when flush message is received', async function () {
+      // when
+      await distributedCacheInstance.clientSubscriberCallback('Flush all');
+
+      // then
+      expect(distributedCacheInstance._underlyingCache.flushAll).to.have.been.calledOnce;
+    });
+
+    it('should patch when patch message is received', async function () {
+      // given
+      const cacheKey = 'cache-key';
+      const patch = {
+        operation: 'assign',
+        path: 'challenges[0]',
+        value: { id: 'recChallenge1', instruction: 'Nouvelle consigne' },
+      };
+
+      const message = {
+        patch,
+        cacheKey,
+        type: 'patch',
+      };
+      const messageAsString = JSON.stringify(message);
+
+      // when
+      await distributedCacheInstance.clientSubscriberCallback(messageAsString);
+
+      // then
+      expect(distributedCacheInstance._underlyingCache.flushAll).not.to.have.been.called;
+      expect(distributedCacheInstance._underlyingCache.patch).to.have.been.called;
     });
   });
 });
