@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v4.49.0 (18/10/2023)
+
+
+### :rocket: Amélioration
+- [#7279](https://github.com/1024pix/pix/pull/7279) [FEATURE] Mettre à jour la route de récupération de stages dans orga (Revert)(PIX-8914) ".
+- [#7277](https://github.com/1024pix/pix/pull/7277) [FEATURE] Ne pas afficher la date de certificabilitée des prescrits d'une organization avec la feature de remontée auto (PIX-9494).
+
 ## v4.48.0 (18/10/2023)
 
 
