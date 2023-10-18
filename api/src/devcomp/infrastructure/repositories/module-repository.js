@@ -15,6 +15,7 @@ async function getBySlug({ slug, moduleDatasource }) {
 function _toDomain(moduleData) {
   return new Module({
     id: moduleData.id,
+    slug: moduleData.slug,
     title: moduleData.title,
     list: moduleData.list.map(
       (lesson) =>

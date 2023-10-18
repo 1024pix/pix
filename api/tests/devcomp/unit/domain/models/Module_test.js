@@ -6,14 +6,16 @@ describe('Unit | Devcomp | Models | Module', function () {
     it('should create a module and keep attributes', function () {
       // given
       const id = 1;
+      const slug = 'les-adresses-email';
       const title = 'Les adresses email';
       const list = [Symbol('lesson')];
 
       // when
-      const module = new Module({ id, title, list });
+      const module = new Module({ id, slug, title, list });
 
       // then
       expect(module.id).to.equal(id);
+      expect(module.slug).to.equal(slug);
       expect(module.title).to.equal(title);
       expect(module.list).to.have.length(list.length);
     });
@@ -30,20 +32,27 @@ describe('Unit | Devcomp | Models | Module', function () {
       });
     });
 
+    describe('if a module does not have a slug', function () {
+      it('should throw an error', function () {
+        expect(() => new Module({ id: 1, title: '' })).to.throw('Le slug est obligatoire pour un module');
+      });
+    });
+
     describe('if a module does not have an element', function () {
       describe('given no list param', function () {
         it('should throw an error', function () {
-          expect(() => new Module({ id: 'id_module_1', title: 'Les adresses mail' })).to.throw(
-            'Une liste est obligatoire pour un module',
-          );
+          expect(
+            () => new Module({ id: 'id_module_1', slug: 'les-adresses-mail', title: 'Les adresses mail' }),
+          ).to.throw('Une liste est obligatoire pour un module');
         });
       });
 
       describe('given a wrong typed list param', function () {
         it('should throw an error', function () {
-          expect(() => new Module({ id: 'id_module_1', title: 'Les adresses mail', list: 'liste' })).to.throw(
-            'Un Module doit forcément posséder une liste',
-          );
+          expect(
+            () =>
+              new Module({ id: 'id_module_1', slug: 'les-adresses-mail', title: 'Les adresses mail', list: 'liste' }),
+          ).to.throw('Un Module doit forcément posséder une liste');
         });
       });
     });

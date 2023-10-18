@@ -2,22 +2,29 @@ import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.
 
 class Module {
   #id;
+  #slug;
   #title;
   #list;
 
-  constructor({ id, title, list }) {
+  constructor({ id, slug, title, list }) {
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un module");
     assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un module');
+    assertNotNullOrUndefined(slug, 'Le slug est obligatoire pour un module');
     assertNotNullOrUndefined(list, 'Une liste est obligatoire pour un module');
     this.#assertListIsAnArray(list);
 
     this.#id = id;
+    this.#slug = slug;
     this.#title = title;
     this.#list = list;
   }
 
   get id() {
     return this.#id;
+  }
+
+  get slug() {
+    return this.#slug;
   }
 
   get title() {
