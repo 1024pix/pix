@@ -2453,7 +2453,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           domainTransaction,
         });
@@ -2477,7 +2477,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           domainTransaction,
         });
@@ -2495,7 +2495,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           domainTransaction,
         });
@@ -2513,7 +2513,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           domainTransaction,
         });
@@ -2530,7 +2530,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           domainTransaction,
         });
@@ -2549,7 +2549,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           domainTransaction,
         });
@@ -2580,7 +2580,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         await databaseBuilder.commit();
 
         // when
-        const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        const result = await DomainTransaction.execute(async (domainTransaction) => {
           return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
             skipLoggedLastDayCheck: true,
             domainTransaction,
@@ -2602,7 +2602,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         await databaseBuilder.commit();
 
         // when
-        const result = await await DomainTransaction.execute(async (domainTransaction) => {
+        const result = await DomainTransaction.execute(async (domainTransaction) => {
           return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
             skipLoggedLastDayCheck: true,
             domainTransaction,
@@ -2719,7 +2719,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const result = await await DomainTransaction.execute(async (domainTransaction) => {
+      const result = await DomainTransaction.execute(async (domainTransaction) => {
         return organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
           limit: 1,
           domainTransaction,
