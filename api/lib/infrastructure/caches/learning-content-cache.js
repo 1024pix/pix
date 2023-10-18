@@ -1,4 +1,3 @@
-import { Cache } from './Cache.js';
 import { DistributedCache } from './DistributedCache.js';
 import { InMemoryCache } from './InMemoryCache.js';
 import { LayeredCache } from './LayeredCache.js';
@@ -8,18 +7,17 @@ import { config } from '../../config.js';
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
 
-class LearningContentCache extends Cache {
+class LearningContentCache {
   constructor() {
-    super();
     if (config.caching.redisUrl) {
-      this.distributedCache = new DistributedCache(
+      const distributedCache = new DistributedCache(
         new InMemoryCache(),
         config.caching.redisUrl,
         LEARNING_CONTENT_CHANNEL,
       );
-      this.redisCache = new RedisCache(config.caching.redisUrl);
+      const redisCache = new RedisCache(config.caching.redisUrl);
 
-      this._underlyingCache = new LayeredCache(this.distributedCache, this.redisCache);
+      this._underlyingCache = new LayeredCache(distributedCache, redisCache);
     } else {
       this._underlyingCache = new InMemoryCache();
     }
@@ -42,6 +40,4 @@ class LearningContentCache extends Cache {
   }
 }
 
-const learningContentCache = new LearningContentCache();
-
-export { learningContentCache };
+export const learningContentCache = new LearningContentCache();
