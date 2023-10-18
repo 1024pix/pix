@@ -26,6 +26,16 @@ describe('Unit | Infrastructure | Caches | Cache', function () {
     });
   });
 
+  describe('#patch', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
+      // when
+      const result = cacheInstance.patch('some-key', {});
+
+      // then
+      expect(result).to.be.rejected;
+    });
+  });
+
   describe('#flushAll', function () {
     it('should reject an error (because this class actually mocks an interface)', function () {
       // when
