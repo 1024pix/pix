@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.48.0 (18/10/2023)
+
+
+### :building_construction: Tech
+- [#7063](https://github.com/1024pix/pix/pull/7063) [TECH] Appeler la route /identity-providers sur Pix Admin uniquement quand nécessaire (PIX-9152).
+- [#7266](https://github.com/1024pix/pix/pull/7266) [TECH] Refacto de l'algo de sélection des épreuves (PIX-9667).
+
+### :bug: Correction
+- [#7276](https://github.com/1024pix/pix/pull/7276) [BUGFIX] Ordonner les id des apprenants sur la pagination du calcul de la certificabilité (PIX-9698).
+
+### :coffee: Autre
+- [#7271](https://github.com/1024pix/pix/pull/7271) [EPIX] Premettre la suppression des étudiants lors de l'import (Pix-9201).
+
 ## v4.47.0 (18/10/2023)
 
 
