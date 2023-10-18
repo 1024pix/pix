@@ -115,7 +115,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const expectedChallenges = [unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allAnswers,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
@@ -188,7 +187,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const expectedChallenges = [unansweredChallengeTube1, unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allAnswers,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
@@ -252,7 +250,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: challenges,
-              allAnswers,
               estimatedLevel: 0,
               options: {
                 ...baseGetNextChallengeOptions,
@@ -338,7 +335,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
               availableChallenges: expectedChallenges,
-              allAnswers,
               estimatedLevel: 0,
               options: {
                 ...baseGetNextChallengeOptions,

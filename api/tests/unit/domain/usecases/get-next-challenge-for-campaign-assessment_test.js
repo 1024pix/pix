@@ -152,7 +152,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               availableChallenges: [secondChallenge],
-              allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
             })
@@ -213,7 +212,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               availableChallenges: [],
-              allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
             })
@@ -287,7 +285,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               challenges,
-              allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
             })
