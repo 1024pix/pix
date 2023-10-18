@@ -395,6 +395,7 @@ function findByOrganizationsWhichNeedToComputeCertificability({
   const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
 
   return queryBuilder
+    .orderBy('view-active-organization-learners.id', 'ASC')
     .modify(function (qB) {
       if (limit) {
         qB.limit(limit);
