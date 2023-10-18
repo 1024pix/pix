@@ -33,6 +33,10 @@ export default class ScoList extends Component {
     });
   }
 
+  get hasComputeOrganizationLearnerCertificabilityEnabled() {
+    return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
+  }
+
   get divisions() {
     return this.currentUser.organization.divisions.map(({ name }) => ({
       label: name,
