@@ -9,6 +9,7 @@ import { logger } from '../logger.js';
 import { config } from '../../config.js';
 
 const REDIS_LOCK_PREFIX = 'locks:';
+const PATCHES_KEY = 'patches';
 
 class RedisCache extends Cache {
   constructor(redis_url) {
@@ -60,6 +61,12 @@ class RedisCache extends Cache {
     await this._client.set(key, objectAsString);
 
     return object;
+  }
+
+  async patch(key, patch) {
+    const patchesKey = `${key}:${PATCHES_KEY}`;
+
+    return this._client.rpush(patchesKey, JSON.stringify(patch));
   }
 
   flushAll() {
