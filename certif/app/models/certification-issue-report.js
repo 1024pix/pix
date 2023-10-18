@@ -24,6 +24,19 @@ export const certificationIssueReportSubcategories = {
   ACCESSIBILITY_ISSUE: 'ACCESSIBILITY_ISSUE',
 };
 
+export const inChallengeIssueReportSubCategories = [
+  certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+  certificationIssueReportSubcategories.EMBED_NOT_WORKING,
+  certificationIssueReportSubcategories.FILE_NOT_OPENING,
+  certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+  certificationIssueReportSubcategories.WEBSITE_BLOCKED,
+  certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+  certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+  certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+  certificationIssueReportSubcategories.SKIP_ON_OOPS,
+  certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
+];
+
 export const categoryToLabel = {
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]:
     'pages.session-finalization.add-issue-modal.category-labels.candidate-informations-changes',

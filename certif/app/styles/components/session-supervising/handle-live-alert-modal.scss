@@ -1,5 +1,14 @@
 .handle-live-alert-modal {
-  &__description {
-    margin-top: 12px;
+  width: 800px;
+
+  &__footer {
+    width: 100%;
+  }
+
+  &__actions-list {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 16px;
+    margin-top: 16px;
   }
 }

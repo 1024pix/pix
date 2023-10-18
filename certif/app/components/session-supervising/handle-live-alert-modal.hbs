@@ -1,19 +1,36 @@
-<PixModal
-  @class="pix-modal-dialog handle-live-alert-modal"
-  @title={{@title}}
-  @onCloseButtonClick={{@closeConfirmationModal}}
-  @showModal={{@showModal}}
->
-  <:content>
-    <div class="app-modal-body__warning handle-live-alert-modal__description">
-      <p>
-        {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.description"}}
-      </p>
-    </div>
-  </:content>
-  <:footer>
-    <PixButton @backgroundColor="red" @triggerAction={{@rejectLiveAlert}}>
-      {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button"}}
-    </PixButton>
-  </:footer>
-</PixModal>
+<form {{on "submit" this.onSubmit}}>
+  <PixModal
+    class="handle-live-alert-modal"
+    @title={{@title}}
+    @onCloseButtonClick={{@closeConfirmationModal}}
+    @showModal={{@showModal}}
+  >
+    <:content>
+      <fieldset>
+        {{#each this.reportOptions as |option|}}
+          <PixRadioButton name="reportCategory" @value={{option.subCategory}}>
+            <b>{{option.code}}</b>
+            {{t option.label}}
+          </PixRadioButton>
+        {{/each}}
+      </fieldset>
+    </:content>
+    <:footer>
+      <div class="handle-live-alert-modal__footer">
+        <div class="app-modal-body__warning">
+          <p>
+            {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.description"}}
+          </p>
+        </div>
+        <div class="handle-live-alert-modal__actions-list">
+          <PixButton @backgroundColor="red" @triggerAction={{@rejectLiveAlert}}>
+            {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button"}}
+          </PixButton>
+          <PixButton @backgroundColor="green" @type="submit">
+            {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.validate-alert-button"}}
+          </PixButton>
+        </div>
+      </div>
+    </:footer>
+  </PixModal>
+</form>
