@@ -205,4 +205,26 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
     });
   });
+
+  describe('#patch', function () {
+    beforeEach(function () {
+      stubbedClient.rpush = sinon.stub();
+    });
+
+    it('should push patch in a separate patches key', async function () {
+      // given
+      const patch = {
+        operation: 'assign',
+        path: 'challenges[0]',
+        value: { id: 'recChallenge1', instruction: 'Consigne' },
+      };
+      const expectedPatchAsString = JSON.stringify(patch);
+
+      // when
+      await redisCache.patch(CACHE_KEY, patch);
+
+      // then
+      expect(stubbedClient.rpush).to.have.been.calledOnceWith(CACHE_KEY + ':patches', expectedPatchAsString);
+    });
+  });
 });
