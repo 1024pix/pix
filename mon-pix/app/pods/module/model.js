@@ -1,5 +1,7 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class Module extends Model {
   @attr('string') title;
+
+  @hasMany('element') elements;
 }

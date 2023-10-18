@@ -4,4 +4,10 @@
   <div class="module__title">
     <h1>{{@module.title}}</h1>
   </div>
+
+  {{#each @module.elements as |element|}}
+    <p>Test</p>
+    <p>{{element.id}}</p>
+    {{element.content}}
+  {{/each}}
 </main>
