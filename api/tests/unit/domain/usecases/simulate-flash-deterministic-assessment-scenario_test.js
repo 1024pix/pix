@@ -106,21 +106,18 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
-            allAnswers: [],
             availableChallenges: allChallenges,
             estimatedLevel: 0,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([firstChallenge, thirdChallenge, secondChallenge])
           .withArgs({
-            allAnswers: [successAnswerMatcher],
             availableChallenges: [secondChallenge, thirdChallenge],
             estimatedLevel: 1,
             options: getNextChallengesOptionsMatcher,
           })
           .returns([thirdChallenge, secondChallenge])
           .withArgs({
-            allAnswers: [successAnswerMatcher, successAnswerMatcher],
             availableChallenges: [thirdChallenge],
             estimatedLevel: 2,
             options: getNextChallengesOptionsMatcher,
@@ -216,18 +213,14 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         .withArgs(
           sinon.match({
             availableChallenges: [challenge],
-            allAnswers: [],
           }),
         )
         .returns([challenge])
-        .withArgs({
-          availableChallenges: [challenge],
-          allAnswers: [
-            sinon.match({
-              result: AnswerStatus.OK,
-            }),
-          ],
-        })
+        .withArgs(
+          sinon.match({
+            availableChallenges: [],
+          }),
+        )
         .returns([]);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
@@ -365,21 +358,18 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
 
   flashAlgorithmService.getPossibleNextChallenges
     .withArgs({
-      allAnswers: [],
       availableChallenges: allChallenges,
       estimatedLevel: 0,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
-      allAnswers: [successAnswerMatcher],
       availableChallenges: [secondChallenge, thirdChallenge],
       estimatedLevel: 1,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([thirdChallenge, secondChallenge])
     .withArgs({
-      allAnswers: [successAnswerMatcher, successAnswerMatcher],
       availableChallenges: [thirdChallenge],
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,

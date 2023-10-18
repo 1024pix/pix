@@ -130,7 +130,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [],
               availableChallenges: [nextChallengeToAnswer],
               estimatedLevel: 0,
               options: sinon.match.any,
@@ -288,7 +287,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [answer],
               availableChallenges: [],
               estimatedLevel: 2,
               options: sinon.match.any,
