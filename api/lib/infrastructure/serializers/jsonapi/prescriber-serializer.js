@@ -31,6 +31,7 @@ const serialize = function (prescriber) {
       'memberships',
       'userOrgaSettings',
       'enableMultipleSendingAssessment',
+      'computeOrganizationLearnerCertificability',
     ],
     memberships: {
       ref: 'id',

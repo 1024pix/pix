@@ -10,6 +10,7 @@ class Prescriber {
     memberships = [],
     userOrgaSettings,
     enableMultipleSendingAssessment,
+    computeOrganizationLearnerCertificability,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -21,6 +22,7 @@ class Prescriber {
     this.memberships = memberships;
     this.userOrgaSettings = userOrgaSettings;
     this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
+    this.computeOrganizationLearnerCertificability = computeOrganizationLearnerCertificability;
   }
 }
 

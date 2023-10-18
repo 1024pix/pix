@@ -19,6 +19,7 @@
         @authenticationMethods={{@model.organizationLearner.authenticationMethodsList}}
         @isCertifiable={{@model.organizationLearner.isCertifiable}}
         @certifiableAt={{@model.organizationLearner.certifiableAt}}
+        @hideCertifiableAt={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}
       />
     </:info>
   </Learner::Header>
