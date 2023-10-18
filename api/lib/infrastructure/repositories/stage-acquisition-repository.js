@@ -29,6 +29,7 @@ const toDomain = (stageAcquisitionData) =>
 
 /**
  * @param {Knex} knexConnection
+ * @param {string[]} selectedFields
  *
  * @returns {*}
  */
@@ -90,25 +91,6 @@ const getByCampaignIdAndUserId = async (campaignId, userId, knexConnection = kne
   );
 
 /**
- * @param {number} campaignId
- * @param {Knex} knexConnection
- *
- * @returns {Promise<StageAcquisition[]>}
- */
-const getByCampaignId = async (campaignId, knexConnection = knex) =>
-  toDomain(
-    await buildSelectAllQuery(knexConnection)
-      .join(
-        'campaign-participations',
-        'campaign-participations.id',
-        `${STAGE_ACQUISITIONS_TABLE_NAME}.${CAMPAIGN_PARTICIPATION_ID_COLUMN}`,
-      )
-      .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-      .where('campaigns.id', campaignId)
-      .orderBy(`${STAGE_ACQUISITIONS_TABLE_NAME}.id`),
-  );
-
-/**
  * @param {Stage[]} stages
  * @param {number} userId
  * @param {number} campaignParticipationId
@@ -126,10 +108,9 @@ const saveStages = async (stages, userId, campaignParticipationId, knexConnectio
 };
 
 export {
-  getByCampaignId,
-  getByCampaignIdAndUserId,
-  getByCampaignParticipation,
   getByCampaignParticipations,
-  getStageIdsByCampaignParticipation,
+  getByCampaignIdAndUserId,
   saveStages,
+  getByCampaignParticipation,
+  getStageIdsByCampaignParticipation,
 };
