@@ -13,7 +13,7 @@ const register = async function (server) {
         auth: false,
         handler: oidcController.getAllIdentityProvidersForAdmin,
         notes: [
-          'Cette route renvoie un objet contenant les informations requises par le front pour les partenaires oidc',
+          "Cette route renvoie un objet contenant tous les fournisseurs d'identité OIDC (même désactivés) pour leur gestion dans Pix Admin",
         ],
         tags: ['api', 'oidc'],
       },
