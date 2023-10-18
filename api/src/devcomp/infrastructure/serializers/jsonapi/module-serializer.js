@@ -6,13 +6,13 @@ function serialize(module) {
   return new Serializer('module', {
     transform(module) {
       return {
-        id: module.id,
+        id: module.slug,
         title: module.title,
-        element: module.list.map((element) => ({ id: element.id, content: element.content })),
+        elements: module.list.map((element) => ({ id: element.id, content: element.content })),
       };
     },
-    attributes: ['title', 'element'],
-    element: {
+    attributes: ['title', 'elements'],
+    elements: {
       ref: 'id',
       includes: true,
       attributes: ['content'],
