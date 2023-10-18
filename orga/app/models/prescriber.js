@@ -8,6 +8,7 @@ export default class Prescriber extends Model {
   @attr('number') participantCount;
   @attr('string') lang;
   @attr('boolean') enableMultipleSendingAssessment;
+  @attr('boolean') computeOrganizationLearnerCertificability;
   @hasMany('membership') memberships;
   @belongsTo('user-orga-setting') userOrgaSettings;
 
