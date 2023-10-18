@@ -10,9 +10,7 @@ module('Unit | Service | feature toggles', function (hooks) {
   module('feature toggles are loaded', function () {
     test('should load the feature toggles', async function (assert) {
       // Given
-      const featureToggles = Object.create({
-        isMassiveSessionManagementEnabled: false,
-      });
+      const featureToggles = Object.create({});
       const storeStub = Service.create({
         queryRecord: () => resolve(featureToggles),
       });

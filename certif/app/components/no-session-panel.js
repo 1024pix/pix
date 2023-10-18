@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 
 export default class PanelHeader extends Component {
-  @service featureToggles;
   @service currentUser;
   @service currentDomain;
   @service intl;
@@ -16,10 +15,6 @@ export default class PanelHeader extends Component {
     const currentLanguage = this.intl.t('current-lang');
     const isOrgTldAndEnglishCurrentLanguage = topLevelDomain === 'org' && currentLanguage === 'en';
 
-    return (
-      this.featureToggles.featureToggles.isMassiveSessionManagementEnabled &&
-      !this.isScoManagingStudents &&
-      !isOrgTldAndEnglishCurrentLanguage
-    );
+    return !this.isScoManagingStudents && !isOrgTldAndEnglishCurrentLanguage;
   }
 }

@@ -22,7 +22,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           type: 'feature-toggles',
           attributes: {
             'is-always-ok-validate-next-challenge-endpoint-enabled': false,
-            'is-massive-session-management-enabled': false,
             'is-pix1d-enabled': true,
             'is-target-profile-versioning-enabled': true,
           },

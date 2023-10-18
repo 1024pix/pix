@@ -15,83 +15,52 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
 
   module('When a user tries to go on the multiple sessions import page', function () {
     module('when the user belongs to a SCO isManagingStudent center', function () {
-      module('with feature toggle authorization', function () {
-        test('it should redirect the user to the sessions list page', async function (assert) {
-          // given
-          const certificationCenter = createAllowedCertificationCenterAccess({
-            certificationCenterName: 'Centre SCO isManagingStudent',
-            certificationCenterType: 'SCO',
-            isRelatedOrganizationManagingStudents: true,
-          });
-          const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-            pixCertifTermsOfServiceAccepted: true,
-            allowedCertificationCenterAccesses: [certificationCenter],
-          });
-          await authenticateSession(certificationPointOfContact.id);
-
-          server.create('session-summary', { certificationCenterId: certificationCenter.id });
-          server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
-
-          // when
-          const screen = await visit(`/sessions/import`);
-
-          // then
-          assert.strictEqual(currentURL(), '/sessions/liste');
-          assert.dom(screen.getByText('Sessions de certification')).exists();
+      test('it should redirect the user to the sessions list page', async function (assert) {
+        // given
+        const certificationCenter = createAllowedCertificationCenterAccess({
+          certificationCenterName: 'Centre SCO isManagingStudent',
+          certificationCenterType: 'SCO',
+          isRelatedOrganizationManagingStudents: true,
         });
+        const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
+          pixCertifTermsOfServiceAccepted: true,
+          allowedCertificationCenterAccesses: [certificationCenter],
+        });
+        await authenticateSession(certificationPointOfContact.id);
+
+        server.create('session-summary', { certificationCenterId: certificationCenter.id });
+
+        // when
+        const screen = await visit(`/sessions/import`);
+
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.dom(screen.getByText('Sessions de certification')).exists();
       });
     });
+  });
 
-    module('when the user belongs to a center that is not SCO isManagingStudent', function () {
-      module('without feature toggle authorization', function () {
-        test('it should redirect the user to the sessions list page', async function (assert) {
-          // given
-          const certificationCenter = createAllowedCertificationCenterAccess({
-            certificationCenterName: 'Centre SUP',
-            certificationCenterType: 'SUP',
-            isRelatedOrganizationManagingStudents: false,
-          });
-          const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-            pixCertifTermsOfServiceAccepted: true,
-            allowedCertificationCenterAccesses: [certificationCenter],
-          });
-          await authenticateSession(certificationPointOfContact.id);
-          server.create('session-summary', { certificationCenterId: certificationCenter.id });
-          server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: false });
-
-          // when
-          const screen = await visit(`/sessions/import`);
-
-          // then
-          assert.strictEqual(currentURL(), '/sessions/liste');
-          assert.dom(screen.getByText('Sessions de certification')).exists();
-        });
+  module('when the user belongs to a center that is not SCO isManagingStudent', function () {
+    test('it should transition to sessions import page', async function (assert) {
+      // given
+      const certificationCenter = createAllowedCertificationCenterAccess({
+        certificationCenterName: 'Centre SUP',
+        certificationCenterType: 'SUP',
+        isRelatedOrganizationManagingStudents: false,
       });
-
-      module('with feature toggle authorization', function () {
-        test('it should transition to sessions import page', async function (assert) {
-          // given
-          const certificationCenter = createAllowedCertificationCenterAccess({
-            certificationCenterName: 'Centre SUP',
-            certificationCenterType: 'SUP',
-            isRelatedOrganizationManagingStudents: false,
-          });
-          const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
-            pixCertifTermsOfServiceAccepted: true,
-            allowedCertificationCenterAccesses: [certificationCenter],
-          });
-          await authenticateSession(certificationPointOfContact.id);
-          server.create('session-summary', { certificationCenterId: certificationCenter.id });
-          server.create('feature-toggle', { id: 0, isMassiveSessionManagementEnabled: true });
-
-          // when
-          const screen = await visit(`/sessions/import`);
-
-          // then
-          assert.strictEqual(currentURL(), '/sessions/import');
-          assert.dom(screen.getByText('Créer/éditer plusieurs sessions')).exists();
-        });
+      const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [certificationCenter],
       });
+      await authenticateSession(certificationPointOfContact.id);
+      server.create('session-summary', { certificationCenterId: certificationCenter.id });
+
+      // when
+      const screen = await visit(`/sessions/import`);
+
+      // then
+      assert.strictEqual(currentURL(), '/sessions/import');
+      assert.dom(screen.getByText('Créer/éditer plusieurs sessions')).exists();
     });
   });
 });
