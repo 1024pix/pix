@@ -63,10 +63,21 @@ async function _getParticipantCount(prescriber) {
   prescriber.participantCount = allCounts;
 }
 
-async function _isMultipleSendingAssessmentEnabled(prescriber) {
+async function _organizationFeatures(prescriber) {
   const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+  const availableFeatures = await _availableFeaturesQueryBuilder(currentOrganizationId);
 
-  const availableFeatures = await knex('features')
+  prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
+    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
+  );
+
+  prescriber.computeOrganizationLearnerCertificability = availableFeatures.includes(
+    apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key,
+  );
+}
+
+function _availableFeaturesQueryBuilder(currentOrganizationId) {
+  return knex('features')
     .select('key')
     .join('organization-features', function () {
       this.on('features.id', 'organization-features.featureId').andOn(
@@ -75,10 +86,6 @@ async function _isMultipleSendingAssessmentEnabled(prescriber) {
       );
     })
     .pluck('key');
-
-  prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
-  );
 }
 
 const getPrescriber = async function (userId) {
@@ -101,7 +108,7 @@ const getPrescriber = async function (userId) {
 
     await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
     await _getParticipantCount(prescriber);
-    await _isMultipleSendingAssessmentEnabled(prescriber);
+    await _organizationFeatures(prescriber);
 
     return prescriber;
   } catch (err) {

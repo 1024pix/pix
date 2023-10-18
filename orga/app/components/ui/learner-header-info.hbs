@@ -5,9 +5,11 @@
         <Ui::IsCertifiable @isCertifiable={{@isCertifiable}} />
       </:title>
       <:content>
-        <span class="information__content--date">
-          <Ui::Date @date={{@certifiableAt}} />
-        </span>
+        {{#unless @hideCertifiableAt}}
+          <span class="information__content--date">
+            <Ui::Date @date={{@certifiableAt}} />
+          </span>
+        {{/unless}}
       </:content>
     </Ui::Information>
   {{/if}}

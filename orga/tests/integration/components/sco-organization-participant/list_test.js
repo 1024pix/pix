@@ -20,6 +20,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     const division = store.createRecord('division', { id: '3A', name: '3A' });
 
     class CurrentUserStub extends Service {
+      prescriber = {};
       isSCOManagingStudents = true;
       organization = store.createRecord('organization', {
         id: 1,
@@ -1091,6 +1092,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
 
       const division = store.createRecord('division', { id: '3BF', name: '3BF' });
       class CurrentUserStub extends Service {
+        prescriber = {};
         organization = store.createRecord('organization', {
           id: 1,
           divisions: [division],
@@ -1143,6 +1145,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   module('action bar', function (hooks) {
     hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
+        prescriber = {};
         organization = store.createRecord('organization', {
           id: 1,
           divisions: [store.createRecord('division', { id: '3Z', name: '3Z' })],
