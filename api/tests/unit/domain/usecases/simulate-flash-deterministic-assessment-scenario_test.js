@@ -106,38 +106,23 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         flashAlgorithmService.getPossibleNextChallenges
           .withArgs({
-            allAnswers: [],
-            allChallenges,
             availableChallenges: allChallenges,
             estimatedLevel: 0,
             options: getNextChallengesOptionsMatcher,
           })
-          .returns({
-            hasAssessmentEnded: false,
-            possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
-          })
+          .returns([firstChallenge, thirdChallenge, secondChallenge])
           .withArgs({
-            allAnswers: [successAnswerMatcher],
-            allChallenges,
             availableChallenges: [secondChallenge, thirdChallenge],
             estimatedLevel: 1,
             options: getNextChallengesOptionsMatcher,
           })
-          .returns({
-            hasAssessmentEnded: false,
-            possibleChallenges: [thirdChallenge, secondChallenge],
-          })
+          .returns([thirdChallenge, secondChallenge])
           .withArgs({
-            allAnswers: [successAnswerMatcher, successAnswerMatcher],
-            allChallenges,
             availableChallenges: [thirdChallenge],
             estimatedLevel: 2,
             options: getNextChallengesOptionsMatcher,
           })
-          .returns({
-            hasAssessmentEnded: false,
-            possibleChallenges: [thirdChallenge],
-          });
+          .returns([thirdChallenge]);
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
@@ -227,27 +212,16 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
       flashAlgorithmService.getPossibleNextChallenges
         .withArgs(
           sinon.match({
-            allChallenges: [challenge],
             availableChallenges: [challenge],
-            allAnswers: [],
           }),
         )
-        .returns({
-          hasAssessmentEnded: false,
-          possibleChallenges: [challenge],
-        })
-        .withArgs({
-          allChallenges: [challenge],
-          availableChallenges: [challenge],
-          allAnswers: [
-            sinon.match({
-              result: AnswerStatus.OK,
-            }),
-          ],
-        })
-        .returns({
-          hasAssessmentEnded: true,
-        });
+        .returns([challenge])
+        .withArgs(
+          sinon.match({
+            availableChallenges: [],
+          }),
+        )
+        .returns([]);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate.returns({
         estimatedLevel: 0,
@@ -384,38 +358,23 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
 
   flashAlgorithmService.getPossibleNextChallenges
     .withArgs({
-      allAnswers: [],
-      allChallenges,
       availableChallenges: allChallenges,
       estimatedLevel: 0,
       options: getNextChallengesOptionsMatcher,
     })
-    .returns({
-      hasAssessmentEnded: false,
-      possibleChallenges: [firstChallenge, thirdChallenge, secondChallenge],
-    })
+    .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
-      allAnswers: [successAnswerMatcher],
-      allChallenges,
       availableChallenges: [secondChallenge, thirdChallenge],
       estimatedLevel: 1,
       options: getNextChallengesOptionsMatcher,
     })
-    .returns({
-      hasAssessmentEnded: false,
-      possibleChallenges: [thirdChallenge, secondChallenge],
-    })
+    .returns([thirdChallenge, secondChallenge])
     .withArgs({
-      allAnswers: [successAnswerMatcher, successAnswerMatcher],
-      allChallenges,
       availableChallenges: [thirdChallenge],
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,
     })
-    .returns({
-      hasAssessmentEnded: false,
-      possibleChallenges: [thirdChallenge],
-    });
+    .returns([thirdChallenge]);
 
   challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 

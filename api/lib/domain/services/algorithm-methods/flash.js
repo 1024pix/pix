@@ -2,8 +2,6 @@ import lodash from 'lodash';
 
 const { orderBy, range, sortBy, sortedUniqBy, sumBy } = lodash;
 
-import { config } from '../../../config.js';
-
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
 const STEP_OF_SAMPLES = 18 / 80;
@@ -24,43 +22,18 @@ export {
 };
 
 function getPossibleNextChallenges({
-  allAnswers,
-  allChallenges,
   availableChallenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
-  options: { challengesBetweenSameCompetence = 0, minimalSuccessRate = 0 } = {},
+  options: { minimalSuccessRate = 0 } = {},
 } = {}) {
-  const nonAnsweredChallenges = availableChallenges;
-
-  if (nonAnsweredChallenges?.length === 0 || allAnswers.length >= config.features.numberOfChallengesForFlashMethod) {
-    return {
-      hasAssessmentEnded: true,
-      possibleChallenges: [],
-    };
-  }
-
-  const lastCompetenceIds = _getLastAnswersCompetenceIds(allAnswers, allChallenges, challengesBetweenSameCompetence);
-
-  const challengesWithNoRecentlyAnsweredCompetence = nonAnsweredChallenges.filter(
-    ({ competenceId }) => !lastCompetenceIds.includes(competenceId),
-  );
-
-  const possibleChallenges =
-    challengesWithNoRecentlyAnsweredCompetence.length > 0
-      ? challengesWithNoRecentlyAnsweredCompetence
-      : nonAnsweredChallenges;
-
-  const challengesWithReward = possibleChallenges.map((challenge) => {
+  const challengesWithReward = availableChallenges.map((challenge) => {
     return {
       challenge,
       reward: getReward({ estimatedLevel, discriminant: challenge.discriminant, difficulty: challenge.difficulty }),
     };
   });
 
-  return {
-    hasAssessmentEnded: false,
-    possibleChallenges: _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel),
-  };
+  return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel);
 }
 
 function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL }) {
@@ -144,16 +117,6 @@ function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, es
   ]);
 
   return pixScoreAndScoreByCompetence;
-}
-
-function _getLastAnswersCompetenceIds(allAnswers, allChallenges, numberOfAnswers) {
-  const lastAnswers = allAnswers.slice(-numberOfAnswers);
-  const competenceIds = lastAnswers.map((answer) => {
-    const challenge = _findChallengeForAnswer(allChallenges, answer);
-    return challenge.competenceId;
-  });
-
-  return competenceIds;
 }
 
 function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, estimatedLevel) {

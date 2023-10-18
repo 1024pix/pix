@@ -115,16 +115,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const expectedChallenges = [unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allAnswers,
-              allChallenges: challenges,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: expectedChallenges,
-            });
+            .returns(expectedChallenges);
 
           expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
         });
@@ -192,16 +187,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const expectedChallenges = [unansweredChallengeTube1, unansweredChallengeTube2];
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allAnswers,
-              allChallenges: challenges,
               availableChallenges: expectedChallenges,
               estimatedLevel: computedEstimatedLevel,
               options: baseGetNextChallengeOptions,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: expectedChallenges,
-            });
+            .returns(expectedChallenges);
 
           expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
         });
@@ -259,19 +249,14 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: challenges,
-              allAnswers,
               estimatedLevel: 0,
               options: {
                 ...baseGetNextChallengeOptions,
                 minimalSuccessRate: 0.8,
               },
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: [easyChallenge, hardChallenge],
-            });
+            .returns([easyChallenge, hardChallenge]);
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
             allAnswers,
@@ -349,9 +334,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
           flashAlgorithmImplementation.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: expectedChallenges,
-              allAnswers,
               estimatedLevel: 0,
               options: {
                 ...baseGetNextChallengeOptions,
@@ -359,10 +342,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
                 minimalSuccessRate: sinon.match((value) => value.toPrecision(1) === '0.6'),
               },
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: expectedChallenges,
-            });
+            .returns(expectedChallenges);
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
             allAnswers,
@@ -370,7 +350,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             initialCapacity,
           });
 
-          expect(nextChallenges).to.deep.equal([easyChallenge, hardChallenge2]);
+          expect(nextChallenges).to.deep.equal(expectedChallenges);
         });
       });
     });
