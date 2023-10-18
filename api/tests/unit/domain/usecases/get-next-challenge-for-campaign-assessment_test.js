@@ -151,16 +151,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: [secondChallenge],
-              allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: [secondChallenge],
-            });
+            .returns([secondChallenge]);
 
           // when
           const bestChallenge = await getNextChallengeForCampaignAssessment({
@@ -216,9 +211,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allChallenges: challenges,
               availableChallenges: [],
-              allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
             })
@@ -292,7 +285,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
               challenges,
-              allAnswers,
               estimatedLevel: 0,
               options: sinon.match.object,
             })

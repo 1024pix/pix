@@ -130,16 +130,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [],
-              allChallenges: [nextChallengeToAnswer],
               availableChallenges: [nextChallengeToAnswer],
               estimatedLevel: 0,
               options: sinon.match.any,
             })
-            .returns({
-              hasAssessmentEnded: false,
-              possibleChallenges: [nextChallengeToAnswer],
-            });
+            .returns([nextChallengeToAnswer]);
 
           const chooseNextChallengeImpl = sinon.stub();
           chooseNextChallengeImpl
@@ -292,8 +287,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           flashAlgorithmService.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [answer],
-              allChallenges: [answeredChallenge],
               availableChallenges: [],
               estimatedLevel: 2,
               options: sinon.match.any,

@@ -6,6 +6,7 @@ import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmen
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
 import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from './FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
 import { FlashAssessmentAlgorithmForcedCompetencesRule } from './FlashAssessmentAlgorithmForcedCompetencesRule.js';
+import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from './FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
 
 const defaultMinimumEstimatedSuccessRateRanges = [
   // Between question 1 and question 8 included, we set the minimum estimated
@@ -30,6 +31,7 @@ const availableRules = [
   FlashAssessmentAlgorithmNonAnsweredSkillsRule,
   FlashAssessmentAlgorithmPassageByAllCompetencesRule,
   FlashAssessmentAlgorithmForcedCompetencesRule,
+  FlashAssessmentAlgorithmChallengesBetweenCompetencesRule,
 ];
 
 class FlashAssessmentAlgorithm {
@@ -91,22 +93,21 @@ class FlashAssessmentAlgorithm {
       allChallenges: challenges,
     });
 
-    const { possibleChallenges, hasAssessmentEnded } = this.flashAlgorithmImplementation.getPossibleNextChallenges({
-      allAnswers,
+    if (
+      challengesAfterRulesApplication?.length === 0 ||
+      allAnswers.length >= config.features.numberOfChallengesForFlashMethod
+    ) {
+      throw new AssessmentEndedError();
+    }
+
+    return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
-      allChallenges: challenges,
       estimatedLevel,
       options: {
         challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
         minimalSuccessRate,
       },
     });
-
-    if (hasAssessmentEnded) {
-      throw new AssessmentEndedError();
-    }
-
-    return possibleChallenges;
   }
 
   _computeMinimalSuccessRate(questionIndex) {
