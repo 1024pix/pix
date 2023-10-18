@@ -894,6 +894,13 @@
       "invite-button": "Inviter",
       "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
       "notifications": {
+        "error": {
+          "invitations": {
+            "invalid-email-domain": "Le domaine d'une ou plusieurs adresses e-mail est incorrect.",
+            "invalid-email-format": "Le format d'une ou plusieurs adresses e-mail est incorrect.",
+            "mailer-provider-unavailable": "Le service d'envoie d'e-mail est actuellement indisponible. Veuillez réessayer ultérieurement."
+          }
+        },
         "success": {
           "invitations": "Une invitation a bien été envoyée {emailsCount, plural, one {à l’adresse e-mail {email}.} other {aux adresses e-mails listées.}}"
         }

@@ -68,5 +68,125 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
         this.intl.t('pages.team-invite.notifications.success.invitations', { emailsCount: expectedEmails.length }),
       );
     });
+
+    module('error cases', function (hooks) {
+      let certificationCenterId;
+
+      hooks.beforeEach(async function () {
+        certificationCenterId = this.server.db.allowedCertificationCenterAccesses[0].id;
+      });
+
+      module('when the email address have an invalid format', function () {
+        test('it displays an error notification', async function (assert) {
+          // given
+          const expectedErrorNotification = this.intl.t(
+            'pages.team-invite.notifications.error.invitations.invalid-email-format',
+          );
+
+          const inputLabel = this.intl.t('pages.team-invite.input-label');
+          const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+          const email = 'dic.tafone@';
+
+          server.post(
+            `/certification-centers/${certificationCenterId}/invitations`,
+            {
+              errors: [
+                {
+                  detail: 'error message',
+                  status: '400',
+                  title: 'Bad Request',
+                  code: 'INVALID_EMAIL_ADDRESS_FORMAT',
+                  meta: { emailAddress: email },
+                },
+              ],
+            },
+            400,
+          );
+
+          // when
+          await visit('/equipe/inviter');
+          await fillByLabel(inputLabel, email);
+          await clickByName(inviteButtonLabel);
+
+          // then
+          assert.strictEqual(currentURL(), '/equipe/inviter');
+          assert.contains(expectedErrorNotification);
+        });
+      });
+
+      module('when the email address have an invalid domain name', function () {
+        test('it displays an error notification', async function (assert) {
+          // given
+          const expectedErrorNotification = this.intl.t(
+            'pages.team-invite.notifications.error.invitations.invalid-email-domain',
+          );
+
+          const inputLabel = this.intl.t('pages.team-invite.input-label');
+          const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+          const email = 'dic.tafone@kjqsbfzdifubidqshjfbdsjlhfvjqdshf.uyt';
+
+          server.post(
+            `/certification-centers/${certificationCenterId}/invitations`,
+            {
+              errors: [
+                {
+                  detail: 'error message',
+                  status: '400',
+                  title: 'Bad Request',
+                  code: 'INVALID_EMAIL_DOMAIN',
+                },
+              ],
+            },
+            400,
+          );
+
+          // when
+          await visit('/equipe/inviter');
+          await fillByLabel(inputLabel, email);
+          await clickByName(inviteButtonLabel);
+
+          // then
+          assert.strictEqual(currentURL(), '/equipe/inviter');
+          assert.contains(expectedErrorNotification);
+        });
+      });
+
+      module('when the email provider is unavailable', function () {
+        test('it displays an error notification', async function (assert) {
+          // given
+          const expectedErrorNotification = this.intl.t(
+            'pages.team-invite.notifications.error.invitations.mailer-provider-unavailable',
+          );
+
+          const inputLabel = this.intl.t('pages.team-invite.input-label');
+          const inviteButtonLabel = this.intl.t('pages.team-invite.invite-button');
+          const email = 'dic.tafone@example.net';
+
+          server.post(
+            `/certification-centers/${certificationCenterId}/invitations`,
+            {
+              errors: [
+                {
+                  detail: 'error message',
+                  status: '503',
+                  title: 'Service unavailable',
+                  code: 'SENDING_EMAIL_FAILED',
+                },
+              ],
+            },
+            503,
+          );
+
+          // when
+          await visit('/equipe/inviter');
+          await fillByLabel(inputLabel, email);
+          await clickByName(inviteButtonLabel);
+
+          // then
+          assert.strictEqual(currentURL(), '/equipe/inviter');
+          assert.contains(expectedErrorNotification);
+        });
+      });
+    });
   });
 });
