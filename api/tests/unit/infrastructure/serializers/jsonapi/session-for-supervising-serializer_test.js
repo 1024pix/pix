@@ -3,7 +3,7 @@ import * as serializer from '../../../../../lib/infrastructure/serializers/jsona
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationCandidateForSupervising } from '../../../../../lib/domain/models/index.js';
 import { CertificationCandidateForSupervisingV3 } from '../../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervisingV3.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Unit | Serializer | JSONAPI | session-for-supervising-serializer', function () {
   describe('#serialize()', function () {
