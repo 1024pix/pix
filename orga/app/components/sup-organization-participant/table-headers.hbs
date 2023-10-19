@@ -5,7 +5,7 @@
         @screenReaderOnly={{true}}
         @checked={{@someSelected}}
         @isIndeterminate={{(not @allSelected)}}
-        disabled={{(not @hasParticipants)}}
+        disabled={{(not @hasStudents)}}
         {{on "click" @onToggleAll}}
       >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
     </Table::Header>

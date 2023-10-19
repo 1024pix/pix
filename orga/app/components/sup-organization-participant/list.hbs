@@ -1,44 +1,55 @@
-<SupOrganizationParticipant::SupLearnerFilters
-  @studentsCount={{@students.meta.rowCount}}
-  @onFilter={{@onFilter}}
-  @searchFilter={{@searchFilter}}
-  @studentNumberFilter={{@studentNumberFilter}}
-  @certificabilityFilter={{@certificabilityFilter}}
-  @groupsFilter={{@groupsFilter}}
-  @onResetFilter={{@onResetFilter}}
-  @groupsOptions={{this.groups}}
-  @isLoadingGroups={{this.isLoadingGroups}}
-/>
+<div id={{this.filtersId}} />
 
 <div class="panel">
   <table class="table content-text content-text--small">
     <caption class="screen-reader-only">{{t "pages.sup-organization-participants.table.description"}}</caption>
-    <thead>
-      <SupOrganizationParticipant::TableHeaders
-        @showCheckbox={{this.showCheckbox}}
-        @lastnameSort={{@lastnameSort}}
-        @sortByLastname={{@sortByLastname}}
-        @participationCountOrder={{@participationCountOrder}}
-        @sortByParticipationCount={{@sortByParticipationCount}}
-        @onToggleAll={{this.onToggleAll}}
-      />
-    </thead>
-
-    {{#if @students}}
-      <tbody>
-        {{#each @students as |student index|}}
+    <thead id={{this.headerId}} />
+    <tbody>
+      <SelectableList @items={{@students}}>
+        <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
+          <InElement @destinationId={{this.headerId}}>
+            <SupOrganizationParticipant::TableHeaders
+              @allSelected={{allSelected}}
+              @someSelected={{someSelected}}
+              @showCheckbox={{this.showCheckbox}}
+              @lastnameSort={{@lastnameSort}}
+              @hasStudents={{this.hasStudents}}
+              @participationCountOrder={{@participationCountOrder}}
+              @onToggleAll={{toggleAll}}
+              @sortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
+              @sortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
+            />
+          </InElement>
+          <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>
+            <Table::PaginationControl @pagination={{@students.meta}} @onChange={{reset}} />
+          </InElement>
+          <InElement @destinationId={{this.filtersId}}>
+            <SupOrganizationParticipant::SupLearnerFilters
+              @studentsCount={{@students.meta.rowCount}}
+              @onFilter={{(fn this.addResetOnFunction @onFilter reset)}}
+              @searchFilter={{@searchFilter}}
+              @studentNumberFilter={{@studentNumberFilter}}
+              @certificabilityFilter={{@certificabilityFilter}}
+              @groupsFilter={{@groupsFilter}}
+              @onResetFilter={{(fn this.addResetOnFunction @onResetFilter reset)}}
+              @groupsOptions={{this.groups}}
+              @isLoadingGroups={{this.isLoadingGroups}}
+            />
+          </InElement>
+        </:manager>
+        <:item as |student toggleStudent isStudentSelected|>
           <SupOrganizationParticipant::TableRow
             @showCheckbox={{this.showCheckbox}}
-            @index={{index}}
             @student={{student}}
-            @onClickLearner={{@onClickLearner}}
+            @isStudentSelected={{isStudentSelected}}
+            @onClickLearner={{(fn @onClickLearner student.id)}}
             @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
             @isAdminInOrganization={{this.currentUser.isAdminInOrganization}}
-            @onToggleParticipant={{this.onToggleAll}}
+            @onToggleStudent={{(fn this.addStopPropagationOnFunction toggleStudent)}}
           />
-        {{/each}}
-      </tbody>
-    {{/if}}
+        </:item>
+      </SelectableList>
+    </tbody>
   </table>
 
   {{#if (eq @students.meta.participantCount 0)}}
@@ -60,4 +71,4 @@
   @onSubmit={{this.onSaveStudentNumber}}
 />
 
-<Table::PaginationControl @pagination={{@students.meta}} />
+<div id={{this.paginationId}} />
