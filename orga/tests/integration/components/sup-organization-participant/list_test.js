@@ -802,6 +802,17 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       assert
         .dom(screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')))
         .exists();
+
+      assert
+        .dom(
+          screen.getByLabelText(
+            this.intl.t('pages.organization-participants.table.column.checkbox', {
+              firstname: students[0].firstName,
+              lastname: students[0].lastName,
+            }),
+          ),
+        )
+        .exists();
     });
   });
 
@@ -849,6 +860,17 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
       // then
       assert
         .dom(screen.queryByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')))
+        .doesNotExist();
+
+      assert
+        .dom(
+          screen.queryByLabelText(
+            this.intl.t('pages.organization-participants.table.column.checkbox', {
+              firstname: students[0].firstName,
+              lastname: students[0].lastName,
+            }),
+          ),
+        )
         .doesNotExist();
     });
   });
