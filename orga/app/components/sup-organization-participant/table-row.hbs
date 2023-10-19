@@ -1,11 +1,11 @@
 <tr
   aria-label={{t "pages.sup-organization-participants.table.row-title"}}
-  {{on "click" (fn @onClickLearner @student.id)}}
+  {{on "click" @onClickLearner}}
   class="tr--clickable"
 >
   {{#if @showCheckbox}}
-    <td class="table__column" {{on "click" @onToggleParticipant}}>
-      <PixCheckbox @screenReaderOnly={{true}} @checked={{@isParticipantSelected}}>
+    <td class="table__column" {{on "click" @onToggleStudent}}>
+      <PixCheckbox @screenReaderOnly={{true}} @checked={{@isStudentSelected}}>
         {{t
           "pages.organization-participants.table.column.checkbox"
           firstname=@student.firstName

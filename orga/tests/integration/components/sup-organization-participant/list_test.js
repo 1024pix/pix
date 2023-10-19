@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
-import { render } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
@@ -813,6 +812,228 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
           ),
         )
         .exists();
+    });
+
+    test('it should disable the main checkbox when participants list is empty', async function (assert) {
+      //given
+      this.set('students', []);
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
+      //when
+      const screen = await render(hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`);
+
+      const mainCheckbox = screen.getByRole('checkbox', {
+        name: this.intl.t('pages.organization-participants.table.column.mainCheckbox'),
+      });
+
+      //then
+      assert.dom(mainCheckbox).isDisabled();
+    });
+
+    test('it should reset selected participants when using pagination', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const students = [
+        { id: 1, firstName: 'Spider', lastName: 'Man' },
+        { id: 2, firstName: 'Captain', lastName: 'America' },
+      ];
+
+      students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
+
+      this.set('students', students);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+      this.set('groupsFilter', []);
+      this.set('certificabilityFilter', []);
+      this.set('participationCountOrder', null);
+      this.set('lastnameSort', null);
+
+      // when
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+/>`,
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+      const secondLearnerSelected = screen.getAllByRole('checkbox')[2];
+
+      await click(firstLearnerSelected);
+      await click(secondLearnerSelected);
+
+      const pagination = await screen.findByLabelText(this.intl.t('common.pagination.action.next'));
+      await click(pagination);
+
+      // then
+      assert.false(firstLearnerSelected.checked);
+      assert.false(secondLearnerSelected.checked);
+    });
+
+    test('it should reset selected participant when using filters', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const students = [
+        { id: 1, firstName: 'Spider', lastName: 'Man' },
+        { id: 2, firstName: 'Captain', lastName: 'America' },
+      ];
+
+      students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
+
+      this.set('students', students);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+      this.set('groupsFilter', []);
+      this.set('certificabilityFilter', []);
+      this.set('participationCountOrder', null);
+      this.set('lastnameSort', null);
+
+      // when
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+/>`,
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+
+      await click(firstLearnerSelected);
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Something');
+
+      // then
+      assert.false(firstLearnerSelected.checked);
+    });
+
+    test('it should reset selected participant when reset filters', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const students = [
+        { id: 1, firstName: 'Spider', lastName: 'Man' },
+        { id: 2, firstName: 'Captain', lastName: 'America' },
+      ];
+
+      students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
+
+      this.set('students', students);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+      this.set('groupsFilter', ['a1']);
+      this.set('certificabilityFilter', []);
+      this.set('participationCountOrder', null);
+      this.set('lastnameSort', null);
+
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+/>`,
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+      await click(firstLearnerSelected);
+
+      // when
+      const resetButton = await screen.findByRole('button', {
+        name: this.intl.t('pages.organization-participants.filters.actions.clear'),
+      });
+      await click(resetButton);
+
+      // then
+      assert.false(firstLearnerSelected.checked);
+    });
+
+    test('it should reset selected participant when using sort', async function (assert) {
+      // given
+      const routerService = this.owner.lookup('service:router');
+      sinon.stub(routerService, 'replaceWith');
+
+      const students = [
+        { id: 1, firstName: 'Spider', lastName: 'Man' },
+        { id: 2, firstName: 'Captain', lastName: 'America' },
+      ];
+
+      students.meta = { page: 1, pageSize: 1, rowCount: 2, pageCount: 2 };
+
+      this.set('students', students);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+      this.set('groupsFilter', []);
+      this.set('certificabilityFilter', []);
+      this.set('participationCountOrder', null);
+      this.set('lastnameSort', null);
+
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+/>`,
+      );
+      const firstLearnerSelected = screen.getAllByRole('checkbox')[1];
+      await click(firstLearnerSelected);
+
+      // when
+      const sortButton = await screen.findByLabelText(
+        this.intl.t('pages.organization-participants.table.column.participation-count.ariaLabelDefaultSort'),
+      );
+      await click(sortButton);
+
+      assert.false(firstLearnerSelected.checked);
     });
   });
 
