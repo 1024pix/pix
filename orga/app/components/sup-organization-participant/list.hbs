@@ -15,10 +15,12 @@
     <caption class="screen-reader-only">{{t "pages.sup-organization-participants.table.description"}}</caption>
     <thead>
       <SupOrganizationParticipant::TableHeaders
+        @showCheckbox={{this.showCheckbox}}
         @lastnameSort={{@lastnameSort}}
         @sortByLastname={{@sortByLastname}}
         @participationCountOrder={{@participationCountOrder}}
         @sortByParticipationCount={{@sortByParticipationCount}}
+        @onToggleAll={{this.onToggleAll}}
       />
     </thead>
 

@@ -1,4 +1,15 @@
 <tr>
+  {{#if @showCheckbox}}
+    <Table::Header class="table__column--small">
+      <PixCheckbox
+        @screenReaderOnly={{true}}
+        @checked={{@someSelected}}
+        @isIndeterminate={{(not @allSelected)}}
+        disabled={{(not @hasParticipants)}}
+        {{on "click" @onToggleAll}}
+      >{{t "pages.organization-participants.table.column.mainCheckbox"}}</PixCheckbox>
+    </Table::Header>
+  {{/if}}
   <Table::Header @size="wide">
     {{t "pages.sup-organization-participants.table.column.student-number"}}
   </Table::Header>
