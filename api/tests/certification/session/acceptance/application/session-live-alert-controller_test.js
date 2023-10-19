@@ -140,7 +140,7 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
 
         // then
         expect(response.statusCode).to.equal(204);
-        expect(liveAlert.status).to.equal(CertificationChallengeLiveAlertStatus.ACCEPTED);
+        expect(liveAlert.status).to.equal(CertificationChallengeLiveAlertStatus.VALIDATED);
       });
     });
 
