@@ -5,7 +5,7 @@ import { SessionForSupervising } from '../../../../../lib/domain/read-models/Ses
 import * as sessionForSupervisingRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Integration | Repository | SessionForSupervising', function () {
   describe('#get', function () {

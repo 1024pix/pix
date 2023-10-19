@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js'
 import { getAssessment } from '../../../../lib/domain/usecases/get-assessment.js';
 import { Assessment } from '../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Unit | UseCase | get-assessment', function () {
   let assessment;

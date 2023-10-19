@@ -1,5 +1,5 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { dismissLiveAlert } from '../../../../../../src/certification/session/domain/usecases/dismiss-live-alert.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 
