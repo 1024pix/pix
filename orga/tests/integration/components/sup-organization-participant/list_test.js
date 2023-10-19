@@ -6,6 +6,7 @@ import { render } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
+import ENV from 'pix-orga/config/environment';
 
 module('Integration | Component | SupOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -745,6 +746,110 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       // then
       assert.contains('L’administrateur doit importer les étudiants en cliquant sur le bouton importer.');
+    });
+  });
+
+  module('when user is admin of organisation', function (hooks) {
+    hooks.beforeEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = true;
+
+      const store = this.owner.lookup('service:store');
+      const organization = store.createRecord('organization', { groups: [] });
+
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        organization = organization;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+    });
+
+    hooks.afterEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = false;
+    });
+
+    test('it should display checkboxes', async function (assert) {
+      // given
+      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man', group: 'A1' }];
+      students.meta = { participantCount: students.length };
+      this.set('students', students);
+
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+      this.set('onFilter', sinon.stub());
+      this.set('onClickLearner', sinon.stub());
+      this.set('onResetFilter', sinon.stub());
+      this.set('participationCountOrder', null);
+      this.set('sortByParticipationCount', sinon.stub());
+      this.set('sortByLastname', sinon.stub());
+      this.set('lastnameSort', null);
+
+      // when
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+      );
+
+      // then
+      assert
+        .dom(screen.getByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')))
+        .exists();
+    });
+  });
+
+  module('when user is not admin of organisation', function (hooks) {
+    hooks.beforeEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = true;
+    });
+
+    hooks.afterEach(function () {
+      ENV.APP.FT_DELETE_PARTICIPANT = false;
+    });
+
+    test('it should not display checkboxes', async function (assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+      const organization = store.createRecord('organization', { groups: [] });
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = false;
+        organization = organization;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const students = [{ id: 1, firstName: 'Spider', lastName: 'Man' }];
+      students.meta = { participantCount: 0 };
+      this.set('students', students);
+
+      this.set('certificabilityFilter', []);
+      this.set('groupFilter', []);
+      this.set('searchFilter', null);
+      this.set('studentNumberFilter', null);
+
+      // when
+      const screen = await render(
+        hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @searchFilter={{this.searchFilter}}
+  @groupsFilter={{this.groupFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+/>`,
+      );
+
+      // then
+      assert
+        .dom(screen.queryByLabelText(this.intl.t('pages.organization-participants.table.column.mainCheckbox')))
+        .doesNotExist();
     });
   });
 });
