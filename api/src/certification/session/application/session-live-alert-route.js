@@ -44,6 +44,44 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/sessions/{id}/candidates/{candidateId}/validate-live-alert',
+      config: {
+        plugins: {
+          'hapi-swagger': {
+            produces: ['application/json'],
+            consumes: ['application/json'],
+          },
+        },
+        response: {
+          failAction: 'log',
+          status: {
+            204: Joi.string.empty,
+            401: responseObjectErrorDoc,
+            403: responseObjectErrorDoc,
+          },
+        },
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+            candidateId: identifiersType.userId,
+          }),
+        },
+        pre: [
+          {
+            method: assessmentSupervisorAuthorization.verifyBySessionId,
+            assign: 'isSupervisorForSession',
+          },
+        ],
+        handler: sessionLiveAlertController.validateLiveAlert,
+        tags: ['api', 'sessions', 'liveAlerts', 'certifV3'],
+        notes: [
+          'Cette route est restreinte au surveillant',
+          'Elle permet de rejeter une alerte relevée par le candidat',
+        ],
+      },
+    },
   ]);
 };
 

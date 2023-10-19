@@ -92,4 +92,88 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
       });
     });
   });
+
+  describe('PATCH /sessions/{id}/candidates/{candidateId}/validate-live-alert', function () {
+    describe('when user has supervisor authorization', function () {
+      it('should return 204 when the alert is ongoing', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+        });
+        const supervisorUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildSupervisorAccess({ userId: supervisorUserId, sessionId: session.id });
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse.id,
+          userId: certificationCourse.userId,
+        });
+
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.DISMISSED,
+        });
+
+        const certificationChallengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.ONGOING,
+        });
+
+        await databaseBuilder.commit();
+
+        const headers = {
+          authorization: generateValidRequestAuthorizationHeader(supervisorUserId, 'pix-certif'),
+        };
+        const options = {
+          headers,
+          method: 'PATCH',
+          url: `/api/sessions/${certificationCourse.sessionId}/candidates/${certificationCourse.userId}/validate-live-alert`,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        const liveAlert = await knex('certification-challenge-live-alerts')
+          .where({ id: certificationChallengeLiveAlert.id })
+          .first();
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        expect(liveAlert.status).to.equal(CertificationChallengeLiveAlertStatus.ACCEPTED);
+      });
+    });
+
+    describe('when user does not have supervisor authorization', function () {
+      it('should return 401 when the alert is ongoing', async function () {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+        });
+        const supervisorUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildSupervisorAccess({ userId: supervisorUserId, sessionId: session.id });
+
+        const userNotLinkedToTheSessionId = databaseBuilder.factory.buildUser().id;
+
+        await databaseBuilder.commit();
+
+        const headers = {
+          authorization: generateValidRequestAuthorizationHeader(userNotLinkedToTheSessionId, 'pix-certif'),
+        };
+        const options = {
+          headers,
+          method: 'PATCH',
+          url: `/api/sessions/${certificationCourse.sessionId}/candidates/${certificationCourse.userId}/validate-live-alert`,
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+  });
 });

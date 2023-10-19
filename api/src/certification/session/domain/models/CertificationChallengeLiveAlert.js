@@ -24,6 +24,10 @@ class CertificationChallengeLiveAlert {
   dismiss() {
     this.status = CertificationChallengeLiveAlertStatus.DISMISSED;
   }
+
+  validate() {
+    this.status = CertificationChallengeLiveAlertStatus.ACCEPTED;
+  }
 }
 
 export { CertificationChallengeLiveAlert, CertificationChallengeLiveAlertStatus };
