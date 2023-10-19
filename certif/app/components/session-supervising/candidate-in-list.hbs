@@ -128,8 +128,8 @@
     </:description>
   </SessionSupervising::ConfirmationModal>
 
-  <SessionSupervising::AskForLiveAlertRejectionModal
-    @showModal={{this.isAskForLiveAlertRejectionDisplayed}}
+  <SessionSupervising::HandleLiveAlertModal
+    @showModal={{this.isHandleLiveAlertModalDisplayed}}
     @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
     @title={{this.candidateFullName}}
     @rejectLiveAlert={{this.rejectLiveAlert}}

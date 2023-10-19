@@ -4,6 +4,7 @@ import {
   certificationIssueReportSubcategories,
   subcategoryToCode,
   subcategoryToLabel,
+  inChallengeIssueReportSubCategories,
 } from 'pix-certif/models/certification-issue-report';
 import { service } from '@ember/service';
 
@@ -19,18 +20,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
     return this.args.inChallengeCategory.categoryCode;
   }
 
-  options = [
-    'IMAGE_NOT_DISPLAYING',
-    'EMBED_NOT_WORKING',
-    'FILE_NOT_OPENING',
-    'WEBSITE_UNAVAILABLE',
-    'WEBSITE_BLOCKED',
-    'EXTRA_TIME_EXCEEDED',
-    'SOFTWARE_NOT_WORKING',
-    'UNINTENTIONAL_FOCUS_OUT',
-    'SKIP_ON_OOPS',
-    'ACCESSIBILITY_ISSUE',
-  ]
+  options = inChallengeIssueReportSubCategories
     .map((subcategoryKey) => {
       const subcategory = certificationIssueReportSubcategories[subcategoryKey];
       const labelForSubcategory = subcategoryToLabel[subcategory];
