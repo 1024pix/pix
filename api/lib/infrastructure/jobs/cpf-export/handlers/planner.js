@@ -11,7 +11,8 @@ const planner = async function ({ job, pgBoss, cpfCertificationResultRepository,
     .toDate();
   const endDate = dayjs().utc().subtract(plannerJob.minimumReliabilityPeriod, 'months').endOf('month').toDate();
 
-  const cpfCertificationResultCount = await cpfCertificationResultRepository.countByTimeRange({ startDate, endDate });
+  const cpfCertificationResultCount =
+    await cpfCertificationResultRepository.countExportableCertificationCoursesByTimeRange({ startDate, endDate });
   const cpfCertificationResultChunksCount = Math.ceil(cpfCertificationResultCount / plannerJob.chunkSize);
 
   logger.info(
