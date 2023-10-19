@@ -9,7 +9,11 @@ export default class DetailsRoute extends Route {
   }
 
   async model() {
-    return this.modelFor('authenticated.complementary-certifications.complementary-certification');
+    const complementaryCertification = await this.modelFor(
+      'authenticated.complementary-certifications.complementary-certification',
+    );
+    await complementaryCertification.reload();
+    return complementaryCertification;
   }
 
   resetController(controller, isExiting) {
