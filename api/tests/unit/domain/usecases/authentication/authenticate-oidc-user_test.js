@@ -34,7 +34,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
     userRepository = { findByExternalIdentifier: sinon.stub() };
     userLoginRepository = {
-      updateLastLoggedAt: sinon.stub(),
+      updateLastLoggedAt: sinon.stub().resolves(),
     };
   });
 
