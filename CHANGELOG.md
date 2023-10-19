@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.51.0 (19/10/2023)
+
+
+### :building_construction: Tech
+- [#7287](https://github.com/1024pix/pix/pull/7287) [TECH] Mettre la release dans le cache de premier niveau avant de démarrer le serveur.
+
 ## v4.50.0 (19/10/2023)
 
 
