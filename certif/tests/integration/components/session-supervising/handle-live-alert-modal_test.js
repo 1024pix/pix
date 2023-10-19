@@ -70,7 +70,23 @@ module('Integration | Component | handle-live-alert-modal', function (hooks) {
 
     // then
     assert.dom(screen.getByText('Jean-Paul Candidat')).exists();
-    assert.dom(screen.getByRole('button', { name: 'Refuser le signalement' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Valider le signalement' })).exists();
+    assert
+      .dom(
+        screen.getByRole('button', {
+          name: this.intl.t(
+            'pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.dismiss-alert-button',
+          ),
+        }),
+      )
+      .exists();
+    assert
+      .dom(
+        screen.getByRole('button', {
+          name: this.intl.t(
+            'pages.session-supervising.candidate-in-list.handle-live-alert-modal.ask.validate-alert-button',
+          ),
+        }),
+      )
+      .exists();
   });
 });

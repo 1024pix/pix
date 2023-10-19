@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { click, fillIn } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, within } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
 import { Response } from 'miragejs';
 import sinon from 'sinon';
@@ -238,9 +238,81 @@ module('Acceptance | Session supervising', function (hooks) {
   });
 
   module('when supervisor handles a live alert', function () {
-    module('when there is a current alert', function () {
-      module('when there is no error', function () {
-        test('it dismisses the live alert', async function (assert) {
+    module('when there is no error', function () {
+      test('it dismisses the live alert', async function (assert) {
+        // given
+        const sessionId = 12345;
+        this.sessionForSupervising = server.create('session-for-supervising', {
+          id: sessionId,
+          certificationCandidates: [
+            server.create('certification-candidate-for-supervising', {
+              userId: 123,
+              firstName: 'John',
+              lastName: 'Doe',
+              birthdate: '1984-05-28',
+              extraTimePercentage: null,
+              authorizedToStart: true,
+              assessmentStatus: 'started',
+              liveAlertStatus: 'ongoing',
+            }),
+          ],
+        });
+
+        const screen = await visit('/connexion-espace-surveillant');
+        await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+        await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+        await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+        await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+        await click(screen.getByText('Refuser le signalement'));
+
+        // then
+        assert.dom(screen.getByText('Le signalement a bien été refusé.')).exists();
+      });
+    });
+
+    module('when there is an error', function () {
+      test('it displays an error notification', async function (assert) {
+        // given
+        const sessionId = 123;
+        const candidateId = 12345;
+        server.patch(`/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`, () => new Response(400));
+        this.sessionForSupervising = server.create('session-for-supervising', {
+          id: sessionId,
+          certificationCandidates: [
+            server.create('certification-candidate-for-supervising', {
+              userId: candidateId,
+              firstName: 'John',
+              lastName: 'Doe',
+              birthdate: '1984-05-28',
+              extraTimePercentage: null,
+              authorizedToStart: true,
+              assessmentStatus: 'started',
+              liveAlertStatus: 'ongoing',
+            }),
+          ],
+        });
+
+        const screen = await visit('/connexion-espace-surveillant');
+        await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '123');
+        await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+        await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+        await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+        await click(screen.getByText('Refuser le signalement'));
+
+        // then
+        assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+      });
+    });
+
+    module('when exiting the form', function () {
+      module('when dismissing the alert', function () {
+        test('it should reset the form', async function (assert) {
           // given
           const sessionId = 12345;
           this.sessionForSupervising = server.create('session-for-supervising', {
@@ -267,24 +339,25 @@ module('Acceptance | Session supervising', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByLabelText("E1 L'image ne s'affiche pas"));
           await click(screen.getByText('Refuser le signalement'));
-
+          await click(screen.getByText('Fermer'));
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
           // then
-          assert.dom(screen.getByText('Le signalement a bien été refusé.')).exists();
+          const checkedRadioButtons = screen.queryAllByRole('radio', { checked: true });
+          assert.strictEqual(checkedRadioButtons.length, 0);
         });
       });
-
-      module('when there is an error', function () {
-        test('it displays an error notification', async function (assert) {
+      module('when closing the modal', function () {
+        test('it should reset the form', async function (assert) {
           // given
-          const sessionId = 123;
-          const candidateId = 12345;
-          server.patch(`/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`, () => new Response(400));
+          const sessionId = 12345;
           this.sessionForSupervising = server.create('session-for-supervising', {
             id: sessionId,
             certificationCandidates: [
               server.create('certification-candidate-for-supervising', {
-                userId: candidateId,
+                userId: 123,
                 firstName: 'John',
                 lastName: 'Doe',
                 birthdate: '1984-05-28',
@@ -297,17 +370,21 @@ module('Acceptance | Session supervising', function (hooks) {
           });
 
           const screen = await visit('/connexion-espace-surveillant');
-          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '123');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
           await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
           await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
-          await click(screen.getByText('Refuser le signalement'));
+          await click(screen.getByLabelText("E1 L'image ne s'affiche pas"));
+
+          const modal = await screen.findByRole('dialog');
+          await click(within(modal).getByLabelText('Fermer'));
 
           // then
-          assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+          const checkedRadioButtons = screen.queryAllByRole('radio', { checked: true });
+          assert.strictEqual(checkedRadioButtons.length, 0);
         });
       });
     });
