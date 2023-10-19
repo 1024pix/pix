@@ -150,7 +150,7 @@ module(
       });
 
       module('when user submits the form', function () {
-        test('it should save the new attached target profile and redirect to complementary certification list', async function (assert) {
+        test('it should save the new attached target profile and redirect to complementary certification details', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           server.create('complementary-certification', {
@@ -212,7 +212,7 @@ module(
               ),
             )
             .exists();
-          assert.strictEqual(currentURL(), '/complementary-certifications/list');
+          assert.strictEqual(currentURL(), '/complementary-certifications/1/details');
         });
       });
     });
