@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, knex, sinon } from '../../test-helper.js';
 import { deleteSupOrganizationLearnersDisabled } from '../../../db/migrations/20231003140113_delete-sup-organization-learners-disabled.js';
 
-describe('Integration | Scripts | delete-sup-organization-learners-disabled', function () {
+describe('Integration | Migration | delete-sup-organization-learners-disabled', function () {
   let clock;
   let deletedById;
 
