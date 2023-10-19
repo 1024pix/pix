@@ -14,7 +14,7 @@ export default class ScorecardDetails extends Component {
   @tracked showResetModal = false;
 
   get displayImprovingWaitSentence() {
-    return !this.args.scorecard.isImprovable;
+    return !this.args.scorecard.isImprovable && !this.args.scorecard.isFinishedWithMaxLevel;
   }
 
   get displayImprovingButton() {
