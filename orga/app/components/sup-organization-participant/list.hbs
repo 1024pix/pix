@@ -28,11 +28,13 @@
       <tbody>
         {{#each @students as |student index|}}
           <SupOrganizationParticipant::TableRow
+            @showCheckbox={{this.showCheckbox}}
             @index={{index}}
             @student={{student}}
             @onClickLearner={{@onClickLearner}}
             @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
             @isAdminInOrganization={{this.currentUser.isAdminInOrganization}}
+            @onToggleParticipant={{this.onToggleAll}}
           />
         {{/each}}
       </tbody>

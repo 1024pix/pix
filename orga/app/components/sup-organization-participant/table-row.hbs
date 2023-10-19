@@ -3,6 +3,17 @@
   {{on "click" (fn @onClickLearner @student.id)}}
   class="tr--clickable"
 >
+  {{#if @showCheckbox}}
+    <td class="table__column" {{on "click" @onToggleParticipant}}>
+      <PixCheckbox @screenReaderOnly={{true}} @checked={{@isParticipantSelected}}>
+        {{t
+          "pages.organization-participants.table.column.checkbox"
+          firstname=@student.firstName
+          lastname=@student.lastName
+        }}
+      </PixCheckbox>
+    </td>
+  {{/if}}
   <td class="ellipsis">{{@student.studentNumber}}</td>
   <td class="ellipsis">
     <LinkTo @route="authenticated.sup-organization-participants.sup-organization-participant" @model={{@student.id}}>
