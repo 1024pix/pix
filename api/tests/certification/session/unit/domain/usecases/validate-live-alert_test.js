@@ -53,7 +53,7 @@ describe('Unit | UseCase | validate-live-alert', function () {
       const validatedLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
         assessmentId: liveAlert.assessmentId,
         challengeId: liveAlert.challengeId,
-        status: CertificationChallengeLiveAlertStatus.ACCEPTED,
+        status: CertificationChallengeLiveAlertStatus.VALIDATED,
       });
 
       // when

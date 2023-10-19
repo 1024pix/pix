@@ -1,7 +1,7 @@
 const CertificationChallengeLiveAlertStatus = Object.freeze({
   ONGOING: 'ongoing',
   DISMISSED: 'dismissed',
-  ACCEPTED: 'accepted',
+  VALIDATED: 'validated',
 });
 
 class CertificationChallengeLiveAlert {
@@ -26,7 +26,7 @@ class CertificationChallengeLiveAlert {
   }
 
   validate() {
-    this.status = CertificationChallengeLiveAlertStatus.ACCEPTED;
+    this.status = CertificationChallengeLiveAlertStatus.VALIDATED;
   }
 }
 

@@ -233,7 +233,7 @@ describe('Unit | UseCase | get-assessment', function () {
           assessmentRepository.getWithAnswers.withArgs(assessment.id).resolves(assessment);
           const dismissedLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
             assessmentId: assessment.id,
-            status: CertificationChallengeLiveAlertStatus.ACCEPTED,
+            status: CertificationChallengeLiveAlertStatus.VALIDATED,
           });
           certificationChallengeLiveAlertRepository.getByAssessmentId
             .withArgs(assessment.id)

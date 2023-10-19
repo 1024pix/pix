@@ -496,7 +496,7 @@ describe('Unit | Domain | Models | Assessment', function () {
               status: CertificationChallengeLiveAlertStatus.DISMISSED,
             }),
             domainBuilder.buildCertificationChallengeLiveAlert({
-              status: CertificationChallengeLiveAlertStatus.ACCEPTED,
+              status: CertificationChallengeLiveAlertStatus.VALIDATED,
             }),
           ],
         });
