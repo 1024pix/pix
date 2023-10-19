@@ -10,7 +10,7 @@ const register = async function (server) {
         auth: false,
         handler: modulesController.getBySlug,
         validate: {
-          params: Joi.object({ slug: Joi.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/) }).required(),
+          params: Joi.object({ slug: Joi.string().required() }),
         },
         notes: ['- Permet de récupérer un module grâce à son titre slugifié'],
         tags: ['api', 'modules'],
