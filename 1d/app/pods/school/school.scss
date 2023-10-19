@@ -1,0 +1,23 @@
+.divisions, .learners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  margin: auto 50px 35px;
+  font-size: 1.125rem;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 70px;
+    background: #FFFFFF;
+    border: 4px solid #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
+  }
+}

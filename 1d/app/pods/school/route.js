@@ -5,6 +5,12 @@ export default class SchoolRoute extends Route {
   @service store;
 
   async model(params) {
-    return this.store.findRecord('school', params.code);
+    const school = await this.store.findRecord('school', params.code);
+    const divisions = [...new Set(school.organizationLearners.map((learner) => learner.division))];
+    return {
+      name: school.name,
+      organizationLearners: school.organizationLearners,
+      divisions: divisions.sort(),
+    };
   }
 }
