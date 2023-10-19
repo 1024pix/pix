@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-export default class DivisionRoute extends Route {
+export default class StudentsRoute extends Route {
   @service router;
   async model(_, transition) {
     const school = await this.modelFor('school');
@@ -12,7 +12,6 @@ export default class DivisionRoute extends Route {
         organizationLearners: divisionLearners,
       };
     } else {
-      console.log('tese', school);
       return this.router.replaceWith('school', school);
     }
   }

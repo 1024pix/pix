@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 
-export default class Division extends Controller {
+export default class Students extends Controller {
   queryParams = ['division'];
 
   uppercaseFirstLetter(name) {

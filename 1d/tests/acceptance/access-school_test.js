@@ -22,7 +22,7 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU');
       assert.dom(screen.getByText(school.name)).exists();
-      assert.dom(screen.getByRole('link', { name: 'CM2-A' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'CM2 A' })).exists();
       assert.dom(screen.getByRole('link', { name: 'CM2-B' })).exists();
     });
 
@@ -33,7 +33,7 @@ module('Acceptance | School', function (hooks) {
       const screen = await visit('/schools/MINIPIXOU');
       // then
       assert.dom(screen.getByText(school.name)).exists();
-      assert.dom(screen.getByRole('link', { name: 'CM2-A' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'CM2 A' })).exists();
       assert.dom(screen.getByRole('link', { name: 'CM2-B' })).exists();
     });
   });
@@ -52,14 +52,31 @@ module('Acceptance | School', function (hooks) {
   module('access to the list of the learners for a division', function () {
     test('redirect the list of the learners after select a division', async function (assert) {
       // given
-      const division = 'CM2-A';
+      const division = 'CM2-B';
       this.server.create('school');
       // when
       const screen = await visit('/schools/MINIPIXOU');
       await click(screen.getByRole('link', { name: division }));
 
       // then
-      assert.strictEqual(currentURL(), '/schools/MINIPIXOU/division?division=CM2-A');
+      assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2-B');
+      assert.dom(screen.getByText(division)).exists();
+      assert.dom(screen.getByRole('link', { name: 'Sara Crewe' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Maya Labeille' })).exists();
+    });
+  });
+
+  module('access to the list of the learners for a division with special characters', function () {
+    test('redirect the list of the learners after select a division', async function (assert) {
+      // given
+      const division = 'CM2 A';
+      this.server.create('school');
+      // when
+      const screen = await visit('/schools/MINIPIXOU');
+      await click(screen.getByRole('link', { name: division }));
+
+      // then
+      assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2%20A');
       assert.dom(screen.getByText(division)).exists();
       assert.dom(screen.getByRole('link', { name: 'Mickey Mouse' })).exists();
       assert.dom(screen.getByRole('link', { name: 'Donald Duck' })).exists();
@@ -72,8 +89,8 @@ module('Acceptance | School', function (hooks) {
       this.server.create('school');
       // when
       const screen = await visit('/schools/MINIPIXOU');
-      await click(screen.getByRole('link', { name: 'CM2-A' }));
-      await click(screen.getByRole('link', { name: 'Donald Duck' }));
+      await click(screen.getByRole('link', { name: 'CM2-B' }));
+      await click(screen.getByRole('link', { name: 'Maya Labeille' }));
 
       // then
       assert.strictEqual(currentURL(), '/missions');
@@ -89,7 +106,7 @@ module('Acceptance | School', function (hooks) {
       //Lorsqu'on souhaite tester un transitioTo, on doit utiliser un try/catch 🤯
       //https://github.com/emberjs/ember-test-helpers/issues/332
       try {
-        await visit('/schools/MINIPIXOU/division');
+        await visit('/schools/MINIPIXOU/students');
       } catch (e) {
         console.error(e);
       }
