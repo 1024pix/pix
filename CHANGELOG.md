@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v4.50.0 (19/10/2023)
+
+
+### :rocket: Amélioration
+- [#7274](https://github.com/1024pix/pix/pull/7274) [FEATURE] Ajout de la modal de validation de signalement dans la certification V3 (PIX-9689).
+- [#7221](https://github.com/1024pix/pix/pull/7221) [FEATURE] Séparation des données du compte-personnel-formation en base (PIX-9103).
+- [#7265](https://github.com/1024pix/pix/pull/7265) [FEATURE] Modification de la redirection une fois le rattachement du nouveau PC réussi (PIX-9568).
+- [#7273](https://github.com/1024pix/pix/pull/7273) [FEATURE]  Identifie la classe puis l'élève dans Pix 1D (pix-9086).
+- [#7239](https://github.com/1024pix/pix/pull/7239) [FEATURE] Ne pas indiquer de tenter le niveau supérieur lorsque l'utilisateur a atteint le niveau max (PIX-9595).
+
+### :bug: Correction
+- [#7248](https://github.com/1024pix/pix/pull/7248) [BUGFIX] Éviter les erreurs 400 en récupérant un module (PIX-9597).
+
 ## v4.49.0 (18/10/2023)
 
 
