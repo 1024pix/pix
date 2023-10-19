@@ -165,6 +165,12 @@ export default class CandidateInList extends Component {
   }
 
   @action
+  async validateLiveAlert() {
+    const adapter = this.store.adapterFor('session');
+    await adapter.validateLiveAlert(this.args.sessionId, this.args.candidate.userId);
+  }
+
+  @action
   closeConfirmationModal() {
     this.displayedModal = null;
   }
