@@ -1,6 +1,6 @@
 import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
-import * as schoolRepository from '../../../../lib/infrastructure/repositories/school-repository.js';
-import { School } from '../../../../lib/domain/models/School.js';
+import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
+import { School } from '../../../../src/school/domain/models/School.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | School', function () {

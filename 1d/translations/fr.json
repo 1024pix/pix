@@ -35,6 +35,14 @@
       "title": "Erreur",
       "message": "Oups, une erreur inattendue est survenue.",
       "backHome": "Retour à l'accueil"
+    },
+    "school": {
+      "division-list": {
+        "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."
+      },
+      "division": {
+        "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Trouves-toi dans la liste."
+      }
     }
   }
 }

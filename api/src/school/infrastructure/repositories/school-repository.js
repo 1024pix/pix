@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 import { School } from '../../domain/models/School.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const save = async function ({ organizationId, code }) {
   const [organizationCreated] = await knex('schools').insert({ organizationId, code }).returning('*');
