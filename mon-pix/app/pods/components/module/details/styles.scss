@@ -16,4 +16,46 @@
     justify-content: center;
     margin: 1rem;
   }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $pix-spacing-s;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .grain {
+    display: flex;
+    flex-direction: column;
+    gap: $pix-spacing-s;
+    width: 100%;
+    margin: 0;
+    padding: $pix-spacing-s;
+    background: $pix-neutral-0;
+    border: 1px solid $pix-neutral-22;
+    border-radius: $pix-spacing-s;
+
+    &__element {
+      &--text {
+        @extend %pix-body-l;
+
+        color: $pix-neutral-90;
+
+        // revert the reset
+        ul, ol {
+          margin: revert;
+          padding: revert;
+          list-style: revert;
+        }
+      }
+    }
+
+    &__footer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: $pix-spacing-xs;
+    }
+  }
 }

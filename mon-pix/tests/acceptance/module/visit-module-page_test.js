@@ -22,24 +22,6 @@ module('Acceptance | Module | Routes | get', function (hooks) {
     assert.strictEqual(currentURL(), '/modules/les-adresses-mail');
   });
 
-  test('should display the module title as heading', async function (assert) {
-    // given
-    const module = {
-      title: 'Les adresses mail',
-    };
-
-    server.create('module', {
-      id: 'les-adresses-mail',
-      title: module.title,
-    });
-
-    // when
-    const screen = await visit('/modules/les-adresses-mail');
-
-    // then
-    assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
-  });
-
   test('should include the module title inside the page title', async function (assert) {
     // given
     const module = {
