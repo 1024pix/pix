@@ -41,6 +41,7 @@
     "test:watch": "ember exam --serve --reporter dot"
   },
   "devDependencies": {
+    "@1024pix/ember-matomo-tag-manager": "^2.4.2",
     "@1024pix/ember-testing-library": "^0.8.1",
     "@1024pix/eslint-config": "^1.0.3",
     "@1024pix/pix-ui": "^40.0.0",
