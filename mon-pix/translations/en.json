@@ -1169,6 +1169,11 @@
         }
       }
     },
+    "modulix": {
+      "buttons": {
+        "continue": "Continue"
+      }
+    },
     "not-connected": {
       "title": "Logged out",
       "message": "You've been logged out.'<br>'Thanks! See you soon"
