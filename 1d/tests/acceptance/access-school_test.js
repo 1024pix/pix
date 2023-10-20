@@ -61,8 +61,8 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2-B');
       assert.dom(screen.getByText(division)).exists();
-      assert.dom(screen.getByRole('link', { name: 'Sara Crewe' })).exists();
-      assert.dom(screen.getByRole('link', { name: 'Maya Labeille' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Sara Crewe' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Maya Labeille' })).exists();
     });
   });
 
@@ -78,8 +78,8 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2%20A');
       assert.dom(screen.getByText(division)).exists();
-      assert.dom(screen.getByRole('link', { name: 'Mickey Mouse' })).exists();
-      assert.dom(screen.getByRole('link', { name: 'Donald Duck' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Mickey Mouse' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Donald Duck' })).exists();
     });
   });
 
@@ -90,7 +90,7 @@ module('Acceptance | School', function (hooks) {
       // when
       const screen = await visit('/schools/MINIPIXOU');
       await click(screen.getByRole('link', { name: 'CM2-B' }));
-      await click(screen.getByRole('link', { name: 'Maya Labeille' }));
+      await click(screen.getByRole('button', { name: 'Maya Labeille' }));
 
       // then
       assert.strictEqual(currentURL(), '/missions');
