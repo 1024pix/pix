@@ -4,10 +4,14 @@ import { service } from '@ember/service';
 export default class StudentsRoute extends Route {
   @service router;
 
-  async model(_, transition) {
+  queryParams = {
+    division: '',
+  };
+
+  async model(params) {
     const school = await this.modelFor('school');
-    if (transition.to.queryParams.division) {
-      const division = transition.to.queryParams.division;
+    const division = params.division;
+    if (division) {
       const divisionLearners = school.organizationLearners.filter((learner) => learner.division === division);
       return {
         division,

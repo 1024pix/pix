@@ -10,4 +10,11 @@ export default class IdentifiedRoute extends Route {
       this.router.transitionTo('organization-code');
     }
   }
+
+  async model() {
+    const currentLearner = this.currentLearner.learner;
+    return {
+      studentsUrl: `${currentLearner.schoolUrl}/students?division=${currentLearner.division}`,
+    };
+  }
 }

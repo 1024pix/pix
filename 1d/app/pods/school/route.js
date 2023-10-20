@@ -3,6 +3,11 @@ import { service } from '@ember/service';
 
 export default class SchoolRoute extends Route {
   @service store;
+  @service currentLearner;
+
+  async beforeModel() {
+    this.currentLearner.remove();
+  }
 
   async model(params) {
     const school = await this.store.findRecord('school', params.code);
