@@ -1,9 +1,9 @@
 <RobotDialog @instruction={{t "pages.school.division.find-name" division=@model.division}} />
 <div class="learners">
   {{#each @model.organizationLearners as |learner|}}
-    <LinkTo @route="missions" class="learners__item">
+    <PixButton @triggerAction={{fn this.identifyUser learner}} class="learners__item">
       <p>{{learner.firstName}}</p>
       <p>{{this.uppercaseFirstLetter learner.lastName}}</p>
-    </LinkTo>
+    </PixButton>
   {{/each}}
 </div>
