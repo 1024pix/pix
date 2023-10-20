@@ -101,7 +101,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         user_id: userId,
         identityProviderCode,
       });
-      assert.ok(true);
     });
 
     test('should fetch token with code, redirectUri, and state in body', async function (assert) {
@@ -129,7 +128,6 @@ module('Unit | Authenticator | oidc', function (hooks) {
         user_id: userId,
         identityProviderCode,
       });
-      assert.ok(true);
     });
 
     module('when user is authenticated', function () {
