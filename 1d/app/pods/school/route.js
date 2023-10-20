@@ -8,6 +8,7 @@ export default class SchoolRoute extends Route {
     const school = await this.store.findRecord('school', params.code);
     const divisions = [...new Set(school.organizationLearners.map((learner) => learner.division))];
     return {
+      code: school.code,
       name: school.name,
       organizationLearners: school.organizationLearners,
       divisions: divisions.sort(),

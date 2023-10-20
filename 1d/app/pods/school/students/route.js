@@ -1,7 +1,9 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+
 export default class StudentsRoute extends Route {
   @service router;
+
   async model(_, transition) {
     const school = await this.modelFor('school');
     if (transition.to.queryParams.division) {
@@ -10,6 +12,7 @@ export default class StudentsRoute extends Route {
       return {
         division,
         organizationLearners: divisionLearners,
+        schoolUrl: `/schools/${school.code}`,
       };
     } else {
       return this.router.replaceWith('school', school);

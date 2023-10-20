@@ -41,7 +41,7 @@
         "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."
       },
       "division": {
-        "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Clique sur ton prénom dans la liste."
+        "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Clique sur ton prénom dans la liste.<br><a href=\"{backUrl}\">Retour</a>"
       }
     }
   }
