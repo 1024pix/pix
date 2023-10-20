@@ -1,4 +1,4 @@
-import { CertificationChallengeLiveAlert } from '../models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlert } from '../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 const createCertificationChallengeLiveAlert = async function ({
   assessmentId,

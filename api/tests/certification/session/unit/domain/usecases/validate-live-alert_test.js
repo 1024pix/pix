@@ -1,9 +1,9 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
-import { dismissLiveAlert } from '../../../../../../src/certification/session/domain/usecases/dismiss-live-alert.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { validateLiveAlert } from '../../../../../../src/certification/session/domain/usecases/validate-live-alert.js';
 
-describe('Unit | UseCase | dismiss-live-alert', function () {
+describe('Unit | UseCase | validate-live-alert', function () {
   let certificationChallengeLiveAlertRepository;
 
   beforeEach(function () {
@@ -26,7 +26,7 @@ describe('Unit | UseCase | dismiss-live-alert', function () {
         .resolves(null);
 
       // when
-      const error = await catchErr(dismissLiveAlert)({
+      const error = await catchErr(validateLiveAlert)({
         certificationChallengeLiveAlertRepository,
         sessionId,
         userId,
@@ -50,14 +50,14 @@ describe('Unit | UseCase | dismiss-live-alert', function () {
         })
         .resolves(liveAlert);
 
-      const dismissedLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
+      const validatedLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
         assessmentId: liveAlert.assessmentId,
         challengeId: liveAlert.challengeId,
-        status: CertificationChallengeLiveAlertStatus.DISMISSED,
+        status: CertificationChallengeLiveAlertStatus.VALIDATED,
       });
 
       // when
-      await dismissLiveAlert({
+      await validateLiveAlert({
         certificationChallengeLiveAlertRepository,
         sessionId,
         userId,
@@ -65,7 +65,7 @@ describe('Unit | UseCase | dismiss-live-alert', function () {
 
       // then
       expect(certificationChallengeLiveAlertRepository.save).to.have.been.calledWithExactly({
-        certificationChallengeLiveAlert: domainBuilder.buildCertificationChallengeLiveAlert(dismissedLiveAlert),
+        certificationChallengeLiveAlert: domainBuilder.buildCertificationChallengeLiveAlert(validatedLiveAlert),
       });
     });
   });

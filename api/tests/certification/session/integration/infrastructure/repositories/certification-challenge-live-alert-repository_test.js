@@ -1,6 +1,6 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import * as certificationChallengeLiveAlertRepository from '../../../../../../src/certification/session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 const assessmentIdWithNoAlerts = 123;
 const assessmentIdWithLiveAlert = 456;
