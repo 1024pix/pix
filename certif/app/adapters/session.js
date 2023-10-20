@@ -64,4 +64,9 @@ export default class SessionAdapter extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`;
     return this.ajax(url, 'PATCH');
   }
+
+  validateLiveAlert(sessionId, candidateId) {
+    const url = `${this.host}/${this.namespace}/sessions/${sessionId}/candidates/${candidateId}/validate-live-alert`;
+    return this.ajax(url, 'PATCH');
+  }
 }

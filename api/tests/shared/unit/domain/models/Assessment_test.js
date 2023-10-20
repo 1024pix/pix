@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 describe('Unit | Domain | Models | Assessment', function () {
   describe('#constuctor', function () {
@@ -496,7 +496,7 @@ describe('Unit | Domain | Models | Assessment', function () {
               status: CertificationChallengeLiveAlertStatus.DISMISSED,
             }),
             domainBuilder.buildCertificationChallengeLiveAlert({
-              status: CertificationChallengeLiveAlertStatus.ACCEPTED,
+              status: CertificationChallengeLiveAlertStatus.VALIDATED,
             }),
           ],
         });

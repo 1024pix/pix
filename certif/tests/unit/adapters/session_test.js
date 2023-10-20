@@ -172,7 +172,7 @@ module('Unit | Adapter | session', function (hooks) {
   });
 
   module('#dismissLiveAlert', () => {
-    test('should build save url from session id and candidate id', async function (assert) {
+    test('should build dismiss live alert url from session id and candidate id', async function (assert) {
       // given
       adapter.ajax = sinon.stub();
       const sessionId = 123;
@@ -185,6 +185,26 @@ module('Unit | Adapter | session', function (hooks) {
       assert.ok(
         adapter.ajax.calledWith(
           `${ENV.APP.API_HOST}/api/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`,
+          'PATCH',
+        ),
+      );
+    });
+  });
+
+  module('#validateLiveAlert', () => {
+    test('should build validate live alert url from session id and candidate id', async function (assert) {
+      // given
+      adapter.ajax = sinon.stub();
+      const sessionId = 123;
+      const candidateId = 456;
+
+      // when
+      await adapter.validateLiveAlert(sessionId, candidateId);
+
+      // then
+      assert.ok(
+        adapter.ajax.calledWith(
+          `${ENV.APP.API_HOST}/api/sessions/${sessionId}/candidates/${candidateId}/validate-live-alert`,
           'PATCH',
         ),
       );

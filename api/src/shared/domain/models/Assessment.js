@@ -1,6 +1,6 @@
 import { ObjectValidationError } from '../../../../lib/domain/errors.js';
 import { Answer } from '../../../evaluation/domain/models/Answer.js';
-import { CertificationChallengeLiveAlertStatus } from '../../../../lib/domain/models/CertificationChallengeLiveAlert.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
