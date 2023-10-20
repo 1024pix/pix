@@ -8,4 +8,8 @@ export default class CurrentLearnerService extends Service {
   async setLearner(learner) {
     localStorage.setItem('learner', JSON.stringify(learner));
   }
+
+  async remove() {
+    localStorage.removeItem('learner');
+  }
 }
