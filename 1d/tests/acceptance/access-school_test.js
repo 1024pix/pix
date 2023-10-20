@@ -4,17 +4,52 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupIntl } from 'ember-intl/test-support';
+import identifyLearner from '../helpers/identify-learner';
 module('Acceptance | School', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
+
+  hooks.afterEach(async function () {
+    localStorage.clear();
+  });
+
+  module('When the user is not identified', function () {
+    test('should redirect to organization-code', async function (assert) {
+      try {
+        await visit('/');
+      } catch (error) {
+        const { message } = error;
+        if (message !== 'TransitionAborted') {
+          throw error;
+        }
+      }
+      assert.strictEqual(currentURL(), '/organization-code');
+    });
+  });
+
+  module('When the user is identified', function () {
+    test('should display mission page', async function (assert) {
+      identifyLearner({ firstName: 'Amanda' }, this.owner);
+      try {
+        await visit('/');
+      } catch (error) {
+        const { message } = error;
+        if (message !== 'TransitionAborted') {
+          throw error;
+        }
+      }
+      assert.strictEqual(currentURL(), '/');
+    });
+  });
 
   module('with valid school code', function () {
     test('redirect to school page after filling code', async function (assert) {
       // given
       const school = this.server.create('school');
       // when
-      const screen = await visit('/');
+      const screen = await visit('/organization-code');
+
       const code = ['M', 'I', 'N', 'I', 'P', 'I', 'X', 'O', 'U'];
 
       code.forEach((element, index) => fillIn(screen.getByLabelText(`Champ numéro ${index + 1}`), element));
@@ -93,7 +128,7 @@ module('Acceptance | School', function (hooks) {
       await click(screen.getByRole('button', { name: 'Maya Labeille' }));
 
       // then
-      assert.strictEqual(currentURL(), '/missions');
+      assert.strictEqual(currentURL(), '/');
     });
   });
 
@@ -107,8 +142,11 @@ module('Acceptance | School', function (hooks) {
       //https://github.com/emberjs/ember-test-helpers/issues/332
       try {
         await visit('/schools/MINIPIXOU/students');
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        const { message } = error;
+        if (message !== 'TransitionAborted') {
+          throw error;
+        }
       }
 
       // then

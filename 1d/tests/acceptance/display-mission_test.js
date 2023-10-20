@@ -3,6 +3,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl } from 'ember-intl/test-support';
+import identifiyLearner from '../helpers/identify-learner';
 
 module('Acceptance | Mission', function (hooks) {
   setupApplicationTest(hooks);
@@ -11,6 +12,7 @@ module('Acceptance | Mission', function (hooks) {
 
   test('displays mission page', async function (assert) {
     // given
+    identifiyLearner({ firstName: 'Élisa' }, this.owner);
     const mission = this.server.create('mission');
     // when
     const screen = await visit(`/missions/${mission.id}`);
