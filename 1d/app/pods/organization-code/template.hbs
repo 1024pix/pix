@@ -1,6 +1,8 @@
 {{page-title "Home"}}
+
 <RobotDialog @instruction={{t "pages.home.code-instruction"}} />
-<div class="school-code">
+
+<form {{action "goToSchool" on="submit"}} class="school-code">
   <PixInputCode
     @ariaLabel={{t "pages.home.field-description"}}
     @legend={{t "pages.home.code-description"}}
@@ -10,7 +12,7 @@
     class="school-code__input"
   />
 
-  <PixButton class="pix1d-button" @triggerAction={{this.goToSchool}} @shape="rounded">
+  <PixButton class="pix1d-button" type="submit" @shape="rounded">
     {{t "pages.home.go-to-school"}}
   </PixButton>
-</div>
+</form>
