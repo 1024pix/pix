@@ -23,7 +23,7 @@ import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecase
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
 import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
 import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
-import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
+import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 import { Organization } from '../domain/models/index.js';
 import { NotFoundError } from '../domain/errors.js';

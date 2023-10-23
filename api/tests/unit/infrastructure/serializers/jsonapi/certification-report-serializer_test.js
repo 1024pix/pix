@@ -3,7 +3,7 @@ import * as serializer from '../../../../../lib/infrastructure/serializers/jsona
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Serializer | JSONAPI | certification-report-serializer', function () {
   describe('#serialize()', function () {

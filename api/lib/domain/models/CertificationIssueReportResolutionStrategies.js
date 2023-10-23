@@ -1,5 +1,5 @@
 import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
-import { CertificationIssueReportSubcategories } from './CertificationIssueReportCategory.js';
+import { CertificationIssueReportSubcategories } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 async function neutralizeIfTimedChallengeStrategy({
   certificationIssueReport,

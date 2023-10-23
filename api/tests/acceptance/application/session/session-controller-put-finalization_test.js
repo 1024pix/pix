@@ -11,7 +11,7 @@ import { createServer } from '../../../../server.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { CertificationResult } from '../../../../lib/domain/models/CertificationResult.js';
 
