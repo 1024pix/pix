@@ -4,17 +4,52 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupIntl } from 'ember-intl/test-support';
+import identifyLearner from '../helpers/identify-learner';
 module('Acceptance | School', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
+
+  hooks.afterEach(async function () {
+    localStorage.clear();
+  });
+
+  module('When the user is not identified', function () {
+    test('should redirect to organization-code', async function (assert) {
+      try {
+        await visit('/');
+      } catch (error) {
+        const { message } = error;
+        if (message !== 'TransitionAborted') {
+          throw error;
+        }
+      }
+      assert.strictEqual(currentURL(), '/organization-code');
+    });
+  });
+
+  module('When the user is identified', function () {
+    test('should display mission page', async function (assert) {
+      identifyLearner({ firstName: 'Amanda' }, this.owner);
+      try {
+        await visit('/');
+      } catch (error) {
+        const { message } = error;
+        if (message !== 'TransitionAborted') {
+          throw error;
+        }
+      }
+      assert.strictEqual(currentURL(), '/');
+    });
+  });
 
   module('with valid school code', function () {
     test('redirect to school page after filling code', async function (assert) {
       // given
       const school = this.server.create('school');
       // when
-      const screen = await visit('/');
+      const screen = await visit('/organization-code');
+
       const code = ['M', 'I', 'N', 'I', 'P', 'I', 'X', 'O', 'U'];
 
       code.forEach((element, index) => fillIn(screen.getByLabelText(`Champ numéro ${index + 1}`), element));
@@ -61,8 +96,8 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2-B');
       assert.dom(screen.getByText(division)).exists();
-      assert.dom(screen.getByRole('link', { name: 'Sara Crewe' })).exists();
-      assert.dom(screen.getByRole('link', { name: 'Maya Labeille' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Sara Crewe' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Maya Labeille' })).exists();
     });
   });
 
@@ -78,8 +113,8 @@ module('Acceptance | School', function (hooks) {
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU/students?division=CM2%20A');
       assert.dom(screen.getByText(division)).exists();
-      assert.dom(screen.getByRole('link', { name: 'Mickey Mouse' })).exists();
-      assert.dom(screen.getByRole('link', { name: 'Donald Duck' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Mickey Mouse' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Donald Duck' })).exists();
     });
   });
 
@@ -90,10 +125,28 @@ module('Acceptance | School', function (hooks) {
       // when
       const screen = await visit('/schools/MINIPIXOU');
       await click(screen.getByRole('link', { name: 'CM2-B' }));
-      await click(screen.getByRole('link', { name: 'Maya Labeille' }));
+      await click(screen.getByRole('button', { name: 'Maya Labeille' }));
 
       // then
-      assert.strictEqual(currentURL(), '/missions');
+      assert.strictEqual(currentURL(), '/');
+    });
+    test('should save the selected user as current learner', async function (assert) {
+      // given
+      this.server.create('school');
+      const currentLearner = this.owner.lookup('service:currentLearner');
+      // when
+      const screen = await visit('/schools/MINIPIXOU');
+      await click(screen.getByRole('link', { name: 'CM2-B' }));
+      await click(screen.getByRole('button', { name: 'Maya Labeille' }));
+
+      // then
+      assert.deepEqual(currentLearner.learner, {
+        division: 'CM2-B',
+        firstName: 'Maya',
+        lastName: 'Labeille',
+        organizationId: 9000,
+        schoolUrl: '/schools/MINIPIXOU',
+      });
     });
   });
 
@@ -107,12 +160,42 @@ module('Acceptance | School', function (hooks) {
       //https://github.com/emberjs/ember-test-helpers/issues/332
       try {
         await visit('/schools/MINIPIXOU/students');
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        const { message } = error;
+        if (message !== 'TransitionAborted') {
+          throw error;
+        }
       }
 
       // then
       assert.strictEqual(currentURL(), '/schools/MINIPIXOU');
+    });
+  });
+
+  module('Remove current learner', function () {
+    test('when the user change name after having selected one', async function (assert) {
+      this.server.create('school');
+      const currentLearner = this.owner.lookup('service:currentLearner');
+      const screen = await visit('/schools/MINIPIXOU/students?division=CM2%20A');
+      await click(screen.getByRole('button', { name: 'Mickey Mouse' }));
+
+      // when
+      await visit('/schools/MINIPIXOU/students?division=CM2%20A');
+
+      // then
+      assert.strictEqual(currentLearner.learner, null);
+    });
+
+    test('when the user go back to organization-code page after having selected a learner', async function (assert) {
+      this.server.create('school');
+      const currentLearner = this.owner.lookup('service:currentLearner');
+      // when
+      const screen = await visit('/schools/MINIPIXOU/students?division=CM2%20A');
+      await click(screen.getByRole('button', { name: 'Mickey Mouse' }));
+      await visit('/organization-code');
+
+      // then
+      assert.strictEqual(currentLearner.learner, null);
     });
   });
 });
