@@ -1,9 +1,10 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 
 import ENV from 'pix-certif/config/environment';
-import get from 'lodash/get';
 
 export default class AuthenticatedTeamInviteController extends Controller {
   @service currentUser;
@@ -12,11 +13,14 @@ export default class AuthenticatedTeamInviteController extends Controller {
   @service router;
   @service store;
 
+  @tracked isLoading = false;
+
   emails = null;
 
   @action
   async createCertificationCenterInvitation(event) {
     event.preventDefault();
+    this.isLoading = true;
 
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     const emails = this.emails?.replace(/[\s\r\n]/g, '').split(',');
@@ -40,6 +44,8 @@ export default class AuthenticatedTeamInviteController extends Controller {
         console.error(responseError);
         this.notifications.error(this.intl.t('common.form-errors.default'));
       }
+    } finally {
+      this.isLoading = false;
     }
   }
 
