@@ -17,7 +17,8 @@ export default class Home extends Controller {
   }
 
   @action
-  goToSchool() {
+  goToSchool(event) {
+    event.preventDefault();
     this.router.transitionTo('school', this.upperCaseCode);
   }
 }

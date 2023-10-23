@@ -4,8 +4,9 @@ import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl } from 'ember-intl/test-support';
+import identifyLearner from '../helpers/identify-learner';
 
-module('Acceptance | Challenge', function (hooks) {
+module('Acceptance | End mission', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
@@ -14,12 +15,13 @@ module('Acceptance | Challenge', function (hooks) {
     // given
     const mission = this.server.create('mission');
     const assessment = this.server.create('assessment', { missionId: mission.id });
+    identifyLearner({ firstName: 'Dora' }, this.owner);
 
     // when
     await visit(`/assessments/${assessment.id}/results`);
     await clickByText(this.intl.t('pages.missions.end-page.back-to-missions'));
 
     // then
-    assert.strictEqual(currentURL(), '/missions');
+    assert.strictEqual(currentURL(), '/');
   });
 });

@@ -8,7 +8,9 @@
     {{/if}}
 
     <div class="mission-page__details">
-      <LinkTo @route="missions" class="details-go-back">{{t "pages.missions.start-page.back-to-missions"}}</LinkTo>
+      <LinkTo @route="identified.missions" class="details-go-back">{{t
+          "pages.missions.start-page.back-to-missions"
+        }}</LinkTo>
       <p class="details-list__title details-list__title--big">{{t "pages.missions.start-page.purpose-title"}}</p>
       <ul class="details-list">
         <li class="details-list__item">
@@ -21,7 +23,7 @@
         </li>
       </ul>
 
-      <PixButtonLink @route="missions.mission.resume" @shape="rounded" class="details-action">
+      <PixButtonLink @route="identified.missions.mission.resume" @shape="rounded" class="details-action">
         <p>{{t "pages.missions.start-page.start-mission"}}</p>
         <FaIcon @icon="arrow-right" class="details-action__icon" />
       </PixButtonLink>
