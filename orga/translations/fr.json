@@ -926,6 +926,7 @@
         "manage-account": "Gérer le compte",
         "show-actions": "Afficher les actions"
       },
+      "banner": "Le statut Certificabilité des élèves est actualisé automatiquement.",
       "connection-types": {
         "email": "Adresse e-mail",
         "empty": "–",
