@@ -14,7 +14,7 @@
       class="input"
       maxlength="255"
       {{on "change" (fn this.onChangeCampaignValue "name")}}
-      @value={{this.campaign.name}}
+      @value={{@campaign.name}}
       required={{true}}
       aria-required={{true}}
     />
@@ -32,7 +32,7 @@
         class="pix-select-owner"
         @options={{this.campaignOwnerOptions}}
         @onChange={{this.onChangeCampaignOwner}}
-        @value="{{this.campaign.ownerId}}"
+        @value="{{@campaign.ownerId}}"
         @isSearchable={{true}}
         @placeholder={{t "pages.campaign-creation.owner.placeholder"}}
         @searchLabel={{t "pages.campaign-creation.owner.search-placeholder"}}
@@ -116,12 +116,12 @@
         <PixFilterableAndSearchableSelect
           @label={{t "pages.campaign-creation.target-profiles-list-label"}}
           @placeholder={{t "pages.campaign-creation.target-profiles-label"}}
-          @options={{this.targetProfilesOptions}}
+          @options={{this.targetOwnerOptions}}
           @hideDefaultOption={{true}}
           @onChange={{this.selectTargetProfile}}
           @categoriesLabel={{t "pages.campaign-creation.target-profiles-category-label"}}
           @categoriesPlaceholder={{t "pages.campaign-creation.target-profiles-category-placeholder"}}
-          @value={{this.campaign.targetProfile.id}}
+          @value={{@campaign.targetProfile.id}}
           @requiredText={{t "common.form.mandatory-fields-title"}}
           @errorMessage={{if @errors.targetProfile (t "api-error-messages.campaign-creation.target-profile-required")}}
           @isSearchable={{true}}
@@ -129,18 +129,18 @@
         />
       </:default>
       <:information>
-        {{#if this.campaign.targetProfile}}
+        {{#if @campaign.targetProfile}}
           <Ui::ExplanationCard id="target-profile-info">
-            <:title>{{this.campaign.targetProfile.name}}</:title>
+            <:title>{{@campaign.targetProfile.name}}</:title>
 
             <:message>
               <Campaign::TargetProfileDetails
                 class="form__field-info-message"
-                @targetProfileDescription={{this.campaign.targetProfile.description}}
-                @hasStages={{this.campaign.targetProfile.hasStage}}
-                @hasBadges={{gt this.campaign.targetProfile.thematicResultCount 0}}
-                @targetProfileTubesCount={{this.campaign.targetProfile.tubeCount}}
-                @targetProfileThematicResultCount={{this.campaign.targetProfile.thematicResultCount}}
+                @targetProfileDescription={{@campaign.targetProfile.description}}
+                @hasStages={{@campaign.targetProfile.hasStage}}
+                @hasBadges={{gt @campaign.targetProfile.thematicResultCount 0}}
+                @targetProfileTubesCount={{@campaign.targetProfile.tubeCount}}
+                @targetProfileThematicResultCount={{@campaign.targetProfile.thematicResultCount}}
               />
             </:message>
           </Ui::ExplanationCard>
@@ -160,7 +160,7 @@
               @value="false"
               {{on "change" (fn this.selectMultipleSendingsStatus false)}}
               aria-describedby="multiple-sendings-info"
-              checked={{not this.campaign.multipleSendings}}
+              checked={{not @campaign.multipleSendings}}
             >
               {{t "pages.campaign-creation.no"}}
             </PixRadioButton>
@@ -170,7 +170,7 @@
               @value="true"
               {{on "change" (fn this.selectMultipleSendingsStatus true)}}
               aria-describedby="multiple-sendings-info"
-              checked={{this.campaign.multipleSendings}}
+              checked={{@campaign.multipleSendings}}
             >
               {{t "pages.campaign-creation.yes"}}
             </PixRadioButton>
@@ -183,7 +183,7 @@
 
           <:message>
             {{t this.multipleSendingWording.info}}
-            {{#if this.campaign.targetProfile.areKnowledgeElementsResettable}}
+            {{#if @campaign.targetProfile.areKnowledgeElementsResettable}}
               {{t "pages.campaign-creation.multiple-sendings.knowledge-elements-resettable"}}
             {{/if}}
           </:message>
@@ -226,7 +226,7 @@
         maxlength="255"
         @requiredLabel={{t "pages.campaign-creation.external-id-label.required"}}
         {{on "change" (fn this.onChangeCampaignValue "idPixLabel")}}
-        @value={{this.campaign.idPixLabel}}
+        @value={{@campaign.idPixLabel}}
       />
       {{#if @errors.idPixLabel}}
         <div class="form__error error-message">
@@ -244,7 +244,7 @@
         @name="campaign-title"
         maxlength="50"
         {{on "change" (fn this.onChangeCampaignValue "title")}}
-        @value={{this.campaign.title}}
+        @value={{@campaign.title}}
       />
     </Ui::FormField>
   {{/if}}
@@ -254,7 +254,7 @@
       @label={{t "pages.campaign-creation.landing-page-text.label"}}
       @id="custom-landing-page-text"
       @maxlength="5000"
-      @value={{this.campaign.customLandingPageText}}
+      @value={{@campaign.customLandingPageText}}
       {{on "change" this.onChangeCampaignCustomLandingPageText}}
       rows="8"
     />
