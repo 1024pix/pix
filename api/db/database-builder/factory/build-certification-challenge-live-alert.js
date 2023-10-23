@@ -8,6 +8,7 @@ const buildCertificationChallengeLiveAlert = function ({
   assessmentId,
   challengeId = 'rec123',
   status = 'ongoing',
+  questionNumber = 1,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-02-01'),
 } = {}) {
@@ -17,6 +18,7 @@ const buildCertificationChallengeLiveAlert = function ({
     id,
     assessmentId,
     challengeId,
+    questionNumber,
     status,
     createdAt,
     updatedAt,

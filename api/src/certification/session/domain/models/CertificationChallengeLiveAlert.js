@@ -10,6 +10,7 @@ class CertificationChallengeLiveAlert {
     assessmentId,
     challengeId,
     status = CertificationChallengeLiveAlertStatus.ONGOING,
+    questionNumber,
     createdAt,
     updatedAt,
   } = {}) {
@@ -19,6 +20,7 @@ class CertificationChallengeLiveAlert {
     this.status = status;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.questionNumber = questionNumber;
   }
 
   dismiss() {
