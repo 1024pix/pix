@@ -7,7 +7,7 @@ import xml2js from 'xml2js';
 
 import { disconnect } from '../../db/knex-database-connection.js';
 import * as cpfCertificationResultRepository from '../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
-import { CpfImportStatus } from '../../src/certification/courses/domain/models/CpfImportStatus.js';
+import { CpfImportStatus } from '../../src/certification/session/domain/models/CpfImportStatus.js';
 import * as url from 'url';
 
 const modulePath = url.fileURLToPath(import.meta.url);
