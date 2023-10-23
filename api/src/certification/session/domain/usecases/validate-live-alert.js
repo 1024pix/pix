@@ -20,7 +20,21 @@ export const validateLiveAlert = async ({
     throw new NotFoundError('There is no ongoing alert for this user');
   }
 
+  const assessment = await assessmentRepository.get(certificationChallengeLiveAlert.assessmentId);
+
+  const { certificationCourseId } = assessment;
+
   certificationChallengeLiveAlert.validate();
+  const issueReportCategory = await issueReportCategoryRepository.get({ name: subcategory });
+  const certificationIssueReport = CertificationIssueReport.create({
+    certificationCourseId,
+    questionNumber: certificationChallengeLiveAlert.questionNumber,
+    category: CertificationIssueReportCategory.IN_CHALLENGE,
+    subcategory,
+    categoryId: issueReportCategory.id,
+  });
+
+  await certificationIssueReportRepository.save(certificationIssueReport);
 
   await certificationChallengeLiveAlertRepository.save({
     certificationChallengeLiveAlert,
