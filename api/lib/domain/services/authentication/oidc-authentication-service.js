@@ -152,7 +152,12 @@ class OidcAuthenticationService {
 
     if (!httpResponse.isSuccessful) {
       const message = 'Erreur lors de la récupération des tokens du partenaire.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
+      const dataToLog = {
+        ...httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message),
+        code: 'EXCHANGE_CODE_FOR_TOKEN',
+        requestPayload: data,
+        identityProvider: this.identityProvider,
+      };
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
       throw new OidcInvokingTokenEndpointError(message);
     }
