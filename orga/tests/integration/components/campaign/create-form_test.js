@@ -94,9 +94,8 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
   @membersSortedByFullName={{this.defaultMembers}}
 />`,
     );
-
     // then
-    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'))).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.campaign-creation.owner.info'), { exact: true })).exists();
     assert.dom(screen.getAllByText(this.intl.t('pages.campaign-creation.owner.title'))[0]).exists();
   });
 
@@ -133,14 +132,19 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     );
 
     // then
-    assert.dom(screen.getByText(this.intl.t('common.form.mandatory-fields'))).exists();
+    assert
+      .dom(
+        screen.getByText(this.intl.t('common.form.mandatory-fields'), {
+          exact: false,
+        }),
+      )
+      .exists();
   });
 
   module('when campaign is of type ASSESSMENT', function () {
     test('it should have checked ASSESSMENT', async function (assert) {
       // given
       this.campaign.type = 'ASSESSMENT';
-
       // when
       const screen = await render(
         hbs`<Campaign::CreateForm
@@ -997,6 +1001,44 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
     sinon.assert.calledWithExactly(this.createCampaignSpy, this.campaign);
     // then
     assert.ok(true);
+  });
+
+  test('it should not display the explanation of automatic compute certificability if the feature is not activated', async function (assert) {
+    // when
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+    await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
+
+    // then
+    assert.dom(screen.queryByRole('link', { name: 'Élèves' })).doesNotExist();
+  });
+
+  test('it should display the explanation of automatic compute certificability if the feature is activated', async function (assert) {
+    // when
+    prescriber.set('computeOrganizationLearnerCertificability', true);
+
+    const screen = await render(
+      hbs`<Campaign::CreateForm
+  @campaign={{this.campaign}}
+  @onSubmit={{this.createCampaignSpy}}
+  @onCancel={{this.cancelSpy}}
+  @errors={{this.errors}}
+  @targetProfiles={{this.targetProfiles}}
+  @membersSortedByFullName={{this.defaultMembers}}
+/>`,
+    );
+    await clickByName(this.intl.t('pages.campaign-creation.purpose.profiles-collection'));
+
+    // then
+    assert.dom(screen.getByRole('link', { name: 'Élèves' })).exists();
   });
 
   module('when there are errors', function () {
