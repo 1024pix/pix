@@ -19,7 +19,7 @@ import * as campaignParticipationResultRepository from '../../infrastructure/rep
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
-import * as certificationIssueReportRepository from '../../infrastructure/repositories/certification-issue-report-repository.js';
+import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';

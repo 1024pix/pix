@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { fetchPage } from '../utils/knex-utils.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { JuryCertificationSummary } from '../../domain/read-models/JuryCertificationSummary.js';
-import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 

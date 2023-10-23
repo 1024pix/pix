@@ -1,7 +1,7 @@
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';
-import * as certificationIssueReportRepository from '../../lib/infrastructure/repositories/certification-issue-report-repository.js';
+import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
 import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';

@@ -11,7 +11,7 @@ import { DomainTransaction } from '../DomainTransaction.js';
 import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
 import { NotFoundError } from '../../domain/errors.js';
 import * as certificationChallengeRepository from './certification-challenge-repository.js';
-import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { ComplementaryCertificationCourse } from '../../domain/models/ComplementaryCertificationCourse.js';
 import { Bookshelf } from '../bookshelf.js';
 

@@ -5,7 +5,7 @@ import { validateLiveAlert } from '../../../../../../src/certification/session/d
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | UseCase | validate-live-alert', function () {
   let certificationChallengeLiveAlertRepository;

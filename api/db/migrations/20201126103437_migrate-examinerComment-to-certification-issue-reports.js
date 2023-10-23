@@ -1,4 +1,4 @@
-import { CertificationIssueReportCategory } from '../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 const CERTIFICATION_COURSES = 'certification-courses';
 const CERTIFICATION_ISSUE_REPORTS = 'certification-issue-reports';
