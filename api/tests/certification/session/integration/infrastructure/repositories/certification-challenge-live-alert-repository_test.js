@@ -1,6 +1,7 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import * as certificationChallengeLiveAlertRepository from '../../../../../../src/certification/session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
+import _ from 'lodash';
 
 const assessmentIdWithNoAlerts = 123;
 const assessmentIdWithLiveAlert = 456;
@@ -15,9 +16,11 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
       // given
       const challengeId = 'challenge-123';
       const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      const questionNumber = 2;
       const certificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
         assessmentId,
         challengeId,
+        questionNumber,
       });
 
       await databaseBuilder.commit();
@@ -30,6 +33,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
       expect(expectedSavedCertificationChallengeLiveAlert.challengeId).to.equal(challengeId);
       expect(expectedSavedCertificationChallengeLiveAlert.assessmentId).to.equal(assessmentId);
+      expect(expectedSavedCertificationChallengeLiveAlert.questionNumber).to.equal(questionNumber);
       expect(expectedSavedCertificationChallengeLiveAlert.status).to.equal(
         CertificationChallengeLiveAlertStatus.ONGOING,
       );
@@ -39,8 +43,10 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
       // given
       const challengeId = 'rec123';
       const assessment = databaseBuilder.factory.buildAssessment();
+      const questionNumber = 2;
       const certificationChallengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({
         assessmentId: assessment.id,
+        questionNumber,
         challengeId,
       });
       const dismissedLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
@@ -48,6 +54,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
         assessmentId: assessment.id,
         challengeId,
         status: CertificationChallengeLiveAlertStatus.DISMISSED,
+        questionNumber,
         createdAt: certificationChallengeLiveAlert.createdAt,
         updatedAt: certificationChallengeLiveAlert.updatedAt,
       });
@@ -62,6 +69,7 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
       expect(expectedSavedCertificationChallengeLiveAlert.challengeId).to.equal(challengeId);
       expect(expectedSavedCertificationChallengeLiveAlert.assessmentId).to.equal(assessment.id);
+      expect(expectedSavedCertificationChallengeLiveAlert.questionNumber).to.equal(questionNumber);
       expect(expectedSavedCertificationChallengeLiveAlert.status).to.equal(
         CertificationChallengeLiveAlertStatus.DISMISSED,
       );
@@ -82,11 +90,13 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
     describe('when a liveAlert is linked to the assessment id', function () {
       it('should return an empty array', async function () {
         // given
+        const questionNumber = 2;
         databaseBuilder.factory.buildAssessment({
           id: assessmentIdWithLiveAlert,
         });
         databaseBuilder.factory.buildCertificationChallengeLiveAlert({
           assessmentId: assessmentIdWithLiveAlert,
+          questionNumber,
         });
         await databaseBuilder.commit();
 
@@ -95,6 +105,10 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
 
         // then
         expect(liveAlerts).to.have.length(1);
+        expect(_.pick(liveAlerts[0], ['questionNumber', 'assessmentId'])).to.deep.equal({
+          questionNumber,
+          assessmentId: assessmentIdWithLiveAlert,
+        });
       });
     });
   });
