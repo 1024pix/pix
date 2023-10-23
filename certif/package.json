@@ -107,7 +107,7 @@
     "p-queue": "^7.4.1",
     "prettier": "^3.0.3",
     "qunit": "^2.19.3",
-    "qunit-dom": "^2.0.0",
+    "qunit-dom": "^3.0.0",
     "sinon": "^16.0.0",
     "sass": "^1.66.1",
     "stylelint": "^15.10.3",
