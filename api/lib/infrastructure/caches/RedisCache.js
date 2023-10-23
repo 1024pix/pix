@@ -65,6 +65,7 @@ class RedisCache extends Cache {
     logger.info({ key, length: objectAsString.length }, 'Setting Redis key');
 
     await this._client.set(key, objectAsString);
+    await this._client.del(`${key}:${PATCHES_KEY}`);
 
     return object;
   }
