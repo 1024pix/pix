@@ -45,7 +45,7 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
           .orderBy('certificationCourseId', 'asc');
         expect(certificationCourse1).to.deep.equal({
           certificationCourseId: 1234,
-          importStatus: CpfImportStatus.ERROR,
+          importStatus: CpfImportStatus.REJECTED,
         });
         expect(certificationCourse2).to.deep.equal({
           certificationCourseId: 4567,
@@ -72,7 +72,7 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         databaseBuilder.factory.buildCertificationCourse({ id: 4567 });
         databaseBuilder.factory.buildCertificationCoursesCpfInfos({
           certificationCourseId: 4567,
-          importStatus: CpfImportStatus.ERROR,
+          importStatus: CpfImportStatus.REJECTED,
           filename: 'cpf.gzip',
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 891011 });
@@ -93,7 +93,7 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
           .whereIn('certificationCourseId', [1234, 4567, 891011]);
         expect(results).to.deep.equal([
           { certificationCourseId: 1234, importStatus: 'PENDING', filename: 'cpf.gzip' },
-          { certificationCourseId: 4567, importStatus: 'ERROR', filename: 'cpf.gzip' },
+          { certificationCourseId: 4567, importStatus: 'REJECTED', filename: 'cpf.gzip' },
           { certificationCourseId: 891011, importStatus: 'READY_TO_SEND', filename: 'cpf.gzip' },
         ]);
       });

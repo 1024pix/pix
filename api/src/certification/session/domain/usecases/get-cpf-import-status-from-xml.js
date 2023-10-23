@@ -14,7 +14,7 @@ const getCPfImportstatusFromXml = async ({ filePath }) => {
   if (cpfImportErrorIds.length) {
     await cpfCertificationResultRepository.updateCertificationImportStatus({
       certificationCourseIds: cpfImportErrorIds,
-      cpfImportStatus: CpfImportStatus.ERROR,
+      cpfImportStatus: CpfImportStatus.REJECTED,
     });
   }
 
