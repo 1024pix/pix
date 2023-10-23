@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import get from 'lodash/get';
 
 export default class SessionsUpdateController extends Controller {
   @alias('model') session;
@@ -37,7 +38,7 @@ export default class SessionsUpdateController extends Controller {
       if (error?.code) {
         return this.notifications.error(this.intl.t(`common.api-error-messages.${error.code}`));
       }
-      if (error?.status === '400') {
+      if (_isEntityUnprocessable(responseError)) {
         return this.notifications.error(this.intl.t('common.api-error-messages.bad-request-error'));
       }
       return this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
@@ -95,4 +96,9 @@ export default class SessionsUpdateController extends Controller {
       this.isSessionExaminerMissing
     );
   }
+}
+
+function _isEntityUnprocessable(err) {
+  const status = get(err, 'errors[0].status');
+  return status === '422' || status === '400';
 }
