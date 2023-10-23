@@ -217,7 +217,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
           learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
         };
         learningContentCache.get.resolves(learningContent);
-        sinon.stub(learningContentCache, 'set').callsFake((value) => value);
+        sinon.stub(learningContentCache, 'patch').resolves();
 
         // when
         const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
@@ -227,11 +227,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
           id: 'rec1',
           property: 'updatedValue',
         });
-        expect(learningContentCache.set).to.have.been.calledOnce;
-        const argument = learningContentCache.set.firstCall.args[0];
-        expect(argument).to.deep.equal({
-          learningContentModel: [null, { id: 'rec1', property: 'updatedValue' }, { id: 'rec2', property: 'value2' }],
-          learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+        expect(learningContentCache.patch).to.have.been.calledWith({
+          operation: 'assign',
+          path: 'learningContentModel[1]',
+          value: record,
         });
       });
     });
@@ -245,7 +244,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
           learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
         };
         learningContentCache.get.resolves(learningContent);
-        sinon.stub(learningContentCache, 'set').callsFake((value) => value);
+        sinon.stub(learningContentCache, 'patch').resolves();
 
         // when
         const entry = await someDatasource.refreshLearningContentCacheRecord('rec4', record);
@@ -255,16 +254,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
           id: 'rec4',
           property: 'newValue',
         });
-        expect(learningContentCache.set).to.have.been.calledOnce;
-        const argument = learningContentCache.set.firstCall.args[0];
-        expect(argument).to.deep.equal({
-          learningContentModel: [
-            null,
-            { id: 'rec1', property: 'value1' },
-            { id: 'rec2', property: 'value2' },
-            { id: 'rec4', property: 'newValue' },
-          ],
-          learningContentOtherModel: [{ id: 'rec3', property: 'value3' }],
+        expect(learningContentCache.patch).to.have.been.calledWith({
+          operation: 'push',
+          path: 'learningContentModel',
+          value: record,
         });
       });
     });

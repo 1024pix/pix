@@ -10,6 +10,7 @@ describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
     learningContentCache._underlyingCache = {
       get: sinon.stub(),
       set: sinon.stub(),
+      patch: sinon.stub(),
       flushAll: sinon.stub(),
       quit: sinon.stub(),
     };
@@ -45,6 +46,20 @@ describe('Unit | Infrastructure | Caches | LearningContentCache', function () {
 
       // then
       expect(learningContentCache._underlyingCache.set).to.have.been.calledWith('LearningContent', learningContent);
+    });
+  });
+
+  describe('#patch', function () {
+    it('should patch the learning content in underlying cache', async function () {
+      // given
+      learningContentCache._underlyingCache.patch.resolves();
+      const patch = { operation: 'assign', path: 'a', value: {} };
+
+      // when
+      await learningContentCache.patch(patch);
+
+      // then
+      expect(learningContentCache._underlyingCache.patch).to.have.been.calledWith('LearningContent', patch);
     });
   });
 
