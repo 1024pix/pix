@@ -1,5 +1,5 @@
-import { expect } from '../../test-helper.js';
-import { getCpfImportResults } from '../../../scripts/certification/get-cpf-import-status-from-xml.js';
+import { expect } from '../../../../../test-helper.js';
+import { getCpfImportResults } from '../../../../../../src/certification/session/domain/usecases/get-cpf-import-status-from-xml.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
