@@ -86,7 +86,10 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
       distributedCacheInstance._redisClientPublisher = {
         publish: sinon.stub(),
       };
-      distributedCacheInstance._redisClientPublisher.publish.withArgs(channel, 'Flush all').resolves(true);
+      const message = {
+        type: 'flushAll',
+      };
+      distributedCacheInstance._redisClientPublisher.publish.withArgs(channel, JSON.stringify(message)).resolves(true);
 
       // when
       const result = await distributedCacheInstance.flushAll();
@@ -98,8 +101,12 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
 
   describe('receive message', function () {
     it('should flushAll when flush message is received', async function () {
+      // given
+      const message = {
+        type: 'flushAll',
+      };
       // when
-      await distributedCacheInstance.clientSubscriberCallback('Flush all');
+      await distributedCacheInstance.clientSubscriberCallback('channel', JSON.stringify(message));
 
       // then
       expect(distributedCacheInstance._underlyingCache.flushAll).to.have.been.calledOnce;
@@ -115,18 +122,18 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function () {
       };
 
       const message = {
+        type: 'patch',
         patch,
         cacheKey,
-        type: 'patch',
       };
       const messageAsString = JSON.stringify(message);
 
       // when
-      await distributedCacheInstance.clientSubscriberCallback(messageAsString);
+      await distributedCacheInstance.clientSubscriberCallback('channel', messageAsString);
 
       // then
       expect(distributedCacheInstance._underlyingCache.flushAll).not.to.have.been.called;
-      expect(distributedCacheInstance._underlyingCache.patch).to.have.been.called;
+      expect(distributedCacheInstance._underlyingCache.patch).to.have.been.calledWith(cacheKey, patch);
     });
   });
 });

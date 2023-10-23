@@ -18,17 +18,14 @@ class DistributedCache extends Cache {
     this._redisClientSubscriber.on('message', this.clientSubscriberCallback.bind(this));
   }
 
-  clientSubscriberCallback(message) {
-    // TODO: utiliser un message au format JSON pour le flushall également
-    if (message === 'Flush all') {
+  clientSubscriberCallback(_channel, rawMessage) {
+    const message = JSON.parse(rawMessage);
+    if (message.type === 'flushAll') {
       logger.info({ event: 'cache-event' }, 'Flushing the local cache');
       return this._underlyingCache.flushAll();
-    } else {
+    } else if (message.type === 'patch') {
       logger.info({ event: 'cache-event' }, 'Patching the local cache');
-      const parsedMessage = JSON.parse(message);
-      if (parsedMessage.type === 'patch') {
-        this._underlyingCache.patch(parsedMessage.cacheKey, parsedMessage.patch);
-      }
+      this._underlyingCache.patch(message.cacheKey, message.patch);
     }
   }
 
@@ -51,7 +48,10 @@ class DistributedCache extends Cache {
   }
 
   flushAll() {
-    return this._redisClientPublisher.publish(this._channel, 'Flush all');
+    const message = {
+      type: 'flushAll',
+    };
+    return this._redisClientPublisher.publish(this._channel, JSON.stringify(message));
   }
 
   quit() {
