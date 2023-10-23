@@ -3,11 +3,11 @@ import bluebird from 'bluebird';
 const { using } = bluebird;
 
 import Redlock from 'redlock';
-import _ from 'lodash';
 import { Cache } from './Cache.js';
 import { RedisClient } from '../utils/RedisClient.js';
 import { logger } from '../logger.js';
 import { config } from '../../config.js';
+import { applyPatch } from './apply-patch.js';
 
 const REDIS_LOCK_PREFIX = 'locks:';
 export const PATCHES_KEY = 'patches';
@@ -28,15 +28,7 @@ class RedisCache extends Cache {
     if (value) {
       const parsed = JSON.parse(value);
       const patches = await this._client.lrange(`${key}:${PATCHES_KEY}`, 0, -1);
-      patches.forEach((patchInJson) => {
-        const patch = JSON.parse(patchInJson);
-        if (patch.operation === 'assign') {
-          _.set(parsed, patch.path, patch.value);
-        } else if (patch.operation === 'push') {
-          const arr = _.get(parsed, patch.path);
-          arr.push(patch.value);
-        }
-      })
+      patches.map((patchJSON) => JSON.parse(patchJSON)).forEach((patch) => applyPatch(parsed, patch));
       return parsed;
     }
 
