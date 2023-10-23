@@ -8,17 +8,18 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
     it('should serialize with empty list', function () {
       // given
       const id = 'id';
+      const slug = 'les-adresses-mail';
       const title = 'Les adresses mail';
-      const moduleFromDomain = new Module({ id, title, list: [] });
+      const moduleFromDomain = new Module({ id, slug, title, list: [] });
       const expectedJson = {
         data: {
           type: 'modules',
-          id,
+          id: slug,
           attributes: {
             title,
           },
           relationships: {
-            element: {
+            elements: {
               data: [],
             },
           },
@@ -35,17 +36,18 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
     it('should serialize with list', function () {
       // given
       const id = 'id';
+      const slug = 'les-adresses-mail';
       const title = 'Les adresses mail';
-      const moduleFromDomain = new Module({ id, title, list: [new Lesson({ id: '1', content: '' })] });
+      const moduleFromDomain = new Module({ id, slug, title, list: [new Lesson({ id: '1', content: '' })] });
       const expectedJson = {
         data: {
           type: 'modules',
-          id,
+          id: slug,
           attributes: {
             title,
           },
           relationships: {
-            element: {
+            elements: {
               data: [
                 {
                   type: 'elements',

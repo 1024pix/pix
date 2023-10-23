@@ -1169,6 +1169,11 @@
         }
       }
     },
+    "modulix": {
+      "buttons": {
+        "continue": "Continuer"
+      }
+    },
     "not-connected": {
       "title": "Déconnecté",
       "message": "Vous êtes bien déconnecté(e).'<br>'Merci, à bientôt."

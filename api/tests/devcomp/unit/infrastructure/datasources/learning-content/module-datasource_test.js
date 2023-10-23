@@ -15,6 +15,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
         // then
         const expectedModuleData = {
           id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+          slug: 'les-adresses-mail',
           title: 'Les adresses mail',
           list: [
             {

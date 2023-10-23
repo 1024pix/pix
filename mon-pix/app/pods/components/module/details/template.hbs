@@ -4,4 +4,19 @@
   <div class="module__title">
     <h1>{{@module.title}}</h1>
   </div>
+
+  <div class="module__content" aria-live="assertive">
+    <article class="grain">
+      {{#each @module.elements as |element|}}
+        <div class="grain__element grain__element--text">
+          {{html-safe element.content}}
+        </div>
+      {{/each}}
+      <footer class="grain__footer">
+        <PixButton @backgroundColor="blue" @shape="rounded" @triggerAction={{this.continueToNextGrain}}>
+          {{t "pages.modulix.buttons.continue"}}
+        </PixButton>
+      </footer>
+    </article>
+  </div>
 </main>
