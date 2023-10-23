@@ -120,7 +120,7 @@
     "p-queue": "^7.0.0",
     "prettier": "^3.0.0",
     "qunit": "^2.19.1",
-    "qunit-dom": "^2.0.0",
+    "qunit-dom": "^3.0.0",
     "sass": "^1.56.0",
     "showdown": "^2.1.0",
     "sinon": "^16.0.0",
