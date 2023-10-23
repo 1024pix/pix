@@ -7,6 +7,7 @@ export default class EntryPoint extends Route {
   @service session;
   @service router;
   @service store;
+  @service metrics;
 
   async beforeModel() {
     if (this.session.isAuthenticated && this.currentUser.user.isAnonymous) {
@@ -26,9 +27,21 @@ export default class EntryPoint extends Route {
       this.campaignStorage.set(campaign.code, 'participantExternalId', transition.to.queryParams.participantExternalId);
     }
     if (queryParams.retry) {
+      this.metrics.add({
+        event: 'custom-event',
+        'pix-event-category': 'Campagnes',
+        'pix-event-action': 'Retenter la campagne',
+        'pix-event-name': 'Clic sur Retenter la campagne',
+      });
       this.campaignStorage.set(campaign.code, 'retry', transition.to.queryParams.retry);
     }
     if (queryParams.reset) {
+      this.metrics.add({
+        event: 'custom-event',
+        'pix-event-category': 'Campagnes',
+        'pix-event-action': 'Remise à zéro de la campagne',
+        'pix-event-name': 'Clic sur Remise à zéro de la campagne',
+      });
       this.campaignStorage.set(campaign.code, 'reset', transition.to.queryParams.reset);
     }
 
