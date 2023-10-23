@@ -8,20 +8,18 @@ export default class CreateForm extends Component {
   @service currentUser;
   @service intl;
 
-  @tracked campaign;
-  @tracked wantIdPix = Boolean(this.campaign.idPixLabel);
-  @tracked targetProfilesOptions = [];
+  @tracked wantIdPix = Boolean(this.args.campaign.idPixLabel);
 
-  constructor() {
-    super(...arguments);
-    this.campaign = this.args.campaign;
-    this._setTargetProfilesOptions(this.args.targetProfiles);
-    this.isMultipleSendingAssessmentEnabled = this.currentUser.prescriber.enableMultipleSendingAssessment;
-    this.isComputeLearnerCertificabilityEnabled = this.currentUser.prescriber.computeOrganizationLearnerCertificability;
+  get isMultipleSendingAssessmentEnabled() {
+    return this.currentUser.prescriber.enableMultipleSendingAssessment;
   }
 
-  _setTargetProfilesOptions(targetProfiles) {
-    const options = targetProfiles.map((targetProfile) => {
+  get isComputeLearnerCertificabilityEnabled() {
+    return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
+  }
+
+  get targetOwnerOptions() {
+    const options = this.args.targetProfiles.map((targetProfile) => {
       return {
         value: targetProfile.id,
         label: targetProfile.name,
@@ -29,7 +27,7 @@ export default class CreateForm extends Component {
         order: 'OTHER' === targetProfile.category ? 1 : 0,
       };
     });
-    this.targetProfilesOptions = _orderBy(options, ['order', 'category', 'label']);
+    return _orderBy(options, ['order', 'category', 'label']);
   }
 
   get campaignOwnerOptions() {
@@ -59,15 +57,15 @@ export default class CreateForm extends Component {
   }
 
   get isCampaignGoalAssessment() {
-    return this.campaign.type === 'ASSESSMENT';
+    return this.args.campaign.type === 'ASSESSMENT';
   }
 
   get isCampaignGoalProfileCollection() {
-    return this.campaign.type === 'PROFILES_COLLECTION';
+    return this.args.campaign.type === 'PROFILES_COLLECTION';
   }
 
   get isExternalIdNotSelectedChecked() {
-    return this.campaign.idPixLabel === null;
+    return this.args.campaign.idPixLabel === null;
   }
 
   get isExternalIdSelectedChecked() {
@@ -77,46 +75,46 @@ export default class CreateForm extends Component {
   @action
   askLabelIdPix() {
     this.wantIdPix = true;
-    this.campaign.idPixLabel = '';
+    this.args.campaign.idPixLabel = '';
   }
 
   @action
   doNotAskLabelIdPix() {
     this.wantIdPix = false;
-    this.campaign.idPixLabel = null;
+    this.args.campaign.idPixLabel = null;
   }
 
   @action
   selectTargetProfile(targetProfileId) {
-    this.campaign.targetProfile = this.args.targetProfiles.find(
+    this.args.campaign.targetProfile = this.args.targetProfiles.find(
       (targetProfile) => targetProfile.id === targetProfileId,
     );
   }
 
   @action
   selectMultipleSendingsStatus(value) {
-    this.campaign.multipleSendings = value;
+    this.args.campaign.multipleSendings = value;
   }
 
   @action
   setCampaignGoal(event) {
     if (event.target.value === 'collect-participants-profile') {
-      this.campaign.setType('PROFILES_COLLECTION');
+      this.args.campaign.setType('PROFILES_COLLECTION');
     } else {
-      this.campaign.setType('ASSESSMENT');
+      this.args.campaign.setType('ASSESSMENT');
     }
   }
 
   @action
   onChangeCampaignValue(key, event) {
-    this.campaign[key] = event.target.value;
+    this.args.campaign[key] = event.target.value;
   }
 
   @action
   onChangeCampaignOwner(newOwnerId) {
     const selectedMember = this.args.membersSortedByFullName.find((member) => newOwnerId === member.id);
     if (selectedMember) {
-      this.campaign.ownerId = selectedMember.id;
+      this.args.campaign.ownerId = selectedMember.id;
     }
   }
 
@@ -128,6 +126,6 @@ export default class CreateForm extends Component {
   @action
   onSubmit(event) {
     event.preventDefault();
-    this.args.onSubmit(this.campaign);
+    this.args.onSubmit(this.args.campaign);
   }
 }

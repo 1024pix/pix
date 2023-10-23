@@ -28,7 +28,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       await component.onChangeCampaignOwner(newOwnerId);
 
       //then
-      assert.deepEqual(component.campaign.ownerId, 7);
+      assert.deepEqual(component.args.campaign.ownerId, 7);
     });
   });
 
@@ -49,7 +49,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       await component.selectMultipleSendingsStatus(true);
 
       //then
-      assert.true(component.campaign.multipleSendings);
+      assert.true(component.args.campaign.multipleSendings);
     });
 
     test('set to false', async function (assert) {
@@ -68,7 +68,7 @@ module('Unit | Component | Campaign::CreateForm', (hooks) => {
       await component.selectMultipleSendingsStatus(false);
 
       //then
-      assert.false(component.campaign.multipleSendings);
+      assert.false(component.args.campaign.multipleSendings);
     });
   });
 });
