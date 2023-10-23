@@ -190,6 +190,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
     beforeEach(function () {
       stubbedClient.set = sinon.stub();
+      stubbedClient.del = sinon.stub();
     });
 
     it('should resolve with the object to cache', function () {
@@ -215,6 +216,20 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
       // then
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
+    });
+
+    it('should empty patches key', async function () {
+      // given
+      stubbedClient.set.resolves();
+      stubbedClient.del.resolves();
+
+      // when
+      const promise = redisCache.set(CACHE_KEY, objectToCache);
+
+      // then
+      return expect(promise).to.have.been.fulfilled.then(() => {
+        expect(stubbedClient.del).to.have.been.calledWithExactly(`${CACHE_KEY}:patches`);
+      });
     });
   });
 
