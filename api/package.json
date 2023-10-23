@@ -35,7 +35,7 @@
     "bluebird": "^3.7.2",
     "bookshelf": "^1.2.0",
     "bookshelf-validate": "^2.0.3",
-    "cron-parser": "^4.6.0",
+    "cron-parser": "^4.9.0",
     "dayjs": "^1.11.5",
     "debug": "^4.3.4",
     "dotenv": "^16.0.1",
