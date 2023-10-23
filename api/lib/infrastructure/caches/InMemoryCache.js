@@ -1,6 +1,6 @@
 import NodeCache from 'node-cache';
 import { Cache } from './Cache.js';
-import _ from 'lodash';
+import { applyPatch } from './apply-patch.js';
 
 class InMemoryCache extends Cache {
   constructor() {
@@ -31,12 +31,7 @@ class InMemoryCache extends Cache {
   patch(key, patch) {
     const value = this._cache.get(key);
     if (value === undefined) return;
-    if (patch.operation === 'assign') {
-      _.set(value, patch.path, patch.value);
-    } else if (patch.operation === 'push') {
-      const arr = _.get(value, patch.path);
-      arr.push(patch.value);
-    }
+    applyPatch(value, patch);
   }
 
   async flushAll() {

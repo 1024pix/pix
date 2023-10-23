@@ -24,7 +24,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
   describe('#get', function () {
     beforeEach(function () {
       stubbedClient.get = sinon.stub();
-      stubbedClient.lrange = sinon.stub();
+      stubbedClient.lrange = sinon.stub().resolves([]);
       redisCache.set = sinon.stub();
     });
 
