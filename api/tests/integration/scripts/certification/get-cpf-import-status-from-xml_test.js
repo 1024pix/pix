@@ -1,6 +1,6 @@
 import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import { main } from '../../../../scripts/certification/get-cpf-import-status-from-xml.js';
-import { CpfImportStatus } from '../../../../src/certification/courses/domain/models/CpfImportStatus.js';
+import { CpfImportStatus } from '../../../../src/certification/session/domain/models/CpfImportStatus.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
