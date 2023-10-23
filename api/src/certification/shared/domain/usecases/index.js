@@ -1,11 +1,13 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
+import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as badgeRepository from '../../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as mailService from '../services/mail-service.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
@@ -18,6 +20,7 @@ import { importNamedExportsFromDirectory } from '../../../../shared/infrastructu
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
 const dependencies = {
+  assessmentRepository,
   badgeRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
@@ -25,6 +28,7 @@ const dependencies = {
   complementaryCertificationRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationTargetProfileHistoryRepository,
+  issueReportCategoryRepository,
   organizationRepository,
   sessionCodeService,
   mailService,

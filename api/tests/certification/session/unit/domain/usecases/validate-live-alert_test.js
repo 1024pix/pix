@@ -2,6 +2,10 @@ import { catchErr, domainBuilder, expect, sinon } from '../../../../../test-help
 import { CertificationChallengeLiveAlertStatus } from '../../../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { validateLiveAlert } from '../../../../../../src/certification/session/domain/usecases/validate-live-alert.js';
+import {
+  CertificationIssueReportCategory,
+  CertificationIssueReportSubcategories,
+} from '../../../../../../lib/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | UseCase | validate-live-alert', function () {
   let certificationChallengeLiveAlertRepository;

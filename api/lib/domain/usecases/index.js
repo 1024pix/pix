@@ -96,7 +96,7 @@ import * as flashAssessmentResultRepository from '../../infrastructure/repositor
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
 import * as improvementService from '../../domain/services/improvement-service.js';
-import * as issueReportCategoryRepository from '../../infrastructure/repositories/issue-report-category-repository.js';
+import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as juryCertificationRepository from '../../infrastructure/repositories/jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
