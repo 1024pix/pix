@@ -31,6 +31,10 @@ class LearningContentCache {
     return this._underlyingCache.set(LEARNING_CONTENT_CACHE_KEY, object);
   }
 
+  patch(patch) {
+    return this._underlyingCache.patch(LEARNING_CONTENT_CACHE_KEY, patch);
+  }
+
   flushAll() {
     return this._underlyingCache.flushAll();
   }

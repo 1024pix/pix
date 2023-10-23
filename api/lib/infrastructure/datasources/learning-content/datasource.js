@@ -42,14 +42,26 @@ const _DatasourcePrototype = {
 
   async refreshLearningContentCacheRecord(id, newEntry) {
     const currentLearningContent = await this._getLearningContent();
+
+    const patch = this._generatePatch(currentLearningContent, id, newEntry);
+    await learningContentCache.patch(patch);
+    return newEntry;
+  },
+
+  _generatePatch(currentLearningContent, id, newEntry) {
     const index = currentLearningContent[this.modelName].findIndex((element) => element?.id === id);
     if (index === -1) {
-      currentLearningContent[this.modelName].push(newEntry);
-    } else {
-      currentLearningContent[this.modelName][index] = newEntry;
+      return {
+        operation: 'push',
+        path: this.modelName,
+        value: newEntry,
+      };
     }
-    await learningContentCache.set(currentLearningContent);
-    return newEntry;
+    return {
+      operation: 'assign',
+      path: `${this.modelName}[${index}]`,
+      value: newEntry,
+    };
   },
 };
 
