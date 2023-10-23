@@ -6,7 +6,7 @@ import { logger } from '../../lib/infrastructure/logger.js';
 import xml2js from 'xml2js';
 
 import { disconnect } from '../../db/knex-database-connection.js';
-import * as cpfCertificationResultRepository from '../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
+import * as cpfCertificationResultRepository from '../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
 import { CpfImportStatus } from '../../src/certification/session/domain/models/CpfImportStatus.js';
 import * as url from 'url';
 
