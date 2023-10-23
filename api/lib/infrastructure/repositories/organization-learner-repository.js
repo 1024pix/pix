@@ -378,9 +378,17 @@ async function updateCertificability(organizationLearner) {
 async function countByOrganizationsWhichNeedToComputeCertificability({
   skipLoggedLastDayCheck = false,
   onlyNotComputed = false,
+  fromUserActivityDate,
+  toUserActivityDate,
   domainTransaction,
 } = {}) {
-  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
+  const queryBuilder = _queryBuilderForCertificability({
+    fromUserActivityDate,
+    toUserActivityDate,
+    skipLoggedLastDayCheck,
+    onlyNotComputed,
+    domainTransaction,
+  });
   const [{ count }] = await queryBuilder.count('view-active-organization-learners.id');
   return count;
 }
@@ -388,11 +396,19 @@ async function countByOrganizationsWhichNeedToComputeCertificability({
 function findByOrganizationsWhichNeedToComputeCertificability({
   limit,
   offset,
+  fromUserActivityDate,
+  toUserActivityDate,
   skipLoggedLastDayCheck = false,
   onlyNotComputed = false,
   domainTransaction,
 } = {}) {
-  const queryBuilder = _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction });
+  const queryBuilder = _queryBuilderForCertificability({
+    fromUserActivityDate,
+    toUserActivityDate,
+    skipLoggedLastDayCheck,
+    onlyNotComputed,
+    domainTransaction,
+  });
 
   return queryBuilder
     .orderBy('view-active-organization-learners.id', 'ASC')
@@ -407,7 +423,13 @@ function findByOrganizationsWhichNeedToComputeCertificability({
     .pluck('view-active-organization-learners.id');
 }
 
-function _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction }) {
+function _queryBuilderForCertificability({
+  fromUserActivityDate,
+  toUserActivityDate,
+  skipLoggedLastDayCheck,
+  onlyNotComputed,
+  domainTransaction,
+}) {
   const knexConn = domainTransaction.knexTransaction || knex;
   return knexConn('view-active-organization-learners')
     .join(
@@ -423,11 +445,9 @@ function _queryBuilderForCertificability({ skipLoggedLastDayCheck, onlyNotComput
     .modify(function (queryBuilder) {
       if (!skipLoggedLastDayCheck) {
         queryBuilder.join('user-logins', function () {
-          this.on('view-active-organization-learners.userId', 'user-logins.userId').andOnVal(
-            'user-logins.lastLoggedAt',
-            '>',
-            knex.raw(`(now()- interval '1 days')`),
-          );
+          this.on('view-active-organization-learners.userId', 'user-logins.userId')
+            .andOnVal('user-logins.lastLoggedAt', '>', fromUserActivityDate)
+            .andOnVal('user-logins.lastLoggedAt', '<=', toUserActivityDate);
         });
       }
       if (skipLoggedLastDayCheck && onlyNotComputed) {
