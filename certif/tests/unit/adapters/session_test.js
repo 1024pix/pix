@@ -197,15 +197,21 @@ module('Unit | Adapter | session', function (hooks) {
       adapter.ajax = sinon.stub();
       const sessionId = 123;
       const candidateId = 456;
+      const subcategory = 'SOME_ISSUE';
 
       // when
-      await adapter.validateLiveAlert(sessionId, candidateId);
+      await adapter.validateLiveAlert({ sessionId, candidateId, subcategory });
 
       // then
       assert.ok(
         adapter.ajax.calledWith(
           `${ENV.APP.API_HOST}/api/sessions/${sessionId}/candidates/${candidateId}/validate-live-alert`,
           'PATCH',
+          {
+            data: {
+              subcategory,
+            },
+          },
         ),
       );
     });
