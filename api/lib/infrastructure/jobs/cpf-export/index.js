@@ -1,6 +1,6 @@
 import { injectDependencies } from '../../../../src/shared/infrastructure/utils/dependency-injection.js';
 
-import * as cpfCertificationResultRepository from '../../repositories/cpf-certification-result-repository.js';
+import * as cpfCertificationResultRepository from '../../../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfCertificationXmlExportService from '../../../domain/services/cpf-certification-xml-export-service.js';
 import * as cpfExternalStorage from '../../external-storage/cpf-external-storage.js';
 import * as mailService from '../../../domain/services/mail-service.js';
