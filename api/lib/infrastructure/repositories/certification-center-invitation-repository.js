@@ -108,12 +108,19 @@ const markAsCancelled = async function ({ id }) {
   return _toDomain(certificationCenterInvitation);
 };
 
+const updateModificationDate = async function (certificationCenterInvitationId) {
+  await knex(CERTIFICATION_CENTER_INVITATIONS)
+    .where({ id: certificationCenterInvitationId })
+    .update({ updatedAt: new Date() });
+};
+
 export {
-  findPendingByCertificationCenterId,
-  getByIdAndCode,
-  get,
-  findOnePendingByEmailAndCertificationCenterId,
   create,
-  update,
+  findOnePendingByEmailAndCertificationCenterId,
+  findPendingByCertificationCenterId,
+  get,
+  getByIdAndCode,
   markAsCancelled,
+  update,
+  updateModificationDate,
 };

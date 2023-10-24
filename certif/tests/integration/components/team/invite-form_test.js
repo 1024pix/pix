@@ -1,24 +1,23 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-import { fillByLabel } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::InviteForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    this.set('inviteSpy', () => {});
-    this.set('cancelSpy', () => {});
-    this.set('updateEmail', sinon.spy());
+    this.set('inviteStub', sinon.stub());
+    this.set('cancelStub', sinon.stub());
+    this.set('updateEmailStub', sinon.stub());
   });
 
   test('it contains email input and validation button', async function (assert) {
     // when
     await render(
-      hbs`<Team::InviteForm @onSubmit={{this.inviteSpy}} @onCancel={{this.cancelSpy}} @onUpdateEmail={{this.updateEmail}} />`,
+      hbs`<Team::InviteForm @onSubmit={{this.inviteStub}} @onCancel={{this.cancelStub}} @onUpdateEmail={{this.updateEmailStub}} />`,
     );
 
     // then
@@ -33,9 +32,9 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     await render(
       hbs`<Team::InviteForm
   @email={{this.email}}
-  @onSubmit={{this.inviteSpy}}
-  @onCancel={{this.cancelSpy}}
-  @onUpdateEmail={{this.updateEmail}}
+  @onSubmit={{this.inviteStub}}
+  @onCancel={{this.cancelStub}}
+  @onUpdateEmail={{this.updateEmailStub}}
 />`,
     );
 
@@ -44,6 +43,39 @@ module('Integration | Component | Team::InviteForm', function (hooks) {
     await fillByLabel(inputLabel, 'dev@example.net');
 
     // then
-    assert.ok(this.updateEmail.called);
+    assert.ok(this.updateEmailStub.called);
+  });
+
+  module('when clicking on the "submit" button', function () {
+    test('calls the submit function', async function (assert) {
+      // Given
+      this.set(
+        'inviteStub',
+        sinon.stub().callsFake((event) => event.preventDefault()),
+      );
+      this.set('email', 'dev@example.fr');
+
+      // When
+      await render(
+        hbs`<Team::InviteForm @email={{this.email}} @onSubmit={{this.inviteStub}} @onCancel={{this.cancelStub}} @onUpdateEmail={{this.updateEmailStub}} />`,
+      );
+      await clickByName(this.intl.t('pages.team-invite.invite-button'));
+
+      // Then
+      assert.ok(this.inviteStub.called);
+    });
+  });
+
+  module('when clicking on the "cancel" button', function () {
+    test('calls the cancel function', async function (assert) {
+      // When
+      await render(
+        hbs`<Team::InviteForm @onSubmit={{this.inviteStub}} @onCancel={{this.cancelStub}} @onUpdateEmail={{this.updateEmailStub}} />`,
+      );
+      await clickByName(this.intl.t('common.actions.cancel'));
+
+      // Then
+      assert.ok(this.cancelStub.called);
+    });
   });
 });
