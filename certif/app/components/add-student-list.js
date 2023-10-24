@@ -28,7 +28,7 @@ export default class AddStudentList extends Component {
   }
 
   get shouldEnableAddButton() {
-    const hasAtLeastOneSelectedStudent = this.store.peekAll('student').any((student) => student.isSelected);
+    const hasAtLeastOneSelectedStudent = this.store.peekAll('student').some((student) => student.isSelected);
     return hasAtLeastOneSelectedStudent;
   }
 
@@ -94,7 +94,7 @@ export default class AddStudentList extends Component {
   }
 
   _hasCheckedSomething() {
-    const hasOneOrMoreCheck = this.args.studentList.any((student) => student.isSelected);
+    const hasOneOrMoreCheck = this.args.studentList.some((student) => student.isSelected);
     return hasOneOrMoreCheck;
   }
 }
