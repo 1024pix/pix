@@ -81,6 +81,7 @@
     "ember-cli-sass": "^11.0.1",
     "ember-cli-showdown": "^7.0.0",
     "ember-click-outside": "^6.0.0",
+    "ember-component-css": "^0.8.1",
     "ember-cookies": "^1.0.0",
     "ember-data": "~4.0.2",
     "ember-dayjs": "^0.12.0",
