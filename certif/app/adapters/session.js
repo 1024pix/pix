@@ -30,19 +30,22 @@ export default class SessionAdapter extends ApplicationAdapter {
               'has-incident': model.hasIncident,
               'has-joining-issue': model.hasJoiningIssue,
             },
-            included: model.certificationReports.map((certificationReport) => {
-              return {
-                type: 'certification-reports',
-                id: certificationReport.get('id'),
-                attributes: certificationReport.toJSON(),
-              };
-            }),
+            included: model
+              .hasMany('certificationReports')
+              .value()
+              .map((certificationReport) => {
+                return {
+                  type: 'certification-reports',
+                  id: certificationReport.get('id'),
+                  attributes: certificationReport.toJSON(),
+                };
+              }),
           },
         };
         return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });
       }
 
-      if (snapshot.adapterOptions.studentListToAdd) {
+      if (snapshot.adapterOptions.studentListToAdd.length) {
         const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/enrol-students-to-session';
         const organizationLearnerIds = snapshot.adapterOptions.studentListToAdd.map((student) => student.id);
         const data = {
