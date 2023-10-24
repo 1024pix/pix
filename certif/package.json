@@ -49,6 +49,7 @@
     "@babel/eslint-parser": "^7.22.15",
     "@babel/plugin-proposal-decorators": "^7.22.15",
     "@ember/optional-features": "^2.0.0",
+    "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^3.1.0",
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
@@ -83,7 +84,7 @@
     "ember-fetch": "^8.1.2",
     "ember-file-upload": "^8.0.0",
     "ember-flatpickr": "^4.0.0",
-    "ember-inputmask": "^0.11.0",
+    "ember-inputmask5": "^4.0.2",
     "ember-intl": "^6.0.0",
     "ember-keyboard": "^8.0.0",
     "ember-load-initializers": "^2.1.2",
@@ -115,8 +116,5 @@
     "stylelint-config-standard-scss": "^11.0.0",
     "tracked-built-ins": "^3.2.0",
     "webpack": "^5.76.2"
-  },
-  "dependencies": {
-    "@ember/string": "^3.1.1"
   }
 }

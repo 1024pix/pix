@@ -436,6 +436,8 @@ module('Integration | Component | new-certification-candidate-modal', function (
     test('it should submit a student', async function (assert) {
       const closeModalStub = sinon.stub();
       const updateCandidateFromValueStub = sinon.stub();
+      updateCandidateFromValueStub.callsFake((object, key, value) => (object[key] = value));
+
       const updateCandidateFromEventStub = sinon.stub();
       const saveCandidateStub = sinon.stub();
 
@@ -501,9 +503,9 @@ module('Integration | Component | new-certification-candidate-modal', function (
       sinon.assert.calledOnceWithExactly(saveCandidateStub, {
         firstName: 'Guybrush',
         lastName: 'Threepwood',
-        birthdate: '',
+        birthdate: '2019-04-28',
         birthCity: '',
-        birthCountry: '',
+        birthCountry: 'FRANCE',
         email: 'roooooar@example.net',
         externalId: '44AA3355',
         resultRecipientEmail: 'guybrush.threepwood@example.net',
