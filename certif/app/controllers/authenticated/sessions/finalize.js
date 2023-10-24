@@ -142,9 +142,10 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   isValid() {
-    const invalidCertificationReports = this.session.certificationReports.filter(
-      (certificationReport) => certificationReport.isInvalid,
-    );
+    const invalidCertificationReports = this.session
+      .hasMany('certificationReports')
+      .value()
+      .filter((certificationReport) => certificationReport.isInvalid);
 
     if (invalidCertificationReports.length) {
       const select = document.getElementById(
