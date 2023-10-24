@@ -1,7 +1,7 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { Assessment, CompetenceEvaluation } from '../../../../lib/domain/models/index.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, sinon, catchErr } from '../../../../test-helper.js';
+import { Assessment, CompetenceEvaluation } from '../../../../../lib/domain/models/index.js';
+import { evaluationUsecases as usecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 import _ from 'lodash';
 
 describe('Unit | UseCase | start-or-resume-competence-evaluation', function () {
