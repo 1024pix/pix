@@ -13,7 +13,6 @@ export default class NewCertificationCandidateModal extends Component {
 
   @tracked selectedBirthGeoCodeOption = INSEE_CODE_OPTION;
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
-  @tracked maskedBirthdate;
 
   @tracked isLoading = false;
 
@@ -44,9 +43,14 @@ export default class NewCertificationCandidateModal extends Component {
   }
 
   @action
-  updateBirthdate(_, masked) {
-    this.maskedBirthdate = masked;
-    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthdate', this._formatDate(masked));
+  saveApi({ inputmask }) {
+    this.inputmask = inputmask;
+  }
+
+  @action
+  updateBirthdate() {
+    const birthdate = this.inputmask.unmaskedvalue();
+    this.args.updateCandidateDataFromValue(this.args.candidateData, 'birthdate', birthdate);
   }
 
   @action
@@ -155,20 +159,8 @@ export default class NewCertificationCandidateModal extends Component {
     ];
   }
 
-  get query() {
-    return {
-      inputFormat: 'dd/mm/yyyy',
-      outputFormat: 'dd/mm/yyyy',
-    };
-  }
-
   _isFranceSelected() {
     return this.selectedCountryInseeCode === FRANCE_INSEE_CODE;
-  }
-
-  _formatDate(date) {
-    const [day, month, year] = date.split('/');
-    return `${year}-${month}-${day}`;
   }
 
   _getCountryName() {

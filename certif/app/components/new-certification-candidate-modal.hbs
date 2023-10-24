@@ -82,15 +82,12 @@
           <abbr title={{t "common.forms.required"}} class="mandatory-mark" aria-hidden="true">*</abbr>
           {{t "common.labels.candidate.birth-date"}}
         </label>
-        <OneWayDateMask
-          required
-          @placeholder="dd/mm/yyyy"
-          @options={{this.query}}
-          class="input"
+        <Input
           id="birthdate"
-          autocomplete="hidden"
-          @value={{this.maskedBirthdate}}
-          @update={{this.updateBirthdate}}
+          class="ember-text-field ember-view input"
+          {{on "change" this.updateBirthdate}}
+          {{inputmask alias="datetime" inputFormat="dd/mm/yyyy" outputFormat="yyyy-mm-dd" registerAPI=this.saveApi}}
+          placeholder="dd/mm/yyyy"
         />
       </div>
 
