@@ -4,7 +4,7 @@ Date : 2023-09-26
 
 ## État
 
-En cours
+Acceptée
 
 ## Contexte
 
@@ -109,7 +109,20 @@ Pour plus d'informations sur l'arborescence pods, d'Ember, vous pouvez retrouver
 
 ## Décision
 
-La solution 2 semble la plus adéquate. Nous proposons une **phase d'expérimentation pour discuter** de la structure à suivre plus tard suite à la liberté de construction d'arborescence que nous offre cette solution.
+La solution 1 ne semblent pas nous convenir car nos applications grossissant l'arborescence par découpage technique est de moins en moins adaptée. Cependant la solution 2, avant d'être mise en place, nécessite une phase
+d'expérimentation pour répondre aux problématiques suivantes : 
+
+- déplacement des tests au plus proche du code associé
+  - il y a des erreurs lorsqu'on tente de déplacer les tests d'acceptance faisant appel à Mirage
+  - les tests se retrouvent dans le bundle de production
+  - le linter empêche de déplacer certains tests dans le dossier pods 
+  - les générateurs de code (ember-cli) par défaut ajoutent les fichiers de tests dans `app/tests`
+- déplacement des fichiers de style au plus proche du code associé
+  - l'utilisation de ember-component-css fait échouer des tests sur mon-pix (pas de soucis sur orga)
+- organisation des fichiers
+  - clarifier où placer les fichiers en commun entre plusieurs pages (ex : les models) ?
+
+Il a donc été décidé d'expérimenter la solution 2 sur PixOrga en aprem tech afin de répondre aux problématiques listées ci-dessus.
 
 ## Remarque
 
