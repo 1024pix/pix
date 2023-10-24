@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { CompetenceEvaluation } from './CompetenceEvaluation.js';
+import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { KnowledgeElement } from './KnowledgeElement.js';
 import {
   MINIMUM_DELAY_IN_DAYS_FOR_RESET,

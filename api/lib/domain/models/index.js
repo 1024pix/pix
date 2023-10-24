@@ -58,7 +58,7 @@ import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';
 import { Challenge } from './Challenge.js';
 import { Competence } from './Competence.js';
-import { CompetenceEvaluation } from './CompetenceEvaluation.js';
+import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { CompetenceMark } from './CompetenceMark.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import { CompetenceTree } from './CompetenceTree.js';
