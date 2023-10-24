@@ -29,7 +29,7 @@ export default class Session extends Model {
   @attr('boolean') hasIncident;
   @attr('boolean') hasJoiningIssue;
   @attr() certificationCenterId;
-  @hasMany('certificationReport') certificationReports;
+  @hasMany('certificationReport', { async: true, inverse: null }) certificationReports;
 
   @computed('status')
   get isFinalized() {
