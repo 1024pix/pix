@@ -55,6 +55,7 @@ import * as certificationCandidateRepository from '../../infrastructure/reposito
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
+import * as certificationCenterInvitationService from '../../domain/services/certification-center-invitation-service.js';
 import * as certificationCenterInvitedUserRepository from '../../infrastructure/repositories/certification-center-invited-user-repository.js';
 import * as certificationCenterMembershipRepository from '../../infrastructure/repositories/certification-center-membership-repository.js';
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
@@ -266,6 +267,7 @@ const dependencies = {
   certificationCandidatesOdsService,
   certificationCenterForAdminRepository,
   certificationCenterInvitationRepository,
+  certificationCenterInvitationService,
   certificationCenterInvitedUserRepository,
   certificationCenterMembershipRepository,
   certificationCenterRepository,

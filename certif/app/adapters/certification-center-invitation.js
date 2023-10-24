@@ -16,4 +16,18 @@ export default class CertificationCenterInvitationAdapter extends ApplicationAda
     }
     return super.urlForQueryRecord(...arguments);
   }
+
+  sendInvitations({ certificationCenterId, emails }) {
+    const data = {
+      data: {
+        attributes: {
+          emails,
+        },
+      },
+    };
+
+    const url = `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/invitations`;
+
+    return this.ajax(url, 'POST', { data });
+  }
 }
