@@ -306,31 +306,51 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
             error_description: 'Invalid authentication method for accessing this endpoint.',
           },
         };
+        const identityProvider = 'IDENTITY_PROVIDER_TEST';
 
         sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
         sinon.stub(httpAgent, 'post');
         httpAgent.post.resolves(errorResponse);
 
-        const oidcAuthenticationService = new OidcAuthenticationService({ clientSecret, clientId, tokenUrl });
+        const oidcAuthenticationService = new OidcAuthenticationService({
+          clientSecret,
+          clientId,
+          identityProvider,
+          tokenUrl,
+        });
 
         // when
+        const payload = {
+          code: 'AUTH_CODE',
+          redirectUri: 'pix.net/connexion/oidc',
+        };
         const error = await catchErr(
           oidcAuthenticationService.exchangeCodeForTokens,
           oidcAuthenticationService,
-        )({
-          code: 'AUTH_CODE',
-          redirectUri: 'pix.net/connexion/oidc',
-        });
+        )(payload);
 
         // then
-        expect(error).to.be.an.instanceOf(OidcInvokingTokenEndpointError);
-        expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
-        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
+        const expectedPayload = {
+          code: payload.code,
+          redirect_uri: payload.redirectUri,
+          client_id: 'OIDC_CLIENT_ID',
+          client_secret: 'OIDC_CLIENT_SECRET',
+          grant_type: 'authorization_code',
+        };
+
+        const expectedLogOptions = {
           message: {
+            code: 'EXCHANGE_CODE_FOR_TOKEN',
             customMessage: 'Erreur lors de la récupération des tokens du partenaire.',
             errorDetails: JSON.stringify(errorResponse.data),
+            identityProvider,
+            requestPayload: expectedPayload,
           },
-        });
+        };
+
+        expect(error).to.be.an.instanceOf(OidcInvokingTokenEndpointError);
+        expect(error.message).to.equal('Erreur lors de la récupération des tokens du partenaire.');
+        expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(expectedLogOptions);
       });
     });
   });
