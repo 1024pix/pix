@@ -1,6 +1,8 @@
 import { ScheduleComputeOrganizationLearnersCertificabilityJob } from './ScheduleComputeOrganizationLearnersCertificabilityJob.js';
 import { ComputeCertificabilityJob } from './ComputeCertificabilityJob.js';
 import { knex } from '../../../../db/knex-database-connection.js';
+import dayjs from 'dayjs';
+import cronParser from 'cron-parser';
 
 class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
   constructor({ organizationLearnerRepository, pgBossRepository, config, logger }) {
@@ -14,13 +16,21 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
     const skipLoggedLastDayCheck = event?.skipLoggedLastDayCheck;
     const onlyNotComputed = event?.onlyNotComputed;
     const chunkSize = this.config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize;
+    const cronConfig = this.config.features.scheduleComputeOrganizationLearnersCertificability.cron;
 
     const isolationLevel = 'repeatable read';
+
+    const parsedCron = cronParser.parseExpression(cronConfig, { tz: 'Europe/Paris' });
+    const toUserActivityDate = parsedCron.prev().toDate();
+
+    const fromUserActivityDate = dayjs(toUserActivityDate).subtract(1, 'day').toDate();
 
     await knex.transaction(
       async (trx) => {
         const count = await this.organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability({
           skipLoggedLastDayCheck,
+          fromUserActivityDate,
+          toUserActivityDate,
           onlyNotComputed,
           domainTransaction: { knexTransaction: trx },
         });
@@ -40,6 +50,8 @@ class ScheduleComputeOrganizationLearnersCertificabilityJobHandler {
             await this.organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability({
               limit: chunkSize,
               offset,
+              fromUserActivityDate,
+              toUserActivityDate,
               skipLoggedLastDayCheck,
               onlyNotComputed,
               domainTransaction: { knexTransaction: trx },
