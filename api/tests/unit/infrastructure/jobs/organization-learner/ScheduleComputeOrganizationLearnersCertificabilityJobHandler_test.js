@@ -1,5 +1,10 @@
 import { expect, sinon, knex } from '../../../../test-helper.js';
 import { ScheduleComputeOrganizationLearnersCertificabilityJobHandler } from '../../../../../lib/infrastructure/jobs/organization-learner/ScheduleComputeOrganizationLearnersCertificabilityJobHandler.js';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCertificabilityJobHandler', function () {
   context('#handle', function () {
@@ -7,6 +12,10 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
     let pgBossRepository;
     let organizationLearnerRepository;
     let logger;
+    let clock;
+    let config;
+    let fromUserActivityDate;
+    let toUserActivityDate;
 
     beforeEach(function () {
       const transaction = Symbol('domainTransaction');
@@ -16,6 +25,27 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         .callsFake((lambda) => {
           return lambda(transaction);
         });
+
+      const now = dayjs('2023-10-02T21:00:01').tz('Europe/Paris').toDate();
+      clock = sinon.useFakeTimers(now);
+
+      config = {
+        features: {
+          scheduleComputeOrganizationLearnersCertificability: {
+            chunkSize: 2,
+            cron: '0 21 * * *',
+          },
+        },
+      };
+
+      toUserActivityDate = dayjs('2023-10-02').tz('Europe/Paris').hour(21).minute(0).second(0).millisecond(0).toDate();
+      fromUserActivityDate = dayjs('2023-10-01')
+        .tz('Europe/Paris')
+        .hour(21)
+        .minute(0)
+        .second(0)
+        .millisecond(0)
+        .toDate();
 
       domainTransaction = {
         knexTransaction: transaction,
@@ -37,27 +67,45 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       };
     });
 
+    afterEach(async function () {
+      clock.restore();
+    });
+
     it('should schedule multiple ComputeCertificabilityJob', async function () {
       // given
       const skipLoggedLastDayCheck = undefined;
       const onlyNotComputed = undefined;
 
-      const config = {
-        features: {
-          scheduleComputeOrganizationLearnersCertificability: {
-            chunkSize: 2,
-          },
-        },
-      };
-
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          limit: 2,
+          offset: 0,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          limit: 2,
+          offset: 2,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
         new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
@@ -103,21 +151,36 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
       const skipLoggedLastDayCheck = true;
       const onlyNotComputed = true;
 
-      const config = {
-        features: {
-          scheduleComputeOrganizationLearnersCertificability: {
-            chunkSize: 2,
-          },
-        },
-      };
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves(3);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 0, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          limit: 2,
+          offset: 0,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves([1, 2]);
       organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ limit: 2, offset: 2, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          limit: 2,
+          offset: 2,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves([3]);
       const scheduleComputeOrganizationLearnersCertificabilityJobHandler =
         new ScheduleComputeOrganizationLearnersCertificabilityJobHandler({
@@ -168,20 +231,30 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
 
       const chunkCount = 10;
       const limit = 3;
-      const config = {
-        features: {
-          scheduleComputeOrganizationLearnersCertificability: {
-            chunkSize: limit,
-          },
-        },
-      };
+
+      config.features.scheduleComputeOrganizationLearnersCertificability.chunkSize = limit;
+
       organizationLearnerRepository.countByOrganizationsWhichNeedToComputeCertificability
-        .withArgs({ skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+        .withArgs({
+          fromUserActivityDate,
+          toUserActivityDate,
+          skipLoggedLastDayCheck,
+          onlyNotComputed,
+          domainTransaction,
+        })
         .resolves(30);
 
       for (let index = 0; index < chunkCount; index++) {
         organizationLearnerRepository.findByOrganizationsWhichNeedToComputeCertificability
-          .withArgs({ limit, offset: index * limit, skipLoggedLastDayCheck, onlyNotComputed, domainTransaction })
+          .withArgs({
+            limit,
+            offset: index * limit,
+            fromUserActivityDate,
+            toUserActivityDate,
+            skipLoggedLastDayCheck,
+            onlyNotComputed,
+            domainTransaction,
+          })
           .resolves([index * limit + 1, index * limit + 2, index * limit + 3]);
       }
 
