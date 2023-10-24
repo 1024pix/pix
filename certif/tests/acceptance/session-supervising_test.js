@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn } from '@ember/test-helpers';
+import { click, fillIn, waitUntil } from '@ember/test-helpers';
 import { visit, within } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
 import { Response } from 'miragejs';
@@ -8,6 +8,14 @@ import sinon from 'sinon';
 import ENV from 'pix-certif/config/environment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+
+const isVisible = (element) => {
+  return window.getComputedStyle(element).visibility !== 'hidden';
+};
+
+const waitUntilElementIsVisible = (element) => {
+  return waitUntil(() => isVisible(element));
+};
 
 module('Acceptance | Session supervising', function (hooks) {
   setupApplicationTest(hooks);
@@ -237,79 +245,181 @@ module('Acceptance | Session supervising', function (hooks) {
     });
   });
 
-  module('when supervisor handles a live alert', function () {
-    module('when there is no error', function () {
-      test('it dismisses the live alert', async function (assert) {
-        // given
-        const sessionId = 12345;
-        this.sessionForSupervising = server.create('session-for-supervising', {
-          id: sessionId,
-          certificationCandidates: [
-            server.create('certification-candidate-for-supervising', {
-              userId: 123,
-              firstName: 'John',
-              lastName: 'Doe',
-              birthdate: '1984-05-28',
-              extraTimePercentage: null,
-              authorizedToStart: true,
-              assessmentStatus: 'started',
-              liveAlertStatus: 'ongoing',
-            }),
-          ],
+  module('when supervisor handles a live alert', () => {
+    module('when supervisor dismisses a live alert', function () {
+      module('when there is no error', function () {
+        test('it dismisses the live alert', async function (assert) {
+          // given
+          const sessionId = 12345;
+          this.sessionForSupervising = server.create('session-for-supervising', {
+            id: sessionId,
+            certificationCandidates: [
+              server.create('certification-candidate-for-supervising', {
+                userId: 123,
+                firstName: 'John',
+                lastName: 'Doe',
+                birthdate: '1984-05-28',
+                extraTimePercentage: null,
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+                liveAlertStatus: 'ongoing',
+              }),
+            ],
+          });
+
+          const screen = await visit('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByText('Refuser le signalement'));
+
+          // then
+          assert.dom(screen.getByText('Le signalement a bien été refusé.')).exists();
         });
+      });
 
-        const screen = await visit('/connexion-espace-surveillant');
-        await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-        await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
-        await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+      module('when there is an error', function () {
+        test('it displays an error notification', async function (assert) {
+          // given
+          const sessionId = 123;
+          const candidateId = 12345;
+          server.patch(`/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`, () => new Response(400));
+          this.sessionForSupervising = server.create('session-for-supervising', {
+            id: sessionId,
+            certificationCandidates: [
+              server.create('certification-candidate-for-supervising', {
+                userId: candidateId,
+                firstName: 'John',
+                lastName: 'Doe',
+                birthdate: '1984-05-28',
+                extraTimePercentage: null,
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+                liveAlertStatus: 'ongoing',
+              }),
+            ],
+          });
 
-        // when
-        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-        await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
-        await click(screen.getByText('Refuser le signalement'));
+          const screen = await visit('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '123');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
-        // then
-        assert.dom(screen.getByText('Le signalement a bien été refusé.')).exists();
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(screen.getByText('Refuser le signalement'));
+
+          // then
+          assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+        });
       });
     });
 
-    module('when there is an error', function () {
-      test('it displays an error notification', async function (assert) {
-        // given
-        const sessionId = 123;
-        const candidateId = 12345;
-        server.patch(`/sessions/${sessionId}/candidates/${candidateId}/dismiss-live-alert`, () => new Response(400));
-        this.sessionForSupervising = server.create('session-for-supervising', {
-          id: sessionId,
-          certificationCandidates: [
-            server.create('certification-candidate-for-supervising', {
-              userId: candidateId,
-              firstName: 'John',
-              lastName: 'Doe',
-              birthdate: '1984-05-28',
-              extraTimePercentage: null,
-              authorizedToStart: true,
-              assessmentStatus: 'started',
-              liveAlertStatus: 'ongoing',
-            }),
-          ],
+    module('when supervisor validates a live alert', function () {
+      module('when there is no error', function () {
+        test('it validates the live alert', async function (assert) {
+          // given
+          const sessionId = 12345;
+          const candidateId = 123;
+          server.patch(`/sessions/${sessionId}/candidates/${candidateId}/validate-live-alert`, (schema, request) => {
+            const body = JSON.parse(request.requestBody);
+            if (body.subcategory === 'WEBSITE_BLOCKED') {
+              return new Response(204);
+            }
+
+            return new Response(400);
+          });
+
+          this.sessionForSupervising = server.create('session-for-supervising', {
+            id: sessionId,
+            certificationCandidates: [
+              server.create('certification-candidate-for-supervising', {
+                userId: candidateId,
+                firstName: 'John',
+                lastName: 'Doe',
+                birthdate: '1984-05-28',
+                extraTimePercentage: null,
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+                liveAlertStatus: 'ongoing',
+              }),
+            ],
+          });
+
+          const screen = await visit('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+
+          await click(
+            screen.getByLabelText(
+              "E5 Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+            ),
+          );
+
+          await click(screen.getByText('Valider le signalement'));
+
+          // then
+          const successMessage = screen.getByText('Le signalement a bien été validé.');
+
+          await waitUntilElementIsVisible(successMessage);
+
+          assert.notStrictEqual(window.getComputedStyle(successMessage).visibility, 'hidden');
         });
+      });
 
-        const screen = await visit('/connexion-espace-surveillant');
-        await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '123');
-        await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
-        await click(screen.getByRole('button', { name: 'Surveiller la session' }));
+      module('when there is an error', function () {
+        test('it displays an error notification', async function (assert) {
+          // given
+          const sessionId = 123;
+          const candidateId = 12345;
+          server.patch(`/sessions/${sessionId}/candidates/${candidateId}/validate-live-alert`, () => new Response(400));
+          this.sessionForSupervising = server.create('session-for-supervising', {
+            id: sessionId,
+            certificationCandidates: [
+              server.create('certification-candidate-for-supervising', {
+                userId: candidateId,
+                firstName: 'John',
+                lastName: 'Doe',
+                birthdate: '1984-05-28',
+                extraTimePercentage: null,
+                authorizedToStart: true,
+                assessmentStatus: 'started',
+                liveAlertStatus: 'ongoing',
+              }),
+            ],
+          });
 
-        // when
-        await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
-        await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
-        await click(screen.getByText('Refuser le signalement'));
+          const screen = await visit('/connexion-espace-surveillant');
+          await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '123');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
+          await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
-        // then
-        assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+          // when
+          await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
+          await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
+          await click(
+            screen.getByLabelText(
+              "E5 Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+            ),
+          );
+
+          await click(screen.getByText('Valider le signalement'));
+
+          // then
+          assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
+        });
       });
     });
-
     module('when exiting the form', function () {
       module('when dismissing the alert', function () {
         test('it should reset the form', async function (assert) {
@@ -341,7 +451,12 @@ module('Acceptance | Session supervising', function (hooks) {
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
           await click(screen.getByLabelText("E1 L'image ne s'affiche pas"));
           await click(screen.getByText('Refuser le signalement'));
-          await click(screen.getByText('Fermer'));
+
+          const closeButtons = screen.getAllByText('Fermer');
+          await waitUntil(() => closeButtons.filter((element) => isVisible(element)).length > 0);
+
+          const visibleCloseButton = closeButtons.filter((element) => isVisible(element))[0];
+          await click(visibleCloseButton);
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
           // then

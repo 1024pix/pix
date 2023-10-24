@@ -443,10 +443,16 @@
             "dismiss-alert-button": "Refuser le signalement",
             "validate-alert-button": "Valider le signalement"
           },
-          "error-rejecting-live-alert": "Une erreur a eu lieu. Merci de réessayer ultérieurement.",
+          "error-handling-live-alert": "Une erreur a eu lieu. Merci de réessayer ultérieurement.",
           "no-current-live-alert": "Aucun signalement en cours pour ce candidat",
           "rejected": {
             "banner": "Le signalement a bien été refusé.",
+            "close-button-label": "Fermer la fenêtre de confirmation",
+            "close-button-text": "Fermer",
+            "description": "Indiquez au candidat de rafraîchir sa page."
+          },
+          "validated": {
+            "banner": "Le signalement a bien été validé.",
             "close-button-label": "Fermer la fenêtre de confirmation",
             "close-button-text": "Fermer",
             "description": "Indiquez au candidat de rafraîchir sa page."
