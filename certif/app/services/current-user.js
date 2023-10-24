@@ -48,7 +48,9 @@ export default class CurrentUserService extends Service {
   updateCurrentCertificationCenter(certificationCenterId) {
     if (this.currentAllowedCertificationCenterAccess.id !== String(certificationCenterId)) {
       this.currentAllowedCertificationCenterAccess =
-        this.certificationPointOfContact.allowedCertificationCenterAccesses.findBy('id', String(certificationCenterId));
+        this.certificationPointOfContact.allowedCertificationCenterAccesses.find(
+          ({ id }) => id === String(certificationCenterId),
+        );
 
       this.currentCertificationCenterMembership =
         this._findCertificationCenterMembershipByCertificationCenterId(certificationCenterId);
@@ -58,8 +60,7 @@ export default class CurrentUserService extends Service {
 
   _findCertificationCenterMembershipByCertificationCenterId(certificationCenterId) {
     return this.certificationPointOfContact.certificationCenterMemberships.find(
-      (certificationCenterMembership) =>
-        certificationCenterMembership.certificationCenterId === Number(certificationCenterId),
+      ({ certificationCenterId: id }) => id === Number(certificationCenterId),
     );
   }
 }
