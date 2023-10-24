@@ -7,8 +7,7 @@ import dayjs from 'dayjs';
 const Modals = {
   Confirmation: 'Confirmation',
   HandleLiveAlert: 'HandleLiveAlert',
-  DismissLiveAlertSuccess: 'DismissLiveAlertSuccess',
-  ValidateLiveAlertSuccess: 'ValidateLiveAlertSuccess',
+  HandledLiveAlertSuccess: 'HandledLiveAlertSuccess',
 };
 
 export default class CandidateInList extends Component {
@@ -23,6 +22,7 @@ export default class CandidateInList extends Component {
   @tracked modalConfirmationText = this.intl.t('common.actions.confirm');
   @tracked modalInstructionText = this.intl.t('pages.session-supervising.candidate-in-list.default-modal-title');
   @tracked actionOnConfirmation;
+  @tracked isLiveAlertValidated = false;
 
   get candidateFullName() {
     const candidateFullName = `${this.args.candidate.firstName} ${this.args.candidate.lastName}`;
@@ -156,7 +156,8 @@ export default class CandidateInList extends Component {
     try {
       const adapter = this.store.adapterFor('session');
       await adapter.dismissLiveAlert(this.args.sessionId, this.args.candidate.userId);
-      this.displayedModal = Modals.DismissLiveAlertSuccess;
+      this.isLiveAlertValidated = false;
+      this.displayedModal = Modals.HandledLiveAlertSuccess;
     } catch (err) {
       const errorMessage = this.intl.t(
         'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
@@ -174,7 +175,8 @@ export default class CandidateInList extends Component {
         candidateId: this.args.candidate.userId,
         subcategory,
       });
-      this.displayedModal = Modals.ValidateLiveAlertSuccess;
+      this.isLiveAlertValidated = true;
+      this.displayedModal = Modals.HandledLiveAlertSuccess;
     } catch (err) {
       const errorMessage = this.intl.t(
         'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
@@ -250,12 +252,8 @@ export default class CandidateInList extends Component {
     return this.displayedModal === Modals.HandleLiveAlert;
   }
 
-  get isLiveAlertRejectedModalDisplayed() {
-    return this.displayedModal === Modals.DismissLiveAlertSuccess;
-  }
-
-  get isLiveAlertValidatedModalDisplayed() {
-    return this.displayedModal === Modals.ValidateLiveAlertSuccess;
+  get isLiveAlertHandledModalDisplayed() {
+    return this.displayedModal === Modals.HandledLiveAlertSuccess;
   }
 
   get actionMethod() {

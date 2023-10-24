@@ -137,16 +137,11 @@
     @candidateId={{@candidate.id}}
   />
 
-  <SessionSupervising::LiveAlertRejectedModal
-    @showModal={{this.isLiveAlertRejectedModalDisplayed}}
+  <SessionSupervising::LiveAlertHandledModal
+    @showModal={{this.isLiveAlertHandledModalDisplayed}}
     @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
     @title={{this.candidateFullName}}
-  />
-
-  <SessionSupervising::LiveAlertValidatedModal
-    @showModal={{this.isLiveAlertValidatedModalDisplayed}}
-    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
-    @title={{this.candidateFullName}}
+    @isLiveAlertValidated={{this.isLiveAlertValidated}}
   />
 
 </li>
