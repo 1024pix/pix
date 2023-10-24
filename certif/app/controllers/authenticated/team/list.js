@@ -30,8 +30,7 @@ export default class AuthenticatedTeamListController extends Controller {
   }
 
   get membersSelectOptionsSortedByLastName() {
-    return this.model.members
-      .toArray()
+    return [...this.model.members]
       .sort((member1, member2) => member1.lastName.localeCompare(member2.lastName, 'fr-FR', { sensitivity: 'base' }))
       .filter((member) => !member.isReferer)
       .map((member) => ({ value: member.id, label: `${member.firstName} ${member.lastName}` }));
