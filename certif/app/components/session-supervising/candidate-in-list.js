@@ -165,9 +165,13 @@ export default class CandidateInList extends Component {
   }
 
   @action
-  async validateLiveAlert() {
+  async validateLiveAlert(subcategory) {
     const adapter = this.store.adapterFor('session');
-    await adapter.validateLiveAlert(this.args.sessionId, this.args.candidate.userId);
+    await adapter.validateLiveAlert({
+      sessionId: this.args.sessionId,
+      candidateId: this.args.candidate.userId,
+      subcategory,
+    });
   }
 
   @action

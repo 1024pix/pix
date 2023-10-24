@@ -2,7 +2,7 @@ import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationIssueReportResolutionAttempt } from '../../../../lib/domain/models/index.js';
 import {
   CertificationIssueReportResolutionStrategies,

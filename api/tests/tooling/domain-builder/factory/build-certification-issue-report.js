@@ -1,8 +1,8 @@
-import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import { CertificationIssueReport } from '../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 const buildCertificationIssueReport = function ({
   id = 123,

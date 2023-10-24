@@ -1,12 +1,12 @@
 import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import { CertificationIssueReport } from '../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
   ImpactfulSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';

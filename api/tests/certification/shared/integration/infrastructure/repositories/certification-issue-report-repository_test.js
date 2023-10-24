@@ -1,11 +1,11 @@
 import _ from 'lodash';
-import { expect, domainBuilder, databaseBuilder, knex } from '../../../test-helper.js';
-import * as certificationIssueReportRepository from '../../../../lib/infrastructure/repositories/certification-issue-report-repository.js';
-import { CertificationIssueReport } from '../../../../lib/domain/models/CertificationIssueReport.js';
+import { expect, domainBuilder, databaseBuilder, knex } from '../../../../../test-helper.js';
+import * as certificationIssueReportRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
+import { CertificationIssueReport } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import {
   CertificationIssueReportCategory,
   CertificationIssueReportSubcategories,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Integration | Repository | Certification Issue Report', function () {
   afterEach(async function () {

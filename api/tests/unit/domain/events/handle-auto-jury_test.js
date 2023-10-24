@@ -7,7 +7,7 @@ import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import {
   CertificationIssueReportSubcategories,
   CertificationIssueReportCategory,
-} from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+} from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   it('fails when event is not of correct type', async function () {

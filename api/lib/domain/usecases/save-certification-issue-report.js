@@ -1,4 +1,4 @@
-import { CertificationIssueReport } from '../models/CertificationIssueReport.js';
+import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 
 const saveCertificationIssueReport = async function ({
   certificationIssueReportDTO,
