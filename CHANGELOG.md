@@ -1,5 +1,47 @@
 # Pix Changelog
 
+## v4.52.0 (24/10/2023)
+
+
+### :rocket: Amélioration
+- [#7299](https://github.com/1024pix/pix/pull/7299) [FEATURE] Valider l'alerte d'un candidat en certif V3 (PIX-9691).
+- [#7019](https://github.com/1024pix/pix/pull/7019) [FEATURE] Mettre à jour la tooltip sur la remontée de la certificabilité pour les organisations SCO avec import (PIX-8874).
+- [#7282](https://github.com/1024pix/pix/pull/7282) [FEATURE] Affiche le nom de l'élève sélectionné dans la page des missions (PIX-9087).
+- [#7018](https://github.com/1024pix/pix/pull/7018) [FEATURE] Afficher une bannière informant que la certificabilité remonte automatiquement pours les SCO isManagingStudent (PIX-8873).
+- [#7052](https://github.com/1024pix/pix/pull/7052) [FEATURE]  Suggérer d'aller sur l'onglet Élèves au lieu de créer une campagne de collecte de profil sur la page de création de campagne (PIX-8875).
+- [#7290](https://github.com/1024pix/pix/pull/7290) [FEATURE] Modulix : Accéder à une leçon textuelle (PIX-9674).
+- [#7288](https://github.com/1024pix/pix/pull/7288) [FEATURE] Valider l'alerte du candidat en certif v3 (PIX-9690).
+
+### :building_construction: Tech
+- [#7183](https://github.com/1024pix/pix/pull/7183) [TECH] Remplacer ember-inputmask par ember-inputmask5.
+- [#7305](https://github.com/1024pix/pix/pull/7305) [TECH] Ajout de seeds pour les issue-report-categories (PIX-9738).
+- [#7272](https://github.com/1024pix/pix/pull/7272) [TECH] Déclencher des événèments Matomo depuis le code (PIX-9456).
+- [#7286](https://github.com/1024pix/pix/pull/7286) [TECH] Ajout d'un "await" manquant lors d'une connexion de type OIDC (PIX-9700).
+
+### :bug: Correction
+- [#7289](https://github.com/1024pix/pix/pull/7289) [BUGFIX] [CRON] Figer la date de l'interval pour calculer la certificabilité des apprenants (PIX-9711) .
+
+### :arrow_up: Montée de version
+- [#7317](https://github.com/1024pix/pix/pull/7317) [BUMP] Lock file maintenance (audit-logger).
+- [#7313](https://github.com/1024pix/pix/pull/7313) [BUMP] Lock file maintenance (certif).
+- [#7312](https://github.com/1024pix/pix/pull/7312) [BUMP] Lock file maintenance (orga).
+- [#7311](https://github.com/1024pix/pix/pull/7311) [BUMP] Lock file maintenance (admin).
+- [#7309](https://github.com/1024pix/pix/pull/7309) [BUMP] Lock file maintenance (mon-pix).
+- [#7308](https://github.com/1024pix/pix/pull/7308) [BUMP] Lock file maintenance (api).
+- [#7307](https://github.com/1024pix/pix/pull/7307) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.9.0 (orga).
+- [#7306](https://github.com/1024pix/pix/pull/7306) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.9.0 (mon-pix).
+- [#7304](https://github.com/1024pix/pix/pull/7304) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.9.0 (certif).
+- [#7301](https://github.com/1024pix/pix/pull/7301) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.9.0 (admin).
+- [#7300](https://github.com/1024pix/pix/pull/7300) [BUMP] Update dependency @1024pix/ember-testing-library to ^0.9.0 (1d).
+- [#7302](https://github.com/1024pix/pix/pull/7302) [BUMP] Lock file maintenance (1d).
+- [#7298](https://github.com/1024pix/pix/pull/7298) [BUMP] Update dependency qunit-dom to v3 (orga).
+- [#7297](https://github.com/1024pix/pix/pull/7297) [BUMP] Update dependency qunit-dom to v3 (mon-pix).
+- [#7296](https://github.com/1024pix/pix/pull/7296) [BUMP] Update dependency qunit-dom to v3 (certif).
+- [#7294](https://github.com/1024pix/pix/pull/7294) [BUMP] Update dependency lint-staged to v15 (dossier racine).
+- [#7267](https://github.com/1024pix/pix/pull/7267) [BUMP] Lock file maintenance (1d).
+- [#7295](https://github.com/1024pix/pix/pull/7295) [BUMP] Update dependency qunit-dom to v3 (admin).
+- [#7285](https://github.com/1024pix/pix/pull/7285) [BUMP] Update dependency qunit-dom to v3 (1d).
+
 ## v4.51.0 (19/10/2023)
 
 
