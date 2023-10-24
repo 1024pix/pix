@@ -57,9 +57,9 @@ export default class CurrentUserService extends Service {
   }
 
   _findCertificationCenterMembershipByCertificationCenterId(certificationCenterId) {
-    return this.certificationPointOfContact.certificationCenterMemberships.findBy(
-      'certificationCenterId',
-      Number(certificationCenterId),
+    return this.certificationPointOfContact.certificationCenterMemberships.find(
+      (certificationCenterMembership) =>
+        certificationCenterMembership.certificationCenterId === Number(certificationCenterId),
     );
   }
 }
