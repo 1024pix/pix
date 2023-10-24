@@ -4,6 +4,7 @@ import * as moduleRepository from '../../../../src/devcomp/infrastructure/reposi
 import { Module } from '../../../../src/devcomp/domain/models/Module.js';
 import { Lesson } from '../../../../src/devcomp/domain/models/Lesson.js';
 import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
+import { QCU } from '../../../../src/devcomp/domain/models/QCU.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -30,9 +31,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module).to.be.instanceOf(Module);
-      for (const lesson of module.list) {
-        expect(lesson).to.be.instanceOf(Lesson);
-      }
+      expect(module.list.every((element) => element instanceof QCU || element instanceof Lesson)).to.be.true;
     });
   });
 });
