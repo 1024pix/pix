@@ -8,7 +8,7 @@ import * as assessmentRepository from '../../../src/shared/infrastructure/reposi
 import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
 import * as activitySerializer from '../../infrastructure/serializers/jsonapi/activity-serializer.js';
 import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
-import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import * as competenceEvaluationSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,

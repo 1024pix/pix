@@ -1,5 +1,5 @@
 import { evaluationUsecases as usecases } from '../../../evaluation/domain/usecases/index.js';
-import * as competenceEvaluationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 const startOrResume = async function (request, h, dependencies = { competenceEvaluationSerializer }) {
