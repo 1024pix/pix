@@ -9,7 +9,7 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import * as campaignParticipantRepository from '../../../../lib/infrastructure/repositories/campaign-participant-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
-import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';

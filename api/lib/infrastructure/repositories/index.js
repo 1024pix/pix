@@ -8,7 +8,7 @@ import * as tutorialRepository from './tutorial-repository.js';
 import * as userRecommendedTrainingRepository from './user-recommended-training-repository.js';
 import * as campaignParticipantRepository from './campaign-participant-repository.js';
 
-import * as assessmentRepository from './assessment-repository.js';
+import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignRepository from './campaign-repository.js';
 import * as competenceEvaluationRepository from './competence-evaluation-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
