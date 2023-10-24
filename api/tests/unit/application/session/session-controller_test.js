@@ -121,13 +121,20 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#getAttendanceSheet', function () {
-    const sessionId = 1;
-    const accessToken = 'ABC123';
+    it('should return the attendance sheet in pdf format', async function () {
+      // given
+      const i18n = getI18n();
+      const sessionId = 1;
+      const fileName = `feuille-emargement-session-${sessionId}.pdf`;
+      const attendanceSheet = Buffer.alloc(5);
+      const accessToken = 'ABC123';
 
-    let request;
-
-    beforeEach(function () {
-      request = {
+      const tokenService = {
+        extractUserId: sinon.stub(),
+      };
+      sinon.stub(usecases, 'getAttendanceSheet');
+      const request = {
+        i18n,
         params: { id: sessionId },
         payload: {},
         query: {
@@ -135,21 +142,9 @@ describe('Unit | Controller | sessionController', function () {
         },
       };
 
-      sinon.stub(usecases, 'getAttendanceSheet');
-    });
-
-    it('should return the attendence sheet in pdf format', async function () {
-      // given
-      const fileExtension = 'pdf';
-      const contentType = 'application/pdf';
-      const attendanceSheet = Buffer.alloc(5);
-      const tokenService = {
-        extractUserId: sinon.stub(),
-      };
       tokenService.extractUserId.withArgs(accessToken).returns(userId);
-      usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves({
-        fileExtension,
-        contentType,
+      usecases.getAttendanceSheet.withArgs({ sessionId, userId, i18n }).resolves({
+        fileName,
         attendanceSheet,
       });
 

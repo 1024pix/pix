@@ -41,7 +41,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/sessions/1/attendance-sheet');
+      const response = await httpTestServer.request('GET', '/api/sessions/1/attendance-sheet?accessToken=toto&lang=fr');
 
       // then
       expect(response.statusCode).to.equal(200);
