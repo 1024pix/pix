@@ -76,7 +76,7 @@ import * as certificationResultRepository from '../../infrastructure/repositorie
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
-import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
+import * as competenceEvaluationRepository from '../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';

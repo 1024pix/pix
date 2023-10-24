@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { improveCompetenceEvaluation } from '../../../../lib/domain/usecases/improve-competence-evaluation.js';
 
-import * as competenceEvaluationRepository from '../../../../lib/infrastructure/repositories/competence-evaluation-repository.js';
+import * as competenceEvaluationRepository from '../../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import { getCompetenceLevel } from '../../../../lib/domain/services/get-competence-level.js';
 
