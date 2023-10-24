@@ -43,6 +43,7 @@
   "devDependencies": {
     "@1024pix/ember-testing-library": "^0.9.0",
     "@1024pix/eslint-config": "^1.0.3",
+    "@1024pix/eslint-plugin": "^1.0.0",
     "@1024pix/pix-ui": "^40.0.0",
     "@1024pix/stylelint-config": "^5.0.0",
     "@babel/eslint-parser": "^7.22.15",
@@ -108,8 +109,8 @@
     "prettier": "^3.0.3",
     "qunit": "^2.19.3",
     "qunit-dom": "^3.0.0",
-    "sinon": "^16.0.0",
     "sass": "^1.66.1",
+    "sinon": "^16.0.0",
     "stylelint": "^15.10.3",
     "stylelint-config-standard-scss": "^11.0.0",
     "tracked-built-ins": "^3.2.0",
