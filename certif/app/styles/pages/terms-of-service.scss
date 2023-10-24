@@ -44,8 +44,7 @@
     height: 400px;
     margin: 0 60px 20px;
     padding: 0 35px;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden scroll;
     font-family: $font-open-sans;
 
     p,
