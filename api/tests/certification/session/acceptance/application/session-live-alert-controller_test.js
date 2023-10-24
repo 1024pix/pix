@@ -9,6 +9,10 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
     server = await createServer();
   });
 
+  afterEach(async function () {
+    await knex('certification-issue-reports').delete();
+  });
+
   describe('PATCH /sessions/{id}/candidates/{candidateId}/dismiss-live-alert', function () {
     describe('when user has supervisor authorization', function () {
       it('should return 204 when the alert is ongoing', async function () {
@@ -103,6 +107,10 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
           sessionId: session.id,
         });
         const supervisorUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildIssueReportCategory({
+          name: 'IMAGE_NOT_DISPLAYING',
+          issueReportCategoryId: 5,
+        });
         databaseBuilder.factory.buildSupervisorAccess({ userId: supervisorUserId, sessionId: session.id });
 
         const assessment = databaseBuilder.factory.buildAssessment({
@@ -129,6 +137,7 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
           headers,
           method: 'PATCH',
           url: `/api/sessions/${certificationCourse.sessionId}/candidates/${certificationCourse.userId}/validate-live-alert`,
+          payload: { subcategory: 'IMAGE_NOT_DISPLAYING' },
         };
 
         // when
@@ -138,9 +147,12 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
           .where({ id: certificationChallengeLiveAlert.id })
           .first();
 
+        const certificationIssueReport = await knex('certification-issue-reports').first();
+
         // then
         expect(response.statusCode).to.equal(204);
         expect(liveAlert.status).to.equal(CertificationChallengeLiveAlertStatus.VALIDATED);
+        expect(certificationIssueReport.subcategory).to.equal('IMAGE_NOT_DISPLAYING');
       });
     });
 

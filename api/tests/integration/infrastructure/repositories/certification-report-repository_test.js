@@ -4,7 +4,7 @@ import { CertificationReport } from '../../../../lib/domain/models/Certification
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
 import { CertificationCourseUpdateError } from '../../../../lib/domain/errors.js';
-import { CertificationIssueReportCategory } from '../../../../lib/domain/models/CertificationIssueReportCategory.js';
+import { CertificationIssueReportCategory } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Integration | Repository | CertificationReport', function () {
   describe('#findBySessionId', function () {
