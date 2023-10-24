@@ -11,7 +11,7 @@ export default class CertificationReport extends Model {
   @attr('boolean') isCompleted;
   @attr('string') abortReason;
 
-  @hasMany('certification-issue-report') certificationIssueReports;
+  @hasMany('certification-issue-report', { async: false, inverse: 'certificationReport' }) certificationIssueReports;
 
   @computed('certificationIssueReports.@each.description')
   get firstIssueReportDescription() {
