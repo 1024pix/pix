@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import ArrayProxy from '@ember/array/proxy';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import times from 'lodash/times';
@@ -19,9 +18,7 @@ module('Unit | Component | add-student-list', function (hooks) {
   module('#computed _hasCheckedSomething()', function () {
     test('it should be false if has no checked student', function (assert) {
       // given
-      const studentList = ArrayProxy.create({
-        content: [{ isSelected: false }, { isSelected: false }],
-      });
+      const studentList = [{ isSelected: false }, { isSelected: false }];
       component.args.studentList = studentList;
 
       // when
@@ -33,9 +30,7 @@ module('Unit | Component | add-student-list', function (hooks) {
 
     test('it should be true if at least one checked student', function (assert) {
       // given
-      const studentList = ArrayProxy.create({
-        content: [{ isSelected: false }, { isSelected: true }],
-      });
+      const studentList = [{ isSelected: false }, { isSelected: true }];
       component.args.studentList = studentList;
 
       // when
@@ -49,9 +44,7 @@ module('Unit | Component | add-student-list', function (hooks) {
   module('#computed _hasCheckedEverything()', function () {
     test('it should be false if they are not all checked', function (assert) {
       // given
-      const studentList = ArrayProxy.create({
-        content: [{ isSelected: false }, { isSelected: true }],
-      });
+      const studentList = [{ isSelected: false }, { isSelected: true }];
       component.args.studentList = studentList;
 
       // when
@@ -63,9 +56,7 @@ module('Unit | Component | add-student-list', function (hooks) {
 
     test('it should be true if they are all checked', function (assert) {
       // given
-      const studentList = ArrayProxy.create({
-        content: [{ isSelected: true }, { isSelected: true }],
-      });
+      const studentList = [{ isSelected: true }, { isSelected: true }];
       component.args.studentList = studentList;
 
       // when

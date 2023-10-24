@@ -18,7 +18,7 @@ export default class SessionParametersController extends Controller {
 
   @computed('certificationCandidates.@each.isLinked')
   get sessionHasStarted() {
-    return this.certificationCandidates.isAny('isLinked');
+    return this.certificationCandidates.some(({ isLinked }) => isLinked);
   }
 
   @action
