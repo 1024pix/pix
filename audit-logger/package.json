@@ -5,9 +5,9 @@
   "scripts": {
     "build": "npx tsc --project tsconfig.production.json",
     "clean": "rm -rf node_modules",
-    "db:create": "ts-node src/scripts/database/create-database.ts",
-    "db:delete": "ts-node src/scripts/database/drop-database.ts",
-    "db:empty": "ts-node src/scripts/database/empty-database.ts",
+    "db:create": "node --loader ts-node/esm src/scripts/database/create-database.ts",
+    "db:delete": "node --loader ts-node/esm src/scripts/database/drop-database.ts",
+    "db:empty": "node --loader ts-node/esm src/scripts/database/empty-database.ts",
     "db:migrate": "NODE_OPTIONS='--loader ts-node/esm' npx knex --knexfile src/db/knexfile.ts migrate:latest",
     "db:new-migration": "NODE_OPTIONS='--loader ts-node/esm' npx knex --knexfile src/db/knexfile.ts migrate:make $migrationname",
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
