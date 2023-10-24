@@ -10,6 +10,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
   module('#authenticate', function (hooks) {
     const userId = 1;
     const source = 'oidc-externe';
+    const useEndSession = false;
     const hasLogoutUrl = true;
     const logoutUrlUuid = 'uuid';
     const identityProviderCode = 'OIDC_PARTNER';
@@ -55,6 +56,7 @@ module('Unit | Authenticator | oidc', function (hooks) {
         id: identityProviderSlug,
         code: identityProviderCode,
         organizationName: 'Partenaire OIDC',
+        useEndSession,
         hasLogoutUrl,
         source,
       };
@@ -95,10 +97,10 @@ module('Unit | Authenticator | oidc', function (hooks) {
         logoutUrlUuid,
         source,
         hasLogoutUrl,
+        useEndSession,
         user_id: userId,
         identityProviderCode,
       });
-      assert.ok(true);
     });
 
     test('should fetch token with code, redirectUri, and state in body', async function (assert) {
@@ -121,11 +123,11 @@ module('Unit | Authenticator | oidc', function (hooks) {
         access_token: accessToken,
         logoutUrlUuid,
         source,
+        useEndSession,
         hasLogoutUrl,
         user_id: userId,
         identityProviderCode,
       });
-      assert.ok(true);
     });
 
     module('when user is authenticated', function () {

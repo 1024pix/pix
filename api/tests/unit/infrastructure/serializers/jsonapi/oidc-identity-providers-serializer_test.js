@@ -20,6 +20,7 @@ describe('Unit | Serializer | JSONAPI | oidc-identity-providers-serializer', fun
           attributes: {
             code: 'OIDC_PARTNER',
             'organization-name': 'Partenaire OIDC',
+            'use-end-session': false,
             'has-logout-url': true,
             source: 'oidc-external',
           },
