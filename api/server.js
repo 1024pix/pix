@@ -14,6 +14,7 @@ import { deserializer } from './lib/infrastructure/serializers/jsonapi/deseriali
 import { knex } from './db/knex-database-connection.js';
 
 // bounded context migration
+import { evaluationRoutes } from './src/evaluation/routes.js';
 import { certificationSessionRoutes } from './src/certification/session/routes.js';
 import {
   attachTargetProfileRoutes,
@@ -116,6 +117,7 @@ const setupRoutesAndPlugins = async function (server) {
   const configuration = [].concat(
     plugins,
     routes,
+    evaluationRoutes,
     certificationSessionRoutes,
     attachTargetProfileRoutes,
     complementaryCertificationRoutes,
