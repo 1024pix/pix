@@ -8,6 +8,7 @@ const Modals = {
   Confirmation: 'Confirmation',
   HandleLiveAlert: 'HandleLiveAlert',
   DismissLiveAlertSuccess: 'DismissLiveAlertSuccess',
+  ValidateLiveAlertSuccess: 'ValidateLiveAlertSuccess',
 };
 
 export default class CandidateInList extends Component {
@@ -158,7 +159,7 @@ export default class CandidateInList extends Component {
       this.displayedModal = Modals.DismissLiveAlertSuccess;
     } catch (err) {
       const errorMessage = this.intl.t(
-        'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-rejecting-live-alert',
+        'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
       );
       this.notifications.error(errorMessage);
     }
@@ -166,12 +167,20 @@ export default class CandidateInList extends Component {
 
   @action
   async validateLiveAlert(subcategory) {
-    const adapter = this.store.adapterFor('session');
-    await adapter.validateLiveAlert({
-      sessionId: this.args.sessionId,
-      candidateId: this.args.candidate.userId,
-      subcategory,
-    });
+    try {
+      const adapter = this.store.adapterFor('session');
+      await adapter.validateLiveAlert({
+        sessionId: this.args.sessionId,
+        candidateId: this.args.candidate.userId,
+        subcategory,
+      });
+      this.displayedModal = Modals.ValidateLiveAlertSuccess;
+    } catch (err) {
+      const errorMessage = this.intl.t(
+        'pages.session-supervising.candidate-in-list.handle-live-alert-modal.error-handling-live-alert',
+      );
+      this.notifications.error(errorMessage);
+    }
   }
 
   @action
@@ -243,6 +252,10 @@ export default class CandidateInList extends Component {
 
   get isLiveAlertRejectedModalDisplayed() {
     return this.displayedModal === Modals.DismissLiveAlertSuccess;
+  }
+
+  get isLiveAlertValidatedModalDisplayed() {
+    return this.displayedModal === Modals.ValidateLiveAlertSuccess;
   }
 
   get actionMethod() {

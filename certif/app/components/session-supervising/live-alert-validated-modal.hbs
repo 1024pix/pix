@@ -1,0 +1,30 @@
+<PixModal
+  @class="pix-modal-dialog live-alert-rejected-modal"
+  @title={{@title}}
+  @onCloseButtonClick={{@closeConfirmationModal}}
+  @showModal={{@showModal}}
+>
+  <:content>
+    <p>
+      <PixMessage @type="success" class="live-alert-rejected-modal__success-banner" @withIcon={{true}}>
+        {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.validated.banner"}}
+      </PixMessage>
+    </p>
+
+    <div class="app-modal-body__warning live-alert-rejected-modal__description">
+      <p>
+        {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.validated.description"}}
+      </p>
+    </div>
+  </:content>
+  <:footer>
+    <PixButton
+      @triggerAction={{@closeConfirmationModal}}
+      aria-label={{t
+        "pages.session-supervising.candidate-in-list.handle-live-alert-modal.validated.close-button-label"
+      }}
+    >
+      {{t "pages.session-supervising.candidate-in-list.handle-live-alert-modal.validated.close-button-text"}}
+    </PixButton>
+  </:footer>
+</PixModal>
