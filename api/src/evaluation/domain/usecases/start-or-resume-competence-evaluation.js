@@ -1,5 +1,5 @@
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
-import { CompetenceEvaluation } from '../../../../lib/domain/models/CompetenceEvaluation.js';
+import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 
 const startOrResumeCompetenceEvaluation = async function ({
