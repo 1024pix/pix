@@ -676,11 +676,19 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
   @certificabilityFilter={{this.certificabilityFilter}}
 />`,
     );
+
+    await click(
+      screen.getByLabelText(
+        this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.aria-label'),
+      ),
+    );
+
+    // then
     assert
       .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.aria-label'),
-        ),
+        await screen.findByRole('tooltip', {
+          name: this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.content'),
+        }),
       )
       .exists();
   });
