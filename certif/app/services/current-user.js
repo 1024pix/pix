@@ -18,7 +18,7 @@ export default class CurrentUserService extends Service {
 
         this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact
           .hasMany('allowedCertificationCenterAccesses')
-          .value().firstObject;
+          .value()[0];
 
         this.currentCertificationCenterMembership = this._findCertificationCenterMembershipByCertificationCenterId(
           this.currentAllowedCertificationCenterAccess?.id,
