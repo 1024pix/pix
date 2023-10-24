@@ -6,16 +6,21 @@ import Service from '@ember/service';
 module('Unit | Controller | authenticated/certification-centers/get/invitations', function (hooks) {
   setupTest(hooks);
 
+  let controller;
+  let store;
+
+  hooks.beforeEach(function () {
+    controller = this.owner.lookup('controller:authenticated/certification-centers/get/invitations');
+    controller.model = { certificationCenterId: 1 };
+    store = this.owner.lookup('service:store');
+  });
+
   module('#createInvitation', function () {
     test('it should send a notification error if an error occurred', async function (assert) {
       // given
-      const controller = this.owner.lookup('controller:authenticated/certification-centers/get/invitations');
-      const store = this.owner.lookup('service:store');
       const anError = Symbol('an error');
       store.queryRecord = sinon.stub().rejects(anError);
       controller.userEmailToInvite = 'anemail@exmpla.net';
-      controller.model = { certificationCenter: { id: 1 } };
-
       const notifyStub = sinon.stub();
       class ErrorResponseHandler extends Service {
         notify = notifyStub;
@@ -29,6 +34,31 @@ module('Unit | Controller | authenticated/certification-centers/get/invitations'
 
       // then
       assert.ok(notifyStub.calledWithExactly(anError, customErrors));
+    });
+
+    module('when the email is valid', function () {
+      test('it creates a certification center invitation', async function (assert) {
+        // given
+        const queryRecordStub = sinon.stub();
+        store.queryRecord = queryRecordStub;
+
+        controller.userEmailToInvite = 'yuno@clover.net';
+        const language = 'fr';
+        const role = 'MEMBER';
+
+        // when
+        await controller.createInvitation(language, role);
+
+        //then
+        assert.ok(
+          queryRecordStub.calledWith('certification-center-invitation', {
+            email: 'yuno@clover.net',
+            language,
+            role,
+            certificationCenterId: 1,
+          }),
+        );
+      });
     });
   });
 
