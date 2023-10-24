@@ -27,7 +27,7 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     });
 
     this.logoutUrl = config.fwb.logoutUrl;
-    this.temporaryStorage = config.fwb.temporaryStorage;
+    this.temporaryStorageConfig = config.fwb.temporaryStorage;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
@@ -47,7 +47,7 @@ class FwbOidcAuthenticationService extends OidcAuthenticationService {
     // The session ID must be unpredictable, thus we disable the entropy cache
     // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
     const uuid = randomUUID({ disableEntropyCache: true });
-    const { idTokenLifespanMs } = this.temporaryStorage;
+    const { idTokenLifespanMs } = this.temporaryStorageConfig;
 
     await logoutUrlTemporaryStorage.save({
       key: `${userId}:${uuid}`,
