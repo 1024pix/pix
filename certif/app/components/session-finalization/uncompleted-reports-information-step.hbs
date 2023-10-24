@@ -75,7 +75,7 @@
           >{{report.certificationCourseId}}</td>
           <td data-test-id="finalization-report-certification-issue-reports_{{report.certificationCourseId}}">
             <div class="finalization-report-examiner-comment">
-              {{#if report.certificationIssueReports}}
+              {{#if report.certificationIssueReports.length}}
                 <button
                   type="button"
                   class="button--showed-as-link add-button"
