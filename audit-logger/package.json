@@ -40,6 +40,7 @@
   "type": "module",
   "devDependencies": {
     "@1024pix/eslint-config": "^1.0.3",
+    "@1024pix/eslint-plugin": "^1.0.0",
     "@tsconfig/node18": "^18.2.0",
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.197",
