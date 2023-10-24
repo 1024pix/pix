@@ -115,7 +115,7 @@ export default class CertificationIssueReport extends Model {
   @attr('string') description;
   @attr('string') questionNumber;
 
-  @belongsTo('certification-report') certificationReport;
+  @belongsTo('certification-report', { async: false, inverse: 'certificationIssueReports' }) certificationReport;
 
   get categoryLabel() {
     return categoryToLabel[this.category];
