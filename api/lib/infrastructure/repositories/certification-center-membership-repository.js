@@ -237,15 +237,15 @@ const findById = async function (certificationCenterMembershipId) {
 };
 
 export {
-  findByUserId,
+  disableById,
+  disableMembershipsByUserId,
   findActiveByCertificationCenterIdSortedById,
-  save,
+  findById,
+  findByUserId,
+  getRefererByCertificationCenterId,
   isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
-  disableById,
-  updateRefererStatusByUserIdAndCertificationCenterId,
-  getRefererByCertificationCenterId,
-  disableMembershipsByUserId,
+  save,
   update,
-  findById,
+  updateRefererStatusByUserIdAndCertificationCenterId,
 };
