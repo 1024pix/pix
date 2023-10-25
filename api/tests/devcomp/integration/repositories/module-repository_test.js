@@ -2,9 +2,8 @@ import { catchErr, expect } from '../../../test-helper.js';
 import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 import * as moduleRepository from '../../../../src/devcomp/infrastructure/repositories/module-repository.js';
 import { Module } from '../../../../src/devcomp/domain/models/Module.js';
-import { Lesson } from '../../../../src/devcomp/domain/models/Lesson.js';
+import { Element } from '../../../../src/devcomp/domain/models/element/Element.js';
 import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
-import { QCU } from '../../../../src/devcomp/domain/models/QCU.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -31,7 +30,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module).to.be.instanceOf(Module);
-      expect(module.list.every((element) => element instanceof QCU || element instanceof Lesson)).to.be.true;
+      expect(module.list.every((element) => element instanceof Element)).to.be.true;
     });
   });
 });

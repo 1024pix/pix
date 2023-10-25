@@ -1,7 +1,7 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Module } from '../../domain/models/Module.js';
-import { Lesson } from '../../domain/models/Lesson.js';
-import { QCU } from '../../domain/models/QCU.js';
+import { Lesson } from '../../domain/models/element/Lesson.js';
+import { QCU } from '../../domain/models/element/QCU.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
