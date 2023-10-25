@@ -57,5 +57,6 @@ export default class ListController extends Controller {
       this.currentUser.organization.id,
       listLearners.map(({ id }) => id),
     );
+    this.send('refreshModel');
   }
 }

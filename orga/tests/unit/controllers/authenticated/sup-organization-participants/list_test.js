@@ -68,6 +68,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       const currentUser = this.owner.lookup('service:currentUser');
       const adapter = store.adapterFor('sup-organization-participant');
       sinon.stub(adapter, 'deleteParticipants');
+      controller.send = sinon.stub();
 
       const learner1 = { id: 1 };
       const learner2 = { id: 2 };
@@ -81,6 +82,7 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
 
       // then
       assert.ok(adapter.deleteParticipants.calledWith(organizationId, [learner1.id, learner2.id]));
+      assert.ok(controller.send.calledWith('refreshModel'));
     });
   });
 });
