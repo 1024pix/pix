@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v4.53.0 (25/10/2023)
+
+
+### :rocket: Amélioration
+- [#7281](https://github.com/1024pix/pix/pull/7281) [FEATURE][CERTIF] Permettre l'envoi d'invitation par un admin (PIX-8562).
+- [#7241](https://github.com/1024pix/pix/pull/7241) [FEATURE] Ajout au SSO OIDC de la nouvelle fonctionnalité générique RP-Initiated Logout (PIX-9291).
+
+### :building_construction: Tech
+- [#7310](https://github.com/1024pix/pix/pull/7310) [TECH] Ajouter des logs lors de l'échange des tokens Pole Emploi (PIX-9742).
+
+### :bug: Correction
+- [#7291](https://github.com/1024pix/pix/pull/7291) [BUGFIX] Corriger la gestion d'erreurs front sur Pix Certif.
+
+### :coffee: Autre
+- [#7320](https://github.com/1024pix/pix/pull/7320) [CLEANUP] Corriger les avertissements de dépréciations d'ember data sur Pix certif.
+- [#7200](https://github.com/1024pix/pix/pull/7200) [DOC] Ecriture d'une ADR sur le choix d'arborescence pour les applications Front (PIX-9516).
+
 ## v4.52.0 (24/10/2023)
 
 
