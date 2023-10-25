@@ -313,6 +313,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.getByText('Début :')).exists();
       assert.dom(screen.getByText('Fin théorique :')).exists();
       assert.dom(screen.getByText('+ temps majoré 12 %')).exists();
+      assert.dom(screen.queryByText('Signalement en cours')).doesNotExist();
+      assert.dom(screen.queryByText('Autorisé à reprendre')).doesNotExist();
+      assert.dom(screen.queryByText('Terminé')).doesNotExist();
     });
 
     module('when there is no current live alert', () => {
@@ -389,6 +392,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.getByText('Début :')).exists();
       assert.dom(screen.getByText('Fin théorique :')).exists();
       assert.dom(screen.getByText('+ temps majoré 12 %')).exists();
+      assert.dom(screen.queryByText('Signalement en cours')).doesNotExist();
+      assert.dom(screen.queryByText('En cours')).doesNotExist();
+      assert.dom(screen.queryByText('Terminé')).doesNotExist();
     });
   });
 
@@ -414,10 +420,37 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       assert.dom(screen.queryByText('Début :')).doesNotExist();
       assert.dom(screen.queryByText('Fin théorique :')).doesNotExist();
       assert.dom(screen.queryByText('+ temps majoré 12 %')).doesNotExist();
+      assert.dom(screen.queryByText('Signalement en cours')).doesNotExist();
+      assert.dom(screen.queryByText('En cours')).doesNotExist();
+      assert.dom(screen.queryByText('Autorisé à reprendre')).doesNotExist();
     });
   });
 
   module('when the candidate has alerted the invigilator', function () {
+    test('it displays the live alert tag', async function (assert) {
+      // given
+      this.candidate = store.createRecord('certification-candidate-for-supervising', {
+        id: 456,
+        startDateTime: new Date('2022-10-19T14:30:15Z'),
+        theoricalEndDateTime: new Date('2022-10-19T16:00:00Z'),
+        extraTimePercentage: 0.12,
+        authorizedToStart: false,
+        assessmentStatus: 'started',
+        liveAlertStatus: 'ongoing',
+      });
+
+      // when
+      const screen = await renderScreen(hbs`
+              <SessionSupervising::CandidateInList @candidate={{this.candidate}} />
+            `);
+
+      // then
+      assert.dom(screen.getByText('Signalement en cours')).exists();
+      assert.dom(screen.queryByText('En cours')).doesNotExist();
+      assert.dom(screen.queryByText('Autorisé à reprendre')).doesNotExist();
+      assert.dom(screen.queryByText('Terminé')).doesNotExist();
+    });
+
     test('it displays the alert', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
