@@ -124,8 +124,12 @@
             <li class="user-detail-personal-information-section__user-informations">Nom : {{@user.lastName}}</li>
             <li class="user-detail-personal-information-section__user-informations">Langue : {{@user.lang}}</li>
             <li class="user-detail-personal-information-section__user-informations">Locale : {{@user.locale}}</li>
-            <li class="user-detail-personal-information-section__user-informations">Date de création :
-              {{dayjs-format @user.createdAt "DD/MM/YYYY"}}</li>
+            <li class="user-detail-personal-information-section__user-informations">
+              Date de création :
+              {{#if @user.createdAt}}
+                {{dayjs-format @user.createdAt "DD/MM/YYYY"}}
+              {{/if}}
+            </li>
           </ul>
           <ul class="user-detail-personal-information-section__infogroup">
             <li class="user-detail-personal-information-section__user-informations">Adresse e-mail :
