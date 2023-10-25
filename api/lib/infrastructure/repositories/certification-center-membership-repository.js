@@ -14,7 +14,10 @@ import {
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenter } from '../../domain/models/CertificationCenter.js';
 import { User } from '../../domain/models/User.js';
-import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
+import {
+  CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
+  CertificationCenterMembership,
+} from '../../domain/models/CertificationCenterMembership.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
@@ -50,6 +53,14 @@ function _toDomain(certificationCenterMembershipDTO) {
     role: certificationCenterMembershipDTO.role,
   });
 }
+
+const countAdminMembersForCertificationCenter = async function (certificationCenterId) {
+  const { count } = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .where({ certificationCenterId, role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN })
+    .count('id')
+    .first();
+  return count;
+};
 
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
@@ -239,6 +250,7 @@ const findById = async function (certificationCenterMembershipId) {
 };
 
 export {
+  countAdminMembersForCertificationCenter,
   disableById,
   disableMembershipsByUserId,
   findActiveByCertificationCenterIdSortedById,

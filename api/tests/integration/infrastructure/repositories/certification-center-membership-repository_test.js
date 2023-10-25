@@ -4,7 +4,10 @@ const { omit, pick } = lodash;
 import { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
 import { BookshelfCertificationCenterMembership } from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import {
+  CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
+  CertificationCenterMembership,
+} from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import {
   CertificationCenterMembershipDisableError,
@@ -15,6 +18,32 @@ import {
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 
 describe('Integration | Repository | Certification Center Membership', function () {
+  describe('#countAdminMembersForCertificationCenter', function () {
+    it('returns the number of members with the "ADMIN" role', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN,
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const adminMembersCount =
+        await certificationCenterMembershipRepository.countAdminMembersForCertificationCenter(certificationCenterId);
+
+      // then
+      expect(adminMembersCount).to.equal(2);
+    });
+  });
+
   describe('#save', function () {
     let userId, certificationCenterId;
 
