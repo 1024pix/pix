@@ -1,9 +1,12 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import setupIntl from '../../../../helpers/setup-intl';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sup-organization-participants/list', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
+
   let controller;
 
   hooks.beforeEach(function () {
@@ -62,13 +65,14 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
   });
 
   module('#deleteStudents', function () {
-    test('calls adapter deleteParticipants method', async function (assert) {
+    test('it deletes participants', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const currentUser = this.owner.lookup('service:currentUser');
       const adapter = store.adapterFor('sup-organization-participant');
       sinon.stub(adapter, 'deleteParticipants');
       controller.send = sinon.stub();
+      controller.notifications = { sendSuccess: sinon.stub(), sendError: sinon.stub() };
 
       const learner1 = { id: 1 };
       const learner2 = { id: 2 };
@@ -76,13 +80,24 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       currentUser.organization = {
         id: organizationId,
       };
+      const listLearners = [learner1, learner2];
 
       // when
-      await controller.deleteStudents([learner1, learner2]);
+      await controller.deleteStudents(listLearners);
 
       // then
       assert.ok(adapter.deleteParticipants.calledWith(organizationId, [learner1.id, learner2.id]));
       assert.ok(controller.send.calledWith('refreshModel'));
+      assert.true(
+        controller.notifications.sendSuccess.calledWith(
+          this.intl.t('pages.sup-organization-participants.action-bar.success-message', {
+            count: listLearners.length,
+            firstname: listLearners[0].firstName,
+            lastname: listLearners[0].lastName,
+          }),
+        ),
+      );
+      assert.true(controller.notifications.sendError.notCalled);
     });
   });
 });

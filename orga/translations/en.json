@@ -1069,7 +1069,8 @@
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
       "action-bar": {
         "delete-button": "Delete",
-        "information": "{count, plural, =1 {{count} selected student} other {{count} selected students}}"
+        "information": "{count, plural, =1 {{count} selected student} other {{count} selected students}}",
+        "success-message": "{count, plural, =1 {{firstname} {lastname} has successfully been deleted from the students list.} other {The {count} selected students have successfully been deleted from the list.}}"
       },
       "actions": {
         "download-template": "Download the template",

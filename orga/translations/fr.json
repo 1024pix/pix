@@ -1072,7 +1072,8 @@
       "title": "{count, plural, =0 {Étudiants} =1 {Étudiant ({count})} other {Étudiants ({count})}}",
       "action-bar": {
         "delete-button": "Supprimer",
-        "information": "{count, plural, =1 {{count} étudiant sélectionné} other {{count} étudiants sélectionnés}}"
+        "information": "{count, plural, =1 {{count} étudiant sélectionné} other {{count} étudiants sélectionnés}}",
+        "success-message": "{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des étudiants.} other {Les {count} étudiants sélectionnés ont bien été supprimés de la liste.}}"
       },
       "actions": {
         "download-template": "Télécharger le modèle",
