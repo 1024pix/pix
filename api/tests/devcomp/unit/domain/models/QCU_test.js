@@ -1,7 +1,7 @@
 import { expect } from '../../../../test-helper.js';
-import { QCU } from '../../../../../src/devcomp/domain/models/QCU.js';
+import { QCU } from '../../../../../src/devcomp/domain/models/element/QCU.js';
 
-describe('Unit | Devcomp | Module | Model | QCU', function () {
+describe('Unit | Devcomp | Domain | Models | QCU', function () {
   describe('#constructor', function () {
     it('should instanciate a QCU with right properties', function () {
       const qcu = new QCU({
@@ -20,7 +20,7 @@ describe('Unit | Devcomp | Module | Model | QCU', function () {
 
   describe('A QCU without id', function () {
     it('should throw an error', function () {
-      expect(() => new QCU({})).to.throw("L'id est obligatoire pour un QCU");
+      expect(() => new QCU({})).to.throw("L'id est obligatoire pour un élément");
     });
   });
 

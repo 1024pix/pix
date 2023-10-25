@@ -1,4 +1,4 @@
-import { Lesson } from '../../../../../src/devcomp/domain/models/Lesson.js';
+import { Lesson } from '../../../../../src/devcomp/domain/models/element/Lesson.js';
 import { expect } from '../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Lesson', function () {
@@ -15,7 +15,7 @@ describe('Unit | Devcomp | Domain | Models | Lesson', function () {
 
   describe('A lesson without id', function () {
     it('should throw an error', function () {
-      expect(() => new Lesson({ content: 'content' })).to.throw("L'id est obligatoire pour une leçon");
+      expect(() => new Lesson({ content: 'content' })).to.throw("L'id est obligatoire pour un élément");
     });
   });
 

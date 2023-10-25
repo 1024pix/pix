@@ -1,7 +1,8 @@
 import { expect } from '../../../../../test-helper.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/Module.js';
 import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
-import { Lesson } from '../../../../../../src/devcomp/domain/models/Lesson.js';
+import { Lesson } from '../../../../../../src/devcomp/domain/models/element/Lesson.js';
+import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 
 describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
   describe('#serialize', function () {
@@ -38,7 +39,12 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
       const id = 'id';
       const slug = 'les-adresses-mail';
       const title = 'Les adresses mail';
-      const moduleFromDomain = new Module({ id, slug, title, list: [new Lesson({ id: '1', content: '' })] });
+      const moduleFromDomain = new Module({
+        id,
+        slug,
+        title,
+        list: [new Lesson({ id: '1', content: '' }), new QCU({ id: '2', proposals: [''], instruction: 'hello' })],
+      });
       const expectedJson = {
         data: {
           type: 'modules',
@@ -50,8 +56,12 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
             elements: {
               data: [
                 {
-                  type: 'elements',
+                  type: 'lessons',
                   id: '1',
+                },
+                {
+                  type: 'qcus',
+                  id: '2',
                 },
               ],
             },
@@ -59,10 +69,20 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
         },
         included: [
           {
-            type: 'elements',
+            type: 'lessons',
             id: '1',
             attributes: {
               content: '',
+              type: 'lessons',
+            },
+          },
+          {
+            type: 'qcus',
+            id: '2',
+            attributes: {
+              instruction: 'hello',
+              proposals: [''],
+              type: 'qcus',
             },
           },
         ],
