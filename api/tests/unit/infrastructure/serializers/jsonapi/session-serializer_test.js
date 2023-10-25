@@ -22,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
             date: '2017-01-20',
             time: '14:30',
             status: statuses.PROCESSED,
+            version: 2,
             description: '',
             'examiner-global-comment': 'It was a fine session my dear',
             'has-incident': true,
@@ -62,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
         publishedAt: new Date('2020-02-21T14:23:56Z'),
+        version: 2,
       });
     });
 
