@@ -448,7 +448,33 @@ function routes() {
     };
   });
 
-  this.put('admin/complementary-certifications/:id/badges', () => {
+  this.put('admin/complementary-certifications/:id/badges', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const {
+      ['badge-id']: badgeId,
+      level,
+      ['image-url']: imageUrl,
+      label,
+    } = params.data.attributes['complementary-certification-badges'][0].data.attributes;
+
+    const complementaryCertification = schema.complementaryCertifications.find(request.params.id);
+    complementaryCertification.update({
+      targetProfilesHistory: [
+        {
+          id: 3,
+          name: 'ALEX TARGET',
+          badges: [
+            {
+              id: badgeId,
+              label,
+              level,
+              imageUrl,
+            },
+          ],
+        },
+      ],
+    });
+
     return new Response(204);
   });
 
