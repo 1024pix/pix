@@ -1,9 +1,11 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/team/list', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   module('#shouldDisplayNoRefererSection', function () {
     module('when certification center has CLEA habilitation', function () {
