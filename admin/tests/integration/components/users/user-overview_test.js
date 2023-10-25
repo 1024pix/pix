@@ -62,6 +62,32 @@ module('Integration | Component | users | user-overview', function (hooks) {
         assert.dom(screen.getByText('Date de création : 10/12/2021')).exists();
       });
 
+      test("displays user's information without creation date", async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const user = store.createRecord('user', {
+          firstName: 'John',
+          lastName: 'Snow',
+          email: 'john.snow@winterfell.got',
+          username: 'kingofthenorth',
+          lang: 'fr',
+          locale: 'fr-FR',
+        });
+        this.set('user', user);
+
+        // when
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
+
+        // then
+        assert.dom(screen.getByText(`Prénom : ${this.user.firstName}`)).exists();
+        assert.dom(screen.getByText(`Nom : ${this.user.lastName}`)).exists();
+        assert.dom(screen.getByText(`Adresse e-mail : ${this.user.email}`)).exists();
+        assert.dom(screen.getByText(`Identifiant : ${this.user.username}`)).exists();
+        assert.dom(screen.getByText('Langue : fr')).exists();
+        assert.dom(screen.getByText('Locale : fr-FR')).exists();
+        assert.dom(screen.getByText('Date de création :')).exists();
+      });
+
       module('terms of service', function () {
         module('should display yes by application', function () {
           test('should display "OUI" with date when user accepted Pix App terms of service', async function (assert) {
