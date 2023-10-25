@@ -439,7 +439,7 @@
         "handle-live-alert-modal": {
           "title": "Signalement du candidat : {candidateFullName}",
           "ask": {
-            "description": "Refuser le signalement permet la reprise de la question en cours. Sélectionnez un motif pour valider le signalement et permettre le changement de question.",
+            "description": "Refuser le signalement permet la reprise de la question en cours.<br />Sélectionnez un motif pour valider le signalement et permettre le changement de question.",
             "dismiss-alert-button": "Refuser le signalement",
             "validate-alert-button": "Valider le signalement"
           },
