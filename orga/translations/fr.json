@@ -1072,6 +1072,7 @@
       "title": "{count, plural, =0 {Étudiants} =1 {Étudiant ({count})} other {Étudiants ({count})}}",
       "action-bar": {
         "delete-button": "Supprimer",
+        "error-message": "{count, plural, =1 {Une erreur est survenue, {firstname} {lastname} n'a pas été supprimé de la liste des étudiants.} other {Une erreur est survenue, les {count} étudiants sélectionnés n'ont pas été supprimés de la liste.}}",
         "information": "{count, plural, =1 {{count} étudiant sélectionné} other {{count} étudiants sélectionnés}}",
         "success-message": "{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des étudiants.} other {Les {count} étudiants sélectionnés ont bien été supprimés de la liste.}}"
       },
