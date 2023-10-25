@@ -1,3 +1,8 @@
+const CERTIFICATION_CENTER_MEMBERSHIP_ROLES = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
+};
+
 class CertificationCenterMembership {
   constructor({
     id,
@@ -28,4 +33,4 @@ class CertificationCenterMembership {
   }
 }
 
-export { CertificationCenterMembership };
+export { CertificationCenterMembership, CERTIFICATION_CENTER_MEMBERSHIP_ROLES };
