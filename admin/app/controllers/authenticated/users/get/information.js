@@ -13,6 +13,7 @@ export default class UserInformationController extends Controller {
       GAR: "L'utilisateur a déjà une méthode de connexion Médiacentre.",
       CNAV: "L'utilisateur a déjà une méthode de connexion CNAV.",
       FWB: "L'utilisateur a déjà une méthode de connexion Fédération Wallonie-Bruxelles.",
+      PAYSDELALOIRE: "L'utilisateur a déjà une méthode de connexion Pays de la Loire.",
     },
     STATUS_400: 'Cette requête est impossible',
     STATUS_404: "Cet utilisateur n'existe pas.",
