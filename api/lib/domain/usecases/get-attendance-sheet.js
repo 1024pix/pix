@@ -3,6 +3,7 @@ import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
 const getAttendanceSheet = async function ({
   userId,
   sessionId,
+  i18n,
   sessionRepository,
   sessionForAttendanceSheetRepository,
   attendanceSheetPdfUtils,
@@ -14,7 +15,12 @@ const getAttendanceSheet = async function ({
 
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
 
-  return attendanceSheetPdfUtils.getAttendanceSheetPdfBuffer({ session });
+  const { attendanceSheet, fileName } = await attendanceSheetPdfUtils.getAttendanceSheetPdfBuffer({
+    session,
+    i18n,
+  });
+
+  return { attendanceSheet, fileName };
 };
 
 export { getAttendanceSheet };

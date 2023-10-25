@@ -4,8 +4,12 @@ import { getAttendanceSheetPdfBuffer } from '../../../../../lib/infrastructure/u
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
 import { writeFile } from 'fs/promises';
-
+import i18n from 'i18n';
+import { getI18n } from '../../../../tooling/i18n/i18n.js';
+import path from 'path';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const directory = path.resolve(path.join(__dirname, '../../../../../translations'));
 
 describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', function () {
   beforeEach(function () {
@@ -22,9 +26,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
         certificationCandidates: candidates,
       });
       const outputFilename = '/attendance-sheet-with-division_expected.pdf';
+      const i18n = getI18n();
 
       // when
-      const buffer = await getAttendanceSheetPdfBuffer({
+      const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+        i18n,
         session,
         creationDate: new Date('2021-01-01'),
       });
@@ -45,9 +51,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
         certificationCandidates: candidates,
       });
       const outputFilename = '/attendance-sheet-with-external-id_expected.pdf';
+      const i18n = getI18n();
 
       // when
-      const buffer = await getAttendanceSheetPdfBuffer({
+      const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+        i18n,
         session,
         creationDate: new Date('2021-01-01'),
       });
@@ -65,9 +73,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
       const candidates = _createMultipleCandidate(19);
       const session = domainBuilder.buildSessionForAttendanceSheet({ certificationCandidates: candidates });
       const outputFilename = '/attendance-sheet-with-1-page_expected.pdf';
+      const i18n = getI18n();
 
       // when
-      const buffer = await getAttendanceSheetPdfBuffer({
+      const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+        i18n,
         session,
         creationDate: new Date('2021-01-01'),
       });
@@ -85,9 +95,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
       const candidates = _createMultipleCandidate(22);
       const session = domainBuilder.buildSessionForAttendanceSheet({ certificationCandidates: candidates });
       const outputFilename = '/attendance-sheet-with-2-pages_expected.pdf';
+      const i18n = getI18n();
 
       // when
-      const buffer = await getAttendanceSheetPdfBuffer({
+      const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+        i18n,
         session,
         creationDate: new Date('2021-01-01'),
       });
@@ -103,8 +115,8 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
     it('should return truncated information', async function () {
       // given
       const candidate = domainBuilder.buildCertificationCandidateForAttendanceSheet({
-        lastName: 'JaiUnPrénomTrèsTrèsTrèsLong',
-        firstName: 'JaiUnNomTrèsTrèsTrèsLongAussi',
+        lastName: 'JaiUnNomTrèsTrèsTrèsLong',
+        firstName: 'JaiUnPrénomTrèsTrèsTrèsLongAussi',
         externalId: 'JaiUnExternalIdTrèsTrèsTrèsLong',
       });
       const session = domainBuilder.buildSessionForAttendanceSheet({
@@ -114,9 +126,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
         certificationCandidates: [candidate],
       });
       const outputFilename = '/attendance-sheet-with-truncated-information_expected.pdf';
+      const i18n = getI18n();
 
       // when
-      const buffer = await getAttendanceSheetPdfBuffer({
+      const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+        i18n,
         session,
         creationDate: new Date('2021-01-01'),
       });
@@ -138,9 +152,11 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
       });
       const session = domainBuilder.buildSessionForAttendanceSheet({ certificationCandidates: [candidate] });
       const outputFilename = '/attendance-sheet-with-optional-value_expected.pdf';
+      const i18n = getI18n();
 
       // when
-      const buffer = await getAttendanceSheetPdfBuffer({
+      const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+        i18n,
         session,
         creationDate: new Date('2021-01-01'),
       });
@@ -150,6 +166,35 @@ describe('Integration | Infrastructure | Utils | Pdf | Attendance sheet Pdf', fu
       // then
       expect(await isSameBinary(`${__dirname}${outputFilename}`, buffer)).to.be.true;
     });
+  });
+
+  it('should generate attendance sheet in english', async function () {
+    // given
+    const candidates = _createMultipleCandidate(2);
+    const session = domainBuilder.buildSessionForAttendanceSheet({
+      certificationCenterType: 'SUP',
+      certificationCandidates: candidates,
+    });
+    const outputFilename = '/attendance-sheet-EN_expected.pdf';
+
+    i18n.configure({
+      defaultLocale: 'en',
+      directory,
+      objectNotation: true,
+      updateFiles: false,
+    });
+
+    // when
+    const { attendanceSheet: buffer } = await getAttendanceSheetPdfBuffer({
+      i18n,
+      session,
+      creationDate: new Date('2021-01-01'),
+    });
+
+    await _writeFile({ outputFilename, buffer });
+
+    // then
+    expect(await isSameBinary(`${__dirname}${outputFilename}`, buffer)).to.be.true;
   });
 });
 

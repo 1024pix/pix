@@ -69,9 +69,11 @@ const update = async function (request, h, dependencies = { sessionSerializer })
 const getAttendanceSheet = async function (request, h, dependencies = { tokenService }) {
   const sessionId = request.params.id;
   const token = request.query.accessToken;
+  const i18n = request.i18n;
+
   const userId = dependencies.tokenService.extractUserId(token);
-  const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
-  const fileName = `feuille-emargement-session-${sessionId}.pdf`;
+
+  const { attendanceSheet, fileName } = await usecases.getAttendanceSheet({ sessionId, userId, i18n });
   return h
     .response(attendanceSheet)
     .header('Content-Type', 'application/pdf')

@@ -12,6 +12,38 @@
       "signing": "– L'équipe Pix"
     }
   },
+  "attendance-sheet": {
+    "certification-information": {
+      "date": "Date :",
+      "local-time": "Heure locale (début) :",
+      "location-name": "Nom du site :",
+      "number": "N°",
+      "room-name": "Nom de la salle :",
+      "session": "La session de certification"
+    },
+    "examiner-information": {
+      "title": "Le(s) surveillants(s)",
+      "invigilated-by": "Surveillé par :",
+      "signature": "Signature(s) :"
+    },
+    "file-name": "feuille-emargement-session-",
+    "header": {
+      "title": "Feuille d'émargement",
+      "page": "Page"
+    },
+    "table": {
+      "title": "Liste des candidats",
+      "birth-name": "Nom de naissance",
+      "date-of-birth": {
+        "example": "(jj/mm/aaaa)",
+        "label": "Date de naissance"
+      },
+      "division": "Classe",
+      "external-id": "Identifiant local",
+      "first-name": "Prénom",
+      "signature": "Signature"
+    }
+  },
   "campaign-export": {
     "assessment": {
       "competence-area": {
