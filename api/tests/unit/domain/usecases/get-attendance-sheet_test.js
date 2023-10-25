@@ -9,26 +9,29 @@ describe('Unit | UseCase | get-attendance-sheet', function () {
       it('should return the attendance sheet in pdf format', async function () {
         // given
         const userId = 'dummyUserId';
-        const sessionId = 'dummySessionId';
-
+        const i18n = 'dummyi18n';
         const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
         const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
+        const session = _buildSessionWithCandidate('SUP', true);
 
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
-        sessionForAttendanceSheetRepository.getWithCertificationCandidates
-          .withArgs(sessionId)
-          .resolves(_buildSessionWithCandidate('SUP', true));
+        sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs(1).resolves(session);
 
         const pdfBuffer = Buffer.from('some pdf file');
+        const fileName = 'attendance-sheet-example.pdf';
 
         const attendanceSheetPdfUtilsStub = {
-          getAttendanceSheetPdfBuffer: sinon.stub().resolves(pdfBuffer),
+          getAttendanceSheetPdfBuffer: sinon.stub(),
         };
+        attendanceSheetPdfUtilsStub.getAttendanceSheetPdfBuffer
+          .withArgs({ session, i18n })
+          .resolves({ attendanceSheet: pdfBuffer, fileName });
 
         // when
-        const attendanceSheet = await getAttendanceSheet({
+        const { attendanceSheet, fileName: expectedFileName } = await getAttendanceSheet({
           userId,
-          sessionId,
+          sessionId: 1,
+          i18n,
           sessionRepository,
           sessionForAttendanceSheetRepository,
           attendanceSheetPdfUtils: attendanceSheetPdfUtilsStub,
@@ -36,6 +39,7 @@ describe('Unit | UseCase | get-attendance-sheet', function () {
 
         // then
         expect(attendanceSheet).to.deep.equal(pdfBuffer);
+        expect(expectedFileName).to.equal('attendance-sheet-example.pdf');
       });
     });
 

@@ -57,14 +57,18 @@ module('Unit | Model | session', function (hooks) {
           },
         };
       }
+      class IntlStub extends Service {
+        locale = ['pt'];
+      }
 
       const model = store.createRecord('session', { id: 1 });
       this.owner.register('service:session', SessionStub);
+      this.owner.register('service:intl', IntlStub);
 
       // when/then
       assert.strictEqual(
         model.urlToDownloadAttendanceSheet,
-        `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123`,
+        `${config.APP.API_HOST}/api/sessions/1/attendance-sheet?accessToken=123&lang=pt`,
       );
     });
   });

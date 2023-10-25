@@ -39,7 +39,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
       const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdAllowed}/attendance-sheet?accessToken=${token}`,
+        url: `/api/sessions/${sessionIdAllowed}/attendance-sheet?accessToken=${token}&lang=fr`,
         payload: {},
       };
 
@@ -56,7 +56,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
       const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet?accessToken=${token}`,
+        url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet?accessToken=${token}&lang=fr`,
         payload: {},
       };
 

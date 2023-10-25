@@ -4,20 +4,30 @@ import { PDFDocument, rgb } from 'pdf-lib';
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import * as url from 'url';
 import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat.js';
+dayjs.extend(localizedFormat);
+
 import _ from 'lodash';
+import { LOCALE } from '../../../domain/constants.js';
+const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const SESSION_DETAIL_FONT_SIZE = 8;
 const CANDIDATES_PER_PAGE = 20;
 const SESSION_DETAIL_DEFAULT_COLOR = rgb(0, 0, 0);
+const DATE_OF_BIRTH_DEFAULT_X = 239;
 
 async function getAttendanceSheetPdfBuffer({
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
   session,
+  i18n,
 } = {}) {
+  const translate = i18n.__;
+  const lang = i18n.__('current-lang');
+
   const templatePath = `${dirname}/files/attendance-sheet.pdf`;
   const templateBuffer = await readFile(templatePath);
 
@@ -45,20 +55,28 @@ async function getAttendanceSheetPdfBuffer({
     page.drawPage(templatePage);
     const pagesCount = certificationCandidatesSplitByPage.length;
 
-    _drawHeaderLabels({ page, titleFont, pageInformationFont });
-    _drawCertificationInformationLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont });
-    _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont });
+    _drawHeaderLabels({ page, titleFont, pageInformationFont, translate });
+    _drawCertificationInformationLabels({
+      page,
+      titleFont,
+      sessionLabelsAndCandidatesInformationFont,
+      translate,
+      lang,
+    });
+    _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont, translate });
     _drawCandidatesTableLabels({
       page,
       session,
       titleFont,
       sessionLabelsAndCandidatesInformationFont,
       tableLabelsFont,
+      translate,
+      lang,
     });
 
     _drawPageNumber({ pageIndex: index, pagesCount, page, sessionLabelsAndCandidatesInformationFont });
-    _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont });
-    _drawSessionStartTime({ session, page, sessionLabelsAndCandidatesInformationFont });
+    _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont, lang });
+    _drawSessionStartTime({ session, page, sessionLabelsAndCandidatesInformationFont, lang });
     _drawSessionAddress({ session, page, sessionLabelsAndCandidatesInformationFont });
     _drawSessionRoom({ session, page, sessionLabelsAndCandidatesInformationFont });
     _drawSessionExaminer({ session, page, sessionLabelsAndCandidatesInformationFont });
@@ -70,13 +88,13 @@ async function getAttendanceSheetPdfBuffer({
       const y = firstCandidateYPosition - gapBetweenCandidates * index;
       const firstName = _formatInformation(candidate.firstName);
       const lastName = _formatInformation(candidate.lastName);
-      const divisionOrExternalIdValue = _isScoCertificationCenterAndManagingStudentOrganization({ session })
+      const divisionOrExternalIdValue = session.isSco
         ? _formatInformation(candidate.division)
         : _formatInformation(candidate.externalId);
 
       const parameters = [
-        [30, y, firstName],
-        [133, y, lastName],
+        [30, y, lastName],
+        [133, y, firstName],
         [238, y, _formatDate(candidate.birthdate)],
         [305, y, divisionOrExternalIdValue],
       ];
@@ -86,7 +104,11 @@ async function getAttendanceSheetPdfBuffer({
   }
 
   const pdfBytes = await pdfDoc.save();
-  return Buffer.from(pdfBytes);
+
+  const fileName = `${translate('attendance-sheet.file-name')}${session.id}.pdf`;
+  const attendanceSheet = Buffer.from(pdfBytes);
+
+  return { fileName, attendanceSheet };
 }
 
 async function _embedFontIntoPdf({ pdfDoc, dirname, font }) {
@@ -94,50 +116,95 @@ async function _embedFontIntoPdf({ pdfDoc, dirname, font }) {
   return pdfDoc.embedFont(fontFile, { subset: true });
 }
 
-function _drawHeaderLabels({ page, titleFont, pageInformationFont }) {
+function _drawHeaderLabels({ page, titleFont, pageInformationFont, translate }) {
+  const pageLabel = translate('attendance-sheet.header.page');
+  const titleLabel = translate('attendance-sheet.header.title');
   [
-    [42, 807, 'Page', SESSION_DETAIL_FONT_SIZE, pageInformationFont],
-    [42, 784, "Feuille d'émargement", 24, titleFont],
-  ].forEach(([x, y, text, fontSize, font]) => {
+    [42, 807, pageLabel, SESSION_DETAIL_FONT_SIZE, pageInformationFont],
+    [42, 784, titleLabel, 24, titleFont],
+  ].forEach(([x, y, text, size, font]) => {
     page.drawText(text, {
       x,
       y,
-      size: fontSize,
+      size,
       font,
       color: rgb(1, 1, 1),
     });
   });
 }
 
-function _drawCertificationInformationLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont }) {
-  [
-    [34, 739, 'La session de certification', 9, titleFont],
-    [230, 739, 'N°', 9, titleFont],
-    [34, 715, 'Date :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
-    [189, 715, 'Heure locale (début) :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
-    [34, 691, 'Nom du site :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
-    [189, 691, 'Nom de la salle :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
-  ].forEach(([x, y, text, fontSize, font]) => {
-    page.drawText(text, {
-      x,
-      y,
-      size: fontSize,
-      font,
-      color: SESSION_DETAIL_DEFAULT_COLOR,
-    });
-  });
+function _drawCertificationInformationLabels({
+  page,
+  titleFont,
+  sessionLabelsAndCandidatesInformationFont,
+  translate,
+  lang,
+}) {
+  const certificationSessionLabel = translate('attendance-sheet.certification-information.session');
+  const numberLabel = translate('attendance-sheet.certification-information.number');
+  const dateLabel = translate('attendance-sheet.certification-information.date');
+  const localTimeLabel = translate('attendance-sheet.certification-information.local-time');
+  const locationNameLabel = translate('attendance-sheet.certification-information.location-name');
+  const roomNameLabel = translate('attendance-sheet.certification-information.room-name');
+
+  const labels = [
+    [
+      _getXPositionByLang({ lang, xEnPosition: 29, xFrPosition: 34 }),
+      715,
+      dateLabel,
+      SESSION_DETAIL_FONT_SIZE,
+      sessionLabelsAndCandidatesInformationFont,
+    ],
+    [
+      _getXPositionByLang({ lang, xEnPosition: 202, xFrPosition: 189 }),
+      715,
+      localTimeLabel,
+      SESSION_DETAIL_FONT_SIZE,
+      sessionLabelsAndCandidatesInformationFont,
+    ],
+    [
+      _getXPositionByLang({ lang, xEnPosition: 29, xFrPosition: 34 }),
+      691,
+      locationNameLabel,
+      SESSION_DETAIL_FONT_SIZE,
+      sessionLabelsAndCandidatesInformationFont,
+    ],
+    [
+      _getXPositionByLang({ lang, xEnPosition: 202, xFrPosition: 189 }),
+      691,
+      roomNameLabel,
+      SESSION_DETAIL_FONT_SIZE,
+      sessionLabelsAndCandidatesInformationFont,
+    ],
+  ];
+
+  [[34, 739, certificationSessionLabel, 9, titleFont], [230, 739, numberLabel, 9, titleFont], ...labels].forEach(
+    ([x, y, text, size, font]) => {
+      page.drawText(text, {
+        x,
+        y,
+        size,
+        font,
+        color: SESSION_DETAIL_DEFAULT_COLOR,
+      });
+    },
+  );
 }
 
-function _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont }) {
+function _drawExaminerSectionLabels({ page, titleFont, sessionLabelsAndCandidatesInformationFont, translate }) {
+  const titleLabel = translate('attendance-sheet.examiner-information.title');
+  const invigilatedByLabel = translate('attendance-sheet.examiner-information.invigilated-by');
+  const signatureLabel = translate('attendance-sheet.examiner-information.signature');
+
   [
-    [356, 739, 'Le(s) surveillants(s)', 9, titleFont],
-    [356, 717, 'Surveillé par :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
-    [356, 697, 'Signature(s) :', SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
-  ].forEach(([x, y, text, fontSize, font]) => {
+    [356, 739, titleLabel, 9, titleFont],
+    [356, 717, invigilatedByLabel, SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+    [356, 697, signatureLabel, SESSION_DETAIL_FONT_SIZE, sessionLabelsAndCandidatesInformationFont],
+  ].forEach(([x, y, text, size, font]) => {
     page.drawText(text, {
       x,
       y,
-      size: fontSize,
+      size,
       font,
       color: SESSION_DETAIL_DEFAULT_COLOR,
     });
@@ -150,16 +217,23 @@ function _drawCandidatesTableLabels({
   titleFont,
   sessionLabelsAndCandidatesInformationFont,
   tableLabelsFont,
+  translate,
+  lang,
 }) {
-  const divisionOrExternalIdLabel = _isScoCertificationCenterAndManagingStudentOrganization({ session })
-    ? 'Classe'
-    : 'Identifiant local';
+  const divisionOrExternalIdLabel = session.isSco
+    ? translate('attendance-sheet.table.division')
+    : translate('attendance-sheet.table.external-id');
+  const titleLabel = translate('attendance-sheet.table.title');
+  const birthNameLabel = translate('attendance-sheet.table.birth-name');
+  const firstNameLabel = translate('attendance-sheet.table.first-name');
+  const signatureLabel = translate('attendance-sheet.table.signature');
+
   [
-    [26, 660, 'Liste des candidats', 12, titleFont],
-    [33, 635, 'Nom de naissance', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
-    [136, 635, 'Prénom', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [26, 660, titleLabel, 12, titleFont],
+    [33, 635, birthNameLabel, SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [136, 635, firstNameLabel, SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
     [305, 635, divisionOrExternalIdLabel, SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
-    [402, 635, 'Signature', SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
+    [402, 635, signatureLabel, SESSION_DETAIL_FONT_SIZE, tableLabelsFont],
   ].forEach(([x, y, text, fontSize, font]) => {
     page.drawText(text, {
       x,
@@ -170,15 +244,22 @@ function _drawCandidatesTableLabels({
     });
   });
 
-  _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont });
+  _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont, translate, lang });
 }
 
-function _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont }) {
-  [
-    [239, 645, 'Date', tableLabelsFont],
-    [239, 636, 'de naissance', tableLabelsFont],
-    [239, 627, '(jj/mm/aaaa)', sessionLabelsAndCandidatesInformationFont],
-  ].forEach(([x, y, text, font]) => {
+function _drawDateOfBirthLabel({ page, tableLabelsFont, sessionLabelsAndCandidatesInformationFont, translate, lang }) {
+  const dateOfBirthExampleLabel = translate('attendance-sheet.table.date-of-birth.example');
+  const dateOfBirthLabel = translate('attendance-sheet.table.date-of-birth.label');
+
+  const dateParts = _getDateOfBirthPartsByLang({
+    lang,
+    tableLabelsFont,
+    sessionLabelsAndCandidatesInformationFont,
+    dateOfBirthLabel,
+    dateOfBirthExampleLabel,
+  });
+
+  dateParts.forEach(([x, y, text, font]) => {
     page.drawText(text, {
       x,
       y,
@@ -209,13 +290,13 @@ function _formatInformation(information, limit = 21) {
   return information || '';
 }
 
-function _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont }) {
+function _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformationFont, lang }) {
   const date = new Date(session.date);
   const day = date.getDate();
   const year = date.getFullYear();
-  const options = { month: 'short' };
+  const options = { month: 'long' };
 
-  const month = new Intl.DateTimeFormat('fr', options).format(date);
+  const month = new Intl.DateTimeFormat(lang, options).format(date);
   const fullDate = `${day} ${month} ${year}`;
 
   page.drawText(fullDate, {
@@ -227,10 +308,11 @@ function _drawSessionDate({ session, page, sessionLabelsAndCandidatesInformation
   });
 }
 
-function _drawSessionStartTime({ session, page, sessionLabelsAndCandidatesInformationFont }) {
-  const [hours, minutes] = session.time.split(':');
-  const hour = `${hours}h${minutes}`;
-  page.drawText(hour, {
+function _drawSessionStartTime({ session, page, sessionLabelsAndCandidatesInformationFont, lang }) {
+  const sessionStartTimeFormat = _getSessionStartTimeFormat({ lang });
+  const sessionStartTime = dayjs(session.date + session.time).format(sessionStartTimeFormat);
+
+  page.drawText(sessionStartTime, {
     x: 272,
     y: 715,
     size: SESSION_DETAIL_FONT_SIZE,
@@ -301,8 +383,39 @@ function _formatDate(date) {
   return dayjs(date).format('DD/MM/YYYY');
 }
 
-function _isScoCertificationCenterAndManagingStudentOrganization({ session }) {
-  return session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents;
+function _getXPositionByLang({ lang, xEnPosition, xFrPosition }) {
+  if (lang === ENGLISH_SPOKEN) {
+    return xEnPosition;
+  }
+  return xFrPosition;
+}
+
+function _getDateOfBirthPartsByLang({
+  lang,
+  tableLabelsFont,
+  sessionLabelsAndCandidatesInformationFont,
+  dateOfBirthLabel,
+  dateOfBirthExampleLabel,
+}) {
+  if (lang === FRENCH_SPOKEN) {
+    return [
+      [DATE_OF_BIRTH_DEFAULT_X, 645, dateOfBirthLabel.slice(0, 4), tableLabelsFont],
+      [DATE_OF_BIRTH_DEFAULT_X, 636, dateOfBirthLabel.slice(5), tableLabelsFont],
+      [DATE_OF_BIRTH_DEFAULT_X, 627, dateOfBirthExampleLabel, sessionLabelsAndCandidatesInformationFont],
+    ];
+  }
+
+  return [
+    [DATE_OF_BIRTH_DEFAULT_X, 638, dateOfBirthLabel, tableLabelsFont],
+    [DATE_OF_BIRTH_DEFAULT_X, 629, dateOfBirthExampleLabel, sessionLabelsAndCandidatesInformationFont],
+  ];
+}
+
+function _getSessionStartTimeFormat({ lang }) {
+  if (lang === FRENCH_SPOKEN) {
+    return 'HH:mm';
+  }
+  return 'LT';
 }
 
 export { getAttendanceSheetPdfBuffer };
