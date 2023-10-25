@@ -48,16 +48,19 @@ const STUDENT_NAMES = [
 ];
 
 async function buildSchoolOrganization({ name }) {
+  logger.info(`Create organization with name: ${name}`);
   const savedOrganization = await organizationRepository.create(
     new Organization({ name, type: Organization.types.SCO1D, isManagingStudents: true }),
   );
+  logger.info(`Create school related to organization with id: ${savedOrganization.id}`);
   const code = await codeGenerator.generate(schoolRepository);
   await schoolRepository.save({ organizationId: savedOrganization.id, code });
-  logger.info(`le code de l'organisation est: ${code}`);
+  logger.info(`School created with code: ${code}`);
   return savedOrganization;
 }
 
 async function buildLearners({ organizationId }) {
+  logger.info('Create learners for organization.');
   await bluebird.map(STUDENT_NAMES, async (studentName) => {
     await knex('organization-learners').insert({
       organizationId,
@@ -66,6 +69,7 @@ async function buildLearners({ organizationId }) {
       division: 'CM2',
     });
   });
+  logger.info('Learners created.');
 }
 
 async function showSchools() {
@@ -101,7 +105,7 @@ async function main() {
   const { generate, name } = _validateArgs(commandLineArgs);
   if (generate) {
     const organization = await buildSchoolOrganization({ name });
-    return await buildLearners({ organizationId: organization.id });
+    await buildLearners({ organizationId: organization.id });
   } else {
     await showSchools();
   }
