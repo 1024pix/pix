@@ -3,7 +3,19 @@ import { TimeSeries } from '../../../scripts/arborescence-monitoring/time-series
 
 describe('Unit | Scripts | time-series.js', function () {
   describe('#add', function () {
-    describe('Given less than 30 points', function () {
+    describe('Given empty time series', function () {
+      describe('New value to add', function () {
+        it('should add the point sorted to the time series', async function () {
+          const timeSeries = new TimeSeries([]);
+
+          const updatedTimeSeries = timeSeries.add({ x: '2021-07-19T07:00:00.000Z', y: 298 });
+
+          const expectedNumberOfPoints = 1;
+          expect(updatedTimeSeries.size()).to.equal(expectedNumberOfPoints);
+        });
+      });
+    });
+    describe('Given less than 28 points', function () {
       describe('New value to add', function () {
         it('should add the point sorted to the time series', async function () {
           const timeSeries = new TimeSeries([
@@ -20,22 +32,22 @@ describe('Unit | Scripts | time-series.js', function () {
         });
       });
       describe('Same value than the last to add', function () {
-        it('should not add the point', async function () {
+        it('should replace the last point', async function () {
           const timeSeries = new TimeSeries([{ x: '2023-07-19T07:00:00.000Z', y: 298 }]);
 
           const updatedTimeSeries = timeSeries.add({ x: '2023-08-19T07:00:00.000Z', y: 298 });
 
           const expectedNumberOfPoints = 1;
           expect(updatedTimeSeries.size()).to.equal(expectedNumberOfPoints);
-          expect(updatedTimeSeries.get(0).x).to.equal('2023-07-19T07:00:00.000Z');
+          expect(updatedTimeSeries.get(0).x).to.equal('2023-08-19T07:00:00.000Z');
         });
       });
     });
-    describe('Given more or equal than 30 points', function () {
+    describe('Given more or equal than 28 points', function () {
       let timeSeries;
-      const expectedNumberOfPoints = 30;
+      const expectedNumberOfPoints = 28;
       beforeEach(function () {
-        timeSeries = new TimeSeries(Array(30).fill({ x: '2023-10-25T07:03:47.926Z', y: 306 }));
+        timeSeries = new TimeSeries(Array(expectedNumberOfPoints).fill({ x: '2023-10-25T07:03:47.926Z', y: 306 }));
       });
 
       describe('New value to add', function () {
@@ -47,13 +59,22 @@ describe('Unit | Scripts | time-series.js', function () {
         });
       });
       describe('Same value than the last to add', function () {
-        it('should not add the point', async function () {
-          const updatedTimeSeries = timeSeries.add({ x: '2023-08-19T07:00:00.000Z', y: 306 });
+        it('should replace the last point', async function () {
+          const updatedTimeSeries = timeSeries.add({ x: '2023-11-19T07:00:00.000Z', y: 306 });
 
           expect(updatedTimeSeries.size()).to.equal(expectedNumberOfPoints);
-          expect(updatedTimeSeries.get(expectedNumberOfPoints - 1).x).to.equal('2023-10-25T07:03:47.926Z');
+          expect(updatedTimeSeries.get(expectedNumberOfPoints - 1).x).to.equal('2023-11-19T07:00:00.000Z');
         });
       });
+    });
+  });
+  describe('#toString', function () {
+    it('should stringify points', function () {
+      const timeSeries = new TimeSeries([{ x: '2023-07-19T07:00:00.000Z', y: 298 }]);
+
+      const stringifyValue = timeSeries.toString();
+
+      expect(stringifyValue).to.equal('[{"x":"2023-07-19T07:00:00.000Z","y":298}]');
     });
   });
 });

@@ -1,4 +1,4 @@
-const MAXIMUM_NUMBER_OF_POINTS_THRESHOLD = 30;
+const MAXIMUM_NUMBER_OF_POINTS_THRESHOLD = 28;
 
 const PURGE_POINT_INDEX = 10;
 
@@ -11,16 +11,30 @@ export class TimeSeries {
   }
 
   add({ x, y }) {
-    const lastPoint = this.lastPoint();
-    if (lastPoint.y === y) {
-      return this;
+    if (this.sameValueThanTheLast(y)) {
+      return this.replaceLastPointByNewPoint({ x, y });
     } else {
       this.points.push({ x, y });
       if (this.exceedMaxNumberOfPoints()) {
-        this.points.splice(PURGE_POINT_INDEX, NB_POINTS_TO_PURGE);
+        this.purgeOnePoint();
       }
       return new TimeSeries(this.points);
     }
+  }
+
+  purgeOnePoint() {
+    this.points.splice(PURGE_POINT_INDEX, NB_POINTS_TO_PURGE);
+  }
+
+  replaceLastPointByNewPoint({ x, y }) {
+    this.points.pop();
+    this.points.push({ x, y });
+    return new TimeSeries(this.points);
+  }
+
+  sameValueThanTheLast(y) {
+    const lastPoint = this.lastPoint();
+    return lastPoint?.y === y;
   }
 
   exceedMaxNumberOfPoints() {
@@ -37,5 +51,9 @@ export class TimeSeries {
 
   get(pointIndex) {
     return this.points[pointIndex];
+  }
+
+  toString() {
+    return JSON.stringify(this.points);
   }
 }
