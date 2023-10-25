@@ -37,9 +37,13 @@ const attach = async function ({ domainTransaction, complementaryCertificationBa
 const findAttachableBadgesByIds = async function ({ ids }) {
   const badges = await knex
     .from('badges')
-    .leftJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .whereNull('complementary-certification-badges.id')
-    .whereIn('badges.id', ids);
+    .whereIn('badges.id', ids)
+    .whereNotExists(
+      knex
+        .select(1)
+        .from('complementary-certification-badges')
+        .whereRaw('"complementary-certification-badges"."badgeId" = "badges"."id"'),
+    );
 
   return badges.map((badge) => {
     return new Badge(badge);
