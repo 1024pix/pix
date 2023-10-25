@@ -41,7 +41,7 @@ const get = async function (idSession) {
             'label', "complementary-certifications"."label",
             'certificationExtraTime', "complementary-certifications"."certificationExtraTime"
           )
-        ) order by lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
+        ) order by "ongoing-live-alerts".status, lower("certification-candidates"."lastName"), lower("certification-candidates"."firstName"))
     `),
     })
     .from('sessions')

@@ -263,7 +263,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
         );
       });
 
-      it('should return associated certifications candidates ordered by lastname and firstname', async function () {
+      it('should return associated certifications candidates ordered by live alert status, lastname and firstname', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Toto', id: 1234 });
         const session = databaseBuilder.factory.buildSession({
@@ -344,6 +344,15 @@ describe('Integration | Repository | SessionForSupervising', function () {
         );
         expect(actualCandidates).to.have.deep.ordered.members([
           {
+            userId: 12345,
+            lastName: 'Joplin',
+            firstName: 'Janis',
+            authorizedToStart: true,
+            assessmentStatus: Assessment.states.STARTED,
+            startDateTime: '2022-10-19T13:37:00+00:00',
+            liveAlertStatus: CertificationChallengeLiveAlertStatus.ONGOING,
+          },
+          {
             userId: 33333,
             lastName: 'Jackson',
             firstName: 'Janet',
@@ -360,15 +369,6 @@ describe('Integration | Repository | SessionForSupervising', function () {
             assessmentStatus: null,
             startDateTime: null,
             liveAlertStatus: null,
-          },
-          {
-            userId: 12345,
-            lastName: 'Joplin',
-            firstName: 'Janis',
-            authorizedToStart: true,
-            assessmentStatus: Assessment.states.STARTED,
-            startDateTime: '2022-10-19T13:37:00+00:00',
-            liveAlertStatus: CertificationChallengeLiveAlertStatus.ONGOING,
           },
           {
             userId: 22222,
