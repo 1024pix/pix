@@ -26,22 +26,25 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     test('it should count unchecked boxes', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const certificationReportA = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: true,
-        isCompleted: true,
-      });
-      const certificationReportB = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: false,
-        isCompleted: true,
-      });
-      const certificationReportC = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: false,
-        isCompleted: true,
-      });
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = store.createRecord('session', {
-        certificationReports: [certificationReportA, certificationReportB, certificationReportC],
+      const session = await _createSessionWithCertificationReports({
+        store,
+        certificationReportsData: [
+          {
+            hasSeenEndTestScreen: true,
+            isCompleted: true,
+          },
+          {
+            hasSeenEndTestScreen: false,
+            isCompleted: true,
+          },
+          {
+            hasSeenEndTestScreen: false,
+            isCompleted: true,
+          },
+        ],
       });
+      controller.model = session;
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -52,20 +55,22 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   });
 
   module('#computed hasUncheckedHasSeenEndTestScreen', function () {
-    test('it should be false if no unchecked certification reports', function (assert) {
+    test('it should be false if no unchecked certification reports', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const certificationReportA = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: true,
-        isCompleted: true,
-      });
-      const certificationReportB = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: true,
-        isCompleted: true,
-      });
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      controller.model = store.createRecord('session', {
-        certificationReports: [certificationReportA, certificationReportB],
+      controller.model = await _createSessionWithCertificationReports({
+        store,
+        certificationReportsData: [
+          {
+            hasSeenEndTestScreen: true,
+            isCompleted: true,
+          },
+          {
+            hasSeenEndTestScreen: true,
+            isCompleted: true,
+          },
+        ],
       });
 
       // when
@@ -75,20 +80,23 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       assert.false(hasUncheckedHasSeenEndTestScreen);
     });
 
-    test('it should be true if at least one unchecked certification reports', function (assert) {
+    test('it should be true if at least one unchecked certification reports', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certificationReportA = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: true,
-        isCompleted: true,
-      });
-      const certificationReportB = store.createRecord('certification-report', {
-        hasSeenEndTestScreen: false,
-        isCompleted: true,
-      });
-      controller.model = store.createRecord('session', {
-        certificationReports: [certificationReportA, certificationReportB],
+
+      controller.model = await _createSessionWithCertificationReports({
+        store,
+        certificationReportsData: [
+          {
+            hasSeenEndTestScreen: true,
+            isCompleted: true,
+          },
+          {
+            hasSeenEndTestScreen: false,
+            isCompleted: true,
+          },
+        ],
       });
 
       // when
@@ -136,9 +144,10 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   module('#action updateExaminerGlobalComment', function () {
     test('it should left session examiner global comment untouched if input value exceeds max size', function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const initialValue = null;
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = { examinerGlobalComment: initialValue };
+      const session = store.createRecord('session', { examinerGlobalComment: initialValue });
       controller.model = session;
       controller.examinerGlobalCommentMaxLength = 5;
 
@@ -151,10 +160,11 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 
     test('it should update session examiner global comment if input value is not exceeding max size', function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const initialValue = null;
       const newValue = 'hello';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = { examinerGlobalComment: initialValue };
+      const session = store.createRecord('session', { examinerGlobalComment: initialValue });
       controller.model = session;
 
       // when
@@ -166,10 +176,11 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 
     test('it should update session examiner global comment to null if trimmed input value is still empty', function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const initialValue = 'initialValue';
       const newValue = '  ';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = { examinerGlobalComment: initialValue };
+      const session = store.createRecord('session', { examinerGlobalComment: initialValue });
       controller.model = session;
 
       // when
@@ -202,56 +213,79 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       { hasSeenEndTestScreen1: false, hasSeenEndTestScreen2: true, expectedState: false },
       { hasSeenEndTestScreen1: false, hasSeenEndTestScreen2: false, expectedState: true },
     ].forEach(({ hasSeenEndTestScreen1, hasSeenEndTestScreen2, expectedState }) =>
-      test('it should toggle the hasSeenEndTestScreen attribute of all certifs in session to false depending on if some were checked', function (assert) {
+      test('it should toggle the hasSeenEndTestScreen attribute of all certifs in session to false depending on if some were checked', async function (assert) {
         // given
+        const store = this.owner.lookup('service:store');
         const someWereChecked = hasSeenEndTestScreen1 || hasSeenEndTestScreen2;
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
         const eventStub = { srcElement: { checked: sinon.stub() } };
-        const session = {
-          certificationReports: [
-            { hasSeenEndTestScreen: hasSeenEndTestScreen1, isCompleted: true },
-            { hasSeenEndTestScreen: hasSeenEndTestScreen2, isCompleted: true },
+        const session = await _createSessionWithCertificationReports({
+          store,
+          certificationReportsData: [
+            {
+              hasSeenEndTestScreen: hasSeenEndTestScreen1,
+              isCompleted: true,
+            },
+            {
+              hasSeenEndTestScreen: hasSeenEndTestScreen2,
+              isCompleted: true,
+            },
           ],
-        };
+        });
+
         controller.model = session;
 
         // when
         controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked, eventStub);
 
         // then
-        assert.strictEqual(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
-        assert.strictEqual(session.certificationReports[1].hasSeenEndTestScreen, expectedState);
+        const [firstReport, secondReport] = session.hasMany('certificationReports').value().slice();
+        assert.strictEqual(firstReport.hasSeenEndTestScreen, expectedState);
+        assert.strictEqual(secondReport.hasSeenEndTestScreen, expectedState);
       }),
     );
 
-    test('it should toggle the hasSeenEndTestScreen attribute only for completed certifs in session', function (assert) {
+    test('it should toggle the hasSeenEndTestScreen attribute only for completed certifs in session', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const eventStub = { srcElement: { checked: sinon.stub() } };
-      const session = {
-        certificationReports: [
-          { hasSeenEndTestScreen: false, isCompleted: true },
-          { hasSeenEndTestScreen: false, isCompleted: false },
+      const session = await _createSessionWithCertificationReports({
+        store,
+        certificationReportsData: [
+          {
+            hasSeenEndTestScreen: false,
+            isCompleted: true,
+          },
+          {
+            hasSeenEndTestScreen: false,
+            isCompleted: false,
+          },
         ],
-      };
+      });
+
       controller.model = session;
 
       // when
       controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', false, eventStub);
 
       // then
-      assert.true(session.certificationReports[0].hasSeenEndTestScreen);
-      assert.false(session.certificationReports[1].hasSeenEndTestScreen);
+      const [firstReport, secondReport] = session.hasMany('certificationReports').value().slice();
+
+      assert.true(firstReport.hasSeenEndTestScreen);
+      assert.false(secondReport.hasSeenEndTestScreen);
     });
   });
 
   module('#action openModal', function () {
-    test('it should set flag showConfirmModal to true', function (assert) {
+    test('it should set flag showConfirmModal to true', async function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = {
-        certificationReports: [{ isCompleted: true }, { isCompleted: true }],
-      };
+      const session = await _createSessionWithCertificationReports({
+        store,
+        certificationReportsData: [{ isCompleted: true }, { isCompleted: true }],
+      });
       controller.model = session;
 
       // when
@@ -297,13 +331,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   module('#action toggleIncidentDuringCertificationSession', function () {
     test('it should set hasIncident to true', function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = {
+      const session = store.createRecord('session', {
         hasIncident: false,
-      };
+      });
       const displayIncidentDuringCertificationSession = true;
       controller.model = session;
-
       // when
       controller.send('toggleIncidentDuringCertificationSession', displayIncidentDuringCertificationSession);
 
@@ -315,12 +349,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
   module('#action toggleIssueWithJoiningSession', function () {
     test('it should set hasJoiningIssue to true', function (assert) {
       // given
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = {
+      const session = store.createRecord('session', {
         hasJoiningIssue: false,
-      };
-      const displayJoiningIssue = true;
+      });
       controller.model = session;
+      const displayJoiningIssue = true;
 
       // when
       controller.send('toggleSessionJoiningIssue', displayJoiningIssue);
@@ -330,3 +365,14 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     });
   });
 });
+
+async function _createSessionWithCertificationReports({ store, sessionData = {}, certificationReportsData = [] }) {
+  const session = store.createRecord('session', sessionData);
+
+  if (certificationReportsData.length) {
+    const certificationReports = await session.get('certificationReports');
+    certificationReportsData.forEach(certificationReports.createRecord);
+  }
+
+  return session;
+}
