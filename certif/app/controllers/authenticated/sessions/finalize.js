@@ -29,9 +29,7 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   get uncheckedHasSeenEndTestScreenCount() {
-    return sumBy(this.session.completedCertificationReports.toArray(), (reports) =>
-      Number(!reports.hasSeenEndTestScreen),
-    );
+    return sumBy(this.session.completedCertificationReports, (reports) => Number(!reports.hasSeenEndTestScreen));
   }
 
   get hasUncheckedHasSeenEndTestScreen() {
@@ -107,7 +105,9 @@ export default class SessionsFinalizeController extends Controller {
   toggleAllCertificationReportsHasSeenEndTestScreen(allChecked, parentCheckbox) {
     const newState = !allChecked;
 
-    this.session.certificationReports
+    this.session
+      .hasMany('certificationReports')
+      .value()
       .filter((certificationReport) => certificationReport.isCompleted)
       .forEach((certificationReport) => {
         certificationReport.hasSeenEndTestScreen = newState;
