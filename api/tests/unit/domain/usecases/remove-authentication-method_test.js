@@ -233,6 +233,26 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     });
   });
 
+  context('When type is PAYSDELALOIRE', function () {
+    it('removes PAYSDELALOIRE authentication method', async function () {
+      // given
+      const type = OidcIdentityProviders.PAYSDELALOIRE.code;
+      const user = domainBuilder.buildUser();
+      userRepository.get.resolves(user);
+      const authenticationMethods = buildAllAuthenticationMethodsForUser(user.id);
+      authenticationMethodRepository.findByUserId.resolves(authenticationMethods);
+
+      // when
+      await removeAuthenticationMethod({ userId: user.id, type, userRepository, authenticationMethodRepository });
+
+      // then
+      expect(authenticationMethodRepository.removeByUserIdAndIdentityProvider).to.have.been.calledWithExactly({
+        userId: user.id,
+        identityProvider: OidcIdentityProviders.PAYSDELALOIRE.code,
+      });
+    });
+  });
+
   context('When there is only one remaining authentication method', function () {
     it('should throw a UserNotAuthorizedToRemoveAuthenticationMethod', async function () {
       // given
