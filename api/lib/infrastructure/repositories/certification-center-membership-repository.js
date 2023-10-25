@@ -75,7 +75,7 @@ const findByUserId = async function (userId) {
       'certification-centers.createdAt AS certificationCenterCreatedAt',
       'certification-centers.updatedAt AS certificationCenterUpdatedAt',
     )
-    .from('certification-center-memberships')
+    .from(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .leftJoin(
       'certification-centers',
       'certification-centers.id',
@@ -90,7 +90,7 @@ const findByUserId = async function (userId) {
 };
 
 const findActiveByCertificationCenterIdSortedById = async function ({ certificationCenterId }) {
-  const certificationCenterMemberships = await knex('certification-center-memberships')
+  const certificationCenterMemberships = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select(
       'certification-center-memberships.*',
       'users.firstName',
@@ -140,7 +140,7 @@ const save = async function ({ userId, certificationCenterId }) {
 };
 
 const isAdminOfCertificationCenter = async function ({ userId, certificationCenterId }) {
-  const certificationCenterMembershipId = await knex('certification-center-memberships')
+  const certificationCenterMembershipId = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select('id')
     .where({
       userId,
@@ -154,7 +154,7 @@ const isAdminOfCertificationCenter = async function ({ userId, certificationCent
 };
 
 const isMemberOfCertificationCenter = async function ({ userId, certificationCenterId }) {
-  const certificationCenterMembershipId = await knex('certification-center-memberships')
+  const certificationCenterMembershipId = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select('id')
     .where({
       userId,
@@ -169,7 +169,7 @@ const isMemberOfCertificationCenter = async function ({ userId, certificationCen
 const disableById = async function ({ certificationCenterMembershipId }) {
   try {
     const now = new Date();
-    const result = await knex('certification-center-memberships')
+    const result = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
       .where({ id: certificationCenterMembershipId })
       .update({ disabledAt: now })
       .returning('*');
@@ -187,11 +187,11 @@ const updateRefererStatusByUserIdAndCertificationCenterId = async function ({
   certificationCenterId,
   isReferer,
 }) {
-  await knex('certification-center-memberships').where({ userId, certificationCenterId }).update({ isReferer });
+  await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).where({ userId, certificationCenterId }).update({ isReferer });
 };
 
 const getRefererByCertificationCenterId = async function ({ certificationCenterId }) {
-  const refererCertificationCenterMembership = await knex('certification-center-memberships')
+  const refererCertificationCenterMembership = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select('certification-center-memberships.*', 'users.lastName', 'users.firstName', 'users.email')
     .join('users', 'users.id', 'certification-center-memberships.userId')
     .where({ certificationCenterId, isReferer: true })
@@ -210,7 +210,7 @@ const disableMembershipsByUserId = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const knexConn = domainTransaction.knexTransaction ?? knex;
-  await knexConn('certification-center-memberships')
+  await knexConn(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .whereNull('disabledAt')
     .andWhere({ userId })
     .update({ disabledAt: new Date(), updatedByUserId });
@@ -224,11 +224,11 @@ const update = async function (certificationCenterMembership) {
     'updatedByUserId',
     'updatedAt',
   ]);
-  await knex('certification-center-memberships').update(data).where({ id: certificationCenterMembership.id });
+  await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).update(data).where({ id: certificationCenterMembership.id });
 };
 
 const findById = async function (certificationCenterMembershipId) {
-  const certificationCenterMembership = await knex('certification-center-memberships')
+  const certificationCenterMembership = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select(
       'certification-center-memberships.*',
       'users.lastName',
