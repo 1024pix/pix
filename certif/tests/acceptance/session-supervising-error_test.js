@@ -29,6 +29,7 @@ module('Acceptance | Session supervising error', function (hooks) {
       this.secondSession = server.create('session', {
         id: 2001,
       });
+      this.server.get('/sessions/2001/supervising', { errors: [{ code: 403 }] }, 403);
 
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '2000');
@@ -37,7 +38,6 @@ module('Acceptance | Session supervising error', function (hooks) {
 
       // when
       const secondScreen = await visitScreen('/sessions/2001/surveiller');
-
       // then
       assert.dom(secondScreen.getByRole('heading', { name: 'Une erreur est survenue' })).exists();
       assert
