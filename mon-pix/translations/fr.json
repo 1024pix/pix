@@ -1172,6 +1172,9 @@
     "modulix": {
       "buttons": {
         "continue": "Continuer"
+      },
+      "qcu": {
+        "direction": "Choisissez une seule réponse."
       }
     },
     "not-connected": {

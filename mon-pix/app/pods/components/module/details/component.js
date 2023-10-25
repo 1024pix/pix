@@ -7,4 +7,10 @@ export default class ModuleDetails extends Component {
     // eslint-disable-next-line no-console
     console.info('Continue to next grain');
   }
+
+  @action
+  radioClicked(value) {
+    // eslint-disable-next-line no-console
+    console.info(value);
+  }
 }
