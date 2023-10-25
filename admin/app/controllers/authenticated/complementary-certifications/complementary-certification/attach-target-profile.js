@@ -68,8 +68,10 @@ export default class AttachTargetProfileController extends Controller {
     try {
       const complementaryCertification = this.model.complementaryCertification;
 
-      this.store.peekAll('complementary-certification-badge').forEach(function (model) {
-        model.deleteRecord();
+      const complementaryCertificationBadges = this.store.peekAll('complementary-certification-badge').toArray();
+
+      complementaryCertificationBadges.forEach((complementaryCertificationBadge) => {
+        complementaryCertification.complementaryCertificationBadges.removeObject(complementaryCertificationBadge);
       });
 
       this.#targetProfileBadges.forEach((badge, badgeId) => {
