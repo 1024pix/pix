@@ -2,7 +2,9 @@ const findCertificationCenterMembershipsByCertificationCenter = function ({
   certificationCenterId,
   certificationCenterMembershipRepository,
 }) {
-  return certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById({ certificationCenterId });
+  return certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole({
+    certificationCenterId,
+  });
 };
 
 export { findCertificationCenterMembershipsByCertificationCenter };
