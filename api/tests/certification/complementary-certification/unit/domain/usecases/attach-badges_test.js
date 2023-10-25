@@ -5,7 +5,7 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { InvalidBadgeLevelError } from '../../../../../../src/certification/complementary-certification/domain/errors.js';
 
 describe('Unit | UseCase | attach-badges', function () {
-  let complementaryCertificationForTargetProfileAttachmentRepository, badgeRepository;
+  let complementaryCertificationForTargetProfileAttachmentRepository, complementaryCertificationBadgesRepository;
   let clock;
   const now = new Date('2023-02-02');
 
@@ -13,8 +13,8 @@ describe('Unit | UseCase | attach-badges', function () {
     complementaryCertificationForTargetProfileAttachmentRepository = {
       getById: sinon.stub(),
     };
-    badgeRepository = {
-      findAllByIds: sinon.stub(),
+    complementaryCertificationBadgesRepository = {
+      findAttachableBadgesByIds: sinon.stub(),
     };
     clock = sinon.useFakeTimers(now);
   });
@@ -122,7 +122,7 @@ describe('Unit | UseCase | attach-badges', function () {
         id: 123,
         hasExternalJury: true,
       });
-      badgeRepository.findAllByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
+      complementaryCertificationBadgesRepository.findAttachableBadgesByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
 
       // when
       const error = await catchErr(attachBadges)({
@@ -131,8 +131,8 @@ describe('Unit | UseCase | attach-badges', function () {
           { badgeId: 2, level: 2, certificateMessage: null, temporaryCertificateMessage: 'temporary message' },
         ],
         complementaryCertification,
-        badgeRepository,
         complementaryCertificationForTargetProfileAttachmentRepository,
+        complementaryCertificationBadgesRepository,
       });
 
       // then
@@ -154,7 +154,7 @@ describe('Unit | UseCase | attach-badges', function () {
       context(`when  ${assessment.label}`, function () {
         it('should throw a not found error', async function () {
           // given
-          badgeRepository.findAllByIds.resolves(assessment.resolve);
+          complementaryCertificationBadgesRepository.findAttachableBadgesByIds.resolves(assessment.resolve);
 
           // when
           const error = await catchErr(attachBadges)({
@@ -163,12 +163,12 @@ describe('Unit | UseCase | attach-badges', function () {
               { badgeId: 1, level: 1 },
               { badgeId: 2, level: 2 },
             ],
-            badgeRepository,
+            complementaryCertificationBadgesRepository,
           });
 
           // then
           expect(error).to.be.instanceOf(NotFoundError);
-          expect(error.message).to.equal("One or several badges don't exist.");
+          expect(error.message).to.equal('One or several badges are not attachable.');
         });
       });
     });
@@ -191,11 +191,11 @@ describe('Unit | UseCase | attach-badges', function () {
           id: 123,
           hasExternalJury: false,
         });
-        badgeRepository.findAllByIds.resolves([badge1, badge2]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub().resolves(),
           detachByIds: sinon.stub(),
           getAllIdsByTargetProfileId: sinon.stub(),
+          findAttachableBadgesByIds: sinon.stub().resolves([badge1, badge2]),
         };
 
         complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
@@ -211,7 +211,6 @@ describe('Unit | UseCase | attach-badges', function () {
           ],
           targetProfileIdToDetach: 789,
           complementaryCertification,
-          badgeRepository,
           complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
         });
@@ -247,7 +246,6 @@ describe('Unit | UseCase | attach-badges', function () {
           id: 123,
           hasExternalJury: false,
         });
-        badgeRepository.findAllByIds.resolves([badge1]);
         const complementaryCertificationBadgesRepository = {
           attach: sinon.stub(),
           detachByIds: sinon.stub().resolves(),
@@ -259,6 +257,7 @@ describe('Unit | UseCase | attach-badges', function () {
               level: 1,
             }).badgeId,
           ]),
+          findAttachableBadgesByIds: sinon.stub().resolves([badge1]),
         };
 
         // when
@@ -267,7 +266,6 @@ describe('Unit | UseCase | attach-badges', function () {
           complementaryCertificationBadgesToAttachDTO: [complementaryCertificationBadge],
           targetProfileIdToDetach: 456,
           complementaryCertification,
-          badgeRepository,
           complementaryCertificationForTargetProfileAttachmentRepository,
           complementaryCertificationBadgesRepository,
         });
@@ -302,11 +300,11 @@ describe('Unit | UseCase | attach-badges', function () {
         id: 123,
         hasExternalJury: false,
       });
-      badgeRepository.findAllByIds.resolves([badge1, badge2]);
       const complementaryCertificationBadgesRepository = {
         attach: sinon.stub().resolves(),
         detachByIds: sinon.stub(),
         getAllIdsByTargetProfileId: sinon.stub(),
+        findAttachableBadgesByIds: sinon.stub().resolves([badge1, badge2]),
       };
       const BadgeToAttachValidator = {
         validate: sinon.stub().resolves(),
@@ -325,7 +323,6 @@ describe('Unit | UseCase | attach-badges', function () {
         targetProfileIdToDetach: 789,
         complementaryCertification,
         BadgeToAttachValidator,
-        badgeRepository,
         complementaryCertificationForTargetProfileAttachmentRepository,
         complementaryCertificationBadgesRepository,
       });

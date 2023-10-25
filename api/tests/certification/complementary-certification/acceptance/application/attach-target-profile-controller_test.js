@@ -29,6 +29,20 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         label: 'Pix+ label',
       });
 
+      const alreadyAttachedTargetProfile = databaseBuilder.factory.buildTargetProfile({
+        id: 11,
+      });
+      const alreadyAttachedBadge = databaseBuilder.factory.buildBadge({
+        id: 999,
+        targetProfileId: alreadyAttachedTargetProfile.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 888,
+        complementaryCertificationId: complementaryCertification.id,
+        badgeId: alreadyAttachedBadge.id,
+        detachedAt: null,
+      });
+
       const targetProfile = databaseBuilder.factory.buildTargetProfile({
         id: 12,
       });
@@ -41,13 +55,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
       });
-      const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 3,
-        complementaryCertificationId: complementaryCertification.id,
-        badgeId: badge.id,
-        detachedAt: null,
-      });
+      databaseBuilder.factory.buildBadge({ id: 1, targetProfileId: targetProfile.id });
 
       const options = {
         method: 'PUT',
@@ -55,7 +63,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         payload: {
           data: {
             attributes: {
-              'target-profile-id': 12,
+              'target-profile-id': 11,
               'notify-organizations': true,
               'complementary-certification-badges': [
                 {
@@ -114,7 +122,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         temporaryCertificateMessage: null,
         detachedAt: null,
       });
-      expect(complementaryCertificationBadgesDetached[0].id).to.equal(3);
+      expect(complementaryCertificationBadgesDetached[0].id).to.equal(888);
     });
 
     describe('Resource access management', function () {
