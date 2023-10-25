@@ -8,14 +8,16 @@ module('Unit | Model | Module', function (hooks) {
     // given
     const title = 'Les adresses mail';
     const store = this.owner.lookup('service:store');
-    const element = store.createRecord('element', { content: '' });
+    const elementLesson = store.createRecord('lesson', { content: '' });
+    const elementQCU = store.createRecord('qcu', { instruction: '', proposals: [''] });
+    const elements = [elementLesson, elementQCU];
 
     // when
-    const module = store.createRecord('module', { title, elements: [element] });
+    const module = store.createRecord('module', { title, elements });
 
     // then
     assert.ok(module);
     assert.strictEqual(module.title, title);
-    assert.strictEqual(module.elements.length, 1);
+    assert.strictEqual(module.elements.length, elements.length);
   });
 });
