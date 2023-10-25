@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { lcms } from '../../lcms.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
-import { learningContentCache } from '../../caches/learning-content-cache.js';
+import { LearningContentCache } from '../../caches/learning-content-cache.js';
 
 const _DatasourcePrototype = {
   async get(id) {
@@ -36,7 +36,7 @@ const _DatasourcePrototype = {
 
   async _getLearningContent() {
     const generator = () => lcms.getLatestRelease();
-    const learningContent = await learningContentCache.get(generator);
+    const learningContent = await LearningContentCache.instance.get(generator);
     return learningContent;
   },
 
@@ -44,7 +44,7 @@ const _DatasourcePrototype = {
     const currentLearningContent = await this._getLearningContent();
 
     const patch = this._generatePatch(currentLearningContent, id, newEntry);
-    await learningContentCache.patch(patch);
+    await LearningContentCache.instance.patch(patch);
     return newEntry;
   },
 
@@ -73,7 +73,7 @@ const extend = function (props) {
 
 const refreshLearningContentCacheRecords = async function () {
   const learningContent = await lcms.getLatestRelease();
-  await learningContentCache.set(learningContent);
+  await LearningContentCache.instance.set(learningContent);
   return learningContent;
 };
 
