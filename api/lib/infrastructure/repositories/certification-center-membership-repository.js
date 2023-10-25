@@ -101,7 +101,7 @@ const findByUserId = async function (userId) {
   return certificationCenterMemberships.map(_toDomain);
 };
 
-const findActiveByCertificationCenterIdSortedById = async function ({ certificationCenterId }) {
+const findActiveByCertificationCenterIdSortedByRole = async function ({ certificationCenterId }) {
   const certificationCenterMemberships = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select(
       'certification-center-memberships.*',
@@ -284,7 +284,7 @@ export {
   create,
   disableById,
   disableMembershipsByUserId,
-  findActiveByCertificationCenterIdSortedById,
+  findActiveByCertificationCenterIdSortedByRole,
   findByCertificationCenterIdAndUserId,
   findOneWithCertificationCenterIdAndUserId,
   findById,
