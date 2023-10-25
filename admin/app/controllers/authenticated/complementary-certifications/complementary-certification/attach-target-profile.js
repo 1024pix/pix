@@ -3,6 +3,8 @@ import { service } from '@ember/service';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
+const DEFAULT_BADGE_LEVEL = '1';
+
 export default class AttachTargetProfileController extends Controller {
   @service notifications;
   @service router;
@@ -62,9 +64,7 @@ export default class AttachTargetProfileController extends Controller {
   @action
   async onSubmit(event) {
     event.preventDefault();
-
     this.isSubmitting = true;
-
     try {
       const complementaryCertification = this.model.complementaryCertification;
 
@@ -76,7 +76,7 @@ export default class AttachTargetProfileController extends Controller {
         const aBadge = this.store.createRecord('complementary-certification-badge', {
           complementaryCertification,
           badgeId,
-          level: badge.level,
+          level: badge.level ?? DEFAULT_BADGE_LEVEL,
           imageUrl: badge['certificate-image'],
           label: badge['certificate-label'],
           certificateMessage: badge['certificate-message'],

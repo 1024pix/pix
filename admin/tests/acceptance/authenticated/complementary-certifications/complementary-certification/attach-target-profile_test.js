@@ -215,6 +215,62 @@ module(
           assert.strictEqual(currentURL(), '/complementary-certifications/1/details');
         });
       });
+
+      module('when user does not edit the badge level', function () {
+        test('it should save the level to 1 by default', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          server.create('complementary-certification', {
+            id: 1,
+            key: 'KEY',
+            hasExternalJury: true,
+            label: 'MARIANNE CERTIF',
+            targetProfilesHistory: [{ name: 'ALEX TARGET', id: 3, attachedAt: dayjs('2023-10-10T10:50:00Z') }],
+          });
+          server.create('attachable-target-profile', {
+            id: 5,
+            name: 'ALEX TARGET',
+          });
+          const badge = server.create('badge', {
+            id: 200,
+            title: 'Badge Arène Feu',
+          });
+          server.create('target-profile', {
+            id: 5,
+            name: 'ALEX TARGET',
+            badges: [badge],
+          });
+          const screen = await visit('/complementary-certifications/1/attach-target-profile/3');
+          const input = screen.getByRole('searchbox', { name: 'ID du profil cible' });
+          await fillIn(input, '5');
+          await screen.findByRole('listbox');
+          const targetProfileSelectable = screen.getByRole('option', { name: '5 - ALEX TARGET' });
+          await targetProfileSelectable.click();
+          await screen.findByRole('row', { name: 'Résultat thématique 200 Badge Arène Feu' });
+
+          const ariaLabel = '200 Badge Arène Feu';
+          await fillIn(
+            screen.getByRole('textbox', { name: `${ariaLabel} Image svg certificat Pix App` }),
+            'IMAGE1.svg',
+          );
+          await fillIn(screen.getByRole('textbox', { name: `${ariaLabel} Label du certificat` }), 'LABEL');
+          await fillIn(
+            screen.getByRole('textbox', { name: `${ariaLabel} Macaron de l'attestation PDF` }),
+            'MACARON.pdf',
+          );
+          await fillIn(screen.getByRole('textbox', { name: `${ariaLabel} Message du certificat` }), 'MESSAGE');
+          await fillIn(
+            screen.getByRole('textbox', { name: `${ariaLabel} Message temporaire certificat` }),
+            'TEMP MESSAGE',
+          );
+
+          // when
+          await clickByName('Rattacher le profil cible');
+
+          // then
+          assert.dom(screen.getByRole('row', { name: 'LABEL LABEL 1 200' })).exists();
+        });
+      });
     });
 
     module('when admin member has role "CERTIF"', function () {
