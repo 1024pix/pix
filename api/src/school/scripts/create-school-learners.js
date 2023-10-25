@@ -81,8 +81,6 @@ async function showSchools() {
 
   logger.info('code | organizationId | name');
   schools.forEach((school) => logger.info(`${school.code} | ${school.organizationId} | ${school.name}`));
-
-  return schools;
 }
 
 function _validateArgs({ generate, name }) {
