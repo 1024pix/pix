@@ -275,7 +275,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
-  describe('#findActiveByCertificationCenterIdSortedById', function () {
+  describe('#findActiveByCertificationCenterIdSortedByRole', function () {
     it('should return certification center membership associated to the certification center', async function () {
       // given
       const now = new Date('2021-01-02');
@@ -297,7 +297,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // when
       const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById({
+        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole({
           certificationCenterId: certificationCenter.id,
         });
 
@@ -354,7 +354,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // when
       const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById({
+        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole({
           certificationCenterId: hunterCertificationCenter.id,
         });
 
@@ -390,7 +390,7 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // when
       const foundCertificationCenterMemberships =
-        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById({
+        await certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole({
           certificationCenterId: certificationCenter.id,
         });
 
