@@ -1,4 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
+import { Badge } from '../../../../../lib/domain/models/Badge.js';
 
 const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {
   const complementaryCertificationBadgesIds = await knex('badges')
@@ -33,4 +34,20 @@ const attach = async function ({ domainTransaction, complementaryCertificationBa
   }
 };
 
-export { getAllIdsByTargetProfileId, detachByIds, attach };
+const findAttachableBadgesByIds = async function ({ ids }) {
+  const badges = await knex
+    .from('badges')
+    .whereIn('badges.id', ids)
+    .whereNotExists(
+      knex
+        .select(1)
+        .from('complementary-certification-badges')
+        .whereRaw('"complementary-certification-badges"."badgeId" = "badges"."id"'),
+    );
+
+  return badges.map((badge) => {
+    return new Badge(badge);
+  });
+};
+
+export { getAllIdsByTargetProfileId, detachByIds, attach, findAttachableBadgesByIds };
