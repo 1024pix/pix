@@ -7,15 +7,11 @@ import { config } from '../../config.js';
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
 
-class LearningContentCache {
-  constructor() {
-    if (config.caching.redisUrl) {
-      const distributedCache = new DistributedCache(
-        new InMemoryCache(),
-        config.caching.redisUrl,
-        LEARNING_CONTENT_CHANNEL,
-      );
-      const redisCache = new RedisCache(config.caching.redisUrl);
+export class LearningContentCache {
+  constructor(redisUrl) {
+    if (redisUrl) {
+      const distributedCache = new DistributedCache(new InMemoryCache(), redisUrl, LEARNING_CONTENT_CHANNEL);
+      const redisCache = new RedisCache(redisUrl);
 
       this._underlyingCache = new LayeredCache(distributedCache, redisCache);
     } else {
@@ -42,6 +38,23 @@ class LearningContentCache {
   quit() {
     return this._underlyingCache.quit();
   }
+
+  static _instance = null;
+
+  static defaultInstance() {
+    return new LearningContentCache(config.caching.redisUrl);
+  }
+
+  static get instance() {
+    if (!this._instance) {
+      this._instance = this.defaultInstance();
+    }
+    return this._instance;
+  }
+
+  static set instance(_instance) {
+    this._instance = _instance;
+  }
 }
 
-export const learningContentCache = new LearningContentCache();
+export const learningContentCache = LearningContentCache.instance;
