@@ -6,8 +6,8 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
     // given
     const certificationCenterId = 1;
     const certificationCenterMemberships = [domainBuilder.buildCertificationCenterMembership()];
-    const certificationCenterMembershipRepository = { findActiveByCertificationCenterIdSortedById: sinon.stub() };
-    certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById.resolves(
+    const certificationCenterMembershipRepository = { findActiveByCertificationCenterIdSortedByRole: sinon.stub() };
+    certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole.resolves(
       certificationCenterMemberships,
     );
 
@@ -19,7 +19,7 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
 
     // then
     expect(
-      certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedById,
+      certificationCenterMembershipRepository.findActiveByCertificationCenterIdSortedByRole,
     ).to.have.been.calledWithExactly({ certificationCenterId });
     expect(foundCertificationCenterMemberships).to.deep.equal(certificationCenterMemberships);
   });

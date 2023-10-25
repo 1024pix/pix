@@ -285,6 +285,7 @@ export {
   findById,
   findByUserId,
   getRefererByCertificationCenterId,
+  findByUserId,
   isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
   save,
