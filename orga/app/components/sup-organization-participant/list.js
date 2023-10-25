@@ -8,6 +8,7 @@ import ENV from 'pix-orga/config/environment';
 export default class ListItems extends Component {
   @service currentUser;
   @tracked selectedStudent = null;
+  @tracked showDeletionModal = false;
   @tracked isShowingEditStudentNumberModal = false;
   @tracked isLoadingGroups;
 
@@ -30,6 +31,10 @@ export default class ListItems extends Component {
     return guidFor(this) + 'header';
   }
 
+  get actionBarId() {
+    return guidFor(this) + 'actionBar';
+  }
+
   get paginationId() {
     return guidFor(this) + 'pagination';
   }
@@ -50,6 +55,23 @@ export default class ListItems extends Component {
         value: name,
       };
     });
+  }
+
+  @action
+  openDeletionModal() {
+    this.showDeletionModal = true;
+  }
+
+  @action
+  closeDeletionModal() {
+    this.showDeletionModal = false;
+  }
+
+  @action
+  async deleteStudents(selectedStudents, resetStudents) {
+    await this.args.deleteStudents(selectedStudents);
+    this.closeDeletionModal();
+    resetStudents();
   }
 
   @action
