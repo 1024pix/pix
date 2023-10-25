@@ -51,6 +51,15 @@ function _buildUsers(databaseBuilder) {
     email: 'gaal.dornick@foundation.verse',
   });
   databaseBuilder.factory.buildUserLogin({ userId: userWithLastLoggedAt.id, lastLoggedAt: new Date('1970-01-01') });
+
+  // User with a specific createdAt
+  databaseBuilder.factory.buildUser.withRawPassword({
+    firstName: 'Chrono',
+    lastName: 'Post',
+    username: 'chrono.post',
+    email: 'chrono.post@example.net',
+    createdAt: new Date('2000-12-31'),
+  });
 }
 
 export function buildUsers(databaseBuilder) {
