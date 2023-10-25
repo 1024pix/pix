@@ -218,10 +218,12 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
       const nonExistingBadgeId = 123456789;
       const nonExistingBadge = await knex('complementary-certification-badges').whereIn('id', [nonExistingBadgeId]);
       expect(nonExistingBadge).to.be.empty;
+
       // when
       const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({
         ids: [nonExistingBadgeId],
       });
+
       // then
       expect(results).to.be.empty;
     });
