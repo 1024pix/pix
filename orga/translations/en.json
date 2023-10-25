@@ -1067,11 +1067,27 @@
     },
     "sup-organization-participants": {
       "title": "{count, plural, =0 {Students} =1 {Student ({count})} other {Students ({count})}}",
+      "action-bar": {
+        "delete-button": "Delete",
+        "information": "{count, plural, =1 {{count} selected student} other {{count} selected students}}"
+      },
       "actions": {
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
         "import-file": "Import",
         "show-actions": "Show actions"
+      },
+      "deletion-modal": {
+        "confirmation-checkbox": "I confirm that I have understood the impacts of the {count} deletions",
+        "delete-button": "Yes, I delete",
+        "many-items": {
+          "title": "Delete '<strong>'{count}'</strong>' selected students?",
+          "content": "These students will no longer be visible in Pix Orga.'<br/>'All their participations to campaigns will be deleted.This will have an impact on the results and analytics for these campaigns. They won’t able to participate again in campaigns in which they have already taken part in the past. However, they will still be able to take part in new campaigns.'<br/><strong>Please note that this action is irreversible.</strong>'"
+        },
+        "one-item": {
+          "title": "Delete '<strong>'{firstname} {lastname}'</strong>' of your students?",
+          "content": "This student will no longer be visible in Pix Orga.'<br/>'All their participations to campaigns will be deleted. This will have an impact on the results and analytics for these campaigns. They won't able to participate again in campaigns in which they have already taken part in the past. However, they will still be able to take part in new campaigns.'<br/><strong>Please note that this action is irreversible.</strong>'"
+        }
       },
       "edit-student-number-modal": {
         "title": "Edit a student number",

@@ -1035,6 +1035,246 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
       assert.false(firstLearnerSelected.checked);
     });
+
+    module('action bar', function () {
+      test('it display action bar', async function (assert) {
+        //given
+        const students = [
+          { id: 1, firstName: 'Spider', lastName: 'Man' },
+          { id: 2, firstName: 'Captain', lastName: 'America' },
+        ];
+
+        students.meta = { page: 1, pageSize: 2, rowCount: 2, pageCount: 1 };
+
+        this.set('students', students);
+        this.set('searchFilter', null);
+        this.set('studentNumberFilter', null);
+        this.set('groupsFilter', []);
+        this.set('certificabilityFilter', []);
+        this.set('participationCountOrder', null);
+        this.set('lastnameSort', null);
+        this.deleteStudents = sinon.stub();
+
+        // when
+        const screen = await render(
+          hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @deleteStudents={{this.deleteStudents}}
+/>`,
+        );
+
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[1];
+        await click(firstLearnerToDelete);
+
+        //then
+        assert
+          .dom(
+            screen.getByText(this.intl.t('pages.sup-organization-participants.action-bar.information', { count: 1 })),
+          )
+          .exists();
+      });
+
+      test('it should open the deletion modale', async function (assert) {
+        //given
+        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const students = [spiderLearner, peterLearner, milesLearner];
+
+        students.meta = { page: 1, pageSize: 3, rowCount: 3, pageCount: 1 };
+
+        this.set('students', students);
+        this.set('searchFilter', null);
+        this.set('studentNumberFilter', null);
+        this.set('groupsFilter', []);
+        this.set('certificabilityFilter', []);
+        this.set('participationCountOrder', null);
+        this.set('lastnameSort', null);
+        this.deleteStudents = sinon.stub();
+
+        // when
+        const screen = await render(
+          hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @deleteStudents={{this.deleteStudents}}
+/>`,
+        );
+
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+        const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+        await click(firstLearnerToDelete);
+        await click(secondLearnerToDelete);
+
+        const deleteButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.sup-organization-participants.action-bar.delete-button'),
+        });
+
+        await click(deleteButton);
+
+        await screen.findByRole('dialog');
+
+        const confirmationButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.sup-organization-participants.deletion-modal.delete-button'),
+        });
+
+        //then
+        assert.dom(confirmationButton).exists();
+      });
+
+      test('it should delete students', async function (assert) {
+        //given
+        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const students = [spiderLearner, peterLearner, milesLearner];
+
+        students.meta = { page: 1, pageSize: 3, rowCount: 3, pageCount: 1 };
+
+        this.set('students', students);
+        this.set('searchFilter', null);
+        this.set('studentNumberFilter', null);
+        this.set('groupsFilter', []);
+        this.set('certificabilityFilter', []);
+        this.set('participationCountOrder', null);
+        this.set('lastnameSort', null);
+        this.set('deleteStudents', sinon.stub());
+
+        // when
+        const screen = await render(
+          hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @deleteStudents={{this.deleteStudents}}
+/>`,
+        );
+
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+        const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+        await click(firstLearnerToDelete);
+        await click(secondLearnerToDelete);
+
+        const deleteButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.sup-organization-participants.action-bar.delete-button'),
+        });
+        await click(deleteButton);
+
+        await screen.findByRole('dialog');
+
+        const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
+          name: this.intl.t('pages.sup-organization-participants.deletion-modal.confirmation-checkbox', { count: 2 }),
+        });
+
+        await click(allowMultipleDeletionCheckbox);
+
+        const confirmationButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.sup-organization-participants.deletion-modal.delete-button'),
+        });
+        await click(confirmationButton);
+
+        //then
+        sinon.assert.calledWith(this.deleteStudents, [peterLearner, milesLearner]);
+        assert.ok(true);
+      });
+
+      test('it should reset selected participants after deletion', async function (assert) {
+        //given
+        const spiderLearner = { id: 1, firstName: 'Spider', lastName: 'Man' };
+        const peterLearner = { id: 2, firstName: 'Peter', lastName: 'Parker' };
+        const milesLearner = { id: 3, firstName: 'Miles', lastName: 'Morales' };
+        const students = [spiderLearner, peterLearner, milesLearner];
+
+        students.meta = { page: 1, pageSize: 3, rowCount: 3, pageCount: 1 };
+
+        this.set('students', students);
+        this.set('searchFilter', null);
+        this.set('studentNumberFilter', null);
+        this.set('groupsFilter', []);
+        this.set('certificabilityFilter', []);
+        this.set('participationCountOrder', null);
+        this.set('lastnameSort', null);
+        this.deleteStudents = sinon.stub();
+
+        // when
+        const screen = await render(
+          hbs`<SupOrganizationParticipant::List
+  @students={{this.students}}
+  @searchFilter={{this.searchFilter}}
+  @studentNumberFilter={{this.studentNumberFilter}}
+  @groupsFilter={{this.groupsFilter}}
+  @certificabilityFilter={{this.certificabilityFilter}}
+  @onFilter={{this.noop}}
+  @onClickLearner={{this.noop}}
+  @onResetFilter={{this.noop}}
+  @participationCountOrder={{this.participationCountOrder}}
+  @sortByParticipationCount={{this.noop}}
+  @sortByLastname={{this.noop}}
+  @lastnameSort={{this.lastnameSort}}
+  @deleteStudents={{this.deleteStudents}}
+/>`,
+        );
+
+        const mainCheckbox = screen.getAllByRole('checkbox')[0];
+        const firstLearnerToDelete = screen.getAllByRole('checkbox')[2];
+        const secondLearnerToDelete = screen.getAllByRole('checkbox')[3];
+
+        await click(firstLearnerToDelete);
+        await click(secondLearnerToDelete);
+
+        const deleteButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.organization-participants.action-bar.delete-button'),
+        });
+
+        await click(deleteButton);
+
+        const allowMultipleDeletionCheckbox = await screen.findByRole('checkbox', {
+          name: this.intl.t('pages.sup-organization-participants.deletion-modal.confirmation-checkbox', { count: 2 }),
+        });
+
+        await click(allowMultipleDeletionCheckbox);
+
+        const confirmationButton = await screen.findByRole('button', {
+          name: this.intl.t('pages.sup-organization-participants.deletion-modal.delete-button'),
+        });
+        await click(confirmationButton);
+
+        //then
+        assert.false(mainCheckbox.checked);
+      });
+    });
   });
 
   module('when user is not admin of organisation', function (hooks) {

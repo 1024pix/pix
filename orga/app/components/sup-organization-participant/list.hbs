@@ -6,7 +6,7 @@
     <thead id={{this.headerId}} />
     <tbody>
       <SelectableList @items={{@students}}>
-        <:manager as |allSelected someSelected toggleAll selectedParticipants reset|>
+        <:manager as |allSelected someSelected toggleAll selectedStudents reset|>
           <InElement @destinationId={{this.headerId}}>
             <SupOrganizationParticipant::TableHeaders
               @allSelected={{allSelected}}
@@ -20,6 +20,20 @@
               @sortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
             />
           </InElement>
+          {{#if someSelected}}
+            <InElement @destinationId={{this.actionBarId}}>
+              <SupOrganizationParticipant::ActionBar
+                @count={{selectedStudents.length}}
+                @openDeletionModal={{this.openDeletionModal}}
+              />
+              <SupOrganizationParticipant::Modal::Deletion
+                @showModal={{this.showDeletionModal}}
+                @itemsToDelete={{selectedStudents}}
+                @onTriggerAction={{(fn this.deleteStudents selectedStudents reset)}}
+                @onCloseModal={{this.closeDeletionModal}}
+              />
+            </InElement>
+          {{/if}}
           <InElement @destinationId={{this.paginationId}} @waitForElement={{true}}>
             <Table::PaginationControl @pagination={{@students.meta}} @onChange={{reset}} />
           </InElement>
@@ -71,4 +85,5 @@
   @onSubmit={{this.onSaveStudentNumber}}
 />
 
+<div id={{this.actionBarId}} />
 <div id={{this.paginationId}} />
