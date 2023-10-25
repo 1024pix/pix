@@ -1,7 +1,6 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { belongsTo, attr } from '@ember-data/model';
 
 export default class Element extends Model {
-  @attr('string') content;
-
-  @belongsTo('module') module;
+  @belongsTo('module', { inverse: 'elements' }) module;
+  @attr('string') type;
 }
