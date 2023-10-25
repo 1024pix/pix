@@ -56,6 +56,11 @@
       background-color: $pix-primary-10;
       color: $pix-primary-70;
     }
+
+    &--ongoing-alert {
+      background-color: $pix-error-10;
+      color: $pix-error-70;
+    }
   }
 
   &__status-container {

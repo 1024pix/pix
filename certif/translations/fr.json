@@ -94,6 +94,7 @@
           "authorized-to-resume": "Autorisé à reprendre",
           "finished": "Terminé",
           "ongoing": "En cours",
+          "ongoing-live-alert": "Signalement en cours",
           "start": "Début"
         },
         "email-convocation": "E-mail de convocation",

@@ -94,6 +94,7 @@
           "authorized-to-resume": "Allowed to resume",
           "finished": "Finished",
           "ongoing": "In progress",
+          "ongoing-live-alert": "Signalement en cours",
           "start": "Start"
         },
         "email-convocation": "Email for the convocation",
