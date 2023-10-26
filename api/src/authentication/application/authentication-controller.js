@@ -1,5 +1,5 @@
 import { tokenService } from '../../../lib/domain/services/token-service.js';
-import { usecases } from '../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../src/authentication/domain/usecases/index.js';
 import { BadRequestError } from '../../../lib/application/http-errors.js';
 
 const createToken = async function (request, h, dependencies = { tokenService }) {

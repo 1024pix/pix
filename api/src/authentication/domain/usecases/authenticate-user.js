@@ -7,10 +7,10 @@ import {
   LocaleNotSupportedError,
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../domain/errors.js';
+} from '../../../../lib/domain/errors.js';
 
-import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { PIX_ORGA, PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { ForbiddenAccess } from '../../../shared/domain/errors.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {

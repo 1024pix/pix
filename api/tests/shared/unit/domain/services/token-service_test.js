@@ -2,20 +2,20 @@ import lodash from 'lodash';
 const { omit } = lodash;
 import jsonwebtoken from 'jsonwebtoken';
 
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
 import {
   InvalidTemporaryKeyError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-} from '../../../../lib/domain/errors.js';
+} from '../../../../../lib/domain/errors.js';
 
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { config as settings } from '../../../../lib/config.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 
-describe('Unit | Domain | Service | Token Service', function () {
+describe('Unit | Shared | Domain | Services | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {
     it('should create an access token with user id and campaign id', function () {
       // given
