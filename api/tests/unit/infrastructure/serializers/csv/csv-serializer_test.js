@@ -1067,11 +1067,11 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
 
   describe('#parseForCampaignsImport', function () {
     const headerCsv =
-      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire\n";
+      "Identifiant de l'organisation*;Nom de la campagne*;Identifiant du profil cible*;Libellé de l'identifiant externe;Identifiant du créateur*;Titre du parcours;Descriptif du parcours;Envoi multiple;Identifiant du propriétaire;Texte de la page de fin de parcours;Texte du bouton de la page de fin de parcours;URL du bouton de la page de fin de parcours\n";
 
     it('should return parsed campaign data', async function () {
       // given
-      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non;`;
+      const csv = `${headerCsv}1;chaussette;1234;numéro étudiant;789;titre 1;descriptif 1;Oui;45\n2;chapeau;1234;identifiant;666;titre 2;descriptif 2;Non\n3;chausson;1234;identifiant;123;titre 3;descriptif 3;Non;;Bravo !;Cliquez ici;https://hmpg.net/`;
 
       // when
       const parsedData = await csvSerializer.parseForCampaignsImport(csv);
@@ -1088,6 +1088,9 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           creatorId: 789,
           multipleSendings: true,
           ownerId: 45,
+          customResultPageText: null,
+          customResultPageButtonText: null,
+          customResultPageButtonUrl: null,
         },
         {
           organizationId: 2,
@@ -1099,6 +1102,23 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           creatorId: 666,
           multipleSendings: false,
           ownerId: null,
+          customResultPageText: null,
+          customResultPageButtonText: null,
+          customResultPageButtonUrl: null,
+        },
+        {
+          organizationId: 3,
+          name: 'chausson',
+          targetProfileId: 1234,
+          idPixLabel: 'identifiant',
+          title: 'titre 3',
+          customLandingPageText: 'descriptif 3',
+          creatorId: 123,
+          multipleSendings: false,
+          ownerId: null,
+          customResultPageText: 'Bravo !',
+          customResultPageButtonText: 'Cliquez ici',
+          customResultPageButtonUrl: 'https://hmpg.net/',
         },
       ];
       expect(parsedData).to.have.deep.members(expectedParsedData);
