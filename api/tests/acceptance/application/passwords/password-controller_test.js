@@ -1,5 +1,5 @@
 import { databaseBuilder, expect } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
 import { config } from '../../../../lib/config.js';

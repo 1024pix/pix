@@ -1,6 +1,6 @@
-import { PasswordNotMatching } from '../../errors.js';
-import * as encryptionService from '../encryption-service.js';
-import * as userLoginRepository from '../../../infrastructure/repositories/user-login-repository.js';
+import { PasswordNotMatching } from '../../../../lib/domain/errors.js';
+import * as encryptionService from '../../../shared/domain/services/encryption-service.js';
+import * as userLoginRepository from '../../../shared/infrastructure/repositories/user-login-repository.js';
 
 async function getUserByUsernameAndPassword({
   username,

@@ -1,7 +1,7 @@
 import * as saml from '../../infrastructure/saml.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { logger } from '../../infrastructure/logger.js';
-import { tokenService } from '../../domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { config } from '../../config.js';
 
 const metadata = function (request, h) {

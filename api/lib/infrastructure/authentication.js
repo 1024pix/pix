@@ -4,7 +4,7 @@ const { find } = lodash;
 
 import boom from '@hapi/boom';
 
-import { tokenService } from '../domain/services/token-service.js';
+import { tokenService } from '../../src/shared/domain/services/token-service.js';
 import { config } from '../../lib/config.js';
 
 async function _checkIsAuthenticated(request, h, { key, validate }) {

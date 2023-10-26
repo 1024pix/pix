@@ -1,4 +1,4 @@
-import { tokenService } from '../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../shared/domain/services/token-service.js';
 import { usecases } from '../../../src/authentication/domain/usecases/index.js';
 import { BadRequestError } from '../../../lib/application/http-errors.js';
 

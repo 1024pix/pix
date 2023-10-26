@@ -2,9 +2,9 @@ import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.
 import { PasswordNotMatching, UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { User } from '../../../../../lib/domain/models/User.js';
 import { UserLogin } from '../../../../../lib/domain/models/UserLogin.js';
-import * as pixAuthenticationService from '../../../../../lib/domain/services/authentication/pix-authentication-service.js';
+import * as pixAuthenticationService from '../../../../../src/authentication/domain/services/pix-authentication-service.js';
 
-describe('Unit | Domain | Services | pix-authentication-service', function () {
+describe('Unit | Authentication | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {
     const username = 'user@example.net';
     const password = 'Password123';

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { tokenService } from './token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { mailer } from '../../../src/shared/mail/infrastructure/services/mailer.js';
 import { config } from '../../config.js';
 

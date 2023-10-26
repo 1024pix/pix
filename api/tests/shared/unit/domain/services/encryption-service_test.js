@@ -1,10 +1,11 @@
-import { catchErr, expect } from '../../../test-helper.js';
-
 import bcrypt from 'bcrypt';
-import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
-import { PasswordNotMatching } from '../../../../lib/domain/errors.js';
 
-describe('Unit | Service | Encryption', function () {
+import { catchErr, expect } from '../../../../test-helper.js';
+
+import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
+import { PasswordNotMatching } from '../../../../../lib/domain/errors.js';
+
+describe('Unit | Shared | Domain | Services | Encryption', function () {
   describe('#checkPassword', function () {
     describe('when password and hash are matching', function () {
       it('should resolve to undefined', async function () {

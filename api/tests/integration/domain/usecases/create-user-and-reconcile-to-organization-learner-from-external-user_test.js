@@ -3,12 +3,12 @@ import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
-import * as userLoginRepository from '../../../../lib/infrastructure/repositories/user-login-repository.js';
+import * as userLoginRepository from '../../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
 import * as studentRepository from '../../../../lib/infrastructure/repositories/student-repository.js';
 import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';
 import * as userService from '../../../../lib/domain/services/user-service.js';
 
