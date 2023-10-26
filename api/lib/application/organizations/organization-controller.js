@@ -1,4 +1,4 @@
-import { tokenService } from '../../domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 import * as campaignManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-management-serializer.js';

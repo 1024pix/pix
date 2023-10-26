@@ -1,4 +1,4 @@
-import { tokenService } from './token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { config } from '../../config.js';
 
 const generateResultsLink = function ({ sessionId, i18n }) {

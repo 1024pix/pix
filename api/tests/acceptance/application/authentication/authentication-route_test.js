@@ -1,6 +1,6 @@
 import querystring from 'querystring';
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 
 import { createServer } from '../../../../server.js';

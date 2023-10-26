@@ -4,7 +4,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import * as accountRecoveryDemandRepository from '../../../../../lib/infrastructure/repositories/account-recovery-demand-repository.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
-import * as encryptionService from '../../../../../lib/domain/services/encryption-service.js';
+import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
 
 import { updateUserForAccountRecovery } from '../../../../../lib/domain/usecases/account-recovery/update-user-for-account-recovery.js';
 

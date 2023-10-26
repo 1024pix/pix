@@ -1,4 +1,4 @@
-import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
+import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 
 const execute = async function (userId, dependencies = { adminMemberRepository }) {
   const adminMember = await dependencies.adminMemberRepository.get({ userId });

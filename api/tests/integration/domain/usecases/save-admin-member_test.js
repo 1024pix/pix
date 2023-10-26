@@ -4,7 +4,7 @@ import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
+import * as adminMemberRepository from '../../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 describe('Integration | UseCases | save-admin-member', function () {

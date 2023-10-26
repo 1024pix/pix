@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 const { isUndefined } = lodash;
 
-import * as encrypt from '../../../../lib/domain/services/encryption-service.js';
+import * as encrypt from '../../../../src/shared/domain/services/encryption-service.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';

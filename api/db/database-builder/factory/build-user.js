@@ -6,7 +6,7 @@ import { databaseBuffer } from '../database-buffer.js';
 import { AuthenticationMethod, Membership } from '../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 
-import * as encrypt from '../../../lib/domain/services/encryption-service.js';
+import * as encrypt from '../../../src/shared/domain/services/encryption-service.js';
 
 import { buildPixAdminRole } from './build-pix-admin-role.js';
 import { buildOrganization } from './build-organization.js';
