@@ -205,6 +205,9 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
 
     test('should return empty campaign when searching for given source campaign raises an error', async function (assert) {
       // given
+      const route = this.owner.lookup('route:authenticated/campaigns/new');
+      sinon.stub(route.router, 'replaceWith');
+
       const organization = EmberObject.create({
         id: 12345,
       });
@@ -239,24 +242,16 @@ module('Unit | Route | authenticated/campaigns/new', function (hooks) {
 
       this.owner.register('service:store', StoreStub);
 
-      const replaceWithStub = sinon.stub();
-
-      class RouterStub extends Service {
-        replaceWith = replaceWithStub.returns();
-      }
-
-      this.owner.register('service:router', RouterStub);
-
-      const route = this.owner.lookup('route:authenticated/campaigns/new');
-
       // when
       const model = await route.model({ source: Symbol('source campaign id') });
 
       assert.strictEqual(await model.campaign, createdCampaignRecord);
       sinon.assert.calledWithExactly(createRecordStub, 'campaign', expectedCampaignAttributes);
-      sinon.assert.calledWithMatch(replaceWithStub, 'authenticated.campaigns.new', {
-        queryParams: { source: null },
-      });
+      assert.ok(
+        route.router.replaceWith.calledWithMatch('authenticated.campaigns.new', {
+          queryParams: { source: null },
+        }),
+      );
     });
   });
 

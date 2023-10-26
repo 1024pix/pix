@@ -19,6 +19,7 @@ module.exports = function (environment) {
   const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-orga',
+    podModulePrefix: 'pix-orga/pods',
     environment,
     rootURL: '/',
     locationType: 'history',
@@ -163,5 +164,8 @@ module.exports = function (environment) {
     }
   }
 
+  ENV['ember-component-css'] = {
+    namespacing: false,
+  };
   return ENV;
 };
