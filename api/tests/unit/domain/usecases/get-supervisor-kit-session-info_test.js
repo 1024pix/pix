@@ -44,6 +44,7 @@ describe('Unit | UseCase | get-supervisor-kit-main-info', function () {
             time: '10:53',
             supervisorPassword: '12AB5',
             accessCode: '1B3DE6',
+            version: 2,
           }),
         );
       });
