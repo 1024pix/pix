@@ -4,45 +4,67 @@ import * as s3RequestPresigner from '@aws-sdk/s3-request-presigner';
 
 import bluebird from 'bluebird';
 
-const getS3Client = function ({ accessKeyId, secretAccessKey, endpoint, region, dependencies = { clientS3 } }) {
-  return new dependencies.clientS3.S3Client({
-    credentials: { accessKeyId, secretAccessKey },
+class S3ObjectStorageProvider {
+  #dependencies;
+  #s3Client;
+  #bucket;
+
+  constructor({ credentials, endpoint, region, bucket, dependencies = { clientS3, libStorage, s3RequestPresigner } }) {
+    this.#dependencies = dependencies;
+
+    this.#s3Client = new dependencies.clientS3.S3Client({
+      credentials,
+      endpoint,
+      region,
+    });
+
+    this.#bucket = bucket;
+  }
+
+  static createClient({
+    accessKeyId,
+    secretAccessKey,
     endpoint,
     region,
-  });
-};
+    bucket,
+    dependencies = { clientS3, libStorage, s3RequestPresigner },
+  }) {
+    if (Object.values({ accessKeyId, secretAccessKey, endpoint, region, bucket }).some((prop) => prop === undefined)) {
+      throw new Error('Missing S3 Object Storage configuration');
+    }
 
-const startUpload = function ({ bucketConfig, filename, bucket, readableStream, dependencies = { libStorage } }) {
-  return new dependencies.libStorage.Upload({
-    client: getS3Client({ ...bucketConfig }),
-    params: {
-      Key: filename,
-      Bucket: bucket,
-      ContentType: 'gzip',
-      Body: readableStream,
-      partSize: 1024 * 1024 * 5,
-    },
-  });
-};
+    return new S3ObjectStorageProvider({
+      credentials: { accessKeyId, secretAccessKey },
+      endpoint,
+      region,
+      bucket,
+      dependencies,
+    });
+  }
 
-const listFiles = async function ({ bucketConfig, bucket, dependencies = { clientS3 } }) {
-  const client = getS3Client({ ...bucketConfig, dependencies });
-  return client.send(new dependencies.clientS3.ListObjectsV2Command({ Bucket: bucket }));
-};
+  startUpload({ filename, readableStream }) {
+    return new this.#dependencies.libStorage.Upload({
+      client: this.#s3Client,
+      params: {
+        Key: filename,
+        Bucket: this.#bucket,
+        ContentType: 'gzip',
+        Body: readableStream,
+        partSize: 1024 * 1024 * 5,
+      },
+    });
+  }
 
-const preSignFiles = async function ({
-  bucketConfig,
-  bucket,
-  keys,
-  expiresIn,
-  dependencies = { clientS3, s3RequestPresigner },
-}) {
-  const client = getS3Client({ ...bucketConfig, dependencies });
+  async listFiles() {
+    return this.#s3Client.send(new this.#dependencies.clientS3.ListObjectsV2Command({ Bucket: this.#bucket }));
+  }
 
-  return bluebird.mapSeries(keys, async (key) => {
-    const getObjectCommand = new dependencies.clientS3.GetObjectCommand({ Bucket: bucket, Key: key });
-    return await dependencies.s3RequestPresigner.getSignedUrl(client, getObjectCommand, { expiresIn });
-  });
-};
+  async preSignFiles({ keys, expiresIn }) {
+    return bluebird.mapSeries(keys, async (key) => {
+      const getObjectCommand = this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
+      return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
+    });
+  }
+}
 
-export { getS3Client, startUpload, listFiles, preSignFiles };
+export { S3ObjectStorageProvider };

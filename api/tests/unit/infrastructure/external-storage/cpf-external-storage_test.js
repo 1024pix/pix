@@ -1,5 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
 import * as cpfExternalStorage from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
+import { S3ObjectStorageProvider } from '../../../../lib/infrastructure/external-storage/s3-utils.js';
 import { config } from '../../../../lib/config.js';
 import _ from 'lodash';
 
@@ -10,12 +11,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
   let logger;
 
   beforeEach(function () {
-    s3Utils = {
-      getS3Client: sinon.stub(),
-      startUpload: sinon.stub(),
-      listFiles: sinon.stub(),
-      preSignFiles: sinon.stub(),
-    };
+    s3Utils = { S3ObjectStorageProvider };
     logger = {
       trace: sinon.stub(),
     };
@@ -24,7 +20,8 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
   context('#upload', function () {
     it('should instantiate an Upload with the expected parameters', async function () {
       // given
-      s3Utils.startUpload.returns({ done: _.noop, on: _.noop });
+      const startUploadStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'startUpload');
+      startUploadStub.returns({ done: _.noop, on: _.noop });
 
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
@@ -39,47 +36,39 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream, dependencies: { s3Utils, logger } });
 
       // then
-      expect(s3Utils.startUpload).to.have.been.calledWithExactly({
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-        },
+      expect(startUploadStub).to.have.been.calledWithExactly({
         filename: 'filename.xml',
-        bucket: 'bucket',
         readableStream,
       });
     });
 
     it('should call done() when the upload is successfully completed', async function () {
       // given
+      const startUploadStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'startUpload');
       const doneStub = sinon.stub();
-      s3Utils.startUpload.returns({ done: doneStub, on: _.noop });
+      startUploadStub.returns({ done: doneStub, on: _.noop });
 
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
         endpoint: 'endpoint',
         region: 'region',
+        bucket: 'bucket',
       });
       const readableStream = Symbol('readableStream');
 
       // when
       await cpfExternalStorage.upload({
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-          bucket: 'bucket',
-        },
         filename: 'filename.xml',
         readableStream,
         dependencies: { s3Utils, logger },
       });
 
       // then
+      expect(startUploadStub).to.have.been.calledWithExactly({
+        filename: 'filename.xml',
+        readableStream,
+      });
       expect(doneStub).to.have.been.called;
     });
   });
@@ -87,6 +76,8 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
   context('#getPreSignUrlsOfFilesModifiedAfter', function () {
     it('should list files of the right bucket', async function () {
       // given
+      const listFilesStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'listFiles');
+      sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'preSignFiles');
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
@@ -99,15 +90,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
 
       // then
-      expect(s3Utils.listFiles).to.have.been.calledWithExactly({
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-        },
-        bucket: 'bucket',
-      });
+      expect(listFilesStub).to.have.been.calledOnce;
     });
 
     it('should pre sign files modified after a date', async function () {
@@ -121,10 +104,9 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         { Key: 'thirdFile', LastModified: '2022-03-01' },
         { Key: 'fourthFile', LastModified: '2022-03-04' },
       ];
-
-      s3Utils.listFiles.resolves({
-        Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate],
-      });
+      const listFilesStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'listFiles');
+      listFilesStub.resolves({ Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate] });
+      const preSignFilesStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'preSignFiles');
 
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
@@ -139,14 +121,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date, dependencies: { s3Utils } });
 
       // then
-      expect(s3Utils.preSignFiles).to.have.been.calledWithExactly({
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-        },
-        bucket: 'bucket',
+      expect(preSignFilesStub).to.have.been.calledWithExactly({
         keys: ['thirdFile', 'fourthFile'],
         expiresIn: 3600,
       });
@@ -164,10 +139,12 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         { Key: 'fourthFile', LastModified: '2022-03-04' },
       ];
 
-      s3Utils.listFiles.resolves({
+      const listFilesStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'listFiles');
+      listFilesStub.resolves({
         Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate],
       });
-      s3Utils.preSignFiles.resolves(['preSignedThirdFile', 'preSignedFourthFile']);
+      const preSignFilesStub = sinon.stub(s3Utils.S3ObjectStorageProvider.prototype, 'preSignFiles');
+      preSignFilesStub.resolves(['preSignedThirdFile', 'preSignedFourthFile']);
 
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
