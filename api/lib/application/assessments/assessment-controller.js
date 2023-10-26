@@ -26,12 +26,6 @@ const save = async function (request, h, dependencies = { assessmentRepository }
   return h.response(assessmentSerializer.serialize(createdAssessment)).created();
 };
 
-const createForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
-  const { missionId } = request.payload;
-  const createdAssessment = await usecases.createMissionAssessment({ missionId });
-  return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
-};
-
 const createAssessmentPreviewForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
   const createdAssessment = await usecases.createPreviewAssessment({});
   return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
@@ -166,7 +160,6 @@ const createCertificationChallengeLiveAlert = async function (request, h) {
 
 const assessmentController = {
   save,
-  createForPix1d,
   get,
   getLastChallengeId,
   getNextChallenge,
