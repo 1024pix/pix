@@ -578,6 +578,9 @@ describe('Integration | Repository | Campaign', function () {
             type: CampaignTypes.ASSESSMENT,
             targetProfileId,
             title: 'Parcours recherche internet',
+            customResultPageText: null,
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
           },
           {
             name: 'Evaluation niveau 1 recherche internet #2',
@@ -590,6 +593,9 @@ describe('Integration | Repository | Campaign', function () {
             type: CampaignTypes.ASSESSMENT,
             targetProfileId,
             title: 'Parcours recherche internet #2',
+            customResultPageText: 'Bravo !',
+            customResultPageButtonText: 'Cliquez ici',
+            customResultPageButtonUrl: 'https://hmpg.net/',
           },
         ];
 
@@ -609,6 +615,9 @@ describe('Integration | Repository | Campaign', function () {
             'targetProfileId',
             'multipleSendings',
             'ownerId',
+            'customResultPageText',
+            'customResultPageButtonText',
+            'customResultPageButtonUrl',
           )
           .orderBy('code');
 
@@ -624,6 +633,9 @@ describe('Integration | Repository | Campaign', function () {
             'targetProfile',
             'multipleSendings',
             'ownerId',
+            'customResultPageText',
+            'customResultPageButtonText',
+            'customResultPageButtonUrl',
           ]),
         );
 
@@ -639,6 +651,9 @@ describe('Integration | Repository | Campaign', function () {
             'targetProfile',
             'multipleSendings',
             'ownerId',
+            'customResultPageText',
+            'customResultPageButtonText',
+            'customResultPageButtonUrl',
           ]),
         );
       });
