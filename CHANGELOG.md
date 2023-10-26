@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v4.55.0 (26/10/2023)
+
+
+### :rocket: Amélioration
+- [#7278](https://github.com/1024pix/pix/pull/7278) [FEATURE] Amélioration du système de patch du cache LCMS (PIX-9687).
+
+### :building_construction: Tech
+- [#7325](https://github.com/1024pix/pix/pull/7325) [TECH] Améliorer le css des modules (PIX-9751).
+
+### :bug: Correction
+- [#7333](https://github.com/1024pix/pix/pull/7333) [BUGFIX] Le bas de l'épreuve est masqué par les boutons d'action.
+
 ## v4.54.0 (26/10/2023)
 
 
