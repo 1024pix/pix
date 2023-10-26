@@ -30,7 +30,7 @@ describe('Unit | Controller | cache-controller', function () {
       expect(
         learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord,
       ).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
-      expect(response).to.be.null;
+      expect(response.statusCode).to.equal(204);
     });
 
     it('should reply with null when the cache key does not exist', async function () {
@@ -44,7 +44,7 @@ describe('Unit | Controller | cache-controller', function () {
       expect(
         learningContentDatasources.challengeDatasource.refreshLearningContentCacheRecord,
       ).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
-      expect(response).to.be.null;
+      expect(response.statusCode).to.equal(204);
     });
   });
 

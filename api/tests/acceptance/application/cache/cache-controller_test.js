@@ -1,5 +1,15 @@
-import { expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import Redis from 'ioredis';
+import {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+} from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
+import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { LearningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
+
+const { ROLES } = PIX_ADMIN;
 
 describe('Acceptance | Controller | cache-controller', function () {
   let server;
@@ -43,6 +53,45 @@ describe('Acceptance | Controller | cache-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('nominal case', function () {
+      beforeEach(function () {
+        LearningContentCache.instance = new LearningContentCache(process.env.TEST_REDIS_URL);
+      });
+
+      afterEach(async function () {
+        await LearningContentCache.instance._underlyingCache.flushAll();
+        LearningContentCache.instance = null;
+      });
+
+      it('should store patches in Redis', async function () {
+        // given
+        mockLearningContent({ frameworks: [{ id: 'frameworkId' }] });
+        const superAdminUserId = databaseBuilder.factory.buildUser.withRole({
+          role: ROLES.SUPER_ADMIN,
+        }).id;
+        await databaseBuilder.commit();
+        const payload = {
+          id: 'frameworkId',
+          param: 'updatedFramework',
+        };
+
+        // when
+        const response = await server.inject({
+          method: 'PATCH',
+          url: '/api/cache/frameworks/frameworkId',
+          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
+          payload,
+        });
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        const redis = new Redis(process.env.TEST_REDIS_URL);
+        expect(await redis.lrange('cache:LearningContent:patches', 0, -1)).to.deep.equal([
+          JSON.stringify({ operation: 'assign', path: 'frameworks[0]', value: payload }),
+        ]);
       });
     });
   });

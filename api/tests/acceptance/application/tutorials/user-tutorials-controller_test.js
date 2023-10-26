@@ -8,58 +8,58 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import nock from 'nock';
 
 describe('Acceptance | Controller | user-tutorial-controller', function () {
+  const userId = 4444;
   let server;
-
-  const learningContent = {
-    skills: [
-      {
-        id: 'skillId',
-        challenges: [{ id: 'k_challenge_id' }],
-      },
-    ],
-    tutorials: [
-      {
-        id: 'tutorialId',
-        locale: 'en-us',
-        duration: '00:03:31',
-        format: 'vidéo',
-        link: 'http://www.example.com/this-is-an-example.html',
-        source: 'Source Example, Example',
-        title: 'Communiquer',
-      },
-    ],
-  };
 
   beforeEach(async function () {
     server = await createServer();
-    await databaseBuilder.factory.buildUser({
-      id: 4444,
+
+    databaseBuilder.factory.buildUser({
+      id: userId,
       firstName: 'Classic',
       lastName: 'Papa',
       email: 'classic.papa@example.net',
       password: 'abcd1234',
     });
-    await databaseBuilder.commit();
 
-    mockLearningContent(learningContent);
+    await databaseBuilder.commit();
   });
 
   describe('PUT /api/users/tutorials/{tutorialId}', function () {
     let options;
+    const learningContent = {
+      skills: [
+        {
+          id: 'skillId',
+          challenges: [{ id: 'k_challenge_id' }],
+        },
+      ],
+      tutorials: [
+        {
+          id: 'tutorialId',
+          locale: 'en-us',
+          duration: '00:03:31',
+          format: 'vidéo',
+          link: 'http://www.example.com/this-is-an-example.html',
+          source: 'Source Example, Example',
+          title: 'Communiquer',
+        },
+      ],
+    };
 
-    beforeEach(async function () {
+    beforeEach(function () {
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444),
+          authorization: generateValidRequestAuthorizationHeader(userId),
         },
       };
+
+      mockLearningContent(learningContent);
     });
 
     afterEach(async function () {
@@ -75,7 +75,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
             id: '1',
             attributes: {
               'tutorial-id': 'tutorialId',
-              'user-id': 4444,
+              'user-id': userId,
             },
           },
         };
@@ -106,7 +106,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               attributes: {
                 'skill-id': 'skillId',
                 'tutorial-id': 'tutorialId',
-                'user-id': 4444,
+                'user-id': userId,
               },
             },
           };
@@ -148,11 +148,8 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
   describe('GET /api/users/{userId}/tutorials', function () {
     let options;
     let learningContentObjects;
-    const userId = 4444;
 
     beforeEach(async function () {
-      nock.cleanAll();
-      learningContentCache.flushAll();
       options = {
         method: 'GET',
         url: `/api/users/${userId}/tutorials?filter[competences]=recCompetence1&filter[type]=saved`,
@@ -291,14 +288,14 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         databaseBuilder.factory.buildUserSavedTutorial({
           id: 101,
-          userId: 4444,
+          userId,
           tutorialId: 'tuto1',
           skillId: 'skill123',
         });
 
         databaseBuilder.factory.buildUserSavedTutorial({
           id: 102,
-          userId: 4444,
+          userId,
           tutorialId: 'tuto6',
           skillId: 'recSkill4',
         });
@@ -457,21 +454,42 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
   describe('DELETE /api/users/tutorials/{tutorialId}', function () {
     let options;
+    const learningContent = {
+      skills: [
+        {
+          id: 'skillId',
+          challenges: [{ id: 'k_challenge_id' }],
+        },
+      ],
+      tutorials: [
+        {
+          id: 'tutorialId',
+          locale: 'en-us',
+          duration: '00:03:31',
+          format: 'vidéo',
+          link: 'http://www.example.com/this-is-an-example.html',
+          source: 'Source Example, Example',
+          title: 'Communiquer',
+        },
+      ],
+    };
 
-    beforeEach(async function () {
+    beforeEach(function () {
       options = {
         method: 'DELETE',
         url: '/api/users/tutorials/tutorialId',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444),
+          authorization: generateValidRequestAuthorizationHeader(userId),
         },
       };
+
+      mockLearningContent(learningContent);
     });
 
     describe('nominal case', function () {
       it('should respond with a 204', async function () {
         // given
-        databaseBuilder.factory.buildUserSavedTutorial({ userId: 4444, tutorialId: 'tutorialId' });
+        databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
 
         // when

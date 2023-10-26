@@ -447,8 +447,8 @@ const configuration = (function () {
     config.logging.enableLogEndingEventDispatch = false;
 
     config.caching.redisUrl = null;
-    config.caching.redisCacheKeyLockTTL = 0;
-    config.caching.redisCacheLockedWaitBeforeRetry = 0;
+    config.caching.redisCacheKeyLockTTL = 100;
+    config.caching.redisCacheLockedWaitBeforeRetry = 1;
 
     config.sentry.enabled = false;
 

@@ -118,6 +118,53 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', function () {
     });
   });
 
+  describe('#patch', function () {
+    let getStub;
+
+    beforeEach(function () {
+      getStub = sinon.stub(inMemoryCache._cache, 'get');
+    });
+
+    it('should patch the value assigning to a path', async function () {
+      // given
+      const objectToCache = {
+        challenges: [{ id: 'recChallenge1', instruction: 'Ancienne consigne' }],
+      };
+      getStub.withArgs(CACHE_KEY).returns(objectToCache);
+      const patch = {
+        operation: 'assign',
+        path: 'challenges[0]',
+        value: { id: 'recChallenge1', instruction: 'Nouvelle consigne' },
+      };
+
+      // when
+      await inMemoryCache.patch(CACHE_KEY, patch);
+
+      // then
+      expect(objectToCache).to.deep.equal({
+        challenges: [{ id: 'recChallenge1', instruction: 'Nouvelle consigne' }],
+      });
+    });
+
+    describe('when value is not in the cache', function () {
+      it('should do nothing', async function () {
+        // given
+        getStub.withArgs(CACHE_KEY).returns(undefined);
+        const patch = {
+          operation: 'push',
+          path: 'challenges',
+          value: { id: 'recChallenge1', instruction: 'Nouvelle consigne' },
+        };
+
+        // when
+        await inMemoryCache.patch(CACHE_KEY, patch);
+
+        // then
+        expect(getStub).to.have.been.calledOnceWithExactly(CACHE_KEY);
+      });
+    });
+  });
+
   describe('#flushAll', function () {
     it('should resolve', async function () {
       // given

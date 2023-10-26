@@ -1,4 +1,3 @@
-import { Cache } from './Cache.js';
 import { DistributedCache } from './DistributedCache.js';
 import { InMemoryCache } from './InMemoryCache.js';
 import { LayeredCache } from './LayeredCache.js';
@@ -8,18 +7,13 @@ import { config } from '../../config.js';
 const LEARNING_CONTENT_CHANNEL = 'Learning content';
 const LEARNING_CONTENT_CACHE_KEY = 'LearningContent';
 
-class LearningContentCache extends Cache {
-  constructor() {
-    super();
-    if (config.caching.redisUrl) {
-      this.distributedCache = new DistributedCache(
-        new InMemoryCache(),
-        config.caching.redisUrl,
-        LEARNING_CONTENT_CHANNEL,
-      );
-      this.redisCache = new RedisCache(config.caching.redisUrl);
+export class LearningContentCache {
+  constructor(redisUrl) {
+    if (redisUrl) {
+      const distributedCache = new DistributedCache(new InMemoryCache(), redisUrl, LEARNING_CONTENT_CHANNEL);
+      const redisCache = new RedisCache(redisUrl);
 
-      this._underlyingCache = new LayeredCache(this.distributedCache, this.redisCache);
+      this._underlyingCache = new LayeredCache(distributedCache, redisCache);
     } else {
       this._underlyingCache = new InMemoryCache();
     }
@@ -33,6 +27,10 @@ class LearningContentCache extends Cache {
     return this._underlyingCache.set(LEARNING_CONTENT_CACHE_KEY, object);
   }
 
+  patch(patch) {
+    return this._underlyingCache.patch(LEARNING_CONTENT_CACHE_KEY, patch);
+  }
+
   flushAll() {
     return this._underlyingCache.flushAll();
   }
@@ -40,8 +38,23 @@ class LearningContentCache extends Cache {
   quit() {
     return this._underlyingCache.quit();
   }
+
+  static _instance = null;
+
+  static defaultInstance() {
+    return new LearningContentCache(config.caching.redisUrl);
+  }
+
+  static get instance() {
+    if (!this._instance) {
+      this._instance = this.defaultInstance();
+    }
+    return this._instance;
+  }
+
+  static set instance(_instance) {
+    this._instance = _instance;
+  }
 }
 
-const learningContentCache = new LearningContentCache();
-
-export { learningContentCache };
+export const learningContentCache = LearningContentCache.instance;

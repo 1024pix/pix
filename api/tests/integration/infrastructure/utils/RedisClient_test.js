@@ -56,19 +56,23 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
     const keyToRemove = randomUUID();
     const redisClient = new RedisClient(config.redis.url);
 
+    await redisClient.lpush(keyToAdd, 'value2');
+
     await redisClient.lpush(keyToRemove, 'value1');
     await redisClient.lpush(keyToRemove, 'value2');
 
     // when
-    const keyToAddLength = await redisClient.lpush(keyToAdd, 'value1');
+    const keyToAddLength1 = await redisClient.lpush(keyToAdd, 'value1');
+    const keyToAddLength2 = await redisClient.rpush(keyToAdd, 'value3');
     const keyToAddList = await redisClient.lrange(keyToAdd, 0, -1);
 
     const valuesRemovedLength = await redisClient.lrem(keyToRemove, 0, 'value1');
     const keyToRemoveList = await redisClient.lrange(keyToRemove, 0, -1);
 
     // then
-    expect(keyToAddLength).to.equal(1);
-    expect(keyToAddList).to.deep.equal(['value1']);
+    expect(keyToAddLength1).to.equal(2);
+    expect(keyToAddLength2).to.equal(3);
+    expect(keyToAddList).to.deep.equal(['value1', 'value2', 'value3']);
 
     expect(valuesRemovedLength).to.equal(1);
     expect(keyToRemoveList).to.deep.equal(['value2']);
