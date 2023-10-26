@@ -1,6 +1,6 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { createMissionAssessment } from '../../../../lib/domain/usecases/create-mission-assessment.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { expect, sinon } from '../../../../test-helper.js';
+import { createMissionAssessment } from '../../../../../src/school/domain/usecases/create-mission-assessment.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Unit | UseCase | create-mission-assessment', function () {
   let assessmentRepository;

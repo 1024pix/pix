@@ -6,6 +6,7 @@ export default class MissionRoute extends Route {
   @service store;
 
   model(params, transition) {
+    //TODO Ajouter le learner
     return this.store.queryRecord('assessment', { missionId: transition.to.parent.params.mission_id });
   }
 
