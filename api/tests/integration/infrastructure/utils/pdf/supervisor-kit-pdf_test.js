@@ -15,37 +15,8 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
   });
 
   context('when lang is french', function () {
-    it('should return full french supervisor kit as a buffer', async function () {
-      // given
-      const lang = FRENCH_SPOKEN;
-      const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
-        id: 12345678,
-        supervisorPassword: 12344,
-        accessCode: 'WB64K2',
-        date: '2022-09-21',
-        examiner: 'Ariete Bordeauxchesnel',
-      });
-      const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
-
-      // when
-      const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-        sessionForSupervisorKit,
-        lang,
-        creationDate: new Date('2021-01-01'),
-      });
-
-      // Note: to update the reference pdf, you can run the test with the following lines.
-      //
-      // import { writeFile } from 'fs/promises';
-      // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
-
-      // then
-      expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
-      expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
-    });
-
-    context('when session details contains long labels', function () {
-      it('should return full supervisor kit as a buffer with long labels in multiple lines', async function () {
+    context('when session is V2', function () {
+      it('should return full french supervisor kit as a buffer', async function () {
         // given
         const lang = FRENCH_SPOKEN;
         const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
@@ -53,11 +24,9 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           supervisorPassword: 12344,
           accessCode: 'WB64K2',
           date: '2022-09-21',
-          examiner: 'Un nom très très très très très très très très très très long',
-          address: 'Une adresse qui ne tient pas sur une seule ligne',
-          room: 'Une salle particulièrement longue mais on ne sait jamais',
+          examiner: 'Ariete Bordeauxchesnel',
         });
-        const expectedPdfPath = __dirname + '/kit-surveillant-with-long-labels_expected.pdf';
+        const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
 
         // when
         const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -74,6 +43,105 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         // then
         expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
         expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+      });
+
+      context('when session details contains long labels', function () {
+        it('should return full supervisor kit as a buffer with long labels in multiple lines', async function () {
+          // given
+          const lang = FRENCH_SPOKEN;
+          const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+            id: 12345678,
+            supervisorPassword: 12344,
+            accessCode: 'WB64K2',
+            date: '2022-09-21',
+            examiner: 'Un nom très très très très très très très très très très long',
+            address: 'Une adresse qui ne tient pas sur une seule ligne',
+            room: 'Une salle particulièrement longue mais on ne sait jamais',
+          });
+          const expectedPdfPath = __dirname + '/kit-surveillant-with-long-labels_expected.pdf';
+
+          // when
+          const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
+            sessionForSupervisorKit,
+            lang,
+            creationDate: new Date('2021-01-01'),
+          });
+
+          // Note: to update the reference pdf, you can run the test with the following lines.
+          //
+          // import { writeFile } from 'fs/promises';
+          // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+
+          // then
+          expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+          expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+        });
+      });
+    });
+
+    context('when session is V3', function () {
+      it('should return full french supervisor kit v3 pdf', async function () {
+        // given
+        const lang = FRENCH_SPOKEN;
+        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+          id: 12345678,
+          supervisorPassword: 12344,
+          accessCode: 'WB64K2',
+          date: '2022-09-21',
+          examiner: 'Ariete Bordeauxchesnel',
+          version: 3,
+        });
+        const expectedPdfPath = __dirname + '/kit-surveillant_expected-v3.pdf';
+
+        // when
+        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
+          sessionForSupervisorKit,
+          lang,
+          creationDate: new Date('2021-01-01'),
+        });
+
+        // Note: to update the reference pdf, you can run the test with the following lines.
+        //
+        // import { writeFile } from 'fs/promises';
+        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+
+        // then
+        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}-v3.pdf`);
+      });
+
+      context('when session details contains long labels', function () {
+        it('should return full supervisor kit v3 with long labels in multiple lines', async function () {
+          // given
+          const lang = FRENCH_SPOKEN;
+          const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+            id: 12345678,
+            supervisorPassword: 12344,
+            accessCode: 'WB64K2',
+            date: '2022-09-21',
+            examiner: 'Un nom très très très très très très très très très très long',
+            address: 'Une adresse qui ne tient pas sur une seule ligne',
+            room: 'Une salle particulièrement longue mais on ne sait jamais',
+            version: 3,
+          });
+          const expectedPdfPath = __dirname + '/kit-surveillant-with-long-labels_expected-v3.pdf';
+
+          // when
+          const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
+            sessionForSupervisorKit,
+            lang,
+            creationDate: new Date('2021-01-01'),
+          });
+
+          // Note: to update the reference pdf, you can run the test with the following lines.
+          //
+          // import { writeFile } from 'fs/promises';
+          // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+
+          // then
+          expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+          expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}-v3.pdf`);
+        });
       });
     });
   });
