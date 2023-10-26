@@ -214,6 +214,9 @@ async function parseForCampaignsImport(cleanedData, { parseCsvData } = csvHelper
     customLandingPageText: data['Descriptif du parcours'],
     multipleSendings: data['Envoi multiple'].toLowerCase() === 'oui' ? true : false,
     ownerId: data['Identifiant du propriétaire'] || null,
+    customResultPageText: data['Texte de la page de fin de parcours'] || null,
+    customResultPageButtonText: data['Texte du bouton de la page de fin de parcours'] || null,
+    customResultPageButtonUrl: data['URL du bouton de la page de fin de parcours'] || null,
   }));
 }
 
