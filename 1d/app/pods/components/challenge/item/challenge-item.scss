@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   max-width: 860px;
-  margin: 0 auto;
+  margin: 0 auto 80px;
 
   &__playground {
     display: flex;
@@ -22,7 +22,7 @@
 
   &__image, &__qroc, &__qrocm {
     display: flex;
-    width : 49%;
+    width: 49%;
   }
 
   &__qroc, &__qrocm {
@@ -33,7 +33,7 @@
   &__qcm, &__qcu {
     display: flex;
     justify-content: center;
-    width : 100%;
+    width: 100%;
     padding-right: 50px;
     padding-left: 50px;
   }
