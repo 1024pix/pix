@@ -46,7 +46,7 @@ executors:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:7.0.12-alpine
+      - image: redis:7.2.2-alpine
     resource_class: small
   node-browsers-docker:
     parameters:
@@ -71,7 +71,7 @@ executors:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:7.0.12-alpine
+      - image: redis:7.2.2-alpine
     resource_class: medium+
   node-postgres-docker:
     parameters:
