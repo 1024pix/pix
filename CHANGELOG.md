@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.54.0 (26/10/2023)
+
+
+### :rocket: Amélioration
+- [#7284](https://github.com/1024pix/pix/pull/7284) [FEATURE] Indiquer le niveau 1 par défaut pour les badges lors du rattachement d'un profil cible sur Pix Admin (PIX-9701).
+- [#7275](https://github.com/1024pix/pix/pull/7275) [FEATURE] Bloquer la réutilisation d'un PC qui a déjà été lié à une complémentaire.
+- [#7264](https://github.com/1024pix/pix/pull/7264) [FEATURE] Traduire la feuille d'émargement en anglais (PIX-6684).
+
+### :building_construction: Tech
+- [#7329](https://github.com/1024pix/pix/pull/7329) [TECH] Script pour générer des élèves et une orga type SCO-1D (Pix-9085).
+
+### :bug: Correction
+- [#7321](https://github.com/1024pix/pix/pull/7321) [BUGFIX] Rectifier le style des citations dans la modale de correction (PIX-9272).
+- [#7324](https://github.com/1024pix/pix/pull/7324) [BUGFIX][ADMIN] Afficher la date de création d'un compte seulement quand elle est disponible (PIX-9570).
+
 ## v4.53.0 (25/10/2023)
 
 
