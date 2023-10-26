@@ -1,12 +1,16 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
-export const certificationIssueReportCategories = {
+export const v3CertificationIssueReportCategories = {
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
   SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
-  IN_CHALLENGE: 'IN_CHALLENGE',
   FRAUD: 'FRAUD',
   NON_BLOCKING_CANDIDATE_ISSUE: 'NON_BLOCKING_CANDIDATE_ISSUE',
   NON_BLOCKING_TECHNICAL_ISSUE: 'NON_BLOCKING_TECHNICAL_ISSUE',
+};
+
+export const certificationIssueReportCategories = {
+  ...v3CertificationIssueReportCategories,
+  IN_CHALLENGE: 'IN_CHALLENGE',
 };
 
 export const certificationIssueReportSubcategories = {
