@@ -7,15 +7,8 @@ const upload = async function ({ filename, readableStream, dependencies = { s3Ut
   dependencies.logger.trace('cpfExternalStorage: start upload');
 
   const { accessKeyId, secretAccessKey, endpoint, region, bucket } = cpf.storage;
-  const s3Client = dependencies.s3Utils.getS3Client({
-    accessKeyId,
-    secretAccessKey,
-    endpoint,
-    region,
-  });
-
   const upload = dependencies.s3Utils.startUpload({
-    client: s3Client,
+    bucketConfig: { accessKeyId, secretAccessKey, endpoint, region },
     filename,
     bucket,
     readableStream,
@@ -29,21 +22,18 @@ const upload = async function ({ filename, readableStream, dependencies = { s3Ut
 
 const getPreSignUrlsOfFilesModifiedAfter = async function ({ date, dependencies = { s3Utils } }) {
   const { accessKeyId, secretAccessKey, endpoint, region, bucket, preSignedExpiresIn: expiresIn } = cpf.storage;
-  const s3Client = dependencies.s3Utils.getS3Client({
-    accessKeyId,
-    secretAccessKey,
-    endpoint,
-    region,
-  });
 
-  const filesInBucket = await dependencies.s3Utils.listFiles({ client: s3Client, bucket });
+  const filesInBucket = await dependencies.s3Utils.listFiles({
+    bucketConfig: { accessKeyId, secretAccessKey, endpoint, region },
+    bucket,
+  });
 
   const keysOfFilesModifiedAfter = filesInBucket?.Contents.filter(({ LastModified }) => LastModified >= date).map(
     ({ Key }) => Key,
   );
 
   return await dependencies.s3Utils.preSignFiles({
-    client: s3Client,
+    bucketConfig: { accessKeyId, secretAccessKey, endpoint, region },
     bucket,
     keys: keysOfFilesModifiedAfter,
     expiresIn,

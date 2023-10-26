@@ -12,9 +12,9 @@ const getS3Client = function ({ accessKeyId, secretAccessKey, endpoint, region, 
   });
 };
 
-const startUpload = function ({ client, filename, bucket, readableStream, dependencies = { libStorage } }) {
+const startUpload = function ({ bucketConfig, filename, bucket, readableStream, dependencies = { libStorage } }) {
   return new dependencies.libStorage.Upload({
-    client,
+    client: getS3Client({ ...bucketConfig }),
     params: {
       Key: filename,
       Bucket: bucket,
@@ -25,17 +25,20 @@ const startUpload = function ({ client, filename, bucket, readableStream, depend
   });
 };
 
-const listFiles = async function ({ client, bucket, dependencies = { clientS3 } }) {
+const listFiles = async function ({ bucketConfig, bucket, dependencies = { clientS3 } }) {
+  const client = getS3Client({ ...bucketConfig, dependencies });
   return client.send(new dependencies.clientS3.ListObjectsV2Command({ Bucket: bucket }));
 };
 
 const preSignFiles = async function ({
-  client,
+  bucketConfig,
   bucket,
   keys,
   expiresIn,
   dependencies = { clientS3, s3RequestPresigner },
 }) {
+  const client = getS3Client({ ...bucketConfig, dependencies });
+
   return bluebird.mapSeries(keys, async (key) => {
     const getObjectCommand = new dependencies.clientS3.GetObjectCommand({ Bucket: bucket, Key: key });
     return await dependencies.s3RequestPresigner.getSignedUrl(client, getObjectCommand, { expiresIn });
