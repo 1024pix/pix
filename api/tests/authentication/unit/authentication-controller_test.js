@@ -1,5 +1,5 @@
 import { expect, hFake, sinon } from '../../test-helper.js';
-import { usecases } from '../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../src/authentication/domain/usecases/index.js';
 import { authenticationController } from '../../../src/authentication/application/authentication-controller.js';
 
 describe('Unit | Authentication | Application | Controller', function () {
