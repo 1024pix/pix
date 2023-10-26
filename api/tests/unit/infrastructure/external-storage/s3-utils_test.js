@@ -1,10 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
-import {
-  getS3Client,
-  startUpload,
-  listFiles,
-  preSignFiles,
-} from '../../../../lib/infrastructure/external-storage/s3-utils.js';
+import { expect, sinon, catchErrSync } from '../../../test-helper.js';
+import { S3ObjectStorageProvider } from '../../../../lib/infrastructure/external-storage/s3-utils.js';
 import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -19,54 +14,56 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
     s3RequestPresigner = { getSignedUrl };
   });
 
-  context('#getS3Client', function () {
-    it('should return a S3 client configured with the provided options', async function () {
+  context('it should create a S3 Object Storage provider', function () {
+    it('should return an error without the required provider configuration', async function () {
       // given
-      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
-      const constructorStub = sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
+      const badS3Config = { contains: 'not_the_right_config' };
+
+      // when
+      const error = catchErrSync((context) => S3ObjectStorageProvider.createClient(context))(badS3Config);
+
+      // then
+      expect(error).to.be.instanceOf(Error);
+      expect(error.message).to.equal('Missing S3 Object Storage configuration');
+    });
+
+    it('should create a provider', async function () {
+      // given
       const config = {
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
         endpoint: 'endpoint',
         region: 'region',
+        bucket: 'pix-cpf-dev',
       };
 
       // when
-      const client = getS3Client({ ...config, dependencies: { clientS3 } });
+      const client = new S3ObjectStorageProvider(config);
 
       // then
-      expect(constructorStub).to.have.been.calledWithExactly({
-        credentials: { accessKeyId: 'accessKeyId', secretAccessKey: 'secretAccessKey' },
-        endpoint: 'endpoint',
-        region: 'region',
-      });
-      expect(client).to.equal(S3ClientStubbedInstance);
+      expect(client).to.exist;
     });
   });
 
   context('#startUpload', function () {
     it('should return an upload client', async function () {
       // given
+      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
       const UploadStubbedInstance = sinon.createStubInstance(Upload);
       const constructorStub = sinon.stub(libStorage, 'Upload').returns(UploadStubbedInstance);
+      const s3ObjectStorageProvider = _initTestS3ObjectStorageProvider({ dependencies: { clientS3, libStorage } });
       const readableStreamStub = sinon.stub();
-      const uploadConfig = {
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-        },
-        filename: 'tales_of_villain.gzip',
-        bucket: 'pix-cpf-dev',
-        readableStream: readableStreamStub,
-      };
 
       // when
-      const uploadClient = startUpload({ ...uploadConfig, dependencies: { libStorage } });
+      const uploadClient = s3ObjectStorageProvider.startUpload({
+        filename: 'tales_of_villain.gzip',
+        readableStream: readableStreamStub,
+      });
 
       // then
       expect(constructorStub).to.have.been.calledWithMatch({
+        client: S3ClientStubbedInstance,
         params: {
           Key: 'tales_of_villain.gzip',
           Bucket: 'pix-cpf-dev',
@@ -88,18 +85,11 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       const ListObjectsV2CommandStubbedInstance = sinon.createStubInstance(ListObjectsV2Command);
       const constructorStub = sinon.stub(clientS3, 'ListObjectsV2Command').returns(ListObjectsV2CommandStubbedInstance);
       sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
-      const listFilesConfig = {
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-        },
-        bucket: 'pix-cpf-dev',
-      };
+
+      const s3ObjectStorageProvider = _initTestS3ObjectStorageProvider({ dependencies: { clientS3, libStorage } });
 
       // when
-      const listFilesResult = await listFiles({ ...listFilesConfig, dependencies: { clientS3 } });
+      const listFilesResult = await s3ObjectStorageProvider.listFiles();
 
       // then
       expect(constructorStub).to.have.been.calledWithExactly({
@@ -119,25 +109,23 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
 
       const getSignedUrlStub = sinon.stub(s3RequestPresigner, 'getSignedUrl');
-
       getSignedUrlStub
         .withArgs(S3ClientStubbedInstance, getObjectCommandStubbedInstance, { expiresIn: 3600 })
         .resolves('presigned_we_love_sweets');
 
+      const s3ObjectStorageProvider = _initTestS3ObjectStorageProvider({
+        dependencies: { clientS3, s3RequestPresigner },
+      });
+
       const preSignFilesConfig = {
-        bucketConfig: {
-          accessKeyId: 'accessKeyId',
-          secretAccessKey: 'secretAccessKey',
-          endpoint: 'endpoint',
-          region: 'region',
-        },
-        bucket: 'pix-cpf-dev',
         keys: [{ Key: 'we_love_sweets' }],
         expiresIn: 3600,
       };
 
       // when
-      const result = await preSignFiles({ ...preSignFilesConfig, dependencies: { clientS3, s3RequestPresigner } });
+      const result = await s3ObjectStorageProvider.preSignFiles({
+        ...preSignFilesConfig,
+      });
 
       // then
       expect(constructorStub).to.have.been.calledWithExactly({
