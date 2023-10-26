@@ -18,6 +18,7 @@
         @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
         @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
         @onChangeAbortReason={{this.abort}}
+        @session={{this.session}}
       />
     {{/if}}
     {{#if (gt this.session.completedCertificationReports.length 0)}}
