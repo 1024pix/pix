@@ -47,12 +47,16 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
   context('#startUpload', function () {
     it('should return an upload client', async function () {
       // given
-      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
       const UploadStubbedInstance = sinon.createStubInstance(Upload);
       const constructorStub = sinon.stub(libStorage, 'Upload').returns(UploadStubbedInstance);
       const readableStreamStub = sinon.stub();
       const uploadConfig = {
-        client: sinon.createStubInstance(S3Client),
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+        },
         filename: 'tales_of_villain.gzip',
         bucket: 'pix-cpf-dev',
         readableStream: readableStreamStub,
@@ -62,8 +66,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       const uploadClient = startUpload({ ...uploadConfig, dependencies: { libStorage } });
 
       // then
-      expect(constructorStub).to.have.been.calledWithExactly({
-        client: S3ClientStubbedInstance,
+      expect(constructorStub).to.have.been.calledWithMatch({
         params: {
           Key: 'tales_of_villain.gzip',
           Bucket: 'pix-cpf-dev',
@@ -72,6 +75,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
           partSize: 1024 * 1024 * 5,
         },
       });
+
       expect(uploadClient).to.equal(UploadStubbedInstance);
     });
   });
@@ -83,8 +87,14 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       S3ClientStubbedInstance.send.resolves({ Contents: [{ Key: 'hyperdimension_galaxy' }] });
       const ListObjectsV2CommandStubbedInstance = sinon.createStubInstance(ListObjectsV2Command);
       const constructorStub = sinon.stub(clientS3, 'ListObjectsV2Command').returns(ListObjectsV2CommandStubbedInstance);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
       const listFilesConfig = {
-        client: S3ClientStubbedInstance,
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+        },
         bucket: 'pix-cpf-dev',
       };
 
@@ -106,6 +116,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
       const getObjectCommandStubbedInstance = sinon.createStubInstance(GetObjectCommand);
       const constructorStub = sinon.stub(clientS3, 'GetObjectCommand').returns(getObjectCommandStubbedInstance);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
 
       const getSignedUrlStub = sinon.stub(s3RequestPresigner, 'getSignedUrl');
 
@@ -114,7 +125,12 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
         .resolves('presigned_we_love_sweets');
 
       const preSignFilesConfig = {
-        client: S3ClientStubbedInstance,
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+        },
         bucket: 'pix-cpf-dev',
         keys: [{ Key: 'we_love_sweets' }],
         expiresIn: 3600,

@@ -22,34 +22,8 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
   });
 
   context('#upload', function () {
-    it('should instantiate a properly configured S3 client', async function () {
-      // given
-      s3Utils.startUpload.returns({ done: _.noop, on: _.noop });
-
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-      });
-      const readableStream = Symbol('readableStream');
-
-      // when
-      await cpfExternalStorage.upload({ filename: '', readableStream, dependencies: { s3Utils, logger } });
-
-      // then
-      expect(s3Utils.getS3Client).to.have.been.calledWithExactly({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-      });
-    });
-
     it('should instantiate an Upload with the expected parameters', async function () {
       // given
-      const s3ClientMock = Symbol('S3Client');
-      s3Utils.getS3Client.returns(s3ClientMock);
       s3Utils.startUpload.returns({ done: _.noop, on: _.noop });
 
       sinon.stub(cpf, 'storage').value({
@@ -66,7 +40,12 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
 
       // then
       expect(s3Utils.startUpload).to.have.been.calledWithExactly({
-        client: s3ClientMock,
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+        },
         filename: 'filename.xml',
         bucket: 'bucket',
         readableStream,
@@ -87,7 +66,18 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       const readableStream = Symbol('readableStream');
 
       // when
-      await cpfExternalStorage.upload({ filename: 'filename.xml', readableStream, dependencies: { s3Utils, logger } });
+      await cpfExternalStorage.upload({
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+          bucket: 'bucket',
+        },
+        filename: 'filename.xml',
+        readableStream,
+        dependencies: { s3Utils, logger },
+      });
 
       // then
       expect(doneStub).to.have.been.called;
@@ -95,32 +85,8 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
   });
 
   context('#getPreSignUrlsOfFilesModifiedAfter', function () {
-    it('should instantiate a properly configured S3 client', async function () {
-      // given
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-      });
-
-      // when
-      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
-
-      // then
-      expect(s3Utils.getS3Client).to.have.been.calledWithExactly({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-      });
-    });
-
     it('should list files of the right bucket', async function () {
       // given
-      const s3ClientMock = Symbol('s3Client');
-      s3Utils.getS3Client.returns(s3ClientMock);
-
       sinon.stub(cpf, 'storage').value({
         accessKeyId: 'accessKeyId',
         secretAccessKey: 'secretAccessKey',
@@ -133,7 +99,15 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date: null, dependencies: { s3Utils } });
 
       // then
-      expect(s3Utils.listFiles).to.have.been.calledWithExactly({ client: s3ClientMock, bucket: 'bucket' });
+      expect(s3Utils.listFiles).to.have.been.calledWithExactly({
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+        },
+        bucket: 'bucket',
+      });
     });
 
     it('should pre sign files modified after a date', async function () {
@@ -147,9 +121,6 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
         { Key: 'thirdFile', LastModified: '2022-03-01' },
         { Key: 'fourthFile', LastModified: '2022-03-04' },
       ];
-
-      const s3ClientMock = Symbol('s3Client');
-      s3Utils.getS3Client.returns(s3ClientMock);
 
       s3Utils.listFiles.resolves({
         Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate],
@@ -169,7 +140,12 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
 
       // then
       expect(s3Utils.preSignFiles).to.have.been.calledWithExactly({
-        client: s3ClientMock,
+        bucketConfig: {
+          accessKeyId: 'accessKeyId',
+          secretAccessKey: 'secretAccessKey',
+          endpoint: 'endpoint',
+          region: 'region',
+        },
         bucket: 'bucket',
         keys: ['thirdFile', 'fourthFile'],
         expiresIn: 3600,
