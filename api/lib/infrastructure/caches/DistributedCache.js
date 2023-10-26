@@ -15,10 +15,18 @@ class DistributedCache extends Cache {
     this._redisClientSubscriber.on('ready', () => {
       this._redisClientSubscriber.subscribe(this._channel);
     });
-    this._redisClientSubscriber.on('message', () => {
+    this._redisClientSubscriber.on('message', this.clientSubscriberCallback.bind(this));
+  }
+
+  clientSubscriberCallback(_channel, rawMessage) {
+    const message = JSON.parse(rawMessage);
+    if (message.type === 'flushAll') {
       logger.info({ event: 'cache-event' }, 'Flushing the local cache');
       return this._underlyingCache.flushAll();
-    });
+    } else if (message.type === 'patch') {
+      logger.info({ event: 'cache-event' }, 'Patching the local cache');
+      this._underlyingCache.patch(message.cacheKey, message.patch);
+    }
   }
 
   get(key, generator) {
@@ -29,8 +37,21 @@ class DistributedCache extends Cache {
     return this._underlyingCache.set(key, object);
   }
 
+  patch(key, object) {
+    const message = {
+      patch: object,
+      cacheKey: key,
+      type: 'patch',
+    };
+    const messageAsString = JSON.stringify(message);
+    this._redisClientPublisher.publish(this._channel, messageAsString);
+  }
+
   flushAll() {
-    return this._redisClientPublisher.publish(this._channel, 'Flush all');
+    const message = {
+      type: 'flushAll',
+    };
+    return this._redisClientPublisher.publish(this._channel, JSON.stringify(message));
   }
 
   quit() {

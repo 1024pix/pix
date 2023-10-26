@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { lcms } from '../../lcms.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
-import { learningContentCache } from '../../caches/learning-content-cache.js';
+import { LearningContentCache } from '../../caches/learning-content-cache.js';
 
 const _DatasourcePrototype = {
   async get(id) {
@@ -36,20 +36,32 @@ const _DatasourcePrototype = {
 
   async _getLearningContent() {
     const generator = () => lcms.getLatestRelease();
-    const learningContent = await learningContentCache.get(generator);
+    const learningContent = await LearningContentCache.instance.get(generator);
     return learningContent;
   },
 
   async refreshLearningContentCacheRecord(id, newEntry) {
     const currentLearningContent = await this._getLearningContent();
+
+    const patch = this._generatePatch(currentLearningContent, id, newEntry);
+    await LearningContentCache.instance.patch(patch);
+    return newEntry;
+  },
+
+  _generatePatch(currentLearningContent, id, newEntry) {
     const index = currentLearningContent[this.modelName].findIndex((element) => element?.id === id);
     if (index === -1) {
-      currentLearningContent[this.modelName].push(newEntry);
-    } else {
-      currentLearningContent[this.modelName][index] = newEntry;
+      return {
+        operation: 'push',
+        path: this.modelName,
+        value: newEntry,
+      };
     }
-    await learningContentCache.set(currentLearningContent);
-    return newEntry;
+    return {
+      operation: 'assign',
+      path: `${this.modelName}[${index}]`,
+      value: newEntry,
+    };
   },
 };
 
@@ -61,7 +73,7 @@ const extend = function (props) {
 
 const refreshLearningContentCacheRecords = async function () {
   const learningContent = await lcms.getLatestRelease();
-  await learningContentCache.set(learningContent);
+  await LearningContentCache.instance.set(learningContent);
   return learningContent;
 };
 

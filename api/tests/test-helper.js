@@ -24,7 +24,7 @@ chai.use(sinonChai);
 import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
 
 _.each(customChaiHelpers, chai.use);
-import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
+import { LearningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 
 import { config } from '../lib/config.js';
 
@@ -61,7 +61,7 @@ import { increaseCurrentTestTimeout } from './tooling/mocha-tools.js';
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
   restore();
-  learningContentCache.flushAll();
+  LearningContentCache.instance.flushAll();
   nock.cleanAll();
   return databaseBuilder.clean();
 });

@@ -8,11 +8,13 @@ describe('Unit | Infrastructure | Caches | LayeredCache', function () {
     layeredCacheInstance._firstLevelCache = {
       get: sinon.stub(),
       set: sinon.stub(),
+      patch: sinon.stub(),
       flushAll: sinon.stub(),
     };
     layeredCacheInstance._secondLevelCache = {
       get: sinon.stub(),
       set: sinon.stub(),
+      patch: sinon.stub(),
       flushAll: sinon.stub(),
     };
   });
@@ -67,6 +69,26 @@ describe('Unit | Infrastructure | Caches | LayeredCache', function () {
       // then
       expect(layeredCacheInstance._firstLevelCache.flushAll).to.have.been.calledOnce;
       expect(layeredCacheInstance._secondLevelCache.flushAll).to.have.been.calledOnce;
+    });
+  });
+
+  describe('#patch', function () {
+    const cacheKey = 'learning-content';
+
+    it('should apply patch in first and second level cache', async function () {
+      // given
+      const patch = {
+        operation: 'assign',
+        path: 'challenges[0]',
+        value: { id: 'recChallenge1', instruction: 'Nouvelle consigne' },
+      };
+
+      // when
+      await layeredCacheInstance.patch(cacheKey, patch);
+
+      // then
+      expect(layeredCacheInstance._firstLevelCache.patch).to.have.been.calledWith(cacheKey, patch);
+      expect(layeredCacheInstance._secondLevelCache.patch).to.have.been.calledWith(cacheKey, patch);
     });
   });
 });

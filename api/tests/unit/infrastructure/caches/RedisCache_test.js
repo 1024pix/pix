@@ -1,7 +1,7 @@
 import Redlock from 'redlock';
 import { expect, sinon } from '../../../test-helper.js';
 import { config as settings } from '../../../../lib/config.js';
-import { RedisCache } from '../../../../lib/infrastructure/caches/RedisCache.js';
+import { RedisCache, PATCHES_KEY } from '../../../../lib/infrastructure/caches/RedisCache.js';
 
 describe('Unit | Infrastructure | Cache | redis-cache', function () {
   let stubbedClient;
@@ -24,6 +24,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
   describe('#get', function () {
     beforeEach(function () {
       stubbedClient.get = sinon.stub();
+      stubbedClient.lrange = sinon.stub().resolves([]);
       redisCache.set = sinon.stub();
     });
 
@@ -33,13 +34,52 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
         const cachedData = { foo: 'bar' };
         const redisCachedData = JSON.stringify(cachedData);
         stubbedClient.get.withArgs(CACHE_KEY).resolves(redisCachedData);
-
+        stubbedClient.lrange.withArgs(`${CACHE_KEY}:${PATCHES_KEY}`, 0, -1).resolves([]);
         // when
         const promise = redisCache.get(CACHE_KEY);
 
         // then
         return expect(promise).to.have.been.fulfilled.then((result) => {
           expect(result).to.deep.equal(cachedData);
+        });
+      });
+
+      it('should resolve with the existing value and apply the patche if any', function () {
+        // given
+        const redisCachedData = JSON.stringify({ foo: 'bar' });
+        const cachedPatchesData = [JSON.stringify({ operation: 'assign', path: 'foo', value: 'roger' })];
+        stubbedClient.get.withArgs(CACHE_KEY).resolves(redisCachedData);
+        stubbedClient.lrange.withArgs(`${CACHE_KEY}:${PATCHES_KEY}`, 0, -1).resolves(cachedPatchesData);
+        const finalResult = { foo: 'roger' };
+
+        // when
+        const promise = redisCache.get(CACHE_KEY);
+
+        // then
+        return expect(promise).to.have.been.fulfilled.then((result) => {
+          expect(result).to.deep.equal(finalResult);
+        });
+      });
+
+      it('should resolve with the existing value and apply the patches if any', function () {
+        // given
+        const redisCachedData = JSON.stringify({ foo: 'bar', fibonnaci: [1] });
+        const cachedPatchesData = [
+          JSON.stringify({ operation: 'assign', path: 'foo', value: 'roger' }),
+          JSON.stringify({ operation: 'push', path: 'fibonnaci', value: 2 }),
+          JSON.stringify({ operation: 'push', path: 'fibonnaci', value: 3 }),
+          JSON.stringify({ operation: 'assign', path: 'fibonnaci[2]', value: 5 }),
+        ];
+        stubbedClient.get.withArgs(CACHE_KEY).resolves(redisCachedData);
+        stubbedClient.lrange.withArgs(`${CACHE_KEY}:${PATCHES_KEY}`, 0, -1).resolves(cachedPatchesData);
+        const finalResult = { foo: 'roger', fibonnaci: [1, 2, 5] };
+
+        // when
+        const promise = redisCache.get(CACHE_KEY);
+
+        // then
+        return expect(promise).to.have.been.fulfilled.then((result) => {
+          expect(result).to.deep.equal(finalResult);
         });
       });
     });
@@ -150,6 +190,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
     beforeEach(function () {
       stubbedClient.set = sinon.stub();
+      stubbedClient.del = sinon.stub();
     });
 
     it('should resolve with the object to cache', function () {
@@ -175,6 +216,20 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
       // then
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
+    });
+
+    it('should empty patches key', async function () {
+      // given
+      stubbedClient.set.resolves();
+      stubbedClient.del.resolves();
+
+      // when
+      const promise = redisCache.set(CACHE_KEY, objectToCache);
+
+      // then
+      return expect(promise).to.have.been.fulfilled.then(() => {
+        expect(stubbedClient.del).to.have.been.calledWithExactly(`${CACHE_KEY}:patches`);
+      });
     });
   });
 
@@ -203,6 +258,28 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
       // then
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
+    });
+  });
+
+  describe('#patch', function () {
+    beforeEach(function () {
+      stubbedClient.rpush = sinon.stub();
+    });
+
+    it('should push patch in a separate patches key', async function () {
+      // given
+      const patch = {
+        operation: 'assign',
+        path: 'challenges[0]',
+        value: { id: 'recChallenge1', instruction: 'Consigne' },
+      };
+      const expectedPatchAsString = JSON.stringify(patch);
+
+      // when
+      await redisCache.patch(CACHE_KEY, patch);
+
+      // then
+      expect(stubbedClient.rpush).to.have.been.calledOnceWith(CACHE_KEY + ':patches', expectedPatchAsString);
     });
   });
 });

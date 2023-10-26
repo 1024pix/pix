@@ -10,13 +10,14 @@ const refreshCacheEntries = function (_, h, dependencies = { learningContentData
   return h.response({}).code(202);
 };
 
-const refreshCacheEntry = function (request) {
+const refreshCacheEntry = async function (request, h) {
   const updatedRecord = request.payload;
   const recordId = request.params.id;
   const datasource =
     // eslint-disable-next-line import/namespace
     LearningContentDatasources[_.findKey(LearningContentDatasources, { modelName: request.params.model })];
-  return datasource.refreshLearningContentCacheRecord(recordId, updatedRecord).then(() => null);
+  await datasource.refreshLearningContentCacheRecord(recordId, updatedRecord);
+  return h.response().code(204);
 };
 
 const cacheController = { refreshCacheEntries, refreshCacheEntry };
