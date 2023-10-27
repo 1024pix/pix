@@ -31,6 +31,7 @@ const register = async function (server) {
         validate: {
           payload: Joi.object({
             missionId: identifiersType.missionId,
+            learnerId: identifiersType.organizationLearnerId,
           }),
         },
         tags: ['api', 'pix1d', 'assessment'],

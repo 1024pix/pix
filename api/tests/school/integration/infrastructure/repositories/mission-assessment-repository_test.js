@@ -7,12 +7,13 @@ describe('Integration | Repository | mission-assessment-repository', function ()
     it('returns the missionAssessment corresponding to the assessmentId', async function () {
       const missionId = 'flute78';
       const assessmentId = databaseBuilder.factory.buildPix1dAssessment({ missionId }).id;
-      databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId });
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
+      databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId, organizationLearnerId });
       await databaseBuilder.commit();
 
-      const result = await missionAssessmentRepository.getByAssessmentId({ assessmentId });
+      const result = await missionAssessmentRepository.getByAssessmentId(assessmentId);
 
-      expect(result).to.deep.equal(new MissionAssessment({ missionId, assessmentId }));
+      expect(result).to.deep.equal(new MissionAssessment({ missionId, assessmentId, organizationLearnerId }));
     });
   });
 });
