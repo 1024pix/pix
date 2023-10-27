@@ -67,6 +67,10 @@ export default class Url extends Service {
     return 'https://cloud.pix.fr/s/ro7jHtsZZbY5SCX/download';
   }
 
+  get urlToDownloadSessionV3IssueReportSheet() {
+    return 'https://cloud.pix.fr/s/wJc6N3sZNZRC4MZ/download';
+  }
+
   get fraudFormUrl() {
     return 'https://form-eu.123formbuilder.com/41052/form';
   }

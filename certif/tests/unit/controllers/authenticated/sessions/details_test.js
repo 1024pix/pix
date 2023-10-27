@@ -108,4 +108,18 @@ module('Unit | Controller | authenticated/sessions/details', function (hooks) {
       assert.notOk(shouldDisplayDownloadButton);
     });
   });
+
+  module('#urlToDownloadSessionIssueReportSheet', function () {
+    test('should return a url to download the V3 issue report PDF if session is V3', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/sessions/details');
+      controller.model = { session: { version: 3 } };
+
+      // when
+      const url = controller.urlToDownloadSessionIssueReportSheet;
+
+      // then
+      assert.strictEqual(url, 'https://cloud.pix.fr/s/wJc6N3sZNZRC4MZ/download');
+    });
+  });
 });
