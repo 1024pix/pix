@@ -59,7 +59,7 @@ async function createOrganization({
   featureIds = [],
   configOrganization,
 }) {
-  _buildOrganization({
+  organizationId = _buildOrganization({
     databaseBuilder,
     organizationId,
     type,
@@ -80,7 +80,7 @@ async function createOrganization({
     archivedBy,
     archivedAt,
     identityProviderForCampaigns,
-  });
+  }).id;
 
   _buildMemberships({
     databaseBuilder,
@@ -203,7 +203,7 @@ function _buildOrganization({
   archivedAt,
   identityProviderForCampaigns,
 }) {
-  databaseBuilder.factory.buildOrganization({
+  return databaseBuilder.factory.buildOrganization({
     id: organizationId,
     type,
     name,
