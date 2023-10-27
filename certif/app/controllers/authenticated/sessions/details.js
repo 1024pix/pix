@@ -39,6 +39,9 @@ export default class SessionsDetailsController extends Controller {
   }
 
   get urlToDownloadSessionIssueReportSheet() {
+    if (this.session.version === 3) {
+      return this.url.urlToDownloadSessionV3IssueReportSheet;
+    }
     return this.url.urlToDownloadSessionIssueReportSheet;
   }
 }

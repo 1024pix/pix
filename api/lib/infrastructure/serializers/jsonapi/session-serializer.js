@@ -27,6 +27,7 @@ const serialize = function ({ session, hasSupervisorAccess, hasSomeCleaAcquired 
     'supervisorPassword',
     'hasSupervisorAccess',
     'hasSomeCleaAcquired',
+    'version',
   ];
   return new Serializer('session', {
     transform(record) {
