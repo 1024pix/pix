@@ -195,7 +195,7 @@ import * as stageAndStageAcquisitionComparisonService from '../../domain/service
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../infrastructure/repositories/campaign-participations-stats-repository.js';
 import { campaignParticipantActivityRepository } from '../../infrastructure/repositories/campaign-participant-activity-repository.js';
 import { campaignParticipationResultRepository } from '../../infrastructure/repositories/campaign-participation-result-repository.js';
-import { getCompetenceLevel } from '../services/get-competence-level.js';
+import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
 import { tokenService } from '../services/token-service.js';

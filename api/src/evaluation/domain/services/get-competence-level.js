@@ -1,5 +1,5 @@
-import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
-import * as scoringService from './scoring/scoring-service.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as scoringService from '../../../../lib/domain/services/scoring/scoring-service.js';
 
 const getCompetenceLevel = async function ({
   userId,
