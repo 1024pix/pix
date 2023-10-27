@@ -1,4 +1,4 @@
-FROM node:16.20.2 as dev
+FROM node:20.8.0 as dev
 
 WORKDIR /code
 COPY . .
