@@ -439,9 +439,13 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       // then
       assert
+        .dom(screen.getByText('Refuser le signalement permet la reprise de la question en cours.', { exact: false }))
+        .exists();
+      assert
         .dom(
           screen.getByText(
-            'Refuser le signalement permet la reprise de la question en cours. Sélectionnez un motif pour valider le signalement et permettre le changement de question.',
+            'Sélectionnez un motif pour valider le signalement et permettre le changement de question.',
+            { exact: false },
           ),
         )
         .exists();
