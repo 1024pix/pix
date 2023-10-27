@@ -1,21 +1,21 @@
 import { knex, expect, databaseBuilder } from '../../../../../test-helper.js';
-import { main } from '../../../../../../scripts/certification/get-cpf-import-status-from-xml.js';
+import { getCPfImportstatusFromXml } from '../../../../../../src/certification/session/domain/usecases/get-cpf-import-status-from-xml.js';
 import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
 import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml', function () {
+describe('Integration | UseCase | Certification | get-cpf-import-status-from-xml', function () {
   afterEach(async function () {
     await knex('certification-courses-cpf-infos').delete();
     await knex('certification-courses').delete();
     await knex('sessions').delete();
     await knex('users').delete();
   });
-  describe('#main', function () {
+  describe('#getCPfImportstatusFromXml', function () {
     describe('when xml is not empty', function () {
       it('should update cpf import status', async function () {
         // given
-        const xmlPath = `${__dirname}/files/xml/cpfImportLog.xml`;
+        const filePath = `${__dirname}/files/xml/cpfImportLog.xml`;
         databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
         databaseBuilder.factory.buildCertificationCoursesCpfInfos({
           certificationCourseId: 1234,
@@ -34,7 +34,7 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         await databaseBuilder.commit();
 
         // when
-        await main(xmlPath);
+        await getCPfImportstatusFromXml({ filePath });
 
         // then
         const [certificationCourse1, certificationCourse2, certificationCourse3] = await knex(
@@ -61,7 +61,7 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
     describe('when xml is empty', function () {
       it('should not update cpf import status', async function () {
         // given
-        const xmlPath = `${__dirname}/files/xml/cpfImportLogEmpty.xml`;
+        const filePath = `${__dirname}/files/xml/cpfImportLogEmpty.xml`;
         databaseBuilder.factory.buildCertificationCourse({ id: 1234 });
         databaseBuilder.factory.buildCertificationCoursesCpfInfos({
           certificationCourseId: 1234,
@@ -85,7 +85,7 @@ describe('Integration | Scripts | Certification | get-cpf-import-status-from-xml
         await databaseBuilder.commit();
 
         // when
-        await main(xmlPath);
+        await getCPfImportstatusFromXml({ filePath });
 
         // then
         const results = await knex('certification-courses-cpf-infos')
