@@ -1,7 +1,7 @@
 import { Mission } from '../../domain/models/Mission.js';
 import { thematicDatasource } from '../datasources/learning-content/thematic-datasource.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
-import { LOCALE } from '../../domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 

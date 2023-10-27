@@ -11,7 +11,7 @@ import { authorization } from '../preHandlers/authorization.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
-import { LOCALE } from '../../domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {

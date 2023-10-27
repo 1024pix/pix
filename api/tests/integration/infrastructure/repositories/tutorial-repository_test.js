@@ -7,7 +7,7 @@ import * as tutorialRepository from '../../../../lib/infrastructure/repositories
 import { TutorialForUser } from '../../../../lib/domain/read-models/TutorialForUser.js';
 import { UserSavedTutorial } from '../../../../lib/domain/models/UserSavedTutorial.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN } = LOCALE;
 

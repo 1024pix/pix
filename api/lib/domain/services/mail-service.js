@@ -7,7 +7,7 @@ import { config } from '../../config.js';
 import frTranslations from '../../../translations/fr.json' assert { type: 'json' };
 import enTranslations from '../../../translations/en.json' assert { type: 'json' };
 
-import { LOCALE } from '../../domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

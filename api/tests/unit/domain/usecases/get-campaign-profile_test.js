@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
 import { getCampaignProfile } from '../../../../lib/domain/usecases/get-campaign-profile.js';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

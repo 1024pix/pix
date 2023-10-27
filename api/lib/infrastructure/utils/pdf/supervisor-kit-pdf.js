@@ -4,7 +4,8 @@ import { PDFDocument, rgb } from 'pdf-lib';
 
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import * as url from 'url';
-import { LOCALE, PIX_CERTIF } from '../../../domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { PIX_CERTIF } from '../../../domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 

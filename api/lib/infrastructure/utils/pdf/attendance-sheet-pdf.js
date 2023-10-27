@@ -8,7 +8,8 @@ import localizedFormat from 'dayjs/plugin/localizedFormat.js';
 dayjs.extend(localizedFormat);
 
 import _ from 'lodash';
-import { LOCALE } from '../../../domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
+
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

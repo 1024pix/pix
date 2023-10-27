@@ -3,7 +3,7 @@ import { isSameBinary } from '../../../../tooling/binary-comparator.js';
 import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
-import { LOCALE } from '../../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
