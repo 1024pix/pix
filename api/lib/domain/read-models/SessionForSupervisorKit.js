@@ -1,5 +1,5 @@
 class SessionForSupervisorKit {
-  constructor({ id, date, time, address, room, examiner, accessCode, supervisorPassword }) {
+  constructor({ id, date, time, address, room, examiner, accessCode, supervisorPassword, version }) {
     this.id = id;
     this.date = date;
     this.time = time;
@@ -8,6 +8,7 @@ class SessionForSupervisorKit {
     this.examiner = examiner;
     this.accessCode = accessCode;
     this.supervisorPassword = supervisorPassword;
+    this.version = version;
   }
 }
 

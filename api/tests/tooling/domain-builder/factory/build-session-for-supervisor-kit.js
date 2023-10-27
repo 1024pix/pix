@@ -9,6 +9,7 @@ const buildSessionForSupervisorKit = function ({
   time = '14:30',
   accessCode = 'C3H6KL',
   supervisorPassword = '3LME8',
+  version = 2,
 } = {}) {
   return new SessionForSupervisorKit({
     id,
@@ -19,6 +20,7 @@ const buildSessionForSupervisorKit = function ({
     time,
     accessCode,
     supervisorPassword,
+    version,
   });
 };
 
