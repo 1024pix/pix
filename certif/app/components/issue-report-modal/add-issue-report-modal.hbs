@@ -44,11 +44,13 @@
           @updateNonBlockingCandidateIssueCategoryDescription={{this.updateNonBlockingCandidateIssueCategory}}
         />
 
-        <IssueReportModal::InChallengeCertificationIssueReportFields
-          @inChallengeCategory={{this.inChallengeCategory}}
-          @toggleOnCategory={{this.toggleOnCategory}}
-          @maxlength={{@maxlength}}
-        />
+        {{#if (eq @version 2)}}
+          <IssueReportModal::InChallengeCertificationIssueReportFields
+            @inChallengeCategory={{this.inChallengeCategory}}
+            @toggleOnCategory={{this.toggleOnCategory}}
+            @maxlength={{@maxlength}}
+          />
+        {{/if}}
       </div>
 
       {{#if this.showCategoryMissingError}}
