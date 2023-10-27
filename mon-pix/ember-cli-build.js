@@ -2,16 +2,18 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-const isDeveloppement = process.env.NODE_ENV === 'development';
+const sourceMapConfig = {
+  production: 'source-map',
+  test: false,
+  default: 'eval-source-map',
+};
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
     },
-    sourcemaps: { enabled: true },
     babel: {
-      sourceMaps: 'inline',
       plugins: [require.resolve('ember-auto-import/babel-plugin')],
     },
     fingerprint: {
@@ -46,7 +48,7 @@ module.exports = function (defaults) {
     staticComponents: true,
     packagerOptions: {
       webpackConfig: {
-        devtool: isDeveloppement ? 'eval-source-map' : false,
+        devtool: sourceMapConfig[process.env.CI ? 'test' : process.env.NODE_ENV ?? 'default'],
       },
     },
   });

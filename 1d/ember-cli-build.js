@@ -2,16 +2,16 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-const isDeveloppement = process.env.NODE_ENV === 'development';
+const sourceMapConfig = {
+  production: 'source-map',
+  test: false,
+  default: 'eval-source-map',
+};
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
-    sourcemaps: { enabled: true },
     sassOptions: {
       includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
-    },
-    babel: {
-      sourceMaps: 'inline',
     },
     'ember-cli-template-lint': {
       testGenerator: 'qunit', // or 'mocha', etc.
@@ -46,7 +46,7 @@ module.exports = function (defaults) {
   return require('@embroider/compat').compatBuild(app, Webpack, {
     packagerOptions: {
       webpackConfig: {
-        devtool: isDeveloppement ? 'eval-source-map' : false,
+        devtool: sourceMapConfig[process.env.CI ? 'test' : process.env.NODE_ENV ?? 'default'],
       },
     },
   });
