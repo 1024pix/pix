@@ -9,8 +9,8 @@ const getNextChallengeForPix1d = async function (request, h, dependencies = { ch
 };
 
 const createForPix1d = async function (request, h, dependencies = { assessmentSerializer }) {
-  const { missionId } = request.payload;
-  const createdAssessment = await usecases.createMissionAssessment({ missionId });
+  const { missionId, learnerId } = request.payload;
+  const createdAssessment = await usecases.createMissionAssessment({ missionId, organizationLearnerId: learnerId });
   return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
 };
 

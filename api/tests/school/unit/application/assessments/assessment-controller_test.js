@@ -35,8 +35,11 @@ describe('Unit | Controller | assessment-controller', function () {
       const assessmentSerializer = { serialize: sinon.stub() };
       const createdAssessment = Symbol('created-assessment');
       assessmentSerializer.serialize.withArgs(createdAssessment).resolves(Symbol('serialized-assessment'));
-      sinon.stub(usecases, 'createMissionAssessment').withArgs({ missionId }).resolves(createdAssessment);
-      const request = { payload: { missionId } };
+      sinon
+        .stub(usecases, 'createMissionAssessment')
+        .withArgs({ missionId, organizationLearnerId: 34567 })
+        .resolves(createdAssessment);
+      const request = { payload: { missionId, learnerId: 34567 } };
 
       const result = await assessmentController.createForPix1d(request, hFake, {
         assessmentSerializer,
