@@ -16,7 +16,7 @@ import _ from 'lodash';
 import bluebird from 'bluebird';
 import { constants } from '../../lib/infrastructure/constants.js';
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
-import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
+import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 
 const concurrency = parseInt(process.argv[2]);
 let count;
