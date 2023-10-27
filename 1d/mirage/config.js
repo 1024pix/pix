@@ -24,6 +24,9 @@ function routes() {
 
   this.post('/assessments', (schema, request) => {
     const params = JSON.parse(request.requestBody);
+    if(!params.missionId || !params.learnerId) {
+      return new Response(400, {}, { errors: ['Missing params'] })
+    }
     return schema.assessments.create({ missionId: params.missionId, type: 'PIX1D_MISSION' });
   });
 
