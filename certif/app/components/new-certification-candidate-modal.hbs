@@ -86,8 +86,15 @@
           id="birthdate"
           class="ember-text-field ember-view input"
           {{on "change" this.updateBirthdate}}
-          {{inputmask alias="datetime" inputFormat="dd/mm/yyyy" outputFormat="yyyy-mm-dd" registerAPI=this.saveApi}}
-          placeholder="dd/mm/yyyy"
+          {{inputmask
+            alias="datetime"
+            inputFormat="dd/mm/yyyy"
+            outputFormat="yyyy-mm-dd"
+            placeholder="_"
+            registerAPI=this.saveApi
+          }}
+          placeholder={{t "common.labels.candidate.birth-date-example"}}
+          required
         />
       </div>
 
