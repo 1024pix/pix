@@ -7,7 +7,7 @@ import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../
 
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
+import * as competenceRepository from '../../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';

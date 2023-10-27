@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as challengeRepository from '../lib/infrastructure/repositories/challenge-repository.js';
 import * as skillsRepository from '../lib/infrastructure/repositories/skill-repository.js';
-import * as competencesRepository from '../lib/infrastructure/repositories/competence-repository.js';
+import * as competencesRepository from '../src/shared/infrastructure/repositories/competence-repository.js';
 
 async function findChallengesWithSkills() {
   const [challenges, skillsFromDb] = await _getReferentialData();

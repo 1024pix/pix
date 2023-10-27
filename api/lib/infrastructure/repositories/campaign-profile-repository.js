@@ -2,7 +2,7 @@ import { CampaignProfile } from '../../../lib/domain/read-models/CampaignProfile
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
-import * as competenceRepository from './competence-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as areaRepository from './area-repository.js';
 
 const findProfile = async function ({ campaignId, campaignParticipationId, locale }) {
