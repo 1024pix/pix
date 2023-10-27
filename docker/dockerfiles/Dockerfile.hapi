@@ -1,4 +1,4 @@
-FROM node:20.8.0 as dev
+FROM node:20.8.1 as dev
 
 
 EXPOSE 3000
