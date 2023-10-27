@@ -162,4 +162,55 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
       });
     });
   });
+
+  describe('getOngoingByChallengeIdAndAssessmentId', function () {
+    const challengeId = 'rec123';
+    const assessmentId = 456;
+
+    describe('when there is no ongoing live alert', function () {
+      it('should return null', async function () {
+        // given / when
+        const liveAlert = await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+          challengeId,
+          assessmentId,
+        });
+
+        // then
+        expect(liveAlert).to.be.null;
+      });
+    });
+
+    describe('when there is an ongoing live alert', function () {
+      it('should return the live alert', async function () {
+        // given
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
+
+        const assessment = databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse.id,
+          userId: certificationCourse.userId,
+        });
+
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.DISMISSED,
+        });
+
+        const certificationChallengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessment.id,
+          status: CertificationChallengeLiveAlertStatus.ONGOING,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const liveAlert = await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+          challengeId: certificationChallengeLiveAlert.challengeId,
+          assessmentId: assessment.id,
+        });
+
+        // then
+        expect(liveAlert).to.deep.equal(certificationChallengeLiveAlert);
+      });
+    });
+  });
 });
