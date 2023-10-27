@@ -34,22 +34,29 @@
     margin: 16px;
   }
 
-  &__status {
+  &__status-container {
     border-radius: 12px;
     display: inline-block;
     font-size: 0.75rem;
-    font-weight: 400;
-    margin-top: 8px;
-    padding: 4px 16px;
+    font-weight: $font-normal;
+    margin-top: $pix-spacing-xs;
+    padding: $pix-spacing-xxs 0;
+
+    @include device-is('tablet') {
+      margin-top: 0;
+      position: absolute;
+      right: $pix-spacing-s;
+      top: $pix-spacing-xxs;
+    }
+
+    &--ongoing-alert {
+      background-color: $pix-error-10;
+      color: $pix-error-70;
+    }
 
     &--started {
       background-color: $pix-success-5;
       color: $pix-success-80;
-    }
-
-    &--authorized-to-resume {
-      background-color: $pix-tertiary-5;
-      color: $pix-tertiary-80;
     }
 
     &--completed {
@@ -57,17 +64,15 @@
       color: $pix-primary-70;
     }
 
-    &--ongoing-alert {
-      background-color: $pix-error-10;
-      color: $pix-error-70;
+    &--authorized-to-resume {
+      background-color: $pix-tertiary-5;
+      color: $pix-tertiary-80;
     }
-  }
 
-  &__status-container {
-    @include device-is('tablet') {
-      position: absolute;
-      right: $pix-spacing-s;
-      top: $pix-spacing-xxs;
+    > .pix-tag--compact {
+      font-family: $font-roboto;
+      font-weight: $font-normal;
+      text-transform: none;
     }
   }
 
