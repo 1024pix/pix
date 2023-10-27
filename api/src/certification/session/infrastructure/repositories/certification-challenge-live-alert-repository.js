@@ -37,6 +37,18 @@ const getOngoingBySessionIdAndUserId = async ({ sessionId, userId }) => {
   return _toDomain(certificationChallengeLiveAlertDto);
 };
 
+const getOngoingByChallengeIdAndAssessmentId = async ({ challengeId, assessmentId }) => {
+  const certificationChallengeLiveAlertDto = await knex('certification-challenge-live-alerts')
+    .where({
+      'certification-challenge-live-alerts.challengeId': challengeId,
+      'certification-challenge-live-alerts.assessmentId': assessmentId,
+      'certification-challenge-live-alerts.status': CertificationChallengeLiveAlertStatus.ONGOING,
+    })
+    .first();
+
+  return _toDomain(certificationChallengeLiveAlertDto);
+};
+
 const _toDomain = (certificationChallengeLiveAlertDto) => {
   if (!certificationChallengeLiveAlertDto) {
     return null;
@@ -45,4 +57,4 @@ const _toDomain = (certificationChallengeLiveAlertDto) => {
 };
 
 const _toDTO = (certificationChallengeLiveAlertDto) => certificationChallengeLiveAlertDto;
-export { save, getByAssessmentId, getOngoingBySessionIdAndUserId };
+export { save, getByAssessmentId, getOngoingBySessionIdAndUserId, getOngoingByChallengeIdAndAssessmentId };

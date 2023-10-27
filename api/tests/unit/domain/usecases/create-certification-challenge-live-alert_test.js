@@ -9,6 +9,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
   beforeEach(function () {
     certificationChallengeLiveAlertRepository = {
       save: sinon.stub(),
+      getOngoingByChallengeIdAndAssessmentId: sinon.stub(),
     };
 
     answerRepository = {
@@ -55,5 +56,35 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
     expect(certificationChallengeLiveAlertRepository.save).to.have.been.calledWith({
       certificationChallengeLiveAlert: sinon.match(expectedLiveAlert),
     });
+  });
+
+  it('should prevent the candidate from alerting twice with one unhandled alert', async function () {
+    // given
+    const assessmentId = 123;
+    const challengeId = 'pix123';
+    const unhandledCertificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
+      assessmentId,
+      challengeId,
+      answerRepository,
+    });
+
+    const answers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
+    answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+
+    certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId
+      .withArgs({ assessmentId, challengeId })
+      .resolves(unhandledCertificationChallengeLiveAlert);
+
+    // when
+    await createCertificationChallengeLiveAlert({
+      assessmentId,
+      challengeId,
+      certificationChallengeLiveAlertRepository,
+      answerRepository,
+    });
+
+    // then
+    expect(certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId).to.have.been.calledOnce;
+    expect(certificationChallengeLiveAlertRepository.save).to.not.have.been.called;
   });
 });
