@@ -39,6 +39,7 @@ describe('Integration | Repository | Session-for-supervisor-kit', function () {
           time: '12:00:00',
           accessCode: 'X23SR71',
           supervisorPassword: 'NYX34',
+          version: 2,
         });
 
         // when

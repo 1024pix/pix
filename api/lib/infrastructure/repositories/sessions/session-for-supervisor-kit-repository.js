@@ -12,6 +12,7 @@ const get = async function (idSession) {
       'sessions.examiner',
       'sessions.accessCode',
       'sessions.supervisorPassword',
+      'sessions.version',
     )
     .from('sessions')
     .where({ 'sessions.id': idSession })
