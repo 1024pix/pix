@@ -1,21 +1,15 @@
-import * as s3Utils from './s3-utils.js';
+import { S3ObjectStorageProvider } from './s3-utils.js';
 import { config } from '../../config.js';
 import { logger } from '../logger.js';
 const { cpf } = config;
 
-const upload = async function ({ filename, readableStream, dependencies = { s3Utils, logger } }) {
+const upload = async function ({ filename, readableStream, dependencies = { S3ObjectStorageProvider, logger } }) {
   dependencies.logger.trace('cpfExternalStorage: start upload');
 
-  const { accessKeyId, secretAccessKey, endpoint, region, bucket } = cpf.storage;
-  const s3ObjectStorageProvider = new dependencies.s3Utils.S3ObjectStorageProvider({
-    accessKeyId,
-    secretAccessKey,
-    endpoint,
-    region,
-    bucket,
+  const upload = dependencies.S3ObjectStorageProvider.createClient(cpf.storage).startUpload({
+    filename,
+    readableStream,
   });
-
-  const upload = s3ObjectStorageProvider.startUpload({ filename, readableStream });
 
   upload.on('httpUploadProgress', (progress) => dependencies.logger.trace(progress));
 
@@ -23,16 +17,8 @@ const upload = async function ({ filename, readableStream, dependencies = { s3Ut
   dependencies.logger.trace(`cpfExternalStorage: ${filename} upload done`);
 };
 
-const getPreSignUrlsOfFilesModifiedAfter = async function ({ date, dependencies = { s3Utils } }) {
-  const { accessKeyId, secretAccessKey, endpoint, region, bucket, preSignedExpiresIn: expiresIn } = cpf.storage;
-  const s3ObjectStorageProvider = new dependencies.s3Utils.S3ObjectStorageProvider({
-    accessKeyId,
-    secretAccessKey,
-    endpoint,
-    region,
-    bucket,
-  });
-
+const getPreSignUrlsOfFilesModifiedAfter = async function ({ date, dependencies = { S3ObjectStorageProvider } }) {
+  const s3ObjectStorageProvider = dependencies.S3ObjectStorageProvider.createClient(cpf.storage);
   const filesInBucket = await s3ObjectStorageProvider.listFiles();
 
   const keysOfFilesModifiedAfter = filesInBucket?.Contents.filter(({ LastModified }) => LastModified >= date).map(
@@ -41,7 +27,7 @@ const getPreSignUrlsOfFilesModifiedAfter = async function ({ date, dependencies 
 
   return await s3ObjectStorageProvider.preSignFiles({
     keys: keysOfFilesModifiedAfter,
-    expiresIn,
+    expiresIn: cpf.storage.preSignedExpiresIn,
   });
 };
 

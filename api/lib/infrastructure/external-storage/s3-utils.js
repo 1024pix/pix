@@ -29,7 +29,7 @@ class S3ObjectStorageProvider {
     bucket,
     dependencies = { clientS3, libStorage, s3RequestPresigner },
   }) {
-    if (Object.values({ accessKeyId, secretAccessKey, endpoint, region, bucket }).some((prop) => prop === undefined)) {
+    if ([accessKeyId, secretAccessKey, endpoint, region, bucket].some((prop) => prop === undefined)) {
       throw new Error('Missing S3 Object Storage configuration');
     }
 

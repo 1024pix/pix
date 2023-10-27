@@ -5,6 +5,14 @@ import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 describe('Unit | Infrastructure | external-storage | s3-utils', function () {
+  const S3_CONFIG = {
+    accessKeyId: 'accessKeyId',
+    secretAccessKey: 'secretAccessKey',
+    endpoint: 'endpoint',
+    region: 'region',
+    bucket: 'pix-cpf-dev',
+  };
+
   let clientS3;
   let libStorage;
   let s3RequestPresigner;
@@ -28,17 +36,8 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
     });
 
     it('should create a provider', async function () {
-      // given
-      const config = {
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'pix-cpf-dev',
-      };
-
-      // when
-      const client = new S3ObjectStorageProvider(config);
+      // given, when
+      const client = S3ObjectStorageProvider.createClient(S3_CONFIG);
 
       // then
       expect(client).to.exist;
@@ -52,7 +51,10 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
       const UploadStubbedInstance = sinon.createStubInstance(Upload);
       const constructorStub = sinon.stub(libStorage, 'Upload').returns(UploadStubbedInstance);
-      const s3ObjectStorageProvider = _initTestS3ObjectStorageProvider({ dependencies: { clientS3, libStorage } });
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
+        dependencies: { clientS3, libStorage },
+      });
       const readableStreamStub = sinon.stub();
 
       // when
@@ -86,7 +88,10 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       const constructorStub = sinon.stub(clientS3, 'ListObjectsV2Command').returns(ListObjectsV2CommandStubbedInstance);
       sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
 
-      const s3ObjectStorageProvider = _initTestS3ObjectStorageProvider({ dependencies: { clientS3, libStorage } });
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
+        dependencies: { clientS3, libStorage },
+      });
 
       // when
       const listFilesResult = await s3ObjectStorageProvider.listFiles();
@@ -113,7 +118,8 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
         .withArgs(S3ClientStubbedInstance, getObjectCommandStubbedInstance, { expiresIn: 3600 })
         .resolves('presigned_we_love_sweets');
 
-      const s3ObjectStorageProvider = _initTestS3ObjectStorageProvider({
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
         dependencies: { clientS3, s3RequestPresigner },
       });
 
