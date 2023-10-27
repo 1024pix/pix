@@ -138,6 +138,7 @@
         "birth-city-postcode": "Birth city postcode",
         "birth-country": "Birth country",
         "birth-date": "Date of birth",
+        "birth-date-example": "dd/mm/yyyy",
         "birth-geographical-code": "Geographical birth code",
         "birth-name": "Birth name",
         "firstname": "First name",
