@@ -1,6 +1,6 @@
-import { expect, sinon, catchErrSync } from '../../../test-helper.js';
-import { S3ObjectStorageProvider } from '../../../../lib/infrastructure/external-storage/s3-utils.js';
-import { S3Client, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
+import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
+import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 

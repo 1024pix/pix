@@ -2,7 +2,8 @@ import { injectDependencies } from '../../../../src/shared/infrastructure/utils/
 
 import * as cpfCertificationResultRepository from '../../../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfCertificationXmlExportService from '../../../domain/services/cpf-certification-xml-export-service.js';
-import * as cpfExternalStorage from '../../external-storage/cpf-external-storage.js';
+import * as getPreSignedUrls from '../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
+import * as uploadCpfFiles from '../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
 import * as mailService from '../../../domain/services/mail-service.js';
 
 import { planner } from './handlers/planner.js';
@@ -12,7 +13,8 @@ import { sendEmail } from './handlers/send-email.js';
 const dependencies = {
   cpfCertificationResultRepository,
   cpfCertificationXmlExportService,
-  cpfExternalStorage,
+  getPreSignedUrls,
+  uploadCpfFiles,
   mailService,
 };
 
