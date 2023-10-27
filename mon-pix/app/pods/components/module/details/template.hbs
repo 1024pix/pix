@@ -9,39 +9,10 @@
     <article class="grain">
       {{#each @module.elements as |element|}}
         {{#if element.isLesson}}
-          <Module::Lesson @lesson={{element}}/>
+          <Module::Lesson @lesson={{element}} />
+        {{else if element.isQcu}}
+          <Module::Qcu @qcu={{element}} />
         {{/if}}
-
-        <!--      QCU-->
-
-        {{#if element.isQcu}}
-          <div class="element-qcu">
-            <div class="element-qcu__header">
-              <p class="element-qcu-header__instruction">
-                {{html-safe element.instruction}}
-              </p>
-              <p class="element-qcu-header__direction">
-                {{t "pages.modulix.qcu.direction"}}
-              </p>
-            </div>
-            <div class="element-qcu__proposals">
-              {{#each element.proposals as |proposal|}}
-                <PixRadioButton
-                  name="radioss"
-                  @value={{html-safe proposal}}
-                  {{on "click" (fn this.radioClicked proposal)}}
-                  data-value={{html-safe proposal}}
-                  @class="element-qcu__radio"
-                >
-                  {{html-safe proposal}}
-                </PixRadioButton>
-              {{/each}}
-            </div>
-          </div>
-        {{/if}}
-
-        <!--        end-->
-
       {{/each}}
       <footer class="grain__footer">
         <PixButton @backgroundColor="blue" @shape="rounded" @triggerAction={{this.continueToNextGrain}}>

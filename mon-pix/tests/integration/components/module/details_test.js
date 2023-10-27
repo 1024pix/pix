@@ -27,13 +27,7 @@ module('Integration | Component | Module | Details', function (hooks) {
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
     assert.strictEqual(findAll('.element-lesson').length, 1);
-
-    assert.strictEqual(findAll('.element-qcu-header__instruction').length, 1);
-    assert.strictEqual(findAll('.element-qcu-header__direction').length, 1);
-
-    assert.strictEqual(screen.getAllByRole('radio').length, qcuElement.proposals.length);
-    assert.ok(screen.getByLabelText('radio1'));
-    assert.ok(screen.getByLabelText('radio2'));
+    assert.strictEqual(findAll('.element-qcu').length, 1);
 
     assert.ok(screen.getByRole('button', { name: 'Continuer' }));
   });
