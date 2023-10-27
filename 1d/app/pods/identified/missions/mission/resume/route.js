@@ -4,10 +4,10 @@ import { service } from '@ember/service';
 export default class MissionRoute extends Route {
   @service router;
   @service store;
+  @service currentLearner;
 
   model(params, transition) {
-    //TODO Ajouter le learner
-    return this.store.queryRecord('assessment', { missionId: transition.to.parent.params.mission_id });
+    return this.store.queryRecord('assessment', { missionId: transition.to.parent.params.mission_id, learnerId: this.currentLearner.learner.id });
   }
 
   afterModel(assessment) {
