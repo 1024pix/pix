@@ -5,7 +5,10 @@ export default class AttachTargetProfileRoute extends Route {
   @service accessControl;
 
   beforeModel() {
-    this.accessControl.restrictAccessTo(['isSuperAdmin', 'isMetier', 'isSupport'], 'authenticated');
+    this.accessControl.restrictAccessTo(
+      ['isSuperAdmin'],
+      'authenticated.complementary-certifications.complementary-certification',
+    );
   }
 
   model(params) {

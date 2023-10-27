@@ -196,9 +196,9 @@ module('Unit | Service | access-control', function (hooks) {
         { role: 'isSuperAdmin', hasAccess: true },
         { role: 'isSupport', hasAccess: true },
         { role: 'isMetier', hasAccess: true },
-        { role: 'isCertif', hasAccess: false },
+        { role: 'isCertif', hasAccess: true },
       ].forEach(function ({ role, hasAccess }) {
-        test(`should be ${hasAccess} if current admin member is ${role}`, function (assert) {
+        test(`should be accessible for all role members (${role} access)`, function (assert) {
           // given
           const currentUser = this.owner.lookup('service:currentUser');
           currentUser.adminMember = { [role]: true };
