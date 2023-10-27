@@ -1,4 +1,4 @@
-import { LOCALE } from '../../domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

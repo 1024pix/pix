@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { LOCALE } from '../../../lib/domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE, FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 

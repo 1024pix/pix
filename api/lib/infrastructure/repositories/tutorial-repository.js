@@ -5,7 +5,7 @@ import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.
 import { tutorialDatasource } from '../datasources/learning-content/tutorial-datasource.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { TutorialForUser } from '../../domain/read-models/TutorialForUser.js';
-import { LOCALE } from '../../domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as skillRepository from './skill-repository.js';
 import * as paginateModule from '../utils/paginate.js';

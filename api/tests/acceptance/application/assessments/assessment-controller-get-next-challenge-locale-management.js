@@ -8,7 +8,7 @@ import {
 
 import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 

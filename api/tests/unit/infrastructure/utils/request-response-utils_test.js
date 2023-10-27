@@ -4,7 +4,7 @@ import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
 } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 

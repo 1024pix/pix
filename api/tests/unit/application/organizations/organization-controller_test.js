@@ -9,7 +9,7 @@ import { organizationController } from '../../../../lib/application/organization
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { LANG } from '../../../../lib/domain/constants.js';
+import { LANG } from '../../../../src/shared/domain/constants.js';
 const { FRENCH } = LANG;
 
 describe('Unit | Application | Organizations | organization-controller', function () {

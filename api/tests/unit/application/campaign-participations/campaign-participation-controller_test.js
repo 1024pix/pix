@@ -5,7 +5,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 

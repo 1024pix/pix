@@ -3,7 +3,7 @@ import { certificationController } from '../../../../lib/application/certificati
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { LANG } from '../../../../lib/domain/constants.js';
+import { LANG } from '../../../../src/shared/domain/constants.js';
 const { FRENCH } = LANG;
 
 describe('Unit | Controller | certifications-controller', function () {

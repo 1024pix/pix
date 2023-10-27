@@ -5,7 +5,7 @@ import {
   CampaignParticipationDeletedError,
 } from '../../../../lib/domain/errors.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { LOCALE } from '../../../../lib/domain/constants.js';
+import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { computeCampaignParticipationAnalysis } = usecases;
 const { FRENCH_SPOKEN } = LOCALE;
