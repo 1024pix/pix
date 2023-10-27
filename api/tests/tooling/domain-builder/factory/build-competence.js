@@ -1,4 +1,4 @@
-import { Competence } from '../../../../lib/domain/models/Competence.js';
+import { Competence } from '../../../../src/shared/domain/models/Competence.js';
 
 const buildCompetence = function ({
   id = 'recCOMP1',

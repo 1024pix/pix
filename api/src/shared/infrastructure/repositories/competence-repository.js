@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
-import { Competence } from '../../../../lib/domain/models/Competence.js';
+import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { LOCALE, PIX_ORIGIN } from '../../../../lib/domain/constants.js';
