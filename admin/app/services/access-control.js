@@ -57,13 +57,6 @@ export default class AccessControlService extends Service {
   }
 
   get hasAccessToComplementaryCertificationsScope() {
-    return (
-      this.featureToggles.featureToggles.isTargetProfileVersioningEnabled &&
-      !!(
-        this.currentUser.adminMember.isSuperAdmin ||
-        this.currentUser.adminMember.isSupport ||
-        this.currentUser.adminMember.isMetier
-      )
-    );
+    return this.featureToggles.featureToggles.isTargetProfileVersioningEnabled;
   }
 }
