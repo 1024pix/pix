@@ -1,10 +1,10 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class ModuleDetails extends Component {
+export default class ModuleQcu extends Component {
   @action
-  continueToNextGrain() {
+  radioClicked(value) {
     // eslint-disable-next-line no-console
-    console.info('Continue to next grain');
+    console.info(value);
   }
 }
