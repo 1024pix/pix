@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "^v16.20.2"
+    "node": "^20.8.1"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     "build": "run-s ci:front build:front",
     "build:admin": "(cd admin && npm run build) && mkdir -p dist && cp -R admin/dist dist/admin",
     "build:certif": "(cd certif && npm run build) && mkdir -p dist && cp -R certif/dist dist/certif",
-    "build:front": "run-p --print-label build:mon-pix build:orga build:certif build:admin build:1d",
+    "build:front": "run-p --print-label --max-parallel 2 build:mon-pix build:orga build:certif build:admin build:1d",
     "build:mon-pix": "(cd mon-pix && npm run build) && mkdir -p dist && cp -R mon-pix/dist dist/app",
     "build:orga": "(cd orga && npm run build) && mkdir -p dist && cp -R orga/dist dist/orga",
     "build:1d": "(cd 1d && npm run build) && mkdir -p dist && cp -R 1d/dist dist/1d",

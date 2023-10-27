@@ -5,9 +5,9 @@
   "scripts": {
     "build": "npx tsc --project tsconfig.production.json",
     "clean": "rm -rf node_modules",
-    "db:create": "ts-node src/scripts/database/create-database.ts",
-    "db:delete": "ts-node src/scripts/database/drop-database.ts",
-    "db:empty": "ts-node src/scripts/database/empty-database.ts",
+    "db:create": "node --loader ts-node/esm src/scripts/database/create-database.ts",
+    "db:delete": "node --loader ts-node/esm src/scripts/database/drop-database.ts",
+    "db:empty": "node --loader ts-node/esm src/scripts/database/empty-database.ts",
     "db:migrate": "NODE_OPTIONS='--loader ts-node/esm' npx knex --knexfile src/db/knexfile.ts migrate:latest",
     "db:new-migration": "NODE_OPTIONS='--loader ts-node/esm' npx knex --knexfile src/db/knexfile.ts migrate:make $migrationname",
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
@@ -35,13 +35,13 @@
   },
   "private": true,
   "engines": {
-    "node": "^v16.20.2"
+    "node": "^20.8.1"
   },
   "type": "module",
   "devDependencies": {
     "@1024pix/eslint-config": "^1.0.3",
     "@1024pix/eslint-plugin": "^1.0.0",
-    "@tsconfig/node18": "^18.2.0",
+    "@tsconfig/node20": "^20.1.2",
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.197",
     "@types/node": "^18.17.4",
