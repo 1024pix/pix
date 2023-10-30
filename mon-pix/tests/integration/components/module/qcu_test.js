@@ -12,7 +12,10 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const store = this.owner.lookup('service:store');
     const qcuElement = store.createRecord('qcu', {
       instruction: 'Instruction',
-      proposals: ['radio1', 'radio2'],
+      proposals: [
+        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
+        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+      ],
       type: 'qcus',
     });
     this.set('qcu', qcuElement);

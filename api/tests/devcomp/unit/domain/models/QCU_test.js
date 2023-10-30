@@ -8,13 +8,19 @@ describe('Unit | Devcomp | Domain | Models | QCU', function () {
         id: '123',
         instruction: 'instruction',
         locales: ['fr-FR'],
-        proposals: ['proposal'],
+        proposals: [
+          { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
+          { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+        ],
       });
 
       expect(qcu.id).equal('123');
       expect(qcu.instruction).equal('instruction');
       expect(qcu.locales).deep.equal(['fr-FR']);
-      expect(qcu.proposals).deep.equal(['proposal']);
+      expect(qcu.proposals).deep.equal([
+        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
+        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+      ]);
     });
   });
 
