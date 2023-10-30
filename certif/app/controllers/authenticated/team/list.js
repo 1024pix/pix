@@ -22,7 +22,11 @@ export default class AuthenticatedTeamListController extends Controller {
   }
 
   get shouldDisplayUpdateRefererButton() {
-    return this.model.hasCleaHabilitation && _hasAtLeastTwoMembersAndOneReferer(this.model.members);
+    return (
+      this.model.hasCleaHabilitation &&
+      this.currentUser.isAdminOfCurrentCertificationCenter &&
+      _hasAtLeastTwoMembersAndOneReferer(this.model.members)
+    );
   }
 
   get shouldDisplayInviteMemberButton() {

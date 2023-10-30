@@ -274,6 +274,30 @@ module('Acceptance | authenticated | team', function (hooks) {
               });
             });
           });
+
+          module('when there is a referer', function () {
+            test('does not display the button to change the referer', async function (assert) {
+              // given
+              const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                undefined,
+                'CCNG',
+                false,
+                'MEMBER',
+              );
+              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
+              server.create('member', { firstName: 'Jean', lastName: 'Ticipe', isReferer: false });
+              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              await authenticateSession(certificationPointOfContact.id);
+
+              // when
+              const screen = await visitScreen('/equipe');
+
+              // then
+              assert
+                .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.update-referer-button') }))
+                .doesNotExist();
+            });
+          });
         });
       });
 
