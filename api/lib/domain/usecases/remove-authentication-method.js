@@ -30,6 +30,13 @@ const removeAuthenticationMethod = async function ({ userId, type, userRepositor
     case OidcIdentityProviders.FWB.code:
       await _removeAuthenticationMethod(userId, OidcIdentityProviders.FWB.code, authenticationMethodRepository);
       break;
+    case OidcIdentityProviders.PAYSDELALOIRE.code:
+      await _removeAuthenticationMethod(
+        userId,
+        OidcIdentityProviders.PAYSDELALOIRE.code,
+        authenticationMethodRepository,
+      );
+      break;
   }
 };
 

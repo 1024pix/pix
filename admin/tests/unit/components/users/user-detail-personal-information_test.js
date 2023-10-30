@@ -110,5 +110,15 @@ module('Unit | Component | users | user-detail-personal-information', function (
         assert.strictEqual(component.translatedType, 'Fédération Wallonie-Bruxelles');
       });
     });
+
+    module('when authentication method is PAYSDELALOIRE', function () {
+      test('it displays "Pays de la Loire"', function (assert) {
+        // given
+        component.authenticationMethodType = 'PAYSDELALOIRE';
+
+        // when & then
+        assert.strictEqual(component.translatedType, 'Pays de la Loire');
+      });
+    });
   });
 });
