@@ -1,5 +1,5 @@
-import { expect, mockLearningContent, domainBuilder } from '../../../test-helper.js';
-import * as competenceRepository from '../../../../lib/infrastructure/repositories/competence-repository.js';
+import { expect, mockLearningContent, domainBuilder } from '../../../../test-helper.js';
+import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
 
 describe('Integration | Repository | competence-repository', function () {
   describe('#get', function () {

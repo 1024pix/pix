@@ -9,7 +9,7 @@ import _ from 'lodash';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
 import moment from 'moment';
-import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
+import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';

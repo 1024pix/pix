@@ -5,7 +5,7 @@ import { DomainTransaction } from '../DomainTransaction.js';
 import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
 import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
 import * as areaRepository from './area-repository.js';
-import * as competenceRepository from './competence-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as thematicRepository from './thematic-repository.js';
 import * as tubeRepository from './tube-repository.js';
 import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';

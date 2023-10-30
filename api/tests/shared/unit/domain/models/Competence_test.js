@@ -1,5 +1,5 @@
-import { expect } from '../../../test-helper.js';
-import { Competence } from '../../../../lib/domain/models/Competence.js';
+import { expect } from '../../../../test-helper.js';
+import { Competence } from '../../../../../src/shared/domain/models/Competence.js';
 
 describe('Unit | Domain | Models | Competence', function () {
   describe('@reference', function () {
