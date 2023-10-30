@@ -15,6 +15,10 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
+
   module('#shouldDisplayNoRefererSection', function () {
     module('when certification center has CLEA habilitation', function () {
       module('when there is a referer', function () {
@@ -186,55 +190,120 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
     });
   });
 
-  module('#shouldDisplayUpdateRefererButton', function () {
+  module('#shouldDisplayUpdateRefererButton', function (hooks) {
+    let currentUser;
+
+    hooks.beforeEach(function () {
+      currentUser = this.owner.lookup('service:current-user');
+    });
+
     module('when certification center has CLEA habilitation', function (hooks) {
       hooks.beforeEach(function () {
         controller.model = { hasCleaHabilitation: true };
       });
 
-      module('when there is only one member', function () {
-        test('returns false', function (assert) {
-          // given
-          const isReferer = store.createRecord('member', {
-            isReferer: true,
-          });
-          controller.model.members = [isReferer];
-
-          // when then
-          assert.false(controller.shouldDisplayUpdateRefererButton);
+      module('when current user has the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(true);
         });
-      });
 
-      module('when there is at least 2 members', function () {
-        module('with a referer', function () {
-          test('returns true', function (assert) {
+        module('when there is only one member', function () {
+          test('returns false', function (assert) {
             // given
-            const notReferer = store.createRecord('member', {
-              isReferer: false,
-            });
             const isReferer = store.createRecord('member', {
               isReferer: true,
             });
-            controller.model.members = [notReferer, isReferer];
-
-            // when then
-            assert.true(controller.shouldDisplayUpdateRefererButton);
-          });
-        });
-
-        module('without referer', function () {
-          test('returns false', function (assert) {
-            // given
-            const notReferer = store.createRecord('member', {
-              isReferer: false,
-            });
-            const notReferer2 = store.createRecord('member', {
-              isReferer: false,
-            });
-            controller.model.members = [notReferer, notReferer2];
+            controller.model.members = [isReferer];
 
             // when then
             assert.false(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+
+        module('when there is at least 2 members', function () {
+          module('with a referer', function () {
+            test('returns true', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const isReferer = store.createRecord('member', {
+                isReferer: true,
+              });
+              controller.model.members = [notReferer, isReferer];
+
+              // when then
+              assert.true(controller.shouldDisplayUpdateRefererButton);
+            });
+          });
+
+          module('without referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const notReferer2 = store.createRecord('member', {
+                isReferer: false,
+              });
+              controller.model.members = [notReferer, notReferer2];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
+          });
+        });
+      });
+
+      module('when current user does not have the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(false);
+        });
+
+        module('when there is only one member', function () {
+          test('returns false', function (assert) {
+            // given
+            const isReferer = store.createRecord('member', {
+              isReferer: true,
+            });
+            controller.model.members = [isReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+
+        module('when there is at least 2 members', function () {
+          module('with a referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const isReferer = store.createRecord('member', {
+                isReferer: true,
+              });
+              controller.model.members = [notReferer, isReferer];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
+          });
+
+          module('without referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const notReferer2 = store.createRecord('member', {
+                isReferer: false,
+              });
+              controller.model.members = [notReferer, notReferer2];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
           });
         });
       });
@@ -245,49 +314,108 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
         controller.model = { hasCleaHabilitation: false };
       });
 
-      module('when there is only one member', function () {
-        test('returns false', function (assert) {
-          // given
-          const isReferer = store.createRecord('member', {
-            isReferer: true,
-          });
-          controller.model.members = [isReferer];
-
-          // when then
-          assert.false(controller.shouldDisplayUpdateRefererButton);
+      module('when current user has the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(true);
         });
-      });
 
-      module('when there is at least 2 members', function () {
-        module('with a referer', function () {
+        module('when there is only one member', function () {
           test('returns false', function (assert) {
             // given
-            const notReferer = store.createRecord('member', {
-              isReferer: false,
-            });
             const isReferer = store.createRecord('member', {
               isReferer: true,
             });
-            controller.model.members = [notReferer, isReferer];
+            controller.model.members = [isReferer];
 
             // when then
             assert.false(controller.shouldDisplayUpdateRefererButton);
           });
         });
 
-        module('without referer', function () {
+        module('when there is at least 2 members', function () {
+          module('with a referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const isReferer = store.createRecord('member', {
+                isReferer: true,
+              });
+              controller.model.members = [notReferer, isReferer];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
+          });
+
+          module('without referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const notReferer2 = store.createRecord('member', {
+                isReferer: false,
+              });
+              controller.model.members = [notReferer, notReferer2];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
+          });
+        });
+      });
+
+      module('when current user does not have the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(false);
+        });
+
+        module('when there is only one member', function () {
           test('returns false', function (assert) {
             // given
-            const notReferer = store.createRecord('member', {
-              isReferer: false,
+            const isReferer = store.createRecord('member', {
+              isReferer: true,
             });
-            const notReferer2 = store.createRecord('member', {
-              isReferer: false,
-            });
-            controller.model.members = [notReferer, notReferer2];
+            controller.model.members = [isReferer];
 
             // when then
             assert.false(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+
+        module('when there is at least 2 members', function () {
+          module('with a referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const isReferer = store.createRecord('member', {
+                isReferer: true,
+              });
+              controller.model.members = [notReferer, isReferer];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
+          });
+
+          module('without referer', function () {
+            test('returns false', function (assert) {
+              // given
+              const notReferer = store.createRecord('member', {
+                isReferer: false,
+              });
+              const notReferer2 = store.createRecord('member', {
+                isReferer: false,
+              });
+              controller.model.members = [notReferer, notReferer2];
+
+              // when then
+              assert.false(controller.shouldDisplayUpdateRefererButton);
+            });
           });
         });
       });
