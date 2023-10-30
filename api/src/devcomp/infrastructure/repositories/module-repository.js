@@ -2,6 +2,7 @@ import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Module } from '../../domain/models/Module.js';
 import { Text } from '../../domain/models/element/Text.js';
 import { QCU } from '../../domain/models/element/QCU.js';
+import { QcuProposal } from '../../domain/models/QcuProposal.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -24,7 +25,14 @@ function _toDomain(moduleData) {
           id: element.id,
           instruction: element.instruction,
           locales: element.locales,
-          proposals: element.proposals,
+          proposals: element.proposals.map((proposal) => {
+            return new QcuProposal({
+              id: proposal.id,
+              content: proposal.content,
+              isValid: proposal.isValid,
+              feedback: proposal.feedback,
+            });
+          }),
         });
       }
 
