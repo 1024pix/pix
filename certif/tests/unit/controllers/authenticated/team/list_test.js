@@ -239,5 +239,58 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
         });
       });
     });
+
+    module('when certification center does not have CLEA habilitation', function (hooks) {
+      hooks.beforeEach(function () {
+        controller.model = { hasCleaHabilitation: false };
+      });
+
+      module('when there is only one member', function () {
+        test('returns false', function (assert) {
+          // given
+          const isReferer = store.createRecord('member', {
+            isReferer: true,
+          });
+          controller.model.members = [isReferer];
+
+          // when then
+          assert.false(controller.shouldDisplayUpdateRefererButton);
+        });
+      });
+
+      module('when there is at least 2 members', function () {
+        module('with a referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            const isReferer = store.createRecord('member', {
+              isReferer: true,
+            });
+            controller.model.members = [notReferer, isReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+
+        module('without referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            const notReferer2 = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [notReferer, notReferer2];
+
+            // when then
+            assert.false(controller.shouldDisplayUpdateRefererButton);
+          });
+        });
+      });
+    });
   });
 });
