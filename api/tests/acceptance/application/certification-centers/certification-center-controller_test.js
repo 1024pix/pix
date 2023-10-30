@@ -851,6 +851,7 @@ describe('Acceptance | API | Certification Center', function () {
         userId: certificationCenterMemberId,
         certificationCenterId,
         isReferer: false,
+        role: 'ADMIN',
       });
       await databaseBuilder.commit();
 

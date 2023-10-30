@@ -234,8 +234,8 @@ const register = async function (server) {
         handler: certificationCenterController.updateReferer,
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
-            assign: 'isMemberOfCertificationCenter',
+            method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+            assign: 'isAdminOfCertificationCenter',
           },
         ],
         notes: [
