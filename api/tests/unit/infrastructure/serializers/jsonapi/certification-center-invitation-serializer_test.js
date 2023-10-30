@@ -39,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
         id: 7,
         certificationCenterId: 666,
         email: 'anne.atole@example.net',
+        role: 'MEMBER',
         updatedAt: now,
       });
 
@@ -53,6 +54,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
           attributes: {
             email: 'anne.atole@example.net',
             'updated-at': now,
+            role: 'MEMBER',
           },
         },
       });
@@ -68,6 +70,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
           attributes: {
             language: 'fr-fr',
             email: 'email@example.net',
+            role: 'ADMIN',
           },
         },
       };
@@ -79,6 +82,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-invitation-serializ
       expect(json).to.deep.equal({
         language: 'fr-fr',
         email: 'email@example.net',
+        role: 'ADMIN',
       });
     });
   });
