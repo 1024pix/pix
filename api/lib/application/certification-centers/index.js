@@ -226,9 +226,30 @@ const register = async function (server) {
       },
     },
   ];
+  const certifRoutes = [
+    {
+      method: 'POST',
+      path: '/api/certif/certification-centers/{certificationCenterId}/update-referer',
+      config: {
+        handler: certificationCenterController.updateReferer,
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Mise à jour du status de référent d'un membre d'un espace pix-certif\n",
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
+  ];
 
   server.route([
     ...adminRoutes,
+    ...certifRoutes,
     {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students',
@@ -433,25 +454,6 @@ const register = async function (server) {
             "- Elle permet à un administrateur d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification, via leur **email**",
         ],
         tags: ['api', 'invitations', 'certification-center'],
-      },
-    },
-
-    {
-      method: 'POST',
-      path: '/api/certif/certification-centers/{certificationCenterId}/update-referer',
-      config: {
-        handler: certificationCenterController.updateReferer,
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
-            assign: 'isMemberOfCertificationCenter',
-          },
-        ],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
-            "- Mise à jour du status de référent d'un membre d'un espace pix-certif\n",
-        ],
-        tags: ['api', 'certification-center-membership'],
       },
     },
 
