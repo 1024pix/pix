@@ -4,22 +4,22 @@ import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { findAll } from '@ember/test-helpers';
 
-module('Integration | Component | Module | Lesson', function (hooks) {
+module('Integration | Component | Module | Text', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display a Lesson', async function (assert) {
+  test('should display a Text', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const lessonElement = store.createRecord('lesson', { content: 'toto', type: 'lessons' });
+    const textElement = store.createRecord('text', { content: 'toto', type: 'texts' });
 
-    this.set('lesson', lessonElement);
+    this.set('text', textElement);
 
     //  when
-    const screen = await render(hbs`<Module::Lesson @lesson={{this.lesson}}/>`);
+    const screen = await render(hbs`<Module::Text @text={{this.text}}/>`);
 
     // then
     assert.ok(screen);
-    assert.strictEqual(findAll('.element-lesson').length, 1);
+    assert.strictEqual(findAll('.element-text').length, 1);
     assert.ok(screen.getByText('toto'));
   });
 });

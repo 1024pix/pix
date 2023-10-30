@@ -8,7 +8,7 @@ describe('Unit | Devcomp | Models | Module', function () {
       const id = 1;
       const slug = 'les-adresses-email';
       const title = 'Les adresses email';
-      const list = [Symbol('lesson')];
+      const list = [Symbol('text')];
 
       // when
       const module = new Module({ id, slug, title, list });

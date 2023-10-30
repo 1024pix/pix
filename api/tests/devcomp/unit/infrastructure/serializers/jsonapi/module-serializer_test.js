@@ -1,7 +1,7 @@
 import { expect } from '../../../../../test-helper.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/Module.js';
 import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
-import { Lesson } from '../../../../../../src/devcomp/domain/models/element/Lesson.js';
+import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 
 describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
@@ -43,7 +43,7 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
         id,
         slug,
         title,
-        list: [new Lesson({ id: '1', content: '' }), new QCU({ id: '2', proposals: [''], instruction: 'hello' })],
+        list: [new Text({ id: '1', content: '' }), new QCU({ id: '2', proposals: [''], instruction: 'hello' })],
       });
       const expectedJson = {
         data: {
@@ -56,7 +56,7 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
             elements: {
               data: [
                 {
-                  type: 'lessons',
+                  type: 'texts',
                   id: '1',
                 },
                 {
@@ -69,11 +69,11 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
         },
         included: [
           {
-            type: 'lessons',
+            type: 'texts',
             id: '1',
             attributes: {
               content: '',
-              type: 'lessons',
+              type: 'texts',
             },
           },
           {
