@@ -13,6 +13,7 @@ const typesLabel = {
   GAR: 'Médiacentre',
   CNAV: 'CNAV',
   FWB: 'Fédération Wallonie-Bruxelles',
+  PAYSDELALOIRE: 'Pays de la Loire',
 };
 
 export default class UserDetailPersonalInformationComponent extends Component {
