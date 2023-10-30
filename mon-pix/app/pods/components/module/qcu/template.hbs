@@ -9,13 +9,8 @@
   </div>
   <div class="element-qcu__proposals">
     {{#each @qcu.proposals as |proposal|}}
-      <PixRadioButton
-        name={{@qcu.id}}
-        @value={{html-safe proposal}}
-        {{on "click" (fn this.radioClicked proposal)}}
-        data-value={{html-safe proposal}}
-      >
-        {{html-safe proposal}}
+      <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal)}}>
+        {{proposal.content}}
       </PixRadioButton>
     {{/each}}
   </div>

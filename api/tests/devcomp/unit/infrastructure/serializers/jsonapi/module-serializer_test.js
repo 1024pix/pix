@@ -43,7 +43,14 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
         id,
         slug,
         title,
-        list: [new Text({ id: '1', content: '' }), new QCU({ id: '2', proposals: [''], instruction: 'hello' })],
+        list: [
+          new Text({ id: '1', content: '' }),
+          new QCU({
+            id: '2',
+            proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
+            instruction: 'hello',
+          }),
+        ],
       });
       const expectedJson = {
         data: {
@@ -81,7 +88,7 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
             id: '2',
             attributes: {
               instruction: 'hello',
-              proposals: [''],
+              proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
               type: 'qcus',
             },
           },
