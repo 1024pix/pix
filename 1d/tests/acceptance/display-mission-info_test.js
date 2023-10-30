@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl } from 'ember-intl/test-support';
 import identifiyLearner from '../helpers/identify-learner';
 
-module('Acceptance | Mission', function (hooks) {
+module('Acceptance | Display informations about the mission', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);

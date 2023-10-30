@@ -141,10 +141,7 @@ module('Acceptance | School', function (hooks) {
 
       // then
       assert.deepEqual(currentLearner.learner, {
-        division: 'CM2-B',
-        firstName: 'Maya',
-        lastName: 'Labeille',
-        organizationId: 9000,
+        id: 1,
         schoolUrl: '/schools/MINIPIXOU',
       });
     });

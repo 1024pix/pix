@@ -24,8 +24,8 @@ function routes() {
 
   this.post('/assessments', (schema, request) => {
     const params = JSON.parse(request.requestBody);
-    if(!params.missionId || !params.learnerId) {
-      return new Response(400, {}, { errors: ['Missing params'] })
+    if (!params.missionId || !params.learnerId) {
+      return new Response(400, {}, { errors: ['Missing params'] });
     }
     return schema.assessments.create({ missionId: params.missionId, type: 'PIX1D_MISSION' });
   });
@@ -62,5 +62,9 @@ function routes() {
       return schema.schools.first();
     }
     return new Response(404);
+  });
+
+  this.get('/organization-learners/:id', (schema) => {
+    return schema.create('organization-learner', { completedMissionIds: ['recExjO7RHeDI48HK'] });
   });
 }

@@ -1,10 +1,16 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default class Students extends Controller {
+export default class Missions extends Controller {
+  //TODO rename this service
   @service currentLearner;
 
-  get learnerFirstName() {
-    return this.currentLearner.learner.firstName;
+  @action
+  missionCompleted(missionId) {
+    return this.model.completedMissionIds.includes(missionId);
+  }
+  get schoolUrl() {
+    return this.currentLearner.learner.schoolUrl + '/students?division=' + this.model.division;
   }
 }
