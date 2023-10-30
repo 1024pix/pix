@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.56.0 (30/10/2023)
+
+
+### :rocket: Amélioration
+- [#7327](https://github.com/1024pix/pix/pull/7327) [FEATURE] Ajouter la configuration pour phrase.
+- [#7262](https://github.com/1024pix/pix/pull/7262) [FEATURE] Permettre à une organisation SUP avec import de supprimer des prescrits (PIX-9200).
+- [#7336](https://github.com/1024pix/pix/pull/7336) [FEATURE] Ajout du kit surveillant pour la certif V3 (pix-8814).
+- [#7328](https://github.com/1024pix/pix/pull/7328) [FEATURE] Trier les candidats par statut d'alerte dans l'espace surveillant (PIX-8817).
+- [#7337](https://github.com/1024pix/pix/pull/7337) [FEATURE] Suppression des signalements de catégorie E pour la certif V3 (PIX-8773).
+- [#7331](https://github.com/1024pix/pix/pull/7331) [FEATURE] MAJ du lien de téléchargement de PV d'incident pour les session V3 (PIX-8814).
+- [#7318](https://github.com/1024pix/pix/pull/7318) [FEATURE] Gestion du succès et des erreurs lors de la validation d'un signalement (PIX-9754).
+
+### :building_construction: Tech
+- [#7338](https://github.com/1024pix/pix/pull/7338) [TECH] Revert "Mettre la release dans le cache de premier niveau avant de démarrer le serveur.".
+- [#7229](https://github.com/1024pix/pix/pull/7229) [TECH] Generer les sourcemaps automatiquement en dev et production.
+
+### :bug: Correction
+- [#7355](https://github.com/1024pix/pix/pull/7355) [BUGFIX] Correction des messages d'avertissement relatif a ember-cli-notifications.
+- [#7334](https://github.com/1024pix/pix/pull/7334) [BUGFIX] Gérer le cas de la suppression de la méthode de connexion SSO PAYSDELALOIRE (PIX-9612).
+
+### :arrow_up: Montée de version
+- [#7352](https://github.com/1024pix/pix/pull/7352) [BUMP] Update dependency sinon to v17 (load-testing).
+- [#7354](https://github.com/1024pix/pix/pull/7354) [BUMP] Update dependency sinon to v17 (orga).
+- [#7353](https://github.com/1024pix/pix/pull/7353) [BUMP] Update dependency sinon to v17 (mon-pix).
+- [#7351](https://github.com/1024pix/pix/pull/7351) [BUMP] Update dependency sinon to v17 (certif).
+- [#7350](https://github.com/1024pix/pix/pull/7350) [BUMP] Update dependency sinon to v17 (api).
+- [#7348](https://github.com/1024pix/pix/pull/7348) [BUMP] Update dependency sinon to v17 (admin).
+- [#7346](https://github.com/1024pix/pix/pull/7346) [BUMP] Update dependency sinon to v17 (1d).
+- [#7339](https://github.com/1024pix/pix/pull/7339) [BUMP] Update Node.js to v20.8.1.
+- [#7315](https://github.com/1024pix/pix/pull/7315) [BUMP] Update node to v20 (major).
+
 ## v4.55.0 (26/10/2023)
 
 
