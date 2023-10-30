@@ -11,12 +11,10 @@ import { disconnect } from './db/knex-database-connection.js';
 import { learningContentCache } from './lib/infrastructure/caches/learning-content-cache.js';
 import { temporaryStorage } from './lib/infrastructure/temporary-storage/index.js';
 import { redisMonitor } from './lib/infrastructure/utils/redis-monitor.js';
-import { initLearningContent } from './lib/infrastructure/datasources/learning-content/datasource.js';
 
 let server;
 
 const start = async function () {
-  await initLearningContent();
   server = await createServer();
   await server.start();
 };
