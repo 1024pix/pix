@@ -1,0 +1,64 @@
+<tr
+  aria-label={{t "pages.sup-organization-participants.table.row-title"}}
+  {{on "click" @onClickLearner}}
+  class="tr--clickable"
+>
+  {{#if @showCheckbox}}
+    <td class="table__column" {{on "click" @onToggleStudent}}>
+      <PixCheckbox @screenReaderOnly={{true}} @checked={{@isStudentSelected}}>
+        {{t
+          "pages.organization-participants.table.column.checkbox"
+          firstname=@student.firstName
+          lastname=@student.lastName
+        }}
+      </PixCheckbox>
+    </td>
+  {{/if}}
+  <td class="ellipsis">{{@student.studentNumber}}</td>
+  <td class="ellipsis">
+    <LinkTo @route="authenticated.sup-organization-participants.sup-organization-participant" @model={{@student.id}}>
+      {{@student.lastName}}
+    </LinkTo>
+  </td>
+  <td class="ellipsis">{{@student.firstName}}</td>
+  <td>{{dayjs-format @student.birthdate "DD/MM/YYYY"}}</td>
+  <td class="ellipsis">{{@student.group}}</td>
+  <td class="table__column--center">{{@student.participationCount}}</td>
+  <td>
+    {{#if @student.lastParticipationDate}}
+      <div class="organization-participant-list-page__last-participation">
+        <span>{{dayjs-format @student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
+        <Ui::LastParticipationDateTooltip
+          @id={{@index}}
+          @campaignName={{@student.campaignName}}
+          @campaignType={{@student.campaignType}}
+          @participationStatus={{@student.participationStatus}}
+        />
+      </div>
+    {{/if}}
+  </td>
+  <td class="table__column--center">
+    <Ui::IsCertifiable @isCertifiable={{@student.isCertifiable}} />
+    {{#if @student.certifiableAt}}
+      <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
+          @student.certifiableAt
+          "DD/MM/YYYY"
+          allow-empty=true
+        }}</span>
+    {{/if}}
+  </td>
+  <td class="organization-participant-list-page__actions hide-on-mobile">
+    {{#if @isAdminInOrganization}}
+      <Dropdown::IconTrigger
+        @icon="ellipsis-vertical"
+        @dropdownButtonClass="organization-participant-list-page__dropdown-button"
+        @dropdownContentClass="organization-participant-list-page__dropdown-content"
+        @ariaLabel={{t "pages.sup-organization-participants.actions.show-actions"}}
+      >
+        <Dropdown::Item @onClick={{fn @openEditStudentNumberModal @student}}>
+          {{t "pages.sup-organization-participants.actions.edit-student-number"}}
+        </Dropdown::Item>
+      </Dropdown::IconTrigger>
+    {{/if}}
+  </td>
+</tr>
