@@ -770,16 +770,17 @@
         "success-message": "{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des participants.} other {Les {count} participants sélectionnés ont bien été supprimés de la liste.}}"
       },
       "deletion-modal": {
+        "title": "{count, plural, =1 {Supprimer '<strong>'{firstname} {lastname}'</strong>' de vos} other {Êtes-vous sûr(e) de vouloir supprimer '<strong>'{count}'</strong>'}} participants ?",
         "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
-        "delete-button": "Oui, je supprime",
-        "many-items": {
-          "title": "Êtes-vous sûr(e) de vouloir supprimer '<strong>'{count}'</strong>' participants ?",
-          "content": "Ces participants ne seront plus visibles dans Pix Orga.'<br/>'Toutes leurs participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses pour leurs campagnes. Ils ne pourront pas participer à nouveau aux campagnes auxquelles ils avaient participé par le passé. Cependant des participations à de nouvelles campagnes resteront possibles.'<br/><strong>'Attention, cette action est irréversible.'</strong>'"
+        "content": {
+          "footer": "Attention, cette action est irréversible.",
+          "header": "{count, plural, =1 {Ce participant ne sera plus visible} other {Ces participants ne seront plus visibles}} dans Pix Orga.",
+          "main-campaign-prevent": "Cela impactera donc les résultats et analyses pour {count, plural, =1 {ses} other {leurs}} campagnes.",
+          "main-new-campaign-access": "Cependant {count, plural, =1 {la participation} other {des participations}} à de nouvelles campagnes {count, plural, =1 {restera} other {resteront}} possibles.",
+          "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} pas participer à nouveau aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
+          "main-participation-prevent": "Toutes {count, plural, =1 {ses} other {leurs}} participations aux campagnes seront supprimées."
         },
-        "one-item": {
-          "title": "Supprimer '<strong>'{firstname} {lastname}'</strong>' de vos participants ?",
-          "content": "Ce participant ne sera plus visible dans Pix Orga.'<br/>'Toutes ses participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses pour ces campagnes. Il ne pourra pas participer à nouveau aux campagnes auxquelles il avait participé par le passé. Cependant la participation à de nouvelles campagne restera possible.'<br/><strong>'Attention, cette action est irréversible'</strong>'."
-        }
+        "delete-button": "Oui, je supprime"
       },
       "empty-state": {
         "action": "Voir mes campagnes",
