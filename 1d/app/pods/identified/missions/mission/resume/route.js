@@ -7,7 +7,10 @@ export default class MissionRoute extends Route {
   @service currentLearner;
 
   model(params, transition) {
-    return this.store.queryRecord('assessment', { missionId: transition.to.parent.params.mission_id, learnerId: this.currentLearner.learner.id });
+    return this.store.queryRecord('assessment', {
+      missionId: transition.to.parent.params.mission_id,
+      learnerId: this.currentLearner.learner.id,
+    });
   }
 
   afterModel(assessment) {
