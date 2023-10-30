@@ -3,6 +3,11 @@ import { TimeSeries } from '../../../scripts/arborescence-monitoring/time-series
 
 describe('Unit | Scripts | time-series.js', function () {
   describe('#add', function () {
+    describe('Given undefined time series', function () {
+      it('should throw an error', async function () {
+        expect(() => new TimeSeries()).to.throw('Time series should have a non null/undefined array of points');
+      });
+    });
     describe('Given empty time series', function () {
       describe('New value to add', function () {
         it('should add the point sorted to the time series', async function () {
