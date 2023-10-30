@@ -21,7 +21,7 @@ function serialize(module) {
           return {
             id: element.id,
             content: element.content,
-            type: 'lessons',
+            type: 'texts',
           };
         }),
       };

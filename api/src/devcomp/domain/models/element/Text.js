@@ -1,13 +1,13 @@
 import { Element } from './Element.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
-class Lesson extends Element {
+class Text extends Element {
   #content;
 
   constructor({ id, content }) {
     super({ id });
 
-    assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour une leçon');
+    assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour un texte');
 
     this.#content = content;
   }
@@ -17,4 +17,4 @@ class Lesson extends Element {
   }
 }
 
-export { Lesson };
+export { Text };

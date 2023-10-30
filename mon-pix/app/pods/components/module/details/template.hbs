@@ -8,8 +8,8 @@
   <div class="module__content" aria-live="assertive">
     <article class="grain">
       {{#each @module.elements as |element|}}
-        {{#if element.isLesson}}
-          <Module::Lesson @lesson={{element}} />
+        {{#if element.isText}}
+          <Module::Text @text={{element}} />
         {{else if element.isQcu}}
           <Module::Qcu @qcu={{element}} />
         {{/if}}

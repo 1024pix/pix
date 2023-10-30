@@ -8,9 +8,9 @@ module('Unit | Model | Module', function (hooks) {
     // given
     const title = 'Les adresses mail';
     const store = this.owner.lookup('service:store');
-    const elementLesson = store.createRecord('lesson', { content: '' });
+    const elementText = store.createRecord('text', { content: '' });
     const elementQCU = store.createRecord('qcu', { instruction: '', proposals: [''] });
-    const elements = [elementLesson, elementQCU];
+    const elements = [elementText, elementQCU];
 
     // when
     const module = store.createRecord('module', { title, elements });

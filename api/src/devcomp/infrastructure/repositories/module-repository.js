@@ -1,6 +1,6 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Module } from '../../domain/models/Module.js';
-import { Lesson } from '../../domain/models/element/Lesson.js';
+import { Text } from '../../domain/models/element/Text.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
@@ -28,7 +28,7 @@ function _toDomain(moduleData) {
         });
       }
 
-      return new Lesson({
+      return new Text({
         id: element.id,
         content: element.content,
       });
