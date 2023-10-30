@@ -1,4 +1,4 @@
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 import {
   expect,
@@ -7,9 +7,9 @@ import {
   knex,
   mockLearningContent,
   learningContentBuilder,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import { MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../lib/domain/constants.js';
 
 describe('Acceptance | API | Competence Evaluations', function () {
   let server;

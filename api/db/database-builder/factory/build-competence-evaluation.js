@@ -1,7 +1,7 @@
 import { buildAssessment } from './build-assessment.js';
 import { buildUser } from './build-user.js';
 import { databaseBuffer } from '../database-buffer.js';
-import { CompetenceEvaluation } from '../../../lib/domain/models/CompetenceEvaluation.js';
+import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import _ from 'lodash';
 
 const buildCompetenceEvaluation = function ({

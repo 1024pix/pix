@@ -5,7 +5,7 @@ import bluebird from 'bluebird';
 import { knex } from '../../../db/knex-database-connection.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
-import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import { constants } from '../constants.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import { filterByFullName } from '../utils/filter-utils.js';

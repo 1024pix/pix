@@ -22,7 +22,7 @@ import * as certificationCourseRepository from '../../infrastructure/repositorie
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
-import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';

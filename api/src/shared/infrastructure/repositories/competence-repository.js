@@ -1,13 +1,13 @@
 import _ from 'lodash';
-import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { Competence } from '../../domain/models/Competence.js';
-import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
+import { competenceDatasource } from '../../../../lib/infrastructure/datasources/learning-content/competence-datasource.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { LOCALE, PIX_ORIGIN } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
-import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
+import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
 
 function _toDomain({ competenceData, locale }) {
   const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);

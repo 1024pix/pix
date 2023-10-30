@@ -1,6 +1,6 @@
 import { Area } from '../../domain/models/Area.js';
 import { areaDatasource } from '../datasources/learning-content/area-datasource.js';
-import * as competenceRepository from './competence-repository.js';
+import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import { getTranslatedKey } from '../../domain/services/get-translated-text.js';
 import _ from 'lodash';
 import { NotFoundError } from '../../domain/errors.js';
