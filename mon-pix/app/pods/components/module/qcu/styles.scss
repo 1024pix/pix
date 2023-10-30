@@ -1,0 +1,26 @@
+.element-qcu {
+  @extend %pix-body-l;
+
+  margin: $pix-spacing-s;
+  color: $pix-neutral-90;
+
+  // revert the reset
+  ul,
+  ol {
+    margin: revert;
+    padding: revert;
+    list-style: revert;
+  }
+}
+
+.element-qcu-header {
+  &__instruction {
+    @extend %pix-body-m;
+  }
+
+  &__direction {
+    @extend %pix-body-s;
+
+    color: $pix-neutral-60;
+  }
+}
