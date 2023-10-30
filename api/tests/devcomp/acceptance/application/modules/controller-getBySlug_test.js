@@ -20,7 +20,7 @@ describe('Acceptance | Controller | modules-controller-getBySlug', function () {
 
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('modules');
-        expect(response.result.included[0].type).to.equal('elements');
+        expect(response.result.included[0].type).to.equal('texts');
       });
     });
 

@@ -1,0 +1,17 @@
+<form class="element-qcu">
+  <div class="element-qcu__header">
+    <p class="element-qcu-header__instruction">
+      {{html-safe @qcu.instruction}}
+    </p>
+    <p class="element-qcu-header__direction">
+      {{t "pages.modulix.qcu.direction"}}
+    </p>
+  </div>
+  <div class="element-qcu__proposals">
+    {{#each @qcu.proposals as |proposal|}}
+      <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal)}}>
+        {{proposal.content}}
+      </PixRadioButton>
+    {{/each}}
+  </div>
+</form>

@@ -1,72 +1,72 @@
-import { Lesson } from '../../../../../src/devcomp/domain/models/Lesson.js';
+import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Devcomp | Domain | Models | Lesson', function () {
+describe('Unit | Devcomp | Domain | Models | Text', function () {
   describe('#constructor', function () {
-    it('should create a lesson and keep attributes', function () {
+    it('should create a text and keep attributes', function () {
       // when
-      const lesson = new Lesson({ id: 'id', content: 'content' });
+      const text = new Text({ id: 'id', content: 'content' });
 
       // then
-      expect(lesson.id).to.equal('id');
-      expect(lesson.content).to.equal('content');
+      expect(text.id).to.equal('id');
+      expect(text.content).to.equal('content');
     });
   });
 
-  describe('A lesson without id', function () {
+  describe('A text without id', function () {
     it('should throw an error', function () {
-      expect(() => new Lesson({ content: 'content' })).to.throw("L'id est obligatoire pour une leçon");
+      expect(() => new Text({ content: 'content' })).to.throw("L'id est obligatoire pour un élément");
     });
   });
 
-  describe('A lesson without content', function () {
+  describe('A text without content', function () {
     it('should throw an error', function () {
-      expect(() => new Lesson({ id: '1' })).to.throw('Le contenu est obligatoire pour une leçon');
+      expect(() => new Text({ id: '1' })).to.throw('Le contenu est obligatoire pour un texte');
     });
   });
 
   // eslint-disable-next-line mocha/no-skipped-tests
   describe.skip('Skip those tests, we keep them in order to discuss with business', function () {
-    describe('a lesson in construction', function () {
-      describe('A lesson with empty introduction', function () {
+    describe('a text in construction', function () {
+      describe('A text with empty introduction', function () {
         // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
         // eslint-disable-next-line no-empty-function
         it('should not throw an error', function () {});
       });
     });
 
-    describe('a lesson published', function () {
-      describe('A lesson with empty introduction', function () {
+    describe('a text published', function () {
+      describe('A text with empty introduction', function () {
         // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
         // eslint-disable-next-line no-empty-function
         it('should throw an error', function () {});
       });
     });
 
-    describe('A lesson with a introduction length greater than 3000 characters', function () {
+    describe('A text with a introduction length greater than 3000 characters', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
       // eslint-disable-next-line no-empty-function
       it('should throw error', function () {});
     });
-    describe('A lesson with special characters in the introduction', function () {
+    describe('A text with special characters in the introduction', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
       // eslint-disable-next-line no-empty-function
       it('should not throw error', function () {});
     });
 
-    describe('A lesson with a duplicate introduction', function () {
+    describe('A text with a duplicate introduction', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
       // eslint-disable-next-line no-empty-function
       it('should not throw error', function () {});
     });
 
-    describe('A lesson with introductive text', function () {
+    describe('A text with introductive text', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
       // eslint-disable-next-line no-empty-function
       it('should ', function () {});
     });
 
-    describe('A lesson', function () {
+    describe('A text', function () {
       // On permet des tests vides tant qu'on n'a pas validé le comportement attendu avec le métier
       // eslint-disable-next-line no-empty-function
       it('should be able to be traced back to an assessment de referentiel', function () {});

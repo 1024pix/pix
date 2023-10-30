@@ -1,6 +1,7 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Module } from '../../domain/models/Module.js';
-import { Lesson } from '../../domain/models/Lesson.js';
+import { Text } from '../../domain/models/element/Text.js';
+import { QCU } from '../../domain/models/element/QCU.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -17,13 +18,21 @@ function _toDomain(moduleData) {
     id: moduleData.id,
     slug: moduleData.slug,
     title: moduleData.title,
-    list: moduleData.list.map(
-      (lesson) =>
-        new Lesson({
-          id: lesson.id,
-          content: lesson.content,
-        }),
-    ),
+    list: moduleData.list.map((element) => {
+      if (element.type === 'qcu') {
+        return new QCU({
+          id: element.id,
+          instruction: element.instruction,
+          locales: element.locales,
+          proposals: element.proposals,
+        });
+      }
+
+      return new Text({
+        id: element.id,
+        content: element.content,
+      });
+    }),
   });
 }
 

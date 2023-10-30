@@ -10,9 +10,13 @@ module('Integration | Component | Module | Details', function (hooks) {
   test('should display given module', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const elementContent = 'toto';
-    const element = store.createRecord('element', { content: elementContent });
-    const moduleElements = [element];
+    const textElement = store.createRecord('text', { content: 'content', type: 'texts' });
+    const qcuElement = store.createRecord('qcu', {
+      instruction: 'instruction',
+      proposals: ['radio1', 'radio2'],
+      type: 'qcus',
+    });
+    const moduleElements = [textElement, qcuElement];
 
     const module = store.createRecord('module', { title: 'Module title', elements: moduleElements });
     this.set('module', module);
@@ -22,8 +26,9 @@ module('Integration | Component | Module | Details', function (hooks) {
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
-    assert.dom(screen.getByText(elementContent)).exists();
-    assert.strictEqual(findAll('.grain__element').length, moduleElements.length);
+    assert.strictEqual(findAll('.element-text').length, 1);
+    assert.strictEqual(findAll('.element-qcu').length, 1);
+
     assert.ok(screen.getByRole('button', { name: 'Continuer' }));
   });
 });

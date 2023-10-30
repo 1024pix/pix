@@ -23,24 +23,6 @@
   border: 1px solid $pix-neutral-22;
   border-radius: $pix-spacing-s;
 
-  &__element {
-    margin: $pix-spacing-s;
-
-    &--text {
-      @extend %pix-body-l;
-
-      color: $pix-neutral-90;
-
-      // revert the reset
-      ul,
-      ol {
-        margin: revert;
-        padding: revert;
-        list-style: revert;
-      }
-    }
-  }
-
   &__footer {
     margin: $pix-spacing-s;
   }
