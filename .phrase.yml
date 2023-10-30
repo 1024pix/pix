@@ -1,0 +1,41 @@
+phrase:
+  file_format: nested_json
+  push:
+    sources:
+    - file: ./mon-pix/translations/<locale_name>.json
+      project_id: "9ca9a54c81b5a85168c8df3d6953a49e"
+
+    - file: ./orga/translations/<locale_name>.json
+      project_id: "93a23f4b74a86dbb53244134fb21ef43"
+
+    - file: ./certif/translations/<locale_name>.json
+      project_id: "3371843f0a06e47d0fba1374b19b439c"
+
+    - file: ./admin/translations/<locale_name>.json
+      project_id: "0e242bea62d0ac0d989d082b8d1d96d7"
+
+    - file: ./1d/translations/<locale_name>.json
+      project_id: "dd99bbfc9e880398e292a808e7013896"
+
+    - file: ./api/translations/<locale_name>.json
+      project_id: "88f30f82bdab4e25ac5e57b6663a941a"
+
+  pull:
+    targets:
+     - file: ./mon-pix/translations/<locale_name>.json
+       project_id: "9ca9a54c81b5a85168c8df3d6953a49e"
+
+     - file: ./orga/translations/<locale_name>.json
+       project_id: "93a23f4b74a86dbb53244134fb21ef43"
+
+     - file: ./certif/translations/<locale_name>.json
+       project_id: "3371843f0a06e47d0fba1374b19b439c"
+
+     - file: ./admin/translations/<locale_name>.json
+       project_id: "0e242bea62d0ac0d989d082b8d1d96d7"
+
+     - file: ./1d/translations/<locale_name>.json
+       project_id: "dd99bbfc9e880398e292a808e7013896"
+
+     - file: ./api/translations/<locale_name>.json
+       project_id: "88f30f82bdab4e25ac5e57b6663a941a"
