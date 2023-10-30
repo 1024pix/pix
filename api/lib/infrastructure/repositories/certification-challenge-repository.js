@@ -6,6 +6,7 @@ import { logger } from '../../infrastructure/logger.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationChallenge } from '../../domain/models/CertificationChallenge.js';
+import { CertificationChallengeLiveAlertStatus } from '../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 
 const logContext = {
   zone: 'certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId',
@@ -47,11 +48,15 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
 
 const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId, courseId) {
   const answeredChallengeIds = await knex('answers').select('challengeId').where({ assessmentId });
+  const alertedChallengeIds = await knex('certification-challenge-live-alerts')
+    .select('challengeId')
+    .where({ assessmentId, status: CertificationChallengeLiveAlertStatus.VALIDATED });
   const mappedAnsweredChallengeIds = answeredChallengeIds.map(({ challengeId }) => challengeId);
+  const mappedAlertedChallengeIds = alertedChallengeIds.map(({ challengeId }) => challengeId);
 
   const certificationChallenge = await knex('certification-challenges')
     .where({ courseId })
-    .whereNotIn('challengeId', mappedAnsweredChallengeIds)
+    .whereNotIn('challengeId', [...mappedAnsweredChallengeIds, ...mappedAlertedChallengeIds])
     .orderBy('id', 'asc')
     .first();
 
