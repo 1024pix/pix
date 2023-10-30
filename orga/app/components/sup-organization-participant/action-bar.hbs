@@ -1,0 +1,10 @@
+<Ui::ActionBar>
+  <:information>
+    {{t "pages.sup-organization-participants.action-bar.information" count=@count}}
+  </:information>
+  <:actions>
+    <PixButton @triggerAction={{@openDeletionModal}} type="button" @backgroundColor="red">
+      {{t "pages.sup-organization-participants.action-bar.delete-button"}}
+    </PixButton>
+  </:actions>
+</Ui::ActionBar>

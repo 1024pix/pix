@@ -1070,11 +1070,29 @@
     },
     "sup-organization-participants": {
       "title": "{count, plural, =0 {Étudiants} =1 {Étudiant ({count})} other {Étudiants ({count})}}",
+      "action-bar": {
+        "delete-button": "Supprimer",
+        "error-message": "{count, plural, =1 {Une erreur est survenue, {firstname} {lastname} n'a pas été supprimé de la liste des étudiants.} other {Une erreur est survenue, les {count} étudiants sélectionnés n'ont pas été supprimés de la liste.}}",
+        "information": "{count, plural, =1 {{count} étudiant sélectionné} other {{count} étudiants sélectionnés}}",
+        "success-message": "{count, plural, =1 {{firstname} {lastname} a bien été supprimé de la liste des étudiants.} other {Les {count} étudiants sélectionnés ont bien été supprimés de la liste.}}"
+      },
       "actions": {
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
         "import-file": "Importer",
         "show-actions": "Afficher les actions"
+      },
+      "deletion-modal": {
+        "confirmation-checkbox": "Je confirme avoir bien compris les impacts des {count} suppressions",
+        "delete-button": "Oui, je supprime",
+        "many-items": {
+          "title": "Êtes-vous sûr(e) de vouloir supprimer '<strong>'{count}'</strong>' étudiants ?",
+          "content": "Ces étudiants ne seront plus visibles dans Pix Orga.'<br/>'Toutes leurs participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses pour leurs campagnes. Ils ne pourront pas participer à nouveau aux campagnes auxquelles ils avaient participé par le passé. Cependant des participations à de nouvelles campagnes resteront possibles.'<br/><strong>'Attention, cette action est irréversible.'</strong>'"
+        },
+        "one-item": {
+          "title": "Supprimer '<strong>'{firstname} {lastname}'</strong>' de vos étudiants ?",
+          "content": "Cet étudiant ne sera plus visible dans Pix Orga.'<br/>'Toutes ses participations aux campagnes seront supprimées. Cela impactera donc les résultats et analyses pour ces campagnes. Il ne pourra pas participer à nouveau aux campagnes auxquelles il avait participé par le passé. Cependant la participation à de nouvelles campagne restera possible.'<br/><strong>'Attention, cette action est irréversible'</strong>'."
+        }
       },
       "edit-student-number-modal": {
         "title": "Édition du numéro étudiant",

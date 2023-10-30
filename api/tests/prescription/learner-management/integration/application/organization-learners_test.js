@@ -4,10 +4,10 @@ import {
   HttpTestServer,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { organizationLearnersController } from '../../../../lib/application/organization-learners-management/organization-learners-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/organization-learners-management/index.js';
+import { organizationLearnersController } from '../../../../../src/prescription/learner-management/application/organization-learners-controller.js';
+import * as moduleUnderTest from '../../../../../src/prescription/learner-management/application/organization-learners-route.js';
 
 describe('Integration | Application | Organization Learners Management | Routes', function () {
   describe('DELETE /organizations/{id}/organization-learners', function () {
