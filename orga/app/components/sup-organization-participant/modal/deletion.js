@@ -18,26 +18,16 @@ export default class Deletion extends Component {
     return this.allowDeletion;
   }
 
-  get text() {
-    if (this.isMultipleDeletion) {
-      return {
-        title: this.intl.t('pages.sup-organization-participants.deletion-modal.many-items.title', {
-          count: this.args.itemsToDelete.length,
-          htmlSafe: true,
-        }),
-        content: this.intl.t('pages.sup-organization-participants.deletion-modal.many-items.content', {
-          htmlSafe: true,
-        }),
-      };
-    }
-    return {
-      title: this.intl.t('pages.sup-organization-participants.deletion-modal.one-item.title', {
-        firstname: this.args.itemsToDelete[0].firstName,
-        lastname: this.args.itemsToDelete[0].lastName,
-        htmlSafe: true,
-      }),
-      content: this.intl.t('pages.sup-organization-participants.deletion-modal.one-item.content', { htmlSafe: true }),
-    };
+  get count() {
+    return this.args.itemsToDelete.length;
+  }
+
+  get firstName() {
+    return this.args.itemsToDelete[0].firstName;
+  }
+
+  get lastName() {
+    return this.args.itemsToDelete[0].lastName;
   }
 
   @action
