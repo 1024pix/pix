@@ -35,6 +35,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
         certificationCenterId: 123,
         code: 'ABCDE123',
         status: 'pending',
+        role: 'MEMBER',
       };
 
       // when
@@ -51,6 +52,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
           userId: user.id,
           invitation,
           status: certificationCenterInvitation.status,
+          role: 'MEMBER',
         }),
       );
     });

@@ -620,12 +620,14 @@ describe('Acceptance | API | Certifications', function () {
         certificationCenterId,
         status: CertificationCenterInvitation.StatusType.PENDING,
         email: 'alex.terieur@example.net',
+        role: 'MEMBER',
         updatedAt: now,
       });
       const certificationCenterInvitation2 = databaseBuilder.factory.buildCertificationCenterInvitation({
         certificationCenterId,
         status: CertificationCenterInvitation.StatusType.PENDING,
         email: 'sarah.pelle@example.net',
+        role: 'ADMIN',
         updatedAt: now,
       });
       databaseBuilder.factory.buildCertificationCenterInvitation({
@@ -650,6 +652,7 @@ describe('Acceptance | API | Certifications', function () {
           id: certificationCenterInvitation1.id.toString(),
           attributes: {
             email: 'alex.terieur@example.net',
+            role: 'MEMBER',
             'updated-at': now,
           },
         },
@@ -658,6 +661,7 @@ describe('Acceptance | API | Certifications', function () {
           id: certificationCenterInvitation2.id.toString(),
           attributes: {
             email: 'sarah.pelle@example.net',
+            role: 'ADMIN',
             'updated-at': now,
           },
         },
