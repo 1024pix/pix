@@ -94,6 +94,7 @@ describe('Acceptance | Route | Certification Centers', function () {
             attributes: {
               email: 'some.user@example.net',
               lang: 'fr-fr',
+              role: 'ADMIN',
             },
           },
         },
@@ -107,6 +108,7 @@ describe('Acceptance | Route | Certification Centers', function () {
       expect(result.data.attributes).to.deep.equal({
         'updated-at': now,
         email: 'some.user@example.net',
+        role: 'ADMIN',
       });
     });
   });

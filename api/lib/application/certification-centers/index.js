@@ -423,6 +423,7 @@ const register = async function (server) {
               attributes: {
                 email: Joi.string().email().required(),
                 language: Joi.string().valid('fr-fr', 'fr', 'en'),
+                role: Joi.string().valid('ADMIN', 'MEMBER').allow(null),
               },
             },
           }),
