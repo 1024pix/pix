@@ -27,7 +27,6 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
         isT1Enabled: true,
         isT2Enabled: true,
         isT3Enabled: true,
-        scoring: '1: acquix\n2: acquix',
       });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();

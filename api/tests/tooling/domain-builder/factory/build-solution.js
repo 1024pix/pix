@@ -7,7 +7,6 @@ const buildSolution = function ({
   isT1Enabled = false,
   isT2Enabled = false,
   isT3Enabled = false,
-  scoring = '',
 } = {}) {
   return new Solution({
     id,
@@ -16,7 +15,6 @@ const buildSolution = function ({
     isT1Enabled,
     isT2Enabled,
     isT3Enabled,
-    scoring,
   });
 };
 

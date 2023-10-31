@@ -60,7 +60,6 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(challenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(challenge.solution);
     });
@@ -549,7 +548,6 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(validatedChallenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(validatedChallenge.solution);
     });
@@ -610,7 +608,6 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(operativeChallenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(operativeChallenge.solution);
     });
@@ -703,7 +700,6 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(validatedChallenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(validatedChallenge.solution);
     });
@@ -770,7 +766,6 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
       expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(operativeChallenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(operativeChallenge.solution);
     });
