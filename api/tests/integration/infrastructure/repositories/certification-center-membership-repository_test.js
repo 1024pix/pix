@@ -104,6 +104,51 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#findByCertificationCenterIdAndUserId', function () {
+    context('when certification center membership exists', function () {
+      it('returns the certification center membership', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId,
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenterMembership =
+          await certificationCenterMembershipRepository.findByCertificationCenterIdAndUserId({
+            certificationCenterId,
+            userId,
+          });
+
+        // then
+        expect(certificationCenterMembership).to.be.instanceOf(CertificationCenterMembership);
+      });
+    });
+
+    context('when certification center membership does not exist', function () {
+      it('returns "null"', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterMembershipRepository.findByCertificationCenterIdAndUserId({
+          certificationCenterId,
+          userId,
+        });
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+  });
+
   describe('#save', function () {
     let userId, certificationCenterId;
 

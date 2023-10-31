@@ -74,6 +74,14 @@ const create = async function ({ certificationCenterId, role, userId }) {
   await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).insert({ certificationCenterId, role, userId });
 };
 
+const findByCertificationCenterIdAndUserId = async function ({ certificationCenterId, userId }) {
+  const certificationCenterMembership = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .where({ certificationCenterId, userId })
+    .first();
+  if (!certificationCenterMembership) return null;
+  return _toDomain(certificationCenterMembership);
+};
+
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
     .select(
@@ -271,6 +279,7 @@ export {
   disableById,
   disableMembershipsByUserId,
   findActiveByCertificationCenterIdSortedById,
+  findByCertificationCenterIdAndUserId,
   findById,
   findByUserId,
   getRefererByCertificationCenterId,
