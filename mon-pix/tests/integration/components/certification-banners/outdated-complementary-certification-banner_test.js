@@ -4,30 +4,33 @@ import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module(
-  'Integration | Component | Certification Banners | Ourdated Complementary Certification Banner',
+  'Integration | Component | Certification Banners | Outdated Complementary Certification Banner',
   function (hooks) {
     setupIntlRenderingTest(hooks);
 
     module('When there are outdated complementary certifications', function () {
       test(`renders the outdated complementary certification`, async function (assert) {
         // given
-        const store = this.owner.lookup('service:store');
-        const certificationEligibility = store.createRecord('is-certifiable', {
-          complementaryCertifications: [
-            { label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com', isOutdated: true },
-            { label: 'Pix+ Édu 1er degré Confirmé', imageUrl: 'http://www.image-clea.com', isOutdated: true },
-          ],
-        });
-        const eligibleComplementaryCertifications = [];
+        const outdatedAndNotAcquiredComplementaryCertifications = [
+          { label: 'CléA Numérique', imageUrl: 'http://www.image-clea.com', isOutdated: true, isAcquired: false },
+          {
+            label: 'Pix+ Édu 1er degré Confirmé',
+            imageUrl: 'http://www.image-clea.com',
+            isOutdated: true,
+            isAcquired: false,
+          },
+        ];
 
-        this.set('eligibleComplementaryCertifications', eligibleComplementaryCertifications);
-        this.set('certificationEligibility', certificationEligibility);
+        this.set(
+          'outdatedAndNotAcquiredComplementaryCertifications',
+          outdatedAndNotAcquiredComplementaryCertifications,
+        );
         this.set('closeBanner', () => {});
 
         // when
         const screen = await render(
           hbs`<CertificationBanners::OutdatedComplementaryCertificationBanner
-          @complementaryCertifications={{this.certificationEligibility.complementaryCertifications}} />`,
+          @complementaryCertifications={{this.outdatedAndNotAcquiredComplementaryCertifications}} />`,
         );
 
         // then

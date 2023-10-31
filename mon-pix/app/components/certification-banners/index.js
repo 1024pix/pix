@@ -10,11 +10,19 @@ export default class Index extends Component {
   }
 
   get eligibleComplementaryCertifications() {
-    return this.args.certificationEligibility.complementaryCertifications?.filter((c) => !c.isOutdated) ?? [];
+    return (
+      this.args.certificationEligibility.complementaryCertifications?.filter(
+        (complementaryCertification) => !complementaryCertification.isOutdated,
+      ) ?? []
+    );
   }
 
-  get outdatedComplementaryCertifications() {
-    return this.args.certificationEligibility.complementaryCertifications?.filter((c) => c.isOutdated) ?? [];
+  get outdatedAndNotAcquiredComplementaryCertifications() {
+    return (
+      this.args.certificationEligibility.complementaryCertifications?.filter(
+        (complementaryCertification) => complementaryCertification.isOutdated && !complementaryCertification.isAcquired,
+      ) ?? []
+    );
   }
 
   @action
