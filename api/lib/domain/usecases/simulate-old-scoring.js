@@ -4,8 +4,8 @@ import lodash from 'lodash';
 const { sortBy } = lodash;
 import fp from 'lodash/fp.js';
 
-const simulateOldScoring = async function ({ challengeRepository, simulations }) {
-  const challenges = await challengeRepository.findOperative();
+const simulateOldScoring = async function ({ challengeRepository, simulations, locale }) {
+  const challenges = await challengeRepository.findOperativeHavingLocale(locale);
   const challengesById = new Map(challenges.map((challenge) => [challenge.id, challenge]));
 
   // prettier-ignore
