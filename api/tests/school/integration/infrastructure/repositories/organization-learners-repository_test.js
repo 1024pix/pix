@@ -46,4 +46,18 @@ describe('Integration | Repository | organizationLearner', function () {
       expect(students).to.deep.equal([student1, student3, student2]);
     });
   });
+  describe('#getById', function () {
+    it('should return only the good organization learner', async function () {
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildOrganizationLearner();
+      await databaseBuilder.commit();
+
+      const result = await organizationLearnersRepository.getById(organizationLearner.id);
+      expect(result).to.deep.equal(
+        new OrganizationLearner({
+          ...organizationLearner,
+        }),
+      );
+    });
+  });
 });
