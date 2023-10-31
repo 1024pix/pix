@@ -20,24 +20,6 @@ function applyTreatmentsToAnswers(answers, enabledTreatments) {
   );
 }
 
-function formatResult(scoring, numberOfGoodAnswers, nbOfAnswers) {
-  if (!scoring || Object.keys(scoring).length === 0) {
-    return numberOfGoodAnswers === nbOfAnswers ? AnswerStatus.OK : AnswerStatus.KO;
-  } else {
-    const grades = Object.keys(scoring).map((grade) => Number(grade));
-    const minGrade = Math.min(...grades);
-    const maxGrade = Math.max(...grades);
-
-    if (numberOfGoodAnswers >= maxGrade) {
-      return AnswerStatus.OK;
-    } else if (numberOfGoodAnswers >= minGrade) {
-      return AnswerStatus.PARTIALLY;
-    } else {
-      return AnswerStatus.KO;
-    }
-  }
-}
-
 function getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions) {
   return getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatments, solutions).answersEvaluation.filter(
     Boolean,
@@ -69,16 +51,15 @@ function getCorrectionDetails(treatedAnswers, treatedSolutions, enabledTreatment
   };
 }
 
-function convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring) {
-  let answers, solutions, scoring;
+function convertYamlToJsObjects(preTreatedAnswers, yamlSolution) {
+  let answers, solutions;
   try {
     answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
     solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
-    scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
   } catch (error) {
     throw new YamlParsingError();
   }
-  return { answers, solutions, scoring };
+  return { answers, solutions };
 }
 
 function treatAnswersAndSolutions(deactivations, solutions, answers) {
@@ -90,7 +71,7 @@ function treatAnswersAndSolutions(deactivations, solutions, answers) {
 
 const match = function ({
   answerValue,
-  solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+  solution: { deactivations, value: yamlSolution },
 
   dependencies = {
     applyPreTreatments,
@@ -105,11 +86,7 @@ const match = function ({
 
   // Pre-Treatments
   const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
-  const { answers, solutions, scoring } = dependencies.convertYamlToJsObjects(
-    preTreatedAnswers,
-    yamlSolution,
-    yamlScoring,
-  );
+  const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution);
   const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
     deactivations,
     solutions,
@@ -117,12 +94,12 @@ const match = function ({
   );
   const numberOfGoodAnswers = getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments, solutions);
 
-  return formatResult(scoring, numberOfGoodAnswers, Object.keys(answers).length);
+  return numberOfGoodAnswers === Object.keys(answers).length ? AnswerStatus.OK : AnswerStatus.KO;
 };
 
 const getCorrection = function ({
   answerValue,
-  solution: { deactivations, scoring: yamlScoring, value: yamlSolution },
+  solution: { deactivations, value: yamlSolution },
 
   dependencies = {
     applyPreTreatments,
@@ -132,7 +109,7 @@ const getCorrection = function ({
 }) {
   // Pre-Treatments
   const preTreatedAnswers = dependencies.applyPreTreatments(answerValue);
-  const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution, yamlScoring);
+  const { answers, solutions } = dependencies.convertYamlToJsObjects(preTreatedAnswers, yamlSolution);
   const { enabledTreatments, treatedSolutions, treatedAnswers } = dependencies.treatAnswersAndSolutions(
     deactivations,
     solutions,
