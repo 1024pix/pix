@@ -2,9 +2,10 @@ import { SendingEmailError, SendingEmailToInvalidDomainError } from '../errors.j
 import { CertificationCenterInvitation } from '../models/CertificationCenterInvitation.js';
 
 const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
-  email,
   certificationCenterId,
+  email,
   locale,
+  role,
   certificationCenterInvitationRepository,
   mailService,
 }) {
@@ -18,7 +19,7 @@ const createOrUpdateCertificationCenterInvitationForAdmin = async function ({
   const shouldCreateInvitation = !alreadyExistingPendingInvitationForThisEmail;
 
   if (shouldCreateInvitation) {
-    const newInvitation = CertificationCenterInvitation.create({ email, certificationCenterId });
+    const newInvitation = CertificationCenterInvitation.create({ email, role, certificationCenterId });
     certificationCenterInvitation = await certificationCenterInvitationRepository.create(newInvitation);
     isInvitationCreated = true;
   } else {
