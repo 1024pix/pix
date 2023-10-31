@@ -68,6 +68,9 @@ const save = async function (campaigns, dependencies = { skillRepository }) {
         'targetProfileId',
         'multipleSendings',
         'createdAt',
+        'customResultPageText',
+        'customResultPageButtonText',
+        'customResultPageButtonUrl',
       ]);
       const [createdCampaignDTO] = await trx(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
       latestCreatedCampaign = new Campaign(createdCampaignDTO);
@@ -102,6 +105,9 @@ const update = async function (campaign) {
     'archivedAt',
     'archivedBy',
     'ownerId',
+    'customResultPageText',
+    'customResultPageButtonText',
+    'customResultPageButtonUrl',
   ]);
 
   const [editedCampaign] = await knex('campaigns').update(editedAttributes).where({ id: campaign.id }).returning('*');

@@ -29,6 +29,39 @@ const schema = Joi.object({
     'string.max': 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG',
   }),
 
+  customResultPageText: Joi.string().empty('').allow(null).default(null).max(5000).messages({
+    'string.max': 'CUSTOM_RESULT_PAGE_TEXT_IS_TOO_LONG',
+  }),
+
+  customResultPageButtonText: Joi.when('type', {
+    is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
+    then: Joi.valid(null),
+    otherwise: Joi.when('customResultPageButtonUrl', {
+      then: Joi.string().required(),
+      otherwise: Joi.string().allow(null).default(null),
+    }),
+  }).messages({
+    'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+    'string.base': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+    'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+    'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+  }),
+
+  customResultPageButtonUrl: Joi.when('type', {
+    is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
+    then: Joi.valid(null),
+    otherwise: Joi.when('customResultPageButtonText', {
+      then: Joi.string().uri().required(),
+      otherwise: Joi.string().allow(null).default(null),
+    }),
+  }).messages({
+    'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+    'string.uri': 'CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL',
+    'string.base': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+    'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+    'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+  }),
+
   ownerId: Joi.number().integer().required().messages({
     'any.required': 'MISSING_OWNER',
     'number.base': 'MISSING_OWNER',
