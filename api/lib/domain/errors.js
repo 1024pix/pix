@@ -15,24 +15,6 @@ class AnswerEvaluationError extends DomainError {
   }
 }
 
-class LocaleFormatError extends DomainError {
-  constructor(locale) {
-    super();
-    this.message = `Given locale is in invalid format: "${locale}"`;
-    this.code = 'INVALID_LOCALE_FORMAT';
-    this.meta = { locale };
-  }
-}
-
-class LocaleNotSupportedError extends DomainError {
-  constructor(locale) {
-    super();
-    this.message = `Given locale is not supported : "${locale}"`;
-    this.code = 'LOCALE_NOT_SUPPORTED';
-    this.meta = { locale };
-  }
-}
-
 class AlreadyExistingAdminMemberError extends DomainError {
   constructor(message = 'Cet agent a déjà accès') {
     super(message);
@@ -702,12 +684,6 @@ class MembershipUpdateError extends DomainError {
   }
 }
 
-class MissingOrInvalidCredentialsError extends DomainError {
-  constructor(message = 'Missing or invalid credentials') {
-    super(message);
-  }
-}
-
 class MissingAttributesError extends DomainError {
   constructor(message = 'Attributs manquants.') {
     super(message);
@@ -770,13 +746,6 @@ class UserCouldNotBeReconciledError extends DomainError {
   }
 }
 
-class UserShouldChangePasswordError extends DomainError {
-  constructor(message = 'Erreur, vous devez changer votre mot de passe.', meta) {
-    super(message);
-    this.meta = meta;
-  }
-}
-
 class OrganizationLearnerAlreadyLinkedToUserError extends DomainError {
   constructor(message = "L'élève est déjà rattaché à un compte utilisateur.", code, meta) {
     super(message);
@@ -820,12 +789,6 @@ class FileValidationError extends DomainError {
     super('An error occurred, file is invalid');
     this.code = code;
     this.meta = meta;
-  }
-}
-
-class PasswordNotMatching extends DomainError {
-  constructor(message = 'Mauvais mot de passe.') {
-    super(message);
   }
 }
 
@@ -1355,8 +1318,6 @@ export {
   InvalidStageError,
   InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
-  LocaleFormatError,
-  LocaleNotSupportedError,
   ManyOrganizationsFoundError,
   MatchingReconciledStudentNotFoundError,
   MembershipCreationError,
@@ -1364,7 +1325,6 @@ export {
   MissingAssessmentId,
   MissingAttributesError,
   MissingBadgeCriterionError,
-  MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
@@ -1394,7 +1354,6 @@ export {
   OrganizationNotFoundError,
   OrganizationTagNotFound,
   OrganizationWithoutEmailError,
-  PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SendingEmailError,
   SendingEmailToInvalidDomainError,
@@ -1443,7 +1402,6 @@ export {
   UserNotFoundError,
   UserNotMemberOfOrganizationError,
   UserOrgaSettingsCreationError,
-  UserShouldChangePasswordError,
   UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
   YamlParsingError,

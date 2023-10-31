@@ -2,12 +2,18 @@ import { expect, hFake, sinon } from '../../../test-helper.js';
 
 import {
   EntityValidationError,
+  LocaleFormatError,
+  LocaleNotSupportedError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
+import {
+  MissingOrInvalidCredentialsError,
+  UserShouldChangePasswordError,
+} from '../../../../src/access/shared/domain/errors.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {
   describe('#handle', function () {
@@ -150,6 +156,75 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
         'Utilisateur non autorisé à accéder à la ressource',
       );
+    });
+
+    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async function () {
+      // given
+      const error = new MissingOrInvalidCredentialsError();
+      sinon.stub(HttpErrors, 'UnauthorizedError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      const message = "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.";
+      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(message);
+    });
+
+    it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async function () {
+      // given
+      const message = 'Erreur, vous devez changer votre mot de passe.';
+      const meta = 'RESET_PASSWORD_TOKEN';
+      const error = new UserShouldChangePasswordError(message, meta);
+      sinon.stub(HttpErrors, 'PasswordShouldChangeError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message, meta);
+    });
+
+    context('Locale errors', function () {
+      context('When receiving LocaleFormatError', function () {
+        it('instantiates a BadRequest error', function () {
+          // given
+          const error = new LocaleFormatError('zzzz');
+          sinon.stub(HttpErrors, 'BadRequestError');
+          const params = { request: {}, h: hFake, error };
+
+          // when
+          handle(params.request, params.h, params.error);
+
+          // then
+          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+            'Given locale is in invalid format: "zzzz"',
+            'INVALID_LOCALE_FORMAT',
+            { locale: 'zzzz' },
+          );
+        });
+      });
+
+      context('When receiving LocaleNotSupportedError', function () {
+        it('instantiates a BadRequest error', function () {
+          // given
+          const error = new LocaleNotSupportedError('nl-BE');
+          sinon.stub(HttpErrors, 'BadRequestError');
+          const params = { request: {}, h: hFake, error };
+
+          // when
+          handle(params.request, params.h, params.error);
+
+          // then
+          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+            'Given locale is not supported : "nl-BE"',
+            'LOCALE_NOT_SUPPORTED',
+            { locale: 'nl-BE' },
+          );
+        });
+      });
     });
   });
 });

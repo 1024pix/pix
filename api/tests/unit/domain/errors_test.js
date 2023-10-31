@@ -1,7 +1,13 @@
 import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
 import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
-import { CsvImportError, ForbiddenAccess, EntityValidationError } from '../../../src/shared/domain/errors.js';
+import {
+  CsvImportError,
+  EntityValidationError,
+  ForbiddenAccess,
+  LocaleFormatError,
+  LocaleNotSupportedError,
+} from '../../../src/shared/domain/errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {
@@ -411,11 +417,11 @@ describe('Unit | Domain | Errors', function () {
   });
 
   it('exports LocaleFormatError', function () {
-    expect(errors.LocaleFormatError).to.exist;
+    expect(LocaleFormatError).to.exist;
   });
 
   it('exports LocaleNotSupportedError', function () {
-    expect(errors.LocaleNotSupportedError).to.exist;
+    expect(LocaleNotSupportedError).to.exist;
   });
 
   it('NotEnoughDaysPassedBeforeResetCampaignParticipationError error should have the correct wording', function () {
