@@ -16,6 +16,8 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             organizationId: 3,
             title: '',
             customLandingPageText: '',
+            customResultPageButtonText: null,
+            customResultPageButtonUrl: null,
           };
 
           expect(() => new CampaignForCreation(attributes)).to.not.throw();
@@ -98,6 +100,67 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             expect(error.message).to.equal("Échec de validation de l'entité.");
             expect(error.invalidAttributes).to.deep.equal([
               { attribute: 'customLandingPageText', message: 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG' },
+            ]);
+          });
+        });
+
+        context('customResultPageText max length over 5000 character', function () {
+          it('throws an error', async function () {
+            // given
+            attributes.customResultPageText = 'Godzilla vs Kong'.repeat(335);
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([
+              { attribute: 'customResultPageText', message: 'CUSTOM_RESULT_PAGE_TEXT_IS_TOO_LONG' },
+            ]);
+          });
+        });
+
+        context('customResultPageButtonUrl is required if customResultPageButtonText is defined', function () {
+          it('throws an error', async function () {
+            // given
+            attributes.customResultPageButtonText = 'Godzilla vs Kong';
+            attributes.customResultPageButtonUrl = null;
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([
+              {
+                attribute: 'customResultPageButtonUrl',
+                message: 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+              },
+            ]);
+          });
+        });
+
+        context('customResultPageButtonText is required if customResultPageButtonUrl is defined', function () {
+          it('throws an error', async function () {
+            // given
+            attributes.customResultPageButtonUrl = 'https://http.dog/';
+            attributes.customResultPageButtonText = null;
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([
+              {
+                attribute: 'customResultPageButtonText',
+                message: 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+              },
+            ]);
+          });
+        });
+
+        context('customResultPageButtonUrl must be an URL', function () {
+          it('throws an error', async function () {
+            // given
+            attributes.customResultPageButtonText = 'Godzilla vs Kong';
+            attributes.customResultPageButtonUrl = 'Godzilla vs Kong';
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([
+              { attribute: 'customResultPageButtonUrl', message: 'CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL' },
             ]);
           });
         });

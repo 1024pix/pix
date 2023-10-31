@@ -12,6 +12,9 @@ class CampaignForCreation {
     organizationId,
     multipleSendings,
     code,
+    customResultPageText,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
   } = {}) {
     this.name = name;
     this.title = title;
@@ -24,6 +27,9 @@ class CampaignForCreation {
     this.organizationId = organizationId;
     this.multipleSendings = multipleSendings;
     this.code = code;
+    this.customResultPageText = customResultPageText;
+    this.customResultPageButtonText = customResultPageButtonText;
+    this.customResultPageButtonUrl = customResultPageButtonUrl;
     validate(this);
   }
 }
