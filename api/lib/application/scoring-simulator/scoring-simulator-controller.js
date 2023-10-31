@@ -5,8 +5,9 @@ import * as scoringSimulationDatasetSerializer from '../../infrastructure/serial
 
 const calculateOldScores = async function (request, h) {
   const dataset = scoringSimulationDatasetSerializer.deserialize(request);
+  const locale = extractLocaleFromRequest(request);
 
-  const results = await usecases.simulateOldScoring({ simulations: dataset.simulations });
+  const results = await usecases.simulateOldScoring({ simulations: dataset.simulations, locale });
 
   return h.response({
     datasetId: dataset.id,
