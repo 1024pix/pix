@@ -17,7 +17,6 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
       findByExternalId: sinon.stub(),
     };
     certificationCenterMembershipRepository = {
-      save: sinon.stub(),
       isMemberOfCertificationCenter: sinon.stub(),
     };
   });
@@ -60,7 +59,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
             });
 
             // then
-            expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+            expect(certificationCenterMembershipRepository.create).to.not.have.been.called;
           });
         });
 
@@ -131,7 +130,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
 
           // then
           expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).to.not.have.been.called;
-          expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+          expect(certificationCenterMembershipRepository.create).to.not.have.been.called;
         });
       });
     });
@@ -163,7 +162,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
         // then
         expect(certificationCenterRepository.findByExternalId).to.not.have.been.called;
         expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).to.not.have.been.called;
-        expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+        expect(certificationCenterMembershipRepository.create).to.not.have.been.called;
       });
     });
 
@@ -193,7 +192,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
         // then
         expect(certificationCenterRepository.findByExternalId).to.not.have.been.called;
         expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).to.not.have.been.called;
-        expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+        expect(certificationCenterMembershipRepository.create).to.not.have.been.called;
       });
     });
   });
@@ -225,7 +224,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
       // then
       expect(certificationCenterRepository.findByExternalId).to.not.have.been.called;
       expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).to.not.have.been.called;
-      expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
+      expect(certificationCenterMembershipRepository.create).to.not.have.been.called;
     });
   });
 });
