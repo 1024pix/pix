@@ -10,7 +10,6 @@ class Solution {
    * @param isT1Enabled: T1 - Espaces, casse & accents
    * @param isT2Enabled: T2 - Ponctuation
    * @param isT3Enabled: T3 - Distance d'édition
-   * @param scoring: ??
    * @param type: type de l'épreuve
    * @param value: Bonne réponse attendue.
    *
@@ -22,7 +21,6 @@ class Solution {
     isT1Enabled = false,
     isT2Enabled = false,
     isT3Enabled = false,
-    scoring,
     type,
     value,
     qrocBlocksTypes,
@@ -31,7 +29,6 @@ class Solution {
     this.isT1Enabled = isT1Enabled;
     this.isT2Enabled = isT2Enabled;
     this.isT3Enabled = isT3Enabled;
-    this.scoring = scoring;
     this.type = type;
     this.value = value;
     this.qrocBlocksTypes = qrocBlocksTypes;
