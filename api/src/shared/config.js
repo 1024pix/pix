@@ -3,7 +3,7 @@ import path from 'path';
 import moment from 'moment';
 import ms from 'ms';
 
-import { getArrayOfStrings } from './infrastructure/utils/string-utils.js';
+import { getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
 
 import * as url from 'url';
 
@@ -160,7 +160,7 @@ const configuration = (function () {
       newYearOrganizationLearnersImportDate: _getDate(process.env.NEW_YEAR_ORGANIZATION_LEARNERS_IMPORT_DATE),
       numberOfChallengesForFlashMethod: _getNumber(process.env.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD),
       successProbabilityThreshold: parseFloat(process.env.SUCCESS_PROBABILITY_THRESHOLD ?? '0.95'),
-      pixCertifScoBlockedAccessWhitelist: getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
+      pixCertifScoBlockedAccessWhitelist: getArrayOfUpperStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
       scheduleComputeOrganizationLearnersCertificability: {
