@@ -2,6 +2,11 @@ import { _ } from './lodash-utils.js';
 
 function getArrayOfStrings(commaSeparatedStrings) {
   if (!commaSeparatedStrings) return [];
+  return _(commaSeparatedStrings).split(',').map(_.trim).value();
+}
+
+function getArrayOfUpperStrings(commaSeparatedStrings) {
+  if (!commaSeparatedStrings) return [];
   return _(commaSeparatedStrings).split(',').map(_.trim).map(_.toUpper).value();
 }
 
@@ -71,6 +76,7 @@ export {
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
   getArrayOfStrings,
+  getArrayOfUpperStrings,
   normalizeAndSortChars,
   normalize,
   toArrayOfFixedLengthStringsConservingWords,

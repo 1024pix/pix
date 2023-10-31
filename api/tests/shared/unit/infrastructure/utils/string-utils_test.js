@@ -3,6 +3,7 @@ import {
   isNumeric,
   cleanStringAndParseFloat,
   getArrayOfStrings,
+  getArrayOfUpperStrings,
   splitIntoWordsAndRemoveBackspaces,
   normalizeAndSortChars,
   normalize,
@@ -99,9 +100,41 @@ describe('Unit | Shared | infrastructure | Utils | string-utils', function () {
     });
 
     context('given value has only one string', function () {
-      it('should return array of 1', function () {
+      it('should return array of 1 string, trimmed', function () {
         // when
-        const array = getArrayOfStrings('un');
+        const array = getArrayOfStrings('uN');
+
+        // then
+        expect(array).to.deep.equal(['uN']);
+      });
+    });
+
+    context('given value has more than one string', function () {
+      it('should return an array containing the strings, trimmed', function () {
+        // when
+        const array = getArrayOfStrings('uN, DoS');
+
+        // then
+        expect(array).to.deep.equal(['uN', 'DoS']);
+      });
+    });
+  });
+
+  describe('#getArrayOfUpperStrings', function () {
+    context('given value is undefined', function () {
+      it('should return an empty array', function () {
+        // when
+        const array = getArrayOfUpperStrings(undefined);
+
+        // then
+        expect(array).to.be.empty;
+      });
+    });
+
+    context('given value has only one string', function () {
+      it('should return array of 1 string, trimmed and uppercased', function () {
+        // when
+        const array = getArrayOfUpperStrings('un');
 
         // then
         expect(array).to.deep.equal(['UN']);
@@ -109,9 +142,9 @@ describe('Unit | Shared | infrastructure | Utils | string-utils', function () {
     });
 
     context('given value has more than one string', function () {
-      it('should return an array containing the strings, trimmed and uppercase', function () {
+      it('should return an array containing the strings, trimmed and uppercased', function () {
         // when
-        const array = getArrayOfStrings('un, dos');
+        const array = getArrayOfUpperStrings('un, dos');
 
         // then
         expect(array).to.deep.equal(['UN', 'DOS']);
