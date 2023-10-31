@@ -43,12 +43,12 @@ describe('Integration | UseCases | simulateOldScoring', function () {
         { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 6, pixValue: 100000 },
       ],
       challenges: [
-        { id: 'challenge1', skillId: 'skill1', status: 'validé' },
-        { id: 'challenge2', skillId: 'skill2', status: 'validé' },
-        { id: 'challenge3', skillId: 'skill3', status: 'validé' },
-        { id: 'challenge4', skillId: 'skill4', status: 'validé' },
-        { id: 'challenge5', skillId: 'skill5', status: 'validé' },
-        { id: 'challenge6', skillId: 'skill5', status: 'validé' },
+        { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['fr'] },
+        { id: 'challenge2', skillId: 'skill2', status: 'validé', locales: ['fr'] },
+        { id: 'challenge3', skillId: 'skill3', status: 'validé', locales: ['fr'] },
+        { id: 'challenge4', skillId: 'skill4', status: 'validé', locales: ['fr'] },
+        { id: 'challenge5', skillId: 'skill5', status: 'validé', locales: ['fr'] },
+        { id: 'challenge6', skillId: 'skill5', status: 'validé', locales: ['fr'] },
       ],
     };
 
@@ -75,7 +75,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
     const simulation = new ScoringSimulation({ answers });
 
     // when
-    const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
+    const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation], locale: 'fr' });
 
     // then
     expect(simulationResults).to.have.lengthOf(1);
@@ -111,7 +111,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       const simulation = new ScoringSimulation({ id: 'simulation1', answers });
 
       // when
-      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
+      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation], locale: 'fr' });
 
       // then
       expect(simulationResults).to.have.lengthOf(1);
@@ -146,7 +146,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       const simulation = new ScoringSimulation({ id: 'simulation1', answers });
 
       // when
-      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
+      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation], locale: 'fr' });
 
       // then
       expect(simulationResults).to.have.lengthOf(1);
@@ -171,7 +171,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       const simulation = new ScoringSimulation({ answers });
 
       // when
-      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
+      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation], locale: 'fr' });
 
       // then
       expect(simulationResults).to.have.lengthOf(1);
@@ -195,7 +195,7 @@ describe('Integration | UseCases | simulateOldScoring', function () {
       const simulation = new ScoringSimulation({ answers });
 
       // when
-      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation] });
+      const simulationResults = await usecases.simulateOldScoring({ simulations: [simulation], locale: 'fr' });
 
       // then
       expect(simulationResults).to.have.lengthOf(1);
