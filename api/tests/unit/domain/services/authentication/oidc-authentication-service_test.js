@@ -21,6 +21,60 @@ import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-to
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
+  describe('constructor', function () {
+    context('when claimsToStore is undefined', function () {
+      it('does not set claimsToStore', async function () {
+        // given
+        const args = {};
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+      });
+    });
+
+    context('when claimsToStore is null', function () {
+      it('does not set claimsToStore', async function () {
+        // given
+        const args = { claimsToStore: null };
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+      });
+    });
+
+    context('when claimsToStore is an empty array', function () {
+      it('does not set claimsToStore', async function () {
+        // given
+        const args = { claimsToStore: [] };
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+      });
+    });
+
+    context('when claimsToStore is not empty', function () {
+      it('sets claimsToStore', async function () {
+        // given
+        const args = { claimsToStore: ['employeeNumber', 'studentGroup'] };
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).to.exist;
+      });
+    });
+  });
+
   describe('#isReady', function () {
     describe('when configKey is set', function () {
       describe('when enabled in config', function () {
