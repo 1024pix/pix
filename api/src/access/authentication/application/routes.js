@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { authenticationController as AuthenticationController } from './authentication-controller.js';
 
 const register = async function (server) {

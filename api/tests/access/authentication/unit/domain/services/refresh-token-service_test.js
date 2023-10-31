@@ -1,8 +1,8 @@
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
-import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
-import { config as settings } from '../../../../../src/shared/config.js';
-import * as refreshTokenService from '../../../../../src/authentication/domain/services/refresh-token-service.js';
-import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
+import { expect, sinon, catchErr } from '../../../../../test-helper.js';
+import { tokenService } from '../../../../../../src/shared/domain/services/token-service.js';
+import { config as settings } from '../../../../../../src/shared/config.js';
+import * as refreshTokenService from '../../../../../../src/access/authentication/domain/services/refresh-token-service.js';
+import { UnauthorizedError } from '../../../../../../lib/application/http-errors.js';
 const refreshTokenTemporaryStorage = refreshTokenService.refreshTokenTemporaryStorage;
 const userRefreshTokensTemporaryStorage = refreshTokenService.userRefreshTokensTemporaryStorage;
 

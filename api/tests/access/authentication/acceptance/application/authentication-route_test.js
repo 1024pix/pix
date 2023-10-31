@@ -1,10 +1,10 @@
 import querystring from 'querystring';
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../lib/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Authentication | Application | Controller', function () {
   afterEach(async function () {

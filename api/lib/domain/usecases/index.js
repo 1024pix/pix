@@ -131,12 +131,12 @@ import * as participationsForCampaignManagementRepository from '../../infrastruc
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as passwordValidator from '../validators/password-validator.js';
-import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
+import * as pixAuthenticationService from '../../../src/access/authentication/domain/services/pix-authentication-service.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
+import * as refreshTokenService from '../../../src/access/authentication/domain/services/refresh-token-service.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';

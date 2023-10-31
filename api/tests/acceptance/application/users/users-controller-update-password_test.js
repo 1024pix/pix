@@ -1,5 +1,5 @@
 import { expect, hFake, knex, databaseBuilder } from '../../../test-helper.js';
-import { authenticationController } from '../../../../src/authentication/application/authentication-controller.js';
+import { authenticationController } from '../../../../src/access/authentication/application/authentication-controller.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | users-controller-update-password', function () {
