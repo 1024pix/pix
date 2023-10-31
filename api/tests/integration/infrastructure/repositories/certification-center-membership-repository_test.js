@@ -15,6 +15,38 @@ import {
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 
 describe('Integration | Repository | Certification Center Membership', function () {
+  describe('#countActiveMembersForCertificationCenter', function () {
+    it('returns the number of members', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: 'ADMIN',
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: 'MEMBER',
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: 'MEMBER',
+        disabledAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const membersCount =
+        await certificationCenterMembershipRepository.countActiveMembersForCertificationCenter(certificationCenterId);
+
+      // then
+      expect(membersCount).to.equal(2);
+    });
+  });
+
   describe('#save', function () {
     let userId, certificationCenterId;
 

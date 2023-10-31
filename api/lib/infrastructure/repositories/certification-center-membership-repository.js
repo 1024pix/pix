@@ -17,6 +17,8 @@ import { User } from '../../domain/models/User.js';
 import { CertificationCenterMembership } from '../../domain/models/CertificationCenterMembership.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
+const CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME = 'certification-center-memberships';
+
 function _toDomain(certificationCenterMembershipDTO) {
   let user, certificationCenter;
   if (certificationCenterMembershipDTO.lastName || certificationCenterMembershipDTO.firstName) {
@@ -48,6 +50,20 @@ function _toDomain(certificationCenterMembershipDTO) {
     role: certificationCenterMembershipDTO.role,
   });
 }
+
+/**
+ * Get the number of active members in a certification center
+ *
+ * @param certificationCenterId
+ * @returns {Promise<number>}
+ */
+const countActiveMembersForCertificationCenter = async function (certificationCenterId) {
+  const { count } = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .where({ certificationCenterId, disabledAt: null })
+    .count('id')
+    .first();
+  return count;
+};
 
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
@@ -247,16 +263,17 @@ const findOneWithCertificationCenterIdAndUserId = async function ({ certificatio
 };
 
 export {
+  countActiveMembersForCertificationCenter,
+  disableById,
+  disableMembershipsByUserId,
+  findById,
   findByUserId,
   findActiveByCertificationCenterIdSortedById,
   findOneWithCertificationCenterIdAndUserId,
   save,
   isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
-  disableById,
   updateRefererStatusByUserIdAndCertificationCenterId,
   getRefererByCertificationCenterId,
-  disableMembershipsByUserId,
   update,
-  findById,
 };
