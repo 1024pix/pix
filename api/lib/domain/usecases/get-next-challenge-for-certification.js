@@ -7,6 +7,7 @@ const getNextChallengeForCertification = async function ({
   answerRepository,
   assessment,
   certificationChallengeRepository,
+  certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
   challengeRepository,
   flashAssessmentResultRepository,
@@ -22,10 +23,16 @@ const getNextChallengeForCertification = async function ({
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
   if (certificationCourse.getVersion() === CertificationVersion.V3) {
+    const excludedChallengeIds = await _getExcludedChallengeIds({
+      assessmentId: assessment.id,
+      answerRepository,
+      certificationChallengeLiveAlertRepository,
+    });
+
     const lastNonAnsweredCertificationChallenge =
-      await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
-        assessment.id,
+      await certificationChallengeRepository.getNextChallengeByCourseIdForV3(
         assessment.certificationCourseId,
+        excludedChallengeIds,
       );
 
     if (lastNonAnsweredCertificationChallenge) {
@@ -77,6 +84,21 @@ const getNextChallengeForCertification = async function ({
         return challengeRepository.get(certificationChallenge.challengeId);
       });
   }
+};
+
+const _getExcludedChallengeIds = async ({
+  assessmentId,
+  answerRepository,
+  certificationChallengeLiveAlertRepository,
+}) => {
+  const answers = await answerRepository.findByAssessment(assessmentId);
+  const alreadyAnsweredChallengeIds = answers.map(({ challengeId }) => challengeId);
+
+  const validatedLiveAlertsForAssessment =
+    await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
+  const mappedAlertedChallengeIds = validatedLiveAlertsForAssessment.map(({ challengeId }) => challengeId);
+
+  return [...alreadyAnsweredChallengeIds, ...mappedAlertedChallengeIds];
 };
 
 export { getNextChallengeForCertification };

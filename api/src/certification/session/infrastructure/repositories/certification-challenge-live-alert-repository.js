@@ -19,6 +19,15 @@ const getByAssessmentId = async (assessmentId) => {
   return certificationChallengeLiveAlertsDto.map(_toDomain);
 };
 
+const getLiveAlertValidatedChallengeIdsByAssessmentId = async (assessmentId) => {
+  const liveAlertValidatedChallengeIds = await knex('certification-challenge-live-alerts').select('challengeId').where({
+    assessmentId,
+    status: CertificationChallengeLiveAlertStatus.VALIDATED,
+  });
+
+  return liveAlertValidatedChallengeIds;
+};
+
 const getOngoingBySessionIdAndUserId = async ({ sessionId, userId }) => {
   const certificationChallengeLiveAlertDto = await knex('certification-courses')
     .leftJoin('assessments', 'certification-courses.id', 'assessments.certificationCourseId')
@@ -57,4 +66,10 @@ const _toDomain = (certificationChallengeLiveAlertDto) => {
 };
 
 const _toDTO = (certificationChallengeLiveAlertDto) => certificationChallengeLiveAlertDto;
-export { save, getByAssessmentId, getOngoingBySessionIdAndUserId, getOngoingByChallengeIdAndAssessmentId };
+export {
+  save,
+  getByAssessmentId,
+  getOngoingBySessionIdAndUserId,
+  getLiveAlertValidatedChallengeIdsByAssessmentId,
+  getOngoingByChallengeIdAndAssessmentId,
+};

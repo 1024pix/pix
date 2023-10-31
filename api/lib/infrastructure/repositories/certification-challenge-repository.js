@@ -45,13 +45,10 @@ const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, cour
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, certificationChallenge);
 };
 
-const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId, courseId) {
-  const answeredChallengeIds = await knex('answers').select('challengeId').where({ assessmentId });
-  const mappedAnsweredChallengeIds = answeredChallengeIds.map(({ challengeId }) => challengeId);
-
+const getNextChallengeByCourseIdForV3 = async function (courseId, ignoredChallengeIds) {
   const certificationChallenge = await knex('certification-challenges')
     .where({ courseId })
-    .whereNotIn('challengeId', mappedAnsweredChallengeIds)
+    .whereNotIn('challengeId', ignoredChallengeIds)
     .orderBy('id', 'asc')
     .first();
 
@@ -65,4 +62,4 @@ const getNextNonAnsweredChallengeByCourseIdForV3 = async function (assessmentId,
   return new CertificationChallenge(certificationChallenge);
 };
 
-export { save, getNextNonAnsweredChallengeByCourseId, getNextNonAnsweredChallengeByCourseIdForV3 };
+export { save, getNextNonAnsweredChallengeByCourseId, getNextChallengeByCourseIdForV3 };
