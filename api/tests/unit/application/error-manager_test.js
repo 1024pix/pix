@@ -9,10 +9,8 @@ import {
   AuthenticationKeyExpired,
   DifferentExternalIdentifierError,
   InvalidExternalAPIResponseError,
-  MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   UnexpectedUserAccountError,
-  UserShouldChangePasswordError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   InvalidVerificationCodeError,
@@ -37,8 +35,6 @@ import {
   InvalidIdentityProviderError,
   SendingEmailToInvalidDomainError,
   SendingEmailToInvalidEmailAddressError,
-  LocaleFormatError,
-  LocaleNotSupportedError,
   CertificationCandidateNotFoundError,
   NotEnoughDaysPassedBeforeResetCampaignParticipationError,
 } from '../../../lib/domain/errors.js';
@@ -49,35 +45,6 @@ import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-super
 
 describe('Unit | Application | ErrorManager', function () {
   describe('#_mapToHttpError', function () {
-    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async function () {
-      // given
-      const error = new MissingOrInvalidCredentialsError();
-      sinon.stub(HttpErrors, 'UnauthorizedError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      const message = "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.";
-      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(message);
-    });
-
-    it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async function () {
-      // given
-      const message = 'Erreur, vous devez changer votre mot de passe.';
-      const meta = 'RESET_PASSWORD_TOKEN';
-      const error = new UserShouldChangePasswordError(message, meta);
-      sinon.stub(HttpErrors, 'PasswordShouldChangeError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message, meta);
-    });
-
     it('should instantiate ConflictError when UnexpectedUserAccountError', async function () {
       // given
       const message = undefined;
@@ -590,46 +557,6 @@ describe('Unit | Application | ErrorManager', function () {
             error.message,
             'SENDING_EMAIL_TO_INVALID_EMAIL_ADDRESS',
             error.meta,
-          );
-        });
-      });
-    });
-
-    context('Locale errors', function () {
-      context('When receiving LocaleFormatError', function () {
-        it('instantiates a BadRequest error', function () {
-          // given
-          const error = new LocaleFormatError('zzzz');
-          sinon.stub(HttpErrors, 'BadRequestError');
-          const params = { request: {}, h: hFake, error };
-
-          // when
-          handle(params.request, params.h, params.error);
-
-          // then
-          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
-            'Given locale is in invalid format: "zzzz"',
-            'INVALID_LOCALE_FORMAT',
-            { locale: 'zzzz' },
-          );
-        });
-      });
-
-      context('When receiving LocaleNotSupportedError', function () {
-        it('instantiates a BadRequest error', function () {
-          // given
-          const error = new LocaleNotSupportedError('nl-BE');
-          sinon.stub(HttpErrors, 'BadRequestError');
-          const params = { request: {}, h: hFake, error };
-
-          // when
-          handle(params.request, params.h, params.error);
-
-          // then
-          expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
-            'Given locale is not supported : "nl-BE"',
-            'LOCALE_NOT_SUPPORTED',
-            { locale: 'nl-BE' },
           );
         });
       });

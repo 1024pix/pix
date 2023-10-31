@@ -158,6 +158,7 @@ const HttpErrors = {
   InternalServerError,
   MissingQueryParamError,
   NotFoundError,
+  PasswordShouldChangeError,
   PayloadTooLargeError,
   PreconditionFailedError,
   sendJsonApiError,

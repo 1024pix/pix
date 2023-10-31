@@ -3,14 +3,14 @@ import { authenticateUser } from '../../../../../../src/access/authentication/do
 import { User } from '../../../../../../lib/domain/models/User.js';
 import { AdminMember } from '../../../../../../lib/domain/models/AdminMember.js';
 
-import {
-  UserNotFoundError,
-  MissingOrInvalidCredentialsError,
-  UserShouldChangePasswordError,
-} from '../../../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../../../../lib/domain/errors.js';
 
 import * as appMessages from '../../../../../../lib/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
+import {
+  MissingOrInvalidCredentialsError,
+  UserShouldChangePasswordError,
+} from '../../../../../../src/access/shared/domain/errors.js';
 
 describe('Unit | Authentication | Domain | UseCases | authenticate-user', function () {
   let refreshTokenService;

@@ -2,9 +2,9 @@ import bluebird from 'bluebird';
 import { randomUUID } from 'crypto';
 import { tokenService } from '../../../../shared/domain/services/token-service.js';
 
-import { config } from '../../../../../lib/config.js';
-import { UnauthorizedError } from '../../../../../lib/application/http-errors.js';
 import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { UnauthorizedError } from '../../../../shared/application/http-errors.js';
+import { config } from '../../../../shared/config.js';
 
 const refreshTokenTemporaryStorage = temporaryStorage.withPrefix('refresh-tokens:');
 const userRefreshTokensTemporaryStorage = temporaryStorage.withPrefix('user-refresh-tokens:');

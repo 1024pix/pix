@@ -61,6 +61,22 @@ class AssessmentEndedError extends DomainError {
   }
 }
 
+class LocaleFormatError extends DomainError {
+  constructor(locale) {
+    super(`Given locale is in invalid format: "${locale}"`);
+    this.code = 'INVALID_LOCALE_FORMAT';
+    this.meta = { locale };
+  }
+}
+
+class LocaleNotSupportedError extends DomainError {
+  constructor(locale) {
+    super(`Given locale is not supported : "${locale}"`);
+    this.code = 'LOCALE_NOT_SUPPORTED';
+    this.meta = { locale };
+  }
+}
+
 class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -75,4 +91,6 @@ export {
   CsvImportError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
+  LocaleFormatError,
+  LocaleNotSupportedError,
 };

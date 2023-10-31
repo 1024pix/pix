@@ -1,7 +1,7 @@
 import { expect, catchErrSync } from '../../../../test-helper.js';
 import { User } from '../../../../../lib/domain/models/User.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/user-serializer.js';
-import { LocaleFormatError, LocaleNotSupportedError } from '../../../../../lib/domain/errors.js';
+import { LocaleFormatError, LocaleNotSupportedError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Serializer | JSONAPI | user-serializer', function () {
   describe('#serialize', function () {

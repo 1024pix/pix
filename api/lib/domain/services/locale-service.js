@@ -1,4 +1,4 @@
-import { LocaleFormatError, LocaleNotSupportedError } from '../errors.js';
+import { LocaleFormatError, LocaleNotSupportedError } from '../../../src/shared/domain/errors.js';
 import { SUPPORTED_LOCALES } from '../../../src/shared/domain/constants.js';
 
 const getCanonicalLocale = function (locale) {
