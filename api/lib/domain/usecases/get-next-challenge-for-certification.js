@@ -94,11 +94,10 @@ const _getExcludedChallengeIds = async ({
   const answers = await answerRepository.findByAssessment(assessmentId);
   const alreadyAnsweredChallengeIds = answers.map(({ challengeId }) => challengeId);
 
-  const validatedLiveAlertsForAssessment =
+  const validatedLiveAlertsChallengeIdsForAssessment =
     await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
-  const mappedAlertedChallengeIds = validatedLiveAlertsForAssessment.map(({ challengeId }) => challengeId);
 
-  return [...alreadyAnsweredChallengeIds, ...mappedAlertedChallengeIds];
+  return [...alreadyAnsweredChallengeIds, ...validatedLiveAlertsChallengeIdsForAssessment];
 };
 
 export { getNextChallengeForCertification };

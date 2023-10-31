@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   CertificationChallengeLiveAlert,
@@ -25,7 +26,7 @@ const getLiveAlertValidatedChallengeIdsByAssessmentId = async (assessmentId) => 
     status: CertificationChallengeLiveAlertStatus.VALIDATED,
   });
 
-  return liveAlertValidatedChallengeIds;
+  return _.map(liveAlertValidatedChallengeIds, 'challengeId');
 };
 
 const getOngoingBySessionIdAndUserId = async ({ sessionId, userId }) => {
