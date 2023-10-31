@@ -331,6 +331,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       // given
       const email = 'some.user@example.net';
       const language = 'fr-fr';
+      const role = null;
       const certificationCenterId = 7;
       const payload = {
         data: {
@@ -338,6 +339,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
           attributes: {
             email,
             language,
+            role,
           },
         },
       };
@@ -350,6 +352,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         .withArgs({
           email,
           locale: language,
+          role,
           certificationCenterId,
         })
         .resolves({
@@ -380,6 +383,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
       // given
       const email = 'some.user@example.net';
       const language = 'fr-fr';
+      const role = 'ADMIN';
 
       certificationCenterInvitationSerializerStub.deserializeForAdmin.resolves({ email, language });
       usecases.createOrUpdateCertificationCenterInvitationForAdmin.resolves({
@@ -399,6 +403,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
               attributes: {
                 email,
                 language,
+                role,
               },
             },
           },

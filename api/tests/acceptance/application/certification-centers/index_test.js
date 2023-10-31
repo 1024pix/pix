@@ -8,6 +8,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
+import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 
 describe('Acceptance | Route | Certification Centers', function () {
   let server;
@@ -94,6 +95,7 @@ describe('Acceptance | Route | Certification Centers', function () {
             attributes: {
               email: 'some.user@example.net',
               lang: 'fr-fr',
+              role: CertificationCenterInvitation.Roles.ADMIN,
             },
           },
         },
@@ -107,6 +109,7 @@ describe('Acceptance | Route | Certification Centers', function () {
       expect(result.data.attributes).to.deep.equal({
         'updated-at': now,
         email: 'some.user@example.net',
+        role: 'ADMIN',
       });
     });
   });

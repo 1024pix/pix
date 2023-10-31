@@ -165,9 +165,10 @@ const sendInvitationForAdmin = async function (request, h, dependencies = { cert
 
   const { certificationCenterInvitation, isInvitationCreated } =
     await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
+      certificationCenterId,
       email: invitationInformation.email,
       locale: invitationInformation.language,
-      certificationCenterId,
+      role: invitationInformation.role,
     });
 
   const serializedCertificationCenterInvitation =
