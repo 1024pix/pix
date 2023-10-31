@@ -43,6 +43,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       email,
       certificationCenterId,
       mailService,
+      role: 'MEMBER',
     });
 
     // then
@@ -58,8 +59,10 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     expect(result.certificationCenterInvitation).to.deep.include({
       id: newAddedInvitation.id,
       email,
+      certificationCenterId,
       certificationCenterName: 'Centre des Pixous',
       updatedAt: now,
+      role: 'MEMBER',
     });
     expect(result.certificationCenterInvitation.code).to.exist;
   });
@@ -99,6 +102,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       certificationCenterName: 'Centre Pixou',
       updatedAt: now,
       code: 'AAALLLPPP1',
+      role: 'MEMBER',
     });
   });
 
@@ -119,6 +123,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
     await usecases.createOrUpdateCertificationCenterInvitationForAdmin({
       email,
       locale: 'en',
+      role: 'MEMBER',
       certificationCenterId,
       mailService,
     });
@@ -136,6 +141,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
   it('should throw an error if email was not send', async function () {
     // given
     const email = 'some.user@example.net';
+    const role = null;
 
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Pixar' }).id;
     databaseBuilder.factory.buildCertificationCenterInvitation({
@@ -155,6 +161,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       locale: 'fr',
       certificationCenterId,
       mailService,
+      role,
     });
 
     // then
@@ -180,6 +187,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
       const error = await catchErr(usecases.createOrUpdateCertificationCenterInvitationForAdmin)({
         email,
         locale: 'fr',
+        role: 'ADMIN',
         certificationCenterId,
         mailService,
       });
