@@ -44,6 +44,66 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#countMembersForCertificationCenter', function () {
+    it('returns the number of members', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN,
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: databaseBuilder.factory.buildUser().id,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const membersCount =
+        await certificationCenterMembershipRepository.countMembersForCertificationCenter(certificationCenterId);
+
+      // then
+      expect(membersCount).to.equal(3);
+    });
+  });
+
+  describe('#create', function () {
+    afterEach(async function () {
+      await knex('certification-center-memberships').delete();
+    });
+
+    it('returns newly created certification center membership', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.create({
+        certificationCenterId,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        userId,
+      });
+
+      // then
+      const createdCertificationCenterMembership = await knex('certification-center-memberships').first();
+      expect(createdCertificationCenterMembership).to.include({
+        certificationCenterId,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        userId,
+      });
+    });
+  });
+
   describe('#save', function () {
     let userId, certificationCenterId;
 

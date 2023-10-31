@@ -62,6 +62,18 @@ const countAdminMembersForCertificationCenter = async function (certificationCen
   return count;
 };
 
+const countMembersForCertificationCenter = async function (certificationCenterId) {
+  const { count } = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .where({ certificationCenterId })
+    .count('id')
+    .first();
+  return count;
+};
+
+const create = async function ({ certificationCenterId, role, userId }) {
+  await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).insert({ certificationCenterId, role, userId });
+};
+
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
     .select(
@@ -110,6 +122,9 @@ const findActiveByCertificationCenterIdSortedById = async function ({ certificat
   return certificationCenterMemberships.map(_toDomain);
 };
 
+/**
+ * @deprecated use create method if you don't need the model in return with his relations (User & CertificationCenter)
+ */
 const save = async function ({ userId, certificationCenterId }) {
   try {
     const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({
@@ -251,6 +266,8 @@ const findById = async function (certificationCenterMembershipId) {
 
 export {
   countAdminMembersForCertificationCenter,
+  countMembersForCertificationCenter,
+  create,
   disableById,
   disableMembershipsByUserId,
   findActiveByCertificationCenterIdSortedById,
