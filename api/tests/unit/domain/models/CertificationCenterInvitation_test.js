@@ -14,6 +14,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
         email: 'pixou1@team.org',
         updatedAt: today,
         status: 'pending',
+        role: 'ADMIN',
         certificationCenterId: 10,
         certificationCenterName: 'La Raclette des Pixous',
         code: 'ABCDE',
@@ -35,6 +36,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
         email: 'pixou1@team.org',
         updatedAt: today,
         status: 'pending',
+        role: 'SUPER',
         certificationCenterId: 10,
         certificationCenterName: 'La Raclette des Pixous',
       };
@@ -129,6 +131,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
         email: 'new@example.net',
         updatedAt: now,
         code: '666AAALLL9',
+        role: 'ADMIN',
       });
 
       // /then
@@ -139,6 +142,7 @@ describe('Unit | Domain | Models | CertificationCenterInvitation', function () {
         status: CertificationCenterInvitation.StatusType.PENDING,
         updatedAt: now,
         code: '666AAALLL9',
+        role: 'ADMIN',
       });
     });
   });
