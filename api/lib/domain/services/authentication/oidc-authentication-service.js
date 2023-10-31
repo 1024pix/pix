@@ -45,6 +45,7 @@ class OidcAuthenticationService {
       endSessionUrl,
       postLogoutRedirectUri,
       additionalRequiredProperties,
+      claimsToStore,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -63,7 +64,13 @@ class OidcAuthenticationService {
     this.userInfoUrl = userInfoUrl;
     this.endSessionUrl = endSessionUrl;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
+
+    if (!lodash.isEmpty(claimsToStore)) {
+      this.claimsToStore = claimsToStore;
+    }
+
     this.sessionTemporaryStorage = sessionTemporaryStorage;
+
     if (!this.configKey) {
       logger.error(`${this.constructor.name}: Missing configKey`);
       return;
