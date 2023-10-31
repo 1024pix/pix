@@ -26,6 +26,10 @@ class CertificationCenterMembership {
     this.updatedAt = updatedAt;
   }
 
+  get hasAdminRole() {
+    return this.role === CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN;
+  }
+
   updateRole({ role, updatedByUserId }) {
     this.role = role;
     this.updatedByUserId = updatedByUserId;
