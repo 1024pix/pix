@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v4.57.0 (31/10/2023)
+
+
+### :rocket: Amélioration
+- [#7316](https://github.com/1024pix/pix/pull/7316) [FEATURE] Afficher le QCU dans le liste d'elements d'un module (PIX-9744).
+- [#7359](https://github.com/1024pix/pix/pull/7359) [FEATURE] Créer table parcours autonome (PIX-9805).
+
+### :building_construction: Tech
+- [#7319](https://github.com/1024pix/pix/pull/7319) [TECH] Migrer competence evaluations vers la nouvelle arborescence (PIX-9755).
+
+### :bug: Correction
+- [#7361](https://github.com/1024pix/pix/pull/7361) [BUGFIX] Utiliser le bon argument pour la modal de suppression du SUP (PIX-9814).
+
+### :arrow_up: Montée de version
+- [#7357](https://github.com/1024pix/pix/pull/7357) [BUMP] Update actions/setup-node action to v4 (workflows).
+
 ## v4.56.0 (30/10/2023)
 
 
