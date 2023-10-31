@@ -7,8 +7,6 @@ export default class MissionsRoute extends Route {
   @service currentLearner;
 
   async model() {
-    const result = await this.store.findRecord('organization-learner', this.currentLearner.learner.id);
-    console.log('resul model', result);
-    return result;
+    return await this.store.findRecord('organization-learner', this.currentLearner.learner.id);
   }
 }

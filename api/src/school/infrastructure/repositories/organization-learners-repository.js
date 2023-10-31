@@ -10,4 +10,12 @@ const getStudentsByOrganizationId = function (organizationId) {
     );
 };
 
-export { getStudentsByOrganizationId };
+const getById = async function (organizationLearnerId) {
+  const result = await knex('organization-learners').where({ id: organizationLearnerId }).first();
+
+  return new OrganizationLearner({
+    ...result,
+  });
+};
+
+export { getStudentsByOrganizationId, getById };
