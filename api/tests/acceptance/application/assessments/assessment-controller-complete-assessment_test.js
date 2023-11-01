@@ -27,9 +27,11 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   const learningContent = [
     {
       id: 'recArea0',
+      code: 'area0',
       competences: [
         {
           id: 'recCompetence0',
+          index: 'competence0',
           tubes: [
             {
               id: 'recTube0_0',
@@ -56,6 +58,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence1',
+          index: 'competence1',
           tubes: [
             {
               id: 'recTube1_0',
@@ -81,6 +84,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence2',
+          index: 'competence2',
           tubes: [
             {
               id: 'recTube2_0',
@@ -106,6 +110,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence3',
+          index: 'competence3',
           tubes: [
             {
               id: 'recTube3_0',
@@ -131,6 +136,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence4',
+          index: 'competence4',
           tubes: [
             {
               id: 'recTube4_0',
