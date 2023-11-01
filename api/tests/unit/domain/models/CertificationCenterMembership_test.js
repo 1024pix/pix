@@ -48,6 +48,38 @@ describe('Unit | Domain | Models | CertificationCenterMembership', function () {
         });
       });
     });
+
+    describe('#hasMemberRole', function () {
+      context('when role is "ADMIN"', function () {
+        it('returns false', function () {
+          // given
+          const certificationCenterMembership = new CertificationCenterMembership({
+            role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN,
+          });
+
+          // when
+          const result = certificationCenterMembership.hasMemberRole;
+
+          // then
+          expect(result).to.be.false;
+        });
+      });
+
+      context('when role is "MEMBER"', function () {
+        it('returns true', function () {
+          // given
+          const certificationCenterMembership = new CertificationCenterMembership({
+            role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+          });
+
+          // when
+          const result = certificationCenterMembership.hasMemberRole;
+
+          // then
+          expect(result).to.be.true;
+        });
+      });
+    });
   });
 
   describe('#updateRole', function () {

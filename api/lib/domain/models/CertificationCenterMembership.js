@@ -30,6 +30,10 @@ class CertificationCenterMembership {
     return this.role === CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN;
   }
 
+  get hasMemberRole() {
+    return this.role === CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER;
+  }
+
   updateRole({ role, updatedByUserId }) {
     this.role = role;
     this.updatedByUserId = updatedByUserId;
