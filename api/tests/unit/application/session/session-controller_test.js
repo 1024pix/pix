@@ -120,46 +120,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#getAttendanceSheet', function () {
-    it('should return the attendance sheet in pdf format', async function () {
-      // given
-      const i18n = getI18n();
-      const sessionId = 1;
-      const fileName = `feuille-emargement-session-${sessionId}.pdf`;
-      const attendanceSheet = Buffer.alloc(5);
-      const accessToken = 'ABC123';
-
-      const tokenService = {
-        extractUserId: sinon.stub(),
-      };
-      sinon.stub(usecases, 'getAttendanceSheet');
-      const request = {
-        i18n,
-        params: { id: sessionId },
-        payload: {},
-        query: {
-          accessToken,
-        },
-      };
-
-      tokenService.extractUserId.withArgs(accessToken).returns(userId);
-      usecases.getAttendanceSheet.withArgs({ sessionId, userId, i18n }).resolves({
-        fileName,
-        attendanceSheet,
-      });
-
-      // when
-      const response = await sessionController.getAttendanceSheet(request, hFake, { tokenService });
-
-      // then
-      const expectedHeaders = {
-        'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.pdf`,
-        'Content-Type': 'application/pdf',
-      };
-      expect(response.headers).to.deep.equal(expectedHeaders);
-    });
-  });
-
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
     const sessionId = 2;
     let request;
