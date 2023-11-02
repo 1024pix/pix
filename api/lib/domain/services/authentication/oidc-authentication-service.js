@@ -263,7 +263,7 @@ class OidcAuthenticationService {
   }
 
   async getUserInfo({ idToken, accessToken }) {
-    const { family_name, given_name, sub, nonce } = await jsonwebtoken.decode(idToken);
+    const { family_name, given_name, sub, nonce } = jsonwebtoken.decode(idToken);
     let userInfoContent;
 
     const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
