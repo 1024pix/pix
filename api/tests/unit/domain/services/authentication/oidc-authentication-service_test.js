@@ -209,7 +209,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = await oidcAuthenticationService.getUserInfoMissingFields({
+      const response = oidcAuthenticationService.getUserInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: undefined,
@@ -227,7 +227,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = await oidcAuthenticationService.getUserInfoMissingFields({
+      const response = oidcAuthenticationService.getUserInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: 'familyName',
