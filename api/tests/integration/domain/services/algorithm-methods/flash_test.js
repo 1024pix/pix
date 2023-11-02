@@ -355,6 +355,60 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         }
       });
     });
+
+    context('when limiting the estimated level variation', function () {
+      context('when giving a right answer', function () {
+        it('should return the limited estimatedLevel', function () {
+          // given
+          const challenges = [
+            domainBuilder.buildChallenge({
+              discriminant: 1.86350005965093,
+              difficulty: 0.194712138508747,
+            }),
+          ];
+
+          const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
+
+          const variationPercent = 0.5;
+
+          // when
+          const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+            allAnswers,
+            challenges,
+            variationPercent,
+          });
+
+          // then
+          expect(estimatedLevel).to.be.closeTo(0.5, 0.00000000001);
+        });
+      });
+
+      context('when giving a wrong answer', function () {
+        it('should return the limited estimatedLevel', function () {
+          // given
+          const challenges = [
+            domainBuilder.buildChallenge({
+              discriminant: 1.86350005965093,
+              difficulty: 0.194712138508747,
+            }),
+          ];
+
+          const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[0].id })];
+
+          const variationPercent = 0.5;
+
+          // when
+          const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+            allAnswers,
+            challenges,
+            variationPercent,
+          });
+
+          // then
+          expect(estimatedLevel).to.be.closeTo(-0.5, 0.00000000001);
+        });
+      });
+    });
   });
 
   describe('#getChallengesForNonAnsweredSkills', function () {
