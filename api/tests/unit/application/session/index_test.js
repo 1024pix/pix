@@ -33,21 +33,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/sessions/{id}/attendance-sheet', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(sessionController, 'getAttendanceSheet').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/sessions/1/attendance-sheet?accessToken=toto&lang=fr');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('PATCH /api/sessions/{id}', function () {
     it('should exist', async function () {
       // given
@@ -352,14 +337,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'GET', url: '/api/admin/sessions/9999999999' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'GET', url: '/api/sessions/salut/attendance-sheet' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'GET', url: '/api/sessions/9999999999/attendance-sheet' },
       },
       { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/sessions/salut' } },
       {
