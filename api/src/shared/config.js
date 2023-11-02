@@ -174,7 +174,6 @@ const configuration = (function () {
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
-      isTargetProfileVersioningEnabled: isFeatureEnabled(process.env.FT_TARGET_PROFILE_VERSIONING),
     },
     fwb: {
       isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
@@ -362,7 +361,6 @@ const configuration = (function () {
 
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
-    config.featureToggles.isTargetProfileVersioningEnabled = true;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';
