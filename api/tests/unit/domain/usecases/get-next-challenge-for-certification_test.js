@@ -272,7 +272,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             })
             .resolves({
               allAnswers: [],
-              challenges: [nextChallenge],
+              challenges: [nextChallenge, lastSeenChallenge],
               estimatedLevel: 0,
             });
 
