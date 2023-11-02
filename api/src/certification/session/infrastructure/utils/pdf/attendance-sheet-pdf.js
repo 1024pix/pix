@@ -8,7 +8,7 @@ import localizedFormat from 'dayjs/plugin/localizedFormat.js';
 dayjs.extend(localizedFormat);
 
 import _ from 'lodash';
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { LOCALE } from '../../../../../shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
@@ -113,7 +113,7 @@ async function getAttendanceSheetPdfBuffer({
 }
 
 async function _embedFontIntoPdf({ pdfDoc, dirname, font }) {
-  const fontFile = await readFile(`${dirname}/files/${font}`);
+  const fontFile = await readFile(`${dirname}/../../../../shared/infrastructure/utils/pdf/files/${font}`);
   return pdfDoc.embedFont(fontFile, { subset: true });
 }
 
