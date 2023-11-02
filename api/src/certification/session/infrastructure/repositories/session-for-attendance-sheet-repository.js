@@ -1,9 +1,9 @@
-import { knex } from '../../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../../domain/errors.js';
-import { SessionForAttendanceSheet } from '../../../domain/read-models/SessionForAttendanceSheet.js';
-import { CertificationCandidateForAttendanceSheet } from '../../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { SessionForAttendanceSheet } from '../../domain/read-models/SessionForAttendanceSheet.js';
+import { CertificationCandidateForAttendanceSheet } from '../../domain/read-models/CertificationCandidateForAttendanceSheet.js';
 
-const getWithCertificationCandidates = async function (idSession) {
+const getWithCertificationCandidates = async function (sessionId) {
   const results = await knex
     .select(
       'sessions.id',
@@ -43,7 +43,7 @@ const getWithCertificationCandidates = async function (idSession) {
       'certification-candidates.organizationLearnerId',
     )
     .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
-    .where({ 'sessions.id': idSession })
+    .where({ 'sessions.id': sessionId })
     .first();
 
   if (!results) {
