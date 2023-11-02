@@ -461,11 +461,11 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           );
         }
 
+        const userInfoUrl = 'infoUrl';
         const idToken = generateIdToken({
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
           sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
         });
-        const userInfoUrl = 'infoUrl';
 
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
         sinon.stub(oidcAuthenticationService, 'getUserInfoFromEndpoint');
@@ -479,7 +479,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // then
         expect(oidcAuthenticationService.getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
           accessToken: 'accessToken',
-          userInfoUrl,
         });
       });
     });

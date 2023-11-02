@@ -191,9 +191,9 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
-  async getUserInfoFromEndpoint({ accessToken, userInfoUrl }) {
+  async getUserInfoFromEndpoint({ accessToken }) {
     const httpResponse = await httpAgent.get({
-      url: userInfoUrl,
+      url: this.userInfoUrl,
       headers: { Authorization: `Bearer ${accessToken}` },
       timeout: config.partner.fetchTimeOut,
     });
@@ -269,7 +269,7 @@ class OidcAuthenticationService {
     const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
 
     if (isMandatoryUserInfoMissing) {
-      userInfoContent = await this.getUserInfoFromEndpoint({ accessToken, userInfoUrl: this.userInfoUrl });
+      userInfoContent = await this.getUserInfoFromEndpoint({ accessToken });
     }
 
     return {
