@@ -28,7 +28,7 @@ async function createCertificationCenter({
   isV3Pilot = false,
   complementaryCertificationIds = [],
 }) {
-  _buildCertificationCenter({
+  certificationCenterId = _buildCertificationCenter({
     databaseBuilder,
     certificationCenterId,
     name,
@@ -37,7 +37,7 @@ async function createCertificationCenter({
     createdAt,
     updatedAt,
     isV3Pilot,
-  });
+  }).id;
 
   _buildCertificationCenterMemberships({
     databaseBuilder,
@@ -90,7 +90,7 @@ function _buildCertificationCenter({
   createdAt,
   updatedAt,
 }) {
-  databaseBuilder.factory.buildCertificationCenter({
+  return databaseBuilder.factory.buildCertificationCenter({
     id: certificationCenterId,
     name,
     type,
