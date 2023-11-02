@@ -13,6 +13,6 @@ ENV BUILD_ENV=dev
 
 RUN npx ember build --env $BUILD_ENV
 
-FROM nginx:1.25.2 as production
+FROM nginx:1.25.3 as production
 
 COPY --from=builder /code/dist/ /usr/share/nginx/html/
