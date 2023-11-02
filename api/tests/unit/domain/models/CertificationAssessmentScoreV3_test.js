@@ -75,11 +75,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
     challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
     flashAlgorithmService.getEstimatedLevelAndErrorRate
-      .withArgs({
-        challenges: baseChallenges,
-        allAnswers: baseAnswers,
-        estimatedLevel: sinon.match.number,
-      })
+      .withArgs(
+        _getEstimatedLevelAndErrorRateParams({
+          challenges: baseChallenges,
+          allAnswers: baseAnswers,
+          estimatedLevel: sinon.match.number,
+        }),
+      )
       .returns({
         estimatedLevel: expectedEstimatedLevel,
       });
@@ -103,11 +105,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate
-        .withArgs({
-          challenges,
-          allAnswers,
-          estimatedLevel: sinon.match.number,
-        })
+        .withArgs(
+          _getEstimatedLevelAndErrorRateParams({
+            challenges,
+            allAnswers,
+            estimatedLevel: sinon.match.number,
+          }),
+        )
         .returns({
           estimatedLevel: veryLowEstimatedLevel,
         });
@@ -134,11 +138,13 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate
-        .withArgs({
-          challenges,
-          allAnswers,
-          estimatedLevel: sinon.match.number,
-        })
+        .withArgs(
+          _getEstimatedLevelAndErrorRateParams({
+            challenges,
+            allAnswers,
+            estimatedLevel: sinon.match.number,
+          }),
+        )
         .returns({
           estimatedLevel: veryHighEstimatedLevel,
         });
@@ -167,6 +173,11 @@ const _buildChallenges = (difficulty, numberOfChallenges) => {
     }),
   );
 };
+
+const _getEstimatedLevelAndErrorRateParams = (params) => ({
+  ...params,
+  variationPercent: undefined,
+});
 
 const _buildAnswersForChallenges = (challenges, answerResult) => {
   return challenges.map(({ id: challengeId }) =>

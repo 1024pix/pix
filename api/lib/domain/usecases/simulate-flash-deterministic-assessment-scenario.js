@@ -15,6 +15,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   limitToOneQuestionPerTube = true,
   minimumEstimatedSuccessRateRanges = [],
   enablePassageByAllCompetences = false,
+  variationPercent,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 
@@ -27,6 +28,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
     minimumEstimatedSuccessRateRanges,
     flashAlgorithmImplementation: flashAlgorithmService,
     enablePassageByAllCompetences,
+    variationPercent,
   });
 
   const simulator = new AssessmentSimulator({
@@ -35,6 +37,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
     pickChallenge,
     initialCapacity,
     pickAnswerStatus,
+    variationPercent,
   });
 
   return simulator.run();
