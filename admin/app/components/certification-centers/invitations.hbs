@@ -9,6 +9,7 @@
           <thead>
             <tr>
               <th>Adresse e-mail</th>
+              <th>Rôle</th>
               <th>Date de dernier envoi</th>
               <th>Actions</th>
             </tr>
@@ -17,6 +18,7 @@
             {{#each this.sortedCertificationCenterInvitations as |invitation|}}
               <tr aria-label="Invitation en attente de {{invitation.email}}">
                 <td>{{invitation.email}}</td>
+                <td>{{invitation.roleLabel}}</td>
                 <td>{{dayjs-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
                 <td>
                   <PixButton
