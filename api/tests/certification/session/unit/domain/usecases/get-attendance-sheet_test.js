@@ -1,7 +1,6 @@
-import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { getAttendanceSheet } from '../../../../lib/domain/usecases/get-attendance-sheet.js';
-
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { catchErr, expect, sinon } from '../../../../../test-helper.js';
+import { getAttendanceSheet } from '../../../../../../src/certification/session/domain/usecases/get-attendance-sheet.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-attendance-sheet', function () {
   describe('getAttendanceSheet', function () {

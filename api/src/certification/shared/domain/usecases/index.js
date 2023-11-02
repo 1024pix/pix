@@ -17,11 +17,14 @@ import * as sessionCodeService from '../../../session/domain/services/session-co
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
+import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
+import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
 const dependencies = {
   assessmentRepository,
+  attendanceSheetPdfUtils,
   badgeRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
@@ -35,6 +38,7 @@ const dependencies = {
   sessionCodeService,
   mailService,
   sessionRepository,
+  sessionForAttendanceSheetRepository,
   sessionValidator,
   userRepository,
 };
