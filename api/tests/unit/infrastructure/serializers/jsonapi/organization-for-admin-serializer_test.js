@@ -223,11 +223,8 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       const organization = serializer.deserialize(jsonApiOrganization);
 
       // then
-      const expectedTag1 = new Tag({ id: parseInt(tagAttributes1.id) });
-      const expectedTag2 = new Tag({ id: parseInt(tagAttributes2.id) });
-      expect(organization.tags[0]).to.be.instanceOf(Tag);
-      expect(organization.tags[0]).to.deep.equal(expectedTag1);
-      expect(organization.tags[1]).to.deep.equal(expectedTag2);
+      expect(organization.tags).to.be.empty;
+      expect(organization.tagIds).to.deep.members([4, 2]);
     });
   });
 });

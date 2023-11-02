@@ -5,12 +5,15 @@ import { usecases } from '../../../../../lib/domain/usecases/index.js';
 const { updateOrganizationInformation } = usecases;
 
 describe('Unit | UseCase | organizations-administration | update-organization-information', function () {
-  let organizationForAdminRepository;
+  let organizationForAdminRepository, tagRepository;
 
   beforeEach(function () {
     organizationForAdminRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
+    };
+    tagRepository = {
+      findByIds: sinon.stub(),
     };
   });
 
@@ -26,11 +29,13 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     const updatedOrganization = domainBuilder.buildOrganizationForAdmin({ organizationId: givenOrganization.id });
     organizationForAdminRepository.get.onCall(1).returns(updatedOrganization);
     const domainTransaction = Symbol('domainTransaction');
-
+    const tagsToUpdate = Symbol('tagsToUpdate');
+    tagRepository.findByIds.withArgs(givenOrganization.tagIds, domainTransaction).resolves(tagsToUpdate);
     // when
     const result = await updateOrganizationInformation({
       organization: givenOrganization,
       organizationForAdminRepository,
+      tagRepository,
       domainTransaction,
     });
 
@@ -39,7 +44,7 @@ describe('Unit | UseCase | organizations-administration | update-organization-in
     expect(existingOrganizationForAdmin.updateWithDataProtectionOfficerAndTags).to.have.been.calledWithExactly(
       givenOrganization,
       givenOrganization.dataProtectionOfficer,
-      givenOrganization.tags,
+      tagsToUpdate,
     );
     expect(organizationForAdminRepository.update).to.have.been.calledWithExactly(
       existingOrganizationForAdmin,
