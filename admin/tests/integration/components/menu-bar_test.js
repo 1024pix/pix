@@ -7,14 +7,6 @@ import Service from '@ember/service';
 module('Integration | Component | menu-bar', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function () {
-    this.owner.lookup('service:store');
-    class FeatureTogglesStub extends Service {
-      featureToggles = { isTargetProfileVersioningEnabled: true };
-    }
-    this.owner.register('service:featureToggles', FeatureTogglesStub);
-  });
-
   test('should display principal navigation', async function (assert) {
     // given
     const currentUser = this.owner.lookup('service:currentUser');

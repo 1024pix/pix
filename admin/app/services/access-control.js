@@ -55,8 +55,4 @@ export default class AccessControlService extends Service {
   get hasAccessToOrganizationPlacesActionsScope() {
     return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
   }
-
-  get hasAccessToComplementaryCertificationsScope() {
-    return this.featureToggles.featureToggles.isTargetProfileVersioningEnabled;
-  }
 }
