@@ -86,6 +86,35 @@ module('Integration | Component | new-certification-candidate-modal', function (
     assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
   });
 
+  test('it should have some inputs required', async function (assert) {
+    // given
+    const closeModalStub = sinon.stub();
+    const updateCandidateStub = sinon.stub();
+    const updateCandidateWithEventStub = sinon.stub();
+    this.set('closeModal', closeModalStub);
+    this.set('updateCandidateStub', updateCandidateStub);
+    this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
+    this.set('countries', []);
+
+    // when
+    const screen = await renderScreen(hbs`
+      <NewCertificationCandidateModal
+        @showModal={{true}}
+        @closeModal={{this.closeModal}}
+        @countries={{this.countries}}
+        @updateCandidateData={{this.updateCandidateStub}}
+        @updateCandidateDataWithEvent={{this.updateCandidateStub}}
+      />
+    `);
+
+    // then
+    assert.dom(screen.getByRole('textbox', { name: 'Nom de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Prénom' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Date de naissance' })).hasAttribute('required');
+    assert.dom(screen.getByRole('radio', { name: 'Femme' })).hasAttribute('required');
+    assert.dom(screen.getByRole('textbox', { name: 'Code INSEE de naissance' })).hasAttribute('required');
+  });
+
   module('when shouldDisplayPaymentOptions is true', function () {
     test('it shows candidate form with billing information', async function (assert) {
       // given
