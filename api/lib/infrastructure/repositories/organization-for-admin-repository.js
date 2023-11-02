@@ -37,9 +37,8 @@ function _toDomain(rawOrganization) {
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
     enableMultipleSendingAssessment: rawOrganization.enableMultipleSendingAssessment,
     features: rawOrganization.features,
+    tags: rawOrganization.tags || [],
   });
-
-  organization.tags = rawOrganization.tags || [];
 
   return organization;
 }
