@@ -1,8 +1,8 @@
-import { databaseBuilder, expect, catchErr } from '../../../../test-helper.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import * as sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
-import { SessionForAttendanceSheet } from '../../../../../lib/domain/read-models/SessionForAttendanceSheet.js';
-import { CertificationCandidateForAttendanceSheet } from '../../../../../lib/domain/read-models/CertificationCandidateForAttendanceSheet.js';
+import { databaseBuilder, expect, catchErr } from '../../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import * as sessionForAttendanceSheetRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
+import { SessionForAttendanceSheet } from '../../../../../../src/certification/session/domain/read-models/SessionForAttendanceSheet.js';
+import { CertificationCandidateForAttendanceSheet } from '../../../../../../src/certification/session/domain/read-models/CertificationCandidateForAttendanceSheet.js';
 
 describe('Integration | Repository | Session-for-attendance-sheet', function () {
   describe('#getWithCertificationCandidates', function () {
