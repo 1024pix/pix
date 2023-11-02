@@ -1,6 +1,22 @@
-<PixModal @title={{this.text.title}} @showModal={{@showModal}} @onCloseButtonClick={{@onCloseModal}}>
+<PixModal
+  @title={{t
+    "pages.organization-participants.deletion-modal.title"
+    count=this.count
+    firstname=this.firstName
+    lastname=this.lastName
+    htmlSafe=true
+  }}
+  @showModal={{@showModal}}
+  @onCloseButtonClick={{@onCloseModal}}
+>
   <:content>
-    {{this.text.content}}
+    <p>{{t "pages.organization-participants.deletion-modal.content.header" count=this.count}}</p>
+    <p>{{t "pages.organization-participants.deletion-modal.content.main-participation-prevent" count=this.count}}</p>
+    <p>{{t "pages.organization-participants.deletion-modal.content.main-campaign-prevent" count=this.count}}</p>
+    <p>{{t "pages.organization-participants.deletion-modal.content.main-participation-access" count=this.count}}</p>
+    <p>{{t "pages.organization-participants.deletion-modal.content.main-new-campaign-access" count=this.count}}</p>
+    <p><strong>{{t "pages.organization-participants.deletion-modal.content.footer" count=this.count}}</strong></p>
+
     {{#if this.isMultipleDeletion}}
       <PixCheckbox
         {{on "click" this.giveDeletionPermission}}
@@ -9,7 +25,7 @@
         @class="deletion-modal__permission-checkbox"
       >
         <strong>
-          {{t "pages.organization-participants.deletion-modal.confirmation-checkbox" count=@itemsToDelete.length}}
+          {{t "pages.organization-participants.deletion-modal.confirmation-checkbox" count=this.count}}
         </strong>
       </PixCheckbox>
     {{/if}}
