@@ -13,7 +13,11 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
       area.competences.forEach((competence) => {
         competence.tubes.forEach((tube) => {
           tube.skills.forEach((skill) => {
-            competenceIdSkillIdPairs.push({ competenceId: competence.id, skillId: skill.id });
+            competenceIdSkillIdPairs.push({
+              competenceId: competence.id,
+              skillId: skill.id,
+              challengeId: skill.challenges[0].id,
+            });
             skill.challenges.forEach((challenge) => {
               buildCorrectAnswerAndKnowledgeElement({
                 userId,

@@ -141,7 +141,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
                       {
                         id: 'recSkill0_0',
                         nom: '@recSkill0_0',
-                        challenges: [{ id: 'recChallenge0_0_0' }],
+                        challenges: [{ id: 'recChallenge0_0_0' }, { id: 'recChallenge0_0_1' }],
                       },
                     ],
                   },
@@ -177,10 +177,19 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({
           courseId: certificationCourseId,
           isNeutralized: false,
+          challengeId: 'recChallenge0_0_1',
+          competenceId: 'recCompetence0',
+          associatedSkillName: '@recSkill0_0',
+          associatedSkillId: 'recSkill0_0',
         });
+
         const certificationChallengeOk = databaseBuilder.factory.buildCertificationChallenge({
           courseId: certificationCourseId,
           isNeutralized: false,
+          challengeId: 'recChallenge0_0_0',
+          competenceId: 'recCompetence0',
+          associatedSkillName: '@recSkill0_0',
+          associatedSkillId: 'recSkill0_0',
         });
 
         databaseBuilder.factory.buildAnswer({
@@ -298,6 +307,10 @@ describe('Acceptance | Controller | sessions-controller', function () {
         const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
           courseId: certificationCourseId,
           isNeutralized: false,
+          challengeId: 'recChallenge0_0_0',
+          competenceId: 'recCompetence0',
+          associatedSkillName: '@recSkill0_0',
+          associatedSkillId: 'recSkill0_0',
         });
         databaseBuilder.factory.buildAnswer({
           assessmentId,

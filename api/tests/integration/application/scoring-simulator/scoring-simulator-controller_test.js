@@ -62,6 +62,7 @@ describe('Integration | Application | Scoring-simulator | scoring-simulator-cont
                 answers: [new Answer({ challengeId: 'okChallengeId', result: 'ok' })],
               }),
             ],
+            locale: 'fr-fr',
           });
         });
       });
