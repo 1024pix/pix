@@ -258,6 +258,84 @@ describe('Unit | Domain | Models | OrganizationForAdmin', function () {
       ).to.equal(true);
     });
 
+    context('when updating AEFE tags', function () {
+      it('should enable compute organization learner certificability for SCO organization', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+          type: 'SCO',
+          features: {
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          },
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({}, {}, [{ name: 'AEFE', id: 1 }]);
+
+        // then
+        expect(
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        ).to.equal(true);
+      });
+
+      it('should disable compute organization learner certificability on removing AEFE', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+          type: 'SCO',
+          features: {
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          },
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({});
+
+        // then
+        expect(
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        ).to.equal(false);
+      });
+
+      it('should not enable compute organization learner certificability for SUP organization', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+          type: 'SUP',
+          features: {
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          },
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({}, {}, [{ name: 'AEFE', id: 1 }]);
+
+        // then
+        expect(
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        ).to.equal(false);
+      });
+
+      it('should not enable compute organization learner certificability for PRO organization', function () {
+        // given
+        const givenOrganization = new OrganizationForAdmin({
+          isManagingStudents: false,
+          type: 'PRO',
+          features: {
+            [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          },
+        });
+
+        // when
+        givenOrganization.updateWithDataProtectionOfficerAndTags({}, {}, [{ name: 'AEFE', id: 1 }]);
+
+        // then
+        expect(
+          givenOrganization.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key],
+        ).to.equal(false);
+      });
+    });
+
     it('should disable compute organization learner certificability when updating SCO organization isManagingStudents to false', function () {
       // given
       const givenOrganization = new OrganizationForAdmin({
