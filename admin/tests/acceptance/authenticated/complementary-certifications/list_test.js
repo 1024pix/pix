@@ -21,7 +21,6 @@ module('Acceptance | Complementary certifications | list ', function (hooks) {
 
   module('When admin member is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      server.create('feature-toggle', { isTargetProfileVersioningEnabled: true });
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
