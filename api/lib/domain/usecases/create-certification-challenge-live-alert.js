@@ -16,6 +16,16 @@ const createCertificationChallengeLiveAlert = async function ({
     questionNumber,
   });
 
+  const unhandledCertificationChallengeLiveAlert =
+    await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+      challengeId,
+      assessmentId,
+    });
+
+  if (unhandledCertificationChallengeLiveAlert) {
+    return;
+  }
+
   return certificationChallengeLiveAlertRepository.save({ certificationChallengeLiveAlert });
 };
 
