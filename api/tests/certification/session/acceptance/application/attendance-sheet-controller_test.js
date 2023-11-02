@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | session-controller-get-attendance-sheet', function () {
   let server;
