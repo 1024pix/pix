@@ -315,24 +315,28 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       allAnswers: [],
       challenges: sinon.match.any,
       estimatedLevel: initialCapacity,
+      variationPercent: undefined,
     })
     .returns({ estimatedLevel: 0, errorRate: 0.1 })
     .withArgs({
       allAnswers: [successAnswerMatcher],
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
+      variationPercent: undefined,
     })
     .returns({ estimatedLevel: 1, errorRate: 1.1 })
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher],
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
+      variationPercent: undefined,
     })
     .returns({ estimatedLevel: 2, errorRate: 2.1 })
     .withArgs({
       allAnswers: [successAnswerMatcher, successAnswerMatcher, successAnswerMatcher],
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
+      variationPercent: undefined,
     })
     .returns({ estimatedLevel: 3, errorRate: 3.1 });
 
