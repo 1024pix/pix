@@ -9,10 +9,12 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
 
 async function _getCertificationChallenges(certificationCourseId, knexConn) {
-  const allChallenges = await challengeRepository.findOperative();
   const certificationChallengeRows = await knexConn('certification-challenges')
     .where({ courseId: certificationCourseId })
     .orderBy('challengeId', 'asc');
+
+  const challengeIds = certificationChallengeRows.map(({ challengeId }) => challengeId);
+  const allChallenges = await challengeRepository.getMany(challengeIds);
 
   return _.map(certificationChallengeRows, (certificationChallengeRow) => {
     const challenge = _.find(allChallenges, { id: certificationChallengeRow.challengeId });

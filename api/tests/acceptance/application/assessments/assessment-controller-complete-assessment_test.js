@@ -27,9 +27,11 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   const learningContent = [
     {
       id: 'recArea0',
+      code: 'area0',
       competences: [
         {
           id: 'recCompetence0',
+          index: 'competence0',
           tubes: [
             {
               id: 'recTube0_0',
@@ -56,6 +58,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence1',
+          index: 'competence1',
           tubes: [
             {
               id: 'recTube1_0',
@@ -81,6 +84,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence2',
+          index: 'competence2',
           tubes: [
             {
               id: 'recTube2_0',
@@ -106,6 +110,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence3',
+          index: 'competence3',
           tubes: [
             {
               id: 'recTube3_0',
@@ -131,6 +136,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         },
         {
           id: 'recCompetence4',
+          index: 'competence4',
           tubes: [
             {
               id: 'recTube4_0',
@@ -329,108 +335,108 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         expect(recommendedTraining).to.exist;
       });
     });
-  });
 
-  context('when assessment is of type certification', function () {
-    context('when certification is v2', function () {
-      let certifiableUserId;
-      let certificationAssessmentId;
+    context('when assessment is of type certification', function () {
+      context('when certification is v2', function () {
+        let certifiableUserId;
+        let certificationAssessmentId;
 
-      beforeEach(function () {
-        const limitDate = new Date('2020-01-01T00:00:00Z');
-        const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
-        certifiableUserId = databaseBuilder.factory.buildUser().id;
+        beforeEach(function () {
+          const limitDate = new Date('2020-01-01T00:00:00Z');
+          const dateAfterLimitDate = new Date('2020-01-02T00:00:00Z');
+          certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-        const competenceIdSkillIdPairs =
-          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
-            learningContent,
+          const competenceIdSkillIdPairs =
+            databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent.fromAreas({
+              learningContent,
+              userId: certifiableUserId,
+              placementDate: limitDate,
+              earnedPix: 8,
+            });
+
+          certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
+            certifiableUserId,
+            competenceIdSkillIdPairs,
+            limitDate: dateAfterLimitDate,
+          }).id;
+
+          return databaseBuilder.commit();
+        });
+
+        afterEach(async function () {
+          await knex('certification-courses-last-assessment-results').delete();
+          await knex('competence-marks').delete();
+          await knex('assessment-results').delete();
+        });
+
+        it('should complete the certification assessment', async function () {
+          // given
+          options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
+          options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+      });
+
+      context('when certification is v3', function () {
+        let certifiableUserId;
+        let certificationAssessment;
+
+        beforeEach(function () {
+          const limitDate = new Date('2020-01-01T00:00:00Z');
+          certifiableUserId = databaseBuilder.factory.buildUser().id;
+
+          const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             userId: certifiableUserId,
-            placementDate: limitDate,
-            earnedPix: 8,
+            createdAt: limitDate,
+            version: 3,
+          }).id;
+          certificationAssessment = databaseBuilder.factory.buildAssessment({
+            certificationCourseId,
+            userId: certifiableUserId,
+            state: Assessment.states.STARTED,
+            type: Assessment.types.CERTIFICATION,
+            createdAt: limitDate,
           });
 
-        certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
-          certifiableUserId,
-          competenceIdSkillIdPairs,
-          limitDate: dateAfterLimitDate,
-        }).id;
-
-        return databaseBuilder.commit();
-      });
-
-      afterEach(async function () {
-        await knex('certification-courses-last-assessment-results').delete();
-        await knex('competence-marks').delete();
-        await knex('assessment-results').delete();
-      });
-
-      it('should complete the certification assessment', async function () {
-        // given
-        options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-      });
-    });
-
-    context('when certification is v3', function () {
-      let certifiableUserId;
-      let certificationAssessment;
-
-      beforeEach(function () {
-        const limitDate = new Date('2020-01-01T00:00:00Z');
-        certifiableUserId = databaseBuilder.factory.buildUser().id;
-
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-          userId: certifiableUserId,
-          createdAt: limitDate,
-          version: 3,
-        }).id;
-        certificationAssessment = databaseBuilder.factory.buildAssessment({
-          certificationCourseId,
-          userId: certifiableUserId,
-          state: Assessment.states.STARTED,
-          type: Assessment.types.CERTIFICATION,
-          createdAt: limitDate,
-        });
-
-        _buildValidAnswersAndCertificationChallenges({
-          assessmentId: certificationAssessment.id,
-          certificationCourseId,
-        });
-        databaseBuilder.factory.buildBadge();
-
-        return databaseBuilder.commit();
-      });
-
-      afterEach(async function () {
-        await knex('certification-courses-last-assessment-results').delete();
-        await knex('competence-marks').delete();
-        await knex('assessment-results').delete();
-      });
-
-      it('should complete the certification assessment', async function () {
-        // given
-        options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-
-        const assessmentResult = await knex('assessment-results')
-          .where({
+          _buildValidAnswersAndCertificationChallenges({
             assessmentId: certificationAssessment.id,
-          })
-          .first();
+            certificationCourseId,
+          });
+          databaseBuilder.factory.buildBadge();
 
-        expect(assessmentResult.pixScore).to.exist;
+          return databaseBuilder.commit();
+        });
+
+        afterEach(async function () {
+          await knex('certification-courses-last-assessment-results').delete();
+          await knex('competence-marks').delete();
+          await knex('assessment-results').delete();
+        });
+
+        it('should complete the certification assessment', async function () {
+          // given
+          options.url = `/api/assessments/${certificationAssessment.id}/complete-assessment`;
+          options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+
+          const assessmentResult = await knex('assessment-results')
+            .where({
+              assessmentId: certificationAssessment.id,
+            })
+            .first();
+
+          expect(assessmentResult.pixScore).to.exist;
+        });
       });
     });
   });

@@ -72,6 +72,12 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           status: 'archivé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
         },
+        {
+          id: 'recChalC',
+          type: Challenge.Type.QCM,
+          status: 'périmé',
+          skillId: 'recArea1_Competence1_Tube1_Skill2',
+        },
       ],
     };
     mockLearningContent(learningContent);
@@ -275,8 +281,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       dbf.buildAnswer({ assessmentId: certificationAssessmentId });
       dbf.buildAnswer({ assessmentId: certificationAssessmentId });
 
-      const certificationChallenge1RecId = 'rec1234';
-      const certificationChallenge2RecId = 'rec567';
+      const certificationChallenge1RecId = 'recChalA';
+      const certificationChallenge2RecId = 'recChalB';
       dbf.buildCertificationChallenge({
         challengeId: certificationChallenge1RecId,
         courseId: certificationCourseId,
@@ -288,7 +294,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         isNeutralized: false,
       });
       dbf.buildCertificationChallenge({
-        challengeId: 'rec8910',
+        challengeId: 'recChalC',
         courseId: certificationCourseId,
         isNeutralized: false,
       });
@@ -317,11 +323,12 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         userId,
         certificationCourseId,
       }).id;
-      dbf.buildAnswer({ assessmentId: certificationAssessmentId, challengeId: 'rec1234' });
+      const certificationChallenge1RecId = 'recChalA';
+      const certificationChallenge2RecId = 'recChalB';
+
+      dbf.buildAnswer({ assessmentId: certificationAssessmentId, challengeId: certificationChallenge1RecId });
       dbf.buildAnswer({ assessmentId: certificationAssessmentId });
 
-      const certificationChallenge1RecId = 'rec1234';
-      const certificationChallenge2RecId = 'rec567';
       dbf.buildCertificationChallenge({
         challengeId: certificationChallenge1RecId,
         courseId: certificationCourseId,
@@ -338,7 +345,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       // when
       certificationAssessmentToBeSaved.certificationChallenges.map((certificationChallenge) => {
-        if (certificationChallenge.challengeId === 'rec567') {
+        if (certificationChallenge.challengeId === certificationChallenge2RecId) {
           certificationChallenge.hasBeenSkippedAutomatically = true;
         }
       });
@@ -359,8 +366,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         userId,
         certificationCourseId,
       }).id;
-      const certificationChallenge1RecId = 'rec1234';
-      const certificationChallenge2RecId = 'rec567';
+      const certificationChallenge1RecId = 'recChalA';
+      const certificationChallenge2RecId = 'recChalB';
 
       dbf.buildAnswer({
         assessmentId: certificationAssessmentId,
@@ -409,7 +416,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         state: 'started',
       }).id;
 
-      const certificationChallengeRecId = 'rec567';
+      const certificationChallengeRecId = 'recChalB';
 
       dbf.buildCertificationChallenge({
         challengeId: certificationChallengeRecId,
