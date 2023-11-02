@@ -8,10 +8,11 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
   setupIntl(hooks);
 
   let controller;
-  let store;
+  let currentUser, store;
 
   hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/team/list');
+    currentUser = this.owner.lookup('service:current-user');
     store = this.owner.lookup('service:store');
   });
 
@@ -20,43 +21,194 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
   });
 
   module('#shouldDisplayNoRefererSection', function () {
-    module('when certification center has CLEA habilitation', function () {
-      module('when there is a referer', function () {
-        test('should return false', function (assert) {
-          // given
-          const referer = store.createRecord('member', {
-            isReferer: true,
-          });
-          const notReferer = store.createRecord('member', {
-            isReferer: false,
-          });
-          controller.model = { members: [referer, notReferer], hasCleaHabilitation: true };
+    module('when certification center has CLEA habilitation', function (hooks) {
+      hooks.beforeEach(function () {
+        controller.model = { hasCleaHabilitation: true };
+      });
 
-          // when then
-          assert.false(controller.shouldDisplayNoRefererSection);
+      module('when current user has the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(true);
+        });
+
+        module('when there is a referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const referer = store.createRecord('member', {
+              isReferer: true,
+            });
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [referer, notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no member', function () {
+          test('returns false', function (assert) {
+            // given
+            controller.model.members = [];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no referer', function () {
+          test('returns true', function (assert) {
+            // given
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [notReferer];
+
+            // when then
+            assert.true(controller.shouldDisplayNoRefererSection);
+          });
         });
       });
 
-      module('when there is no member', function () {
-        test('should return false', function (assert) {
-          // given
-          controller.model = { members: [], hasCleaHabilitation: true };
+      module('when current user does not have the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(false);
+        });
 
-          // when then
-          assert.false(controller.shouldDisplayNoRefererSection);
+        module('when there is a referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const referer = store.createRecord('member', {
+              isReferer: true,
+            });
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [referer, notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no member', function () {
+          test('returns false', function (assert) {
+            // given
+            controller.model.members = [];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+      });
+    });
+
+    module('when certification center does not have CLEA habilitation', function (hooks) {
+      hooks.beforeEach(function () {
+        controller.model = { hasCleaHabilitation: false };
+      });
+
+      module('when current user has the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(true);
+        });
+
+        module('when there is a referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const referer = store.createRecord('member', {
+              isReferer: true,
+            });
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [referer, notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no member', function () {
+          test('returns false', function (assert) {
+            // given
+            controller.model.members = [];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
         });
       });
 
-      module('when there is no referer', function () {
-        test('should return true', function (assert) {
-          // given
-          const notReferer = store.createRecord('member', {
-            isReferer: false,
-          });
-          controller.model = { members: [notReferer], hasCleaHabilitation: true };
+      module('when current user does not have the role "ADMIN"', function (hooks) {
+        hooks.beforeEach(function () {
+          sinon.stub(currentUser, 'isAdminOfCurrentCertificationCenter').value(false);
+        });
 
-          // when then
-          assert.true(controller.shouldDisplayNoRefererSection);
+        module('when there is a referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const referer = store.createRecord('member', {
+              isReferer: true,
+            });
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [referer, notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no member', function () {
+          test('returns false', function (assert) {
+            // given
+            controller.model.members = [];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
+        });
+
+        module('when there is no referer', function () {
+          test('returns false', function (assert) {
+            // given
+            const notReferer = store.createRecord('member', {
+              isReferer: false,
+            });
+            controller.model.members = [notReferer];
+
+            // when then
+            assert.false(controller.shouldDisplayNoRefererSection);
+          });
         });
       });
     });
@@ -190,13 +342,7 @@ module('Unit | Controller | authenticated/team/list', function (hooks) {
     });
   });
 
-  module('#shouldDisplayUpdateRefererButton', function (hooks) {
-    let currentUser;
-
-    hooks.beforeEach(function () {
-      currentUser = this.owner.lookup('service:current-user');
-    });
-
+  module('#shouldDisplayUpdateRefererButton', function () {
     module('when certification center has CLEA habilitation', function (hooks) {
       hooks.beforeEach(function () {
         controller.model = { hasCleaHabilitation: true };
