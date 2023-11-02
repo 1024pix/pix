@@ -772,9 +772,9 @@
         "content": {
           "footer": "Please note that this action is irreversible.",
           "header": "{count, plural, =1 {This participant} other {These participants}} will no longer be visible in Pix Orga.",
-          "main-campaign-prevent": "This will have an impact on the results and analytics for these campaigns.",
+          "main-campaign-prevent": "This will have an impact on the results and analytics of your campaigns.",
           "main-new-campaign-access": "However, they will still be able to take part in new campaigns.",
-          "main-participation-access": "They won't able to participate again in campaigns in which they have already taken part in the past.",
+          "main-participation-access": "They  will no longer be able to take part in any previous campaigns.",
           "main-participation-prevent": "All their participations to campaigns will be deleted."
         },
         "delete-button": "Yes, I delete"
@@ -1086,9 +1086,9 @@
         "content": {
           "footer": "Please note that this action is irreversible.",
           "header": "{count, plural, =1 {This student} other {These students}} will no longer be visible in Pix Orga.",
-          "main-campaign-prevent": "This will have an impact on the results and analytics for these campaigns.",
+          "main-campaign-prevent": "This will have an impact on the results and analytics of your campaigns.",
           "main-new-campaign-access": "However, they will still be able to take part in new campaigns.",
-          "main-participation-access": "They won't able to participate again in campaigns in which they have already taken part in the past.",
+          "main-participation-access": "They  will no longer be able to take part in any previous campaigns.",
           "main-participation-prevent": "All their participations to campaigns will be deleted."
         },
         "delete-button": "Yes, I delete"
