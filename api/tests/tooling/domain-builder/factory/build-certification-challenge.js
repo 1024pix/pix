@@ -10,6 +10,8 @@ const buildCertificationChallenge = function ({
   associatedSkillName = buildSkill().name,
   isNeutralized = false,
   certifiableBadgeKey = null,
+  discriminant = null,
+  difficulty = null,
 } = {}) {
   return new CertificationChallenge({
     id,
@@ -20,6 +22,8 @@ const buildCertificationChallenge = function ({
     associatedSkillName,
     isNeutralized,
     certifiableBadgeKey,
+    discriminant,
+    difficulty,
   });
 };
 
