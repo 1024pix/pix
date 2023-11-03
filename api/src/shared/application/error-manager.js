@@ -72,6 +72,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntityError) {
     return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
   }
+  if (error instanceof DomainErrors.AssessmentEndedError) {
+    return new HttpErrors.BaseHttpError(error.message);
+  }
 }
 
 function handle(request, h, error) {

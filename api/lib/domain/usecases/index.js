@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 

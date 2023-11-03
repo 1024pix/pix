@@ -1,5 +1,5 @@
-import { FlashAssessmentAlgorithmForcedCompetencesRule } from '../../../../../lib/domain/models/flash-assessment-algorithm/FlashAssessmentAlgorithmForcedCompetencesRule.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { FlashAssessmentAlgorithmForcedCompetencesRule } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmForcedCompetencesRule.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmForcedCompetencesRule', function () {
   describe('#isApplicable', function () {

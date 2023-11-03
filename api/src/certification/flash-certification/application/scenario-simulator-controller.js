@@ -7,8 +7,8 @@ import { pickAnswerStatusService } from '../../../../lib/domain/services/pick-an
 import { HttpErrors } from '../../../../lib/application/http-errors.js';
 import _ from 'lodash';
 import { pickChallengeService } from '../../../../lib/domain/services/pick-challenge-service.js';
-import { FlashAssessmentSuccessRateHandler } from '../../../../lib/domain/models/FlashAssessmentSuccessRateHandler.js';
 import { Readable } from 'stream';
+import { FlashAssessmentSuccessRateHandler } from '../domain/model/FlashAssessmentSuccessRateHandler.js';
 
 async function simulateFlashAssessmentScenario(
   request,

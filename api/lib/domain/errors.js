@@ -1,4 +1,5 @@
 import { SESSION_SUPERVISING } from './constants/session-supervising.js';
+import { AssessmentEndedError } from '../../src/shared/domain/errors.js';
 
 class DomainError extends Error {
   constructor(message, code, meta) {
@@ -461,20 +462,6 @@ class CompetenceResetError extends DomainError {
 class NotEnoughDaysPassedBeforeResetCampaignParticipationError extends DomainError {
   constructor() {
     super(`Il n'est pas possible de remettre à zéro votre parcours pour le moment.`);
-  }
-}
-
-class AssessmentEndedError extends DomainError {
-  constructor(message = 'Evaluation terminée.') {
-    super(message);
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        error: ["L'évaluation est terminée. Nous n'avons plus de questions à vous poser."],
-      },
-    };
   }
 }
 

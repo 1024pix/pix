@@ -1,4 +1,4 @@
-import { FlashAssessmentSuccessRateHandler } from '../../../../lib/domain/models/FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentSuccessRateHandler } from '../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
 
 export const buildFlashAssessmentAlgorithmSuccessRateHandlerLinear = ({
   startingChallengeIndex,
