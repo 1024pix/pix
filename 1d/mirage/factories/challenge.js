@@ -1,28 +1,14 @@
 import { Factory, trait } from 'miragejs';
 
 export default Factory.extend({
-  type() {
-    return 'QROC';
-  },
+  type: 'QROC',
+  instruction: 'Dans le village de Montrésor (37, France), sur quelle rue débouche la rue des Perrières ?',
+  embedUrl: 'https://www.pix.fr',
+  embedHeight: '600',
+  embedTitle: 'Applications',
+  proposals: 'Rue de : ${Rue#}',
+  autoReply: false,
 
-  instruction() {
-    return 'Dans le village de Montrésor (37, France), sur quelle rue débouche la rue des Perrières ?';
-  },
-  embedUrl() {
-    return 'https://www.pix.fr';
-  },
-  embedHeight() {
-    return '600';
-  },
-  embedTitle() {
-    return 'Applications';
-  },
-  proposals() {
-    return 'Rue de : ${Rue#}';
-  },
-  autoReply() {
-    return false;
-  },
   QROCWithTextArea: trait({
     format: 'paragraphe',
   }),

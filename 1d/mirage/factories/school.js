@@ -1,12 +1,8 @@
 import { Factory } from 'miragejs';
 
 export default Factory.extend({
-  code() {
-    return 'MINIPIXOU';
-  },
-  name() {
-    return 'Ecole des Pourfendeurs';
-  },
+  code: 'MINIPIXOU',
+  name: 'Ecole des Pourfendeurs',
   organizationLearners() {
     return [
       { id: 1, division: 'CM2-B', firstName: 'Maya', lastName: 'Labeille', organizationId: 9000 },
