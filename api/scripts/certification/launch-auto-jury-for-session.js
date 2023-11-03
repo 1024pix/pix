@@ -4,7 +4,7 @@ dotenv.config();
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { SessionFinalized } from '../../lib/domain/events/SessionFinalized.js';
 import * as certificationAssessmentRepository from '../../lib/infrastructure/repositories/certification-assessment-repository.js';
-import * as challengeRepository from '../../lib/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationCourseRepository from '../../lib/infrastructure/repositories/certification-course-repository.js';
 import { handleAutoJury } from '../../lib/domain/events/handle-auto-jury.js';

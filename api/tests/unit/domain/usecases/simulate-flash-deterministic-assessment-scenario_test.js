@@ -1,5 +1,5 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { simulateFlashDeterministicAssessmentScenario } from '../../../../lib/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
+import { simulateFlashDeterministicAssessmentScenario } from '../../../../src/certification/flash-certification/domain/usecases/simulate-flash-deterministic-assessment-scenario.js';
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
 import { config } from '../../../../src/shared/config.js';
 import _ from 'lodash';
