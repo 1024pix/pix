@@ -14,12 +14,14 @@
         @screenReaderOnly={{true}}
       />
     {{/if}}
-    <div class="complementary-certification-details-target-profile__attach-button">
-      <PixButtonLink
-        @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile"
-        @model={{@currentTargetProfile.id}}
-      >Rattacher un nouveau profil cible
-      </PixButtonLink>
-    </div>
+    {{#if this.hasAccessToAttachNewTargetProfile}}
+      <div class="complementary-certification-details-target-profile__attach-button">
+        <PixButtonLink
+          @route="authenticated.complementary-certifications.complementary-certification.attach-target-profile"
+          @model={{@currentTargetProfile.id}}
+        >Rattacher un nouveau profil cible
+        </PixButtonLink>
+      </div>
+    {{/if}}
   </div>
 </section>
