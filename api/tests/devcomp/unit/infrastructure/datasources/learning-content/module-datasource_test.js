@@ -52,9 +52,13 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
               type: 'qcu',
               instruction: '<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>',
               proposals: [
-                { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'vrai', isValid: true, feedback: 'Bravo !' },
-                { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'faux', isValid: false, feedback: 'Mince...' },
+                { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'vrai', isValid: true },
+                { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'faux', isValid: false },
               ],
+              feedbacks: {
+                valid: 'Bravo !',
+                invalid: 'Mince...',
+              },
               solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
             },
           ],
