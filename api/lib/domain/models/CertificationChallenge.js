@@ -8,6 +8,8 @@ class CertificationChallenge {
     competenceId,
     isNeutralized,
     certifiableBadgeKey,
+    difficulty,
+    discriminant,
   } = {}) {
     this.id = id;
     this.associatedSkillName = associatedSkillName;
@@ -17,6 +19,8 @@ class CertificationChallenge {
     this.courseId = courseId;
     this.isNeutralized = isNeutralized;
     this.certifiableBadgeKey = certifiableBadgeKey;
+    this.difficulty = difficulty;
+    this.discriminant = discriminant;
   }
 
   static createForPixCertification({ associatedSkillName, associatedSkillId, challengeId, competenceId }) {

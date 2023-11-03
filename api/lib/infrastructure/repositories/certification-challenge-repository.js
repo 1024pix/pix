@@ -20,6 +20,8 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
     associatedSkillId: certificationChallenge.associatedSkillId,
     courseId: certificationChallenge.courseId,
     certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
+    difficulty: certificationChallenge.difficulty,
+    discriminant: certificationChallenge.discriminant,
   });
   const savedCertificationChallenge = await certificationChallengeToSave.save(null, {
     transacting: domainTransaction.knexTransaction,
