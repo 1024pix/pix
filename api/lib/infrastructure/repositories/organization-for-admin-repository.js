@@ -37,9 +37,8 @@ function _toDomain(rawOrganization) {
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
     enableMultipleSendingAssessment: rawOrganization.enableMultipleSendingAssessment,
     features: rawOrganization.features,
+    tags: rawOrganization.tags || [],
   });
-
-  organization.tags = rawOrganization.tags || [];
 
   return organization;
 }
@@ -144,7 +143,7 @@ async function _disableFeatures(knexConn, features, organizationId) {
 }
 
 async function _addTags(knexConn, organizationTags) {
-  await knex('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
+  await knexConn('organization-tags').insert(organizationTags).onConflict(['tagId', 'organizationId']).ignore();
 }
 
 async function _removeTags(knexConn, organizationTags) {

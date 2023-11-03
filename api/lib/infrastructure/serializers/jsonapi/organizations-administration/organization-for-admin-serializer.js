@@ -7,10 +7,11 @@ const serialize = function (organizations, meta) {
     transform(record) {
       const dataProtectionOfficer = record.dataProtectionOfficer;
 
-      record.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
-      record.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
-      record.dataProtectionOfficerEmail = dataProtectionOfficer.email;
-
+      if (dataProtectionOfficer) {
+        record.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+        record.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+        record.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+      }
       return record;
     },
     attributes: [
@@ -73,10 +74,10 @@ const deserialize = function (json) {
   const attributes = json.data.attributes;
   const relationships = json.data.relationships;
 
-  let tags = [];
+  let tagIds = [];
   if (relationships && relationships.tags) {
-    tags = relationships.tags.data.map((tag) => {
-      return { id: parseInt(tag.id) };
+    tagIds = relationships.tags.data.map((tag) => {
+      return parseInt(tag.id);
     });
   }
 
@@ -98,7 +99,7 @@ const deserialize = function (json) {
     dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
     dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
     enableMultipleSendingAssessment: attributes['enable-multiple-sending-assessment'],
-    tags,
+    tagIds,
   });
 
   return organization;
