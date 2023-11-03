@@ -16,6 +16,23 @@ const register = async function (server) {
         tags: ['api', 'modules'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/modules/answers',
+      config: {
+        auth: false,
+        handler: modulesController.validateAnswer,
+        validate: {
+          payload: Joi.object({
+            moduleSlug: Joi.string().required(),
+            elementId: Joi.string().required(),
+            proposalSelectedId: Joi.string().required(),
+          }),
+        },
+        notes: ['- Permet de valider la réponse à une activité soumise par un apprenant'],
+        tags: ['api', 'modules', 'answers'],
+      },
+    },
   ]);
 };
 
