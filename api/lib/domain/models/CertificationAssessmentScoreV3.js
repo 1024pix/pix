@@ -1,5 +1,5 @@
 import { status } from './AssessmentResult.js';
-import { FlashAssessmentAlgorithm } from './flash-assessment-algorithm/FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 
 const MINIMUM_ESTIMATED_LEVEL = -8;
 const MAXIMUM_ESTIMATED_LEVEL = 8;

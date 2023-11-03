@@ -47,6 +47,20 @@ class NotFoundError extends DomainError {
   }
 }
 
+class AssessmentEndedError extends DomainError {
+  constructor(message = 'Evaluation terminée.') {
+    super(message);
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        error: ["L'évaluation est terminée. Nous n'avons plus de questions à vous poser."],
+      },
+    };
+  }
+}
+
 class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -55,6 +69,7 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
 
 export {
   DomainError,
+  AssessmentEndedError,
   ForbiddenAccess,
   EntityValidationError,
   CsvImportError,

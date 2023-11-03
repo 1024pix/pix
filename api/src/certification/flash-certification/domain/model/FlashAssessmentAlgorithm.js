@@ -1,12 +1,12 @@
-import { AssessmentEndedError } from '../../errors.js';
-import { config } from '../../../config.js';
-import { FlashAssessmentSuccessRateHandler } from '../FlashAssessmentSuccessRateHandler.js';
 import { FlashAssessmentAlgorithmRuleEngine } from './FlashAssessmentAlgorithmRuleEngine.js';
 import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from './FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
 import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from './FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
 import { FlashAssessmentAlgorithmPassageByAllCompetencesRule } from './FlashAssessmentAlgorithmPassageByAllCompetencesRule.js';
 import { FlashAssessmentAlgorithmForcedCompetencesRule } from './FlashAssessmentAlgorithmForcedCompetencesRule.js';
 import { FlashAssessmentAlgorithmChallengesBetweenCompetencesRule } from './FlashAssessmentAlgorithmChallengesBetweenCompetencesRule.js';
+import { FlashAssessmentSuccessRateHandler } from './FlashAssessmentSuccessRateHandler.js';
+import { AssessmentEndedError } from '../../../../shared/domain/errors.js';
+import { config } from '../../../../shared/config.js';
 
 const defaultMinimumEstimatedSuccessRateRanges = [
   // Between question 1 and question 8 included, we set the minimum estimated
