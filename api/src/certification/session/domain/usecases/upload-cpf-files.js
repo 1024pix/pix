@@ -1,6 +1,5 @@
-import { config } from '../../../../../lib/config.js';
+import { config } from '../../../../shared/config.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-const { cpf } = config;
 
 const uploadCpfFiles = async function ({
   filename,
@@ -10,7 +9,7 @@ const uploadCpfFiles = async function ({
 }) {
   logger.trace('uploadCpfFiles: start upload');
   const s3ObjectStorageProvider = dependencies.S3ObjectStorageProvider.createClient({
-    ...cpf.storage,
+    ...config.cpf.storage.cpfExports.client,
     dependencies: { logger },
   });
 

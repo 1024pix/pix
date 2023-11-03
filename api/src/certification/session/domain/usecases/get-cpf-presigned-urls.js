@@ -1,10 +1,10 @@
 import { config } from '../../../../../lib/config.js';
 import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 
-const { cpf } = config;
-
 const getPreSignedUrls = async function ({ date, dependencies = { S3ObjectStorageProvider } }) {
-  const s3ObjectStorageProvider = dependencies.S3ObjectStorageProvider.createClient(cpf.storage);
+  const s3ObjectStorageProvider = dependencies.S3ObjectStorageProvider.createClient(
+    config.cpf.storage.cpfExports.client,
+  );
   const filesInBucket = await s3ObjectStorageProvider.listFiles();
 
   const keysOfFilesModifiedAfter = filesInBucket?.Contents.filter(({ LastModified }) => LastModified >= date).map(
@@ -13,7 +13,7 @@ const getPreSignedUrls = async function ({ date, dependencies = { S3ObjectStorag
 
   return s3ObjectStorageProvider.preSignFiles({
     keys: keysOfFilesModifiedAfter,
-    expiresIn: cpf.storage.preSignedExpiresIn,
+    expiresIn: config.cpf.storage.cpfExports.commands.preSignedExpiresIn,
   });
 };
 

@@ -1,10 +1,7 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { uploadCpfFiles } from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { config } from '../../../../../../lib/config.js';
 import _ from 'lodash';
-
-const { cpf } = config;
 
 describe('Unit | UseCase | upload-cpf-files', function () {
   let logger;
@@ -20,14 +17,6 @@ describe('Unit | UseCase | upload-cpf-files', function () {
       // given
       const startUploadStub = sinon.stub(S3ObjectStorageProvider.prototype, 'startUpload');
       startUploadStub.returns({ done: _.noop, on: _.noop });
-
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-      });
       const readableStream = Symbol('readableStream');
 
       // when
