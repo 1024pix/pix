@@ -775,9 +775,9 @@
         "content": {
           "footer": "Attention, cette action est irréversible.",
           "header": "{count, plural, =1 {Ce participant ne sera plus visible} other {Ces participants ne seront plus visibles}} dans Pix Orga.",
-          "main-campaign-prevent": "Cela impactera donc les résultats et analyses des campagnes qu' {count, plural, =1 {il a réalisée} other {ils ont réalisées}}.",
-          "main-new-campaign-access": "Cependant {count, plural, =1 {il pourra} other {ils pourront}} participer à de nouvelles campagnes.",
-          "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} plus participer à nouveau aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
+          "main-campaign-prevent": "Cela impactera donc les résultats et analyses des campagnes qu' {count, plural, =1 {il a} other {ils ont}} réalisées.",
+          "main-new-campaig-access": "Cependant {count, plural, =1 {il pourra} other {ils pourront}} participer à de nouvelles campagnes.",
+          "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} plus participer aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
           "main-participation-prevent": "Toutes {count, plural, =1 {ses} other {leurs}} participations aux campagnes seront supprimées."
         },
         "delete-button": "Oui, je supprime"
@@ -1089,9 +1089,9 @@
         "content": {
           "footer": "Attention, cette action est irréversible.",
           "header": "{count, plural, =1 {Cet étudiant ne sera plus visible} other {Ces étudiants ne seront plus visibles}} dans Pix Orga.",
-          "main-campaign-prevent": "Cela impactera donc les résultats et analyses des campagnes qu' {count, plural, =1 {il a réalisée} other {ils ont réalisées}}.",
+          "main-campaign-prevent": "Cela impactera donc les résultats et analyses des campagnes qu' {count, plural, =1 {il a} other {ils ont}} réalisées.",
           "main-new-campaign-access": "Cependant {count, plural, =1 {il pourra} other {ils pourront}} participer à de nouvelles campagnes.",
-          "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} plus participer à nouveau aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
+          "main-participation-access": "{count, plural, =1 {Il ne pourra} other {Ils ne pourront}} plus participer aux campagnes auxquelles {count, plural, =1 {il avait} other {ils avaient}} participé par le passé.",
           "main-participation-prevent": "Toutes {count, plural, =1 {ses} other {leurs}} participations aux campagnes seront supprimées."
         },
         "delete-button": "Oui, je supprime"
