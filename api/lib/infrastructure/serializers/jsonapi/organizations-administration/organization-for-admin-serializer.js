@@ -7,10 +7,11 @@ const serialize = function (organizations, meta) {
     transform(record) {
       const dataProtectionOfficer = record.dataProtectionOfficer;
 
-      record.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
-      record.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
-      record.dataProtectionOfficerEmail = dataProtectionOfficer.email;
-
+      if (dataProtectionOfficer) {
+        record.dataProtectionOfficerFirstName = dataProtectionOfficer.firstName;
+        record.dataProtectionOfficerLastName = dataProtectionOfficer.lastName;
+        record.dataProtectionOfficerEmail = dataProtectionOfficer.email;
+      }
       return record;
     },
     attributes: [
