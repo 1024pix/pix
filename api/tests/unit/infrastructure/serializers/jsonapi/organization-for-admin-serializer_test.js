@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
-import { Organization, OrganizationForAdmin, Tag } from '../../../../../lib/domain/models/index.js';
+import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
+import { Organization, OrganizationForAdmin } from '../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
@@ -16,6 +16,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         tags,
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
+        enableMultipleSendingAssessment: false,
         archivistFirstName: 'John',
         archivistLastName: 'Doe',
         dataProtectionOfficerFirstName: 'Justin',
@@ -49,6 +50,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'form-nps-url': organization.formNPSUrl,
             'show-skills': organization.showSkills,
             'archived-at': organization.archivedAt,
+            'enable-multiple-sending-assessment': organization.enableMultipleSendingAssessment,
             'archivist-full-name': organization.archivistFullName,
             'data-protection-officer-first-name': organization.dataProtectionOfficer.firstName,
             'data-protection-officer-last-name': organization.dataProtectionOfficer.lastName,
@@ -118,6 +120,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         externalId: 'ABCD123',
         provinceCode: '64',
         isManagingStudents: true,
+        enableMultipleSendingAssessment: false,
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
         showSkills: false,
@@ -137,6 +140,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             type: organizationAttributes.type,
             email: organizationAttributes.email,
             credit: organizationAttributes.credit,
+            'enable-multiple-sending-assessment': organizationAttributes.enableMultipleSendingAssessment,
             'logo-url': organizationAttributes.logoUrl,
             'external-id': organizationAttributes.externalId,
             'province-code': organizationAttributes.provinceCode,
@@ -148,6 +152,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'data-protection-officer-first-name': organizationAttributes.dataProtectionOfficerFirstName,
             'data-protection-officer-last-name': organizationAttributes.dataProtectionOfficerLastName,
             'data-protection-officer-email': organizationAttributes.dataProtectionOfficerEmail,
+            features: {
+              COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: true,
+            },
           },
         },
       });
@@ -163,6 +170,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         externalId: organizationAttributes.externalId,
         provinceCode: organizationAttributes.provinceCode,
         isManagingStudents: organizationAttributes.isManagingStudents,
+        enableMultipleSendingAssessment: organizationAttributes.enableMultipleSendingAssessment,
         createdBy: organizationAttributes.createdBy,
         documentationUrl: organizationAttributes.documentationUrl,
         showSkills: organizationAttributes.showSkills,
@@ -215,11 +223,8 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       const organization = serializer.deserialize(jsonApiOrganization);
 
       // then
-      const expectedTag1 = new Tag({ id: parseInt(tagAttributes1.id) });
-      const expectedTag2 = new Tag({ id: parseInt(tagAttributes2.id) });
-      expect(organization.tags[0]).to.be.instanceOf(Tag);
-      expect(organization.tags[0]).to.deep.equal(expectedTag1);
-      expect(organization.tags[1]).to.deep.equal(expectedTag2);
+      expect(organization.tags).to.be.empty;
+      expect(organization.tagIds).to.deep.members([4, 2]);
     });
   });
 });

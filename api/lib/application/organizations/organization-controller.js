@@ -28,7 +28,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 dayjs.extend(customParseFormat);
 import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
-import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
+import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
 import { mapCertificabilityByLabel } from './helpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';

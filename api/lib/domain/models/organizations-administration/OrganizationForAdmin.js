@@ -32,6 +32,7 @@ class OrganizationForAdmin {
     identityProviderForCampaigns,
     enableMultipleSendingAssessment,
     tags = [],
+    tagIds = [],
     features = {},
   } = {}) {
     this.id = id;
@@ -63,6 +64,7 @@ class OrganizationForAdmin {
     this.identityProviderForCampaigns = identityProviderForCampaigns;
     this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.tags = tags;
+    this.tagIds = tagIds;
     this.features = features;
     if (this.type === 'SCO' && this.isManagingStudents) {
       this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = true;
@@ -90,6 +92,8 @@ class OrganizationForAdmin {
   }
 
   updateWithDataProtectionOfficerAndTags(organization, dataProtectionOfficer = {}, tags = []) {
+    const isAEFE = Boolean(tags.find((tag) => tag.name === 'AEFE'));
+
     if (organization.name) this.name = organization.name;
     if (organization.type) this.type = organization.type;
     if (organization.logoUrl) this.logoUrl = organization.logoUrl;
@@ -103,9 +107,8 @@ class OrganizationForAdmin {
     this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
     this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
     this.features[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = organization.enableMultipleSendingAssessment;
-    if (this.type === 'SCO') {
-      this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] = this.isManagingStudents;
-    }
+    this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] =
+      this.type === 'SCO' && (this.isManagingStudents || isAEFE);
     this.tagsToAdd = differenceBy(tags, this.tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
     this.tagsToRemove = differenceBy(this.tags, tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));
   }
