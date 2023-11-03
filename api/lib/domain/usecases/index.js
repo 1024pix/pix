@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable import/no-restricted-paths */
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -73,7 +71,7 @@ import * as certificationPointOfContactRepository from '../../infrastructure/rep
 import * as certificationReportRepository from '../../infrastructure/repositories/certification-report-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
-import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as competenceEvaluationRepository from '../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
