@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v4.59.0 (03/11/2023)
+
+
+### :rocket: Amélioration
+- [#7373](https://github.com/1024pix/pix/pull/7373) [FEATURE] Permettre aux Orga de type AEFE de bénéficier du calcul de la certificabilité (Pix-9818).
+- [#7383](https://github.com/1024pix/pix/pull/7383) [FEATURE] Retirer la faute dans la clé de trad (PIX-9853).
+- [#7374](https://github.com/1024pix/pix/pull/7374) [FEATURE] Supprimer le feature toggle FT_TARGET_PROFILE_VERSIONING (PIX-9024).
+- [#7347](https://github.com/1024pix/pix/pull/7347) [FEATURE] Revue des accès pour le versioning des profils cibles sur Pix Admin (PIX-9753).
+- [#7381](https://github.com/1024pix/pix/pull/7381) [FEATURE] Corriger la typo dans la modale de suppression (PIX-9853).
+
 ## v4.58.0 (03/11/2023)
 
 
