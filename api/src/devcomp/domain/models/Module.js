@@ -1,4 +1,5 @@
 import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
 
 class Module {
   #id;
@@ -39,6 +40,16 @@ class Module {
     if (!Array.isArray(list)) {
       throw new Error('Un Module doit forcément posséder une liste');
     }
+  }
+
+  getElementById(elementId) {
+    const foundElement = this.list.find(({ id }) => id === elementId);
+
+    if (foundElement === undefined) {
+      throw new NotFoundError();
+    }
+
+    return foundElement;
   }
 }
 

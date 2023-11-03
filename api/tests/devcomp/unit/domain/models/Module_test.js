@@ -1,5 +1,6 @@
 import { Module } from '../../../../../src/devcomp/domain/models/Module.js';
-import { expect } from '../../../../test-helper.js';
+import { catchErrSync, expect } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Devcomp | Models | Module', function () {
   describe('#constructor', function () {
@@ -54,6 +55,41 @@ describe('Unit | Devcomp | Models | Module', function () {
               new Module({ id: 'id_module_1', slug: 'les-adresses-mail', title: 'Les adresses mail', list: 'liste' }),
           ).to.throw('Un Module doit forcément posséder une liste');
         });
+      });
+    });
+
+    describe('#getElementById', function () {
+      it('should return the element by Id if it exists', function () {
+        // given
+        const elementId = 'elementId';
+        const id = 1;
+        const slug = 'les-adresses-email';
+        const title = 'Les adresses email';
+        const expectedElement = { id: elementId };
+        const list = [expectedElement];
+
+        // when
+        const foundElement = new Module({ id, slug, title, list }).getElementById(elementId);
+
+        // then
+        expect(foundElement).to.deep.equal(expectedElement);
+      });
+
+      it('should throw an error if element does not exist', function () {
+        // given
+        const id = 1;
+        const slug = 'les-adresses-email';
+        const title = 'Les adresses email';
+        const expectedElement = { id: 'elementId' };
+        const list = [expectedElement];
+
+        const module = new Module({ id, slug, title, list });
+
+        // when
+        const error = catchErrSync(module.getElementById, module)('another-element-id');
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
 
