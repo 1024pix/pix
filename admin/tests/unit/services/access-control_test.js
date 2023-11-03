@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
@@ -162,52 +161,6 @@ module('Unit | Service | access-control', function (hooks) {
 
         // when / then
         assert.deepEqual(service.hasAccessToCertificationActionsScope, hasAccess);
-      });
-    });
-  });
-
-  module('#hasAccessToComplementaryCertificationsScope', function () {
-    test('should be false if FT_TARGET_PROFILE_VERSIONING is false', function (assert) {
-      // given
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.adminMember = { isSuperAdmin: true };
-      this.owner.lookup('service:store');
-      class FeatureTogglesStub extends Service {
-        featureToggles = { isTargetProfileVersioningEnabled: false };
-      }
-      this.owner.register('service:featureToggles', FeatureTogglesStub);
-
-      const service = this.owner.lookup('service:access-control');
-
-      // when / then
-      assert.false(service.hasAccessToComplementaryCertificationsScope);
-    });
-
-    module('when FT_TARGET_PROFILE_VERSIONING is true ', function (hooks) {
-      hooks.beforeEach(async function () {
-        this.owner.lookup('service:store');
-        class FeatureTogglesStub extends Service {
-          featureToggles = { isTargetProfileVersioningEnabled: true };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesStub);
-      });
-
-      [
-        { role: 'isSuperAdmin', hasAccess: true },
-        { role: 'isSupport', hasAccess: true },
-        { role: 'isMetier', hasAccess: true },
-        { role: 'isCertif', hasAccess: true },
-      ].forEach(function ({ role, hasAccess }) {
-        test(`should be accessible for all role members (${role} access)`, function (assert) {
-          // given
-          const currentUser = this.owner.lookup('service:currentUser');
-          currentUser.adminMember = { [role]: true };
-
-          const service = this.owner.lookup('service:access-control');
-
-          // when / then
-          assert.deepEqual(service.hasAccessToComplementaryCertificationsScope, hasAccess);
-        });
       });
     });
   });

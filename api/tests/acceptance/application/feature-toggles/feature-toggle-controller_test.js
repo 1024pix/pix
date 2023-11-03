@@ -23,7 +23,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           attributes: {
             'is-always-ok-validate-next-challenge-endpoint-enabled': false,
             'is-pix1d-enabled': true,
-            'is-target-profile-versioning-enabled': true,
           },
         },
       };

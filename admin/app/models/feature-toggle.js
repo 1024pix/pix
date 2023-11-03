@@ -1,5 +1,3 @@
-import Model, { attr } from '@ember-data/model';
+import Model from '@ember-data/model';
 
-export default class FeatureToggle extends Model {
-  @attr('boolean') isTargetProfileVersioningEnabled;
-}
+export default class FeatureToggle extends Model {}

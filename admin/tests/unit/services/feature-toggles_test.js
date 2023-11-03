@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
+import Object from '@ember/object';
 import Service from '@ember/service';
 
 module('Unit | Service | feature toggles', function (hooks) {
@@ -9,9 +10,8 @@ module('Unit | Service | feature toggles', function (hooks) {
   module('feature toggles are loaded', function () {
     test('should load the feature toggles', async function (assert) {
       // Given
-      const store = this.owner.lookup('service:store');
-      const featureToggles = store.createRecord('feature-toggle', {
-        isTargetProfileVersioningEnabled: false,
+      const featureToggles = Object.create({
+        aFakeFeatureToggle: false,
       });
       const storeStub = Service.create({
         queryRecord: () => resolve(featureToggles),
@@ -23,7 +23,7 @@ module('Unit | Service | feature toggles', function (hooks) {
       await featureToggleService.load();
 
       // Then
-      assert.deepEqual(featureToggleService.featureToggles, featureToggles);
+      assert.false(featureToggleService.featureToggles.aFakeFeatureToggle);
     });
   });
 });

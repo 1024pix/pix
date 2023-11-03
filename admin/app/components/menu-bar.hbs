@@ -52,18 +52,16 @@
         </PixTooltip>
       </li>
     {{/if}}
-    {{#if this.accessControl.hasAccessToComplementaryCertificationsScope}}
-      <li class="menu-bar__entry">
-        <PixTooltip @position="right" @inline={{true}}>
-          <:triggerElement>
-            <LinkTo @route="authenticated.complementary-certifications" class="menu-bar__link">
-              <FaIcon @icon="stamp" @title="Certifications complémentaires" />
-            </LinkTo>
-          </:triggerElement>
-          <:tooltip>Certifications complémentaires</:tooltip>
-        </PixTooltip>
-      </li>
-    {{/if}}
+    <li class="menu-bar__entry">
+      <PixTooltip @position="right" @inline={{true}}>
+        <:triggerElement>
+          <LinkTo @route="authenticated.complementary-certifications" class="menu-bar__link">
+            <FaIcon @icon="stamp" @title="Certifications complémentaires" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Certifications complémentaires</:tooltip>
+      </PixTooltip>
+    </li>
     {{#if this.accessControl.hasAccessToTargetProfilesActionsScope}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right" @inline={{true}}>
