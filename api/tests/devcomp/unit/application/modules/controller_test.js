@@ -21,4 +21,32 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       expect(result).to.equal(serializedModule);
     });
   });
+
+  describe('#validate-answer', function () {
+    it('should call validateAnswer use-case and return the serialized CorrectionResponse', async function () {
+      const moduleSlug = 'slug';
+      const serializedCorrection = Symbol('serialized correction');
+      const proposalSelectedId = Symbol('proposalSelectedID');
+      const elementId = Symbol('elementId');
+      const correctionResponse = Symbol('correction');
+
+      const usecases = {
+        validateAnswer: sinon.stub(),
+      };
+      usecases.validateAnswer.withArgs({ moduleSlug, proposalSelectedId, elementId }).returns(correctionResponse);
+
+      const correctionResponseSerializer = {
+        serialize: sinon.stub(),
+      };
+      correctionResponseSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
+
+      const result = await modulesController.validateAnswer(
+        { payload: { moduleSlug, proposalSelectedId, elementId } },
+        null,
+        { correctionResponseSerializer, usecases },
+      );
+
+      expect(result).to.equal(serializedCorrection);
+    });
+  });
 });
