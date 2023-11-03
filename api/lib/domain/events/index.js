@@ -46,7 +46,7 @@ import { handleComplementaryCertificationsScoring } from './handle-complementary
 import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
 import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
-import * as flashAlgorithmService from '../services/algorithm-methods/flash.js';
+import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 
 const { performance } = perf_hooks;
 

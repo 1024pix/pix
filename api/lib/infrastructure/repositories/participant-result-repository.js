@@ -9,7 +9,7 @@ import * as areaRepository from './area-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
 import * as campaignRepository from './campaign-repository.js';
-import * as flash from '../../domain/services/algorithm-methods/flash.js';
+import * as flash from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import { NotFoundError } from '../../domain/errors.js';
 import { StageCollection } from '../../domain/models/user-campaign-results/StageCollection.js';
