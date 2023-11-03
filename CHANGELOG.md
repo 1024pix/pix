@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.58.0 (03/11/2023)
+
+
+### :rocket: Amélioration
+- [#7376](https://github.com/1024pix/pix/pull/7376) [FEATURE] Création du script pour ajouter la feature à toutes les orgas SCO AEFE (PIX-9819).
+- [#7303](https://github.com/1024pix/pix/pull/7303) [FEATURE] Ajouter des metriques sur retenter/remise à zéro d'une campagne (PIX-9730).
+- [#7367](https://github.com/1024pix/pix/pull/7367) [FEATURE] Modifier l'affichage du texte de suppression des participants/étudiants (Pix-9211).
+- [#7364](https://github.com/1024pix/pix/pull/7364) [FEATURE] Personnaliser la page de fin de parcours lors de création de campagne en masse (PIX-9686).
+
+### :building_construction: Tech
+- [#7340](https://github.com/1024pix/pix/pull/7340) [TECH] Empêcher un candidat d'alerter deux fois si une alerte est en cours (PIX-9027).
+- [#7332](https://github.com/1024pix/pix/pull/7332) [TECH] - Api arborescence migration - amélioration du graph time series.
+- [#7365](https://github.com/1024pix/pix/pull/7365) [TECH] Détruire le pool de connexion PgBoss à la fin de migration de BdD.
+- [#7368](https://github.com/1024pix/pix/pull/7368) [TECH] Supprimer la méthode findOperative du challenge repository (PIX-9834).
+- [#7366](https://github.com/1024pix/pix/pull/7366) [TECH] Ne plus utiliser le paramètre obsolète `scoring` des épreuves.
+
+### :bug: Correction
+- [#7323](https://github.com/1024pix/pix/pull/7323) [BUGFIX] Rendre le champ de la date de naissance obligatoire lors d'un ajout de candidat sur Pix Certif (PIX-9758).
+
+### :arrow_up: Montée de version
+- [#7371](https://github.com/1024pix/pix/pull/7371) [BUMP] Update nginx Docker tag to v1.25.3.
+- [#7370](https://github.com/1024pix/pix/pull/7370) [BUMP] Lock file maintenance (admin).
+- [#7369](https://github.com/1024pix/pix/pull/7369) [BUMP] Lock file maintenance (1d).
+- [#7363](https://github.com/1024pix/pix/pull/7363) [BUMP] Update dependency @types/node to v20 (audit-logger).
+
 ## v4.57.0 (31/10/2023)
 
 
