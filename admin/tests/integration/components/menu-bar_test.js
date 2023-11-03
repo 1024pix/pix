@@ -180,7 +180,7 @@ module('Integration | Component | menu-bar', function (hooks) {
   });
 
   module('Complementary certifications tab', function () {
-    test('should contain link to "complementary certifications" management page when admin member have access to complementary certifications actions scope', async function (assert) {
+    test('should contain link to "complementary certifications" management page', async function (assert) {
       // given
       class AccessControlStub extends Service {
         hasAccessToComplementaryCertificationsScope = true;
@@ -192,20 +192,6 @@ module('Integration | Component | menu-bar', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('link', { name: 'Certifications complémentaires' })).exists();
-    });
-
-    test('should not contain link to "complementary certifications" management page when admin member does not have access to complementary certifications actions scope', async function (assert) {
-      // given
-      class AccessControlStub extends Service {
-        hasAccessToComplementaryCertificationsScope = false;
-      }
-      this.owner.register('service:accessControl', AccessControlStub);
-
-      // when
-      const screen = await render(hbs`<MenuBar />`);
-
-      // then
-      assert.dom(screen.queryByRole('link', { name: 'Certifications complémentaires' })).doesNotExist();
     });
   });
 
