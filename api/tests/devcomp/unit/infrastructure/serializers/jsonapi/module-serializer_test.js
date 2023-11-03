@@ -49,6 +49,7 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
             id: '2',
             proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
             instruction: 'hello',
+            solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
           }),
         ],
       });
