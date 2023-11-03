@@ -30,9 +30,10 @@ function _toDomain(moduleData) {
               id: proposal.id,
               content: proposal.content,
               isValid: proposal.isValid,
-              feedback: proposal.feedback,
             });
           }),
+          feedbacks: element.feedbacks,
+          solution: element.solution,
         });
       }
 
