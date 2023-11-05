@@ -22,10 +22,14 @@ import { temporaryStorage } from '../../../infrastructure/temporary-storage/inde
 
 const DEFAULT_REQUIRED_PROPERTIES = ['clientId', 'clientSecret', 'authenticationUrl', 'userInfoUrl', 'tokenUrl'];
 
+const DEFAULT_REQUIRED_CLAIMS = ['sub', 'family_name', 'given_name'];
+
 const defaultSessionTemporaryStorage = temporaryStorage.withPrefix('oidc-session:');
 
 class OidcAuthenticationService {
   #isReady = false;
+
+  #requiredClaims = Array.from(DEFAULT_REQUIRED_CLAIMS);
 
   constructor(
     {
@@ -67,8 +71,8 @@ class OidcAuthenticationService {
 
     if (!lodash.isEmpty(claimsToStore)) {
       this.claimsToStore = claimsToStore;
+      this.#requiredClaims.push(...claimsToStore);
     }
-
     this.sessionTemporaryStorage = sessionTemporaryStorage;
 
     if (!this.configKey) {
@@ -195,33 +199,46 @@ class OidcAuthenticationService {
   }
 
   async getUserInfo({ idToken, accessToken }) {
-    const { family_name, given_name, sub, nonce } = jsonwebtoken.decode(idToken);
-    let userInfo;
-
-    const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
-
-    if (isMandatoryUserInfoMissing) {
+    let userInfo = jsonwebtoken.decode(idToken);
+    const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);
+    if (missingRequiredClaims.length > 0) {
       userInfo = await this._getUserInfoFromEndpoint({ accessToken });
     }
 
-    return {
-      firstName: given_name || userInfo?.given_name,
-      lastName: family_name || userInfo?.family_name,
-      externalIdentityId: sub || userInfo?.sub,
-      nonce: nonce || userInfo?.nonce,
+    const pickedUserInfo = {
+      firstName: userInfo.given_name,
+      lastName: userInfo.family_name,
+      externalIdentityId: userInfo.sub,
+      nonce: userInfo.nonce,
     };
+
+    if (this.claimsToStore) {
+      this.claimsToStore.forEach((claim) => {
+        pickedUserInfo[claim] = userInfo[claim];
+      });
+    }
+
+    return pickedUserInfo;
   }
 
-  async createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
+  async createUserAccount({
+    user,
+    userInfo,
+    externalIdentityId,
+    userToCreateRepository,
+    authenticationMethodRepository,
+  }) {
     let createdUserId;
 
     await DomainTransaction.execute(async (domainTransaction) => {
       createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
 
+      const authenticationComplement = this.createAuthenticationComplement({ userInfo });
       const authenticationMethod = new AuthenticationMethod({
         identityProvider: this.identityProvider,
         userId: createdUserId,
         externalIdentifier: externalIdentityId,
+        authenticationComplement,
       });
       await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
     });
@@ -229,8 +246,15 @@ class OidcAuthenticationService {
     return createdUserId;
   }
 
-  createAuthenticationComplement() {
-    return null;
+  createAuthenticationComplement({ userInfo }) {
+    if (!this.claimsToStore) {
+      return undefined;
+    }
+
+    const claimsToStoreWithValues = Object.fromEntries(
+      Object.entries(userInfo).filter(([key, _value]) => this.claimsToStore.includes(key)),
+    );
+    return new AuthenticationMethod.OidcAuthenticationComplement(claimsToStoreWithValues);
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
@@ -273,7 +297,7 @@ class OidcAuthenticationService {
       const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
       const dataToLog = {
         message,
-        typeOfuserInfo: typeof userInfo,
+        typeOfUserInfo: typeof userInfo,
         userInfo,
       };
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
@@ -284,13 +308,14 @@ class OidcAuthenticationService {
       throw new OidcUserInfoFormatError(message, error.code, meta);
     }
 
-    const userInfoMissingFields = this._getUserInfoMissingFields({ userInfo });
-    const message = `Un ou des champs obligatoires (${userInfoMissingFields}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
-
-    if (userInfoMissingFields) {
+    const missingRequiredClaims = this.#findMissingRequiredClaims(userInfo);
+    if (missingRequiredClaims.length > 0) {
+      const message = `Un ou des champs obligatoires (${missingRequiredClaims.join(
+        ',',
+      )}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
       monitoringTools.logErrorWithCorrelationIds({
         message,
-        missingFields: userInfoMissingFields,
+        missingFields: missingRequiredClaims.join(', '),
         userInfo,
       });
       const error = OIDC_ERRORS.USER_INFO.missingFields;
@@ -300,28 +325,29 @@ class OidcAuthenticationService {
       throw new OidcMissingFieldsError(message, error.code, meta);
     }
 
-    return {
-      given_name: userInfo?.given_name,
-      family_name: userInfo?.family_name,
-      sub: userInfo?.sub,
-      nonce: userInfo?.nonce,
+    const pickedUserInfo = {
+      given_name: userInfo.given_name,
+      family_name: userInfo.family_name,
+      sub: userInfo.sub,
+      nonce: userInfo.nonce,
     };
+
+    if (this.claimsToStore) {
+      this.claimsToStore.forEach((claim) => {
+        pickedUserInfo[claim] = userInfo[claim];
+      });
+    }
+
+    return pickedUserInfo;
   }
 
-  _getUserInfoMissingFields({ userInfo }) {
-    const missingFields = [];
-    if (!userInfo.family_name) {
-      missingFields.push('family_name');
-    }
-    if (!userInfo.given_name) {
-      missingFields.push('given_name');
-    }
-    if (!userInfo.sub) {
-      missingFields.push('sub');
-    }
-
-    const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
-    return thereIsAtLeastOneRequiredMissingField ? `Champs manquants : ${missingFields.join(',')}` : false;
+  #findMissingRequiredClaims(userInfo) {
+    return this.#requiredClaims.reduce((missingRequiredClaims, requiredClaim) => {
+      if (!userInfo[requiredClaim]) {
+        missingRequiredClaims.push(requiredClaim);
+      }
+      return missingRequiredClaims;
+    }, []);
   }
 }
 

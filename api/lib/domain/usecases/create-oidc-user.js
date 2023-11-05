@@ -37,6 +37,7 @@ const createOidcUser = async function ({
 
   const userId = await oidcAuthenticationService.createUserAccount({
     user,
+    userInfo,
     sessionContent,
     externalIdentityId: userInfo.externalIdentityId,
     userToCreateRepository,

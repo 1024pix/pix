@@ -91,6 +91,41 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
         expect(error.message).to.be.equal('Les informations de compte requises sont manquantes');
       });
     });
+
+    it('creates authentication method with complement', async function () {
+      // given
+      const sessionContent = { idToken: 'idToken' };
+      const externalIdentifier = 'external_id';
+      const userId = 1;
+      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
+      authenticationSessionService.getByKey.resolves({
+        sessionContent,
+        userInfo,
+      });
+      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
+        new AuthenticationMethod.OidcAuthenticationComplement({
+          accessToken: 'accessToken',
+          expiredDate: new Date(),
+        }),
+      );
+
+      // when
+      await reconcileOidcUser({
+        authenticationKey: 'authenticationKey',
+        oidcAuthenticationService,
+        authenticationSessionService,
+        authenticationMethodRepository,
+        userLoginRepository,
+      });
+
+      // then
+      expect(authenticationMethodRepository.create).to.be.calledOnce;
+      const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
+      expect(authenticationMethod).to.deep.contain({ identityProvider, externalIdentifier, userId });
+      expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
+        AuthenticationMethod.OidcAuthenticationComplement,
+      );
+    });
   });
 
   context('when identityProvider is POLE_EMPLOI', function () {
@@ -120,11 +155,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       const sessionContent = { idToken: 'idToken' };
       const externalIdentifier = 'external_id';
       const userId = 1;
+      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
       authenticationSessionService.getByKey.resolves({
         sessionContent,
-        userInfo: { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' },
+        userInfo,
       });
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ sessionContent }).returns(
+      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
         new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: 'accessToken',
           expiredDate: new Date(),
@@ -154,11 +190,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       const sessionContent = { idToken: 'idToken' };
       const externalIdentifier = 'external_id';
       const userId = 1;
+      const userInfo = { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' };
       authenticationSessionService.getByKey.resolves({
         sessionContent,
-        userInfo: { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' },
+        userInfo,
       });
-      oidcAuthenticationService.createAuthenticationComplement.withArgs({ sessionContent }).returns(
+      oidcAuthenticationService.createAuthenticationComplement.withArgs({ userInfo, sessionContent }).returns(
         new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: 'accessToken',
           expiredDate: new Date(),
