@@ -186,7 +186,8 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           // given
           _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
           userRepository.findByExternalIdentifier.resolves({ id: 10 });
-          oidcAuthenticationService.createAuthenticationComplement.returns(null);
+          const authenticationComplement = undefined;
+          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
           // when
           await authenticateOidcUser({
@@ -202,6 +203,39 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           // then
           expect(authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider).not.to.have
             .been.called;
+        });
+      });
+
+      context('when the provider has an authentication complement', function () {
+        it('updates the authentication method', async function () {
+          // given
+          _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+          userRepository.findByExternalIdentifier.resolves({ id: 10 });
+          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+            family_name: 'TITEGOUTTE',
+            given_name: 'Mélusine',
+          });
+          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
+
+          // when
+          await authenticateOidcUser({
+            stateReceived: 'state',
+            stateSent: 'state',
+            oidcAuthenticationService,
+            authenticationSessionService,
+            authenticationMethodRepository,
+            userRepository,
+            userLoginRepository,
+          });
+
+          // then
+          expect(
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
+          ).to.have.been.calledWithExactly({
+            authenticationComplement,
+            userId: 10,
+            identityProvider: oidcAuthenticationService.identityProvider,
+          });
         });
       });
     });
@@ -240,37 +274,35 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     });
 
     context('when user has an account', function () {
-      context('when the provider has an authentication complement', function () {
-        it('updates the authentication method', async function () {
-          // given
-          const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
-          userRepository.findByExternalIdentifier.resolves({ id: 1 });
-          const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
-            accessToken: sessionContent.accessToken,
-            refreshToken: sessionContent.refreshToken,
-            expiredDate: new Date(),
-          });
-          oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
+      it('updates the authentication method', async function () {
+        // given
+        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        userRepository.findByExternalIdentifier.resolves({ id: 1 });
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
+          accessToken: sessionContent.accessToken,
+          refreshToken: sessionContent.refreshToken,
+          expiredDate: new Date(),
+        });
+        oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
 
-          // when
-          await authenticateOidcUser({
-            stateReceived: 'state',
-            stateSent: 'state',
-            oidcAuthenticationService,
-            authenticationSessionService,
-            authenticationMethodRepository,
-            userRepository,
-            userLoginRepository,
-          });
+        // when
+        await authenticateOidcUser({
+          stateReceived: 'state',
+          stateSent: 'state',
+          oidcAuthenticationService,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          userRepository,
+          userLoginRepository,
+        });
 
-          // then
-          expect(
-            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
-          ).to.have.been.calledWithExactly({
-            authenticationComplement,
-            userId: 1,
-            identityProvider: oidcAuthenticationService.identityProvider,
-          });
+        // then
+        expect(
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
+        ).to.have.been.calledWithExactly({
+          authenticationComplement,
+          userId: 1,
+          identityProvider: oidcAuthenticationService.identityProvider,
         });
       });
 
@@ -280,7 +312,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         userRepository.findByExternalIdentifier
           .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
           .resolves({ id: 10 });
-        oidcAuthenticationService.createAuthenticationComplement.returns(null);
+        oidcAuthenticationService.createAuthenticationComplement.returns(undefined);
         oidcAuthenticationService.createAccessToken.withArgs(10).returns('accessTokenForExistingExternalUser');
         oidcAuthenticationService.saveIdToken
           .withArgs({ idToken: sessionContent.idToken, userId: 10 })
