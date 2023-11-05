@@ -553,66 +553,6 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findOperative', function () {
-    it('should return only operative challenges with skills', async function () {
-      // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const operativeChallenge = domainBuilder.buildChallenge({ skill, status: 'archivé' });
-      const nonOperativeChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS operative' });
-      const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          { ...operativeChallenge, skillId: 'recSkill1' },
-          { ...nonOperativeChallenge, skillId: 'recSkill1' },
-        ],
-      };
-      mockLearningContent(learningContent);
-
-      // when
-      const actualChallenges = await challengeRepository.findOperative();
-
-      // then
-      expect(actualChallenges).to.have.lengthOf(1);
-      expect(actualChallenges[0]).to.be.instanceOf(Challenge);
-      expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
-    });
-
-    it('should setup the expected validator and solution on found challenges', async function () {
-      // given
-      const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const operativeChallenge = domainBuilder.buildChallenge({
-        type: Challenge.Type.QCM,
-        skill,
-        status: 'validé',
-      });
-      const learningContent = {
-        skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
-        challenges: [
-          {
-            ...operativeChallenge,
-            skillId: 'recSkill1',
-            t1Status: 'Activé',
-            t2Status: 'Activé',
-            t3Status: 'Désactivé',
-          },
-        ],
-      };
-      mockLearningContent(learningContent);
-
-      // when
-      const [actualChallenge] = await challengeRepository.findOperative();
-
-      // then
-      expect(actualChallenge.validator).to.be.instanceOf(Validator);
-      expect(actualChallenge.validator.solution.id).to.equal(operativeChallenge.id);
-      expect(actualChallenge.validator.solution.isT1Enabled).to.equal(true);
-      expect(actualChallenge.validator.solution.isT2Enabled).to.equal(true);
-      expect(actualChallenge.validator.solution.isT3Enabled).to.equal(false);
-      expect(actualChallenge.validator.solution.type).to.equal(operativeChallenge.type);
-      expect(actualChallenge.validator.solution.value).to.equal(operativeChallenge.solution);
-    });
-  });
-
   describe('#findOperativeHavingLocale', function () {
     it('should return only french france operative challenges with skills', async function () {
       // given
