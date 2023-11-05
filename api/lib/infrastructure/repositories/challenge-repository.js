@@ -154,7 +154,7 @@ const findValidated = async function () {
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
 
-const findOperativeHavingLocale = async function (locale) {
+const findOperative = async function (locale) {
   const challengeDataObjects = await challengeDatasource.findOperativeHavingLocale(locale);
   const operativeSkills = await skillDatasource.findOperative();
   return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
@@ -210,7 +210,7 @@ export {
   getMany,
   list,
   findValidated,
-  findOperativeHavingLocale,
+  findOperative,
   findValidatedByCompetenceId,
   findOperativeBySkills,
   findFlashCompatible,

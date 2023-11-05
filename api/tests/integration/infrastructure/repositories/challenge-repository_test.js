@@ -553,7 +553,7 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
-  describe('#findOperativeHavingLocale', function () {
+  describe('#findOperative', function () {
     it('should return only french france operative challenges with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
@@ -570,7 +570,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.findOperativeHavingLocale(locale);
+      const actualChallenges = await challengeRepository.findOperative(locale);
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
