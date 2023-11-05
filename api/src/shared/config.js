@@ -3,7 +3,7 @@ import path from 'path';
 import moment from 'moment';
 import ms from 'ms';
 
-import { getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
+import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
 
 import * as url from 'url';
 
@@ -182,6 +182,7 @@ const configuration = (function () {
       tokenUrl: process.env.FWB_TOKEN_URL,
       authenticationUrl: process.env.FWB_AUTHENTICATION_URL,
       userInfoUrl: process.env.FWB_USER_INFO_URL,
+      claimsToStore: getArrayOfStrings(process.env.FWB_CLAIMS_TO_STORE),
       accessTokenLifespanMs: ms(process.env.FWB_ACCESS_TOKEN_LIFESPAN || '7d'),
       logoutUrl: process.env.FWB_OIDC_LOGOUT_URL,
       temporaryStorage: {
