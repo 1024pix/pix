@@ -191,6 +191,61 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
+  async getUserInfo({ idToken, accessToken }) {
+    const { family_name, given_name, sub, nonce } = jsonwebtoken.decode(idToken);
+    let userInfoContent;
+
+    const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
+
+    if (isMandatoryUserInfoMissing) {
+      userInfoContent = await this._getUserInfoFromEndpoint({ accessToken });
+    }
+
+    return {
+      firstName: given_name || userInfoContent?.given_name,
+      lastName: family_name || userInfoContent?.family_name,
+      externalIdentityId: sub || userInfoContent?.sub,
+      nonce: nonce || userInfoContent?.nonce,
+    };
+  }
+
+  async createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
+    let createdUserId;
+
+    await DomainTransaction.execute(async (domainTransaction) => {
+      createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+      const authenticationMethod = new AuthenticationMethod({
+        identityProvider: this.identityProvider,
+        userId: createdUserId,
+        externalIdentifier: externalIdentityId,
+      });
+      await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+    });
+
+    return createdUserId;
+  }
+
+  async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
+    if (!this.endSessionUrl) {
+      return null;
+    }
+
+    const redirectTarget = new URL(this.endSessionUrl);
+    const key = `${userId}:${logoutUrlUUID}`;
+    const idToken = await this.sessionTemporaryStorage.get(key);
+    const params = [
+      { key: 'post_logout_redirect_uri', value: this.postLogoutRedirectUri },
+      { key: 'id_token_hint', value: idToken },
+    ];
+
+    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+    await this.sessionTemporaryStorage.delete(key);
+
+    return redirectTarget.toString();
+  }
+
   async _getUserInfoFromEndpoint({ accessToken }) {
     const httpResponse = await httpAgent.get({
       url: this.userInfoUrl,
@@ -260,61 +315,6 @@ class OidcAuthenticationService {
 
     const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
     return thereIsAtLeastOneRequiredMissingField ? `Champs manquants : ${missingFields.join(',')}` : false;
-  }
-
-  async getUserInfo({ idToken, accessToken }) {
-    const { family_name, given_name, sub, nonce } = jsonwebtoken.decode(idToken);
-    let userInfoContent;
-
-    const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
-
-    if (isMandatoryUserInfoMissing) {
-      userInfoContent = await this._getUserInfoFromEndpoint({ accessToken });
-    }
-
-    return {
-      firstName: given_name || userInfoContent?.given_name,
-      lastName: family_name || userInfoContent?.family_name,
-      externalIdentityId: sub || userInfoContent?.sub,
-      nonce: nonce || userInfoContent?.nonce,
-    };
-  }
-
-  async createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
-    let createdUserId;
-
-    await DomainTransaction.execute(async (domainTransaction) => {
-      createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
-
-      const authenticationMethod = new AuthenticationMethod({
-        identityProvider: this.identityProvider,
-        userId: createdUserId,
-        externalIdentifier: externalIdentityId,
-      });
-      await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
-    });
-
-    return createdUserId;
-  }
-
-  async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
-    if (!this.endSessionUrl) {
-      return null;
-    }
-
-    const redirectTarget = new URL(this.endSessionUrl);
-    const key = `${userId}:${logoutUrlUUID}`;
-    const idToken = await this.sessionTemporaryStorage.get(key);
-    const params = [
-      { key: 'post_logout_redirect_uri', value: this.postLogoutRedirectUri },
-      { key: 'id_token_hint', value: idToken },
-    ];
-
-    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
-
-    await this.sessionTemporaryStorage.delete(key);
-
-    return redirectTarget.toString();
   }
 }
 
