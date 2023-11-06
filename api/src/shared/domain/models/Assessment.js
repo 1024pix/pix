@@ -221,9 +221,8 @@ class Assessment {
       method: methods.SMART_RANDOM,
     });
   }
-  static createForPix1dMission({ missionId }) {
+  static createForPix1dMission() {
     return new Assessment({
-      missionId,
       state: Assessment.states.STARTED,
       type: Assessment.types.PIX1D_MISSION,
       method: Assessment.methods.PIX1D,

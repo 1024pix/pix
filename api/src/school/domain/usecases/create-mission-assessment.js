@@ -7,7 +7,7 @@ const createMissionAssessment = async function ({
   assessmentRepository,
   missionAssessmentRepository,
 }) {
-  const assessment = Assessment.createForPix1dMission({ missionId });
+  const assessment = Assessment.createForPix1dMission();
   const persistedAssessment = await assessmentRepository.save({ assessment });
 
   const missionAssessment = new MissionAssessment({
