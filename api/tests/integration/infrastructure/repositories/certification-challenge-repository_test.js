@@ -127,9 +127,9 @@ describe('Integration | Repository | Certification Challenge', function () {
     });
   });
 
-  describe('#getNextNonAnsweredChallengeByCourseIdForV3', function () {
-    context('no non answered certification challenge', function () {
-      let certificationCourseId, assessmentId;
+  describe('#getNextChallengeByCourseIdForV3', function () {
+    context('all certification challenges are ignored', function () {
+      let certificationCourseId, challengeId;
       before(async function () {
         // given
         const userId = databaseBuilder.factory.buildUser({}).id;
@@ -137,27 +137,23 @@ describe('Integration | Repository | Certification Challenge', function () {
           userId,
           version: CertificationVersion.V3,
         }).id;
-        assessmentId = databaseBuilder.factory.buildAssessment({ userId, certificationCourseId }).id;
-        const challenge = databaseBuilder.factory.buildCertificationChallenge({
+        challengeId = databaseBuilder.factory.buildCertificationChallenge({
           challengeId: 'recChallenge1',
           courseId: certificationCourseId,
           associatedSkill: '@brm7',
           competenceId: 'recCompetenceId1',
-        });
-        databaseBuilder.factory.buildAnswer({
-          challengeId: challenge.challengeId,
-          value: 'Un Pancake',
-          assessmentId,
-        });
+        }).challengeId;
 
         await databaseBuilder.commit();
       });
 
       it('should return null if no non answered challenge is found', async function () {
+        const ignoredChallengeIds = [challengeId];
+
         // when
-        const result = await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
-          assessmentId,
+        const result = await certificationChallengeRepository.getNextChallengeByCourseIdForV3(
           certificationCourseId,
+          ignoredChallengeIds,
         );
 
         // then
@@ -165,9 +161,10 @@ describe('Integration | Repository | Certification Challenge', function () {
       });
     });
 
-    context('there is some non answered certification challenge(s)', function () {
-      let certificationCourseId, assessmentId;
+    context('there is some non ignored certification challenge(s)', function () {
+      let certificationCourseId;
       const firstUnansweredChallengeId = 1;
+      let ignoredChallengeIds;
 
       before(async function () {
         // given
@@ -176,13 +173,14 @@ describe('Integration | Repository | Certification Challenge', function () {
           userId,
           version: CertificationVersion.V3,
         }).id;
-        assessmentId = databaseBuilder.factory.buildAssessment({ userId, certificationCourseId }).id;
+
         const answeredChallenge = databaseBuilder.factory.buildCertificationChallenge({
           challengeId: 'recChallenge1',
           courseId: certificationCourseId,
           associatedSkillName: '@brm7',
           competenceId: 'recCompetenceId1',
         });
+        ignoredChallengeIds = [answeredChallenge.challengeId];
         const firstUnansweredChallengeById = {
           id: firstUnansweredChallengeId,
           challengeId: 'recChallenge2',
@@ -203,22 +201,16 @@ describe('Integration | Repository | Certification Challenge', function () {
         // "Second" is inserted first as we check the order is chosen on the specified id
         databaseBuilder.factory.buildCertificationChallenge(secondUnansweredChallengeById);
         databaseBuilder.factory.buildCertificationChallenge(firstUnansweredChallengeById);
-        databaseBuilder.factory.buildAnswer({
-          challengeId: answeredChallenge.challengeId,
-          value: 'Un Pancake',
-          assessmentId,
-        });
 
         await databaseBuilder.commit();
       });
 
       it('should get challenges in the creation order', async function () {
         // when
-        const nextCertificationChallenge =
-          await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
-            assessmentId,
-            certificationCourseId,
-          );
+        const nextCertificationChallenge = await certificationChallengeRepository.getNextChallengeByCourseIdForV3(
+          certificationCourseId,
+          ignoredChallengeIds,
+        );
 
         // then
         expect(nextCertificationChallenge).to.be.instanceOf(CertificationChallenge);

@@ -113,6 +113,99 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
     });
   });
 
+  describe('getLiveAlertValidatedChallengeIdsByAssessmentId', function () {
+    describe('when a validated liveAlert is linked to the assessment id', function () {
+      it('should return a challenge ids array', async function () {
+        // given
+        const questionNumber = 2;
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentIdWithLiveAlert,
+        });
+        const challengeId = databaseBuilder.factory.buildCertificationChallenge({
+          assessmentIdWithLiveAlert,
+        }).challengeId;
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessmentIdWithLiveAlert,
+          questionNumber,
+          status: CertificationChallengeLiveAlertStatus.VALIDATED,
+          challengeId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const liveAlertValidatedChallengeIds =
+          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(
+            assessmentIdWithLiveAlert,
+          );
+
+        // then
+        expect(liveAlertValidatedChallengeIds).to.deep.equal([challengeId]);
+      });
+    });
+
+    describe('when no validated liveAlert is linked to the assessment id', function () {
+      it('should return an empty array', async function () {
+        // given
+        const questionNumber = 2;
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentIdWithLiveAlert,
+        });
+        const challengeId = databaseBuilder.factory.buildCertificationChallenge({ assessmentIdWithLiveAlert }).id;
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessmentIdWithLiveAlert,
+          questionNumber,
+          status: CertificationChallengeLiveAlertStatus.DISMISSED,
+          challengeId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const liveAlertValidatedChallengeIds =
+          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(
+            assessmentIdWithLiveAlert,
+          );
+
+        // then
+        expect(liveAlertValidatedChallengeIds).to.have.length(0);
+      });
+    });
+
+    describe('when a dismissed liveAlert and a validated liveAlert is linked to the assessment id', function () {
+      it('should return a challenge ids array', async function () {
+        // given
+        const questionNumber = 2;
+        databaseBuilder.factory.buildAssessment({
+          id: assessmentIdWithLiveAlert,
+        });
+        const challengeId = databaseBuilder.factory.buildCertificationChallenge({
+          assessmentIdWithLiveAlert,
+        }).challengeId;
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessmentIdWithLiveAlert,
+          questionNumber,
+          status: CertificationChallengeLiveAlertStatus.DISMISSED,
+          challengeId,
+        });
+        databaseBuilder.factory.buildCertificationChallengeLiveAlert({
+          assessmentId: assessmentIdWithLiveAlert,
+          questionNumber,
+          status: CertificationChallengeLiveAlertStatus.VALIDATED,
+          challengeId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const liveAlertValidatedChallengeIds =
+          await certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(
+            assessmentIdWithLiveAlert,
+          );
+
+        // then
+        expect(liveAlertValidatedChallengeIds).to.deep.equal([challengeId]);
+      });
+    });
+  });
+
   describe('getOngoingBySessionIdAndUserId', function () {
     const sessionId = 123;
     const userId = 456;

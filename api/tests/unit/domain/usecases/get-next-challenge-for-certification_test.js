@@ -69,41 +69,63 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
     });
 
     context('for a v3 certification', function () {
+      let answerRepository,
+        flashAssessmentResultRepository,
+        challengeRepository,
+        certificationCourseRepository,
+        certificationChallengeLiveAlertRepository,
+        certificationChallengeRepository,
+        algorithmDataFetcherService,
+        pickChallengeService,
+        flashAlgorithmService;
+
+      beforeEach(function () {
+        answerRepository = {
+          findByAssessment: sinon.stub(),
+        };
+        flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
+        challengeRepository = {
+          get: sinon.stub(),
+        };
+        certificationCourseRepository = {
+          get: sinon.stub(),
+        };
+        certificationChallengeLiveAlertRepository = {
+          getLiveAlertValidatedChallengeIdsByAssessmentId: sinon.stub(),
+        };
+        certificationChallengeRepository = {
+          save: sinon.stub(),
+          getNextChallengeByCourseIdForV3: sinon.stub(),
+        };
+        algorithmDataFetcherService = {
+          fetchForFlashCampaigns: sinon.stub(),
+        };
+        pickChallengeService = {
+          chooseNextChallenge: sinon.stub(),
+        };
+        flashAlgorithmService = {
+          getPossibleNextChallenges: sinon.stub(),
+          getEstimatedLevelAndErrorRate: sinon.stub(),
+        };
+      });
       context('when there are challenges left to answer', function () {
         it('should save the returned next challenge', async function () {
           // given
-          const answerRepository = Symbol('AnswerRepository');
-          const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
           const nextChallengeToAnswer = domainBuilder.buildChallenge();
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
             version: CertificationVersion.V3,
           });
           const assessment = domainBuilder.buildAssessment();
-          const challengeRepository = {
-            get: sinon.stub(),
-          };
-          const certificationCourseRepository = {
-            get: sinon.stub(),
-          };
-          const certificationChallengeRepository = {
-            save: sinon.stub(),
-            getNextNonAnsweredChallengeByCourseIdForV3: sinon.stub(),
-          };
-          const algorithmDataFetcherService = {
-            fetchForFlashCampaigns: sinon.stub(),
-          };
-          const pickChallengeService = {
-            chooseNextChallenge: sinon.stub(),
-          };
-          const flashAlgorithmService = {
-            getPossibleNextChallenges: sinon.stub(),
-            getEstimatedLevelAndErrorRate: sinon.stub(),
-          };
           const locale = 'fr-FR';
 
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+          certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+            .withArgs(assessment.id)
+            .resolves([]);
+
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
-          certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3
-            .withArgs(assessment.id, assessment.certificationCourseId)
+          certificationChallengeRepository.getNextChallengeByCourseIdForV3
+            .withArgs(assessment.certificationCourseId, [])
             .resolves(null);
           challengeRepository.get.resolves();
           algorithmDataFetcherService.fetchForFlashCampaigns
@@ -155,6 +177,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             pickChallengeService,
             certificationCourseRepository,
             certificationChallengeRepository,
+            certificationChallengeLiveAlertRepository,
             locale,
             flashAlgorithmService,
             limitToOneQuestionPerTube: false,
@@ -168,22 +191,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         context('when resuming the session', function () {
           it('should return the last seen challenge', async function () {
             // given
-            const answerRepository = Symbol('AnswerRepository');
-            const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
-            const algorithmDataFetcherService = Symbol('algorithmDataFetcherService');
-            const pickChallengeService = Symbol('pickChallengeService');
             const locale = 'fr-FR';
-
-            const certificationCourseRepository = {
-              get: sinon.stub(),
-            };
-            const certificationChallengeRepository = {
-              save: sinon.stub(),
-              getNextNonAnsweredChallengeByCourseIdForV3: sinon.stub(),
-            };
-            const challengeRepository = {
-              get: sinon.stub(),
-            };
 
             const v3CertificationCourse = domainBuilder.buildCertificationCourse({
               version: CertificationVersion.V3,
@@ -198,11 +206,16 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               id: nonAnsweredCertificationChallenge.challengeId,
             });
 
+            answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+            certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+              .withArgs(assessment.id)
+              .resolves([]);
+
             certificationCourseRepository.get
               .withArgs(assessment.certificationCourseId)
               .resolves(v3CertificationCourse);
-            certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3
-              .withArgs(assessment.id, assessment.certificationCourseId)
+            certificationChallengeRepository.getNextChallengeByCourseIdForV3
+              .withArgs(assessment.certificationCourseId, [])
               .resolves(nonAnsweredCertificationChallenge);
             challengeRepository.get.withArgs(nonAnsweredCertificationChallenge.challengeId).resolves(lastSeenChallenge);
 
@@ -213,6 +226,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               answerRepository,
               challengeRepository,
               flashAssessmentResultRepository,
+              certificationChallengeLiveAlertRepository,
               pickChallengeService,
               certificationCourseRepository,
               certificationChallengeRepository,
@@ -226,30 +240,108 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         });
       });
 
+      context('when there are challenges with validated live alerts', function () {
+        it('should save the returned next challenge', async function () {
+          // given
+          const locale = 'fr-FR';
+
+          const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+            version: CertificationVersion.V3,
+          });
+          const assessment = domainBuilder.buildAssessment();
+
+          const nonAnsweredCertificationChallenge = domainBuilder.buildCertificationChallenge({
+            courseId: v3CertificationCourse.getId(),
+          });
+
+          const nextChallenge = domainBuilder.buildChallenge({
+            id: 'NextChallenge',
+          });
+
+          const lastSeenChallenge = domainBuilder.buildChallenge({
+            id: nonAnsweredCertificationChallenge.challengeId,
+          });
+
+          algorithmDataFetcherService.fetchForFlashCampaigns
+            .withArgs({
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              assessmentId: assessment.id,
+              locale,
+            })
+            .resolves({
+              allAnswers: [],
+              challenges: [nextChallenge, lastSeenChallenge],
+              estimatedLevel: 0,
+            });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [],
+              challenges: [nextChallenge],
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              variationPercent: undefined,
+            })
+            .returns({ estimatedLevel: 0 });
+
+          flashAlgorithmService.getPossibleNextChallenges
+            .withArgs({
+              availableChallenges: [nextChallenge],
+              estimatedLevel: 0,
+              options: sinon.match.any,
+            })
+            .returns([nextChallenge]);
+
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+          certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+            .withArgs(assessment.id)
+            .resolves([nonAnsweredCertificationChallenge.challengeId]);
+
+          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          certificationChallengeRepository.getNextChallengeByCourseIdForV3
+            .withArgs(assessment.certificationCourseId, [])
+            .resolves(nonAnsweredCertificationChallenge);
+          challengeRepository.get.withArgs(nonAnsweredCertificationChallenge.challengeId).resolves(lastSeenChallenge);
+
+          const chooseNextChallengeImpl = sinon.stub();
+          chooseNextChallengeImpl
+            .withArgs({
+              possibleChallenges: [nextChallenge],
+            })
+            .returns(nextChallenge);
+          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+
+          // when
+          const challenge = await getNextChallengeForCertification({
+            algorithmDataFetcherService,
+            assessment,
+            answerRepository,
+            challengeRepository,
+            flashAssessmentResultRepository,
+            flashAlgorithmService,
+            certificationChallengeLiveAlertRepository,
+            pickChallengeService,
+            certificationCourseRepository,
+            certificationChallengeRepository,
+            locale,
+          });
+
+          // then
+          expect(challenge).to.equal(nextChallenge);
+          expect(certificationChallengeRepository.save).to.have.been.called;
+        });
+      });
+
       context('when there are no challenges left', function () {
         it('should return the AssessmentEndedError', async function () {
           // given
-          const answerRepository = Symbol('AnswerRepository');
-          const flashAssessmentResultRepository = Symbol('flashAssessmentResultRepository');
           const answeredChallenge = domainBuilder.buildChallenge();
           const answer = domainBuilder.buildAnswer({ challengeId: answeredChallenge.id });
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
             version: CertificationVersion.V3,
           });
           const assessment = domainBuilder.buildAssessment();
-          const certificationCourseRepository = {
-            get: sinon.stub(),
-          };
-          const challengeRepository = {
-            get: sinon.stub(),
-          };
-          const certificationChallengeRepository = {
-            save: sinon.stub(),
-            getNextNonAnsweredChallengeByCourseIdForV3: sinon.stub(),
-          };
-          const algorithmDataFetcherService = {
-            fetchForFlashCampaigns: sinon.stub(),
-          };
           const locale = 'fr-FR';
 
           const flashAlgorithmService = {
@@ -257,9 +349,14 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             getEstimatedLevelAndErrorRate: sinon.stub(),
           };
 
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
+          certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+            .withArgs(assessment.id)
+            .resolves([]);
+
           certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
-          certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3
-            .withArgs(assessment.id, assessment.certificationCourseId)
+          certificationChallengeRepository.getNextChallengeByCourseIdForV3
+            .withArgs(assessment.certificationCourseId, [answeredChallenge.id])
             .resolves(null);
           challengeRepository.get.resolves();
           algorithmDataFetcherService.fetchForFlashCampaigns
@@ -306,6 +403,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
             challengeRepository,
             flashAssessmentResultRepository,
             certificationCourseRepository,
+            certificationChallengeLiveAlertRepository,
             certificationChallengeRepository,
             locale,
             flashAlgorithmService,

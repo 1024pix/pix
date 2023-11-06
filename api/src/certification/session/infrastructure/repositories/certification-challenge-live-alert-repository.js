@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import {
   CertificationChallengeLiveAlert,
@@ -17,6 +18,15 @@ const getByAssessmentId = async (assessmentId) => {
   });
 
   return certificationChallengeLiveAlertsDto.map(_toDomain);
+};
+
+const getLiveAlertValidatedChallengeIdsByAssessmentId = async (assessmentId) => {
+  const liveAlertValidatedChallengeIds = await knex('certification-challenge-live-alerts').select('challengeId').where({
+    assessmentId,
+    status: CertificationChallengeLiveAlertStatus.VALIDATED,
+  });
+
+  return _.map(liveAlertValidatedChallengeIds, 'challengeId');
 };
 
 const getOngoingBySessionIdAndUserId = async ({ sessionId, userId }) => {
@@ -57,4 +67,10 @@ const _toDomain = (certificationChallengeLiveAlertDto) => {
 };
 
 const _toDTO = (certificationChallengeLiveAlertDto) => certificationChallengeLiveAlertDto;
-export { save, getByAssessmentId, getOngoingBySessionIdAndUserId, getOngoingByChallengeIdAndAssessmentId };
+export {
+  save,
+  getByAssessmentId,
+  getOngoingBySessionIdAndUserId,
+  getLiveAlertValidatedChallengeIdsByAssessmentId,
+  getOngoingByChallengeIdAndAssessmentId,
+};
