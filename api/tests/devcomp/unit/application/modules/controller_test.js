@@ -24,6 +24,7 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
 
   describe('#validate-answer', function () {
     it('should call validateAnswer use-case and return the serialized CorrectionResponse', async function () {
+      // Given
       const moduleSlug = 'slug';
       const serializedCorrection = Symbol('serialized correction');
       const proposalSelectedId = Symbol('proposalSelectedID');
@@ -40,12 +41,14 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       };
       correctionResponseSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
 
+      // When
       const result = await modulesController.validateAnswer(
-        { payload: { moduleSlug, proposalSelectedId, elementId } },
+        { payload: { proposalSelectedId }, params: { moduleSlug, elementId } },
         null,
         { correctionResponseSerializer, usecases },
       );
 
+      // Then
       expect(result).to.equal(serializedCorrection);
     });
   });

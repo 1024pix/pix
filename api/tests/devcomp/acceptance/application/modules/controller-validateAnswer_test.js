@@ -8,16 +8,20 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
     server = await createServer();
   });
 
-  describe('POST /api/modules/answers', function () {
+  describe('POST /api/modules/:slug/element/:id/answers', function () {
     context('when given proposal is the correct answer', function () {
       it('should return valid CorrectionResponse', async function () {
+        const moduleSlug = 'les-adresses-mail';
+        const elementId = 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7';
         const options = {
           method: 'POST',
-          url: `/api/modules/answers`,
+          url: `/api/modules/${moduleSlug}/elements/${elementId}/answers`,
           payload: {
-            moduleSlug: 'les-adresses-mail',
-            elementId: 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7',
-            proposalSelectedId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+            data: {
+              attributes: {
+                proposalSelectedId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+              },
+            },
           },
         };
 
@@ -31,13 +35,17 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
 
     context('when given proposal is the wrong answer', function () {
       it('should return invalid CorrectionResponse', async function () {
+        const moduleSlug = 'les-adresses-mail';
+        const elementId = 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7';
         const options = {
           method: 'POST',
-          url: `/api/modules/answers`,
+          url: `/api/modules/${moduleSlug}/elements/${elementId}/answers`,
           payload: {
-            moduleSlug: 'les-adresses-mail',
-            elementId: 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7',
-            proposalSelectedId: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
+            data: {
+              attributes: {
+                proposalSelectedId: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
+              },
+            },
           },
         };
 
