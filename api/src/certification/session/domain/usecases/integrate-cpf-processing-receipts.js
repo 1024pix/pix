@@ -1,8 +1,6 @@
-import { config } from '../../../../shared/config.js';
-import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-
-const integrateCpfProccessingReceipts = async function ({ dependencies = { S3ObjectStorageProvider } }) {
-  dependencies.S3ObjectStorageProvider.createClient(config.cpf.storage.cpfReceipts.client);
+const integrateCpfProccessingReceipts = async function ({ cpfReceiptsStorage }) {
+  // TODO: integration test with nock
+  await cpfReceiptsStorage.findAll();
 };
 
 export { integrateCpfProccessingReceipts };
