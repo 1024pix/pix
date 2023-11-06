@@ -69,6 +69,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           challenges,
           allAnswers: answers,
           estimatedLevel: sinon.match.number,
+          variationPercent: undefined,
         })
         .returns({
           estimatedLevel: expectedEstimatedLevel,

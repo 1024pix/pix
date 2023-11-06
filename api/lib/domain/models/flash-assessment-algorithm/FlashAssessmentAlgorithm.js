@@ -55,12 +55,14 @@ class FlashAssessmentAlgorithm {
     limitToOneQuestionPerTube,
     flashAlgorithmImplementation,
     enablePassageByAllCompetences,
+    variationPercent,
   } = {}) {
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
+    this.variationPercent = variationPercent;
 
     this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
       limitToOneQuestionPerTube,
@@ -84,6 +86,7 @@ class FlashAssessmentAlgorithm {
       allAnswers,
       challenges,
       initialCapacity,
+      variationPercent: this.variationPercent,
     });
 
     const minimalSuccessRate = this._computeMinimalSuccessRate(allAnswers.length);
@@ -135,6 +138,7 @@ class FlashAssessmentAlgorithm {
       allAnswers,
       challenges,
       estimatedLevel: initialCapacity,
+      variationPercent: this.variationPercent,
     });
   }
 
