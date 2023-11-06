@@ -72,6 +72,13 @@ export default class ToggableLoginForm extends Component {
           code: this.args.certificationCenterInvitationCode,
           email,
         });
+
+        const invitationToDelete = this.store.peekRecord(
+          'certification-center-invitation',
+          this.args.certificationCenterInvitationId,
+        );
+        invitationToDelete.unloadRecord();
+
         await this._authenticate(password, email);
       } catch (errorResponse) {
         const errorStatus = get(errorResponse, 'errors[0].status');
