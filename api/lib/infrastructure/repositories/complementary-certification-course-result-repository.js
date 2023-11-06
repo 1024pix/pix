@@ -26,4 +26,15 @@ const save = async function ({ complementaryCertificationCourseId, partnerKey, a
     .merge();
 };
 
-export { getPixSourceResultByComplementaryCertificationCourseId, getAllowedJuryLevelByBadgeKey, save };
+const removeExternalJuryResult = async function ({ complementaryCertificationCourseId }) {
+  await knex('complementary-certification-course-results')
+    .where({ complementaryCertificationCourseId, source: ComplementaryCertificationCourseResult.sources.EXTERNAL })
+    .delete();
+};
+
+export {
+  getPixSourceResultByComplementaryCertificationCourseId,
+  getAllowedJuryLevelByBadgeKey,
+  save,
+  removeExternalJuryResult,
+};

@@ -214,4 +214,116 @@ describe('Integration | Repository | complementary-certification-courses-result-
       });
     });
   });
+
+  describe('#removeExternalJuryResult', function () {
+    describe('when the matching external ComplementaryCertificationCourseResult does not exist', function () {
+      it('should do nothing', async function () {
+        // given
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          name: 'Pix+ Test',
+        });
+        databaseBuilder.factory.buildCertificationCourse({ id: 99 });
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 999,
+          certificationCourseId: 99,
+          complementaryCertificationId: 1,
+        });
+
+        databaseBuilder.factory.buildBadge({
+          key: 'PIX_TEST_1',
+        });
+        databaseBuilder.factory.buildBadge({
+          key: 'PIX_EDU_1',
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          id: 10,
+          acquired: true,
+          complementaryCertificationCourseId: 999,
+          partnerKey: 'PIX_TEST_1',
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        await complementaryCertificationCourseResultRepository.removeExternalJuryResult({
+          complementaryCertificationCourseId: 999,
+        });
+
+        // then
+        const courseResults = await knex('complementary-certification-course-results');
+
+        expect(courseResults).to.deep.equal([
+          {
+            id: 10,
+            acquired: true,
+            complementaryCertificationCourseId: 999,
+            partnerKey: 'PIX_TEST_1',
+            source: ComplementaryCertificationCourseResult.sources.PIX,
+          },
+        ]);
+      });
+    });
+
+    describe('when the matching external ComplementaryCertificationCourseResult exists', function () {
+      it('should delete the ComplementaryCertificationCourseResult', async function () {
+        // given
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 1,
+          name: 'Pix+ Test',
+        });
+        databaseBuilder.factory.buildCertificationCourse({ id: 99 });
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 999,
+          certificationCourseId: 99,
+          complementaryCertificationId: 1,
+        });
+
+        databaseBuilder.factory.buildBadge({
+          key: 'PIX_TEST_1',
+        });
+        databaseBuilder.factory.buildBadge({
+          key: 'PIX_EDU_1',
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          id: 10,
+          acquired: true,
+          complementaryCertificationCourseId: 999,
+          partnerKey: 'PIX_TEST_1',
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          acquired: true,
+          complementaryCertificationCourseId: 999,
+          partnerKey: 'PIX_EDU_1',
+          source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        await complementaryCertificationCourseResultRepository.removeExternalJuryResult({
+          complementaryCertificationCourseId: 999,
+        });
+
+        // then
+        const courseResult = await knex('complementary-certification-course-results').where({
+          complementaryCertificationCourseId: 999,
+        });
+
+        expect(courseResult).to.have.lengthOf(1);
+        expect(courseResult[0]).to.deep.equal({
+          id: 10,
+          acquired: true,
+          complementaryCertificationCourseId: 999,
+          partnerKey: 'PIX_TEST_1',
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+        });
+      });
+    });
+  });
 });

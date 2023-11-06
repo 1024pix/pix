@@ -256,6 +256,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           label: 'je veux',
         },
         { value: 'REJECTED', label: 'Rejetée' },
+        { value: 'UNSET', label: 'En attente' },
       ]);
     });
   });
