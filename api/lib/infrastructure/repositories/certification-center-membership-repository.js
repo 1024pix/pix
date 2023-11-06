@@ -65,6 +65,10 @@ const countActiveMembersForCertificationCenter = async function (certificationCe
   return count;
 };
 
+const create = async function ({ certificationCenterId, role, userId }) {
+  await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).insert({ certificationCenterId, role, userId });
+};
+
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
     .select(
@@ -113,6 +117,9 @@ const findActiveByCertificationCenterIdSortedById = async function ({ certificat
   return certificationCenterMemberships.map(_toDomain);
 };
 
+/**
+ * @deprecated use create method if you don't need the model in return with its relations (User & CertificationCenter)
+ */
 const save = async function ({ userId, certificationCenterId }) {
   try {
     const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({
@@ -264,6 +271,7 @@ const findOneWithCertificationCenterIdAndUserId = async function ({ certificatio
 
 export {
   countActiveMembersForCertificationCenter,
+  create,
   disableById,
   disableMembershipsByUserId,
   findActiveByCertificationCenterIdSortedById,
