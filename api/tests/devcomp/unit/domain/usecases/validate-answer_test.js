@@ -8,7 +8,7 @@ describe('Unit | Devcomp | Usecases | validate-answer', function () {
         // given
         const moduleSlug = 'moduleSlug';
         const elementId = 'elementId';
-        const proposalSelectedId = 'totoId';
+        const answerId = 'totoId';
 
         const mockedModuleRepo = {
           getBySlug: sinon.stub(),
@@ -26,13 +26,13 @@ describe('Unit | Devcomp | Usecases | validate-answer', function () {
         expectedModule.getElementById.withArgs(elementId).returns(stubElement);
 
         const expectedQcuResponse = Symbol('answer');
-        stubElement.assess.withArgs(proposalSelectedId).returns(expectedQcuResponse);
+        stubElement.assess.withArgs(answerId).returns(expectedQcuResponse);
 
         // when
         const validateQcu = await validateAnswer({
           moduleSlug: moduleSlug,
           elementId: elementId,
-          proposalSelectedId: proposalSelectedId,
+          answerId: answerId,
           moduleRepository: mockedModuleRepo,
         });
 
