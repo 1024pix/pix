@@ -13,7 +13,7 @@ module('Acceptance | Start mission', function (hooks) {
 
   test('redirect to first challenge page after clicking on start mission', async function (assert) {
     // given
-    identifyLearner({ firstName: 'Goku' }, this.owner);
+    identifyLearner(this.owner);
     const mission = this.server.create('mission');
     this.server.create('challenge');
     // when
