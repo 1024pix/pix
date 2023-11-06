@@ -5,4 +5,8 @@ describe('Unit | Shared | Domain | Errors', function () {
   it('should export NotFoundError', function () {
     expect(errors.NotFoundError).to.exist;
   });
+
+  it('should export UserNotAuthorizedToAccessEntityError', function () {
+    expect(errors.UserNotAuthorizedToAccessEntityError).to.exist;
+  });
 });

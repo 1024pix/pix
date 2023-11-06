@@ -1,5 +1,4 @@
 import lodash from 'lodash';
-
 const { isNil } = lodash;
 
 class CertificationCandidateForAttendanceSheet {

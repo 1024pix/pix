@@ -1,6 +1,10 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
 
-import { EntityValidationError, NotFoundError } from '../../../../src/shared/domain/errors.js';
+import {
+  EntityValidationError,
+  NotFoundError,
+  UserNotAuthorizedToAccessEntityError,
+} from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
@@ -131,6 +135,21 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.NotFoundError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ForbiddenError when UserNotAuthorizedToAccessEntityError', async function () {
+      // given
+      const error = new UserNotAuthorizedToAccessEntityError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
+        'Utilisateur non autorisé à accéder à la ressource',
+      );
     });
   });
 });

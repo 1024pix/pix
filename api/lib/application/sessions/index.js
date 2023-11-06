@@ -11,8 +11,6 @@ import { authorization } from '../preHandlers/authorization.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
 import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
-import { LOCALE } from '../../domain/constants.js';
-const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {
   server.route([
@@ -132,28 +130,6 @@ const register = async function (server) {
         ],
         handler: finalizedSessionController.findFinalizedSessionsWithRequiredAction,
         tags: ['api', 'finalized-sessions'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/sessions/{id}/attendance-sheet',
-      config: {
-        auth: false,
-        validate: {
-          query: Joi.object({
-            lang: Joi.string().valid(FRENCH_SPOKEN, ENGLISH_SPOKEN),
-            accessToken: Joi.string().required(),
-          }),
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        handler: sessionController.getAttendanceSheet,
-        tags: ['api', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
-            '- Cette route permet de télécharger le pv de session pré-rempli au format ods',
-        ],
       },
     },
     {

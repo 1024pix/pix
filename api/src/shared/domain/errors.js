@@ -47,4 +47,17 @@ class NotFoundError extends DomainError {
   }
 }
 
-export { DomainError, ForbiddenAccess, EntityValidationError, CsvImportError, NotFoundError };
+class UserNotAuthorizedToAccessEntityError extends DomainError {
+  constructor(message = 'User is not authorized to access ressource') {
+    super(message);
+  }
+}
+
+export {
+  DomainError,
+  ForbiddenAccess,
+  EntityValidationError,
+  CsvImportError,
+  NotFoundError,
+  UserNotAuthorizedToAccessEntityError,
+};

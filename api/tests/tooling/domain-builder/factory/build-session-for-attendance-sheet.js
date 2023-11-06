@@ -1,4 +1,4 @@
-import { SessionForAttendanceSheet } from '../../../../lib/domain/read-models/SessionForAttendanceSheet.js';
+import { SessionForAttendanceSheet } from '../.././../../src/certification/session/domain/read-models/SessionForAttendanceSheet.js';
 import { buildCertificationCandidateForAttendanceSheet } from './build-certification-candidate-for-attendance-sheet.js';
 
 const buildSessionForAttendanceSheet = function ({

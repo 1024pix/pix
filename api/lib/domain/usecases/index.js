@@ -148,7 +148,6 @@ import * as scoOrganizationParticipantRepository from '../../infrastructure/repo
 import * as scorecardService from '../../domain/services/scorecard-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
-import * as sessionForAttendanceSheetRepository from '../../infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';
 import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
@@ -206,7 +205,6 @@ import { importNamedExportsFromDirectory } from '../../../src/shared/infrastruct
 import { injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
-import * as attendanceSheetPdfUtils from '../../infrastructure/utils/pdf/attendance-sheet-pdf.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -366,7 +364,6 @@ const dependencies = {
   scorecardService,
   scoringCertificationService,
   sessionCodeService,
-  sessionForAttendanceSheetRepository,
   sessionForSupervisingRepository,
   sessionForSupervisorKitRepository,
   sessionJuryCommentRepository,
@@ -416,7 +413,6 @@ const dependencies = {
   verifyCertificateCodeService,
   writeCsvUtils,
   writeOdsUtils,
-  attendanceSheetPdfUtils,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

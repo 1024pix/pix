@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { certificationController } from './certification-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
-import { LANG } from '../../domain/constants.js';
+import { LANG } from '../../../src/shared/domain/constants.js';
 
 const { FRENCH, ENGLISH } = LANG;
 

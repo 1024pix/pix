@@ -69,6 +69,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CsvImportError) {
     return new HttpErrors.PreconditionFailedError(error.message, error.code, error.meta);
   }
+  if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntityError) {
+    return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
+  }
 }
 
 function handle(request, h, error) {
