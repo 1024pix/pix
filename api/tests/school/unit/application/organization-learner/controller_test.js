@@ -17,7 +17,7 @@ describe('Unit | Controller | organization-learner-controller', function () {
           organizationId: '345',
         }),
       );
-      const id = 4567;
+      const id = 4356;
       const request = {
         params: { id },
       };
