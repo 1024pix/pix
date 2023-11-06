@@ -7,6 +7,7 @@ const getNextChallengeForCertification = async function ({
   answerRepository,
   assessment,
   certificationChallengeRepository,
+  certificationChallengeLiveAlertRepository,
   certificationCourseRepository,
   challengeRepository,
   flashAssessmentResultRepository,
@@ -22,10 +23,22 @@ const getNextChallengeForCertification = async function ({
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
   if (certificationCourse.getVersion() === CertificationVersion.V3) {
+    const alreadyAnsweredChallengeIds = await _getAlreadyAnsweredChallengeIds({
+      assessmentId: assessment.id,
+      answerRepository,
+    });
+
+    const validatedLiveAlertChallengeIds = await _getValidatedLiveAlertChallengeIds({
+      assessmentId: assessment.id,
+      certificationChallengeLiveAlertRepository,
+    });
+
+    const excludedChallengeIds = [...alreadyAnsweredChallengeIds, ...validatedLiveAlertChallengeIds];
+
     const lastNonAnsweredCertificationChallenge =
-      await certificationChallengeRepository.getNextNonAnsweredChallengeByCourseIdForV3(
-        assessment.id,
+      await certificationChallengeRepository.getNextChallengeByCourseIdForV3(
         assessment.certificationCourseId,
+        excludedChallengeIds,
       );
 
     if (lastNonAnsweredCertificationChallenge) {
@@ -50,9 +63,11 @@ const getNextChallengeForCertification = async function ({
       enablePassageByAllCompetences,
     });
 
+    const activeChallenges = challenges.filter((challenge) => !validatedLiveAlertChallengeIds.includes(challenge.id));
+
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
       allAnswers,
-      challenges,
+      challenges: activeChallenges,
     });
 
     const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
@@ -77,6 +92,17 @@ const getNextChallengeForCertification = async function ({
         return challengeRepository.get(certificationChallenge.challengeId);
       });
   }
+};
+
+const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository }) => {
+  const answers = await answerRepository.findByAssessment(assessmentId);
+  const alreadyAnsweredChallengeIds = answers.map(({ challengeId }) => challengeId);
+
+  return alreadyAnsweredChallengeIds;
+};
+
+const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
+  return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
 };
 
 export { getNextChallengeForCertification };
