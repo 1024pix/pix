@@ -36,7 +36,12 @@ function getPossibleNextChallenges({
   return _findBestPossibleChallenges(challengesWithReward, minimalSuccessRate, estimatedLevel);
 }
 
-function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel = DEFAULT_ESTIMATED_LEVEL }) {
+function getEstimatedLevelAndErrorRate({
+  allAnswers,
+  challenges,
+  estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
+  variationPercent,
+}) {
   if (allAnswers.length === 0) {
     return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
   }
@@ -76,10 +81,14 @@ function getEstimatedLevelAndErrorRate({ allAnswers, challenges, estimatedLevel 
 
     _normalizeFieldDistribution(samplesWithResults, 'probability');
 
-    latestEstimatedLevel = samplesWithResults.reduce(
+    const rawNextEstimatedLevel = samplesWithResults.reduce(
       (estimatedLevel, { sample, probability }) => estimatedLevel + sample * probability,
       0,
     );
+
+    latestEstimatedLevel = variationPercent
+      ? _limitEstimatedLevelVariation(latestEstimatedLevel, rawNextEstimatedLevel, variationPercent)
+      : rawNextEstimatedLevel;
   }
 
   const rawErrorRate = samplesWithResults.reduce(
@@ -117,6 +126,17 @@ function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, es
   ]);
 
   return pixScoreAndScoreByCompetence;
+}
+
+function _limitEstimatedLevelVariation(previousEstimatedLevel, nextEstimatedLevel, variationPercent) {
+  const hasSmallEstimatedLevel =
+    -variationPercent < previousEstimatedLevel && previousEstimatedLevel < variationPercent;
+
+  const gap = hasSmallEstimatedLevel ? variationPercent : Math.abs(previousEstimatedLevel * variationPercent);
+
+  return nextEstimatedLevel > previousEstimatedLevel
+    ? Math.min(nextEstimatedLevel, previousEstimatedLevel + gap)
+    : Math.max(nextEstimatedLevel, previousEstimatedLevel - gap);
 }
 
 function _findBestPossibleChallenges(challengesWithReward, minimumSuccessRate, estimatedLevel) {

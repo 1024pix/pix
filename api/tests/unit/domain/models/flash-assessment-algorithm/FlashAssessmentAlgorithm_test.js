@@ -103,11 +103,13 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const challenges = [answeredChallengeTube1, unansweredChallengeTube1, unansweredChallengeTube2];
 
           flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
-            .withArgs({
-              allAnswers,
-              challenges,
-              estimatedLevel: initialCapacity,
-            })
+            .withArgs(
+              _getEstimatedLevelAndErrorRateParams({
+                allAnswers,
+                challenges,
+                estimatedLevel: initialCapacity,
+              }),
+            )
             .returns({
               estimatedLevel: computedEstimatedLevel,
             });
@@ -175,11 +177,13 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           const challenges = [answeredChallengeTube1, unansweredChallengeTube1, unansweredChallengeTube2];
 
           flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
-            .withArgs({
-              allAnswers,
-              challenges,
-              estimatedLevel: initialCapacity,
-            })
+            .withArgs(
+              _getEstimatedLevelAndErrorRateParams({
+                allAnswers,
+                challenges,
+                estimatedLevel: initialCapacity,
+              }),
+            )
             .returns({
               estimatedLevel: computedEstimatedLevel,
             });
@@ -355,4 +359,9 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       });
     });
   });
+});
+
+const _getEstimatedLevelAndErrorRateParams = (params) => ({
+  variationPercent: undefined,
+  ...params,
 });

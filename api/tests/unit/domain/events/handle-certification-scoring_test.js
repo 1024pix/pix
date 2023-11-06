@@ -328,6 +328,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             challenges,
             allAnswers: answers,
             estimatedLevel: sinon.match.number,
+            variationPercent: undefined,
           })
           .returns({
             estimatedLevel: expectedEstimatedLevel,
@@ -382,6 +383,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             challenges,
             allAnswers: answers,
             estimatedLevel: sinon.match.number,
+            variationPercent: undefined,
           })
           .returns({
             estimatedLevel: 2,
