@@ -9,32 +9,35 @@ export default class CertificationCenterInvitationsAction extends Component {
   @tracked invitationLanguage = this.languagesOptions[0].value;
   @tracked invitationRole = this.rolesOptions[0].value;
 
-  get languagesOptions() {
-    return [
-      {
-        label: 'Français',
-        value: 'fr-fr',
-      },
-      {
-        label: 'Francophone',
-        value: 'fr',
-      },
-      {
-        label: 'Anglais',
-        value: 'en',
-      },
-    ];
-  }
+  languagesOptions = [
+    {
+      label: 'Français',
+      value: 'fr-fr',
+    },
+    {
+      label: 'Francophone',
+      value: 'fr',
+    },
+    {
+      label: 'Anglais',
+      value: 'en',
+    },
+  ];
 
-  get rolesOptions() {
-    return [
-      {
-        label: this.intl.t('common.roles.admin'),
-        value: 'ADMIN',
-      },
-      { label: this.intl.t('common.roles.member'), value: 'MEMBER' },
-    ];
-  }
+  rolesOptions = [
+    {
+      label: this.intl.t('common.roles.auto'),
+      value: 'NULL',
+    },
+    {
+      label: this.intl.t('common.roles.admin'),
+      value: 'ADMIN',
+    },
+    {
+      label: this.intl.t('common.roles.member'),
+      value: 'MEMBER',
+    },
+  ];
 
   get certificationCenterRoleValue() {
     return this.invitationRole === 'NULL' ? null : this.invitationRole;
