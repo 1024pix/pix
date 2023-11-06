@@ -33,7 +33,7 @@ const pickCertificationChallenges = async function (
     placementProfile.profileDate,
   );
 
-  const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperativeHavingLocale(locale);
+  const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperative(locale);
 
   return _pickCertificationChallengesForCertifiableCompetences(
     certifiableUserCompetences,
@@ -64,7 +64,7 @@ const pickCertificationChallengesForPixPlus = async function (
 
   const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyAnsweredChallengeIds();
 
-  const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperativeHavingLocale(locale);
+  const allOperativeChallengesForLocale = await injectedChallengeRepository.findOperative(locale);
   return _pickCertificationChallengesForAllAreas(
     skillIdsByDecreasingDifficultyGroupedByArea,
     alreadyAnsweredChallengeIds,
