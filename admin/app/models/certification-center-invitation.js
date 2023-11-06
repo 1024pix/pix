@@ -1,6 +1,9 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
+import { service } from '@ember/service';
 
 export default class CertificationCenterInvitationModel extends Model {
+  @service intl;
+
   @attr email;
   @attr updatedAt;
   @attr role;
@@ -10,9 +13,9 @@ export default class CertificationCenterInvitationModel extends Model {
   get roleLabel() {
     switch (this.role) {
       case 'ADMIN':
-        return 'Administrateur';
+        return this.intl.t('common.roles.admin');
       case 'MEMBER':
-        return 'Membre';
+        return this.intl.t('common.roles.member');
       default:
         return '-';
     }
