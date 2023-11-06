@@ -89,6 +89,7 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
       complementaryCertificationCourseId:
         'complementary-certification-course-results.complementaryCertificationCourseId',
       id: 'complementary-certification-course-results.id',
+      complementaryCertificationBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
       partnerKey: 'complementary-certification-course-results.partnerKey',
       acquired: 'complementary-certification-course-results.acquired',
       source: 'complementary-certification-course-results.source',

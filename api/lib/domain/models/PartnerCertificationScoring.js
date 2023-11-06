@@ -10,12 +10,19 @@ const SOURCES = {
 };
 
 class PartnerCertificationScoring {
-  constructor({ complementaryCertificationCourseId, partnerKey, source = SOURCES.PIX } = {}) {
+  constructor({
+    complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
+    partnerKey,
+    source = SOURCES.PIX,
+  } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.partnerKey = partnerKey;
     this.source = source;
     const schema = Joi.object({
       complementaryCertificationCourseId: Joi.number().integer().required(),
+      complementaryCertificationBadgeId: Joi.number().integer().required(),
       partnerKey: Joi.string().allow(null).required(),
       source: Joi.string()
         .required()

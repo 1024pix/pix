@@ -19,9 +19,15 @@ const getAllowedJuryLevelByBadgeKey = async function ({ key }) {
     .where('targetProfileId', '=', knex('badges').select('targetProfileId').where({ key }));
 };
 
-const save = async function ({ complementaryCertificationCourseId, partnerKey, acquired, source }) {
+const save = async function ({
+  complementaryCertificationCourseId,
+  complementaryCertificationBadgeId,
+  partnerKey,
+  acquired,
+  source,
+}) {
   return knex('complementary-certification-course-results')
-    .insert({ partnerKey, acquired, complementaryCertificationCourseId, source })
+    .insert({ partnerKey, complementaryCertificationBadgeId, acquired, complementaryCertificationCourseId, source })
     .onConflict(['complementaryCertificationCourseId', 'source'])
     .merge();
 };

@@ -90,6 +90,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
           expect(_.omit(complementaryCertificationCourseResults, ['id'])).to.deep.equal({
             acquired: true,
             complementaryCertificationCourseId,
+            complementaryCertificationBadgeId: 501,
             partnerKey: 'badge_key',
             source: 'PIX',
           });

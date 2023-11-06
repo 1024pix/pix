@@ -3,6 +3,7 @@ import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
 class ComplementaryCertificationScoringWithoutComplementaryReferential extends PartnerCertificationScoring {
   constructor({
     complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
     complementaryCertificationBadgeKey,
     reproducibilityRate,
     pixScore,
@@ -11,10 +12,10 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
   } = {}) {
     super({
       complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
       partnerKey: complementaryCertificationBadgeKey,
     });
 
-    this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.reproducibilityRate = reproducibilityRate;
     this.pixScore = pixScore;
     this.minimumEarnedPix = minimumEarnedPix;

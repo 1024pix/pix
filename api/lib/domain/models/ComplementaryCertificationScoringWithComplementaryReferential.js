@@ -4,6 +4,7 @@ import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
 class ComplementaryCertificationScoringWithComplementaryReferential extends PartnerCertificationScoring {
   constructor({
     complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
     complementaryCertificationBadgeKey,
     reproducibilityRate,
     hasAcquiredPixCertification,
@@ -11,6 +12,7 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
   } = {}) {
     super({
       complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
       partnerKey: complementaryCertificationBadgeKey,
       source: ComplementaryCertificationCourseResult.sources.PIX,
     });

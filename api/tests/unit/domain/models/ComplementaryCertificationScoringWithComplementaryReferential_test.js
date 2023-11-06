@@ -8,6 +8,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
       const complementaryCertificationScoringWithComplementaryReferential =
         new ComplementaryCertificationScoringWithComplementaryReferential({
           complementaryCertificationCourseId: 99,
+          complementaryCertificationBadgeId: 89,
           complementaryCertificationBadgeKey: 'BADGE',
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
@@ -17,8 +18,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
       expect(complementaryCertificationScoringWithComplementaryReferential).to.deepEqualInstance(
         new ComplementaryCertificationScoringWithComplementaryReferential({
           complementaryCertificationCourseId: 99,
-          reproducibilityRate: 71,
+          complementaryCertificationBadgeId: 89,
           complementaryCertificationBadgeKey: 'BADGE',
+          reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
           minimumReproducibilityRate: undefined,
           partnerKey: 'BADGE',
