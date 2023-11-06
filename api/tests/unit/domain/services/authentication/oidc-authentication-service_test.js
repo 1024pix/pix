@@ -17,6 +17,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
@@ -106,17 +107,24 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         describe('when config is invalid', function () {
           it('returns false', function () {
             // given
+            sinon.stub(logger, 'error');
+
             settings.someOidcProviderService = {
               isEnabled: true,
             };
             const oidcAuthenticationService = new OidcAuthenticationService({
               configKey: 'someOidcProviderService',
+              identityProvider: 'Example OP code',
+              additionalRequiredProperties: ['exampleProperty'],
             });
 
             // when
             const result = oidcAuthenticationService.isReady;
 
             // then
+            expect(logger.error).to.have.been.calledWithExactly(
+              'Invalid config for OIDC Provider "Example OP code": the following required properties are missing: clientId, clientSecret, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
+            );
             expect(result).to.be.false;
           });
         });

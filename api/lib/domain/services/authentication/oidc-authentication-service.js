@@ -81,9 +81,9 @@ class OidcAuthenticationService {
       return;
     }
 
-    const requiredProperties = DEFAULT_REQUIRED_PROPERTIES;
+    const requiredProperties = Array.from(DEFAULT_REQUIRED_PROPERTIES);
     if (additionalRequiredProperties) {
-      requiredProperties.concat(additionalRequiredProperties);
+      requiredProperties.push(...additionalRequiredProperties);
     }
     const missingRequiredProperties = [];
     requiredProperties.forEach((requiredProperty) => {
