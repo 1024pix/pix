@@ -11,7 +11,7 @@ import * as url from 'url';
 import { AttestationViewModel } from './AttestationViewModel.js';
 import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
 import { logger } from '../../logger.js';
-import { LANG } from '../../../domain/constants.js';
+import { LANG } from '../../../../src/shared/domain/constants.js';
 const { ENGLISH } = LANG;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

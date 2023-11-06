@@ -6,7 +6,7 @@ import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError 
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { organizationController } from './organization-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { LANG } from '../../domain/constants.js';
+import { LANG } from '../../../src/shared/domain/constants.js';
 
 const { FRENCH, ENGLISH } = LANG;
 
