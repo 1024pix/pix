@@ -203,13 +203,13 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
-  describe('#getUserInfoMissingFields', function () {
+  describe('#_getUserInfoMissingFields', function () {
     it('should return a message with missing fields list', async function () {
       // given
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = oidcAuthenticationService.getUserInfoMissingFields({
+      const response = oidcAuthenticationService._getUserInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: undefined,
@@ -227,7 +227,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = oidcAuthenticationService.getUserInfoMissingFields({
+      const response = oidcAuthenticationService._getUserInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: 'familyName',
@@ -468,7 +468,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
-        sinon.stub(oidcAuthenticationService, 'getUserInfoFromEndpoint');
+        sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint');
 
         // when
         await oidcAuthenticationService.getUserInfo({
@@ -477,14 +477,14 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         // then
-        expect(oidcAuthenticationService.getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
+        expect(oidcAuthenticationService._getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
           accessToken: 'accessToken',
         });
       });
     });
   });
 
-  describe('#getUserInfoFromEndpoint', function () {
+  describe('#_getUserInfoFromEndpoint', function () {
     // given
     const userInfoUrl = 'userInfoUrl';
     const accessToken = 'accessToken';
@@ -514,7 +514,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
 
       // when
-      const result = await oidcAuthenticationService.getUserInfoFromEndpoint({
+      const result = await oidcAuthenticationService._getUserInfoFromEndpoint({
         accessToken: 'accessToken',
         userInfoUrl: 'userInfoUrl',
       });
@@ -552,7 +552,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // when
         let errorResponse;
         try {
-          await oidcAuthenticationService.getUserInfoFromEndpoint({
+          await oidcAuthenticationService._getUserInfoFromEndpoint({
             accessToken: 'accessToken',
             userInfoUrl: 'userInfoUrl',
           });
@@ -597,7 +597,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // when
         const error = await catchErr(
-          oidcAuthenticationService.getUserInfoFromEndpoint,
+          oidcAuthenticationService._getUserInfoFromEndpoint,
           oidcAuthenticationService,
         )({
           accessToken,
@@ -646,7 +646,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // when
         const error = await catchErr(
-          oidcAuthenticationService.getUserInfoFromEndpoint,
+          oidcAuthenticationService._getUserInfoFromEndpoint,
           oidcAuthenticationService,
         )({
           accessToken: 'accessToken',

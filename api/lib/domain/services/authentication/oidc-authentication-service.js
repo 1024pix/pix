@@ -191,7 +191,7 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
-  async getUserInfoFromEndpoint({ accessToken }) {
+  async _getUserInfoFromEndpoint({ accessToken }) {
     const httpResponse = await httpAgent.get({
       url: this.userInfoUrl,
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -222,7 +222,7 @@ class OidcAuthenticationService {
       throw new OidcUserInfoFormatError(message, error.code, meta);
     }
 
-    const userInfoMissingFields = this.getUserInfoMissingFields({ userInfoContent });
+    const userInfoMissingFields = this._getUserInfoMissingFields({ userInfoContent });
     const message = `Un ou des champs obligatoires (${userInfoMissingFields}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
 
     if (userInfoMissingFields) {
@@ -246,7 +246,7 @@ class OidcAuthenticationService {
     };
   }
 
-  getUserInfoMissingFields({ userInfoContent }) {
+  _getUserInfoMissingFields({ userInfoContent }) {
     const missingFields = [];
     if (!userInfoContent.family_name) {
       missingFields.push('family_name');
@@ -269,7 +269,7 @@ class OidcAuthenticationService {
     const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
 
     if (isMandatoryUserInfoMissing) {
-      userInfoContent = await this.getUserInfoFromEndpoint({ accessToken });
+      userInfoContent = await this._getUserInfoFromEndpoint({ accessToken });
     }
 
     return {
