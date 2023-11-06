@@ -21,4 +21,35 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       expect(result).to.equal(serializedModule);
     });
   });
+
+  describe('#validate-answer', function () {
+    it('should call validateAnswer use-case and return the serialized CorrectionResponse', async function () {
+      // Given
+      const moduleSlug = 'slug';
+      const serializedCorrection = Symbol('serialized correction');
+      const answerId = Symbol('answerId');
+      const elementId = Symbol('elementId');
+      const correctionResponse = Symbol('correction');
+
+      const usecases = {
+        validateAnswer: sinon.stub(),
+      };
+      usecases.validateAnswer.withArgs({ moduleSlug, answerId, elementId }).returns(correctionResponse);
+
+      const correctionResponseSerializer = {
+        serialize: sinon.stub(),
+      };
+      correctionResponseSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
+
+      // When
+      const result = await modulesController.validateAnswer(
+        { payload: { data: { attributes: { answerId } } }, params: { moduleSlug, elementId } },
+        null,
+        { correctionResponseSerializer, usecases },
+      );
+
+      // Then
+      expect(result).to.equal(serializedCorrection);
+    });
+  });
 });
