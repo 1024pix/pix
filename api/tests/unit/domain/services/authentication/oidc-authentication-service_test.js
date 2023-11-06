@@ -272,7 +272,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       // when
       const response = oidcAuthenticationService._getUserInfoMissingFields({
-        userInfoContent: {
+        userInfo: {
           given_name: 'givenName',
           family_name: undefined,
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
@@ -290,7 +290,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
       // when
       const response = oidcAuthenticationService._getUserInfoMissingFields({
-        userInfoContent: {
+        userInfo: {
           given_name: 'givenName',
           family_name: 'familyName',
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
@@ -675,8 +675,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: {
             message: `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
-            typeOfUserInfoContent: 'string',
-            userInfoContent: '',
+            typeOfuserInfo: 'string',
+            userInfo: '',
           },
         });
       });
@@ -722,7 +722,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: errorMessage,
           missingFields: 'Champs manquants : family_name',
-          userInfoContent: {
+          userInfo: {
             given_name: 'givenName',
             family_name: undefined,
             nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',

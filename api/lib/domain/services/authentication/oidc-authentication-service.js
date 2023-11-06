@@ -200,19 +200,19 @@ class OidcAuthenticationService {
 
   async getUserInfo({ idToken, accessToken }) {
     const { family_name, given_name, sub, nonce } = jsonwebtoken.decode(idToken);
-    let userInfoContent;
+    let userInfo;
 
     const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
 
     if (isMandatoryUserInfoMissing) {
-      userInfoContent = await this._getUserInfoFromEndpoint({ accessToken });
+      userInfo = await this._getUserInfoFromEndpoint({ accessToken });
     }
 
     return {
-      firstName: given_name || userInfoContent?.given_name,
-      lastName: family_name || userInfoContent?.family_name,
-      externalIdentityId: sub || userInfoContent?.sub,
-      nonce: nonce || userInfoContent?.nonce,
+      firstName: given_name || userInfo?.given_name,
+      lastName: family_name || userInfo?.family_name,
+      externalIdentityId: sub || userInfo?.sub,
+      nonce: nonce || userInfo?.nonce,
     };
   }
 
@@ -267,14 +267,14 @@ class OidcAuthenticationService {
       throw new InvalidExternalAPIResponseError(message);
     }
 
-    const userInfoContent = httpResponse.data;
+    const userInfo = httpResponse.data;
 
-    if (!userInfoContent || typeof userInfoContent !== 'object') {
+    if (!userInfo || typeof userInfo !== 'object') {
       const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
       const dataToLog = {
         message,
-        typeOfUserInfoContent: typeof userInfoContent,
-        userInfoContent,
+        typeOfuserInfo: typeof userInfo,
+        userInfo,
       };
       monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
       const error = OIDC_ERRORS.USER_INFO.badResponseFormat;
@@ -284,14 +284,14 @@ class OidcAuthenticationService {
       throw new OidcUserInfoFormatError(message, error.code, meta);
     }
 
-    const userInfoMissingFields = this._getUserInfoMissingFields({ userInfoContent });
+    const userInfoMissingFields = this._getUserInfoMissingFields({ userInfo });
     const message = `Un ou des champs obligatoires (${userInfoMissingFields}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
 
     if (userInfoMissingFields) {
       monitoringTools.logErrorWithCorrelationIds({
         message,
         missingFields: userInfoMissingFields,
-        userInfoContent,
+        userInfo,
       });
       const error = OIDC_ERRORS.USER_INFO.missingFields;
       const meta = {
@@ -301,22 +301,22 @@ class OidcAuthenticationService {
     }
 
     return {
-      given_name: userInfoContent?.given_name,
-      family_name: userInfoContent?.family_name,
-      sub: userInfoContent?.sub,
-      nonce: userInfoContent?.nonce,
+      given_name: userInfo?.given_name,
+      family_name: userInfo?.family_name,
+      sub: userInfo?.sub,
+      nonce: userInfo?.nonce,
     };
   }
 
-  _getUserInfoMissingFields({ userInfoContent }) {
+  _getUserInfoMissingFields({ userInfo }) {
     const missingFields = [];
-    if (!userInfoContent.family_name) {
+    if (!userInfo.family_name) {
       missingFields.push('family_name');
     }
-    if (!userInfoContent.given_name) {
+    if (!userInfo.given_name) {
       missingFields.push('given_name');
     }
-    if (!userInfoContent.sub) {
+    if (!userInfo.sub) {
       missingFields.push('sub');
     }
 
