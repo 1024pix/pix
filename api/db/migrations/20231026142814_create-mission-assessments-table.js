@@ -2,7 +2,7 @@ const TABLE_NAME = 'mission-assessments';
 
 const up = async function (knex) {
   await knex.schema.createTable(TABLE_NAME, function (table) {
-    table.integer('assessmentId').notNullable().unsigned().references('assessments.id').index();
+    table.integer('assessmentId').primary().unsigned().references('assessments.id');
     table.string('missionId').notNullable();
     table.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
   });

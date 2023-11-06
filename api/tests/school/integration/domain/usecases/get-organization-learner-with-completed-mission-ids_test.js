@@ -55,7 +55,7 @@ describe('Integration | Usecase | get-organization-learner-with-completed-missio
         state: Assessment.states.COMPLETED,
       }).id;
       databaseBuilder.factory.buildMissionAssessment({
-        missionId: 'COMPLETED_ID',
+        missionId: 'OTHER_LEARNER_COMPLETED_ID',
         organizationLearnerId: otherOrganizationLearner.id,
         assessmentId: otherCompletedAssessmentId,
       });
