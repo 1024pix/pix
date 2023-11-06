@@ -1,6 +1,7 @@
 import * as clientS3 from '@aws-sdk/client-s3';
 import * as libStorage from '@aws-sdk/lib-storage';
 import * as s3RequestPresigner from '@aws-sdk/s3-request-presigner';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
 
 import bluebird from 'bluebird';
 
@@ -9,7 +10,13 @@ class S3ObjectStorageProvider {
   #s3Client;
   #bucket;
 
-  constructor({ credentials, endpoint, region, bucket, dependencies = { clientS3, libStorage, s3RequestPresigner } }) {
+  constructor({
+    credentials,
+    endpoint,
+    region,
+    bucket,
+    dependencies = { clientS3, libStorage, s3RequestPresigner, logger },
+  }) {
     this.#dependencies = dependencies;
 
     this.#s3Client = new dependencies.clientS3.S3Client({
@@ -38,12 +45,12 @@ class S3ObjectStorageProvider {
       endpoint,
       region,
       bucket,
-      dependencies,
+      dependencies: { clientS3, libStorage, s3RequestPresigner, logger, ...dependencies },
     });
   }
 
-  startUpload({ filename, readableStream }) {
-    return new this.#dependencies.libStorage.Upload({
+  async startUpload({ filename, readableStream }) {
+    const upload = new this.#dependencies.libStorage.Upload({
       client: this.#s3Client,
       params: {
         Key: filename,
@@ -53,6 +60,9 @@ class S3ObjectStorageProvider {
         partSize: 1024 * 1024 * 5,
       },
     });
+
+    upload.on('httpUploadProgress', (progress) => this.#dependencies.logger.trace(progress));
+    return upload.done();
   }
 
   async listFiles() {
@@ -61,7 +71,7 @@ class S3ObjectStorageProvider {
 
   async preSignFiles({ keys, expiresIn }) {
     return bluebird.mapSeries(keys, async (key) => {
-      const getObjectCommand = this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
+      const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
       return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
     });
   }

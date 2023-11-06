@@ -1,5 +1,5 @@
-import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { config } from '../../../../../lib/config.js';
+import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 
 const { cpf } = config;
 
@@ -11,7 +11,7 @@ const getPreSignedUrls = async function ({ date, dependencies = { S3ObjectStorag
     ({ Key }) => Key,
   );
 
-  return await s3ObjectStorageProvider.preSignFiles({
+  return s3ObjectStorageProvider.preSignFiles({
     keys: keysOfFilesModifiedAfter,
     expiresIn: cpf.storage.preSignedExpiresIn,
   });

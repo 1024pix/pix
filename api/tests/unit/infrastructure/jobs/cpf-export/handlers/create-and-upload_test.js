@@ -33,9 +33,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
     cpfCertificationXmlExportService = {
       buildXmlExport: sinon.stub(),
     };
-    uploadCpfFiles = {
-      upload: sinon.stub(),
-    };
+    uploadCpfFiles = sinon.stub();
     logger = { error: noop, info: noop };
     loggerSpy = sinon.spy(logger, 'error');
   });
@@ -74,9 +72,10 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
         writableStream: sinon.match(PassThrough),
         uuidService,
       });
-      expect(uploadCpfFiles.upload).to.have.been.calledWithExactly({
+      expect(uploadCpfFiles).to.have.been.calledWithExactly({
         filename: 'pix-cpf-export-20220101-114327.xml.gz',
         readableStream: sinon.match(Readable),
+        logger,
       });
       expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.have.been.calledWithExactly({
         certificationCourseIds: [12, 20, 33, 98, 114],
@@ -105,7 +104,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
 
       // then
       expect(cpfCertificationXmlExportService.buildXmlExport).to.not.have.been.called;
-      expect(uploadCpfFiles.upload).to.not.have.been.called;
+      expect(uploadCpfFiles).to.not.have.been.called;
       expect(cpfCertificationResultRepository.markCertificationCoursesAsExported).to.not.have.been.called;
 
       expect(loggerSpy).to.have.been.calledOnce;

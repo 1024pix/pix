@@ -85,7 +85,6 @@ import * as complementaryCertificationHabilitationRepository from '../../infrast
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
 import * as courseRepository from '../../infrastructure/repositories/course-repository.js';
-import * as cpfCertificationResultRepository from '../../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
@@ -298,7 +297,6 @@ const dependencies = {
   correctionRepository: repositories.correctionRepository,
   countryRepository,
   courseRepository,
-  cpfCertificationResultRepository,
   dataProtectionOfficerRepository,
   dateUtils,
   divisionRepository,

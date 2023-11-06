@@ -4,7 +4,7 @@ import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/clien
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-describe('Unit | Infrastructure | external-storage | s3-utils', function () {
+describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider', function () {
   const S3_CONFIG = {
     accessKeyId: 'accessKeyId',
     secretAccessKey: 'secretAccessKey',
@@ -45,7 +45,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
   });
 
   context('#startUpload', function () {
-    it('should return an upload client', async function () {
+    it('should call done() when the upload is successfully completed', async function () {
       // given
       const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
       sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
       const readableStreamStub = sinon.stub();
 
       // when
-      const uploadClient = s3ObjectStorageProvider.startUpload({
+      await s3ObjectStorageProvider.startUpload({
         filename: 'tales_of_villain.gzip',
         readableStream: readableStreamStub,
       });
@@ -75,7 +75,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
         },
       });
 
-      expect(uploadClient).to.equal(UploadStubbedInstance);
+      expect(UploadStubbedInstance.done).to.have.been.called;
     });
   });
 
@@ -101,7 +101,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
         Bucket: 'pix-cpf-dev',
       });
       expect(S3ClientStubbedInstance.send).to.have.been.calledWithExactly(ListObjectsV2CommandStubbedInstance);
-      expect(listFilesResult).to.deep.deep.equal({ Contents: [{ Key: 'hyperdimension_galaxy' }] });
+      expect(listFilesResult).to.deep.equal({ Contents: [{ Key: 'hyperdimension_galaxy' }] });
     });
   });
 
@@ -123,14 +123,10 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
         dependencies: { clientS3, s3RequestPresigner },
       });
 
-      const preSignFilesConfig = {
-        keys: [{ Key: 'we_love_sweets' }],
-        expiresIn: 3600,
-      };
-
       // when
       const result = await s3ObjectStorageProvider.preSignFiles({
-        ...preSignFilesConfig,
+        keys: [{ Key: 'we_love_sweets' }],
+        expiresIn: 3600,
       });
 
       // then
@@ -139,7 +135,7 @@ describe('Unit | Infrastructure | external-storage | s3-utils', function () {
         Key: { Key: 'we_love_sweets' },
       });
       expect(getSignedUrlStub).to.have.been.calledOnce;
-      expect(result).to.deep.deep.equal(['presigned_we_love_sweets']);
+      expect(result).to.deep.equal(['presigned_we_love_sweets']);
     });
   });
 });

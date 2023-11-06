@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import * as getPreSignedUrls from '../../../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
+import { getPreSignedUrls } from '../../../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
 import { config } from '../../../../../../src/shared/config.js';
 
 const { cpf } = config;
@@ -32,7 +32,7 @@ describe('Unit | UseCase | get-cpf-presigned-urls ', function () {
       });
 
       // when
-      await getPreSignedUrls.getPreSignedUrls({ date, dependencies: { S3ObjectStorageProvider } });
+      await getPreSignedUrls({ date, dependencies: { S3ObjectStorageProvider } });
 
       // then
       expect(listFilesStub).to.have.been.calledOnce;
@@ -70,9 +70,11 @@ describe('Unit | UseCase | get-cpf-presigned-urls ', function () {
       });
 
       // when
-      const result = await getPreSignedUrls.getPreSignedUrls({
+      const result = await getPreSignedUrls({
         date,
-        dependencies: { S3ObjectStorageProvider },
+        dependencies: {
+          S3ObjectStorageProvider,
+        },
       });
 
       // then
