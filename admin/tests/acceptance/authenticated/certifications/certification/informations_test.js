@@ -369,6 +369,55 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           assert.dom(finalResult.getByText('Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)')).exists();
         });
 
+        test('should be possible to unset jury level', async function (assert) {
+          //given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          const complementaryCertificationCourseResultWithExternal = server.create(
+            'complementary-certification-course-result-with-external',
+            {
+              complementaryCertificationCourseId: 1234,
+              pixResult: 'Pix+ Édu Initiale 1er degré Confirmé',
+              externalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
+              finalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
+              allowedExternalLevels: [
+                {
+                  value: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+                  label: 'Pix+ Édu Initiale 1er degré Confirmé',
+                },
+              ],
+            },
+          );
+          certification.update({ complementaryCertificationCourseResultWithExternal });
+
+          this.server.post('/admin/complementary-certification-course-results', (schema) => {
+            const complementaryCertificationCourseResultWithExternal =
+              schema.complementaryCertificationCourseResultWithExternals.first();
+
+            complementaryCertificationCourseResultWithExternal.update({
+              externalResult: 'En attente',
+              finalResult: 'En attente volet Jury',
+            });
+          });
+
+          const screen = await visit(`/certifications/${certification.id}`);
+
+          // when
+          await click(screen.getByRole('button', { name: 'Modifier le volet jury' }));
+
+          await click(screen.getByRole('button', { name: 'Sélectionner un niveau' }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: 'En attente' }));
+
+          await click(screen.getByRole('button', { name: 'Modifier le niveau du jury' }));
+
+          const finalResult = within(screen.getByText('NIVEAU FINAL').parentElement);
+
+          // then
+          assert.dom(screen.getByText('En attente')).exists();
+
+          assert.dom(finalResult.getByText('En attente volet Jury')).exists();
+        });
+
         /**
          * This test has been created to ensure a bug is fixed
          * Step to reproduce :

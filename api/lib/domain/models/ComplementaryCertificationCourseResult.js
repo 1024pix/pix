@@ -3,6 +3,11 @@ const sources = {
   PIX: 'PIX',
 };
 
+const juryOptions = {
+  REJECTED: 'REJECTED',
+  UNSET: 'UNSET',
+};
+
 class ComplementaryCertificationCourseResult {
   constructor({ complementaryCertificationCourseId, partnerKey, source, acquired, label } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
@@ -23,7 +28,7 @@ class ComplementaryCertificationCourseResult {
   }
 
   static buildFromJuryLevel({ complementaryCertificationCourseId, juryLevel, pixPartnerKey }) {
-    if (juryLevel === 'REJECTED') {
+    if (juryLevel === juryOptions.REJECTED) {
       return new ComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
         partnerKey: pixPartnerKey,
@@ -54,5 +59,6 @@ class ComplementaryCertificationCourseResult {
 }
 
 ComplementaryCertificationCourseResult.sources = sources;
+ComplementaryCertificationCourseResult.juryOptions = juryOptions;
 
-export { ComplementaryCertificationCourseResult, sources };
+export { ComplementaryCertificationCourseResult, sources, juryOptions };

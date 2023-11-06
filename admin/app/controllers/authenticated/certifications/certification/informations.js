@@ -86,6 +86,7 @@ export default class CertificationInformationsController extends Controller {
     return [
       ...this.certification.complementaryCertificationCourseResultWithExternal.get('allowedExternalLevels'),
       { value: 'REJECTED', label: 'Rejetée' },
+      { value: 'UNSET', label: 'En attente' },
     ];
   }
 
