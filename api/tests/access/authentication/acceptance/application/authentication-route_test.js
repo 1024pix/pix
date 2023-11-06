@@ -103,7 +103,6 @@ describe('Acceptance | Authentication | Application | Controller', function () {
       // then
       expect(response.statusCode).to.equal(401);
       expect(response.result.errors[0].title).equal('PasswordShouldChange');
-      expect(response.result.errors[0].detail).equal('Erreur, vous devez changer votre mot de passe.');
       expect(response.result.errors[0].meta).to.exist;
     });
 

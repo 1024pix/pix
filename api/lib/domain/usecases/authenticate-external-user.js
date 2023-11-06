@@ -10,7 +10,7 @@ import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-} from '../../../src/access/shared/domain/errors.js';
+} from '../../../src/access/authentication/domain/errors.js';
 
 async function authenticateExternalUser({
   username,

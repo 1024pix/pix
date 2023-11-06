@@ -10,7 +10,8 @@ import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-} from '../../access/shared/domain/errors.js';
+} from '../../access/authentication/domain/errors.js';
+import { AdminMemberError } from '../../access/authorization/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -81,6 +82,16 @@ function _mapToHttpError(error) {
     return new HttpErrors.BaseHttpError(error.message);
   }
 
+  if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+  if (error instanceof DomainErrors.InvalidResultRecipientTokenError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+  if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+
   if (error instanceof DomainErrors.LocaleFormatError) {
     return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }
@@ -88,6 +99,9 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }
 
+  if (error instanceof AdminMemberError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
+  }
   if (error instanceof MissingOrInvalidCredentialsError) {
     return new HttpErrors.UnauthorizedError("L'adresse e-mail et/ou le mot de passe saisis sont incorrects.");
   }

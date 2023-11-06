@@ -4,7 +4,7 @@ import { catchErr, expect } from '../../../../test-helper.js';
 
 import * as encryptionService from '../../../../../src/shared/domain/services/encryption-service.js';
 
-import { PasswordNotMatching } from '../../../../../src/access/shared/domain/errors.js';
+import { PasswordNotMatching } from '../../../../../src/access/authentication/domain/errors.js';
 
 describe('Unit | Shared | Domain | Services | Encryption', function () {
   describe('#checkPassword', function () {

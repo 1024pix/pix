@@ -9,9 +9,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
-  if (error instanceof DomainErrors.AdminMemberError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
-  }
   if (error instanceof DomainErrors.OrganizationArchivedError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
@@ -235,15 +232,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidResultRecipientTokenError) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
-    return new HttpErrors.UnauthorizedError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {
     return new HttpErrors.BadRequestError(error.message);

@@ -1,14 +1,13 @@
 import jsonwebtoken from 'jsonwebtoken';
 
+import { config } from '../../../../lib/config.js';
 import {
-  InvalidTemporaryKeyError,
+  ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-} from '../../../../lib/domain/errors.js';
-
-import { config } from '../../../../lib/config.js';
-import { ForbiddenAccess } from '../errors.js';
+  InvalidTemporaryKeyError,
+} from '../errors.js';
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {

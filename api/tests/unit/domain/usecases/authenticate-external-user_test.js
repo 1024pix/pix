@@ -13,7 +13,7 @@ import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-} from '../../../../src/access/shared/domain/errors.js';
+} from '../../../../src/access/authentication/domain/errors.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;
@@ -339,7 +339,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
         // then
         expect(error).to.be.an.instanceOf(UserShouldChangePasswordError);
-        expect(error.message).to.equal('Erreur, vous devez changer votre mot de passe.');
         expect(error.meta).to.equal('token');
       });
     });

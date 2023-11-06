@@ -2,7 +2,6 @@ import { expect, hFake, sinon } from '../../test-helper.js';
 
 import {
   AccountRecoveryDemandExpired,
-  AdminMemberError,
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
@@ -350,19 +349,6 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
-    });
-
-    it('should instantiate UnprocessableEntityError when AdminMemberError', async function () {
-      // given
-      const error = new AdminMemberError('fake message', 'FAKE_ERROR_CODE');
-      sinon.stub(HttpErrors, 'UnprocessableEntityError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate UnprocessableEntityError when CertificationAttestationGenerationError', async function () {

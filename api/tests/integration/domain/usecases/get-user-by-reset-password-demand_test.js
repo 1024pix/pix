@@ -7,13 +7,10 @@ import * as userRepository from '../../../../src/shared/infrastructure/repositor
 
 import { User } from '../../../../lib/domain/models/User.js';
 
-import {
-  InvalidTemporaryKeyError,
-  PasswordResetDemandNotFoundError,
-  UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 
 import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
+import { InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | UseCases | get-user-by-reset-password-demand', function () {
   const email = 'user@example.net';

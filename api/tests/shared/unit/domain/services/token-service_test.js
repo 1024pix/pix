@@ -4,16 +4,15 @@ import jsonwebtoken from 'jsonwebtoken';
 
 import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 import {
-  InvalidTemporaryKeyError,
+  ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-} from '../../../../../lib/domain/errors.js';
-
-import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
-import { config as settings } from '../../../../../src/shared/config.js';
-import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
+  InvalidTemporaryKeyError,
+} from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Shared | Domain | Services | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {

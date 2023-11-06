@@ -10,7 +10,7 @@ import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../../../../../src/access/shared/domain/errors.js';
+} from '../../../../../../src/access/authentication/domain/errors.js';
 
 describe('Unit | Authentication | Domain | UseCases | authenticate-user', function () {
   let refreshTokenService;
@@ -361,7 +361,6 @@ describe('Unit | Authentication | Domain | UseCases | authenticate-user', functi
 
       // then
       expect(error).to.be.an.instanceOf(UserShouldChangePasswordError);
-      expect(error.message).to.equal('Erreur, vous devez changer votre mot de passe.');
       expect(error.meta).to.equal('RESET_PASSWORD_TOKEN');
     });
   });

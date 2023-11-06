@@ -10,10 +10,11 @@ import {
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
+import { AdminMemberError } from '../../../../src/access/authorization/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../../../src/access/shared/domain/errors.js';
+} from '../../../../src/access/authentication/domain/errors.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {
   describe('#handle', function () {
@@ -185,6 +186,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message, meta);
+    });
+
+    it('should instantiate UnprocessableEntityError when AdminMemberError', async function () {
+      // given
+      const error = new AdminMemberError('fake message', 'FAKE_ERROR_CODE');
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     context('Locale errors', function () {

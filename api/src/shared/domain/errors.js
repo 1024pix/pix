@@ -41,6 +41,38 @@ class CsvImportError extends DomainError {
   }
 }
 
+class InvalidExternalUserTokenError extends DomainError {
+  constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
+    super(message);
+  }
+}
+
+class InvalidResultRecipientTokenError extends DomainError {
+  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
+    super(message);
+  }
+}
+
+class InvalidSessionResultError extends DomainError {
+  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
+    super(message);
+  }
+}
+
+class InvalidTemporaryKeyError extends DomainError {
+  constructor(message = 'Demande de réinitialisation invalide.') {
+    super(message);
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.'],
+      },
+    };
+  }
+}
+
 class NotFoundError extends DomainError {
   constructor(message = 'Erreur, ressource introuvable.') {
     super(message);
@@ -89,6 +121,10 @@ export {
   ForbiddenAccess,
   EntityValidationError,
   CsvImportError,
+  InvalidExternalUserTokenError,
+  InvalidResultRecipientTokenError,
+  InvalidSessionResultError,
+  InvalidTemporaryKeyError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
   LocaleFormatError,
