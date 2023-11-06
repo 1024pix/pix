@@ -1,8 +1,9 @@
-import { catchErrSync, expect, sinon } from '../../../../../test-helper.js';
+import { expect, sinon } from '../../../../../test-helper.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
 
 describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider', function () {
   const S3_CONFIG = {
@@ -23,16 +24,16 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
   });
 
   context('it should create a S3 Object Storage provider', function () {
-    it('should return an error without the required provider configuration', async function () {
+    it('should inform when it is created without the required provider configuration', async function () {
       // given
+      const loggerStub = sinon.stub(logger, 'warn');
       const badS3Config = { contains: 'not_the_right_config' };
 
       // when
-      const error = catchErrSync((context) => S3ObjectStorageProvider.createClient(context))(badS3Config);
+      S3ObjectStorageProvider.createClient(badS3Config);
 
       // then
-      expect(error).to.be.instanceOf(Error);
-      expect(error.message).to.equal('Missing S3 Object Storage configuration');
+      expect(loggerStub).to.have.been.calledWithExactly('Invalid S3 configuration provided');
     });
 
     it('should create a provider', async function () {
