@@ -5,6 +5,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
   const results = await knex('complementary-certification-courses')
     .select({
       complementaryCertificationCourseId: 'complementary-certification-courses.id',
+      complementaryCertificationBadgeId: 'complementary-certification-courses.complementaryCertificationBadgeId',
       minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
       complementaryCertificationBadgeKey: 'badges.key',
       hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
@@ -26,6 +27,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
   return results.map(
     ({
       complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
       minimumReproducibilityRate,
       complementaryCertificationBadgeKey,
       hasComplementaryReferential,
@@ -33,6 +35,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
     }) =>
       new ComplementaryCertificationScoringCriteria({
         complementaryCertificationCourseId,
+        complementaryCertificationBadgeId,
         minimumReproducibilityRate: Number(minimumReproducibilityRate),
         complementaryCertificationBadgeKey,
         hasComplementaryReferential,

@@ -8,6 +8,7 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
     beforeEach(function () {
       validArguments = {
         complementaryCertificationCourseId: 999,
+        complementaryCertificationBadgeId: 60,
         certificationCourseId: 123,
         partnerKey: 'partnerKey',
       };

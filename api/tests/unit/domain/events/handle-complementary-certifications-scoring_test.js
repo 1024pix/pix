@@ -85,6 +85,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           .resolves([
             domainBuilder.buildComplementaryCertificationScoringCriteria({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               minimumReproducibilityRate: 70,
               complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
               hasComplementaryReferential: true,
@@ -106,6 +107,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
         expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
           ComplementaryCertificationCourseResult.from({
             complementaryCertificationCourseId: 999,
+            complementaryCertificationBadgeId: 888,
             partnerKey: 'PIX_PLUS_TEST',
             source: ComplementaryCertificationCourseResult.sources.PIX,
             acquired: true,
@@ -141,6 +143,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           const complementaryCertificationScoringCriteria = [
             domainBuilder.buildComplementaryCertificationScoringCriteria({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               minimumReproducibilityRate: 100,
               complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
               hasComplementaryReferential: true,
@@ -159,6 +162,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
@@ -197,6 +201,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             .resolves([
               domainBuilder.buildComplementaryCertificationScoringCriteria({
                 complementaryCertificationCourseId: 999,
+                complementaryCertificationBadgeId: 888,
                 minimumReproducibilityRate: 75,
                 complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
                 hasComplementaryReferential: true,
@@ -217,6 +222,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
@@ -255,6 +261,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             .resolves([
               domainBuilder.buildComplementaryCertificationScoringCriteria({
                 complementaryCertificationCourseId: 999,
+                complementaryCertificationBadgeId: 888,
                 minimumReproducibilityRate: 75,
                 complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
                 hasComplementaryReferential: true,
@@ -275,6 +282,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: true,
@@ -312,6 +320,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           .resolves([
             domainBuilder.buildComplementaryCertificationScoringCriteria({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               minimumReproducibilityRate: 70,
               minimumEarnedPix: 50,
               complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
@@ -335,6 +344,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
         expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
           ComplementaryCertificationCourseResult.from({
             complementaryCertificationCourseId: 999,
+            complementaryCertificationBadgeId: 888,
             partnerKey: 'PIX_PLUS_TEST',
             source: ComplementaryCertificationCourseResult.sources.PIX,
             acquired: true,
@@ -373,6 +383,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           const complementaryCertificationScoringCriteria = [
             domainBuilder.buildComplementaryCertificationScoringCriteria({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               minimumReproducibilityRate: 75,
               complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
               hasComplementaryReferential: false,
@@ -392,6 +403,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
@@ -430,6 +442,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             .resolves([
               domainBuilder.buildComplementaryCertificationScoringCriteria({
                 complementaryCertificationCourseId: 999,
+                complementaryCertificationBadgeId: 888,
                 minimumReproducibilityRate: 75,
                 complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
                 hasComplementaryReferential: false,
@@ -453,6 +466,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
@@ -491,6 +505,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             .resolves([
               domainBuilder.buildComplementaryCertificationScoringCriteria({
                 complementaryCertificationCourseId: 999,
+                complementaryCertificationBadgeId: 888,
                 minimumReproducibilityRate: 70,
                 complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
                 hasComplementaryReferential: false,
@@ -514,6 +529,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
@@ -552,6 +568,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             .resolves([
               domainBuilder.buildComplementaryCertificationScoringCriteria({
                 complementaryCertificationCourseId: 999,
+                complementaryCertificationBadgeId: 888,
                 minimumReproducibilityRate: 70,
                 complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
                 hasComplementaryReferential: false,
@@ -575,6 +592,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 888,
               partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: true,

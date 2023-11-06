@@ -21,9 +21,15 @@ describe('Integration | Repository | complementary-certification-courses-result-
             certificationCourseId: 99,
             complementaryCertificationId: 1,
           });
-          databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' });
+          databaseBuilder.factory.buildBadge({ id: 51, key: 'PIX_TEST_1' });
+          databaseBuilder.factory.buildComplementaryCertificationBadge({
+            id: 42,
+            badgeId: 51,
+            complementaryCertificationId: 1,
+          });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 999,
+            complementaryCertificationBadgeId: 42,
             partnerKey: 'PIX_TEST_1',
             source: ComplementaryCertificationCourseResult.sources.PIX,
             acquired: true,
@@ -43,6 +49,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 999,
+              complementaryCertificationBadgeId: 42,
               partnerKey: 'PIX_TEST_1',
               source: ComplementaryCertificationCourseResult.sources.PIX,
             }),
@@ -112,6 +119,10 @@ describe('Integration | Repository | complementary-certification-courses-result-
   });
 
   describe('#save', function () {
+    afterEach(function () {
+      return knex('complementary-certification-course-results').delete();
+    });
+
     describe('when the ComplementaryCertificationCourseResult does not exist', function () {
       it('saves the ComplementaryCertificationCourseResult', async function () {
         // given
@@ -127,7 +138,13 @@ describe('Integration | Repository | complementary-certification-courses-result-
         });
 
         databaseBuilder.factory.buildBadge({
+          id: 10,
           key: 'PIX_TEST_1',
+        });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 60,
+          badgeId: 10,
+          complementaryCertificationId: 1,
         });
 
         await databaseBuilder.commit();
@@ -135,6 +152,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
         const complementaryCertificationCourseResult = domainBuilder.buildComplementaryCertificationCourseResult({
           acquired: true,
           complementaryCertificationCourseId: 999,
+          complementaryCertificationBadgeId: 60,
           partnerKey: 'PIX_TEST_1',
           source: ComplementaryCertificationCourseResult.sources.PIX,
         });
@@ -143,18 +161,14 @@ describe('Integration | Repository | complementary-certification-courses-result-
         await complementaryCertificationCourseResultRepository.save(complementaryCertificationCourseResult);
 
         // then
-        const savedComplementaryCertificationCourseResult = await knex('complementary-certification-course-results')
-          .where({
-            acquired: true,
-            complementaryCertificationCourseId: 999,
-            partnerKey: 'PIX_TEST_1',
-            source: ComplementaryCertificationCourseResult.sources.PIX,
-          })
-          .first();
+        const savedComplementaryCertificationCourseResult = await knex(
+          'complementary-certification-course-results',
+        ).first();
 
         expect(_.omit(savedComplementaryCertificationCourseResult, 'id')).to.deep.equal({
           acquired: true,
           complementaryCertificationCourseId: 999,
+          complementaryCertificationBadgeId: 60,
           partnerKey: 'PIX_TEST_1',
           source: ComplementaryCertificationCourseResult.sources.PIX,
         });
@@ -175,12 +189,23 @@ describe('Integration | Repository | complementary-certification-courses-result-
           complementaryCertificationId: 1,
         });
 
-        databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1' });
-        databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_2' });
+        databaseBuilder.factory.buildBadge({ id: 10, key: 'PIX_TEST_1' });
+        databaseBuilder.factory.buildBadge({ id: 11, key: 'PIX_TEST_2' });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 60,
+          badgeId: 10,
+          complementaryCertificationId: 1,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 61,
+          badgeId: 11,
+          complementaryCertificationId: 1,
+        });
 
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           acquired: true,
           complementaryCertificationCourseId: 999,
+          complementaryCertificationBadgeId: 61,
           partnerKey: 'PIX_TEST_1',
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         });
@@ -190,6 +215,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
         const complementaryCertificationCourseResult = domainBuilder.buildComplementaryCertificationCourseResult({
           acquired: true,
           complementaryCertificationCourseId: 999,
+          complementaryCertificationBadgeId: 61,
           partnerKey: 'PIX_TEST_2',
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         });
@@ -208,6 +234,7 @@ describe('Integration | Repository | complementary-certification-courses-result-
         expect(_.omit(results[0], 'id')).to.deep.equal({
           acquired: true,
           complementaryCertificationCourseId: 999,
+          complementaryCertificationBadgeId: 61,
           partnerKey: 'PIX_TEST_2',
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         });
