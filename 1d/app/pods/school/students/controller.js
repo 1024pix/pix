@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 export default class Students extends Controller {
   @service currentLearner;
   @service router;
-  @service store;
 
   queryParams = ['division'];
 
