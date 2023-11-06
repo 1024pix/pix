@@ -242,11 +242,11 @@ describe('Unit | Service | Certification Challenge Service', function () {
     let answerRepository;
 
     beforeEach(function () {
-      challengeRepository = { findOperativeHavingLocale: sinon.stub() };
+      challengeRepository = { findOperative: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       answerRepository = { findChallengeIdsFromAnswerIds: sinon.stub() };
 
-      challengeRepository.findOperativeHavingLocale
+      challengeRepository.findOperative
         .withArgs(locale)
         .resolves([
           challengeForSkillCitation4,
@@ -819,7 +819,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         }),
       ];
 
-      challengeRepository.findOperativeHavingLocale
+      challengeRepository.findOperative
         .withArgs(locale)
         .resolves([
           domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skill: toto6 }),
@@ -926,7 +926,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
         }),
       ];
 
-      challengeRepository.findOperativeHavingLocale
+      challengeRepository.findOperative
         .withArgs(locale)
         .resolves([
           domainBuilder.buildChallenge({ id: 'challengeToto6', competenceId: 'competenceId', skill: toto6 }),
@@ -1180,8 +1180,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
 
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -1365,8 +1365,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 2));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -1557,8 +1557,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -1750,8 +1750,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -1900,8 +1900,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit5', { id: 'faireSonLit5_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -1994,8 +1994,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents2', { id: 'laverLesDents2_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit', { id: 'faireSonLit6_id' }, 1));
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -2168,8 +2168,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
       challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
       challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
-      const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-      challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+      const challengeRepository = { findOperative: sinon.stub() };
+      challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
       // when
       const certificationChallengesForPlus = await certificationChallengesService.pickCertificationChallengesForPixPlus(
@@ -2336,8 +2336,8 @@ describe('Unit | Service | Certification Challenge Service', function () {
         challenges = challenges.concat(_createChallengeWithDecl('ch_laverLesDents3', { id: 'laverLesDents3_id' }, 1));
         challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit4', { id: 'faireSonLit4_id' }, 1));
         challenges = challenges.concat(_createChallengeWithDecl('ch_faireSonLit6', { id: 'faireSonLit6_id' }, 1));
-        const challengeRepository = { findOperativeHavingLocale: sinon.stub() };
-        challengeRepository.findOperativeHavingLocale.withArgs(locale).resolves(challenges);
+        const challengeRepository = { findOperative: sinon.stub() };
+        challengeRepository.findOperative.withArgs(locale).resolves(challenges);
 
         // when
         const certificationChallengesForPlus =
