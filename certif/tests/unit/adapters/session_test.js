@@ -104,10 +104,7 @@ module('Unit | Adapter | session', function (hooks) {
           isCompleted: true,
           abortReason: null,
         };
-        const certificationReport1 = store.createRecord('certification-report', {
-          get: sinon.stub().returns(1),
-          ...certifReportAttributes1,
-        });
+
         const certifReportAttributes2 = {
           certificationCourseId: 2,
           firstName: 'Tom',
@@ -117,16 +114,12 @@ module('Unit | Adapter | session', function (hooks) {
           isCompleted: true,
           abortReason: null,
         };
-        const certificationReport2 = store.createRecord('certification-report', {
-          get: sinon.stub().returns(2),
-          ...certifReportAttributes2,
+
+        const session = await _createSessionWithCertificationReports({
+          store,
+          sessionData: { examinerGlobalComment, hasIncident, hasJoiningIssue },
+          certificationReportsData: [certifReportAttributes1, certifReportAttributes2],
         });
-        const session = {
-          examinerGlobalComment,
-          hasIncident,
-          hasJoiningIssue,
-          certificationReports: [certificationReport1, certificationReport2],
-        };
         const snapshot = {
           id: 123,
           adapterOptions: { finalization: true },
@@ -149,14 +142,14 @@ module('Unit | Adapter | session', function (hooks) {
               included: [
                 {
                   type: 'certification-reports',
-                  id: 1,
+                  id: '1',
                   attributes: {
                     ...certifReportAttributes1,
                   },
                 },
                 {
                   type: 'certification-reports',
-                  id: 2,
+                  id: '2',
                   attributes: {
                     ...certifReportAttributes2,
                   },
@@ -217,3 +210,14 @@ module('Unit | Adapter | session', function (hooks) {
     });
   });
 });
+
+async function _createSessionWithCertificationReports({ store, sessionData = {}, certificationReportsData = [] }) {
+  const session = store.createRecord('session', sessionData);
+
+  if (certificationReportsData.length) {
+    const certificationReports = await session.get('certificationReports');
+    certificationReportsData.forEach(certificationReports.createRecord);
+  }
+
+  return session;
+}
