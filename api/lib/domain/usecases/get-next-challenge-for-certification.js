@@ -80,6 +80,8 @@ const getNextChallengeForCertification = async function ({
       courseId: certificationCourse.getId(),
       isNeutralized: false,
       certifiableBadgeKey: null,
+      discriminant: challenge.discriminant,
+      difficulty: challenge.difficulty,
     });
 
     await certificationChallengeRepository.save({ certificationChallenge });
