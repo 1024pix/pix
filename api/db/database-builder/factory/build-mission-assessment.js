@@ -9,7 +9,7 @@ const buildMissionAssessment = function ({
   organizationLearnerId,
   createdAt = new Date('2020-01-01'),
 } = {}) {
-  assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment({ missionId }).id : assessmentId;
+  assessmentId = _.isUndefined(assessmentId) ? buildPix1dAssessment().id : assessmentId;
   organizationLearnerId = _.isUndefined(organizationLearnerId) ? buildOrganizationLearner().id : organizationLearnerId;
 
   const values = {

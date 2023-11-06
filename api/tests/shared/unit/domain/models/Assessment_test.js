@@ -445,14 +445,10 @@ describe('Unit | Domain | Models | Assessment', function () {
 
   describe('#createForPix1dMission', function () {
     it('should return a proper mission assessment for pix1d', function () {
-      // given
-      const missionId = 'rec123ABC';
-
       // when
-      const assessment = Assessment.createForPix1dMission({ missionId });
+      const assessment = Assessment.createForPix1dMission();
 
       // then
-      expect(assessment.missionId).to.equal(missionId);
       expect(assessment.state).to.equal(Assessment.states.STARTED);
       expect(assessment.type).to.equal(Assessment.types.PIX1D_MISSION);
       expect(assessment.method).to.equal(Assessment.methods.PIX1D);

@@ -6,7 +6,7 @@ import { createMissionAssessment } from '../../../../../src/school/domain/usecas
 
 describe('Integration | UseCases | create-mission-assessment', function () {
   let dependencies;
-  const testMissionId = 'thematic6789';
+  const missionId = 'thematic6789';
 
   beforeEach(async function () {
     dependencies = {
@@ -16,16 +16,14 @@ describe('Integration | UseCases | create-mission-assessment', function () {
   });
 
   afterEach(async function () {
-    await knex('mission-assessments').where({ missionId: testMissionId }).delete();
-    await knex('assessments').where({ missionId: testMissionId }).delete();
+    await knex('mission-assessments').where({ missionId }).delete();
+    await knex('assessments').delete();
   });
 
   it('should save a new assessment', async function () {
-    const missionId = testMissionId;
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
     await databaseBuilder.commit();
     const expectedAssessment = {
-      missionId: testMissionId,
       state: 'started',
       type: 'PIX1D_MISSION',
       method: 'PIX1D',
@@ -37,13 +35,12 @@ describe('Integration | UseCases | create-mission-assessment', function () {
       ...dependencies,
     });
 
-    const record = await knex('assessments').where({ missionId }).first();
+    const record = await knex('assessments').first();
 
     expect(_.pick(record, Object.keys(expectedAssessment))).to.deep.equal(expectedAssessment);
   });
 
   it('should save a new mission assessment', async function () {
-    const missionId = testMissionId;
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
     await databaseBuilder.commit();
 
@@ -54,7 +51,6 @@ describe('Integration | UseCases | create-mission-assessment', function () {
     });
 
     const expectedMissionAssessment = {
-      missionId: testMissionId,
       organizationLearnerId,
       assessmentId: createdAssessment.id,
     };
