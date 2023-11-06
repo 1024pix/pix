@@ -103,7 +103,7 @@
     "eslint-plugin-mocha": "^10.0.5",
     "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-unicorn": "^48.0.0",
+    "eslint-plugin-unicorn": "^49.0.0",
     "form-data": "^4.0.0",
     "inquirer": "^9.0.0",
     "libxmljs2": "^0.32.0",
