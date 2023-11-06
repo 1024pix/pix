@@ -1,4 +1,5 @@
 import * as moduleSerializer from '../../infrastructure/serializers/jsonapi/module-serializer.js';
+import * as correctionResponseSerializer from '../../infrastructure/serializers/jsonapi/correction-response-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 const getBySlug = async function (request, h, dependencies = { moduleSerializer, usecases }) {
@@ -8,6 +9,14 @@ const getBySlug = async function (request, h, dependencies = { moduleSerializer,
   return dependencies.moduleSerializer.serialize(module);
 };
 
-const modulesController = { getBySlug };
+const validateAnswer = async function (request, h, dependencies = { correctionResponseSerializer, usecases }) {
+  const { moduleSlug, elementId } = request.params;
+  const { answerId } = request.payload.data.attributes;
+  const module = await dependencies.usecases.validateAnswer({ moduleSlug, answerId, elementId });
+
+  return dependencies.correctionResponseSerializer.serialize(module);
+};
+
+const modulesController = { getBySlug, validateAnswer };
 
 export { modulesController };
