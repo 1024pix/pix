@@ -11,8 +11,8 @@ const getBySlug = async function (request, h, dependencies = { moduleSerializer,
 
 const validateAnswer = async function (request, h, dependencies = { correctionResponseSerializer, usecases }) {
   const { moduleSlug, elementId } = request.params;
-  const { proposalSelectedId } = request.payload.data.attributes;
-  const module = await dependencies.usecases.validateAnswer({ moduleSlug, proposalSelectedId, elementId });
+  const { answerId } = request.payload.data.attributes;
+  const module = await dependencies.usecases.validateAnswer({ moduleSlug, answerId, elementId });
 
   return dependencies.correctionResponseSerializer.serialize(module);
 };

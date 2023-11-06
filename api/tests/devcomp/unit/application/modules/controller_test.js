@@ -27,14 +27,14 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       // Given
       const moduleSlug = 'slug';
       const serializedCorrection = Symbol('serialized correction');
-      const proposalSelectedId = Symbol('proposalSelectedID');
+      const answerId = Symbol('answerId');
       const elementId = Symbol('elementId');
       const correctionResponse = Symbol('correction');
 
       const usecases = {
         validateAnswer: sinon.stub(),
       };
-      usecases.validateAnswer.withArgs({ moduleSlug, proposalSelectedId, elementId }).returns(correctionResponse);
+      usecases.validateAnswer.withArgs({ moduleSlug, answerId, elementId }).returns(correctionResponse);
 
       const correctionResponseSerializer = {
         serialize: sinon.stub(),
@@ -43,7 +43,7 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
 
       // When
       const result = await modulesController.validateAnswer(
-        { payload: { proposalSelectedId }, params: { moduleSlug, elementId } },
+        { payload: { data: { attributes: { answerId } } }, params: { moduleSlug, elementId } },
         null,
         { correctionResponseSerializer, usecases },
       );

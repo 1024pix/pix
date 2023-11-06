@@ -1,7 +1,7 @@
-async function validateAnswer({ moduleSlug, proposalSelectedId, elementId, moduleRepository }) {
+async function validateAnswer({ moduleSlug, answerId, elementId, moduleRepository }) {
   const foundModule = await moduleRepository.getBySlug({ slug: moduleSlug });
   const element = foundModule.getElementById(elementId);
-  return element.assess(proposalSelectedId);
+  return element.assess(answerId);
 }
 
 export { validateAnswer };
