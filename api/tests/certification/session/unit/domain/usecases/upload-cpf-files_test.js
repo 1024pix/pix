@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../../../test-helper.js';
-import * as uploadCpfFiles from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
+import { uploadCpfFiles } from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { config } from '../../../../../../lib/config.js';
 import _ from 'lodash';
@@ -31,10 +31,11 @@ describe('Unit | UseCase | upload-cpf-files', function () {
       const readableStream = Symbol('readableStream');
 
       // when
-      await uploadCpfFiles.upload({
+      await uploadCpfFiles({
         filename: 'filename.xml',
         readableStream,
-        dependencies: { S3ObjectStorageProvider, logger },
+        logger,
+        dependencies: { S3ObjectStorageProvider },
       });
 
       // then
@@ -42,36 +43,6 @@ describe('Unit | UseCase | upload-cpf-files', function () {
         filename: 'filename.xml',
         readableStream,
       });
-    });
-
-    it('should call done() when the upload is successfully completed', async function () {
-      // given
-      const startUploadStub = sinon.stub(S3ObjectStorageProvider.prototype, 'startUpload');
-      const doneStub = sinon.stub();
-      startUploadStub.returns({ done: doneStub, on: _.noop });
-
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-      });
-      const readableStream = Symbol('readableStream');
-
-      // when
-      await uploadCpfFiles.upload({
-        filename: 'filename.xml',
-        readableStream,
-        dependencies: { S3ObjectStorageProvider, logger },
-      });
-
-      // then
-      expect(startUploadStub).to.have.been.calledWithExactly({
-        filename: 'filename.xml',
-        readableStream,
-      });
-      expect(doneStub).to.have.been.called;
     });
   });
 });

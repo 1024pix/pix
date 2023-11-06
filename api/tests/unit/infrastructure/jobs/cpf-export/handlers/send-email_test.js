@@ -8,9 +8,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
   let getPreSignedUrls;
   let mailService;
   beforeEach(function () {
-    getPreSignedUrls = {
-      getPreSignedUrls: sinon.stub(),
-    };
+    getPreSignedUrls = sinon.stub();
     mailService = {
       sendCpfEmail: sinon.stub(),
     };
@@ -34,7 +32,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     await sendEmail({ getPreSignedUrls, mailService });
 
     // then
-    expect(getPreSignedUrls.getPreSignedUrls).to.have.been.calledWithExactly({
+    expect(getPreSignedUrls).to.have.been.calledWithExactly({
       date: expectedDate,
     });
   });
@@ -46,7 +44,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     sinon.stub(cpf, 'plannerJob').value({ cron: `0 0 ${day} ${month} *` });
     sinon.stub(cpf, 'sendEmailJob').value({ recipient: 'teamcertif@example.net' });
 
-    getPreSignedUrls.getPreSignedUrls.resolves([
+    getPreSignedUrls.resolves([
       'https://bucket.url.com/file1.xml',
       'https://bucket.url.com/file2.xml',
       'https://bucket.url.com/file3.xml',

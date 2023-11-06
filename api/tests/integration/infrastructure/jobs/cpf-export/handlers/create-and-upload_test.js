@@ -31,7 +31,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
-    logger = { error: noop, info: noop };
+    logger = { error: noop, info: noop, trace: noop };
     uuidService = { randomUUID: sinon.stub() };
   });
 
@@ -53,18 +53,17 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       markCertificationCoursesAsExported: sinon.stub(),
     };
 
-    uploadCpfFiles = {
-      upload: sinon.stub(),
-    };
+    uploadCpfFiles = sinon.stub();
 
     cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
     uuidService.randomUUID.returns('xxx-yyy-zzz');
 
-    uploadCpfFiles.upload
+    uploadCpfFiles
       .withArgs({
         filename: expectedFileName,
         readableStream: sinon.match(PassThrough),
+        logger,
       })
       .callsFake(async function ({ readableStream }) {
         const unzipedStream = readableStream.pipe(createUnzip());

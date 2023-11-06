@@ -37,9 +37,10 @@ const createAndUpload = async function ({
 
   const now = dayjs().tz('Europe/Paris').format('YYYYMMDD-HHmmss');
   const filename = `pix-cpf-export-${now}.xml.gz`;
-  await uploadCpfFiles.upload({
+  await uploadCpfFiles({
     filename,
     readableStream: gzipStream,
+    logger,
   });
 
   await cpfCertificationResultRepository.markCertificationCoursesAsExported({
