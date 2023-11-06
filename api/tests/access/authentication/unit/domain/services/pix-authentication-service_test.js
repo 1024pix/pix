@@ -3,7 +3,7 @@ import { UserNotFoundError } from '../../../../../../lib/domain/errors.js';
 import { User } from '../../../../../../lib/domain/models/User.js';
 import { UserLogin } from '../../../../../../lib/domain/models/UserLogin.js';
 import * as pixAuthenticationService from '../../../../../../src/access/authentication/domain/services/pix-authentication-service.js';
-import { PasswordNotMatching } from '../../../../../../src/access/shared/domain/errors.js';
+import { PasswordNotMatching } from '../../../../../../src/access/authentication/domain/errors.js';
 
 describe('Unit | Authentication | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {

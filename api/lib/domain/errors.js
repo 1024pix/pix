@@ -616,41 +616,9 @@ class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   }
 }
 
-class InvalidExternalUserTokenError extends DomainError {
-  constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
-    super(message);
-  }
-}
-
 class InvalidPasswordForUpdateEmailError extends DomainError {
   constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
     super(message);
-  }
-}
-
-class InvalidResultRecipientTokenError extends DomainError {
-  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
-    super(message);
-  }
-}
-
-class InvalidSessionResultError extends DomainError {
-  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
-    super(message);
-  }
-}
-
-class InvalidTemporaryKeyError extends DomainError {
-  constructor(message = 'Demande de réinitialisation invalide.') {
-    super(message);
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.'],
-      },
-    };
   }
 }
 
@@ -803,14 +771,6 @@ class PasswordResetDemandNotFoundError extends DomainError {
         temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
       },
     };
-  }
-}
-
-class AdminMemberError extends DomainError {
-  constructor(message = 'An error occurred on admin member', code = 'ADMIN_MEMBER_ERROR') {
-    super(message, code);
-    this.code = code;
-    this.message = message;
   }
 }
 
@@ -1235,7 +1195,6 @@ export {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
-  AdminMemberError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   AlreadyExistingCampaignParticipationError,
@@ -1307,16 +1266,12 @@ export {
   InvalidCertificationIssueReportForSaving,
   InvalidCertificationReportForFinalization,
   InvalidExternalAPIResponseError,
-  InvalidExternalUserTokenError,
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
-  InvalidResultRecipientTokenError,
-  InvalidSessionResultError,
   InvalidSessionSupervisingLoginError,
   InvalidStageError,
-  InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
   MatchingReconciledStudentNotFoundError,
