@@ -64,25 +64,26 @@
     <div class="session-supervising-candidate-in-list__status-container">
       {{#if @candidate.hasStarted}}
         {{#if @candidate.isAuthorizedToResume}}
-          <span
-            class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--authorized-to-resume"
-          >
-            {{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}
-          </span>
+          <PixTag
+            @compact={{true}}
+            class="session-supervising-candidate-in-list__status-container--authorized-to-resume"
+          >{{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}</PixTag>
         {{else}}
-          <span
-            class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--started"
-          >
-            {{t "common.forms.certification-labels.candidate-status.ongoing"}}
-          </span>
+          {{#if @candidate.liveAlertStatus}}
+            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
+                "common.forms.certification-labels.candidate-status.ongoing-live-alert"
+              }}</PixTag>
+          {{else}}
+            <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--started">{{t
+                "common.forms.certification-labels.candidate-status.ongoing"
+              }}</PixTag>
+          {{/if}}
         {{/if}}
       {{/if}}
       {{#if @candidate.hasCompleted}}
-        <span
-          class="session-supervising-candidate-in-list__status session-supervising-candidate-in-list__status--completed"
-        >
-          {{t "common.forms.certification-labels.candidate-status.finished"}}
-        </span>
+        <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--completed">{{t
+            "common.forms.certification-labels.candidate-status.finished"
+          }}</PixTag>
       {{/if}}
     </div>
   </div>
