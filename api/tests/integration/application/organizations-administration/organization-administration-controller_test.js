@@ -152,7 +152,9 @@ describe('Integration | Application | Controller | organization-administration-c
         data: {
           id: organization.id,
           attributes: {
-            'enable-multiple-sending-assessment': true,
+            features: {
+              [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            },
           },
         },
       },
@@ -167,7 +169,9 @@ describe('Integration | Application | Controller | organization-administration-c
 
     expect(organizationFeature.length).to.equal(1);
     expect(organizationFeature[0].key).to.equal(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key);
-    expect(response.source.data.attributes['enable-multiple-sending-assessment']).to.equal(true);
+    expect(
+      response.source.data.attributes['features'][apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key],
+    ).to.equal(true);
   });
 
   it('return deactivated feature sending multiple assessment of organization', async function () {
@@ -181,7 +185,9 @@ describe('Integration | Application | Controller | organization-administration-c
         data: {
           id: organization.id,
           attributes: {
-            'enable-multiple-sending-assessment': false,
+            features: {
+              [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+            },
           },
         },
       },
@@ -195,6 +201,8 @@ describe('Integration | Application | Controller | organization-administration-c
       .where('organizationId', organization.id);
 
     expect(organizationFeature.length).to.equal(0);
-    expect(response.source.data.attributes['enable-multiple-sending-assessment']).to.equal(false);
+    expect(
+      response.source.data.attributes['features'][apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key],
+    ).to.equal(false);
   });
 });

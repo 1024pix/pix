@@ -2,6 +2,7 @@ import { expect, domainBuilder } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 import { Organization, OrganizationForAdmin } from '../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../lib/domain/constants/identity-providers.js';
+import * as apps from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Serializer | organization-for-admin-serializer', function () {
   describe('#serialize', function () {
@@ -23,6 +24,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerLastName: 'Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         identityProviderForCampaigns: NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+        features: {
+          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+        },
       });
       const meta = { some: 'meta' };
 
@@ -57,6 +61,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'data-protection-officer-email': organization.dataProtectionOfficer.email,
             'creator-full-name': organization.creatorFullName,
             'identity-provider-for-campaigns': NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+            features: organization.features,
           },
           relationships: {
             'organization-memberships': {
@@ -119,7 +124,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         logoUrl: null,
         externalId: 'ABCD123',
         provinceCode: '64',
-        isManagingStudents: true,
+        isManagingStudents: false,
         enableMultipleSendingAssessment: false,
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
@@ -128,6 +133,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerFirstName: 'Justin',
         dataProtectionOfficerLastName: 'Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+        features: {
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+        },
       };
 
       // when
@@ -152,9 +160,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'data-protection-officer-first-name': organizationAttributes.dataProtectionOfficerFirstName,
             'data-protection-officer-last-name': organizationAttributes.dataProtectionOfficerLastName,
             'data-protection-officer-email': organizationAttributes.dataProtectionOfficerEmail,
-            features: {
-              COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: true,
-            },
+            features: organizationAttributes.features,
           },
         },
       });
@@ -178,6 +184,9 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerFirstName: organizationAttributes.dataProtectionOfficerFirstName,
         dataProtectionOfficerLastName: organizationAttributes.dataProtectionOfficerLastName,
         dataProtectionOfficerEmail: organizationAttributes.dataProtectionOfficerEmail,
+        features: {
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+        },
       });
       expect(organization).to.be.instanceOf(OrganizationForAdmin);
       expect(organization).to.deep.equal(expectedOrganization);
