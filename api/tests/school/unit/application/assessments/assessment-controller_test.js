@@ -28,25 +28,4 @@ describe('Unit | Controller | assessment-controller', function () {
       expect(result).to.be.equal(challenge);
     });
   });
-
-  describe('#createForPix1d', function () {
-    it('should call the expected usecase', async function () {
-      const missionId = 'mission-id';
-      const assessmentSerializer = { serialize: sinon.stub() };
-      const createdAssessment = Symbol('created-assessment');
-      assessmentSerializer.serialize.withArgs(createdAssessment).resolves(Symbol('serialized-assessment'));
-      sinon
-        .stub(usecases, 'createMissionAssessment')
-        .withArgs({ missionId, organizationLearnerId: 34567 })
-        .resolves(createdAssessment);
-      const request = { payload: { missionId, learnerId: 34567 } };
-
-      const result = await assessmentController.createForPix1d(request, hFake, {
-        assessmentSerializer,
-      });
-
-      expect(result.statusCode).to.be.equal(201);
-      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(createdAssessment);
-    });
-  });
 });
