@@ -1,5 +1,5 @@
-import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from '../../../../../lib/domain/models/flash-assessment-algorithm/FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { FlashAssessmentAlgorithmNonAnsweredSkillsRule } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmNonAnsweredSkillsRule.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmNonAnsweredSkillsRule', function () {
   describe('#isApplicable', function () {

@@ -1,15 +1,17 @@
 import _ from 'lodash';
-import { Challenge } from '../../domain/models/Challenge.js';
-import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
-import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
-import * as skillAdapter from '../adapters/skill-adapter.js';
-import * as solutionAdapter from '../adapters/solution-adapter.js';
-import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { config } from '../../config.js';
-import { tubeDatasource } from '../datasources/learning-content/index.js';
-import { logger } from '../../infrastructure/logger.js';
-import { Activity } from '../../../src/school/domain/models/Activity.js';
+import { Challenge } from '../../../../../lib/domain/models/index.js';
+import * as skillAdapter from '../../../../../lib/infrastructure/adapters/skill-adapter.js';
+import * as solutionAdapter from '../../../../../lib/infrastructure/adapters/solution-adapter.js';
+import { LearningContentResourceNotFound } from '../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { config } from '../../../../../lib/config.js';
+import {
+  tubeDatasource,
+  challengeDatasource,
+  skillDatasource,
+} from '../../../../../lib/infrastructure/datasources/learning-content/index.js';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
+import { Activity } from '../../../../school/domain/models/Activity.js';
 
 const get = async function (id) {
   try {

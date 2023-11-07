@@ -1,5 +1,5 @@
-import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from '../../../../../lib/domain/models/flash-assessment-algorithm/FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
-import { domainBuilder, expect } from '../../../../test-helper.js';
+import { FlashAssessmentAlgorithmOneQuestionPerTubeRule } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmOneQuestionPerTubeRule.js';
+import { domainBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithmOneQuestionPerTubeRule', function () {
   describe('#isApplicable', function () {

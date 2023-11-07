@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { catchErr, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 import { Challenge } from '../../../../lib/domain/models/Challenge.js';
 import { Validator } from '../../../../lib/domain/models/Validator.js';
-import * as challengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Activity } from '../../../../src/school/domain/models/Activity.js';
 import * as learningContentBuilder from '../../../tooling/learning-content-builder/index.js';

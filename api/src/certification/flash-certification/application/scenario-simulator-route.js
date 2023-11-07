@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { scenarioSimulatorController } from './scenario-simulator-controller.js';
 
 const _successRatesConfigurationValidator = Joi.alternatives(

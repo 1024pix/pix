@@ -1,5 +1,5 @@
-import { FlashAssessmentSuccessRateHandler } from '../../../../lib/domain/models/FlashAssessmentSuccessRateHandler.js';
-import { expect } from '../../../test-helper.js';
+import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithmSuccessRateHandler', function () {
   describe('#isApplicable', function () {
