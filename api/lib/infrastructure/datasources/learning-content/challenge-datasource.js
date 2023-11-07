@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty.js';
 import * as datasource from './datasource.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
@@ -9,18 +9,18 @@ const OBSOLETE_CHALLENGE = 'périmé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
 function _challengeHasStatus(challenge, statuses) {
-  return _.includes(statuses, challenge.status);
+  return statuses.includes(challenge.status);
 }
 
 function _challengeHasLocale(challenge, locale) {
-  return _.includes(challenge.locales, locale);
+  return challenge.locales.includes(locale);
 }
 
 const challengeDatasource = datasource.extend({
   modelName: 'challenges',
 
   async findOperativeBySkillIds(skillIds) {
-    const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
+    const foundInSkillIds = (skillId) => skillIds.includes(skillId);
     const challenges = await this.findOperative();
     return challenges.filter((challengeData) => foundInSkillIds(challengeData.skillId));
   },
@@ -28,7 +28,7 @@ const challengeDatasource = datasource.extend({
   async findValidatedByCompetenceId(competenceId) {
     const challenges = await this.findValidated();
     return challenges.filter(
-      (challengeData) => !_.isEmpty(challengeData.skillId) && _.includes(challengeData.competenceId, competenceId),
+      (challengeData) => !isEmpty(challengeData.skillId) && challengeData.competenceId === competenceId,
     );
   },
 
@@ -59,7 +59,7 @@ const challengeDatasource = datasource.extend({
         challenge.skillId === skillId && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
     );
 
-    if (_.isEmpty(filteredChallenges)) {
+    if (isEmpty(filteredChallenges)) {
       throw new LearningContentResourceNotFound();
     }
     return filteredChallenges;
