@@ -15,7 +15,6 @@ import * as organizationPlacesLotSerializer from '../../infrastructure/serialize
 import * as organizationPlacesCapacitySerializer from '../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
 import * as organizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
 import * as scoOrganizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
-import * as supOrganizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
@@ -300,33 +299,6 @@ const findPaginatedFilteredScoParticipants = async function (
   });
 };
 
-const findPaginatedFilteredSupParticipants = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    supOrganizationParticipantsSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
-  if (filter.groups && !Array.isArray(filter.groups)) {
-    filter.groups = [filter.groups];
-  }
-
-  if (filter.certificability) {
-    filter.certificability = mapCertificabilityByLabel(filter.certificability);
-  }
-
-  const { data: supOrganizationParticipants, meta } = await usecases.findPaginatedFilteredSupParticipants({
-    organizationId,
-    filter,
-    page,
-    sort,
-  });
-  return dependencies.supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
-};
-
 const importOrganizationLearnersFromSIECLE = async function (request, h) {
   const organizationId = request.params.id;
   const { format } = request.query;
@@ -469,7 +441,6 @@ const organizationController = {
   getDivisions,
   getGroups,
   findPaginatedFilteredScoParticipants,
-  findPaginatedFilteredSupParticipants,
   importOrganizationLearnersFromSIECLE,
   sendInvitations,
   resendInvitation,
