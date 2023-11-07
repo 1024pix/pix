@@ -129,7 +129,6 @@ import * as organizationValidator from '../validators/organization-with-tags-and
 import * as participantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
 import * as participationsForCampaignManagementRepository from '../../infrastructure/repositories/participations-for-campaign-management-repository.js';
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
-import * as partnerCertificationScoringRepository from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as passwordValidator from '../validators/password-validator.js';
 import * as pixAuthenticationService from '../../domain/services/authentication/pix-authentication-service.js';
@@ -338,7 +337,6 @@ const dependencies = {
   participantResultsSharedRepository,
   participationsForCampaignManagementRepository,
   participationsForUserManagementRepository,
-  partnerCertificationScoringRepository,
   passwordGenerator,
   passwordValidator,
   pickChallengeService,
