@@ -1,7 +1,7 @@
-import { databaseBuilder, expect, knex, domainBuilder } from '../../../test-helper.js';
-import * as cpfCertificationResultRepository from '../../../../lib/infrastructure/repositories/cpf-certification-result-repository.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { CpfImportStatus } from '../../../../src/certification/courses/domain/models/CpfImportStatus.js';
+import { databaseBuilder, expect, knex, domainBuilder } from '../../../../../test-helper.js';
+import * as cpfCertificationResultRepository from '../../../../../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
+import { AssessmentResult } from '../../../../../../lib/domain/models/AssessmentResult.js';
+import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
 
 describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#countExportableCertificationCoursesByTimeRange', function () {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rapport xmlns:ns2="urn:cdc:cpf:pc5:rapport:schema">
+    <nomFichier>pix-cpf-export-20221003-324234.xml</nomFichier>
+    <idFlux>1234-abcd</idFlux>
+    <idTraitement>1</idTraitement>
+    <PassagesKO>
+        <passage>
+            <idTechnique>1234</idTechnique>
+            <messageErreur>Aucun titulaire ne correspond aux critères obligatoires</messageErreur>
+        </passage>
+        <passage>
+            <idTechnique>4567</idTechnique>
+            <messageErreur>Le passage certification avec le bcr émetteur 03VML243 et l'id technique partenaire 1559735 existe déjà en base</messageErreur>
+        </passage>
+    </PassagesKO>
+    <PassagesOK>
+        <idTechnique>891011</idTechnique>
+    </PassagesOK>
+</rapport>

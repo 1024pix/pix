@@ -25,7 +25,12 @@ const scheduleCpfJobs = async function (pgBoss) {
 export { scheduleCpfJobs };
 
 async function _processJob(job, handler, params) {
-  await handler({ ...params, job, logger: buildLogger(job) });
+  try {
+    await handler({ ...params, job, logger: buildLogger(job) });
+  } catch (error) {
+    logger.error(error);
+    throw error;
+  }
 }
 
 function buildLogger(job) {
@@ -34,5 +39,6 @@ function buildLogger(job) {
   return {
     info: (message, ...args) => logger.info({ ...args, handlerName, jobId, type: 'JOB_LOG', message }),
     error: (message, ...args) => logger.error({ ...args, handlerName, jobId, type: 'JOB_ERROR', message }),
+    trace: (message, ...args) => logger.trace({ ...args, handlerName, jobId, type: 'JOB_TRACE', message }),
   };
 }
