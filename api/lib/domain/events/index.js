@@ -20,7 +20,7 @@ import * as certificationAssessmentRepository from '../../infrastructure/reposit
 import * as certificationCenterRepository from '../../../src/certification/shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
-import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
@@ -46,7 +46,7 @@ import { handleComplementaryCertificationsScoring } from './handle-complementary
 import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-participation-finished.js';
 import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
-import * as flashAlgorithmService from '../services/algorithm-methods/flash.js';
+import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 
 const { performance } = perf_hooks;
 

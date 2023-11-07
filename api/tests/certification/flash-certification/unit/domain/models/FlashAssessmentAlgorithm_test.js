@@ -1,8 +1,8 @@
-import { FlashAssessmentAlgorithm } from '../../../../../lib/domain/models/index.js';
-import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import { AssessmentEndedError } from '../../../../../lib/domain/errors.js';
-import { config } from '../../../../../lib/config.js';
-import { FlashAssessmentSuccessRateHandler } from '../../../../../lib/domain/models/FlashAssessmentSuccessRateHandler.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
+import { config } from '../../../../../../lib/config.js';
+import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithm', function () {
   let flashAlgorithmImplementation;

@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
-import { FlashAssessmentAlgorithmRuleEngine } from '../../../../../lib/domain/models/flash-assessment-algorithm/FlashAssessmentAlgorithmRuleEngine.js';
+import { expect } from '../../../../../test-helper.js';
+import { FlashAssessmentAlgorithmRuleEngine } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmRuleEngine.js';
 
 const challenge1 = Symbol('challenge1');
 const challenge2 = Symbol('challenge2');

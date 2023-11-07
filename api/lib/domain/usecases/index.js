@@ -73,7 +73,7 @@ import * as certificationPointOfContactRepository from '../../infrastructure/rep
 import * as certificationReportRepository from '../../infrastructure/repositories/certification-report-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
-import * as challengeRepository from '../../infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import * as cleaCertifiedCandidateRepository from '../../infrastructure/repositories/clea-certified-candidate-repository.js';
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import * as competenceEvaluationRepository from '../../../src/evaluation/infrastructure/repositories/competence-evaluation-repository.js';
@@ -91,7 +91,7 @@ import * as divisionRepository from '../../infrastructure/repositories/division-
 import * as encryptionService from '../../domain/services/encryption-service.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
-import * as flashAlgorithmService from '../../domain/services/algorithm-methods/flash.js';
+import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import * as groupRepository from '../../infrastructure/repositories/group-repository.js';
