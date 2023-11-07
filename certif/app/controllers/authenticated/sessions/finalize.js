@@ -149,7 +149,7 @@ export default class SessionsFinalizeController extends Controller {
 
     if (invalidCertificationReports.length) {
       const select = document.getElementById(
-        `finalization-report-abort-reason__select${invalidCertificationReports.firstObject.id}`,
+        `finalization-report-abort-reason__select${invalidCertificationReports[0].id}`,
       );
 
       this.showErrorNotification(this.intl.t('pages.session-finalization.errors.no-abort-reason'));
