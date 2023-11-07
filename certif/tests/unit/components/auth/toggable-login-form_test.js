@@ -57,6 +57,9 @@ module('Unit | Component | toggable-login-form', (hooks) => {
           component.args.isWithInvitation = true;
           component.args.certificationCenterInvitationId = '1234';
           component.args.certificationCenterInvitationCode = 'ABCD';
+          component.store = {
+            peekRecord: sinon.stub().returns({ unloadRecord: sinon.stub() }),
+          };
         });
 
         test('should accept organization invitation', async function (assert) {
@@ -64,6 +67,7 @@ module('Unit | Component | toggable-login-form', (hooks) => {
           component.args.certificationCenterInvitation = {
             accept: sinon.stub().resolves(),
           };
+
           const _authenticateStub = sinon.stub().resolves();
           component._authenticate = _authenticateStub;
 
@@ -76,6 +80,7 @@ module('Unit | Component | toggable-login-form', (hooks) => {
             code: component.args.certificationCenterInvitationCode,
             email: component.email,
           });
+          sinon.assert.calledWith(component.store.peekRecord);
           assert.false(component.isErrorMessagePresent);
           assert.strictEqual(component.errorMessage, null);
         });

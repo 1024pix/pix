@@ -18,6 +18,7 @@
     },
     "roles": {
       "admin": "Administrator",
+      "auto": "Automatic",
       "member": "Member"
     },
     "words": {

@@ -12,7 +12,7 @@ export default class CertificationCenterInvitationAdapter extends ApplicationAda
     if (query.certificationCenterId) {
       const url = `${this.host}/${this.namespace}/certification-centers/${query.certificationCenterId}/invitations`;
       return this.ajax(url, 'POST', {
-        data: { data: { attributes: { email: query.email, language: query.language } } },
+        data: { data: { attributes: { email: query.email, language: query.language, role: query.role } } },
       });
     }
 

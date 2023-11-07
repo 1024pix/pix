@@ -100,6 +100,12 @@ export default class RegisterForm extends Component {
         adapterOptions: { certificationCenterInvitationId: this.args.certificationCenterInvitationId },
       });
 
+      const invitationToDelete = this.store.peekRecord(
+        'certification-center-invitation',
+        this.args.certificationCenterInvitationId,
+      );
+      invitationToDelete.unloadRecord();
+
       await this._authenticate(this.email, this.password);
     } catch (response) {
       const status = get(response, 'errors[0].status');

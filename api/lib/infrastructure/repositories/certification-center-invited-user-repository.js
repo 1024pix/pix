@@ -4,7 +4,7 @@ import { NotFoundError } from '../../domain/errors.js';
 
 const get = async function ({ certificationCenterInvitationId, email }) {
   const invitation = await knex('certification-center-invitations')
-    .select('id', 'certificationCenterId', 'code', 'status')
+    .select('id', 'certificationCenterId', 'code', 'status', 'role')
     .where({ id: certificationCenterInvitationId })
     .first();
   if (!invitation) {
@@ -20,6 +20,7 @@ const get = async function ({ certificationCenterInvitationId, email }) {
     userId: user.id,
     invitation,
     status: invitation.status,
+    role: invitation.role,
   });
 };
 
@@ -27,6 +28,7 @@ const save = async function (certificationCenterInvitedUser) {
   await knex('certification-center-memberships').insert({
     certificationCenterId: certificationCenterInvitedUser.invitation.certificationCenterId,
     userId: certificationCenterInvitedUser.userId,
+    role: certificationCenterInvitedUser.role,
   });
 
   await knex('certification-center-invitations')
