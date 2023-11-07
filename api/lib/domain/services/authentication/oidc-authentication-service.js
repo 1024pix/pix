@@ -45,6 +45,7 @@ class OidcAuthenticationService {
       endSessionUrl,
       postLogoutRedirectUri,
       additionalRequiredProperties,
+      claimsToStore,
     },
     { sessionTemporaryStorage = defaultSessionTemporaryStorage } = {},
   ) {
@@ -63,7 +64,13 @@ class OidcAuthenticationService {
     this.userInfoUrl = userInfoUrl;
     this.endSessionUrl = endSessionUrl;
     this.postLogoutRedirectUri = postLogoutRedirectUri;
+
+    if (!lodash.isEmpty(claimsToStore)) {
+      this.claimsToStore = claimsToStore;
+    }
+
     this.sessionTemporaryStorage = sessionTemporaryStorage;
+
     if (!this.configKey) {
       logger.error(`${this.constructor.name}: Missing configKey`);
       return;
@@ -191,85 +198,14 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
-  async getUserInfoFromEndpoint({ accessToken, userInfoUrl }) {
-    const httpResponse = await httpAgent.get({
-      url: userInfoUrl,
-      headers: { Authorization: `Bearer ${accessToken}` },
-      timeout: config.partner.fetchTimeOut,
-    });
-
-    if (!httpResponse.isSuccessful) {
-      const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
-      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      throw new InvalidExternalAPIResponseError(message);
-    }
-
-    const userInfoContent = httpResponse.data;
-
-    if (!userInfoContent || typeof userInfoContent !== 'object') {
-      const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
-      const dataToLog = {
-        message,
-        typeOfUserInfoContent: typeof userInfoContent,
-        userInfoContent,
-      };
-      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
-      const error = OIDC_ERRORS.USER_INFO.badResponseFormat;
-      const meta = {
-        shortCode: error.shortCode,
-      };
-      throw new OidcUserInfoFormatError(message, error.code, meta);
-    }
-
-    const userInfoMissingFields = this.getUserInfoMissingFields({ userInfoContent });
-    const message = `Un ou des champs obligatoires (${userInfoMissingFields}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
-
-    if (userInfoMissingFields) {
-      monitoringTools.logErrorWithCorrelationIds({
-        message,
-        missingFields: userInfoMissingFields,
-        userInfoContent,
-      });
-      const error = OIDC_ERRORS.USER_INFO.missingFields;
-      const meta = {
-        shortCode: error.shortCode,
-      };
-      throw new OidcMissingFieldsError(message, error.code, meta);
-    }
-
-    return {
-      given_name: userInfoContent?.given_name,
-      family_name: userInfoContent?.family_name,
-      sub: userInfoContent?.sub,
-      nonce: userInfoContent?.nonce,
-    };
-  }
-
-  getUserInfoMissingFields({ userInfoContent }) {
-    const missingFields = [];
-    if (!userInfoContent.family_name) {
-      missingFields.push('family_name');
-    }
-    if (!userInfoContent.given_name) {
-      missingFields.push('given_name');
-    }
-    if (!userInfoContent.sub) {
-      missingFields.push('sub');
-    }
-
-    const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
-    return thereIsAtLeastOneRequiredMissingField ? `Champs manquants : ${missingFields.join(',')}` : false;
-  }
-
   async getUserInfo({ idToken, accessToken }) {
-    const { family_name, given_name, sub, nonce } = await jsonwebtoken.decode(idToken);
+    const { family_name, given_name, sub, nonce } = jsonwebtoken.decode(idToken);
     let userInfoContent;
 
     const isMandatoryUserInfoMissing = !family_name || !given_name || !sub;
 
     if (isMandatoryUserInfoMissing) {
-      userInfoContent = await this.getUserInfoFromEndpoint({ accessToken, userInfoUrl: this.userInfoUrl });
+      userInfoContent = await this._getUserInfoFromEndpoint({ accessToken });
     }
 
     return {
@@ -315,6 +251,77 @@ class OidcAuthenticationService {
     await this.sessionTemporaryStorage.delete(key);
 
     return redirectTarget.toString();
+  }
+
+  async _getUserInfoFromEndpoint({ accessToken }) {
+    const httpResponse = await httpAgent.get({
+      url: this.userInfoUrl,
+      headers: { Authorization: `Bearer ${accessToken}` },
+      timeout: config.partner.fetchTimeOut,
+    });
+
+    if (!httpResponse.isSuccessful) {
+      const message = 'Une erreur est survenue en récupérant les informations des utilisateurs.';
+      const dataToLog = httpErrorsHelper.serializeHttpErrorResponse(httpResponse, message);
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      throw new InvalidExternalAPIResponseError(message);
+    }
+
+    const userInfoContent = httpResponse.data;
+
+    if (!userInfoContent || typeof userInfoContent !== 'object') {
+      const message = `Les informations utilisateur renvoyées par votre fournisseur d'identité ${this.organizationName} ne sont pas au format attendu.`;
+      const dataToLog = {
+        message,
+        typeOfUserInfoContent: typeof userInfoContent,
+        userInfoContent,
+      };
+      monitoringTools.logErrorWithCorrelationIds({ message: dataToLog });
+      const error = OIDC_ERRORS.USER_INFO.badResponseFormat;
+      const meta = {
+        shortCode: error.shortCode,
+      };
+      throw new OidcUserInfoFormatError(message, error.code, meta);
+    }
+
+    const userInfoMissingFields = this._getUserInfoMissingFields({ userInfoContent });
+    const message = `Un ou des champs obligatoires (${userInfoMissingFields}) n'ont pas été renvoyés par votre fournisseur d'identité ${this.organizationName}.`;
+
+    if (userInfoMissingFields) {
+      monitoringTools.logErrorWithCorrelationIds({
+        message,
+        missingFields: userInfoMissingFields,
+        userInfoContent,
+      });
+      const error = OIDC_ERRORS.USER_INFO.missingFields;
+      const meta = {
+        shortCode: error.shortCode,
+      };
+      throw new OidcMissingFieldsError(message, error.code, meta);
+    }
+
+    return {
+      given_name: userInfoContent?.given_name,
+      family_name: userInfoContent?.family_name,
+      sub: userInfoContent?.sub,
+      nonce: userInfoContent?.nonce,
+    };
+  }
+
+  _getUserInfoMissingFields({ userInfoContent }) {
+    const missingFields = [];
+    if (!userInfoContent.family_name) {
+      missingFields.push('family_name');
+    }
+    if (!userInfoContent.given_name) {
+      missingFields.push('given_name');
+    }
+    if (!userInfoContent.sub) {
+      missingFields.push('sub');
+    }
+
+    const thereIsAtLeastOneRequiredMissingField = missingFields.length > 0;
+    return thereIsAtLeastOneRequiredMissingField ? `Champs manquants : ${missingFields.join(',')}` : false;
   }
 }
 
