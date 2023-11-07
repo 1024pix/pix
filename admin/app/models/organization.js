@@ -19,7 +19,6 @@ export default class Organization extends Model {
   @attr('date') createdAt;
   @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
-  @attr('boolean') enableMultipleSendingAssessment;
   @attr('nullable-string') archivistFullName;
   @attr('date') archivedAt;
   @attr('nullable-string') creatorFullName;
@@ -27,6 +26,7 @@ export default class Organization extends Model {
   @attr() dataProtectionOfficerFirstName;
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
+  @attr() features;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
@@ -34,6 +34,24 @@ export default class Organization extends Model {
   @hasMany('organizationMembership') organizationMemberships;
   @hasMany('targetProfileSummary') targetProfileSummaries;
   @hasMany('tag') tags;
+
+  static get featureList() {
+    return {
+      MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
+    };
+  }
+
+  get enableMultipleSendingAssessment() {
+    if (!this.features) return false;
+    return this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT];
+  }
+
+  set enableMultipleSendingAssessment(value) {
+    if (!this.features) {
+      this.features = {};
+    }
+    this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT] = value;
+  }
 
   async hasMember(userId) {
     const memberships = await this.organizationMemberships;
