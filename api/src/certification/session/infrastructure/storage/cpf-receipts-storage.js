@@ -22,7 +22,7 @@ class CpfReceiptsStorage {
   }
 
   #toDomainArray({ storageFiles = [] }) {
-    return storageFiles.map((file) => new CpfReceipt({ id: file.Key }));
+    return storageFiles.map((file) => new CpfReceipt({ filename: file.Key }));
   }
 }
 
