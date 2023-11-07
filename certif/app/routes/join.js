@@ -11,7 +11,7 @@ export default class JoinRoute extends Route {
     invitationId: { replace: true },
   };
 
-  model(params) {
+  model(params, transition) {
     return this.store
       .queryRecord('certification-center-invitation', {
         invitationId: params.invitationId,
@@ -19,12 +19,13 @@ export default class JoinRoute extends Route {
       })
       .catch((errorResponse) => {
         const status = get(errorResponse, 'errors[0].status');
-        const transition = this.router.replaceWith('login');
+        transition.abort();
+        const newTransition = this.router.replaceWith('login');
 
         if (status === '403') {
-          transition.data.isInvitationCancelled = true;
+          newTransition.data.isInvitationCancelled = true;
         } else if (status === '412') {
-          transition.data.hasInvitationAlreadyBeenAccepted = true;
+          newTransition.data.hasInvitationAlreadyBeenAccepted = true;
         }
       });
   }
