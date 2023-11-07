@@ -1,6 +1,7 @@
 import { expect } from '../../../test-helper.js';
 import { ConfigLoader } from '../../../../src/shared/infrastructure/config-loader.js';
 import * as url from 'url';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -38,6 +39,19 @@ describe('Unit | Shared | infrastructure | config-loader', function () {
 
         // then
         expect(result).to.equal('kiwi');
+      });
+    });
+
+    describe('given no environment variable for KEYFOUR=tropfort', function () {
+      it("should return undefined on get('KEYFOUR')", function () {
+        // given
+        process.env.KEYFOUR = undefined;
+
+        // when
+        const result = configLoader.get('KEYFOUR');
+
+        // then
+        expect(result).to.be.undefined;
       });
     });
   });
