@@ -16,7 +16,7 @@ class ConfigLoader {
   }
 
   get(key) {
-    return this.#configuration[key];
+    return this.#configuration[key] || process.env[key];
   }
 
   #configFilePath({ profile }) {
