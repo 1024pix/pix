@@ -2,10 +2,11 @@ import { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } from '../err
 import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
 
 class CertificationCenterInvitedUser {
-  constructor({ userId, invitation, status } = {}) {
+  constructor({ userId, invitation, status, role } = {}) {
     this.userId = userId;
     this.invitation = invitation;
     this.status = status;
+    this.role = role;
   }
 
   acceptInvitation(code) {

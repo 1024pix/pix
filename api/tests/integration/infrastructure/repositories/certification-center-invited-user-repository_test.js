@@ -35,6 +35,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
         certificationCenterId: 123,
         code: 'ABCDE123',
         status: 'pending',
+        role: CertificationCenterInvitation.Roles.MEMBER,
       };
 
       // when
@@ -51,6 +52,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
           userId: user.id,
           invitation,
           status: certificationCenterInvitation.status,
+          role: CertificationCenterInvitation.Roles.MEMBER,
         }),
       );
     });
@@ -151,11 +153,13 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
         certificationCenterId,
         code: 'ABCDE123',
         status: CertificationCenterInvitation.StatusType.PENDING,
+        role: CertificationCenterInvitation.Roles.ADMIN,
       });
       const certificationCenterInvitedUser = new CertificationCenterInvitedUser({
         userId: user.id,
         invitation: certificationCenterInvitation,
         status: CertificationCenterInvitation.StatusType.ACCEPTED,
+        role: CertificationCenterInvitation.Roles.ADMIN,
       });
 
       await databaseBuilder.commit();
@@ -169,6 +173,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
         .first();
 
       expect(certificationCenterInvitationUpdated.status).to.equal(CertificationCenterInvitation.StatusType.ACCEPTED);
+      expect(certificationCenterInvitationUpdated.role).to.equal(CertificationCenterInvitation.Roles.ADMIN);
       expect(certificationCenterInvitationUpdated.updatedAt).to.deep.equal(now);
       clock.restore();
     });
