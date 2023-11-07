@@ -28,6 +28,8 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           algorithm.getEstimatedLevelAndErrorRate
             .withArgs({
               allAnswers: [],
+              challenges: allChallenges,
+              initialCapacity,
             })
             .returns({
               estimatedLevel: initialCapacity,
@@ -142,6 +144,8 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           algorithm.getEstimatedLevelAndErrorRate
             .withArgs({
               allAnswers: [],
+              challenges: allChallenges,
+              initialCapacity,
             })
             .returns({
               estimatedLevel: initialCapacity,
@@ -230,6 +234,12 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
         const pickAnswerStatus = sinon.stub();
 
         algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            allAnswers: [],
+            challenges: allChallenges,
+            initialCapacity,
+          })
+          .returns({ estimatedLevel: initialCapacity })
           .withArgs({
             allAnswers: [sinon.match(answer1)],
             challenges: allChallenges,
