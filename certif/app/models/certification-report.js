@@ -15,7 +15,7 @@ export default class CertificationReport extends Model {
 
   @computed('certificationIssueReports.@each.description')
   get firstIssueReportDescription() {
-    const firstIssueReport = this.certificationIssueReports.firstObject;
+    const firstIssueReport = this.certificationIssueReports[0];
     return firstIssueReport ? firstIssueReport.description : '';
   }
 
