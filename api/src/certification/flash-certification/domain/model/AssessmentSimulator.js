@@ -9,57 +9,72 @@ export class AssessmentSimulator {
     this.initialCapacity = initialCapacity;
   }
 
+  _runSimulatorStep({ challengesAnswers, stepIndex }) {
+    const possibleChallenges = this.algorithm.getPossibleNextChallenges({
+      allAnswers: challengesAnswers,
+      challenges: this.challenges,
+      initialCapacity: this.initialCapacity,
+    });
+
+    const nextChallenge = this.pickChallenge({ possibleChallenges });
+
+    const answerStatus = this.pickAnswerStatus({
+      answerIndex: stepIndex,
+      nextChallenge,
+    });
+
+    const noMoreAnswerRemaining = !answerStatus;
+
+    if (noMoreAnswerRemaining) {
+      return null;
+    }
+
+    const estimatedLevelBeforeAnswering = this.algorithm.getEstimatedLevelAndErrorRate({
+      allAnswers: challengesAnswers,
+      challenges: this.challenges,
+      initialCapacity: this.initialCapacity,
+    }).estimatedLevel;
+
+    const newAnswers = [...challengesAnswers, new Answer({ result: answerStatus, challengeId: nextChallenge.id })];
+
+    const { estimatedLevel, errorRate } = this.algorithm.getEstimatedLevelAndErrorRate({
+      allAnswers: newAnswers,
+      challenges: this.challenges,
+      initialCapacity: this.initialCapacity,
+    });
+
+    const reward = this.algorithm.getReward({
+      estimatedLevel: estimatedLevelBeforeAnswering,
+      difficulty: nextChallenge.difficulty,
+      discriminant: nextChallenge.discriminant,
+    });
+
+    return {
+      result: {
+        challenge: nextChallenge,
+        errorRate,
+        estimatedLevel,
+        reward,
+        answerStatus,
+      },
+      challengesAnswers: newAnswers,
+    };
+  }
+
   run() {
-    const challengesAnswers = [];
+    let challengesAnswers = [];
     const result = [];
 
     for (let i = 0; i < Infinity; i++) {
       try {
-        const possibleChallenges = this.algorithm.getPossibleNextChallenges({
-          allAnswers: challengesAnswers,
-          challenges: this.challenges,
-          initialCapacity: this.initialCapacity,
-        });
+        const simulatorStepResult = this._runSimulatorStep({ challengesAnswers, stepIndex: i });
 
-        const nextChallenge = this.pickChallenge({ possibleChallenges });
-
-        const answerStatus = this.pickAnswerStatus({
-          answerIndex: i,
-          nextChallenge,
-        });
-
-        const noMoreAnswerRemaining = !answerStatus;
-
-        if (noMoreAnswerRemaining) {
+        if (!simulatorStepResult) {
           break;
         }
 
-        const estimatedLevelBeforeAnswering = this.algorithm.getEstimatedLevelAndErrorRate({
-          allAnswers: challengesAnswers,
-          challenges: this.challenges,
-          initialCapacity: this.initialCapacity,
-        }).estimatedLevel;
-
-        challengesAnswers.push(new Answer({ result: answerStatus, challengeId: nextChallenge.id }));
-        const { estimatedLevel, errorRate } = this.algorithm.getEstimatedLevelAndErrorRate({
-          allAnswers: challengesAnswers,
-          challenges: this.challenges,
-          initialCapacity: this.initialCapacity,
-        });
-
-        const reward = this.algorithm.getReward({
-          estimatedLevel: estimatedLevelBeforeAnswering,
-          difficulty: nextChallenge.difficulty,
-          discriminant: nextChallenge.discriminant,
-        });
-
-        result.push({
-          challenge: nextChallenge,
-          errorRate,
-          estimatedLevel,
-          reward,
-          answerStatus,
-        });
+        challengesAnswers = simulatorStepResult.challengesAnswers;
+        result.push(simulatorStepResult.result);
       } catch (err) {
         break;
       }
