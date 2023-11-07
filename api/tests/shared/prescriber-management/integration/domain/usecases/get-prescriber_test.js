@@ -1,10 +1,10 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex } from '../../../../../test-helper.js';
 
-import * as prescriberRepository from '../../../../lib/infrastructure/repositories/prescriber-repository.js';
-import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
-import * as userOrgaSettingsRepository from '../../../../lib/infrastructure/repositories/user-orga-settings-repository.js';
+import * as prescriberRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/prescriber-repository.js';
+import * as membershipRepository from '../../../../../../src/shared/infrastructure/repositories/membership-repository.js';
+import * as userOrgaSettingsRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
 
-import { getPrescriber } from '../../../../lib/domain/usecases/get-prescriber.js';
+import { getPrescriber } from '../../../../../../src/shared/prescriber-management/domain/usecases/get-prescriber.js';
 
 describe('Integration | UseCases | get-prescriber', function () {
   context('When prescriber does not have a userOrgaSettings', function () {

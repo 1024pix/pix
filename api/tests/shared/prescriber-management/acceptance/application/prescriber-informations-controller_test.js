@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | Controller | Prescriber-controller', function () {
+describe('Acceptance | Controller | prescriber-informations-controller', function () {
   let user;
   let organization;
   let membership;

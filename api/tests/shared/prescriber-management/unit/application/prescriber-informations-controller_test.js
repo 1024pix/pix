@@ -1,8 +1,8 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
+import { sinon, expect, hFake } from '../../../../test-helper.js';
+import { usecases } from '../../../../../src/shared/prescriber-management/domain/usecases/index.js';
+import { prescriberController } from '../../../../../src/shared/prescriber-management/application/prescriber-informations-controller.js';
 
-describe('Unit | Controller | prescriber-controller', function () {
+describe('Unit | Controller | prescriber-informations-controller', function () {
   describe('#get', function () {
     let request;
 

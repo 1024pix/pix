@@ -1,9 +1,9 @@
-import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
+import { expect, sinon, HttpTestServer } from '../../../../test-helper.js';
+import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { prescriberController } from '../../../../../src/shared/prescriber-management/application/prescriber-informations-controller.js';
+import * as moduleUnderTest from '../../../../../src/shared/prescriber-management/application/prescriber-informations-route.js';
 
-describe('Integration | Application | Prescribers | Routes', function () {
+describe('Integration | Router | prescriber-informations-route', function () {
   let httpTestServer;
   const method = 'GET';
 
