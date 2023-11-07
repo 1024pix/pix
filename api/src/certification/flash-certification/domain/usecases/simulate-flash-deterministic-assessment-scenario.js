@@ -1,5 +1,6 @@
 import { FlashAssessmentAlgorithm } from '../model/FlashAssessmentAlgorithm.js';
 import { AssessmentSimulator } from '../model/AssessmentSimulator.js';
+import { AssessmentSimulatorSingleMeasureStrategy } from '../model/AssessmentSimulatorSingleMeasureStrategy.js';
 
 export async function simulateFlashDeterministicAssessmentScenario({
   challengeRepository,
@@ -32,13 +33,16 @@ export async function simulateFlashDeterministicAssessmentScenario({
     variationPercent,
   });
 
-  const simulator = new AssessmentSimulator({
+  const strategy = new AssessmentSimulatorSingleMeasureStrategy({
     algorithm: flashAssessmentAlgorithm,
     challenges,
     pickChallenge,
-    initialCapacity,
     pickAnswerStatus,
-    variationPercent,
+    initialCapacity,
+  });
+
+  const simulator = new AssessmentSimulator({
+    strategy,
   });
 
   return simulator.run();
