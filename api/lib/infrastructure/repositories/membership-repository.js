@@ -123,12 +123,6 @@ const findByUserIdAndOrganizationId = function ({ userId, organizationId, includ
     .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
 };
 
-const findByUserId = function ({ userId }) {
-  return BookshelfMembership.where({ userId, disabledAt: null })
-    .fetchAll({ withRelated: ['organization'] })
-    .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
-};
-
 const updateById = async function ({ id, membership }) {
   let updatedMembership;
 
@@ -168,7 +162,6 @@ export {
   findAdminsByOrganizationId,
   findPaginatedFiltered,
   findByUserIdAndOrganizationId,
-  findByUserId,
   updateById,
   disableMembershipsByUserId,
 };

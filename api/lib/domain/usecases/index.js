@@ -138,7 +138,6 @@ import * as schoolRepository from '../../../src/school/infrastructure/repositori
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as prescriberRepository from '../../infrastructure/repositories/prescriber-repository.js';
 import * as refreshTokenService from '../../domain/services/refresh-token-service.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
@@ -180,7 +179,7 @@ import * as tubeRepository from '../../infrastructure/repositories/tube-reposito
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
-import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
+import * as userOrgaSettingsRepository from '../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
 import * as userRepository from '../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
@@ -353,7 +352,6 @@ const dependencies = {
   placementProfileService,
   poleEmploiNotifier: requirePoleEmploiNotifier(),
   poleEmploiSendingRepository,
-  prescriberRepository,
   refreshTokenService,
   resetPasswordDemandRepository,
   resetPasswordService,

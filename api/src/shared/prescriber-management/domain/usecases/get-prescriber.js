@@ -1,4 +1,4 @@
-import { UserNotMemberOfOrganizationError } from '../errors.js';
+import { UserNotMemberOfOrganizationError } from '../../../../../lib/domain/errors.js';
 import _ from 'lodash';
 
 function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {

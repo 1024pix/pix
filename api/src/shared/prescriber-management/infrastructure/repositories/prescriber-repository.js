@@ -1,14 +1,14 @@
 import _ from 'lodash';
-import { knex } from '../../../db/knex-database-connection.js';
-import { config } from '../../config.js';
-import { BookshelfUser } from '../orm-models/User.js';
-import { BookshelfMembership } from '../orm-models/Membership.js';
-import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { UserNotFoundError } from '../../domain/errors.js';
-import { Prescriber } from '../../domain/read-models/Prescriber.js';
-import * as apps from '../../domain/constants.js';
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { config } from '../../../../../lib/config.js';
+import { BookshelfUser } from '../../../../../lib/infrastructure/orm-models/User.js';
+import { BookshelfMembership } from '../../../../../lib/infrastructure/orm-models/Membership.js';
+import { BookshelfUserOrgaSettings } from '../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
+import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { Prescriber } from '../../../../../lib/domain/read-models/Prescriber.js';
+import * as apps from '../../../../../lib/domain/constants.js';
+import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 function _toPrescriberDomain(bookshelfUser) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
