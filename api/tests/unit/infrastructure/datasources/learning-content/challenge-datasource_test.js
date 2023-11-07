@@ -132,12 +132,13 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     it('should resolve an array of matching Challenges from learning content', async function () {
       // given
       const skillIds = ['skill-web1', 'skill-web2'];
+      const locale = 'fr';
 
       // when
-      const result = await challengeDatasource.findOperativeBySkillIds(skillIds);
+      const result = await challengeDatasource.findOperativeBySkillIds(skillIds, locale);
 
       // then
-      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
+      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1']);
     });
   });
 
@@ -166,22 +167,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   });
 
   describe('#findOperative', function () {
-    beforeEach(function () {
-      sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3_archived],
-      });
-    });
-
-    it('should resolve an array of matching Challenges from learning content', async function () {
-      // when
-      const result = await challengeDatasource.findOperative();
-
-      // then
-      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2', 'challenge-web3-archived']);
-    });
-  });
-
-  describe('#findOperativeHavingLocale', function () {
     it('should retrieve the operative Challenges of given locale only', async function () {
       // given
       const locale = 'fr-fr';
@@ -190,7 +175,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       });
 
       // when
-      const result = await challengeDatasource.findOperativeHavingLocale(locale);
+      const result = await challengeDatasource.findOperative(locale);
 
       // then
       expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web3-archived']);

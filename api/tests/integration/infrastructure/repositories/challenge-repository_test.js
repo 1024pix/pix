@@ -322,6 +322,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const operativeInSkillChallenge = domainBuilder.buildChallenge({ skill, status: 'archivé' });
       const nonOperativeInSkillChallenge = domainBuilder.buildChallenge({ skill, status: 'PAS opérative' });
       const operativeNotInSkillChallenge = domainBuilder.buildChallenge({ skill: anotherSkill, status: 'validé' });
+      const locale = 'fr';
       const learningContent = {
         skills: [
           { ...skill, status: 'actif', level: skill.difficulty },
@@ -336,7 +337,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.findOperativeBySkills([skill]);
+      const actualChallenges = await challengeRepository.findOperativeBySkills([skill], locale);
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
@@ -352,6 +353,7 @@ describe('Integration | Repository | challenge-repository', function () {
         skill,
         status: 'validé',
       });
+      const locale = 'fr';
       const learningContent = {
         skills: [{ ...skill, status: 'actif', level: skill.difficulty }],
         challenges: [
@@ -367,7 +369,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const [actualChallenge] = await challengeRepository.findOperativeBySkills([skill]);
+      const [actualChallenge] = await challengeRepository.findOperativeBySkills([skill], locale);
 
       // then
       expect(actualChallenge.validator).to.be.instanceOf(Validator);

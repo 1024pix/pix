@@ -19,9 +19,9 @@ function _challengeHasLocale(challenge, locale) {
 const challengeDatasource = datasource.extend({
   modelName: 'challenges',
 
-  async findOperativeBySkillIds(skillIds) {
+  async findOperativeBySkillIds(skillIds, locale) {
     const foundInSkillIds = (skillId) => skillIds.includes(skillId);
-    const challenges = await this.findOperative();
+    const challenges = await this.findOperative(locale);
     return challenges.filter((challengeData) => foundInSkillIds(challengeData.skillId));
   },
 
@@ -32,14 +32,11 @@ const challengeDatasource = datasource.extend({
     );
   },
 
-  async findOperative() {
+  async findOperative(locale) {
     const challenges = await this.list();
-    return challenges.filter((challengeData) => _challengeHasStatus(challengeData, OPERATIVE_CHALLENGES));
-  },
-
-  async findOperativeHavingLocale(locale) {
-    const operativeChallenges = await this.findOperative();
-    return operativeChallenges.filter((challenge) => _challengeHasLocale(challenge, locale));
+    return challenges.filter(
+      (challenge) => _challengeHasLocale(challenge, locale) && _challengeHasStatus(challenge, OPERATIVE_CHALLENGES),
+    );
   },
 
   async findValidated() {

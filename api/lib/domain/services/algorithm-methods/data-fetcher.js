@@ -8,6 +8,7 @@ async function fetchForCampaigns({
   knowledgeElementRepository,
   campaignParticipationRepository,
   improvementService,
+  locale,
 }) {
   const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
     campaignParticipationId: assessment.campaignParticipationId,
@@ -25,7 +26,7 @@ async function fetchForCampaigns({
       knowledgeElementRepository,
       improvementService,
     }),
-    _fetchSkillsAndChallenges({ campaignSkills, challengeRepository }),
+    _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }),
   ]);
 
   return {
@@ -47,8 +48,8 @@ async function _fetchKnowledgeElements({
   return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment, isRetrying });
 }
 
-async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository }) {
-  const challenges = await challengeRepository.findOperativeBySkills(campaignSkills);
+async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }) {
+  const challenges = await challengeRepository.findOperativeBySkills(campaignSkills, locale);
   return [campaignSkills, challenges];
 }
 
