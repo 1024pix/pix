@@ -17,7 +17,7 @@ const createMissionAssessment = async function ({
   });
   await missionAssessmentRepository.save({ missionAssessment });
 
-  return persistedAssessment;
+  return missionAssessment;
 };
 
 export { createMissionAssessment };
