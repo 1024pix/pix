@@ -30,7 +30,6 @@ class OrganizationForAdmin {
     creatorFirstName,
     creatorLastName,
     identityProviderForCampaigns,
-    enableMultipleSendingAssessment,
     tags = [],
     tagIds = [],
     features = {},
@@ -62,7 +61,6 @@ class OrganizationForAdmin {
     this.creatorFirstName = creatorFirstName;
     this.creatorLastName = creatorLastName;
     this.identityProviderForCampaigns = identityProviderForCampaigns;
-    this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.tags = tags;
     this.tagIds = tagIds;
     this.features = features;
