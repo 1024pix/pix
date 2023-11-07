@@ -15,7 +15,7 @@ module('Acceptance | End mission', function (hooks) {
     // given
     const mission = this.server.create('mission');
     const assessment = this.server.create('assessment', { missionId: mission.id });
-    identifyLearner({ firstName: 'Dora' }, this.owner);
+    identifyLearner(this.owner);
 
     // when
     await visit(`/assessments/${assessment.id}/results`);

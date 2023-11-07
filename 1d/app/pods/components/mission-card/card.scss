@@ -1,32 +1,38 @@
-.card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.mission-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-}
-
-.stop-start-gradient {
-  &--red {
-    stop-color: #EC667B;
+.mission-card {
+  text {
+    font-weight: 700;
+    font-size: 18px;
   }
 
-  &--blue {
-    stop-color: #317CED;
+  .stop-start-gradient {
+    &--red {
+      stop-color: #EC667B;
+    }
+
+    &--blue {
+      stop-color: #317CED;
+    }
+
+    &--purple {
+      stop-color: #F4F0FE;
+    }
+  }
+
+  .stop-end-gradient {
+    &--red {
+      stop-color: #EC5D64;
+    }
+
+    &--blue {
+      stop-color: #4461EF;
+    }
+
+    &--purple {
+      stop-color: #694BAA;
+    }
   }
 }
 
-.stop-end-gradient {
-  &--red {
-    stop-color: #EC5D64;
-  }
-
-  &--blue {
-    stop-color: #4461EF;
-  }
+text.mission-card__title {
+  font-size: 22px;
 }
-

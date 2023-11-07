@@ -20,21 +20,6 @@ const register = async function (server) {
     },
     {
       method: 'POST',
-      path: '/api/pix1d/assessments',
-      config: {
-        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
-        auth: false,
-        handler: assessmentController.createForPix1d,
-        validate: {
-          payload: Joi.object({
-            missionId: identifiersType.missionId,
-          }),
-        },
-        tags: ['api', 'pix1d', 'assessment'],
-      },
-    },
-    {
-      method: 'POST',
       path: '/api/pix1d/assessments/preview',
       config: {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],

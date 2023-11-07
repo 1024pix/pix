@@ -5,6 +5,7 @@ import * as activityRepository from '../../../../../lib/infrastructure/repositor
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import * as activityAnswerRepository from '../../../../../lib/infrastructure/repositories/activity-answer-repository.js';
+import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import { getNextChallenge } from '../../../../../src/school/domain/usecases/get-next-challenge.js';
 import * as learningContentBuilder from '../../../../tooling/learning-content-builder/index.js';
 
@@ -17,7 +18,7 @@ describe('Integration | Usecase | get-next-challenge', function () {
     let challengeAlterVal2;
     let challengeEn1;
     let challengeDefi;
-    let assessment;
+    let assessmentId;
     const alternativeVersion = 2;
 
     beforeEach(async function () {
@@ -91,12 +92,13 @@ describe('Integration | Usecase | get-next-challenge', function () {
     afterEach(async function () {
       await knex('activity-answers').delete();
       await knex('activities').delete();
-      await knex('assessments').where({ id: assessment.id }).delete();
+      await knex('mission-assessments').where({ assessmentId }).delete();
+      await knex('assessments').where({ id: assessmentId }).delete();
     });
 
     context('when the user starts a mission with a challenge without alternative version', function () {
       beforeEach(async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
         await databaseBuilder.commit();
       });
 
@@ -104,11 +106,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
         // when
         sinon.stub(Math, 'random').returns(0.2);
         const nextChallenge = await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
         // then
         expect(nextChallenge).to.be.instanceOf(Challenge);
@@ -119,15 +122,16 @@ describe('Integration | Usecase | get-next-challenge', function () {
         // when
         sinon.stub(Math, 'random').returns(0.2);
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
-        const activities = await knex('activities').where({ assessmentId: assessment.id });
+        const activities = await knex('activities').where({ assessmentId });
 
         expect(activities.length).to.equal(1);
         expect(activities[0].status).to.equal(Activity.status.STARTED);
@@ -137,9 +141,10 @@ describe('Integration | Usecase | get-next-challenge', function () {
 
     context('when the user reloads the first challenge of an activity', function () {
       beforeEach(async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
+
         databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.TRAINING,
           status: Activity.status.STARTED,
           alternativeVersion: 0,
@@ -150,11 +155,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
       it('should return the first challenge', async function () {
         // when
         const nextChallenge = await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -164,15 +170,16 @@ describe('Integration | Usecase | get-next-challenge', function () {
       it('should not create a new activity', async function () {
         // when
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
-        const activities = await knex('activities').where({ assessmentId: assessment.id });
+        const activities = await knex('activities').where({ assessmentId });
 
         expect(activities.length).to.equal(1);
       });
@@ -183,9 +190,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
       function () {
         it('should return the second challenge with the same alternative version', async function () {
           // given
-          assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+          assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
           const activityVal = databaseBuilder.factory.buildActivity({
-            assessmentId: assessment.id,
+            assessmentId,
             level: Activity.levels.VALIDATION,
             status: Activity.status.STARTED,
             createdAt: new Date('2022-04-07'),
@@ -201,11 +208,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
 
           // when
           const nextChallenge = await getNextChallenge({
-            assessmentId: assessment.id,
+            assessmentId,
             activityRepository,
             assessmentRepository,
             challengeRepository,
             activityAnswerRepository,
+            missionAssessmentRepository,
           });
 
           // then
@@ -217,16 +225,16 @@ describe('Integration | Usecase | get-next-challenge', function () {
     context('when the user plays for the 2nd time an activity level which has an alternative version', function () {
       it('should return the first challenge of the activity with the alternative version', async function () {
         // given
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
         databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.FAILED,
           createdAt: new Date('2021-04-07'),
           alternativeVersion: 0,
         });
         const trainingActivity = databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.TRAINING,
           status: Activity.status.STARTED,
           createdAt: new Date('2022-04-09'),
@@ -242,11 +250,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
 
         // when
         const nextChallenge = await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -259,9 +268,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
     context('when the user finished a validation activity', function () {
       let activityVal;
       beforeEach(async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
         activityVal = databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.VALIDATION,
           status: Activity.status.STARTED,
         });
@@ -283,11 +292,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
       it('should return the first challenge of the training level', async function () {
         // when
         const nextChallenge = await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -297,11 +307,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
       it('should create a new activity for the training level', async function () {
         // when
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -315,9 +326,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
 
     context('when the user failed the last challenge of an activity', function () {
       it('should update the activity with the failed status ', async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
         const activity = databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.CHALLENGE,
           status: Activity.status.STARTED,
         });
@@ -331,11 +342,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
         await databaseBuilder.commit();
         // when
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -346,9 +358,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
     });
     context('when the user skipped the last challenge of an activity', function () {
       it('should update the activity with the skipped status ', async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
         const activity = databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.CHALLENGE,
           status: Activity.status.STARTED,
         });
@@ -362,11 +374,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
         await databaseBuilder.commit();
         // when
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -377,9 +390,9 @@ describe('Integration | Usecase | get-next-challenge', function () {
     });
     context('when the user succeeded the last challenge of an activity', function () {
       it('should update the activity with the succeeded status ', async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
         const activity = databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.CHALLENGE,
           status: Activity.status.STARTED,
         });
@@ -393,11 +406,12 @@ describe('Integration | Usecase | get-next-challenge', function () {
         await databaseBuilder.commit();
         // when
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
@@ -409,10 +423,10 @@ describe('Integration | Usecase | get-next-challenge', function () {
 
     context('when the user finished the mission', function () {
       it('should complete the assessment', async function () {
-        assessment = databaseBuilder.factory.buildPix1dAssessment({ missionId });
+        assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;
 
         const activityDefi = databaseBuilder.factory.buildActivity({
-          assessmentId: assessment.id,
+          assessmentId,
           level: Activity.levels.CHALLENGE,
           status: Activity.status.STARTED,
         });
@@ -426,15 +440,16 @@ describe('Integration | Usecase | get-next-challenge', function () {
         await databaseBuilder.commit();
         // when
         await getNextChallenge({
-          assessmentId: assessment.id,
+          assessmentId,
           activityRepository,
           assessmentRepository,
           challengeRepository,
           activityAnswerRepository,
+          missionAssessmentRepository,
         });
 
         // then
-        const updatedAssessment = await knex('assessments').where({ id: assessment.id }).first();
+        const updatedAssessment = await knex('assessments').where({ id: assessmentId }).first();
 
         expect(updatedAssessment.state).to.equal(Assessment.states.COMPLETED);
       });

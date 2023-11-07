@@ -20,7 +20,10 @@
     "missions": {
       "start-page": {
         "back-to-missions": "Voir toutes les missions",
-        "list": "Bonjour {prenom}, choisis ta mission parmi celles qui te sont proposées ci-dessous !<br>Si tu n'es pas {prenom}, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>",
+        "cards": {
+          "finished": "Terminé"
+        },
+        "list": "Bonjour <strong>{prenom}</strong>, choisis ta mission parmi celles qui te sont proposées ci-dessous !<br>Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>",
         "purpose-title": "Objectif de la mission :",
         "start-mission": "C'est partix !",
         "welcome": "Prépare-toi à résoudre des épreuves et relever des défis."

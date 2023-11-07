@@ -6,6 +6,7 @@ export default class AssessmentAdapter extends ApplicationAdapter {
     return this.ajax(url, 'POST', {
       data: {
         missionId: query.missionId,
+        learnerId: query.learnerId,
       },
     });
   }

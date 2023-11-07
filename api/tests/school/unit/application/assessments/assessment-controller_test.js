@@ -1,6 +1,7 @@
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { assessmentController } from '../../../../../src/school/application/assessments/assessment-controller.js';
 import { usecases } from '../../../../../src/school/shared/usecases/index.js';
+
 describe('Unit | Controller | assessment-controller', function () {
   describe('#getNextChallengeForPix1d', function () {
     it('should call the expected usecase', async function () {
