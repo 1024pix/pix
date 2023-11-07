@@ -12,8 +12,6 @@ export class AssessmentSimulator {
   run() {
     const challengesAnswers = [];
     const result = [];
-    let estimatedLevel =
-      this.initialCapacity ?? this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
 
     for (let i = 0; i < Infinity; i++) {
       try {
@@ -36,25 +34,24 @@ export class AssessmentSimulator {
           break;
         }
 
-        challengesAnswers.push(new Answer({ result: answerStatus, challengeId: nextChallenge.id }));
-
-        const reward = this.algorithm.getReward({
-          estimatedLevel,
-          difficulty: nextChallenge.difficulty,
-          discriminant: nextChallenge.discriminant,
-        });
-
-        estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({
+        const estimatedLevelBeforeAnswering = this.algorithm.getEstimatedLevelAndErrorRate({
           allAnswers: challengesAnswers,
           challenges: this.challenges,
           initialCapacity: this.initialCapacity,
         }).estimatedLevel;
 
-        const errorRate = this.algorithm.getEstimatedLevelAndErrorRate({
+        challengesAnswers.push(new Answer({ result: answerStatus, challengeId: nextChallenge.id }));
+        const { estimatedLevel, errorRate } = this.algorithm.getEstimatedLevelAndErrorRate({
           allAnswers: challengesAnswers,
           challenges: this.challenges,
           initialCapacity: this.initialCapacity,
-        }).errorRate;
+        });
+
+        const reward = this.algorithm.getReward({
+          estimatedLevel: estimatedLevelBeforeAnswering,
+          difficulty: nextChallenge.difficulty,
+          discriminant: nextChallenge.discriminant,
+        });
 
         result.push({
           challenge: nextChallenge,
