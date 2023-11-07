@@ -5,6 +5,7 @@ import { ReproducibilityRate } from '../models/ReproducibilityRate.js';
 import { AnswerCollectionForScoring } from '../models/AnswerCollectionForScoring.js';
 import { ComplementaryCertificationScoringWithComplementaryReferential } from '../models/ComplementaryCertificationScoringWithComplementaryReferential.js';
 import { ComplementaryCertificationScoringWithoutComplementaryReferential } from '../models/ComplementaryCertificationScoringWithoutComplementaryReferential.js';
+import { ComplementaryCertificationCourseResult } from '../models/ComplementaryCertificationCourseResult.js';
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
@@ -12,7 +13,7 @@ async function handleComplementaryCertificationsScoring({
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
-  partnerCertificationScoringRepository,
+  complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
 }) {
   checkEventTypes(event, eventTypes);
@@ -24,10 +25,6 @@ async function handleComplementaryCertificationsScoring({
   if (!complementaryCertificationScoringCriteria.length) {
     return;
   }
-
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
-    certificationCourseId,
-  });
 
   for (const complementaryCertificationScoringCriterion of complementaryCertificationScoringCriteria) {
     const {
@@ -43,6 +40,9 @@ async function handleComplementaryCertificationsScoring({
     let complementaryCertificationScoringWithComplementaryReferential;
 
     if (hasComplementaryReferential) {
+      const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
+        certificationCourseId,
+      });
       const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
         certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(complementaryCertificationBadgeKey);
       complementaryCertificationScoringWithComplementaryReferential =
@@ -66,9 +66,12 @@ async function handleComplementaryCertificationsScoring({
         });
     }
 
-    await partnerCertificationScoringRepository.save({
-      partnerCertificationScoring: complementaryCertificationScoringWithComplementaryReferential,
-    });
+    await complementaryCertificationCourseResultRepository.save(
+      ComplementaryCertificationCourseResult.from({
+        ...complementaryCertificationScoringWithComplementaryReferential,
+        acquired: complementaryCertificationScoringWithComplementaryReferential.isAcquired(),
+      }),
+    );
   }
 }
 

@@ -1,4 +1,3 @@
-import { ReproducibilityRate } from '../../../../lib/domain/models/ReproducibilityRate.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 import { catchErr, expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
@@ -6,19 +5,19 @@ const { handleComplementaryCertificationsScoring } = _forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-complementary-certification-certifications-scoring', function () {
   const certificationAssessmentRepository = {};
-  const partnerCertificationScoringRepository = {};
+  const complementaryCertificationCourseResultRepository = {};
   const assessmentResultRepository = {};
   const complementaryCertificationScoringCriteriaRepository = {};
 
   const dependencies = {
     certificationAssessmentRepository,
-    partnerCertificationScoringRepository,
+    complementaryCertificationCourseResultRepository,
     assessmentResultRepository,
     complementaryCertificationScoringCriteriaRepository,
   };
 
   beforeEach(function () {
-    partnerCertificationScoringRepository.save = sinon.stub();
+    complementaryCertificationCourseResultRepository.save = sinon.stub();
     certificationAssessmentRepository.getByCertificationCourseId = sinon.stub();
     assessmentResultRepository.getByCertificationCourseId = sinon.stub();
     complementaryCertificationScoringCriteriaRepository.findByCertificationCourseId = sinon.stub();
@@ -53,7 +52,7 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
       await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
       // then
-      expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
+      expect(complementaryCertificationCourseResultRepository.save).to.not.have.been.called;
     });
   });
 
@@ -104,17 +103,16 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
         await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
         // then
-        const expectedPartnerCertificationScoring =
-          domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+        expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+          ComplementaryCertificationCourseResult.from({
             complementaryCertificationCourseId: 999,
-            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-            reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-            hasAcquiredPixCertification: true,
-          });
-        expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-          partnerCertificationScoring: expectedPartnerCertificationScoring,
-        });
+            partnerKey: 'PIX_PLUS_TEST',
+            source: ComplementaryCertificationCourseResult.sources.PIX,
+            acquired: true,
+          }),
+        );
       });
+
       context('scoring', function () {
         it('should save a "not acquired" complementary certification when pix certification is not validated', async function () {
           // given
@@ -122,7 +120,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             certificationCourseId: 123,
             userId: 456,
           });
-          const complementaryCertificationCourseId = 999;
           const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
             challengeId: 'chal1',
             certifiableBadgeKey: 'PIX_PLUS_TEST',
@@ -159,21 +156,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
-              complementaryCertificationCourseId,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
+              complementaryCertificationCourseId: 999,
+              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
-              reproducibilityRate: new ReproducibilityRate(100),
-              hasAcquiredPixCertification: false,
-              minimumReproducibilityRate: 100,
-            });
-
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
+              acquired: false,
+            }),
+          );
         });
 
         it('should save a "not acquired" complementary certification when pix certification is validated and repro rate is not sufficient', async function () {
@@ -223,18 +213,15 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
-              hasAcquiredPixCertification: true,
-              minimumReproducibilityRate: 75,
-            });
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
+              partnerKey: 'PIX_PLUS_TEST',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: false,
+            }),
+          );
         });
 
         it('should save an "acquired" complementary certification when pix certification is validated and repro rate is sufficient', async function () {
@@ -284,18 +271,15 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithComplementaryReferential({
+
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-              hasAcquiredPixCertification: true,
-              minimumReproducibilityRate: 75,
-            });
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.true;
+              partnerKey: 'PIX_PLUS_TEST',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: true,
+            }),
+          );
         });
       });
     });
@@ -347,21 +331,17 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
         await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
         // then
-        const expectedPartnerCertificationScoring =
-          domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
+
+        expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+          ComplementaryCertificationCourseResult.from({
             complementaryCertificationCourseId: 999,
-            complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-            reproducibilityRate: 100,
-            hasAcquiredPixCertification: true,
-            certificationCourseId: 123,
-            pixScore: 128,
-            minimumEarnedPix: 50,
-            minimumReproducibilityRate: 70,
-          });
-        expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-          partnerCertificationScoring: expectedPartnerCertificationScoring,
-        });
+            partnerKey: 'PIX_PLUS_TEST',
+            source: ComplementaryCertificationCourseResult.sources.PIX,
+            acquired: true,
+          }),
+        );
       });
+
       context('scoring', function () {
         it('should save a "not acquired" complementary certification when pix score and reproducibility rate are below expectations', async function () {
           // given
@@ -369,7 +349,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             certificationCourseId: 123,
             userId: 456,
           });
-          const complementaryCertificationCourseId = 999;
           const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
             challengeId: 'chal1',
             certifiableBadgeKey: 'PIX_PLUS_TEST',
@@ -410,23 +389,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
-              complementaryCertificationCourseId,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
+              complementaryCertificationCourseId: 999,
+              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
-              minimumReproducibilityRate: 75,
-              certificationCourseId: 123,
-              reproducibilityRate: 70,
-              pixScore: 45,
-              minimumEarnedPix: 50,
-            });
-
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
+              acquired: false,
+            }),
+          );
         });
 
         it('should save a "not acquired" complementary certification when pix score is above expectation and repro rate is not', async function () {
@@ -480,21 +450,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
-              certificationCourseId: 123,
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              reproducibilityRate: 70,
-              hasAcquiredPixCertification: true,
-              minimumReproducibilityRate: 75,
-              pixScore: 60,
-              minimumEarnedPix: 50,
-            });
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
+              partnerKey: 'PIX_PLUS_TEST',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: false,
+            }),
+          );
         });
 
         it('should save a "not acquired" complementary certification when pix score is below expectation and repro rate is above', async function () {
@@ -548,21 +511,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
-              certificationCourseId: 123,
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              reproducibilityRate: 75,
-              hasAcquiredPixCertification: true,
-              minimumReproducibilityRate: 70,
-              pixScore: 45,
-              minimumEarnedPix: 50,
-            });
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
+              partnerKey: 'PIX_PLUS_TEST',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: false,
+            }),
+          );
         });
 
         it('should save an "acquired" complementary certification when pix score and repro rate are above expectations', async function () {
@@ -616,21 +572,14 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           await handleComplementaryCertificationsScoring({ event, ...dependencies });
 
           // then
-          const expectedPartnerCertificationScoring =
-            domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
-              certificationCourseId: 123,
+          expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
+            ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
-              complementaryCertificationBadgeKey: 'PIX_PLUS_TEST',
-              hasAcquiredPixCertification: true,
-              reproducibilityRate: 75,
-              minimumReproducibilityRate: 70,
-              pixScore: 120,
-              minimumEarnedPix: 50,
-            });
-          expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-            partnerCertificationScoring: expectedPartnerCertificationScoring,
-          });
-          expect(expectedPartnerCertificationScoring.isAcquired()).to.be.true;
+              partnerKey: 'PIX_PLUS_TEST',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
+              acquired: true,
+            }),
+          );
         });
       });
     });

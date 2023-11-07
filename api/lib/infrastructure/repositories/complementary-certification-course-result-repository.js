@@ -1,6 +1,11 @@
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 import { knex } from '../../../db/knex-database-connection.js';
 
+// ...partnerCertificationScoring,
+// source: ComplementaryCertificationCourseResult.sources.PIX,
+// complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
+// acquired: partnerCertificationScoring.isAcquired(),
+
 const getPixSourceResultByComplementaryCertificationCourseId = async function ({ complementaryCertificationCourseId }) {
   const result = await knex
     .select('*')

@@ -1,4 +1,4 @@
-import { injectDefaults, injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
+import { injectDefaults } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
 import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';
@@ -38,7 +38,6 @@ import * as finalizedSessionRepository from '../../infrastructure/repositories/s
 import { logger } from '../../infrastructure/logger.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
-import * as dependency from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
 import { handleAutoJury } from './handle-auto-jury.js';
 import { handleCertificationScoring } from './handle-certification-scoring.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
@@ -91,9 +90,6 @@ const dependencies = {
   targetProfileRepository,
   userRepository,
 };
-
-const partnerCertificationScoringRepository = injectDependencies(dependency, dependencies);
-dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
 const handlersToBeInjected = {
   handleAutoJury,
