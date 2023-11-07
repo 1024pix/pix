@@ -21,6 +21,60 @@ import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-to
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
+  describe('constructor', function () {
+    context('when claimsToStore is undefined', function () {
+      it('does not set claimsToStore', async function () {
+        // given
+        const args = {};
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+      });
+    });
+
+    context('when claimsToStore is null', function () {
+      it('does not set claimsToStore', async function () {
+        // given
+        const args = { claimsToStore: null };
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+      });
+    });
+
+    context('when claimsToStore is an empty array', function () {
+      it('does not set claimsToStore', async function () {
+        // given
+        const args = { claimsToStore: [] };
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).not.to.exist;
+      });
+    });
+
+    context('when claimsToStore is not empty', function () {
+      it('sets claimsToStore', async function () {
+        // given
+        const args = { claimsToStore: ['employeeNumber', 'studentGroup'] };
+
+        // when
+        const oidcAuthenticationService = new OidcAuthenticationService(args);
+
+        // then
+        expect(oidcAuthenticationService.claimsToStore).to.exist;
+      });
+    });
+  });
+
   describe('#isReady', function () {
     describe('when configKey is set', function () {
       describe('when enabled in config', function () {
@@ -203,13 +257,13 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
-  describe('#getUserInfoMissingFields', function () {
+  describe('#_getUserInfoMissingFields', function () {
     it('should return a message with missing fields list', async function () {
       // given
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = await oidcAuthenticationService.getUserInfoMissingFields({
+      const response = oidcAuthenticationService._getUserInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: undefined,
@@ -227,7 +281,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const response = await oidcAuthenticationService.getUserInfoMissingFields({
+      const response = oidcAuthenticationService._getUserInfoMissingFields({
         userInfoContent: {
           given_name: 'givenName',
           family_name: 'familyName',
@@ -461,14 +515,14 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           );
         }
 
+        const userInfoUrl = 'infoUrl';
         const idToken = generateIdToken({
           nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
           sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
         });
-        const userInfoUrl = 'infoUrl';
 
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
-        sinon.stub(oidcAuthenticationService, 'getUserInfoFromEndpoint');
+        sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint');
 
         // when
         await oidcAuthenticationService.getUserInfo({
@@ -477,15 +531,14 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         // then
-        expect(oidcAuthenticationService.getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
+        expect(oidcAuthenticationService._getUserInfoFromEndpoint).to.have.been.calledOnceWithExactly({
           accessToken: 'accessToken',
-          userInfoUrl,
         });
       });
     });
   });
 
-  describe('#getUserInfoFromEndpoint', function () {
+  describe('#_getUserInfoFromEndpoint', function () {
     // given
     const userInfoUrl = 'userInfoUrl';
     const accessToken = 'accessToken';
@@ -515,7 +568,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
 
       // when
-      const result = await oidcAuthenticationService.getUserInfoFromEndpoint({
+      const result = await oidcAuthenticationService._getUserInfoFromEndpoint({
         accessToken: 'accessToken',
         userInfoUrl: 'userInfoUrl',
       });
@@ -553,7 +606,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         // when
         let errorResponse;
         try {
-          await oidcAuthenticationService.getUserInfoFromEndpoint({
+          await oidcAuthenticationService._getUserInfoFromEndpoint({
             accessToken: 'accessToken',
             userInfoUrl: 'userInfoUrl',
           });
@@ -598,7 +651,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // when
         const error = await catchErr(
-          oidcAuthenticationService.getUserInfoFromEndpoint,
+          oidcAuthenticationService._getUserInfoFromEndpoint,
           oidcAuthenticationService,
         )({
           accessToken,
@@ -647,7 +700,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
 
         // when
         const error = await catchErr(
-          oidcAuthenticationService.getUserInfoFromEndpoint,
+          oidcAuthenticationService._getUserInfoFromEndpoint,
           oidcAuthenticationService,
         )({
           accessToken: 'accessToken',
