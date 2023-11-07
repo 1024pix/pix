@@ -17,12 +17,12 @@ class ConfigLoader {
   }
 
   get(key) {
-    if (this.#configuration[key]) {
-      return this.#configuration[key];
+    if (process.env[key]) {
+      return process.env[key];
     }
 
-    if (process.env[key] !== 'undefined') {
-      return process.env[key];
+    if (this.#configuration[key]) {
+      return this.#configuration[key];
     }
 
     return undefined;

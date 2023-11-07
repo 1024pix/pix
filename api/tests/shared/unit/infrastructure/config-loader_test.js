@@ -1,19 +1,18 @@
 import { expect } from '../../../test-helper.js';
 import { ConfigLoader } from '../../../../src/shared/infrastructure/config-loader.js';
 import * as url from 'url';
-import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Shared | infrastructure | config-loader', function () {
-  describe('given a test.env file with properties KEY=one, KEYTWO=kiloutou', function () {
-    let configLoader;
-    beforeEach(async function () {
-      configLoader = new ConfigLoader({ configDirectoryPath: __dirname });
-      await configLoader.loadConfigFile();
-    });
+  let configLoader;
+  beforeEach(async function () {
+    configLoader = new ConfigLoader({ configDirectoryPath: __dirname });
+    await configLoader.loadConfigFile();
+  });
 
-    it("should return one on get('KEY')", function () {
+  describe('given a test.env file with properties KEY=one, KEYTWO=kiloutou', function () {
+    it("should return 'one' on get('KEY')", function () {
       // given, when
       const result = configLoader.get('KEY');
 
@@ -21,7 +20,7 @@ describe('Unit | Shared | infrastructure | config-loader', function () {
       expect(result).to.equal('one');
     });
 
-    it("should return kiloutou on get('KEYTWO')", function () {
+    it("should return 'kiloutou' on get('KEYTWO')", function () {
       // given, when
       const result = configLoader.get('KEYTWO');
 
@@ -30,7 +29,7 @@ describe('Unit | Shared | infrastructure | config-loader', function () {
     });
 
     describe('given an environment variable KEYTHREE=kiwi', function () {
-      it("should return kiwi on get('KEYTHREE')", function () {
+      it("should return 'kiwi' on get('KEYTHREE')", function () {
         // given
         process.env.KEYTHREE = 'kiwi';
 
@@ -45,7 +44,7 @@ describe('Unit | Shared | infrastructure | config-loader', function () {
     describe('given no environment variable for KEYFOUR=tropfort', function () {
       it("should return undefined on get('KEYFOUR')", function () {
         // given
-        process.env.KEYFOUR = undefined;
+        delete process.env.KEYFOUR;
 
         // when
         const result = configLoader.get('KEYFOUR');
@@ -53,6 +52,19 @@ describe('Unit | Shared | infrastructure | config-loader', function () {
         // then
         expect(result).to.be.undefined;
       });
+    });
+  });
+
+  describe('given a test.env file with properties KEY=one and environment variable KEY=two', function () {
+    it("should return 'two' on get('KEY')", function () {
+      // given
+      process.env.KEY = 'two';
+
+      // when
+      const result = configLoader.get('KEY');
+
+      // then
+      expect(result).to.equal('two');
     });
   });
 });
