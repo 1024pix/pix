@@ -35,10 +35,10 @@ export class AssessmentSimulatorSingleMeasureStrategy {
       initialCapacity: this.initialCapacity,
     }).estimatedLevel;
 
-    const newAnswers = [...challengesAnswers, new Answer({ result: answerStatus, challengeId: nextChallenge.id })];
+    const newAnswer = new Answer({ result: answerStatus, challengeId: nextChallenge.id });
 
     const { estimatedLevel, errorRate } = this.algorithm.getEstimatedLevelAndErrorRate({
-      allAnswers: newAnswers,
+      allAnswers: [...challengesAnswers, newAnswer],
       challenges: this.challenges,
       initialCapacity: this.initialCapacity,
     });
@@ -57,7 +57,7 @@ export class AssessmentSimulatorSingleMeasureStrategy {
         reward,
         answerStatus,
       },
-      challengesAnswers: newAnswers,
+      challengeAnswer: newAnswer,
     };
   }
 }

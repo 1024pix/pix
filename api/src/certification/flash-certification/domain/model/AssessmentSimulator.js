@@ -4,7 +4,7 @@ export class AssessmentSimulator {
   }
 
   run() {
-    let challengesAnswers = [];
+    const challengesAnswers = [];
     const result = [];
 
     for (let i = 0; i < Infinity; i++) {
@@ -15,7 +15,7 @@ export class AssessmentSimulator {
           break;
         }
 
-        challengesAnswers = simulatorStepResult.challengesAnswers;
+        challengesAnswers.push(simulatorStepResult.challengeAnswer);
         result.push(simulatorStepResult.result);
       } catch (err) {
         break;

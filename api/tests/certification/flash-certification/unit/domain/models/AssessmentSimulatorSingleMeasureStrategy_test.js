@@ -110,12 +110,10 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
               reward: expectedReward,
               answerStatus: answerForSimulator,
             },
-            challengesAnswers: [
-              new Answer({
-                result: answerForSimulator,
-                challengeId: challenge2.id,
-              }),
-            ],
+            challengeAnswer: new Answer({
+              result: answerForSimulator,
+              challengeId: challenge2.id,
+            }),
           };
 
           const strategy = new AssessmentSimulatorSingleMeasureStrategy({
@@ -243,13 +241,10 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
               reward: expectedReward,
               answerStatus: answerForSimulator,
             },
-            challengesAnswers: [
-              challengeAnswer,
-              new Answer({
-                result: answerForSimulator,
-                challengeId: challenge2.id,
-              }),
-            ],
+            challengeAnswer: new Answer({
+              result: answerForSimulator,
+              challengeId: challenge2.id,
+            }),
           };
 
           const strategy = new AssessmentSimulatorSingleMeasureStrategy({
