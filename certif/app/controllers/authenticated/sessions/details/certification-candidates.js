@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import every from 'lodash/every';
 /* eslint-disable ember/no-computed-properties-in-native-classes*/
 import { alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
@@ -24,7 +23,7 @@ export default class CertificationCandidatesController extends Controller {
 
   @computed('certificationCandidates', 'certificationCandidates.@each.isLinked')
   get importAllowed() {
-    return every(this.certificationCandidates.toArray(), (certificationCandidate) => {
+    return this.certificationCandidates.every((certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
