@@ -236,9 +236,20 @@ const findById = async function (certificationCenterMembershipId) {
   return _toDomain(certificationCenterMembership);
 };
 
+const findOneWithCertificationCenterIdAndUserId = async function ({ certificationCenterId, userId }) {
+  const certificationCenterMembership = await knex('certification-center-memberships')
+    .where({ certificationCenterId, userId })
+    .first();
+
+  if (!certificationCenterMembership) return;
+
+  return _toDomain(certificationCenterMembership);
+};
+
 export {
   findByUserId,
   findActiveByCertificationCenterIdSortedById,
+  findOneWithCertificationCenterIdAndUserId,
   save,
   isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
