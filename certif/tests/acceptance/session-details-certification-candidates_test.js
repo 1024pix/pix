@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, find, triggerEvent } from '@ember/test-helpers';
+import { click, currentURL, fillIn, find, triggerEvent, settled } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit, within } from '@1024pix/ember-testing-library';
 import { setupIntl } from 'ember-intl/test-support/index';
 
+/* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Session Details Certification Candidates', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -164,6 +165,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           // when
           const input = await screen.findByLabelText('Importer (.ods)');
           await triggerEvent(input, 'change', { files: [file] });
+          await settled();
 
           // then
           assert.dom('table tbody tr').exists({ count: 2 });
@@ -177,6 +179,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           // when
           const input = find('#upload-attendance-sheet');
           await triggerEvent(input, 'change', { files: [file] });
+          await settled();
 
           // then
           assert.dom(screen.getByText('La liste des candidats a été importée avec succès.')).exists();
@@ -192,6 +195,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // when
               const input = find('#upload-attendance-sheet');
               await triggerEvent(input, 'change', { files: [file] });
+              await settled();
 
               // then
               assert
@@ -214,6 +218,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // when
               const input = find('#upload-attendance-sheet');
               await triggerEvent(input, 'change', { files: [file] });
+              await settled();
 
               // then
               assert
@@ -235,6 +240,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // when
               const input = find('#upload-attendance-sheet');
               await triggerEvent(input, 'change', { files: [file] });
+              await settled();
 
               // then
               assert
@@ -256,6 +262,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               // when
               const input = find('#upload-attendance-sheet');
               await triggerEvent(input, 'change', { files: [file] });
+              await settled();
 
               // then
               assert
@@ -317,6 +324,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         // when
         const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
         await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+        await settled();
 
         // then
         await screen.findByRole('dialog');
@@ -408,6 +416,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+            await settled();
 
             // then
             assert
@@ -469,6 +478,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+            await settled();
 
             // then
             assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été inscrit avec succès.');
@@ -480,6 +490,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
+            await settled();
 
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
@@ -545,3 +556,4 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
   }
 });
+/* eslint-enable ember/no-settled-after-test-helper */

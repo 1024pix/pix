@@ -34,7 +34,7 @@ export default class AuthenticatedTeamInviteController extends Controller {
       });
 
       this.notifications.success(message);
-      this.router.transitionTo('authenticated.team.list.invitations');
+      await this.router.transitionTo('authenticated.team.list.invitations');
     } catch (responseError) {
       if (responseError.errors) {
         const errorMessage = this._handleApiError(responseError);

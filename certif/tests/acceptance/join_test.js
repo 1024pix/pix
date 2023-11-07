@@ -9,6 +9,7 @@ import { currentSession } from 'ember-simple-auth/test-support';
 import { currentURL } from '@ember/test-helpers';
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { settled } from '@ember/test-helpers';
 
 module('Acceptance | join ', function (hooks) {
   setupApplicationTest(hooks);
@@ -51,8 +52,9 @@ module('Acceptance | join ', function (hooks) {
           await fillByLabel(emailInputLabel, certificationPointOfContactWithoutCgus.email);
           await fillByLabel(passwordInputLabel, 'secret');
 
-          // // when
+          // when
           await clickByName(loginFormButton);
+          await settled();
 
           // then
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -85,6 +87,7 @@ module('Acceptance | join ', function (hooks) {
 
           // // when
           await clickByName(loginFormButton);
+          await settled();
 
           // then
           assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');

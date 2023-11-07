@@ -45,6 +45,7 @@ module('Unit | Route | join', function (hooks) {
         store.queryRecord.rejects({ errors: [forbiddenError] });
         const transition = { data: { isInvitationCancelled: false } };
         route.router.replaceWith.returns(transition);
+        const oldTransition = { abort: sinon.stub() };
 
         const params = {
           invitationId: 2,
@@ -52,11 +53,12 @@ module('Unit | Route | join', function (hooks) {
         };
 
         // when
-        await route.model(params);
+        await route.model(params, oldTransition);
 
         // then
         assert.ok(route.router.replaceWith.calledWith('login'));
         assert.true(transition.data['isInvitationCancelled']);
+        assert.true(oldTransition.abort.called);
       });
     });
 
@@ -72,6 +74,7 @@ module('Unit | Route | join', function (hooks) {
         store.queryRecord.rejects({ errors: [preconditionFailedError] });
         const transition = { data: { hasInvitationAlreadyBeenAccepted: false } };
         route.router.replaceWith.returns(transition);
+        const oldTransition = { abort: sinon.stub() };
 
         const params = {
           invitationId: 2,
@@ -79,11 +82,12 @@ module('Unit | Route | join', function (hooks) {
         };
 
         // when
-        await route.model(params);
+        await route.model(params, oldTransition);
 
         // then
         assert.ok(route.router.replaceWith.calledWith('login'));
         assert.true(transition.data['hasInvitationAlreadyBeenAccepted']);
+        assert.true(oldTransition.abort.called);
       });
     });
   });

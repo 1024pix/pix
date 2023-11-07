@@ -19,7 +19,7 @@ export default class ImportCandidates extends Component {
     try {
       await adapter.addCertificationCandidatesFromOds(sessionId, files);
       this.notifications.success(this.intl.t('pages.sessions.import.candidates-list.import-success'));
-      this.args.reloadCertificationCandidate();
+      await this.args.reloadCertificationCandidate();
     } catch (errorResponse) {
       const errorMessage = this._handleErrorMessage(errorResponse);
       this.notifications.error(htmlSafe(errorMessage), { cssClasses: 'certification-candidates-notification' });
