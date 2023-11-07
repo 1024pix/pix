@@ -106,7 +106,7 @@ class OrganizationForAdmin {
     this.showSkills = organization.showSkills;
     this.updateIdentityProviderForCampaigns(organization.identityProviderForCampaigns);
     this.dataProtectionOfficer.updateInformation(dataProtectionOfficer);
-    this.features[ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key] = organization.enableMultipleSendingAssessment;
+    this.features = organization.features;
     this.features[ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key] =
       this.type === 'SCO' && (this.isManagingStudents || isAEFE);
     this.tagsToAdd = differenceBy(tags, this.tags, 'id').map(({ id }) => ({ tagId: id, organizationId: this.id }));

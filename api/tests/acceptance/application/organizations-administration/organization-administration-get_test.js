@@ -92,6 +92,10 @@ describe('Acceptance | Routes | organization-administration-controller', functio
               'archived-at': archivedAt,
               'creator-full-name': 'Tom Dereck',
               'identity-provider-for-campaigns': null,
+              features: {
+                [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+                [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+              },
               'enable-multiple-sending-assessment': false,
             },
             id: organization.id.toString(),
