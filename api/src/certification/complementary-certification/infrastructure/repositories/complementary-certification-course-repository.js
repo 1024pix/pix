@@ -6,7 +6,7 @@ const findByUserId = async function ({ userId }) {
     .select({
       id: 'complementary-certification-courses.id',
       hasExternalJury: 'complementary-certifications.hasExternalJury',
-      complementaryCertificationBadgeId: 'complementaryCertificationBadgeId',
+      complementaryCertificationBadgeId: 'complementary-certification-badges.id',
       results: knex.raw(
         `array_agg(json_build_object(
         'id', "complementary-certification-course-results".id,
@@ -37,7 +37,8 @@ const findByUserId = async function ({ userId }) {
       'complementary-certification-courses.certificationCourseId',
     )
     .where({ userId })
-    .groupBy('hasExternalJury', 'complementaryCertificationBadgeId', 'complementary-certification-courses.id');
+    .groupBy('hasExternalJury', 'complementary-certification-badges.id', 'complementary-certification-courses.id')
+    .orderBy('complementary-certification-badges.id');
 
   if (!results.length) return [];
 

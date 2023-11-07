@@ -1004,6 +1004,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
+        complementaryCertificationBadgeId: acquiredComplementaryBadgeId,
         partnerKey: key,
         acquired: true,
       });
