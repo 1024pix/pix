@@ -128,7 +128,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
     });
 
     it('should have fetched the challenges', function () {
-      expect(challengeRepository.findOperativeBySkills).to.have.been.calledWithExactly(skills);
+      expect(challengeRepository.findOperativeBySkills).to.have.been.calledWithExactly(skills, locale);
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', function () {
