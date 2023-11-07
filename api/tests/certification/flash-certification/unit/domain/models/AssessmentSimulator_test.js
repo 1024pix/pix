@@ -27,12 +27,10 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
             reward: expectedReward,
             answerStatus: answerForSimulator,
           },
-          challengesAnswers: [
-            domainBuilder.buildAnswer({
-              result: answerForSimulator,
-              challengeId: challenge.id,
-            }),
-          ],
+          challengeAnswer: domainBuilder.buildAnswer({
+            result: answerForSimulator,
+            challengeId: challenge.id,
+          }),
         });
 
       // when
