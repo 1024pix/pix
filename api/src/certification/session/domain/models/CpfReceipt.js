@@ -1,8 +1,8 @@
 class CpfReceipt {
-  id;
+  filename;
 
-  constructor({ id }) {
-    this.id = id;
+  constructor({ filename }) {
+    this.filename = filename;
   }
 }
 

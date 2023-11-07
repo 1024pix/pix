@@ -135,11 +135,11 @@ const configuration = (function () {
         },
         cpfReceipts: {
           client: {
-            accessKeyId: process.env.CPF_STORAGE_ACCESS_KEY_ID,
-            secretAccessKey: process.env.CPF_STORAGE_SECRET_ACCESS_KEY,
-            endpoint: process.env.CPF_STORAGE_ENDPOINT,
-            region: process.env.CPF_STORAGE_REGION,
-            bucket: process.env.CPF_STORAGE_BUCKET_NAME,
+            accessKeyId: process.env.CPF_RECEIPTS_STORAGE_ACCESS_KEY_ID,
+            secretAccessKey: process.env.CPF_RECEIPTS_STORAGE_SECRET_ACCESS_KEY,
+            endpoint: process.env.CPF_RECEIPTS_STORAGE_ENDPOINT,
+            region: process.env.CPF_RECEIPTS_STORAGE_REGION,
+            bucket: process.env.CPF_RECEIPTS_STORAGE_BUCKET_NAME,
           },
         },
       },
@@ -449,7 +449,7 @@ const configuration = (function () {
         client: {
           accessKeyId: 'cpfExports.accessKeyId',
           secretAccessKey: 'cpfExports.secretAccessKey',
-          endpoint: 'http://cpfExports.fake.endpoint.example.net',
+          endpoint: 'http://cpf-exports.fake.endpoint.example.net',
           region: 'cpfExports.region',
           bucket: 'cpfExports.bucket',
         },
@@ -461,7 +461,7 @@ const configuration = (function () {
         client: {
           accessKeyId: 'cpfReceipts.accessKeyId',
           secretAccessKey: 'cpfReceipts.secretAccessKey',
-          endpoint: 'http://cpfReceipts.fake.endpoint.example.net',
+          endpoint: 'http://cpf-receipts.fake.endpoint.example.net',
           region: 'cpfReceipts.region',
           bucket: 'cpfReceipts.bucket',
         },

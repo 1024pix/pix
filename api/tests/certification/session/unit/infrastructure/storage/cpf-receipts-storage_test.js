@@ -30,7 +30,7 @@ describe('Unit | Storage | CpfReceiptsStorage', function () {
       const [results] = await cpfReceiptsStorage.findAll();
 
       // then
-      expect(results).to.deepEqualInstance(new CpfReceipt({ id: 'hyperdimension_galaxy.xml' }));
+      expect(results).to.deepEqualInstance(new CpfReceipt({ filename: 'hyperdimension_galaxy.xml' }));
     });
   });
 });
