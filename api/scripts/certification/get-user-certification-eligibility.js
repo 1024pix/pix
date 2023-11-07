@@ -15,7 +15,7 @@ import { temporaryStorage } from '../../lib/infrastructure/temporary-storage/ind
 
 /**
  * DESCRIPTION
- *    Will display certifications eligibiliby for a user at a specific date
+ *    Will display certifications eligibility for a user at a specific date
  *    Note: by default date is full today's date at 23h 59m 59s
  *
  * USAGE

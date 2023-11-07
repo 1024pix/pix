@@ -5,22 +5,24 @@ import { createUnzip } from 'node:zlib';
 
 import fs from 'fs';
 import lodash from 'lodash';
-const { noop } = lodash;
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
+import stream from 'stream';
+import * as url from 'url';
+
+const { noop } = lodash;
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import stream from 'stream';
 const { PassThrough } = stream;
 
-import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload', function () {
   let cpfCertificationResultRepository;
-  let cpfExternalStorage;
+  let uploadCpfFiles;
   let clock;
   const expectedFileName = 'pix-cpf-export-20220102-114327.xml.gz';
   let logger;
@@ -29,7 +31,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
     clock = sinon.useFakeTimers(now);
-    logger = { error: noop, info: noop };
+    logger = { error: noop, info: noop, trace: noop };
     uuidService = { randomUUID: sinon.stub() };
   });
 
@@ -51,18 +53,17 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       markCertificationCoursesAsExported: sinon.stub(),
     };
 
-    cpfExternalStorage = {
-      upload: sinon.stub(),
-    };
+    uploadCpfFiles = sinon.stub();
 
     cpfCertificationResultRepository.findByBatchId.withArgs(batchId).resolves(cpfCertificationResults);
 
     uuidService.randomUUID.returns('xxx-yyy-zzz');
 
-    cpfExternalStorage.upload
+    uploadCpfFiles
       .withArgs({
         filename: expectedFileName,
         readableStream: sinon.match(PassThrough),
+        logger,
       })
       .callsFake(async function ({ readableStream }) {
         const unzipedStream = readableStream.pipe(createUnzip());
@@ -76,7 +77,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
       data: { batchId },
       cpfCertificationResultRepository,
       cpfCertificationXmlExportService,
-      cpfExternalStorage,
+      uploadCpfFiles,
       logger,
       uuidService,
     });

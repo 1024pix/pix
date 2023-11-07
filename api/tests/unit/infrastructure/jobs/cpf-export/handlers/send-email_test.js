@@ -2,14 +2,13 @@ import { expect, sinon } from '../../../../../test-helper.js';
 import { sendEmail } from '../../../../../../lib/infrastructure/jobs/cpf-export/handlers/send-email.js';
 import cronParser from 'cron-parser';
 import { config } from '../../../../../../lib/config.js';
+
 const { cpf } = config;
 describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
-  let cpfExternalStorage;
+  let getPreSignedUrls;
   let mailService;
   beforeEach(function () {
-    cpfExternalStorage = {
-      getPreSignUrlsOfFilesModifiedAfter: sinon.stub(),
-    };
+    getPreSignedUrls = sinon.stub();
     mailService = {
       sendCpfEmail: sinon.stub(),
     };
@@ -30,10 +29,10 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     sinon.stub(cronParser, 'parseExpression').returns(cronExpressionParserStub);
 
     // when
-    await sendEmail({ cpfExternalStorage, mailService });
+    await sendEmail({ getPreSignedUrls, mailService });
 
     // then
-    expect(cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter).to.have.been.calledWithExactly({
+    expect(getPreSignedUrls).to.have.been.calledWithExactly({
       date: expectedDate,
     });
   });
@@ -45,13 +44,13 @@ describe('Unit | Infrastructure | jobs | cpf-export | send-email', function () {
     sinon.stub(cpf, 'plannerJob').value({ cron: `0 0 ${day} ${month} *` });
     sinon.stub(cpf, 'sendEmailJob').value({ recipient: 'teamcertif@example.net' });
 
-    cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter.resolves([
+    getPreSignedUrls.resolves([
       'https://bucket.url.com/file1.xml',
       'https://bucket.url.com/file2.xml',
       'https://bucket.url.com/file3.xml',
     ]);
     // when
-    await sendEmail({ cpfExternalStorage, mailService });
+    await sendEmail({ getPreSignedUrls, mailService });
 
     // then
     expect(mailService.sendCpfEmail).to.have.been.calledWithExactly({
