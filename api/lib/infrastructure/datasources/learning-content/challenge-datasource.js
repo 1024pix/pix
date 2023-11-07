@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty.js';
 import * as datasource from './datasource.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 
@@ -8,11 +8,19 @@ const PROPOSED_CHALLENGE = 'proposé';
 const OBSOLETE_CHALLENGE = 'périmé';
 const OPERATIVE_CHALLENGES = [VALIDATED_CHALLENGE, 'archivé'];
 
+function _challengeHasStatus(challenge, statuses) {
+  return statuses.includes(challenge.status);
+}
+
+function _challengeHasLocale(challenge, locale) {
+  return challenge.locales.includes(locale);
+}
+
 const challengeDatasource = datasource.extend({
   modelName: 'challenges',
 
   async findOperativeBySkillIds(skillIds) {
-    const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
+    const foundInSkillIds = (skillId) => skillIds.includes(skillId);
     const challenges = await this.findOperative();
     return challenges.filter((challengeData) => foundInSkillIds(challengeData.skillId));
   },
@@ -20,23 +28,23 @@ const challengeDatasource = datasource.extend({
   async findValidatedByCompetenceId(competenceId) {
     const challenges = await this.findValidated();
     return challenges.filter(
-      (challengeData) => !_.isEmpty(challengeData.skillId) && _.includes(challengeData.competenceId, competenceId),
+      (challengeData) => !isEmpty(challengeData.skillId) && challengeData.competenceId === competenceId,
     );
   },
 
   async findOperative() {
     const challenges = await this.list();
-    return challenges.filter((challengeData) => _.includes(OPERATIVE_CHALLENGES, challengeData.status));
+    return challenges.filter((challengeData) => _challengeHasStatus(challengeData, OPERATIVE_CHALLENGES));
   },
 
   async findOperativeHavingLocale(locale) {
     const operativeChallenges = await this.findOperative();
-    return operativeChallenges.filter((challenge) => _.includes(challenge.locales, locale));
+    return operativeChallenges.filter((challenge) => _challengeHasLocale(challenge, locale));
   },
 
   async findValidated() {
     const challenges = await this.list();
-    return challenges.filter((challengeData) => challengeData.status === VALIDATED_CHALLENGE);
+    return challenges.filter((challengeData) => _challengeHasStatus(challengeData, [VALIDATED_CHALLENGE]));
   },
 
   async findValidatedBySkillId(id) {
@@ -48,11 +56,10 @@ const challengeDatasource = datasource.extend({
     const challenges = await this.list();
     const filteredChallenges = challenges.filter(
       (challenge) =>
-        challenge.skillId === skillId &&
-        (challenge.status === VALIDATED_CHALLENGE || challenge.status === PROPOSED_CHALLENGE),
+        challenge.skillId === skillId && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
     );
 
-    if (_.isEmpty(filteredChallenges)) {
+    if (isEmpty(filteredChallenges)) {
       throw new LearningContentResourceNotFound();
     }
     return filteredChallenges;
@@ -60,12 +67,12 @@ const challengeDatasource = datasource.extend({
 
   async findActiveFlashCompatible(locale) {
     const flashChallenges = await this.findFlashCompatible({ locale });
-    return flashChallenges.filter((challengeData) => challengeData.status === VALIDATED_CHALLENGE);
+    return flashChallenges.filter((challengeData) => _challengeHasStatus(challengeData, [VALIDATED_CHALLENGE]));
   },
 
   async findOperativeFlashCompatible(locale) {
     const flashChallenges = await this.findFlashCompatible({ locale });
-    return flashChallenges.filter((challengeData) => _.includes(OPERATIVE_CHALLENGES, challengeData.status));
+    return flashChallenges.filter((challengeData) => _challengeHasStatus(challengeData, OPERATIVE_CHALLENGES));
   },
 
   async findFlashCompatible({ locale, useObsoleteChallenges }) {
@@ -77,11 +84,11 @@ const challengeDatasource = datasource.extend({
 
     return challenges.filter(
       (challengeData) =>
-        (!locale || _.includes(challengeData.locales, locale)) &&
+        (!locale || _challengeHasLocale(challengeData, locale)) &&
         challengeData.alpha != null &&
         challengeData.delta != null &&
         challengeData.skillId &&
-        acceptedStatuses.includes(challengeData.status),
+        _challengeHasStatus(challengeData, acceptedStatuses),
     );
   },
 });
