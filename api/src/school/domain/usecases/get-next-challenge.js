@@ -9,8 +9,9 @@ export async function getNextChallenge({
   activityAnswerRepository,
   challengeRepository,
   activityRepository,
+  missionAssessmentRepository,
 }) {
-  const { missionId } = await assessmentRepository.get(assessmentId);
+  const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId);
   const currentActivity = await getCurrentActivity(activityRepository, assessmentId);
 
   if (currentActivity) {

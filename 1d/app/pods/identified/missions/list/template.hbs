@@ -1,15 +1,23 @@
 {{page-title "Home"}}
 <div>
-  <RobotDialog
-    @instruction={{t "pages.missions.start-page.list" prenom=this.learnerFirstName backUrl=@model.studentsUrl}}
-  />
+  <RobotDialog @instruction={{t "pages.missions.start-page.list" prenom=@model.firstName backUrl=this.schoolUrl}} />
   <div class="cards">
     <LinkTo @route="identified.missions.mission" @model="recExjO7RHeDI48HK">
-      <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
+      <MissionCard
+        @title="Recherche sur internet"
+        @colorClass="red"
+        @imageName="internet-search"
+        @missionCompleted={{this.missionCompleted "recExjO7RHeDI48HK"}}
+      />
     </LinkTo>
 
     <LinkTo @route="identified.missions.mission" @model="recZtwymXXrtdXRrx">
-      <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
+      <MissionCard
+        @title="Données personnelles"
+        @colorClass="blue"
+        @imageName="personal-data"
+        @missionCompleted={{this.missionCompleted "recZtwymXXrtdXRrx"}}
+      />
     </LinkTo>
   </div>
 </div>

@@ -2,9 +2,10 @@ import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { currentURL, fillIn, click } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupIntl } from 'ember-intl/test-support';
 import identifyLearner from '../helpers/identify-learner';
+
 module('Acceptance | School', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -30,7 +31,7 @@ module('Acceptance | School', function (hooks) {
 
   module('When the user is identified', function () {
     test('should display mission page', async function (assert) {
-      identifyLearner({ firstName: 'Amanda' }, this.owner);
+      identifyLearner(this.owner);
       try {
         await visit('/');
       } catch (error) {
@@ -141,10 +142,7 @@ module('Acceptance | School', function (hooks) {
 
       // then
       assert.deepEqual(currentLearner.learner, {
-        division: 'CM2-B',
-        firstName: 'Maya',
-        lastName: 'Labeille',
-        organizationId: 9000,
+        id: 1,
         schoolUrl: '/schools/MINIPIXOU',
       });
     });

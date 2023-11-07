@@ -14,7 +14,10 @@ export default class Students extends Controller {
 
   @action
   identifyUser(learner) {
-    this.currentLearner.setLearner({ ...learner, schoolUrl: this.model.schoolUrl });
+    this.currentLearner.setLearner({
+      id: learner.id,
+      schoolUrl: this.model.schoolUrl,
+    });
     this.router.transitionTo('identified.missions');
   }
 }

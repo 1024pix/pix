@@ -21,21 +21,6 @@ describe('Unit | Application | Router | assessment-router', function () {
     });
   });
 
-  describe('POST /api/pix1d/assessments', function () {
-    it('should return 200', async function () {
-      // given
-      sinon.stub(assessmentController, 'createForPix1d').callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/pix1d/assessments', { missionId: 'unMissionID' });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('POST /api/pix1d/assessments/preview', function () {
     it('should return 200', async function () {
       // given

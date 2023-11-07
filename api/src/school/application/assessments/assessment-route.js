@@ -21,6 +21,22 @@ const register = async function (server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/pix1d/assessments',
+      config: {
+        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
+        auth: false,
+        handler: assessmentController.createForPix1d,
+        validate: {
+          payload: Joi.object({
+            missionId: identifiersType.missionId,
+            learnerId: identifiersType.organizationLearnerId,
+          }),
+        },
+        tags: ['api', 'pix1d', 'assessment'],
+      },
+    },
   ]);
 };
 const name = 'assessment-pix1d-api';
