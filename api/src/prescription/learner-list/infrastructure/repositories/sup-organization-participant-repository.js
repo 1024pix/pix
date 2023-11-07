@@ -1,9 +1,9 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { SupOrganizationParticipant } from '../../domain/read-models/SupOrganizationParticipant.js';
-import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
-import { filterByFullName } from '../utils/filter-utils.js';
+import { CampaignTypes } from '../../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 
 function _setFilters(qb, { search, studentNumber, groups, certificability } = {}) {
   if (search) {

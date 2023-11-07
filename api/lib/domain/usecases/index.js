@@ -163,7 +163,6 @@ import * as stageRepository from '../../infrastructure/repositories/stage-reposi
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
-import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForAdminRepository from '../../infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as TargetProfileForSpecifierRepository from '../../infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
@@ -378,7 +377,6 @@ const dependencies = {
   studentRepository,
   supervisorAccessRepository,
   supOrganizationLearnerRepository,
-  supOrganizationParticipantRepository,
   tagRepository,
   targetProfileForAdminRepository,
   TargetProfileForSpecifierRepository,

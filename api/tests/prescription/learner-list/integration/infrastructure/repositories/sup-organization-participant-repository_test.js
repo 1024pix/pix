@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as supOrganizationParticipantRepository from '../../../../lib/infrastructure/repositories/sup-organization-participant-repository.js';
-import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { expect, databaseBuilder } from '../../../../../test-helper.js';
+import * as supOrganizationParticipantRepository from '../../../../../../src/prescription/learner-list/infrastructure/repositories/sup-organization-participant-repository.js';
+import { SupOrganizationParticipant } from '../../../../../../src/prescription/learner-list/domain/read-models/SupOrganizationParticipant.js';
+import { CampaignTypes } from '../../../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 describe('Integration | Infrastructure | Repository | sup-organization-participant-repository', function () {
   describe('#findPaginatedFilteredSupParticipants', function () {
