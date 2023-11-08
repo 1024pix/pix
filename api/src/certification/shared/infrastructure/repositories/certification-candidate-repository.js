@@ -1,20 +1,20 @@
 import _ from 'lodash';
-import { normalize } from '../utils/string-utils.js';
-import { logger } from '../../infrastructure/logger.js';
-import { BookshelfCertificationCandidate } from '../orm-models/CertificationCandidate.js';
-import * as bookshelfToDomainConverter from '../../infrastructure/utils/bookshelf-to-domain-converter.js';
-import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../db/pgsql-errors.js';
+import { normalize } from '../../../../../src/shared/infrastructure/utils/string-utils.js';
+import { logger } from '../../../../../src/shared/infrastructure/utils/logger.js';
+import { BookshelfCertificationCandidate } from '../../../../../lib/infrastructure/orm-models/CertificationCandidate.js';
+import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../../db/pgsql-errors.js';
 
 import {
   NotFoundError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
-} from '../../domain/errors.js';
+} from '../../../../../lib/domain/errors.js';
 
-import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationCandidate } from '../../domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 const linkToUser = async function ({ id, userId }) {
   try {

@@ -5,9 +5,12 @@ import * as assessmentRepository from '../../../../shared/infrastructure/reposit
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as badgeRepository from '../../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
+import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as challengeRepository from '../../../shared/infrastructure/repositories/challenge-repository.js';
+import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
+import * as certificationCpfCityRepository from '../../../shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
@@ -15,6 +18,7 @@ import * as complementaryCertificationTargetProfileHistoryRepository from '../..
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as mailService from '../services/mail-service.js';
+import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
@@ -29,10 +33,14 @@ const dependencies = {
   assessmentRepository,
   attendanceSheetPdfUtils,
   badgeRepository,
+  certificationCandidateRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
+  certificationCpfService,
   certificationIssueReportRepository,
   challengeRepository,
+  certificationCpfCityRepository,
+  certificationCpfCountryRepository,
   complementaryCertificationBadgesRepository,
   complementaryCertificationRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,

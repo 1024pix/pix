@@ -1,5 +1,5 @@
 import { databaseBuffer } from '../database-buffer.js';
-import { normalizeAndSortChars } from '../../../lib/infrastructure/utils/string-utils.js';
+import { normalizeAndSortChars } from '../../../src/shared/infrastructure/utils/string-utils.js';
 
 const buildCertificationCpfCountry = function ({
   id = databaseBuffer.getNextId(),

@@ -6,7 +6,7 @@ import * as sessionValidator from '../../../src/certification/session/domain/val
 import * as events from '../../domain/events/index.js';
 import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
-import * as certificationCandidateSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import * as certificationCandidateSerializer from '../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import * as certificationReportSerializer from '../../infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
@@ -99,19 +99,6 @@ const getCertificationCandidates = async function (request, h, dependencies = { 
 
   const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
   return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
-};
-
-const addCertificationCandidate = async function (request, h, dependencies = { certificationCandidateSerializer }) {
-  const sessionId = request.params.id;
-  const certificationCandidate = await dependencies.certificationCandidateSerializer.deserialize(request.payload);
-  const complementaryCertification = request.payload.data.attributes['complementary-certification'] ?? null;
-  const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
-    sessionId,
-    certificationCandidate,
-    complementaryCertification,
-  });
-
-  return h.response(dependencies.certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
 };
 
 const deleteCertificationCandidate = async function (request) {
@@ -374,7 +361,6 @@ const sessionController = {
   getCandidatesImportSheet,
   getCertificationCandidates,
   getCertificationPDFAttestationsForSession,
-  addCertificationCandidate,
   deleteCertificationCandidate,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
