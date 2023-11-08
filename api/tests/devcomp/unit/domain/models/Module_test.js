@@ -9,16 +9,16 @@ describe('Unit | Devcomp | Models | Module', function () {
       const id = 1;
       const slug = 'les-adresses-email';
       const title = 'Les adresses email';
-      const list = [Symbol('text')];
+      const grains = [Symbol('text')];
 
       // when
-      const module = new Module({ id, slug, title, list });
+      const module = new Module({ id, slug, title, grains });
 
       // then
       expect(module.id).to.equal(id);
       expect(module.slug).to.equal(slug);
       expect(module.title).to.equal(title);
-      expect(module.list).to.have.length(list.length);
+      expect(module.grains).to.have.length(grains.length);
     });
 
     describe('if a module does not have an id', function () {
@@ -40,20 +40,25 @@ describe('Unit | Devcomp | Models | Module', function () {
     });
 
     describe('if a module does not have an element', function () {
-      describe('given no list param', function () {
+      describe('given no grain param', function () {
         it('should throw an error', function () {
           expect(
             () => new Module({ id: 'id_module_1', slug: 'les-adresses-mail', title: 'Les adresses mail' }),
-          ).to.throw('Une liste est obligatoire pour un module');
+          ).to.throw('Une liste de grains est obligatoire pour un module');
         });
       });
 
-      describe('given a wrong typed list param', function () {
+      describe('given a wrong typed grain in param', function () {
         it('should throw an error', function () {
           expect(
             () =>
-              new Module({ id: 'id_module_1', slug: 'les-adresses-mail', title: 'Les adresses mail', list: 'liste' }),
-          ).to.throw('Un Module doit forcément posséder une liste');
+              new Module({
+                id: 'id_module_1',
+                slug: 'les-adresses-mail',
+                title: 'Les adresses mail',
+                grains: 'elements',
+              }),
+          ).to.throw(`Un Module doit forcément posséder une liste de grains`);
         });
       });
     });
@@ -66,10 +71,10 @@ describe('Unit | Devcomp | Models | Module', function () {
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
         const expectedElement = { id: elementId };
-        const list = [expectedElement];
+        const grains = [{ elements: [expectedElement] }];
 
         // when
-        const foundElement = new Module({ id, slug, title, list }).getElementById(elementId);
+        const foundElement = new Module({ id, slug, title, grains }).getElementById(elementId);
 
         // then
         expect(foundElement).to.deep.equal(expectedElement);
@@ -81,9 +86,9 @@ describe('Unit | Devcomp | Models | Module', function () {
         const slug = 'les-adresses-email';
         const title = 'Les adresses email';
         const expectedElement = { id: 'elementId' };
-        const list = [expectedElement];
+        const grains = [{ elements: expectedElement }];
 
-        const module = new Module({ id, slug, title, list });
+        const module = new Module({ id, slug, title, grains });
 
         // when
         const error = catchErrSync(module.getElementById, module)('another-element-id');
