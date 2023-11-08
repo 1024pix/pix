@@ -53,6 +53,7 @@ describe('Unit | UseCase | neutralize-challenge', function () {
 
   it('return a ChallengeNeutralized event', async function () {
     // given
+    const locale = 'fr';
     const certificationCourseId = 1;
     const certificationAssessmentRepository = {
       getByCertificationCourseId: sinon.stub(),
@@ -88,10 +89,11 @@ describe('Unit | UseCase | neutralize-challenge', function () {
       certificationCourseId,
       challengeRecId: challengeToBeNeutralized.challengeId,
       juryId: 7,
+      locale,
     });
 
     // then
     expect(event).to.be.an.instanceof(ChallengeNeutralized);
-    expect(event).to.deep.equal({ certificationCourseId, juryId: 7 });
+    expect(event).to.deep.equal({ certificationCourseId, juryId: 7, locale });
   });
 });

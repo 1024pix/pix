@@ -65,18 +65,21 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           type: Challenge.Type.QCU,
           status: 'validé',
           skillId: 'recArea1_Competence1_Tube1_Skill1',
+          locales: ['fr'],
         },
         {
           id: 'recChalB',
           type: Challenge.Type.QCM,
           status: 'archivé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
+          locales: ['fr'],
         },
         {
           id: 'recChalC',
           type: Challenge.Type.QCM,
           status: 'périmé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
+          locales: ['fr'],
         },
       ],
     };
@@ -124,7 +127,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       it('should return the certification assessment with certification challenges and answers', async function () {
         // when
-        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId, 'fr');
 
         // then
         expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
@@ -241,6 +244,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
           certificationCourseId,
+          locale: 'fr',
         });
 
         // then

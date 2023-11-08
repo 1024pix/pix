@@ -19,10 +19,12 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   const easyChallengeParams = {
     alpha: 1,
     delta: -3,
+    langues: ['Franco Français'],
   };
   const hardChallengeParams = {
     alpha: 1,
     delta: 3,
+    langues: ['Franco Français'],
   };
   const learningContent = [
     {

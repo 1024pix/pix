@@ -51,6 +51,7 @@ async function handleAutoJury({
     if (hasAutoResolutionAnEffectOnScoring || hasAutoCompleteAnEffectOnScoring) {
       const certificationJuryDoneEvent = new CertificationJuryDone({
         certificationCourseId: certificationCourse.getId(),
+        locale: event.locale,
       });
 
       certificationJuryDoneEvents.push(certificationJuryDoneEvent);

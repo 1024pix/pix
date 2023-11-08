@@ -64,29 +64,34 @@ describe('Integration | Repository | challenge-repository', function () {
   });
 
   describe('#getMany', function () {
-    it('should return the challenges by their id', async function () {
+    it('should return the challenges by their id and locale', async function () {
       const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1 });
+      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1, locales: ['fr'] });
       const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
-      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2, locales: ['fr'] });
       const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
-      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
+      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3, locales: ['fr'] });
+      const skill4 = domainBuilder.buildSkill({ id: 'recSkill4' });
+      const challenge4 = domainBuilder.buildChallenge({ id: 'recChal4', skill: skill4, locales: ['en'] });
+
       const learningContent = {
         skills: [
           { ...skill1, level: skill1.difficulty },
           { ...skill2, level: skill2.difficulty },
           { ...skill3, level: skill3.difficulty },
+          { ...skill4, level: skill4.difficulty },
         ],
         challenges: [
           { ...challenge1, skillId: 'recSkill1' },
           { ...challenge2, skillId: 'recSkill2' },
           { ...challenge3, skillId: 'recSkill3' },
+          { ...challenge4, skillId: 'recSkill4' },
         ],
       };
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.getMany(['recChal1', 'recChal2']);
+      const actualChallenges = await challengeRepository.getMany(['recChal1', 'recChal2', 'recChal4'], 'fr');
 
       // then
       const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1' });

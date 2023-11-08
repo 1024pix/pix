@@ -96,7 +96,7 @@ async function fetchForFlashCampaigns({
     .map(({ challengeId }) => challengeId)
     .filter((challengeId) => !challengeIds.has(challengeId));
   if (missingChallengeIds.length > 0) {
-    const missingChallenges = await challengeRepository.getMany(missingChallengeIds);
+    const missingChallenges = await challengeRepository.getMany(missingChallengeIds, locale);
     challenges.push(...missingChallenges);
   }
 
@@ -107,9 +107,12 @@ async function fetchForFlashCampaigns({
   };
 }
 
-async function fetchForFlashLevelEstimation({ assessment, answerRepository, challengeRepository }) {
+async function fetchForFlashLevelEstimation({ assessment, answerRepository, challengeRepository, locale }) {
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
-  const challenges = await challengeRepository.getMany(allAnswers.map(({ challengeId }) => challengeId));
+  const challenges = await challengeRepository.getMany(
+    allAnswers.map(({ challengeId }) => challengeId),
+    locale,
+  );
 
   return {
     allAnswers,

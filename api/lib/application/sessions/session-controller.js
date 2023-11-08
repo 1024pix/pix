@@ -274,8 +274,13 @@ const createCandidateParticipation = async function (request, h, dependencies = 
   return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
 };
 
-const finalize = async function (request, h, dependencies = { certificationReportSerializer, events }) {
+const finalize = async function (
+  request,
+  h,
+  dependencies = { certificationReportSerializer, events, requestResponseUtils },
+) {
   const sessionId = request.params.id;
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
   const hasIncident = request.payload.data.attributes['has-incident'];
   const hasJoiningIssue = request.payload.data.attributes['has-joining-issue'];
@@ -291,6 +296,7 @@ const finalize = async function (request, h, dependencies = { certificationRepor
     hasIncident,
     hasJoiningIssue,
     certificationReports,
+    locale,
   });
   await dependencies.events.eventDispatcher.dispatch(event);
   return h.response().code(200);
