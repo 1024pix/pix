@@ -121,7 +121,7 @@ import { buildResultCompetenceTree } from './build-result-competence-tree.js';
 import { buildSession } from './build-session.js';
 import { buildSessionForAttendanceSheet } from './build-session-for-attendance-sheet.js';
 import { buildSessionForSupervising } from './build-session-for-supervising.js';
-import { buildSessionForSupervisorKit } from './build-session-for-supervisor-kit.js';
+import { buildSessionForInvigilatorKit } from './build-session-for-invigilator-kit.js';
 import { buildSessionJuryComment } from './build-session-jury-comment.js';
 import { buildSessionSummary } from './build-session-summary.js';
 import { buildShareableCertificate } from './build-shareable-certificate.js';
@@ -284,7 +284,7 @@ export {
   buildSession,
   buildSessionForAttendanceSheet,
   buildSessionForSupervising,
-  buildSessionForSupervisorKit,
+  buildSessionForInvigilatorKit,
   buildSessionJuryComment,
   buildSessionSummary,
   buildShareableCertificate,
