@@ -3,6 +3,7 @@ import { Module } from '../../domain/models/Module.js';
 import { Text } from '../../domain/models/element/Text.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
+import { Grain } from '../../domain/models/Grain.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -20,7 +21,7 @@ function _toDomain(moduleData) {
     slug: moduleData.slug,
     title: moduleData.title,
     grains: moduleData.grains.map((grain) => {
-      return {
+      return new Grain({
         id: grain.id,
         title: grain.title,
         type: grain.type,
@@ -47,7 +48,7 @@ function _toDomain(moduleData) {
             content: element.content,
           });
         }),
-      };
+      });
     }),
   });
 }
