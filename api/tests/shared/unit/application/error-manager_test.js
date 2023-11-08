@@ -6,6 +6,7 @@ import {
   LocaleNotSupportedError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
+  CertificationAttestationGenerationError,
 } from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
@@ -239,6 +240,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
           );
         });
       });
+    });
+
+    it('should instantiate UnprocessableEntityError when CertificationAttestationGenerationError', async function () {
+      // given
+      const error = new CertificationAttestationGenerationError();
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message);
     });
   });
 });

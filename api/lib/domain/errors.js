@@ -1160,12 +1160,6 @@ class NoSkillsInCampaignError extends DomainError {
   }
 }
 
-class CertificationAttestationGenerationError extends DomainError {
-  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
-    super(message);
-  }
-}
-
 class InvalidJuryLevelError extends DomainError {
   constructor(message = 'Le niveau jury renseigné est invalide.') {
     super(message);
@@ -1226,7 +1220,6 @@ export {
   CandidateNotAuthorizedToResumeCertificationTestError,
   CantImproveCampaignParticipationError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationAttestationGenerationError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
