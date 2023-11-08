@@ -155,6 +155,30 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
   });
 
+  describe('#getManyByLocale', function () {
+    beforeEach(function () {
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3] });
+    });
+
+    it('should return a list of all challenges having locale by id', async function () {
+      // given
+      const locale = 'fr';
+      const challengeIdList = ['challenge-web1', 'challenge-web1-notValidated', 'challenge-web2', 'challenge-web3'];
+
+      // when
+      const results = await challengeDatasource.getManyByLocale(challengeIdList, locale);
+
+      // then
+      expect(results.map((result) => result.id)).to.deep.equal([
+        'challenge-web1',
+        'challenge-web1-notValidated',
+        'challenge-web3',
+      ]);
+    });
+  });
+
   describe('#findOperativeBySkillIds', function () {
     beforeEach(function () {
       sinon
