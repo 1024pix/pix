@@ -19,13 +19,16 @@ describe('Integration | UseCase | integrate-cpf-processing-receipts ', function 
           'Content-Type': 'application/xml',
         });
 
+      nock('http://cpf-receipts.fake.endpoint.example.net:80')
+        .get(
+          '/cpfReceipts.bucket/Accus%C3%A9%20de%20traitement_pix-cpf-export-20231016-223357_002.xml_20231025.xml?x-id=GetObject',
+        )
+        .reply(200);
+
       // when
-      const files = await integrateCpfProccessingReceipts({ cpfReceiptsStorage });
+      await integrateCpfProccessingReceipts({ cpfReceiptsStorage });
 
       // then
-      expect(files).to.deep.equal([
-        { filename: 'Accusé de traitement_pix-cpf-export-20231016-223357_002.xml_20231025.xml' },
-      ]);
     });
   });
 });

@@ -33,4 +33,23 @@ describe('Unit | Storage | CpfReceiptsStorage', function () {
       expect(results).to.deepEqualInstance(new CpfReceipt({ filename: 'hyperdimension_galaxy.xml' }));
     });
   });
+
+  describe('#readFile', function () {
+    it('should return a readable stream of a S3 object file', async function () {
+      // given
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      const cpfReceiptsStorage = new CpfReceiptsStorage();
+      const fakeReadableStream = sinon.stub();
+      providerStub.readFile.resolves({ Body: fakeReadableStream });
+      const cpfReceipt = new CpfReceipt({ filename: 'neet_game' });
+
+      // when
+      const results = await cpfReceiptsStorage.readFile({ cpfReceipt });
+
+      // then
+      expect(providerStub.readFile).to.have.been.calledOnceWithExactly({ key: 'neet_game' });
+      expect(results).to.equal(fakeReadableStream);
+    });
+  });
 });

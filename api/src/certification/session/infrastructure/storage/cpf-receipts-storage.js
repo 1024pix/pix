@@ -21,6 +21,12 @@ class CpfReceiptsStorage {
     return this.#toDomainArray({ storageFiles: storageResponse.Contents });
   }
 
+  async readFile({ cpfReceipt }) {
+    const data = await this.#client.readFile({ key: cpfReceipt.filename });
+    //Body from the GetObjectCommand is a ReadableStream
+    return data.Body;
+  }
+
   #toDomainArray({ storageFiles = [] }) {
     return storageFiles.map((file) => new CpfReceipt({ filename: file.Key }));
   }
