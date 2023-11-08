@@ -115,11 +115,18 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
   }
 }
 
+class CertificationAttestationGenerationError extends DomainError {
+  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
+    super(message);
+  }
+}
+
 export {
   DomainError,
   AssessmentEndedError,
   ForbiddenAccess,
   EntityValidationError,
+  CertificationAttestationGenerationError,
   CsvImportError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
