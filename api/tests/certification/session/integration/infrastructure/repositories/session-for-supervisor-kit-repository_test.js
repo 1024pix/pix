@@ -1,6 +1,6 @@
-import { databaseBuilder, expect } from '../../../../test-helper.js';
-import * as sessionForSupervisorKitRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
-import { SessionForSupervisorKit } from '../../../../../lib/domain/read-models/SessionForSupervisorKit.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
+import * as sessionForSupervisorKitRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-supervisor-kit-repository.js';
+import { SessionForSupervisorKit } from '../../../../../../src/certification/session/domain/read-models/SessionForSupervisorKit.js';
 
 describe('Integration | Repository | Session-for-supervisor-kit', function () {
   describe('#get', function () {
