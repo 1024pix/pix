@@ -1,7 +1,8 @@
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { PIX_ADMIN, ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { PIX_ADMIN } from '../../../../src/access/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
