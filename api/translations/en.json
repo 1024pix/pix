@@ -1,5 +1,4 @@
 {
-  "current-lang": "en",
   "attendance-sheet": {
     "certification-information": {
       "date": "Date:",
@@ -10,17 +9,16 @@
       "session": "The certification session"
     },
     "examiner-information": {
-      "title": "The invigilator(s)",
       "invigilated-by": "Invigilated by:",
-      "signature": "Signature(s):"
+      "signature": "Signature(s):",
+      "title": "The invigilator(s)"
     },
     "file-name": "attendance-sheet-session-",
     "header": {
-      "title": "Attendance sheet",
-      "page": "Page"
+      "page": "Page",
+      "title": "Attendance sheet"
     },
     "table": {
-      "title": "List of candidates",
       "birth-name": "Birth name",
       "date-of-birth": {
         "example": "(dd/mm/yyyy)",
@@ -29,7 +27,8 @@
       "division": "Division",
       "external-id": "External user ID",
       "first-name": "First name",
-      "signature": "Signature"
+      "signature": "Signature",
+      "title": "List of candidates"
     }
   },
   "campaign-export": {
@@ -84,7 +83,6 @@
     }
   },
   "candidate-list-template": {
-    "title": "Candidates' list",
     "billing-mode": {
       "free": "Free",
       "paid": "Paid",
@@ -131,6 +129,7 @@
     "prepayment": "Prepayment code",
     "pricing": "Pricing",
     "pricing-pix": "Pricing of Pix’s share",
+    "title": "Candidates' list",
     "tooltip-line-1": "(Required in particular when purchasing combined credits)",
     "tooltip-line-2": "It must be comprised of the organisation’s SIRET and of the invoice’s number. Ex: 12345678912345/FACT12345. ",
     "tooltip-line-3": "If you don’t have an invoice, a prepayment code must be set with Pix.",
@@ -146,7 +145,6 @@
   },
   "certification-center-invitation-email": {
     "params": {
-      "title": "Invitation to join the Pix Certif space",
       "acceptInvitation": "Accept the invitation",
       "doNotAnswer": "This is an automated email message, please do not reply.",
       "here": "here",
@@ -154,6 +152,7 @@
       "needHelp": "Need help, contact us",
       "oneTimeLink": "This is a one-time use link",
       "pixCertifPresentation": "The Pix Certif space is a tool dedicated to the organisation of certification sessions.",
+      "title": "Invitation to join the Pix Certif space",
       "yourCertificationCenter": "Your certification centre"
     },
     "subject": "Invitation to join Pix Certif"
@@ -166,7 +165,6 @@
     "max-reachable-level-indication": "* At the date of the successful completion of this certification, the number of acheivable pix was { maxReachableScore }, corresponding to a level { maxReachableLevelOnCertificationDate }."
   },
   "certification-result-email": {
-    "title": "View the results of the certification session n° {sessionId} !",
     "params": {
       "doNotReply": "This is an automatic email, please do not reply.",
       "download": "Download the results",
@@ -178,7 +176,8 @@
       "resultsAvailable": "The results of the Pix certifications that you have recommended to your audiences are available.",
       "subject": "[Pix] Certification session",
       "viewResultsInProfile": "The candidates can view their result in their Pix profile."
-    }
+    },
+    "title": "View the results of the certification session n° {sessionId} !"
   },
   "certification-results-csv": {
     "filenames": {
@@ -217,6 +216,7 @@
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
+        "other": "Autre",
         "bts": "BTS contrôlé par l'Etat",
         "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
         "dcg ": "DCG contrôlé par l'Etat",
@@ -232,13 +232,12 @@
         "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
         "master": "Diplôme National de Master contrôlé par l'Etat",
         "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
-        "other": "Autre",
         "vise": "Diplôme visé contrôlé par l'Etat"
       },
       "study-schemes": {
+        "other": "Autre",
         "continuous-training": "Formation continue",
         "initial-training": "Formation initiale hors apprentissage",
-        "other": "Autre",
         "training": "Apprentissage"
       },
       "unknown": "Not recognised"
@@ -279,6 +278,7 @@
     },
     "template-name": "import-template"
   },
+  "current-lang": "en",
   "entity-validation-errors": {
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
     "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",
@@ -301,7 +301,6 @@
   },
   "organization-invitation-email": {
     "params": {
-      "title": "You are invited to join Pix Orga",
       "acceptInvitation": "Accept the invitation",
       "doNotAnswer": "This is an automated email message, please do not reply.",
       "here": "here",
@@ -310,13 +309,13 @@
       "oneTimeLink": "This is a single-use link",
       "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
       "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
+      "title": "You are invited to join Pix Orga",
       "yourOrganization": "Your organisation"
     },
     "subject": "Invitation to join Pix Orga"
   },
   "pix-account-creation-email": {
     "params": {
-      "title": "Your Pix account has been created!",
       "askForHelp": "Any questions? We’re here to help, contact us",
       "disclaimer": "If you did not create this account, you can ask its deletion",
       "doNotAnswer": "This is an automated email message, please do not reply.",
@@ -324,13 +323,13 @@
       "helpdeskLinkLabel": "here",
       "moreOn": "More on",
       "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-      "subtitle": "You can now start testing your skills."
+      "subtitle": "You can now start testing your skills.",
+      "title": "Your Pix account has been created!"
     },
     "subject": "Your Pix account has been created"
   },
   "reset-password-demand-email": {
     "params": {
-      "title": "Reset your password",
       "clickOnTheButton": "Click on the button below to choose a new password.",
       "contactUs": "contact us here",
       "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
@@ -338,6 +337,7 @@
       "moreOn": "More on",
       "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
       "resetMyPassword": "Reset my password",
+      "title": "Reset your password",
       "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
     },
     "subject": "Pix password reset request"

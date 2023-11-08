@@ -1,5 +1,4 @@
 {
-  "current-lang": "fr",
   "account-recovery-email": {
     "params": {
       "choosePassword": "Choisir un mot de passe",
@@ -22,17 +21,16 @@
       "session": "La session de certification"
     },
     "examiner-information": {
-      "title": "Le(s) surveillants(s)",
       "invigilated-by": "Surveillé par :",
-      "signature": "Signature(s) :"
+      "signature": "Signature(s) :",
+      "title": "Le(s) surveillants(s)"
     },
     "file-name": "feuille-emargement-session-",
     "header": {
-      "title": "Feuille d'émargement",
-      "page": "Page"
+      "page": "Page",
+      "title": "Feuille d'émargement"
     },
     "table": {
-      "title": "Liste des candidats",
       "birth-name": "Nom de naissance",
       "date-of-birth": {
         "example": "(jj/mm/aaaa)",
@@ -41,7 +39,8 @@
       "division": "Classe",
       "external-id": "Identifiant local",
       "first-name": "Prénom",
-      "signature": "Signature"
+      "signature": "Signature",
+      "title": "Liste des candidats"
     }
   },
   "campaign-export": {
@@ -157,7 +156,6 @@
   },
   "certification-center-invitation-email": {
     "params": {
-      "title": "Invitation à rejoindre l’espace",
       "acceptInvitation": "Accepter l’invitation",
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
       "here": "ici",
@@ -165,6 +163,7 @@
       "needHelp": "Besoin d’aide, contactez-nous",
       "oneTimeLink": "Ce lien est à usage unique",
       "pixCertifPresentation": "L’espace Pix Certif est un outil dédié à l’organisation des sessions de certification.",
+      "title": "Invitation à rejoindre l’espace",
       "yourCertificationCenter": "Votre centre de certification"
     },
     "subject": "Invitation à rejoindre Pix Certif"
@@ -177,7 +176,6 @@
     "max-reachable-level-indication": "* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de { maxReachableScore }, correspondant au niveau { maxReachableLevelOnCertificationDate }."
   },
   "certification-result-email": {
-    "title": "Consultez les résultats de la session de certification n° {sessionId} !",
     "params": {
       "doNotReply": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
       "download": "Télécharger les résultats",
@@ -191,7 +189,8 @@
       "resultsAvailable": "Les résultats des certifications Pix que vous avez prescrites à vos publics sont disponibles.",
       "subject": "[Pix] Certification session",
       "viewResultsInProfile": "Les candidats peuvent consulter leur résultat depuis leur profil Pix."
-    }
+    },
+    "title": "Consultez les résultats de la session de certification n° {sessionId} !"
   },
   "certification-results-csv": {
     "filenames": {
@@ -231,6 +230,7 @@
   "csv-import-values": {
     "sup-organization-learner": {
       "diplomas": {
+        "other": "Autre",
         "bts": "BTS contrôlé par l'Etat",
         "classe-preparatoire": "Classe préparatoire contrôlée par l'Etat",
         "dcg ": "DCG contrôlé par l'Etat",
@@ -246,13 +246,12 @@
         "license-grade": "Diplôme conférant le grade de licence contrôlé par l'Etat",
         "master": "Diplôme National de Master contrôlé par l'Etat",
         "master-grade": "Diplôme conférant le grade de master contrôlé par l'Etat",
-        "other": "Autre",
         "vise": "Diplôme visé contrôlé par l'Etat"
       },
       "study-schemes": {
+        "other": "Autre",
         "continuous-training": "Formation continue",
         "initial-training": "Formation initiale hors apprentissage",
-        "other": "Autre",
         "training": "Apprentissage"
       },
       "unknown": "Non reconnu"
@@ -293,6 +292,7 @@
     },
     "template-name": "modele-import"
   },
+  "current-lang": "fr",
   "entity-validation-errors": {
     "ACCEPT_CGU": "Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.",
     "ALREADY_REGISTERED_EMAIL": "Cette adresse e-mail est déjà enregistrée, connectez-vous.",
@@ -315,7 +315,6 @@
   },
   "organization-invitation-email": {
     "params": {
-      "title": "Vous êtes invité(e) à rejoindre Pix Orga",
       "acceptInvitation": "Accepter l’invitation",
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
       "here": "ici",
@@ -324,13 +323,13 @@
       "oneTimeLink": "Ce lien est à usage unique",
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
       "subtitle": "La plateforme Pix Orga vous permet de créer, gérer des campagnes de test et suivre la progression de vos participants.",
+      "title": "Vous êtes invité(e) à rejoindre Pix Orga",
       "yourOrganization": "Votre organisation"
     },
     "subject": "Invitation à rejoindre Pix Orga"
   },
   "pix-account-creation-email": {
     "params": {
-      "title": "Votre compte Pix a bien été créé !",
       "askForHelp": "Besoin d’aide, contactez-nous",
       "disclaimer": "Si vous n'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression",
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
@@ -338,13 +337,13 @@
       "helpdeskLinkLabel": "ici",
       "moreOn": "En savoir plus sur",
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-      "subtitle": "Vous pouvez désormais commencer les tests."
+      "subtitle": "Vous pouvez désormais commencer les tests.",
+      "title": "Votre compte Pix a bien été créé !"
     },
     "subject": "Votre compte Pix a bien été créé"
   },
   "reset-password-demand-email": {
     "params": {
-      "title": "Réinitialisation de votre mot de passe",
       "clickOnTheButton": "Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe.",
       "contactUs": "contactez-nous ici",
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre. Besoin d’aide, ",
@@ -352,6 +351,7 @@
       "moreOn": "En savoir plus sur",
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
       "resetMyPassword": "Définir un nouveau mot de passe",
+      "title": "Réinitialisation de votre mot de passe",
       "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail."
     },
     "subject": "Demande de réinitialisation de mot de passe Pix"
