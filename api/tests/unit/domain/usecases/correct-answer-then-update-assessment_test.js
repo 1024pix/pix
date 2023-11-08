@@ -39,6 +39,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const knowledgeElementRepository = {
     findUniqByUserIdAndAssessmentId: () => undefined,
   };
+  const certificationChallengeLiveAlertRepository = { getOngoingByChallengeIdAndAssessmentId: () => undefined };
   const flashAlgorithmService = { getEstimatedLevelAndErrorRate: () => undefined };
   const algorithmDataFetcherService = { fetchForFlashLevelEstimation: () => undefined };
   const nowDate = new Date('2021-03-11T11:00:04Z');
@@ -55,6 +56,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     sinon.stub(flashAssessmentResultRepository, 'save');
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
+    sinon.stub(certificationChallengeLiveAlertRepository, 'getOngoingByChallengeIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
     sinon.stub(flashAlgorithmService, 'getEstimatedLevelAndErrorRate');
     sinon.stub(algorithmDataFetcherService, 'fetchForFlashLevelEstimation');
@@ -85,6 +87,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       campaignRepository,
       knowledgeElementRepository,
       flashAssessmentResultRepository,
+      certificationChallengeLiveAlertRepository,
       scorecardService,
       flashAlgorithmService,
       algorithmDataFetcherService,
@@ -951,6 +954,40 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           expect(correctedAnswer).to.deep.contain(expected);
         });
       });
+    });
+  });
+
+  context('when a live alert has been set in V3 certification', function () {
+    it('should throw an error', async function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ id: '123' });
+      const assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: nowDate,
+        state: Assessment.states.STARTED,
+      });
+      const answer = domainBuilder.buildAnswer({ challengeId: challenge.id });
+      const certificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
+        assessmentId: assessment.id,
+        challengeId: challenge.id,
+      });
+      assessmentRepository.get.resolves(assessment);
+      challengeRepository.get.withArgs(challenge.id).resolves(challenge);
+
+      certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId
+        .withArgs({ challengeId: challenge.id, assessmentId: assessment.id })
+        .resolves(certificationChallengeLiveAlert);
+
+      // when
+      const error = await catchErr(correctAnswerThenUpdateAssessment)({
+        answer,
+        userId,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(ForbiddenAccess);
+      expect(error.message).to.equal('An alert has been set.');
     });
   });
 });
