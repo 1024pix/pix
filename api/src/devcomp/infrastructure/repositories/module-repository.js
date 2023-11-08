@@ -4,6 +4,7 @@ import { Text } from '../../domain/models/element/Text.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
 import { Grain } from '../../domain/models/Grain.js';
+import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -11,7 +12,10 @@ async function getBySlug({ slug, moduleDatasource }) {
 
     return _toDomain(moduleData);
   } catch (e) {
-    throw new NotFoundError();
+    if (e instanceof LearningContentResourceNotFound) {
+      throw new NotFoundError();
+    }
+    throw e;
   }
 }
 
@@ -35,7 +39,6 @@ function _toDomain(moduleData) {
                 return new QcuProposal({
                   id: proposal.id,
                   content: proposal.content,
-                  isValid: proposal.isValid,
                 });
               }),
               feedbacks: element.feedbacks,
