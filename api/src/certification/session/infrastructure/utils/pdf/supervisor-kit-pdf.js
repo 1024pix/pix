@@ -4,8 +4,8 @@ import { PDFDocument, rgb } from 'pdf-lib';
 
 import pdfLibFontkit from '@pdf-lib/fontkit';
 import * as url from 'url';
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
-import { PIX_CERTIF } from '../../../domain/constants.js';
+import { LOCALE } from '../../../../../shared/domain/constants.js';
+import { PIX_CERTIF } from '../../../../../../lib/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = LOCALE;
 
@@ -48,7 +48,7 @@ async function getSupervisorKitPdfBuffer({
 
   pdfDoc.registerFontkit(fontkit);
 
-  const fontFile = await readFile(`${dirname}/files/Roboto-Medium.ttf`);
+  const fontFile = await readFile(`${dirname}/../../../../shared/infrastructure/utils/pdf/files/Roboto-Medium.ttf`);
   const robotFont = await pdfDoc.embedFont(fontFile, { subset: true, customName: 'Roboto-Medium.ttf' });
 
   const [page] = pdfDoc.getPages();
