@@ -1,5 +1,48 @@
 # Pix Changelog
 
+## v4.60.0 (08/11/2023)
+
+
+### :rocket: Amélioration
+- [#7292](https://github.com/1024pix/pix/pull/7292) [FEATURE] Ne pas afficher le message de perte de certificabilité pour un prescrit déjà certifié sur Pix App. (PIX-9529).
+- [#7341](https://github.com/1024pix/pix/pull/7341) [FEATURE] Afficher une mission 'Terminée' lorsque l'élève l'a fait une moins une fois (Pix-9088).
+- [#7293](https://github.com/1024pix/pix/pull/7293) [FEATURE][ADMIN] Sélectionner un rôle à l'envoi d'une invitation à rejoindre un Centre de Certification (PIX-9463).
+- [#7389](https://github.com/1024pix/pix/pull/7389) [FEATURE] Ne pas envoyer d'email sans lien pour le CPF (PIX-9863).
+- [#7342](https://github.com/1024pix/pix/pull/7342) [FEATURE] Gestion de l'accusé de traitement CPF (partie 1) (PIX-9104).
+- [#7387](https://github.com/1024pix/pix/pull/7387) [FEATURE] [API] Créer une variable d'environnement pour lister les claims OIDC supplémentaires à sauvegarder (PIX-9379).
+- [#7344](https://github.com/1024pix/pix/pull/7344) [FEATURE] Modulix : Gérer la réponse de l'apprenant pour un QCU (PIX-9743).
+- [#7380](https://github.com/1024pix/pix/pull/7380) [FEATURE] Sauvegarde du discriminant et de la difficulté en BDD (PIX-9831).
+- [#7362](https://github.com/1024pix/pix/pull/7362) [FEATURE] Reprise du test avec une nouvelle question après un signalement validé (PIX-8812).
+- [#7326](https://github.com/1024pix/pix/pull/7326) [FEATURE] Ajout du tag marquant une alerte en cours dans l'espace surveillant (PIX-8816).
+- [#7377](https://github.com/1024pix/pix/pull/7377) [FEATURE] Limiter la variation du niveau estimé en certif V3 (PIX-9832).
+
+### :building_construction: Tech
+- [#7404](https://github.com/1024pix/pix/pull/7404) [TECH] Déplacer get Prescriber dans un bounded context (PIX-9879).
+- [#7398](https://github.com/1024pix/pix/pull/7398) [TECH] Corrige des messages de dépréciation relatifs a ember-data sur certif.
+- [#7393](https://github.com/1024pix/pix/pull/7393) [TECH] Extrait des méthodes utilitaires pour filtrer les épreuves par locale ou status.
+- [#7382](https://github.com/1024pix/pix/pull/7382) [TECH] Migration des fichiers pour les flash campaigns dans la nouvelle arbo (PIX-9856).
+- [#7372](https://github.com/1024pix/pix/pull/7372) [TECH] Déplacement de la fonctionnalité de la feuille d'émargement dans le dossier src (PIX-9461).
+- [#7384](https://github.com/1024pix/pix/pull/7384) [TECH] Supprimer la méthode `findOperative` du `challengeRepository` qui n'est plus utilisé (PIX-9842).
+- [#7388](https://github.com/1024pix/pix/pull/7388) [TECH] Suppression de la documentation sur la variable d'environnement `FT_TRAINING_RECOMMENDATION`.
+
+### :arrow_up: Montée de version
+- [#7415](https://github.com/1024pix/pix/pull/7415) [BUMP] Update dependency @1024pix/pix-ui to v41 (orga).
+- [#7414](https://github.com/1024pix/pix/pull/7414) [BUMP] Update dependency @1024pix/pix-ui to v41 (mon-pix).
+- [#7413](https://github.com/1024pix/pix/pull/7413) [BUMP] Update dependency @1024pix/pix-ui to v41 (certif).
+- [#7397](https://github.com/1024pix/pix/pull/7397) [BUMP] Update node.
+- [#7412](https://github.com/1024pix/pix/pull/7412) [BUMP] Update dependency @1024pix/ember-testing-library to v1 (orga).
+- [#7411](https://github.com/1024pix/pix/pull/7411) [BUMP] Update dependency @1024pix/ember-testing-library to v1 (mon-pix).
+- [#7410](https://github.com/1024pix/pix/pull/7410) [BUMP] Update dependency @1024pix/ember-testing-library to v1 (certif).
+- [#7409](https://github.com/1024pix/pix/pull/7409) [BUMP] Update dependency @1024pix/ember-testing-library to v1 (admin).
+- [#7408](https://github.com/1024pix/pix/pull/7408) [BUMP] Update dependency @1024pix/ember-testing-library to v1 (1d).
+- [#7400](https://github.com/1024pix/pix/pull/7400) [BUMP] Update dependency @1024pix/pix-ui to v41 (1d).
+- [#7401](https://github.com/1024pix/pix/pull/7401) [BUMP] Update dependency @1024pix/pix-ui to v41 (admin).
+- [#7378](https://github.com/1024pix/pix/pull/7378) [BUMP] Update dependency jwt-decode to v4 (mon-pix).
+- [#7386](https://github.com/1024pix/pix/pull/7386) [BUMP] Update dependency eslint-plugin-unicorn to v49 (api).
+
+### :coffee: Autre
+- [#7322](https://github.com/1024pix/pix/pull/7322) [CLEANUP] Corriger les avertissements de dépréciations d'ember data sur Pix certif#2.
+
 ## v4.59.0 (03/11/2023)
 
 
