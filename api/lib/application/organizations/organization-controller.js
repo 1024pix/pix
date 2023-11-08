@@ -14,7 +14,6 @@ import * as organizationPlacesLotManagementSerializer from '../../infrastructure
 import * as organizationPlacesLotSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
 import * as organizationPlacesCapacitySerializer from '../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
 import * as organizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
-import * as scoOrganizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
@@ -268,37 +267,6 @@ const getGroups = async function (request) {
   return groupSerializer.serialize(groups);
 };
 
-const findPaginatedFilteredScoParticipants = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    scoOrganizationParticipantsSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
-  if (filter.divisions && !Array.isArray(filter.divisions)) {
-    filter.divisions = [filter.divisions];
-  }
-  if (filter.connectionTypes && !Array.isArray(filter.connectionTypes)) {
-    filter.connectionTypes = [filter.connectionTypes];
-  }
-  if (filter.certificability) {
-    filter.certificability = mapCertificabilityByLabel(filter.certificability);
-  }
-  const { data: scoOrganizationParticipants, meta } = await usecases.findPaginatedFilteredScoParticipants({
-    organizationId,
-    filter,
-    page,
-    sort,
-  });
-  return dependencies.scoOrganizationParticipantsSerializer.serialize({
-    scoOrganizationParticipants,
-    meta,
-  });
-};
-
 const importOrganizationLearnersFromSIECLE = async function (request, h) {
   const organizationId = request.params.id;
   const { format } = request.query;
@@ -440,7 +408,6 @@ const organizationController = {
   attachTargetProfiles,
   getDivisions,
   getGroups,
-  findPaginatedFilteredScoParticipants,
   importOrganizationLearnersFromSIECLE,
   sendInvitations,
   resendInvitation,

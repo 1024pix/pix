@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as scoOrganizationParticipantRepository from '../../../../lib/infrastructure/repositories/sco-organization-participant-repository.js';
-import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { expect, databaseBuilder } from '../../../../../test-helper.js';
+import * as scoOrganizationParticipantRepository from '../../../../../../src/prescription/learner-list/infrastructure/repositories/sco-organization-participant-repository.js';
+import { ScoOrganizationParticipant } from '../../../../../../src/prescription/learner-list/domain/read-models/ScoOrganizationParticipant.js';
+import { CampaignTypes } from '../../../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 describe('Integration | Infrastructure | Repository | sco-organization-participant-repository', function () {
   describe('#findPaginatedFilteredScoParticipants', function () {
