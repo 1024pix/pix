@@ -162,9 +162,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
             await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
 
             //then
-            assert
-              .dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')))
-              .containsText('');
+            assert.ok(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name')));
             assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
             assert.deepEqual(currentURL(), '/campagnes/les-miennes');
           });
@@ -183,7 +181,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         const screen = await visitScreen('/campagnes/les-miennes');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign'))).exists();
+        assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign')));
       });
     });
   });
