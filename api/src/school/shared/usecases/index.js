@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../../certification/shared/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../school/infrastructure/repositories/challenge-repository.js';
 import * as schoolRepository from '../../../school/infrastructure/repositories/school-repository.js';
 import * as organizationLearnersRepository from '../../../school/infrastructure/repositories/organization-learners-repository.js';
 import * as missionAssessmentRepository from '../../infrastructure/repositories/mission-assessment-repository.js';
