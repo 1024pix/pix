@@ -19,28 +19,35 @@ function _toDomain(moduleData) {
     id: moduleData.id,
     slug: moduleData.slug,
     title: moduleData.title,
-    list: moduleData.list.map((element) => {
-      if (element.type === 'qcu') {
-        return new QCU({
-          id: element.id,
-          instruction: element.instruction,
-          locales: element.locales,
-          proposals: element.proposals.map((proposal) => {
-            return new QcuProposal({
-              id: proposal.id,
-              content: proposal.content,
-              isValid: proposal.isValid,
+    grains: moduleData.grains.map((grain) => {
+      return {
+        id: grain.id,
+        title: grain.title,
+        type: grain.type,
+        elements: grain.elements.map((element) => {
+          if (element.type === 'qcu') {
+            return new QCU({
+              id: element.id,
+              instruction: element.instruction,
+              locales: element.locales,
+              proposals: element.proposals.map((proposal) => {
+                return new QcuProposal({
+                  id: proposal.id,
+                  content: proposal.content,
+                  isValid: proposal.isValid,
+                });
+              }),
+              feedbacks: element.feedbacks,
+              solution: element.solution,
             });
-          }),
-          feedbacks: element.feedbacks,
-          solution: element.solution,
-        });
-      }
+          }
 
-      return new Text({
-        id: element.id,
-        content: element.content,
-      });
+          return new Text({
+            id: element.id,
+            content: element.content,
+          });
+        }),
+      };
     }),
   });
 }
