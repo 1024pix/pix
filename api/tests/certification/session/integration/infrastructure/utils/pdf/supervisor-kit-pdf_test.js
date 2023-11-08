@@ -1,9 +1,10 @@
-import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import { isSameBinary } from '../../../../tooling/binary-comparator.js';
-import { getSupervisorKitPdfBuffer } from '../../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
+import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
+import { getSupervisorKitPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
-import { LOCALE } from '../../../../../src/shared/domain/constants.js';
+import { writeFile } from 'fs/promises';
+import { LOCALE } from '../../../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
@@ -26,7 +27,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
         });
-        const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
+        const outputFilename = '/invigilator-kit_expected.pdf';
 
         // when
         const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -35,13 +36,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           creationDate: new Date('2021-01-01'),
         });
 
-        // Note: to update the reference pdf, you can run the test with the following lines.
-        //
-        // import { writeFile } from 'fs/promises';
-        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
         // then
-        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
         expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
       });
 
@@ -58,7 +56,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
             address: 'Une adresse qui ne tient pas sur une seule ligne',
             room: 'Une salle particulièrement longue mais on ne sait jamais',
           });
-          const expectedPdfPath = __dirname + '/kit-surveillant-with-long-labels_expected.pdf';
+          const outputFilename = '/invigilator-kit-with-long-labels_expected.pdf';
 
           // when
           const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -67,13 +65,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
             creationDate: new Date('2021-01-01'),
           });
 
-          // Note: to update the reference pdf, you can run the test with the following lines.
-          //
-          // import { writeFile } from 'fs/promises';
-          // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+          await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
           // then
-          expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+          expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
           expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
         });
       });
@@ -91,7 +86,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           examiner: 'Ariete Bordeauxchesnel',
           version: 3,
         });
-        const expectedPdfPath = __dirname + '/kit-surveillant_expected-v3.pdf';
+        const outputFilename = '/invigilator-kit_expected-v3.pdf';
 
         // when
         const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -100,13 +95,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           creationDate: new Date('2021-01-01'),
         });
 
-        // Note: to update the reference pdf, you can run the test with the following lines.
-        //
-        // import { writeFile } from 'fs/promises';
-        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
         // then
-        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
         expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}-v3.pdf`);
       });
 
@@ -124,7 +116,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
             room: 'Une salle particulièrement longue mais on ne sait jamais',
             version: 3,
           });
-          const expectedPdfPath = __dirname + '/kit-surveillant-with-long-labels_expected-v3.pdf';
+          const outputFilename = '/invigilator-kit-with-long-labels_expected-v3.pdf';
 
           // when
           const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -133,13 +125,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
             creationDate: new Date('2021-01-01'),
           });
 
-          // Note: to update the reference pdf, you can run the test with the following lines.
-          //
-          // import { writeFile } from 'fs/promises';
-          // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+          await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
           // then
-          expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+          expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
           expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}-v3.pdf`);
         });
       });
@@ -157,7 +146,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         date: '2022-09-21',
         examiner: 'Ariete Bordeauxchesnel',
       });
-      const expectedPdfPath = __dirname + '/invigilator-kit_expected.pdf';
+      const outputFilename = '/invigilator-kit-EN_expected.pdf';
 
       // when
       const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -166,13 +155,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         creationDate: new Date('2021-01-01'),
       });
 
-      // Note: to update the reference pdf, you can run the test with the following lines.
-      //
-      // import { writeFile } from 'fs/promises';
-      // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+      await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
       // then
-      expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+      expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
       expect(fileName).to.equal(`invigilator-kit-${sessionForSupervisorKit.id}.pdf`);
     });
   });
@@ -189,7 +175,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
         });
-        const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
+        const outputFilename = '/invigilator-kit_expected.pdf';
 
         // when
         const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -198,13 +184,10 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           creationDate: new Date('2021-01-01'),
         });
 
-        // Note: to update the reference pdf, you can run the test with the following lines.
-        //
-        // import { writeFile } from 'fs/promises';
-        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
         // then
-        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
         expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
       });
     });
@@ -220,7 +203,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
         });
-        const expectedPdfPath = __dirname + '/kit-surveillant_expected.pdf';
+        const outputFilename = '/invigilator-kit_expected.pdf';
 
         // when
         const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
@@ -229,20 +212,16 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           creationDate: new Date('2021-01-01'),
         });
 
-        // Note: to update the reference pdf, you can run the test with the following lines.
-        //
-        // import { writeFile } from 'fs/promises';
-        // await writeFile(expectedPdfPath, actualSupervisorKitBuffer);
+        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
 
         // then
-        expect(await isSameBinary(expectedPdfPath, actualSupervisorKitBuffer)).to.be.true;
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
         expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
       });
     });
   });
 });
 
-// Warning: call _restorePdfLib() when finished /!\
 function _makePdfLibPredictable() {
   const suffixes = new Map();
 
@@ -258,4 +237,11 @@ function _makePdfLibPredictable() {
   }
 
   sinon.stub(pdfLibUtils, 'addRandomSuffix').callsFake(autoIncrementSuffixByPrefix);
+}
+
+async function _writeFile({ actualSupervisorKitBuffer, outputFilename, dryRun = true }) {
+  // Note: to update or create the reference pdf, set dryRun to false.
+  if (!dryRun) {
+    await writeFile(`${__dirname}/${outputFilename}`, actualSupervisorKitBuffer);
+  }
 }
