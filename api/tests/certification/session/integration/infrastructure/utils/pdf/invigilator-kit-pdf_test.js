@@ -1,6 +1,6 @@
 import { domainBuilder, expect, sinon } from '../../../../../../test-helper.js';
 import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
-import { getSupervisorKitPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import { getInvigilatorKitPdfBuffer } from '../../../../../../../src/certification/session/infrastructure/utils/pdf/invigilator-kit-pdf.js';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
 import * as url from 'url';
 import { writeFile } from 'fs/promises';
@@ -10,19 +10,19 @@ const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor kit Pdf', function () {
+describe('Integration | Infrastructure | Utils | Pdf | Certification invigilator kit Pdf', function () {
   beforeEach(function () {
     _makePdfLibPredictable();
   });
 
   context('when lang is french', function () {
     context('when session is V2', function () {
-      it('should return full french supervisor kit as a buffer', async function () {
+      it('should return full french invigilator kit as a buffer', async function () {
         // given
         const lang = FRENCH_SPOKEN;
-        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+        const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
           id: 12345678,
-          supervisorPassword: 12344,
+          invigilatorPassword: 12344,
           accessCode: 'WB64K2',
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
@@ -30,26 +30,26 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         const outputFilename = '/invigilator-kit_expected.pdf';
 
         // when
-        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-          sessionForSupervisorKit,
+        const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+          sessionForInvigilatorKit,
           lang,
           creationDate: new Date('2021-01-01'),
         });
 
-        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+        await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
         // then
-        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForInvigilatorKit.id}.pdf`);
       });
 
       context('when session details contains long labels', function () {
-        it('should return full supervisor kit as a buffer with long labels in multiple lines', async function () {
+        it('should return full invigilator kit as a buffer with long labels in multiple lines', async function () {
           // given
           const lang = FRENCH_SPOKEN;
-          const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+          const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
             id: 12345678,
-            supervisorPassword: 12344,
+            invigilatorPassword: 12344,
             accessCode: 'WB64K2',
             date: '2022-09-21',
             examiner: 'Un nom très très très très très très très très très très long',
@@ -59,28 +59,28 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           const outputFilename = '/invigilator-kit-with-long-labels_expected.pdf';
 
           // when
-          const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-            sessionForSupervisorKit,
+          const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+            sessionForInvigilatorKit,
             lang,
             creationDate: new Date('2021-01-01'),
           });
 
-          await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+          await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
           // then
-          expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-          expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+          expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+          expect(fileName).to.equal(`kit-surveillant-${sessionForInvigilatorKit.id}.pdf`);
         });
       });
     });
 
     context('when session is V3', function () {
-      it('should return full french supervisor kit v3 pdf', async function () {
+      it('should return full french invigilator kit v3 pdf', async function () {
         // given
         const lang = FRENCH_SPOKEN;
-        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+        const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
           id: 12345678,
-          supervisorPassword: 12344,
+          invigilatorPassword: 12344,
           accessCode: 'WB64K2',
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
@@ -89,26 +89,26 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         const outputFilename = '/invigilator-kit_expected-v3.pdf';
 
         // when
-        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-          sessionForSupervisorKit,
+        const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+          sessionForInvigilatorKit,
           lang,
           creationDate: new Date('2021-01-01'),
         });
 
-        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+        await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
         // then
-        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}-v3.pdf`);
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForInvigilatorKit.id}-v3.pdf`);
       });
 
       context('when session details contains long labels', function () {
-        it('should return full supervisor kit v3 with long labels in multiple lines', async function () {
+        it('should return full invigilator kit v3 with long labels in multiple lines', async function () {
           // given
           const lang = FRENCH_SPOKEN;
-          const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+          const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
             id: 12345678,
-            supervisorPassword: 12344,
+            invigilatorPassword: 12344,
             accessCode: 'WB64K2',
             date: '2022-09-21',
             examiner: 'Un nom très très très très très très très très très très long',
@@ -119,29 +119,29 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
           const outputFilename = '/invigilator-kit-with-long-labels_expected-v3.pdf';
 
           // when
-          const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-            sessionForSupervisorKit,
+          const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+            sessionForInvigilatorKit,
             lang,
             creationDate: new Date('2021-01-01'),
           });
 
-          await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+          await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
           // then
-          expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-          expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}-v3.pdf`);
+          expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+          expect(fileName).to.equal(`kit-surveillant-${sessionForInvigilatorKit.id}-v3.pdf`);
         });
       });
     });
   });
 
   context('when lang is english', function () {
-    it('should return full english supervisor kit as a buffer', async function () {
+    it('should return full english invigilator kit as a buffer', async function () {
       // given
       const lang = ENGLISH_SPOKEN;
-      const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+      const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
         id: 12345678,
-        supervisorPassword: 12344,
+        invigilatorPassword: 12344,
         accessCode: 'WB64K2',
         date: '2022-09-21',
         examiner: 'Ariete Bordeauxchesnel',
@@ -149,28 +149,28 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
       const outputFilename = '/invigilator-kit-EN_expected.pdf';
 
       // when
-      const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-        sessionForSupervisorKit,
+      const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+        sessionForInvigilatorKit,
         lang,
         creationDate: new Date('2021-01-01'),
       });
 
-      await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+      await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
       // then
-      expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-      expect(fileName).to.equal(`invigilator-kit-${sessionForSupervisorKit.id}.pdf`);
+      expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+      expect(fileName).to.equal(`invigilator-kit-${sessionForInvigilatorKit.id}.pdf`);
     });
   });
 
   context('when lang is not supported', function () {
     context('when lang is not given', function () {
-      it('should return full french supervisor kit as a buffer', async function () {
+      it('should return full french invigilator kit as a buffer', async function () {
         // given
         const lang = undefined;
-        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+        const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
           id: 12345678,
-          supervisorPassword: 12344,
+          invigilatorPassword: 12344,
           accessCode: 'WB64K2',
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
@@ -178,27 +178,27 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         const outputFilename = '/invigilator-kit_expected.pdf';
 
         // when
-        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-          sessionForSupervisorKit,
+        const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+          sessionForInvigilatorKit,
           lang,
           creationDate: new Date('2021-01-01'),
         });
 
-        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+        await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
         // then
-        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForInvigilatorKit.id}.pdf`);
       });
     });
 
     context('when lang is given', function () {
-      it('should return full french supervisor kit as a buffer', async function () {
+      it('should return full french invigilator kit as a buffer', async function () {
         // given
         const lang = 'pt';
-        const sessionForSupervisorKit = domainBuilder.buildSessionForSupervisorKit({
+        const sessionForInvigilatorKit = domainBuilder.buildSessionForInvigilatorKit({
           id: 12345678,
-          supervisorPassword: 12344,
+          invigilatorPassword: 12344,
           accessCode: 'WB64K2',
           date: '2022-09-21',
           examiner: 'Ariete Bordeauxchesnel',
@@ -206,17 +206,17 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification supervisor 
         const outputFilename = '/invigilator-kit_expected.pdf';
 
         // when
-        const { buffer: actualSupervisorKitBuffer, fileName } = await getSupervisorKitPdfBuffer({
-          sessionForSupervisorKit,
+        const { buffer: actualInvigilatorKitBuffer, fileName } = await getInvigilatorKitPdfBuffer({
+          sessionForInvigilatorKit,
           lang,
           creationDate: new Date('2021-01-01'),
         });
 
-        await _writeFile({ outputFilename, actualSupervisorKitBuffer });
+        await _writeFile({ outputFilename, actualInvigilatorKitBuffer });
 
         // then
-        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualSupervisorKitBuffer)).to.be.true;
-        expect(fileName).to.equal(`kit-surveillant-${sessionForSupervisorKit.id}.pdf`);
+        expect(await isSameBinary(`${__dirname}${outputFilename}`, actualInvigilatorKitBuffer)).to.be.true;
+        expect(fileName).to.equal(`kit-surveillant-${sessionForInvigilatorKit.id}.pdf`);
       });
     });
   });
@@ -239,9 +239,9 @@ function _makePdfLibPredictable() {
   sinon.stub(pdfLibUtils, 'addRandomSuffix').callsFake(autoIncrementSuffixByPrefix);
 }
 
-async function _writeFile({ actualSupervisorKitBuffer, outputFilename, dryRun = true }) {
+async function _writeFile({ actualInvigilatorKitBuffer, outputFilename, dryRun = true }) {
   // Note: to update or create the reference pdf, set dryRun to false.
   if (!dryRun) {
-    await writeFile(`${__dirname}/${outputFilename}`, actualSupervisorKitBuffer);
+    await writeFile(`${__dirname}/${outputFilename}`, actualInvigilatorKitBuffer);
   }
 }
