@@ -51,10 +51,11 @@ const challengeDatasource = datasource.extend({
     );
   },
 
-  async getBySkillId(skillId) {
+  async getBySkillId(skillId, locale) {
     const challenges = await this.list();
     const filteredChallenges = challenges.filter(
       (challenge) =>
+        _challengeHasLocale(challenge, locale) &&
         challenge.skillId === skillId && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
     );
 

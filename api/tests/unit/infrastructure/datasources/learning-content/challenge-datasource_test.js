@@ -359,22 +359,26 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     let obsolete_challenge_pix1d;
 
     const skillId = '@didacticiel1';
+    const locale = 'fr';
     beforeEach(function () {
       validated_challenge_pix1d = {
         id: 'challenge-competence1',
         competenceId: competence1.id,
+        locales: ['fr'],
         skillId,
         status: 'validé',
       };
       proposed_challenge_pix1d = {
         id: 'challenge-competence2',
         competenceId: competence1.id,
+        locales: ['fr'],
         status: 'proposé',
         skillId,
       };
       obsolete_challenge_pix1d = {
         id: 'challenge-competence3',
         competenceId: competence1.id,
+        locales: ['fr'],
         status: 'périmé',
         skillId,
       };
@@ -392,7 +396,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
             obsolete_challenge_pix1d,
           ],
         });
-        const result = await challengeDatasource.getBySkillId(skillId);
+        const result = await challengeDatasource.getBySkillId(skillId, locale);
 
         // then
         expect(result).to.deep.equal([validated_challenge_pix1d, proposed_challenge_pix1d]);
@@ -405,7 +409,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         sinon.stub(lcms, 'getLatestRelease').resolves({
           challenges: [challenge_web1, challenge_competence2, validated_challenge_pix1d],
         });
-        const result = await challengeDatasource.getBySkillId(skillId);
+        const result = await challengeDatasource.getBySkillId(skillId, locale);
 
         // then
         expect(result).to.deep.equal([validated_challenge_pix1d]);
@@ -417,7 +421,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       sinon.stub(lcms, 'getLatestRelease').resolves({
         challenges: [challenge_web1, challenge_competence2, validated_challenge_pix1d, proposed_challenge_pix1d],
       });
-      const error = await catchErr(challengeDatasource.getBySkillId)('falseId');
+      const error = await catchErr(challengeDatasource.getBySkillId, locale)('falseId');
 
       // then
       expect(error).to.be.instanceOf(LearningContentResourceNotFound);
