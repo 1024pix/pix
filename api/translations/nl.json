@@ -1,0 +1,372 @@
+{
+  "account-recovery-email": {
+    "params": {
+      "choosePassword": "Kies een wachtwoord",
+      "context": "Je hebt de terugvordering van je Pix-account aangevraagd.",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "instruction": "Kies een wachtwoord om de procedure te voltooien.",
+      "linkValidFor": "Deze link is 24 uur geldig. Als u niet de auteur van dit verzoek bent, negeer deze e-mail dan.",
+      "moreOn": "Ontdek meer over",
+      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
+      "signing": "- Het Pix-team"
+    }
+  },
+  "attendance-sheet": {
+    "certification-information": {
+      "date": "Datum :",
+      "local-time": "Plaatselijke tijd (start) :",
+      "location-name": "Naam site :",
+      "number": "N°",
+      "room-name": "Naam van de locatie :",
+      "session": "De certificeringssessie"
+    },
+    "examiner-information": {
+      "invigilated-by": "Bewaakt door :",
+      "signature": "Handtekening(en) :",
+      "title": "De supervisor(s)"
+    },
+    "file-name": "registratie-sessieblad-",
+    "header": {
+      "page": "Pagina",
+      "title": "Aanwezigheidslijst"
+    },
+    "table": {
+      "birth-name": "Geboortenaam",
+      "date-of-birth": {
+        "example": "(dd/mm/jjjj)",
+        "label": "Geboortedatum"
+      },
+      "division": "Klasse",
+      "external-id": "Lokaal identificatiesymbool",
+      "first-name": "Voornaam",
+      "signature": "Handtekening",
+      "title": "Kandidatenlijst"
+    }
+  },
+  "campaign-export": {
+    "assessment": {
+      "competence-area": {
+        "items-successfully-completed": "Kennis verworven in het {naam} veld",
+        "mastery-percentage": "% beheersing van vaardigheden in het domein {naam}",
+        "total-items": "Aantal prestaties van het doelprofiel van het {naam} domein"
+      },
+      "is-shared": "Delen (J/N)",
+      "mastery-percentage-target-profile": "% beheersing van alle vaardigheden in het profiel",
+      "progress": "% toename",
+      "shared-on": "Datum van splitsing",
+      "skill": {
+        "items-successfully-completed": "Vaardigheden beheerst in de {naam} competentie",
+        "mastery-percentage": "% beheersing van verworven vaardigheden {naam}",
+        "total-items": "Aantal prestaties van het doelprofiel in de vaardigheid {naam}"
+      },
+      "started-on": "Startdatum",
+      "status": {
+        "ko": "KO",
+        "not-tested": "Niet getest",
+        "ok": "OK"
+      },
+      "success-rate": "Verkregen niveau (/{waarde})",
+      "target-profile-name": "Parken",
+      "thematic-result-name": "{naam} verkregen (J/N)"
+    },
+    "common": {
+      "campaign-code": "Code",
+      "campaign-id": "ID Campagne",
+      "campaign-name": "Campagne naam",
+      "file-name": "Results-{name}-{id}-{date}.csv",
+      "no": "Geen",
+      "not-available": "NA",
+      "organization-name": "Naam van de organisatie",
+      "participant-division": "Klasse",
+      "participant-firstname": "Voornaam deelnemer",
+      "participant-group": "Groep",
+      "participant-lastname": "Naam deelnemer",
+      "participant-student-number": "Studentennummer",
+      "yes": "Ja"
+    },
+    "profiles-collection": {
+      "certifiable-skills": "Aantal certificeerbare vaardigheden",
+      "is-certifiable": "Certificeerbaar (J/N)",
+      "is-sent": "Verzenden (J/N)",
+      "pix-score": "Totaal aantal pix",
+      "sent-on": "Datum van verzending",
+      "skill-level": "Niveau voor vaardigheid {naam}",
+      "skill-ranking": "Aantal pix voor vaardigheid {naam}"
+    }
+  },
+  "candidate-list-template": {
+    "billing-mode": {
+      "free": "Gratis",
+      "paid": "Betalen",
+      "prepaid": "Vooruitbetaald"
+    },
+    "certification": "Certificering",
+    "complementary": "aanvullende",
+    "filename": "lijst-kandidaten-sessie-",
+    "headers": {
+      "birth-date": "* Geboortedatum (formaat: dd/mm/jjjj)",
+      "birthcity": "Naam van de gemeente",
+      "birthcity-inseecode": "Insee code",
+      "birthcity-postcode": "Postcode",
+      "birthcountry": "Land",
+      "birthname": "* Geboortenaam",
+      "birthplace": "* Geboorteplaats",
+      "birthplace-instructions": "Instructies voor het invullen van geboorteplaats :",
+      "birthplace-instructions-abroad": "- Kandidaat die in het buitenland is geboren: Vul de kolommen \"Land\" en \"Naam van gemeente\" in en",
+      "birthplace-instructions-abroad-insee": "voer 99 in in de kolom \"Insee Code",
+      "birthplace-instructions-france": "- Kandidaat geboren in Frankrijk: Vul Frankrijk in in de kolom \"Land",
+      "birthplace-instructions-france-insee": "- Indien Insee code: Vul alleen de \"Insee code\" kolom in",
+      "birthplace-instructions-france-postal": "- Indien postcode: Vul de kolommen \"Postcode\" en \"Naam gemeente\" in.",
+      "born-abroad": "Kandidaat geboren in het buitenland: Insee code 99 EN naam van gemeente",
+      "born-in-france": "Kandidaat geboren in Frankrijk: Insee code OF Postcode en naam van gemeente",
+      "candidates": "Deelnemers",
+      "candidates-list": "Kandidatenlijst",
+      "date": "Datum",
+      "email-convocation": "E-mail uitnodiging",
+      "email-results": "E-mailadres van de ontvanger van de resultaten (trainer, docent, etc.)",
+      "externalid": "Lokaal identificatiesymbool",
+      "extra-time": "Bonus tijd?",
+      "firstname": "* Voornaam",
+      "gender": "* Geslacht (M of F)",
+      "locale-time": "Plaatselijke tijd (start)",
+      "room-name": "Naam van de kamer",
+      "session-certification": "De certificeringssessie",
+      "session-invigilates-by": "Sessie begeleid door :",
+      "session-invigilators": "Handtekening van supervisor(s) :",
+      "session-number": "Sessienummer",
+      "site-name": "Naam van de site"
+    },
+    "one-per-candidate": "(slechts één per kandidaat)",
+    "options": "Mogelijke opties:",
+    "prepayment": "Vooruitbetalingscode",
+    "pricing": "Prijzen",
+    "pricing-pix": "Pix-aandeelprijs",
+    "tooltip-line-1": "(Vooral vereist bij de aankoop van gecombineerde credits)",
+    "tooltip-line-2": "Vermeld het SIRET-nummer van de organisatie en het factuurnummer. Voorbeeld: 12345678912345/FACT12345",
+    "tooltip-line-3": "Als je geen factuur hebt, moet je een vooruitbetalingscode instellen bij Pix.",
+    "tooltips": {
+      "date-format": "Gebruik de datumnotatie dd/mm/jjjj",
+      "email-format": "Je e-mailadres moet een '@' en een ' bevatten.\nVoorbeeld: nom@exemple.fr Dit veld is optioneel,\nhet wordt gebruikt om het uitnodigen van kandidaten te vergemakkelijken.",
+      "email-results": "E-mail van de ontvanger van de resultaten (trainer, docent, etc.),\nAls het veld niet wordt ingevuld, worden de resultaten niet per e-mail naar de betreffende kandidaat of kandidaten gestuurd,\nDe kandidaat ziet zijn/haar resultaten direct op zijn/haar Pix-account.",
+      "extra-time": "Dit veld is vereist als de kandidaat recht heeft op extra tijd om de certificering af te ronden.\nEr wordt een heel getal tussen 1 en 99% verwacht, uitgedrukt als percentage (bijv. 33%).",
+      "gender-format": "M=Mannelijk F=Vrouwelijk"
+    },
+    "yes": "Ja",
+    "yes-or-empty": "(\"ja\" of blanco laten)"
+  },
+  "certification-center-invitation-email": {
+    "params": {
+      "acceptInvitation": "Uitnodiging accepteren",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "here": "hier",
+      "moreAbout": "Ontdek meer over",
+      "needHelp": "Hulp nodig? Neem contact met ons op",
+      "oneTimeLink": "Deze link is voor eenmalig gebruik",
+      "pixCertifPresentation": "De Pix Certif-ruimte is een hulpmiddel voor het organiseren van certificeringssessies.",
+      "title": "Uitnodiging om deel te nemen aan de ruimte",
+      "yourCertificationCenter": "Uw certificeringscentrum"
+    },
+    "subject": "Uitnodiging voor Pix Certif"
+  },
+  "certification-confirmation": {
+    "absolute-max-level-indication": "Als de 8 niveaus van de Pix-opslagplaats beschikbaar zijn, zal dit maximumaantal 1024 pixels zijn.",
+    "file-name": "attest-pix-{geleverdbij}.pdf",
+    "from-birthplace": "naar { geboorteplaats }",
+    "max-level": "(niveaus op { maxReachableLevelOnCertificationDate })",
+    "max-reachable-level-indication": "* Op de datum waarop deze certificering werd behaald, was het maximaal haalbare aantal pix { maxReachableScore }, wat overeenkomt met het niveau { maxReachableLevelOnCertificationDate }."
+  },
+  "certification-result-email": {
+    "params": {
+      "doNotReply": "Dit is een automatische e-mail, antwoord niet.",
+      "download": "Download de resultaten",
+      "emailValidFor": "Deze link is 30 dagen geldig.",
+      "findOutMore": "Ontdek meer over",
+      "findOutMoreFranceSuffix": "(Frankrijk) of",
+      "findOutMoreInternationalSuffix": "(Internationale)",
+      "guidelines": "De door het certificeringscentrum gerapporteerde waarschuwingen zijn - waar van toepassing - in aanmerking genomen door de Pix-jury. Informatie over de interpretatie van deze resultaten vind je hier.",
+      "guidelinesLinkName": "Interpretatie van voorschrijfresultaten",
+      "overviewText": "Hallo, hier zijn de resultaten van de certificeringen die je aan je publiek hebt voorgeschreven",
+      "resultsAvailable": "De resultaten van de Pix-certificaten die je hebt voorgeschreven aan je doelgroepen zijn beschikbaar.",
+      "subject": "[Pix] Certificeringssessie",
+      "viewResultsInProfile": "Kandidaten kunnen hun resultaten bekijken in hun Pix-profiel."
+    },
+    "title": "Raadpleeg de resultaten van certificeringssessie nr. {sessionId} !"
+  },
+  "certification-results-csv": {
+    "filenames": {
+      "DIVISION_CERTIFICATION_RESULTS_FILENAME": "{datummettijd}_resultaten_{afdeling}.csv",
+      "SESSION_CERTIFICATION_RESULTS_FILENAME": "{dateWithTime}_results_session_{sessionId}.csv"
+    },
+    "headers": {
+      "BIRTHDATE": "Geboortedatum",
+      "BIRTHPLACE": "Geboorteplaats",
+      "CERTIFICATION_CENTER": "Certificeringscentrum",
+      "CERTIFICATION_DATE": "Datum van certificering",
+      "CERTIFICATION_LABEL": "Certificering {label}",
+      "CERTIFICATION_NUMBER": "Certificeringsnummer",
+      "EXTERNAL_ID": "Externe identificator",
+      "FIRSTNAME": "Voornaam",
+      "JURY_COMMENT_FOR_ORGANIZATION": "Commentaar van de jury op de organisatie",
+      "LASTNAME": "Naam",
+      "PIX_SCORE": "Aantal pixels",
+      "REGISTRATION_STATUS": "Registratiestatus",
+      "SESSION_ID": "Sessie",
+      "SKILL_LABEL": "{skillIndex}",
+      "STATUS": "Status"
+    },
+    "values": {
+      "CERTIFICATION_CANCELLED": "Geannuleerd",
+      "CERTIFICATION_IN_ERROR": "Fout",
+      "CERTIFICATION_REJECTED": "Afgewezen",
+      "CERTIFICATION_STARTED": "Begonnen met",
+      "CERTIFICATION_VALIDATED": "Gevalideerd",
+      "COMPLEMENTARY_CERTIFICATION_CANCELLED": "Geannuleerd",
+      "COMPLEMENTARY_CERTIFICATION_NOT_DONE": "Niet aangenomen",
+      "COMPLEMENTARY_CERTIFICATION_REJECTED": "Afgewezen",
+      "COMPLEMENTARY_CERTIFICATION_VALIDATED": "Gevalideerd",
+      "REJECTED_AUTOMATICALLY_COMMENT": "De kandidaat beantwoordde meer dan 50% van de vragen fout, waardoor zijn hele certificering ongeldig werd en hij een score van 0 pix kreeg."
+    }
+  },
+  "csv-import-values": {
+    "sup-organization-learner": {
+      "diplomas": {
+        "other": "Andere",
+        "bts": "BTS onder staatscontrole",
+        "classe-preparatoire": "Door de staat gecontroleerde voorbereidende klas",
+        "dcg ": "Door de staat gecontroleerde DCG",
+        "deust": "DEUST onder staatscontrole",
+        "dma ": "Staatsgestuurde DMA",
+        "dnmade": "Door de staat gecontroleerd DNMADE",
+        "doctorat": "Door de staat gecontroleerd nationaal doctoraatsdiploma",
+        "dts": "Staatsgestuurde SDR",
+        "dut": "Staatsgestuurde DUT",
+        "etat-controle": "Staatsdiploma",
+        "ingenieur": "Staatsgecontroleerd ingenieursdiploma",
+        "license": "Staatsgecontroleerd nationaal bachelordiploma",
+        "license-grade": "Door de staat gecontroleerde graad die de graad van licentie verleent",
+        "master": "Door de staat gecontroleerd nationaal masterdiploma",
+        "master-grade": "Door de staat gecontroleerde master",
+        "vise": "Staatsdiploma"
+      },
+      "study-schemes": {
+        "other": "Andere",
+        "continuous-training": "Voortgezette opleiding",
+        "initial-training": "Initiële opleiding exclusief stages",
+        "training": "Leren"
+      },
+      "unknown": "Niet erkend"
+    }
+  },
+  "csv-template": {
+    "organization-learners": {
+      "birth-city": "Naam van geboortegemeente** (in het Frans)",
+      "birth-city-code": "Geboorteplaatscode** (gemeente)",
+      "birth-country-code": "Code geboorteland",
+      "birth-province-code": "Geboorte afdeling code",
+      "birthdate": "Geboortedatum (dd/mm/jjjj)* (indien van toepassing)",
+      "division": "Divisie",
+      "first-name": "Voornaam",
+      "last-name": "Achternaam* (familienaam)",
+      "mef-code": "MEF* code",
+      "middle-name": "Middelste naam",
+      "national-identifier": "Unieke identificator",
+      "preferred-last-name": "Naam in gebruik",
+      "sex": "Geslachtscode",
+      "status": "Status",
+      "third-name": "Derde naam"
+    },
+    "sup-organization-learners": {
+      "birthdate": "Geboortedatum (dd/mm/jjjj)",
+      "department": "Component",
+      "diploma": "Diploma",
+      "educational-team": "Onderwijsteam",
+      "email": "E-mail",
+      "first-name": "Voornaam",
+      "group": "Groep",
+      "last-name": "Achternaam",
+      "middle-name": "Middelste naam",
+      "preferred-lastname": "Naam in gebruik",
+      "student-number": "Studentennummer",
+      "study-scheme": "Dieet",
+      "third-name": "Derde naam"
+    },
+    "template-name": "importmodel"
+  },
+  "current-lang": "en",
+  "entity-validation-errors": {
+    "ACCEPT_CGU": "Je moet de gebruiksvoorwaarden van Pix accepteren om een account aan te maken.",
+    "ALREADY_REGISTERED_EMAIL": "Dit e-mailadres is al geregistreerd, log in.",
+    "CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED": "Er wordt een URL voor de knop ingevoerd: er is ook een tekst nodig.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED": "Een tekst voor de knop wordt ingevoerd: een URL is ook vereist.",
+    "CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL": "De URL van de knop moet een volledige en geldige URL zijn.",
+    "EMPTY_EMAIL": "Uw e-mailadres is niet ingevuld.",
+    "EMPTY_FIRST_NAME": "Je voornaam is niet ingevuld.",
+    "EMPTY_INPUT": "Er zijn geen velden ingevuld.",
+    "EMPTY_LAST_NAME": "Je naam is niet ingevuld.",
+    "EMPTY_USERNAME": "Uw login is niet ingevuld.",
+    "FILL_USERNAME_OR_EMAIL": "Je moet een e-mailadres en/of een gebruikersnaam invoeren.",
+    "MAX_SIZE_EMAIL": "Je e-mailadres mag niet langer zijn dan 255 tekens.",
+    "MAX_SIZE_FIRST_NAME": "Je voornaam mag niet langer zijn dan 255 tekens.",
+    "MAX_SIZE_LAST_NAME": "Je naam mag niet langer zijn dan 255 tekens.",
+    "STAGE_TARGET_PROFILE_IS_REQUIRED": "Het doelprofiel is verplicht",
+    "STAGE_THRESHOLD_IS_REQUIRED": "De landingsdrempel is verplicht",
+    "STAGE_TITLE_IS_REQUIRED": "De titel van het niveau is verplicht",
+    "WRONG_EMAIL_FORMAT": "De indeling van het e-mailadres is onjuist."
+  },
+  "organization-invitation-email": {
+    "params": {
+      "acceptInvitation": "Uitnodiging accepteren",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "here": "hier",
+      "moreAbout": "Ontdek meer over",
+      "needHelp": "Hulp nodig? Neem contact met ons op",
+      "oneTimeLink": "Deze link is voor eenmalig gebruik",
+      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
+      "subtitle": "Met het Pix Orga platform kun je testcampagnes maken en beheren en de voortgang van je deelnemers volgen.",
+      "title": "Je bent uitgenodigd om lid te worden van Pix Orga",
+      "yourOrganization": "Uw organisatie"
+    },
+    "subject": "Uitnodiging om lid te worden van Pix Orga"
+  },
+  "pix-account-creation-email": {
+    "params": {
+      "askForHelp": "Hulp nodig? Neem contact met ons op",
+      "disclaimer": "Als je de account in eerste instantie niet hebt aangemaakt, kun je vragen om deze te verwijderen.",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "goToPix": "Begin met testen",
+      "helpdeskLinkLabel": "hier",
+      "moreOn": "Ontdek meer over",
+      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
+      "subtitle": "Je kunt nu beginnen met testen.",
+      "title": "Je Pix-account is aangemaakt!"
+    },
+    "subject": "Je Pix-account is aangemaakt"
+  },
+  "reset-password-demand-email": {
+    "params": {
+      "clickOnTheButton": "Klik op de knop hieronder om een nieuw wachtwoord te kiezen.",
+      "contactUs": "contacteer ons hier",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet. We hebben uw hulp nodig,",
+      "linkValidFor": "Deze link is 24 uur geldig. Als u niet de auteur van dit verzoek bent, negeer deze e-mail dan.",
+      "moreOn": "Ontdek meer over",
+      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
+      "resetMyPassword": "Een nieuw wachtwoord instellen",
+      "title": "Uw wachtwoord opnieuw instellen",
+      "weCannotSendYourPassword": "Hallo, om veiligheidsredenen sturen we je je wachtwoord niet per e-mail."
+    },
+    "subject": "Pix wachtwoord reset verzoek"
+  },
+  "verification-code-email": {
+    "body": {
+      "context": "Je wilt je e-mailadres op je account wijzigen. Voer de volgende code in bij Pix om verder te gaan:",
+      "doNotAnswer": "Dit is een automatische e-mail, antwoord niet.",
+      "greeting": "Hallo,",
+      "moreOn": "Ontdek meer over",
+      "pixPresentation": "Pix is de openbare online service voor het beoordelen, ontwikkelen en certificeren van je digitale vaardigheden.",
+      "seeYouSoon": "Tot snel op Pix.",
+      "signing": "- Het Pix-team",
+      "warningMessage": "Als jij het niet was, stel je wachtwoord dan zo snel mogelijk opnieuw in om de veiligheid van je account te garanderen."
+    },
+    "subject": "Je Pix-code is {code}."
+  }
+}
