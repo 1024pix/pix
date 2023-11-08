@@ -1,8 +1,8 @@
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
-import * as sessionForSupervisorKitRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-supervisor-kit-repository.js';
-import { SessionForSupervisorKit } from '../../../../../../src/certification/session/domain/read-models/SessionForSupervisorKit.js';
+import * as sessionForInvigilatorKitRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
+import { SessionForInvigilatorKit } from '../../../../../../src/certification/session/domain/read-models/SessionForInvigilatorKit.js';
 
-describe('Integration | Repository | Session-for-supervisor-kit', function () {
+describe('Integration | Repository | Session-for-invigilator-kit', function () {
   describe('#get', function () {
     context('when session exists', function () {
       it('should return session main information', async function () {
@@ -29,7 +29,7 @@ describe('Integration | Repository | Session-for-supervisor-kit', function () {
 
         await databaseBuilder.commit();
 
-        const expectedSessionValues = new SessionForSupervisorKit({
+        const expectedSessionValues = new SessionForInvigilatorKit({
           id: 1234,
           certificationCenterName: 'Tour Gamma',
           address: 'rue de Bercy',
@@ -38,12 +38,12 @@ describe('Integration | Repository | Session-for-supervisor-kit', function () {
           date: '2018-02-23',
           time: '12:00:00',
           accessCode: 'X23SR71',
-          supervisorPassword: 'NYX34',
+          invigilatorPassword: 'NYX34',
           version: 2,
         });
 
         // when
-        const actualSession = await sessionForSupervisorKitRepository.get(session.id);
+        const actualSession = await sessionForInvigilatorKitRepository.get(session.id);
 
         // then
         expect(actualSession).to.deepEqualInstance(expectedSessionValues);
