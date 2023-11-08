@@ -134,27 +134,31 @@ describe('Integration | Repository | challenge-repository', function () {
       const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
       const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
       const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
+      const skill4 = domainBuilder.buildSkill({ id: 'recSkill4' });
+      const challenge4 = domainBuilder.buildChallenge({ id: 'recChal4', skill: skill4 });
       const learningContent = {
         skills: [
           { ...skill1, level: skill1.difficulty },
           { ...skill2, level: skill2.difficulty },
           { ...skill3, level: skill3.difficulty },
+          { ...skill4, level: skill4.difficulty },
         ],
         challenges: [
-          { ...challenge1, skillId: 'recSkill1' },
-          { ...challenge2, skillId: 'recSkill2' },
-          { ...challenge3, skillId: 'recSkill3' },
+          { ...challenge1, locales: ['fr'], skillId: 'recSkill1' },
+          { ...challenge2, locales: ['fr'], skillId: 'recSkill2' },
+          { ...challenge3, locales: ['fr'], skillId: 'recSkill3' },
+          { ...challenge4, locales: ['fr-fr'], skillId: 'recSkill4' },
         ],
       };
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.list();
+      const actualChallenges = await challengeRepository.list('fr');
 
       // then
-      const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1' });
-      const actualChallenge2 = _.find(actualChallenges, { skill: skill2, id: 'recChal2' });
-      const actualChallenge3 = _.find(actualChallenges, { skill: skill3, id: 'recChal3' });
+      const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1', locales: ['fr'] });
+      const actualChallenge2 = _.find(actualChallenges, { skill: skill2, id: 'recChal2', locales: ['fr'] });
+      const actualChallenge3 = _.find(actualChallenges, { skill: skill3, id: 'recChal3', locales: ['fr'] });
       expect(actualChallenges).to.have.lengthOf(3);
       expect(Boolean(actualChallenge1)).to.be.true;
       expect(Boolean(actualChallenge2)).to.be.true;

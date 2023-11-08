@@ -36,8 +36,8 @@ const getMany = async function (ids) {
   }
 };
 
-const list = async function () {
-  const challengeDataObjects = await challengeDatasource.list();
+const list = async function (locale) {
+  const challengeDataObjects = await challengeDatasource.listByLocale(locale);
   const skills = await skillDatasource.list();
   return _toDomainCollection({ challengeDataObjects, skills });
 };

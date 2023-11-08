@@ -19,6 +19,11 @@ function _challengeHasLocale(challenge, locale) {
 const challengeDatasource = datasource.extend({
   modelName: 'challenges',
 
+  async listByLocale(locale) {
+    const allChallenges = await this.list();
+    return allChallenges.filter((challenge) => _challengeHasLocale(challenge, locale));
+  },
+
   async findOperativeBySkillIds(skillIds, locale) {
     const foundInSkillIds = (skillId) => skillIds.includes(skillId);
     const challenges = await this.findOperative(locale);
@@ -26,10 +31,8 @@ const challengeDatasource = datasource.extend({
   },
 
   async findOperative(locale) {
-    const challenges = await this.list();
-    return challenges.filter(
-      (challenge) => _challengeHasLocale(challenge, locale) && _challengeHasStatus(challenge, OPERATIVE_CHALLENGES),
-    );
+    const challenges = await this.listByLocale(locale);
+    return challenges.filter((challenge) => _challengeHasStatus(challenge, OPERATIVE_CHALLENGES));
   },
 
   async findValidatedByCompetenceId(competenceId, locale) {
@@ -45,19 +48,15 @@ const challengeDatasource = datasource.extend({
   },
 
   async findValidated(locale) {
-    const challenges = await this.list();
-    return challenges.filter(
-      (challenge) => _challengeHasLocale(challenge, locale) && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE]),
-    );
+    const challenges = await this.listByLocale(locale);
+    return challenges.filter((challenge) => _challengeHasStatus(challenge, [VALIDATED_CHALLENGE]));
   },
 
   async getBySkillId(skillId, locale) {
-    const challenges = await this.list();
+    const challenges = await this.listByLocale(locale);
     const filteredChallenges = challenges.filter(
       (challenge) =>
-        _challengeHasLocale(challenge, locale) &&
-        challenge.skillId === skillId &&
-        _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
+        challenge.skillId === skillId && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
     );
 
     if (isEmpty(filteredChallenges)) {
@@ -77,7 +76,7 @@ const challengeDatasource = datasource.extend({
   },
 
   async findFlashCompatible({ locale, useObsoleteChallenges }) {
-    const challenges = await this.list();
+    const challenges = await this.listByLocale(locale);
 
     const acceptedStatuses = useObsoleteChallenges
       ? [OBSOLETE_CHALLENGE, ...OPERATIVE_CHALLENGES]
@@ -85,7 +84,6 @@ const challengeDatasource = datasource.extend({
 
     return challenges.filter(
       (challengeData) =>
-        (!locale || _challengeHasLocale(challengeData, locale)) &&
         challengeData.alpha != null &&
         challengeData.delta != null &&
         challengeData.skillId &&

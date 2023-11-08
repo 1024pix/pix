@@ -132,6 +132,29 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     sinon.stub(learningContentCache, 'get').callsFake((generator) => generator());
   });
 
+  describe('#listBylocale', function () {
+    beforeEach(function () {
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3] });
+    });
+
+    it('should return a list of all challenges having locale', async function () {
+      // given
+      const locale = 'fr';
+
+      // when
+      const results = await challengeDatasource.listByLocale(locale);
+
+      // then
+      expect(results.map((result) => result.id)).to.deep.equal([
+        'challenge-web1',
+        'challenge-web1-notValidated',
+        'challenge-web3',
+      ]);
+    });
+  });
+
   describe('#findOperativeBySkillIds', function () {
     beforeEach(function () {
       sinon
@@ -273,21 +296,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
           challenge_web3,
           challenge_web3_archived,
         ],
-      });
-    });
-
-    describe('when no locale is set', function () {
-      it('should resolve an array of matching Challenges from learning content', async function () {
-        // when
-        const result = await challengeDatasource.findActiveFlashCompatible();
-
-        // then
-        expect(_.map(result, 'id')).to.deep.equal([
-          challenge_competence1.id,
-          challenge_competence2.id,
-          challenge_web2_en.id,
-          challenge_web3.id,
-        ]);
       });
     });
 
