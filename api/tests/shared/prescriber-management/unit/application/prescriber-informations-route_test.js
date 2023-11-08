@@ -1,9 +1,9 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import { prescriberController } from '../../../../lib/application/prescribers/prescriber-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import { prescriberController } from '../../../../../src/shared/prescriber-management/application/prescriber-informations-controller.js';
+import * as moduleUnderTest from '../../../../../src/shared/prescriber-management/application/prescriber-informations-route.js';
 
-describe('Unit | Router | prescriber-router', function () {
+describe('Unit | Router | prescriber-informations-route', function () {
   describe('GET /api/prescription/prescribers/{id}', function () {
     it('should exist', async function () {
       // given

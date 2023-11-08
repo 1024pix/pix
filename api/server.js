@@ -21,9 +21,14 @@ import {
   complementaryCertificationRoutes,
 } from './src/certification/complementary-certification/routes.js';
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
+import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
+
+const certificationRoutes = [certificationSessionRoutes, attachTargetProfileRoutes, complementaryCertificationRoutes];
+const prescriptionRoutes = [learnerManagementRoutes];
+const sharedRoutes = [prescriberManagementRoutes];
 
 monitoringTools.installHapiHook();
 
@@ -119,13 +124,12 @@ const setupRoutesAndPlugins = async function (server) {
     plugins,
     routes,
     evaluationRoutes,
-    certificationSessionRoutes,
     scenarioSimulatorRoutes,
-    attachTargetProfileRoutes,
-    complementaryCertificationRoutes,
     devcompRoutes,
-    learnerManagementRoutes,
     schoolRoutes,
+    ...certificationRoutes,
+    ...sharedRoutes,
+    ...prescriptionRoutes,
   );
   await server.register(configuration);
 };

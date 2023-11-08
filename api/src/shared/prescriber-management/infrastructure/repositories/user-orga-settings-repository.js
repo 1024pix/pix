@@ -1,9 +1,9 @@
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { BookshelfUserOrgaSettings } from '../orm-models/UserOrgaSettings.js';
-import * as knexUtils from '../utils/knex-utils.js';
-import { UserOrgaSettingsCreationError } from '../../domain/errors.js';
-import { knex } from '../../../db/knex-database-connection.js';
-import { UserOrgaSettings } from '../../domain/models/UserOrgaSettings.js';
+import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { BookshelfUserOrgaSettings } from '../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
+import * as knexUtils from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { UserOrgaSettingsCreationError } from '../../../../../lib/domain/errors.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
 
 const findOneByUserId = function (userId) {
   return BookshelfUserOrgaSettings.where({ userId })
