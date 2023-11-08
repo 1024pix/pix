@@ -37,6 +37,57 @@
             "invalid": "Mince..."
           },
           "solution": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6"
+        },
+        {
+          "id": "ba78dead-a806-4954-b408-e8ef28d28fab",
+          "type": "qcu",
+          "instruction": "<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite ?</p>",
+          "proposals": [
+            { "id": "6d4db7f8-b783-473d-a1cc-73dac8411855", "content": "Vrai" },
+            {
+              "id": "26d27fa3-3269-4d78-916c-3aa066976592",
+              "content": "Faux"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
+            "invalid": "<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
+          },
+          "solution": "6d4db7f8-b783-473d-a1cc-73dac8411855"
+        },
+        {
+          "id": "4231af7b-dca5-4d79-acfe-b485e0127ae1",
+          "type": "qcu",
+          "instruction": "<p>Il faut toujours un symbole @ dans une adresse mail ?</p>",
+          "proposals": [
+            { "id": "beba4b60-cd4c-49d7-ae1f-2783c14f7c71", "content": "vrai" },
+            {
+              "id": "d784b9f6-5d5a-47ba-ae17-da15b712ab24",
+              "content": "faux"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>",
+            "invalid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>"
+          },
+          "solution": "beba4b60-cd4c-49d7-ae1f-2783c14f7c71"
+        },
+        {
+          "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
+          "type": "qcu",
+          "instruction": "<p>Toutes les adresses mails se terminent par gmail.com ?</p>",
+          "proposals": [
+            { "id": "7ebabab5-6acd-4660-bf33-5cc7206e7288", "content": "Vrai" },
+            {
+              "id": "f56bb715-714e-4a94-ba34-eef5ccd755d0",
+              "content": "Faux"
+            }
+          ],
+          "feedbacks": {
+            "valid": "<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>et La Poste (laposte.net).</li><ul>",
+            "invalid": "<p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><ul>Il y en a énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>de chez Free (free.fr)</li><li>ou de chez La Poste (laposte.net).</li></ul>"
+          },
+          "solution": "f56bb715-714e-4a94-ba34-eef5ccd755d0"
         }
       ]
     }
