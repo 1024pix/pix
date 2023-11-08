@@ -67,9 +67,7 @@ module('Acceptance | join', function (hooks) {
           // when
           const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`);
 
-          assert
-            .dom(screen.getByText('You have been invited to join the organisation Le collège fou fou fou'))
-            .exists();
+          assert.ok(screen.getByText('You have been invited to join the organisation Le collège fou fou fou'));
 
           await click(screen.getByRole('button', { name: 'English' }));
           await screen.findByRole('listbox');
@@ -110,7 +108,7 @@ module('Acceptance | join', function (hooks) {
         // then
         assert.strictEqual(currentURL(), '/connexion');
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-        assert.dom('.login-form__invitation-error').exists();
+        assert.ok('.login-form__invitation-error');
         assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
       });
     });
@@ -127,12 +125,12 @@ module('Acceptance | join', function (hooks) {
         }).id;
 
         // when
-        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
 
         // then
         assert.strictEqual(currentURL(), '/connexion');
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
-        assert.contains(this.intl.t('pages.login-form.invitation-was-cancelled'));
+        assert.ok(screen.getByText(this.intl.t('pages.login-form.invitation-was-cancelled')));
       });
     });
   });
@@ -199,7 +197,7 @@ module('Acceptance | join', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/cgu');
-        assert.dom(screen.getByText("CONDITIONS GÉNÉRALES D'UTILISATION DE LA PLATEFORME PIX ORGA")).exists();
+        assert.ok(screen.getByText("CONDITIONS GÉNÉRALES D'UTILISATION DE LA PLATEFORME PIX ORGA"));
       });
 
       test('does not show menu nor top bar', async function (assert) {
@@ -244,7 +242,7 @@ module('Acceptance | join', function (hooks) {
         // given
         server.create('campaign');
 
-        await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+        const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await clickByName(loginFormButton);
         await fillByLabel(emailInputLabel, user.email);
         await fillByLabel(passwordInputLabel, 'secret');
@@ -253,10 +251,9 @@ module('Acceptance | join', function (hooks) {
         await clickByName(loginButton);
 
         // then
-
         assert.strictEqual(currentURL(), '/campagnes/les-miennes');
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.contains('Harry Cover');
+        assert.ok(screen.getByText('Harry Cover'));
       });
     });
 
@@ -290,7 +287,7 @@ module('Acceptance | join', function (hooks) {
             401,
           );
 
-          await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           await clickByName(loginFormButton);
           await fillByLabel(emailInputLabel, user.email);
           await fillByLabel(passwordInputLabel, 'fakepassword');
@@ -305,7 +302,7 @@ module('Acceptance | join', function (hooks) {
 
           assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-          assert.contains(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY));
+          assert.ok(screen.getByText(this.intl.t(ApiErrorMessages.LOGIN_UNAUTHORIZED.I18N_KEY)));
         });
       });
 
@@ -334,7 +331,7 @@ module('Acceptance | join', function (hooks) {
             `/organization-invitations/${organizationInvitationId}/response`,
             () => new Response(409, {}, { errors: [{ status: '409' }] }),
           );
-          await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
+          const screen = await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           await clickByName(loginFormButton);
           await fillByLabel(emailInputLabel, user.email);
           await fillByLabel(passwordInputLabel, 'secret');
@@ -345,7 +342,7 @@ module('Acceptance | join', function (hooks) {
           // then
           assert.strictEqual(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
           assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-          assert.contains(this.intl.t('pages.login-form.errors.status.409'));
+          assert.ok(screen.getByText(this.intl.t('pages.login-form.errors.status.409')));
         });
       });
 
@@ -486,7 +483,7 @@ module('Acceptance | join', function (hooks) {
 
             // then
             assert.strictEqual(currentURL(), '/cgu');
-            assert.dom(screen.getByText('TERMS AND CONDITIONS OF USE OF THE PIX ORGA PLATFORM')).exists();
+            assert.ok(screen.getByText('TERMS AND CONDITIONS OF USE OF THE PIX ORGA PLATFORM'));
           });
         });
       });
