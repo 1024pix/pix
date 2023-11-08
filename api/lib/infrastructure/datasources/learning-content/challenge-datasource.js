@@ -56,7 +56,8 @@ const challengeDatasource = datasource.extend({
     const filteredChallenges = challenges.filter(
       (challenge) =>
         _challengeHasLocale(challenge, locale) &&
-        challenge.skillId === skillId && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
+        challenge.skillId === skillId &&
+        _challengeHasStatus(challenge, [VALIDATED_CHALLENGE, PROPOSED_CHALLENGE]),
     );
 
     if (isEmpty(filteredChallenges)) {

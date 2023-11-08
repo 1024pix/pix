@@ -9,6 +9,7 @@ describe('Unit | Service | Challenge', function () {
     it('calls challengeRepository#getChallengeFor1d with goods arguments', function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
+      const locale = 'fr';
       const challengeNumber = 1;
       const alternativeVersion = null;
       const challengeRepository = {
@@ -21,12 +22,14 @@ describe('Unit | Service | Challenge', function () {
         challengeNumber,
         alternativeVersion,
         challengeRepository,
+        locale,
       });
 
       expect(challengeRepository.getChallengeFor1d).to.have.been.calledOnceWith({
         missionId,
         activityLevel,
         challengeNumber,
+        locale,
       });
     });
     describe('with alternativeVersion', function () {
@@ -34,6 +37,7 @@ describe('Unit | Service | Challenge', function () {
         it('returns the challenge corresponding to the alternative version', async function () {
           const missionId = 'mission_id';
           const activityLevel = Activity.levels.TRAINING;
+          const locale = 'fr';
           const challengeRepository = {
             getChallengeFor1d: sinon.stub(),
           };
@@ -47,6 +51,7 @@ describe('Unit | Service | Challenge', function () {
             activityLevel,
             alternativeVersion: 2,
             challengeRepository,
+            locale,
           });
 
           expect(result).to.equal(challenge2);
@@ -56,6 +61,7 @@ describe('Unit | Service | Challenge', function () {
         it('returns the challenge with undefined alternative version', async function () {
           const missionId = 'mission_id';
           const activityLevel = Activity.levels.TRAINING;
+          const locale = 'fr';
           const challengeRepository = {
             getChallengeFor1d: sinon.stub(),
           };
@@ -66,6 +72,7 @@ describe('Unit | Service | Challenge', function () {
             activityLevel,
             alternativeVersion: 2,
             challengeRepository,
+            locale,
           });
 
           expect(result).to.equal(challenge1);
@@ -75,6 +82,7 @@ describe('Unit | Service | Challenge', function () {
     it('does not throw an error with a NotFoundError', async function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
+      const locale = 'fr';
       const alternativeVersion = null;
       const challengeRepository = {
         getChallengeFor1d: sinon.stub(),
@@ -88,6 +96,7 @@ describe('Unit | Service | Challenge', function () {
           activityLevel,
           alternativeVersion,
           challengeRepository,
+          locale,
         });
       };
       expect(functionToCall).to.not.throw();
@@ -95,6 +104,7 @@ describe('Unit | Service | Challenge', function () {
     it('throws an error when the error is not a NotFoundError', async function () {
       const missionId = 'mission_id';
       const activityLevel = Activity.levels.TRAINING;
+      const locale = 'fr';
       const alternativeVersion = null;
       const challengeRepository = {
         getChallengeFor1d: sinon.stub(),
@@ -106,6 +116,7 @@ describe('Unit | Service | Challenge', function () {
         activityLevel,
         alternativeVersion,
         challengeRepository,
+        locale,
       });
       expect(error).not.to.be.instanceOf(NotFoundError);
     });

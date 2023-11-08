@@ -5,7 +5,7 @@ import { pix1dService } from './algorithm-method.js';
 
 const FIRST_CHALLENGE_NB = 1;
 
-async function getChallengeForCurrentActivity({ currentActivity, missionId, challengeRepository, answers }) {
+async function getChallengeForCurrentActivity({ currentActivity, missionId, challengeRepository, answers, locale }) {
   if (_shouldLookForNextChallengeInActivity(answers)) {
     const challengeNumber = answers.length + 1;
     return await challengeService.getChallenge({
@@ -14,6 +14,7 @@ async function getChallengeForCurrentActivity({ currentActivity, missionId, chal
       challengeNumber,
       challengeRepository,
       alternativeVersion: _convertAlternativeVersionToUndefined(currentActivity.alternativeVersion),
+      locale,
     });
   }
 }
@@ -22,7 +23,7 @@ function _shouldLookForNextChallengeInActivity(answers) {
   return getLastAnswerStatus(answers) === 'ok' || answers.length === 0;
 }
 
-async function getNextActivityChallenge({ missionId, assessmentId, challengeRepository, activityRepository }) {
+async function getNextActivityChallenge({ missionId, assessmentId, challengeRepository, activityRepository, locale }) {
   const allActivities = await activityRepository.getAllByAssessmentId(assessmentId);
   const nextActivityLevel = pix1dService.getNextActivityLevel(allActivities);
 
@@ -37,6 +38,7 @@ async function getNextActivityChallenge({ missionId, assessmentId, challengeRepo
     activityLevel: nextActivityLevel,
     alreadyPlayedAlternativeVersions,
     challengeRepository,
+    locale,
   });
 
   await activityRepository.save(
@@ -54,6 +56,7 @@ async function getNextActivityChallenge({ missionId, assessmentId, challengeRepo
     challengeNumber: FIRST_CHALLENGE_NB,
     alternativeVersion,
     challengeRepository,
+    locale,
   });
 }
 
