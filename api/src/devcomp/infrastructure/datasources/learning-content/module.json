@@ -25,11 +25,10 @@
           "type": "qcu",
           "instruction": "<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>",
           "proposals": [
-            { "id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6", "content": "Vrai", "isValid": true },
+            { "id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6", "content": "Vrai" },
             {
               "id": "b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6",
-              "content": "Faux",
-              "isValid": false
+              "content": "Faux"
             }
           ],
           "feedbacks": {
