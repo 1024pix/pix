@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { SessionForSupervisorKit } from '../../domain/read-models/SessionForSupervisorKit.js';
+import { SessionForInvigilatorKit } from '../../domain/read-models/SessionForInvigilatorKit.js';
 
 const get = async function (idSession) {
   const results = await knex
@@ -24,7 +24,8 @@ const get = async function (idSession) {
 export { get };
 
 function _toDomain(results) {
-  return new SessionForSupervisorKit({
+  return new SessionForInvigilatorKit({
     ...results,
+    invigilatorPassword: results.supervisorPassword,
   });
 }
