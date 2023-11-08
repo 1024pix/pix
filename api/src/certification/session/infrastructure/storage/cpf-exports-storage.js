@@ -13,6 +13,10 @@ class CpfExportsStorage {
     this.#client = S3ObjectStorageProvider.createClient(config.cpf.storage.cpfExports.client);
   }
 
+  async sendFile({ filename, readableStream }) {
+    return this.#client.startUpload({ filename, readableStream });
+  }
+
   async findAll() {
     const storageResponse = await this.#client.listFiles();
 
