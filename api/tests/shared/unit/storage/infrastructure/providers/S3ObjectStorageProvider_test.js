@@ -106,8 +106,8 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
     });
   });
 
-  context('#preSignFiles', function () {
-    it('should sign files', async function () {
+  context('#preSignFile', function () {
+    it('should sign file', async function () {
       // given
       const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
       const getObjectCommandStubbedInstance = sinon.createStubInstance(GetObjectCommand);
@@ -125,8 +125,8 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
       });
 
       // when
-      const result = await s3ObjectStorageProvider.preSignFiles({
-        keys: [{ Key: 'we_love_sweets' }],
+      const result = await s3ObjectStorageProvider.preSignFile({
+        key: { Key: 'we_love_sweets' },
         expiresIn: 3600,
       });
 
@@ -136,7 +136,7 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
         Key: { Key: 'we_love_sweets' },
       });
       expect(getSignedUrlStub).to.have.been.calledOnce;
-      expect(result).to.deep.equal(['presigned_we_love_sweets']);
+      expect(result).to.deep.equal('presigned_we_love_sweets');
     });
   });
 });

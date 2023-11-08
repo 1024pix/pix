@@ -3,8 +3,6 @@ import * as libStorage from '@aws-sdk/lib-storage';
 import * as s3RequestPresigner from '@aws-sdk/s3-request-presigner';
 import { logger } from '../../../../../lib/infrastructure/logger.js';
 
-import bluebird from 'bluebird';
-
 class S3ObjectStorageProvider {
   #dependencies;
   #s3Client;
@@ -69,11 +67,9 @@ class S3ObjectStorageProvider {
     return this.#s3Client.send(new this.#dependencies.clientS3.ListObjectsV2Command({ Bucket: this.#bucket }));
   }
 
-  async preSignFiles({ keys, expiresIn }) {
-    return bluebird.mapSeries(keys, async (key) => {
-      const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
-      return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
-    });
+  async preSignFile({ key, expiresIn }) {
+    const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
+    return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
   }
 }
 

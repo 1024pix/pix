@@ -29,6 +29,7 @@ import * as sessionRepository from '../../../session/infrastructure/repositories
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
 import { cpfReceiptsStorage } from '../../../session/infrastructure/storage/cpf-receipts-storage.js';
+import { cpfExportsStorage } from '../../../session/infrastructure/storage/cpf-exports-storage.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
@@ -92,6 +93,7 @@ const dependencies = {
   sessionValidator,
   userRepository,
   cpfReceiptsStorage,
+  cpfExportsStorage,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));
