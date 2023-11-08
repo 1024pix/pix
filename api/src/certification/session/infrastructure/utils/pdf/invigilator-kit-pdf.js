@@ -48,7 +48,7 @@ async function getInvigilatorKitPdfBuffer({
 
   pdfDoc.registerFontkit(fontkit);
 
-  const fontFile = await readFile(`${dirname}/../../../../shared/infrastructure/utils/pdf/files/Roboto-Medium.ttf`);
+  const fontFile = await readFile(`${dirname}/../../../../../shared/infrastructure/utils/pdf/fonts/Roboto-Medium.ttf`);
   const robotFont = await pdfDoc.embedFont(fontFile, { subset: true, customName: 'Roboto-Medium.ttf' });
 
   const [page] = pdfDoc.getPages();
