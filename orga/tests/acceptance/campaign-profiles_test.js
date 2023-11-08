@@ -33,7 +33,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: pageSize });
-      assert.contains('Page 1 / 2');
+      assert.ok(screen.getByText('Page 1 / 2'));
       assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
@@ -47,7 +47,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
-      assert.contains('Page 2 / 2');
+      assert.ok(screen.getByText('Page 2 / 2'));
       assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
   });
@@ -64,7 +64,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
-      assert.contains('Page 1 / 2');
+      assert.ok(screen.getByText('Page 1 / 2'));
       assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
@@ -76,13 +76,13 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
 
-      const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
+      const someElementFromPage1 = document.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
       await clickByName('Aller à la page suivante');
 
       // then
-      assert.contains('Page 2 / 10');
+      assert.ok(screen.getByText('Page 2 / 10'));
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
@@ -98,7 +98,7 @@ module('Acceptance | Campaign Profiles', function (hooks) {
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
-      assert.contains('Page 1 / 2');
+      assert.ok(screen.getByText('Page 1 / 2'));
       assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
   });
