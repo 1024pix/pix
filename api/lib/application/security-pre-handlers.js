@@ -16,7 +16,6 @@ import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOw
 import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
 import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
-import * as checkUserIsMemberOfAnOrganizationUseCase from './usecases/checkUserIsMemberOfAnOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
@@ -25,6 +24,9 @@ import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/che
 import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
+
+import * as checkUserIsMemberOfAnOrganizationUseCase from '../../src/shared/application/validator/checkUserIsMemberOfAnOrganization.js';
+
 import { Organization } from '../domain/models/index.js';
 import { NotFoundError } from '../domain/errors.js';
 import { PIX_ADMIN } from '../domain/constants.js';

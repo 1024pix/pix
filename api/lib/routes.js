@@ -37,7 +37,6 @@ import * as organizationsAdministration from './application/organizations-admini
 import * as organizationLearners from './application/organization-learners/index.js';
 import * as passwords from './application/passwords/index.js';
 import * as poleEmploi from './application/pole-emploi/index.js';
-import * as prescribers from './application/prescribers/index.js';
 import * as progressions from './application/progressions/index.js';
 import * as saml from './application/saml/index.js';
 import * as stageCollection from './application/stage-collections/index.js';
@@ -96,7 +95,6 @@ const routes = [
   organizationsAdministration,
   passwords,
   poleEmploi,
-  prescribers,
   progressions,
   saml,
   scoringSimulator,
