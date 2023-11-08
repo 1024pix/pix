@@ -32,8 +32,8 @@
             }
           ],
           "feedbacks": {
-            "valid": "Bravo !",
-            "invalid": "Mince..."
+            "valid": "<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>",
+            "invalid": "<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>"
           },
           "solution": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6"
         },
