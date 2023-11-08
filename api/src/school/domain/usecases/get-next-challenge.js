@@ -21,6 +21,7 @@ export async function getNextChallenge({
       missionId,
       challengeRepository,
       answers,
+      locale: 'fr',
     });
     if (challenge) {
       return challenge;
@@ -40,6 +41,7 @@ export async function getNextChallenge({
     assessmentId,
     challengeRepository,
     activityRepository,
+    locale: 'fr',
   });
 
   if (nextChallenge === undefined) {
