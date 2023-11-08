@@ -26,40 +26,37 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     pix: 8,
   };
   let dateUtils;
-  const answerRepository = {
-    saveWithKnowledgeElements: () => undefined,
-  };
-  const assessmentRepository = { get: () => undefined };
-  const challengeRepository = { get: () => undefined };
+  let assessmentRepository,
+    answerRepository,
+    challengeRepository,
+    skillRepository,
+    campaignRepository,
+    flashAssessmentResultRepository,
+    scorecardService,
+    knowledgeElementRepository,
+    certificationChallengeLiveAlertRepository,
+    flashAlgorithmService,
+    algorithmDataFetcherService;
   const competenceEvaluationRepository = {};
-  const campaignRepository = { findSkillsByCampaignParticipationId: () => undefined };
-  const skillRepository = { findActiveByCompetenceId: () => undefined };
-  const flashAssessmentResultRepository = { save: () => undefined };
-  const scorecardService = { computeScorecard: () => undefined };
-  const knowledgeElementRepository = {
-    findUniqByUserIdAndAssessmentId: () => undefined,
-  };
-  const certificationChallengeLiveAlertRepository = { getOngoingByChallengeIdAndAssessmentId: () => undefined };
-  const flashAlgorithmService = { getEstimatedLevelAndErrorRate: () => undefined };
-  const algorithmDataFetcherService = { fetchForFlashLevelEstimation: () => undefined };
+
   const nowDate = new Date('2021-03-11T11:00:04Z');
 
   let dependencies;
 
   beforeEach(function () {
     nowDate.setMilliseconds(1);
-    sinon.stub(answerRepository, 'saveWithKnowledgeElements');
-    sinon.stub(assessmentRepository, 'get');
-    sinon.stub(challengeRepository, 'get');
-    sinon.stub(skillRepository, 'findActiveByCompetenceId');
-    sinon.stub(campaignRepository, 'findSkillsByCampaignParticipationId');
-    sinon.stub(flashAssessmentResultRepository, 'save');
-    sinon.stub(scorecardService, 'computeScorecard');
-    sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
-    sinon.stub(certificationChallengeLiveAlertRepository, 'getOngoingByChallengeIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
-    sinon.stub(flashAlgorithmService, 'getEstimatedLevelAndErrorRate');
-    sinon.stub(algorithmDataFetcherService, 'fetchForFlashLevelEstimation');
+    answerRepository = { saveWithKnowledgeElements: sinon.stub() };
+    assessmentRepository = { get: sinon.stub() };
+    challengeRepository = { get: sinon.stub() };
+    skillRepository = { findActiveByCompetenceId: sinon.stub() };
+    campaignRepository = { findSkillsByCampaignParticipationId: sinon.stub() };
+    flashAssessmentResultRepository = { save: sinon.stub() };
+    scorecardService = { computeScorecard: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserIdAndAssessmentId: sinon.stub() };
+    certificationChallengeLiveAlertRepository = { getOngoingByChallengeIdAndAssessmentId: sinon.stub() };
+    flashAlgorithmService = { getEstimatedLevelAndErrorRate: sinon.stub() };
+    algorithmDataFetcherService = { fetchForFlashLevelEstimation: sinon.stub() };
     dateUtils = {
       getNowDate: sinon.stub(),
     };
