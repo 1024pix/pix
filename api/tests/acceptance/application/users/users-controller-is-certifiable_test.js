@@ -1,9 +1,9 @@
 import {
+  databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  databaseBuilder,
-  mockLearningContent,
   learningContentBuilder,
+  mockLearningContent,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
@@ -273,6 +273,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
                   imageUrl: 'http://badge-image-url.fr',
                   label: 'PARTNER_LABEL',
                   isOutdated: false,
+                  isAcquired: false,
                 },
               ],
             },

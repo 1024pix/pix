@@ -6,17 +6,19 @@ import _ from 'lodash';
 import { ComplementaryCertificationCourseResult } from '../../../lib/domain/models/ComplementaryCertificationCourseResult.js';
 
 const buildComplementaryCertificationCourseResult = function ({
+  id,
   complementaryCertificationCourseId,
   partnerKey,
   source = ComplementaryCertificationCourseResult.sources.PIX,
   acquired = true,
 }) {
+  id = id ?? databaseBuffer.getNextId();
   complementaryCertificationCourseId = _.isUndefined(complementaryCertificationCourseId)
     ? _buildComplementaryCertificationCourse().id
     : complementaryCertificationCourseId;
-  return databaseBuffer.objectsToInsert.push({
+  return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-course-results',
-    values: { complementaryCertificationCourseId, partnerKey, source, acquired },
+    values: { id, complementaryCertificationCourseId, partnerKey, source, acquired },
   });
 };
 
