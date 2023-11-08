@@ -5,13 +5,14 @@ const deneutralizeChallenge = async function ({
   certificationCourseId,
   challengeRecId,
   juryId,
+  locale,
 }) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
   });
   certificationAssessment.deneutralizeChallengeByRecId(challengeRecId);
   await certificationAssessmentRepository.save(certificationAssessment);
-  return new ChallengeDeneutralized({ certificationCourseId, juryId });
+  return new ChallengeDeneutralized({ certificationCourseId, juryId, locale });
 };
 
 export { deneutralizeChallenge };

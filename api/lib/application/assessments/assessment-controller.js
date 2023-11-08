@@ -97,7 +97,7 @@ const completeAssessment = async function (request) {
   let event;
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    const result = await usecases.completeAssessment({ assessmentId, domainTransaction });
+    const result = await usecases.completeAssessment({ assessmentId, domainTransaction, locale });
     await usecases.handleBadgeAcquisition({ assessment: result.assessment, domainTransaction });
     await usecases.handleStageAcquisition({ assessment: result.assessment, domainTransaction });
     await usecases.handleTrainingRecommendation({ assessment: result.assessment, locale, domainTransaction });

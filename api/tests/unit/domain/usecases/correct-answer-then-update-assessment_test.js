@@ -40,6 +40,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   const competenceEvaluationRepository = {};
 
   const nowDate = new Date('2021-03-11T11:00:04Z');
+  const locale = 'fr';
 
   let dependencies;
 
@@ -106,6 +107,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         answer,
         userId,
         ...dependencies,
+        locale,
       });
 
       // then
@@ -124,6 +126,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         answer,
         userId,
         ...dependencies,
+        locale,
       });
 
       // then
@@ -146,6 +149,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         answer,
         userId,
         ...dependencies,
+        locale,
       });
 
       // then
@@ -204,6 +208,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           answer,
           userId,
           ...dependencies,
+          locale,
         });
 
         // then
@@ -219,6 +224,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           answer,
           userId,
           ...dependencies,
+          locale,
         });
 
         // then
@@ -234,6 +240,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -262,6 +269,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -280,6 +288,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -300,6 +309,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -353,6 +363,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
         // then
@@ -365,6 +376,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -379,6 +391,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -392,6 +405,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -414,6 +428,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -441,6 +456,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -460,6 +476,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -480,6 +497,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -494,6 +512,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       let secondKnowledgeElement;
       let scorecard, knowledgeElement, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
       let flashData;
+      const locale = 'fr';
       const estimatedLevel = 1.93274982;
       const errorRate = 0.9127398127;
 
@@ -543,6 +562,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
         // then
@@ -555,6 +575,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -567,6 +588,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -580,6 +602,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -594,6 +617,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -607,6 +631,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -614,6 +639,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           assessment,
           answerRepository,
           challengeRepository,
+          locale,
         });
       });
 
@@ -622,6 +648,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -633,6 +660,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const { id } = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -650,6 +678,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const result = await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -670,6 +699,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           await correctAnswerThenUpdateAssessment({
             answer,
             userId,
+            locale,
             ...dependencies,
           });
 
@@ -726,6 +756,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -739,6 +770,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -752,6 +784,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -764,6 +797,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         const result = await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -789,6 +823,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       const result = correctAnswerThenUpdateAssessment({
         answer,
         userId,
+        locale,
         ...dependencies,
       });
 
@@ -817,6 +852,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       await correctAnswerThenUpdateAssessment({
         answer,
         userId,
+        locale,
         ...dependencies,
       });
 
@@ -840,6 +876,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         await correctAnswerThenUpdateAssessment({
           answer,
           userId,
+          locale,
           ...dependencies,
         });
 
@@ -879,6 +916,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       const { result } = await correctAnswerThenUpdateAssessment({
         answer: focusedOutAnswer,
         userId,
+        locale,
         ...dependencies,
       });
 
@@ -944,6 +982,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
           const correctedAnswer = await correctAnswerThenUpdateAssessment({
             answer: answer,
             userId,
+            locale,
             ...dependencies,
           });
 

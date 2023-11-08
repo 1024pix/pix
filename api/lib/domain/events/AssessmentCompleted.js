@@ -1,9 +1,10 @@
 class AssessmentCompleted {
-  constructor({ assessmentId, userId, campaignParticipationId, certificationCourseId } = {}) {
+  constructor({ assessmentId, userId, campaignParticipationId, certificationCourseId, locale } = {}) {
     this.assessmentId = assessmentId;
     this.userId = userId;
     this.campaignParticipationId = campaignParticipationId;
     this.certificationCourseId = certificationCourseId;
+    this.locale = locale;
   }
 
   get isCertificationType() {

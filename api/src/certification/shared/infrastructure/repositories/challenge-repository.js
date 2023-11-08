@@ -23,9 +23,9 @@ const get = async function (id) {
   }
 };
 
-const getMany = async function (ids) {
+const getMany = async function (ids, locale) {
   try {
-    const challengeDataObjects = await challengeDatasource.getMany(ids);
+    const challengeDataObjects = await challengeDatasource.getManyByLocale(ids, locale);
     const skills = await skillDatasource.getMany(challengeDataObjects.map(({ skillId }) => skillId));
     return _toDomainCollection({ challengeDataObjects, skills });
   } catch (error) {
