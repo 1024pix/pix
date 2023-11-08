@@ -2,7 +2,7 @@ import {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
   cleanStringAndParseFloat,
-} from '../../../lib/infrastructure/utils/string-utils.js';
+} from '../../../src/shared/infrastructure/utils/string-utils.js';
 import lodash from 'lodash';
 import { applyTreatments, applyPreTreatments } from './validation-treatments.js';
 import { validateAnswer } from './string-comparison-service.js';

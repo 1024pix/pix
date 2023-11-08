@@ -52,7 +52,7 @@ import * as certificationAssessmentRepository from '../../infrastructure/reposit
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidateForSupervisingRepository from '../../infrastructure/repositories/certification-candidate-for-supervising-repository.js';
-import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
+import * as certificationCandidateRepository from '../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
 import * as certificationCenterInvitationRepository from '../../infrastructure/repositories/certification-center-invitation-repository.js';
@@ -64,9 +64,9 @@ import * as certificationChallengeLiveAlertRepository from '../../../src/certifi
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
-import * as certificationCpfCityRepository from '../../infrastructure/repositories/certification-cpf-city-repository.js';
-import * as certificationCpfCountryRepository from '../../infrastructure/repositories/certification-cpf-country-repository.js';
-import * as certificationCpfService from '../../domain/services/certification-cpf-service.js';
+import * as certificationCpfCityRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationCpfCountryRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
+import * as certificationCpfService from '../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
 import * as certificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';

@@ -2,9 +2,9 @@ import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationCandidatesError,
-} from '../errors.js';
-import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
+} from '../../../../../lib/domain/errors.js';
+import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 
 const addCertificationCandidateToSession = async function ({
   sessionId,
