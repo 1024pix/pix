@@ -751,40 +751,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/sco-participants',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-            assign: 'belongsToScoOrganizationAndManagesStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[connectionTypes][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[search]': Joi.string().empty(''),
-            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'sort[participationCount]': Joi.string().empty(''),
-            'sort[lastnameSort]': Joi.string().empty(''),
-            'sort[divisionSort]': Joi.string().empty(''),
-          }),
-        },
-        handler: organizationController.findPaginatedFilteredScoParticipants,
-        tags: ['api', 'organization', 'sco-participants'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Orga**\n" +
-            '- Récupération des élèves liés à une organisation SCO\n',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/organizations/{id}/sup-organization-learners/csv-template',
       config: {
         auth: false,
