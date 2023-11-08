@@ -12,6 +12,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     web2,
     web3,
     challenge_competence1,
+    challenge_competence1_en,
     challenge_competence1_noSkills,
     challenge_competence1_notValidated,
     challenge_competence1_obsolete,
@@ -35,6 +36,15 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       skillId: web1.id,
       status: 'validé',
       locales: ['fr', 'fr-fr'],
+      alpha: 2.11,
+      delta: -3.56,
+    };
+    challenge_competence1_en = {
+      id: 'challenge-competence1',
+      competenceId: competence1.id,
+      skillId: web1.id,
+      status: 'validé',
+      locales: ['en'],
       alpha: 2.11,
       delta: -3.56,
     };
@@ -150,6 +160,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       sinon.stub(lcms, 'getLatestRelease').resolves({
         challenges: [
           challenge_competence1,
+          challenge_competence1_en,
           challenge_competence1_noSkills,
           challenge_competence1_notValidated,
           challenge_competence2,
@@ -157,7 +168,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       });
 
       // when
-      result = await challengeDatasource.findValidatedByCompetenceId(competence1.id);
+      result = await challengeDatasource.findValidatedByCompetenceId(competence1.id, 'fr');
     });
 
     it('should resolve to an array of matching Challenges from learning content', function () {
@@ -191,10 +202,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     it('should resolve an array of matching Challenges from learning content', async function () {
       // when
-      const result = await challengeDatasource.findValidated();
+      const result = await challengeDatasource.findValidated('fr');
 
       // then
-      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
+      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1']);
     });
   });
 
@@ -335,7 +346,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
     it('should resolve an array of validated challenge of a skill from learning content ', async function () {
       // when
-      const result = await challengeDatasource.findValidatedBySkillId('skill-web1');
+      const result = await challengeDatasource.findValidatedBySkillId('skill-web1', 'fr');
 
       // then
       expect(result).to.deep.equal([challenge_web1, challenge_competence2]);

@@ -25,8 +25,8 @@ const challengeDatasource = datasource.extend({
     return challenges.filter((challengeData) => foundInSkillIds(challengeData.skillId));
   },
 
-  async findValidatedByCompetenceId(competenceId) {
-    const challenges = await this.findValidated();
+  async findValidatedByCompetenceId(competenceId, locale) {
+    const challenges = await this.findValidated(locale);
     return challenges.filter(
       (challengeData) => !isEmpty(challengeData.skillId) && challengeData.competenceId === competenceId,
     );
@@ -39,13 +39,15 @@ const challengeDatasource = datasource.extend({
     );
   },
 
-  async findValidated() {
+  async findValidated(locale) {
     const challenges = await this.list();
-    return challenges.filter((challengeData) => _challengeHasStatus(challengeData, [VALIDATED_CHALLENGE]));
+    return challenges.filter(
+      (challenge) => _challengeHasLocale(challenge, locale) && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE]),
+    );
   },
 
-  async findValidatedBySkillId(id) {
-    const validatedChallenges = await this.findValidated();
+  async findValidatedBySkillId(id, locale) {
+    const validatedChallenges = await this.findValidated(locale);
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
   },
 
