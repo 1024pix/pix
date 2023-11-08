@@ -71,6 +71,11 @@ class S3ObjectStorageProvider {
     const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
     return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
   }
+
+  async readFile({ key }) {
+    const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
+    return this.#s3Client.send(getObjectCommand);
+  }
 }
 
 export { S3ObjectStorageProvider };

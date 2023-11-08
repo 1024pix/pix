@@ -139,4 +139,32 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
       expect(result).to.deep.equal('presigned_we_love_sweets');
     });
   });
+
+  context('#readFile', function () {
+    it('should return a S3 Object', async function () {
+      // given
+      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
+      const fakeStream = sinon.stub();
+      S3ClientStubbedInstance.send.resolves({ Body: fakeStream });
+      const GetObjectCommandStubbedInstance = sinon.createStubInstance(GetObjectCommand);
+      const constructorStub = sinon.stub(clientS3, 'GetObjectCommand').returns(GetObjectCommandStubbedInstance);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
+
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
+        dependencies: { clientS3 },
+      });
+
+      // when
+      const readFileResult = await s3ObjectStorageProvider.readFile({ key: 'be_the_gal' });
+
+      // then
+      expect(constructorStub).to.have.been.calledWithExactly({
+        Bucket: 'pix-cpf-dev',
+        Key: 'be_the_gal',
+      });
+      expect(S3ClientStubbedInstance.send).to.have.been.calledWithExactly(GetObjectCommandStubbedInstance);
+      expect(readFileResult).to.deep.equal({ Body: fakeStream });
+    });
+  });
 });
