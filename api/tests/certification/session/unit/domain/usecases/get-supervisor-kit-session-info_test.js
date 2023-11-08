@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getSupervisorKitSessionInfo } from '../../../../lib/domain/usecases/get-supervisor-kit-session-info.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
-import { SessionForSupervisorKit } from '../../../../lib/domain/read-models/SessionForSupervisorKit.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { getSupervisorKitSessionInfo } from '../../../../../../src/certification/session/domain/usecases/get-supervisor-kit-session-info.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../../../src/shared/domain/errors.js';
+import { SessionForSupervisorKit } from '../../../../../../src/certification/session/domain/read-models/SessionForSupervisorKit.js';
 
 describe('Unit | UseCase | get-supervisor-kit-main-info', function () {
   describe('getSupervisorKitSessionInfo', function () {
