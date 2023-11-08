@@ -1,6 +1,6 @@
 import querystring from 'querystring';
 import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../../src/access/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

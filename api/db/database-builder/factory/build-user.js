@@ -13,7 +13,7 @@ import { buildOrganization } from './build-organization.js';
 import { buildMembership } from './build-membership.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../src/access/authorization/domain/constants.js';
 
 const DEFAULT_PASSWORD = 'pix123';
 const { ROLES } = PIX_ADMIN;

@@ -8,7 +8,7 @@ import {
 
 import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
 import { config as settings } from '../../../lib/config.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../src/access/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

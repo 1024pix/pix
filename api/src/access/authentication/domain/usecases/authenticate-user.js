@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { get } = lodash;
 
-import { PIX_ORGA, PIX_ADMIN } from '../../../../../lib/domain/constants.js';
+import { PIX_ORGA, PIX_ADMIN } from '../../../../../src/access/authorization/domain/constants.js';
 import { ForbiddenAccess, LocaleFormatError, LocaleNotSupportedError } from '../../../../shared/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,

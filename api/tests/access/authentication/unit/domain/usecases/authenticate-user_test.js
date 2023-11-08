@@ -5,12 +5,13 @@ import { AdminMember } from '../../../../../../lib/domain/models/AdminMember.js'
 
 import { UserNotFoundError } from '../../../../../../lib/domain/errors.js';
 
-import * as appMessages from '../../../../../../lib/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../../../../src/access/authentication/domain/errors.js';
+import { PIX_ADMIN, PIX_ORGA } from '../../../../../../src/access/authorization/domain/constants.js';
+import { PIX_CERTIF } from '../../../../../../lib/domain/constants.js';
 
 describe('Unit | Authentication | Domain | UseCases | authenticate-user', function () {
   let refreshTokenService;
@@ -47,7 +48,7 @@ describe('Unit | Authentication | Domain | UseCases | authenticate-user', functi
     context('when scope is pix-orga', function () {
       it('should rejects an error when user is not linked to any organizations', async function () {
         // given
-        const scope = appMessages.PIX_ORGA.SCOPE;
+        const scope = PIX_ORGA.SCOPE;
         const user = new User({ email: userEmail, memberships: [] });
         pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
 
@@ -63,14 +64,14 @@ describe('Unit | Authentication | Domain | UseCases | authenticate-user', functi
 
         // then
         expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(error.message).to.be.equal(appMessages.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
+        expect(error.message).to.be.equal(PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
       });
     });
 
     context('when scope is pix-admin', function () {
       it('should throw an error when user has no role and is therefore not an admin member', async function () {
         // given
-        const scope = appMessages.PIX_ADMIN.SCOPE;
+        const scope = PIX_ADMIN.SCOPE;
         const user = new User({ email: userEmail });
         pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
         adminMemberRepository.get.withArgs({ userId: user.id }).resolves();
@@ -88,12 +89,12 @@ describe('Unit | Authentication | Domain | UseCases | authenticate-user', functi
 
         // then
         expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(error.message).to.be.equal(appMessages.PIX_ADMIN.NOT_ALLOWED_MSG);
+        expect(error.message).to.be.equal(PIX_ADMIN.NOT_ALLOWED_MSG);
       });
 
       it('should throw an error when user has a role but admin membership is disabled', async function () {
         // given
-        const scope = appMessages.PIX_ADMIN.SCOPE;
+        const scope = PIX_ADMIN.SCOPE;
         const user = new User({ email: userEmail });
         const adminMember = new AdminMember({
           id: 567,
@@ -122,12 +123,12 @@ describe('Unit | Authentication | Domain | UseCases | authenticate-user', functi
 
         // then
         expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(error.message).to.be.equal(appMessages.PIX_ADMIN.NOT_ALLOWED_MSG);
+        expect(error.message).to.be.equal(PIX_ADMIN.NOT_ALLOWED_MSG);
       });
 
       it('should resolve a valid JWT access token when admin member is not disabled and has a valid role', async function () {
         // given
-        const scope = appMessages.PIX_ADMIN.SCOPE;
+        const scope = PIX_ADMIN.SCOPE;
         const source = 'pix';
         const user = new User({ id: 123, email: userEmail });
         const adminMember = new AdminMember({
@@ -186,7 +187,7 @@ describe('Unit | Authentication | Domain | UseCases | authenticate-user', functi
       context('when user is not linked to any certification centers', function () {
         it('should resolves a valid JWT access token when feature toggle is enabled', async function () {
           // given
-          const scope = appMessages.PIX_CERTIF.SCOPE;
+          const scope = PIX_CERTIF.SCOPE;
           const accessToken = 'jwt.access.token';
           const refreshToken = 'jwt.refresh.token';
           const expirationDelaySeconds = 1;

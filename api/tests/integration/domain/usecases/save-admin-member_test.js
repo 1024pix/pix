@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
 import { saveAdminMember } from '../../../../lib/domain/usecases/save-admin-member.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/access/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

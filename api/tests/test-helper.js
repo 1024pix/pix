@@ -52,7 +52,7 @@ import { Membership } from '../lib/domain/models/index.js';
 
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
-import { PIX_ADMIN } from '../lib/domain/constants.js';
+import { PIX_ADMIN } from '../src/access/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
