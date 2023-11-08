@@ -24,6 +24,11 @@ const challengeDatasource = datasource.extend({
     return allChallenges.filter((challenge) => _challengeHasLocale(challenge, locale));
   },
 
+  async getManyByLocale(challengeIds, locale) {
+    const allChallenges = await this.getMany(challengeIds);
+    return allChallenges.filter((challenge) => _challengeHasLocale(challenge, locale));
+  },
+
   async findOperativeBySkillIds(skillIds, locale) {
     const foundInSkillIds = (skillId) => skillIds.includes(skillId);
     const challenges = await this.findOperative(locale);
