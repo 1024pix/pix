@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { setupApplicationTest } from 'ember-qunit';
@@ -100,7 +99,7 @@ module('Acceptance | authentication', function (hooks) {
         // given
         server.create('campaign');
 
-        await visit('/connexion');
+        const screen = await visit('/connexion');
         await fillByLabel('Adresse e-mail', user.email);
         await fillByLabel('Mot de passe', 'secret');
 
@@ -109,8 +108,7 @@ module('Acceptance | authentication', function (hooks) {
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-
-        assert.contains('Harry Cover');
+        assert.ok(screen.getByText('Harry Cover'));
       });
     });
   });
@@ -164,10 +162,10 @@ module('Acceptance | authentication', function (hooks) {
 
       test('it should display the organization linked to the connected prescriber', async function (assert) {
         // when
-        await visit('/');
+        const screen = await visit('/');
 
         // then
-        assert.contains('BRO & Evil Associates (EXTBRO)');
+        assert.ok(screen.getByText('BRO & Evil Associates (EXTBRO)'));
       });
 
       test('it should redirect prescriber to the campaigns list on root url', async function (assert) {
@@ -181,11 +179,11 @@ module('Acceptance | authentication', function (hooks) {
       module('when a lang query param is present', function () {
         test('sets and remembers the locale to the lang query param which wins over the user’s lang', async function (assert) {
           // when
-          await visitScreen('/?lang=en');
-          const screen = await visitScreen('/');
+          await visit('/?lang=en');
+          const screen = await visit('/');
 
           // then
-          assert.dom(screen.getByRole('link', { name: 'Team' })).exists();
+          assert.ok(screen.getByRole('link', { name: 'Team' }));
         });
       });
     });
@@ -205,7 +203,7 @@ module('Acceptance | authentication', function (hooks) {
         // when
         await visit('/');
         // then
-        assert.dom('.organization-credit-info').exists();
+        assert.ok('.organization-credit-info');
       });
     });
 
