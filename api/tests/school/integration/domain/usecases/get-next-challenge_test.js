@@ -3,7 +3,7 @@ import { Assessment, Challenge } from '../../../../../lib/domain/models/index.js
 import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 import * as activityRepository from '../../../../../lib/infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
-import * as challengeRepository from '../../../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../../../src/school/infrastructure/repositories/challenge-repository.js';
 import * as activityAnswerRepository from '../../../../../lib/infrastructure/repositories/activity-answer-repository.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
 import { getNextChallenge } from '../../../../../src/school/domain/usecases/get-next-challenge.js';
