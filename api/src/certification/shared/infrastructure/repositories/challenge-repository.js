@@ -42,8 +42,8 @@ const list = async function () {
   return _toDomainCollection({ challengeDataObjects, skills });
 };
 
-const findValidated = async function () {
-  const challengeDataObjects = await challengeDatasource.findValidated();
+const findValidated = async function (locale) {
+  const challengeDataObjects = await challengeDatasource.findValidated(locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
@@ -54,8 +54,8 @@ const findOperative = async function (locale) {
   return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
 };
 
-const findValidatedByCompetenceId = async function (competenceId) {
-  const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId);
+const findValidatedByCompetenceId = async function (competenceId, locale) {
+  const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId, locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
@@ -91,8 +91,8 @@ const findFlashCompatible = async function ({ locale, useObsoleteChallenges } = 
   return _toDomainCollection({ challengeDataObjects, skills });
 };
 
-const findValidatedBySkillId = async function (skillId) {
-  const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId);
+const findValidatedBySkillId = async function (skillId, locale) {
+  const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId, locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };

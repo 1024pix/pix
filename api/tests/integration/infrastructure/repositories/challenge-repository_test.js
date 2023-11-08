@@ -178,7 +178,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.findValidated();
+      const actualChallenges = await challengeRepository.findValidated('fr');
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
@@ -209,7 +209,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const [actualChallenge] = await challengeRepository.findValidated();
+      const [actualChallenge] = await challengeRepository.findValidated('fr');
 
       // then
       expect(actualChallenge.validator).to.be.instanceOf(Validator);
@@ -271,7 +271,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const actualChallenges = await challengeRepository.findValidatedByCompetenceId(competenceId);
+      const actualChallenges = await challengeRepository.findValidatedByCompetenceId(competenceId, 'fr');
 
       // then
       expect(actualChallenges).to.have.lengthOf(1);
@@ -301,7 +301,10 @@ describe('Integration | Repository | challenge-repository', function () {
       };
       mockLearningContent(learningContent);
       // when
-      const [actualChallenge] = await challengeRepository.findValidatedByCompetenceId(validatedChallenge.competenceId);
+      const [actualChallenge] = await challengeRepository.findValidatedByCompetenceId(
+        validatedChallenge.competenceId,
+        'fr',
+      );
 
       // then
       expect(actualChallenge.validator).to.be.instanceOf(Validator);
@@ -667,7 +670,7 @@ describe('Integration | Repository | challenge-repository', function () {
       });
 
       // when
-      const validatedChallenges = await challengeRepository.findValidatedBySkillId(skill.id);
+      const validatedChallenges = await challengeRepository.findValidatedBySkillId(skill.id, 'fr');
 
       // then
       expect(validatedChallenges).to.have.lengthOf(1);
