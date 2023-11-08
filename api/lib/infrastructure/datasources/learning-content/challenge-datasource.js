@@ -25,13 +25,6 @@ const challengeDatasource = datasource.extend({
     return challenges.filter((challengeData) => foundInSkillIds(challengeData.skillId));
   },
 
-  async findValidatedByCompetenceId(competenceId, locale) {
-    const challenges = await this.findValidated(locale);
-    return challenges.filter(
-      (challengeData) => !isEmpty(challengeData.skillId) && challengeData.competenceId === competenceId,
-    );
-  },
-
   async findOperative(locale) {
     const challenges = await this.list();
     return challenges.filter(
@@ -39,16 +32,23 @@ const challengeDatasource = datasource.extend({
     );
   },
 
-  async findValidated(locale) {
-    const challenges = await this.list();
+  async findValidatedByCompetenceId(competenceId, locale) {
+    const challenges = await this.findValidated(locale);
     return challenges.filter(
-      (challenge) => _challengeHasLocale(challenge, locale) && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE]),
+      (challengeData) => !isEmpty(challengeData.skillId) && challengeData.competenceId === competenceId,
     );
   },
 
   async findValidatedBySkillId(id, locale) {
     const validatedChallenges = await this.findValidated(locale);
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
+  },
+
+  async findValidated(locale) {
+    const challenges = await this.list();
+    return challenges.filter(
+      (challenge) => _challengeHasLocale(challenge, locale) && _challengeHasStatus(challenge, [VALIDATED_CHALLENGE]),
+    );
   },
 
   async getBySkillId(skillId) {
