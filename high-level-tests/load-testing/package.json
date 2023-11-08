@@ -5,7 +5,7 @@
   "homepage": "https://github.com/1024pix/pix/tree/dev/high-level-tests/load-testing#readme",
   "author": "GIP Pix",
   "engines": {
-    "node": "^20.8.1"
+    "node": "^20.9.0"
   },
   "license": "ISC",
   "repository": {

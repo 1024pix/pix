@@ -10,7 +10,7 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "^20.8.1"
+    "node": "^20.9.0"
   },
   "directories": {
     "doc": "doc",
