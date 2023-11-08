@@ -15,7 +15,6 @@ import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import lodash from 'lodash';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
@@ -64,28 +63,6 @@ const update = async function (request, h, dependencies = { sessionSerializer })
   const updatedSession = await usecases.updateSession({ userId, session });
 
   return dependencies.sessionSerializer.serialize({ session: updatedSession });
-};
-
-const getSupervisorKitPdf = async function (
-  request,
-  h,
-  dependencies = { tokenService, requestResponseUtils, supervisorKitPdf },
-) {
-  const sessionId = request.params.id;
-  const token = request.query.accessToken;
-  const userId = dependencies.tokenService.extractUserId(token);
-  const { lang } = request.query;
-  const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
-
-  const { buffer, fileName } = await dependencies.supervisorKitPdf.getSupervisorKitPdfBuffer({
-    sessionForSupervisorKit,
-    lang,
-  });
-
-  return h
-    .response(buffer)
-    .header('Content-Disposition', `attachment; filename=${fileName}`)
-    .header('Content-Type', 'application/pdf');
 };
 
 const getCandidatesImportSheet = async function (
@@ -394,7 +371,6 @@ const sessionController = {
   getJurySession,
   get,
   update,
-  getSupervisorKitPdf,
   getCandidatesImportSheet,
   getCertificationCandidates,
   getCertificationPDFAttestationsForSession,

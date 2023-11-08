@@ -1002,53 +1002,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#getSupervisorKitPdf', function () {
-    it('should return supervisor kit', async function () {
-      // given
-      sinon.stub(usecases, 'getSupervisorKitSessionInfo');
-      const sessionMainInfo = domainBuilder.buildSessionForSupervisorKit({ id: 1 });
-      const supervisorKitBuffer = 'binary string';
-      const userId = 1;
-      const request = {
-        auth: { credentials: { userId } },
-        params: { id: sessionMainInfo.id },
-        query: {
-          accessToken: 'ACCESS_TOKEN',
-        },
-      };
-      const tokenService = {
-        extractUserId: sinon.stub(),
-      };
-      const requestResponseUtils = {
-        extractLocaleFromRequest: sinon.stub(),
-      };
-      tokenService.extractUserId.withArgs(request.query.accessToken).returns(userId);
-      const supervisorKitPdf = {
-        getSupervisorKitPdfBuffer: sinon.stub(),
-      };
-      supervisorKitPdf.getSupervisorKitPdfBuffer.resolves({
-        buffer: supervisorKitBuffer,
-        fileName: `kit-surveillant-${sessionMainInfo.id}.pdf`,
-      });
-      usecases.getSupervisorKitSessionInfo.resolves(sessionMainInfo);
-
-      // when
-      const response = await sessionController.getSupervisorKitPdf(request, hFake, {
-        tokenService,
-        requestResponseUtils,
-        supervisorKitPdf,
-      });
-
-      // then
-      expect(usecases.getSupervisorKitSessionInfo).to.have.been.calledWithExactly({
-        userId,
-        sessionId: sessionMainInfo.id,
-      });
-      expect(response.source).to.deep.equal(supervisorKitBuffer);
-      expect(response.headers['Content-Disposition']).to.contains(`attachment; filename=kit-surveillant-1.pdf`);
-    });
-  });
-
   describe('#getSessionPDFAttestations', function () {
     it('should return an attestation in PDF binary format', async function () {
       // given
