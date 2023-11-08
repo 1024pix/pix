@@ -1,19 +1,17 @@
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 
-const getSupervisorKitSessionInfo = async function ({
+const getInvigilatorKitSessionInfo = async function ({
   userId,
   sessionId,
   sessionRepository,
-  sessionForSupervisorKitRepository,
+  sessionForInvigilatorKitRepository,
 }) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
-  const sessionForSupervisorKit = await sessionForSupervisorKitRepository.get(sessionId);
-
-  return sessionForSupervisorKit;
+  return await sessionForInvigilatorKitRepository.get(sessionId);
 };
 
-export { getSupervisorKitSessionInfo };
+export { getInvigilatorKitSessionInfo };
