@@ -185,7 +185,11 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
 
           module('when assessment is of type certification', function (hooks) {
             hooks.beforeEach(async function () {
-              // given
+              const focusedCertificationChallengeWarningManager = this.owner.lookup(
+                'service:focused-certification-challenge-warning-manager',
+              );
+              focusedCertificationChallengeWarningManager.reset();
+
               assessment = server.create('assessment', 'ofCertificationType');
               server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
 
@@ -197,8 +201,8 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
                 lastName: 'Bravo',
               });
               assessment = certificationCourse.assessment;
-              await visit(`/assessments/${assessment.id}/challenges/0`);
-              await click('.focused-certification-challenge-instructions-action__confirmation-button');
+              const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+              await click(screen.getByRole('button', { name: 'Je suis prêt' }));
               await triggerEvent(document, 'focusedout');
             });
 
@@ -469,4 +473,86 @@ module('Acceptance | Displaying a challenge of any type', function (hooks) {
       });
     },
   );
+
+  module('when assessment is certification', function () {
+    module('when there are several focused challenges in a row', function () {
+      test('should display the focus page once', async function (assert) {
+        // given
+        const user = server.create('user', 'withEmail');
+        await authenticate(user);
+
+        const focusedCertificationChallengeWarningManager = this.owner.lookup(
+          'service:focused-certification-challenge-warning-manager',
+        );
+        focusedCertificationChallengeWarningManager.reset();
+
+        assessment = server.create('assessment', 'ofCertificationType');
+        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+
+        const certificationCourse = server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 2,
+          firstName: 'Laura',
+          lastName: 'Bravo',
+        });
+        assessment = certificationCourse.assessment;
+
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        assert.dom(screen.getByText('Mode focus')).exists();
+        await click(screen.getByRole('button', { name: 'Je suis prêt' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
+
+        // then
+        assert.dom(screen.queryByText('Mode focus')).doesNotExist();
+      });
+    });
+
+    module('when there is a non focus challenge between two focused challenges', function () {
+      test('should display the focus page twice', async function (assert) {
+        // given
+        const user = server.create('user', 'withEmail');
+        await authenticate(user);
+
+        const focusedCertificationChallengeWarningManager = this.owner.lookup(
+          'service:focused-certification-challenge-warning-manager',
+        );
+        focusedCertificationChallengeWarningManager.reset();
+
+        assessment = server.create('assessment', 'ofCertificationType');
+        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+        server.create('challenge', 'forCertification', 'QCM');
+        server.create('challenge', 'forCertification', 'QCM', 'withFocused');
+
+        const certificationCourse = server.create('certification-course', {
+          accessCode: 'ABCD12',
+          sessionId: 1,
+          nbChallenges: 2,
+          firstName: 'Laura',
+          lastName: 'Bravo',
+        });
+        assessment = certificationCourse.assessment;
+
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges/0`);
+        await click(screen.getByRole('button', { name: 'Je suis prêt' }));
+        await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
+
+        // then
+        assert.dom(screen.queryByText('Mode focus')).doesNotExist();
+
+        // when
+        await click(screen.getByRole('button', { name: 'Je passe et je vais à la prochaine question' }));
+
+        // then
+        assert.dom(screen.getByText('Mode focus')).exists();
+      });
+    });
+  });
 });
