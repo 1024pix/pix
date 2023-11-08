@@ -134,24 +134,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/sessions/{id}/supervisor-kit',
-      config: {
-        auth: false,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        handler: sessionController.getSupervisorKitPdf,
-        tags: ['api', 'sessions', 'supervisor'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
-            '- Cette route permet de télécharger le kit surveillant au format pdf',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/sessions/{id}/candidates-import-sheet',
       config: {
         auth: false,
