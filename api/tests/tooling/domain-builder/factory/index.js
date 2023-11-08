@@ -107,6 +107,7 @@ import { buildParticipationForCampaignManagement } from './build-participation-f
 import { buildComplementaryCertificationCourseResult } from './build-complementary-certification-course-result.js';
 import { buildComplementaryCertificationCourseResultForJuryCertification } from './build-complementary-certification-course-result-for-certification.js';
 import { buildComplementaryCertificationCourseResultForJuryCertificationWithExternal } from './build-complementary-certification-course-result-for-certification-with-external.js';
+import { buildComplementaryCertificationCourseWithResults } from './build-complementary-certification-course-with-results.js';
 import { buildComplementaryCertificationScoringWithoutComplementaryReferential } from './build-complementary-certification-scoring-without-complementary-referential.js';
 import { buildComplementaryCertificationScoringWithComplementaryReferential } from './build-pix-plus-certification-scoring.js';
 import { buildPlacementProfile } from './build-placement-profile.js';
@@ -269,6 +270,7 @@ export {
   buildComplementaryCertificationCourseResult,
   buildComplementaryCertificationCourseResultForJuryCertification,
   buildComplementaryCertificationCourseResultForJuryCertificationWithExternal,
+  buildComplementaryCertificationCourseWithResults,
   buildComplementaryCertificationScoringWithoutComplementaryReferential,
   buildComplementaryCertificationScoringWithComplementaryReferential,
   buildPlacementProfile,

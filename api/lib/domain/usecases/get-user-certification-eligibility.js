@@ -5,6 +5,7 @@ const getUserCertificationEligibility = async function ({
   placementProfileService,
   certificationBadgesService,
   limitDate = new Date(),
+  complementaryCertificationCourseRepository,
 }) {
   const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate });
   const pixCertificationEligible = placementProfile.isCertifiable();
@@ -18,18 +19,28 @@ const getUserCertificationEligibility = async function ({
     limitDate,
   });
 
-  const complementaryCertifications = stillValidBadgeAcquisitions.map(
-    ({ complementaryCertificationBadgeLabel, complementaryCertificationBadgeImageUrl, isOutdated }) => ({
-      label: complementaryCertificationBadgeLabel,
-      imageUrl: complementaryCertificationBadgeImageUrl,
-      isOutdated,
-    }),
+  const complementaryCertificationsTakenByUser = await complementaryCertificationCourseRepository.findByUserId({
+    userId,
+  });
+
+  const complementaryCertificationsAcquired = complementaryCertificationsTakenByUser.filter(
+    (complementaryCertification) => complementaryCertification.isAcquired(),
   );
+
+  const complementaryCertificationsEligibles = stillValidBadgeAcquisitions.map((stillValidBadgeAcquisition) => ({
+    label: stillValidBadgeAcquisition.complementaryCertificationBadgeLabel,
+    imageUrl: stillValidBadgeAcquisition.complementaryCertificationBadgeImageUrl,
+    isOutdated: stillValidBadgeAcquisition.isOutdated,
+    isAcquired: complementaryCertificationsAcquired.some(
+      ({ complementaryCertificationBadgeId }) =>
+        complementaryCertificationBadgeId === stillValidBadgeAcquisition.complementaryCertificationBadgeId,
+    ),
+  }));
 
   return new CertificationEligibility({
     id: userId,
     pixCertificationEligible,
-    complementaryCertifications,
+    complementaryCertifications: complementaryCertificationsEligibles,
   });
 };
 
