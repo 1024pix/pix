@@ -30,7 +30,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
       // then
       expect(module).to.be.instanceOf(Module);
-      expect(module.list.every((element) => element instanceof Element)).to.be.true;
+      expect(module.elements.every((element) => element instanceof Element)).to.be.true;
     });
   });
 });
