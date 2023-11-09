@@ -148,7 +148,6 @@ import * as scorecardService from '../../domain/services/scorecard-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';
-import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
@@ -363,7 +362,6 @@ const dependencies = {
   scoringCertificationService,
   sessionCodeService,
   sessionForSupervisingRepository,
-  sessionForSupervisorKitRepository,
   sessionJuryCommentRepository,
   sessionPublicationService,
   sessionRepository,

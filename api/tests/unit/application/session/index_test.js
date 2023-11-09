@@ -817,20 +817,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       });
     });
 
-    describe('GET /api/admin/sessions/{id}/supervisor-kit', function () {
-      it('should return 200', async function () {
-        // when
-        sinon.stub(sessionController, 'getSupervisorKitPdf').returns('ok');
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const response = await httpTestServer.request('GET', '/api/sessions/3/supervisor-kit');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
     describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
       it('should exist', async function () {
         // given
