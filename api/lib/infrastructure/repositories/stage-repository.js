@@ -1,5 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { Stage } from '../../domain/models/index.js';
+import { NotFoundError } from '../../../src/shared/domain/errors.js';
 
 /**
  * @typedef stageData
@@ -33,6 +34,22 @@ const buildBaseQuery = (knexConnection) =>
     .select('stages.*')
     .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
     .orderBy(['stages.threshold', 'stages.level']);
+
+/**
+ * Return a stage for a given id
+ *
+ * @param {number} id
+ * @param knexConnection
+ *
+ * @returns Promise<Stage>
+ */
+const get = async (id, knexConnection = knex) => {
+  const [stage] = await knexConnection('stages').select('stages.*').where({ id });
+
+  if (!stage) throw new NotFoundError('Erreur, palier introuvable');
+
+  return new Stage(stage);
+};
 
 /**
  * Return stages for multiple campaign ids
@@ -83,4 +100,13 @@ const getByCampaignParticipationId = async (campaignParticipationId, knexConnect
 const getByTargetProfileIds = async (targetProfileIds, knexConnection = knex) =>
   toDomain(await knexConnection('stages').select('stages.*').whereIn('stages.targetProfileId', targetProfileIds));
 
-export { getByCampaignIds, getByCampaignId, getByCampaignParticipationId, getByTargetProfileIds };
+const update = async ({ id, attributesToUpdate }) => {
+  const [stageToUpdate] = await knex('stages')
+    .where({ id })
+    .update({ ...attributesToUpdate, updatedAt: new Date() })
+    .returning('*');
+
+  return new Stage(stageToUpdate);
+};
+
+export { get, getByCampaignIds, getByCampaignId, getByCampaignParticipationId, getByTargetProfileIds, update };

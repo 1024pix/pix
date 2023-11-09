@@ -1,12 +1,52 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
 import {
+  get,
   getByCampaignIds,
   getByCampaignId,
   getByCampaignParticipationId,
   getByTargetProfileIds,
+  update,
 } from '../../../../lib/infrastructure/repositories/stage-repository.js';
 import { Stage } from '../../../../lib/domain/models/Stage.js';
+import { NotFoundError } from '../../../../src/shared/domain/errors.js';
+
 describe('Integration | Repository | Stage Acquisition', function () {
+  describe('get', function () {
+    afterEach(async function () {
+      await knex('stages').delete();
+    });
+
+    it('should return a stage for a given id', async function () {
+      // given
+      const stage1 = databaseBuilder.factory.buildStage({ id: 1 });
+      databaseBuilder.factory.buildStage({ id: 2 });
+      await databaseBuilder.commit();
+
+      // when
+      const stage = await get(1);
+
+      // then
+      expect(stage).to.be.instanceOf(Stage);
+      expect(stage).to.deep.equal(stage1);
+    });
+
+    context('when the stage does not exist', function () {
+      it('should throw a not found message error', async function () {
+        // given
+        databaseBuilder.factory.buildStage({ id: 1 });
+        await databaseBuilder.commit();
+
+        // when
+        const notExistingStageId = 9999;
+        const error = await catchErr(get)(notExistingStageId);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('Erreur, palier introuvable');
+      });
+    });
+  });
+
   describe('getByCampaignIds', function () {
     let campaigns;
     let stages;
@@ -147,6 +187,48 @@ describe('Integration | Repository | Stage Acquisition', function () {
     it('should return the expected stages', async function () {
       const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
       expect(result).to.have.deep.members(stages);
+    });
+  });
+
+  describe('update', function () {
+    afterEach(async function () {
+      await knex('stages').delete();
+    });
+    it('should update the stage', async function () {
+      // given
+      const stage = databaseBuilder.factory.buildStage({
+        level: 1,
+        title: 'Initial title',
+        message: 'Initial message',
+        prescriberTitle: 'Initial prescriber title',
+        prescriberDescription: 'Initial prescriber description',
+      });
+      const anotherStage = databaseBuilder.factory.buildStage();
+
+      await databaseBuilder.commit();
+
+      const payload = {
+        id: stage.id,
+        attributesToUpdate: {
+          level: 3,
+          title: 'New title',
+          message: 'New message',
+          prescriberTitle: 'New prescriber title',
+          prescriberDescription: 'New prescriber description',
+        },
+      };
+
+      // when
+      const updatedStage = await update(payload);
+
+      // then
+      expect(updatedStage).to.be.instanceOf(Stage);
+      expect(updatedStage.level).equal(payload.attributesToUpdate.level);
+      expect(updatedStage.title).equal(payload.attributesToUpdate.title);
+      expect(updatedStage.message).equal(payload.attributesToUpdate.message);
+      expect(updatedStage.prescriberTitle).equal(payload.attributesToUpdate.prescriberTitle);
+      expect(updatedStage.prescriberDescription).equal(payload.attributesToUpdate.prescriberDescription);
+      expect(anotherStage.title).to.not.equal(payload.attributesToUpdate.title);
     });
   });
 });

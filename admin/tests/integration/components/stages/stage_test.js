@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { render } from '@1024pix/ember-testing-library';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Stages::Stage', function (hooks) {
   let stage;
@@ -204,6 +204,57 @@ module('Integration | Component | Stages::Stage', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('spinbutton', { name: 'Seuil du palier' })).hasAttribute('readonly');
+    });
+  });
+
+  module('when edit mode is true', function () {
+    test('it should be possible to update message, title, prescriber description and prescriber title', async function (assert) {
+      // given
+      stage = {
+        id: 34,
+        isTypeLevel: false,
+        threshold: 40,
+        title: 'dummy',
+        message: 'dummy',
+        prescriberTitle: 'dummy',
+        prescriberDescription: 'dummy',
+      };
+
+      this.set('isEditMode', true);
+      this.set('stage', stage);
+      this.set('hasLinkedCampaign', true);
+
+      this.toggleEditMode = sinon.stub().callsFake(() => {
+        this.set('isEditMode', false);
+      });
+      this.update = sinon.stub().callsFake(() => {
+        return new Promise((resolve) => resolve());
+      });
+
+      // when
+      const screen = await render(
+        hbs`<Stages::Stage
+          @stage={{this.stage}}
+          @toggleEditMode={{this.toggleEditMode}}
+          @isEditMode={{this.isEditMode}}
+          @hasLinkedCampaign={{this.hasLinkedCampaign}}
+          @onUpdate={{this.update}} />`,
+      );
+
+      await fillByLabel('Titre', 'New title');
+      await fillByLabel('Message', 'New message');
+      await fillByLabel('Titre pour le prescripteur', 'New prescriber title');
+      await fillByLabel('Description pour le prescripteur', 'New prescriber description');
+
+      await click(screen.getByRole('button', { name: 'Enregistrer' }));
+
+      // then
+      assert.dom(screen.getByText('Titre : New title', { exact: false })).exists();
+      assert.dom(screen.getByText('Message : New message', { exact: false })).exists();
+      assert.dom(screen.getByText('Titre pour le prescripteur : New prescriber title', { exact: false })).exists();
+      assert
+        .dom(screen.getByText('Description pour le prescripteur : New prescriber description', { exact: false }))
+        .exists();
     });
   });
 });
