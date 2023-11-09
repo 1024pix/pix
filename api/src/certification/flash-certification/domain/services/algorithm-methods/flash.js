@@ -48,47 +48,65 @@ function getEstimatedLevelAndErrorRate({
 
   let latestEstimatedLevel = estimatedLevel;
 
-  let probabilitiesToAnswer = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
-  let probabilities;
+  let likelihood = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
+  let normalizedPosteriori;
 
   for (const answer of allAnswers) {
-    const answeredChallenge = challenges.find(({ id }) => id === answer.challengeId);
+    const answeredChallenge = _findChallengeForAnswer(challenges, answer);
 
-    const gaussians = samples.map((sample) =>
-      _getGaussianValue({
-        gaussianMean: latestEstimatedLevel,
-        value: sample,
-      }),
-    );
+    const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
 
-    const normalizedGaussian = _normalizeDistribution(gaussians);
+    likelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
 
-    probabilitiesToAnswer = samples.map((sample, index) => {
-      let probability = _getProbability(sample, answeredChallenge.discriminant, answeredChallenge.difficulty);
-      probability = answer.isOk() ? probability : 1 - probability;
-      return probabilitiesToAnswer[index] * probability;
-    });
+    normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
 
-    const _probabilities = samples.map((_, index) => probabilitiesToAnswer[index] * normalizedGaussian[index]);
-
-    const normalizedProbabilities = _normalizeDistribution(_probabilities);
-
-    probabilities = normalizedProbabilities;
-
-    const rawNextEstimatedLevel = lodash.sum(samples.map((sample, index) => sample * normalizedProbabilities[index]));
-
-    latestEstimatedLevel = variationPercent
-      ? _limitEstimatedLevelVariation(latestEstimatedLevel, rawNextEstimatedLevel, variationPercent)
-      : rawNextEstimatedLevel;
+    latestEstimatedLevel = _computeEstimatedLevel(latestEstimatedLevel, variationPercent, normalizedPosteriori);
   }
 
+  const errorRate = _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori);
+
+  return { estimatedLevel: latestEstimatedLevel, errorRate };
+}
+
+function _computeNormalizedPrior(gaussianMean) {
+  return _normalizeDistribution(
+    samples.map((sample) =>
+      _getGaussianValue({
+        gaussianMean: gaussianMean,
+        value: sample,
+      }),
+    ),
+  );
+}
+
+function _computeLikelihood(answeredChallenge, answer, previousLikelihood) {
+  return samples.map((sample, index) => {
+    let probability = _getProbability(sample, answeredChallenge.discriminant, answeredChallenge.difficulty);
+    probability = answer.isOk() ? probability : 1 - probability;
+    return previousLikelihood[index] * probability;
+  });
+}
+
+function _computeNormalizedPosteriori(likelihood, normalizedGaussian) {
+  const posteriori = samples.map((_, index) => likelihood[index] * normalizedGaussian[index]);
+
+  return _normalizeDistribution(posteriori);
+}
+
+function _computeEstimatedLevel(previousEstimatedLevel, variationPercent, normalizedPosteriori) {
+  const rawNextEstimatedLevel = lodash.sum(samples.map((sample, index) => sample * normalizedPosteriori[index]));
+
+  return variationPercent
+    ? _limitEstimatedLevelVariation(previousEstimatedLevel, rawNextEstimatedLevel, variationPercent)
+    : rawNextEstimatedLevel;
+}
+
+function _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori) {
   const rawErrorRate = lodash.sum(
-    samples.map((sample, index) => probabilities[index] * (sample - latestEstimatedLevel) ** 2),
+    samples.map((sample, index) => normalizedPosteriori[index] * (sample - latestEstimatedLevel) ** 2),
   );
 
-  const correctedErrorRate = Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
-
-  return { estimatedLevel: latestEstimatedLevel, errorRate: correctedErrorRate };
+  return Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
 }
 
 function getChallengesForNonAnsweredSkills({ allAnswers, challenges }) {
