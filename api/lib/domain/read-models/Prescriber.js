@@ -11,6 +11,7 @@ class Prescriber {
     userOrgaSettings,
     enableMultipleSendingAssessment,
     computeOrganizationLearnerCertificability,
+    features,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -23,6 +24,7 @@ class Prescriber {
     this.userOrgaSettings = userOrgaSettings;
     this.enableMultipleSendingAssessment = enableMultipleSendingAssessment;
     this.computeOrganizationLearnerCertificability = computeOrganizationLearnerCertificability;
+    this.features = features;
   }
 }
 
