@@ -150,6 +150,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
                   value: 'BADGE_KEY_4',
                 },
               ],
+              'default-jury-options': ['REJECTED', 'UNSET'],
               'complementary-certification-course-id': 1234,
               'pix-result': 'Badge Key 3',
               'external-result': 'Badge Key 4',

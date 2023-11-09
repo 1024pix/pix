@@ -197,6 +197,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
               label: 'Badge for complementary certification without external jury',
             },
           ],
+          defaultJuryOptions: ['REJECTED', 'UNSET'],
         },
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);

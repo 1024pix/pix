@@ -328,6 +328,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               pixResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
               externalResult: 'En attente',
               finalResult: 'En attente',
+              defaultJuryOptions: ['UNSET', 'WAITING'],
               allowedExternalLevels: [
                 {
                   value: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
@@ -385,6 +386,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   label: 'Pix+ Édu Initiale 1er degré Confirmé',
                 },
               ],
+              defaultJuryOptions: ['UNSET'],
             },
           );
           certification.update({ complementaryCertificationCourseResultWithExternal });
@@ -452,6 +454,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   label: 'Pix+ Édu Initiale 1er degré Confirmé',
                 },
               ],
+              defaultJuryOptions: ['UNSET', 'WAITING'],
             },
           );
           const certification1 = this.server.create('certification', {
@@ -475,6 +478,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   label: 'Pix+ Édu Initiale 2nd degré Confirmé',
                 },
               ],
+              defaultJuryOptions: ['UNSET', 'WAITING'],
             },
           );
           const certification2 = this.server.create('certification', {

@@ -58,6 +58,12 @@
         "roleLabel": "Rôle"
       }
     },
+    "certifications": {
+      "external-jury-select-options": {
+        "REJECTED": "Rejetée",
+        "UNSET": "En attente"
+      }
+    },
     "complementary-certifications": {
       "target-profiles": {
         "badges-list": {
