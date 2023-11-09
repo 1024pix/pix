@@ -120,7 +120,6 @@ import * as organizationLearnerRepository from '../../infrastructure/repositorie
 import * as organizationLearnersCsvService from '../../domain/services/organization-learners-csv-service.js';
 import * as organizationLearnersXmlService from '../../domain/services/organization-learners-xml-service.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
-import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
 import * as organizationPlacesCapacityRepository from '../../infrastructure/repositories/organization-places-capacity-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organizations/organization-places-lot-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
@@ -330,7 +329,6 @@ const dependencies = {
   organizationLearnersCsvService,
   organizationLearnersXmlService,
   organizationMemberIdentityRepository,
-  organizationParticipantRepository,
   organizationPlacesCapacityRepository,
   organizationPlacesLotRepository,
   organizationRepository,

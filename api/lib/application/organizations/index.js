@@ -810,36 +810,6 @@ const register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/participants',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToOrganization,
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[fullName]': Joi.string().empty(''),
-            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'sort[participationCount]': Joi.string().empty(''),
-            'sort[lastnameSort]': Joi.string().empty(''),
-          }),
-        },
-        handler: organizationController.getPaginatedParticipantsForAnOrganization,
-        tags: ['api', 'organization-participants'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération des participants d'une organisation sans import\n",
-        ],
-      },
-    },
   ];
 
   server.route([
