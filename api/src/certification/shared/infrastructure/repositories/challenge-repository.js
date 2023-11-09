@@ -52,7 +52,7 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
     }
     const skillNamePrefix = _getPix1dActivityLevelTubeName(missionNamePrefix, activityLevel);
     const skillName = `${skillNamePrefix}${challengeNumber}`;
-    const skills = await skillDatasource.findAllByName(skillName);
+    const skills = await skillDatasource.findAllSkillsByNameForPix1d(skillName);
     if (skills.length === 0) {
       _throwNotFoundError(activityLevel, missionId, challengeNumber);
     }

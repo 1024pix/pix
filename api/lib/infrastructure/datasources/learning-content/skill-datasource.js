@@ -13,10 +13,10 @@ const skillDatasource = datasource.extend({
     return _.filter(skills, { status: ACTIVE_STATUS });
   },
 
-  async findAllByName(name) {
+  async findAllSkillsByNameForPix1d(name) {
     const skills = await this.list();
     const filteredSkills = _.filter(skills, function (skill) {
-      return _.isEqual(skill.name, name);
+      return _.isEqual(skill.name, name) && _.includes([ACTIVE_STATUS, IN_BUILD_STATUS], skill.status);
     });
     return filteredSkills;
   },
