@@ -66,6 +66,13 @@ async function _getParticipantCount(prescriber) {
 async function _organizationFeatures(prescriber) {
   const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
   const availableFeatures = await _availableFeaturesQueryBuilder(currentOrganizationId);
+  const allFeatures = await _allFeatures();
+
+  const organizationFeatures = allFeatures.reduce((accumulator, feature) => {
+    return { ...accumulator, [feature]: availableFeatures.includes(feature) };
+  }, {});
+
+  prescriber.features = organizationFeatures;
 
   prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
     apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
@@ -74,6 +81,10 @@ async function _organizationFeatures(prescriber) {
   prescriber.computeOrganizationLearnerCertificability = availableFeatures.includes(
     apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key,
   );
+}
+
+function _allFeatures() {
+  return knex('features').select('key').pluck('key');
 }
 
 function _availableFeaturesQueryBuilder(currentOrganizationId) {
