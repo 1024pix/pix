@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 import { adminMemberController } from '../../../../lib/application/admin-members/admin-member-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { PIX_ADMIN } from '../../../../src/access/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

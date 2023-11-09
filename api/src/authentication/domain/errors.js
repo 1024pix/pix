@@ -1,4 +1,4 @@
-import { DomainError } from '../../../shared/domain/errors.js';
+import { DomainError } from '../../shared/domain/errors.js';
 
 class MissingOrInvalidCredentialsError extends DomainError {
   constructor(message = 'Missing or invalid credentials') {

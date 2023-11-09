@@ -9,7 +9,7 @@ import {
   LocaleFormatError,
   LocaleNotSupportedError,
 } from '../../../src/shared/domain/errors.js';
-import { AdminMemberError } from '../../../src/access/authorization/domain/errors.js';
+import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {

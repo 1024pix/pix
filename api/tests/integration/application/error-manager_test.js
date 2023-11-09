@@ -10,7 +10,7 @@ import {
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../../src/access/authentication/domain/errors.js';
+} from '../../../src/authentication/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
