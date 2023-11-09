@@ -2,6 +2,7 @@ import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructu
 import { config } from '../../../../shared/config.js';
 import { CpfReceipt } from '../../domain/models/CpfReceipt.js';
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
+import { deserialize } from '../deserializers/xml/cpf-receipt-file-deserializer.js';
 
 class CpfReceiptsStorage {
   #client;
@@ -21,10 +22,11 @@ class CpfReceiptsStorage {
     return this.#toDomainArray({ storageFiles: storageResponse.Contents });
   }
 
-  async readFile({ cpfReceipt }) {
+  async getCpfInfosByReceipt({ cpfReceipt }) {
     const data = await this.#client.readFile({ key: cpfReceipt.filename });
     //Body from the GetObjectCommand is a ReadableStream
-    return data.Body;
+    const cpfInfos = deserialize({ xmlStream: data.Body });
+    return cpfInfos;
   }
 
   #toDomainArray({ storageFiles = [] }) {

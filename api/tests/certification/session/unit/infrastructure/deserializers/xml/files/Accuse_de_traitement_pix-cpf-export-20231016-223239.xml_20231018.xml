@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rapport xmlns:ns2="urn:cdc:cpf:pc5:rapport:schema">
+    <nomFichier>pix-cpf-export-20231016-223239.xml</nomFichier>
+    <idFlux>4df76fd4-0915-46df-8c56-525506af35be</idFlux>
+    <idTraitement>67598</idTraitement>
+    <PassagesKO>
+        <passage>
+            <idTechnique>1979262</idTechnique>
+            <messageErreur>Aucun titulaire ne correspond aux critères obligatoires</messageErreur>
+        </passage>
+        <passage>
+            <idTechnique>1996215</idTechnique>
+            <messageErreur>Aucun titulaire ne correspond aux critères obligatoires enrichis du jour et du mois de naissance</messageErreur>
+        </passage>
+        <passage>
+            <idTechnique>1983189</idTechnique>
+            <messageErreur>Le passage certification avec le bcr émetteur 03VML243 et l'id technique partenaire 1559735 existe déjà en base</messageErreur>
+        </passage>
+    </PassagesKO>
+    <PassagesOK>
+        <idTechnique>1968666</idTechnique>
+        <idTechnique>1964200</idTechnique>
+    </PassagesOK>
+</rapport>
