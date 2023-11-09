@@ -34,8 +34,8 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const missionId = 'recCHAL1';
       const activityLevel = Activity.levels.TRAINING;
       const tubeId = 'tubeId';
-      const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_di' });
-      const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
+      const tube = learningContentBuilder.buildTube({ id: tubeId, thematicId: missionId, name: '@rechercher_di' });
+      const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
 
       mockLearningContent({
         skills: [skill],
@@ -60,9 +60,9 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const missionId = 'recCHAL1';
       const activityLevel = Activity.levels.TUTORIAL;
       const tubeId = 'tubeId';
-      const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_di' });
-      const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
-      const challenge = _buildChallenge({
+      const tube = learningContentBuilder.buildTube({ id: tubeId, thematicId: missionId, name: '@rechercher_di' });
+      const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
+      const challenge = learningContentBuilder.buildChallenge({
         id: 'recChallenge1',
         name: '@rechercher_di1',
         tubeId,
@@ -94,29 +94,35 @@ describe('School | Integration | Repository | challenge-repository', function ()
       //given
       const missionId = 'recCHAL1';
       const activityLevel = Activity.levels.TRAINING;
-      const activiteDidacticiel = _buildTube({
+      const activiteDidacticiel = learningContentBuilder.buildTube({
         id: 'activiteDidacticielId',
-        missionId,
+        thematicId: missionId,
         name: '@rechercher_di',
       });
-      const activiteEntrainement = _buildTube({
+      const activiteEntrainement = learningContentBuilder.buildTube({
         id: 'activiteEntrainementId',
-        missionId,
+        thematicId: missionId,
         name: '@rechercher_en',
       });
-      const acquisDidacticiel = _buildSkill({
+      const acquisDidacticiel = learningContentBuilder.buildSkill({
         id: 'recSkill1',
         name: '@rechercher_di1',
         tubeId: activiteDidacticiel.id,
       });
-      const acquisEntrainement = _buildSkill({
+      const acquisEntrainement = learningContentBuilder.buildSkill({
         id: 'recSkill2',
         name: '@rechercher_en1',
         tubeId: activiteEntrainement.id,
       });
 
-      const epreuveDidacticiel = _buildChallenge({ id: 'challengeId1', skill: { id: acquisDidacticiel.id } });
-      const epreuveEntrainement = _buildChallenge({ id: 'challengeId2', skill: { id: acquisEntrainement.id } });
+      const epreuveDidacticiel = learningContentBuilder.buildChallenge({
+        id: 'challengeId1',
+        skillId: acquisDidacticiel,
+      });
+      const epreuveEntrainement = learningContentBuilder.buildChallenge({
+        id: 'challengeId2',
+        skillId: acquisEntrainement.id,
+      });
 
       const learningContent = {
         tubes: [activiteDidacticiel, activiteEntrainement],
@@ -126,23 +132,15 @@ describe('School | Integration | Repository | challenge-repository', function ()
 
       mockLearningContent(learningContent);
 
-      const expectedChallenges = [
-        {
-          ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
-          skill: undefined,
-          alternativeVersion: 1,
-        },
-      ];
+      const expectedChallenge = _buildSchoolChallenge({ id: epreuveEntrainement.id });
 
       // when
       const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
-      expect(challenges[0]).to.be.instanceOf(Challenge);
       expect(challenges.length).to.equal(1);
-      expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenges[0], ['validator', 'skill', 'focused', 'timer']),
-      );
+      expect(challenges[0]).to.be.instanceOf(Challenge);
+      expect(_.omit(challenges[0], ['validator'])).to.deep.equal(_.omit(expectedChallenge, ['validator']));
     });
     it('should return the challenge for the given missionId', async function () {
       //given
@@ -150,32 +148,35 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const otherMissionId = 'recOTMI1';
       const activityLevel = Activity.levels.TRAINING;
 
-      const activiteEntrainement = _buildTube({
+      const activiteEntrainement = learningContentBuilder.buildTube({
         id: 'activiteEntrainementId',
-        missionId,
+        thematicId: missionId,
         name: '@rechercher_en',
       });
-      const activiteEntrainementAutreMission = _buildTube({
+      const activiteEntrainementAutreMission = learningContentBuilder.buildTube({
         id: 'activiteEntrainementId',
-        missionId: otherMissionId,
+        thematicId: otherMissionId,
         name: '@rechercher_en',
       });
-      const acquisEntrainementAutreMission = _buildSkill({
+      const acquisEntrainementAutreMission = learningContentBuilder.buildSkill({
         id: 'recSkill1',
         name: '@rechercher_di1',
         tubeId: activiteEntrainementAutreMission.id,
       });
-      const acquisEntrainement = _buildSkill({
+      const acquisEntrainement = learningContentBuilder.buildSkill({
         id: 'recSkill2',
         name: '@rechercher_en1',
         tubeId: activiteEntrainement.id,
       });
 
-      const epreuveEntrainementAutreMission = _buildChallenge({
+      const epreuveEntrainementAutreMission = learningContentBuilder.buildChallenge({
         id: 'challengeId1',
-        skill: { id: acquisEntrainementAutreMission.id },
+        skillId: acquisEntrainementAutreMission.id,
       });
-      const epreuveEntrainement = _buildChallenge({ id: 'challengeId2', skill: { id: acquisEntrainement.id } });
+      const epreuveEntrainement = learningContentBuilder.buildChallenge({
+        id: 'challengeId2',
+        skillId: acquisEntrainement.id,
+      });
 
       const learningContent = {
         tubes: [activiteEntrainementAutreMission, activiteEntrainement],
@@ -185,30 +186,24 @@ describe('School | Integration | Repository | challenge-repository', function ()
 
       mockLearningContent(learningContent);
 
-      const expectedChallenge = {
-        ...domainBuilder.buildChallenge({ id: epreuveEntrainement.id }),
-        skill: undefined,
-        alternativeVersion: 1,
-      };
+      const expectedChallenge = _buildSchoolChallenge({ id: epreuveEntrainement.id });
 
       // when
       const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
 
       // then
       expect(challenges.length).to.equal(1);
-      expect(_.omit(challenges[0], ['validator', 'skill', 'focused', 'timer'])).to.deep.equal(
-        _.omit(expectedChallenge, ['validator', 'skill', 'focused', 'timer']),
-      );
+      expect(_.omit(challenges[0], ['validator'])).to.deep.equal(_.omit(expectedChallenge, ['validator']));
     });
     it('should return the correct validator for the challenge type', async function () {
       // given
       const missionId = 'recCHAL1';
       const activityLevel = Activity.levels.TUTORIAL;
       const tubeId = 'tubeId';
-      const tube = _buildTube({ id: tubeId, missionId, name: '@rechercher_di' });
-      const skill = _buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
+      const tube = learningContentBuilder.buildTube({ id: tubeId, thematicId: missionId, name: '@rechercher_di' });
+      const skill = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_di1', tubeId });
 
-      const challenge = _buildChallenge({ id: 'challengeId', skill: { id: skill.id } });
+      const challenge = learningContentBuilder.buildChallenge({ id: 'challengeId', skillId: skill.id });
 
       const learningContent = {
         skills: [skill],
@@ -218,7 +213,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
 
       mockLearningContent(learningContent);
 
-      domainBuilder.buildChallenge({ id: challenge.id, type: challenge.type });
+      _buildSchoolChallenge({ id: challenge.id, type: challenge.type });
 
       // when
       const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
@@ -297,8 +292,8 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const challenges = await challengeRepository.getActivityChallengesFor1d({ missionId, activityLevel });
 
       // then
-      const expectedChallenge1 = domainBuilder.buildChallenge({ id: challenge1.id, skill: null });
-      const expectedChallenge2 = domainBuilder.buildChallenge({ id: challenge2.id, skill: null });
+      const expectedChallenge1 = _buildSchoolChallenge({ id: challenge1.id, skill: null });
+      const expectedChallenge2 = _buildSchoolChallenge({ id: challenge2.id, skill: null });
 
       expect(challenges).to.have.lengthOf(2);
       expect(challenges[0]).to.have.lengthOf(1);
@@ -325,8 +320,11 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const challenges = await challengeRepository.getActivityChallengesFor1d({ missionId, activityLevel });
 
       // then
-      const expectedChallenge = domainBuilder.buildChallenge({ id: challenge.id, skill: null });
-      const expectedChallengeAlternative = domainBuilder.buildChallenge({ id: challengeAlternative.id, skill: null });
+      const expectedChallenge = _buildSchoolChallenge({ id: challenge.id, skill: null });
+      const expectedChallengeAlternative = _buildSchoolChallenge({
+        id: challengeAlternative.id,
+        skill: null,
+      });
 
       expect(challenges).to.have.lengthOf(1);
       expect(challenges[0]).to.have.lengthOf(2);
@@ -338,56 +336,6 @@ describe('School | Integration | Repository | challenge-repository', function ()
   });
 });
 
-function _buildTube({ id, name, missionId }) {
-  return {
-    id,
-    name,
-    title: 'My title',
-    thematicId: missionId,
-    skillIds: [],
-  };
-}
-
-function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
-  return {
-    competenceId: 'recCOMP123',
-    id,
-    name,
-    pixValue: 3,
-    tubeId,
-    tutorialIds: [],
-    version: 1,
-    status: 'actif',
-    level: 1,
-  };
-}
-
-function _buildChallenge({ id, skill, status = 'validé', alternativeVersion }) {
-  return {
-    id,
-    attachments: ['URL pièce jointe'],
-    format: 'petit',
-    illustrationUrl: "Une URL vers l'illustration",
-    illustrationAlt: "Le texte de l'illustration",
-    instruction: 'Des instructions',
-    alternativeInstruction: 'Des instructions alternatives',
-    proposals: 'Une proposition',
-    status,
-    timer: '',
-    focusable: true,
-    type: Challenge.Type.QCM,
-    locales: ['fr'],
-    autoReply: false,
-    discriminant: 1,
-    difficulty: 0,
-    answer: undefined,
-    responsive: 'Smartphone/Tablette',
-    competenceId: 'recCOMP1',
-    skillId: skill.id,
-    alpha: 1,
-    delta: 0,
-    skill,
-    shuffled: false,
-    alternativeVersion: alternativeVersion || 1,
-  };
-}
+const _buildSchoolChallenge = function (challenge) {
+  return domainBuilder.buildChallenge.ofSchool(challenge);
+};
