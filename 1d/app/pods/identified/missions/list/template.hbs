@@ -2,22 +2,22 @@
 <div>
   <RobotDialog @instruction={{t "pages.missions.start-page.list" prenom=@model.firstName backUrl=this.schoolUrl}} />
   <div class="cards">
-    <LinkTo @route="identified.missions.mission" @model="recExjO7RHeDI48HK">
+    <PixButton @triggerAction={{this.goToMission "recExjO7RHeDI48HK"}} class="card">
       <MissionCard
         @title="Recherche sur internet"
         @colorClass="red"
         @imageName="internet-search"
         @missionCompleted={{this.missionCompleted "recExjO7RHeDI48HK"}}
       />
-    </LinkTo>
+    </PixButton>
 
-    <LinkTo @route="identified.missions.mission" @model="recZtwymXXrtdXRrx">
+    <PixButton @triggerAction={{this.goToMission "recZtwymXXrtdXRrx"}} class="card">
       <MissionCard
         @title="Données personnelles"
         @colorClass="blue"
         @imageName="personal-data"
         @missionCompleted={{this.missionCompleted "recZtwymXXrtdXRrx"}}
       />
-    </LinkTo>
+    </PixButton>
   </div>
 </div>
