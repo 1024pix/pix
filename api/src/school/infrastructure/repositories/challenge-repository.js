@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
@@ -9,7 +8,6 @@ import {
 } from '../../../../lib/infrastructure/datasources/learning-content/index.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { Activity } from '../../../school/domain/models/Activity.js';
-import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
 
 /**
@@ -110,25 +108,15 @@ function _getPix1dLevelName(activityLevel) {
 
 export { getChallengeFor1d, getActivityChallengesFor1d };
 
-function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {
-  const skillMap = _.keyBy(skills, 'id');
-  const lookupSkill = (id) => skillMap[id];
+function _toDomainCollection({ challengeDataObjects }) {
   const challenges = challengeDataObjects.map((challengeDataObject) => {
-    const skillDataObject = lookupSkill(challengeDataObject.skillId);
-
-    return _toDomain({
-      challengeDataObject,
-      skillDataObject,
-      successProbabilityThreshold,
-    });
+    return _toDomain({ challengeDataObject });
   });
 
   return challenges;
 }
 
-function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThreshold }) {
-  const skill = skillDataObject ? skillAdapter.fromDatasourceObject(skillDataObject) : null;
-
+function _toDomain({ challengeDataObject }) {
   const solution = solutionAdapter.fromDatasourceObject(challengeDataObject);
 
   const validator = Challenge.createValidatorForChallengeType({
@@ -143,25 +131,19 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     instruction: challengeDataObject.instruction,
     alternativeInstruction: challengeDataObject.alternativeInstruction,
     proposals: challengeDataObject.proposals,
-    timer: challengeDataObject.timer,
     illustrationUrl: challengeDataObject.illustrationUrl,
     attachments: challengeDataObject.attachments,
     embedUrl: challengeDataObject.embedUrl,
     embedTitle: challengeDataObject.embedTitle,
     embedHeight: challengeDataObject.embedHeight,
-    skill,
     validator,
     competenceId: challengeDataObject.competenceId,
     illustrationAlt: challengeDataObject.illustrationAlt,
     format: challengeDataObject.format,
     locales: challengeDataObject.locales,
     autoReply: challengeDataObject.autoReply,
-    focused: challengeDataObject.focusable,
-    discriminant: challengeDataObject.alpha,
-    difficulty: challengeDataObject.delta,
     responsive: challengeDataObject.responsive,
     shuffled: challengeDataObject.shuffled,
-    successProbabilityThreshold,
     alternativeVersion: challengeDataObject.alternativeVersion,
   });
 }
