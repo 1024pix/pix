@@ -1,6 +1,6 @@
 import { expect, sinon, HttpTestServer } from '../../../../test-helper.js';
 import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
-import { usecases } from '../../../../../src/prescription/learner-list/domain/usescases/index.js';
+import { usecases } from '../../../../../src/prescription/learner-list/domain/usecases/index.js';
 
 import * as moduleUnderTest from '../../../../../src/prescription/learner-list/application/learner-list-route.js';
 

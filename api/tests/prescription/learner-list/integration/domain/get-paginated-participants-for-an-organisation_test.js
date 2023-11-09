@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../../test-helper.js';
 import * as organizationParticipantRepository from '../../../../../src/prescription/learner-list/infrastructure/repositories/organization-participant-repository.js';
-import { getPaginatedParticipantsForAnOrganization } from '../../../../../src/prescription/learner-list/domain/usescases/get-paginated-participants-for-an-organization.js';
+import { getPaginatedParticipantsForAnOrganization } from '../../../../../src/prescription/learner-list/domain/usecases/get-paginated-participants-for-an-organization.js';
 
 describe('Integration | UseCases | get-paginated-participants-for-an-organization', function () {
   it('should get all participations for an organization', async function () {

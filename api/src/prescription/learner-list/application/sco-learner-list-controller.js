@@ -1,4 +1,4 @@
-import { usecases } from '../domain/usescases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import * as scoOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
 import { mapCertificabilityByLabel } from './helpers.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
