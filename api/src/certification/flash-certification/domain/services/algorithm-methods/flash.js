@@ -1,6 +1,6 @@
 import lodash from 'lodash';
 
-const { orderBy, range, sortBy, sortedUniqBy, sumBy } = lodash;
+const { orderBy, range, sortBy, sortedUniqBy } = lodash;
 
 const DEFAULT_ESTIMATED_LEVEL = 0;
 const START_OF_SAMPLES = -9;
@@ -48,52 +48,42 @@ function getEstimatedLevelAndErrorRate({
 
   let latestEstimatedLevel = estimatedLevel;
 
-  const samplesWithResults = samples.map((sample) => ({
-    sample,
-    gaussian: null,
-    probabilityToAnswer: DEFAULT_PROBABILITY_TO_ANSWER,
-    probability: null,
-  }));
+  let probabilitiesToAnswer = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
+  let probabilities;
 
   for (const answer of allAnswers) {
     const answeredChallenge = challenges.find(({ id }) => id === answer.challengeId);
 
-    for (const sampleWithResults of samplesWithResults) {
-      sampleWithResults.gaussian = _getGaussianValue({
+    const gaussians = samples.map((sample) =>
+      _getGaussianValue({
         gaussianMean: latestEstimatedLevel,
-        value: sampleWithResults.sample,
-      });
-
-      let probability = _getProbability(
-        sampleWithResults.sample,
-        answeredChallenge.discriminant,
-        answeredChallenge.difficulty,
-      );
-      probability = answer.isOk() ? probability : 1 - probability;
-      sampleWithResults.probabilityToAnswer *= probability;
-    }
-
-    _normalizeFieldDistribution(samplesWithResults, 'gaussian');
-
-    for (const sampleWithResults of samplesWithResults) {
-      sampleWithResults.probability = sampleWithResults.probabilityToAnswer * sampleWithResults.gaussian;
-    }
-
-    _normalizeFieldDistribution(samplesWithResults, 'probability');
-
-    const rawNextEstimatedLevel = samplesWithResults.reduce(
-      (estimatedLevel, { sample, probability }) => estimatedLevel + sample * probability,
-      0,
+        value: sample,
+      }),
     );
+
+    const normalizedGaussian = _normalizeDistribution(gaussians);
+
+    probabilitiesToAnswer = samples.map((sample, index) => {
+      let probability = _getProbability(sample, answeredChallenge.discriminant, answeredChallenge.difficulty);
+      probability = answer.isOk() ? probability : 1 - probability;
+      return probabilitiesToAnswer[index] * probability;
+    });
+
+    const _probabilities = samples.map((_, index) => probabilitiesToAnswer[index] * normalizedGaussian[index]);
+
+    const normalizedProbabilities = _normalizeDistribution(_probabilities);
+
+    probabilities = normalizedProbabilities;
+
+    const rawNextEstimatedLevel = lodash.sum(samples.map((sample, index) => sample * normalizedProbabilities[index]));
 
     latestEstimatedLevel = variationPercent
       ? _limitEstimatedLevelVariation(latestEstimatedLevel, rawNextEstimatedLevel, variationPercent)
       : rawNextEstimatedLevel;
   }
 
-  const rawErrorRate = samplesWithResults.reduce(
-    (acc, { sample, probability }) => acc + probability * (sample - latestEstimatedLevel) ** 2,
-    0,
+  const rawErrorRate = lodash.sum(
+    samples.map((sample, index) => probabilities[index] * (sample - latestEstimatedLevel) ** 2),
   );
 
   const correctedErrorRate = Math.sqrt(rawErrorRate - (ERROR_RATE_CLASS_INTERVAL ** 2) / 12.0); // prettier-ignore
@@ -238,9 +228,7 @@ function _getGaussianValue({ gaussianMean, value }) {
   return Math.exp(Math.pow(value - gaussianMean, 2) / (-2 * variance)) / (Math.sqrt(variance) * Math.sqrt(2 * Math.PI));
 }
 
-function _normalizeFieldDistribution(data, field) {
-  const sum = sumBy(data, field);
-  for (const item of data) {
-    item[field] /= sum;
-  }
+function _normalizeDistribution(data) {
+  const sum = lodash.sum(data);
+  return data.map((value) => value / sum);
 }
