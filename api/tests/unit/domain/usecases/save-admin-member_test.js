@@ -5,7 +5,7 @@ import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 
 import { AlreadyExistingAdminMemberError, UserNotFoundError } from '../../../../lib/domain/errors.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
+import { AdminMember } from '../../../../src/shared/domain/models/AdminMember.js';
 
 describe('Unit | UseCase | save-admin-member', function () {
   context('when admin member email is not found', function () {

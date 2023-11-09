@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, knex, catchErr, sinon } from '../../../../test-helper.js';
 import * as adminMemberRepository from '../../../../../src/shared/infrastructure/repositories/admin-member-repository.js';
-import { AdminMember } from '../../../../../lib/domain/models/AdminMember.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 
 import { AdminMemberError } from '../../../../../src/authorization/domain/errors.js';
 import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';

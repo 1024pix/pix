@@ -1,6 +1,6 @@
 import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
 import { ActivityAnswer } from './ActivityAnswer.js';
-import { AdminMember } from './AdminMember.js';
+import { AdminMember } from '../../../src/shared/domain/models/AdminMember.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { AnswerStatus } from './AnswerStatus.js';

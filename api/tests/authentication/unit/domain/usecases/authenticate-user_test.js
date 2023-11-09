@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
 import { authenticateUser } from '../../../../../src/authentication/domain/usecases/authenticate-user.js';
 import { User } from '../../../../../lib/domain/models/User.js';
-import { AdminMember } from '../../../../../lib/domain/models/AdminMember.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 
