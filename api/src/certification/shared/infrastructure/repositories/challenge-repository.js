@@ -25,6 +25,7 @@ const get = async function (id) {
 
 const getMany = async function (ids, locale) {
   try {
+    _assertLocaleIsDefined(locale);
     const challengeDataObjects = await challengeDatasource.getManyByLocale(ids, locale);
     const skills = await skillDatasource.getMany(challengeDataObjects.map(({ skillId }) => skillId));
     return _toDomainCollection({ challengeDataObjects, skills });
@@ -37,30 +38,35 @@ const getMany = async function (ids, locale) {
 };
 
 const list = async function (locale) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.listByLocale(locale);
   const skills = await skillDatasource.list();
   return _toDomainCollection({ challengeDataObjects, skills });
 };
 
 const findValidated = async function (locale) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findValidated(locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
 
 const findOperative = async function (locale) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findOperative(locale);
   const operativeSkills = await skillDatasource.findOperative();
   return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
 };
 
 const findValidatedByCompetenceId = async function (competenceId, locale) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId, locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
 
 const findOperativeBySkills = async function (skills, locale) {
+  _assertLocaleIsDefined(locale);
   const skillIds = skills.map((skill) => skill.id);
   const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds, locale);
   const operativeSkills = await skillDatasource.findOperative();
@@ -71,6 +77,7 @@ const findActiveFlashCompatible = async function ({
   locale,
   successProbabilityThreshold = config.features.successProbabilityThreshold,
 } = {}) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findActiveFlashCompatible(locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills, successProbabilityThreshold });
@@ -80,18 +87,21 @@ const findOperativeFlashCompatible = async function ({
   locale,
   successProbabilityThreshold = config.features.successProbabilityThreshold,
 } = {}) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findOperativeFlashCompatible(locale);
   const skills = await skillDatasource.list();
   return _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold });
 };
 
 const findFlashCompatible = async function ({ locale, useObsoleteChallenges } = {}) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findFlashCompatible({ locale, useObsoleteChallenges });
   const skills = await skillDatasource.list();
   return _toDomainCollection({ challengeDataObjects, skills });
 };
 
 const findValidatedBySkillId = async function (skillId, locale) {
+  _assertLocaleIsDefined(locale);
   const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId, locale);
   const activeSkills = await skillDatasource.findActive();
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
@@ -110,6 +120,12 @@ export {
   findOperativeFlashCompatible,
   findValidatedBySkillId,
 };
+
+function _assertLocaleIsDefined(locale) {
+  if (!locale) {
+    throw new Error('Locale shall be defined');
+  }
+}
 
 function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {
   const skillMap = _.keyBy(skills, 'id');

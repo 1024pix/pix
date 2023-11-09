@@ -123,7 +123,7 @@ describe('Integration | Repository | challenge-repository', function () {
       mockLearningContent(learningContent);
 
       // when
-      const error = await catchErr(challengeRepository.getMany)(['someChallengeId']);
+      const error = await catchErr(challengeRepository.getMany)(['someChallengeId'], 'fr');
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
