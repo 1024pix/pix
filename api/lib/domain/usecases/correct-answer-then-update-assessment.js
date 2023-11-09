@@ -25,6 +25,7 @@ const correctAnswerThenUpdateAssessment = async function ({
   campaignRepository,
   knowledgeElementRepository,
   flashAssessmentResultRepository,
+  certificationChallengeLiveAlertRepository,
   flashAlgorithmService,
   algorithmDataFetcherService,
   examiner,
@@ -45,6 +46,17 @@ const correctAnswerThenUpdateAssessment = async function ({
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
+
+  const onGoingCertificationChallengeLiveAlert =
+    await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
+      challengeId: challenge.id,
+      assessmentId: assessment.id,
+    });
+
+  if (onGoingCertificationChallengeLiveAlert) {
+    throw new ForbiddenAccess('An alert has been set.');
+  }
+
   const correctedAnswer = _evaluateAnswer({ challenge, answer, assessment, examiner });
   const now = dateUtils.getNowDate();
   const lastQuestionDate = assessment.lastQuestionDate || now;
