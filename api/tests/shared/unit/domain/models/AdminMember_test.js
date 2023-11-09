@@ -1,12 +1,12 @@
-import { expect } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
+import { expect } from '../../../../test-helper.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import { ObjectValidationError } from '../../../../lib/domain/errors.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
+import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
 
-describe('Unit | Domain | Models | AdminMember', function () {
+describe('Unit | Shared | Domain | Models | AdminMember', function () {
   describe('constructor', function () {
     describe('when the given role is correct', function () {
       it('should successfully instantiate object for SUPER_ADMIN role', function () {

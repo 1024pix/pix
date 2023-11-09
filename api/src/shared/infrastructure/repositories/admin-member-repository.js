@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
+import { AdminMember } from '../../domain/models/AdminMember.js';
 
 import { AdminMemberError } from '../../../authorization/domain/errors.js';
 
