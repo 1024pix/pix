@@ -23,26 +23,12 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
                   id: 'c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
                   type: 'text',
                 },
-              ],
-              id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
-              title: 'Grain 1',
-              type: 'lesson',
-            },
-            {
-              elements: [
                 {
                   content:
                     '<p><strong>L’arobase</strong> est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p>En anglais, ce symbole se lit “at” qui veut dire “chez”.</p><p> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>',
                   id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
                   type: 'text',
                 },
-              ],
-              id: 'ef206449-bb3a-423a-83d8-2d1e61f95137',
-              title: 'Grain 2',
-              type: 'lesson',
-            },
-            {
-              elements: [
                 {
                   content:
                     '<p><strong>Le fournisseur d’adresse mail</strong> est la deuxième partie de l’adresse mail.</p><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p>Des exemples de fournisseurs d’adresses mail : <ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul></p><p>L’avez-vous remarqué ? Cette partie est en 2 morceaux : le nom du fournisseur (par exemple “laposte”) et une extension (dans notre exemple, “.net”).</p>',
@@ -50,37 +36,103 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
                   type: 'text',
                 },
               ],
-              id: 'b3cc5efe-ed64-4291-bb19-089373450cf6',
-              title: 'Grain 3',
+              id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
+              title: 'Explications : les parties d’une adresse mail',
               type: 'lesson',
             },
             {
               elements: [
                 {
                   feedbacks: {
-                    invalid: 'Mince...',
-                    valid: 'Bravo !',
+                    invalid:
+                      '<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>',
+                    valid:
+                      '<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>',
                   },
                   id: 'z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7',
                   instruction: '<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>',
                   proposals: [
                     {
-                      content: 'vrai',
+                      content: 'Vrai',
                       id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-                      isValid: true,
                     },
                     {
-                      content: 'faux',
+                      content: 'Faux',
                       id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
-                      isValid: false,
                     },
                   ],
                   solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
                   type: 'qcu',
                 },
+                {
+                  feedbacks: {
+                    invalid:
+                      '<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>',
+                    valid:
+                      '<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>',
+                  },
+                  id: 'ba78dead-a806-4954-b408-e8ef28d28fab',
+                  instruction: '<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite ?</p>',
+                  proposals: [
+                    {
+                      content: 'Vrai',
+                      id: '6d4db7f8-b783-473d-a1cc-73dac8411855',
+                    },
+                    {
+                      content: 'Faux',
+                      id: '26d27fa3-3269-4d78-916c-3aa066976592',
+                    },
+                  ],
+                  solution: '6d4db7f8-b783-473d-a1cc-73dac8411855',
+                  type: 'qcu',
+                },
+                {
+                  feedbacks: {
+                    invalid:
+                      '<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>',
+                    valid:
+                      '<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>',
+                  },
+                  id: '4231af7b-dca5-4d79-acfe-b485e0127ae1',
+                  instruction: '<p>Il faut toujours un symbole @ dans une adresse mail ?</p>',
+                  proposals: [
+                    {
+                      content: 'Vrai',
+                      id: 'beba4b60-cd4c-49d7-ae1f-2783c14f7c71',
+                    },
+                    {
+                      content: 'Faux',
+                      id: 'd784b9f6-5d5a-47ba-ae17-da15b712ab24',
+                    },
+                  ],
+                  solution: 'beba4b60-cd4c-49d7-ae1f-2783c14f7c71',
+                  type: 'qcu',
+                },
+                {
+                  feedbacks: {
+                    invalid:
+                      '<p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><ul>Il y en a énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>de chez Free (free.fr)</li><li>ou de chez La Poste (laposte.net).</li></ul>',
+                    valid:
+                      '<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>et La Poste (laposte.net).</li><ul>',
+                  },
+                  id: '9bd65c37-ea5d-49a9-a59c-4e07ab3f1049',
+                  instruction: '<p>Toutes les adresses mails se terminent par gmail.com ?</p>',
+                  proposals: [
+                    {
+                      content: 'Vrai',
+                      id: '7ebabab5-6acd-4660-bf33-5cc7206e7288',
+                    },
+                    {
+                      content: 'Faux',
+                      id: 'f56bb715-714e-4a94-ba34-eef5ccd755d0',
+                    },
+                  ],
+                  solution: 'f56bb715-714e-4a94-ba34-eef5ccd755d0',
+                  type: 'qcu',
+                },
               ],
               id: '71792e45-966a-4070-b4fc-9e8a773c3f6f',
-              title: 'Grain 4',
+              title: 'Diversité des identifiants et des fournisseurs d’adresse mail',
               type: 'activity',
             },
           ],
