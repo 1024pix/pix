@@ -29,6 +29,7 @@ import * as solutionAdapter from '../../../../lib/infrastructure/adapters/soluti
  * @returns a challenge
  */
 const getChallengeFor1d = async function ({ missionId, activityLevel, challengeNumber, locale }) {
+  _assertLocaleIsDefined(locale);
   try {
     const missionNamePrefix = await _getMissionNamePrefix(missionId);
     if (missionNamePrefix.length === 0) {
@@ -59,6 +60,7 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
 };
 
 const getActivityChallengesFor1d = async function ({ missionId, activityLevel, locale }) {
+  _assertLocaleIsDefined(locale);
   const missionNamePrefix = await _getMissionNamePrefix(missionId);
   if (missionNamePrefix.length === 0) {
     throw new NotFoundError(`Aucune mission trouvée pour l'identifiant : ${missionId}`);
@@ -152,4 +154,10 @@ function _toDomain({ challengeDataObject }) {
     shuffled: challengeDataObject.shuffled,
     alternativeVersion: challengeDataObject.alternativeVersion,
   });
+}
+
+function _assertLocaleIsDefined(locale) {
+  if (!locale) {
+    throw new Error('Locale shall be defined');
+  }
 }
