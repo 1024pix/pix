@@ -23,10 +23,10 @@
         </li>
       </ul>
 
-      <PixButtonLink @route="identified.missions.mission.resume" @shape="rounded" class="details-action">
+      <PixButton @triggerAction={{this.goToResume}} @shape="rounded" class="pix1d-button details-action">
         <p>{{t "pages.missions.start-page.start-mission"}}</p>
         <FaIcon @icon="arrow-right" class="details-action__icon" />
-      </PixButtonLink>
+      </PixButton>
 
     </div>
   </div>

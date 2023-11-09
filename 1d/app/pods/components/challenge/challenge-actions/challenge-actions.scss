@@ -9,5 +9,18 @@
   button:only-child {
     margin-left: auto;
   }
+
+  .pix1d-button {
+    .loader.loader--white > div  {
+      background-color: $pix-primary;
+    }
+
+    &:hover {
+      .loader.loader--white > div  {
+        background-color: white;
+      }
+    }
+  }
 }
+
 
