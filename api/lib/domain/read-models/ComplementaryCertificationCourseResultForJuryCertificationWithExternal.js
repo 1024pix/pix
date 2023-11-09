@@ -35,7 +35,7 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
     this.allowedExternalLevels = allowedExternalLevels;
   }
 
-  static from(complementaryCertificationCourseResultWithExternal, badgeKeyAndLabelsGroupedByTargetProfile) {
+  static from(complementaryCertificationCourseResultWithExternal, badgesKeyAndLabel) {
     if (!complementaryCertificationCourseResultWithExternal.length) {
       return;
     }
@@ -46,13 +46,7 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
       ({ source }) => source === EXTERNAL,
     );
 
-    let allowedExternalLevels = [];
-    if (pixComplementaryCertificationCourseResult) {
-      const filteredBadges = badgeKeyAndLabelsGroupedByTargetProfile.find((badgeKeys) =>
-        badgeKeys.map(({ key }) => key).includes(pixComplementaryCertificationCourseResult.partnerKey),
-      );
-      allowedExternalLevels = filteredBadges.map(({ key, label }) => ({ label, value: key }));
-    }
+    const allowedExternalLevels = badgesKeyAndLabel.map(({ key, label }) => ({ label, value: key }));
 
     return new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
       complementaryCertificationCourseId:

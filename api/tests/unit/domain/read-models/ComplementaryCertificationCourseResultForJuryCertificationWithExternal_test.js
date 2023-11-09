@@ -95,21 +95,14 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         }),
       ];
-      const badgeKeyAndLabelsGroupedByTargetProfile = [
-        [
-          { key: 'KEY_3', label: 'Key 3' },
-          { key: 'KEY_4', label: 'Key 4' },
-        ],
-        [
-          { key: 'KEY_1', label: 'Key 1' },
-          { key: 'KEY_2', label: 'Key 2' },
-        ],
+      const badgesKeyAndLabel = [
+        { key: 'KEY_1', label: 'Key 1' },
+        { key: 'KEY_2', label: 'Key 2' },
       ];
-
       // when
       const result = ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
         complementaryCertificationCourseResultWithExternal,
-        badgeKeyAndLabelsGroupedByTargetProfile,
+        badgesKeyAndLabel,
       );
 
       // then
