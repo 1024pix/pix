@@ -1,17 +1,17 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
-import { authenticateUser } from '../../../../../../src/access/authentication/domain/usecases/authenticate-user.js';
-import { User } from '../../../../../../lib/domain/models/User.js';
-import { AdminMember } from '../../../../../../lib/domain/models/AdminMember.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { authenticateUser } from '../../../../../src/authentication/domain/usecases/authenticate-user.js';
+import { User } from '../../../../../lib/domain/models/User.js';
+import { AdminMember } from '../../../../../lib/domain/models/AdminMember.js';
 
-import { UserNotFoundError } from '../../../../../../lib/domain/errors.js';
+import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 
-import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
-} from '../../../../../../src/access/authentication/domain/errors.js';
-import { PIX_ADMIN, PIX_ORGA } from '../../../../../../src/access/authorization/domain/constants.js';
-import { PIX_CERTIF } from '../../../../../../lib/domain/constants.js';
+} from '../../../../../src/authentication/domain/errors.js';
+import { PIX_ADMIN, PIX_ORGA } from '../../../../../src/authorization/domain/constants.js';
+import { PIX_CERTIF } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | Authentication | Domain | UseCases | authenticate-user', function () {
   let refreshTokenService;

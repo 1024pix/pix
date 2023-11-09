@@ -25,7 +25,7 @@ import { learnerListRoutes } from './src/prescription/organization-learner/route
 import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
-import { authenticationRoutes } from './src/access/authentication/application/routes.js';
+import { authenticationRoutes } from './src/authentication/application/routes.js';
 import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
 
 const certificationRoutes = [certificationSessionRoutes, attachTargetProfileRoutes, complementaryCertificationRoutes];

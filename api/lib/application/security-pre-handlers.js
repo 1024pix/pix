@@ -30,7 +30,7 @@ import * as checkUserIsMemberOfAnOrganizationUseCase from '../../src/shared/appl
 import { Organization } from '../domain/models/index.js';
 import { NotFoundError } from '../domain/errors.js';
 import { ForbiddenAccess } from '../../src/shared/domain/errors.js';
-import { PIX_ADMIN } from '../../src/access/authorization/domain/constants.js';
+import { PIX_ADMIN } from '../../src/authorization/domain/constants.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const { has } = lodash;

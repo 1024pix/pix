@@ -1,4 +1,4 @@
-import { DomainError } from '../../../shared/domain/errors.js';
+import { DomainError } from '../../shared/domain/errors.js';
 
 class AdminMemberError extends DomainError {
   constructor(message = 'An error occurred on admin member', code = 'ADMIN_MEMBER_ERROR') {

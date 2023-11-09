@@ -13,7 +13,7 @@ import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-} from '../../../../src/access/authentication/domain/errors.js';
+} from '../../../../src/authentication/domain/errors.js';
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;

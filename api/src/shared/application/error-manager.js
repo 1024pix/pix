@@ -10,8 +10,8 @@ import {
   MissingOrInvalidCredentialsError,
   PasswordNotMatching,
   UserShouldChangePasswordError,
-} from '../../access/authentication/domain/errors.js';
-import { AdminMemberError } from '../../access/authorization/domain/errors.js';
+} from '../../authentication/domain/errors.js';
+import { AdminMemberError } from '../../authorization/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
