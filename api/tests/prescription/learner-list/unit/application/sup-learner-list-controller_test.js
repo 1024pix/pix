@@ -2,7 +2,7 @@ import { expect, hFake, sinon } from '../../../../test-helper.js';
 
 import { SupOrganizationParticipant } from '../../../../../src/prescription/learner-list/domain/read-models/SupOrganizationParticipant.js';
 import { supLearnerListController } from '../../../../../src/prescription/learner-list/application/sup-learner-list-controller.js';
-import { usecases } from '../../../../../src/prescription/learner-list/domain/usescases/index.js';
+import { usecases } from '../../../../../src/prescription/learner-list/domain/usecases/index.js';
 import * as queryParamsUtils from '../../../../../lib/infrastructure/utils/query-params-utils.js';
 
 describe('Unit | Application | sup-learner-list-controller', function () {

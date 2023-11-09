@@ -1,6 +1,6 @@
 import { expect, hFake, sinon, domainBuilder } from '../../../../test-helper.js';
 
-import { usecases } from '../../../../../src/prescription/learner-list/domain/usescases/index.js';
+import { usecases } from '../../../../../src/prescription/learner-list/domain/usecases/index.js';
 import { learnerListController } from '../../../../../src/prescription/learner-list/application/learner-list-controller.js';
 
 import * as queryParamsUtils from '../../../../../lib/infrastructure/utils/query-params-utils.js';
