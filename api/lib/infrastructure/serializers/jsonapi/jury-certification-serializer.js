@@ -52,6 +52,7 @@ const serialize = function (juryCertification) {
         'externalResult',
         'finalResult',
         'allowedExternalLevels',
+        'defaultJuryOptions',
       ],
     },
     certificationIssueReports: {

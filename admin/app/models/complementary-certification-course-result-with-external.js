@@ -6,6 +6,7 @@ export default class complementaryCertificationCourseResultWithExternal extends 
   @attr('string') externalResult;
   @attr('string') finalResult;
   @attr() allowedExternalLevels;
+  @attr() defaultJuryOptions;
 
   get isExternalResultEditable() {
     return this.pixResult !== 'Rejetée';
