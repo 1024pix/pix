@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.61.0 (09/11/2023)
+
+
+### :rocket: Amélioration
+- [#7425](https://github.com/1024pix/pix/pull/7425) [FEATURE] Ajouter des loaders (Pix-9888).
+- [#7419](https://github.com/1024pix/pix/pull/7419) [FEATURE] Empêcher un candidat de répondre en cas d'alerte en cours (PIX-9007).
+
+### :bug: Correction
+- [#7375](https://github.com/1024pix/pix/pull/7375) [BUGFIX] Mettre à jour individuellement un palier dans un profil cible (PIX-9837).
+- [#7428](https://github.com/1024pix/pix/pull/7428) [BUGFIX] Récupérer que les acquis avec un statut actif ou en construction (Pix-9900).
+- [#7391](https://github.com/1024pix/pix/pull/7391) [BUGFIX] Corriger l'affichage systématique de la page Focus lors d'une épreuve de certification sur Pix App (PIX-9702).
+
+### :arrow_up: Montée de version
+- [#7429](https://github.com/1024pix/pix/pull/7429) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v19 (e2e).
+
 ## v4.60.0 (08/11/2023)
 
 
