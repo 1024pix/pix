@@ -49,20 +49,33 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
-  describe('#findAllByName', function () {
+  describe('#findAllSkillsByNameForPix1d', function () {
     it('should return the corresponding skills', async function () {
       // given
-      const rawSkill1 = { id: 'recSkill1', name: '@rechercher_didacticiel1' };
-      const rawSkill2 = { id: 'recSkill2', name: '@rechercher_didacticiel1' };
-      const rawSkill3 = { id: 'recSkill3', name: '@rechercher_entrainement1' };
-      const rawSkill4 = { id: 'recSkill4', name: '@rechercher_didacticiel2' };
-      const rawSkill5 = { id: 'recSkill5', name: '@rechercher_didacticiel12' };
+      const rawSkill1 = { id: 'recSkill1', name: '@rechercher_didacticiel1', status: 'actif' };
+      const rawSkill2 = { id: 'recSkill2', name: '@rechercher_didacticiel1', status: 'actif' };
+      const rawSkill3 = { id: 'recSkill3', name: '@rechercher_entrainement1', status: 'en construction' };
+      const rawSkill4 = { id: 'recSkill4', name: '@rechercher_didacticiel2', status: 'actif' };
+      const rawSkill5 = { id: 'recSkill5', name: '@rechercher_didacticiel12', status: 'en construction' };
       sinon
         .stub(lcms, 'getLatestRelease')
         .resolves({ skills: [rawSkill1, rawSkill2, rawSkill3, rawSkill4, rawSkill5] });
 
       // when
-      const result = await skillDatasource.findAllByName('@rechercher_didacticiel1');
+      const result = await skillDatasource.findAllSkillsByNameForPix1d('@rechercher_didacticiel1');
+
+      // then
+      expect(result).to.deep.equal([rawSkill1, rawSkill2]);
+    });
+    it('should return the skills with active or building status ', async function () {
+      // given
+      const rawSkill1 = { id: 'recSkill1', name: '@rechercher_didacticiel1', status: 'actif' };
+      const rawSkill2 = { id: 'recSkill2', name: '@rechercher_didacticiel1', status: 'en construction' };
+      const rawSkill3 = { id: 'recSkill3', name: '@rechercher_didacticiel1', status: 'archivé' };
+      sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2, rawSkill3] });
+
+      // when
+      const result = await skillDatasource.findAllSkillsByNameForPix1d('@rechercher_didacticiel1');
 
       // then
       expect(result).to.deep.equal([rawSkill1, rawSkill2]);
@@ -74,7 +87,7 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
         sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [] });
 
         // when
-        const result = await skillDatasource.findAllByName('@rechercher_validation');
+        const result = await skillDatasource.findAllSkillsByNameForPix1d('@rechercher_validation');
 
         // then
         expect(result).to.deep.equal([]);
