@@ -3,6 +3,7 @@ import { expect, domainBuilder } from '../../../../../../test-helper.js';
 import * as serializer from '../../../../../../../src/shared/prescriber-management/infrastructure/serializers/jsonapi/prescriber-serializer.js';
 import { Membership } from '../../../../../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../../../../lib/domain/constants/identity-providers.js';
+import * as apps from '../../../../../../../lib/domain/constants.js';
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
   describe('#serialize', function () {
@@ -39,6 +40,10 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
+          features: {
+            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          },
         });
 
         const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
@@ -83,6 +88,10 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
+          features: {
+            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          },
         });
 
         const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
@@ -118,6 +127,10 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         const prescriber = domainBuilder.buildPrescriber({
           memberships: [membership],
           userOrgaSettings,
+          features: {
+            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          },
         });
 
         const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
@@ -167,6 +180,10 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           userOrgaSettings,
           enableMultipleSendingAssessment: true,
           computeOrganizationLearnerCertificability: true,
+          features: {
+            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          },
         });
 
         const expectedPrescriberSerialized = createExpectedPrescriberSerialized({
@@ -207,6 +224,11 @@ function createExpectedPrescriberSerializedWithOneMoreField({
         lang: prescriber.lang,
         'enable-multiple-sending-assessment': prescriber.enableMultipleSendingAssessment,
         'compute-organization-learner-certificability': prescriber.computeOrganizationLearnerCertificability,
+        features: {
+          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
+            prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+        },
       },
       relationships: {
         memberships: {
@@ -313,6 +335,11 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
         lang: prescriber.lang,
         'enable-multiple-sending-assessment': prescriber.enableMultipleSendingAssessment,
         'compute-organization-learner-certificability': prescriber.computeOrganizationLearnerCertificability,
+        features: {
+          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
+            prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+        },
       },
       relationships: {
         memberships: {

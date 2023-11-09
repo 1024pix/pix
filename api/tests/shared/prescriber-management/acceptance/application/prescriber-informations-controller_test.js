@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
+import { constants as apps } from '../../../../../lib/domain/constants.js';
 
 describe('Acceptance | Controller | prescriber-informations-controller', function () {
   let user;
@@ -28,6 +29,10 @@ describe('Acceptance | Controller | prescriber-informations-controller', functio
           lang: user.lang,
           'enable-multiple-sending-assessment': false,
           'compute-organization-learner-certificability': false,
+          features: {
+            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
+            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+          },
         },
         relationships: {
           memberships: {
@@ -131,7 +136,7 @@ describe('Acceptance | Controller | prescriber-informations-controller', functio
         currentOrganizationId: organization.id,
         userId: user.id,
       }).id;
-
+      databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
       await databaseBuilder.commit();
 
       options = {
