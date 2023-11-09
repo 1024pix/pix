@@ -2,9 +2,11 @@ import difference from 'lodash/difference';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { service } from '@ember/service';
 
 export default class StageController extends Controller {
   @tracked isEditMode = false;
+  @service store;
 
   get availableLevels() {
     const unavailableLevels = this.model.stageCollection.stages.map((stage) =>
@@ -31,6 +33,8 @@ export default class StageController extends Controller {
 
   @action
   async update() {
-    await this.model.stageCollection.save({ adapterOptions: { stages: this.model.stageCollection.stages } });
+    await this.store
+      .createRecord('stage', this.model.stage)
+      .save({ adapterOptions: { stage: this.model.stage, targetProfileId: Number(this.model.targetProfile.id) } });
   }
 }
