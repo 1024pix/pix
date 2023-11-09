@@ -938,6 +938,43 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
     });
 
     context('#isCertifiable', function () {
+      it('should take the learner certifiable value', async function () {
+        // given
+        const certifiableDate = '2023-01-01';
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          certifiableAt: new Date(certifiableDate),
+          isCertifiable: false,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          userId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: true,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const {
+          organizationParticipants: [{ isCertifiable, certifiableAt }],
+        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(isCertifiable).to.be.false;
+        expect(certifiableAt).to.be.deep.equal(certifiableDate);
+      });
+
       it('should take the shared participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -1255,30 +1292,24 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         expect(certifiableAt).to.deep.equal(new Date('2021-01-01'));
       });
 
-      it('should return null for certifiableAt property if the organization learner is not certifiable', async function () {
+      it('should return null when participant has no participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         buildLearnerWithParticipation({
           organizationId,
-          participationAttributes: {
-            status: CampaignParticipationStatuses.SHARED,
-            sharedAt: new Date('2021-01-01'),
-            isCertifiable: false,
-          },
-          campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
         });
 
         await databaseBuilder.commit();
 
         // when
         const {
-          organizationParticipants: [{ certifiableAt }],
+          organizationParticipants: [{ isCertifiable }],
         } = await organizationParticipantRepository.getParticipantsByOrganizationId({
           organizationId,
         });
 
         //then
-        expect(certifiableAt).to.equal(null);
+        expect(isCertifiable).to.equal(null);
       });
     });
 
