@@ -13,7 +13,6 @@ import * as organizationMemberIdentitySerializer from '../../infrastructure/seri
 import * as organizationPlacesLotManagementSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
 import * as organizationPlacesLotSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
 import * as organizationPlacesCapacitySerializer from '../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
-import * as organizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
@@ -28,7 +27,6 @@ import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/c
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
-import { mapCertificabilityByLabel } from './helpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 
 const create = async function (request) {
@@ -356,31 +354,6 @@ const archiveOrganization = async function (request, h, dependencies = { organiz
   return dependencies.organizationForAdminSerializer.serialize(archivedOrganization);
 };
 
-const getPaginatedParticipantsForAnOrganization = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    organizationParticipantsSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { page, filter: filters, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
-
-  if (filters.certificability) {
-    filters.certificability = mapCertificabilityByLabel(filters.certificability);
-  }
-
-  const results = await usecases.getPaginatedParticipantsForAnOrganization({
-    organizationId,
-    page,
-    filters,
-    sort,
-  });
-
-  return dependencies.organizationParticipantsSerializer.serialize(results);
-};
-
 const findTargetProfileSummariesForAdmin = async function (request) {
   const organizationId = request.params.id;
   const targetProfileSummaries = await usecases.findOrganizationTargetProfileSummariesForAdmin({
@@ -416,7 +389,6 @@ const organizationController = {
   findPendingInvitations,
   getOrganizationLearnersCsvTemplate,
   archiveOrganization,
-  getPaginatedParticipantsForAnOrganization,
   findTargetProfileSummariesForAdmin,
 };
 

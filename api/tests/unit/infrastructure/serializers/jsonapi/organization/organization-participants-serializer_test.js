@@ -1,5 +1,5 @@
 import { expect } from '../../../../../test-helper.js';
-import { OrganizationParticipant } from '../../../../../../lib/domain/read-models/OrganizationParticipant.js';
+import { OrganizationParticipant } from '../../../../../../src/prescription/learner-list/domain/read-models/OrganizationParticipant.js';
 import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
 import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 describe('Unit | Serializer | JSONAPI | organization-participants-serializer', function () {
