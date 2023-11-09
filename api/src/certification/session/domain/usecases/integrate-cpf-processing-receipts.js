@@ -4,7 +4,8 @@ const integrateCpfProccessingReceipts = async function ({ cpfReceiptsStorage }) 
   const cpfReceipts = await cpfReceiptsStorage.findAll();
   for (const cpfReceipt of cpfReceipts) {
     logger.debug('Treatment of CPF receipt %o', cpfReceipt);
-    await cpfReceiptsStorage.readFile({ cpfReceipt });
+    const cpfInfos = await cpfReceiptsStorage.getCpfInfosByReceipt({ cpfReceipt });
+    return cpfInfos;
   }
 };
 

@@ -1,8 +1,13 @@
+import fs from 'fs';
+import path from 'path';
+import * as url from 'url';
 import { expect, sinon } from '../../../../../test-helper.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 import { CpfReceiptsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-receipts-storage.js';
 import { config } from '../../../../../../src/shared/config.js';
 import { CpfReceipt } from '../../../../../../src/certification/session/domain/models/CpfReceipt.js';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Storage | CpfReceiptsStorage', function () {
   it('should create a S3 client', async function () {
@@ -34,22 +39,35 @@ describe('Unit | Storage | CpfReceiptsStorage', function () {
     });
   });
 
-  describe('#readFile', function () {
-    it('should return a readable stream of a S3 object file', async function () {
+  describe('#getCpfInfosByReceipt', function () {
+    it('should return the CPF infos from CPF receipt file', async function () {
       // given
       const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
       sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
       const cpfReceiptsStorage = new CpfReceiptsStorage();
-      const fakeReadableStream = sinon.stub();
-      providerStub.readFile.resolves({ Body: fakeReadableStream });
+      providerStub.readFile.resolves({
+        Body: fs.createReadStream(
+          path.join(
+            __dirname,
+            '../deserializers/xml/files/Accuse_de_traitement_pix-cpf-export-20231016-223239.xml_20231018.xml',
+          ),
+          'utf8',
+        ),
+      });
       const cpfReceipt = new CpfReceipt({ filename: 'neet_game' });
 
       // when
-      const results = await cpfReceiptsStorage.readFile({ cpfReceipt });
+      const results = await cpfReceiptsStorage.getCpfInfosByReceipt({ cpfReceipt });
 
       // then
       expect(providerStub.readFile).to.have.been.calledOnceWithExactly({ key: 'neet_game' });
-      expect(results).to.equal(fakeReadableStream);
+      expect(results).to.deep.equal([
+        { certificationCourseId: '1979262', filename: 'pix-cpf-export-20231016-223239.xml', importStatus: 'REJECTED' },
+        { certificationCourseId: '1996215', filename: 'pix-cpf-export-20231016-223239.xml', importStatus: 'REJECTED' },
+        { certificationCourseId: '1983189', filename: 'pix-cpf-export-20231016-223239.xml', importStatus: 'SUCCESS' },
+        { certificationCourseId: '1968666', filename: 'pix-cpf-export-20231016-223239.xml', importStatus: 'SUCCESS' },
+        { certificationCourseId: '1964200', filename: 'pix-cpf-export-20231016-223239.xml', importStatus: 'SUCCESS' },
+      ]);
     });
   });
 });

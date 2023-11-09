@@ -8,7 +8,7 @@ describe('Unit | UseCase | integrate-cpf-processing-receipts ', function () {
     beforeEach(function () {
       cpfReceiptsStorage = {
         findAll: sinon.stub(),
-        readFile: sinon.stub(),
+        getCpfInfosByReceipt: sinon.stub(),
       };
     });
 
@@ -16,13 +16,13 @@ describe('Unit | UseCase | integrate-cpf-processing-receipts ', function () {
       // given
       const receipt = new CpfReceipt({ filename: 'oneReceiptssippi' });
       cpfReceiptsStorage.findAll.resolves([receipt]);
-      cpfReceiptsStorage.readFile.resolves(sinon.stub());
+      cpfReceiptsStorage.getCpfInfosByReceipt.resolves(sinon.stub());
       // when
       await integrateCpfProccessingReceipts({ cpfReceiptsStorage });
 
       // then
       expect(cpfReceiptsStorage.findAll).to.have.been.calledOnce;
-      expect(cpfReceiptsStorage.readFile).to.have.been.calledOnceWithExactly({ cpfReceipt: receipt });
+      expect(cpfReceiptsStorage.getCpfInfosByReceipt).to.have.been.calledOnceWithExactly({ cpfReceipt: receipt });
     });
   });
 });
