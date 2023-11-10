@@ -79,10 +79,6 @@ describe('Acceptance | API | assessment-controller-auto-validate-next-challenge'
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('answers').delete();
-    });
-
     it('records an "ok" answer and returns 200 HTTP status code', async function () {
       // when
       const response = await server.inject({

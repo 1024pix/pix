@@ -147,10 +147,6 @@ describe('Acceptance | Controller | training-controller', function () {
   });
 
   describe('POST /api/admin/trainings', function () {
-    afterEach(async function () {
-      await databaseBuilder.knex('account-recovery-demands').delete();
-    });
-
     it('should create a new training and response with a 201', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
@@ -377,11 +373,6 @@ describe('Acceptance | Controller | training-controller', function () {
       mockLearningContent(learningContentObjects);
     });
 
-    afterEach(async function () {
-      await knex('training-trigger-tubes').delete();
-      await knex('training-triggers').delete();
-    });
-
     it('should update training trigger', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
@@ -500,10 +491,6 @@ describe('Acceptance | Controller | training-controller', function () {
         targetProfileId: alreadyAttachedTargetProfileId,
       });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('target-profile-trainings').delete();
     });
 
     context('when target profiles to attach exists', function () {

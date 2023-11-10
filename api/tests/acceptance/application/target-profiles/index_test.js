@@ -79,11 +79,6 @@ describe('Acceptance | Route | target-profiles', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('target-profile_tubes').delete();
-      await knex('target-profiles').delete();
-    });
-
     it('should return 200', async function () {
       // given
       databaseBuilder.factory.buildOrganization({ id: 1 });
@@ -235,10 +230,6 @@ describe('Acceptance | Route | target-profiles', function () {
       mockLearningContent(learningContent);
     });
 
-    afterEach(function () {
-      return knex('target-profile-shares').delete();
-    });
-
     it('should return 200', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const user = databaseBuilder.factory.buildUser.withRole();
@@ -271,10 +262,6 @@ describe('Acceptance | Route | target-profiles', function () {
   describe('POST /api/admin/target-profiles/{id}/copy-organizations', function () {
     beforeEach(async function () {
       mockLearningContent(learningContent);
-    });
-
-    afterEach(function () {
-      return knex('target-profile-shares').delete();
     });
 
     it('should return 204', async function () {
@@ -386,10 +373,7 @@ describe('Acceptance | Route | target-profiles', function () {
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'tubeId3', level: 4 });
         await databaseBuilder.commit();
       });
-      afterEach(async function () {
-        await knex('badge-criteria').delete();
-        await knex('badges').delete();
-      });
+
       it('should create a badge with capped tubes criterion', async function () {
         const badgeCreation = {
           key: 'badge1',

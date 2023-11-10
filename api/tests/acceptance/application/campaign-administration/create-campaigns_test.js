@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { PIX_ADMIN, ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
@@ -10,10 +10,6 @@ let server;
 describe('Acceptance | Application | campaign-controller-create-campaigns', function () {
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  afterEach(async function () {
-    await knex('campaigns').delete();
   });
 
   describe('POST /api/admin/campaigns', function () {

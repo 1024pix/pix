@@ -2,7 +2,6 @@ import {
   mockLearningContent,
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
 
@@ -42,10 +41,6 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
 
   describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function () {
     let options;
-
-    afterEach(async function () {
-      return knex('tutorial-evaluations').delete();
-    });
 
     describe('nominal case', function () {
       it('should respond with a 201 when a status is provided', async function () {

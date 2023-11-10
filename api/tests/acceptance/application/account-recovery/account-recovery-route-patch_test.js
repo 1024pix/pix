@@ -3,10 +3,6 @@ import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Account-recovery', function () {
   describe('PATCH /api/account-recovery', function () {
-    afterEach(async function () {
-      await knex('account-recovery-demands').delete();
-    });
-
     context('when user has pix authentication method', function () {
       it("should proceed to the account recover by changing user's password and email", async function () {
         // given

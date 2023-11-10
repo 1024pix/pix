@@ -18,12 +18,6 @@ describe('Acceptance | API | Certification Center', function () {
     await insertUserWithRoleSuperAdmin();
   });
 
-  afterEach(async function () {
-    await knex('data-protection-officers').delete();
-    await knex('certification-candidates').delete();
-    await knex('sessions').delete();
-  });
-
   describe('GET /api/certification-centers', function () {
     beforeEach(async function () {
       request = {
@@ -172,9 +166,6 @@ describe('Acceptance | API | Certification Center', function () {
     });
     afterEach(async function () {
       complementaryCertification = null;
-      await knex('complementary-certification-habilitations').delete();
-      await knex('data-protection-officers').delete();
-      await knex('certification-centers').delete();
     });
 
     context('when user is Super Admin', function () {
@@ -683,10 +674,6 @@ describe('Acceptance | API | Certification Center', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME).delete();
-    });
-
     context('When user is not admin of the certification center', function () {
       it('returns an 403 HTTP error code', async function () {
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId, role: 'MEMBER' });
@@ -765,10 +752,6 @@ describe('Acceptance | API | Certification Center', function () {
       };
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('certification-center-memberships').delete();
     });
 
     it('should return 201 HTTP status', async function () {

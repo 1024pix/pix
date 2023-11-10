@@ -1,7 +1,6 @@
 import {
   databaseBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
 } from '../../../test-helper.js';
@@ -107,14 +106,6 @@ describe('Acceptance | Controller | scorecard-controller', function () {
     databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
     mockLearningContent(learningContent);
-  });
-
-  afterEach(async function () {
-    await knex('knowledge-elements').delete();
-    await knex('answers').delete();
-    await knex('competence-evaluations').delete();
-    await knex('assessments').delete();
-    return knex('campaign-participations').delete();
   });
 
   describe('GET /scorecards/{id}', function () {

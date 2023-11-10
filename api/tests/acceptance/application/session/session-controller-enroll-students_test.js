@@ -1,4 +1,4 @@
-import { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
 
@@ -68,10 +68,6 @@ describe('Acceptance | Controller | session-controller-enrol-students-to-session
       const birthCityCode = 'Detroit313';
       const FRANCE_INSEE_CODE = '99100';
       const FRANCE_ORGANIZATION_LEARNER_INSEE_CODE = '100';
-
-      afterEach(function () {
-        return knex('certification-candidates').delete();
-      });
 
       beforeEach(async function () {
         const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter({

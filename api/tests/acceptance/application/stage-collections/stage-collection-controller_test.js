@@ -2,7 +2,6 @@ import {
   databaseBuilder,
   domainBuilder,
   expect,
-  knex,
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
@@ -21,12 +20,6 @@ describe('Acceptance | Controller | stage-collection', function () {
       const learningContent = [{ id: 'recArea0', competences: [] }];
       const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
       mockLearningContent(learningContentObjects);
-    });
-
-    afterEach(async function () {
-      await knex('campaigns').delete();
-      await knex('stages').delete();
-      await knex('target-profiles').delete();
     });
 
     context('when the target-profile is not linked to a campaign', function () {

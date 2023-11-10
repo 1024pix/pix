@@ -15,10 +15,6 @@ describe('Acceptance | Controller | session-for-supervising-controller-supervise
     server = await createServer();
   });
 
-  afterEach(function () {
-    return knex('supervisor-accesses').delete();
-  });
-
   it('should return a HTTP 204 No Content', async function () {
     // given
 

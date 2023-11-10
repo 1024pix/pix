@@ -20,11 +20,6 @@ const { SHARED, STARTED } = CampaignParticipationStatuses;
 describe('Acceptance | API | Campaign Participations', function () {
   let server, options, user;
 
-  afterEach(async function () {
-    await knex('pgboss.job').delete();
-    await knex('knowledge-element-snapshots').delete();
-  });
-
   beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
@@ -197,15 +192,6 @@ describe('Acceptance | API | Campaign Participations', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('knowledge-elements').delete();
-      await knex('answers').delete();
-      await knex('competence-evaluations').delete();
-      await knex('assessments').delete();
-      await knex('campaign-participations').delete();
-      await knex('organization-learners').delete();
-    });
-
     it('should return 201 and the campaign participation when it has been successfully created', async function () {
       // given
       options.payload.data.relationships.campaign.data.id = campaignId;
@@ -279,10 +265,6 @@ describe('Acceptance | API | Campaign Participations', function () {
   });
 
   describe('PATCH /api/campaign-participations/{id}/begin-improvement', function () {
-    afterEach(function () {
-      return knex('assessments').delete();
-    });
-
     it('should return 401 HTTP status code when user is not connected', async function () {
       // given
       options = {

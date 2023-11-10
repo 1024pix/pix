@@ -1,10 +1,4 @@
-import {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  knex,
-  sinon,
-} from '../../../../test-helper.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } from '../../../../test-helper.js';
 
 import { createServer } from '../../../../../server.js';
 import lodash from 'lodash';
@@ -16,13 +10,6 @@ describe('Acceptance | Controller | certification-centers-controller-post-valida
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  afterEach(async function () {
-    await knex('certification-cpf-cities').delete();
-    await knex('certification-cpf-countries').delete();
-    await knex('certification-candidates').delete();
-    return knex('sessions').delete();
   });
 
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import', function () {

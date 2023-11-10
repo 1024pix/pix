@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 
@@ -51,10 +51,6 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Success cases', function () {
-      afterEach(function () {
-        return knex('memberships').delete();
-      });
-
       it('should return the created membership', async function () {
         // when
         const response = await server.inject(options);
@@ -170,10 +166,6 @@ describe('Acceptance | Controller | membership-controller', function () {
     });
 
     context('Success cases', function () {
-      afterEach(async function () {
-        await knex('certification-center-memberships').delete();
-      });
-
       it('should return the updated membership and add certification center membership', async function () {
         // given
         const expectedMembership = {
