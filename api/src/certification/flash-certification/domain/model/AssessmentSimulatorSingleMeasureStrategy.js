@@ -50,6 +50,7 @@ export class AssessmentSimulatorSingleMeasureStrategy {
     });
 
     return {
+      nextStepIndex: stepIndex + 1,
       results: [
         {
           challenge: nextChallenge,

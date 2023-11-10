@@ -49,6 +49,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
       context('when there is an available answer', function () {
         it('should return the result and the challengesAnswers with one element', function () {
           // given
+          const stepIndex = 0;
           const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
           const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
           const allChallenges = [challenge1, challenge2];
@@ -118,6 +119,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
                 challengeId: challenge2.id,
               }),
             ],
+            nextStepIndex: stepIndex + 1,
           };
 
           const strategy = new AssessmentSimulatorSingleMeasureStrategy({
@@ -127,7 +129,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             pickAnswerStatus,
             initialCapacity,
           });
-          const result = strategy.run({ challengesAnswers: [], stepIndex: 0 });
+          const result = strategy.run({ challengesAnswers: [], stepIndex });
 
           // then
           expect(result).to.deep.equal(expectedResult);
@@ -182,6 +184,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
       context('when there is an available answer', function () {
         it('should return the result and the challengesAnswers with two elements', function () {
           // given
+          const stepIndex = 1;
           const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
           const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
           const allChallenges = [challenge1, challenge2];
@@ -253,6 +256,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
                 challengeId: challenge2.id,
               }),
             ],
+            nextStepIndex: stepIndex + 1,
           };
 
           const strategy = new AssessmentSimulatorSingleMeasureStrategy({
@@ -262,7 +266,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
             pickAnswerStatus,
             initialCapacity: capacityAfterFirstChallenge,
           });
-          const result = strategy.run({ challengesAnswers: [challengeAnswer], stepIndex: 1 });
+          const result = strategy.run({ challengesAnswers: [challengeAnswer], stepIndex });
 
           // then
           expect(result).to.deep.equal(expectedResult);

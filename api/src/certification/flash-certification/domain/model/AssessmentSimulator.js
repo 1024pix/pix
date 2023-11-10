@@ -1,20 +1,23 @@
 export class AssessmentSimulator {
-  constructor({ strategy }) {
-    this.strategy = strategy;
+  constructor({ getStrategy }) {
+    this.getStrategy = getStrategy;
   }
 
   run() {
     const challengesAnswers = [];
     const result = [];
 
-    for (let i = 0; i < Infinity; i++) {
+    let stepIndex = 0;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
       try {
-        const simulatorStepResult = this.strategy.run({ challengesAnswers, stepIndex: i });
+        const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
 
         if (!simulatorStepResult) {
           break;
         }
-
+        stepIndex = simulatorStepResult.nextStepIndex;
         challengesAnswers.push(...simulatorStepResult.challengeAnswers);
         result.push(...simulatorStepResult.results);
       } catch (err) {

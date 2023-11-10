@@ -48,6 +48,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
     context('when there are two available answers', function () {
       it('should return the result for both challenges', function () {
         // given
+        const stepIndex = 0;
         const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
         const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
         const allChallenges = [challenge1, challenge2];
@@ -118,6 +119,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
               challengeId: challenge1.id,
             }),
           ],
+          nextStepIndex: stepIndex + 2,
         };
 
         const strategy = new AssessmentSimulatorDoubleMeasureStrategy({
@@ -129,7 +131,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           doubleMeasuresUntil: 2,
         });
 
-        const result = strategy.run({ challengesAnswers: [], stepIndex: 0 });
+        const result = strategy.run({ challengesAnswers: [], stepIndex });
 
         // then
         expect(result).to.deep.equal(expectedResult);
