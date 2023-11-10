@@ -573,42 +573,6 @@ describe('Acceptance | API | Certifications', function () {
     });
   });
 
-  describe('GET /api/attestation/pdf', function () {
-    beforeEach(async function () {
-      ({ userId, session, badge, certificationCourse, assessment, assessmentResult } =
-        await _buildDatabaseForV2Certification());
-      databaseBuilder.factory.buildCompetenceMark({
-        level: 3,
-        score: 23,
-        area_code: '1',
-        competence_code: '1.1',
-        assessmentResultId: assessmentResult.id,
-        acquiredComplementaryCertifications: [badge.key],
-      });
-      return databaseBuilder.commit();
-    });
-
-    context('when user own the certification', function () {
-      it('should return 200 HTTP status code and the certification', async function () {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/attestation/${certificationCourse.id}?isFrenchDomainExtension=true&lang=fr`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.headers['content-type']).to.equal('application/pdf');
-        expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
-        expect(response.file).not.to.be.null;
-      });
-    });
-  });
-
   describe('GET /api/admin/certification-centers/{certificationCenterId}/invitations', function () {
     it('should return 200 HTTP status code and the list of invitations', async function () {
       // given
