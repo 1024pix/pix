@@ -25,8 +25,7 @@ class CpfReceiptsStorage {
   async getCpfInfosByReceipt({ cpfReceipt }) {
     const data = await this.#client.readFile({ key: cpfReceipt.filename });
     //Body from the GetObjectCommand is a ReadableStream
-    const cpfInfos = deserialize({ xmlStream: data.Body });
-    return cpfInfos;
+    return deserialize({ xmlStream: data.Body });
   }
 
   #toDomainArray({ storageFiles = [] }) {
