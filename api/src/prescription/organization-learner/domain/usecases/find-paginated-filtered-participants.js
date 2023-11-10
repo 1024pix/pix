@@ -1,4 +1,4 @@
-const getPaginatedParticipantsForAnOrganization = function ({
+const findPaginatedFilteredParticipants = function ({
   organizationId,
   filters,
   page,
@@ -13,4 +13,4 @@ const getPaginatedParticipantsForAnOrganization = function ({
   });
 };
 
-export { getPaginatedParticipantsForAnOrganization };
+export { findPaginatedFilteredParticipants };
