@@ -15,7 +15,7 @@ import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { certificabilityByLabel } from '../../../src/prescription/learner-list/application/helpers.js';
+import { certificabilityByLabel } from '../../../src/prescription/organization-learner/application/helpers.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const { PassThrough } = stream;
