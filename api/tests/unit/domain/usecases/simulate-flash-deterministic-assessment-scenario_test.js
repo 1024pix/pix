@@ -59,6 +59,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          doubleMeasuresUntil: undefined,
           challengeRepository,
           locale,
           pickChallenge,
@@ -126,6 +127,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          doubleMeasuresUntil: undefined,
           challengeRepository,
           locale,
           pickChallenge,
@@ -166,6 +168,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
         // when
         const result = await simulateFlashDeterministicAssessmentScenario({
+          doubleMeasuresUntil: undefined,
           challengeRepository,
           locale,
           pickChallenge,
@@ -239,6 +242,7 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
 
       // when
       const result = await simulateFlashDeterministicAssessmentScenario({
+        doubleMeasuresUntil: undefined,
         challengeRepository,
         locale,
         pickChallenge,
@@ -316,6 +320,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: sinon.match.any,
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil: undefined,
     })
     .returns({ estimatedLevel: 0, errorRate: 0.1 })
     .withArgs({
@@ -323,6 +328,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil: undefined,
     })
     .returns({ estimatedLevel: 1, errorRate: 1.1 })
     .withArgs({
@@ -330,6 +336,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil: undefined,
     })
     .returns({ estimatedLevel: 2, errorRate: 2.1 })
     .withArgs({
@@ -337,6 +344,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil: undefined,
     })
     .returns({ estimatedLevel: 3, errorRate: 3.1 });
 

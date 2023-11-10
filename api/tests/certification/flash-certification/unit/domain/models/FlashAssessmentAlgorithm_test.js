@@ -363,5 +363,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
 const _getEstimatedLevelAndErrorRateParams = (params) => ({
   variationPercent: undefined,
+  doubleMeasuresUntil: undefined,
   ...params,
 });
