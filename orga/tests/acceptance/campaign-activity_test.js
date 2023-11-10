@@ -94,8 +94,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       await clickByName('Oui, je supprime');
       // then
-      assert.contains('La participation a été supprimée avec succès.');
-      assert.contains('Aucun participant');
+      assert.ok(screen.getByText('La participation a été supprimée avec succès.'));
+      assert.ok(screen.getByText('Aucun participant'));
     });
 
     test('Error case: should display an error notification', async function (assert) {
@@ -116,8 +116,8 @@ module('Acceptance | Campaign Activity', function (hooks) {
       await clickByName('Oui, je supprime');
 
       // then
-      assert.contains('Bacri');
-      assert.contains('Un problème est survenu lors de la suppression de la participation.');
+      assert.ok(screen.getByText('Bacri'));
+      assert.ok(screen.getByText('Un problème est survenu lors de la suppression de la participation.'));
     });
   });
 

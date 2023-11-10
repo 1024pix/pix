@@ -43,11 +43,11 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
     test('it should be accessible for an authenticated prescriber', async function (assert) {
       // when
-      await visit('/campagnes/creation');
+      const screen = await visit('/campagnes/creation');
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/creation');
-      assert.contains("Création d'une campagne");
+      assert.ok(screen.getByText("Création d'une campagne"));
     });
 
     test('it should allow to create a campaign of type ASSESSMENT and redirect to the newly created campaign', async function (assert) {
@@ -130,7 +130,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
       await clickByName('Créer la campagne');
 
       // then
-      assert.dom(screen.getByText('Harry Cover', { selector: 'dd' })).exists();
+      assert.ok(screen.getByText('Harry Cover', { selector: 'dd' }));
     });
 
     test('it should display error on global form when error 500 is returned from backend', async function (assert) {
@@ -154,7 +154,7 @@ module('Acceptance | Campaign Creation', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/campagnes/creation');
-      assert.contains('Une erreur est survenue. Veuillez réessayer ultérieurement.');
+      assert.ok(screen.getByText('Une erreur est survenue. Veuillez réessayer ultérieurement.'));
     });
   });
 });

@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberForOrganization } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
@@ -30,12 +29,11 @@ module('Acceptance | Invitations list', function (hooks) {
     await authenticateSession(user.id);
 
     // when
-    await visit('/equipe/invitations');
+    const screen = await visit('/equipe/invitations');
     await clickByName(this.intl.t('pages.team-invitations.cancel-invitation'));
 
     // then
-    assert.notContains('gigi@example.net');
-    assert.contains('Invitations (-)');
-    assert.ok(true);
+    assert.notOk(screen.queryByText('gigi@example.net'));
+    assert.ok(screen.getByText('Invitations (-)'));
   });
 });

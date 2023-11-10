@@ -26,11 +26,13 @@ module('Acceptance | Organization Participant List', function (hooks) {
 
       test('it should be accessible and display the no-participant-panel when no participant', async function (assert) {
         // when
-        await visit('/participants');
+        const screen = await visit('/participants');
 
         // then
         assert.strictEqual(currentURL(), '/participants');
-        assert.contains(this.intl.t('pages.organization-participants.empty-state.message'));
+        assert.ok(
+          screen.getByText(this.intl.t('pages.organization-participants.empty-state.message'), { exact: false }),
+        );
       });
 
       test('it should return participant-list when having participants', async function (assert) {
@@ -41,11 +43,11 @@ module('Acceptance | Organization Participant List', function (hooks) {
         server.create('organization-participant', { organizationId, firstName: 'Xavier', lastName: 'Charles' });
 
         await authenticateSession(user.id);
-        await visit('/participants');
+        const screen = await visit('/participants');
 
         // then
-        assert.notContains(this.intl.t('pages.organization-participants.empty-state.message'));
-        assert.contains('Charles');
+        assert.notOk(screen.queryByText(this.intl.t('pages.organization-participants.empty-state.message')));
+        assert.ok(screen.getByText('Charles'));
       });
 
       test('it should filter by certificability', async function (assert) {
