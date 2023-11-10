@@ -127,7 +127,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       it('should return the certification assessment with certification challenges and answers', async function () {
         // when
-        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId, 'fr');
+        const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
         // then
         expect(certificationAssessment).to.be.an.instanceOf(CertificationAssessment);
@@ -244,7 +244,6 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
           certificationCourseId,
-          locale: 'fr',
         });
 
         // then
