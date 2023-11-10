@@ -43,7 +43,12 @@ describe('Unit | Devcomp | Models | Module', function () {
       describe('given no grain param', function () {
         it('should throw an error', function () {
           expect(
-            () => new Module({ id: 'id_module_1', slug: 'les-adresses-mail', title: 'Les adresses mail' }),
+            () =>
+              new Module({
+                id: 'id_module_1',
+                slug: 'bien-ecrire-son-adresse-mail',
+                title: 'Bien écrire son adresse mail',
+              }),
           ).to.throw('Une liste de grains est obligatoire pour un module');
         });
       });
@@ -54,8 +59,8 @@ describe('Unit | Devcomp | Models | Module', function () {
             () =>
               new Module({
                 id: 'id_module_1',
-                slug: 'les-adresses-mail',
-                title: 'Les adresses mail',
+                slug: 'bien-ecrire-son-adresse-mail',
+                title: 'Bien écrire son adresse mail',
                 grains: 'elements',
               }),
           ).to.throw(`Un Module doit forcément posséder une liste de grains`);

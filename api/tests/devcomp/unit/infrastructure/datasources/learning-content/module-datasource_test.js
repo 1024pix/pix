@@ -7,7 +7,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
     describe('when exists', function () {
       it('should return a Module instance', async function () {
         // given
-        const slug = 'les-adresses-mail';
+        const slug = 'bien-ecrire-son-adresse-mail';
 
         // when
         const module = await moduleDatasource.getBySlug(slug);
@@ -137,8 +137,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
             },
           ],
           id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
-          slug: 'les-adresses-mail',
-          title: 'Les adresses mail',
+          slug: 'bien-ecrire-son-adresse-mail',
+          title: 'Bien écrire son adresse mail',
         };
         expect(module).to.deep.equal(expectedModuleData);
       });

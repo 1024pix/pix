@@ -11,30 +11,30 @@ module('Acceptance | Module | Routes | get', function (hooks) {
   test('can visit /modules/:slug', async function (assert) {
     // given
     server.create('module', {
-      id: 'les-adresses-mail',
-      title: 'Les adresses mail',
+      id: 'bien-ecrire-son-adresse-mail',
+      title: 'Bien écrire son adresse mail',
     });
 
     // when
-    await visit('/modules/les-adresses-mail');
+    await visit('/modules/bien-ecrire-son-adresse-mail');
 
     // then
-    assert.strictEqual(currentURL(), '/modules/les-adresses-mail');
+    assert.strictEqual(currentURL(), '/modules/bien-ecrire-son-adresse-mail');
   });
 
   test('should include the module title inside the page title', async function (assert) {
     // given
     const module = {
-      title: 'Les adresses mail',
+      title: 'Bien écrire son adresse mail',
     };
 
     server.create('module', {
-      id: 'les-adresses-mail',
+      id: 'bien-ecrire-son-adresse-mail',
       title: module.title,
     });
 
     // when
-    await visit('/modules/les-adresses-mail');
+    await visit('/modules/bien-ecrire-son-adresse-mail');
 
     // then
     assert.ok(document.title.includes(module.title));

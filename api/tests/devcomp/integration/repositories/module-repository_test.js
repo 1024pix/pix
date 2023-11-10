@@ -42,7 +42,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
 
     it('should return a module if it exists', async function () {
       // given
-      const existingModuleSlug = 'les-adresses-mail';
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
 
       // when
       const module = await moduleRepository.getBySlug({
