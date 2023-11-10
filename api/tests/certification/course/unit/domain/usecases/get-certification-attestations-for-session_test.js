@@ -1,23 +1,17 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getCertificationAttestationsForSession } from '../../../../lib/domain/usecases/certificate/get-certification-attestations-for-session.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { getCertificationAttestationsForSession } from '../../../../../../src/certification/course/domain/usecases/get-certification-attestations-for-session.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | get-certification-attestation-for-session', function () {
-  const certificateRepository = {
-    getCertificationAttestation: () => undefined,
-  };
-  const certificationCourseRepository = {
-    findCertificationCoursesBySessionId: () => undefined,
-  };
-
-  const dependencies = {
-    certificateRepository,
-    certificationCourseRepository,
-  };
+  let certificateRepository, certificationCourseRepository;
 
   beforeEach(function () {
-    certificateRepository.getCertificationAttestation = sinon.stub();
-    certificationCourseRepository.findCertificationCoursesBySessionId = sinon.stub();
+    certificateRepository = {
+      getCertificationAttestation: sinon.stub(),
+    };
+    certificationCourseRepository = {
+      findCertificationCoursesBySessionId: sinon.stub(),
+    };
   });
 
   it('should return multiple certification attestations enhanced with result competence tree for a sessions', async function () {
@@ -65,7 +59,8 @@ describe('Unit | UseCase | get-certification-attestation-for-session', function 
     // when
     const actualCertificationAttestations = await getCertificationAttestationsForSession({
       sessionId: 11,
-      ...dependencies,
+      certificateRepository,
+      certificationCourseRepository,
     });
 
     // then
@@ -101,7 +96,8 @@ describe('Unit | UseCase | get-certification-attestation-for-session', function 
       // when
       const error = await catchErr(getCertificationAttestationsForSession)({
         sessionId: 12,
-        ...dependencies,
+        certificateRepository,
+        certificationCourseRepository,
       });
 
       // then
@@ -132,7 +128,8 @@ describe('Unit | UseCase | get-certification-attestation-for-session', function 
       // when
       const error = await catchErr(getCertificationAttestationsForSession)({
         sessionId: 13,
-        ...dependencies,
+        certificateRepository,
+        certificationCourseRepository,
       });
 
       // then
