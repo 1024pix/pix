@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { StageCollection } from '../../../domain/models/user-campaign-results/StageCollection.js';
+import { StageCollection } from '../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
 import * as skillRepository from './../skill-repository.js';
 const MAX_STAGE_THRESHOLD = 100;
 

@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { StageCollection } from '../../../../lib/domain/models/target-profile-management/StageCollection.js';
+import { StageCollection } from '../../../shared/domain/models/target-profile-management/StageCollection.js';
 
 const getByTargetProfileId = async function (targetProfileId) {
   const stages = await knex('stages').where({ targetProfileId }).orderBy('id', 'asc');
