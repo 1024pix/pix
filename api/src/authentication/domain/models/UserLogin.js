@@ -1,4 +1,4 @@
-import { config } from '../../config.js';
+import { config } from '../../../shared/config.js';
 
 class UserLogin {
   constructor({ id, userId, failureCount = 0, temporaryBlockedUntil, blockedAt, createdAt, updatedAt } = {}) {
