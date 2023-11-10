@@ -8,19 +8,18 @@ import * as answerStatusDatabaseAdapter from '../adapters/answer-status-database
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
 
-async function _getCertificationChallenges(certificationCourseId, knexConn, locale) {
+async function _getCertificationChallenges(certificationCourseId, knexConn) {
   const certificationChallengeRows = await knexConn('certification-challenges')
     .where({ courseId: certificationCourseId })
     .orderBy('challengeId', 'asc');
 
   const challengeIds = certificationChallengeRows.map(({ challengeId }) => challengeId);
-  const allChallenges = await challengeRepository.getMany(challengeIds, locale);
+  const challengesType = await challengeRepository.getManyTypes(challengeIds);
 
   return _.map(certificationChallengeRows, (certificationChallengeRow) => {
-    const challenge = _.find(allChallenges, { id: certificationChallengeRow.challengeId });
     return new CertificationChallengeWithType({
       ...certificationChallengeRow,
-      type: challenge?.type,
+      type: challengesType[certificationChallengeRow.challengeId],
     });
   });
 }
@@ -39,7 +38,7 @@ async function _getCertificationAnswersByDate(certificationAssessmentId, knexCon
   );
 }
 
-const get = async function (id, locale) {
+const get = async function (id) {
   const certificationAssessmentRows = await knex('assessments')
     .join('certification-courses', 'certification-courses.id', 'assessments.certificationCourseId')
     .select({
@@ -59,7 +58,6 @@ const get = async function (id, locale) {
   const certificationChallenges = await _getCertificationChallenges(
     certificationAssessmentRows[0].certificationCourseId,
     knex,
-    locale,
   );
   const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRows[0].id, knex);
 
@@ -73,7 +71,6 @@ const get = async function (id, locale) {
 
 const getByCertificationCourseId = async function ({
   certificationCourseId,
-  locale,
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   const knexConn = domainTransaction.knexTransaction || knex;
@@ -98,7 +95,6 @@ const getByCertificationCourseId = async function ({
   const certificationChallenges = await _getCertificationChallenges(
     certificationAssessmentRow.certificationCourseId,
     knexConn,
-    locale,
   );
   const certificationAnswersByDate = await _getCertificationAnswersByDate(certificationAssessmentRow.id, knexConn);
 
