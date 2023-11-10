@@ -3,10 +3,6 @@ import { enableComputeCertificabilityOnScoAefeOrganizations } from '../../../../
 import * as apps from '../../../../lib/domain/constants.js';
 
 describe('Integration | Scripts | enable-compute-certificability-on-sco-organizations-that-manages-students_test.js', function () {
-  afterEach(function () {
-    return knex('organization-features').delete();
-  });
-
   it('should enable COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY feature on organizations of type SCO with tag AEFE to true', async function () {
     // given
     databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);

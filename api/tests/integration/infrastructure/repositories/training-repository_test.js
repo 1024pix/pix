@@ -570,10 +570,6 @@ describe('Integration | Repository | training-repository', function () {
   });
 
   describe('#create', function () {
-    afterEach(async function () {
-      await databaseBuilder.knex('trainings').delete();
-    });
-
     it('should create a training', async function () {
       // given
       const training = {

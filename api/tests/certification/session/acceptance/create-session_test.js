@@ -37,10 +37,6 @@ describe('Acceptance | Controller | Session | create-session', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('sessions').delete();
-    });
-
     it('should return an OK status after saving in database', async function () {
       // when
       const response = await server.inject(options);

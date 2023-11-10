@@ -9,9 +9,6 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
   beforeEach(function () {
     sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([]);
   });
-  afterEach(function () {
-    return knex('target-profile-shares').delete();
-  });
 
   describe('#attachOrganizationsFromExistingTargetProfile', function () {
     it('attaches organizations to target profile with given existing target profile', async function () {

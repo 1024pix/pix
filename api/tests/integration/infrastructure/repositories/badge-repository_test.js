@@ -32,12 +32,6 @@ describe('Integration | Repository | Badge', function () {
     await databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('badge-acquisitions').delete();
-    await knex('complementary-certification-badges').delete();
-    await knex('badges').delete();
-  });
-
   describe('#findByCampaignId', function () {
     it('should return two badges for same target profile', async function () {
       // given

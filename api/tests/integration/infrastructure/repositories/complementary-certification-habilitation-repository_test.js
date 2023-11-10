@@ -4,10 +4,6 @@ import { knex } from '../../../../lib/infrastructure/bookshelf.js';
 
 describe('Integration | Infrastructure | Repository | complementary-certification-habilitation-repository', function () {
   context('#save', function () {
-    afterEach(function () {
-      return knex('complementary-certification-habilitations').delete();
-    });
-
     it('should create the complementary certitification habilitation', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

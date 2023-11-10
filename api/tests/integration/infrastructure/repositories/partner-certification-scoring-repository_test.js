@@ -6,17 +6,8 @@ import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/m
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';
-  const COMPLEMENTARY_CERTIFICATION_COURSES_TABLE_NAME = 'complementary-certification-courses';
 
   describe('#save', function () {
-    afterEach(async function () {
-      await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME).delete();
-      await knex(COMPLEMENTARY_CERTIFICATION_COURSES_TABLE_NAME).delete();
-      await knex('certification-courses').delete();
-      await knex('complementary-certification-badges').delete();
-      await knex('badges').delete();
-    });
-
     it('should insert the complementary certification course results in db if it does not already exists by partnerKey', async function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;

@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, knex } from '../../test-helper.js';
+import { expect, databaseBuilder } from '../../test-helper.js';
 import { Membership } from '../../../lib/domain/models/Membership.js';
 import { BookshelfCertificationCenterMembership } from '../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
 
@@ -11,14 +11,6 @@ import {
 } from '../../../scripts/create-certification-center-memberships-from-organization-admins.js';
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {
-  afterEach(async function () {
-    await knex('certification-center-memberships').delete();
-    await knex('certification-centers').delete();
-    await knex('memberships').delete();
-    await knex('organizations').delete();
-    await knex('users').delete();
-  });
-
   function _buildUserWithAdminMembership(organizationId) {
     const userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({

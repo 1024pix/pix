@@ -7,10 +7,6 @@ import lodash from 'lodash';
 const { omit } = lodash;
 
 describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function () {
-  afterEach(function () {
-    return knex('account-recovery-demands').delete();
-  });
-
   describe('#findByTemporaryKey', function () {
     context('when demand does not exist', function () {
       it('should throw a not found error', async function () {

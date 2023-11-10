@@ -61,10 +61,6 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('organization-tags').delete();
-    });
-
     it('should add tags to organizations', async function () {
       // given
       const tagsByName = new Map([

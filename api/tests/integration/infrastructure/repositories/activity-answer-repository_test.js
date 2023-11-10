@@ -65,11 +65,6 @@ describe('Integration | Repository | activityAnswerRepository', function () {
   });
 
   describe('#save', function () {
-    let answerId;
-    afterEach(async function () {
-      await knex('activity-answers').where('id', answerId).delete();
-    });
-
     it('should save and return the activity answer', async function () {
       // given
 
@@ -86,7 +81,7 @@ describe('Integration | Repository | activityAnswerRepository', function () {
 
       // when
       const savedAnswer = await activityAnswerRepository.save(answerToSave);
-      answerId = savedAnswer.id;
+
       // then
       const answerInDB = await knex('activity-answers').where('id', savedAnswer.id).first();
       expect(_.pick(savedAnswer, ['challengeId', 'activityId', 'value', 'resultDetails'])).to.deep.equal(

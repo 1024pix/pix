@@ -4,10 +4,6 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Organizations-to-attach-to-target-profile', function () {
   describe('#attachOrganizations', function () {
-    afterEach(function () {
-      return knex('target-profile-shares').delete();
-    });
-
     it('should return attachedIds', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organization1 = databaseBuilder.factory.buildOrganization();

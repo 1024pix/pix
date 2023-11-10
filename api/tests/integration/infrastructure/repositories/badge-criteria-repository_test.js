@@ -2,11 +2,6 @@ import { knex, expect, databaseBuilder } from '../../../test-helper.js';
 import * as badgeCriteriaRepository from '../../../../lib/infrastructure/repositories/badge-criteria-repository.js';
 
 describe('Integration | Repository | Badge Criteria Repository', function () {
-  afterEach(async function () {
-    await knex('badge-criteria').delete();
-    await knex('badges').delete();
-  });
-
   describe('#save', function () {
     it('should save CampaignParticipation badge-criterion', async function () {
       // given

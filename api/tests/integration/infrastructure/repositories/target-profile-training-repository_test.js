@@ -12,7 +12,6 @@ describe('Integration | Repository | target-profile-training-repository', functi
     });
 
     afterEach(async function () {
-      await databaseBuilder.knex('target-profile-trainings').delete();
       clock.restore();
     });
 

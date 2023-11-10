@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 import * as authenticationMethodRepository from '../../../../lib/infrastructure/repositories/authentication-method-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
@@ -103,10 +103,6 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
       }).code;
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
     });
 
     context('When association is already done', function () {

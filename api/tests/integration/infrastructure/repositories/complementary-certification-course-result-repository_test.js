@@ -112,9 +112,6 @@ describe('Integration | Repository | complementary-certification-courses-result-
   });
 
   describe('#save', function () {
-    afterEach(function () {
-      return knex('complementary-certification-course-results').delete();
-    });
     describe('when the ComplementaryCertificationCourseResult does not exist', function () {
       it('saves the ComplementaryCertificationCourseResult', async function () {
         // given

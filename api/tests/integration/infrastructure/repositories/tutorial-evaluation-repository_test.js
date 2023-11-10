@@ -12,11 +12,6 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
     await databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('tutorial-evaluations').delete();
-    await knex('user-saved-tutorials').delete();
-  });
-
   describe('#createOrUpdate', function () {
     it('should store the tutorialId in the users list', async function () {
       // when

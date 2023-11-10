@@ -12,10 +12,6 @@ describe('Integration | UseCases | create-certification-center-membership-by-ema
   let user;
   let email;
 
-  afterEach(async function () {
-    await knex('certification-center-memberships').delete();
-  });
-
   it("should throw UserNotFoundError if user's email does not exist", async function () {
     // given
     email = 'notExist@example.net';

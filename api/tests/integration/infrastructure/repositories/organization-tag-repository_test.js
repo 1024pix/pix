@@ -7,10 +7,6 @@ const { omit } = lodash;
 
 describe('Integration | Repository | OrganizationTagRepository', function () {
   describe('#create', function () {
-    afterEach(async function () {
-      await knex('organization-tags').delete();
-    });
-
     it('should create an OrganizationTag', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -76,10 +72,6 @@ describe('Integration | Repository | OrganizationTagRepository', function () {
   });
 
   describe('#batchCreate', function () {
-    afterEach(async function () {
-      await knex('organization-tags').delete();
-    });
-
     it('should add rows in the table "organizations-tags"', async function () {
       // given
       const organizationId1 = databaseBuilder.factory.buildOrganization().id;

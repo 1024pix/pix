@@ -35,10 +35,6 @@ describe('Acceptance | API | Stages', function () {
 
   describe('PATCH /api/admin/stages/{id}', function () {
     context('When user is authenticated', function () {
-      afterEach(async function () {
-        await knex('stages').delete();
-      });
-
       context('the stage exists', function () {
         it('should return 204', async function () {
           // given

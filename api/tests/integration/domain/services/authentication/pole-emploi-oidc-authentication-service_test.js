@@ -24,10 +24,6 @@ describe('Integration | Domain | Services | pole-emploi-oidc-authentication-serv
   });
 
   describe('#createUserAccount', function () {
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-    });
-
     it('creates a user with an authentication method and returns a user id', async function () {
       // given
       const externalIdentityId = '1HHF940';

@@ -8,10 +8,6 @@ import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Organization', function () {
   describe('#create', function () {
-    afterEach(async function () {
-      await knex('organizations').delete();
-    });
-
     it('should return an Organization domain object', async function () {
       // given
       const organization = domainBuilder.buildOrganization();
@@ -991,11 +987,6 @@ describe('Integration | Repository | Organization', function () {
         ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
       ).id;
       await databaseBuilder.commit();
-    });
-    afterEach(async function () {
-      await knex('organization-features').delete();
-      await knex('organization-learners').delete();
-      await knex('organizations').delete();
     });
 
     it('should add rows in the table "organizations"', async function () {

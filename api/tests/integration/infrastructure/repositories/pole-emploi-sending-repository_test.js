@@ -6,10 +6,6 @@ const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactor
 
 describe('Integration | Repository | PoleEmploiSending', function () {
   describe('#create', function () {
-    afterEach(function () {
-      return knex('pole-emploi-sendings').delete();
-    });
-
     it('should save PoleEmploiSending', async function () {
       // given
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;

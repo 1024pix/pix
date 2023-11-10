@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { catchErr, expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper.js';
+import { catchErr, expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
 import { BookshelfCertificationCourse } from '../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
@@ -10,12 +10,6 @@ describe('Integration | Repository | Certification Course', function () {
     let certificationCourse;
     let complementaryCertificationId;
     let complementaryCertificationBadgeId;
-
-    afterEach(async function () {
-      await knex('complementary-certification-courses').delete();
-      await knex('certification-challenges').delete();
-      return knex('certification-courses').delete();
-    });
 
     describe('when the session is V2', function () {
       beforeEach(function () {
@@ -149,10 +143,6 @@ describe('Integration | Repository | Certification Course', function () {
 
   describe('#getCreationDate', function () {
     let certificationCourse;
-
-    afterEach(function () {
-      return knex('certification-courses').delete();
-    });
 
     beforeEach(async function () {
       certificationCourse = databaseBuilder.factory.buildCertificationCourse({});

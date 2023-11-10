@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import * as campaignCollectiveResultRepository from '../../../../lib/infrastructure/repositories/campaign-collective-result-repository.js';
 import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
@@ -44,10 +44,6 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 
 describe('Integration | Repository | Campaign collective result repository', function () {
   describe('#getCampaignCollectiveResults', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     context('in a rich context close to reality', function () {
       let learningContent;
       let campaignId;

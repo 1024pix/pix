@@ -305,11 +305,6 @@ describe('Integration | Repository | answerRepository', function () {
   });
 
   describe('#saveWithKnowledgeElements', function () {
-    afterEach(async function () {
-      await knex('knowledge-elements').delete();
-      await knex('answers').delete();
-    });
-
     it('should save and return the answer', async function () {
       // given
       const answerToSave = domainBuilder.buildAnswer({

@@ -8,10 +8,6 @@ import {
 } from '../../../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Integration | Repository | Certification Issue Report', function () {
-  afterEach(async function () {
-    await knex('certification-issue-reports').delete();
-  });
-
   describe('#save', function () {
     describe('when there is no corresponding issue report', function () {
       it('should persist the certif issue report in db', async function () {
