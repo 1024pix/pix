@@ -4,6 +4,7 @@ import {
   generateValidRequestAuthorizationHeader,
   learningContentBuilder,
   mockLearningContent,
+  insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
@@ -103,46 +104,7 @@ describe('Acceptance | Route | certification-attestation', function () {
       it('should return 200 HTTP status code and the certification', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        const session = databaseBuilder.factory.buildSession({ publishedAt: new Date('2018-12-01T01:02:03Z') });
-        const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
-        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-          id: 1234,
-          sessionId: session.id,
-          userId,
-          isPublished: true,
-          maxReachableLevelOnCertificationDate: 3,
-          verificationCode: await generateCertificateVerificationCode(),
-        });
-        const assessment = databaseBuilder.factory.buildAssessment({
-          userId,
-          certificationCourseId: certificationCourse.id,
-          type: Assessment.types.CERTIFICATION,
-          state: 'completed',
-        });
-        const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
-          certificationCourseId: certificationCourse.id,
-          assessmentId: assessment.id,
-          level: 1,
-          pixScore: 23,
-          emitter: 'PIX-ALGO',
-          status: 'validated',
-        });
-        const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-          certificationCourseId: certificationCourse.id,
-          name: 'patisseries au fruits',
-        });
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          complementaryCertificationCourseId: id,
-          partnerKey: badge.key,
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          level: 3,
-          score: 23,
-          area_code: '1',
-          competence_code: '1.1',
-          assessmentResultId: assessmentResult.id,
-          acquiredComplementaryCertifications: [badge.key],
-        });
+        await _buildDatabaseForV2Certification({ userId });
         await databaseBuilder.commit();
 
         const server = await createServer();
@@ -162,4 +124,62 @@ describe('Acceptance | Route | certification-attestation', function () {
       });
     });
   });
+
+  describe('GET /api/admin/sessions/{id}/attestations', function () {
+    it('should return 200 HTTP status code and the certification', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      await _buildDatabaseForV2Certification({ userId: superAdmin.id });
+      await databaseBuilder.commit();
+
+      const server = await createServer();
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/admin/sessions/4567/attestations',
+        headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equal('application/pdf');
+      expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
+      expect(response.file).not.to.be.null;
+    });
+  });
+  async function _buildDatabaseForV2Certification({ userId }) {
+    const session = databaseBuilder.factory.buildSession({ id: 4567, publishedAt: new Date('2018-12-01T01:02:03Z') });
+    const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
+    const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+      id: 1234,
+      sessionId: session.id,
+      userId,
+      isPublished: true,
+      maxReachableLevelOnCertificationDate: 3,
+      verificationCode: await generateCertificateVerificationCode(),
+    });
+    const assessment = databaseBuilder.factory.buildAssessment({
+      userId,
+      certificationCourseId: certificationCourse.id,
+      type: Assessment.types.CERTIFICATION,
+      state: 'completed',
+    });
+    databaseBuilder.factory.buildAssessmentResult.last({
+      certificationCourseId: certificationCourse.id,
+      assessmentId: assessment.id,
+      level: 1,
+      pixScore: 23,
+      emitter: 'PIX-ALGO',
+      status: 'validated',
+    });
+    const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
+      certificationCourseId: certificationCourse.id,
+      name: 'patisseries au fruits',
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId: id,
+      partnerKey: badge.key,
+    });
+  }
 });

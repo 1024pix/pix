@@ -2,10 +2,49 @@ import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 import { certificationAttestationController } from './certification-attestation-controller.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 const { FRENCH_SPOKEN, ENGLISH_SPOKEN } = LOCALE;
 
 const register = async function (server) {
+  const adminRoutes = [
+    {
+      method: 'GET',
+      path: '/api/admin/sessions/{id}/attestations',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: certificationAttestationController.getCertificationPDFAttestationsForSession,
+        plugins: {
+          'hapi-swagger': {
+            produces: ['application/pdf'],
+          },
+        },
+        notes: [
+          '- **Route accessible par un user Admin**\n' +
+            "- Récupération des attestations de certification d'une session au format PDF" +
+            ' via un id de session et un user id',
+        ],
+        tags: ['api', 'certifications', 'PDF'],
+      },
+    },
+  ];
+
   server.route([
+    ...adminRoutes,
     {
       method: 'GET',
       path: '/api/attestation/{id}',
