@@ -1,4 +1,4 @@
-import { Feedback } from '../../../../lib/domain/models/Feedback.js';
+import { Feedback } from '../../../../src/evaluation/domain/models/Feedback.js';
 
 const buildFeedback = function ({
   id = '123',

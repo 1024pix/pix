@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { feedbackController } from '../../../../lib/application/feedbacks/feedback-controller.js';
-import * as moduleUnderTest from '../../../../lib/application/feedbacks/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { feedbackController } from '../../../../../src/evaluation/application/feedbacks/feedback-controller.js';
+import * as moduleUnderTest from '../../../../../src/evaluation/application/feedbacks/index.js';
 
 describe('Unit | Router | feedback-router', function () {
   describe('POST /api/feedbacks', function () {

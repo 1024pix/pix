@@ -1,5 +1,5 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer.js';
+import { expect } from '../../../../../test-helper.js';
+import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/feedback-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
   describe('#serialize()', function () {

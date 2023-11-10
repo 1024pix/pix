@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 import { Feedback } from '../../domain/models/Feedback.js';
 
 export const save = async function (feedback) {
