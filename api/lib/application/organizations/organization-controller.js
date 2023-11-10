@@ -13,9 +13,6 @@ import * as organizationMemberIdentitySerializer from '../../infrastructure/seri
 import * as organizationPlacesLotManagementSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
 import * as organizationPlacesLotSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
 import * as organizationPlacesCapacitySerializer from '../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
-import * as organizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
-import * as scoOrganizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
-import * as supOrganizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
@@ -30,7 +27,6 @@ import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/c
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
-import { mapCertificabilityByLabel } from './helpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 
 const create = async function (request) {
@@ -269,64 +265,6 @@ const getGroups = async function (request) {
   return groupSerializer.serialize(groups);
 };
 
-const findPaginatedFilteredScoParticipants = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    scoOrganizationParticipantsSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
-  if (filter.divisions && !Array.isArray(filter.divisions)) {
-    filter.divisions = [filter.divisions];
-  }
-  if (filter.connectionTypes && !Array.isArray(filter.connectionTypes)) {
-    filter.connectionTypes = [filter.connectionTypes];
-  }
-  if (filter.certificability) {
-    filter.certificability = mapCertificabilityByLabel(filter.certificability);
-  }
-  const { data: scoOrganizationParticipants, meta } = await usecases.findPaginatedFilteredScoParticipants({
-    organizationId,
-    filter,
-    page,
-    sort,
-  });
-  return dependencies.scoOrganizationParticipantsSerializer.serialize({
-    scoOrganizationParticipants,
-    meta,
-  });
-};
-
-const findPaginatedFilteredSupParticipants = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    supOrganizationParticipantsSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
-  if (filter.groups && !Array.isArray(filter.groups)) {
-    filter.groups = [filter.groups];
-  }
-
-  if (filter.certificability) {
-    filter.certificability = mapCertificabilityByLabel(filter.certificability);
-  }
-
-  const { data: supOrganizationParticipants, meta } = await usecases.findPaginatedFilteredSupParticipants({
-    organizationId,
-    filter,
-    page,
-    sort,
-  });
-  return dependencies.supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
-};
-
 const importOrganizationLearnersFromSIECLE = async function (request, h) {
   const organizationId = request.params.id;
   const { format } = request.query;
@@ -416,31 +354,6 @@ const archiveOrganization = async function (request, h, dependencies = { organiz
   return dependencies.organizationForAdminSerializer.serialize(archivedOrganization);
 };
 
-const getPaginatedParticipantsForAnOrganization = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    organizationParticipantsSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const { page, filter: filters, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
-
-  if (filters.certificability) {
-    filters.certificability = mapCertificabilityByLabel(filters.certificability);
-  }
-
-  const results = await usecases.getPaginatedParticipantsForAnOrganization({
-    organizationId,
-    page,
-    filters,
-    sort,
-  });
-
-  return dependencies.organizationParticipantsSerializer.serialize(results);
-};
-
 const findTargetProfileSummariesForAdmin = async function (request) {
   const organizationId = request.params.id;
   const targetProfileSummaries = await usecases.findOrganizationTargetProfileSummariesForAdmin({
@@ -468,8 +381,6 @@ const organizationController = {
   attachTargetProfiles,
   getDivisions,
   getGroups,
-  findPaginatedFilteredScoParticipants,
-  findPaginatedFilteredSupParticipants,
   importOrganizationLearnersFromSIECLE,
   sendInvitations,
   resendInvitation,
@@ -478,7 +389,6 @@ const organizationController = {
   findPendingInvitations,
   getOrganizationLearnersCsvTemplate,
   archiveOrganization,
-  getPaginatedParticipantsForAnOrganization,
   findTargetProfileSummariesForAdmin,
 };
 

@@ -1,7 +1,7 @@
-import { expect, databaseBuilder } from '../../../test-helper.js';
-import * as organizationParticipantRepository from '../../../../lib/infrastructure/repositories/organization-participant-repository.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { expect, databaseBuilder } from '../../../../../test-helper.js';
+import * as organizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-participant-repository.js';
+import { CampaignTypes } from '../../../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignParticipationStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 function buildLearnerWithParticipation({
   organizationId,

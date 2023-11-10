@@ -120,7 +120,6 @@ import * as organizationLearnerRepository from '../../infrastructure/repositorie
 import * as organizationLearnersCsvService from '../../domain/services/organization-learners-csv-service.js';
 import * as organizationLearnersXmlService from '../../domain/services/organization-learners-xml-service.js';
 import * as organizationMemberIdentityRepository from '../../infrastructure/repositories/organization-member-identity-repository.js';
-import * as organizationParticipantRepository from '../../infrastructure/repositories/organization-participant-repository.js';
 import * as organizationPlacesCapacityRepository from '../../infrastructure/repositories/organization-places-capacity-repository.js';
 import * as organizationPlacesLotRepository from '../../infrastructure/repositories/organizations/organization-places-lot-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
@@ -143,7 +142,6 @@ import * as resetPasswordDemandRepository from '../../infrastructure/repositorie
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
-import * as scoOrganizationParticipantRepository from '../../infrastructure/repositories/sco-organization-participant-repository.js';
 import * as scorecardService from '../../domain/services/scorecard-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
@@ -163,7 +161,6 @@ import * as stageRepository from '../../infrastructure/repositories/stage-reposi
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
-import * as supOrganizationParticipantRepository from '../../infrastructure/repositories/sup-organization-participant-repository.js';
 import * as tagRepository from '../../infrastructure/repositories/tag-repository.js';
 import * as targetProfileForAdminRepository from '../../infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as TargetProfileForSpecifierRepository from '../../infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
@@ -332,7 +329,6 @@ const dependencies = {
   organizationLearnersCsvService,
   organizationLearnersXmlService,
   organizationMemberIdentityRepository,
-  organizationParticipantRepository,
   organizationPlacesCapacityRepository,
   organizationPlacesLotRepository,
   organizationRepository,
@@ -357,7 +353,6 @@ const dependencies = {
   schoolRepository,
   scoAccountRecoveryService,
   scoCertificationCandidateRepository,
-  scoOrganizationParticipantRepository,
   scorecardService,
   scoringCertificationService,
   sessionCodeService,
@@ -378,7 +373,6 @@ const dependencies = {
   studentRepository,
   supervisorAccessRepository,
   supOrganizationLearnerRepository,
-  supOrganizationParticipantRepository,
   tagRepository,
   targetProfileForAdminRepository,
   TargetProfileForSpecifierRepository,
