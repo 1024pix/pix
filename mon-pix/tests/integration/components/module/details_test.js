@@ -17,8 +17,9 @@ module('Integration | Component | Module | Details', function (hooks) {
       type: 'qcus',
     });
     const moduleElements = [textElement, qcuElement];
+    const grain = store.createRecord('grain', { elements: moduleElements });
 
-    const module = store.createRecord('module', { title: 'Module title', elements: moduleElements });
+    const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
     this.set('module', module);
 
     // when

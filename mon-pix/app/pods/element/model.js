@@ -1,7 +1,7 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
 export default class Element extends Model {
-  @belongsTo('module', { inverse: 'elements' }) module;
+  @belongsTo('grain') grain;
   @attr('string') type;
 
   get isText() {

@@ -13,14 +13,13 @@ describe('Acceptance | Controller | modules-controller-getBySlug', function () {
       it('should return module', async function () {
         const options = {
           method: 'GET',
-          url: `/api/modules/les-adresses-mail`,
+          url: `/api/modules/bien-ecrire-son-adresse-mail`,
         };
 
         const response = await server.inject(options);
 
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('modules');
-        expect(response.result.included[0].type).to.equal('texts');
       });
     });
 

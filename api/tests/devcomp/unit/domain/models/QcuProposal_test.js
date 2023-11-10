@@ -7,16 +7,14 @@ describe('Unit | Devcomp | Models | QcuProposal', function () {
       // given
       const id = '1';
       const content = 'vrai';
-      const isValid = true;
 
       // when
-      const proposal = new QcuProposal({ id, content, isValid });
+      const proposal = new QcuProposal({ id, content });
 
       // then
       expect(proposal).not.to.be.undefined;
       expect(proposal.id).to.equal(id);
       expect(proposal.content).to.equal(content);
-      expect(proposal.isValid).to.equal(isValid);
     });
   });
 
@@ -29,14 +27,6 @@ describe('Unit | Devcomp | Models | QcuProposal', function () {
   describe('A QCU proposal without content', function () {
     it('should throw an error', function () {
       expect(() => new QcuProposal({ id: '1' })).to.throw('Le contenu est obligatoire pour une proposition de QCU');
-    });
-  });
-
-  describe('A QCU proposal without isValid', function () {
-    it('should throw an error', function () {
-      expect(() => new QcuProposal({ id: '1', content: '' })).to.throw(
-        'La validité est obligatoire pour une proposition de QCU',
-      );
     });
   });
 });

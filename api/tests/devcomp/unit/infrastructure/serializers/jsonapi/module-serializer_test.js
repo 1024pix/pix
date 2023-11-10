@@ -9,9 +9,9 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
     it('should serialize with empty list', function () {
       // given
       const id = 'id';
-      const slug = 'les-adresses-mail';
-      const title = 'Les adresses mail';
-      const moduleFromDomain = new Module({ id, slug, title, list: [] });
+      const slug = 'bien-ecrire-son-adresse-mail';
+      const title = 'Bien écrire son adresse mail';
+      const moduleFromDomain = new Module({ id, slug, title, grains: [] });
       const expectedJson = {
         data: {
           type: 'modules',
@@ -20,7 +20,7 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
             title,
           },
           relationships: {
-            elements: {
+            grains: {
               data: [],
             },
           },
@@ -37,61 +37,91 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
     it('should serialize with list', function () {
       // given
       const id = 'id';
-      const slug = 'les-adresses-mail';
-      const title = 'Les adresses mail';
+      const slug = 'bien-ecrire-son-adresse-mail';
+      const title = 'Bien écrire son adresse mail';
       const moduleFromDomain = new Module({
         id,
         slug,
         title,
-        list: [
-          new Text({ id: '1', content: '' }),
-          new QCU({
-            id: '2',
-            proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
-            instruction: 'hello',
-            solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
-          }),
+        grains: [
+          {
+            id: '1',
+            title: 'Grain 1',
+            type: 'activity',
+            elements: [
+              new Text({ id: '1', content: '' }),
+              new QCU({
+                id: '2',
+                proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
+                instruction: 'hello',
+                solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+              }),
+            ],
+          },
         ],
       });
       const expectedJson = {
         data: {
-          type: 'modules',
-          id: slug,
           attributes: {
-            title,
+            title: 'Bien écrire son adresse mail',
           },
+          id: 'bien-ecrire-son-adresse-mail',
           relationships: {
-            elements: {
+            grains: {
               data: [
                 {
-                  type: 'texts',
                   id: '1',
-                },
-                {
-                  type: 'qcus',
-                  id: '2',
+                  type: 'grains',
                 },
               ],
             },
           },
+          type: 'modules',
         },
         included: [
           {
-            type: 'texts',
-            id: '1',
             attributes: {
               content: '',
               type: 'texts',
             },
+            id: '1',
+            type: 'texts',
           },
           {
-            type: 'qcus',
-            id: '2',
             attributes: {
               instruction: 'hello',
-              proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
+              proposals: [
+                {
+                  content: '',
+                  id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+                },
+              ],
               type: 'qcus',
             },
+            id: '2',
+            type: 'qcus',
+          },
+          {
+            attributes: {
+              title: 'Grain 1',
+              type: 'activity',
+            },
+            id: '1',
+            relationships: {
+              elements: {
+                data: [
+                  {
+                    id: '1',
+                    type: 'texts',
+                  },
+                  {
+                    id: '2',
+                    type: 'qcus',
+                  },
+                ],
+              },
+            },
+            type: 'grains',
           },
         ],
       };
