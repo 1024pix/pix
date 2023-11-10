@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, domainBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import * as campaignAnalysisRepository from '../../../../lib/infrastructure/repositories/campaign-analysis-repository.js';
 import { CampaignAnalysis } from '../../../../lib/domain/read-models/CampaignAnalysis.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
@@ -46,10 +46,6 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
 
 describe('Integration | Repository | Campaign analysis repository', function () {
   describe('#getCampaignAnalysis', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     context('in a rich context close to reality', function () {
       let learningContent;
       let campaignId;
@@ -416,10 +412,6 @@ describe('Integration | Repository | Campaign analysis repository', function () 
   });
 
   describe('#getCampaignParticipationAnalysis', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     context('in a rich context close to reality', function () {
       let learningContent;
       let campaignId;

@@ -7,9 +7,7 @@ describe('Integration | UseCase | attach-organizations-to-target-profile', funct
   beforeEach(function () {
     sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([]);
   });
-  afterEach(function () {
-    return knex('target-profile-shares').delete();
-  });
+
   describe('#attachOrganizationsToTargetProfile', function () {
     it('attaches organization to target profile', async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();

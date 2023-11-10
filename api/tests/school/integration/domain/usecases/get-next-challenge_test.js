@@ -89,13 +89,6 @@ describe('Integration | Usecase | get-next-challenge', function () {
       mockLearningContent(learningContent);
     });
 
-    afterEach(async function () {
-      await knex('activity-answers').delete();
-      await knex('activities').delete();
-      await knex('mission-assessments').where({ assessmentId }).delete();
-      await knex('assessments').where({ id: assessmentId }).delete();
-    });
-
     context('when the user starts a mission with a challenge without alternative version', function () {
       beforeEach(async function () {
         assessmentId = databaseBuilder.factory.buildMissionAssessment({ missionId }).assessmentId;

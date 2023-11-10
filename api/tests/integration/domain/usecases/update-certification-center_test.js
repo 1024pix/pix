@@ -1,4 +1,4 @@
-import { databaseBuilder, domainBuilder, expect, knex } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import { CertificationCenterForAdmin } from '../../../../lib/domain/models/CertificationCenterForAdmin.js';
 import { updateCertificationCenter } from '../../../../lib/domain/usecases/update-certification-center.js';
 import * as certificationCenterForAdminRepository from '../../../../lib/infrastructure/repositories/certification-center-for-admin-repository.js';
@@ -6,11 +6,6 @@ import * as complementaryCertificationHabilitationRepository from '../../../../l
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 
 describe('Integration | UseCases | update-certification-center', function () {
-  afterEach(async function () {
-    await knex('complementary-certification-habilitations').delete();
-    await knex('data-protection-officers').delete();
-  });
-
   it('should update certification center and his data protection officer information', async function () {
     // given
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

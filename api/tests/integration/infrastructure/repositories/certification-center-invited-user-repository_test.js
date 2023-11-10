@@ -107,10 +107,6 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
   describe('#save', function () {
     let clock;
 
-    afterEach(async function () {
-      await knex('certification-center-memberships').delete();
-    });
-
     it('should create membership', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;

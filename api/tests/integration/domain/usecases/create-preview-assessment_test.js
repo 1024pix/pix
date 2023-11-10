@@ -5,9 +5,6 @@ import { Assessment } from '../../../../lib/domain/models/index.js';
 
 describe('Integration | UseCases | create-preview-assessment', function () {
   let assessmentId;
-  afterEach(function () {
-    return knex('assessments').where({ id: assessmentId }).delete();
-  });
 
   it('should create a preview assessment', async function () {
     // when

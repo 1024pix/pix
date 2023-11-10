@@ -9,10 +9,6 @@ describe('Integration | Repository | Target-profile-share', function () {
     let targetProfileIdB;
     let targetProfileIdC;
 
-    afterEach(function () {
-      return knex('target-profile-shares').delete();
-    });
-
     beforeEach(function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       targetProfileIdA = databaseBuilder.factory.buildTargetProfile().id;
@@ -81,10 +77,6 @@ describe('Integration | Repository | Target-profile-share', function () {
     let targetProfileIdA;
     let targetProfileIdB;
     let targetProfileIdC;
-
-    afterEach(function () {
-      return knex('target-profile-shares').delete();
-    });
 
     beforeEach(function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;

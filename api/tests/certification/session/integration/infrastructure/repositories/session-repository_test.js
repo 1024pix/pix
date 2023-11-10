@@ -34,10 +34,6 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('sessions').delete();
-    });
-
     it('should persist the session in db', async function () {
       // when
       await sessionRepository.save(session);

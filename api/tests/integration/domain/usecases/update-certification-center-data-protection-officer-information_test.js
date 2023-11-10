@@ -1,13 +1,9 @@
-import { knex, expect, databaseBuilder } from '../../../test-helper.js';
+import { expect, databaseBuilder } from '../../../test-helper.js';
 import { DataProtectionOfficer } from '../../../../lib/domain/models/DataProtectionOfficer.js';
 import { updateCertificationCenterDataProtectionOfficerInformation } from '../../../../lib/domain/usecases/update-certification-center-data-protection-officer-information.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
 
 describe('Integration | UseCases | update-certification-center-data-protection-officer-information', function () {
-  afterEach(async function () {
-    await knex('data-protection-officers').delete();
-  });
-
   it('should add data protection officer information for a certification center', async function () {
     // given
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

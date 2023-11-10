@@ -53,11 +53,6 @@ describe('Integration | UseCases | create-badge', function () {
     };
   });
 
-  afterEach(async function () {
-    await knex('badge-criteria').delete();
-    await knex('badges').delete();
-  });
-
   it('should not save a new badge if there are no associated criteria', async function () {
     // when
     const error = await catchErr(createBadge)({

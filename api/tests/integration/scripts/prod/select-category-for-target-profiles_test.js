@@ -17,10 +17,6 @@ describe('Integration | Scripts | select-category-for-target-profiles.js', funct
     await databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('target-profiles').delete();
-  });
-
   describe('#setCategoryToTargetProfiles', function () {
     it('should set category on target profiles', async function () {
       const targetProfilesId = [firstTargetProfileId, secondTargetProfileId];

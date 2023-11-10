@@ -8,11 +8,6 @@ import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 
 describe('Integration | Script | create school learners', function () {
-  afterEach(async function () {
-    await knex('organization-learners').delete();
-    await knex('schools').delete();
-    await knex('organizations').delete();
-  });
   describe('#buildSchool', function () {
     it('should create a school with a code', async function () {
       const organization = await buildSchoolOrganization({ name: 'Bambino' });

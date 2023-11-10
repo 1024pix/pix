@@ -1,4 +1,4 @@
-import { expect, sinon, HttpTestServer, knex } from '../../../test-helper.js';
+import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';
@@ -25,11 +25,6 @@ describe('Integration | Application | Users | Routes', function () {
   });
 
   describe('POST /api/users', function () {
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
-    });
-
     context('when user create account before joining campaign', function () {
       it('should return HTTP 201', async function () {
         // given / when

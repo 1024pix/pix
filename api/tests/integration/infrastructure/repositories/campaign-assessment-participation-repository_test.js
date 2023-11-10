@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
@@ -10,10 +10,6 @@ const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Assessment Participation', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     let campaignId, campaignParticipationId, userId;
 
     context('When there is an assessment for another campaign and another participation', function () {

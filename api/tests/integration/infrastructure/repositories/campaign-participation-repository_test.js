@@ -715,7 +715,6 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     afterEach(function () {
       clock.restore();
-      return knex('knowledge-element-snapshots').delete();
     });
 
     it('persists the campaign-participation changes', async function () {

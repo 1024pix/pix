@@ -8,12 +8,6 @@ import { Assessment } from '../../../../../src/shared/domain/models/Assessment.j
 import { AssessmentResult } from '../../../../../lib/domain/models/AssessmentResult.js';
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
-  afterEach(async function () {
-    await knex('answers').delete();
-    await knex('assessment-results').delete();
-    return knex('assessments').delete();
-  });
-
   describe('#getWithAnswers', function () {
     let assessmentId;
 

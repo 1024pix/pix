@@ -10,10 +10,6 @@ import _ from 'lodash';
 
 describe('Integration | Repository | CertificationCandidate', function () {
   describe('#saveInSession', function () {
-    afterEach(function () {
-      return knex('certification-candidates').delete();
-    });
-
     context('when a proper candidate is being saved', function () {
       it('should save the Certification candidate in session', async function () {
         // given

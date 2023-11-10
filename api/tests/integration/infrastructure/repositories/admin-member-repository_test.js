@@ -344,10 +344,6 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
   });
 
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('pix-admin-roles').delete();
-    });
-
     it('should persist admin member role', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();

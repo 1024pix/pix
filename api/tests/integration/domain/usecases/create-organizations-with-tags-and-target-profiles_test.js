@@ -35,14 +35,6 @@ describe('Integration | UseCases | create-organizations-with-tags-and-target-pro
     await databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('organization-invitations').delete();
-    await knex('organization-tags').delete();
-    await knex('target-profile-shares').delete();
-    await knex('organizations').delete();
-    await knex('users').delete();
-  });
-
   describe('validation error cases', function () {
     context('when there is more than one occurrence of the same organization in data file', function () {
       it('throws an error', async function () {

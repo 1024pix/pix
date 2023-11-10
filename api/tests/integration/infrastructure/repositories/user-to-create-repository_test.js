@@ -6,10 +6,6 @@ import { UserToCreate } from '../../../../lib/domain/models/UserToCreate.js';
 
 describe('Integration | Infrastructure | Repository | UserToCreateRepository', function () {
   describe('#create', function () {
-    afterEach(async function () {
-      await knex('users').delete();
-    });
-
     it('returns a domain User object', async function () {
       // given
       const email = 'my-email-to-save@example.net';

@@ -31,11 +31,6 @@ describe('Integration | Domain | Services | user-service', function () {
       });
     });
 
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
-    });
-
     it('should return saved user and authenticationMethod', async function () {
       // given
       const expectedUser = pick(user, userPickedAttributes);
@@ -93,11 +88,6 @@ describe('Integration | Domain | Services | user-service', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
-    });
-
     it('should update user username and user authenticationMethod password', async function () {
       // given
       const userId = user.id;
@@ -150,12 +140,6 @@ describe('Integration | Domain | Services | user-service', function () {
       }).id;
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('organization-learners').delete();
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
     });
 
     context('when all goes well', function () {

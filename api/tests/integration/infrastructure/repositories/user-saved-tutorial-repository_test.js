@@ -10,10 +10,6 @@ describe('Integration | Infrastructure | Repository | user-saved-tutorial-reposi
     await databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('user-saved-tutorials').delete();
-  });
-
   describe('#addTutorial', function () {
     const tutorialId = 'tutorialId';
 

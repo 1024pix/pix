@@ -222,11 +222,6 @@ describe('Integration | Repository | Campaign', function () {
   });
 
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('campaign_skills').delete();
-      return knex('campaigns').delete();
-    });
-
     context('when campaign is of type ASSESSMENT', function () {
       it('should save the given campaign with type ASSESSMENT', async function () {
         // given

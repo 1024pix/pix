@@ -16,11 +16,6 @@ describe('Integration | UseCases | create-mission-assessment', function () {
     };
   });
 
-  afterEach(async function () {
-    await knex('mission-assessments').where({ missionId }).delete();
-    await knex('assessments').delete();
-  });
-
   it('should save a new assessment for Pix1D', async function () {
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
     await databaseBuilder.commit();

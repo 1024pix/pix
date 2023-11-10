@@ -5,10 +5,6 @@ import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure
 describe('Integration | Repository | data-protection-officer', function () {
   const now = new Date('2022-09-27T16:30:00Z');
 
-  afterEach(async function () {
-    await knex('data-protection-officers').delete();
-  });
-
   describe('#batchAddDataProtectionOfficerToOrganization', function () {
     it('should add rows in the table "data-protection-officers"', async function () {
       // given

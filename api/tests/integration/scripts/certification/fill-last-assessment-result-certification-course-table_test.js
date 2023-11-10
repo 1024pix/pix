@@ -15,7 +15,6 @@ describe('Integration | Scripts | Certification | fill-latest-assessment-result-
 
   afterEach(function () {
     clock.restore();
-    return knex(ASSOC_TABLE_NAME).delete();
   });
 
   describe('#addLastAssessmentResultCertificationCourse', function () {
