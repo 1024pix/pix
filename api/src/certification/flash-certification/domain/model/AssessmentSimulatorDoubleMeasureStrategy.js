@@ -11,7 +11,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
   }
 
   run({ challengesAnswers, stepIndex }) {
-    const result = [];
+    const results = [];
     const challengeAnswers = [];
     const possibleChallenges = this.algorithm.getPossibleNextChallenges({
       allAnswers: challengesAnswers,
@@ -32,7 +32,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
         return null;
       }
 
-      result.push({
+      results.push({
         challenge: nextChallenge,
       });
 
@@ -40,7 +40,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
     }
 
     return {
-      result,
+      results,
       challengeAnswers,
     };
   }

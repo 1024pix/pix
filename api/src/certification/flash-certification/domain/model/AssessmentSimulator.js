@@ -15,8 +15,8 @@ export class AssessmentSimulator {
           break;
         }
 
-        challengesAnswers.push(simulatorStepResult.challengeAnswer);
-        result.push(simulatorStepResult.result);
+        challengesAnswers.push(...simulatorStepResult.challengeAnswers);
+        result.push(...simulatorStepResult.results);
       } catch (err) {
         break;
       }

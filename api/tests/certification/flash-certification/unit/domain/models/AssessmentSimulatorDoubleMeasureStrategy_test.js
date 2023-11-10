@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
 
         // when
         const expectedResult = {
-          result: [
+          results: [
             {
               challenge: challenge2,
             },

@@ -103,17 +103,21 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           // when
           const expectedResult = {
-            result: {
-              challenge: challenge2,
-              estimatedLevel: expectedEstimatedLevel,
-              errorRate: expectedErrorRate,
-              reward: expectedReward,
-              answerStatus: answerForSimulator,
-            },
-            challengeAnswer: new Answer({
-              result: answerForSimulator,
-              challengeId: challenge2.id,
-            }),
+            results: [
+              {
+                challenge: challenge2,
+                estimatedLevel: expectedEstimatedLevel,
+                errorRate: expectedErrorRate,
+                reward: expectedReward,
+                answerStatus: answerForSimulator,
+              },
+            ],
+            challengeAnswers: [
+              new Answer({
+                result: answerForSimulator,
+                challengeId: challenge2.id,
+              }),
+            ],
           };
 
           const strategy = new AssessmentSimulatorSingleMeasureStrategy({
@@ -234,17 +238,21 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           // when
           const expectedResult = {
-            result: {
-              challenge: challenge2,
-              estimatedLevel: expectedEstimatedLevel,
-              errorRate: expectedErrorRate,
-              reward: expectedReward,
-              answerStatus: answerForSimulator,
-            },
-            challengeAnswer: new Answer({
-              result: answerForSimulator,
-              challengeId: challenge2.id,
-            }),
+            results: [
+              {
+                challenge: challenge2,
+                estimatedLevel: expectedEstimatedLevel,
+                errorRate: expectedErrorRate,
+                reward: expectedReward,
+                answerStatus: answerForSimulator,
+              },
+            ],
+            challengeAnswers: [
+              new Answer({
+                result: answerForSimulator,
+                challengeId: challenge2.id,
+              }),
+            ],
           };
 
           const strategy = new AssessmentSimulatorSingleMeasureStrategy({

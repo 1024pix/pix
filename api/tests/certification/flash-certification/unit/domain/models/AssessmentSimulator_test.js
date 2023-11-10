@@ -30,28 +30,32 @@ describe('Unit | Domain | Models | AssessmentSimulator', function () {
           stepIndex: 0,
         })
         .returns({
-          result: {
-            challenge: firstChallenge,
-            estimatedLevel: expectedEstimatedLevels[0],
-            errorRate: expectedErrorRates[0],
-            reward: expectedRewards[0],
-            answerStatus: answersForSimulator[0],
-          },
-          challengeAnswer: firstRunAnswer,
+          results: [
+            {
+              challenge: firstChallenge,
+              estimatedLevel: expectedEstimatedLevels[0],
+              errorRate: expectedErrorRates[0],
+              reward: expectedRewards[0],
+              answerStatus: answersForSimulator[0],
+            },
+          ],
+          challengeAnswers: [firstRunAnswer],
         })
         .withArgs({
           challengesAnswers: [firstRunAnswer],
           stepIndex: 1,
         })
         .returns({
-          result: {
-            challenge: secondChallenge,
-            estimatedLevel: expectedEstimatedLevels[1],
-            errorRate: expectedErrorRates[1],
-            reward: expectedRewards[1],
-            answerStatus: answersForSimulator[1],
-          },
-          challengeAnswer: secondRunAnswer,
+          results: [
+            {
+              challenge: secondChallenge,
+              estimatedLevel: expectedEstimatedLevels[1],
+              errorRate: expectedErrorRates[1],
+              reward: expectedRewards[1],
+              answerStatus: answersForSimulator[1],
+            },
+          ],
+          challengeAnswers: [secondRunAnswer],
         });
 
       // when
