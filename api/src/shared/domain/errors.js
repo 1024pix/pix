@@ -121,6 +121,13 @@ class CertificationAttestationGenerationError extends DomainError {
   }
 }
 
+class NoCertificationAttestationForDivisionError extends DomainError {
+  constructor(division) {
+    const message = `Aucune attestation de certification pour la classe ${division}.`;
+    super(message);
+  }
+}
+
 export {
   DomainError,
   AssessmentEndedError,
@@ -134,6 +141,7 @@ export {
   InvalidTemporaryKeyError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
+  NoCertificationAttestationForDivisionError,
   LocaleFormatError,
   LocaleNotSupportedError,
 };

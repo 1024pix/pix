@@ -114,6 +114,9 @@ function _mapToHttpError(error) {
   if (error instanceof UserShouldChangePasswordError) {
     return new HttpErrors.PasswordShouldChangeError(error.message, error.meta);
   }
+  if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
 }
 
 function handle(request, h, error) {
