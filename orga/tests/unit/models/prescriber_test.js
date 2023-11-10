@@ -82,4 +82,72 @@ module('Unit | Model | prescriber', function (hooks) {
       assert.false(model.isAdminOfTheCurrentOrganization);
     });
   });
+
+  module('#enableMultipleSendingAssessment', function () {
+    test('it returns true when feature is enabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = run(() =>
+        store.createRecord('prescriber', {
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
+        }),
+      );
+
+      // when
+      const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+
+      // then
+      assert.true(enableMultipleSendingAssessment);
+    });
+
+    test('it returns false when feature is disabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = run(() =>
+        store.createRecord('prescriber', {
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: false },
+        }),
+      );
+
+      // when
+      const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+
+      // then
+      assert.false(enableMultipleSendingAssessment);
+    });
+  });
+
+  module('#computeOrganizationLearnerCertificability', function () {
+    test('it returns true when feature is enabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = run(() =>
+        store.createRecord('prescriber', {
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: true },
+        }),
+      );
+
+      // when
+      const computeOrganizationLearnerCertificability = model.computeOrganizationLearnerCertificability;
+
+      // then
+      assert.true(computeOrganizationLearnerCertificability);
+    });
+
+    test('it returns false when feature is disabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = run(() =>
+        store.createRecord('prescriber', {
+          features: { ['COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY']: false },
+        }),
+      );
+
+      // when
+      const computeOrganizationLearnerCertificability = model.computeOrganizationLearnerCertificability;
+
+      // then
+      assert.false(computeOrganizationLearnerCertificability);
+    });
+  });
 });

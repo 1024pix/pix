@@ -27,7 +27,10 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       firstName: 'Adam',
       lastName: 'Troisjour',
       id: '1',
-      enableMultipleSendingAssessment: false,
+      features: {
+        MULTIPLE_SENDING_ASSESSMENT: false,
+        COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: false,
+      },
     });
 
     class CurrentUserStub extends Service {
@@ -195,7 +198,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
     test('it should fill multiple sendings fields', async function (assert) {
       // given
-      prescriber.enableMultipleSendingAssessment = true;
+      prescriber.features.MULTIPLE_SENDING_ASSESSMENT = true;
       this.campaign.type = 'ASSESSMENT';
       this.campaign.multipleSendings = true;
 
@@ -573,7 +576,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
             hasStage: false,
           }),
         ];
-        prescriber.enableMultipleSendingAssessment = true;
+        prescriber.features.MULTIPLE_SENDING_ASSESSMENT = true;
 
         // when
         const screen = await render(
@@ -600,7 +603,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
       module('when target profile are knowledge elements resettable', function () {
         test('it should display specific message', async function (assert) {
           // given
-          prescriber.enableMultipleSendingAssessment = true;
+          prescriber.features.MULTIPLE_SENDING_ASSESSMENT = true;
 
           this.targetProfiles = [
             store.createRecord('target-profile', {
@@ -673,7 +676,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
               hasStage: false,
             }),
           ];
-          prescriber.enableMultipleSendingAssessment = true;
+          prescriber.features.MULTIPLE_SENDING_ASSESSMENT = true;
 
           // when
           const screen = await render(
@@ -1023,7 +1026,7 @@ module('Integration | Component | Campaign::CreateForm', function (hooks) {
 
   test('it should display the explanation of automatic compute certificability if the feature is activated', async function (assert) {
     // when
-    prescriber.set('computeOrganizationLearnerCertificability', true);
+    prescriber.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY = true;
 
     const screen = await render(
       hbs`<Campaign::CreateForm
