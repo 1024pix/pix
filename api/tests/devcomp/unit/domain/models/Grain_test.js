@@ -33,7 +33,7 @@ describe('Unit | Devcomp | Models | Grain', function () {
     describe('if a grain does not have an element', function () {
       describe('given no grain param', function () {
         it('should throw an error', function () {
-          expect(() => new Grain({ id: 'id_grain_1', title: 'Les adresses mail' })).to.throw(
+          expect(() => new Grain({ id: 'id_grain_1', title: 'Bien écrire son adresse mail' })).to.throw(
             `Une liste d'éléments est obligatoire pour un grain`,
           );
         });
@@ -45,7 +45,7 @@ describe('Unit | Devcomp | Models | Grain', function () {
             () =>
               new Grain({
                 id: 'id_grain_1',
-                title: 'Les adresses mail',
+                title: 'Bien écrire son adresse mail',
                 elements: 'elements',
               }),
           ).to.throw(`Un Grain doit forcément posséder une liste d'éléments`);

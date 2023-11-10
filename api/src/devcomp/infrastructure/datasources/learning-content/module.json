@@ -2,8 +2,8 @@
   "modules": [
     {
       "id": "f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d",
-      "slug": "les-adresses-mail",
-      "title": "Les adresses mail",
+      "slug": "bien-ecrire-son-adresse-mail",
+      "title": "Bien écrire son adresse mail",
       "grains": [
         {
           "id": "z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",

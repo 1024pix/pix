@@ -13,7 +13,7 @@ describe('Acceptance | Controller | modules-controller-getBySlug', function () {
       it('should return module', async function () {
         const options = {
           method: 'GET',
-          url: `/api/modules/les-adresses-mail`,
+          url: `/api/modules/bien-ecrire-son-adresse-mail`,
         };
 
         const response = await server.inject(options);

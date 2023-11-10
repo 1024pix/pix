@@ -6,7 +6,7 @@ module('Unit | Model | Module', function (hooks) {
 
   test('Module model should exist with the right properties', function (assert) {
     // given
-    const title = 'Les adresses mail';
+    const title = 'Bien écrire son adresse mail';
     const store = this.owner.lookup('service:store');
     const elementText = store.createRecord('text', { content: '' });
     const elementQCU = store.createRecord('qcu', { instruction: '', proposals: [''] });

@@ -9,8 +9,8 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
     it('should serialize with empty list', function () {
       // given
       const id = 'id';
-      const slug = 'les-adresses-mail';
-      const title = 'Les adresses mail';
+      const slug = 'bien-ecrire-son-adresse-mail';
+      const title = 'Bien écrire son adresse mail';
       const moduleFromDomain = new Module({ id, slug, title, grains: [] });
       const expectedJson = {
         data: {
@@ -37,8 +37,8 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
     it('should serialize with list', function () {
       // given
       const id = 'id';
-      const slug = 'les-adresses-mail';
-      const title = 'Les adresses mail';
+      const slug = 'bien-ecrire-son-adresse-mail';
+      const title = 'Bien écrire son adresse mail';
       const moduleFromDomain = new Module({
         id,
         slug,
@@ -63,9 +63,9 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
       const expectedJson = {
         data: {
           attributes: {
-            title: 'Les adresses mail',
+            title: 'Bien écrire son adresse mail',
           },
-          id: 'les-adresses-mail',
+          id: 'bien-ecrire-son-adresse-mail',
           relationships: {
             grains: {
               data: [

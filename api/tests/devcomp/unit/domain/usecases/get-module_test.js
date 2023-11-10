@@ -6,7 +6,7 @@ describe('Unit | Devcomp | Usecases | get-module', function () {
     it('should get and return a Module', async function () {
       // given
       const expectedModule = Symbol('module');
-      const slug = 'les-adresses-mail';
+      const slug = 'bien-ecrire-son-adresse-mail';
       const moduleRepository = {
         getBySlug: sinon.stub(),
       };
