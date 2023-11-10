@@ -41,6 +41,7 @@ function getEstimatedLevelAndErrorRate({
   challenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
   variationPercent,
+  doubleMeasuresUntil = 0,
 }) {
   if (allAnswers.length === 0) {
     return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
@@ -53,7 +54,7 @@ function getEstimatedLevelAndErrorRate({
   let answerIndex = 0;
 
   while (answerIndex < allAnswers.length) {
-    if (!_shouldUseDoubleMeasure()) {
+    if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex })) {
       const answer = allAnswers[answerIndex];
       ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _singleMeasure({
         challenges,
@@ -65,6 +66,19 @@ function getEstimatedLevelAndErrorRate({
       }));
 
       answerIndex++;
+    } else {
+      const answer1 = allAnswers[answerIndex];
+      const answer2 = allAnswers[answerIndex + 1];
+      ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _doubleMeasure({
+        challenges,
+        answers: [answer1, answer2],
+        latestEstimatedLevel,
+        likelihood,
+        normalizedPosteriori,
+        variationPercent,
+      }));
+
+      answerIndex += 2;
     }
   }
 
@@ -73,8 +87,8 @@ function getEstimatedLevelAndErrorRate({
   return { estimatedLevel: latestEstimatedLevel, errorRate };
 }
 
-function _shouldUseDoubleMeasure() {
-  return false;
+function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex }) {
+  return doubleMeasuresUntil > answerIndex;
 }
 
 function _singleMeasure({
@@ -90,6 +104,27 @@ function _singleMeasure({
   const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
 
   likelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
+
+  normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
+
+  latestEstimatedLevel = _computeEstimatedLevel(latestEstimatedLevel, variationPercent, normalizedPosteriori);
+  return { latestEstimatedLevel, likelihood, normalizedPosteriori };
+}
+
+function _doubleMeasure({
+  challenges,
+  answers,
+  latestEstimatedLevel,
+  likelihood,
+  normalizedPosteriori,
+  variationPercent,
+}) {
+  const answeredChallenge1 = _findChallengeForAnswer(challenges, answers[0]);
+  const answeredChallenge2 = _findChallengeForAnswer(challenges, answers[1]);
+
+  const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
+
+  likelihood = _computeDoubleMeasureLikelihood([answeredChallenge1, answeredChallenge2], answers, likelihood);
 
   normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
 
@@ -113,6 +148,16 @@ function _computeLikelihood(answeredChallenge, answer, previousLikelihood) {
     let probability = _getProbability(sample, answeredChallenge.discriminant, answeredChallenge.difficulty);
     probability = answer.isOk() ? probability : 1 - probability;
     return previousLikelihood[index] * probability;
+  });
+}
+
+function _computeDoubleMeasureLikelihood(answeredChallenges, answers, previousLikelihood) {
+  return samples.map((sample, index) => {
+    let probability1 = _getProbability(sample, answeredChallenges[0].discriminant, answeredChallenges[0].difficulty);
+    let probability2 = _getProbability(sample, answeredChallenges[1].discriminant, answeredChallenges[1].difficulty);
+    probability1 = answers[0].isOk() ? probability1 : 1 - probability1;
+    probability2 = answers[1].isOk() ? probability2 : 1 - probability2;
+    return (previousLikelihood[index] * (probability1 + probability2)) / 2;
   });
 }
 
