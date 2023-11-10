@@ -52,7 +52,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal(
-        'Aucun challenge trouvé pour la mission : recCHAL1, le niveau TRAINING et le numéro 1',
+        'Aucun acquis trouvé pour la mission : recCHAL1, le niveau TRAINING et le numéro 1',
       );
     });
     it('should return an error when the challenge is not found', async function () {
@@ -270,7 +270,37 @@ describe('School | Integration | Repository | challenge-repository', function ()
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('Aucun challenge trouvé pour la mission : recCHAL1 et le niveau TRAINING');
+      expect(error.message).to.equal('Aucune activité trouvée pour la mission : recCHAL1 et le niveau TRAINING');
+    });
+    it('should return an error when one of the skill associated to the activity does not contain any challenge', async function () {
+      // given
+      const missionId = 'recCHAL1';
+      const activityLevel = Activity.levels.TRAINING;
+      const skill1 = learningContentBuilder.buildSkill({ id: 'recSkill1', name: '@rechercher_en1', tubeId: 'tubeId' });
+      const skill2 = learningContentBuilder.buildSkill({ id: 'recSkill2', name: '@rechercher_en2', tubeId: 'tubeId' });
+      const levelTube = learningContentBuilder.buildTube({
+        id: 'tubeId',
+        thematicId: missionId,
+        name: '@rechercher_en',
+      });
+      const challenge = learningContentBuilder.buildChallenge({ skillId: skill1.id });
+      mockLearningContent({
+        skills: [skill1, skill2],
+        tubes: [levelTube],
+        challenges: [challenge],
+      });
+
+      // when
+      const error = await catchErr(challengeRepository.getActivityChallengesFor1d)({
+        missionId,
+        activityLevel,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(
+        "Aucun challenge trouvé pour la mission : recCHAL1, l'acquis : recSkill2 et le niveau : TRAINING",
+      );
     });
     it('should return the challenges of the activity ', async function () {
       // given

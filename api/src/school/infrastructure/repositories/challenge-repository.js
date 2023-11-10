@@ -38,7 +38,9 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
     const skillName = `${skillNamePrefix}${challengeNumber}`;
     const skills = await skillDatasource.findAllSkillsByNameForPix1d(skillName);
     if (skills.length === 0) {
-      _throwNotFoundError(activityLevel, missionId, challengeNumber);
+      throw new NotFoundError(
+        `Aucun acquis trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
+      );
     }
     if (skills.length > 1) {
       logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
@@ -48,7 +50,9 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
     return _toDomainCollection({ challengeDataObjects });
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
-      _throwNotFoundError(activityLevel, missionId, challengeNumber);
+      throw new NotFoundError(
+        `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
+      );
     }
     throw error;
   }
@@ -62,7 +66,7 @@ const getActivityChallengesFor1d = async function ({ missionId, activityLevel })
   const activityLevelTubeName = _getPix1dActivityLevelTubeName(missionNamePrefix, activityLevel);
   const [activityLevelTube] = await tubeDatasource.findByNames([activityLevelTubeName]);
   if (activityLevelTube === undefined) {
-    _throwNotFoundError(activityLevel, missionId);
+    throw new NotFoundError(`Aucune activité trouvée pour la mission : ${missionId} et le niveau ${activityLevel}`);
   }
   const skills = await skillDatasource.findByTubeIdFor1d(activityLevelTube.id);
 
@@ -71,7 +75,9 @@ const getActivityChallengesFor1d = async function ({ missionId, activityLevel })
     allLevelChallenges = await Promise.all(skills.map((skill) => challengeDatasource.getBySkillId(skill.id)));
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
-      _throwNotFoundError(activityLevel, missionId);
+      throw new NotFoundError(
+        `Aucun challenge trouvé pour la mission : ${missionId}, l'acquis : ${error.skillId} et le niveau : ${activityLevel}`,
+      );
     }
     throw error;
   }
@@ -146,13 +152,4 @@ function _toDomain({ challengeDataObject }) {
     shuffled: challengeDataObject.shuffled,
     alternativeVersion: challengeDataObject.alternativeVersion,
   });
-}
-
-function _throwNotFoundError(activityLevel, missionId, challengeNumber) {
-  if (challengeNumber) {
-    throw new NotFoundError(
-      `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
-    );
-  }
-  throw new NotFoundError(`Aucun challenge trouvé pour la mission : ${missionId} et le niveau ${activityLevel}`);
 }
