@@ -171,6 +171,6 @@ async function _getComplementaryBadgesKeyAndLabel({ certificationCourseId }) {
       'complementary-certifications.id',
       'complementary-certification-courses.complementaryCertificationId',
     )
-    .orderBy('badges.id')
+    .orderBy('complementary-certification-badges.label')
     .where({ certificationCourseId });
 }
