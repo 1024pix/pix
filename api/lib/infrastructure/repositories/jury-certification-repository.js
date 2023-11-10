@@ -158,19 +158,23 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
 }
 
 async function _getComplementaryBadgesKeyAndLabel({ certificationCourseId }) {
-  return knex('complementary-certification-badges')
+  return knex
     .select('badges.key', 'complementary-certification-badges.label')
-    .join(
-      'complementary-certifications',
-      'complementary-certifications.id',
-      'complementary-certification-badges.complementaryCertificationId',
+    .from('badges')
+    .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .where(
+      'targetProfileId',
+      '=',
+      knex('badges')
+        .select('targetProfileId')
+        .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+        .innerJoin(
+          'complementary-certification-courses',
+          'complementary-certification-courses.complementaryCertificationBadgeId',
+          'complementary-certification-badges.id',
+        )
+        .where({ certificationCourseId })
+        .first(),
     )
-    .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .join(
-      'complementary-certification-courses',
-      'complementary-certifications.id',
-      'complementary-certification-courses.complementaryCertificationId',
-    )
-    .orderBy('complementary-certification-badges.label')
-    .where({ certificationCourseId });
+    .orderBy('complementary-certification-badges.level', 'asc');
 }

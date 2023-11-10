@@ -265,6 +265,118 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       });
     });
 
+    context('When there are multiple target profile for the current complementary certification', function () {
+      it('should return allowed badges for the current target profile only', async function () {
+        // given
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 24,
+          name: 'Complementary certification with external jury',
+          hasExternalJury: true,
+        });
+
+        databaseBuilder.factory.buildTargetProfile({ id: 5656, name: 'targetProfile CC 1' });
+        databaseBuilder.factory.buildTargetProfile({ id: 5657, name: 'targetProfile CC 1 (other)' });
+
+        _buildComplementaryBadge({
+          key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
+          targetProfileId: 5656,
+          complementaryCertificationId: 24,
+          complementaryCertificationBadgeId: 3453,
+          level: 1,
+          label: 'Badge for complementary certification with external jury level 1',
+          complementaryCertificationCourse: null,
+        });
+        _buildComplementaryBadge({
+          key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
+          targetProfileId: 5656,
+          complementaryCertificationId: 24,
+          complementaryCertificationBadgeId: 3454,
+          level: 2,
+          label: 'Badge for complementary certification with external jury level 2',
+          complementaryCertificationCourse: null,
+        });
+        _buildComplementaryBadge({
+          key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_3',
+          targetProfileId: 5656,
+          complementaryCertificationId: 24,
+          complementaryCertificationBadgeId: 3455,
+          level: 3,
+          label: 'Badge for complementary certification with external jury level 3',
+          complementaryCertificationCourse: null,
+        });
+
+        _buildComplementaryBadge({
+          key: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_OTHER_RT',
+          targetProfileId: 5657,
+          complementaryCertificationId: 24,
+          complementaryCertificationBadgeId: 3456,
+          level: 1,
+          label: 'Badge for complementary certification other RT',
+          complementaryCertificationCourse: null,
+        });
+
+        databaseBuilder.factory.buildUser({ id: 789, firstName: 'Jury' });
+        databaseBuilder.factory.buildSession({ id: 456 });
+        databaseBuilder.factory.buildCertificationCourse({
+          id: 1,
+          sessionId: 456,
+          userId: 789,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 456,
+          complementaryCertificationId: 24,
+          certificationCourseId: 1,
+          complementaryCertificationBadgeId: 3454,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 456,
+          complementaryCertificationId: 24,
+          certificationCourseId: 1,
+          complementaryCertificationBadgeId: 3454,
+          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 456,
+          complementaryCertificationId: 24,
+          certificationCourseId: 1,
+          complementaryCertificationBadgeId: 3455,
+          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
+          source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+        });
+
+        databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
+        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
+          certificationCourseId: 1,
+          assessmentId: 159,
+        }).id;
+        databaseBuilder.factory.buildCompetenceMark({
+          assessmentResultId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { complementaryCertificationCourseResultWithExternal } = await juryCertificationRepository.get(1);
+
+        // then
+        expect(complementaryCertificationCourseResultWithExternal.allowedExternalLevels).to.deep.equals([
+          {
+            value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
+            label: 'Badge for complementary certification with external jury level 1',
+          },
+          {
+            value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
+            label: 'Badge for complementary certification with external jury level 2',
+          },
+          {
+            value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_3',
+            label: 'Badge for complementary certification with external jury level 3',
+          },
+        ]);
+      });
+    });
+
     it('should return along the certificationIssueReports if any ordered by ID', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 1 });
