@@ -19,19 +19,19 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
               elements: [
                 {
                   content:
-                    '<p><strong>L’identifiant</strong> est la première partie de l’adresse mail. Il a été choisi par Mickaël.</p><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p>Par exemple : mika671 ou G3oDu671</p><p>Des caractères sont interdits : &, @, $, *, €, £, …</p>',
+                    "<h3 class='sr-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='sr-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>…</li></ul>",
                   id: 'c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
                   type: 'text',
                 },
                 {
                   content:
-                    '<p><strong>L’arobase</strong> est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p>En anglais, ce symbole se lit “at” qui veut dire “chez”.</p><p> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>',
+                    "<h3 class='sr-only'>L'arobase</h3><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>",
                   id: 'd9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a',
                   type: 'text',
                 },
                 {
                   content:
-                    '<p><strong>Le fournisseur d’adresse mail</strong> est la deuxième partie de l’adresse mail.</p><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p>Des exemples de fournisseurs d’adresses mail : <ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul></p><p>L’avez-vous remarqué ? Cette partie est en 2 morceaux : le nom du fournisseur (par exemple “laposte”) et une extension (dans notre exemple, “.net”).</p>',
+                    "<h3 class='sr-only'>Le fournisseur d’adresse mail</h3><h4><span aria-hidden='true'>2️⃣</span><span class='sr-only'>2</span> Le fournisseur d’adresse mail est la deuxième partie de l’adresse mail.</h4><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p><span aria-hidden='true'>✅</span> Des exemples de fournisseurs d’adresses mail : </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p><span aria-hidden='true'>🧐</span> L’avez-vous remarqué ? Cette partie est en 2 morceaux : le nom du fournisseur (par exemple “laposte”) et une extension (dans notre exemple, “.net”).</p>",
                   id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
                   type: 'text',
                 },
