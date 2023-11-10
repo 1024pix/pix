@@ -2,6 +2,10 @@
 
 <div class="organization-participant-list-page">
   <OrganizationParticipant::Header @participantCount={{@model.meta.participantCount}} />
+
+  <Certificability::Banner @display={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}>
+    {{t "components.certificability-banner.not-managing-students"}}
+  </Certificability::Banner>
   {{#if @model.meta.participantCount}}
     <OrganizationParticipant::List
       @participants={{@model}}
