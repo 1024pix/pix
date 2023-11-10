@@ -2,17 +2,18 @@ import { Answer } from '../../../../evaluation/domain/models/Answer.js';
 
 const NUMBER_OF_MEASURES = 2;
 export class AssessmentSimulatorDoubleMeasureStrategy {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity }) {
+  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity, doubleMeasuresUntil }) {
     this.algorithm = algorithm;
     this.challenges = challenges;
     this.pickAnswerStatus = pickAnswerStatus;
     this.pickChallenge = pickChallenge;
     this.initialCapacity = initialCapacity;
+    this.doubleMeasuresUntil = doubleMeasuresUntil;
   }
 
   run({ challengesAnswers, stepIndex }) {
     const results = [];
-    const challengeAnswers = [];
+    const newAnswers = [];
     const possibleChallenges = this.algorithm.getPossibleNextChallenges({
       allAnswers: challengesAnswers,
       challenges: this.challenges,
@@ -21,7 +22,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
 
     for (let index = 0; index < NUMBER_OF_MEASURES; index++) {
       const availableChallenges = possibleChallenges.filter(({ id }) => {
-        return challengeAnswers.every(({ challengeId }) => challengeId !== id);
+        return newAnswers.every(({ challengeId }) => challengeId !== id);
       });
       const { hasAssessmentEnded, nextChallenge, answer } = this._getNextChallengeAndAnswer({
         possibleChallenges: availableChallenges,
@@ -36,12 +37,19 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
         challenge: nextChallenge,
       });
 
-      challengeAnswers.push(answer);
+      newAnswers.push(answer);
     }
 
+    const { estimatedLevel } = this.algorithm.getEstimatedLevelAndErrorRate({
+      allAnswers: [...challengesAnswers, ...newAnswers],
+      challenges: this.challenges,
+      initialCapacity: this.initialCapacity,
+      doubleMeasuresUntil: this.doubleMeasuresUntil,
+    });
+
     return {
-      results,
-      challengeAnswers,
+      results: results.map((result) => ({ ...result, estimatedLevel })),
+      challengeAnswers: newAnswers,
     };
   }
 
