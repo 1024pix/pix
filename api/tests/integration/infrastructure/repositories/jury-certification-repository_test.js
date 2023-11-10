@@ -37,6 +37,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           complementaryCertificationBadgeId: 3453,
           level: 1,
           label: 'Badge for complementary certification without external jury',
+          complementaryCertificationCourse: null,
         });
 
         databaseBuilder.factory.buildUser({ id: 789 });
