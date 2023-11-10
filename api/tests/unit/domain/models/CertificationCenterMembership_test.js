@@ -51,23 +51,25 @@ describe('Unit | Domain | Models | CertificationCenterMembership', function () {
   });
 
   describe('#updateRole', function () {
-    it('updates certification center membership "role" and "updatedByUserId" attributes', async function () {
-      // given
-      const role = 'ADMIN';
-      const updatedByUserId = 1;
-      const certificationCenterMembership = new CertificationCenterMembership();
-      const expectedCertificationCenterMembership = new CertificationCenterMembership({
-        ...certificationCenterMembership,
-        role: 'ADMIN',
-        updatedAt: now,
-        updatedByUserId,
+    context('when the role is updated by a Pix agent or certification center administrator', function () {
+      it('updates certification center membership "role" and "updatedByUserId" attributes', async function () {
+        // given
+        const role = 'ADMIN';
+        const updatedByUserId = 1;
+        const certificationCenterMembership = new CertificationCenterMembership();
+        const expectedCertificationCenterMembership = new CertificationCenterMembership({
+          ...certificationCenterMembership,
+          role: 'ADMIN',
+          updatedAt: now,
+          updatedByUserId,
+        });
+
+        // when
+        certificationCenterMembership.updateRole({ role, updatedByUserId });
+
+        // then
+        expect(certificationCenterMembership).to.deep.equal(expectedCertificationCenterMembership);
       });
-
-      // when
-      certificationCenterMembership.updateRole({ role, updatedByUserId });
-
-      // then
-      expect(certificationCenterMembership).to.deep.equal(expectedCertificationCenterMembership);
     });
   });
 });
