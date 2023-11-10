@@ -60,7 +60,7 @@ const challengeDatasource = datasource.extend({
     );
 
     if (isEmpty(filteredChallenges)) {
-      throw new LearningContentResourceNotFound();
+      throw new LearningContentResourceNotFound({ skillId });
     }
     return filteredChallenges;
   },
