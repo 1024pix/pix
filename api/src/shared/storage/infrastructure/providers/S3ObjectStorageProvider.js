@@ -76,6 +76,11 @@ class S3ObjectStorageProvider {
     const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
     return this.#s3Client.send(getObjectCommand);
   }
+
+  async deleteFile({ key }) {
+    const deleteObjectCommand = new this.#dependencies.clientS3.DeleteObjectCommand({ Bucket: this.#bucket, Key: key });
+    return this.#s3Client.send(deleteObjectCommand);
+  }
 }
 
 export { S3ObjectStorageProvider };

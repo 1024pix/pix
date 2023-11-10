@@ -28,6 +28,10 @@ class CpfReceiptsStorage {
     return deserialize({ xmlStream: data.Body });
   }
 
+  async deleteReceipt({ cpfReceipt }) {
+    return this.#client.deleteFile({ key: cpfReceipt.filename });
+  }
+
   #toDomainArray({ storageFiles = [] }) {
     return storageFiles.map((file) => new CpfReceipt({ filename: file.Key }));
   }
