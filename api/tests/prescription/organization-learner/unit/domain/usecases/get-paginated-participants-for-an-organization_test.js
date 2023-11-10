@@ -8,7 +8,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     const page = {};
     const sort = { participationCount: 'asc' };
     const organizationParticipantRepository = {
-      getParticipantsByOrganizationId: sinon.stub(),
+      findPaginatedFilteredParticipants: sinon.stub(),
     };
     const filters = {
       fullName: 'name',
@@ -24,7 +24,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     });
 
     // then
-    expect(organizationParticipantRepository.getParticipantsByOrganizationId).to.have.been.calledWithExactly({
+    expect(organizationParticipantRepository.findPaginatedFilteredParticipants).to.have.been.calledWithExactly({
       organizationId,
       page,
       sort,
