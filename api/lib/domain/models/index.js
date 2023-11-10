@@ -270,8 +270,6 @@ export {
   ShareableCertificate,
   Skill,
   Solution,
-  Stage,
-  StageAcquisition,
   Student,
   Tag,
   TargetProfile,
