@@ -1,7 +1,7 @@
 import lodash from 'lodash';
-import { expect, knex, databaseBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
-import { domainBuilder } from '../../../tooling/domain-builder/domain-builder.js';
+import { expect, knex, databaseBuilder } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
+import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 
 const { cloneDeep } = lodash;
 

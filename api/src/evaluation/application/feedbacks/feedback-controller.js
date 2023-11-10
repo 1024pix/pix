@@ -1,5 +1,5 @@
 import * as feedBackSerializer from '../../infrastructure/serializers/jsonapi/feedback-serializer.js';
-import { usecases } from '../../domain/usecases/index.js';
+import { evaluationUsecases as usecases } from '../../../evaluation/domain/usecases/index.js';
 
 const save = async function (request, h, dependencies = { feedBackSerializer, usecases }) {
   const newUserAgent = request.headers['user-agent'].slice(0, 255);
