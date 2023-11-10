@@ -154,7 +154,7 @@ import * as sessionSummaryRepository from '../../infrastructure/repositories/ses
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
-import * as stageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
+import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
