@@ -50,22 +50,51 @@ function getEstimatedLevelAndErrorRate({
 
   let likelihood = samples.map(() => DEFAULT_PROBABILITY_TO_ANSWER);
   let normalizedPosteriori;
+  let answerIndex = 0;
 
-  for (const answer of allAnswers) {
-    const answeredChallenge = _findChallengeForAnswer(challenges, answer);
+  while (answerIndex < allAnswers.length) {
+    if (!_shouldUseDoubleMeasure()) {
+      const answer = allAnswers[answerIndex];
+      ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _singleMeasure({
+        challenges,
+        answer,
+        latestEstimatedLevel,
+        likelihood,
+        normalizedPosteriori,
+        variationPercent,
+      }));
 
-    const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
-
-    likelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
-
-    normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
-
-    latestEstimatedLevel = _computeEstimatedLevel(latestEstimatedLevel, variationPercent, normalizedPosteriori);
+      answerIndex++;
+    }
   }
 
   const errorRate = _computeCorrectedErrorRate(latestEstimatedLevel, normalizedPosteriori);
 
   return { estimatedLevel: latestEstimatedLevel, errorRate };
+}
+
+function _shouldUseDoubleMeasure() {
+  return false;
+}
+
+function _singleMeasure({
+  challenges,
+  answer,
+  latestEstimatedLevel,
+  likelihood,
+  normalizedPosteriori,
+  variationPercent,
+}) {
+  const answeredChallenge = _findChallengeForAnswer(challenges, answer);
+
+  const normalizedPrior = _computeNormalizedPrior(latestEstimatedLevel);
+
+  likelihood = _computeLikelihood(answeredChallenge, answer, likelihood);
+
+  normalizedPosteriori = _computeNormalizedPosteriori(likelihood, normalizedPrior);
+
+  latestEstimatedLevel = _computeEstimatedLevel(latestEstimatedLevel, variationPercent, normalizedPosteriori);
+  return { latestEstimatedLevel, likelihood, normalizedPosteriori };
 }
 
 function _computeNormalizedPrior(gaussianMean) {
