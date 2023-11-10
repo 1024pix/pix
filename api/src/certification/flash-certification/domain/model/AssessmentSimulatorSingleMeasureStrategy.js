@@ -50,14 +50,16 @@ export class AssessmentSimulatorSingleMeasureStrategy {
     });
 
     return {
-      result: {
-        challenge: nextChallenge,
-        errorRate,
-        estimatedLevel,
-        reward,
-        answerStatus,
-      },
-      challengeAnswer: newAnswer,
+      results: [
+        {
+          challenge: nextChallenge,
+          errorRate,
+          estimatedLevel,
+          reward,
+          answerStatus,
+        },
+      ],
+      challengeAnswers: [newAnswer],
     };
   }
 }
