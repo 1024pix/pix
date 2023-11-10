@@ -1,4 +1,4 @@
-import { StageAcquisition } from '../../../../lib/domain/models/StageAcquisition.js';
+import { StageAcquisition } from '../../../../src/evaluation/domain/models/StageAcquisition.js';
 
 const buildStageAcquisition = function ({
   id = 1,
