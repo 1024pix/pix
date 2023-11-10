@@ -5,7 +5,7 @@ const getPaginatedParticipantsForAnOrganization = function ({
   sort,
   organizationParticipantRepository,
 }) {
-  return organizationParticipantRepository.getParticipantsByOrganizationId({
+  return organizationParticipantRepository.findPaginatedFilteredParticipants({
     organizationId,
     filters,
     sort,

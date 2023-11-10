@@ -5,7 +5,7 @@ import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter
 import { CampaignTypes } from '../../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
-async function getParticipantsByOrganizationId({ organizationId, page, filters = {}, sort = {} }) {
+async function findPaginatedFilteredParticipants({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex
     .select(knex.raw('COUNT(DISTINCT "view-active-organization-learners"."id")'))
     .from('view-active-organization-learners')
@@ -159,4 +159,4 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-export { getParticipantsByOrganizationId };
+export { findPaginatedFilteredParticipants };
