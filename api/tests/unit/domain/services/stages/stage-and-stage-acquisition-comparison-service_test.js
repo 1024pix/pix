@@ -1,7 +1,7 @@
 import { expect } from '../../../../test-helper.js';
 import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
 import { compare } from '../../../../../lib/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
-import { Stage } from '../../../../../lib/domain/models/Stage.js';
+import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
 
 describe('Unit | Service | Stages acquisition', function () {
   context('Stages are defined by thresholds', function () {
