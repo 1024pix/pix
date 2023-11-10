@@ -1,7 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../errors.js';
-import * as defaultCompareStageAndAcquiredStagesService from '../services/stages/stage-and-stage-acquisition-comparison-service.js';
+import * as defaultCompareStageAndAcquiredStagesService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 import * as defaultStageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import * as defaultStageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as defaultParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
