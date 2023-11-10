@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { User } from '../../../../../lib/domain/models/User.js';
-import { UserLogin } from '../../../../../lib/domain/models/UserLogin.js';
+import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
 import * as pixAuthenticationService from '../../../../../src/authentication/domain/services/pix-authentication-service.js';
 import { PasswordNotMatching } from '../../../../../src/authentication/domain/errors.js';
 

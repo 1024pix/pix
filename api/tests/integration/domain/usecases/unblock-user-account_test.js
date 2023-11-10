@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { UserLogin } from '../../../../lib/domain/models/UserLogin.js';
+import { UserLogin } from '../../../../src/authentication/domain/models/UserLogin.js';
 
 describe('Integration | UseCases | unblockUserAccount', function () {
   it('should reset failure count, temporary blocked until date and blocked at date', async function () {

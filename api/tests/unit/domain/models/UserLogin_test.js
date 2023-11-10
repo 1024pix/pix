@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { UserLogin } from '../../../../lib/domain/models/UserLogin.js';
+import { UserLogin } from '../../../../src/authentication/domain/models/UserLogin.js';
 describe('Unit | Domain | Models | UserLogin', function () {
   let clock;
   const now = new Date('2022-11-28T12:00:00Z');

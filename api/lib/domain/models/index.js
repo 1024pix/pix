@@ -131,7 +131,7 @@ import { TutorialEvaluation } from './TutorialEvaluation.js';
 import { User } from './User.js';
 import { UserCompetence } from './UserCompetence.js';
 import { UserDetailsForAdmin } from './UserDetailsForAdmin.js';
-import { UserLogin } from './UserLogin.js';
+import { UserLogin } from '../../../src/authentication/domain/models/UserLogin.js';
 import { UserOrgaSettings } from './UserOrgaSettings.js';
 import { UserSavedTutorial } from './UserSavedTutorial.js';
 import { UserSavedTutorialWithTutorial } from './UserSavedTutorialWithTutorial.js';
