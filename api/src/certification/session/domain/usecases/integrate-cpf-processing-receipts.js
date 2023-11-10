@@ -30,5 +30,5 @@ async function _updateCertificationCourses({ cpfReceipt, cpfReceiptsStorage, cpf
   await bluebird.map(cpfInfos, async (cpfInfos) => cpfCertificationResultRepository.updateCpfInfos({ cpfInfos }), {
     concurrency: CONCURRENCY_HEAVY_OPERATIONS,
   });
-  logger.debug('CPF receipt integrated %o', cpfReceipt);
+  logger.info('%d certification courses updated from CPF receipt %s', cpfInfos.length, cpfReceipt.filename);
 }
