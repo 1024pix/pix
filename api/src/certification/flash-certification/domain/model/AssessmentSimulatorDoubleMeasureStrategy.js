@@ -50,6 +50,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
     return {
       results: results.map((result) => ({ ...result, estimatedLevel })),
       challengeAnswers: newAnswers,
+      nextStepIndex: stepIndex + 2,
     };
   }
 
