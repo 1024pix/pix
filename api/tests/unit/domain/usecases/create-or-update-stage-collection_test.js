@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { createOrUpdateStageCollection } from '../../../../lib/domain/usecases/create-or-update-stage-collection.js';
+import { createOrUpdateStageCollection } from '../../../../src/evaluation/domain/usecases/create-or-update-stage-collection.js';
 import { StageModificationForbiddenForLinkedTargetProfileError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | create or update stage collection', function () {

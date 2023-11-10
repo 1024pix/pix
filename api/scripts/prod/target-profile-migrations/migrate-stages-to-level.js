@@ -15,7 +15,7 @@ import { disconnect } from '../../../db/knex-database-connection.js';
 import * as targetProfileForAdminRepository from '../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
 import * as organizationRepository from '../../../lib/infrastructure/repositories/organization-repository.js';
-import * as stageCollectionRepository from '../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
+import * as stageCollectionRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 
 const modulePath = fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;

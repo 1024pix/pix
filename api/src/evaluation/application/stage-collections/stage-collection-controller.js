@@ -1,4 +1,4 @@
-import { usecases } from '../../domain/usecases/index.js';
+import { evaluationUsecases as usecases } from '../../../evaluation/domain/usecases/index.js';
 
 const update = async function (request, h) {
   const targetProfileId = request.params.id;
