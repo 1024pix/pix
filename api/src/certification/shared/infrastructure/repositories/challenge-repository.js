@@ -107,6 +107,11 @@ const findValidatedBySkillId = async function (skillId, locale) {
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
 
+export async function getManyTypes(ids) {
+  const challenges = await challengeDatasource.getMany(ids);
+  return Object.fromEntries(challenges.map(({ id, type }) => [id, type]));
+}
+
 export {
   get,
   getMany,

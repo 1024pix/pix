@@ -689,6 +689,36 @@ describe('Integration | Repository | challenge-repository', function () {
       );
     });
   });
+
+  describe('#getManyTypes', function () {
+    it('should return an object associating ids to type', async function () {
+      // given
+      const skill = _buildSkill({ id: 'recSkill1' });
+
+      const challenge1 = _buildChallenge({ id: 'recChallenge1', skill, locales: ['fr'], type: 'QROC' });
+      const challenge2 = _buildChallenge({ id: 'recChallenge2', skill, locales: ['fr-fr'], type: 'QCU' });
+      const challenge3 = _buildChallenge({ id: 'recChallenge3', skill, locales: ['en'], type: 'QROCM-dep' });
+
+      mockLearningContent({
+        skills: [skill],
+        challenges: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const challengesType = await challengeRepository.getManyTypes([
+        'recChallenge1',
+        'recChallenge2',
+        'recChallenge3',
+      ]);
+
+      // then
+      expect(challengesType).to.deep.equal({
+        recChallenge1: 'QROC',
+        recChallenge2: 'QCU',
+        recChallenge3: 'QROCM-dep',
+      });
+    });
+  });
 });
 
 function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
@@ -705,7 +735,7 @@ function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
   };
 }
 
-function _buildChallenge({ id, skill, status = 'validé', alternativeVersion }) {
+function _buildChallenge({ id, skill, status = 'validé', alternativeVersion, type = Challenge.Type.QCM }) {
   return {
     id,
     attachments: ['URL pièce jointe'],
@@ -718,7 +748,7 @@ function _buildChallenge({ id, skill, status = 'validé', alternativeVersion }) 
     status,
     timer: '',
     focusable: true,
-    type: Challenge.Type.QCM,
+    type,
     locales: ['fr'],
     autoReply: false,
     discriminant: 1,
