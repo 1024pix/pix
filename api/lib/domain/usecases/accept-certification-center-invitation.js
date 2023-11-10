@@ -17,6 +17,13 @@ const acceptCertificationCenterInvitation = async function ({
   const userId = certificationCenterInvitedUser.userId;
   const certificationCenterId = certificationCenterInvitedUser.invitation.certificationCenterId;
 
+  const certificationCenterMembersCount =
+    await certificationCenterMembershipRepository.countActiveMembersForCertificationCenter(certificationCenterId);
+
+  if (!certificationCenterInvitedUser.role) {
+    certificationCenterInvitedUser.role = certificationCenterMembersCount > 0 ? 'MEMBER' : 'ADMIN';
+  }
+
   const isMembershipExisting = await certificationCenterMembershipRepository.isMemberOfCertificationCenter({
     userId,
     certificationCenterId,
