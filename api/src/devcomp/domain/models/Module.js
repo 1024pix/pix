@@ -5,19 +5,19 @@ class Module {
   #id;
   #slug;
   #title;
-  #list;
+  #grains;
 
-  constructor({ id, slug, title, list }) {
+  constructor({ id, slug, title, grains }) {
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un module");
     assertNotNullOrUndefined(title, 'Le titre est obligatoire pour un module');
     assertNotNullOrUndefined(slug, 'Le slug est obligatoire pour un module');
-    assertNotNullOrUndefined(list, 'Une liste est obligatoire pour un module');
-    this.#assertListIsAnArray(list);
+    assertNotNullOrUndefined(grains, 'Une liste de grains est obligatoire pour un module');
+    this.#assertGrainsIsAnArray(grains);
 
     this.#id = id;
     this.#slug = slug;
     this.#title = title;
-    this.#list = list;
+    this.#grains = grains;
   }
 
   get id() {
@@ -32,24 +32,28 @@ class Module {
     return this.#title;
   }
 
-  get list() {
-    return this.#list;
+  get grains() {
+    return this.#grains;
   }
 
-  #assertListIsAnArray(list) {
-    if (!Array.isArray(list)) {
-      throw new Error('Un Module doit forcément posséder une liste');
+  #assertGrainsIsAnArray(grains) {
+    if (!Array.isArray(grains)) {
+      throw new Error('Un Module doit forcément posséder une liste de grains');
     }
   }
 
   getElementById(elementId) {
-    const foundElement = this.list.find(({ id }) => id === elementId);
+    const foundElement = this.#getAllElements().find(({ id }) => id === elementId);
 
     if (foundElement === undefined) {
       throw new NotFoundError();
     }
 
     return foundElement;
+  }
+
+  #getAllElements() {
+    return this.#grains.flatMap(({ elements }) => elements);
   }
 }
 
