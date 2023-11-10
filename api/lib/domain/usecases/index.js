@@ -1,5 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
+
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -156,7 +157,7 @@ import * as smartRandom from '../../domain/services/algorithm-methods/smart-rand
 import * as stageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
-import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
+import * as stageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import * as studentRepository from '../../infrastructure/repositories/student-repository.js';
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
 import * as supOrganizationLearnerRepository from '../../../src/prescription/learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
