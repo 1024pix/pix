@@ -27,8 +27,6 @@ describe('Acceptance | Controller | prescriber-informations-controller', functio
           'are-new-year-organization-learners-imported': false,
           'participant-count': 0,
           lang: user.lang,
-          'enable-multiple-sending-assessment': false,
-          'compute-organization-learner-certificability': false,
           features: {
             [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
             [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
@@ -137,6 +135,7 @@ describe('Acceptance | Controller | prescriber-informations-controller', functio
         userId: user.id,
       }).id;
       databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+      databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
       await databaseBuilder.commit();
 
       options = {

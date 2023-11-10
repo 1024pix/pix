@@ -222,8 +222,6 @@ function createExpectedPrescriberSerializedWithOneMoreField({
         'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
-        'enable-multiple-sending-assessment': prescriber.enableMultipleSendingAssessment,
-        'compute-organization-learner-certificability': prescriber.computeOrganizationLearnerCertificability,
         features: {
           [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
           [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
@@ -333,8 +331,6 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
         'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         'participant-count': prescriber.participantCount,
         lang: prescriber.lang,
-        'enable-multiple-sending-assessment': prescriber.enableMultipleSendingAssessment,
-        'compute-organization-learner-certificability': prescriber.computeOrganizationLearnerCertificability,
         features: {
           [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: prescriber.features.MULTIPLE_SENDING_ASSESSMENT,
           [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
