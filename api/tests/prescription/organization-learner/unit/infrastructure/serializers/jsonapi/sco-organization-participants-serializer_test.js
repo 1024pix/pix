@@ -1,7 +1,7 @@
-import { expect } from '../../../../../test-helper.js';
-import { ScoOrganizationParticipant } from '../../../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
-import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { expect } from '../../../../../../test-helper.js';
+import { ScoOrganizationParticipant } from '../../../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
+import * as serializer from '../../../../../../../src/prescription/organization-learner/infrastructure/serializers/jsonapi/sco-organization-participants-serializer.js';
+import { CampaignParticipationStatuses as campaignParticipationsStatuses } from '../../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 describe('Unit | Serializer | JSONAPI | sco-organization-participants-serializer', function () {
   describe('#serialize', function () {

@@ -1,9 +1,8 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
-import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
 import { getCertificationAttestationsPdf as certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
@@ -15,15 +14,12 @@ describe('Integration | Application | Organizations | organization-controller', 
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
-    sandbox.stub(usecases, 'findPaginatedFilteredScoParticipants');
-    sandbox.stub(usecases, 'findPaginatedFilteredSupParticipants');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
     sandbox.stub(usecases, 'findGroupsByOrganization');
-    sandbox.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
     sandbox.stub(usecases, 'findOrganizationPlacesLot');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
@@ -121,100 +117,6 @@ describe('Integration | Application | Organizations | organization-controller', 
         expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
         expect(response.result.included[1].type).to.equal('users');
         expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
-      });
-    });
-  });
-
-  describe('#findPaginatedFilteredScoParticipants', function () {
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        const scoOrganizationParticipant = new ScoOrganizationParticipant();
-        usecases.findPaginatedFilteredScoParticipants.resolves({ data: [scoOrganizationParticipant] });
-        securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1234/sco-participants');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return an HTTP response formatted as JSON:API', async function () {
-        // given
-        const scoOrganizationParticipant = new ScoOrganizationParticipant();
-        usecases.findPaginatedFilteredScoParticipants.resolves({ data: [scoOrganizationParticipant] });
-        securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1234/sco-participants');
-
-        // then
-        expect(response.result.data[0].type).to.equal('sco-organization-participants');
-      });
-    });
-
-    context('Error cases', function () {
-      context('when user is not allowed to access resource', function () {
-        it('should resolve a 403 HTTP response', async function () {
-          // given
-          securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
-
-          // when
-          const response = await httpTestServer.request('GET', '/api/organizations/1234/sco-participants');
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-    });
-  });
-
-  describe('#findPaginatedFilteredSupParticipants', function () {
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        const supOrganizationParticipant = new SupOrganizationParticipant();
-        usecases.findPaginatedFilteredSupParticipants.resolves({ data: [supOrganizationParticipant] });
-        securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1234/sup-participants');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return an HTTP response formatted as JSON:API', async function () {
-        // given
-        const supOrganizationParticipant = new SupOrganizationParticipant();
-        usecases.findPaginatedFilteredSupParticipants.resolves({ data: [supOrganizationParticipant] });
-        securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.returns(true);
-
-        // when
-        const response = await httpTestServer.request('GET', '/api/organizations/1234/sup-participants');
-
-        // then
-        expect(response.result.data[0].type).to.equal('sup-organization-participants');
-      });
-    });
-
-    context('Error cases', function () {
-      context('when user is not allowed to access resource', function () {
-        it('should resolve a 403 HTTP response', async function () {
-          // given
-          securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents.callsFake((request, h) => {
-            return Promise.resolve(h.response().code(403).takeover());
-          });
-
-          // when
-          const response = await httpTestServer.request('GET', '/api/organizations/1234/sup-participants');
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
       });
     });
   });
@@ -425,41 +327,6 @@ describe('Integration | Application | Organizations | organization-controller', 
         const response = await httpTestServer.request('GET', `/api/organizations/ABC/groups`);
 
         expect(response.statusCode).to.equal(400);
-      });
-    });
-  });
-
-  describe('#getPaginatedParticipantsForAnOrganization', function () {
-    context('when the organization has participants', function () {
-      it('returns organization participants', async function () {
-        const organizationId = 5678;
-        usecases.getPaginatedParticipantsForAnOrganization
-          .withArgs({ organizationId, page: {}, filters: {}, sort: {} })
-          .resolves({
-            organizationParticipants: [
-              {
-                id: 5678,
-                firstName: 'Mei',
-                lastName: 'Lee',
-              },
-            ],
-            pagination: 1,
-          });
-        securityPreHandlers.checkUserBelongsToOrganization.returns(() => true);
-
-        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/participants`);
-
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal([
-          {
-            id: '5678',
-            type: 'organization-participants',
-            attributes: {
-              'first-name': 'Mei',
-              'last-name': 'Lee',
-            },
-          },
-        ]);
       });
     });
   });

@@ -751,73 +751,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/sup-participants',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents,
-            assign: 'belongsToSupOrganizationAndManagesStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[search]': Joi.string().empty(''),
-            'filter[studentNumber]': Joi.string().empty(''),
-            'sort[participationCount]': Joi.string().empty(''),
-            'sort[lastnameSort]': Joi.string().empty(''),
-          }),
-        },
-        handler: organizationController.findPaginatedFilteredSupParticipants,
-        tags: ['api', 'organization', 'sup-participants'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Orga**\n" +
-            '- Récupération des étudiants liés à une organisation SUP\n',
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/sco-participants',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-            assign: 'belongsToScoOrganizationAndManagesStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[connectionTypes][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[search]': Joi.string().empty(''),
-            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'sort[participationCount]': Joi.string().empty(''),
-            'sort[lastnameSort]': Joi.string().empty(''),
-            'sort[divisionSort]': Joi.string().empty(''),
-          }),
-        },
-        handler: organizationController.findPaginatedFilteredScoParticipants,
-        tags: ['api', 'organization', 'sco-participants'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Orga**\n" +
-            '- Récupération des élèves liés à une organisation SCO\n',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/organizations/{id}/sup-organization-learners/csv-template',
       config: {
         auth: false,
@@ -875,36 +808,6 @@ const register = async function (server) {
             '- Elle ne retourne aucune valeur de retour',
         ],
         tags: ['api', 'organization-learners'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/participants',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToOrganization,
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            'page[size]': Joi.number().integer().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'filter[fullName]': Joi.string().empty(''),
-            'filter[certificability][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'sort[participationCount]': Joi.string().empty(''),
-            'sort[lastnameSort]': Joi.string().empty(''),
-          }),
-        },
-        handler: organizationController.getPaginatedParticipantsForAnOrganization,
-        tags: ['api', 'organization-participants'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération des participants d'une organisation sans import\n",
-        ],
       },
     },
   ];
