@@ -24,7 +24,33 @@ const getPDFAttestation = async function (request, h, dependencies = { certifica
     .header('Content-Type', 'application/pdf');
 };
 
+const getCertificationPDFAttestationsForSession = async function (
+  request,
+  h,
+  dependencies = { certificationAttestationPdf },
+) {
+  const sessionId = request.params.id;
+  const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
+  const attestations = await usecases.getCertificationAttestationsForSession({
+    sessionId,
+  });
+  const i18n = request.i18n;
+
+  const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+    certificates: attestations,
+    isFrenchDomainExtension,
+    i18n,
+  });
+
+  const fileName = `attestation-pix-session-${sessionId}.pdf`;
+  return h
+    .response(buffer)
+    .header('Content-Disposition', `attachment; filename=${fileName}`)
+    .header('Content-Type', 'application/pdf');
+};
+
 const certificationAttestationController = {
   getPDFAttestation,
+  getCertificationPDFAttestationsForSession,
 };
 export { certificationAttestationController };
