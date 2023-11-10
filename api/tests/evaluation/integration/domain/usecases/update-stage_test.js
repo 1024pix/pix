@@ -6,7 +6,7 @@ import {
   learningContentBuilder,
   mockLearningContent,
 } from '../../../../test-helper.js';
-import { Stage } from '../../../../../lib/domain/models/Stage.js';
+import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 import { StageWithLinkedCampaignError } from '../../../../../src/evaluation/domain/errors.js';
 
