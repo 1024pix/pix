@@ -32,8 +32,11 @@ class CertificationCenterMembership {
 
   updateRole({ role, updatedByUserId }) {
     this.role = role;
-    this.updatedByUserId = updatedByUserId;
     this.updatedAt = new Date();
+
+    if (updatedByUserId) {
+      this.updatedByUserId = updatedByUserId;
+    }
   }
 }
 
