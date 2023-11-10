@@ -1,4 +1,4 @@
-import { TargetProfile } from '../../models/target-profile-management/TargetProfile.js';
+import { TargetProfile } from '../../../../src/shared/domain/models/target-profile-management/TargetProfile.js';
 
 const detachOrganizationsFromTargetProfile = async function ({
   targetProfileId,

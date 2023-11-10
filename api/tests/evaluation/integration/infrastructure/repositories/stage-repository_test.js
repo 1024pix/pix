@@ -6,7 +6,7 @@ import {
   getByCampaignParticipationId,
   getByTargetProfileIds,
   update,
-} from '../../../../lib/infrastructure/repositories/stage-repository.js';
+} from '../../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import { Stage } from '../../../../../src/evaluation/domain/models/Stage.js';
 import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
 
