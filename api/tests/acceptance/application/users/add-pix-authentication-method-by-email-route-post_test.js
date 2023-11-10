@@ -3,16 +3,11 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  knex,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | Users', function () {
-  afterEach(function () {
-    return knex('authentication-methods').delete();
-  });
-
   describe('POST /api/users/{id}/add-pix-authentication-method', function () {
     it('should return 201 HTTP status code and updated user', async function () {
       // given

@@ -811,15 +811,6 @@ describe('Acceptance | API | Certification Course', function () {
       ];
 
       context('when locale is fr-fr', function () {
-        afterEach(async function () {
-          await knex('knowledge-elements').delete();
-          await knex('answers').delete();
-          await knex('assessments').delete();
-          await knex('certification-challenges').delete();
-          await knex('complementary-certification-courses').delete();
-          await knex('certification-courses').delete();
-        });
-
         it('should respond with 201 status code', async function () {
           // given
           const { options, userId, sessionId } = _createRequestOptions();
@@ -907,15 +898,6 @@ describe('Acceptance | API | Certification Course', function () {
       });
 
       context('when locale is en', function () {
-        afterEach(async function () {
-          await knex('knowledge-elements').delete();
-          await knex('answers').delete();
-          await knex('assessments').delete();
-          await knex('certification-challenges').delete();
-          await knex('complementary-certification-courses').delete();
-          await knex('certification-courses').delete();
-        });
-
         it('should have only en challenges associated with certification-course', async function () {
           // given
           const { options, userId, sessionId } = _createRequestOptions({ locale: 'en' });

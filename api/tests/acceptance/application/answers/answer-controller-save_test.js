@@ -38,11 +38,6 @@ describe('Acceptance | Controller | answer-controller-save', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('knowledge-elements').delete();
-      await knex('answers').delete();
-    });
-
     context('when the user is linked to the assessment', function () {
       beforeEach(async function () {
         // given

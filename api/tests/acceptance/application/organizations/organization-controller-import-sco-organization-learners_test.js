@@ -49,10 +49,6 @@ describe('Acceptance | Application | organization-controller-import-sco-organiza
       };
     });
 
-    afterEach(function () {
-      return knex('organization-learners').delete();
-    });
-
     context('When a XML SIECLE file is loaded', function () {
       context('when no organizationLearner has been imported yet, and the file is well formatted', function () {
         beforeEach(function () {

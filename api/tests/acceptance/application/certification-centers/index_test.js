@@ -3,7 +3,6 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  knex,
   sinon,
 } from '../../../test-helper.js';
 
@@ -15,12 +14,6 @@ describe('Acceptance | Route | Certification Centers', function () {
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  afterEach(async function () {
-    await knex('complementary-certification-habilitations').delete();
-    await knex('data-protection-officers').delete();
-    await knex('certification-center-invitations').delete();
   });
 
   describe('PATCH /api/admin/certification-centers/{id}', function () {

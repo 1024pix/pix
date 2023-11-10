@@ -5,7 +5,6 @@ import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  knex,
   learningContentBuilder,
   mockLearningContent,
 } from '../../../test-helper.js';
@@ -656,11 +655,6 @@ describe('Acceptance | API | Campaign Controller', function () {
   });
 
   describe('POST /api/campaigns', function () {
-    afterEach(async function () {
-      await knex('campaign_skills').delete();
-      await knex('campaigns').delete();
-    });
-
     it('should return 201 status code and the campaign created with type ASSESSMENT and owner id', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;

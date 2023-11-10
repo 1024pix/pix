@@ -10,10 +10,6 @@ describe('Acceptance | Route | Account-recovery', function () {
       server = await createServer();
     });
 
-    afterEach(async function () {
-      await databaseBuilder.knex('account-recovery-demands').delete();
-    });
-
     const studentInformation = {
       ineIna: '123456789aa',
       firstName: 'Jude',

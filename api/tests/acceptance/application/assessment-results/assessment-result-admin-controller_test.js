@@ -71,17 +71,6 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
       return insertUserWithRoleSuperAdmin();
     });
 
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-      await knex('competence-marks').delete();
-      await knex('certification-courses-last-assessment-results').delete();
-      await knex('assessment-results').delete();
-      await knex('assessments').delete();
-      await knex('certification-courses').delete();
-      await knex('pix-admin-roles').delete();
-      await knex('users').delete();
-    });
-
     it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
       // given
       const nonSuperAdminUserId = 9999;

@@ -9,10 +9,6 @@ const { ROLES } = PIX_ADMIN;
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | authentication-controller', function () {
-  afterEach(async function () {
-    await knex('user-logins').delete();
-  });
-
   describe('POST /api/token', function () {
     const orgaRoleInDB = { id: 1, name: 'ADMIN' };
 
@@ -357,10 +353,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
     beforeEach(async function () {
       server = await createServer();
-    });
-
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
     });
 
     describe('when user has a reconciled Pix account, then connect to Pix from GAR', function () {

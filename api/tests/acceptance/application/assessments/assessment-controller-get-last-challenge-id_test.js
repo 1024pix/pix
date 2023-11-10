@@ -1,7 +1,6 @@
 import {
   expect,
   databaseBuilder,
-  knex,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
 } from '../../../test-helper.js';
@@ -33,10 +32,6 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', funct
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      return knex('assessments').delete();
-    });
-
     context('Nominal cases', function () {
       beforeEach(function () {
         options = {
@@ -46,10 +41,6 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', funct
             authorization: `Bearer ${generateValidRequestAuthorizationHeader(userId)}`,
           },
         };
-      });
-
-      afterEach(async function () {
-        return knex('assessments').delete();
       });
 
       it('should return 200 HTTP status code', async function () {

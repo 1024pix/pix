@@ -1,4 +1,4 @@
-import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, sinon } from '../../../test-helper.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { clearResolveMx, setResolveMx } from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
 import fs from 'fs';
@@ -62,10 +62,6 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('certification-candidates').delete();
     });
 
     context('The user can access the session', function () {

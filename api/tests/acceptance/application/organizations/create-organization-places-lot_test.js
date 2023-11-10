@@ -3,7 +3,6 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  knex,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
@@ -11,10 +10,6 @@ import * as organizationPlacesCategories from '../../../../lib/domain/constants/
 
 describe('Acceptance | Route | Organizations', function () {
   describe('POST /api/admin/organizations/{id}/places', function () {
-    afterEach(async function () {
-      await knex('organization-places').delete();
-    });
-
     it('should return 201 HTTP status code', async function () {
       // given
       const server = await createServer();
