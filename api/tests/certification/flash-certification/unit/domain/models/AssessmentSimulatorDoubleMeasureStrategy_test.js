@@ -51,8 +51,11 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
         const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
         const allChallenges = [challenge1, challenge2];
-        const answerForSimulator1 = AnswerStatus.OK;
-        const answerForSimulator2 = AnswerStatus.OK;
+        const answerStatusForSimulator1 = AnswerStatus.OK;
+        const answerStatusForSimulator2 = AnswerStatus.OK;
+        const newAnswer1 = new Answer({ challengeId: challenge1.id, result: answerStatusForSimulator1 });
+        const newAnswer2 = new Answer({ challengeId: challenge2.id, result: answerStatusForSimulator2 });
+        const expectedEstimatedLevel = 0.4;
         const initialCapacity = 0;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
@@ -70,6 +73,17 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           })
           .returns([challenge2, challenge1]);
 
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            allAnswers: [sinon.match(newAnswer2), sinon.match(newAnswer1)],
+            challenges: allChallenges,
+            initialCapacity,
+            doubleMeasuresUntil: 2,
+          })
+          .returns({
+            estimatedLevel: expectedEstimatedLevel,
+          });
+
         pickChallenge
           .withArgs({ possibleChallenges: [challenge2, challenge1] })
           .returns(challenge2)
@@ -78,27 +92,29 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
 
         pickAnswerStatus
           .withArgs({ nextChallenge: challenge2, answerIndex: 0 })
-          .returns(answerForSimulator1)
+          .returns(answerStatusForSimulator1)
           .withArgs({ nextChallenge: challenge1, answerIndex: 1 })
-          .returns(answerForSimulator2);
+          .returns(answerStatusForSimulator2);
 
         // when
         const expectedResult = {
           results: [
             {
               challenge: challenge2,
+              estimatedLevel: expectedEstimatedLevel,
             },
             {
               challenge: challenge1,
+              estimatedLevel: expectedEstimatedLevel,
             },
           ],
           challengeAnswers: [
             new Answer({
-              result: answerForSimulator1,
+              result: answerStatusForSimulator1,
               challengeId: challenge2.id,
             }),
             new Answer({
-              result: answerForSimulator2,
+              result: answerStatusForSimulator2,
               challengeId: challenge1.id,
             }),
           ],
@@ -110,7 +126,9 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           pickChallenge,
           pickAnswerStatus,
           initialCapacity,
+          doubleMeasuresUntil: 2,
         });
+
         const result = strategy.run({ challengesAnswers: [], stepIndex: 0 });
 
         // then
