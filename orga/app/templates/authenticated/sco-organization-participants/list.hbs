@@ -6,9 +6,9 @@
     @participantCount={{@model.meta.participantCount}}
     @isLoading={{this.isLoading}}
   />
-  <PixBanner @type="information">
-    {{t "pages.sco-organization-participants.banner"}}
-  </PixBanner>
+  <Certificability::Banner @display={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}>
+    {{t "components.certificability-banner.sco-managing-students"}}
+  </Certificability::Banner>
   <ScoOrganizationParticipant::List
     @students={{@model}}
     @searchFilter={{this.search}}
