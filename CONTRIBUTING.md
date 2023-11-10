@@ -1,5 +1,6 @@
 # Contribuer à Pix
 
+
 L'organisation GitHub [1024pix](https://github.com/1024pix) héberge le code utilisé dans le projet [Pix](https://pix.fr). Les dépôts GitHub de l'organisation sont en évolution rapide et développés par plusieurs équipes dédiées chez Pix. Le dépôt GitHub [1024pix/pix](https://github.com/1024pix/pix) est la source canonique de nos équipes. Les développements que nous réalisons sont exclusivement dédiés à l'amélioration de la plateforme [Pix](https://pix.fr) et nous ne travaillons pas à l'heure actuelle à une version générique utilisable par toutes et tous pour d'autres usages.
 
 Cela signifie que nous ne pouvons pas promettre que les contributions externes seront sur un pied d'égalité avec les contributions internes. Les revues de code prennent du temps, et le travail nécessaire à Pix est prioritaire. Nous ne pouvons pas non plus promettre que nous accepterons toutes les contributions de fonctionnalités. Même si le code est déjà écrit, les revues et la maintenance ont un coût. Au sein de Pix, nous disposons d'une équipe de gestion des produits qui évalue soigneusement les fonctionnalités que nous devons proposer ou non, et de nombreuses idées générées en interne ne sont finalement pas retenues.
