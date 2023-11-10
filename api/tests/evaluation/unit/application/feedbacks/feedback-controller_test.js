@@ -1,6 +1,5 @@
-import { expect, sinon, hFake } from '../../../test-helper.js';
-
-import { feedbackController } from '../../../../lib/application/feedbacks/feedback-controller.js';
+import { expect, sinon, hFake } from '../../../../test-helper.js';
+import { feedbackController } from '../../../../../src/evaluation/application/feedbacks/feedback-controller.js';
 
 describe('Unit | Controller | feedback-controller', function () {
   describe('#save', function () {
