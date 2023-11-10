@@ -449,6 +449,45 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         // then
         expect(estimatedLevel).to.be.closeTo(1.663469355503838, 0.00000000001);
       });
+
+      context('when double measure is active with an odd number of challenges', function () {
+        it('should return the correct estimatedLevel when there is three answers', function () {
+          // given
+          const challenges = [
+            domainBuilder.buildChallenge({
+              id: 'ChallengeFirstAnswers',
+              discriminant: 1.06665273005823,
+              difficulty: -0.03,
+            }),
+            domainBuilder.buildChallenge({
+              id: 'ChallengeSecondAnswers',
+              discriminant: 1.06665273005823,
+              difficulty: -0.06,
+            }),
+            domainBuilder.buildChallenge({
+              id: 'ChallengeThirdAnswers',
+              discriminant: 0.950709518595358,
+              difficulty: 1.90647729810166,
+            }),
+          ];
+
+          const allAnswers = [
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[1].id }),
+            domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[2].id }),
+          ];
+
+          // when
+          const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
+            allAnswers,
+            challenges,
+            doubleMeasuresUntil: 4,
+          });
+
+          // then
+          expect(estimatedLevel).to.be.closeTo(1.663469355503838, 0.00000000001);
+        });
+      });
     });
   });
 
