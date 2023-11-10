@@ -54,7 +54,7 @@ function getEstimatedLevelAndErrorRate({
   let answerIndex = 0;
 
   while (answerIndex < allAnswers.length) {
-    if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex })) {
+    if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength: allAnswers.length })) {
       const answer = allAnswers[answerIndex];
       ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _singleMeasure({
         challenges,
@@ -87,8 +87,9 @@ function getEstimatedLevelAndErrorRate({
   return { estimatedLevel: latestEstimatedLevel, errorRate };
 }
 
-function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex }) {
-  return doubleMeasuresUntil > answerIndex;
+function _shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength }) {
+  const isLastAnswer = answersLength === answerIndex + 1;
+  return doubleMeasuresUntil > answerIndex && !isLastAnswer;
 }
 
 function _singleMeasure({
