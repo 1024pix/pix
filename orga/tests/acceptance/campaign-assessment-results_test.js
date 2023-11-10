@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupIntl from '../helpers/setup-intl';
@@ -42,7 +41,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
 
       // then
       assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: pageSize });
-      assert.contains('Page 1 / 2');
+      assert.ok(screen.getByText('Page 1 / 2'));
       assert.dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size'))).hasText('50');
     });
 
@@ -60,7 +59,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
-      assert.contains('Page 2 / 2');
+      assert.ok(screen.getByText('Page 2 / 2'));
       assert
         .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());
@@ -92,7 +91,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
-      assert.contains('Page 1 / 2');
+      assert.ok(screen.getByText('Page 1 / 2'));
       assert
         .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());
@@ -105,13 +104,13 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       const screen = await visit('/campagnes/1/resultats-evaluation');
       await click(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')));
       await click(await screen.findByRole('option', { name: changedPageSize }));
-      const someElementFromPage1 = this.element.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
+      const someElementFromPage1 = document.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
       // when
       await clickByName('Aller à la page suivante');
 
       // then
-      assert.contains('Page 2 / 10');
+      assert.ok(screen.getByText('Page 2 / 10'));
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
@@ -130,7 +129,7 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       assert
         .dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`)
         .exists({ count: changedPageSize });
-      assert.contains('Page 1 / 4');
+      assert.ok(screen.getByText('Page 1 / 4'));
       assert
         .dom(screen.getByLabelText(this.intl.t('common.pagination.action.select-page-size')))
         .hasText(changedPageSize.toString());

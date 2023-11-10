@@ -1,14 +1,15 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
-
+import setupIntl from '../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Campaign Analysis', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -28,9 +29,10 @@ module('Acceptance | Campaign Analysis', function (hooks) {
 
   test('it should display campaign analysis', async function (assert) {
     // when
-    await visit('/campagnes/1/analyse');
+    const screen = await visit('/campagnes/1/analyse');
 
     // then
-    assert.dom('[aria-label="Analyse par sujet"]').containsText('Sujets (2)');
+    assert.ok(screen.getByLabelText(this.intl.t('pages.campaign-review.table.analysis.title')));
+    assert.ok(screen.getByText(this.intl.t('pages.campaign-review.table.analysis.column.subjects', { count: 2 })));
   });
 });

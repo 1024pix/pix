@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click } from '@ember/test-helpers';
-import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -30,7 +30,8 @@ module('Acceptance | Campaign Profile', function (hooks) {
     server.create('organization-participant', { id: 1, organizationId });
 
     // when
-    const screen = await visitScreen('/campagnes/1/profils/1');
+    const screen = await visit('/campagnes/1/profils/1');
+
     await click(screen.getByRole('link', { name: this.intl.t('common.actions.link-to-participant') }));
 
     // then
@@ -43,7 +44,7 @@ module('Acceptance | Campaign Profile', function (hooks) {
     server.create('campaignProfile', { campaignId: 1, campaignParticipationId: 1 });
 
     // when
-    await visitScreen('/campagnes/1/profils/1');
+    await visit('/campagnes/1/profils/1');
     await click(
       within(document.querySelector('main')).getByRole('link', { name: this.intl.t('navigation.main.campaigns') }),
     );
@@ -58,7 +59,7 @@ module('Acceptance | Campaign Profile', function (hooks) {
     server.create('campaignProfile', { campaignId: 1, campaignParticipationId: 1 });
 
     // when
-    await visitScreen('/campagnes/1/profils/1');
+    await visit('/campagnes/1/profils/1');
     await clickByName('CampagneEtPrairie');
 
     // then
@@ -75,9 +76,9 @@ module('Acceptance | Campaign Profile', function (hooks) {
     });
 
     // when
-    await visit('/campagnes/2/profils/1');
+    const screen = await visit('/campagnes/2/profils/1');
 
     // then
-    assert.contains('Jules Winnfield');
+    assert.ok(screen.getByText('Jules Winnfield'));
   });
 });

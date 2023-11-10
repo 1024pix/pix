@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -8,7 +8,7 @@ import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | campaigns/all-campaigns ', function (hooks) {
+module('Acceptance | campaigns/all-campaigns', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
@@ -16,7 +16,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
   module('When prescriber is not logged in', function () {
     test('it should not be accessible', async function (assert) {
       // given / when
-      await visitScreen('/campagnes/toutes');
+      await visit('/campagnes/toutes');
 
       // then
       assert.deepEqual(currentURL(), '/connexion');
@@ -31,7 +31,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
       await authenticateSession(user.id);
 
       // when
-      await visitScreen('/campagnes/toutes');
+      await visit('/campagnes/toutes');
 
       // then
       assert.deepEqual(currentURL(), '/campagnes/toutes');
@@ -47,7 +47,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
         server.createList('campaign', 12);
 
         // when
-        const screen = await visitScreen('/campagnes/toutes');
+        const screen = await visit('/campagnes/toutes');
 
         // then
         assert.strictEqual(screen.getAllByLabelText('Campagne').length, 12, 'the number of campaigns');
@@ -60,7 +60,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
         await authenticateSession(user.id);
 
         server.create('campaign', { id: 1, name: 'CampagneEtPrairie' });
-        await visitScreen('/campagnes/toutes');
+        await visit('/campagnes/toutes');
 
         // when
         await clickByName('CampagneEtPrairie');
@@ -78,7 +78,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
 
           const owner = server.create('user', { firstName: 'Harry', lastName: 'Cojaune' });
           server.create('campaign', { ownerFirstName: owner.firstName, ownerLastName: owner.lastName });
-          await visitScreen('/campagnes/toutes');
+          await visit('/campagnes/toutes');
 
           // when
           await fillByLabel('Rechercher un propriétaire', owner.firstName);
@@ -95,7 +95,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
 
           const owner = server.create('user', { firstName: 'Harry', lastName: 'Jaune' });
           server.create('campaign', { ownerFirstName: owner.firstName, ownerLastName: owner.lastName });
-          await visitScreen(`/campagnes/toutes?ownerName=${owner.firstName}`);
+          await visit(`/campagnes/toutes?ownerName=${owner.firstName}`);
 
           // when
           await fillByLabel('Rechercher un propriétaire', '');
@@ -122,14 +122,14 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
             ownerFirstName: otherOwner.firstName,
             ownerLastName: otherOwner.lastName,
           });
-          const screen = await visitScreen('/campagnes/toutes');
+          const screen = await visit('/campagnes/toutes');
 
           // when
           await fillByLabel('Rechercher un propriétaire', owner.firstName);
 
           // then
-          assert.dom(screen.getByText('ma super campagne')).exists();
-          assert.dom(screen.queryByLabelText('la campagne de Sara')).doesNotExist();
+          assert.ok(screen.getByText('ma super campagne'));
+          assert.notOk(screen.queryByLabelText('la campagne de Sara'));
         });
       });
 
@@ -146,14 +146,14 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           server.create('campaign', {
             name: 'la campagne de Sara',
           });
-          const screen = await visitScreen('/campagnes/toutes');
+          const screen = await visit('/campagnes/toutes');
 
           // when
           await fillByLabel('Rechercher une campagne', 'Sara');
 
           // then
-          assert.dom(screen.getByText('la campagne de Sara')).exists();
-          assert.dom(screen.queryByLabelText('ma super campagne')).doesNotExist();
+          assert.ok(screen.getByText('la campagne de Sara'));
+          assert.notOk(screen.queryByLabelText('ma super campagne'));
         });
 
         test('it should update URL with campaign name filter', async function (assert) {
@@ -164,7 +164,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
 
           const campaignName = 'CampagneV2';
           server.create('campaign', { name: campaignName });
-          await visitScreen('/campagnes/toutes');
+          await visit('/campagnes/toutes');
 
           // when
           await fillByLabel('Rechercher une campagne', campaignName);
@@ -198,16 +198,16 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
             ownerFirstName: otherOwner.firstName,
             ownerLastName: otherOwner.lastName,
           });
-          await visitScreen('/campagnes/toutes');
+          const screen = await visit('/campagnes/toutes');
 
           // when
           await fillByLabel('Rechercher un propriétaire', 'Harry');
           await fillByLabel('Rechercher une campagne', 'campagne');
 
           // then
-          assert.contains('ma super campagne');
-          assert.notContains('Evaluation');
-          assert.notContains('la campagne de Sara');
+          assert.ok(screen.getByText('ma super campagne'));
+          assert.notOk(screen.queryByText('Evaluation'));
+          assert.notOk(screen.queryByText('la campagne de Sara'));
         });
       });
 
@@ -225,7 +225,7 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
             ownerFirstName: owner.firstName,
             ownerLastName: owner.lastName,
           });
-          const screen = await visitScreen('/campagnes/toutes');
+          const screen = await visit('/campagnes/toutes');
 
           // when
           await fillByLabel('Rechercher une campagne', campaignName1);
@@ -234,8 +234,8 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
           await clickByName(this.intl.t('pages.campaigns-list.filter.clear'));
 
           //then
-          assert.dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-owner'))).containsText('');
-          assert.dom(screen.getByPlaceholderText(this.intl.t('pages.campaigns-list.filter.by-name'))).containsText('');
+          assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-owner')));
+          assert.ok(screen.getByLabelText(this.intl.t('pages.campaigns-list.filter.by-name')));
           assert.dom(screen.getByText('Actives')).hasClass('campaign-filters__tab--active');
           assert.deepEqual(currentURL(), '/campagnes/toutes');
         });
@@ -250,10 +250,10 @@ module('Acceptance | campaigns/all-campaigns ', function (hooks) {
         await authenticateSession(user.id);
 
         // when
-        const screen = await visitScreen('/campagnes/toutes');
+        const screen = await visit('/campagnes/toutes');
 
         // then
-        assert.dom(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign'))).exists();
+        assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.no-campaign')));
       });
     });
   });

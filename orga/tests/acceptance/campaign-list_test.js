@@ -49,7 +49,7 @@ module('Acceptance | Campaign List', function (hooks) {
       const screen = await visitScreen('/campagnes');
 
       // then
-      assert.dom(screen.getByRole('heading', 'Créez votre première campagne')).exists();
+      assert.ok(screen.getByRole('heading', 'Créez votre première campagne'));
     });
 
     test('it should show the two tabs: my campaigns and all campaigns', async function (assert) {
@@ -64,9 +64,9 @@ module('Acceptance | Campaign List', function (hooks) {
       const screen = await visitScreen('/campagnes');
 
       // then
-      assert.dom(screen.getByRole('heading', this.intl.t('pages.campaigns-list.title'))).exists();
-      assert.contains(this.intl.t('pages.campaigns-list.tabs.my-campaigns'));
-      assert.contains(this.intl.t('pages.campaigns-list.tabs.all-campaigns'));
+      assert.ok(screen.getByRole('heading', this.intl.t('pages.campaigns-list.title')));
+      assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.tabs.my-campaigns')));
+      assert.ok(screen.getByText(this.intl.t('pages.campaigns-list.tabs.all-campaigns')));
     });
   });
 });

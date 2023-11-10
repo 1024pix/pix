@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserManagingStudents, createPrescriberByUser } from '../helpers/test-init';
@@ -31,7 +31,7 @@ module('Acceptance | Certifications page', function (hooks) {
       await visit('/certifications');
 
       // then
-      assert.dom('.pix-banner').exists();
+      assert.ok('.pix-banner');
     });
 
     test('should not show any banner outside certification period', async function (assert) {
@@ -48,14 +48,14 @@ module('Acceptance | Certifications page', function (hooks) {
     module('When organizations has no students imported yet', function () {
       test('should show warning message inviting user to import students on Certifications page', async function (assert) {
         // given / when
-        await visit('/certifications');
+        const screen = await visit('/certifications');
 
         // then
-        assert
-          .dom('.certifications-page__text')
-          .containsText(
+        assert.ok(
+          screen.getByText(
             'Dans cet onglet, vous retrouverez les résultats et les attestations de certification des élèves. Vous devez, dans un premier temps, importer la base élèves de votre établissement.',
-          );
+          ),
+        );
       });
     });
 
@@ -70,17 +70,17 @@ module('Acceptance | Certifications page', function (hooks) {
 
       test('should show Certifications page', async function (assert) {
         // given / when
-        await visit('/certifications');
+        const screen = await visit('/certifications');
 
         // then
-        assert
-          .dom('.certifications-page__text')
-          .containsText(
+        assert.ok(
+          screen.getByText(
             'Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification (.csv) ou télécharger les attestations (.pdf). Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.',
-          );
-        assert.contains('Exporter les résultats');
-        assert.contains('Certifications');
-        assert.contains('Classe');
+          ),
+        );
+        assert.ok(screen.getByText('Exporter les résultats'));
+        assert.ok(screen.getByText('Certifications'));
+        assert.ok(screen.getByText('Classe'));
       });
 
       test('should show documentation about certification results link', async function (assert) {
@@ -88,7 +88,7 @@ module('Acceptance | Certifications page', function (hooks) {
         await visit('/certifications');
 
         // then
-        assert.dom('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]').exists();
+        assert.ok('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]');
       });
 
       test('should display attestation download button', async function (assert) {
@@ -96,7 +96,7 @@ module('Acceptance | Certifications page', function (hooks) {
         await visit('/certifications');
 
         // then
-        assert.dom('button[id="download_attestations"]').exists();
+        assert.ok('button[id="download_attestations"]');
       });
     });
   });
