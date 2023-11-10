@@ -3,8 +3,6 @@ import { certificationController } from '../../../../lib/application/certificati
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { LANG } from '../../../../src/shared/domain/constants.js';
-const { FRENCH } = LANG;
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {
@@ -190,47 +188,6 @@ describe('Unit | Controller | certifications-controller', function () {
           },
         },
       });
-    });
-  });
-
-  describe('#getPDFAttestation', function () {
-    it('should return attestation in PDF binary format', async function () {
-      // given
-      const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
-      const attestationPDF = 'binary string';
-      const fileName = 'attestation-pix-20181003.pdf';
-      const userId = 1;
-      const i18n = Symbol('i18n');
-
-      const request = {
-        i18n,
-        auth: { credentials: { userId } },
-        params: { id: certification.id },
-        query: { isFrenchDomainExtension: true, lang: FRENCH },
-      };
-
-      sinon
-        .stub(usecases, 'getCertificationAttestation')
-        .withArgs({
-          userId,
-          certificationId: certification.id,
-        })
-        .resolves(certification);
-      const certificationAttestationPdfStub = {
-        getCertificationAttestationsPdfBuffer: sinon.stub(),
-      };
-      certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
-        .withArgs({ certificates: [certification], isFrenchDomainExtension: true, i18n })
-        .resolves({ buffer: attestationPDF, fileName });
-
-      // when
-      const response = await certificationController.getPDFAttestation(request, hFake, {
-        certificationAttestationPdf: certificationAttestationPdfStub,
-      });
-
-      // then
-      expect(response.source).to.deep.equal(attestationPDF);
-      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestation-pix-20181003.pdf');
     });
   });
 
