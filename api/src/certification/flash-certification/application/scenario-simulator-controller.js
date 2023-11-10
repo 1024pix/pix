@@ -33,6 +33,7 @@ async function simulateFlashAssessmentScenario(
     limitToOneQuestionPerTube,
     minimumEstimatedSuccessRateRanges: minimumEstimatedSuccessRateRangesDto,
     enablePassageByAllCompetences,
+    doubleMeasuresUntil,
     variationPercent,
   } = request.payload;
 
@@ -64,6 +65,7 @@ async function simulateFlashAssessmentScenario(
           limitToOneQuestionPerTube,
           minimumEstimatedSuccessRateRanges,
           enablePassageByAllCompetences,
+          doubleMeasuresUntil,
           variationPercent,
         },
         _.isUndefined,
