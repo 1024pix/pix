@@ -7,7 +7,6 @@ import { BookshelfUserOrgaSettings } from '../../../../../lib/infrastructure/orm
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { Prescriber } from '../../../../../lib/domain/read-models/Prescriber.js';
-import * as apps from '../../../../../lib/domain/constants.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 function _toPrescriberDomain(bookshelfUser) {
@@ -73,14 +72,6 @@ async function _organizationFeatures(prescriber) {
   }, {});
 
   prescriber.features = organizationFeatures;
-
-  prescriber.enableMultipleSendingAssessment = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key,
-  );
-
-  prescriber.computeOrganizationLearnerCertificability = availableFeatures.includes(
-    apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key,
-  );
 }
 
 function _allFeatures() {
