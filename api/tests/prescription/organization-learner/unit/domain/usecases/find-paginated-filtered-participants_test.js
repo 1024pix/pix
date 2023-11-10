@@ -1,5 +1,5 @@
 import { sinon, expect } from '../../../../../test-helper.js';
-import { getPaginatedParticipantsForAnOrganization } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-paginated-participants-for-an-organization.js';
+import { findPaginatedFilteredParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-participants.js';
 
 describe('Unit | UseCases | get-paginated-participants-for-an-organization', function () {
   it('should call organizationParticipantRepository', async function () {
@@ -15,7 +15,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     };
 
     // when
-    await getPaginatedParticipantsForAnOrganization({
+    await findPaginatedFilteredParticipants({
       organizationId,
       filters,
       page,
