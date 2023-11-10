@@ -1,6 +1,7 @@
 class LearningContentResourceNotFound extends Error {
-  constructor() {
+  constructor({ skillId } = {}) {
     super();
+    this.skillId = skillId;
   }
 }
 
