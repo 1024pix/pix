@@ -270,6 +270,42 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#findOneWithCertificationCenterIdAndUserId', function () {
+    context('when certification center membership does not exist', function () {
+      it('returns undefined', async function () {
+        // given
+        // when
+        const response = await certificationCenterMembershipRepository.findOneWithCertificationCenterIdAndUserId({
+          certificationCenterId: 2023,
+          userId: 2021,
+        });
+
+        // then
+        expect(response).to.be.undefined;
+      });
+    });
+
+    context('when certification center membership exists', function () {
+      it('returns a certification center membership', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId, userId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await certificationCenterMembershipRepository.findOneWithCertificationCenterIdAndUserId({
+          certificationCenterId,
+          userId,
+        });
+
+        // then
+        expect(response).to.be.instanceOf(CertificationCenterMembership);
+      });
+    });
+  });
+
   describe('#isAdminOfCertificationCenter', function () {
     let certificationCenterId, userId;
 
