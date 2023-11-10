@@ -75,13 +75,6 @@ class AuthenticationMethodAlreadyExistsError extends DomainError {
   }
 }
 
-class NoCertificationAttestationForDivisionError extends DomainError {
-  constructor(division) {
-    const message = `Aucune attestation de certification pour la classe ${division}.`;
-    super(message);
-  }
-}
-
 class OrganizationAlreadyExistError extends DomainError {
   constructor(message = "L'organisation existe déjà.") {
     super(message);
@@ -1276,7 +1269,6 @@ export {
   MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
-  NoCertificationAttestationForDivisionError,
   NoCertificationResultForDivision,
   NoOrganizationToAttach,
   NoSkillsInCampaignError,
