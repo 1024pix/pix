@@ -70,4 +70,20 @@ describe('Unit | Storage | CpfReceiptsStorage', function () {
       ]);
     });
   });
+
+  describe('#deleteReceipt', function () {
+    it('should delete a CPF receipt', async function () {
+      // given
+      const providerStub = sinon.createStubInstance(S3ObjectStorageProvider);
+      sinon.stub(S3ObjectStorageProvider, 'createClient').returns(providerStub);
+      const cpfReceiptsStorage = new CpfReceiptsStorage();
+      const cpfReceipt = new CpfReceipt({ filename: 'shoot_me' });
+
+      // when
+      await cpfReceiptsStorage.deleteReceipt({ cpfReceipt });
+
+      // then
+      expect(providerStub.deleteFile).to.have.been.calledOnceWithExactly({ key: 'shoot_me' });
+    });
+  });
 });

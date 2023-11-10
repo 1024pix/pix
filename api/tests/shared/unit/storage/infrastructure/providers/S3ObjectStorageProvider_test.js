@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3';
+import { GetObjectCommand, ListObjectsV2Command, DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { logger } from '../../../../../../src/shared/infrastructure/utils/logger.js';
@@ -11,14 +11,14 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
     secretAccessKey: 'secretAccessKey',
     endpoint: 'endpoint',
     region: 'region',
-    bucket: 'pix-cpf-dev',
+    bucket: 'pix-dev',
   };
 
   let clientS3;
   let libStorage;
   let s3RequestPresigner;
   beforeEach(function () {
-    clientS3 = { S3Client, ListObjectsV2Command, GetObjectCommand };
+    clientS3 = { S3Client, ListObjectsV2Command, GetObjectCommand, DeleteObjectCommand };
     libStorage = { Upload };
     s3RequestPresigner = { getSignedUrl };
   });
@@ -69,7 +69,7 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
         client: S3ClientStubbedInstance,
         params: {
           Key: 'tales_of_villain.gzip',
-          Bucket: 'pix-cpf-dev',
+          Bucket: 'pix-dev',
           ContentType: 'gzip',
           Body: readableStreamStub,
           partSize: 1024 * 1024 * 5,
@@ -99,7 +99,7 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
 
       // then
       expect(constructorStub).to.have.been.calledWithExactly({
-        Bucket: 'pix-cpf-dev',
+        Bucket: 'pix-dev',
       });
       expect(S3ClientStubbedInstance.send).to.have.been.calledWithExactly(ListObjectsV2CommandStubbedInstance);
       expect(listFilesResult).to.deep.equal({ Contents: [{ Key: 'hyperdimension_galaxy' }] });
@@ -132,7 +132,7 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
 
       // then
       expect(constructorStub).to.have.been.calledWithExactly({
-        Bucket: 'pix-cpf-dev',
+        Bucket: 'pix-dev',
         Key: { Key: 'we_love_sweets' },
       });
       expect(getSignedUrlStub).to.have.been.calledOnce;
@@ -160,11 +160,34 @@ describe('Unit | Infrastructure | storage | providers | S3ObjectStorageProvider'
 
       // then
       expect(constructorStub).to.have.been.calledWithExactly({
-        Bucket: 'pix-cpf-dev',
+        Bucket: 'pix-dev',
         Key: 'be_the_gal',
       });
       expect(S3ClientStubbedInstance.send).to.have.been.calledWithExactly(GetObjectCommandStubbedInstance);
       expect(readFileResult).to.deep.equal({ Body: fakeStream });
+    });
+  });
+
+  context('#deleteFile', function () {
+    it('should delete a S3 Object', async function () {
+      // given
+      const S3ClientStubbedInstance = sinon.createStubInstance(S3Client);
+      const DeleteObjectCommandStubbedInstance = sinon.createStubInstance(DeleteObjectCommand);
+      const constructorStub = sinon.stub(clientS3, 'DeleteObjectCommand').returns(DeleteObjectCommandStubbedInstance);
+      sinon.stub(clientS3, 'S3Client').returns(S3ClientStubbedInstance);
+      const s3ObjectStorageProvider = S3ObjectStorageProvider.createClient({
+        ...S3_CONFIG,
+        dependencies: { clientS3 },
+      });
+
+      // when
+      await s3ObjectStorageProvider.deleteFile({ key: 'delete_me' });
+
+      // then
+      expect(constructorStub).to.have.been.calledWithExactly({
+        Bucket: 'pix-dev',
+        Key: 'delete_me',
+      });
     });
   });
 });

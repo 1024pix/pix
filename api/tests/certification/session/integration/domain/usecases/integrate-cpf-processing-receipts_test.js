@@ -49,6 +49,12 @@ describe('Integration | UseCase | integrate-cpf-processing-receipts ', function 
         )
         .reply(200, () => fs.createReadStream(path.join(__dirname, 'files/xml/cpfImportLog.xml'), 'utf8'));
 
+      nock('http://cpf-receipts.fake.endpoint.example.net:80')
+        .delete(
+          '/cpfReceipts.bucket/Accus%C3%A9%20de%20traitement_pix-cpf-export-20231016-223357_002.xml_20231025.xml?x-id=DeleteObject',
+        )
+        .reply(200);
+
       // when
       await integrateCpfProccessingReceipts({ cpfReceiptsStorage, cpfCertificationResultRepository });
 
