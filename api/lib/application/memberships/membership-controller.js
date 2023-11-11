@@ -8,7 +8,7 @@ const create = async function (request, h, dependencies = { membershipSerializer
   const organizationId = request.payload.data.relationships.organization.data.id;
 
   const membership = await usecases.createMembership({ userId, organizationId });
-  await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
+  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
 
   return h.response(dependencies.membershipSerializer.serializeForAdmin(membership)).created();
 };
@@ -25,7 +25,7 @@ const update = async function (request, h, dependencies = { requestResponseUtils
   membership.updatedByUserId = userId;
 
   const updatedMembership = await usecases.updateMembership({ membership });
-  await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
+  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
 
   return h.response(dependencies.membershipSerializer.serialize(updatedMembership));
 };

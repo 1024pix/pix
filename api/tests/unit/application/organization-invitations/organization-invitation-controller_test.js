@@ -21,7 +21,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       };
 
       sinon.stub(usecases, 'acceptOrganizationInvitation').resolves();
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
 
       // when
       await organizationInvitationController.acceptOrganizationInvitation(request);
@@ -35,7 +35,7 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       });
     });
 
-    it('should call createCertificationCenterMembershipForScoOrganizationMember usecase to create certification center membership', async function () {
+    it('should call createCertificationCenterMembershipForScoOrganizationAdminMember usecase to create certification center membership', async function () {
       // given
       const code = 'ABCDEFGH01';
       const email = 'random@email.com';
@@ -52,13 +52,13 @@ describe('Unit | Application | Organization-Invitations | organization-invitatio
       };
 
       sinon.stub(usecases, 'acceptOrganizationInvitation').resolves(membership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
 
       // when
       await organizationInvitationController.acceptOrganizationInvitation(request);
 
       // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationMember).to.have.been.calledWithExactly({
+      expect(usecases.createCertificationCenterMembershipForScoOrganizationAdminMember).to.have.been.calledWithExactly({
         membership,
       });
     });
