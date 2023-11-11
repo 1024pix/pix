@@ -25,7 +25,7 @@ describe('Unit | Controller | membership-controller', function () {
 
       const createMembershipUsecase = sinon.stub(usecases, 'createMembership');
       createMembershipUsecase.withArgs({ userId: user.id, organizationId: organization.id }).resolves(membership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
       const membershipSerializer = { serializeForAdmin: sinon.stub() };
       membershipSerializer.serializeForAdmin.withArgs(membership).returns(serializedMembership);
 
@@ -37,7 +37,7 @@ describe('Unit | Controller | membership-controller', function () {
       expect(result.source).equal(serializedMembership);
     });
 
-    it('should call createCertificationCenterMembershipForScoOrganizationMember usecase', async function () {
+    it('should call createCertificationCenterMembershipForScoOrganizationAdminMember usecase', async function () {
       // given
       const user = domainBuilder.buildUser();
       const organization = domainBuilder.buildOrganization();
@@ -56,7 +56,7 @@ describe('Unit | Controller | membership-controller', function () {
 
       const createMembershipUsecase = sinon.stub(usecases, 'createMembership');
       createMembershipUsecase.withArgs({ userId: user.id, organizationId: organization.id }).resolves(membership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
       const membershipSerializer = { serializeForAdmin: sinon.stub() };
       membershipSerializer.serializeForAdmin.withArgs(membership).returns('ok');
 
@@ -64,7 +64,7 @@ describe('Unit | Controller | membership-controller', function () {
       await membershipController.create(request, hFake, { membershipSerializer });
 
       // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationMember).calledWith({
+      expect(usecases.createCertificationCenterMembershipForScoOrganizationAdminMember).calledWith({
         membership,
       });
     });
@@ -119,7 +119,7 @@ describe('Unit | Controller | membership-controller', function () {
           membership,
         })
         .resolves(updatedMembership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
       const membershipSerializer = { deserialize: sinon.stub(), serialize: sinon.stub() };
       membershipSerializer.deserialize.withArgs(request.payload).returns(membership);
       membershipSerializer.serialize.withArgs(updatedMembership).returns(serializedMembership);
@@ -132,7 +132,7 @@ describe('Unit | Controller | membership-controller', function () {
       expect(result.source).equal(serializedMembership);
     });
 
-    it('should call createCertificationCenterMembershipForScoOrganizationMember usecase', async function () {
+    it('should call createCertificationCenterMembershipForScoOrganizationAdminMember usecase', async function () {
       // given
       const user = domainBuilder.buildUser();
       const userWhoUpdateMemberRole = domainBuilder.buildUser();
@@ -175,13 +175,13 @@ describe('Unit | Controller | membership-controller', function () {
       const membershipSerializer = { deserialize: sinon.stub(), serialize: sinon.stub() };
       membershipSerializer.deserialize.withArgs(request.payload).returns(membership);
       sinon.stub(usecases, 'updateMembership').resolves(updatedMembership);
-      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember').resolves();
+      sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationAdminMember').resolves();
 
       // when
       await membershipController.update(request, hFake, { requestResponseUtils, membershipSerializer });
 
       // then
-      expect(usecases.createCertificationCenterMembershipForScoOrganizationMember).calledWith({
+      expect(usecases.createCertificationCenterMembershipForScoOrganizationAdminMember).calledWith({
         membership,
       });
     });
