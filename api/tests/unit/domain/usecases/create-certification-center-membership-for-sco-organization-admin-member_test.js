@@ -1,12 +1,10 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
 } from '../../../../lib/domain/models/CertificationCenterMembership.js';
-
-const { createCertificationCenterMembershipForScoOrganizationMember } = usecases;
 
 describe('Unit | UseCase | create-certification-center-membership-for-sco-organization-member', function () {
   const now = new Date('2023-11-01');
@@ -63,7 +61,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
               .resolves(null);
 
             // when
-            await createCertificationCenterMembershipForScoOrganizationMember({
+            await createCertificationCenterMembershipForScoOrganizationAdminMember({
               membership: organizationMembership,
               membershipRepository,
               certificationCenterRepository,
@@ -116,7 +114,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
                 .resolves(certificationCenterMembership);
 
               // when
-              await createCertificationCenterMembershipForScoOrganizationMember({
+              await createCertificationCenterMembershipForScoOrganizationAdminMember({
                 membership: organizationMembership,
                 membershipRepository,
                 certificationCenterRepository,
@@ -159,7 +157,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
                 .resolves(certificationCenterMembership);
 
               // when
-              await createCertificationCenterMembershipForScoOrganizationMember({
+              await createCertificationCenterMembershipForScoOrganizationAdminMember({
                 membership: organizationMembership,
                 membershipRepository,
                 certificationCenterRepository,
@@ -195,7 +193,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
           certificationCenterRepository.findByExternalId.withArgs({ externalId }).resolves(null);
 
           // when
-          await createCertificationCenterMembershipForScoOrganizationMember({
+          await createCertificationCenterMembershipForScoOrganizationAdminMember({
             membership: givenMembership,
             membershipRepository,
             certificationCenterRepository,
@@ -228,7 +226,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
           membershipRepository.get.withArgs(givenMembership.id).resolves(existingMembership);
 
           // when
-          await createCertificationCenterMembershipForScoOrganizationMember({
+          await createCertificationCenterMembershipForScoOrganizationAdminMember({
             membership: givenMembership,
             membershipRepository,
             certificationCenterRepository,
@@ -261,7 +259,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
           membershipRepository.get.withArgs(givenMembership.id).resolves(existingMembership);
 
           // when
-          await createCertificationCenterMembershipForScoOrganizationMember({
+          await createCertificationCenterMembershipForScoOrganizationAdminMember({
             membership: givenMembership,
             membershipRepository,
             certificationCenterRepository,
@@ -296,7 +294,7 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
         membershipRepository.get.withArgs(givenMembership.id).resolves(existingMembership);
 
         // when
-        await createCertificationCenterMembershipForScoOrganizationMember({
+        await createCertificationCenterMembershipForScoOrganizationAdminMember({
           membership: givenMembership,
           membershipRepository,
           certificationCenterRepository,
