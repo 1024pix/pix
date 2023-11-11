@@ -18,7 +18,7 @@ const acceptOrganizationInvitation = async function (request) {
     email,
     localeFromCookie,
   });
-  await usecases.createCertificationCenterMembershipForScoOrganizationMember({ membership });
+  await usecases.createCertificationCenterMembershipForScoOrganizationAdminMember({ membership });
   return null;
 };
 

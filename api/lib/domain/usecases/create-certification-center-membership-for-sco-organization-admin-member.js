@@ -1,6 +1,6 @@
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../models/CertificationCenterMembership.js';
 
-const createCertificationCenterMembershipForScoOrganizationMember = async function ({
+const createCertificationCenterMembershipForScoOrganizationAdminMember = async function ({
   membership,
   membershipRepository,
   certificationCenterRepository,
@@ -40,4 +40,4 @@ const createCertificationCenterMembershipForScoOrganizationMember = async functi
   await certificationCenterMembershipRepository.update(certificationCenterMembership);
 };
 
-export { createCertificationCenterMembershipForScoOrganizationMember };
+export { createCertificationCenterMembershipForScoOrganizationAdminMember };

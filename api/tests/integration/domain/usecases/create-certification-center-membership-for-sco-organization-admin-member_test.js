@@ -5,7 +5,7 @@ import * as certificationCenterRepository from '../../../../src/certification/sh
 import * as certificationCenterMembershipRepository from '../../../../lib/infrastructure/repositories/certification-center-membership-repository.js';
 
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { createCertificationCenterMembershipForScoOrganizationMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-member.js';
+import { createCertificationCenterMembershipForScoOrganizationAdminMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-admin-member.js';
 import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
@@ -32,7 +32,7 @@ describe('Integration | UseCases | create-certification-center-membership-for-sc
         });
 
         // when
-        await createCertificationCenterMembershipForScoOrganizationMember({
+        await createCertificationCenterMembershipForScoOrganizationAdminMember({
           membership: givenMembership,
           membershipRepository,
           certificationCenterRepository,
@@ -74,7 +74,7 @@ describe('Integration | UseCases | create-certification-center-membership-for-sc
           });
 
           // when
-          await createCertificationCenterMembershipForScoOrganizationMember({
+          await createCertificationCenterMembershipForScoOrganizationAdminMember({
             membership: givenMembership,
             membershipRepository,
             certificationCenterRepository,
@@ -120,7 +120,7 @@ describe('Integration | UseCases | create-certification-center-membership-for-sc
       });
 
       // when
-      await createCertificationCenterMembershipForScoOrganizationMember({
+      await createCertificationCenterMembershipForScoOrganizationAdminMember({
         membership: givenMembership,
         membershipRepository,
         certificationCenterRepository,
