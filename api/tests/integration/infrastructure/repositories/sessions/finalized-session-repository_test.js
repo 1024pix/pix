@@ -1,14 +1,10 @@
-import { expect, databaseBuilder, knex, catchErr } from '../../../../test-helper.js';
+import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
 import * as finalizedSessionRepository from '../../../../../lib/infrastructure/repositories/sessions/finalized-session-repository.js';
 import { FinalizedSession } from '../../../../../lib/domain/models/FinalizedSession.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Finalized-session', function () {
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('finalized-sessions').delete();
-    });
-
     context('When the session does not exist', function () {
       it('saves a finalized session', async function () {
         // given
@@ -95,10 +91,6 @@ describe('Integration | Repository | Finalized-session', function () {
   });
 
   describe('#get', function () {
-    afterEach(function () {
-      return knex('finalized-sessions').delete();
-    });
-
     context('When the session does exist', function () {
       it('retrieves a finalized session', async function () {
         // given

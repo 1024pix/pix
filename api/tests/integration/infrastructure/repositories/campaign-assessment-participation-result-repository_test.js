@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder, mockLearningContent, catchErr } from '../../../test-helper.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import * as campaignAssessmentParticipationResultRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
@@ -78,10 +78,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
 
       mockLearningContent(learningContent);
       return databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
     });
 
     context('When campaign participation is shared', function () {

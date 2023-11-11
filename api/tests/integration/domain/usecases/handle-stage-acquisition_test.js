@@ -103,10 +103,6 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
         return databaseBuilder.commit();
       });
 
-      afterEach(async function () {
-        await knex(STAGE_ACQUISITIONS_TABLE_NAME).delete();
-      });
-
       context('when stage acquisitions are already present', function () {
         it('should not try to insert already existing stages', async function () {
           // given
@@ -242,10 +238,6 @@ describe('Integration | Usecase | Handle Stage Acquisition', function () {
         databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
 
         return databaseBuilder.commit();
-      });
-
-      afterEach(async function () {
-        await knex(STAGE_ACQUISITIONS_TABLE_NAME).delete();
       });
 
       it('should not insert first-skill', async function () {

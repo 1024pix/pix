@@ -205,10 +205,6 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
   });
 
   describe('#addStudents', function () {
-    afterEach(function () {
-      return knex('organization-learners').delete();
-    });
-
     context('when there is no organization learners for the given organizationId and student number', function () {
       it('creates the organization-learner', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
@@ -338,11 +334,6 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
       organization = databaseBuilder.factory.buildOrganization();
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('campaign-participations').delete();
-      return knex('organization-learners').delete();
     });
 
     context('when there is no organization learners for the given organizationId and student number', function () {

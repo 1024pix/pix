@@ -210,10 +210,6 @@ describe('Integration | Repository | Organization Place', function () {
   });
 
   describe('#create', function () {
-    afterEach(function () {
-      return knex('organization-places').delete();
-    });
-
     it('should create the given lot of places', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;

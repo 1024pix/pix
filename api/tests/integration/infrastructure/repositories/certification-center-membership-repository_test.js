@@ -24,10 +24,6 @@ describe('Integration | Repository | Certification Center Membership', function 
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('certification-center-memberships').delete();
-    });
-
     it('should add a new membership in database', async function () {
       // given
       const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();

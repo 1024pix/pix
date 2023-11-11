@@ -17,10 +17,6 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
   });
 
   describe('PUT /admin/complementary-certifications/{complementaryCertificationId}/badges/', function () {
-    afterEach(function () {
-      return knex('complementary-certification-badges').delete();
-    });
-
     it('should return an OK status after saving in database', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();

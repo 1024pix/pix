@@ -106,7 +106,6 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
 
     afterEach(async function () {
       clock.restore();
-      return knex('complementary-certification-badges').delete();
     });
 
     it('should attach the complementary certification badges', async function () {

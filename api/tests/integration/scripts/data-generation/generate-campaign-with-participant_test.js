@@ -43,13 +43,4 @@ describe('Integration | Scripts | generate-campaign-with-participants', function
 
     expect(participants.length).to.equal(2);
   });
-
-  afterEach(async function () {
-    await knex('answers').delete();
-    await knex('assessments').delete();
-    await knex('campaign-participations').delete();
-    await knex('organization-learners').delete();
-    await knex('campaigns').delete();
-    await knex('target-profiles').delete();
-  });
 });

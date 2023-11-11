@@ -173,10 +173,6 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('badge-acquisitions').delete();
-    });
-
     it('should compute badge acquisition for all campaign participations', async function () {
       // when
       const numberOfCreatedBadges = await computeAllBadgeAcquisitions({
@@ -318,10 +314,6 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       mockLearningContent(learningContentObjects);
 
       return databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('badge-acquisitions').delete();
     });
 
     it('should save only the validated badges not yet acquired', async function () {

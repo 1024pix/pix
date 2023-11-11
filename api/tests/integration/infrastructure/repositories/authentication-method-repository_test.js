@@ -11,10 +11,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
   const newHashedPassword = '1234ABCDEF';
 
   describe('#create', function () {
-    afterEach(function () {
-      return knex('authentication-methods').delete();
-    });
-
     context('when creating a AuthenticationMethod containing an external identifier', function () {
       it('should return an AuthenticationMethod', async function () {
         // given
@@ -633,10 +629,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('authentication-methods').delete();
     });
 
     it('should create and return a Pix authentication method with given password in database and set shouldChangePassword to true', async function () {

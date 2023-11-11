@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
+import { expect, databaseBuilder } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
 import jsonwebtoken from 'jsonwebtoken';
 import * as authenticationSessionService from '../../../../../lib/domain/services/authentication/authentication-session-service.js';
@@ -6,10 +6,6 @@ import * as authenticationSessionService from '../../../../../lib/domain/service
 describe('Acceptance | Application | Oidc | Routes', function () {
   describe('POST /api/oidc/user/check-reconciliation', function () {
     context('when user has no oidc authentication method', function () {
-      afterEach(async function () {
-        await knex('user-logins').delete();
-      });
-
       it('should return 200 HTTP status', async function () {
         // given
         const server = await createServer();

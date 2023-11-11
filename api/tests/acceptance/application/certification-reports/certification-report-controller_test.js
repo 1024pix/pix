@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | certification-report-controller', function () {
@@ -20,11 +20,6 @@ describe('Acceptance | Controller | certification-report-controller', function (
   });
 
   describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
-    afterEach(async function () {
-      await knex('certification-issue-reports').delete();
-      await knex('issue-report-categories').delete();
-    });
-
     it('should return 201 HTTP status code', async function () {
       // given
       const request = {

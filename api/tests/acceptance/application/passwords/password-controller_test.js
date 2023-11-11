@@ -1,4 +1,4 @@
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 import { tokenService } from '../../../../lib/domain/services/token-service.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
 
@@ -33,10 +33,6 @@ describe('Acceptance | Controller | password-controller', function () {
       const userId = databaseBuilder.factory.buildUser({ email }).id;
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('reset-password-demands').delete();
     });
 
     context('when email provided is unknown', function () {
@@ -120,10 +116,6 @@ describe('Acceptance | Controller | password-controller', function () {
   });
 
   describe('POST /api/expired-password-updates', function () {
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-    });
-
     context('Success cases', function () {
       it('should return 201 HTTP status code', async function () {
         // given

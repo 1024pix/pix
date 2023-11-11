@@ -245,10 +245,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-    });
-
     context('when creation is with email', function () {
       it('should return an 204 status after having successfully created user and associated user to organizationLearner', async function () {
         // when
@@ -328,11 +324,6 @@ describe('Acceptance | Controller | sco-organization-learners', function () {
       });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-      await knex('user-logins').truncate();
     });
 
     context('when an external user try to reconcile for the first time', function () {

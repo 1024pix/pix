@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
+import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
@@ -6,10 +6,6 @@ const { STARTED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Campaign Assessment Participation Result List', function () {
   describe('#findPaginatedByCampaignId', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     let campaign;
 
     context('when participants have not retried', function () {

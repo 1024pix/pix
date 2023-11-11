@@ -1,4 +1,4 @@
-import { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { BookshelfAssessment } from '../../../../lib/infrastructure/orm-models/Assessment.js';
 
@@ -10,11 +10,6 @@ describe('Acceptance | API | Assessments POST', function () {
   });
 
   describe('POST /api/assessments', function () {
-    afterEach(async function () {
-      await knex('assessments').delete();
-      return knex('users').delete();
-    });
-
     let options;
     let userId;
 

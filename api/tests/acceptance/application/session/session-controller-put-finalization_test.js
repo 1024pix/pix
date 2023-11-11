@@ -96,14 +96,6 @@ describe('Acceptance | Controller | sessions-controller', function () {
     });
 
     describe('Success case', function () {
-      afterEach(async function () {
-        await knex('certification-courses-last-assessment-results').delete();
-        await knex('certification-issue-reports').delete();
-        await knex('finalized-sessions').delete();
-        await knex('competence-marks').delete();
-        await knex('assessment-results').delete();
-      });
-
       it('should update session', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;

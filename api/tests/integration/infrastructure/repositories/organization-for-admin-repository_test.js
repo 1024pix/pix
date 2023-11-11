@@ -209,12 +209,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#update', function () {
-    afterEach(async function () {
-      await knex('organization-features').delete();
-      await knex('organization-tags').delete();
-      await knex('data-protection-officers').delete();
-    });
-
     it('should enable feature', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser({ firstName: 'Anne', lastName: 'Héantie' }).id;
@@ -616,10 +610,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
   });
 
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('organizations').delete();
-    });
-
     it('saves the given organization', async function () {
       // given
       const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;

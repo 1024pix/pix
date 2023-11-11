@@ -14,10 +14,6 @@ const supOrganizationLearnerImportHeader = new SupOrganizationLearnerImportHeade
   .join(';');
 
 describe('Integration | UseCase | ImportSupOrganizationLearner', function () {
-  afterEach(function () {
-    return knex('organization-learners').delete();
-  });
-
   context('when there is no organization learners for the organization', function () {
     it('parses the csv received and creates the SupOrganizationLearner', async function () {
       const input = `${supOrganizationLearnerImportHeader}

@@ -4,13 +4,6 @@ import * as temporarySessionsStorageForMassImportService from '../../../../../li
 
 describe('Acceptance | Controller | certification-centers-controller-post-create-sessions', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/sessions/confirm-for-mass-import', function () {
-    afterEach(async function () {
-      await knex('sessions').delete();
-      await knex('certification-center-memberships').delete();
-      await knex('certification-centers').delete();
-      await knex('users').delete();
-    });
-
     context('when certification center is not V3 Pilot', function () {
       context('when user confirm sessions for import', function () {
         it('should return status 201', async function () {

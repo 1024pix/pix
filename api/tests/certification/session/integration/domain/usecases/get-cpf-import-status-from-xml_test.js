@@ -5,12 +5,6 @@ import * as url from 'url';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | UseCase | Certification | get-cpf-import-status-from-xml', function () {
-  afterEach(async function () {
-    await knex('certification-courses-cpf-infos').delete();
-    await knex('certification-courses').delete();
-    await knex('sessions').delete();
-    await knex('users').delete();
-  });
   describe('#getCPfImportstatusFromXml', function () {
     describe('when xml is not empty', function () {
       it('should update cpf import status', async function () {

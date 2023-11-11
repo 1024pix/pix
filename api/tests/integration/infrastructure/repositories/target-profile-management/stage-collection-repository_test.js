@@ -4,10 +4,6 @@ import * as stageCollectionRepository from '../../../../../lib/infrastructure/re
 import { StageCollectionUpdate } from '../../../../../lib/domain/models/target-profile-management/StageCollectionUpdate.js';
 
 describe('Integration | Infrastructure | Repository | target-profile-management | stage-collection-repository', function () {
-  afterEach(async function () {
-    await knex('stages').delete();
-  });
-
   describe('#getByTargetProfileId', function () {
     context('when no stage exists in database', function () {
       it('should return an empty array', async function () {

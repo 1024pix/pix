@@ -1,6 +1,5 @@
 import {
   expect,
-  knex,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
@@ -14,12 +13,6 @@ describe('Acceptance | Routes | organization-administration-controller', functio
   beforeEach(async function () {
     server = await createServer();
     await insertUserWithRoleSuperAdmin();
-  });
-
-  afterEach(async function () {
-    await knex('organization-features').delete();
-    await knex('organization-tags').delete();
-    await knex('data-protection-officers').delete();
   });
 
   describe('PATCH /api/admin/organizations/{id}', function () {

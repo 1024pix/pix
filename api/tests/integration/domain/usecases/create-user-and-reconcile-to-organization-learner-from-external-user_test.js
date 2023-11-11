@@ -169,14 +169,6 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
       token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
-    afterEach(async function () {
-      await knex('authentication-methods').delete();
-      await knex('organization-learners').delete();
-      await knex('campaigns').delete();
-      await knex('user-logins').delete();
-      await knex('users').delete();
-    });
-
     it('creates the external user, reconciles it and creates GAR authentication method', async function () {
       // given
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({

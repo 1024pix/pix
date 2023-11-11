@@ -16,10 +16,6 @@ describe('Acceptance | Application | organization-controller-import-sup-organiza
     server = await createServer();
   });
 
-  afterEach(function () {
-    return knex('organization-learners').delete();
-  });
-
   describe('POST organizations/:id/sup-organization-learners/import-csv', function () {
     let connectedUser;
     beforeEach(async function () {

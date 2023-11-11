@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { databaseBuilder, domainBuilder, expect, catchErr, knex } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, catchErr } from '../../../test-helper.js';
 import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as certificationReportRepository from '../../../../lib/infrastructure/repositories/certification-report-repository.js';
@@ -77,10 +77,6 @@ describe('Integration | Repository | CertificationReport', function () {
 
   describe('#finalizeAll', function () {
     let sessionId;
-
-    afterEach(function () {
-      return knex('certification-issue-reports').delete();
-    });
 
     beforeEach(function () {
       // given

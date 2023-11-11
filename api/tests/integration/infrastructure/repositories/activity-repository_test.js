@@ -6,9 +6,6 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 describe('Integration | Repository | activityRepository', function () {
   describe('#save', function () {
     let activityId;
-    afterEach(async function () {
-      await knex('activities').where('id', activityId).delete();
-    });
 
     it('should save and return the activity', async function () {
       // given

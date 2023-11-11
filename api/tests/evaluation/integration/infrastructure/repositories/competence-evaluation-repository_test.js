@@ -16,10 +16,6 @@ describe('Integration | Repository | Competence Evaluation', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('competence-evaluations').delete();
-    });
-
     it('should return the given competence evaluation', async function () {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({

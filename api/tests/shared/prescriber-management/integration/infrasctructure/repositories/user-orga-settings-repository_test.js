@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { catchErr, expect, knex, databaseBuilder } from '../../../../../test-helper.js';
+import { catchErr, expect, databaseBuilder } from '../../../../../test-helper.js';
 import { UserOrgaSettings } from '../../../../../../lib/domain/models/UserOrgaSettings.js';
 import { BookshelfUserOrgaSettings } from '../../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
 import { UserOrgaSettingsCreationError } from '../../../../../../lib/domain/errors.js';
@@ -41,10 +41,6 @@ describe('Integration | Repository | UserOrgaSettings', function () {
     user = databaseBuilder.factory.buildUser();
     organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
-  });
-
-  afterEach(async function () {
-    await knex('user-orga-settings').delete();
   });
 
   describe('#create', function () {

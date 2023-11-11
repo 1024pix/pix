@@ -109,10 +109,6 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('badge-acquisitions').delete();
-    });
-
     context('when domain transaction is not committed yet', function () {
       it('should not affect the database', async function () {
         await DomainTransaction.execute(async (domainTransaction) => {

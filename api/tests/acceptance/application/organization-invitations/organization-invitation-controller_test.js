@@ -1,4 +1,4 @@
-import { expect, knex, databaseBuilder } from '../../../test-helper.js';
+import { expect, databaseBuilder } from '../../../test-helper.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
 import { createServer } from '../../../../server.js';
@@ -8,10 +8,6 @@ describe('Acceptance | Application | organization-invitation-controller', functi
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  afterEach(async function () {
-    await knex('user-orga-settings').delete();
   });
 
   describe('POST /api/organization-invitations/{id}/response', function () {
@@ -56,10 +52,6 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         await databaseBuilder.commit();
       });
 
-      afterEach(function () {
-        return knex('memberships').delete();
-      });
-
       it('should return 204 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
@@ -70,10 +62,6 @@ describe('Acceptance | Application | organization-invitation-controller', functi
     });
 
     context('Error cases', function () {
-      afterEach(async function () {
-        await knex('organization-invitations').delete();
-      });
-
       it('should respond with a 404 if organization-invitation does not exist with id and code', async function () {
         // given
         const user = databaseBuilder.factory.buildUser({ email: 'user@example.net' });

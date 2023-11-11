@@ -34,10 +34,6 @@ describe('Integration | Domain | UseCases | send-shared-participation-results-to
     return databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('pole-emploi-sendings').delete();
-  });
-
   it('should save success of this notification', async function () {
     // given
     poleEmploiNotifier.notify.resolves({ isSuccessful: true, code: responseCode });

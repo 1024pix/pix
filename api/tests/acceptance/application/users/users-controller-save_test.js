@@ -1,7 +1,7 @@
 import lodash from 'lodash';
 const { pick } = lodash;
 
-import { domainBuilder, expect, knex, nock } from '../../../test-helper.js';
+import { domainBuilder, expect, nock } from '../../../test-helper.js';
 
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
@@ -12,13 +12,6 @@ describe('Acceptance | Controller | users-controller', function () {
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  afterEach(async function () {
-    await knex('authentication-methods').delete();
-    await knex('pix-admin-roles').delete();
-    await knex('sessions').delete();
-    await knex('users').delete();
   });
 
   describe('save', function () {

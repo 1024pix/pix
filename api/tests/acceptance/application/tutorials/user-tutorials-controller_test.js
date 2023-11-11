@@ -4,7 +4,6 @@ import {
   mockLearningContent,
   learningContentBuilder,
   databaseBuilder,
-  knex,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
@@ -60,10 +59,6 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
       };
 
       mockLearningContent(learningContent);
-    });
-
-    afterEach(async function () {
-      return knex('user-saved-tutorials').delete();
     });
 
     describe('nominal case', function () {

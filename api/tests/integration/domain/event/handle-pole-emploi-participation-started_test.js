@@ -44,10 +44,6 @@ describe('Integration | Event | Handle Pole emploi participation started', funct
       return databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('pole-emploi-sendings').delete();
-    });
-
     it('should notify pole emploi and save success of this notification', async function () {
       // when
       await handlePoleEmploiParticipationStarted({

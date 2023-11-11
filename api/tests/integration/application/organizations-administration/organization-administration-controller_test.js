@@ -27,12 +27,6 @@ describe('Integration | Application | Controller | organization-administration-c
     await databaseBuilder.commit();
   });
 
-  afterEach(async function () {
-    await knex('organization-features').delete();
-    await knex('organization-tags').delete();
-    await knex('data-protection-officers').delete();
-  });
-
   describe('#updateOrganizationInformation', function () {
     it('return updated basic organization information', async function () {
       //given && when

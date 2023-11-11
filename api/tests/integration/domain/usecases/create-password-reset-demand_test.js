@@ -1,4 +1,4 @@
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
@@ -16,10 +16,6 @@ describe('Integration | UseCases | create-password-reset-demand', function () {
     const userId = databaseBuilder.factory.buildUser({ email }).id;
     databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId });
     await databaseBuilder.commit();
-  });
-
-  afterEach(function () {
-    return knex('reset-password-demands').delete();
   });
 
   it('should return a password reset demand', async function () {

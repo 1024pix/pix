@@ -6,17 +6,12 @@ import {
   insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
   databaseBuilder,
-  knex,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Route | tag-router', function () {
   describe('POST /api/admin/tags', function () {
-    afterEach(async function () {
-      await knex('tags').delete();
-    });
-
     it('should return the created tag with 201 HTTP status code', async function () {
       // given
       const tagName = 'SUPER TAG';

@@ -1,15 +1,10 @@
 import { expect, databaseBuilder } from '../../test-helper.js';
-import { knex } from '../../../lib/infrastructure/bookshelf.js';
 import { BookshelfOrganizationLearner } from '../../../lib/infrastructure/orm-models/OrganizationLearner.js';
 import { addManyStudentsToScoCertificationCenter } from '../../../scripts/data-generation/add-many-students-to-sco-certification-center.js';
 
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', function () {
   const organizationId = 123;
   describe('#addManyStudentsToScoCertificationCenter', function () {
-    afterEach(function () {
-      return knex('organization-learners').delete();
-    });
-
     it('should insert 2 sco certification centers', async function () {
       // given
       const numberOfOrganizationLearnerToCreate = 3;
