@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 
 describe('Acceptance | Controller | user-orga-settings-controller', function () {
@@ -6,10 +6,6 @@ describe('Acceptance | Controller | user-orga-settings-controller', function () 
 
   beforeEach(async function () {
     server = await createServer();
-  });
-
-  afterEach(async function () {
-    await knex('user-orga-settings').delete();
   });
 
   describe('PUT /api/user-orga-settings/{id}', function () {

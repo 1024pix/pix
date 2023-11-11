@@ -1,5 +1,5 @@
 import * as certificationLsRepository from '../../../../lib/infrastructure/repositories/certification-livret-scolaire-repository.js';
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder } from '../../../test-helper.js';
 import { status } from '../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js';
 
 import {
@@ -28,17 +28,6 @@ describe('Integration | Repository | Certification-ls ', function () {
       level: 4,
     },
   ];
-
-  afterEach(async function () {
-    await knex('competence-marks').delete();
-    await knex('certification-candidates').delete();
-    await knex('certification-courses-last-assessment-results').delete();
-    await knex('complementary-certification-course-results').delete();
-    await knex('assessment-results').delete();
-    await knex('assessments').delete();
-    await knex('certification-courses').delete();
-    return knex('sessions').delete();
-  });
 
   describe('#getCertificatesByOrganizationUAI', function () {
     it('should return validated certification results for a given UAI', async function () {

@@ -8,10 +8,6 @@ import { getPrescriber } from '../../../../../../src/shared/prescriber-managemen
 
 describe('Integration | UseCases | get-prescriber', function () {
   context('When prescriber does not have a userOrgaSettings', function () {
-    afterEach(function () {
-      return knex('user-orga-settings').delete();
-    });
-
     it("should create it with the first membership's organization", async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;

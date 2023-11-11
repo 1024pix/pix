@@ -187,11 +187,6 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(async function () {
-    await knex('certification-courses-last-assessment-results').delete();
-    return knex('assessment-results').delete();
-  });
-
   describe('PATCH /assessments/{id}/complete-assessment', function () {
     context('when user is not the owner of the assessment', function () {
       it('should return a 401 HTTP status code', async function () {
@@ -231,11 +226,6 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
           targetProfileId: targetProfile.id,
           trainingId: training.id,
         });
-      });
-
-      afterEach(async function () {
-        await knex('badge-acquisitions').delete();
-        await knex('user-recommended-trainings').delete();
       });
 
       it('should create a badge when it is acquired', async function () {
@@ -363,12 +353,6 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
           return databaseBuilder.commit();
         });
 
-        afterEach(async function () {
-          await knex('certification-courses-last-assessment-results').delete();
-          await knex('competence-marks').delete();
-          await knex('assessment-results').delete();
-        });
-
         it('should complete the certification assessment', async function () {
           // given
           options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
@@ -410,12 +394,6 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
           databaseBuilder.factory.buildBadge();
 
           return databaseBuilder.commit();
-        });
-
-        afterEach(async function () {
-          await knex('certification-courses-last-assessment-results').delete();
-          await knex('competence-marks').delete();
-          await knex('assessment-results').delete();
         });
 
         it('should complete the certification assessment', async function () {

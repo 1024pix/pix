@@ -21,11 +21,6 @@ describe('Integration | Repository | CompetenceMark', function () {
       });
     });
 
-    afterEach(async function () {
-      await knex('competence-marks').delete();
-      await knex('assessment-results').delete();
-    });
-
     it('should persist the mark in db', async function () {
       // when
       await competenceMarkRepository.save(competenceMark);

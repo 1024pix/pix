@@ -5,10 +5,6 @@ import { UserRecommendedTraining } from '../../../../lib/domain/read-models/User
 
 describe('Integration | Repository | user-recommended-training-repository', function () {
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('user-recommended-trainings').delete();
-    });
-
     it('should persist userRecommendedTraining', async function () {
       // given
       const userRecommendedTraining = {

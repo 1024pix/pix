@@ -42,11 +42,6 @@ describe('Acceptance | API | Competence Evaluations', function () {
         mockLearningContent(learningContentObjects);
       });
 
-      afterEach(async function () {
-        await knex('competence-evaluations').delete();
-        await knex('assessments').delete();
-      });
-
       context('and competence exists', function () {
         it('should return 201 and the competence evaluation when it has been successfully created', async function () {
           // when
@@ -135,13 +130,6 @@ describe('Acceptance | API | Competence Evaluations', function () {
     const competenceId = 'recABCD123';
 
     context('When user is authenticated', function () {
-      afterEach(async function () {
-        await knex('competence-evaluations').delete();
-        await knex('knowledge-elements').delete();
-        await knex('answers').delete();
-        await knex('assessments').delete();
-      });
-
       context('and competence exists', function () {
         let response, assessment;
 

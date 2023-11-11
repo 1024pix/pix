@@ -4,10 +4,6 @@ import * as activityAnswerRepository from '../../../../lib/infrastructure/reposi
 import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
 
 describe('Integration | UseCases | correct-answer', function () {
-  let createdAnswerRecordId;
-  afterEach(async function () {
-    await knex('activity-answers').where({ id: createdAnswerRecordId }).delete();
-  });
   context('when there is assessmentId', function () {
     it('returns newly created answer', async function () {
       // given
@@ -31,9 +27,6 @@ describe('Integration | UseCases | correct-answer', function () {
         activityAnswerRepository,
         activityRepository,
       });
-
-      // For cleanup purpose
-      createdAnswerRecordId = record.id;
 
       const savedAnswer = await knex('activity-answers').where({ id: record.id }).first();
 
@@ -62,9 +55,6 @@ describe('Integration | UseCases | correct-answer', function () {
         activityAnswerRepository,
         activityRepository,
       });
-
-      // For cleanup purpose
-      createdAnswerRecordId = record.id;
 
       const savedAnswer = await knex('activity-answers').where({ id: record.id }).first();
 

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { expect, databaseBuilder, knex, sinon, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder, sinon, catchErr } from '../../../test-helper.js';
 
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
@@ -21,7 +21,6 @@ describe('Integration | Service | Organization-Invitation Service', function () 
     });
 
     afterEach(async function () {
-      await knex('organization-invitations').delete();
       clock.restore();
     });
 

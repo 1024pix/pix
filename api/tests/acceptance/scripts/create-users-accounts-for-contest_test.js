@@ -15,8 +15,6 @@ describe('Acceptance | Scripts | create-users-accounts-for-contest', function ()
 
     afterEach(async function () {
       clock.restore();
-      await knex('authentication-methods').delete();
-      await knex('users').delete();
     });
 
     it('should insert users', async function () {

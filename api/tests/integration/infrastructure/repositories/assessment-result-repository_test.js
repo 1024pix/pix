@@ -6,11 +6,6 @@ import { MissingAssessmentId } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | AssessmentResult', function () {
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('certification-courses-last-assessment-results').delete();
-      return knex('assessment-results').delete();
-    });
-
     context('when save is successful', function () {
       it('should return the saved assessment result', async function () {
         // given

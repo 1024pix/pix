@@ -9,10 +9,6 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
     server = await createServer();
   });
 
-  afterEach(async function () {
-    await knex('certification-issue-reports').delete();
-  });
-
   describe('PATCH /sessions/{id}/candidates/{candidateId}/dismiss-live-alert', function () {
     describe('when user has supervisor authorization', function () {
       it('should return 204 when the alert is ongoing', async function () {

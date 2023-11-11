@@ -34,10 +34,6 @@ describe('Integration | Repository | UserLoginRepository', function () {
   });
 
   describe('#create', function () {
-    afterEach(async function () {
-      await knex(USER_LOGINS_TABLE_NAME).delete();
-    });
-
     it('should return the created user-login', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
@@ -151,7 +147,6 @@ describe('Integration | Repository | UserLoginRepository', function () {
     });
 
     afterEach(async function () {
-      await knex(USER_LOGINS_TABLE_NAME).delete();
       clock.restore();
     });
 

@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, mockLearningContent, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import * as campaignProfilesCollectionParticipationSummaryRepository from '../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
@@ -20,10 +20,6 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
       await databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
     });
 
     it('should return empty array if no participant', async function () {

@@ -30,12 +30,6 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       userIdentity = { id: user.id, firstName: user.firstName, lastName: user.lastName };
     });
 
-    afterEach(async function () {
-      await knex('assessments').delete();
-      await knex('campaign-participations').delete();
-      await knex('organization-learners').delete();
-    });
-
     it('returns campaign participation id', async function () {
       const campaignParticipant = await makeCampaignParticipant({
         campaignAttributes: { idPixLabel: null },

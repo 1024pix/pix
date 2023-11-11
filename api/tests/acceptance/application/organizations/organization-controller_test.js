@@ -50,11 +50,6 @@ describe('Acceptance | Application | organization-controller', function () {
       };
     });
 
-    afterEach(async function () {
-      await knex('data-protection-officers').delete();
-      await knex('organizations').delete();
-    });
-
     describe('Success case', function () {
       it('returns 200 HTTP status code with the created organization', async function () {
         // given
@@ -151,16 +146,6 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 
   describe('POST /api/admin/organizations/import-csv', function () {
-    afterEach(async function () {
-      await knex('data-protection-officers').delete();
-      await knex('target-profile-shares').delete();
-      await knex('target-profiles').delete();
-      await knex('organization-tags').delete();
-      await knex('tags').delete();
-      await knex('organization-features').delete();
-      await knex('organizations').delete();
-    });
-
     it('create organizations for the given csv file', async function () {
       // given
       const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
@@ -821,10 +806,6 @@ describe('Acceptance | Application | organization-controller', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('organization-invitations').delete();
-    });
-
     context('Expected output', function () {
       it('should return the matching organization-invitations as JSON API', async function () {
         // given
@@ -913,7 +894,6 @@ describe('Acceptance | Application | organization-controller', function () {
 
     afterEach(async function () {
       clock.restore();
-      await knex('organization-invitations').delete();
     });
 
     it('should return the matching organization invitation as JSON API', async function () {
@@ -1008,11 +988,6 @@ describe('Acceptance | Application | organization-controller', function () {
       };
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('memberships').delete();
-      await knex('organization-invitations').delete();
     });
 
     context('Expected output', function () {
@@ -1253,10 +1228,6 @@ describe('Acceptance | Application | organization-controller', function () {
         targetProfileId: alreadyAttachedTargetProfileId,
       });
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('target-profile-shares').delete();
     });
 
     context('when target profiles to attach exists', function () {

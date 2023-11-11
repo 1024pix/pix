@@ -5,11 +5,6 @@ import { OrganizationInvitation } from '../../../../lib/domain/models/Organizati
 import { OrganizationInvitedUser } from '../../../../lib/domain/models/OrganizationInvitedUser.js';
 
 describe('Integration | Repository | OrganizationInvitedUserRepository', function () {
-  afterEach(async function () {
-    await knex('user-orga-settings').delete();
-    await knex('memberships').delete();
-  });
-
   describe('#get', function () {
     it('should return an OrganizationInvitedUser userId', async function () {
       // given

@@ -5,10 +5,6 @@ import * as knowledgeElementRepository from '../../../../lib/infrastructure/repo
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | knowledgeElementRepository', function () {
-  afterEach(function () {
-    return knex('knowledge-elements').delete();
-  });
-
   describe('#save', function () {
     let knowledgeElementToSave;
 
@@ -333,10 +329,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     it('should return knowledge elements within respective dates grouped by userId the competenceId', async function () {
       // given
       const competence1 = 'competenceId1';
@@ -492,10 +484,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('#countValidatedByCompetencesForOneUserWithinCampaign', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     it('should return count of validated knowledge elements within limit date for the given user grouped by competences within target profile of campaign', async function () {
       // given
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
@@ -734,10 +722,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('#countValidatedByCompetencesForUsersWithinCampaign', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     it('should return count of validated knowledge elements within limit date for the given users grouped by competences within target profile of campaign', async function () {
       // given
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
@@ -956,10 +940,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('#findGroupedByCompetencesForUsersWithinLearningContent', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     it('should return knowledge elements within respective dates grouped by userId the competenceId within target profile of campaign', async function () {
       // given
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
@@ -1242,10 +1222,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
   });
 
   describe('#findValidatedGroupedByTubesWithinCampaign', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     it('should return knowledge elements within respective dates grouped by userId and tubeId within target profile of campaign', async function () {
       // given
       const skill1 = domainBuilder.buildSkill({ id: 'skill1', tubeId: 'tube1' });
@@ -1496,10 +1472,6 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       userId2 = databaseBuilder.factory.buildUser().id;
       sandbox = sinon.createSandbox();
       return databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
     });
 
     it('should return knowledge elements within respective dates and users', async function () {

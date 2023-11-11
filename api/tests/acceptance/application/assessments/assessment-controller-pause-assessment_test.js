@@ -33,10 +33,6 @@ describe('Acceptance | API | assessment-controller-pause-assessment', function (
       return databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('certification-challenge-live-alerts').delete();
-    });
-
     it('should respond with a 401 if requested user is not the same as the user of the assessment', async function () {
       // given
       const otherUserId = 9999;

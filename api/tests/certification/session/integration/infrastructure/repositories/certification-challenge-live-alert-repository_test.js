@@ -7,10 +7,6 @@ const assessmentIdWithNoAlerts = 123;
 const assessmentIdWithLiveAlert = 456;
 
 describe('Integration | Repository | Certification Challenge Live Alert', function () {
-  afterEach(async function () {
-    await knex('certification-challenge-live-alerts').delete();
-  });
-
   describe('#save', function () {
     it('should persist a non existing alert for this specific certification live challenge in db', async function () {
       // given

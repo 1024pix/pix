@@ -112,11 +112,6 @@ describe('Integration | Repository | training-trigger-repository', function () {
   });
 
   describe('#createOrUpdate', function () {
-    afterEach(async function () {
-      await databaseBuilder.knex('training-trigger-tubes').delete();
-      await databaseBuilder.knex('training-triggers').delete();
-    });
-
     context('when trigger does not exist', function () {
       it('should create training trigger', async function () {
         // when

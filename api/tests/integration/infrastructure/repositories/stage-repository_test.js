@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
 import {
   get,
   getByCampaignIds,
@@ -12,10 +12,6 @@ import { NotFoundError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | Repository | Stage Acquisition', function () {
   describe('get', function () {
-    afterEach(async function () {
-      await knex('stages').delete();
-    });
-
     it('should return a stage for a given id', async function () {
       // given
       const stage1 = databaseBuilder.factory.buildStage({ id: 1 });
@@ -62,10 +58,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('stages').delete();
-    });
-
     it('should return Stage instances', async function () {
       const result = await getByCampaignIds(campaigns.map((campaign) => campaign.id));
       expect(result[0]).to.be.instanceof(Stage);
@@ -95,10 +87,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       ];
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('stages').delete();
     });
 
     it('should return Stage instances', async function () {
@@ -132,10 +120,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('stages').delete();
     });
 
     it('should return Stage instances', async function () {
@@ -175,10 +159,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('stages').delete();
-    });
-
     it('should return Stage instances', async function () {
       const result = await getByTargetProfileIds([targetProfile1.id, targetProfile2.id]);
       expect(result[0]).to.be.instanceof(Stage);
@@ -191,9 +171,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
   });
 
   describe('update', function () {
-    afterEach(async function () {
-      await knex('stages').delete();
-    });
     it('should update the stage', async function () {
       // given
       const stage = databaseBuilder.factory.buildStage({

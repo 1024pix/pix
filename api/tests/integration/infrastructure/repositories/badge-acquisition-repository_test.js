@@ -20,10 +20,6 @@ describe('Integration | Repository | Badge Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('badge-acquisitions').delete();
-    });
-
     it('should persist the badge acquisition in db', async function () {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {

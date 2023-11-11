@@ -7,11 +7,6 @@ import { NotFoundError, ObjectValidationError } from '../../../../lib/domain/err
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
-    afterEach(async function () {
-      await knex('target-profile_tubes').delete();
-      await knex('target-profiles').delete();
-    });
-
     it('should return the id and create the target profile in database', async function () {
       // given
       databaseBuilder.factory.buildOrganization({ id: 1 });

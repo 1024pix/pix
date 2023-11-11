@@ -7,10 +7,6 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
   const organizationId = 123;
 
   describe('#addManyDivisionsAndStudentsToScoCertificationCenter', function () {
-    afterEach(function () {
-      return knex('organization-learners').delete();
-    });
-
     it('should insert many divisions and organization learners', async function () {
       // given
       const numberOfDivisionsToCreate = 4;

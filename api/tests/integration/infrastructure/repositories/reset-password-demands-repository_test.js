@@ -3,10 +3,6 @@ import * as resetPasswordDemandsRepository from '../../../../lib/infrastructure/
 import { PasswordResetDemandNotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | reset-password-demands-repository', function () {
-  afterEach(function () {
-    return knex('reset-password-demands').delete();
-  });
-
   describe('#create', function () {
     it('should create a password reset demand', async function () {
       // when

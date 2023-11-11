@@ -3,10 +3,6 @@ import * as supervisorAccessRepository from '../../../../lib/infrastructure/repo
 
 describe('Integration | Repository | supervisor-access-repository', function () {
   describe('#create', function () {
-    afterEach(function () {
-      return knex('supervisor-accesses').delete();
-    });
-
     it('should save a supervisor access', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;

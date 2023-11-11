@@ -13,10 +13,6 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       return databaseBuilder.commit();
     });
 
-    afterEach(function () {
-      return knex('certification-candidates').delete();
-    });
-
     it('adds only the unenrolled candidates', async function () {
       // given
       const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner().id;

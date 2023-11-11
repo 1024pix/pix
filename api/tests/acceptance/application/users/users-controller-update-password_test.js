@@ -20,12 +20,6 @@ describe('Acceptance | Controller | users-controller-update-password', function 
     await _insertPasswordResetDemand(temporaryKey, user.email);
   });
 
-  afterEach(async function () {
-    await knex('authentication-methods').delete();
-    await knex('reset-password-demands').delete();
-    await knex('user-logins').delete();
-  });
-
   describe('Error case', function () {
     it('should reply with an error, when temporary key is invalid', async function () {
       // given

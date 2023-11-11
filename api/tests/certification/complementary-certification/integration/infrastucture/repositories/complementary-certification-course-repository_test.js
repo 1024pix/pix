@@ -1,14 +1,9 @@
-import { knex } from '../../../../../../db/knex-database-connection.js';
 import { databaseBuilder, domainBuilder, expect } from '../../../../../test-helper.js';
 import * as complementaryCertificationCourseRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-course-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../../../lib/domain/models/index.js';
 
 describe('Integration | Repository | complementary-certification-course-repository', function () {
   describe('#findByUserId', function () {
-    afterEach(function () {
-      return knex('complementary-certification-course-results').delete();
-    });
-
     describe('when the user has no complementary certification course taken', function () {
       it('should return an empty array', async function () {
         // given a user

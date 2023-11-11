@@ -12,6 +12,8 @@ class DatabaseBuilder {
     this.isFirstCommit = true;
     this.emptyFirst = emptyFirst;
     this._beforeEmptyDatabase = beforeEmptyDatabase;
+
+    this.#addListeners();
   }
 
   async commit() {
@@ -162,7 +164,7 @@ class DatabaseBuilder {
 
   _setTableAsDirty(table) {
     const tableWithDirtiness = _.find(this.tablesOrderedByDependencyWithDirtinessMap, { table });
-    tableWithDirtiness.isDirty = true;
+    if (tableWithDirtiness) tableWithDirtiness.isDirty = true;
   }
 
   _selectDirtyTables() {
@@ -173,6 +175,21 @@ class DatabaseBuilder {
   _purgeDirtiness() {
     _.each(this.tablesOrderedByDependencyWithDirtinessMap, (table) => {
       table.isDirty = false;
+    });
+  }
+
+  #addListeners() {
+    this.knex?.on('query', (queryData) => {
+      {
+        if (queryData.method?.toLowerCase() === 'insert') {
+          const tableNameRegExp = /insert into "(?<tableName>(?:\\.|[^"\\])*)"/g;
+          const tableName = tableNameRegExp.exec(queryData.sql)?.groups?.tableName;
+
+          if (!_.isEmpty(tableName)) {
+            this._setTableAsDirty(tableName);
+          }
+        }
+      }
     });
   }
 }

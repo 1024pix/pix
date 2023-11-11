@@ -1,5 +1,6 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable import/no-restricted-paths */
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-// eslint-disable-next-line  import/no-restricted-paths
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
@@ -10,7 +11,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
 
     beforeEach(function () {
       sandbox = sinon.createSandbox();
-      knex = { raw: sinon.stub().resolves() };
+      knex = { raw: sinon.stub().resolves(), on: sinon.stub() };
       databaseBuilder = new DatabaseBuilder({ knex });
       sandbox.spy(databaseBuilder.databaseBuffer);
     });
@@ -22,7 +23,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
 
     it('should delete content of all tables in databaseBuffer set for deletion when there are some', async function () {
       // given
-      const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
@@ -48,7 +48,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
 
     it('should avoid deleting anything if not table are set for deletion in database buffer', async function () {
       // given
-      const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
 
       // when
@@ -60,7 +59,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
 
     it('should reset the dirtyness map', async function () {
       // given
-      const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
         {
@@ -99,7 +97,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
 
     it('should purge the databasebuffer', async function () {
       // given
-      const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
 
       // when
@@ -137,6 +134,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
           raw: sinon.stub(),
           client: { database: sinon.stub().returns() },
           transaction: sinon.stub().resolves(trxStub),
+          on: sinon.stub(),
         };
         knex.raw.onCall(0).resolves({
           rows: [{ table_name: 'table2' }, { table_name: 'knex_migrations' }, { table_name: 'table1' }],

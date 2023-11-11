@@ -1,14 +1,10 @@
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import { School } from '../../../../src/school/domain/models/School.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | School', function () {
   describe('#save', function () {
-    afterEach(async function () {
-      await knex('schools').delete();
-    });
-
     it('saves the given organization', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO-1D' });
@@ -22,10 +18,6 @@ describe('Integration | Repository | School', function () {
     });
   });
   describe('#getByCode', function () {
-    afterEach(async function () {
-      await knex('schools').delete();
-    });
-
     it('returns the organization corresponding to the code', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO-1D', name: 'École des fans' });

@@ -17,10 +17,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('stage-acquisitions').delete();
-    });
-
     it('should return the expected stage', async function () {
       // when
       const result = await getByCampaignParticipation(stageAcquisition.campaignParticipationId);
@@ -56,10 +52,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('stage-acquisitions').delete();
-    });
-
     it('should return the expected stage ids', async function () {
       // when
       const result = await getStageIdsByCampaignParticipation(campaignParticipation.id);
@@ -82,10 +74,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       secondStage = databaseBuilder.factory.buildStageAcquisition();
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('stage-acquisitions').delete();
     });
 
     it('should return StageAcquisition instances', async function () {
@@ -135,10 +123,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('stage-acquisitions').delete();
-    });
-
     it('should return StageAcquisition instances', async function () {
       // when
       const result = await getByCampaignIdAndUserId(campaign.id, user.id);
@@ -175,10 +159,6 @@ describe('Integration | Repository | Stage Acquisition', function () {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('stage-acquisitions').delete();
     });
 
     it('return the expected stage', async function () {

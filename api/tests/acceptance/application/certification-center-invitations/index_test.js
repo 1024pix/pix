@@ -17,10 +17,6 @@ describe('Acceptance | API | Certification center invitations', function () {
   });
 
   describe('POST /api/certification-center-invitations/{id}/accept', function () {
-    afterEach(async function () {
-      await knex('certification-center-memberships').delete();
-    });
-
     it('it should return an HTTP code 204', async function () {
       // given
       databaseBuilder.factory.buildUser({ id: 293, email: 'user@example.net' });

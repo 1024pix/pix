@@ -16,14 +16,6 @@ describe('Acceptance | Route | Certification Courses', function () {
     server = await createServer();
   });
 
-  afterEach(async function () {
-    await knex('knowledge-elements').delete();
-    await knex('answers').delete();
-    await knex('assessments').delete();
-    await knex('certification-challenges').delete();
-    await knex('certification-courses').delete();
-  });
-
   describe('POST /api/certification-courses', function () {
     context('when the certification course does not exist', function () {
       let learningContent;

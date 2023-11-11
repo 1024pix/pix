@@ -653,10 +653,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     context(
       'when imported organization learner is in a different organization as an existing organization learner with the same national student id',
       function () {
-        afterEach(function () {
-          return knex('organization-learners').delete();
-        });
-
         context('and same birthday', function () {
           it('should save the imported organization learner with the user id of the existing one', async function () {
             // given
@@ -792,10 +788,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         });
 
         organizationLearners = [firstOrganizationLearner];
-      });
-
-      afterEach(function () {
-        return knex('organization-learners').delete();
       });
 
       it('should create all organizationLearners', async function () {
@@ -1137,10 +1129,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         organizationLearners = [organizationLearnerFromFile];
       });
 
-      afterEach(function () {
-        return knex('organization-learners').delete();
-      });
-
       it('should create organizationLearner and reconcile it with the help of another organizationLearner', async function () {
         // given
         databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, birthdate, userId });
@@ -1259,10 +1247,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         organizationLearners = [organizationLearnerUpdated, organizationLearnerToCreate];
       });
 
-      afterEach(function () {
-        return knex('organization-learners').delete();
-      });
-
       it('should update and create all organizationLearners', async function () {
         // when
         await DomainTransaction.execute((domainTransaction) => {
@@ -1311,10 +1295,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         });
 
         organizationLearners = [firstOrganizationLearner, secondOrganizationLearner];
-      });
-
-      afterEach(function () {
-        return knex('organization-learners').delete();
       });
 
       it('should return a OrganizationLearnersCouldNotBeSavedError on unicity errors', async function () {
@@ -1673,10 +1653,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#reconcileUserToOrganizationLearner', function () {
-    afterEach(function () {
-      return knex('organization-learners').delete();
-    });
-
     let organization;
     let organizationLearner;
     let user;
@@ -1757,10 +1733,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#reconcileUserAndOrganization', function () {
-    afterEach(function () {
-      return knex('organization-learners').delete();
-    });
-
     context('when the organizationLearner is active', function () {
       let organization;
       let organizationLearner;

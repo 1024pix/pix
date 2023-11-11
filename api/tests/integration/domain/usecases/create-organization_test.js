@@ -1,4 +1,4 @@
-import { databaseBuilder, expect, knex } from '../../../test-helper.js';
+import { databaseBuilder, expect } from '../../../test-helper.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
 import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
@@ -7,12 +7,6 @@ import * as organizationCreationValidator from '../../../../lib/domain/validator
 import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
 
 describe('Integration | UseCases | create-organization', function () {
-  afterEach(async function () {
-    await knex('schools').delete();
-    await knex('data-protection-officers').delete();
-    await knex('organizations').delete();
-  });
-
   it('returns newly created organization', async function () {
     // given
     const superAdminUserId = databaseBuilder.factory.buildUser().id;

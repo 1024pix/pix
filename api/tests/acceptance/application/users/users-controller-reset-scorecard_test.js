@@ -106,14 +106,6 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
     server = await createServer();
   });
 
-  afterEach(async function () {
-    await knex('knowledge-elements').delete();
-    await knex('answers').delete();
-    await knex('competence-evaluations').delete();
-    await knex('assessments').delete();
-    await knex('campaign-participations').delete();
-  });
-
   describe('POST /users/{id}/competences/{id}/reset', function () {
     describe('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {

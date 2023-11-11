@@ -113,11 +113,6 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       return databaseBuilder.commit();
     });
 
-    afterEach(async function () {
-      await knex('complementary-certification-subscriptions').delete();
-      return knex('certification-candidates').delete();
-    });
-
     it('should respond with a 201 created', async function () {
       // when
       const response = await server.inject(options);

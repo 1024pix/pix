@@ -15,7 +15,6 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
   });
   afterEach(function () {
     clock.restore();
-    return knex('memberships').delete();
   });
 
   describe('#create', function () {

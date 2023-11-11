@@ -50,10 +50,6 @@ describe('Acceptance | Controller | feedback-controller', function () {
       };
     });
 
-    afterEach(function () {
-      return knex('feedbacks').delete();
-    });
-
     it('should return 201 HTTP status code', function () {
       // when
       const promise = server.inject(options);

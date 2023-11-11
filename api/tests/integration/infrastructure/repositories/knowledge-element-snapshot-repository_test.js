@@ -6,10 +6,6 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', function () {
   describe('#save', function () {
-    afterEach(function () {
-      return knex('knowledge-element-snapshots').delete();
-    });
-
     it('should save knowledge elements snapshot for a userId and a date', async function () {
       // given
       const snappedAt = new Date('2019-04-01');

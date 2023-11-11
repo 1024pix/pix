@@ -75,10 +75,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-certif
     mockLearningContent(learningContentObjects);
   });
 
-  afterEach(async function () {
-    await knex('certification-challenges').delete();
-  });
-
   describe('GET /api/assessments/:assessment_id/next', function () {
     const assessmentId = 1;
     const userId = 1234;

@@ -20,13 +20,12 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
     const numberOfUsers = 2;
     const organizationRole = 'MEMBER';
     const userId = 45678902;
-    const userId2 = 45678903;
     const organizationId = 234567890;
 
     databaseBuilder.factory.buildOrganization({ id: organizationId });
     await databaseBuilder.commit();
 
-    const stub = sinon
+    sinon
       .stub(process, 'argv')
       .value(['One argument', 'Another argument', numberOfUsers, organizationId, organizationRole, userId]);
 
@@ -42,9 +41,5 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
     const memberShip = await knex('memberships').where('userId', userId).first();
     expect(memberShip.organizationRole).to.equal(organizationRole);
     expect(memberShip.organizationId).to.equal(organizationId);
-
-    await knex('memberships').whereIn('userId', [userId, userId2]).delete();
-    await knex('users').whereIn('id', [userId, userId2]).delete();
-    stub.restore();
   });
 });

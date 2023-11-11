@@ -5,7 +5,6 @@ import {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-  knex,
 } from '../../../test-helper.js';
 
 describe('Acceptance | API | Badges', function () {
@@ -30,10 +29,6 @@ describe('Acceptance | API | Badges', function () {
       });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(async function () {
-      await knex('badges').delete();
     });
 
     it('should update the existing badge', async function () {
@@ -79,11 +74,6 @@ describe('Acceptance | API | Badges', function () {
   });
 
   describe('DELETE /api/admin/badges/{id}', function () {
-    afterEach(async function () {
-      await knex('badge-acquisitions').delete();
-      await knex('badges').delete();
-    });
-
     it('should delete the existing badge if not associated to a badge acquisition', async function () {
       // given
       badge = databaseBuilder.factory.buildBadge({ id: 1 });

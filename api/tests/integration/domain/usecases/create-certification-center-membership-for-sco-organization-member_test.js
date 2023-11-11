@@ -8,10 +8,6 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { createCertificationCenterMembershipForScoOrganizationMember } from '../../../../lib/domain/usecases/create-certification-center-membership-for-sco-organization-member.js';
 
 describe('Integration | UseCases | create-certification-center-membership-for-sco-organization-member', function () {
-  afterEach(function () {
-    return knex('certification-center-memberships').delete();
-  });
-
   describe('when the organizationRole is ADMIN', function () {
     describe('when the SCO organization has a certification center', function () {
       it('it should create a certification center membership', async function () {
