@@ -24,9 +24,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     return [
       domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
-      domainBuilder.buildAuthenticationMethod.withIdentityProvider({
+      domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
         userId,
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       }),
     ];
   }
@@ -35,9 +34,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
     return [
       domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({ userId }),
-      domainBuilder.buildAuthenticationMethod.withIdentityProvider({
+      domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
         userId,
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
       }),
       domainBuilder.buildAuthenticationMethod.withIdentityProvider({
         userId,
