@@ -785,9 +785,8 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       beforeEach(function () {
         clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
         const userId = databaseBuilder.factory.buildUser().id;
-        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           id: 123,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           externalIdentifier: 'identifier',
           accessToken: 'to_be_updated',
           refreshToken: 'to_be_updated',

@@ -109,8 +109,7 @@ describe('Acceptance | Route | oidc | token', function () {
         lastName,
       }).id;
 
-      databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-        identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+      databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
         externalIdentifier,
         accessToken: 'access_token',
         refreshToken: 'refresh_token',
@@ -163,8 +162,7 @@ describe('Acceptance | Route | oidc | token', function () {
           lastName,
         }).id;
 
-        databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           externalIdentifier,
           accessToken: 'access_token',
           refreshToken: 'refresh_token',
@@ -257,8 +255,7 @@ describe('Acceptance | Route | oidc | token', function () {
               lastName,
             }).id;
 
-            databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-              identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+            databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
               externalIdentifier,
               accessToken: 'access_token',
               refreshToken: 'refresh_token',
