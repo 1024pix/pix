@@ -1,6 +1,8 @@
 {{page-title "Home"}}
 
-<RobotDialog @instruction={{t "pages.home.code-instruction"}} />
+<RobotDialog>
+  <Bubble @message={{t "pages.home.code-instruction"}} />
+</RobotDialog>
 
 <form onSubmit={{this.goToSchool}} class="school-code">
   <PixInputCode
