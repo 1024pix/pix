@@ -590,8 +590,6 @@ describe('Unit | Controller | sessionController', function () {
           type: 'certification-reports',
         },
       ];
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub().returns(locale) };
       const request = {
         params: {
           id: sessionId,
@@ -613,11 +611,7 @@ describe('Unit | Controller | sessionController', function () {
       sinon.stub(usecases, 'getSession').resolves(updatedSession);
 
       // when
-      await sessionController.finalize(request, hFake, {
-        certificationReportSerializer,
-        events,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      await sessionController.finalize(request, hFake, { certificationReportSerializer, events });
 
       // then
       expect(usecases.finalizeSession).to.have.been.calledWithExactly({
@@ -626,7 +620,6 @@ describe('Unit | Controller | sessionController', function () {
         hasIncident,
         hasJoiningIssue,
         certificationReports: [aCertificationReport],
-        locale,
       });
     });
   });

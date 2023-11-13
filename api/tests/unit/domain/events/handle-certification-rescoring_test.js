@@ -35,7 +35,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         version: CertificationVersion.V3,
       });
 
-      const locale = 'fr-fr';
       const challenges = [
         domainBuilder.buildChallenge({
           id: 'chall1',
@@ -78,7 +77,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       const event = new CertificationJuryDone({
         certificationCourseId,
-        locale,
       });
 
       const dependencies = {
@@ -137,11 +135,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         ...certificationCourse.toDTO(),
       });
 
-      const event = new ChallengeNeutralized({
-        certificationCourseId: certificationCourse.getId(),
-        juryId: 7,
-        locale: 'fr',
-      });
+      const event = new ChallengeNeutralized({ certificationCourseId: certificationCourse.getId(), juryId: 7 });
       const certificationAssessment = new CertificationAssessment({
         id: 123,
         userId: 123,
@@ -229,7 +223,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789 });
         sinon.spy(certificationCourse, 'cancel');
 
-        const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7, locale: 'fr' });
+        const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
         const certificationAssessment = new CertificationAssessment({
           id: 123,
           userId: 123,
@@ -312,7 +306,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789 });
         sinon.spy(certificationCourse, 'uncancel');
 
-        const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7, locale: 'fr' });
+        const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
         const certificationAssessment = new CertificationAssessment({
           id: 123,
           userId: 123,
@@ -393,11 +387,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
       const certificationCourse = domainBuilder.buildCertificationCourse();
 
-      const event = new ChallengeNeutralized({
-        certificationCourseId: certificationCourse.getId(),
-        juryId: 7,
-        locale: 'fr',
-      });
+      const event = new ChallengeNeutralized({ certificationCourseId: certificationCourse.getId(), juryId: 7 });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         userId: 123,
         certificationCourseId: certificationCourse.getId(),
@@ -447,7 +437,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const competenceMarkRepository = { save: sinon.stub() };
       const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-      const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7, locale: 'fr' });
+      const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
       const certificationAssessment = new CertificationAssessment({
         id: 123,
         userId: 123,

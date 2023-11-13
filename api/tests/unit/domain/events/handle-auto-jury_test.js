@@ -10,8 +10,6 @@ import {
 } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
-  const locale = 'fr-fr';
-
   it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
@@ -78,7 +76,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       certificationCenterName: 'A certification center name',
       sessionDate: '2021-01-29',
       sessionTime: '14:00',
-      locale,
     });
 
     // when
@@ -131,7 +128,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       certificationCenterName: 'A certification center name',
       sessionDate: '2021-01-29',
       sessionTime: '14:00',
-      locale,
     });
 
     // when
@@ -195,7 +191,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       certificationCenterName: 'A certification center name',
       sessionDate: '2021-01-29',
       sessionTime: '14:00',
-      locale,
     });
 
     // when
@@ -211,7 +206,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
     expect(events[0]).to.deep.equal(
       new CertificationJuryDone({
         certificationCourseId: certificationCourse.getId(),
-        locale,
       }),
     );
   });
@@ -244,7 +238,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-        locale,
       });
 
       // when
@@ -259,7 +252,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       expect(events[0]).to.deepEqualInstance(
         new CertificationJuryDone({
           certificationCourseId: certificationCourse.getId(),
-          locale,
         }),
       );
     });
@@ -308,7 +300,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           certificationCenterName: 'A certification center name',
           sessionDate: '2021-01-29',
           sessionTime: '14:00',
-          locale,
         });
 
         // when
@@ -377,7 +368,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
           certificationCenterName: 'A certification center name',
           sessionDate: '2021-01-29',
           sessionTime: '14:00',
-          locale,
         });
 
         // when
@@ -445,7 +435,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-        locale,
       });
 
       // when
@@ -520,7 +509,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-        locale,
       });
 
       // when
@@ -572,7 +560,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-        locale,
       });
 
       // when
@@ -627,7 +614,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-        locale,
       });
 
       // when
@@ -704,7 +690,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCenterName: 'A certification center name',
         sessionDate: '2021-01-29',
         sessionTime: '14:00',
-        locale,
       });
       const logger = {
         error: sinon.stub(),

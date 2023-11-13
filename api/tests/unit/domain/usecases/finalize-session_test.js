@@ -255,7 +255,6 @@ describe('Unit | UseCase | finalize-session', function () {
 
       it('raises a session finalized event', async function () {
         // given
-        const locale = 'fr-fr';
         const updatedSession = domainBuilder.buildSession({
           finalizedAt: new Date('2020-01-01T14:00:00Z'),
           examinerGlobalComment: 'an examiner comment',
@@ -292,7 +291,6 @@ describe('Unit | UseCase | finalize-session', function () {
           certificationReports,
           certificationReportRepository,
           certificationCourseRepository,
-          locale,
         });
 
         // then
@@ -305,7 +303,6 @@ describe('Unit | UseCase | finalize-session', function () {
             certificationCenterName: 'a certification center name',
             sessionDate: '2019-12-12',
             sessionTime: '16:00:00',
-            locale,
           }),
         );
       });

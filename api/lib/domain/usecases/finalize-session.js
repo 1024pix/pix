@@ -17,7 +17,6 @@ const finalizeSession = async function ({
   certificationReportRepository,
   hasIncident,
   hasJoiningIssue,
-  locale,
 }) {
   const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
 
@@ -73,7 +72,6 @@ const finalizeSession = async function ({
     certificationCenterName: finalizedSession.certificationCenter,
     sessionDate: finalizedSession.date,
     sessionTime: finalizedSession.time,
-    locale,
   });
 };
 

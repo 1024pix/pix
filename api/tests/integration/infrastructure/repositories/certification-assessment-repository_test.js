@@ -65,21 +65,18 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           type: Challenge.Type.QCU,
           status: 'validé',
           skillId: 'recArea1_Competence1_Tube1_Skill1',
-          locales: ['fr'],
         },
         {
           id: 'recChalB',
           type: Challenge.Type.QCM,
           status: 'archivé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
-          locales: ['fr'],
         },
         {
           id: 'recChalC',
           type: Challenge.Type.QCM,
           status: 'périmé',
           skillId: 'recArea1_Competence1_Tube1_Skill2',
-          locales: ['fr'],
         },
       ],
     };

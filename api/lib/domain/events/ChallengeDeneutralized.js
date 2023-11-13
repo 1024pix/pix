@@ -1,8 +1,7 @@
 class ChallengeDeneutralized {
-  constructor({ certificationCourseId, juryId, locale }) {
+  constructor({ certificationCourseId, juryId }) {
     this.certificationCourseId = certificationCourseId;
     this.juryId = juryId;
-    this.locale = locale;
   }
 }
 
