@@ -7,6 +7,8 @@ import {
   AssessmentResult,
 } from '../../../../../lib/domain/models/index.js';
 import * as competenceTreeRepository from '../../../../../lib/infrastructure/repositories/competence-tree-repository.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { CertifiedBadge } from '../../../../../lib/domain/read-models/CertifiedBadge.js';
 
 const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
   const certificationCourseDTOs = await _selectCertificationAttestations()
@@ -45,7 +47,23 @@ const findByDivisionForScoIsManagingStudentsOrganization = async function ({ org
     .value();
 };
 
-export { findByDivisionForScoIsManagingStudentsOrganization };
+const getCertificationAttestation = async function (id) {
+  const certificationCourseDTO = await _selectCertificationAttestations()
+    .where('certification-courses.id', '=', id)
+    .groupBy('certification-courses.id', 'sessions.id', 'assessment-results.id')
+    .first();
+
+  if (!certificationCourseDTO) {
+    throw new NotFoundError(`There is no certification course with id "${id}"`);
+  }
+
+  const competenceTree = await competenceTreeRepository.get();
+  const certifiedBadges = await _getCertifiedBadges(certificationCourseDTO.id);
+
+  return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges });
+};
+
+export { findByDivisionForScoIsManagingStudentsOrganization, getCertificationAttestation };
 
 function _selectCertificationAttestations() {
   return _getCertificateQuery()
@@ -123,4 +141,38 @@ function _toDomainForCertificationAttestation({ certificationCourseDTO, competen
     resultCompetenceTree,
     certifiedBadges,
   });
+}
+
+async function _getCertifiedBadges(certificationCourseId) {
+  const complementaryCertificationCourseResults = await knex
+    .select(
+      'complementary-certification-course-results.partnerKey',
+      'complementary-certification-course-results.source',
+      'complementary-certification-course-results.acquired',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-badges.imageUrl',
+      'complementary-certification-badges.stickerUrl',
+      'complementary-certification-badges.label',
+      'complementary-certification-badges.level',
+      'complementary-certification-badges.certificateMessage',
+      'complementary-certification-badges.temporaryCertificateMessage',
+      'complementary-certifications.hasExternalJury',
+    )
+    .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+    )
+    .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .innerJoin(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId',
+    )
+    .where({ certificationCourseId })
+    .orderBy('partnerKey');
+
+  return CertifiedBadge.fromComplementaryCertificationCourseResults(complementaryCertificationCourseResults);
 }
