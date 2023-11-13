@@ -201,8 +201,8 @@ async function _getTargetProfileAndSkills(targetProfileId, profileType) {
     profileType === 'light'
       ? [_.sample(competences)]
       : profileType === 'medium'
-      ? _.sampleSize(competences, Math.round(competences.length / 2))
-      : competences;
+        ? _.sampleSize(competences, Math.round(competences.length / 2))
+        : competences;
   const [{ id: createdTargetProfileId }] = await knex('target-profiles')
     .returning('id')
     .insert({ name: 'SomeTargetProfile' });
