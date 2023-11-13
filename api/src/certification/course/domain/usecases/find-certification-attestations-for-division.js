@@ -1,4 +1,4 @@
-import { NoCertificationAttestationForDivisionError } from '../../errors.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../shared/domain/errors.js';
 
 const findCertificationAttestationsForDivision = async function ({ organizationId, division, certificateRepository }) {
   const certificationAttestations = await certificateRepository.findByDivisionForScoIsManagingStudentsOrganization({

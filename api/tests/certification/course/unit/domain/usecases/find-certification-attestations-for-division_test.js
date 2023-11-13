@@ -1,18 +1,12 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { findCertificationAttestationsForDivision } from '../../../../lib/domain/usecases/certificate/find-certification-attestations-for-division.js';
-import { NoCertificationAttestationForDivisionError } from '../../../../lib/domain/errors.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { findCertificationAttestationsForDivision } from '../../../../../../src/certification/course/domain/usecases/find-certification-attestations-for-division.js';
+import { NoCertificationAttestationForDivisionError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | find-certification-attestations-for-division', function () {
-  const certificateRepository = {
-    findByDivisionForScoIsManagingStudentsOrganization: () => undefined,
-  };
-
-  const dependencies = {
-    certificateRepository,
-  };
+  let certificateRepository;
 
   beforeEach(function () {
-    certificateRepository.findByDivisionForScoIsManagingStudentsOrganization = sinon.stub();
+    certificateRepository = { findByDivisionForScoIsManagingStudentsOrganization: sinon.stub() };
   });
 
   it('should return multiple certification attestations enhanced with result competence tree', async function () {
@@ -26,7 +20,6 @@ describe('Unit | UseCase | find-certification-attestations-for-division', functi
       certificationCenter: 'Lycée Tardis',
       resultCompetenceTree: resultCompetenceTree1,
     });
-
     const certificationAttestation2 = domainBuilder.buildCertificationAttestation({
       id: 456,
       userId: 456,
@@ -42,7 +35,7 @@ describe('Unit | UseCase | find-certification-attestations-for-division', functi
     const actualCertificationAttestations = await findCertificationAttestationsForDivision({
       organizationId: 1234,
       division: '3b',
-      ...dependencies,
+      certificateRepository,
     });
 
     // then
@@ -75,7 +68,7 @@ describe('Unit | UseCase | find-certification-attestations-for-division', functi
       const error = await catchErr(findCertificationAttestationsForDivision)({
         organizationId: 1234,
         division: '3b',
-        ...dependencies,
+        certificateRepository,
       });
 
       // then
