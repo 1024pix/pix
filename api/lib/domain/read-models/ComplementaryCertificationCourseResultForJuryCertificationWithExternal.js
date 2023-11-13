@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { minBy } = lodash;
 
-import { sources } from '../models/ComplementaryCertificationCourseResult.js';
+import { juryOptions, sources } from '../models/ComplementaryCertificationCourseResult.js';
 
 const { EXTERNAL, PIX } = sources;
 
@@ -33,6 +33,7 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
       level: externalLevel,
     });
     this.allowedExternalLevels = allowedExternalLevels;
+    this.defaultJuryOptions = Object.values(juryOptions);
   }
 
   static from(complementaryCertificationCourseResultWithExternal, badgeKeyAndLabelsGroupedByTargetProfile) {

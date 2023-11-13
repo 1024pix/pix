@@ -401,6 +401,7 @@ describe('Acceptance | API | Certification Course', function () {
                 value: 'PIX_BOXE_3',
               },
             ],
+            'default-jury-options': ['REJECTED', 'UNSET'],
             'complementary-certification-course-id': 654,
             'external-result': 'Rejetée',
             'final-result': 'Rejetée',

@@ -12,6 +12,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
         save: sinon.stub(),
         getPixSourceResultByComplementaryCertificationCourseId: sinon.stub(),
         getAllowedJuryLevelByBadgeKey: sinon.stub(),
+        removeExternalJuryResult: sinon.stub(),
       };
     });
 
@@ -68,6 +69,33 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
       });
 
       context('when the jury level is valid', function () {
+        context('when the jury level is unset', function () {
+          it('should remove the external ComplementaryCertificationCourseResult', async function () {
+            // given
+            complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId
+              .withArgs({ complementaryCertificationCourseId: 1234 })
+              .resolves(
+                domainBuilder.buildComplementaryCertificationCourseResult({
+                  partnerKey: 'KEY_1',
+                  complementaryCertificationCourseId: 1234,
+                  source: ComplementaryCertificationCourseResult.sources.PIX,
+                }),
+              );
+
+            // when
+            await saveJuryComplementaryCertificationCourseResult({
+              complementaryCertificationCourseId: 1234,
+              juryLevel: ComplementaryCertificationCourseResult.juryOptions.UNSET,
+              complementaryCertificationCourseResultRepository,
+            });
+
+            // then
+            expect(
+              complementaryCertificationCourseResultRepository.removeExternalJuryResult,
+            ).to.have.been.calledWithExactly({ complementaryCertificationCourseId: 1234 });
+          });
+        });
+
         it('should save the result', async function () {
           // given
           complementaryCertificationCourseResultRepository.getPixSourceResultByComplementaryCertificationCourseId
