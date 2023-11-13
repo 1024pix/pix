@@ -1,6 +1,9 @@
 {{page-title "Home"}}
 <div>
-  <RobotDialog @instruction={{t "pages.missions.start-page.list" prenom=@model.firstName backUrl=this.schoolUrl}} />
+  <RobotDialog>
+    <Bubble @message={{t "pages.missions.start-page.list" prenom=@model.firstName backUrl=this.schoolUrl}} />
+  </RobotDialog>
+
   <div class="cards">
     <PixButton @triggerAction={{this.goToMission "recExjO7RHeDI48HK"}} class="card">
       <MissionCard

@@ -1,6 +1,8 @@
 {{page-title "Challenge"}}
 <div class="container">
-  <RobotDialog @instruction={{@challenge.instruction}} />
+  <RobotDialog>
+    <Bubble @message={{@challenge.instruction}} />
+  </RobotDialog>
   <Challenge::Item @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} @assessment={{@assessment}} />
 
   <div class="container__actions">

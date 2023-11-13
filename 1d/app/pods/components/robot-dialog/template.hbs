@@ -1,14 +1,13 @@
 <div class="robot-speaking">
   <img class="robot-speaking__logo" alt="mascotte pix1d" src="/images/{{if @class (concat @class '-')}}robot.svg" />
-  <Markdown::MarkdownToHtmlUnsafe
-    @markdown={{@instruction}}
-    @class="robot-speaking__instruction {{if @class (concat 'robot-speaking__instruction--' @class)}}"
-  />
-  {{!  À activer quand le design + fonctionnalité sont actés }}
-  {{!  <PixIconButton}}
-  {{!    @ariaLabel="Lire la consigne à haute voix"}}
-  {{!    @withBackground="true"}}
-  {{!    @icon="volume-high"}}
-  {{!--    @triggerAction={{fn this.readTheInstruction @instruction}}--}}
-  {{!  />}}
+  {{yield}}
 </div>
+
+<!--  {{!  À activer quand le design + fonctionnalité sont actés }}-->
+<!--  {{!  <PixIconButton}}-->
+<!--  {{!    @ariaLabel="Lire la consigne à haute voix"}}-->
+<!--  {{!    @withBackground="true"}}-->
+<!--  {{!    @icon="volume-high"}}-->
+<!--  {{!--    @triggerAction={{fn this.readTheInstruction @instruction}}--}}-->
+<!--  {{!  />}}-->
+<!--</div>-->
