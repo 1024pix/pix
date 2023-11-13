@@ -33,7 +33,7 @@ import { CertifiableProfileForLearningContent } from './CertifiableProfileForLea
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
 import { CertificationAssessment } from './CertificationAssessment.js';
 import { CertificationAssessmentScore } from './CertificationAssessmentScore.js';
-import { CertificationAttestation } from './CertificationAttestation.js';
+import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
 import { CertificationCandidateForSupervising } from './CertificationCandidateForSupervising.js';
 import { CertificationCenter } from './CertificationCenter.js';
