@@ -719,6 +719,36 @@ describe('Integration | Repository | challenge-repository', function () {
       });
     });
   });
+
+  describe('#getManyFlashParameters', function () {
+    it('should return an object associating ids to discriminant and difficulty', async function () {
+      // given
+      const skill = _buildSkill({ id: 'recSkill1' });
+
+      const challenge1 = _buildChallenge({ id: 'recChallenge1', skill, locales: ['fr'], alpha: 0.567, delta: 0.123 });
+      const challenge2 = _buildChallenge({ id: 'recChallenge2', skill, locales: ['fr-fr'], alpha: 0.56, delta: 0.12 });
+      const challenge3 = _buildChallenge({ id: 'recChallenge3', skill, locales: ['en'], alpha: 0.5, delta: 0.1 });
+
+      mockLearningContent({
+        skills: [skill],
+        challenges: [challenge1, challenge2, challenge3],
+      });
+
+      // when
+      const challengesFlashParameters = await challengeRepository.getManyFlashParameters([
+        'recChallenge1',
+        'recChallenge2',
+        'recChallenge3',
+      ]);
+
+      // then
+      expect(challengesFlashParameters).to.deep.equal([
+        { id: 'recChallenge1', discriminant: 0.567, difficulty: 0.123 },
+        { id: 'recChallenge2', discriminant: 0.56, difficulty: 0.12 },
+        { id: 'recChallenge3', discriminant: 0.5, difficulty: 0.1 },
+      ]);
+    });
+  });
 });
 
 function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
@@ -735,7 +765,7 @@ function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
   };
 }
 
-function _buildChallenge({ id, skill, status = 'validé', alternativeVersion, type = Challenge.Type.QCM }) {
+function _buildChallenge({ id, skill, status = 'validé', alternativeVersion, type = Challenge.Type.QCM , alpha = 1 , delta = 0}) {
   return {
     id,
     attachments: ['URL pièce jointe'],
@@ -751,14 +781,12 @@ function _buildChallenge({ id, skill, status = 'validé', alternativeVersion, ty
     type,
     locales: ['fr'],
     autoReply: false,
-    discriminant: 1,
-    difficulty: 0,
     answer: undefined,
     responsive: 'Smartphone/Tablette',
     competenceId: 'recCOMP1',
     skillId: skill.id,
-    alpha: 1,
-    delta: 0,
+    alpha,
+    delta,
     skill,
     shuffled: false,
     alternativeVersion: alternativeVersion || 1,
