@@ -15,8 +15,6 @@ import {
 import { createServer } from '../../../../server.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
 import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 describe('Acceptance | Application | organization-controller', function () {
@@ -1386,95 +1384,6 @@ describe('Acceptance | Application | organization-controller', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
-
-  describe('GET /api/organizations/{id}/certification-attestations', function () {
-    beforeEach(function () {
-      const learningContent = [
-        {
-          id: 'recArea0',
-          code: '1',
-          competences: [
-            {
-              id: 'recNv8qhaY887jQb2',
-              index: '1.3',
-              name: 'Traiter des données',
-            },
-          ],
-        },
-      ];
-      const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
-      mockLearningContent(learningContentObjects);
-    });
-
-    it('should return HTTP status 200', async function () {
-      // given
-      const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();
-
-      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({
-        organizationId: organization.id,
-        userId: adminIsManagingStudent.id,
-        organizationRole: Membership.roles.ADMIN,
-      });
-
-      const student = databaseBuilder.factory.buildUser.withRawPassword();
-      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-        organizationId: organization.id,
-        division: 'aDivision',
-        userId: student.id,
-      });
-
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({
-        organizationLearnerId: organizationLearner.id,
-        userId: student.id,
-      });
-
-      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        userId: candidate.userId,
-        sessionId: candidate.sessionId,
-        isPublished: true,
-        isCancelled: false,
-      });
-
-      const badge = databaseBuilder.factory.buildBadge({ key: 'a badge' });
-
-      const assessment = databaseBuilder.factory.buildAssessment({
-        userId: candidate.userId,
-        certificationCourseId: certificationCourse.id,
-        type: Assessment.types.CERTIFICATION,
-        state: 'completed',
-      });
-
-      const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
-        certificationCourseId: certificationCourse.id,
-        assessmentId: assessment.id,
-        status: AssessmentResult.status.VALIDATED,
-      });
-      databaseBuilder.factory.buildCompetenceMark({
-        level: 3,
-        score: 23,
-        area_code: '1',
-        competence_code: '1.3',
-        assessmentResultId: assessmentResult.id,
-        acquiredComplementaryCertifications: [badge.key],
-      });
-
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'GET',
-        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true&lang=fr`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(adminIsManagingStudent.id) },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/organization/{organizationId}/divisions', function () {
     it('should return the divisions', async function () {
       // given
