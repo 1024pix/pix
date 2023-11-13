@@ -4,9 +4,11 @@ import { setupTest } from 'ember-qunit';
 import { getSettledState, settled } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
+import setupIntl from '../../../../../helpers/setup-intl';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function (hooks) {
   setupTest(hooks);
+  setupIntl(hooks);
 
   const createCompetence = (code, score, level) => {
     return {
@@ -238,6 +240,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
             label: 'je veux',
           },
         ],
+        defaultJuryOptions: ['REJECTED', 'UNSET'],
       });
       controller.model = {
         certification: EmberObject.create({
@@ -256,6 +259,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           label: 'je veux',
         },
         { value: 'REJECTED', label: 'Rejetée' },
+        { value: 'UNSET', label: 'En attente' },
       ]);
     });
   });

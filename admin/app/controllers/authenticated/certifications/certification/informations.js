@@ -24,6 +24,7 @@ export default class CertificationInformationsController extends Controller {
   @alias('model.countries') countries;
   @tracked editingCandidateResults = false;
   @service notifications;
+  @service intl;
   @service featureToggles;
 
   @tracked displayConfirm = false;
@@ -83,9 +84,15 @@ export default class CertificationInformationsController extends Controller {
   }
 
   get juryLevelOptions() {
+    const translatedDefaultJuryOptions = this.certification.complementaryCertificationCourseResultWithExternal
+      .get('defaultJuryOptions')
+      .map((value) => ({
+        value,
+        label: this.intl.t(`components.certifications.external-jury-select-options.${value}`),
+      }));
     return [
       ...this.certification.complementaryCertificationCourseResultWithExternal.get('allowedExternalLevels'),
-      { value: 'REJECTED', label: 'Rejetée' },
+      ...translatedDefaultJuryOptions,
     ];
   }
 
