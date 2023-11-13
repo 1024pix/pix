@@ -1,7 +1,23 @@
+/**
+ * @typedef {import ('../../../shared/infrastructure/repositories/certification-center-repository.js')} certificationCenterRepository
+ * @typedef {import ('../../../session/infrastructure/repositories/session-repository.js')} sessionRepository
+ * @typedef {import ('../../../../../src/shared/infrastructure/repositories/user-repository.js')} userRepository
+ * @typedef {import ('../../../session/domain/validators/session-validator.js')} sessionValidator
+ * @typedef {import ('../../../session/domain/services/session-code-service.js')} sessionCodeService
+ */
+
 import { Session } from '../models/Session.js';
 import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
+/**
+ * @param {Object} deps
+ * @param {certificationCenterRepository} deps.certificationCenterRepository
+ * @param {sessionRepository} deps.sessionRepository
+ * @param {userRepository} deps.userRepository
+ * @param {sessionValidator} deps.sessionValidator
+ * @param {sessionCodeService} deps.sessionCodeService
+ */
 const createSession = async function ({
   userId,
   session,
