@@ -74,7 +74,7 @@ function _createComplementeCompetenceEvaluationAssessment({ databaseBuilder, use
 async function _cacheLearningContent() {
   if (allChallenges.length === 0) {
     const allCompetences = await competenceRepository.list();
-    allChallenges = await challengeRepository.list();
+    allChallenges = await challengeRepository.list('fr-fr');
     allPixCompetences = _.filter(allCompetences, { origin: 'Pix' });
     allDroitCompetences = _.filter(allCompetences, { origin: 'Droit' });
     allEduCompetences = _.filter(allCompetences, { origin: 'Edu' });

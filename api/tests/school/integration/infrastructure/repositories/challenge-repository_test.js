@@ -23,12 +23,14 @@ describe('School | Integration | Repository | challenge-repository', function ()
         missionId,
         activityLevel,
         challengeNumber: 1,
+        locale: 'fr',
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal("Aucune mission trouvée pour l'identifiant : recCHAL1");
     });
+
     it('should return an error when the skill associated to the challenge is not found', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -47,6 +49,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
         missionId,
         activityLevel,
         challengeNumber: 1,
+        locale: 'fr',
       });
 
       // then
@@ -55,6 +58,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
         'Aucun acquis trouvé pour la mission : recCHAL1, le niveau TRAINING et le numéro 1',
       );
     });
+
     it('should return an error when the challenge is not found', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -82,6 +86,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
         missionId,
         activityLevel,
         challengeNumber: 1,
+        locale: 'fr',
       });
 
       // then
@@ -90,6 +95,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
         'Aucun challenge trouvé pour la mission : recCHAL1, le niveau TUTORIAL et le numéro 1',
       );
     });
+
     it('should return the challenge with the correct activityLevel', async function () {
       //given
       const missionId = 'recCHAL1';
@@ -135,13 +141,19 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const expectedChallenge = _buildSchoolChallenge({ id: epreuveEntrainement.id });
 
       // when
-      const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getChallengeFor1d({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+        locale: 'fr',
+      });
 
       // then
       expect(challenges.length).to.equal(1);
       expect(challenges[0]).to.be.instanceOf(Challenge);
       expect(_.omit(challenges[0], ['validator'])).to.deep.equal(_.omit(expectedChallenge, ['validator']));
     });
+
     it('should return the challenge for the given missionId', async function () {
       //given
       const missionId = 'recCHAL1';
@@ -189,12 +201,18 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const expectedChallenge = _buildSchoolChallenge({ id: epreuveEntrainement.id });
 
       // when
-      const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getChallengeFor1d({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+        locale: 'fr',
+      });
 
       // then
       expect(challenges.length).to.equal(1);
       expect(_.omit(challenges[0], ['validator'])).to.deep.equal(_.omit(expectedChallenge, ['validator']));
     });
+
     it('should return the correct validator for the challenge type', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -216,7 +234,12 @@ describe('School | Integration | Repository | challenge-repository', function ()
       _buildSchoolChallenge({ id: challenge.id, type: challenge.type });
 
       // when
-      const challenges = await challengeRepository.getChallengeFor1d({ missionId, activityLevel, challengeNumber: 1 });
+      const challenges = await challengeRepository.getChallengeFor1d({
+        missionId,
+        activityLevel,
+        challengeNumber: 1,
+        locale: 'fr',
+      });
 
       // then
       expect(challenges[0].validator).to.be.instanceOf(Validator);
@@ -240,12 +263,14 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const error = await catchErr(challengeRepository.getActivityChallengesFor1d)({
         missionId,
         activityLevel,
+        locale: 'fr',
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal("Aucune mission trouvée pour l'identifiant : recCHAL1");
     });
+
     it('should return an error when the tube associated to the activity level is not found', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -266,12 +291,14 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const error = await catchErr(challengeRepository.getActivityChallengesFor1d)({
         missionId,
         activityLevel,
+        locale: 'fr',
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
       expect(error.message).to.equal('Aucune activité trouvée pour la mission : recCHAL1 et le niveau TRAINING');
     });
+
     it('should return an error when one of the skill associated to the activity does not contain any challenge', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -294,6 +321,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
       const error = await catchErr(challengeRepository.getActivityChallengesFor1d)({
         missionId,
         activityLevel,
+        locale: 'fr',
       });
 
       // then
@@ -302,6 +330,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
         "Aucun challenge trouvé pour la mission : recCHAL1, l'acquis : recSkill2 et le niveau : TRAINING",
       );
     });
+
     it('should return the challenges of the activity ', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -319,7 +348,11 @@ describe('School | Integration | Repository | challenge-repository', function ()
       });
 
       // when
-      const challenges = await challengeRepository.getActivityChallengesFor1d({ missionId, activityLevel });
+      const challenges = await challengeRepository.getActivityChallengesFor1d({
+        missionId,
+        activityLevel,
+        locale: 'fr',
+      });
 
       // then
       const expectedChallenge1 = _buildSchoolChallenge({ id: challenge1.id, skill: null });
@@ -331,6 +364,7 @@ describe('School | Integration | Repository | challenge-repository', function ()
       expect(challenges[1]).to.have.lengthOf(1);
       expect(_.omit(challenges[1][0], ['validator'])).to.deep.equal(_.omit(expectedChallenge2, ['validator']));
     });
+
     it('should return the challenges of the activity with alternatives', async function () {
       // given
       const missionId = 'recCHAL1';
@@ -347,7 +381,11 @@ describe('School | Integration | Repository | challenge-repository', function ()
       });
 
       // when
-      const challenges = await challengeRepository.getActivityChallengesFor1d({ missionId, activityLevel });
+      const challenges = await challengeRepository.getActivityChallengesFor1d({
+        missionId,
+        activityLevel,
+        locale: 'fr',
+      });
 
       // then
       const expectedChallenge = _buildSchoolChallenge({ id: challenge.id, skill: null });

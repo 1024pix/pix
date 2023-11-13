@@ -38,6 +38,7 @@ async function handleCertificationScoring({
         certificationCourseRepository,
         competenceMarkRepository,
         flashAlgorithmService,
+        locale: event.locale,
       });
     }
 
@@ -100,10 +101,11 @@ async function _handleV3CertificationScoring({
   certificationCourseRepository,
   competenceMarkRepository,
   flashAlgorithmService,
+  locale,
 }) {
   const allAnswers = await answerRepository.findByAssessment(assessmentId);
   const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
-  const challenges = await challengeRepository.getMany(challengeIds);
+  const challenges = await challengeRepository.getMany(challengeIds, locale);
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,

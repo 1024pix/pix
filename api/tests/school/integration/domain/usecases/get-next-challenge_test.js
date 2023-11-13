@@ -65,20 +65,38 @@ describe('Integration | Usecase | get-next-challenge', function () {
         skillIds: [skillDefi.id],
       });
 
-      challengeVal1 = learningContentBuilder.buildChallenge({ id: 'challengeVal1', skillId: skillVal1.id });
+      challengeVal1 = learningContentBuilder.buildChallenge({
+        id: 'challengeVal1',
+        locales: ['fr-fr'],
+        skillId: skillVal1.id,
+      });
       challengeAlterVal1 = learningContentBuilder.buildChallenge({
         id: 'challengeAlterVal1',
-        skillId: skillVal1.id,
         alternativeVersion,
+        locales: ['fr-fr'],
+        skillId: skillVal1.id,
       });
-      challengeVal2 = learningContentBuilder.buildChallenge({ id: 'challengeVal2', skillId: skillVal2.id });
+      challengeVal2 = learningContentBuilder.buildChallenge({
+        id: 'challengeVal2',
+        locales: ['fr-fr'],
+        skillId: skillVal2.id,
+      });
       challengeAlterVal2 = learningContentBuilder.buildChallenge({
         id: 'challengeAlterVal2',
-        skillId: skillVal2.id,
         alternativeVersion,
+        locales: ['fr-fr'],
+        skillId: skillVal2.id,
       });
-      challengeEn1 = learningContentBuilder.buildChallenge({ id: 'challengeEn1', skillId: skillEn1.id });
-      challengeDefi = learningContentBuilder.buildChallenge({ id: 'challengeDefi1', skillId: skillDefi.id });
+      challengeEn1 = learningContentBuilder.buildChallenge({
+        id: 'challengeEn1',
+        locales: ['fr-fr'],
+        skillId: skillEn1.id,
+      });
+      challengeDefi = learningContentBuilder.buildChallenge({
+        id: 'challengeDefi1',
+        locales: ['fr-fr'],
+        skillId: skillDefi.id,
+      });
 
       const learningContent = {
         tubes: [tubeDefi, tubeVal, tubeEn],

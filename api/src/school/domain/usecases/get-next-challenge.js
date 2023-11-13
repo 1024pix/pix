@@ -13,6 +13,7 @@ export async function getNextChallenge({
 }) {
   const { missionId } = await missionAssessmentRepository.getByAssessmentId(assessmentId);
   const currentActivity = await getCurrentActivity(activityRepository, assessmentId);
+  const locale = 'fr-fr';
 
   if (currentActivity) {
     const answers = await activityAnswerRepository.findByActivity(currentActivity.id);
@@ -21,6 +22,7 @@ export async function getNextChallenge({
       missionId,
       challengeRepository,
       answers,
+      locale,
     });
     if (challenge) {
       return challenge;
@@ -40,6 +42,7 @@ export async function getNextChallenge({
     assessmentId,
     challengeRepository,
     activityRepository,
+    locale,
   });
 
   if (nextChallenge === undefined) {

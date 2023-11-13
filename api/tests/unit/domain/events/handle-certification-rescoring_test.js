@@ -24,7 +24,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         findByAssessment: sinon.stub(),
       };
       const challengeRepository = {
-        getMany: sinon.stub(),
+        getManyFlashParameters: sinon.stub(),
       };
 
       const flashAlgorithmService = {
@@ -62,7 +62,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
-      challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+      challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate
         .withArgs({

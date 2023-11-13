@@ -7,6 +7,7 @@ const completeAssessment = async function ({
   domainTransaction,
   campaignParticipationRepository,
   assessmentRepository,
+  locale,
 }) {
   const assessment = await assessmentRepository.get(assessmentId, domainTransaction);
 
@@ -30,6 +31,7 @@ const completeAssessment = async function ({
     userId: assessment.userId,
     campaignParticipationId: assessment.campaignParticipationId,
     certificationCourseId: assessment.certificationCourseId,
+    locale,
   });
 
   return {
