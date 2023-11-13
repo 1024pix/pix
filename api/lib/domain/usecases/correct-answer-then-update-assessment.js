@@ -116,6 +116,7 @@ const correctAnswerThenUpdateAssessment = async function ({
       assessment,
       answerRepository,
       challengeRepository,
+      locale,
     });
 
     const { estimatedLevel, errorRate } = flashAlgorithmService.getEstimatedLevelAndErrorRate(flashData);

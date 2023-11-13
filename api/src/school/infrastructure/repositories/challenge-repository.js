@@ -28,7 +28,8 @@ import * as solutionAdapter from '../../../../lib/infrastructure/adapters/soluti
  * @param {number} challengeNumber activity's challenge number
  * @returns a challenge
  */
-const getChallengeFor1d = async function ({ missionId, activityLevel, challengeNumber }) {
+const getChallengeFor1d = async function ({ missionId, activityLevel, challengeNumber, locale }) {
+  _assertLocaleIsDefined(locale);
   try {
     const missionNamePrefix = await _getMissionNamePrefix(missionId);
     if (missionNamePrefix.length === 0) {
@@ -45,7 +46,7 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
     if (skills.length > 1) {
       logger.warn(`Plus d'un acquis trouvé avec le nom ${skillName}. Le 1er challenge trouvé va être retourné.`);
     }
-    const challengeDataObjects = await challengeDatasource.getBySkillId(skills[0].id);
+    const challengeDataObjects = await challengeDatasource.getBySkillId(skills[0].id, locale);
 
     return _toDomainCollection({ challengeDataObjects });
   } catch (error) {
@@ -58,7 +59,8 @@ const getChallengeFor1d = async function ({ missionId, activityLevel, challengeN
   }
 };
 
-const getActivityChallengesFor1d = async function ({ missionId, activityLevel }) {
+const getActivityChallengesFor1d = async function ({ missionId, activityLevel, locale }) {
+  _assertLocaleIsDefined(locale);
   const missionNamePrefix = await _getMissionNamePrefix(missionId);
   if (missionNamePrefix.length === 0) {
     throw new NotFoundError(`Aucune mission trouvée pour l'identifiant : ${missionId}`);
@@ -72,7 +74,7 @@ const getActivityChallengesFor1d = async function ({ missionId, activityLevel })
 
   let allLevelChallenges;
   try {
-    allLevelChallenges = await Promise.all(skills.map((skill) => challengeDatasource.getBySkillId(skill.id)));
+    allLevelChallenges = await Promise.all(skills.map((skill) => challengeDatasource.getBySkillId(skill.id, locale)));
   } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError(
@@ -152,4 +154,10 @@ function _toDomain({ challengeDataObject }) {
     shuffled: challengeDataObject.shuffled,
     alternativeVersion: challengeDataObject.alternativeVersion,
   });
+}
+
+function _assertLocaleIsDefined(locale) {
+  if (!locale) {
+    throw new Error('Locale shall be defined');
+  }
 }

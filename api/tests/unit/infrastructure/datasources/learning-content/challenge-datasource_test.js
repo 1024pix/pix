@@ -12,6 +12,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     web2,
     web3,
     challenge_competence1,
+    challenge_competence1_en,
     challenge_competence1_noSkills,
     challenge_competence1_notValidated,
     challenge_competence1_obsolete,
@@ -35,6 +36,15 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       skillId: web1.id,
       status: 'validé',
       locales: ['fr', 'fr-fr'],
+      alpha: 2.11,
+      delta: -3.56,
+    };
+    challenge_competence1_en = {
+      id: 'challenge-competence1',
+      competenceId: competence1.id,
+      skillId: web1.id,
+      status: 'validé',
+      locales: ['en'],
       alpha: 2.11,
       delta: -3.56,
     };
@@ -122,6 +132,53 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     sinon.stub(learningContentCache, 'get').callsFake((generator) => generator());
   });
 
+  describe('#listBylocale', function () {
+    beforeEach(function () {
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3] });
+    });
+
+    it('should return a list of all challenges having locale', async function () {
+      // given
+      const locale = 'fr';
+
+      // when
+      const results = await challengeDatasource.listByLocale(locale);
+
+      // then
+      expect(results.map((result) => result.id)).to.deep.equal([
+        'challenge-web1',
+        'challenge-web1-notValidated',
+        'challenge-web3',
+      ]);
+    });
+  });
+
+  describe('#getManyByLocale', function () {
+    beforeEach(function () {
+      sinon
+        .stub(lcms, 'getLatestRelease')
+        .resolves({ challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3] });
+    });
+
+    it('should return a list of all challenges having locale by id', async function () {
+      // given
+      const locale = 'fr';
+      const challengeIdList = ['challenge-web1', 'challenge-web1-notValidated', 'challenge-web2', 'challenge-web3'];
+
+      // when
+      const results = await challengeDatasource.getManyByLocale(challengeIdList, locale);
+
+      // then
+      expect(results.map((result) => result.id)).to.deep.equal([
+        'challenge-web1',
+        'challenge-web1-notValidated',
+        'challenge-web3',
+      ]);
+    });
+  });
+
   describe('#findOperativeBySkillIds', function () {
     beforeEach(function () {
       sinon
@@ -132,12 +189,13 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     it('should resolve an array of matching Challenges from learning content', async function () {
       // given
       const skillIds = ['skill-web1', 'skill-web2'];
+      const locale = 'fr';
 
       // when
-      const result = await challengeDatasource.findOperativeBySkillIds(skillIds);
+      const result = await challengeDatasource.findOperativeBySkillIds(skillIds, locale);
 
       // then
-      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
+      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1']);
     });
   });
 
@@ -149,6 +207,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       sinon.stub(lcms, 'getLatestRelease').resolves({
         challenges: [
           challenge_competence1,
+          challenge_competence1_en,
           challenge_competence1_noSkills,
           challenge_competence1_notValidated,
           challenge_competence2,
@@ -156,7 +215,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       });
 
       // when
-      result = await challengeDatasource.findValidatedByCompetenceId(competence1.id);
+      result = await challengeDatasource.findValidatedByCompetenceId(competence1.id, 'fr');
     });
 
     it('should resolve to an array of matching Challenges from learning content', function () {
@@ -166,22 +225,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
   });
 
   describe('#findOperative', function () {
-    beforeEach(function () {
-      sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web2_en, challenge_web3_archived],
-      });
-    });
-
-    it('should resolve an array of matching Challenges from learning content', async function () {
-      // when
-      const result = await challengeDatasource.findOperative();
-
-      // then
-      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2', 'challenge-web3-archived']);
-    });
-  });
-
-  describe('#findOperativeHavingLocale', function () {
     it('should retrieve the operative Challenges of given locale only', async function () {
       // given
       const locale = 'fr-fr';
@@ -190,7 +233,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       });
 
       // when
-      const result = await challengeDatasource.findOperativeHavingLocale(locale);
+      const result = await challengeDatasource.findOperative(locale);
 
       // then
       expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web3-archived']);
@@ -206,10 +249,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
 
     it('should resolve an array of matching Challenges from learning content', async function () {
       // when
-      const result = await challengeDatasource.findValidated();
+      const result = await challengeDatasource.findValidated('fr');
 
       // then
-      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1', 'challenge-web2']);
+      expect(_.map(result, 'id')).to.deep.equal(['challenge-web1']);
     });
   });
 
@@ -280,21 +323,6 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       });
     });
 
-    describe('when no locale is set', function () {
-      it('should resolve an array of matching Challenges from learning content', async function () {
-        // when
-        const result = await challengeDatasource.findActiveFlashCompatible();
-
-        // then
-        expect(_.map(result, 'id')).to.deep.equal([
-          challenge_competence1.id,
-          challenge_competence2.id,
-          challenge_web2_en.id,
-          challenge_web3.id,
-        ]);
-      });
-    });
-
     describe('when a locale is set', function () {
       it('should resolve an array of matching Challenges from learning content containing the locale', async function () {
         // when
@@ -350,7 +378,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     });
     it('should resolve an array of validated challenge of a skill from learning content ', async function () {
       // when
-      const result = await challengeDatasource.findValidatedBySkillId('skill-web1');
+      const result = await challengeDatasource.findValidatedBySkillId('skill-web1', 'fr');
 
       // then
       expect(result).to.deep.equal([challenge_web1, challenge_competence2]);
@@ -363,22 +391,26 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
     let obsolete_challenge_pix1d;
 
     const skillId = '@didacticiel1';
+    const locale = 'fr';
     beforeEach(function () {
       validated_challenge_pix1d = {
         id: 'challenge-competence1',
         competenceId: competence1.id,
+        locales: ['fr'],
         skillId,
         status: 'validé',
       };
       proposed_challenge_pix1d = {
         id: 'challenge-competence2',
         competenceId: competence1.id,
+        locales: ['fr'],
         status: 'proposé',
         skillId,
       };
       obsolete_challenge_pix1d = {
         id: 'challenge-competence3',
         competenceId: competence1.id,
+        locales: ['fr'],
         status: 'périmé',
         skillId,
       };
@@ -396,7 +428,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
             obsolete_challenge_pix1d,
           ],
         });
-        const result = await challengeDatasource.getBySkillId(skillId);
+        const result = await challengeDatasource.getBySkillId(skillId, locale);
 
         // then
         expect(result).to.deep.equal([validated_challenge_pix1d, proposed_challenge_pix1d]);
@@ -409,7 +441,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
         sinon.stub(lcms, 'getLatestRelease').resolves({
           challenges: [challenge_web1, challenge_competence2, validated_challenge_pix1d],
         });
-        const result = await challengeDatasource.getBySkillId(skillId);
+        const result = await challengeDatasource.getBySkillId(skillId, locale);
 
         // then
         expect(result).to.deep.equal([validated_challenge_pix1d]);
@@ -421,7 +453,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       sinon.stub(lcms, 'getLatestRelease').resolves({
         challenges: [challenge_web1, challenge_competence2, validated_challenge_pix1d, proposed_challenge_pix1d],
       });
-      const error = await catchErr(challengeDatasource.getBySkillId)('falseId');
+      const error = await catchErr(challengeDatasource.getBySkillId, locale)('falseId');
 
       // then
       expect(error).to.be.instanceOf(LearningContentResourceNotFound);

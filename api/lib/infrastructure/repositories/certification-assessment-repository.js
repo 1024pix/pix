@@ -14,13 +14,12 @@ async function _getCertificationChallenges(certificationCourseId, knexConn) {
     .orderBy('challengeId', 'asc');
 
   const challengeIds = certificationChallengeRows.map(({ challengeId }) => challengeId);
-  const allChallenges = await challengeRepository.getMany(challengeIds);
+  const challengesType = await challengeRepository.getManyTypes(challengeIds);
 
   return _.map(certificationChallengeRows, (certificationChallengeRow) => {
-    const challenge = _.find(allChallenges, { id: certificationChallengeRow.challengeId });
     return new CertificationChallengeWithType({
       ...certificationChallengeRow,
-      type: challenge?.type,
+      type: challengesType[certificationChallengeRow.challengeId],
     });
   });
 }

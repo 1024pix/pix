@@ -115,7 +115,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the challenges', function () {
-        expect(challengeRepository.findValidatedByCompetenceId).to.have.been.calledWithExactly(competenceId);
+        expect(challengeRepository.findValidatedByCompetenceId).to.have.been.calledWithExactly(competenceId, locale);
       });
 
       it('should have fetched the next challenge with only most recent knowledge elements', function () {

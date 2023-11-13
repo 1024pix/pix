@@ -89,13 +89,14 @@ describe('Unit | Controller | assessment-controller', function () {
   });
 
   describe('#completeAssessment', function () {
-    let domainTransaction, assessmentId, assessment, assessmentCompletedEvent;
+    let domainTransaction, assessmentId, assessment, assessmentCompletedEvent, locale;
 
     beforeEach(function () {
       domainTransaction = Symbol('domainTransaction');
       assessmentId = 2;
       assessmentCompletedEvent = new AssessmentCompleted();
       assessment = Symbol('completed-assessment');
+      locale = 'fr-fr';
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
       };
@@ -117,7 +118,7 @@ describe('Unit | Controller | assessment-controller', function () {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId, domainTransaction });
+      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId, domainTransaction, locale });
     });
 
     it('should call the handleBadgeAcquisition use case', async function () {

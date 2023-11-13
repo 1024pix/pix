@@ -1,11 +1,19 @@
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 
-async function getChallenge({ missionId, activityLevel, challengeNumber, alternativeVersion, challengeRepository }) {
+async function getChallenge({
+  missionId,
+  activityLevel,
+  challengeNumber,
+  alternativeVersion,
+  challengeRepository,
+  locale,
+}) {
   try {
     const challenges = await challengeRepository.getChallengeFor1d({
       missionId,
       activityLevel,
       challengeNumber,
+      locale,
     });
     const challengeForSelectedAltVersion = challenges.find(
       (challenge) => challenge.alternativeVersion === alternativeVersion,
@@ -26,10 +34,12 @@ async function getAlternativeVersion({
   activityLevel,
   alreadyPlayedAlternativeVersions,
   challengeRepository,
+  locale,
 }) {
   const activityChallenges = await challengeRepository.getActivityChallengesFor1d({
     missionId,
     activityLevel,
+    locale,
   });
   let challengeWithMaxNumberOfVersions = activityChallenges[0];
   for (const challengeAlternatives of activityChallenges) {

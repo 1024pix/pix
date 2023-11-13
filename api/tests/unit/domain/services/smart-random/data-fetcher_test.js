@@ -255,6 +255,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
       });
       const answer = Symbol('answer');
       const challenges = Symbol('challenge');
+      const locale = 'fr';
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
       challengeRepository.getMany.withArgs().resolves(challenges);
@@ -264,6 +265,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function () {
         assessment,
         answerRepository,
         challengeRepository,
+        locale,
       });
 
       // then

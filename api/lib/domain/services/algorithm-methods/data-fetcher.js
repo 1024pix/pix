@@ -8,6 +8,7 @@ async function fetchForCampaigns({
   knowledgeElementRepository,
   campaignParticipationRepository,
   improvementService,
+  locale,
 }) {
   const campaignSkills = await campaignRepository.findSkillsByCampaignParticipationId({
     campaignParticipationId: assessment.campaignParticipationId,
@@ -25,7 +26,7 @@ async function fetchForCampaigns({
       knowledgeElementRepository,
       improvementService,
     }),
-    _fetchSkillsAndChallenges({ campaignSkills, challengeRepository }),
+    _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }),
   ]);
 
   return {
@@ -47,8 +48,8 @@ async function _fetchKnowledgeElements({
   return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment, isRetrying });
 }
 
-async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository }) {
-  const challenges = await challengeRepository.findOperativeBySkills(campaignSkills);
+async function _fetchSkillsAndChallenges({ campaignSkills, challengeRepository, locale }) {
+  const challenges = await challengeRepository.findOperativeBySkills(campaignSkills, locale);
   return [campaignSkills, challenges];
 }
 
@@ -59,11 +60,12 @@ async function fetchForCompetenceEvaluations({
   knowledgeElementRepository,
   skillRepository,
   improvementService,
+  locale,
 }) {
   const [allAnswers, targetSkills, challenges, knowledgeElements] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findActiveByCompetenceId(assessment.competenceId),
-    challengeRepository.findValidatedByCompetenceId(assessment.competenceId),
+    challengeRepository.findValidatedByCompetenceId(assessment.competenceId, locale),
     _fetchKnowledgeElements({ assessment, knowledgeElementRepository, improvementService }),
   ]);
 
@@ -94,7 +96,7 @@ async function fetchForFlashCampaigns({
     .map(({ challengeId }) => challengeId)
     .filter((challengeId) => !challengeIds.has(challengeId));
   if (missingChallengeIds.length > 0) {
-    const missingChallenges = await challengeRepository.getMany(missingChallengeIds);
+    const missingChallenges = await challengeRepository.getMany(missingChallengeIds, locale);
     challenges.push(...missingChallenges);
   }
 
@@ -105,9 +107,12 @@ async function fetchForFlashCampaigns({
   };
 }
 
-async function fetchForFlashLevelEstimation({ assessment, answerRepository, challengeRepository }) {
+async function fetchForFlashLevelEstimation({ assessment, answerRepository, challengeRepository, locale }) {
   const allAnswers = await answerRepository.findByAssessment(assessment.id);
-  const challenges = await challengeRepository.getMany(allAnswers.map(({ challengeId }) => challengeId));
+  const challenges = await challengeRepository.getMany(
+    allAnswers.map(({ challengeId }) => challengeId),
+    locale,
+  );
 
   return {
     allAnswers,

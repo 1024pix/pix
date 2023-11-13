@@ -74,7 +74,7 @@ async function _handleV3Certification({
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
   const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
-  const challenges = await challengeRepository.getMany(challengeIds);
+  const challenges = await challengeRepository.getManyFlashParameters(challengeIds);
 
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,
