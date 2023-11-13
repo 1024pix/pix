@@ -1,5 +1,6 @@
 <RobotDialog>
-  <Bubble @message={{t "pages.school.division.find-name" division=@model.division backUrl=@model.schoolUrl}} />
+  <Bubble @message={{t "pages.school.division.find-name" division=@model.division}} />
+  <Bubble @message={{t "pages.school.division.back-to-divisions" backUrl=@model.schoolUrl}} />
 </RobotDialog>
 <div class="learners">
   {{#each @model.organizationLearners as |learner|}}
