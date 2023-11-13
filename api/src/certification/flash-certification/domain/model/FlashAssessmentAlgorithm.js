@@ -81,13 +81,14 @@ class FlashAssessmentAlgorithm {
     allAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
+    answersForComputingEstimatedLevel,
   }) {
     if (allAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
     const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
-      allAnswers,
+      allAnswers: answersForComputingEstimatedLevel ?? allAnswers,
       challenges,
       initialCapacity,
       variationPercent: this.variationPercent,

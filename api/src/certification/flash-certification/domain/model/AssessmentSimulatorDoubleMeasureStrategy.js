@@ -14,13 +14,15 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
   run({ challengesAnswers, stepIndex }) {
     const results = [];
     const newAnswers = [];
-    const possibleChallenges = this.algorithm.getPossibleNextChallenges({
-      allAnswers: challengesAnswers,
-      challenges: this.challenges,
-      initialCapacity: this.initialCapacity,
-    });
 
     for (let index = 0; index < NUMBER_OF_MEASURES; index++) {
+      const possibleChallenges = this.algorithm.getPossibleNextChallenges({
+        allAnswers: [...challengesAnswers, ...newAnswers],
+        challenges: this.challenges,
+        initialCapacity: this.initialCapacity,
+        answersForComputingEstimatedLevel: challengesAnswers,
+      });
+
       const availableChallenges = possibleChallenges.filter(({ id }) => {
         return newAnswers.every(({ challengeId }) => challengeId !== id);
       });
