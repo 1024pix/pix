@@ -403,17 +403,29 @@ function prepareStubs({
     })
     .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
-      availableChallenges: [secondChallenge, thirdChallenge],
-      estimatedLevel: 1,
-      options: getNextChallengesOptionsMatcher,
-    })
-    .returns([thirdChallenge, secondChallenge])
-    .withArgs({
       availableChallenges: [thirdChallenge],
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([thirdChallenge]);
+
+  if (doubleMeasuresUntil) {
+    flashAlgorithmService.getPossibleNextChallenges
+      .withArgs({
+        availableChallenges: [secondChallenge, thirdChallenge],
+        estimatedLevel: 0,
+        options: getNextChallengesOptionsMatcher,
+      })
+      .returns([thirdChallenge, secondChallenge]);
+  } else {
+    flashAlgorithmService.getPossibleNextChallenges
+      .withArgs({
+        availableChallenges: [secondChallenge, thirdChallenge],
+        estimatedLevel: 1,
+        options: getNextChallengesOptionsMatcher,
+      })
+      .returns([thirdChallenge, secondChallenge]);
+  }
 
   challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 

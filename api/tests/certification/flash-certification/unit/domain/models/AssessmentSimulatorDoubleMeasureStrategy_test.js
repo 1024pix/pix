@@ -24,6 +24,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             allAnswers: [],
             challenges: allChallenges,
             initialCapacity,
+            answersForComputingEstimatedLevel: [],
           })
           .returns([challenge2, challenge1]);
 
@@ -71,8 +72,16 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             allAnswers: [],
             challenges: allChallenges,
             initialCapacity,
+            answersForComputingEstimatedLevel: [],
           })
-          .returns([challenge2, challenge1]);
+          .returns([challenge2, challenge1])
+          .withArgs({
+            allAnswers: [newAnswer2],
+            challenges: allChallenges,
+            initialCapacity,
+            answersForComputingEstimatedLevel: [],
+          })
+          .returns([challenge1]);
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
