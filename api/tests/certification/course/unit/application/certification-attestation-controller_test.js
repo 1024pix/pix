@@ -106,13 +106,77 @@ describe('Unit | Controller | certification-attestation-controller', function ()
         hFake,
         {
           certificationAttestationPdf,
-      });
+        },
+      );
 
       // then
       expect(response.source).to.deep.equal(attestationPDF);
       expect(response.headers['Content-Disposition']).to.contains(
         'attachment; filename=attestation-pix-session-12.pdf',
       );
+    });
+  });
+
+  describe('#downloadCertificationAttestationsForDivision', function () {
+    const now = new Date('2019-01-01T05:06:07Z');
+    let clock;
+    beforeEach(function () {
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
+    });
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('should return binary attestations', async function () {
+      // given
+      const certifications = [
+        domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+        domainBuilder.buildPrivateCertificateWithCompetenceTree(),
+      ];
+      const organizationId = domainBuilder.buildOrganization().id;
+      const division = '3b';
+      const attestationsPDF = 'binary string';
+      const userId = 1;
+      const lang = FRENCH;
+      const i18n = getI18n();
+
+      const request = {
+        i18n,
+        auth: { credentials: { userId } },
+        params: { id: organizationId },
+        query: { division, isFrenchDomainExtension: true, lang },
+      };
+
+      sinon
+        .stub(usecases, 'findCertificationAttestationsForDivision')
+        .withArgs({
+          division,
+          organizationId,
+        })
+        .resolves(certifications);
+
+      const certificationAttestationPdfStub = {
+        getCertificationAttestationsPdfBuffer: sinon.stub(),
+      };
+
+      const dependencies = {
+        certificationAttestationPdf: certificationAttestationPdfStub,
+      };
+
+      certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
+        .withArgs({ certificates: certifications, isFrenchDomainExtension: true, i18n })
+        .resolves({ buffer: attestationsPDF });
+
+      // when
+      const response = await certificationAttestationController.downloadCertificationAttestationsForDivision(
+        request,
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(response.source).to.deep.equal(attestationsPDF);
+      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20190101_attestations_3b.pdf');
     });
   });
 });
