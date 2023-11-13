@@ -765,7 +765,15 @@ function _buildSkill({ id, name = '@sau6', tubeId = 'recTUB123' }) {
   };
 }
 
-function _buildChallenge({ id, skill, status = 'validé', alternativeVersion, type = Challenge.Type.QCM , alpha = 1 , delta = 0}) {
+function _buildChallenge({
+  id,
+  skill,
+  status = 'validé',
+  alternativeVersion,
+  type = Challenge.Type.QCM,
+  alpha = 1,
+  delta = 0,
+}) {
   return {
     id,
     attachments: ['URL pièce jointe'],
