@@ -1,4 +1,4 @@
-import { CertificationAttestation } from '../../../../lib/domain/models/CertificationAttestation.js';
+import { CertificationAttestation } from '../../../../src/certification/course/domain/models/CertificationAttestation.js';
 
 const buildCertificationAttestation = function ({
   id = 1,
