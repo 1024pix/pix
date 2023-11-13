@@ -9,6 +9,7 @@ import {
 import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
+import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';
 describe('Acceptance | Route | certification-attestation', function () {
   beforeEach(async function () {
     const learningContent = [
@@ -148,6 +149,79 @@ describe('Acceptance | Route | certification-attestation', function () {
       expect(response.file).not.to.be.null;
     });
   });
+
+  describe('GET /api/organizations/{id}/certification-attestations', function () {
+    it('should return HTTP status 200', async function () {
+      // given
+      const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();
+
+      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: adminIsManagingStudent.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      const student = databaseBuilder.factory.buildUser.withRawPassword();
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId: organization.id,
+        division: 'aDivision',
+        userId: student.id,
+      });
+
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        organizationLearnerId: organizationLearner.id,
+        userId: student.id,
+      });
+
+      const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        userId: candidate.userId,
+        sessionId: candidate.sessionId,
+        isPublished: true,
+        isCancelled: false,
+      });
+
+      const badge = databaseBuilder.factory.buildBadge({ key: 'a badge' });
+
+      const assessment = databaseBuilder.factory.buildAssessment({
+        userId: candidate.userId,
+        certificationCourseId: certificationCourse.id,
+        type: Assessment.types.CERTIFICATION,
+        state: 'completed',
+      });
+
+      const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+        certificationCourseId: certificationCourse.id,
+        assessmentId: assessment.id,
+        status: AssessmentResult.status.VALIDATED,
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        level: 3,
+        score: 23,
+        area_code: '1',
+        competence_code: '1.3',
+        assessmentResultId: assessmentResult.id,
+        acquiredComplementaryCertifications: [badge.key],
+      });
+
+      await databaseBuilder.commit();
+
+      const server = await createServer();
+
+      const options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true&lang=fr`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(adminIsManagingStudent.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   async function _buildDatabaseForV2Certification({ userId }) {
     const session = databaseBuilder.factory.buildSession({ id: 4567, publishedAt: new Date('2018-12-01T01:02:03Z') });
     const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
