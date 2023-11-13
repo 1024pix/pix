@@ -11,6 +11,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
         const allChallenges = [challenge1, challenge2];
         const initialCapacity = 0;
+        const doubleMeasuresUntil = 2;
         const algorithm = {
           getPossibleNextChallenges: sinon.stub(),
           getEstimatedLevelAndErrorRate: sinon.stub(),
@@ -18,6 +19,17 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
         };
         const pickChallenge = sinon.stub();
         const pickAnswerStatus = sinon.stub();
+
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            allAnswers: [],
+            challenges: allChallenges,
+            initialCapacity,
+            doubleMeasuresUntil,
+          })
+          .returns({
+            estimatedLevel: initialCapacity,
+          });
 
         algorithm.getPossibleNextChallenges
           .withArgs({
@@ -38,6 +50,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           pickChallenge,
           pickAnswerStatus,
           initialCapacity,
+          doubleMeasuresUntil,
         });
         const result = strategy.run({ challengesAnswers: [], stepIndex: 0 });
 
@@ -50,13 +63,16 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
       it('should return the result for both challenges', function () {
         // given
         const stepIndex = 0;
-        const challenge1 = domainBuilder.buildChallenge({ id: 'rec1' });
-        const challenge2 = domainBuilder.buildChallenge({ id: 'rec2' });
+        const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', difficulty: 1, discriminant: 0.5 });
+        const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', difficulty: 2, discriminant: 1.5 });
+        const challenge1Reward = 2;
+        const challenge2Reward = 3;
         const allChallenges = [challenge1, challenge2];
         const answerStatusForSimulator1 = AnswerStatus.OK;
         const answerStatusForSimulator2 = AnswerStatus.OK;
         const newAnswer1 = new Answer({ challengeId: challenge1.id, result: answerStatusForSimulator1 });
         const newAnswer2 = new Answer({ challengeId: challenge2.id, result: answerStatusForSimulator2 });
+        const estimatedLevelBeforeAnswering = -0.5;
         const expectedEstimatedLevel = 0.4;
         const initialCapacity = 0;
         const algorithm = {
@@ -85,6 +101,15 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
 
         algorithm.getEstimatedLevelAndErrorRate
           .withArgs({
+            allAnswers: [],
+            challenges: allChallenges,
+            initialCapacity,
+            doubleMeasuresUntil: 2,
+          })
+          .returns({
+            estimatedLevel: estimatedLevelBeforeAnswering,
+          })
+          .withArgs({
             allAnswers: [sinon.match(newAnswer2), sinon.match(newAnswer1)],
             challenges: allChallenges,
             initialCapacity,
@@ -93,6 +118,20 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
           .returns({
             estimatedLevel: expectedEstimatedLevel,
           });
+
+        algorithm.getReward
+          .withArgs({
+            estimatedLevel: estimatedLevelBeforeAnswering,
+            difficulty: challenge1.difficulty,
+            discriminant: challenge1.discriminant,
+          })
+          .returns(challenge1Reward)
+          .withArgs({
+            estimatedLevel: estimatedLevelBeforeAnswering,
+            difficulty: challenge2.difficulty,
+            discriminant: challenge2.discriminant,
+          })
+          .returns(challenge2Reward);
 
         pickChallenge
           .withArgs({ possibleChallenges: [challenge2, challenge1] })
@@ -112,10 +151,14 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
             {
               challenge: challenge2,
               estimatedLevel: expectedEstimatedLevel,
+              answerStatus: answerStatusForSimulator2.status,
+              reward: challenge2Reward,
             },
             {
               challenge: challenge1,
               estimatedLevel: expectedEstimatedLevel,
+              answerStatus: answerStatusForSimulator1.status,
+              reward: challenge1Reward,
             },
           ],
           challengeAnswers: [
