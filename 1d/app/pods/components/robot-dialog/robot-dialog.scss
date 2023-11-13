@@ -4,8 +4,16 @@
   width: 100%;
   padding: 40px;
 
+  .bubbles {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+  }
+
   &__logo {
     width: 128px;
   }
 }
+
+
 
