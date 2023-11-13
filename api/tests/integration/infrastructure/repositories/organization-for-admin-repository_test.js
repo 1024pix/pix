@@ -88,7 +88,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
         creatorFirstName: 'Cécile',
         creatorLastName: 'Encieux',
         identityProviderForCampaigns: OidcIdentityProviders.CNAV.code,
-        enableMultipleSendingAssessment: true,
         features: {
           [ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
           [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
@@ -198,7 +197,6 @@ describe('Integration | Repository | Organization-for-admin', function () {
           creatorFirstName: superAdminUser.firstName,
           creatorLastName: superAdminUser.lastName,
           identityProviderForCampaigns: null,
-          enableMultipleSendingAssessment: false,
           features: {
             [ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
           },

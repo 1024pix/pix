@@ -132,6 +132,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
         features: {
           [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
         },
       };
 
@@ -172,7 +173,6 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         externalId: organizationAttributes.externalId,
         provinceCode: organizationAttributes.provinceCode,
         isManagingStudents: organizationAttributes.isManagingStudents,
-        enableMultipleSendingAssessment: organizationAttributes.enableMultipleSendingAssessment,
         createdBy: organizationAttributes.createdBy,
         documentationUrl: organizationAttributes.documentationUrl,
         showSkills: organizationAttributes.showSkills,
@@ -181,7 +181,10 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
         dataProtectionOfficerLastName: organizationAttributes.dataProtectionOfficerLastName,
         dataProtectionOfficerEmail: organizationAttributes.dataProtectionOfficerEmail,
         features: {
-          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
+          [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]:
+            organizationAttributes.features.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
+          [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]:
+            organizationAttributes.features.MULTIPLE_SENDING_ASSESSMENT,
         },
       });
       expect(organization).to.be.instanceOf(OrganizationForAdmin);
