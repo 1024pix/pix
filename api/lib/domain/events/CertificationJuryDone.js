@@ -1,7 +1,6 @@
 class CertificationJuryDone {
-  constructor({ certificationCourseId, locale }) {
+  constructor({ certificationCourseId }) {
     this.certificationCourseId = certificationCourseId;
-    this.locale = locale;
   }
 }
 

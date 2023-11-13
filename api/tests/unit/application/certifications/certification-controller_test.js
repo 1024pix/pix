@@ -237,9 +237,6 @@ describe('Unit | Controller | certifications-controller', function () {
   describe('#neutralizeChallenge', function () {
     it('neutralizes the challenge and dispatches the event', async function () {
       // given
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub().returns(locale) };
-
       const request = {
         payload: {
           data: {
@@ -259,24 +256,18 @@ describe('Unit | Controller | certifications-controller', function () {
       };
 
       // when
-      await certificationController.neutralizeChallenge(request, hFake, {
-        events: eventsStub,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(usecases.neutralizeChallenge).to.have.been.calledWithExactly({
         certificationCourseId: 1,
         challengeRecId: 'rec43mpMIR5dUzdjh',
         juryId: 7,
-        locale,
       });
     });
 
     it('returns 204', async function () {
       // given
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub().returns(locale) };
       const request = {
         payload: {
           data: {
@@ -296,10 +287,7 @@ describe('Unit | Controller | certifications-controller', function () {
         },
       };
       // when
-      const response = await certificationController.neutralizeChallenge(request, hFake, {
-        events: eventsStub,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      const response = await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -307,9 +295,6 @@ describe('Unit | Controller | certifications-controller', function () {
 
     it('dispatches an event', async function () {
       // given
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub().returns(locale) };
-
       const request = {
         payload: {
           data: {
@@ -321,7 +306,7 @@ describe('Unit | Controller | certifications-controller', function () {
         },
         auth: { credentials: { userId: 7 } },
       };
-      const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7, locale });
+      const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
       sinon.stub(usecases, 'neutralizeChallenge').resolves(eventToBeDispatched);
       const eventsStub = {
         eventDispatcher: {
@@ -330,10 +315,7 @@ describe('Unit | Controller | certifications-controller', function () {
       };
 
       // when
-      await certificationController.neutralizeChallenge(request, hFake, {
-        events: eventsStub,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      await certificationController.neutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(eventsStub.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);
@@ -343,8 +325,6 @@ describe('Unit | Controller | certifications-controller', function () {
   describe('#deneutralizeChallenge', function () {
     it('deneutralizes the challenge', async function () {
       // given
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
       const request = {
         payload: {
           data: {
@@ -362,27 +342,20 @@ describe('Unit | Controller | certifications-controller', function () {
           dispatch: sinon.stub(),
         },
       };
-      requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
-      await certificationController.deneutralizeChallenge(request, hFake, {
-        events: eventsStub,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(usecases.deneutralizeChallenge).to.have.been.calledWithExactly({
         certificationCourseId: 1,
         challengeRecId: 'rec43mpMIR5dUzdjh',
         juryId: 7,
-        locale,
       });
     });
 
     it('returns 204', async function () {
       // given
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
       const request = {
         payload: {
           data: {
@@ -400,13 +373,8 @@ describe('Unit | Controller | certifications-controller', function () {
           dispatch: sinon.stub(),
         },
       };
-      requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
-
       // when
-      const response = await certificationController.deneutralizeChallenge(request, hFake, {
-        events: eventsStub,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      const response = await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(response.statusCode).to.equal(204);
@@ -414,9 +382,6 @@ describe('Unit | Controller | certifications-controller', function () {
 
     it('dispatches the event', async function () {
       // given
-      const locale = 'fr-fr';
-      const requestResponseUtilsStub = { extractLocaleFromRequest: sinon.stub() };
-
       const request = {
         payload: {
           data: {
@@ -428,7 +393,7 @@ describe('Unit | Controller | certifications-controller', function () {
         },
         auth: { credentials: { userId: 7 } },
       };
-      const eventToBeDispatched = new ChallengeDeneutralized({ certificationCourseId: 1, juryId: 7, locale });
+      const eventToBeDispatched = new ChallengeDeneutralized({ certificationCourseId: 1, juryId: 7 });
 
       sinon.stub(usecases, 'deneutralizeChallenge').resolves(eventToBeDispatched);
       const eventsStub = {
@@ -436,13 +401,9 @@ describe('Unit | Controller | certifications-controller', function () {
           dispatch: sinon.stub(),
         },
       };
-      requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
-      await certificationController.deneutralizeChallenge(request, hFake, {
-        events: eventsStub,
-        requestResponseUtils: requestResponseUtilsStub,
-      });
+      await certificationController.deneutralizeChallenge(request, hFake, { events: eventsStub });
 
       // then
       expect(eventsStub.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);

@@ -56,31 +56,27 @@ const getPDFAttestation = async function (request, h, dependencies = { certifica
     .header('Content-Type', 'application/pdf');
 };
 
-const neutralizeChallenge = async function (request, h, dependencies = { events, requestResponseUtils }) {
+const neutralizeChallenge = async function (request, h, dependencies = { events }) {
   const challengeRecId = request.payload.data.attributes.challengeRecId;
   const certificationCourseId = request.payload.data.attributes.certificationCourseId;
   const juryId = request.auth.credentials.userId;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const event = await usecases.neutralizeChallenge({
     challengeRecId,
     certificationCourseId,
     juryId,
-    locale,
   });
   await dependencies.events.eventDispatcher.dispatch(event);
   return h.response().code(204);
 };
 
-const deneutralizeChallenge = async function (request, h, dependencies = { events, requestResponseUtils }) {
+const deneutralizeChallenge = async function (request, h, dependencies = { events }) {
   const challengeRecId = request.payload.data.attributes.challengeRecId;
   const certificationCourseId = request.payload.data.attributes.certificationCourseId;
   const juryId = request.auth.credentials.userId;
-  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const event = await usecases.deneutralizeChallenge({
     challengeRecId,
     certificationCourseId,
     juryId,
-    locale,
   });
   await dependencies.events.eventDispatcher.dispatch(event);
   return h.response().code(204);
