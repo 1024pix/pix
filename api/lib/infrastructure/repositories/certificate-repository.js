@@ -81,49 +81,11 @@ const getCertificationAttestation = async function (id) {
   return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges });
 };
 
-const findByDivisionForScoIsManagingStudentsOrganization = async function ({ organizationId, division }) {
-  const certificationCourseDTOs = await _selectCertificationAttestations()
-    .select({ organizationLearnerId: 'view-active-organization-learners.id' })
-    .innerJoin('certification-candidates', function () {
-      this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
-        'certification-candidates.userId': 'certification-courses.userId',
-      });
-    })
-    .innerJoin(
-      'view-active-organization-learners',
-      'view-active-organization-learners.id',
-      'certification-candidates.organizationLearnerId',
-    )
-    .innerJoin('organizations', 'organizations.id', 'view-active-organization-learners.organizationId')
-    .where({
-      'view-active-organization-learners.organizationId': organizationId,
-      'view-active-organization-learners.isDisabled': false,
-    })
-    .whereRaw('LOWER("view-active-organization-learners"."division") = ?', division.toLowerCase())
-    .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
-    .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
-    .modify(_checkOrganizationIsScoIsManagingStudents)
-    .groupBy('view-active-organization-learners.id', 'certification-courses.id', 'sessions.id', 'assessment-results.id')
-    .orderBy('certification-courses.createdAt', 'DESC');
-
-  const competenceTree = await competenceTreeRepository.get();
-
-  const mostRecentCertificationsPerOrganizationLearner =
-    _filterMostRecentCertificationCoursePerOrganizationLearner(certificationCourseDTOs);
-  return _(mostRecentCertificationsPerOrganizationLearner)
-    .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
-    .map((certificationCourseDTO) => {
-      return _toDomainForCertificationAttestation({ certificationCourseDTO, competenceTree, certifiedBadges: [] });
-    })
-    .value();
-};
-
 export {
   getPrivateCertificate,
   findPrivateCertificatesByUserId,
   getShareableCertificateByVerificationCode,
   getCertificationAttestation,
-  findByDivisionForScoIsManagingStudentsOrganization,
 };
 
 async function _getCertifiedBadges(certificationCourseId) {
@@ -258,20 +220,6 @@ function _getCertificateQuery() {
       'certification-courses-last-assessment-results.lastAssessmentResultId',
     )
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id');
-}
-
-function _checkOrganizationIsScoIsManagingStudents(qb) {
-  return qb.where('organizations.type', 'SCO').where('organizations.isManagingStudents', true);
-}
-
-function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
-  const groupedByOrganizationLearner = _.groupBy(DTOs, 'organizationLearnerId');
-
-  const mostRecent = [];
-  for (const certificationsForOneOrganizationLearner of Object.values(groupedByOrganizationLearner)) {
-    mostRecent.push(certificationsForOneOrganizationLearner[0]);
-  }
-  return mostRecent;
 }
 
 function _toDomainForPrivateCertificate({ certificationCourseDTO, competenceTree, certifiedBadges = [] }) {
