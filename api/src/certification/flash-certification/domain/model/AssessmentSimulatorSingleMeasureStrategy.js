@@ -11,7 +11,7 @@ export class AssessmentSimulatorSingleMeasureStrategy {
 
   run({ challengesAnswers, stepIndex }) {
     const possibleChallenges = this.algorithm.getPossibleNextChallenges({
-      allAnswers: challengesAnswers,
+      assessmentAnswers: challengesAnswers,
       challenges: this.challenges,
       initialCapacity: this.initialCapacity,
     });

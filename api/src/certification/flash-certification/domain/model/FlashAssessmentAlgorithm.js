@@ -78,7 +78,7 @@ class FlashAssessmentAlgorithm {
   }
 
   getPossibleNextChallenges({
-    allAnswers: assessmentAnswers,
+    assessmentAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
     answersForComputingEstimatedLevel,

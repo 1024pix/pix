@@ -66,7 +66,7 @@ const getNextChallengeForCertification = async function ({
     const activeChallenges = challenges.filter((challenge) => !validatedLiveAlertChallengeIds.includes(challenge.id));
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
-      allAnswers,
+      assessmentAnswers: allAnswers,
       challenges: activeChallenges,
     });
 

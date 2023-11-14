@@ -22,7 +22,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [],
+              assessmentAnswers: [],
               challenges: allChallenges,
               initialCapacity,
             })
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [],
+              assessmentAnswers: [],
               challenges: allChallenges,
               initialCapacity,
             })
@@ -156,7 +156,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [challengeAnswer],
+              assessmentAnswers: [challengeAnswer],
               challenges: allChallenges,
               initialCapacity: capacityAfterFirstChallenge,
             })
@@ -221,7 +221,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorSingleMeasureStrategy', fu
 
           algorithm.getPossibleNextChallenges
             .withArgs({
-              allAnswers: [challengeAnswer],
+              assessmentAnswers: [challengeAnswer],
               challenges: allChallenges,
               initialCapacity: capacityAfterFirstChallenge,
             })
