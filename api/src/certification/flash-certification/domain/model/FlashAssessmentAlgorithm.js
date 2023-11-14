@@ -96,10 +96,7 @@ class FlashAssessmentAlgorithm {
 
     const challengesAfterRulesApplication = this._applyChallengeSelectionRules(assessmentAnswers, challenges);
 
-    if (
-      challengesAfterRulesApplication?.length === 0 ||
-      assessmentAnswers.length >= config.features.numberOfChallengesForFlashMethod
-    ) {
+    if (challengesAfterRulesApplication?.length === 0) {
       throw new AssessmentEndedError();
     }
 
