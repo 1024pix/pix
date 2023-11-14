@@ -5,7 +5,7 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 
 const serialize = function (feedbacks) {
   return new Serializer('feedbacks', {
-    attributes: ['createdAt', 'content', 'assessment', 'challenge'],
+    attributes: ['createdAt', 'content', 'category', 'answer', 'assessment', 'challenge'],
     assessment: { ref: 'id' },
     challenge: { ref: 'id' },
     transform(json) {
