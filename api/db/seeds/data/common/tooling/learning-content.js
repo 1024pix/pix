@@ -16,7 +16,7 @@ async function getAllCompetences() {
 
 async function getAllChallenges() {
   if (!ALL_CHALLENGES) {
-    ALL_CHALLENGES = await challengeRepository.list();
+    ALL_CHALLENGES = await challengeRepository.list('fr-fr');
   }
   return ALL_CHALLENGES;
 }
