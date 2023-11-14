@@ -1161,7 +1161,7 @@
       },
       "register-form": {
         "title": "Je n’ai pas de compte Pix",
-        "button": "Je créé mon compte",
+        "button": "Je crée mon compte",
         "description": "Un compte va être créé à partir des éléments transmis par l'organisme",
         "information": {
           "family-name": "Nom : {familyName}",

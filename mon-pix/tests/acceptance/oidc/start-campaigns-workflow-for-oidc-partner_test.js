@@ -107,7 +107,7 @@ module('Acceptance | Campaigns | Start Campaigns workflow | OIDC', function (hoo
         // when
         const screen = await visit(`/connexion/oidc?authenticationKey=key&identityProviderSlug=oidc-partner`);
         await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
-        await click(screen.getByRole('button', { name: 'Je créé mon compte' }));
+        await click(screen.getByRole('button', { name: 'Je crée mon compte' }));
 
         // then
         assert.strictEqual(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
