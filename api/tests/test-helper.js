@@ -10,8 +10,13 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: `${__dirname}/../.env` });
 import _ from 'lodash';
 import MockDate from 'mockdate';
-import chai from 'chai';
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr.js';
+import localizedFormat from 'dayjs/plugin/localizedFormat.js';
+dayjs.extend(localizedFormat);
+
+import chai from 'chai';
 const expect = chai.expect;
 import sinon, { restore } from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
