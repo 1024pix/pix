@@ -45,8 +45,6 @@ import { CertificationChallenge } from './CertificationChallenge.js';
 import { CertificationChallengeWithType } from './CertificationChallengeWithType.js';
 import { CertificationContract } from './CertificationContract.js';
 import { CertificationCourse } from './CertificationCourse.js';
-import { CertificationCpfCity } from './CertificationCpfCity.js';
-import { CertificationCpfCountry } from './CertificationCpfCountry.js';
 import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
@@ -197,8 +195,6 @@ export {
   CertificationChallengeWithType,
   CertificationContract,
   CertificationCourse,
-  CertificationCpfCity,
-  CertificationCpfCountry,
   CertificationIssueReport,
   CertificationIssueReportCategory,
   CertificationIssueReportResolutionAttempt,

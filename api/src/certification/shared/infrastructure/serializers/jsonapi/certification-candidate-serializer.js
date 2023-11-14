@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
 
-import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
+import { CertificationCandidate } from '../../../../../../lib/domain/models/CertificationCandidate.js';
 import _ from 'lodash';
 
 const serialize = function (certificationCandidates) {

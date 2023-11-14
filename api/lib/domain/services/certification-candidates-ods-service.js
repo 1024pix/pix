@@ -11,7 +11,7 @@ import { CertificationCandidatesError } from '../errors.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../constants/certification-candidates-errors.js';
-import * as mailCheckImplementation from '../../infrastructure/mail-check.js';
+import * as mailCheckImplementation from '../../../src/shared/mail/infrastructure/services/mail-check.js';
 
 export { extractCertificationCandidatesFromCandidatesImportSheet };
 

@@ -4,7 +4,7 @@
 
 import { parseCsv } from '../helpers/csvHelpers.js';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { normalizeAndSortChars } from '../../lib/infrastructure/utils/string-utils.js';
+import { normalizeAndSortChars } from '../../src/shared/infrastructure/utils/string-utils.js';
 import _ from 'lodash';
 import * as url from 'url';
 
