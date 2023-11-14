@@ -40,7 +40,7 @@ const getNextChallengeForCampaignAssessment = async function ({
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
-      allAnswers,
+      assessmentAnswers: allAnswers,
       challenges,
     });
 
