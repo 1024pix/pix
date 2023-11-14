@@ -23,7 +23,8 @@
         "cards": {
           "finished": "Terminé"
         },
-        "list": "Bonjour <strong>{prenom}</strong>, choisis ta mission parmi celles qui te sont proposées ci-dessous !<br>Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>",
+        "instruction": "Bonjour <strong>{prenom}</strong>, choisis ta mission parmi celles qui te sont proposées ci-dessous !",
+        "back-to-students": "Si tu n'es pas <strong>{prenom}</strong>, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des élèves </a>",
         "purpose-title": "Objectif de la mission :",
         "start-mission": "C'est partix !",
         "welcome": "Prépare-toi à résoudre des épreuves et relever des défis."
@@ -44,7 +45,8 @@
         "welcome": "Bienvenue sur la page de l'école : <strong>{schoolName}</strong><br>Maintenant, choisis ta classe."
       },
       "division": {
-        "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Clique sur ton prénom dans la liste.<br>Si ce n'est pas ta classe, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des classes</a>"
+        "find-name": "Voici les élèves de la classe : <strong>{division}</strong><br>Clique sur ton prénom dans la liste.",
+        "back-to-divisions": "Si ce n'est pas ta classe, <a href=\"{backUrl}\" class=\"internal-link\">clique ici pour retourner à la liste des classes</a>"
       }
     }
   }

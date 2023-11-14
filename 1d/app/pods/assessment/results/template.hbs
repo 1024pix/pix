@@ -1,5 +1,7 @@
 <div class="mission-page">
-  <RobotDialog @instruction={{t "pages.missions.end-page.congratulations"}} @class="happy" />
+  <RobotDialog @class="happy">
+    <Bubble @message={{t "pages.missions.end-page.congratulations"}} @color="green" />
+  </RobotDialog>
   <div class="mission-page__body">
     {{#if (eq @model.id "recExjO7RHeDI48HK")}}
       <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
@@ -7,7 +9,6 @@
       <MissionCard @title="Données personnelles" @colorClass="blue" @imageName="personal-data" />
     {{/if}}
     <div class="mission-page__details">
-
       <p class="details-list__title">{{t "pages.missions.end-page.details-list"}}</p>
       <ul class="details-list">
         {{#if (eq @model.id "recExjO7RHeDI48HK")}}

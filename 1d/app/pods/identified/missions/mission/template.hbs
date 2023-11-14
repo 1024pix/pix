@@ -1,5 +1,7 @@
 <div class="mission-page">
-  <RobotDialog @instruction={{t "pages.missions.start-page.welcome"}} />
+  <RobotDialog>
+    <Bubble @message={{t "pages.missions.start-page.welcome"}} />
+  </RobotDialog>
   <div class="mission-page__body">
     {{#if (eq @model.id "recExjO7RHeDI48HK")}}
       <MissionCard @title="Recherche sur internet" @colorClass="red" @imageName="internet-search" />
