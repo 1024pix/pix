@@ -110,7 +110,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   return new AuthenticationMethod({
     id,
     identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
+    authenticationComplement: new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
       accessToken,
       refreshToken,
       expiredDate,

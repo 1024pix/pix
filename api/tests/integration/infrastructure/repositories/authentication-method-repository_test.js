@@ -354,7 +354,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // then
         expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
-          new AuthenticationMethod.OidcAuthenticationComplement({
+          new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
             accessToken: 'AGENCENATIONALEPOURLEMPLOI',
             refreshToken: 'FRANCETRAVAIL',
             expiredDate: '2021-01-01T00:00:00.000Z',
@@ -804,7 +804,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = authenticationMethod.userId;
         const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
           expiredDate,
@@ -830,7 +830,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = authenticationMethod.userId;
         const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
           expiredDate,
