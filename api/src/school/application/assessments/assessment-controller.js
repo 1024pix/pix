@@ -14,9 +14,16 @@ const createForPix1d = async function (request, h, dependencies = { assessmentSe
   return h.response(dependencies.assessmentSerializer.serialize(createdAssessment)).created();
 };
 
+const getByAssessmentId = async function (request, h, dependencies = { assessmentSerializer }) {
+  const assessmentId = request.params.id;
+  const missionAssessment = await usecases.getMissionAssessmentByAssessmentId({ assessmentId });
+  return dependencies.assessmentSerializer.serialize(missionAssessment);
+};
+
 const assessmentController = {
   getNextChallengeForPix1d,
   createForPix1d,
+  getByAssessmentId,
 };
 
 export { assessmentController };

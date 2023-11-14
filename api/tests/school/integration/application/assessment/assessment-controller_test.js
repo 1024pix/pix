@@ -29,4 +29,27 @@ describe('Integration | Controller | assessment-controller', function () {
       });
     });
   });
+  describe('#getByAssessmentId', function () {
+    it('should call the expected usecase and return the serialized assessment', async function () {
+      const missionId = 'mission-id';
+      const assessmentId = 1234;
+      const organizationLearnerId = 5678;
+      const createdMissionAssessment = new MissionAssessment({ missionId, assessmentId, organizationLearnerId });
+      sinon
+        .stub(usecases, 'getMissionAssessmentByAssessmentId')
+        .withArgs({ assessmentId })
+        .resolves(createdMissionAssessment);
+      const request = { params: { id: assessmentId } };
+
+      const result = await assessmentController.getByAssessmentId(request, hFake);
+      expect(result.data).to.deep.equal({
+        id: assessmentId.toString(),
+        attributes: {
+          'mission-id': missionId,
+          'organization-learner-id': organizationLearnerId,
+        },
+        type: 'assessments',
+      });
+    });
+  });
 });

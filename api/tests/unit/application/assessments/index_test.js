@@ -86,23 +86,6 @@ describe('Unit | Application | Router | assessment-router', function () {
     });
   });
 
-  describe('GET /api/pix1d/assessments/{id}', function () {
-    const method = 'GET';
-    const url = '/api/pix1d/assessments/1';
-
-    it('should return 200', async function () {
-      sinon.stub(assessmentController, 'get').callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/assessments/{id}/competence-evaluations', function () {
     it('should return 200', async function () {
       // given
