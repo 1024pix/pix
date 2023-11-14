@@ -1,7 +1,7 @@
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
-import { assessmentController } from './assessment-controller.js';
+import { assessmentController } from './controller.js';
 
 const register = async function (server) {
   server.route([
