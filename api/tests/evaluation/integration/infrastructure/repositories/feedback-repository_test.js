@@ -6,7 +6,13 @@ describe('Integration | Repository | Feedback', function () {
   describe('save', function () {
     it('should save a feedback in database', async function () {
       // given
-      const feedbackToSave = { content: 'test', challengeId: '123' };
+      const feedbackToSave = {
+        id: 969,
+        content: 'test',
+        answer: 'dummy answer',
+        category: 'dummy category',
+        challengeId: '123',
+      };
 
       // when
       const savedFeedback = await save(feedbackToSave);
@@ -16,11 +22,12 @@ describe('Integration | Repository | Feedback', function () {
       expect(savedFeedback).to.include({
         content: feedbackToSave.content,
         challengeId: feedbackToSave.challengeId,
-        category: null,
-        answer: null,
+        category: feedbackToSave.category,
+        answer: feedbackToSave.answer,
         assessmentId: null,
         userAgent: null,
       });
+      expect(savedFeedback.id).to.not.equal(969);
     });
   });
 });
