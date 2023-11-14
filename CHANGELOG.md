@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.62.0 (14/11/2023)
+
+
+### :rocket: Amélioration
+- [#7403](https://github.com/1024pix/pix/pull/7403) [FEATURE] Permettre la réinitialisation du résultat d'un jury externe de certification complémentaire (PIX-9705).
+- [#7402](https://github.com/1024pix/pix/pull/7402) [FEATURE] Ajouter un script pour mettre à jour le rôle de membres de centres de certification (PIX-9826).
+
+### :building_construction: Tech
+- [#7396](https://github.com/1024pix/pix/pull/7396) [TECH] Récupère des challenges avec la bonne locale.
+- [#7438](https://github.com/1024pix/pix/pull/7438) [TECH] Améliorer le nettoyage des tables après chaque tests d'intégration et d'acceptance.
+- [#7437](https://github.com/1024pix/pix/pull/7437) [TECH] Migrer les feedbacks vers la nouvelle arbo API.
+- [#7416](https://github.com/1024pix/pix/pull/7416) [TECH] Extraction de fonctions pour les placer dans le domaine « SCHOOL » (PIX-9883).
+- [#7417](https://github.com/1024pix/pix/pull/7417) [TECH] Remplacer contains et not Contains par du testing-library dans les tests  Orga (PIX-9885).
+- [#7427](https://github.com/1024pix/pix/pull/7427) [TECH] déplacer le code des listes de participants dans le contexte prescription (PIX-9886).
+- [#7421](https://github.com/1024pix/pix/pull/7421) [TECH] Ajouter la notion de grain dans le domaine (PIX-9716).
+- [#7420](https://github.com/1024pix/pix/pull/7420) [TECH] Déplacement de la fonctionnalité du kit surveillant dans le dossier src (PIX-9461). .
+
+### :arrow_up: Montée de version
+- [#7446](https://github.com/1024pix/pix/pull/7446) [BUMP] Lock file maintenance (api).
+- [#7441](https://github.com/1024pix/pix/pull/7441) [BUMP] Update dependency libxmljs2 to ^0.33.0 (api).
+- [#7440](https://github.com/1024pix/pix/pull/7440) [BUMP] Update dependency axios to v1.6.0 [SECURITY].
+
 ## v4.61.0 (09/11/2023)
 
 
