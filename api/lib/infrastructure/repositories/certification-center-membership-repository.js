@@ -207,6 +207,21 @@ const updateRefererStatusByUserIdAndCertificationCenterId = async function ({
   await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).where({ userId, certificationCenterId }).update({ isReferer });
 };
 
+const getCertificationCenterId = async function (certificationCenterMembershipId) {
+  const result = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .select('certification-center-memberships.certificationCenterId')
+    .where({ 'certification-center-memberships.id': certificationCenterMembershipId })
+    .first();
+
+  if (!result) {
+    throw new NotFoundError(
+      `Cannot find a certificationCenterId for membership with id ${certificationCenterMembershipId}`,
+    );
+  }
+
+  return result.certificationCenterId;
+};
+
 const getRefererByCertificationCenterId = async function ({ certificationCenterId }) {
   const refererCertificationCenterMembership = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select('certification-center-memberships.*', 'users.lastName', 'users.firstName', 'users.email')
@@ -289,6 +304,7 @@ export {
   findOneWithCertificationCenterIdAndUserId,
   findById,
   findByUserId,
+  getCertificationCenterId,
   getRefererByCertificationCenterId,
   isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
