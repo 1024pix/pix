@@ -4,12 +4,13 @@
       <FaIcon
         @icon="circle-question"
         tabindex="0"
-        aria-label={{@aria-label}}
+        aria-label={{t "components.certificability-tooltip.aria-label"}}
         aria-describedby="column-is-certifiable-informations"
       />
     </:triggerElement>
     <:tooltip>
-      {{@content}}
+      <span>{{t "components.certificability-tooltip.content"}}</span>
+      <span>{{this.certificabilityDescription}}</span>
     </:tooltip>
   </PixTooltip>
 </div>

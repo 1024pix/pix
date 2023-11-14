@@ -1,0 +1,8 @@
+<Ui::IsCertifiable @isCertifiable={{@isCertifiable}} />
+{{#if this.displayCertificabilityDate}}
+  <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
+      @certifiableAt
+      "DD/MM/YYYY"
+      allow-empty=true
+    }}</span>
+{{/if}}

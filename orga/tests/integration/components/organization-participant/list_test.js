@@ -815,20 +815,14 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
 />`,
     );
 
-    await click(
-      screen.getByLabelText(
-        this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.aria-label'),
-      ),
-    );
+    await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
 
     // then
-    assert
-      .dom(
-        await screen.findByRole('tooltip', {
-          name: this.intl.t('pages.organization-participants.table.column.is-certifiable.tooltip.content'),
-        }),
-      )
-      .exists();
+    assert.ok(
+      await screen.findByRole('tooltip', {
+        name: new RegExp(this.intl.t('components.certificability-tooltip.content')),
+      }),
+    );
   });
 
   module('when user is admin of organisation', function (hooks) {

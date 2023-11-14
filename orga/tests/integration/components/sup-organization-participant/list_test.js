@@ -302,20 +302,14 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     );
 
     // then
-    await click(
-      screen.getByLabelText(
-        this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
-      ),
-    );
+    await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
 
     // then
-    assert
-      .dom(
-        await screen.findByRole('tooltip', {
-          name: this.intl.t('pages.sup-organization-participants.table.column.is-certifiable.tooltip.content'),
-        }),
-      )
-      .exists();
+    assert.ok(
+      await screen.findByRole('tooltip', {
+        name: new RegExp(this.intl.t('components.certificability-tooltip.content')),
+      }),
+    );
   });
 
   module('when user is filtering some users', function () {

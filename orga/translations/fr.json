@@ -211,6 +211,12 @@
       "not-managing-students": "Le statut Certificabilité des participants est actualisé automatiquement.",
       "sco-managing-students": "Le statut Certificabilité des élèves est actualisé automatiquement."
     },
+    "certificability-tooltip": {
+      "aria-label": "Explication sur la certificabilité",
+      "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences différentes.",
+      "from-collect-notice": "L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si le participant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi.",
+      "from-compute-certificability": "Ce statut est mis à jour automatiquement (toutes les 24h) et lors des campagnes de collectes de profils."
+    },
     "date": {
       "no-date": "Pas encore de date"
     },
@@ -815,11 +821,7 @@
           "checkbox": "Sélectionner/Désélectionner {firstname} {lastname}",
           "first-name": "Prénom",
           "is-certifiable": {
-            "label": "Certificabilité",
-            "tooltip": {
-              "aria-label": "Explication sur la certificabilité",
-              "content": "La certificabilité signifie que le participant a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si le participant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
-            }
+            "label": "Certificabilité"
           },
           "last-name": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
@@ -1047,11 +1049,7 @@
             "eligible": "Certifiable",
             "label": "Certificabilité",
             "non-eligible": "Non Certifiable",
-            "not-available": "Non communiqué",
-            "tooltip": {
-              "aria-label": "Explication sur la certificabilité",
-              "content": "La certificabilité signifie que l'élève a atteint le niveau 1 dans au moins 5 compétences différentes. Ce statut est mis à jour automatiquement (toutes les 24h) et lors des campagnes de collectes de profils."
-            }
+            "not-available": "Non communiqué"
           },
           "last-name": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
@@ -1160,11 +1158,7 @@
           "first-name": "Prénom",
           "group": "Groupes",
           "is-certifiable": {
-            "label": "Certificabilité",
-            "tooltip": {
-              "aria-label": "Explication sur la certificabilité",
-              "content": "La certificabilité signifie que l'étudiant a atteint le niveau 1 dans au moins 5 compétences différentes. L'information provient des campagnes de collecte de profil réalisées par ce dernier. Si l'étudiant a déjà envoyé son profil, on affiche la date ainsi que le statut du dernier envoi."
-            }
+            "label": "Certificabilité"
           },
           "last-name": {
             "ariaLabelDefaultSort": "Le tableau n'est actuellement pas trié par nom. Cliquez pour trier par ordre alphabétique.",
