@@ -206,7 +206,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
         // given
         const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         userRepository.findByExternalIdentifier.resolves({ id: 1 });
-        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
           expiredDate: new Date(),
@@ -276,7 +276,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       userRepository.findByExternalIdentifier
         .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
         .resolves({ id: 10 });
-      const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+      const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
         accessToken: sessionContent.accessToken,
         refreshToken: sessionContent.refreshToken,
         expiredDate: new Date(),

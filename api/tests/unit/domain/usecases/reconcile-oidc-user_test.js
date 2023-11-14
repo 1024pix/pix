@@ -28,11 +28,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       sessionContent,
       userInfo: { userId: 1, externalIdentityId: 'external_id', firstName: 'Anne' },
     });
-    oidcAuthenticationService.createAuthenticationComplement
-      .withArgs({ sessionContent })
-      .returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() }),
-      );
+    oidcAuthenticationService.createAuthenticationComplement.withArgs({ sessionContent }).returns(
+      new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
+        accessToken: 'accessToken',
+        expiredDate: new Date(),
+      }),
+    );
 
     // when
     await reconcileOidcUser({
@@ -56,11 +57,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       sessionContent,
       userInfo: { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' },
     });
-    oidcAuthenticationService.createAuthenticationComplement
-      .withArgs({ sessionContent })
-      .returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() }),
-      );
+    oidcAuthenticationService.createAuthenticationComplement.withArgs({ sessionContent }).returns(
+      new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
+        accessToken: 'accessToken',
+        expiredDate: new Date(),
+      }),
+    );
 
     // when
     await reconcileOidcUser({
@@ -76,7 +78,7 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
     const { authenticationMethod } = authenticationMethodRepository.create.firstCall.args[0];
     expect(authenticationMethod).to.deep.contain({ identityProvider, externalIdentifier, userId });
     expect(authenticationMethod.authenticationComplement).to.be.instanceOf(
-      AuthenticationMethod.OidcAuthenticationComplement,
+      AuthenticationMethod.PoleEmploiOidcAuthenticationComplement,
     );
   });
 
@@ -89,11 +91,12 @@ describe('Unit | UseCase | reconcile-oidc-user', function () {
       sessionContent,
       userInfo: { userId, externalIdentityId: externalIdentifier, firstName: 'Anne' },
     });
-    oidcAuthenticationService.createAuthenticationComplement
-      .withArgs({ sessionContent })
-      .returns(
-        new AuthenticationMethod.OidcAuthenticationComplement({ accessToken: 'accessToken', expiredDate: new Date() }),
-      );
+    oidcAuthenticationService.createAuthenticationComplement.withArgs({ sessionContent }).returns(
+      new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
+        accessToken: 'accessToken',
+        expiredDate: new Date(),
+      }),
+    );
     oidcAuthenticationService.createAccessToken.withArgs(userId).returns('accessToken');
     oidcAuthenticationService.saveIdToken
       .withArgs({ idToken: sessionContent.idToken, userId })

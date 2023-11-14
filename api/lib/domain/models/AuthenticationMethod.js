@@ -26,7 +26,7 @@ class PixAuthenticationComplement {
   }
 }
 
-class OidcAuthenticationComplement {
+class PoleEmploiOidcAuthenticationComplement {
   constructor({ accessToken, refreshToken, expiredDate } = {}) {
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
@@ -65,7 +65,7 @@ const validationSchema = Joi.object({
     .required(),
   authenticationComplement: Joi.when('identityProvider', [
     { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.object().instance(PixAuthenticationComplement).required() },
-    { is: POLE_EMPLOI.code, then: Joi.object().instance(OidcAuthenticationComplement).required() },
+    { is: POLE_EMPLOI.code, then: Joi.object().instance(PoleEmploiOidcAuthenticationComplement).required() },
     { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.any().empty() },
     { is: CNAV.code, then: Joi.any().empty() },
     { is: FWB.code, then: Joi.any().empty() },
@@ -120,6 +120,6 @@ class AuthenticationMethod {
 }
 
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
-AuthenticationMethod.OidcAuthenticationComplement = OidcAuthenticationComplement;
+AuthenticationMethod.PoleEmploiOidcAuthenticationComplement = PoleEmploiOidcAuthenticationComplement;
 AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;
 export { AuthenticationMethod };

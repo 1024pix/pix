@@ -567,7 +567,7 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
     });
     externalIdentifier = undefined;
   } else if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+    authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
       accessToken: authenticationComplement.accessToken,
       refreshToken: authenticationComplement.refreshToken,
       expiredDate: authenticationComplement.expiredDate,
