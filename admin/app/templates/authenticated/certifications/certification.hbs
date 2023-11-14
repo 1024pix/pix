@@ -3,9 +3,11 @@
   <LinkTo @route="authenticated.certifications.certification.informations" @model={{@model.id}} class="navbar-item">
     Informations
   </LinkTo>
-  <LinkTo @route="authenticated.certifications.certification.neutralization" class="navbar-item">
-    Neutralisation
-  </LinkTo>
+  {{#unless @model.isV3}}
+    <LinkTo @route="authenticated.certifications.certification.neutralization" class="navbar-item">
+      Neutralisation
+    </LinkTo>
+  {{/unless}}
   <LinkTo @route="authenticated.certifications.certification.details" @model={{@model.id}} class="navbar-item">
     Détails
   </LinkTo>
