@@ -45,7 +45,7 @@ const get = async function (certificationCourseId) {
       certificationCourseId: juryCertificationDTO.certificationCourseId,
     });
 
-  const badgeKeyAndLabelsGroupedByTargetProfile = await _getBadgeKeyAndLabelsGroupedByTargetProfile();
+  const badgesKeyAndLabel = await _getComplementaryBadgesKeyAndLabel({ certificationCourseId });
 
   const certificationIssueReportDTOs = await knex('certification-issue-reports')
     .where({ certificationCourseId })
@@ -56,7 +56,7 @@ const get = async function (certificationCourseId) {
     certificationIssueReportDTOs,
     competenceMarkDTOs,
     complementaryCertificationCourseResultDTOs,
-    badgeKeyAndLabelsGroupedByTargetProfile,
+    badgesKeyAndLabel,
   });
 };
 
@@ -110,7 +110,7 @@ async function _toDomainWithComplementaryCertifications({
   certificationIssueReportDTOs,
   competenceMarkDTOs,
   complementaryCertificationCourseResultDTOs,
-  badgeKeyAndLabelsGroupedByTargetProfile,
+  badgesKeyAndLabel,
 }) {
   const certificationIssueReports = certificationIssueReportDTOs.map(
     (certificationIssueReport) => new CertificationIssueReport({ ...certificationIssueReport }),
@@ -119,7 +119,7 @@ async function _toDomainWithComplementaryCertifications({
   const { complementaryCertificationCourseResultWithExternal, commonComplementaryCertificationCourseResult } =
     _toComplementaryCertificationCourseResultForJuryCertification(
       complementaryCertificationCourseResultDTOs,
-      badgeKeyAndLabelsGroupedByTargetProfile,
+      badgesKeyAndLabel,
     );
 
   return JuryCertification.from({
@@ -133,7 +133,7 @@ async function _toDomainWithComplementaryCertifications({
 
 function _toComplementaryCertificationCourseResultForJuryCertification(
   complementaryCertificationCourseResults,
-  badgeKeyAndLabelsGroupedByTargetProfile,
+  badgesKeyAndLabel,
 ) {
   const [complementaryCertificationCourseResultWithExternal, commonComplementaryCertificationCourseResult] =
     _.partition(complementaryCertificationCourseResults, 'hasExternalJury');
@@ -141,7 +141,7 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
   const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
     ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
       complementaryCertificationCourseResultWithExternal,
-      badgeKeyAndLabelsGroupedByTargetProfile,
+      badgesKeyAndLabel,
     );
 
   if (commonComplementaryCertificationCourseResult.length > 1) {
@@ -157,15 +157,24 @@ function _toComplementaryCertificationCourseResultForJuryCertification(
   };
 }
 
-async function _getBadgeKeyAndLabelsGroupedByTargetProfile() {
-  const result = await knex('complementary-certification-badges')
-    .select({
-      aggregate: knex.raw(
-        `json_agg(json_build_object('key', "badges"."key", 'label', "complementary-certification-badges"."label") order by "badges".id)`,
-      ),
-    })
-    .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
-    .groupBy('badges.targetProfileId');
-
-  return result.map(({ aggregate }) => aggregate);
+async function _getComplementaryBadgesKeyAndLabel({ certificationCourseId }) {
+  return knex
+    .select('badges.key', 'complementary-certification-badges.label')
+    .from('badges')
+    .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+    .where(
+      'targetProfileId',
+      '=',
+      knex('badges')
+        .select('targetProfileId')
+        .innerJoin('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+        .innerJoin(
+          'complementary-certification-courses',
+          'complementary-certification-courses.complementaryCertificationBadgeId',
+          'complementary-certification-badges.id',
+        )
+        .where({ certificationCourseId })
+        .first(),
+    )
+    .orderBy('complementary-certification-badges.level', 'asc');
 }

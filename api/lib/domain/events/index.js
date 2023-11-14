@@ -1,4 +1,4 @@
-import { injectDefaults, injectDependencies } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
+import { injectDefaults } from '../../../src/shared/infrastructure/utils/dependency-injection.js';
 import { EventDispatcher } from '../../infrastructure/events/EventDispatcher.js';
 import { EventDispatcherLogger } from '../../infrastructure/events/EventDispatcherLogger.js';
 import { monitoringTools as MonitoringTools } from '../../infrastructure/monitoring-tools.js';
@@ -23,6 +23,7 @@ import * as certificationIssueReportRepository from '../../../src/certification/
 import * as challengeRepository from '../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
 import * as competenceMarkRepository from '../../infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as organizationRepository from '../../infrastructure/repositories/organization-repository.js';
@@ -38,7 +39,6 @@ import * as finalizedSessionRepository from '../../infrastructure/repositories/s
 import { logger } from '../../infrastructure/logger.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
-import * as dependency from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
 import { handleAutoJury } from './handle-auto-jury.js';
 import { handleCertificationScoring } from './handle-certification-scoring.js';
 import { handleCertificationRescoring } from './handle-certification-rescoring.js';
@@ -75,6 +75,7 @@ const dependencies = {
   challengeRepository,
   competenceMarkRepository,
   competenceRepository,
+  complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
@@ -91,9 +92,6 @@ const dependencies = {
   targetProfileRepository,
   userRepository,
 };
-
-const partnerCertificationScoringRepository = injectDependencies(dependency, dependencies);
-dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
 const handlersToBeInjected = {
   handleAutoJury,

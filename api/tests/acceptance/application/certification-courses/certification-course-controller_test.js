@@ -197,33 +197,8 @@ describe('Acceptance | API | Certification Course', function () {
         createdAt: new Date('2020-01-01'),
         completedAt: new Date('2020-02-01'),
       });
-      const pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Foot',
-        hasExternalJury: false,
-      }).id;
-      databaseBuilder.factory.buildBadge({ id: 123, key: 'PIX_FOOT_1' });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 567,
-        badgeId: 123,
-        complementaryCertificationId: pixDroitComplementaryCertificationId,
-        label: 'PIX_FOOT_1',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 456,
-        userId: 789,
-        certificationCourseId: 123,
-        complementaryCertificationId: pixDroitComplementaryCertificationId,
-        complementaryCertificationBadgeId: 567,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        id: 789,
-        partnerKey: 'PIX_FOOT_1',
-        acquired: true,
-        complementaryCertificationCourseId: 456,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
-      });
 
-      const pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      const pixBoxeComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         name: 'Pix+ Boxe',
         hasExternalJury: true,
       }).id;
@@ -246,25 +221,24 @@ describe('Acceptance | API | Certification Course', function () {
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: 456,
-        complementaryCertificationId: pixEduComplementaryCertificationId,
+        complementaryCertificationId: pixBoxeComplementaryCertificationId,
         label: 'Pix Boxe 1',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 789,
         badgeId: 457,
-        complementaryCertificationId: pixEduComplementaryCertificationId,
+        complementaryCertificationId: pixBoxeComplementaryCertificationId,
         label: 'Pix Boxe 2',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
         badgeId: 458,
-        complementaryCertificationId: pixEduComplementaryCertificationId,
+        complementaryCertificationId: pixBoxeComplementaryCertificationId,
         label: 'Pix Boxe 3',
       });
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 654,
-        userId: 789,
         certificationCourseId: 123,
-        complementaryCertificationId: pixEduComplementaryCertificationId,
+        complementaryCertificationId: pixBoxeComplementaryCertificationId,
         complementaryCertificationBadgeId: 789,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
@@ -361,10 +335,7 @@ describe('Acceptance | API | Certification Course', function () {
             data: [],
           },
           'common-complementary-certification-course-result': {
-            data: {
-              id: '456',
-              type: 'commonComplementaryCertificationCourseResults',
-            },
+            data: null,
           },
           'complementary-certification-course-result-with-external': {
             data: {
@@ -375,14 +346,6 @@ describe('Acceptance | API | Certification Course', function () {
         },
       });
       expect(response.result.included).to.deep.equal([
-        {
-          id: '456',
-          type: 'commonComplementaryCertificationCourseResults',
-          attributes: {
-            label: 'PIX_FOOT_1',
-            status: 'Validée',
-          },
-        },
         {
           id: '654',
           type: 'complementaryCertificationCourseResultWithExternals',

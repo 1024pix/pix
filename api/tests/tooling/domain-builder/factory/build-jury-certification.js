@@ -28,8 +28,8 @@ const buildJuryCertification = function ({
   commentForJury = 'comment jury',
   competenceMarks = [buildCompetenceMark()],
   certificationIssueReports = [buildCertificationIssueReport()],
-  commonComplementaryCertificationCourseResult = null,
-  complementaryCertificationCourseResultWithExternal = {},
+  commonComplementaryCertificationCourseResult,
+  complementaryCertificationCourseResultWithExternal,
   version = CertificationVersion.V2,
 } = {}) {
   return new JuryCertification({
