@@ -11,7 +11,7 @@ import {
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import { Challenge } from '../models/Challenge.js';
 
-import * as challengeRepository from '../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';

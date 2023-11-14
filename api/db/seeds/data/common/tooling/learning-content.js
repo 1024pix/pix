@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as competenceRepository from '../../../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as challengeRepository from '../../../../../src/certification/shared/infrastructure/repositories/challenge-repository.js';
+import * as challengeRepository from '../../../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
 
 let ALL_COMPETENCES, ALL_ACTIVE_SKILLS, ALL_CHALLENGES, ACTIVE_SKILLS_BY_COMPETENCE, ACTIVE_SKILLS_BY_TUBE;
