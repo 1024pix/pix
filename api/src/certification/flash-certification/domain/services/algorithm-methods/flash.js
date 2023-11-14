@@ -255,7 +255,7 @@ function _getInferredChallenges({ challenges, estimatedLevel }) {
  * the challenge with the lowest minimum capability,
  * prioritizing validated challenges over archived ones.
  *
- * @param {import('../../../../../../lib/domain/models/Challenge.js')[]} challenges
+ * @param {import('../../../../../shared/domain/models/Challenge.js')[]} challenges
  * @returns A list of challenges for scoring inferrence
  */
 function _findChallengesForInferrence(challenges) {

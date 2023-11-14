@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import { Validator } from './Validator.js';
-import { ValidatorQCM } from './ValidatorQCM.js';
-import { ValidatorQCU } from './ValidatorQCU.js';
-import { ValidatorQROC } from './ValidatorQROC.js';
-import { ValidatorQROCMDep } from './ValidatorQROCMDep.js';
-import { ValidatorQROCMInd } from './ValidatorQROCMInd.js';
+import { Validator } from '../../../../lib/domain/models/Validator.js';
+import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';
+import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
+import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
+import { ValidatorQROCMDep } from '../../../../lib/domain/models/ValidatorQROCMDep.js';
+import { ValidatorQROCMInd } from '../../../../lib/domain/models/ValidatorQROCMInd.js';
 
 const ChallengeType = Object.freeze({
   QCU: 'QCU',
