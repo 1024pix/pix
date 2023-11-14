@@ -148,6 +148,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               challenges: [nextChallengeToAnswer],
               estimatedLevel: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
+              doubleMeasuresUntil: undefined,
             })
             .returns({ estimatedLevel: 0 });
 
@@ -282,6 +283,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               challenges: [nextChallenge],
               estimatedLevel: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
+              doubleMeasuresUntil: undefined,
             })
             .returns({ estimatedLevel: 0 });
 
@@ -379,6 +381,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
               challenges: [answeredChallenge],
               estimatedLevel: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
+              doubleMeasuresUntil: undefined,
             })
             .returns({
               estimatedLevel: 2,

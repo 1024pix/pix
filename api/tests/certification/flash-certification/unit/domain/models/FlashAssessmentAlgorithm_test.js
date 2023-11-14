@@ -202,6 +202,81 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       });
     });
 
+    context('when settings specific answers for computing estimated level', function () {
+      it('should choose a challenge that has the required success rate first', function () {
+        // Given
+        const easyDifficulty = -3;
+        const hardDifficulty = 3;
+        const discriminant = 1;
+        const initialCapacity = 3;
+
+        const easyChallenge = domainBuilder.buildChallenge({
+          id: 'easyChallenge',
+          skill: domainBuilder.buildSkill({
+            id: 'skillEasy',
+          }),
+          competenceId: 'compEasy',
+          discriminant,
+          difficulty: easyDifficulty,
+        });
+
+        const hardChallenge = domainBuilder.buildChallenge({
+          id: 'hardChallenge',
+          skill: domainBuilder.buildSkill({
+            id: 'skillHard',
+          }),
+          competenceId: 'compHard',
+          discriminant,
+          difficulty: hardDifficulty,
+        });
+
+        const answer1 = domainBuilder.buildAnswer({
+          challengeId: easyChallenge.id,
+        });
+
+        const challenges = [hardChallenge, easyChallenge];
+        const allAnswers = [answer1];
+        const answersForComputingEstimatedLevel = [];
+
+        // when
+        const algorithm = new FlashAssessmentAlgorithm({
+          flashAlgorithmImplementation,
+          ...baseFlashAssessmentAlgorithmConfig,
+        });
+
+        flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
+          .withArgs(
+            _getEstimatedLevelAndErrorRateParams({
+              allAnswers: answersForComputingEstimatedLevel,
+              challenges,
+              estimatedLevel: initialCapacity,
+            }),
+          )
+          .returns({
+            estimatedLevel: 0,
+          });
+
+        flashAlgorithmImplementation.getPossibleNextChallenges
+          .withArgs({
+            availableChallenges: [hardChallenge],
+            estimatedLevel: 0,
+            options: {
+              ...baseGetNextChallengeOptions,
+            },
+          })
+          .returns([hardChallenge]);
+
+        const nextChallenges = algorithm.getPossibleNextChallenges({
+          allAnswers,
+          challenges,
+          initialCapacity,
+          answersForComputingEstimatedLevel,
+        });
+
+        expect(nextChallenges).to.deep.equal([hardChallenge]);
+      });
+    });
+
     context('when specifying a minimal success rate', function () {
       context('when a fixed minimal success rate has been set', function () {
         it('should choose a challenge that has the required success rate first', function () {
@@ -363,5 +438,6 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
 const _getEstimatedLevelAndErrorRateParams = (params) => ({
   variationPercent: undefined,
+  doubleMeasuresUntil: undefined,
   ...params,
 });

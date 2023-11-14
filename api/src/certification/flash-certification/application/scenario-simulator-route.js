@@ -31,6 +31,7 @@ const _baseScenarioParametersValidator = Joi.object().keys({
   minimumEstimatedSuccessRateRanges: Joi.array().items(_successRatesConfigurationValidator),
   enablePassageByAllCompetences: Joi.boolean(),
   variationPercent: Joi.number().min(0).max(1),
+  doubleMeasuresUntil: Joi.number().min(0),
 });
 
 const register = async (server) => {

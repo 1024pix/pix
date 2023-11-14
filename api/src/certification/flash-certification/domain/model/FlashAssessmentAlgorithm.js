@@ -45,6 +45,8 @@ class FlashAssessmentAlgorithm {
    * @param limitToOneQuestionPerTube - limits questions to one per tube
    * @param flashImplementation - the flash algorithm implementation
    * @param enablePassageByAllCompetences - enable or disable the passage through all competences
+   * @param variationPercent - maximum variation of estimated level between two answers
+   * @param doubleMeasuresUntil - use the double measure strategy for specified number of challenges
    */
   constructor({
     warmUpLength,
@@ -56,6 +58,7 @@ class FlashAssessmentAlgorithm {
     flashAlgorithmImplementation,
     enablePassageByAllCompetences,
     variationPercent,
+    doubleMeasuresUntil,
   } = {}) {
     this.maximumAssessmentLength = maximumAssessmentLength || config.v3Certification.numberOfChallengesPerCourse;
     this.challengesBetweenSameCompetence = challengesBetweenSameCompetence;
@@ -63,6 +66,7 @@ class FlashAssessmentAlgorithm {
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
     this.variationPercent = variationPercent;
+    this.doubleMeasuresUntil = doubleMeasuresUntil;
 
     this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
       limitToOneQuestionPerTube,
@@ -77,13 +81,14 @@ class FlashAssessmentAlgorithm {
     allAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
+    answersForComputingEstimatedLevel,
   }) {
     if (allAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
     const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
-      allAnswers,
+      allAnswers: answersForComputingEstimatedLevel ?? allAnswers,
       challenges,
       initialCapacity,
       variationPercent: this.variationPercent,
@@ -139,6 +144,7 @@ class FlashAssessmentAlgorithm {
       challenges,
       estimatedLevel: initialCapacity,
       variationPercent: this.variationPercent,
+      doubleMeasuresUntil: this.doubleMeasuresUntil,
     });
   }
 

@@ -187,6 +187,33 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
         });
       });
     });
+
+    context('when doing a double measure', function () {
+      it('should return an array of estimated level, challenge, reward and error rate for each answer', async function () {
+        // given
+        const { challengeRepository, pickChallenge, pickAnswerStatus, flashAlgorithmService } = prepareStubs({
+          doubleMeasuresUntil: 2,
+        });
+
+        // when
+        const result = await simulateFlashDeterministicAssessmentScenario({
+          challengeRepository,
+          locale,
+          pickChallenge,
+          pickAnswerStatus,
+          flashAlgorithmService,
+          enablePassageByAllCompetences: false,
+          doubleMeasuresUntil: 2,
+        });
+
+        // then
+        expect(result).to.have.lengthOf(3);
+        result.forEach((answer) => {
+          expect(answer.challenge).not.to.be.undefined;
+          expect(answer.estimatedLevel).not.to.be.undefined;
+        });
+      });
+    });
   });
 
   context('when there are not enough flash challenges left', function () {
@@ -262,7 +289,11 @@ describe('Unit | UseCase | simulate-flash-deterministic-assessment-scenario', fu
   });
 });
 
-function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidateCapacity, minimalSuccessRate } = {}) {
+function prepareStubs({
+  initialCapacity = config.v3Certification.defaultCandidateCapacity,
+  minimalSuccessRate,
+  doubleMeasuresUntil = 0,
+} = {}) {
   const firstSkill = domainBuilder.buildSkill({ id: 'firstSkill', tubeId: '1' });
   const secondSkill = domainBuilder.buildSkill({ id: 'secondSkill', tubeId: '2' });
   const thirdSkill = domainBuilder.buildSkill({ id: 'thirdSkill', tubeId: '3' });
@@ -316,6 +347,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: sinon.match.any,
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 0, errorRate: 0.1 })
     .withArgs({
@@ -323,6 +355,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 1, errorRate: 1.1 })
     .withArgs({
@@ -330,6 +363,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 2, errorRate: 2.1 })
     .withArgs({
@@ -337,6 +371,7 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 3, errorRate: 3.1 });
 
@@ -368,17 +403,29 @@ function prepareStubs({ initialCapacity = config.v3Certification.defaultCandidat
     })
     .returns([firstChallenge, thirdChallenge, secondChallenge])
     .withArgs({
-      availableChallenges: [secondChallenge, thirdChallenge],
-      estimatedLevel: 1,
-      options: getNextChallengesOptionsMatcher,
-    })
-    .returns([thirdChallenge, secondChallenge])
-    .withArgs({
       availableChallenges: [thirdChallenge],
       estimatedLevel: 2,
       options: getNextChallengesOptionsMatcher,
     })
     .returns([thirdChallenge]);
+
+  if (doubleMeasuresUntil) {
+    flashAlgorithmService.getPossibleNextChallenges
+      .withArgs({
+        availableChallenges: [secondChallenge, thirdChallenge],
+        estimatedLevel: 0,
+        options: getNextChallengesOptionsMatcher,
+      })
+      .returns([thirdChallenge, secondChallenge]);
+  } else {
+    flashAlgorithmService.getPossibleNextChallenges
+      .withArgs({
+        availableChallenges: [secondChallenge, thirdChallenge],
+        estimatedLevel: 1,
+        options: getNextChallengesOptionsMatcher,
+      })
+      .returns([thirdChallenge, secondChallenge]);
+  }
 
   challengeRepository.findFlashCompatible.resolves([firstChallenge, secondChallenge, thirdChallenge]);
 

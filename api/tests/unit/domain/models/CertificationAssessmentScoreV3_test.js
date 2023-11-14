@@ -176,6 +176,7 @@ const _buildChallenges = (difficulty, numberOfChallenges) => {
 
 const _getEstimatedLevelAndErrorRateParams = (params) => ({
   ...params,
+  doubleMeasuresUntil: undefined,
   variationPercent: undefined,
 });
 
