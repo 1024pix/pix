@@ -3,9 +3,9 @@ export class FlashAssessmentAlgorithmChallengesBetweenCompetencesRule {
     return challengesBetweenSameCompetence > 0;
   }
 
-  static execute({ allChallenges, allAnswers, availableChallenges, challengesBetweenSameCompetence }) {
+  static execute({ allChallenges, assessmentAnswers, availableChallenges, challengesBetweenSameCompetence }) {
     const lastCompetenceIds = FlashAssessmentAlgorithmChallengesBetweenCompetencesRule._getLastAnswersCompetenceIds(
-      allAnswers,
+      assessmentAnswers,
       allChallenges,
       challengesBetweenSameCompetence,
     );
@@ -19,8 +19,8 @@ export class FlashAssessmentAlgorithmChallengesBetweenCompetencesRule {
       : availableChallenges;
   }
 
-  static _getLastAnswersCompetenceIds(allAnswers, allChallenges, numberOfAnswers) {
-    const lastAnswers = allAnswers.slice(-numberOfAnswers);
+  static _getLastAnswersCompetenceIds(assessmentAnswers, allChallenges, numberOfAnswers) {
+    const lastAnswers = assessmentAnswers.slice(-numberOfAnswers);
     const competenceIds = lastAnswers.map((answer) => {
       const challenge = FlashAssessmentAlgorithmChallengesBetweenCompetencesRule._findChallengeForAnswer(
         allChallenges,

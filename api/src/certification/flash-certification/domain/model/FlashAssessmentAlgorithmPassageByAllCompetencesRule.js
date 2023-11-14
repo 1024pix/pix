@@ -5,22 +5,22 @@ export class FlashAssessmentAlgorithmPassageByAllCompetencesRule {
     return enablePassageByAllCompetences && answers.length >= warmUpLength;
   }
 
-  static execute({ allChallenges, allAnswers, availableChallenges, warmUpLength }) {
-    const answersAfterWarmup = this._getAnswersAfterWarmup({ allAnswers, warmUpLength });
+  static execute({ allChallenges, assessmentAnswers, availableChallenges, warmUpLength }) {
+    const answersAfterWarmup = this._getAnswersAfterWarmup({ assessmentAnswers, warmUpLength });
 
     return this._filterAlreadyAnsweredCompetences({
-      allAnswers: answersAfterWarmup,
+      assessmentAnswers: answersAfterWarmup,
       availableChallenges,
       allChallenges,
     });
   }
 
-  static _getAnswersAfterWarmup({ allAnswers, warmUpLength }) {
-    return allAnswers.slice(warmUpLength);
+  static _getAnswersAfterWarmup({ assessmentAnswers, warmUpLength }) {
+    return assessmentAnswers.slice(warmUpLength);
   }
 
-  static _filterAlreadyAnsweredCompetences({ allAnswers, allChallenges, availableChallenges }) {
-    const answeredCompetenceIds = allAnswers.map(
+  static _filterAlreadyAnsweredCompetences({ assessmentAnswers, allChallenges, availableChallenges }) {
+    const answeredCompetenceIds = assessmentAnswers.map(
       ({ challengeId }) => lodash.find(allChallenges, { id: challengeId }).competenceId,
     );
 

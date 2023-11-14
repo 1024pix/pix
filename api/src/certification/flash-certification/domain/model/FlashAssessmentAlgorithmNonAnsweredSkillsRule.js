@@ -3,8 +3,8 @@ export class FlashAssessmentAlgorithmNonAnsweredSkillsRule {
     return !limitToOneQuestionPerTube;
   }
 
-  static execute({ allAnswers, allChallenges, availableChallenges }) {
-    const alreadyAnsweredSkillsIds = allAnswers
+  static execute({ assessmentAnswers, allChallenges, availableChallenges }) {
+    const alreadyAnsweredSkillsIds = assessmentAnswers
       .map((answer) => this._findChallengeForAnswer(allChallenges, answer))
       .map((challenge) => challenge.skill.id);
 

@@ -67,7 +67,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         answeredCompetenceAnsweredChallenge,
       ];
 
-      const allAnswers = [
+      const assessmentAnswers = [
         domainBuilder.buildAnswer({
           challengeId: answeredCompetenceAnsweredChallenge.id,
         }),
@@ -76,7 +76,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       expect(
         FlashAssessmentAlgorithmForcedCompetencesRule.execute({
           allChallenges,
-          allAnswers,
+          assessmentAnswers,
           availableChallenges: allChallenges,
           warmUpLength: 0,
           forcedCompetences: ['comp1'],
@@ -112,7 +112,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         answeredCompetenceAnsweredChallenge,
       ];
 
-      const allAnswers = [
+      const assessmentAnswers = [
         domainBuilder.buildAnswer({
           challengeId: answeredCompetenceAnsweredChallenge.id,
         }),
@@ -124,7 +124,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       expect(
         FlashAssessmentAlgorithmForcedCompetencesRule.execute({
           allChallenges,
-          allAnswers,
+          assessmentAnswers,
           availableChallenges: allChallenges,
           warmUpLength: 0,
           forcedCompetences: ['comp1'],
