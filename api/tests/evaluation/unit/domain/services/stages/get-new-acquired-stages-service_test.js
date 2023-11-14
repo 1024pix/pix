@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import { domainBuilder } from '../../../../tooling/domain-builder/domain-builder.js';
-import { getNewAcquiredStages } from '../../../../../lib/domain/services/stages/get-new-acquired-stages-service.js';
+import { expect } from '../../../../../test-helper.js';
+import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
+import { getNewAcquiredStages } from '../../../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
 
 describe('Unit | Service | Stages calculation', function () {
   describe('getNewAcquiredStages', function () {

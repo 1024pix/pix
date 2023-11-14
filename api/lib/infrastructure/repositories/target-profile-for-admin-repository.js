@@ -11,7 +11,7 @@ import * as thematicRepository from './thematic-repository.js';
 import * as tubeRepository from './tube-repository.js';
 import * as skillRepository from './skill-repository.js';
 import { TargetProfileForAdmin } from '../../domain/models/index.js';
-import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
+import { StageCollection } from '../../../src/shared/domain/models/target-profile-management/StageCollection.js';
 import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
 
 const get = async function ({ id, locale = FRENCH_FRANCE }) {

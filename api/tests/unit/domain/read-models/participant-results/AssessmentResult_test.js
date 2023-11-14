@@ -2,7 +2,7 @@ import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
-import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';
+import { StageCollection } from '../../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function () {
   it('computes the number of skills, the number of skill tested and the number of skill validated', function () {

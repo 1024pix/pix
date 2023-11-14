@@ -1,12 +1,13 @@
-import { expect, databaseBuilder, knex } from '../../../test-helper.js';
+import { expect, databaseBuilder, knex } from '../../../../test-helper.js';
 import {
   getByCampaignIdAndUserId,
   getByCampaignParticipation,
   getByCampaignParticipations,
   getStageIdsByCampaignParticipation,
   saveStages,
-} from '../../../../lib/infrastructure/repositories/stage-acquisition-repository.js';
-import { StageAcquisition } from '../../../../lib/domain/models/index.js';
+} from '../../../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
+import { StageAcquisition } from '../../../../../src/evaluation/domain/models/StageAcquisition.js';
+
 describe('Integration | Repository | Stage Acquisition', function () {
   describe('getByCampaignParticipation', function () {
     let stageAcquisition;
