@@ -74,6 +74,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         });
         dbf.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: id,
+          complementaryCertificationBadgeId,
           partnerKey: badge.key,
           acquired: true,
         });

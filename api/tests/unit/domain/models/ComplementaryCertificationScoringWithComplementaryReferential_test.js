@@ -23,7 +23,6 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
           minimumReproducibilityRate: undefined,
-          partnerKey: 'BADGE',
           source: 'PIX',
         }),
       );

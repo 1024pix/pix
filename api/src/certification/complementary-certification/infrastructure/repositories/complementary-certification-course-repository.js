@@ -11,7 +11,7 @@ const findByUserId = async function ({ userId }) {
         `array_agg(json_build_object(
         'id', "complementary-certification-course-results".id,
         'acquired', "complementary-certification-course-results".acquired,
-        'partnerKey', "complementary-certification-course-results"."partnerKey",
+        'complementaryCertificationBadgeId', "complementary-certification-course-results"."complementaryCertificationBadgeId",
         'source', "complementary-certification-course-results".source))`,
       ),
     })

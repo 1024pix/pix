@@ -9,51 +9,29 @@ const juryOptions = {
 };
 
 class ComplementaryCertificationCourseResult {
-  constructor({
-    complementaryCertificationCourseId,
-    complementaryCertificationBadgeId,
-    partnerKey,
-    source,
-    acquired,
-    label,
-  } = {}) {
+  constructor({ complementaryCertificationCourseId, complementaryCertificationBadgeId, source, acquired, label } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
-    this.partnerKey = partnerKey;
     this.acquired = acquired;
     this.source = source;
     this.label = label;
   }
 
-  static from({
-    complementaryCertificationCourseId,
-    complementaryCertificationBadgeId,
-    partnerKey,
-    acquired,
-    source,
-    label,
-  }) {
+  static from({ complementaryCertificationCourseId, complementaryCertificationBadgeId, acquired, source, label }) {
     return new ComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
-      partnerKey,
       acquired,
       source,
       label,
     });
   }
 
-  static buildFromJuryLevel({
-    complementaryCertificationCourseId,
-    complementaryCertificationBadgeId,
-    juryLevel,
-    pixPartnerKey,
-  }) {
+  static buildFromJuryLevel({ complementaryCertificationCourseId, complementaryCertificationBadgeId, juryLevel }) {
     if (juryLevel === 'REJECTED') {
       return new ComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
         complementaryCertificationBadgeId,
-        partnerKey: pixPartnerKey,
         acquired: false,
         source: sources.EXTERNAL,
       });
@@ -61,8 +39,7 @@ class ComplementaryCertificationCourseResult {
 
     return new ComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      complementaryCertificationBadgeId,
-      partnerKey: juryLevel,
+      complementaryCertificationBadgeId: juryLevel,
       acquired: true,
       source: sources.EXTERNAL,
     });

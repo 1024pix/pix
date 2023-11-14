@@ -4,15 +4,20 @@ const complementaryCertificationStatus = {
 };
 
 class ComplementaryCertificationCourseResultForJuryCertification {
-  constructor({ id, partnerKey, acquired, label }) {
+  constructor({ id, complementaryCertificationBadgeId, acquired, label }) {
     this.id = id;
-    this.partnerKey = partnerKey;
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.acquired = acquired;
     this.label = label;
   }
 
-  static from({ id, partnerKey, acquired, label }) {
-    return new ComplementaryCertificationCourseResultForJuryCertification({ id, partnerKey, acquired, label });
+  static from({ id, complementaryCertificationBadgeId, acquired, label }) {
+    return new ComplementaryCertificationCourseResultForJuryCertification({
+      id,
+      complementaryCertificationBadgeId,
+      acquired,
+      label,
+    });
   }
 
   get status() {

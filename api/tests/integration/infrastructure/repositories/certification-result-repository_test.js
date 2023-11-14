@@ -200,7 +200,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
         complementaryCertificationBadgeId: 100,
-        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -227,7 +226,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
         complementaryCertificationBadgeId: 101,
-        partnerKey: 'OTHER_PARTNER_KEY',
         acquired: false,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -267,7 +265,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
               acquired: true,
               complementaryCertificationCourseId: 998,
               complementaryCertificationBadgeId: 100,
-              partnerKey: 'PARTNER_KEY',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'PARTNER_LABEL',
             }),
@@ -301,7 +298,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
               acquired: false,
               complementaryCertificationCourseId: 997,
               complementaryCertificationBadgeId: 101,
-              partnerKey: 'OTHER_PARTNER_KEY',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'OTHER_PARTNER_LABEL',
             }),
@@ -341,14 +337,12 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
         complementaryCertificationBadgeId: 100,
-        partnerKey: 'PARTNER_KEY_PIX',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
         complementaryCertificationBadgeId: 101,
-        partnerKey: 'PARTNER_KEY_EXTERNAL',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
@@ -388,7 +382,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
               acquired: true,
               complementaryCertificationCourseId: 997,
               complementaryCertificationBadgeId: 100,
-              partnerKey: 'PARTNER_KEY_PIX',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'PARTNER_LABEL_PIX',
             }),
@@ -410,13 +403,12 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         certificationCourseId,
         complementaryCertificationId,
         complementaryCertificationBadgeId,
-        partnerKey,
         complementaryCertificationCourseId,
         acquired = true,
         label,
         level,
       }) => {
-        const { id: badgeId } = databaseBuilder.factory.buildBadge({ key: partnerKey });
+        const { id: badgeId } = databaseBuilder.factory.buildBadge();
         databaseBuilder.factory.buildComplementaryCertificationBadge({
           id: complementaryCertificationBadgeId,
           badgeId,
@@ -433,7 +425,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId,
           complementaryCertificationBadgeId,
-          partnerKey,
           acquired,
           source: ComplementaryCertificationCourseResult.sources.PIX,
         });
@@ -444,7 +435,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         complementaryCertificationBadgeId: 101,
         complementaryCertificationCourseId: 998,
         label: 'First badge expert',
-        partnerKey: 'EXPERT',
       });
 
       buildComplementaryResult({
@@ -453,7 +443,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         complementaryCertificationBadgeId: 102,
         complementaryCertificationCourseId: 999,
         label: 'First badge avance',
-        partnerKey: 'AVANCE',
         acquired: false,
       });
 
@@ -471,7 +460,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           acquired: true,
           complementaryCertificationCourseId: 998,
           complementaryCertificationBadgeId: 101,
-          partnerKey: 'EXPERT',
           label: 'First badge expert',
           source: ComplementaryCertificationCourseResult.sources.PIX,
         }),
@@ -481,7 +469,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           acquired: false,
           complementaryCertificationCourseId: 999,
           complementaryCertificationBadgeId: 102,
-          partnerKey: 'AVANCE',
           label: 'First badge avance',
           source: ComplementaryCertificationCourseResult.sources.PIX,
         }),
@@ -717,14 +704,12 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
         complementaryCertificationBadgeId: 789,
-        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
         complementaryCertificationBadgeId: 789,
-        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
@@ -742,7 +727,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           acquired: true,
           complementaryCertificationCourseId: 997,
           complementaryCertificationBadgeId: 789,
-          partnerKey: 'PARTNER_KEY',
           source: ComplementaryCertificationCourseResult.sources.PIX,
           label: 'PARTNER_LABEL',
         }),
@@ -776,7 +760,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
         complementaryCertificationBadgeId: 100,
-        partnerKey: 'PARTNER_KEY',
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -818,7 +801,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
               acquired: true,
               complementaryCertificationCourseId: 998,
               complementaryCertificationBadgeId: 100,
-              partnerKey: 'PARTNER_KEY',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'PARTNER_LABEL',
             }),

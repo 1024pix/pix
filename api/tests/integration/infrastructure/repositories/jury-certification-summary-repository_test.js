@@ -254,16 +254,23 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       const sessionId = dbf.buildSession().id;
       const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
       const badgeId = dbf.buildBadge({ key: 'PARTNER_KEY' }).id;
-      dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
-      dbf.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 998,
-        partnerKey: 'PARTNER_KEY',
-        acquired: true,
-      });
+      databaseBuilder.factory.buildComplementaryCertification({ id: 101 });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 11,
         label: 'PARTNER_LABEL',
         badgeId,
-        complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+        complementaryCertificationId: 101,
+      });
+      dbf.buildComplementaryCertificationCourse({
+        id: 998,
+        complementaryCertificationId: 101,
+        certificationCourseId,
+        complementaryCertificationBadgeId: 11,
+      });
+      dbf.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 998,
+        complementaryCertificationBadgeId: 11,
+        acquired: true,
       });
       await databaseBuilder.commit();
 
@@ -298,7 +305,6 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
       it('should return JuryCertificationSummary based on their latest assessment result', async function () {
         // given
         const page = { size: 2, number: 1 };
-        const partnerKey = 'partnerKey';
         const label = 'label';
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -341,17 +347,14 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           description: 'second certification issue report',
           hasBeenAutomaticallyResolved: false,
         });
-        const badgeId = dbf.buildBadge({ key: partnerKey }).id;
+        const badgeId = dbf.buildBadge({ key: 'PARTNER_KEY' }).id;
+        dbf.buildComplementaryCertification({ id: 1 });
+        dbf.buildComplementaryCertificationBadge({ id: 11, label, badgeId, complementaryCertificationId: 1 });
         dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: manyAsrCertification.id });
         dbf.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 998,
-          partnerKey,
+          complementaryCertificationBadgeId: 11,
           acquired: true,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationBadge({
-          label,
-          badgeId,
-          complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
         });
 
         await databaseBuilder.commit();

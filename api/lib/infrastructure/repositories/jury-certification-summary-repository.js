@@ -80,8 +80,11 @@ async function _getByCertificationCourseIds(orderedCertificationCourseIds) {
         ComplementaryCertificationCourseResult.sources.PIX,
       );
     })
-    .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
-    .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .leftJoin(
+      'complementary-certification-badges',
+      'complementary-certification-badges.id',
+      'complementary-certification-course-results.complementaryCertificationBadgeId',
+    )
     .whereIn('certification-courses.id', orderedCertificationCourseIds);
 
   return orderedCertificationCourseIds.map((orderedId) => results.find(({ id }) => id === orderedId));

@@ -4,7 +4,6 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
   constructor({
     complementaryCertificationCourseId,
     complementaryCertificationBadgeId,
-    complementaryCertificationBadgeKey,
     reproducibilityRate,
     pixScore,
     minimumEarnedPix,
@@ -13,7 +12,6 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
     super({
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
-      partnerKey: complementaryCertificationBadgeKey,
     });
 
     this.reproducibilityRate = reproducibilityRate;
