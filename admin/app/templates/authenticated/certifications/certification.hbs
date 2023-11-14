@@ -9,11 +9,11 @@
   <LinkTo @route="authenticated.certifications.certification.details" @model={{@model.id}} class="navbar-item">
     Détails
   </LinkTo>
-  {{#if (eq @model.version 2)}}
+  {{#unless @model.isV3}}
     <LinkTo @route="authenticated.certifications.certification.profile" @model={{@model.id}} class="navbar-item">
       Profil
     </LinkTo>
-  {{/if}}
+  {{/unless}}
 </nav>
 <section>
   {{outlet}}
