@@ -7,12 +7,12 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
   sinon,
-} from '../../../test-helper.js';
-import { clearResolveMx, setResolveMx } from '../../../../lib/infrastructure/mail-check.js';
+} from '../../../../test-helper.js';
+import { clearResolveMx, setResolveMx } from '../../../../../src/shared/mail/infrastructure/services/mail-check.js';
 
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | Controller | session-controller-post-certification-candidates', function () {
+describe('Acceptance | Controller | session-controller-post-certification-candidate', function () {
   let server;
   let resolveMx;
 

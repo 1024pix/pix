@@ -1,5 +1,5 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { CertificationCpfCountry } from '../../domain/models/CertificationCpfCountry.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { CertificationCpfCountry } from '../../../../certification/shared/domain/models/CertificationCpfCountry.js';
 
 const getByMatcher = async function ({ matcher }) {
   const COLUMNS = ['id', 'code', 'commonName', 'originalName', 'matcher'];

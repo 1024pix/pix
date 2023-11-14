@@ -1,4 +1,4 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCpfCity } from '../../domain/models/CertificationCpfCity.js';
 
 const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
