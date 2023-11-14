@@ -208,6 +208,12 @@
       "not-managing-students": "Participants' status is updated automatically to display eligibility for certification.",
       "sco-managing-students": "Students' status is updated automatically to display eligibility for certification."
     },
+    "certificability-tooltip": {
+      "aria-label": "How to know if a participant is eligible for certification and what does it mean?",
+      "content": "To be eligible for certification, the participant must have achieved level 1 in at least 5 different competences.",
+      "from-collect-notice": "their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed.",
+      "from-compute-certificability": "This status is updated both automatically (every 24 hours) and during profile collection campaigns."
+    },
     "date": {
       "no-date": "No date yet"
     },
@@ -812,11 +818,7 @@
           "checkbox": "Select/Unselect {firstname} {lastname}",
           "first-name": "First name",
           "is-certifiable": {
-            "label": "Eligibility for certification",
-            "tooltip": {
-              "aria-label": "How to know if a participant is eligible for certification and what does it mean?",
-              "content": "To know if a participant is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the participant has already submitted their profile, the date and status of the last submission are displayed."
-            }
+            "label": "Eligibility for certification"
           },
           "last-name": {
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
@@ -1044,11 +1046,7 @@
             "eligible": "Eligible",
             "label": "Eligibility for certification",
             "non-eligible": "Non-eligible",
-            "not-available": "Unavailable",
-            "tooltip": {
-              "aria-label": "How to know if a student is eligible for certification and what does it mean?",
-              "content": "To be eligible for certification, the student must have achieved level 1 in at least 5 different competences. This status is updated both automatically (every 24 hours) and during profile collection campaigns."
-            }
+            "not-available": "Unavailable"
           },
           "last-name": {
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",
@@ -1157,11 +1155,7 @@
           "first-name": "First name",
           "group": "Groups",
           "is-certifiable": {
-            "label": "Eligibility for certification",
-            "tooltip": {
-              "aria-label": "How to know if a student is eligible for certification and what does it mean?",
-              "content": "To know if a student is eligible for certification (meaning they have reached the level 1 in at least 5 different competences), their Pix profile needs to be submitted through a profile collection campaign. If the student has already submitted their profile, the date and status of the last submission are displayed."
-            }
+            "label": "Eligibility for certification"
           },
           "last-name": {
             "ariaLabelDefaultSort": "The table is currently not sorted by last name. Click to sort by alphabetical order.",

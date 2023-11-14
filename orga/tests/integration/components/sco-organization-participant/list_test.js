@@ -50,6 +50,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
+  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
 />`,
     );
 
@@ -88,6 +89,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
+  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
 />`,
     );
 
@@ -128,6 +130,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
+  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
 />`,
     );
     // then
@@ -164,6 +167,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
+  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
 />`,
     );
 
@@ -174,14 +178,10 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
     assert.contains('3B');
     assert.contains('42');
     assert.contains('03/01/2022');
-    assert.contains('02/01/2022');
-    assert
-      .dom(
-        screen.getByLabelText(
-          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label'),
-        ),
-      )
-      .exists();
+    assert.notContains('02/01/2022');
+    assert.ok(
+      screen.getByLabelText(this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')),
+    );
   });
 
   test('[A11Y] it should have a description for screen-readers', async function (assert) {
@@ -202,6 +202,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
+  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
 />`,
     );
 
@@ -232,6 +233,7 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @certificabilityFilter={{this.certificability}}
   @onClickLearner={{this.noop}}
   @onResetFilter={{this.noop}}
+  @hasComputeOrganizationLearnerCertificabilityEnabled={{true}}
 />`,
     );
 
@@ -1016,20 +1018,14 @@ module('Integration | Component | ScoOrganizationParticipant::List', function (h
   @onResetFilter={{this.noop}}
 />`);
 
-      await click(
-        screen.getByLabelText(
-          this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label'),
-        ),
-      );
+      await click(screen.getByLabelText(this.intl.t('components.certificability-tooltip.aria-label')));
 
       // then
-      assert
-        .dom(
-          await screen.findByRole('tooltip', {
-            name: this.intl.t('pages.sco-organization-participants.table.column.is-certifiable.tooltip.content'),
-          }),
-        )
-        .exists();
+      assert.ok(
+        await screen.findByRole('tooltip', {
+          name: new RegExp(this.intl.t('components.certificability-tooltip.content')),
+        }),
+      );
     });
   });
 

@@ -38,14 +38,7 @@
     {{/if}}
   </td>
   <td class="table__column--center">
-    <Ui::IsCertifiable @isCertifiable={{@student.isCertifiable}} />
-    {{#if @student.certifiableAt}}
-      <span class="organization-participant-list-page__certifiable-at">{{dayjs-format
-          @student.certifiableAt
-          "DD/MM/YYYY"
-          allow-empty=true
-        }}</span>
-    {{/if}}
+    <Certificability::Cell @certifiableAt={{@student.certifiableAt}} @isCertifiable={{@student.isCertifiable}} />
   </td>
   <td class="organization-participant-list-page__actions hide-on-mobile">
     {{#if @isAdminInOrganization}}

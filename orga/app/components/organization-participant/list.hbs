@@ -21,6 +21,7 @@
               @onSortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
               @onSortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
               @onSortByLatestParticipation={{(fn this.addResetOnFunction @sortByLatestParticipation reset)}}
+              @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </InElement>
           {{#if someSelected}}
@@ -57,6 +58,7 @@
             @isParticipantSelected={{isParticipantSelected}}
             @onToggleParticipant={{(fn this.addStopPropagationOnFunction toggleParticipant)}}
             @onClickLearner={{(fn @onClickLearner participant.id)}}
+            @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </:item>
       </SelectableList>
