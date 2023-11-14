@@ -61,7 +61,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         answeredCompetenceAnsweredChallenge,
       ];
 
-      const allAnswers = [
+      const assessmentAnswers = [
         domainBuilder.buildAnswer({
           challengeId: answeredCompetenceAnsweredChallenge.id,
         }),
@@ -70,7 +70,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       expect(
         FlashAssessmentAlgorithmPassageByAllCompetencesRule.execute({
           allChallenges,
-          allAnswers,
+          assessmentAnswers,
           availableChallenges: allChallenges,
           warmUpLength: 0,
         }),

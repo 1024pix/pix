@@ -78,32 +78,32 @@ class FlashAssessmentAlgorithm {
   }
 
   getPossibleNextChallenges({
-    allAnswers,
+    allAnswers: assessmentAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
     answersForComputingEstimatedLevel,
   }) {
-    if (allAnswers.length >= this.maximumAssessmentLength) {
+    if (assessmentAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
     const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
-      allAnswers: answersForComputingEstimatedLevel ?? allAnswers,
+      allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
       challenges,
       initialCapacity,
       variationPercent: this.variationPercent,
     });
 
-    const minimalSuccessRate = this._computeMinimalSuccessRate(allAnswers.length);
+    const minimalSuccessRate = this._computeMinimalSuccessRate(assessmentAnswers.length);
 
     const challengesAfterRulesApplication = this.ruleEngine.execute({
-      allAnswers,
+      assessmentAnswers,
       allChallenges: challenges,
     });
 
     if (
       challengesAfterRulesApplication?.length === 0 ||
-      allAnswers.length >= config.features.numberOfChallengesForFlashMethod
+      assessmentAnswers.length >= config.features.numberOfChallengesForFlashMethod
     ) {
       throw new AssessmentEndedError();
     }

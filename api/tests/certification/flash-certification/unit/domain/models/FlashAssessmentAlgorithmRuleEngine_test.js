@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       const availableRules = [inactiveRule];
       const engine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {});
 
-      expect(engine.execute({ allAnswers: [], allChallenges })).to.deep.equal(allChallenges);
+      expect(engine.execute({ assessmentAnswers: [], allChallenges })).to.deep.equal(allChallenges);
     });
   });
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       const availableRules = [ruleThatRemoveChallenge1];
       const engine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {});
 
-      expect(engine.execute({ allAnswers: [], allChallenges })).to.deep.equal([challenge2]);
+      expect(engine.execute({ assessmentAnswers: [], allChallenges })).to.deep.equal([challenge2]);
     });
   });
 
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
       const availableRules = [inactiveRule, ruleThatRemoveChallenge1, ruleThatRemoveChallenge2];
       const engine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {});
 
-      expect(engine.execute({ allAnswers: [], allChallenges })).to.deep.equal([challenge3]);
+      expect(engine.execute({ assessmentAnswers: [], allChallenges })).to.deep.equal([challenge3]);
     });
   });
 });
