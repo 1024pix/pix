@@ -29,7 +29,6 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
       minimumReproducibilityRate,
-      complementaryCertificationBadgeKey,
       hasComplementaryReferential,
       minimumEarnedPix,
     }) =>
@@ -37,7 +36,6 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
         complementaryCertificationCourseId,
         complementaryCertificationBadgeId,
         minimumReproducibilityRate: Number(minimumReproducibilityRate),
-        complementaryCertificationBadgeKey,
         hasComplementaryReferential,
         minimumEarnedPix,
       }),

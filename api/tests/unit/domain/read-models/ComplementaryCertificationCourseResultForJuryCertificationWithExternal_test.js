@@ -9,9 +9,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: 'KEY',
+            pixComplementaryCertificationBadgeId: 99,
             pixAcquired: true,
-            externalPartnerKey: null,
+            externalComplementaryCertificationBadgeId: null,
           });
 
         // when
@@ -26,7 +26,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
       // given
       const complementaryCertificationCourseResultForJuryCertificationWithExternal =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-          pixPartnerKey: 'KEY',
+          pixComplementaryCertificationBadgeId: 99,
           pixAcquired: false,
         });
 
@@ -42,9 +42,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: 'KEY_1',
+            pixComplementaryCertificationBadgeId: 99,
             pixAcquired: true,
-            externalPartnerKey: 'KEY_2',
+            externalComplementaryCertificationBadgeId: 99,
             externalAcquired: false,
           });
 
@@ -59,11 +59,11 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: 'BADGE_KEY_1',
+            pixComplementaryCertificationBadgeId: 98,
             pixLabel: 'Badge Key 1',
             pixAcquired: true,
             pixLevel: 4,
-            externalPartnerKey: 'BADGE_KEY_2',
+            externalComplementaryCertificationBadgeId: 99,
             externalLabel: 'Badge Key 2',
             externalAcquired: true,
             externalLevel: 2,
@@ -79,30 +79,30 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
   });
 
   describe('#from', function () {
-    it('should return a PixEduComplementaryCertificationCourseResultForJuryCertification', function () {
+    it('should return a ComplementaryCertificationCourseResultForJuryCertificationWithExternal', function () {
       // given
       const complementaryCertificationCourseResultWithExternal = [
         domainBuilder.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 1234,
-          partnerKey: 'KEY_1',
+          complementaryCertificationBadgeId: 456,
           acquired: true,
           source: ComplementaryCertificationCourseResult.sources.PIX,
         }),
         domainBuilder.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 1234,
-          partnerKey: 'KEY_2',
+          complementaryCertificationBadgeId: 457,
           acquired: false,
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         }),
       ];
-      const badgesKeyAndLabel = [
-        { key: 'KEY_1', label: 'Key 1' },
-        { key: 'KEY_2', label: 'Key 2' },
+      const badgesIdAndLabels = [
+        { id: 456, label: 'Key 1' },
+        { id: 457, label: 'Key 2' },
       ];
       // when
       const result = ComplementaryCertificationCourseResultForJuryCertificationWithExternal.from(
         complementaryCertificationCourseResultWithExternal,
-        badgesKeyAndLabel,
+        badgesIdAndLabels,
       );
 
       // then
@@ -110,12 +110,12 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
           pixAcquired: true,
           externalAcquired: false,
-          pixPartnerKey: 'KEY_1',
-          externalPartnerKey: 'KEY_2',
+          pixComplementaryCertificationBadgeId: 456,
+          externalComplementaryCertificationBadgeId: 457,
           complementaryCertificationCourseId: 1234,
           allowedExternalLevels: [
-            { value: 'KEY_1', label: 'Key 1' },
-            { value: 'KEY_2', label: 'Key 2' },
+            { value: 456, label: 'Key 1' },
+            { value: 457, label: 'Key 2' },
           ],
           defaultJuryOptions: ['REJECTED', 'UNSET'],
         }),
@@ -143,7 +143,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: 'KEY',
+            pixComplementaryCertificationBadgeId: 98,
             pixLabel: 'Key label',
             pixAcquired: true,
           });
@@ -163,7 +163,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: 'KEY',
+            pixComplementaryCertificationBadgeId: 99,
             pixAcquired: false,
           });
 
@@ -180,7 +180,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
         // given
         const complementaryCertificationCourseResultForJuryCertificationWithExternal =
           new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-            pixPartnerKey: 'KEY',
+            pixComplementaryCertificationBadgeId: 99,
             pixAcquired: true,
           });
 
@@ -198,9 +198,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
           // given
           const complementaryCertificationCourseResultForJuryCertificationWithExternal =
             new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-              pixPartnerKey: 'KEY_1',
+              pixComplementaryCertificationBadgeId: 98,
               pixAcquired: true,
-              externalPartnerKey: 'KEY_2',
+              externalComplementaryCertificationBadgeId: 99,
               externalLabel: 'Key 2 label',
               externalAcquired: true,
             });
@@ -218,9 +218,9 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
           // given
           const complementaryCertificationCourseResultForJuryCertificationWithExternal =
             new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
-              pixPartnerKey: 'KEY_1',
+              pixComplementaryCertificationBadgeId: 98,
               pixAcquired: true,
-              externalPartnerKey: 'KEY_2',
+              externalComplementaryCertificationBadgeId: 98,
               externalAcquired: false,
             });
 

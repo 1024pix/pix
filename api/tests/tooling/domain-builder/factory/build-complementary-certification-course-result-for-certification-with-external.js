@@ -2,11 +2,11 @@ import { ComplementaryCertificationCourseResultForJuryCertificationWithExternal 
 
 const buildComplementaryCertificationCourseResultForJuryCertificationWithExternal = function ({
   complementaryCertificationCourseId = 456,
-  pixPartnerKey = 'PIX_PARTNER_KEY',
+  pixComplementaryCertificationBadgeId = 12,
   pixLabel = 'Pix+ Édu 1er degré Avancé',
   pixAcquired = true,
   pixLevel = 2,
-  externalPartnerKey = 'PIX_EXTERNAL_PARTNER_KEY',
+  externalComplementaryCertificationBadgeId = 13,
   externalLabel = 'Pix+ Édu 1er degré Expert',
   externalAcquired = true,
   externalLevel = 1,
@@ -14,11 +14,11 @@ const buildComplementaryCertificationCourseResultForJuryCertificationWithExterna
 } = {}) {
   return new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
     complementaryCertificationCourseId,
-    pixPartnerKey,
+    pixComplementaryCertificationBadgeId,
     pixLabel,
     pixAcquired,
     pixLevel,
-    externalPartnerKey,
+    externalComplementaryCertificationBadgeId,
     externalLabel,
     externalAcquired,
     externalLevel,

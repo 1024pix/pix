@@ -273,6 +273,7 @@ async function _buildDatabaseForV2Certification({ userId, certificationCourseId 
   });
   const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: certificationCourse.id,
+    complementaryCertificationBadgeId: ccBadge.id,
     name: 'patisseries au fruits',
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({

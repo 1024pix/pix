@@ -22,12 +22,11 @@ const getAllowedJuryLevelByBadgeKey = async function ({ key }) {
 const save = async function ({
   complementaryCertificationCourseId,
   complementaryCertificationBadgeId,
-  partnerKey,
   acquired,
   source,
 }) {
   return knex('complementary-certification-course-results')
-    .insert({ partnerKey, complementaryCertificationBadgeId, acquired, complementaryCertificationCourseId, source })
+    .insert({ complementaryCertificationBadgeId, acquired, complementaryCertificationCourseId, source })
     .onConflict(['complementaryCertificationCourseId', 'source'])
     .merge();
 };

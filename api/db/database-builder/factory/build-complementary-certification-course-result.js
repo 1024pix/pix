@@ -11,7 +11,6 @@ const buildComplementaryCertificationCourseResult = function ({
   id,
   complementaryCertificationCourseId,
   complementaryCertificationBadgeId,
-  partnerKey,
   source = ComplementaryCertificationCourseResult.sources.PIX,
   acquired = true,
 }) {
@@ -24,7 +23,7 @@ const buildComplementaryCertificationCourseResult = function ({
     : complementaryCertificationBadgeId;
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-course-results',
-    values: { id, complementaryCertificationCourseId, partnerKey, complementaryCertificationBadgeId, source, acquired },
+    values: { id, complementaryCertificationCourseId, complementaryCertificationBadgeId, source, acquired },
   });
 };
 
