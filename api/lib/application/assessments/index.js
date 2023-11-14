@@ -81,21 +81,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/pix1d/assessments/{id}',
-      config: {
-        auth: false,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.assessmentId,
-          }),
-        },
-        pre: [{ method: securityPreHandlers.checkPix1dActivated }],
-        handler: assessmentController.get,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/assessments/{id}/last-challenge-id',
       config: {
         pre: [
