@@ -101,7 +101,7 @@ const findByUserId = async function (userId) {
   return certificationCenterMemberships.map(_toDomain);
 };
 
-const findActiveByCertificationCenterIdSortedById = async function ({ certificationCenterId }) {
+const findActiveByCertificationCenterIdSortedByRole = async function ({ certificationCenterId }) {
   const certificationCenterMemberships = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
     .select(
       'certification-center-memberships.*',
@@ -120,7 +120,9 @@ const findActiveByCertificationCenterIdSortedById = async function ({ certificat
       certificationCenterId,
       disabledAt: null,
     })
-    .orderBy('certification-center-memberships.id', 'ASC');
+    .orderByRaw("CASE role WHEN 'ADMIN' THEN 1 ELSE 2 END")
+    .orderByRaw('LOWER("lastName") asc')
+    .orderByRaw('LOWER("firstName") asc');
 
   return certificationCenterMemberships.map(_toDomain);
 };
@@ -282,7 +284,7 @@ export {
   create,
   disableById,
   disableMembershipsByUserId,
-  findActiveByCertificationCenterIdSortedById,
+  findActiveByCertificationCenterIdSortedByRole,
   findByCertificationCenterIdAndUserId,
   findOneWithCertificationCenterIdAndUserId,
   findById,
