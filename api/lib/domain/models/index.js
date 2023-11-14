@@ -54,7 +54,7 @@ import { CertificationReport } from './CertificationReport.js';
 import { CertificationResult } from './CertificationResult.js';
 import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';
-import { Challenge } from './Challenge.js';
+import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 import { Competence } from '../../../src/shared/domain/models/Competence.js';
 import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
 import { CompetenceMark } from './CompetenceMark.js';

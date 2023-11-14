@@ -1,5 +1,5 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
-import { Challenge } from '../../../../lib/domain/models/Challenge.js';
+import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
 import { Skill } from '../../../../lib/domain/models/Skill.js';
 import { Validator } from '../../../../lib/domain/models/Validator.js';
 import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';

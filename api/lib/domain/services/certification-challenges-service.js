@@ -9,7 +9,7 @@ import {
 } from '../constants.js';
 
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
-import { Challenge } from '../models/Challenge.js';
+import { Challenge } from '../../../src/shared/domain/models/Challenge.js';
 
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
 import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';
