@@ -1,68 +1,25 @@
-import { Answer } from '../../../../evaluation/domain/models/Answer.js';
-
 export class AssessmentSimulator {
-  constructor({ algorithm, challenges, pickChallenge, pickAnswerStatus, initialCapacity }) {
-    this.algorithm = algorithm;
-    this.challenges = challenges;
-    this.pickAnswerStatus = pickAnswerStatus;
-    this.pickChallenge = pickChallenge;
-    this.initialCapacity = initialCapacity;
+  constructor({ getStrategy }) {
+    this.getStrategy = getStrategy;
   }
 
   run() {
     const challengesAnswers = [];
     const result = [];
-    let estimatedLevel =
-      this.initialCapacity ?? this.algorithm.getEstimatedLevelAndErrorRate({ allAnswers: [] }).estimatedLevel;
 
-    for (let i = 0; i < Infinity; i++) {
+    let stepIndex = 0;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
       try {
-        const possibleChallenges = this.algorithm.getPossibleNextChallenges({
-          allAnswers: challengesAnswers,
-          challenges: this.challenges,
-          initialCapacity: this.initialCapacity,
-        });
+        const simulatorStepResult = this.getStrategy(stepIndex).run({ challengesAnswers, stepIndex });
 
-        const nextChallenge = this.pickChallenge({ possibleChallenges });
-
-        const answerStatus = this.pickAnswerStatus({
-          answerIndex: i,
-          nextChallenge,
-        });
-
-        const noMoreAnswerRemaining = !answerStatus;
-
-        if (noMoreAnswerRemaining) {
+        if (!simulatorStepResult) {
           break;
         }
-
-        challengesAnswers.push(new Answer({ result: answerStatus, challengeId: nextChallenge.id }));
-
-        const reward = this.algorithm.getReward({
-          estimatedLevel,
-          difficulty: nextChallenge.difficulty,
-          discriminant: nextChallenge.discriminant,
-        });
-
-        estimatedLevel = this.algorithm.getEstimatedLevelAndErrorRate({
-          allAnswers: challengesAnswers,
-          challenges: this.challenges,
-          initialCapacity: this.initialCapacity,
-        }).estimatedLevel;
-
-        const errorRate = this.algorithm.getEstimatedLevelAndErrorRate({
-          allAnswers: challengesAnswers,
-          challenges: this.challenges,
-          initialCapacity: this.initialCapacity,
-        }).errorRate;
-
-        result.push({
-          challenge: nextChallenge,
-          errorRate,
-          estimatedLevel,
-          reward,
-          answerStatus,
-        });
+        stepIndex = simulatorStepResult.nextStepIndex;
+        challengesAnswers.push(...simulatorStepResult.challengeAnswers);
+        result.push(...simulatorStepResult.results);
       } catch (err) {
         break;
       }

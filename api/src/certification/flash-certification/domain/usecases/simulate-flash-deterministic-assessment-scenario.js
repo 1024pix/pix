@@ -1,5 +1,7 @@
 import { FlashAssessmentAlgorithm } from '../model/FlashAssessmentAlgorithm.js';
 import { AssessmentSimulator } from '../model/AssessmentSimulator.js';
+import { AssessmentSimulatorSingleMeasureStrategy } from '../model/AssessmentSimulatorSingleMeasureStrategy.js';
+import { AssessmentSimulatorDoubleMeasureStrategy } from '../model/AssessmentSimulatorDoubleMeasureStrategy.js';
 
 export async function simulateFlashDeterministicAssessmentScenario({
   challengeRepository,
@@ -17,6 +19,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   minimumEstimatedSuccessRateRanges = [],
   enablePassageByAllCompetences = false,
   variationPercent,
+  doubleMeasuresUntil = 0,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 
@@ -30,15 +33,30 @@ export async function simulateFlashDeterministicAssessmentScenario({
     flashAlgorithmImplementation: flashAlgorithmService,
     enablePassageByAllCompetences,
     variationPercent,
+    doubleMeasuresUntil,
   });
 
-  const simulator = new AssessmentSimulator({
+  const singleMeasureStrategy = new AssessmentSimulatorSingleMeasureStrategy({
     algorithm: flashAssessmentAlgorithm,
     challenges,
     pickChallenge,
-    initialCapacity,
     pickAnswerStatus,
-    variationPercent,
+    initialCapacity,
+  });
+
+  const doubleMeasureStrategy = new AssessmentSimulatorDoubleMeasureStrategy({
+    algorithm: flashAssessmentAlgorithm,
+    challenges,
+    pickChallenge,
+    pickAnswerStatus,
+    initialCapacity,
+  });
+
+  const getStrategy = (questionIndex) =>
+    questionIndex >= doubleMeasuresUntil ? singleMeasureStrategy : doubleMeasureStrategy;
+
+  const simulator = new AssessmentSimulator({
+    getStrategy,
   });
 
   return simulator.run();
