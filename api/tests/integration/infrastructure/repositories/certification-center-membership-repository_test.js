@@ -4,7 +4,10 @@ const { omit, pick } = lodash;
 import { expect, knex, databaseBuilder, catchErr, sinon, domainBuilder } from '../../../test-helper.js';
 import { BookshelfCertificationCenterMembership } from '../../../../lib/infrastructure/orm-models/CertificationCenterMembership.js';
 import { CertificationCenter } from '../../../../lib/domain/models/CertificationCenter.js';
-import { CertificationCenterMembership } from '../../../../lib/domain/models/CertificationCenterMembership.js';
+import {
+  CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
+  CertificationCenterMembership,
+} from '../../../../lib/domain/models/CertificationCenterMembership.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import {
   CertificationCenterMembershipDisableError,
@@ -44,6 +47,80 @@ describe('Integration | Repository | Certification Center Membership', function 
 
       // then
       expect(membersCount).to.equal(2);
+    });
+  });
+
+  describe('#create', function () {
+    afterEach(async function () {
+      await knex('certification-center-memberships').delete();
+    });
+
+    it('returns newly created certification center membership', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.create({
+        certificationCenterId,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        userId,
+      });
+
+      // then
+      const createdCertificationCenterMembership = await knex('certification-center-memberships').first();
+      expect(createdCertificationCenterMembership).to.include({
+        certificationCenterId,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        userId,
+      });
+    });
+  });
+
+  describe('#findByCertificationCenterIdAndUserId', function () {
+    context('when certification center membership exists', function () {
+      it('returns the certification center membership', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId,
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenterMembership =
+          await certificationCenterMembershipRepository.findByCertificationCenterIdAndUserId({
+            certificationCenterId,
+            userId,
+          });
+
+        // then
+        expect(certificationCenterMembership).to.be.instanceOf(CertificationCenterMembership);
+      });
+    });
+
+    context('when certification center membership does not exist', function () {
+      it('returns "null"', async function () {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await certificationCenterMembershipRepository.findByCertificationCenterIdAndUserId({
+          certificationCenterId,
+          userId,
+        });
+
+        // then
+        expect(result).to.be.null;
+      });
     });
   });
 

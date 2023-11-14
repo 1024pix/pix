@@ -8,6 +8,8 @@ import { buildArchivedOrganizations } from './build-archived-organizations.js';
 import { buildScoOrganizationLearners } from './build-sco-organization-learners.js';
 import { buildCertificationCenters } from './build-certification-centers.js';
 
+import { buildSeedsForPix5000UseCases } from './build-seeds-for-pix-5000-usecases.js';
+
 async function teamAccesDataBuilder(databaseBuilder) {
   buildPixAdminRoles(databaseBuilder);
   buildUsers(databaseBuilder);
@@ -18,6 +20,8 @@ async function teamAccesDataBuilder(databaseBuilder) {
   buildArchivedOrganizations(databaseBuilder);
   buildScoOrganizationLearners(databaseBuilder);
   await buildCertificationCenters(databaseBuilder);
+
+  await buildSeedsForPix5000UseCases(databaseBuilder);
 }
 
 export { teamAccesDataBuilder };
