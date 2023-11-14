@@ -981,4 +981,35 @@ describe('Integration | Repository | Certification Center Membership', function 
       });
     });
   });
+
+  describe('#getCertificationCenterId', function () {
+    it('returns certification center id', async function () {
+      // given
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId: certificationCenter.id,
+      });
+      const certificationCenterMembershipId = certificationCenterMembership.id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCenterId = await certificationCenterMembershipRepository.getCertificationCenterId(
+        certificationCenterMembershipId,
+      );
+
+      // then
+      expect(certificationCenterId).to.equal(certificationCenter.id);
+    });
+
+    context('when certification center membership does not exist', function () {
+      it('throws an error', async function () {
+        // when
+        const error = await catchErr(certificationCenterMembershipRepository.getCertificationCenterId)(15);
+
+        // then
+        expect(error).to.be.instanceof(NotFoundError);
+        expect(error.message).to.equal('Cannot find a certificationCenterId for membership with id 15');
+      });
+    });
+  });
 });

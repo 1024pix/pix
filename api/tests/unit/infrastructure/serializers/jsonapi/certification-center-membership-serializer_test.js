@@ -117,6 +117,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
               'last-name': user.lastName,
               'is-referer': certificationCenterMembership.isReferer,
               role: certificationCenterMembership.role,
+              'certification-center-membership-id': certificationCenterMembership.id,
             },
           },
         ],
