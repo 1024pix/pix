@@ -117,8 +117,6 @@ import { SessionPublicationBatchResult } from './SessionPublicationBatchResult.j
 import { ShareableCertificate } from './ShareableCertificate.js';
 import { Skill } from './Skill.js';
 import { Solution } from './Solution.js';
-import { Stage } from './Stage.js';
-import { StageAcquisition } from './StageAcquisition.js';
 import { Student } from './Student.js';
 import { Tag } from './Tag.js';
 import { TargetProfile } from './TargetProfile.js';
@@ -272,8 +270,6 @@ export {
   ShareableCertificate,
   Skill,
   Solution,
-  Stage,
-  StageAcquisition,
   Student,
   Tag,
   TargetProfile,

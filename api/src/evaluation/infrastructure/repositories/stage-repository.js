@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { Stage } from '../../domain/models/index.js';
-import { NotFoundError } from '../../../src/shared/domain/errors.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../shared/domain/errors.js';
+import { Stage } from '../../domain/models/Stage.js';
 
 /**
  * @typedef stageData

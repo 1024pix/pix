@@ -7,7 +7,7 @@ import { startWritingCampaignAssessmentResultsToStream } from '../../../../lib/d
 import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/domain/errors.js';
 import * as campaignCsvExportService from '../../../../lib/domain/services/campaign-csv-export-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { StageCollection } from '../../../../lib/domain/models/user-campaign-results/StageCollection.js';
+import { StageCollection } from '../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };

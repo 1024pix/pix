@@ -1,13 +1,12 @@
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../db/knex-database-connection.js';
 
 import {
   CAMPAIGN_PARTICIPATION_ID_COLUMN,
   STAGE_ACQUISITIONS_TABLE_NAME,
   STAGE_ID_COLUMN,
   USER_ID_COLUMN,
-} from '../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
-
-import { StageAcquisition } from '../../domain/models/index.js';
+} from '../../../../db/migrations/20230721114848_create-stage_acquisitions-table.js';
+import { StageAcquisition } from '../../domain/models/StageAcquisition.js';
 
 /**
  * @typedef stageData

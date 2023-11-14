@@ -1,4 +1,4 @@
-import { Stage } from '../../../../lib/domain/models/Stage.js';
+import { Stage } from '../../../../src/evaluation/domain/models/Stage.js';
 
 /**
  * @param id

@@ -1,15 +1,15 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import * as defaultSkillRepository from '../../../infrastructure/repositories/skill-repository.js';
-import * as defaultStageRepository from '../../../infrastructure/repositories/stage-repository.js';
+import * as defaultStageRepository from '../../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import * as defaultCampaignRepository from '../../../infrastructure/repositories/campaign-repository.js';
-import * as defaultStageAcquisitionRepository from '../../../infrastructure/repositories/stage-acquisition-repository.js';
+import * as defaultStageAcquisitionRepository from '../../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as defaultCampaignParticipationRepository from '../../../infrastructure/repositories/campaign-participation-repository.js';
 import * as defaultKnowledgeElementRepositoryRepository from '../../../infrastructure/repositories/knowledge-element-repository.js';
 
-import * as defaultGetNewAcquiredStagesService from '../../services/stages/get-new-acquired-stages-service.js';
+import * as defaultGetNewAcquiredStagesService from '../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
 import * as defaultGetMasteryPercentageService from '../../services/get-mastery-percentage-service.js';
-import * as defaultConvertLevelStagesIntoThresholdsService from '../../services/stages/convert-level-stages-into-thresholds-service.js';
+import * as defaultConvertLevelStagesIntoThresholdsService from '../../../../src/evaluation/domain/services/stages/convert-level-stages-into-thresholds-service.js';
 import * as defaultCampaignSkillRepository from '../../../infrastructure/repositories/campaign-skill-repository.js';
 
 /**

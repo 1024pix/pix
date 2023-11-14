@@ -1,6 +1,6 @@
-import { expect, databaseBuilder, mockLearningContent, hFake } from '../../../test-helper.js';
-import { stageCollectionController } from '../../../../lib/application/stage-collections/stage-collection-controller.js';
-import * as stageCollectionRepository from '../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
+import { expect, databaseBuilder, mockLearningContent, hFake } from '../../../../test-helper.js';
+import { stageCollectionController } from '../../../../../src/evaluation/application/stage-collections/stage-collection-controller.js';
+import * as stageCollectionRepository from '../../../../../src/evaluation/infrastructure/repositories/stage-collection-repository.js';
 
 describe('Integration | Application | stage-collection-controller', function () {
   context('update', function () {
