@@ -94,12 +94,7 @@ class FlashAssessmentAlgorithm {
       variationPercent: this.variationPercent,
     });
 
-    const minimalSuccessRate = this._computeMinimalSuccessRate(assessmentAnswers.length);
-
-    const challengesAfterRulesApplication = this.ruleEngine.execute({
-      assessmentAnswers,
-      allChallenges: challenges,
-    });
+    const challengesAfterRulesApplication = this._applyChallengeSelectionRules(assessmentAnswers, challenges);
 
     if (
       challengesAfterRulesApplication?.length === 0 ||
@@ -108,6 +103,8 @@ class FlashAssessmentAlgorithm {
       throw new AssessmentEndedError();
     }
 
+    const minimalSuccessRate = this._computeMinimalSuccessRate(assessmentAnswers.length);
+
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
       estimatedLevel,
@@ -115,6 +112,13 @@ class FlashAssessmentAlgorithm {
         challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
         minimalSuccessRate,
       },
+    });
+  }
+
+  _applyChallengeSelectionRules(assessmentAnswers, challenges) {
+    return this.ruleEngine.execute({
+      assessmentAnswers,
+      allChallenges: challenges,
     });
   }
 
