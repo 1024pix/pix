@@ -29,7 +29,7 @@ describe('Unit | DevComp | Serializers | ElementAnswerSerializer', function () {
           relationships: {
             correction: {
               data: {
-                type: 'corrections',
+                type: 'correction-responses',
               },
             },
           },
@@ -42,7 +42,7 @@ describe('Unit | DevComp | Serializers | ElementAnswerSerializer', function () {
               status: 'ok',
               'solution-id': givenCorrectionResponse.solutionId,
             },
-            type: 'corrections',
+            type: 'correction-responses',
           },
         ],
       };

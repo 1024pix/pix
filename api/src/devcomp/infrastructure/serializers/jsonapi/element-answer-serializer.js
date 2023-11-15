@@ -21,6 +21,15 @@ function serialize(elementAnswer) {
       ref: 'id',
       includes: true,
       attributes: ['feedback', 'status', 'solutionId'],
+      type: 'correction-responses',
+    },
+    typeForAttribute(attribute, { type }) {
+      if (attribute === 'elementAnswer') {
+        return type;
+      }
+      if (attribute === 'correction') {
+        return 'correction-responses';
+      }
     },
   }).serialize(elementAnswer);
 }
