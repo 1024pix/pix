@@ -31,7 +31,8 @@ class QCU extends Element {
   }
 
   assess(userResponse) {
-    const validation = this.validator.assess({ answer: { value: userResponse[0] } });
+    const selectedQcuProposalId = userResponse[0];
+    const validation = this.validator.assess({ answer: { value: selectedQcuProposalId } });
 
     const correction = new QcuCorrectionResponse({
       status: validation.result,
@@ -41,7 +42,7 @@ class QCU extends Element {
 
     return new ElementAnswer({
       elementId: this.id,
-      userResponseValue: userResponse[0],
+      userResponseValue: selectedQcuProposalId,
       correction,
     });
   }
