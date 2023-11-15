@@ -63,7 +63,6 @@ class Assessment {
     campaignParticipationId,
     method,
     campaignCode,
-    missionId,
     liveAlerts,
   } = {}) {
     this.id = id;
@@ -86,7 +85,6 @@ class Assessment {
     this.campaignParticipationId = campaignParticipationId;
     this.method = method || Assessment.computeMethodFromType(this.type);
     this.campaignCode = campaignCode;
-    this.missionId = missionId;
     this.liveAlerts = liveAlerts;
   }
 
