@@ -65,7 +65,6 @@ async function _updateAuthenticationMethodWithComplement({
     userInfo,
     sessionContent,
   });
-  if (!authenticationComplement) return;
 
   return await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
     authenticationComplement,
