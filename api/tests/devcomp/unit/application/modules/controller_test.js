@@ -36,16 +36,16 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       };
       usecases.validateAnswer.withArgs({ moduleSlug, userResponse, elementId }).returns(correctionResponse);
 
-      const correctionResponseSerializer = {
+      const elementAnswerSerializer = {
         serialize: sinon.stub(),
       };
-      correctionResponseSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
+      elementAnswerSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
 
       // When
       const result = await modulesController.validateAnswer(
         { payload: { data: { attributes: { 'user-response': userResponse } } }, params: { moduleSlug, elementId } },
         null,
-        { correctionResponseSerializer, usecases },
+        { elementAnswerSerializer, usecases },
       );
 
       // Then
