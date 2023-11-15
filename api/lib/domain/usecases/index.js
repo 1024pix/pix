@@ -10,7 +10,7 @@ import { repositories } from '../../infrastructure/repositories/index.js';
 
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
-import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
+import * as activityRepository from '../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';

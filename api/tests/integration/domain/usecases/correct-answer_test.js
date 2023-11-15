@@ -1,7 +1,7 @@
 import { databaseBuilder, domainBuilder, expect, knex, sinon } from '../../../test-helper.js';
 import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
 import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
-import * as activityRepository from '../../../../lib/infrastructure/repositories/activity-repository.js';
+import * as activityRepository from '../../../../src/school/infrastructure/repositories/activity-repository.js';
 
 describe('Integration | UseCases | correct-answer', function () {
   context('when there is assessmentId', function () {
