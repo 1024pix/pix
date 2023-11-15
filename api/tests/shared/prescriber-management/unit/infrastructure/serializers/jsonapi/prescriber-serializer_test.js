@@ -178,7 +178,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
-          computeOrganizationLearnerCertificability: true,
           features: {
             [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
             [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,

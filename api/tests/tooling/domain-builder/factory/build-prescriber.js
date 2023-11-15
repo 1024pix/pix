@@ -53,7 +53,6 @@ const buildPrescriber = function ({
   areNewYearOrganizationLearnersImported = false,
   memberships = _buildMemberships(),
   userOrgaSettings = _buildUserOrgaSettings(),
-  computeOrganizationLearnerCertificability = false,
   features = {},
 } = {}) {
   return new Prescriber({
@@ -65,7 +64,6 @@ const buildPrescriber = function ({
     areNewYearOrganizationLearnersImported,
     memberships,
     userOrgaSettings,
-    computeOrganizationLearnerCertificability,
     features,
   });
 };
