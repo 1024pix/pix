@@ -31,6 +31,37 @@ import * as userRepository from '../../../../../src/shared/infrastructure/reposi
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
+/**
+ * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
+ *
+ * @typedef {{
+ *  assessmentRepository : assessmentRepository,
+ *  attendanceSheetPdfUtils : attendanceSheetPdfUtils,
+ *  badgeRepository : badgeRepository,
+ *  certificationCandidateRepository : certificationCandidateRepository,
+ *  certificationCenterRepository : certificationCenterRepository,
+ *  certificationChallengeLiveAlertRepository : certificationChallengeLiveAlertRepository,
+ *  certificationCpfService : certificationCpfService,
+ *  certificationIssueReportRepository : certificationIssueReportRepository,
+ *  challengeRepository : challengeRepository,
+ *  certificationCpfCityRepository : certificationCpfCityRepository,
+ *  certificationCpfCountryRepository : certificationCpfCountryRepository,
+ *  complementaryCertificationBadgesRepository : complementaryCertificationBadgesRepository,
+ *  complementaryCertificationRepository : complementaryCertificationRepository,
+ *  complementaryCertificationForTargetProfileAttachmentRepository : complementaryCertificationForTargetProfileAttachmentRepository,
+ *  complementaryCertificationTargetProfileHistoryRepository : complementaryCertificationTargetProfileHistoryRepository,
+ *  flashAlgorithmService : flashAlgorithmService,
+ *  issueReportCategoryRepository : issueReportCategoryRepository,
+ *  mailService : mailService,
+ *  organizationRepository : organizationRepository,
+ *  sessionCodeService : sessionCodeService,
+ *  sessionForAttendanceSheetRepository : sessionForAttendanceSheetRepository,
+ *  sessionForInvigilatorKitRepository : sessionForInvigilatorKitRepository,
+ *  sessionRepository : sessionRepository,
+ *  sessionValidator : sessionValidator,
+ *  userRepository : userRepository,
+ * }} dependencies
+ */
 const dependencies = {
   assessmentRepository,
   attendanceSheetPdfUtils,
@@ -81,4 +112,7 @@ const usecasesWithoutInjectedDependencies = {
 
 const usecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
 
+/**
+ * @typedef {dependencies} dependencies
+ */
 export { usecases };

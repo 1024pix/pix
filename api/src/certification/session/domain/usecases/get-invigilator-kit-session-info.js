@@ -1,14 +1,13 @@
 /**
- * @typedef {import ('../../../session/infrastructure/repositories/session-repository.js')} sessionRepository
- * @typedef {import ('../../../session/infrastructure/repositories/session-for-invigilator-kit-repository.js')} sessionForInvigilatorKitRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
  */
 
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 
 /**
- * @param {Object} deps
- * @param {sessionRepository} deps.sessionRepository
- * @param {sessionForInvigilatorKitRepository} deps.sessionForInvigilatorKitRepository
+ * @param {Object} params
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['sessionForInvigilatorKitRepository']} params.sessionForInvigilatorKitRepository
  */
 const getInvigilatorKitSessionInfo = async function ({
   userId,
