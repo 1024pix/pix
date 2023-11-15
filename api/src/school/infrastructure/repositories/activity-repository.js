@@ -1,6 +1,6 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { Activity } from '../../../src/school/domain/models/Activity.js';
-import { NotFoundError } from '../../../lib/domain/errors.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { Activity } from '../../domain/models/Activity.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const save = async function (activity) {
   const [savedAttributes] = await knex('activities').insert(activity).returning('*');
