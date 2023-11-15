@@ -7,7 +7,8 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
   describe('#assess', function () {
     it('should return a QcuCorrectionResponse for a valid answer', function () {
       // given
-      const assessResult = { result: { OK: 'ok' } };
+      const stubedIsOk = sinon.stub().returns(true);
+      const assessResult = { result: { isOK: stubedIsOk } };
       const qcuSolution = Symbol('correctSolution');
       const userResponse = [qcuSolution];
 
@@ -51,7 +52,8 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
 
     it('should return a QcuCorrectionResponse for a invalid answer', function () {
       // given
-      const assessResult = { result: { KO: 'ko' } };
+      const stubedIsOk = sinon.stub().returns(false);
+      const assessResult = { result: { isOK: stubedIsOk } };
       const qcuSolution = Symbol('correctSolution');
       const userResponse = ['wrongAnswer'];
 
