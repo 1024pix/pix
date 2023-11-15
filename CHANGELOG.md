@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v4.63.0 (15/11/2023)
+
+
+### :rocket: Amélioration
+- [#7448](https://github.com/1024pix/pix/pull/7448) [FEATURE] Ajouter la 2ème bulle de dialogue (Pix-9747).
+- [#7394](https://github.com/1024pix/pix/pull/7394) [FEATURE] Ajout de la double mesure de la capacité dans les simulateurs (pix-9833).
+
+### :building_construction: Tech
+- [#7453](https://github.com/1024pix/pix/pull/7453) [TECH] Migration du modèle challenge et challenge-repository de shared certif vers le global (PIX-9966).
+- [#7431](https://github.com/1024pix/pix/pull/7431) [TECH] Créer l'API Campagne avec la méthode save (PIX-9906).
+- [#7426](https://github.com/1024pix/pix/pull/7426) [TECH] Migration ajout de candidat en session vers src (PIX-9891).
+- [#7433](https://github.com/1024pix/pix/pull/7433) [TECH] Refactoring des certifications complementaires partie 1 (PIX-9913).
+- [#7435](https://github.com/1024pix/pix/pull/7435) [TECH] Déplacer ce qui touche à la gestion des paliers dans la nouvelle arborescence (PIX-9934).
+
+### :bug: Correction
+- [#7452](https://github.com/1024pix/pix/pull/7452) [BUGFIX] Permettre de recharger la page de fin de mission(Pix-9948).
+- [#7450](https://github.com/1024pix/pix/pull/7450) [BUGFIX] Corriger les seeds.
+
 ## v4.62.0 (14/11/2023)
 
 
