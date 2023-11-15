@@ -94,7 +94,7 @@ describe('Unit | UseCase | send-verification-code', function () {
     const code = '999999';
     const locale = 'fr';
     const i18n = getI18n();
-    const translate = getI18n().__;
+    const translate = i18n.__;
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
     userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
