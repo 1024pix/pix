@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { CertificationChallengeWithType } from '../../../../lib/domain/models/index.js';
-import { Type } from '../../../../lib/domain/models/Challenge.js';
+import { Type } from '../../../../src/shared/domain/models/Challenge.js';
 
 describe('Unit | Domain | Models | CertificationChallengeWithType', function () {
   describe('#constructor', function () {
