@@ -36,7 +36,7 @@ class QCU extends Element {
 
     const correction = new QcuCorrectionResponse({
       status: validation.result,
-      feedback: validation.result.OK ? this.feedbacks.valid : this.feedbacks.invalid,
+      feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
       solutionId: this.solution,
     });
 
