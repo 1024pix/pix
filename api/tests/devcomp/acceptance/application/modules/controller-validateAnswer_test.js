@@ -19,7 +19,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
           payload: {
             data: {
               attributes: {
-                answerId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+                'user-response': ['a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6'],
               },
             },
           },
@@ -43,7 +43,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
           payload: {
             data: {
               attributes: {
-                answerId: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
+                'user-response': ['b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6'],
               },
             },
           },

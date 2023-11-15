@@ -30,7 +30,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
-                answerId: Joi.string().required(),
+                'user-response': Joi.array().required(),
               }).required(),
             }).required(),
           }).required(),
