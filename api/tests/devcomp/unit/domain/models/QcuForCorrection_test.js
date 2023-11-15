@@ -30,7 +30,7 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       });
 
       const expectedResult = {
-        globalResult: assessResult.result,
+        status: assessResult.result,
         feedback: qcu.feedbacks.valid,
         solutionId: qcuSolution,
       };
@@ -69,7 +69,7 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       });
 
       const expectedResult = {
-        globalResult: assessResult.result,
+        status: assessResult.result,
         feedback: qcu.feedbacks.invalid,
         solutionId: qcuSolution,
       };

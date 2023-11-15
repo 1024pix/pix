@@ -8,10 +8,10 @@ function serialize(correctionResponse) {
       return {
         ...correctionResponse,
         id: correctionResponse.solutionId,
-        globalResult: correctionResponse.globalResult.status,
+        status: correctionResponse.status.status,
       };
     },
-    attributes: ['globalResult', 'feedback', 'solutionId'],
+    attributes: ['status', 'feedback', 'solutionId'],
   }).serialize(correctionResponse);
 }
 
