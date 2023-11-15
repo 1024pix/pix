@@ -213,6 +213,25 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       });
     });
 
+    context('OidcAuthenticationComplement', function () {
+      it('cannot be created without properties', function () {
+        // when
+        expect(() => new AuthenticationMethod.OidcAuthenticationComplement()).to.throw(ObjectValidationError);
+        expect(() => new AuthenticationMethod.OidcAuthenticationComplement({})).to.throw(ObjectValidationError);
+      });
+
+      it('can hold any properties', function () {
+        // given
+        const properties = { family_name: 'AAAAA', given_name: 'BBBBBB' };
+
+        // when
+        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(properties);
+
+        // then
+        expect(authenticationComplement).to.be.instanceOf(Object);
+      });
+    });
+
     context('PoleEmploiOidcAuthenticationComplement', function () {
       let validArguments;
       beforeEach(function () {

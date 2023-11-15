@@ -26,11 +26,19 @@ class PixAuthenticationComplement {
   }
 }
 
-class PoleEmploiOidcAuthenticationComplement {
+class OidcAuthenticationComplement {
+  constructor(properties) {
+    validateEntity(Joi.object().required().min(1), properties);
+
+    Object.entries(properties).forEach(([key, value]) => {
+      this[key] = value;
+    });
+  }
+}
+
+class PoleEmploiOidcAuthenticationComplement extends OidcAuthenticationComplement {
   constructor({ accessToken, refreshToken, expiredDate } = {}) {
-    this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
-    this.expiredDate = expiredDate;
+    super({ accessToken, refreshToken, expiredDate });
 
     validateEntity(
       Joi.object({
@@ -120,6 +128,7 @@ class AuthenticationMethod {
 }
 
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
+AuthenticationMethod.OidcAuthenticationComplement = OidcAuthenticationComplement;
 AuthenticationMethod.PoleEmploiOidcAuthenticationComplement = PoleEmploiOidcAuthenticationComplement;
 AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;
 export { AuthenticationMethod };
