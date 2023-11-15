@@ -9,7 +9,7 @@ describe('Unit | UseCase | archive-organization', function () {
       get: sinon.stub(),
     };
     const now = new Date('2022-02-22');
-    const clock = sinon.useFakeTimers(now);
+    const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     const organizationId = 1;
     const superAdminUser = domainBuilder.buildUser({
       id: 123,

@@ -36,7 +36,7 @@ describe('Unit | Usecases | update-user-for-account-recovery', function () {
       findByUserId: sinon.stub(),
     };
     now = new Date();
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

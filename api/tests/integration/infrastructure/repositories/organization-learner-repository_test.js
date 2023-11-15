@@ -172,7 +172,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(afterBeginningOfThe2020SchoolYear);
+      clock = sinon.useFakeTimers({ now: afterBeginningOfThe2020SchoolYear, toFake: ['Date'] });
     });
 
     afterEach(function () {

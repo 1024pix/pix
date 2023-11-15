@@ -9,7 +9,7 @@ describe('Integration | Repository | Certification Center', function () {
 
   beforeEach(function () {
     now = new Date('2021-11-16');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

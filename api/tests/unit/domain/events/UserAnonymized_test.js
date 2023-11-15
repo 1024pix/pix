@@ -7,7 +7,7 @@ describe('Unit | Domain | Events | UserAnonymized', function () {
 
   beforeEach(function () {
     const now = new Date('2023-08-17');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

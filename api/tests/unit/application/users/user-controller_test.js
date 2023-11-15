@@ -947,7 +947,7 @@ describe('Unit | Controller | user-controller', function () {
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2023-08-17'));
+      clock = sinon.useFakeTimers({ now: new Date('2023-08-17'), toFake: ['Date'] });
     });
 
     afterEach(function () {

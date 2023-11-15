@@ -158,7 +158,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
     it('should return the cancelled organization invitation', async function () {
       // given
       const now = new Date('2021-01-02');
-      const clock = sinon.useFakeTimers(now);
+      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       const organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         updatedAt: new Date('2020-01-01T00:00:00Z'),
         status: OrganizationInvitation.StatusType.PENDING,
@@ -312,7 +312,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
     const now = new Date('2021-01-02');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(function () {

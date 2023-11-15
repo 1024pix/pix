@@ -8,7 +8,7 @@ describe('Unit | Infrastructure | Jobs | audit-log | ', function () {
 
   beforeEach(function () {
     const now = new Date('2023-08-18');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

@@ -271,7 +271,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
-      sinon.useFakeTimers(testCurrentDate.getTime());
+      sinon.useFakeTimers({ now: testCurrentDate.getTime(), toFake: ['Date'] });
     });
 
     before(function () {
@@ -316,7 +316,7 @@ describe('Unit | Domain | Models | Scorecard', function () {
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
-      sinon.useFakeTimers(testCurrentDate.getTime());
+      sinon.useFakeTimers({ now: testCurrentDate.getTime(), toFake: ['Date'] });
     });
 
     before(function () {

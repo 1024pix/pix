@@ -12,7 +12,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
   const now = new Date('2022-02-02');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

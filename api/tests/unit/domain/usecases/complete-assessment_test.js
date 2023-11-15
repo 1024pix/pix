@@ -25,7 +25,7 @@ describe('Unit | UseCase | complete-assessment', function () {
       update: _.noop,
     };
 
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

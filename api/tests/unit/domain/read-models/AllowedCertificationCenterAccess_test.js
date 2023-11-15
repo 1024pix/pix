@@ -353,7 +353,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not a college', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['COLLEGEee', 'some_other_tag'],
@@ -368,7 +368,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is also a lycee', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['COLLEGE', 'LYCEE', 'some_other_tag'],
@@ -383,7 +383,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -398,7 +398,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when current date is after the college date limit', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2022-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
 
       // when
@@ -410,7 +410,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
 
       // when
@@ -442,7 +442,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not a lycee', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
@@ -457,7 +457,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -472,7 +472,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when current date is after the lycee date limit', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2022-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
 
       // when
@@ -484,7 +484,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccessLycee = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE'],
@@ -525,7 +525,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not AEFE', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
@@ -540,7 +540,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -555,7 +555,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when current date is after the lycee date limit', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2022-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
 
       // when
@@ -567,7 +567,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccessAEFE = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['AEFE'],
@@ -602,7 +602,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not AGRICULTURE', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
@@ -617,7 +617,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -632,7 +632,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when current date is after the lycee date limit', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2022-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2022-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
 
       // when
@@ -644,7 +644,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-01'), toFake: ['Date'] });
       const allowedCertificationCenterAccessAgri = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['AGRICULTURE'],

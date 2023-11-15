@@ -210,7 +210,7 @@ describe('Unit | UseCase | finalize-session', function () {
 
       it('should finalize session with expected arguments', async function () {
         // given
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,
@@ -262,7 +262,7 @@ describe('Unit | UseCase | finalize-session', function () {
           date: '2019-12-12',
           time: '16:00:00',
         });
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,

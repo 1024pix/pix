@@ -27,7 +27,7 @@ describe('Unit | Infrastructure | Jobs | scheduleComputeOrganizationLearnersCert
         });
 
       const now = dayjs('2023-10-02T21:00:01').tz('Europe/Paris').toDate();
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       config = {
         features: {

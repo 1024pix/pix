@@ -794,7 +794,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     const now = new Date('2019-01-01T05:06:07Z');
     let clock;
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
     afterEach(function () {
       clock.restore();
@@ -841,7 +841,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     const now = new Date('2019-01-01T05:06:07Z');
     let clock;
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
     afterEach(function () {
       clock.restore();

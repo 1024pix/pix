@@ -10,7 +10,7 @@ describe('Integration | Scripts | Certification | fill-latest-assessment-result-
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(NEW_UPDATED_AT);
+    clock = sinon.useFakeTimers({ now: NEW_UPDATED_AT, toFake: ['Date'] });
   });
 
   afterEach(function () {

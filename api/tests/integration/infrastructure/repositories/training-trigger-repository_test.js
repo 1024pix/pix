@@ -181,7 +181,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
       beforeEach(function () {
         now = new Date('2022-02-02');
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(function () {

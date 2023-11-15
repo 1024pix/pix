@@ -1272,7 +1272,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const now = new Date('2022-02-02');
 
         beforeEach(function () {
-          clock = sinon.useFakeTimers(now);
+          clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
         });
 
         afterEach(function () {
@@ -1314,7 +1314,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       const now = new Date('2021-01-02');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(function () {
@@ -1520,7 +1520,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       const now = new Date('2021-01-02');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(function () {
@@ -1561,7 +1561,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       const now = new Date('2021-01-02');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(function () {
@@ -1773,7 +1773,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     const now = new Date('2022-12-24');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(function () {

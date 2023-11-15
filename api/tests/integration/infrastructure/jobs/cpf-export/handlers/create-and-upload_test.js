@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | jobs | cpf-export | create-and-upload',
 
   beforeEach(function () {
     const now = dayjs('2022-01-02T10:43:27Z').tz('Europe/Paris').toDate();
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     logger = { error: noop, info: noop, trace: noop };
     uuidService = { randomUUID: sinon.stub() };
   });

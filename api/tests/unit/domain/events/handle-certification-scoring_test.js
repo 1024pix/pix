@@ -21,7 +21,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
     certificationAssessmentRepository = { get: sinon.stub() };

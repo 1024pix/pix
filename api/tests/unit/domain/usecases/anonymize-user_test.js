@@ -7,7 +7,7 @@ describe('Unit | UseCase | anonymize-user', function () {
   const now = new Date('2003-04-05T03:04:05Z');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

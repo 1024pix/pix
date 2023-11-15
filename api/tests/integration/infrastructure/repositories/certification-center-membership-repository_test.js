@@ -170,7 +170,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     it('should return certification center membership associated to the certification center', async function () {
       // given
       const now = new Date('2021-01-02');
-      const clock = sinon.useFakeTimers(now);
+      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ updatedAt: now });
       const user = databaseBuilder.factory.buildUser();
@@ -460,7 +460,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(function () {
@@ -637,7 +637,7 @@ describe('Integration | Repository | Certification Center Membership', function 
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(function () {

@@ -25,7 +25,9 @@ function _logProgression(totalCount) {
   process.stdout.write(`${Math.round((progression * 100) / totalCount, 2)} %`);
 }
 
-const updatePixCertificationStatus = async ({ count, concurrency }) => {
+const updatePixCertificationStatus = async (
+  { count, concurrency, logProgression } = { logProgression: _logProgression },
+) => {
   logger.info('\tRécupération des certifications éligibles...');
   const eligibleCertificationIds = await _findEligibleCertifications(count);
   logger.info(`\tOK : ${eligibleCertificationIds.length} certifications récupérées`);
@@ -41,7 +43,7 @@ const updatePixCertificationStatus = async ({ count, concurrency }) => {
         ++failedGenerations;
         logger.error(`Went wrong for certification ${certificationId}`);
       }
-      _logProgression(count);
+      logProgression(count);
     },
     { concurrency },
   );
