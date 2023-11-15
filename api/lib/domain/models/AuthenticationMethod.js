@@ -75,9 +75,9 @@ const validationSchema = Joi.object({
     { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.object().instance(PixAuthenticationComplement).required() },
     { is: POLE_EMPLOI.code, then: Joi.object().instance(PoleEmploiOidcAuthenticationComplement).required() },
     { is: NON_OIDC_IDENTITY_PROVIDERS.GAR.code, then: Joi.any().empty() },
-    { is: CNAV.code, then: Joi.any().empty() },
-    { is: FWB.code, then: Joi.any().empty() },
-    { is: PAYSDELALOIRE.code, then: Joi.any().empty() },
+    { is: CNAV.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
+    { is: FWB.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
+    { is: PAYSDELALOIRE.code, then: Joi.object().instance(OidcAuthenticationComplement).allow(null) },
   ]),
   externalIdentifier: Joi.when('identityProvider', [
     { is: NON_OIDC_IDENTITY_PROVIDERS.PIX.code, then: Joi.any().forbidden() },

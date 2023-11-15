@@ -572,6 +572,10 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
       refreshToken: authenticationComplement.refreshToken,
       expiredDate: authenticationComplement.expiredDate,
     });
+  } else if (OidcIdentityProviders.getValidOidcProviderCodes().includes(identityProvider)) {
+    if (authenticationComplement) {
+      authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement(authenticationComplement);
+    }
   }
 
   return { authenticationComplement, externalIdentifier };
