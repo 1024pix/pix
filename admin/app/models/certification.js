@@ -97,11 +97,6 @@ export default class Certification extends Model {
         return result;
       }, []);
   }
-
-  get wasRegisteredBeforeCPF() {
-    return !this.sex;
-  }
-
   get isV3() {
     return this.version === 3;
   }

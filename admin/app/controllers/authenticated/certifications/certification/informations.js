@@ -80,7 +80,7 @@ export default class CertificationInformationsController extends Controller {
   }
 
   get isModifyButtonDisabled() {
-    return this.editingCandidateResults || this.certification.wasRegisteredBeforeCPF;
+    return this.editingCandidateResults;
   }
 
   get juryLevelOptions() {
