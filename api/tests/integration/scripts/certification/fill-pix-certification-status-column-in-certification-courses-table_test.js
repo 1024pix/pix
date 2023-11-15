@@ -9,7 +9,7 @@ describe('Integration | Scripts | Certification | fill-pix-certification-status-
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(NEW_UPDATED_AT);
+    clock = sinon.useFakeTimers({ now: NEW_UPDATED_AT, toFake: ['Date'] });
   });
 
   afterEach(function () {
@@ -19,6 +19,7 @@ describe('Integration | Scripts | Certification | fill-pix-certification-status-
   describe('#updatePixCertificationStatus', function () {
     it('do what expected', async function () {
       // given
+      const logProgessionStub = sinon.stub();
       _buildAlreadyFilledPixCertificationStatus({
         id: 1,
         assessmentResultStatus: status.VALIDATED,
@@ -34,7 +35,7 @@ describe('Integration | Scripts | Certification | fill-pix-certification-status-
       await databaseBuilder.commit();
 
       // when
-      await updatePixCertificationStatus({ count: 10, concurrency: 1 });
+      await updatePixCertificationStatus({ count: 10, concurrency: 1, logProgression: logProgessionStub });
 
       // then
       const certificationDTOs = await knex('certification-courses')

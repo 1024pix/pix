@@ -13,7 +13,7 @@ describe('Script | Prod | Archive Campaign', function () {
 
   beforeEach(function () {
     now = new Date('2022-01-01');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
   afterEach(function () {
     clock.restore();

@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
 
   beforeEach(function () {
     const now = new Date('2020-01-02');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   let profileSharedForCampaign;

@@ -9,7 +9,7 @@ describe('Integration | Scripts | delete-sup-organization-learners-disabled', fu
 
   beforeEach(function () {
     deletedById = databaseBuilder.factory.buildUser().id;
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

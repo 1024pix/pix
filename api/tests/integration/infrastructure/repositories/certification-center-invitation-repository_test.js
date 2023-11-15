@@ -15,7 +15,7 @@ describe('Integration | Infrastructure | Repositories | CertificationCenterInvit
       await databaseBuilder.commit();
 
       const now = new Date('2023-10-13');
-      const clock = sinon.useFakeTimers(now);
+      const clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       // when
       await certificationCenterInvitationRepository.updateModificationDate(certificationCenterInvitation.id);

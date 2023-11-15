@@ -10,7 +10,7 @@ describe('Integration | UseCases | cancel-certification-center-invitation', func
     const now = new Date('2022-09-25');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now.getTime());
+      clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     });
 
     afterEach(async function () {

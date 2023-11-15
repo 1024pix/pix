@@ -16,7 +16,7 @@ describe('Unit | UseCase | attach-badges', function () {
     complementaryCertificationBadgesRepository = {
       findAttachableBadgesByIds: sinon.stub(),
     };
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
   afterEach(function () {
     clock.restore();

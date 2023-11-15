@@ -286,7 +286,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           let clock;
 
           beforeEach(function () {
-            clock = sinon.useFakeTimers(now);
+            clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
           });
 
           afterEach(function () {

@@ -10,7 +10,7 @@ describe('Integration | UseCase | create-or-update-certification-center-invitati
   const now = new Date('2022-09-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now.getTime());
+    clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
     sinon.stub(mailService, 'sendCertificationCenterInvitationEmail');
   });
 

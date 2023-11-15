@@ -22,7 +22,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
 
   beforeEach(function () {
     const now = dayjs('2022-02-01T10:43:27Z').tz('Europe/Paris').toDate();
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     uuidService = { randomUUID: sinon.stub() };
   });
 
