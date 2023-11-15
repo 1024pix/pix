@@ -13,13 +13,17 @@
           {{#if element.isText}}
             <Module::Text @text={{element}} />
           {{else if element.isQcu}}
-            <Module::Qcu @qcu={{element}} />
+            <Module::Qcu
+              @qcu={{element}}
+              @submitAnswer={{this.submitAnswer}}
+              @correctionResponse={{get this.correctionResponse element.id}}
+            />
           {{/if}}
         {{/each}}
       {{/each}}
       <footer class="grain__footer">
         <PixButton @backgroundColor="blue" @shape="rounded" @triggerAction={{this.continueToNextGrain}}>
-          {{t "pages.modulix.buttons.continue"}}
+          {{t "pages.modulix.buttons.grain.continue"}}
         </PixButton>
       </footer>
     </article>

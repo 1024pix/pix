@@ -37,7 +37,6 @@ module('Integration | Component | Module | QCU', function (hooks) {
 
     const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
     assert.dom(verifyButton).exists();
-    assert.true(verifyButton.disabled);
   });
 
   test('should call action when verify button is clicked', async function (assert) {
@@ -52,7 +51,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
     this.set('qcu', qcuElement);
     const elementId = qcuElement.id;
-    const answerId = answeredProposal.id;
+    const userResponse = [answeredProposal.id];
     const givenSubmitAnswerSpy = sinon.spy();
     this.set('submitAnswer', givenSubmitAnswerSpy);
     const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
@@ -63,8 +62,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     await click(verifyButton);
 
     // then
-    assert.false(verifyButton.disabled);
-    sinon.assert.calledWith(givenSubmitAnswerSpy, { elementId, answerId });
+    sinon.assert.calledWith(givenSubmitAnswerSpy, { elementId, userResponse });
+    assert.ok(true);
   });
 
   test('should display an ok feedback when exists', async function (assert) {
@@ -81,13 +80,14 @@ module('Integration | Component | Module | QCU', function (hooks) {
     this.set('qcu', qcuElement);
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Good job!',
-      globalResult: 'ok',
-      solutionId: 'solutionId',
+      status: 'ok',
+      solution: 'solutionId',
     });
 
     const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
 
     assertsWhenCorrectionResponseHasBeenGiven(assert, screen);
+
     assert.strictEqual(findAll('.element-qcu__feedback--ok').length, 1);
   });
 
@@ -105,8 +105,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     this.set('qcu', qcuElement);
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Good job!',
-      globalResult: 'ko',
-      solutionId: 'solutionId',
+      status: 'ko',
+      solution: 'solutionId',
     });
     const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
 
@@ -126,7 +126,8 @@ async function renderQcuWithCorrectionResponse(correctionResponse) {
 
 function assertsWhenCorrectionResponseHasBeenGiven(assert, screen) {
   assert.ok(screen.getByText('Good job!'));
-  assert.ok(screen.getByLabelText('radio1').disabled);
-  assert.ok(screen.getByLabelText('radio2').disabled);
+  assert.ok(screen.getByRole('group').disabled);
+  assert.ok(screen.getByLabelText('radio1').required);
+  assert.ok(screen.getByLabelText('radio2').required);
   assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
 }
