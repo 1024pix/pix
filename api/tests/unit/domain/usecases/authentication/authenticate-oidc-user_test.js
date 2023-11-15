@@ -182,7 +182,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
     context('when user has an account', function () {
       context('when the provider does not have an authentication complement', function () {
-        it('does not update the authentication method', async function () {
+        it('updates the authentication method', async function () {
           // given
           _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
           userRepository.findByExternalIdentifier.resolves({ id: 10 });
@@ -201,8 +201,13 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
           });
 
           // then
-          expect(authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider).not.to.have
-            .been.called;
+          expect(
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider,
+          ).to.have.been.calledWithExactly({
+            authenticationComplement,
+            userId: 10,
+            identityProvider: oidcAuthenticationService.identityProvider,
+          });
         });
       });
 
