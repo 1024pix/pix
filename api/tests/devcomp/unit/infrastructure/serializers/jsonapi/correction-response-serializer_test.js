@@ -8,7 +8,7 @@ describe('Unit | DevComp | Serializers | CorrectionResponseSerializer', function
     it('should return a serialized CorrectionReponse', function () {
       // given
       const givenCorrectionResponse = new QcuCorrectionResponse({
-        globalResult: AnswerStatus.OK,
+        status: AnswerStatus.OK,
         feedback: 'Good job!',
         solutionId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
       });
@@ -16,7 +16,7 @@ describe('Unit | DevComp | Serializers | CorrectionResponseSerializer', function
         data: {
           attributes: {
             feedback: 'Good job!',
-            'global-result': 'ok',
+            status: 'ok',
             'solution-id': 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
           },
           id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
