@@ -4,6 +4,14 @@
   margin: $pix-spacing-s;
   color: $pix-neutral-90;
 
+  &__verify_button {
+    margin: $pix-spacing-s $pix-spacing-s $pix-spacing-s 0;
+  }
+
+  &__feedback {
+    margin: $pix-spacing-s 0 $pix-spacing-s 0;
+  }
+
   // revert the reset
   ul,
   ol {
@@ -16,11 +24,14 @@
 .element-qcu-header {
   &__instruction {
     @extend %pix-body-m;
+
+    margin-bottom: $pix-spacing-xs;
   }
 
   &__direction {
     @extend %pix-body-s;
 
+    margin-bottom: $pix-spacing-s;
     color: $pix-neutral-60;
   }
 }
