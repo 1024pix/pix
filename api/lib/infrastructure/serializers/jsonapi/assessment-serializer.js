@@ -49,7 +49,6 @@ const serialize = function (assessments) {
       'competenceId',
       'lastQuestionState',
       'method',
-      'missionId',
     ],
     answers: {
       ref: 'id',
