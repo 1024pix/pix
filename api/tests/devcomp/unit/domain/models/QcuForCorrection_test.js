@@ -7,8 +7,8 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
     it('should return a QcuCorrectionResponse for a valid answer', function () {
       // given
       const assessResult = { result: { OK: 'ok' } };
-      const givenAnswer = Symbol('givenAnswer');
-      const qcuSolution = givenAnswer;
+      const qcuSolution = Symbol('correctSolution');
+      const userResponse = [qcuSolution];
 
       const validator = {
         assess: sinon.stub(),
@@ -16,14 +16,14 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       validator.assess
         .withArgs({
           answer: {
-            value: givenAnswer,
+            value: userResponse[0],
           },
         })
         .returns(assessResult);
       const qcu = new QCU({
         id: '',
         instruction: '',
-        proposals: [{ id: givenAnswer }],
+        proposals: [{ id: qcuSolution }],
         feedbacks: { valid: 'OK', invalid: 'KO' },
         solution: qcuSolution,
         validator,
@@ -36,7 +36,7 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       };
 
       // when
-      const result = qcu.assess(givenAnswer);
+      const result = qcu.assess(userResponse);
 
       // then
       expect(result).to.deep.equal(expectedResult);
@@ -46,8 +46,8 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
     it('should return a QcuCorrectionResponse for a invalid answer', function () {
       // given
       const assessResult = { result: { KO: 'ko' } };
-      const givenAnswer = Symbol('givenAnswer');
-      const qcuSolutionId = Symbol('qcuSolution');
+      const qcuSolution = Symbol('correctSolution');
+      const userResponse = ['wrongAnswer'];
 
       const validator = {
         assess: sinon.stub(),
@@ -55,27 +55,27 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       validator.assess
         .withArgs({
           answer: {
-            value: givenAnswer,
+            value: userResponse[0],
           },
         })
         .returns(assessResult);
       const qcu = new QCU({
         id: '',
         instruction: '',
-        proposals: [{ id: givenAnswer }, { id: qcuSolutionId }],
+        proposals: [{ id: qcuSolution }],
         feedbacks: { valid: 'OK', invalid: 'KO' },
-        solution: qcuSolutionId,
+        solution: qcuSolution,
         validator,
       });
 
       const expectedResult = {
         globalResult: assessResult.result,
         feedback: qcu.feedbacks.invalid,
-        solutionId: qcuSolutionId,
+        solutionId: qcuSolution,
       };
 
       // when
-      const result = qcu.assess(givenAnswer);
+      const result = qcu.assess(userResponse);
 
       // then
       expect(result).to.deep.equal(expectedResult);

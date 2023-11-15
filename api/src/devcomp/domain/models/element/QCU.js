@@ -29,8 +29,8 @@ class QCU extends Element {
     }
   }
 
-  assess(answer) {
-    const validation = this.validator.assess({ answer: { value: answer } });
+  assess(userResponse) {
+    const validation = this.validator.assess({ answer: { value: userResponse[0] } });
 
     return new QcuCorrectionResponse({
       globalResult: validation.result,
