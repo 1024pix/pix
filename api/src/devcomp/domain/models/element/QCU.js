@@ -3,6 +3,7 @@ import { Feedbacks } from '../Feedbacks.js';
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 import { ValidatorQCU } from '../validator/ValidatorQCU.js';
 import { QcuCorrectionResponse } from '../QcuCorrectionResponse.js';
+import { ElementAnswer } from '../ElementAnswer.js';
 
 class QCU extends Element {
   constructor({ id, instruction, locales, proposals, solution, feedbacks, validator }) {
@@ -32,10 +33,16 @@ class QCU extends Element {
   assess(userResponse) {
     const validation = this.validator.assess({ answer: { value: userResponse[0] } });
 
-    return new QcuCorrectionResponse({
+    const correction = new QcuCorrectionResponse({
       status: validation.result,
       feedback: validation.result.OK ? this.feedbacks.valid : this.feedbacks.invalid,
       solutionId: this.solution,
+    });
+
+    return new ElementAnswer({
+      elementId: this.id,
+      userResponseValue: userResponse[0],
+      correction,
     });
   }
 

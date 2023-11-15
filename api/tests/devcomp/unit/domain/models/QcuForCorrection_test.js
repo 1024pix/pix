@@ -1,5 +1,6 @@
 import { expect, sinon } from '../../../../test-helper.js';
 import { QCU } from '../../../../../src/devcomp/domain/models/element/QCU.js';
+import { ElementAnswer } from '../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { QcuCorrectionResponse } from '../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 
 describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
@@ -21,7 +22,7 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
         })
         .returns(assessResult);
       const qcu = new QCU({
-        id: '',
+        id: 'qcu-id',
         instruction: '',
         proposals: [{ id: qcuSolution }],
         feedbacks: { valid: 'OK', invalid: 'KO' },
@@ -30,9 +31,13 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       });
 
       const expectedResult = {
-        status: assessResult.result,
-        feedback: qcu.feedbacks.valid,
-        solutionId: qcuSolution,
+        elementId: 'qcu-id',
+        userResponseValue: userResponse[0],
+        correction: {
+          status: assessResult.result,
+          feedback: qcu.feedbacks.valid,
+          solutionId: qcuSolution,
+        },
       };
 
       // when
@@ -40,7 +45,8 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
 
       // then
       expect(result).to.deep.equal(expectedResult);
-      expect(result).to.be.instanceOf(QcuCorrectionResponse);
+      expect(result).to.be.instanceOf(ElementAnswer);
+      expect(result.correction).to.be.instanceOf(QcuCorrectionResponse);
     });
 
     it('should return a QcuCorrectionResponse for a invalid answer', function () {
@@ -60,7 +66,7 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
         })
         .returns(assessResult);
       const qcu = new QCU({
-        id: '',
+        id: 'qcu-id',
         instruction: '',
         proposals: [{ id: qcuSolution }],
         feedbacks: { valid: 'OK', invalid: 'KO' },
@@ -69,9 +75,13 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
       });
 
       const expectedResult = {
-        status: assessResult.result,
-        feedback: qcu.feedbacks.invalid,
-        solutionId: qcuSolution,
+        elementId: 'qcu-id',
+        userResponseValue: userResponse[0],
+        correction: {
+          status: assessResult.result,
+          feedback: qcu.feedbacks.invalid,
+          solutionId: qcuSolution,
+        },
       };
 
       // when
@@ -79,7 +89,8 @@ describe('Unit | Devcomp | Domain | Models | QcuForCorrection', function () {
 
       // then
       expect(result).to.deep.equal(expectedResult);
-      expect(result).to.be.instanceOf(QcuCorrectionResponse);
+      expect(result).to.be.instanceOf(ElementAnswer);
+      expect(result.correction).to.be.instanceOf(QcuCorrectionResponse);
     });
   });
 });
