@@ -1,3 +1,7 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
+
 import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateOnFinalizedSessionError,
@@ -6,6 +10,14 @@ import {
 import * as mailCheckImplementation from '../../../../shared/mail/infrastructure/services/mail-check.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['certificationCandidateRepository']} params.certificationCandidateRepository
+ * @param {deps['certificationCpfService']} params.certificationCpfService
+ * @param {deps['certificationCpfCountryRepository']} params.certificationCpfCountryRepository
+ * @param {deps['certificationCpfCityRepository']} params.certificationCpfCityRepository
+ */
 const addCertificationCandidateToSession = async function ({
   sessionId,
   certificationCandidate,

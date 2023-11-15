@@ -1,18 +1,14 @@
 /**
- * @typedef {import ('../../../../../lib/infrastructure/plugins/i18n.js')} i18n
- * @typedef {import ('../../../session/infrastructure/repositories/session-repository.js')} sessionRepository
- * @typedef {import ('../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js')} sessionForAttendanceSheetRepository
- * @typedef {import ('../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js')} attendanceSheetPdfUtils
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
  */
 
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 
 /**
- * @param {Object} deps
- * @param {i18n} deps.i18n
- * @param {sessionRepository} deps.sessionRepository
- * @param {sessionForAttendanceSheetRepository} deps.sessionForAttendanceSheetRepository
- * @param {attendanceSheetPdfUtils} deps.attendanceSheetPdfUtils
+ * @param {Object} params
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['sessionForAttendanceSheetRepository']} params.sessionForAttendanceSheetRepository
+ * @param {deps['attendanceSheetPdfUtils']} params.attendanceSheetPdfUtils
  */
 const getAttendanceSheet = async function ({
   userId,
