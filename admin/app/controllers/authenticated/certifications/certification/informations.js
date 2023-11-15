@@ -144,7 +144,7 @@ export default class CertificationInformationsController extends Controller {
   async onCandidateResultsSave() {
     this.displayConfirm = false;
     try {
-      await this.saveAssessementResult();
+      await this.saveAssessmentResult();
 
       this.notifications.success('Modifications enregistrées');
       this.editingCandidateResults = false;
@@ -160,7 +160,7 @@ export default class CertificationInformationsController extends Controller {
     }
   }
 
-  saveAssessementResult() {
+  saveAssessmentResult() {
     return this.certification.save({ adapterOptions: { updateMarks: true } });
   }
 
