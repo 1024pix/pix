@@ -139,7 +139,7 @@ describe('Integration | Repository | CertificationCenterInvitedUserRepository', 
     it('should mark certification center invitation as accepted', async function () {
       // given
       const now = new Date('2021-05-27');
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ id: 123 }).id;
       const user = databaseBuilder.factory.buildUser({ id: 6789, email: 'user@example.net' });

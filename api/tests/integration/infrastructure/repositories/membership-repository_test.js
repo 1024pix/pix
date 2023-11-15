@@ -11,7 +11,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
   const now = new Date('2022-12-01');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now });
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
   afterEach(function () {
     clock.restore();

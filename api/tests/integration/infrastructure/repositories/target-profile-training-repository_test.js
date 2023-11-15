@@ -8,7 +8,7 @@ describe('Integration | Repository | target-profile-training-repository', functi
 
     beforeEach(function () {
       now = new Date('2022-02-13');
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {

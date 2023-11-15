@@ -50,7 +50,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
   beforeEach(function () {
     now = new Date('2019-01-01T05:06:07Z');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     domainTransaction = Symbol('someDomainTransaction');
     verificationCode = Symbol('verificationCode');
 

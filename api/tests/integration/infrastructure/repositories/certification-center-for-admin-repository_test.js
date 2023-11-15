@@ -8,7 +8,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
   const now = new Date('2021-11-16');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers({ now, shouldClearNativeTimers: true });
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

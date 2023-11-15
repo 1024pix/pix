@@ -10,7 +10,7 @@ describe('Unit | UseCase | delete-campaign-participation-for-admin', function ()
   const now = new Date('2021-09-25');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now.getTime());
+    clock = sinon.useFakeTimers({ now: now.getTime(), toFake: ['Date'] });
   });
 
   afterEach(function () {

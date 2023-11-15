@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | SessionJuryComment', function () {
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date('2003-04-05T03:04:05Z'));
+      clock = sinon.useFakeTimers({ now: new Date('2003-04-05T03:04:05Z'), toFake: ['Date'] });
     });
 
     afterEach(function () {

@@ -55,7 +55,7 @@ describe('Unit | UseCase | session-publication-service', function () {
       ],
       publishedAt: null,
     });
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

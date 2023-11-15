@@ -9,7 +9,7 @@ describe('Unit | Domain | UseCases | set-certification-center-memberships-role-t
   const now = new Date();
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     certificationCenterMembershipRepository = {
       findOneWithCertificationCenterIdAndUserId: sinon.stub(),
       update: sinon.stub(),

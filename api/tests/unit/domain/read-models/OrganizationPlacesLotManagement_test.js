@@ -39,7 +39,7 @@ describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', functio
     const now = new Date('2021-05-01');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {

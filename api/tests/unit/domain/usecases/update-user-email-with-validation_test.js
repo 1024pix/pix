@@ -38,7 +38,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function () {
     });
 
     const now = new Date();
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     userRepository.get.withArgs(userId).resolves({ email });
     userEmailRepository.getEmailModificationDemandByUserId.withArgs(userId).resolves(emailModificationDemand);

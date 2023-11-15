@@ -10,7 +10,7 @@ describe('Unit | Infrastructure | Repositories | audit-logger-repository', funct
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(new Date('2023-08-18T08:31:21Z'));
+    clock = sinon.useFakeTimers({ now: new Date('2023-08-18T08:31:21Z'), toFake: ['Date'] });
   });
 
   afterEach(function () {

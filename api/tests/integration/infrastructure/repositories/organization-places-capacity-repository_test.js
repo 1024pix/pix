@@ -8,7 +8,7 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
     let clock;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(new Date(Date.parse('10/10/2021')));
+      clock = sinon.useFakeTimers({ now: new Date(Date.parse('10/10/2021')), toFake: ['Date'] });
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });

@@ -118,7 +118,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       const now = new Date('2022-02-16');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(async function () {
@@ -192,7 +192,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       const now = new Date('2022-02-16');
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(async function () {
@@ -232,7 +232,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
     const now = new Date('2022-02-16');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {
@@ -294,7 +294,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
     const now = new Date('2022-02-16');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {

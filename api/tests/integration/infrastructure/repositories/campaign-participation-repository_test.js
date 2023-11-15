@@ -708,7 +708,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         userId: campaignParticipation.userId,
         createdAt: new Date('1985-09-01T00:00:00Z'),
       });
-      clock = sinon.useFakeTimers(frozenTime);
+      clock = sinon.useFakeTimers({ now: frozenTime, toFake: ['Date'] });
 
       await databaseBuilder.commit();
     });

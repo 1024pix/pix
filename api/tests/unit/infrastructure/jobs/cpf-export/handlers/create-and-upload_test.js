@@ -24,7 +24,7 @@ describe('Unit | Infrastructure | jobs | cpf-export | create-and-upload', functi
 
   beforeEach(function () {
     const now = dayjs('2022-01-01T10:43:27Z').tz('Europe/Paris').toDate();
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     cpfCertificationResultRepository = {
       findByBatchId: sinon.stub(),

@@ -57,7 +57,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
     const now = new Date('2022-11-24');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers({ now });
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(function () {
@@ -143,7 +143,7 @@ describe('Integration | Repository | UserLoginRepository', function () {
     const now = new Date('2020-01-02');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {

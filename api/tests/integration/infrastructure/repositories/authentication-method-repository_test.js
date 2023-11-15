@@ -143,7 +143,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     let clock;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(new Date('2020-01-02'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
@@ -436,7 +436,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       let clock;
 
       beforeEach(async function () {
-        clock = sinon.useFakeTimers(new Date('2020-01-02'));
+        clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
       });
 
       afterEach(function () {
@@ -515,7 +515,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     let clock;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(new Date('2020-01-02'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
@@ -711,7 +711,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     let clock;
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(new Date('2020-01-02'));
+      clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
       userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         id: 123,
@@ -783,7 +783,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       let clock;
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(new Date('2020-01-02'));
+        clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
         const userId = databaseBuilder.factory.buildUser().id;
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
           id: 123,
@@ -1105,7 +1105,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     const now = new Date('2022-02-16');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {
@@ -1144,7 +1144,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should update authentication method complement', async function () {
       // given
       const now = new Date('2022-03-15');
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
       const userId = databaseBuilder.factory.buildUser().id;
       const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
