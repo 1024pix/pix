@@ -117,10 +117,6 @@ class OidcAuthenticationService {
     return jsonwebtoken.sign({ user_id: userId }, config.authentication.secret, this.jwtOptions);
   }
 
-  createAuthenticationComplement() {
-    return null;
-  }
-
   async saveIdToken({ idToken, userId } = {}) {
     if (!(this.endSessionUrl || this.hasLogoutUrl)) {
       return null;
@@ -231,6 +227,10 @@ class OidcAuthenticationService {
     });
 
     return createdUserId;
+  }
+
+  createAuthenticationComplement() {
+    return null;
   }
 
   async getRedirectLogoutUrl({ userId, logoutUrlUUID } = {}) {
