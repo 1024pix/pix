@@ -40,6 +40,7 @@ async function _computeCertificationDetailsOnTheFly(
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
     version: CertificationVersion.V2,
+    allowExcessPixAndLevels: false,
   });
 
   return CertificationDetails.fromCertificationAssessmentScore({
@@ -58,6 +59,7 @@ async function _retrievePersistedCertificationDetails(
     userId: certificationAssessment.userId,
     limitDate: certificationAssessment.createdAt,
     version: CertificationVersion.V2,
+    allowExcessPixAndLevels: false,
   });
 
   return CertificationDetails.from({
