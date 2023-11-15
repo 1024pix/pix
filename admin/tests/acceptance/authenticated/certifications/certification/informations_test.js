@@ -288,35 +288,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   module('certification edition actions', function () {
     module('Candidate information edition', function () {
-      module('when candidate certification was enrolled before the CPF feature was enabled', function () {
-        test('should prevent user from editing candidate information', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          this.server.create('certification', {
-            id: 456,
-            firstName: 'Bora Horza',
-            lastName: 'Gobuchul',
-            birthdate: '1987-07-24',
-            birthplace: 'Sorpen',
-            userId: 888,
-            sex: null,
-            birthCountry: null,
-            birthInseeCode: null,
-            birthPostalCode: null,
-            competencesWithMark: [],
-            listChallengesAndAnswers: [],
-            createdAt: new Date('2020-01-01'),
-          });
-
-          // when
-          const screen = await visit('/certifications/456');
-
-          // then
-          assert.dom(screen.getByText('Voir avec PO/Dev pour modifier les infos candidat.')).exists();
-          assert.dom(screen.queryByLabelText('Modifier les informations du candidat')).isDisabled();
-        });
-      });
-
       module('when there is a complementary certification course result with external', function () {
         test('should be possible to update jury level', async function (assert) {
           //given
