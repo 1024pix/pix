@@ -72,7 +72,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
     const now = new Date('2022-03-13');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(function () {

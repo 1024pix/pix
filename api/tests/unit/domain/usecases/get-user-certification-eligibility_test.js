@@ -6,7 +6,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   const now = new Date(2020, 1, 1);
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     complementaryCertificationCourseRepository = {
       findByUserId: sinon.stub(),
     };

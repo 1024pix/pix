@@ -12,7 +12,7 @@ describe('Unit | UseCase | create-oidc-user', function () {
   const now = new Date('2021-01-02');
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
 
     authenticationMethodRepository = {
       findOneByExternalIdentifierAndIdentityProvider: sinon.stub(),

@@ -17,7 +17,7 @@ describe('Integration | Service | Organization-Invitation Service', function () 
     const now = new Date('2021-01-02');
 
     beforeEach(async function () {
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     });
 
     afterEach(async function () {

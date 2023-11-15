@@ -55,7 +55,7 @@ describe('Unit | UseCase | flag-session-results-as-sent-to-prescriber', function
 
       beforeEach(function () {
         updatedSession = Symbol('updatedSession');
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
         notFlaggedSession = new Session({ resultsSentToPrescriberAt: null });
         sessionRepository.get.withArgs(sessionId).resolves(notFlaggedSession);
       });

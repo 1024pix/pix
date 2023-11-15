@@ -12,7 +12,7 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
     let clock;
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers();
+      clock = sinon.useFakeTimers({ toFake: ['Date'] });
     });
 
     afterEach(function () {

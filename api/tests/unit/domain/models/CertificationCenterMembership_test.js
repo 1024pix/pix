@@ -6,7 +6,7 @@ describe('Unit | Domain | Models | CertificationCenterMembership', function () {
   let clock;
 
   beforeEach(function () {
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
   });
 
   afterEach(function () {

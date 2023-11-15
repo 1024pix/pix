@@ -9,7 +9,7 @@ describe('Unit | UseCase | archive-campaign', function () {
 
   beforeEach(function () {
     now = new Date('2022-01-01');
-    clock = sinon.useFakeTimers(now);
+    clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
     campaignForArchivingRepository = {
       getByCode: sinon.stub(),
       save: sinon.stub(),

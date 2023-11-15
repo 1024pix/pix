@@ -37,7 +37,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(Date.now());
+      clock = sinon.useFakeTimers({ now: Date.now(), toFake: ['Date'] });
       httpAgent = {
         post: sinon.stub(),
       };

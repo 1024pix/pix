@@ -204,7 +204,7 @@ describe('Integration | Repository | OrganizationInvitedUserRepository', functio
       const now = new Date('2021-05-27');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(function () {
@@ -346,7 +346,7 @@ describe('Integration | Repository | OrganizationInvitedUserRepository', functio
       const now = new Date('2021-05-27');
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
+        clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       });
 
       afterEach(function () {

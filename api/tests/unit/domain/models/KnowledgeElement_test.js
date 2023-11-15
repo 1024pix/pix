@@ -329,7 +329,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function () {
 
     beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
-      sinon.useFakeTimers(testCurrentDate.getTime());
+      sinon.useFakeTimers({ now: testCurrentDate.getTime(), toFake: ['Date'] });
     });
 
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe

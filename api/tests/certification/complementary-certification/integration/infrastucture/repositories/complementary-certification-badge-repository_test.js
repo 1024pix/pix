@@ -101,7 +101,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
     const createdAt = new Date('2023-09-19T01:02:03Z');
 
     beforeEach(function () {
-      clock = sinon.useFakeTimers(createdAt);
+      clock = sinon.useFakeTimers({ now: createdAt, toFake: ['Date'] });
     });
 
     afterEach(async function () {

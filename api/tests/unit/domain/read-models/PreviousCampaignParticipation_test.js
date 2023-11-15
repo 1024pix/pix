@@ -41,7 +41,7 @@ describe('Unit | Domain | Read-Models | PreviousCampaignParticipation', function
     beforeEach(function () {
       originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
       now = new Date('2020-01-07T05:06:07Z');
-      clock = sinon.useFakeTimers(now);
+      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
       sinon.stub(constants, 'MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING').value(4);
 
       baseProps = {
