@@ -1,5 +1,5 @@
 import * as moduleSerializer from '../../infrastructure/serializers/jsonapi/module-serializer.js';
-import * as correctionResponseSerializer from '../../infrastructure/serializers/jsonapi/correction-response-serializer.js';
+import * as elementAnswerSerializer from '../../infrastructure/serializers/jsonapi/element-answer-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 
 const getBySlug = async function (request, h, dependencies = { moduleSerializer, usecases }) {
@@ -9,12 +9,12 @@ const getBySlug = async function (request, h, dependencies = { moduleSerializer,
   return dependencies.moduleSerializer.serialize(module);
 };
 
-const validateAnswer = async function (request, h, dependencies = { correctionResponseSerializer, usecases }) {
+const validateAnswer = async function (request, h, dependencies = { elementAnswerSerializer, usecases }) {
   const { moduleSlug, elementId } = request.params;
-  const { answerId } = request.payload.data.attributes;
-  const module = await dependencies.usecases.validateAnswer({ moduleSlug, answerId, elementId });
+  const { 'user-response': userResponse } = request.payload.data.attributes;
+  const answer = await dependencies.usecases.validateAnswer({ moduleSlug, userResponse, elementId });
 
-  return dependencies.correctionResponseSerializer.serialize(module);
+  return dependencies.elementAnswerSerializer.serialize(answer);
 };
 
 const modulesController = { getBySlug, validateAnswer };

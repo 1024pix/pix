@@ -27,25 +27,25 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       // Given
       const moduleSlug = 'slug';
       const serializedCorrection = Symbol('serialized correction');
-      const answerId = Symbol('answerId');
+      const userResponse = Symbol('user-response');
       const elementId = Symbol('elementId');
       const correctionResponse = Symbol('correction');
 
       const usecases = {
         validateAnswer: sinon.stub(),
       };
-      usecases.validateAnswer.withArgs({ moduleSlug, answerId, elementId }).returns(correctionResponse);
+      usecases.validateAnswer.withArgs({ moduleSlug, userResponse, elementId }).returns(correctionResponse);
 
-      const correctionResponseSerializer = {
+      const elementAnswerSerializer = {
         serialize: sinon.stub(),
       };
-      correctionResponseSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
+      elementAnswerSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
 
       // When
       const result = await modulesController.validateAnswer(
-        { payload: { data: { attributes: { answerId } } }, params: { moduleSlug, elementId } },
+        { payload: { data: { attributes: { 'user-response': userResponse } } }, params: { moduleSlug, elementId } },
         null,
-        { correctionResponseSerializer, usecases },
+        { elementAnswerSerializer, usecases },
       );
 
       // Then

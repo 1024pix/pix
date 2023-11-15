@@ -19,7 +19,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
           payload: {
             data: {
               attributes: {
-                answerId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+                'user-response': ['a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6'],
               },
             },
           },
@@ -28,8 +28,10 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
         const response = await server.inject(options);
 
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('correction-responses');
-        expect(response.result.data.attributes['global-result']).to.equal('ok');
+        expect(response.result.data.type).to.equal('element-answers');
+        expect(response.result.data.attributes['user-response-value']).to.equal('a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6');
+        expect(response.result.data.attributes['element-id']).to.equal('z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7');
+        expect(response.result.included[0].attributes.status).to.equal('ok');
       });
     });
 
@@ -43,7 +45,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
           payload: {
             data: {
               attributes: {
-                answerId: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6',
+                'user-response': ['b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6'],
               },
             },
           },
@@ -52,8 +54,8 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
         const response = await server.inject(options);
 
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('correction-responses');
-        expect(response.result.data.attributes['global-result']).to.equal('ko');
+        expect(response.result.data.type).to.equal('element-answers');
+        expect(response.result.included[0].attributes.status).to.equal('ko');
       });
     });
   });
