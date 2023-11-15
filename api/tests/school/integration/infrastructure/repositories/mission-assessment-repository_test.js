@@ -7,7 +7,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
   describe('#getByAssessmentId', function () {
     it('returns the missionAssessment corresponding to the assessmentId', async function () {
       const missionId = 'flute78';
-      const assessmentId = databaseBuilder.factory.buildPix1dAssessment({ missionId }).id;
+      const assessmentId = databaseBuilder.factory.buildPix1dAssessment().id;
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId, organizationLearnerId });
       await databaseBuilder.commit();

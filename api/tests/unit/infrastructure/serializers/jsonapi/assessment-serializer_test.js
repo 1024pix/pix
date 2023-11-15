@@ -21,7 +21,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
             'competence-id': assessment.competenceId,
             'last-question-state': Assessment.statesOfLastQuestion.ASKED,
             method: Assessment.methods.CERTIFICATION_DETERMINED,
-            'mission-id': assessment.missionId,
           },
           relationships: {
             answers: {

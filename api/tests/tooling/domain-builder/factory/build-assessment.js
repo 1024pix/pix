@@ -27,7 +27,6 @@ function buildAssessment({
   lastQuestionState = Assessment.statesOfLastQuestion.ASKED,
   method,
   campaignCode,
-  missionId = null,
 } = {}) {
   return new Assessment({
     id,
@@ -50,7 +49,6 @@ function buildAssessment({
     campaignParticipation,
     method,
     campaignCode,
-    missionId,
   });
 }
 
@@ -74,7 +72,6 @@ buildAssessment.ofTypeCampaign = function ({
   title = 'campaignTitle',
   method,
   campaignCode,
-  missionId,
 } = {}) {
   if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
     campaignParticipationId = campaignParticipation.id;
@@ -108,7 +105,6 @@ buildAssessment.ofTypeCampaign = function ({
     campaignParticipation,
     method,
     campaignCode,
-    missionId,
   });
 };
 
@@ -131,7 +127,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
   knowledgeElements = [buildKnowledgeElement()],
   campaignParticipation = null,
   competenceId = 789,
-  missionId,
 } = {}) {
   return new Assessment({
     id,
@@ -155,7 +150,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
     knowledgeElements,
     campaignParticipation,
     campaignCode: null,
-    missionId,
   });
 };
 
