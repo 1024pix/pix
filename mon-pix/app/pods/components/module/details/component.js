@@ -22,7 +22,7 @@ export default class ModuleDetails extends Component {
     this.correctionResponse = {
       ...this.correctionResponse,
     };
-    this.correctionResponse[answerData.elementId] = elementAnswer.correction;
+    this.correctionResponse[answerData.elementId] = await elementAnswer.correction;
   }
 
   @action
