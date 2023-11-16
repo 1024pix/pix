@@ -29,7 +29,9 @@ export default class Challenge extends Component {
       try {
         const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
         await this.answer.save({ adapterOptions: { assessmentId } });
-        this.answerHasBeenValidated = true;
+        if (this.answer.value !== '#ABAND#') {
+          this.answerHasBeenValidated = true;
+        }
       } catch (error) {
         this.answer.rollbackAttributes();
       }
@@ -39,9 +41,10 @@ export default class Challenge extends Component {
   }
 
   @action
-  skipChallenge() {
+  async skipChallenge() {
     this.setAnswerValue('#ABAND#');
-    return this.validateAnswer();
+    await this.validateAnswer();
+    this.resume();
   }
 
   @action
