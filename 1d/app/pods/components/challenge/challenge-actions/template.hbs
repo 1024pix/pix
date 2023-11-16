@@ -20,7 +20,13 @@
       </span>
     </PixButton>
   {{else}}
-    <PixButton class="pix1d-button" @triggerAction={{@validateAnswer}} @shape="rounded" @size="big">
+    <PixButton
+      class="pix1d-button"
+      @isDisabled={{@disableCheckButton}}
+      @triggerAction={{@validateAnswer}}
+      @shape="rounded"
+      @size="big"
+    >
       <span>
         {{t "pages.challenge.actions.check"}}
       </span>
