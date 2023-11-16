@@ -117,6 +117,8 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
     return new HttpErrors.BadRequestError(error.message);
   }
+
+  return new HttpErrors.BaseHttpError(error.message);
 }
 
 function handle(request, h, error) {
