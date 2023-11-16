@@ -87,8 +87,6 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
 
     assertsWhenCorrectionResponseHasBeenGiven(assert, screen);
-
-    assert.strictEqual(findAll('.element-qcu__feedback--ok').length, 1);
   });
 
   test('should display a ko feedback when exists', async function (assert) {
@@ -111,7 +109,6 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
 
     assertsWhenCorrectionResponseHasBeenGiven(assert, screen);
-    assert.strictEqual(findAll('.element-qcu__feedback--ko').length, 1);
   });
 });
 

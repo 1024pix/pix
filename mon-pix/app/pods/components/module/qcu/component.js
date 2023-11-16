@@ -5,6 +5,14 @@ import { action } from '@ember/object';
 export default class ModuleQcu extends Component {
   @tracked selectedAnswerId = null;
 
+  get feedbackType() {
+    return this.args.correctionResponse?.isOk ? 'success' : 'error';
+  }
+
+  get disableInput() {
+    return !!this.args.correctionResponse;
+  }
+
   @action
   radioClicked(proposalId) {
     this.selectedAnswerId = proposalId;
