@@ -1,8 +1,8 @@
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 import { badges, DEFAULT_PASSWORD } from '../../../constants.js';
 import { createTargetProfile } from './tooling/target-profile-tooling.js';
 
 import { PRO_ORGANIZATION_ID } from './constants.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

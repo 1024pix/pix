@@ -1,6 +1,6 @@
 import { AccountRecoveryDemand } from './AccountRecoveryDemand.js';
 import { ActivityAnswer } from './ActivityAnswer.js';
-import { AdminMember } from './AdminMember.js';
+import { AdminMember } from '../../../src/shared/domain/models/AdminMember.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
 import { AnswerStatus } from './AnswerStatus.js';
@@ -131,7 +131,7 @@ import { TutorialEvaluation } from './TutorialEvaluation.js';
 import { User } from './User.js';
 import { UserCompetence } from './UserCompetence.js';
 import { UserDetailsForAdmin } from './UserDetailsForAdmin.js';
-import { UserLogin } from './UserLogin.js';
+import { UserLogin } from '../../../src/authentication/domain/models/UserLogin.js';
 import { UserOrgaSettings } from './UserOrgaSettings.js';
 import { UserSavedTutorial } from './UserSavedTutorial.js';
 import { UserSavedTutorialWithTutorial } from './UserSavedTutorialWithTutorial.js';

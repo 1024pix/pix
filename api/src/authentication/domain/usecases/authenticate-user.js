@@ -2,15 +2,9 @@ import lodash from 'lodash';
 
 const { get } = lodash;
 
-import {
-  LocaleFormatError,
-  LocaleNotSupportedError,
-  MissingOrInvalidCredentialsError,
-  UserShouldChangePasswordError,
-} from '../../domain/errors.js';
-
-import { PIX_ORGA, PIX_ADMIN } from '../constants.js';
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { PIX_ORGA, PIX_ADMIN } from '../../../authorization/domain/constants.js';
+import { ForbiddenAccess, LocaleFormatError, LocaleNotSupportedError } from '../../../shared/domain/errors.js';
+import { MissingOrInvalidCredentialsError, UserShouldChangePasswordError } from '../errors.js';
 
 async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {

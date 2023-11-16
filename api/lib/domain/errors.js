@@ -15,24 +15,6 @@ class AnswerEvaluationError extends DomainError {
   }
 }
 
-class LocaleFormatError extends DomainError {
-  constructor(locale) {
-    super();
-    this.message = `Given locale is in invalid format: "${locale}"`;
-    this.code = 'INVALID_LOCALE_FORMAT';
-    this.meta = { locale };
-  }
-}
-
-class LocaleNotSupportedError extends DomainError {
-  constructor(locale) {
-    super();
-    this.message = `Given locale is not supported : "${locale}"`;
-    this.code = 'LOCALE_NOT_SUPPORTED';
-    this.meta = { locale };
-  }
-}
-
 class AlreadyExistingAdminMemberError extends DomainError {
   constructor(message = 'Cet agent a déjà accès') {
     super(message);
@@ -634,41 +616,9 @@ class ImproveCompetenceEvaluationForbiddenError extends DomainError {
   }
 }
 
-class InvalidExternalUserTokenError extends DomainError {
-  constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
-    super(message);
-  }
-}
-
 class InvalidPasswordForUpdateEmailError extends DomainError {
   constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
     super(message);
-  }
-}
-
-class InvalidResultRecipientTokenError extends DomainError {
-  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
-    super(message);
-  }
-}
-
-class InvalidSessionResultError extends DomainError {
-  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
-    super(message);
-  }
-}
-
-class InvalidTemporaryKeyError extends DomainError {
-  constructor(message = 'Demande de réinitialisation invalide.') {
-    super(message);
-  }
-
-  getErrorMessage() {
-    return {
-      data: {
-        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.'],
-      },
-    };
   }
 }
 
@@ -698,12 +648,6 @@ class MembershipCreationError extends DomainError {
 
 class MembershipUpdateError extends DomainError {
   constructor(message = 'Erreur lors de la mise à jour du membership à une organisation.') {
-    super(message);
-  }
-}
-
-class MissingOrInvalidCredentialsError extends DomainError {
-  constructor(message = 'Missing or invalid credentials') {
     super(message);
   }
 }
@@ -770,13 +714,6 @@ class UserCouldNotBeReconciledError extends DomainError {
   }
 }
 
-class UserShouldChangePasswordError extends DomainError {
-  constructor(message = 'Erreur, vous devez changer votre mot de passe.', meta) {
-    super(message);
-    this.meta = meta;
-  }
-}
-
 class OrganizationLearnerAlreadyLinkedToUserError extends DomainError {
   constructor(message = "L'élève est déjà rattaché à un compte utilisateur.", code, meta) {
     super(message);
@@ -823,12 +760,6 @@ class FileValidationError extends DomainError {
   }
 }
 
-class PasswordNotMatching extends DomainError {
-  constructor(message = 'Mauvais mot de passe.') {
-    super(message);
-  }
-}
-
 class PasswordResetDemandNotFoundError extends DomainError {
   constructor(message = "La demande de réinitialisation de mot de passe n'existe pas.") {
     super(message);
@@ -840,14 +771,6 @@ class PasswordResetDemandNotFoundError extends DomainError {
         temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
       },
     };
-  }
-}
-
-class AdminMemberError extends DomainError {
-  constructor(message = 'An error occurred on admin member', code = 'ADMIN_MEMBER_ERROR') {
-    super(message, code);
-    this.code = code;
-    this.message = message;
   }
 }
 
@@ -1272,7 +1195,6 @@ export {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
-  AdminMemberError,
   AlreadyAcceptedOrCancelledInvitationError,
   AlreadyExistingAdminMemberError,
   AlreadyExistingCampaignParticipationError,
@@ -1344,19 +1266,13 @@ export {
   InvalidCertificationIssueReportForSaving,
   InvalidCertificationReportForFinalization,
   InvalidExternalAPIResponseError,
-  InvalidExternalUserTokenError,
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
   InvalidMembershipOrganizationRoleError,
   InvalidPasswordForUpdateEmailError,
-  InvalidResultRecipientTokenError,
-  InvalidSessionResultError,
   InvalidSessionSupervisingLoginError,
   InvalidStageError,
-  InvalidTemporaryKeyError,
   InvalidVerificationCodeError,
-  LocaleFormatError,
-  LocaleNotSupportedError,
   ManyOrganizationsFoundError,
   MatchingReconciledStudentNotFoundError,
   MembershipCreationError,
@@ -1364,7 +1280,6 @@ export {
   MissingAssessmentId,
   MissingAttributesError,
   MissingBadgeCriterionError,
-  MissingOrInvalidCredentialsError,
   MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
@@ -1394,7 +1309,6 @@ export {
   OrganizationNotFoundError,
   OrganizationTagNotFound,
   OrganizationWithoutEmailError,
-  PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SendingEmailError,
   SendingEmailToInvalidDomainError,
@@ -1443,7 +1357,6 @@ export {
   UserNotFoundError,
   UserNotMemberOfOrganizationError,
   UserOrgaSettingsCreationError,
-  UserShouldChangePasswordError,
   UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
   YamlParsingError,

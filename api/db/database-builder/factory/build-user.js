@@ -6,14 +6,14 @@ import { databaseBuffer } from '../database-buffer.js';
 import { AuthenticationMethod, Membership } from '../../../lib/domain/models/index.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../lib/domain/constants/identity-providers.js';
 
-import * as encrypt from '../../../lib/domain/services/encryption-service.js';
+import * as encrypt from '../../../src/shared/domain/services/encryption-service.js';
 
 import { buildPixAdminRole } from './build-pix-admin-role.js';
 import { buildOrganization } from './build-organization.js';
 import { buildMembership } from './build-membership.js';
 import { buildCertificationCenter } from './build-certification-center.js';
 import { buildCertificationCenterMembership } from './build-certification-center-membership.js';
-import { PIX_ADMIN } from '../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../src/authorization/domain/constants.js';
 
 const DEFAULT_PASSWORD = 'pix123';
 const { ROLES } = PIX_ADMIN;

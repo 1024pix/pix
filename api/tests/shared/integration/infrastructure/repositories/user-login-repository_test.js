@@ -1,10 +1,10 @@
-import { databaseBuilder, expect, knex, sinon } from '../../../test-helper.js';
-import * as userLoginRepository from '../../../../lib/infrastructure/repositories/user-login-repository.js';
-import { UserLogin } from '../../../../lib/domain/models/UserLogin.js';
+import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
+import * as userLoginRepository from '../../../../../src/shared/infrastructure/repositories/user-login-repository.js';
+import { UserLogin } from '../../../../../src/authentication/domain/models/UserLogin.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 
-describe('Integration | Repository | UserLoginRepository', function () {
+describe('Integration | Shared | Infrastructure | Repositories | UserLoginRepository', function () {
   describe('#findByUserId', function () {
     it('should return the found user-login', async function () {
       // given

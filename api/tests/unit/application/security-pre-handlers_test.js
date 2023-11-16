@@ -1,6 +1,6 @@
 import { expect, sinon, hFake, domainBuilder } from '../../test-helper.js';
 import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
-import { tokenService } from '../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {

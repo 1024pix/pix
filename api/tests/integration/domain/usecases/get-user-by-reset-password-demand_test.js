@@ -1,19 +1,16 @@
 import { catchErr, expect, databaseBuilder } from '../../../test-helper.js';
 
 import * as resetPasswordService from '../../../../lib/domain/services/reset-password-service.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 
 import { User } from '../../../../lib/domain/models/User.js';
 
-import {
-  InvalidTemporaryKeyError,
-  PasswordResetDemandNotFoundError,
-  UserNotFoundError,
-} from '../../../../lib/domain/errors.js';
+import { PasswordResetDemandNotFoundError, UserNotFoundError } from '../../../../lib/domain/errors.js';
 
 import { getUserByResetPasswordDemand } from '../../../../lib/domain/usecases/get-user-by-reset-password-demand.js';
+import { InvalidTemporaryKeyError } from '../../../../src/shared/domain/errors.js';
 
 describe('Integration | UseCases | get-user-by-reset-password-demand', function () {
   const email = 'user@example.net';

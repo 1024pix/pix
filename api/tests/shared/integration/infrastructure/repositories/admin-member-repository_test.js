@@ -1,13 +1,13 @@
-import { expect, databaseBuilder, knex, catchErr, sinon } from '../../../test-helper.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { expect, databaseBuilder, knex, catchErr, sinon } from '../../../../test-helper.js';
+import * as adminMemberRepository from '../../../../../src/shared/infrastructure/repositories/admin-member-repository.js';
+import { AdminMember } from '../../../../../src/shared/domain/models/AdminMember.js';
+
+import { AdminMemberError } from '../../../../../src/authorization/domain/errors.js';
+import { PIX_ADMIN } from '../../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 
-import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
-import { AdminMember } from '../../../../lib/domain/models/AdminMember.js';
-import { AdminMemberError } from '../../../../lib/domain/errors.js';
-
-describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
+describe('Integration | Shared | Infrastructure | Repositories | adminMemberRepository', function () {
   describe('#findAll', function () {
     it('should return all users with a pix admin role that are not disabled', async function () {
       // given

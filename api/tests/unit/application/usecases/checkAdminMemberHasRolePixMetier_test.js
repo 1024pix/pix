@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../../src/shared/domain/services/token-service.js';
 import * as useCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleMetier.js';
 
 describe('Unit | Application | Use Case | checkAdminMemberHasRoleMetier', function () {

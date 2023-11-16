@@ -1,5 +1,5 @@
 import accept from '@hapi/accept';
-import { tokenService } from '../../domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;

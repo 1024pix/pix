@@ -8,7 +8,7 @@ import * as campaignRepository from '../../../../lib/infrastructure/repositories
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
 import * as userToCreateRepository from '../../../../lib/infrastructure/repositories/user-to-create-repository.js';
-import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
+import * as encryptionService from '../../../../src/shared/domain/services/encryption-service.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import * as obfuscationService from '../../../../lib/domain/services/obfuscation-service.js';
 import * as userReconciliationService from '../../../../lib/domain/services/user-reconciliation-service.js';

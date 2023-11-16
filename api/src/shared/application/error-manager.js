@@ -6,6 +6,12 @@ import jsonapiSerializer from 'jsonapi-serializer';
 import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
 import _ from 'lodash';
 import * as translations from '../../../translations/index.js';
+import {
+  MissingOrInvalidCredentialsError,
+  PasswordNotMatching,
+  UserShouldChangePasswordError,
+} from '../../authentication/domain/errors.js';
+import { AdminMemberError } from '../../authorization/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -74,6 +80,36 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.AssessmentEndedError) {
     return new HttpErrors.BaseHttpError(error.message);
+  }
+
+  if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+  if (error instanceof DomainErrors.InvalidResultRecipientTokenError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+  if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+
+  if (error instanceof DomainErrors.LocaleFormatError) {
+    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
+  }
+  if (error instanceof DomainErrors.LocaleNotSupportedError) {
+    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
+  }
+
+  if (error instanceof AdminMemberError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
+  }
+  if (error instanceof MissingOrInvalidCredentialsError) {
+    return new HttpErrors.UnauthorizedError("L'adresse e-mail et/ou le mot de passe saisis sont incorrects.");
+  }
+  if (error instanceof PasswordNotMatching) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
+  if (error instanceof UserShouldChangePasswordError) {
+    return new HttpErrors.PasswordShouldChangeError(error.message, error.meta);
   }
 }
 

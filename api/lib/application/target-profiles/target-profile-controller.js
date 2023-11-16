@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as targetProfileSerializer from '../../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';

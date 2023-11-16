@@ -1,8 +1,8 @@
-import { expect } from '../../../test-helper.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { config as settings } from '../../../../lib/config.js';
+import { expect } from '../../../../test-helper.js';
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 
-describe('Integration | Domain | Services | TokenService', function () {
+describe('Integration | Shared | Domain | Services | Token Service', function () {
   describe('#createAccessTokenForSaml', function () {
     it('should return a valid json web token', function () {
       // given

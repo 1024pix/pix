@@ -22,7 +22,7 @@ import { OrganizationLearnerForAdmin } from '../../../../lib/domain/read-models/
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
 import { NON_OIDC_IDENTITY_PROVIDERS } from '../../../../lib/domain/constants/identity-providers.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
-import { UserLogin } from '../../../../lib/domain/models/UserLogin.js';
+import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
 
 const getByEmail = async function (email) {
   const foundUser = await knex.from('users').whereRaw('LOWER("email") = ?', email.toLowerCase()).first();

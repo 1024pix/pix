@@ -6,7 +6,7 @@ import {
   mockLearningContent,
 } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 import { LearningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
 
 const { ROLES } = PIX_ADMIN;

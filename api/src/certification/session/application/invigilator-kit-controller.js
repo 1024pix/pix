@@ -1,5 +1,5 @@
 import { usecases } from '../../shared/domain/usecases/index.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as invigilatorKitPdf from '../infrastructure/utils/pdf/invigilator-kit-pdf.js';
 
