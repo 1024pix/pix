@@ -2,7 +2,7 @@ import _ from 'lodash';
 import stream from 'stream';
 import { MissingQueryParamError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 
 import * as campaignToJoinSerializer from '../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';

@@ -1,6 +1,6 @@
 import { SessionPublicationBatchError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../domain/services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as events from '../../domain/events/index.js';

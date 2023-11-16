@@ -6,7 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
+import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 
 const { ROLES } = PIX_ADMIN;
 

@@ -1,11 +1,19 @@
 import { expect } from '../../test-helper.js';
 import * as errors from '../../../lib/domain/errors.js';
 import { NotEnoughDaysPassedBeforeResetCampaignParticipationError } from '../../../lib/domain/errors.js';
-import { CsvImportError, ForbiddenAccess, EntityValidationError } from '../../../src/shared/domain/errors.js';
+import {
+  CsvImportError,
+  EntityValidationError,
+  ForbiddenAccess,
+  InvalidTemporaryKeyError,
+  LocaleFormatError,
+  LocaleNotSupportedError,
+} from '../../../src/shared/domain/errors.js';
+import { AdminMemberError } from '../../../src/authorization/domain/errors.js';
 
 describe('Unit | Domain | Errors', function () {
   it('should export a AdminMemberError', function () {
-    expect(errors.AdminMemberError).to.exist;
+    expect(AdminMemberError).to.exist;
   });
 
   it('should export a CertificationCandidateAlreadyLinkedToUserError', function () {
@@ -154,7 +162,7 @@ describe('Unit | Domain | Errors', function () {
 
   describe('#InvalidTemporaryKeyError', function () {
     it('should export a InvalidTemporaryKeyError', function () {
-      expect(errors.InvalidTemporaryKeyError).to.exist;
+      expect(InvalidTemporaryKeyError).to.exist;
     });
 
     it('should have a getErrorMessage method', function () {
@@ -166,7 +174,7 @@ describe('Unit | Domain | Errors', function () {
       };
 
       // then
-      const error = new errors.InvalidTemporaryKeyError();
+      const error = new InvalidTemporaryKeyError();
       expect(error.getErrorMessage).to.be.a('function');
       expect(error.getErrorMessage()).to.eql(expectedErrorMessage);
     });
@@ -411,11 +419,11 @@ describe('Unit | Domain | Errors', function () {
   });
 
   it('exports LocaleFormatError', function () {
-    expect(errors.LocaleFormatError).to.exist;
+    expect(LocaleFormatError).to.exist;
   });
 
   it('exports LocaleNotSupportedError', function () {
-    expect(errors.LocaleNotSupportedError).to.exist;
+    expect(LocaleNotSupportedError).to.exist;
   });
 
   it('NotEnoughDaysPassedBeforeResetCampaignParticipationError error should have the correct wording', function () {

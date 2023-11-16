@@ -6,17 +6,8 @@ function _mapToHttpError(error) {
   if (error instanceof HttpErrors.BaseHttpError) {
     return error;
   }
-  if (error instanceof DomainErrors.LocaleFormatError) {
-    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
-  }
-  if (error instanceof DomainErrors.LocaleNotSupportedError) {
-    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
-  }
   if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof DomainErrors.AdminMemberError) {
-    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
   if (error instanceof DomainErrors.OrganizationArchivedError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
@@ -224,9 +215,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
     return new HttpErrors.ForbiddenError('The user cannot be certified.');
   }
-  if (error instanceof DomainErrors.MissingOrInvalidCredentialsError) {
-    return new HttpErrors.UnauthorizedError("L'adresse e-mail et/ou le mot de passe saisis sont incorrects.");
-  }
   if (error instanceof DomainErrors.ApplicationWithInvalidClientIdError) {
     return new HttpErrors.UnauthorizedError('The client ID is invalid.');
   }
@@ -242,23 +230,8 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
-  if (error instanceof DomainErrors.UserShouldChangePasswordError) {
-    return new HttpErrors.PasswordShouldChangeError(error.message, error.meta);
-  }
   if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
-  }
-  if (error instanceof DomainErrors.PasswordNotMatching) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidResultRecipientTokenError) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
-    return new HttpErrors.UnauthorizedError(error.message);
   }
   if (error instanceof DomainErrors.AlreadyRegisteredEmailAndUsernameError) {
     return new HttpErrors.BadRequestError(error.message);

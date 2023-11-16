@@ -11,7 +11,7 @@ import { repositories } from '../../infrastructure/repositories/index.js';
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../src/school/infrastructure/repositories/activity-repository.js';
-import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
+import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as answerRepository from '../../../src/evaluation/infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
@@ -90,7 +90,7 @@ import * as courseRepository from '../../infrastructure/repositories/course-repo
 import * as dataProtectionOfficerRepository from '../../infrastructure/repositories/data-protection-officer-repository.js';
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
-import * as encryptionService from '../../domain/services/encryption-service.js';
+import * as encryptionService from '../../../src/shared/domain/services/encryption-service.js';
 import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
@@ -131,12 +131,12 @@ import * as participationsForCampaignManagementRepository from '../../infrastruc
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as passwordValidator from '../validators/password-validator.js';
-import * as pixAuthenticationService from '../../domain/services/authentication/pix-authentication-service.js';
+import * as pixAuthenticationService from '../../../src/authentication/domain/services/pix-authentication-service.js';
 import * as schoolRepository from '../../../src/school/infrastructure/repositories/school-repository.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import * as poleEmploiSendingRepository from '../../infrastructure/repositories/pole-emploi-sending-repository.js';
-import * as refreshTokenService from '../../domain/services/refresh-token-service.js';
+import * as refreshTokenService from '../../../src/authentication/domain/services/refresh-token-service.js';
 import * as resetPasswordDemandRepository from '../../infrastructure/repositories/reset-password-demands-repository.js';
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
@@ -172,7 +172,7 @@ import * as temporarySessionsStorageForMassImportService from '../services/sessi
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
-import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
+import * as userLoginRepository from '../../../src/shared/infrastructure/repositories/user-login-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as userOrgaSettingsRepository from '../../../src/shared/prescriber-management/infrastructure/repositories/user-orga-settings-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
@@ -191,7 +191,7 @@ import { campaignParticipationResultRepository } from '../../infrastructure/repo
 import { getCompetenceLevel } from '../../../src/evaluation/domain/services/get-competence-level.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
 import { pickChallengeService } from '../services/pick-challenge-service.js';
-import { tokenService } from '../services/token-service.js';
+import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 
 import * as dateUtils from '../../../src/shared/infrastructure/utils/date-utils.js';
 

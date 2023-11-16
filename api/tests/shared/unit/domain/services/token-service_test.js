@@ -2,20 +2,19 @@ import lodash from 'lodash';
 const { omit } = lodash;
 import jsonwebtoken from 'jsonwebtoken';
 
-import { catchErr, expect, sinon } from '../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
+import { tokenService } from '../../../../../src/shared/domain/services/token-service.js';
+import { config as settings } from '../../../../../src/shared/config.js';
 import {
-  InvalidTemporaryKeyError,
+  ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
-} from '../../../../lib/domain/errors.js';
+  InvalidTemporaryKeyError,
+} from '../../../../../src/shared/domain/errors.js';
 
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
-import { config as settings } from '../../../../lib/config.js';
-import { ForbiddenAccess } from '../../../../src/shared/domain/errors.js';
-
-describe('Unit | Domain | Service | Token Service', function () {
+describe('Unit | Shared | Domain | Services | Token Service', function () {
   describe('#createTokenForCampaignResults', function () {
     it('should create an access token with user id and campaign id', function () {
       // given
@@ -23,9 +22,8 @@ describe('Unit | Domain | Service | Token Service', function () {
       const userId = 123;
       const campaignId = 456;
 
-      settings.authentication.secret = 'a secret';
-      settings.authentication.tokenForCampaignResultLifespan = 10;
-
+      sinon.stub(settings.authentication, 'secret').value('a secret');
+      sinon.stub(settings.authentication, 'tokenForCampaignResultLifespan').value(10);
       sinon.stub(jsonwebtoken, 'sign').returns(generatedAccessToken);
 
       // when
@@ -48,8 +46,8 @@ describe('Unit | Domain | Service | Token Service', function () {
       // given
       const userId = 123;
       const source = 'pix';
-      settings.authentication.secret = 'a secret';
-      settings.authentication.accessTokenLifespanMs = 1000;
+      sinon.stub(settings.authentication, 'secret').value('a secret');
+      sinon.stub(settings.authentication, 'accessTokenLifespanMs').value(1000);
       const accessToken = 'valid access token';
       const expirationDelaySeconds = 1;
       const firstParameter = { user_id: userId, source };
@@ -390,17 +388,18 @@ describe('Unit | Domain | Service | Token Service', function () {
     it('should create and return an access token and an expiration delay in seconds', function () {
       // given
       const userId = 1;
-      settings.authentication.secret = 'SECRET_KEY';
-      settings.anonymous.accessTokenLifespanMs = 10000;
+      sinon.stub(settings.authentication, 'secret').value('SECRET_KEY');
+      sinon.stub(settings.anonymous, 'accessTokenLifespanMs').value(10000);
       const payload = { user_id: userId, source: 'pix' };
       const secret = 'SECRET_KEY';
       const options = { expiresIn: 10 };
-      sinon.stub(jsonwebtoken, 'sign').withArgs(payload, secret, options).returns('VALID_ACCESS_TOKEN');
+      sinon.stub(jsonwebtoken, 'sign').returns('VALID_ACCESS_TOKEN');
 
       // when
       const result = tokenService.createAccessTokenFromAnonymousUser(userId);
 
       // then
+      expect(jsonwebtoken.sign).to.have.been.calledWithExactly(payload, secret, options);
       expect(result).to.equal('VALID_ACCESS_TOKEN');
     });
   });

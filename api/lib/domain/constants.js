@@ -1,5 +1,4 @@
 import { config } from '../config.js';
-
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCES_COUNT = 16;
 const MAX_REACHABLE_PIX_BY_COMPETENCE = config.features.maxReachableLevel * PIX_COUNT_BY_LEVEL;
@@ -25,23 +24,6 @@ const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 
 const ALL_TREATMENTS = ['t1', 't2', 't3'];
 const PIX_ORIGIN = 'Pix';
-
-const PIX_ORGA = {
-  SCOPE: 'pix-orga',
-  NOT_LINKED_ORGANIZATION_MSG:
-    "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite.",
-};
-
-const PIX_ADMIN = {
-  SCOPE: 'pix-admin',
-  NOT_ALLOWED_MSG: "Vous n'avez pas les droits pour vous connecter.",
-  ROLES: {
-    SUPER_ADMIN: 'SUPER_ADMIN',
-    SUPPORT: 'SUPPORT',
-    METIER: 'METIER',
-    CERTIF: 'CERTIF',
-  },
-};
 
 const PIX_CERTIF = {
   SCOPE: 'pix-certif',
@@ -129,8 +111,6 @@ const constants = {
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   ALL_TREATMENTS,
   PIX_ORIGIN,
-  PIX_ORGA,
-  PIX_ADMIN,
   PIX_CERTIF,
   STUDENT_RECONCILIATION_ERRORS,
   OIDC_ERRORS,
@@ -161,8 +141,6 @@ export {
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL,
   ALL_TREATMENTS,
   PIX_ORIGIN,
-  PIX_ORGA,
-  PIX_ADMIN,
   PIX_CERTIF,
   STUDENT_RECONCILIATION_ERRORS,
   OIDC_ERRORS,

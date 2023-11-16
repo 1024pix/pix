@@ -1,5 +1,5 @@
-import { knex } from '../../../db/knex-database-connection.js';
-import { UserLogin } from '../../domain/models/UserLogin.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { UserLogin } from '../../../authentication/domain/models/UserLogin.js';
 
 const USER_LOGINS_TABLE_NAME = 'user-logins';
 

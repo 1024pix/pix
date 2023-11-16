@@ -41,6 +41,38 @@ class CsvImportError extends DomainError {
   }
 }
 
+class InvalidExternalUserTokenError extends DomainError {
+  constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
+    super(message);
+  }
+}
+
+class InvalidResultRecipientTokenError extends DomainError {
+  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
+    super(message);
+  }
+}
+
+class InvalidSessionResultError extends DomainError {
+  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
+    super(message);
+  }
+}
+
+class InvalidTemporaryKeyError extends DomainError {
+  constructor(message = 'Demande de réinitialisation invalide.') {
+    super(message);
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.'],
+      },
+    };
+  }
+}
+
 class NotFoundError extends DomainError {
   constructor(message = 'Erreur, ressource introuvable.') {
     super(message);
@@ -61,6 +93,22 @@ class AssessmentEndedError extends DomainError {
   }
 }
 
+class LocaleFormatError extends DomainError {
+  constructor(locale) {
+    super(`Given locale is in invalid format: "${locale}"`);
+    this.code = 'INVALID_LOCALE_FORMAT';
+    this.meta = { locale };
+  }
+}
+
+class LocaleNotSupportedError extends DomainError {
+  constructor(locale) {
+    super(`Given locale is not supported : "${locale}"`);
+    this.code = 'LOCALE_NOT_SUPPORTED';
+    this.meta = { locale };
+  }
+}
+
 class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -73,6 +121,12 @@ export {
   ForbiddenAccess,
   EntityValidationError,
   CsvImportError,
+  InvalidExternalUserTokenError,
+  InvalidResultRecipientTokenError,
+  InvalidSessionResultError,
+  InvalidTemporaryKeyError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
+  LocaleFormatError,
+  LocaleNotSupportedError,
 };

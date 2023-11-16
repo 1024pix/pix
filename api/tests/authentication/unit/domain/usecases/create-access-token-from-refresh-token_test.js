@@ -1,7 +1,7 @@
-import { createAccessTokenFromRefreshToken } from '../../../../lib/domain/usecases/create-access-token-from-refresh-token.js';
-import { expect, sinon } from '../../../test-helper.js';
+import { createAccessTokenFromRefreshToken } from '../../../../../src/authentication/domain/usecases/create-access-token-from-refresh-token.js';
+import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-access-token-from-refresh-token', function () {
+describe('Unit | Authentication | Domain | UseCases | create-access-token-from-refresh-token', function () {
   context('when refresh token is provided', function () {
     it('should create a new access token', async function () {
       // given

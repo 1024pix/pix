@@ -1,6 +1,16 @@
 import { expect, HttpTestServer, sinon } from '../../test-helper.js';
 import * as DomainErrors from '../../../lib/domain/errors.js';
-import { ForbiddenAccess, EntityValidationError, CsvImportError } from '../../../src/shared/domain/errors.js';
+import {
+  CsvImportError,
+  EntityValidationError,
+  ForbiddenAccess,
+  InvalidResultRecipientTokenError,
+  InvalidTemporaryKeyError,
+} from '../../../src/shared/domain/errors.js';
+import {
+  MissingOrInvalidCredentialsError,
+  UserShouldChangePasswordError,
+} from '../../../src/authentication/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
@@ -806,7 +816,7 @@ describe('Integration | API | Controller Error', function () {
     const UNAUTHORIZED_ERROR = 401;
 
     it('responds Unauthorized when a MissingOrInvalidCredentialsError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.MissingOrInvalidCredentialsError());
+      routeHandler.throws(new MissingOrInvalidCredentialsError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
@@ -814,7 +824,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Unauthorized when a InvalidTemporaryKeyError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.InvalidTemporaryKeyError('Demande de réinitialisation invalide.'));
+      routeHandler.throws(new InvalidTemporaryKeyError('Demande de réinitialisation invalide.'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
@@ -822,7 +832,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Unauthorized when a InvalidResultRecipientTokenError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.InvalidResultRecipientTokenError());
+      routeHandler.throws(new InvalidResultRecipientTokenError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
@@ -832,9 +842,7 @@ describe('Integration | API | Controller Error', function () {
     });
 
     it('responds Unauthorized when a UserShouldChangePasswordError error occurs', async function () {
-      routeHandler.throws(
-        new DomainErrors.UserShouldChangePasswordError('Erreur, vous devez changer votre mot de passe.'),
-      );
+      routeHandler.throws(new UserShouldChangePasswordError('Erreur, vous devez changer votre mot de passe.'));
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);

@@ -1,5 +1,5 @@
 import { usecases } from '../../shared/domain/usecases/index.js';
-import { tokenService } from '../../../../lib/domain/services/token-service.js';
+import { tokenService } from '../../../shared/domain/services/token-service.js';
 
 const getAttendanceSheet = async function (request, h, dependencies = { tokenService }) {
   const sessionId = request.params.id;
