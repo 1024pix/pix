@@ -44,49 +44,99 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
   }
 
   const query = knex
-    .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
     .select([
       'view-active-organization-learners.id',
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.firstName',
-      'subquery.isCertifiable',
-      'subquery.certifiableAt',
-      knex.raw(
-        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "view-active-organization-learners"."id") AS "participationCount"',
-      ),
-      knex.raw(
-        'max("campaign-participations"."createdAt") OVER(PARTITION BY "view-active-organization-learners"."id") AS "lastParticipationDate"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("type") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"',
-      ),
+      'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
+      'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
+      knex.raw(`
+        (select "isCertifiable" as isCertifiableFromCampaign
+        from "campaign-participations", "campaigns"
+        where "organizationLearnerId" = "view-active-organization-learners"."id"
+          and "campaign-participations"."campaignId" = "campaigns"."id"
+          and "status" = '${CampaignParticipationStatuses.SHARED}'
+          and "type" = '${CampaignTypes.PROFILES_COLLECTION}'
+          and "campaign-participations"."deletedAt" is null
+        order by "sharedAt" desc
+        Limit 1)
+      `),
+      knex.raw(`
+        (select "sharedAt" as certifiableAtFromCampaign
+        from "campaign-participations", "campaigns"
+        where "organizationLearnerId" = "view-active-organization-learners"."id"
+          and "campaign-participations"."campaignId" = "campaigns"."id"
+          and "status" = '${CampaignParticipationStatuses.SHARED}'
+          and "type" = '${CampaignTypes.PROFILES_COLLECTION}'
+          and "campaign-participations"."deletedAt" is null
+        order by "sharedAt" desc
+        Limit 1)
+      `),
+      // knex
+      //   .select(knex.raw(`"isCertifiable" as isCertifiableFromCampaign`))
+      //   .from(knex.raw('campaign-participations', 'campaigns'))
+      //   .whereRaw(`"organizationLearnerId" = "view-active-organization-learners"."id"`)
+      //   .andWhereRaw(`"campaign-participations"."campaignId" = "campaigns"."id"`)
+      //   .andWhere('status', CampaignParticipationStatuses.SHARED)
+      //   .andWhere('campaignType', CampaignTypes.PROFILES_COLLECTION)
+      //   .andWhereRaw(`"campaign-participations"."deletedAt" IS NULL`)
+      //   .orderBy('sharedAt')
+      //   .limit(1),
+      // knex
+      //   .select(knex.raw(`"sharedAt" as certifiableAtFromCampaign`))
+      //   .from(knex.raw('campaign-participations', 'campaigns'))
+      //   .whereRaw(`"organizationLearnerId" = "view-active-organization-learners"."id"`)
+      //   .andWhereRaw(`"campaign-participations"."campaignId" = "campaigns"."id"`)
+      //   .andWhere('status', CampaignParticipationStatuses.SHARED)
+      //   .andWhere('campaignType', CampaignTypes.PROFILES_COLLECTION)
+      //   .andWhereRaw(`"campaign-participations"."deletedAt" IS NULL`)
+      //   .orderBy('sharedAt')
+      //   .limit(1),
+      knex.raw(`
+        (select count(*) as "participationCount"
+        from "campaign-participations"
+        where "campaign-participations"."organizationLearnerId" = "view-active-organization-learners"."id"
+        group by "campaign-participations"."organizationLearnerId")
+      `),
+      knex.raw(`
+        (select "campaign-participations"."createdAt" as "lastParticipationDate"
+        from "campaign-participations", "campaigns"
+        where "organizationLearnerId" = "view-active-organization-learners"."id"
+          and "campaigns"."id" = "campaign-participations"."campaignId"
+        order by "campaign-participations"."createdAt" desc NULLS LAST
+        Limit 1)
+      `),
+      knex.raw(`
+        (select  "campaigns"."name" as "campaignName"
+        from "campaign-participations", "campaigns"
+        where "organizationLearnerId" = "view-active-organization-learners"."id"
+          and "campaigns"."id" = "campaign-participations"."campaignId"
+        order by "campaign-participations"."createdAt" desc NULLS LAST
+        Limit 1)
+      `),
+      knex.raw(`
+        (select "campaigns"."type" as "campaignType"
+        from "campaign-participations", "campaigns"
+        where "organizationLearnerId" = "view-active-organization-learners"."id"
+          and "campaigns"."id" = "campaign-participations"."campaignId"
+        order by "campaign-participations"."createdAt" desc NULLS LAST
+        Limit 1)
+      `),
+      knex.raw(`
+        (select "campaign-participations"."status" as "participationStatus"
+        from "campaign-participations", "campaigns"
+        where "organizationLearnerId" = "view-active-organization-learners"."id"
+          and "campaigns"."id" = "campaign-participations"."campaignId"
+        order by "campaign-participations"."createdAt" desc NULLS LAST
+        Limit 1)
+      `),
     ])
     .from('view-active-organization-learners')
-    .join('campaign-participations', function () {
-      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
-        .andOnVal('campaign-participations.isImproved', false)
-        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'))
-        .andOn('campaign-participations.userId', 'view-active-organization-learners.userId');
-    })
-    .join('campaigns', function () {
-      this.on('campaign-participations.campaignId', 'campaigns.id').andOnVal(
-        'campaigns.organizationId',
-        organizationId,
-      );
-    })
-    .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
     .join('users', function () {
       this.on('view-active-organization-learners.userId', 'users.id').andOnVal('users.isAnonymous', false);
     })
     .where('view-active-organization-learners.organizationId', organizationId)
     .orderBy(orderByClause)
-    .distinct('view-active-organization-learners.id')
     .modify(_filterBySearch, filters)
     .modify(_filterByCertificability, filters);
 
@@ -115,32 +165,6 @@ function _filterByCertificability(queryBuilder, filters) {
       }
     });
   }
-}
-
-function _buildIsCertifiable(queryBuilder, organizationId) {
-  queryBuilder
-    .distinct('view-active-organization-learners.id')
-    .select([
-      'view-active-organization-learners.id as organizationLearnerId',
-      knex.raw(
-        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
-      ),
-    ])
-    .from('view-active-organization-learners')
-    .join(
-      'campaign-participations',
-      'view-active-organization-learners.id',
-      'campaign-participations.organizationLearnerId',
-    )
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .where('campaign-participations.status', CampaignParticipationStatuses.SHARED)
-    .where('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
-    .where('view-active-organization-learners.organizationId', organizationId)
-    .where('campaigns.organizationId', organizationId)
-    .where('campaign-participations.deletedAt', null);
 }
 
 export { getParticipantsByOrganizationId };
