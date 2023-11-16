@@ -32,9 +32,12 @@
   &--success {
     background-color: #36925B;
     border: 1px solid #36925B;
-
-    &:hover {
-      border: 1px solid $pix-success-70;
-    }
   }
+}
+
+.pix-button--background-green.pix1d-button--success {
+    &:hover {
+      background-color: #4CCE80;
+      border: 1px solid #4CCE80;
+    }
 }
