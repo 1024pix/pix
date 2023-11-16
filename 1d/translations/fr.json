@@ -1,8 +1,15 @@
 {
   "pages": {
     "challenge": {
+      "actions": {
+        "check": "Je vérifie",
+        "continue": "Je continue"
+      },
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
+      },
+      "messages" : {
+        "correct-answer": "Bien joué, tu as répondu correctement !"
       }
     },
     "home": {

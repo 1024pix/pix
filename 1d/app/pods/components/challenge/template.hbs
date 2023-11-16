@@ -2,6 +2,10 @@
 <div class="container">
   <RobotDialog>
     <Bubble @message={{@challenge.instruction}} />
+    {{#if (eq this.answer.result "ok")}}
+      <Bubble @message={{t 'pages.challenge.messages.correct-answer'}} @color='green'/>
+    {{/if}}
+
   </RobotDialog>
   <Challenge::Item @challenge={{@challenge}} @setAnswerValue={{this.setAnswerValue}} @assessment={{@assessment}} />
 
@@ -10,13 +14,13 @@
       @validateAnswer={{this.validateAnswer}}
       @skipChallenge={{this.skipChallenge}}
       @level={{@activity.level}}
+      @nextAction={{this.resume}}
+      @answerHasBeenValidated={{this.answerHasBeenValidated}}
     />
   </div>
 
   <AnswerFeedback
     @answer={{this.answer}}
-    @answerHasBeenValidated={{this.answerHasBeenValidated}}
-    @nextAction={{this.resume}}
   />
 
   <WarningFeedback @showWarningModal={{this.showWarningModal}} @onClose={{this.onCloseWarningModal}} />

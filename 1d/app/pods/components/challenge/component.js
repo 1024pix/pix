@@ -29,9 +29,7 @@ export default class Challenge extends Component {
       try {
         const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
         await this.answer.save({ adapterOptions: { assessmentId } });
-        if (this.answer.value !== '#ABAND#') {
-          this.answerHasBeenValidated = true;
-        }
+        this.answerHasBeenValidated = true;
       } catch (error) {
         this.answer.rollbackAttributes();
       }

@@ -3,10 +3,12 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click } from '@ember/test-helpers';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Acceptance | Challenge workflow', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('when user click on skip button', function () {
     test('redirects to next challenge', async function (assert) {
@@ -37,17 +39,33 @@ module('Acceptance | Challenge workflow', function (hooks) {
   });
 
   module('when user click on continue button with correct answer', function () {
-    test('displays answer modal with correct answer text', async function (assert) {
+    test('displays congratulation message', async function (assert) {
       const assessment = this.server.create('assessment');
       this.server.create('challenge', 'QCU');
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await click(screen.getByRole('radio', { name: 'Profil 1' }));
-      await click(screen.getByRole('button', { name: 'Je continue' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
       // then
-      const modalText = screen.getByText("Bravo ! C'est la bonne réponse.");
-      assert.false(modalText.closest('.pix-modal__overlay').classList.contains('pix-modal__overlay--hidden'));
+      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+    });
+
+    test('redirects to next challenge after clicking on "Je continue" button', async function (assert) {
+      const assessment = this.server.create('assessment');
+      this.server.create('challenge', 'QCU');
+      this.server.create('challenge', {
+        id: 2,
+        instruction: 'Nouvelle instruction',
+      });
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await click(screen.getByRole('radio', { name: 'Profil 1' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
+
+      // then
+      assert.dom(screen.getByText('Nouvelle instruction')).exists();
     });
   });
 
