@@ -81,7 +81,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Good job!',
       status: 'ok',
-      solution: 'solutionId',
+      solutionId: 'solutionId',
     });
 
     // when
@@ -110,7 +110,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Too Bad!',
       status: 'ko',
-      solution: 'solutionId',
+      solutionId: 'solutionId',
     });
 
     // when

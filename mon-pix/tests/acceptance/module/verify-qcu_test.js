@@ -45,14 +45,14 @@ module('Acceptance | Module | Routes | verifyQcu', function (hooks) {
       id: 'elementId-1',
       feedback: "Bravo ! C'est la bonne réponse.",
       status: 'ok',
-      solution: 'qcu-1-proposal-2',
+      solutionId: 'qcu-1-proposal-2',
     });
 
     server.create('correction-response', {
       id: 'elementId-2',
       feedback: 'Pas ouf',
       status: 'ko',
-      solution: 'qcu-2-proposal-1',
+      solutionId: 'qcu-2-proposal-1',
     });
 
     // when
