@@ -49,7 +49,6 @@ import * as campaignValidator from '../validators/campaign-validator.js';
 import * as certifiableProfileForLearningContentRepository from '../../infrastructure/repositories/certifiable-profile-for-learning-content-repository.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
-import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidateForSupervisingRepository from '../../infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
@@ -252,7 +251,6 @@ const dependencies = {
   certifiableProfileForLearningContentRepository,
   certificateRepository,
   certificationAssessmentRepository,
-  certificationAttestationPdf,
   certificationBadgesService,
   certificationCandidateForSupervisingRepository,
   certificationCandidateRepository,

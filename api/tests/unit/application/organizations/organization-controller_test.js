@@ -1,13 +1,9 @@
 import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
-import { Organization } from '../../../../lib/domain/models/Organization.js';
-import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
-import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { Organization, OrganizationInvitation, Membership } from '../../../../lib/domain/models/index.js';
 import { organizationController } from '../../../../lib/application/organizations/organization-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { LANG } from '../../../../src/shared/domain/constants.js';
-const { FRENCH } = LANG;
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
@@ -834,69 +830,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response.source).to.equal('csv-string');
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename="20190101_resultats_3èmeA.csv"');
-    });
-  });
-
-  describe('#downloadCertificationAttestationsForDivision', function () {
-    const now = new Date('2019-01-01T05:06:07Z');
-    let clock;
-    beforeEach(function () {
-      clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
-    });
-    afterEach(function () {
-      clock.restore();
-    });
-
-    it('should return binary attestations', async function () {
-      // given
-      const certifications = [
-        domainBuilder.buildPrivateCertificateWithCompetenceTree(),
-        domainBuilder.buildPrivateCertificateWithCompetenceTree(),
-      ];
-      const organizationId = domainBuilder.buildOrganization().id;
-      const division = '3b';
-      const attestationsPDF = 'binary string';
-      const userId = 1;
-      const lang = FRENCH;
-      const i18n = getI18n();
-
-      const request = {
-        i18n,
-        auth: { credentials: { userId } },
-        params: { id: organizationId },
-        query: { division, isFrenchDomainExtension: true, lang },
-      };
-
-      sinon
-        .stub(usecases, 'findCertificationAttestationsForDivision')
-        .withArgs({
-          division,
-          organizationId,
-        })
-        .resolves(certifications);
-
-      const certificationAttestationPdfStub = {
-        getCertificationAttestationsPdfBuffer: sinon.stub(),
-      };
-
-      const dependencies = {
-        certificationAttestationPdf: certificationAttestationPdfStub,
-      };
-
-      certificationAttestationPdfStub.getCertificationAttestationsPdfBuffer
-        .withArgs({ certificates: certifications, isFrenchDomainExtension: true, i18n })
-        .resolves({ buffer: attestationsPDF });
-
-      // when
-      const response = await organizationController.downloadCertificationAttestationsForDivision(
-        request,
-        hFake,
-        dependencies,
-      );
-
-      // then
-      expect(response.source).to.deep.equal(attestationsPDF);
-      expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20190101_attestations_3b.pdf');
     });
   });
 

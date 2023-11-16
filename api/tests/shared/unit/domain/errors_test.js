@@ -9,4 +9,8 @@ describe('Unit | Shared | Domain | Errors', function () {
   it('should export UserNotAuthorizedToAccessEntityError', function () {
     expect(errors.UserNotAuthorizedToAccessEntityError).to.exist;
   });
+
+  it('should export NoCertificationAttestationForDivisionError', function () {
+    expect(errors.NoCertificationAttestationForDivisionError).to.exist;
+  });
 });

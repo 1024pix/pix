@@ -115,11 +115,25 @@ class UserNotAuthorizedToAccessEntityError extends DomainError {
   }
 }
 
+class CertificationAttestationGenerationError extends DomainError {
+  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
+    super(message);
+  }
+}
+
+class NoCertificationAttestationForDivisionError extends DomainError {
+  constructor(division) {
+    const message = `Aucune attestation de certification pour la classe ${division}.`;
+    super(message);
+  }
+}
+
 export {
   DomainError,
   AssessmentEndedError,
   ForbiddenAccess,
   EntityValidationError,
+  CertificationAttestationGenerationError,
   CsvImportError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
@@ -127,6 +141,7 @@ export {
   InvalidTemporaryKeyError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
+  NoCertificationAttestationForDivisionError,
   LocaleFormatError,
   LocaleNotSupportedError,
 };

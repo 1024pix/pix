@@ -1,18 +1,12 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { getCertificationAttestation as get } from '../../../../lib/domain/usecases/certificate/get-certification-attestation.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { getCertificationAttestation } from '../../../../../../src/certification/course/domain/usecases/get-certification-attestation.js';
 
 describe('Unit | UseCase | get-certification-attestation', function () {
-  const certificateRepository = {
-    getCertificationAttestation: () => undefined,
-  };
-
-  const dependencies = {
-    certificateRepository,
-  };
+  let certificateRepository;
 
   beforeEach(function () {
-    certificateRepository.getCertificationAttestation = sinon.stub();
+    certificateRepository = { getCertificationAttestation: sinon.stub() };
   });
 
   context('when the user is not owner of the certification attestation', function () {
@@ -25,7 +19,11 @@ describe('Unit | UseCase | get-certification-attestation', function () {
       certificateRepository.getCertificationAttestation.withArgs(123).resolves(certificationAttestation);
 
       // when
-      const error = await catchErr(get)({ certificationId: 123, userId: 789, ...dependencies });
+      const error = await catchErr(getCertificationAttestation)({
+        certificationId: 123,
+        userId: 789,
+        certificateRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -44,7 +42,11 @@ describe('Unit | UseCase | get-certification-attestation', function () {
       certificateRepository.getCertificationAttestation.withArgs(123).resolves(certificationAttestation);
 
       // when
-      const actualCertificationAttestation = await get({ certificationId: 123, userId: 456, ...dependencies });
+      const actualCertificationAttestation = await getCertificationAttestation({
+        certificationId: 123,
+        userId: 456,
+        certificateRepository,
+      });
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation({

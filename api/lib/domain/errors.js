@@ -75,13 +75,6 @@ class AuthenticationMethodAlreadyExistsError extends DomainError {
   }
 }
 
-class NoCertificationAttestationForDivisionError extends DomainError {
-  constructor(division) {
-    const message = `Aucune attestation de certification pour la classe ${division}.`;
-    super(message);
-  }
-}
-
 class OrganizationAlreadyExistError extends DomainError {
   constructor(message = "L'organisation existe déjà.") {
     super(message);
@@ -1160,12 +1153,6 @@ class NoSkillsInCampaignError extends DomainError {
   }
 }
 
-class CertificationAttestationGenerationError extends DomainError {
-  constructor(message = "Une erreur est survenue durant la génération de l'attestation.") {
-    super(message);
-  }
-}
-
 class InvalidJuryLevelError extends DomainError {
   constructor(message = 'Le niveau jury renseigné est invalide.') {
     super(message);
@@ -1226,7 +1213,6 @@ export {
   CandidateNotAuthorizedToResumeCertificationTestError,
   CantImproveCampaignParticipationError,
   CertificateVerificationCodeGenerationTooManyTrials,
-  CertificationAttestationGenerationError,
   CertificationBadgeForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -1283,7 +1269,6 @@ export {
   MissingUserAccountError,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
-  NoCertificationAttestationForDivisionError,
   NoCertificationResultForDivision,
   NoOrganizationToAttach,
   NoSkillsInCampaignError,
