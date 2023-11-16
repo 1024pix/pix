@@ -15,7 +15,6 @@ import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import lodash from 'lodash';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import { logger } from '../../infrastructure/logger.js';
@@ -156,31 +155,6 @@ const getSessionResultsToDownload = async function (
     .response(csvResult.content)
     .header('Content-Type', 'text/csv;charset=utf-8')
     .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
-};
-
-const getCertificationPDFAttestationsForSession = async function (
-  request,
-  h,
-  dependencies = { certificationAttestationPdf },
-) {
-  const sessionId = request.params.id;
-  const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
-  const attestations = await usecases.getCertificationAttestationsForSession({
-    sessionId,
-  });
-  const i18n = request.i18n;
-
-  const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
-    certificates: attestations,
-    isFrenchDomainExtension,
-    i18n,
-  });
-
-  const fileName = `attestation-pix-session-${sessionId}.pdf`;
-  return h
-    .response(buffer)
-    .header('Content-Disposition', `attachment; filename=${fileName}`)
-    .header('Content-Type', 'application/pdf');
 };
 
 const getSessionResultsByRecipientEmail = async function (
@@ -360,7 +334,6 @@ const sessionController = {
   update,
   getCandidatesImportSheet,
   getCertificationCandidates,
-  getCertificationPDFAttestationsForSession,
   deleteCertificationCandidate,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,

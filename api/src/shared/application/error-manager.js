@@ -81,6 +81,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AssessmentEndedError) {
     return new HttpErrors.BaseHttpError(error.message);
   }
+  if (error instanceof DomainErrors.CertificationAttestationGenerationError) {
+    return new HttpErrors.UnprocessableEntityError(error.message);
+  }
 
   if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
     return new HttpErrors.UnauthorizedError(error.message);
@@ -110,6 +113,9 @@ function _mapToHttpError(error) {
   }
   if (error instanceof UserShouldChangePasswordError) {
     return new HttpErrors.PasswordShouldChangeError(error.message, error.meta);
+  }
+  if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
+    return new HttpErrors.BadRequestError(error.message);
   }
 }
 

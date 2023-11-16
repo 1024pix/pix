@@ -9,9 +9,9 @@ import axios from 'axios';
 import * as url from 'url';
 
 import { AttestationViewModel } from './AttestationViewModel.js';
-import { CertificationAttestationGenerationError } from '../../../domain/errors.js';
-import { logger } from '../../logger.js';
-import { LANG } from '../../../../src/shared/domain/constants.js';
+import { CertificationAttestationGenerationError } from '../../../../../shared/domain/errors.js';
+import { logger } from '../../../../../shared/infrastructure/utils/logger.js';
+import { LANG } from '../../../../../shared/domain/constants.js';
 const { ENGLISH } = LANG;
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -100,7 +100,7 @@ async function _embedFonts(pdfDocument, dirname) {
 }
 
 async function _embedFontInPDFDocument(pdfDoc, fontFileName, dirname) {
-  const fontFile = await readFile(`${dirname}/files/${fontFileName}`);
+  const fontFile = await readFile(`${dirname}/../../../../../shared/infrastructure/utils/pdf/fonts/${fontFileName}`);
   return pdfDoc.embedFont(fontFile, { subset: true, customName: fontFileName });
 }
 

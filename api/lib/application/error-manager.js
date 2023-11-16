@@ -116,9 +116,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoFieldMissingError) {
     return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont manquants.");
   }
-  if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoWrongFormat) {
     return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont au mauvais format.");
   }
@@ -390,10 +387,6 @@ function _mapToHttpError(error) {
 
   if (error instanceof DomainErrors.DifferentExternalIdentifierError) {
     return new HttpErrors.ConflictError(error.message);
-  }
-
-  if (error instanceof DomainErrors.CertificationAttestationGenerationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
   }
 
   if (error instanceof DomainErrors.InvalidJuryLevelError) {

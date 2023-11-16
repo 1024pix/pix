@@ -3,7 +3,7 @@ import lodash from 'lodash';
 const { sortBy } = lodash;
 
 import dayjs from 'dayjs';
-import { toArrayOfFixedLengthStringsConservingWords } from '../../../../src/shared/infrastructure/utils/string-utils.js';
+import { toArrayOfFixedLengthStringsConservingWords } from '../../../../../shared/infrastructure/utils/string-utils.js';
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
 

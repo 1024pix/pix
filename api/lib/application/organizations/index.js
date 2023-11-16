@@ -6,9 +6,6 @@ import { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError 
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { organizationController } from './organization-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { LANG } from '../../../src/shared/domain/constants.js';
-
-const { FRENCH, ENGLISH } = LANG;
 
 const ERRORS = {
   PAYLOAD_TOO_LARGE: 'PAYLOAD_TOO_LARGE',
@@ -718,34 +715,6 @@ const register = async function (server) {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           "Elle retourne les certifications liées à l'organisation sous forme de fichier CSV.",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/certification-attestations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-            assign: 'belongsToOrganizationManagingStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            division: Joi.string().required(),
-            isFrenchDomainExtension: Joi.boolean().required(),
-            lang: Joi.string().valid(FRENCH, ENGLISH),
-          }),
-        },
-        handler: organizationController.downloadCertificationAttestationsForDivision,
-        tags: ['api', 'organizations'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle retourne les certificats par classe liées à l'organisation sous forme de fichier PDF.",
         ],
       },
     },

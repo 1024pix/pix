@@ -6,6 +6,8 @@ import {
   LocaleNotSupportedError,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
+  CertificationAttestationGenerationError,
+  NoCertificationAttestationForDivisionError,
 } from '../../../../src/shared/domain/errors.js';
 
 import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
@@ -239,6 +241,34 @@ describe('Shared | Unit | Application | ErrorManager', function () {
           );
         });
       });
+    });
+
+    it('should instantiate UnprocessableEntityError when CertificationAttestationGenerationError', async function () {
+      // given
+      const error = new CertificationAttestationGenerationError();
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when NoCertificationAttestationForDivisionError', async function () {
+      // given
+      const error = new NoCertificationAttestationForDivisionError(1);
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
+        'Aucune attestation de certification pour la classe 1.',
+      );
     });
   });
 });

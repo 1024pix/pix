@@ -113,7 +113,7 @@ async function getAttendanceSheetPdfBuffer({
 }
 
 async function _embedFontIntoPdf({ pdfDoc, dirname, font }) {
-  const fontFile = await readFile(`${dirname}/../../../../shared/infrastructure/utils/pdf/files/${font}`);
+  const fontFile = await readFile(`${dirname}/../../../../../shared/infrastructure/utils/pdf/fonts/${font}`);
   return pdfDoc.embedFont(fontFile, { subset: true });
 }
 

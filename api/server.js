@@ -27,8 +27,14 @@ import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
 import { authenticationRoutes } from './src/authentication/application/routes.js';
 import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
+import { certificationCourseRoutes } from './src/certification/course/routes.js';
 
-const certificationRoutes = [certificationSessionRoutes, attachTargetProfileRoutes, complementaryCertificationRoutes];
+const certificationRoutes = [
+  certificationSessionRoutes,
+  attachTargetProfileRoutes,
+  complementaryCertificationRoutes,
+  certificationCourseRoutes,
+];
 const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes];
 const sharedRoutes = [prescriberManagementRoutes];
 
