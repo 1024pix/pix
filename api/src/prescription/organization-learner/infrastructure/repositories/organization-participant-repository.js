@@ -97,6 +97,8 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
         (select count(*) as "participationCount"
         from "campaign-participations"
         where "campaign-participations"."organizationLearnerId" = "view-active-organization-learners"."id"
+        and "campaign-participations"."isImproved" is false
+        and "campaign-participations"."deletedAt" is null
         group by "campaign-participations"."organizationLearnerId")
       `),
           knex.raw(`
