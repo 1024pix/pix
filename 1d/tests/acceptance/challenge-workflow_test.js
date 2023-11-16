@@ -1,24 +1,24 @@
-import { visit, clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click } from '@ember/test-helpers';
 
-module('Acceptance | Answer modal', function (hooks) {
+module('Acceptance | Challenge workflow', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   module('when user click on skip button', function () {
-    test('displays answer modal with skip text', async function (assert) {
+    test('redirects to next challenge', async function (assert) {
       const assessment = this.server.create('assessment');
-      this.server.create('challenge');
+      this.server.create('challenge', { id: 1 });
+      this.server.create('challenge', { id: 2, instruction: 'challenge alternatif' });
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await click(screen.getByRole('button', { name: 'Je passe' }));
 
       // then
-      const modalText = screen.getByText('Si tu passes l’activité, une autre activité plus simple te sera proposée.');
-      assert.false(modalText.closest('.pix-modal__overlay').classList.contains('pix-modal__overlay--hidden'));
+      assert.dom(screen.getByText('challenge alternatif')).exists();
     });
   });
 
