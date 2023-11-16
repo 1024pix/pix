@@ -84,9 +84,15 @@ module('Integration | Component | Module | QCU', function (hooks) {
       solution: 'solutionId',
     });
 
+    // when
     const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
 
-    assertsWhenCorrectionResponseHasBeenGiven(assert, screen);
+    // then
+    assert.ok(screen.getByText('Good job!'));
+    assert.ok(screen.getByRole('group').disabled);
+    assert.ok(screen.getByLabelText('radio1').required);
+    assert.ok(screen.getByLabelText('radio2').required);
+    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 
   test('should display a ko feedback when exists', async function (assert) {
@@ -102,13 +108,20 @@ module('Integration | Component | Module | QCU', function (hooks) {
     });
     this.set('qcu', qcuElement);
     const correctionResponse = store.createRecord('correction-response', {
-      feedback: 'Good job!',
+      feedback: 'Too Bad!',
       status: 'ko',
       solution: 'solutionId',
     });
+
+    // when
     const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
 
-    assertsWhenCorrectionResponseHasBeenGiven(assert, screen);
+    // then
+    assert.ok(screen.getByText('Too Bad!'));
+    assert.ok(screen.getByRole('group').disabled);
+    assert.ok(screen.getByLabelText('radio1').required);
+    assert.ok(screen.getByLabelText('radio2').required);
+    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 });
 
@@ -119,12 +132,4 @@ async function renderQcuWithCorrectionResponse(correctionResponse) {
   return await render(
     hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} @correctionResponse={{this.correctionResponse}} />`,
   );
-}
-
-function assertsWhenCorrectionResponseHasBeenGiven(assert, screen) {
-  assert.ok(screen.getByText('Good job!'));
-  assert.ok(screen.getByRole('group').disabled);
-  assert.ok(screen.getByLabelText('radio1').required);
-  assert.ok(screen.getByLabelText('radio2').required);
-  assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
 }
