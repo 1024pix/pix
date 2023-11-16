@@ -15,8 +15,8 @@
           {{else if element.isQcu}}
             <Module::Qcu
               @qcu={{element}}
-              @submitAnswer={{this.submitAnswer}}
-              @correctionResponse={{get this.correctionResponse element.id}}
+              @submitAnswer={{@submitAnswer}}
+              @correctionResponse={{get @correctionResponse element.id}}
             />
           {{/if}}
         {{/each}}
