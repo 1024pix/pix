@@ -11,6 +11,9 @@ export default class Challenge extends Component {
   @tracked answerValue = null;
   @tracked showWarningModal = false;
 
+  get disableCheckButton() {
+    return this.answerValue === null || this.answerValue === '';
+  }
   @action
   setAnswerValue(value) {
     this.answerValue = value;
@@ -50,6 +53,7 @@ export default class Challenge extends Component {
     this.answerHasBeenValidated = false;
     this.answerValue = null;
     this.answer = null;
+
     this.router.transitionTo('assessment.resume');
   }
 

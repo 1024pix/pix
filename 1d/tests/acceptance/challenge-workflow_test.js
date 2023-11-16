@@ -24,19 +24,17 @@ module('Acceptance | Challenge workflow', function (hooks) {
     });
   });
 
-  // module('when user click on continue button without answer', function () {
-  //   test('displays warning modal', async function (assert) {
-  //     const assessment = this.server.create('assessment');
-  //     this.server.create('challenge');
-  //     // when
-  //     const screen = await visit(`/assessments/${assessment.id}/challenges`);
-  //     await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
-  //
-  //     // then
-  //     const modalText = screen.getByText("Pour valider la mission, tu dois terminer l'activité.");
-  //     assert.false(modalText.closest('.pix-modal__overlay').classList.contains('pix-modal__overlay--hidden'));
-  //   });
-  // });
+  module('when user has not answered yet', function () {
+    test('disable "Je vérifie" button', async function (assert) {
+      const assessment = this.server.create('assessment');
+      this.server.create('challenge');
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+
+      // then
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+    });
+  });
 
   module('when user click on continue button with correct answer', function () {
     test('displays congratulation message & remove skip button', async function (assert) {
