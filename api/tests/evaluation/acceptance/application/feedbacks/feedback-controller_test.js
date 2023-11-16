@@ -25,7 +25,9 @@ describe('Acceptance | Controller | feedback-controller', function () {
           data: {
             type: 'feedbacks',
             attributes: {
-              content: 'Some content',
+              content: 'Dummy content',
+              category: 'Dummy category',
+              answer: 'Dummy answer',
             },
             relationships: {
               assessment: {
@@ -108,7 +110,9 @@ describe('Acceptance | Controller | feedback-controller', function () {
       const assessment = response.result.data.relationships.assessment.data;
 
       // then
+      expect(feedback.attributes.answer).to.deep.equal(expectedFeedback.answer);
       expect(feedback.attributes.content).to.deep.equal(expectedFeedback.content);
+      expect(feedback.attributes.category).to.deep.equal(expectedFeedback.category);
       expect(challenge.id).to.deep.equal(expectedChallengeId);
       expect(assessment.id).to.deep.equal(expectedAssessmentId);
     });

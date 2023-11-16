@@ -8,6 +8,8 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
       const feedback = {
         id: 'feedback_id',
         content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
+        category: 'category name',
+        answer: 'user answer',
         assessmentId: 'assessment_id',
         challengeId: 'challenge_id',
         createdAt: new Date('2017-09-01T12:14:33Z'),
@@ -19,6 +21,8 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
           id: 'feedback_id',
           attributes: {
             content: feedback.content,
+            category: feedback.category,
+            answer: feedback.answer,
             'created-at': feedback.createdAt,
           },
           relationships: {
@@ -50,6 +54,8 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
       const simpleFeedback = {
         id: 'simple_feedback',
         content: 'Simple feedback',
+        category: 'Simple category',
+        answer: 'Simple answer',
         createdAt: new Date('2015-09-06T15:00:00Z'),
         assessmentId: 1,
         challengeId: 11,
@@ -81,6 +87,8 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
             id: simpleFeedback.id,
             attributes: {
               content: simpleFeedback.content,
+              category: simpleFeedback.category,
+              answer: simpleFeedback.answer,
               'created-at': simpleFeedback.createdAt,
             },
             relationships: {
