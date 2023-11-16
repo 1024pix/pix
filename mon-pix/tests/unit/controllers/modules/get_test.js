@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Module | Controller | get', function (hooks) {
   setupTest(hooks);
@@ -18,6 +19,13 @@ module('Unit | Module | Controller | get', function (hooks) {
         elementId,
         moduleSlug,
       };
+
+      const metricAddStub = sinon.stub();
+      class MetricsStubService extends Service {
+        add = metricAddStub;
+      }
+      this.owner.register('service:metrics', MetricsStubService);
+      const metricsService = this.owner.lookup('service:metrics');
 
       const controller = this.owner.lookup('controller:module/get');
       controller.model = {
@@ -50,6 +58,12 @@ module('Unit | Module | Controller | get', function (hooks) {
 
       // then
       assert.strictEqual(controller.correctionResponse[elementId], expectedCorrection);
+      sinon.assert.calledWith(metricsService.add, {
+        event: 'custom-event',
+        'pix-event-category': 'Modulix',
+        'pix-event-action': `Passage du module : ${moduleSlug}`,
+        'pix-event-name': `Click sur le bouton vérifier de l'élément : ${elementId}`,
+      });
     });
   });
 });
