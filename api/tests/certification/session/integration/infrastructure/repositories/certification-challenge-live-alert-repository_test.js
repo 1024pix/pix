@@ -236,6 +236,10 @@ describe('Integration | Repository | Certification Challenge Live Alert', functi
         const certificationChallengeLiveAlert = databaseBuilder.factory.buildCertificationChallengeLiveAlert({
           assessmentId: assessment.id,
           status: CertificationChallengeLiveAlertStatus.ONGOING,
+          hasEmbed: false,
+          isFocus: false,
+          hasImage: false,
+          hasAttachment: false,
         });
 
         await databaseBuilder.commit();

@@ -11,6 +11,10 @@ const buildCertificationChallengeLiveAlert = function ({
   questionNumber = 1,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-01'),
+  hasEmbed = false,
+  isFocus = false,
+  hasImage = false,
+  hasAttachment = false,
 } = {}) {
   return new CertificationChallengeLiveAlert({
     id,
@@ -20,6 +24,10 @@ const buildCertificationChallengeLiveAlert = function ({
     status,
     createdAt,
     updatedAt,
+    hasEmbed,
+    isFocus,
+    hasImage,
+    hasAttachment,
   });
 };
 
