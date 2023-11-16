@@ -83,8 +83,10 @@
     "test:root": "npm run test:scripts",
     "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests",
     "domains:install": "./scripts/local-domains/install",
-    "domains:start": "cd ./scripts/local-domains/ && docker-compose up -d",
-    "domains:stop": "cd ./scripts/local-domains/ && docker-compose down"
+    "domains:start": "cd ./scripts/local-domains/ && docker compose up -d",
+    "domains:stop": "cd ./scripts/local-domains/ && docker compose down",
+    "domains:trust-self-signed-certificate:mac": "cd ./scripts/local-domains/ && docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt",
+    "domains:trust-self-signed-certificate:linux": "cd ./scripts/local-domains/ && sudo docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/root.crt && sudo update-ca-certificates --fresh"
   },
   "dependencies": {
     "bluebird": "3.7.2",
