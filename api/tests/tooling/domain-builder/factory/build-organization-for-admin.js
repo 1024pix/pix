@@ -25,6 +25,7 @@ function buildOrganizationForAdmin({
   dataProtectionOfficerLastName = null,
   dataProtectionOfficerEmail = null,
   identityProviderForCampaigns = null,
+  features = {},
 } = {}) {
   return new OrganizationForAdmin({
     id,
@@ -51,6 +52,7 @@ function buildOrganizationForAdmin({
     dataProtectionOfficerLastName,
     dataProtectionOfficerEmail,
     identityProviderForCampaigns,
+    features,
   });
 }
 

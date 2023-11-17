@@ -4,7 +4,6 @@ import { Tag } from '../../domain/models/Tag.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { OrganizationInvitation } from '../../domain/models/OrganizationInvitation.js';
 import _ from 'lodash';
-import * as apps from '../../domain/constants.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 
 const ORGANIZATIONS_TABLE_NAME = 'organizations';
@@ -35,7 +34,6 @@ function _toDomain(rawOrganization) {
     creatorFirstName: rawOrganization.creatorFirstName,
     creatorLastName: rawOrganization.creatorLastName,
     identityProviderForCampaigns: rawOrganization.identityProviderForCampaigns,
-    enableMultipleSendingAssessment: rawOrganization.enableMultipleSendingAssessment,
     features: rawOrganization.features,
     tags: rawOrganization.tags || [],
   });
@@ -104,9 +102,6 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
     (features, { key, enabled }) => ({ ...features, [key]: enabled }),
     {},
   );
-
-  organization.enableMultipleSendingAssessment =
-    organization.features[apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key];
 
   organization.tags = tags.map((tag) => {
     return new Tag(tag);

@@ -39,7 +39,7 @@ const serialize = function (organizations, meta) {
       'organizationMemberships',
       'targetProfileSummaries',
       'identityProviderForCampaigns',
-      'enableMultipleSendingAssessment',
+      'features',
     ],
     organizationMemberships: {
       ref: 'id',
@@ -98,7 +98,7 @@ const deserialize = function (json) {
     dataProtectionOfficerFirstName: attributes['data-protection-officer-first-name'],
     dataProtectionOfficerLastName: attributes['data-protection-officer-last-name'],
     dataProtectionOfficerEmail: attributes['data-protection-officer-email'],
-    enableMultipleSendingAssessment: attributes['enable-multiple-sending-assessment'],
+    features: attributes.features,
     tagIds,
   });
 
