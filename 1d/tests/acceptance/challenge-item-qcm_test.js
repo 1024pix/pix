@@ -3,10 +3,12 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit } from '@1024pix/ember-testing-library';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Acceptance | Displaying a QCM challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
   let assessment;
 
   hooks.beforeEach(async function () {
@@ -27,9 +29,9 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await click(screen.getByRole('checkbox', { name: 'Profil 1' }));
     await click(screen.getByRole('checkbox', { name: 'Profil 3' }));
-    await click(screen.getByRole('button', { name: 'Je continue' }));
+    await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
     // then
-    assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
   });
 });

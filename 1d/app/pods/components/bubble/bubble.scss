@@ -44,11 +44,27 @@
     content: "";
   }
 
-  &--green {
+  &--success {
     background-color: #C8F0D8;
 
     &::after {
       border-color: transparent #C8F0D8;
+    }
+  }
+
+  &--warning {
+    background-color: #FFEACB;
+
+    &::after {
+      border-color: transparent #FFEACB;
+    }
+  }
+
+  &--error {
+    background-color: #F1C4C3;
+
+    &::after {
+      border-color: transparent #F1C4C3;
     }
   }
 }

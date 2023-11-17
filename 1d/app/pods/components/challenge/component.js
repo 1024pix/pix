@@ -49,6 +49,7 @@ export default class Challenge extends Component {
   resume() {
     this.answerHasBeenValidated = false;
     this.answerValue = null;
+    this.answer = null;
     this.router.transitionTo('assessment.resume');
   }
 

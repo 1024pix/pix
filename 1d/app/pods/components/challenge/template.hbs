@@ -3,7 +3,10 @@
   <RobotDialog>
     <Bubble @message={{@challenge.instruction}} />
     {{#if (eq this.answer.result "ok")}}
-      <Bubble @message={{t 'pages.challenge.messages.correct-answer'}} @color='green'/>
+      <Bubble @message={{t 'pages.challenge.messages.correct-answer'}} @color='success'/>
+    {{/if}}
+    {{#if (eq this.answer.result "ko")}}
+      <Bubble @message={{t 'pages.challenge.messages.wrong-answer'}} @color='error'/>
     {{/if}}
 
   </RobotDialog>
@@ -18,10 +21,6 @@
       @answerHasBeenValidated={{this.answerHasBeenValidated}}
     />
   </div>
-
-  <AnswerFeedback
-    @answer={{this.answer}}
-  />
 
   <WarningFeedback @showWarningModal={{this.showWarningModal}} @onClose={{this.onCloseWarningModal}} />
 </div>

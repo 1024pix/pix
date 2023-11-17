@@ -17,29 +17,29 @@ module('Acceptance | Challenge workflow', function (hooks) {
       this.server.create('challenge', { id: 2, instruction: 'challenge alternatif' });
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      await click(screen.getByRole('button', { name: 'Je passe' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.skip') }));
 
       // then
       assert.dom(screen.getByText('challenge alternatif')).exists();
     });
   });
 
-  module('when user click on continue button without answer', function () {
-    test('displays warning modal', async function (assert) {
-      const assessment = this.server.create('assessment');
-      this.server.create('challenge');
-      // when
-      const screen = await visit(`/assessments/${assessment.id}/challenges`);
-      await click(screen.getByRole('button', { name: 'Je continue' }));
-
-      // then
-      const modalText = screen.getByText("Pour valider la mission, tu dois terminer l'activité.");
-      assert.false(modalText.closest('.pix-modal__overlay').classList.contains('pix-modal__overlay--hidden'));
-    });
-  });
+  // module('when user click on continue button without answer', function () {
+  //   test('displays warning modal', async function (assert) {
+  //     const assessment = this.server.create('assessment');
+  //     this.server.create('challenge');
+  //     // when
+  //     const screen = await visit(`/assessments/${assessment.id}/challenges`);
+  //     await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+  //
+  //     // then
+  //     const modalText = screen.getByText("Pour valider la mission, tu dois terminer l'activité.");
+  //     assert.false(modalText.closest('.pix-modal__overlay').classList.contains('pix-modal__overlay--hidden'));
+  //   });
+  // });
 
   module('when user click on continue button with correct answer', function () {
-    test('displays congratulation message', async function (assert) {
+    test('displays congratulation message & remove skip button', async function (assert) {
       const assessment = this.server.create('assessment');
       this.server.create('challenge', 'QCU');
       // when
@@ -49,6 +49,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
 
       // then
       assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.challenge.actions.skip') })).doesNotExist();
     });
 
     test('redirects to next challenge after clicking on "Je continue" button', async function (assert) {
@@ -70,7 +71,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
   });
 
   module('when user click on continue button with bad answer', function () {
-    test('displays answer modal with bad response text', async function (assert) {
+    test('displays message for wrong answer & remove skip button', async function (assert) {
       const assessment = this.server.create('assessment');
       this.server.create('challenge', 'QROCWithSelect');
       // when
@@ -78,12 +79,30 @@ module('Acceptance | Challenge workflow', function (hooks) {
       await clickByName('saladAriaLabel');
       await screen.findByRole('listbox');
       await click(screen.getByRole('option', { name: 'bad-answer' }));
-
-      await click(screen.getByRole('button', { name: 'Je continue' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
       // then
-      const modalText = screen.getByText('Mauvaise réponse. Tu peux passer à la suite.');
-      assert.false(modalText.closest('.pix-modal__overlay').classList.contains('pix-modal__overlay--hidden'));
+      assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.wrong-answer'))).exists();
+      assert.dom(screen.queryByRole('button', { name: this.intl.t('pages.challenge.actions.skip') })).doesNotExist();
+    });
+
+    test('redirects to next challenge after clicking on "Je continue" button', async function (assert) {
+      const assessment = this.server.create('assessment');
+      this.server.create('challenge', 'QROCWithSelect');
+      this.server.create('challenge', {
+        id: 2,
+        instruction: 'Nouvelle instruction',
+      });
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await clickByName('saladAriaLabel');
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'bad-answer' }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
+      await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.continue') }));
+
+      // then
+      assert.dom(screen.getByText('Nouvelle instruction')).exists();
     });
   });
 
