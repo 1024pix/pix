@@ -1,5 +1,36 @@
 # Pix Changelog
 
+## v4.64.0 (17/11/2023)
+
+
+### :rocket: Amélioration
+- [#7457](https://github.com/1024pix/pix/pull/7457) [FEATURE] Autoriser l'edition des informations de candidat sans conditions dans pix admin (PIX-9916).
+- [#7472](https://github.com/1024pix/pix/pull/7472) [FEATURE] Remplacer les pop-up par des bulles de messages (Pix-9748).
+- [#7443](https://github.com/1024pix/pix/pull/7443) [FEATURE] Gestion des rôles et équipe dans Pix Certif.
+- [#7471](https://github.com/1024pix/pix/pull/7471) [FEATURE] Ajouter le tri par date de dernière participation sur les organisations sans import (Pix-9867).
+- [#7390](https://github.com/1024pix/pix/pull/7390) [FEATURE] Afficher le feedback global à l'apprenant (PIX-9861) (PIX-9707).
+- [#7451](https://github.com/1024pix/pix/pull/7451) [FEATURE] Cacher l'onglet "Neutralisation" pour les certifs v3 dans Pix Admin (PIX-9942).
+- [#7466](https://github.com/1024pix/pix/pull/7466) [FEATURE] Plafonner le niveau "Positionné" sur la page de détails d'une certif. (PIX-9177).
+- [#7454](https://github.com/1024pix/pix/pull/7454) [FEATURE] Améliorer la sauvegarde en base d'un feedback utilisateur (PIX-8867).
+- [#7465](https://github.com/1024pix/pix/pull/7465) [FEATURE] Améliorer le endpoint de validation de réponse (PIX-9974).
+
+### :building_construction: Tech
+- [#7395](https://github.com/1024pix/pix/pull/7395) [TECH] Refondre la manière d'exposer les fonctionnalités activées pour les organisations (PIX-9860).
+- [#7449](https://github.com/1024pix/pix/pull/7449) [TECH] Refacto de FlashAssessmentAlgorithm (PIX-9949).
+- [#7463](https://github.com/1024pix/pix/pull/7463) [TECH] Ajouter un test d'accessibilité sur les modules (PIX-9982).
+- [#7444](https://github.com/1024pix/pix/pull/7444) [TECH] Déplacement du téléchargement des attestations de certification dans le dossier src (PIX-9890).
+- [#7436](https://github.com/1024pix/pix/pull/7436) [TECH] Migration de l'authentification standard vers src (PIX-9775).
+- [#7269](https://github.com/1024pix/pix/pull/7269) [TECH] Utiliser Caddy pour avoir des certificats SSL en local (PIX-9757).
+- [#7464](https://github.com/1024pix/pix/pull/7464) [TECH] Enlever le missionId de la table assessment (Pix-9774).
+- [#7461](https://github.com/1024pix/pix/pull/7461) [TECH] Supprimer les messages lors des tests d'intégration.
+- [#7459](https://github.com/1024pix/pix/pull/7459) [TECH] déplacement de l'`ActivityRepository` vers le domain `School` (pix-9973).
+
+### :bug: Correction
+- [#7462](https://github.com/1024pix/pix/pull/7462) [BUGFIX] Corriger la version française de la double mire lors d'une connexion SSO OIDC et permettre son affichage en anglais.
+- [#7469](https://github.com/1024pix/pix/pull/7469) [BUGFIX] Retourner les httpErrors dans l'error manager du dossier shared de src (PIX-10002).
+- [#7467](https://github.com/1024pix/pix/pull/7467) [BUGFIX] Améliore l'accessibilité du QCU (PIX-9984).
+- [#7460](https://github.com/1024pix/pix/pull/7460) [BUGFIX] Isoler les usages de i18n au sein des tests (PIX-9975).
+
 ## v4.63.0 (15/11/2023)
 
 
