@@ -85,6 +85,7 @@ describe('Unit | Application | learner-list-controller', function () {
         query: {
           'sort[participationCount]': 'asc',
           'sort[lastnameSort]': 'asc',
+          'sort[latestParticipationOrder]': 'asc',
         },
       };
       usecases.getPaginatedParticipantsForAnOrganization.resolves({});
@@ -101,6 +102,7 @@ describe('Unit | Application | learner-list-controller', function () {
         sort: {
           participationCount: 'asc',
           lastnameSort: 'asc',
+          latestParticipationOrder: 'asc',
         },
       });
     });
