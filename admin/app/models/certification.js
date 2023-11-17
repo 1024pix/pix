@@ -102,6 +102,10 @@ export default class Certification extends Model {
     return !this.sex;
   }
 
+  get isV3() {
+    return this.version === 3;
+  }
+
   wasBornInFrance() {
     return this.birthCountry === 'FRANCE';
   }
