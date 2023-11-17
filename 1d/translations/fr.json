@@ -1,8 +1,17 @@
 {
   "pages": {
     "challenge": {
+      "actions": {
+        "skip": "Je passe",
+        "check": "Je vérifie",
+        "continue": "Je continue"
+      },
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
+      },
+      "messages": {
+        "correct-answer": "Bien joué, tu as répondu correctement !",
+        "wrong-answer": "Mauvaise réponse. Tu peux passer à la suite."
       }
     },
     "home": {

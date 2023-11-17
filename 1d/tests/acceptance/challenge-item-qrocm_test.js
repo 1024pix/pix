@@ -3,10 +3,13 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
+
   let assessment;
 
   hooks.beforeEach(async function () {
@@ -22,16 +25,16 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     assert.dom(screen.getByText('Trouve les bonnes réponses.')).exists();
   });
 
-  test('should display answer feedback dialog if user validates after writing the right answer in input and selecting the correct option', async function (assert) {
+  test('should display answer feedback bubble if user validates after writing the right answer in input and selecting the correct option', async function (assert) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await fillIn(screen.getByLabelText('prenom'), 'good-answer');
     await clickByName('livre');
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'good-answer' }));
-    await click(screen.getByRole('button', { name: 'Je continue' }));
+    await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
     // then
-    assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
+    assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
   });
 });

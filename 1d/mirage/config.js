@@ -35,7 +35,10 @@ function routes() {
   });
 
   this.get('/assessments/:assessment_id/next', (schema) => {
-    return schema.challenges.find(1);
+    if (!schema.activityAnswers.find(1)) {
+      return schema.challenges.find(1);
+    }
+    return schema.challenges.find(2);
   });
 
   this.get('/assessments/:assessment_id/current-activity', (schema, request) => {

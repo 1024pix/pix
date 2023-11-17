@@ -9,8 +9,10 @@ export default class Challenge extends Component {
   @tracked answerHasBeenValidated = false;
   @tracked answer = null;
   @tracked answerValue = null;
-  @tracked showWarningModal = false;
 
+  get disableCheckButton() {
+    return this.answerValue === null || this.answerValue === '';
+  }
   @action
   setAnswerValue(value) {
     this.answerValue = value;
@@ -23,36 +25,39 @@ export default class Challenge extends Component {
   @action
   async validateAnswer() {
     const assessmentIdForPreview = null;
-    if (this.answerValue) {
-      this.answer = this._createActivityAnswer(this.args.challenge);
-      this.answer.value = this.answerValue;
-      try {
-        const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
-        await this.answer.save({ adapterOptions: { assessmentId } });
-        this.answerHasBeenValidated = true;
-      } catch (error) {
-        this.answer.rollbackAttributes();
-      }
-    } else {
-      this.showWarningModal = true;
+    this.answer = this._createActivityAnswer(this.args.challenge);
+    this.answer.value = this.answerValue;
+    try {
+      const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
+      await this.answer.save({ adapterOptions: { assessmentId } });
+      this.answerHasBeenValidated = true;
+      this.scrollToTop();
+    } catch (error) {
+      this.answer.rollbackAttributes();
     }
   }
 
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
+
   @action
-  skipChallenge() {
+  async skipChallenge() {
     this.setAnswerValue('#ABAND#');
-    return this.validateAnswer();
+    await this.validateAnswer();
+    this.resume();
   }
 
   @action
   resume() {
     this.answerHasBeenValidated = false;
     this.answerValue = null;
-    this.router.transitionTo('assessment.resume');
-  }
+    this.answer = null;
 
-  @action
-  onCloseWarningModal() {
-    this.showWarningModal = false;
+    this.router.transitionTo('assessment.resume');
   }
 }
