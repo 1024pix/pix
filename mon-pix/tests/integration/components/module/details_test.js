@@ -16,8 +16,8 @@ module('Integration | Component | Module | Details', function (hooks) {
       proposals: ['radio1', 'radio2'],
       type: 'qcus',
     });
-    const moduleElements = [textElement, qcuElement];
-    const grain = store.createRecord('grain', { elements: moduleElements });
+    const elements = [textElement, qcuElement];
+    const grain = store.createRecord('grain', { elements });
 
     const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
     this.set('module', module);
@@ -30,6 +30,6 @@ module('Integration | Component | Module | Details', function (hooks) {
     assert.strictEqual(findAll('.element-text').length, 1);
     assert.strictEqual(findAll('.element-qcu').length, 1);
 
-    assert.ok(screen.getByRole('button', { name: 'Continuer' }));
+    assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists();
   });
 });

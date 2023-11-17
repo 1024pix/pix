@@ -1,5 +1,5 @@
-<form class="element-qcu">
-  <fieldset>
+<form class="element-qcu" {{on "submit" this.submitAnswer}}>
+  <fieldset disabled={{this.disableInput}}>
     <div class="element-qcu__header">
       <div class="element-qcu-header__instruction">
         {{html-safe @qcu.instruction}}
@@ -12,10 +12,29 @@
 
     <div class="element-qcu__proposals">
       {{#each @qcu.proposals as |proposal|}}
-        <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal.id)}}>
+        <PixRadioButton
+          name={{@qcu.id}}
+          @value={{proposal.id}}
+          {{on "click" (fn this.radioClicked proposal.id)}}
+          required
+        >
           {{proposal.content}}
         </PixRadioButton>
       {{/each}}
     </div>
   </fieldset>
+
+  {{#unless @correctionResponse}}
+    <PixButton @backgroundColor="green" @shape="rounded" @type="submit" class="element-qcu__verify_button">
+      {{t "pages.modulix.buttons.activity.verify"}}
+    </PixButton>
+  {{/unless}}
+
+  <div role="status" tabindex="-1">
+    {{#if @correctionResponse}}
+      <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcu__feedback">
+        {{html-safe @correctionResponse.feedback}}
+      </PixMessage>
+    {{/if}}
+  </div>
 </form>

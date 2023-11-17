@@ -24,6 +24,8 @@
   border-radius: $pix-spacing-s;
 
   &__footer {
-    margin: $pix-spacing-s;
+    padding: $pix-spacing-s;
+    background: $pix-tertiary-5;
+    border-radius: 0 0 $pix-spacing-s $pix-spacing-s;
   }
 }

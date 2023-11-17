@@ -34,6 +34,9 @@ const register = async function (server) {
               }).required(),
             }).required(),
           }).required(),
+          options: {
+            allowUnknown: true,
+          },
         },
         notes: ['- Permet de valider la réponse à une activité soumise par un apprenant'],
         tags: ['api', 'modules', 'answers'],

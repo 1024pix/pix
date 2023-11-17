@@ -1171,7 +1171,12 @@
     },
     "modulix": {
       "buttons": {
-        "continue": "Continue"
+        "activity": {
+          "verify": "Verify"
+        },
+        "grain": {
+          "continue": "Continue"
+        }
       },
       "qcu": {
         "direction": "Select one answer."
