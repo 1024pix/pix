@@ -14,6 +14,10 @@ export function createPrescriberByUser(user, participantCount = 0) {
     memberships: user.memberships,
     userOrgaSettings: user.userOrgaSettings,
     participantCount,
+    features: {
+      MULTIPLE_SENDING_ASSESSMENT: false,
+      COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: false,
+    },
   });
 
   return prescriber;

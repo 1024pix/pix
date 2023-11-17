@@ -1,15 +1,98 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | organization', function (hooks) {
   setupTest(hooks);
+
+  module('#enableMultipleSendingAssessment', function () {
+    module('#get', function () {
+      test('it returns true when feature is enabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
+        });
+
+        // when
+        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+
+        // then
+        assert.true(enableMultipleSendingAssessment);
+      });
+      test('it returns false when feature is disabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: false },
+        });
+
+        // when
+        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+
+        // then
+        assert.false(enableMultipleSendingAssessment);
+      });
+      test('it returns false when no features are provided', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+
+        // then
+        assert.false(enableMultipleSendingAssessment);
+      });
+    });
+
+    module('#set', function () {
+      test('it enables feature', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: false },
+        });
+
+        // when
+        model.enableMultipleSendingAssessment = true;
+
+        // then
+        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        assert.true(enableMultipleSendingAssessment);
+      });
+      test('it disable feature', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['MULTIPLE_SENDING_ASSESSMENT']: true },
+        });
+        // when
+        model.enableMultipleSendingAssessment = false;
+
+        // then
+        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        assert.false(enableMultipleSendingAssessment);
+      });
+      test('it handles having no features yet', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        model.enableMultipleSendingAssessment = true;
+
+        // then
+        const enableMultipleSendingAssessment = model.enableMultipleSendingAssessment;
+        assert.true(enableMultipleSendingAssessment);
+      });
+    });
+  });
 
   module('#archivedFormattedDate', function () {
     test('it formats the archived date', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = run(() => store.createRecord('organization', { archivedAt: new Date('2022-02-22') }));
+      const model = store.createRecord('organization', { archivedAt: new Date('2022-02-22') });
 
       // when
       const archivedFormattedDate = model.archivedFormattedDate;
@@ -23,7 +106,7 @@ module('Unit | Model | organization', function (hooks) {
     test('it formats the organization creation date', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = run(() => store.createRecord('organization', { createdAt: new Date('2022-09-02') }));
+      const model = store.createRecord('organization', { createdAt: new Date('2022-09-02') });
 
       // when
       const createdAtFormattedDate = model.createdAtFormattedDate;
@@ -37,9 +120,7 @@ module('Unit | Model | organization', function (hooks) {
     test('it return whether organization is archived', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const model = run(() =>
-        store.createRecord('organization', { archivedAt: '2022-12-25', archivistFullName: 'Anne Héantie' }),
-      );
+      const model = store.createRecord('organization', { archivedAt: '2022-12-25', archivistFullName: 'Anne Héantie' });
 
       // when
       const isOrganizationArchived = model.isArchived;
