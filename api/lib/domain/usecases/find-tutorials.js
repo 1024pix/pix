@@ -1,5 +1,5 @@
 import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
-import { Scorecard } from '../models/Scorecard.js';
+import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import _ from 'lodash';
 

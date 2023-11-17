@@ -1,6 +1,11 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { KnowledgeElement, Scorecard } from '../../../../lib/domain/models/index.js';
-import { constants, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import { expect, sinon } from '../../../../test-helper.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
+import { Scorecard } from '../../../../../src/evaluation/domain/models/Scorecard.js';
+import {
+  constants,
+  MAX_REACHABLE_LEVEL,
+  MAX_REACHABLE_PIX_BY_COMPETENCE,
+} from '../../../../../lib/domain/constants.js';
 
 const MINIMUM_DELAY_IN_DAYS_FOR_RESET = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 const MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;

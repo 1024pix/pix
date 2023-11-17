@@ -1,5 +1,5 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
 import { resetScorecard } from '../../../../lib/domain/usecases/reset-scorecard.js';
 import { CompetenceResetError } from '../../../../lib/domain/errors.js';
 

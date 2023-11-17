@@ -1,5 +1,5 @@
 import { buildArea } from './build-area.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
 
 const buildUserScorecard = function ({
   id = 'recCOMP123_789',

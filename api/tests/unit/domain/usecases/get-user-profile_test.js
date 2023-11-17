@@ -1,5 +1,5 @@
 import { sinon, expect, domainBuilder } from '../../../test-helper.js';
-import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
+import { Scorecard } from '../../../../src/evaluation/domain/models/Scorecard.js';
 import { getUserProfile } from '../../../../lib/domain/usecases/get-user-profile.js';
 import { constants } from '../../../../lib/domain/constants.js';
 import _ from 'lodash';
