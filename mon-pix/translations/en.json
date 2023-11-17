@@ -1143,7 +1143,7 @@
       }
     },
     "login-or-register-oidc": {
-      "title": "Créez votre compte Pix",
+      "title": "Create your Account",
       "error": {
         "account-conflict": "Ce compte est déjà associé à cet organisme. Veuillez vous connecter avec un autre compte ou contacter le support.",
         "data-sharing-refused": "We inform you that the transmission of your data, specified on the previous page, is essential to access and use the service.",
@@ -1153,19 +1153,19 @@
         "login-unauthorized-error": "There was an error in the email address or password entered."
       },
       "login-form": {
-        "title": "I already have a Pix account.",
+        "title": "I already have a Pix account",
         "button": "Log in",
-        "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
+        "description": "Log in to link your existing account and retrieve the skills that you have already assessed.",
         "email": "Email address",
         "password": "Password"
       },
       "register-form": {
-        "title": "Je n’ai pas de compte Pix",
-        "button": "Je créé mon compte",
-        "description": "Un compte va être créé à partir des éléments transmis par l'organisme",
+        "title": "Sign up",
+        "button": "Create my account",
+        "description": "An account will be created based on the information sent by the organisation",
         "information": {
-          "family-name": "Nom : {familyName}",
-          "given-name": "Prénom : {givenName}"
+          "family-name": "Last name  : {familyName}",
+          "given-name": "First name : {givenName}"
         }
       }
     },
