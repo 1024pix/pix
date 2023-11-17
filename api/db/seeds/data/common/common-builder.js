@@ -296,6 +296,7 @@ function _createClea(databaseBuilder) {
     createdAt: new Date('2020-01-01'),
     detachedAt: new Date('2021-01-01'),
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
+    minimumEarnedPix: 70,
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     id: CLEA_V2_COMPLEMENTARY_CERTIFICATION_BADGE_ID,
@@ -309,6 +310,7 @@ function _createClea(databaseBuilder) {
     stickerUrl: 'https://images.pix.fr/stickers/macaron_clea.pdf',
     createdAt: new Date('2021-01-01'),
     createdBy: REAL_PIX_SUPER_ADMIN_ID,
+    minimumEarnedPix: 70,
   });
 }
 
