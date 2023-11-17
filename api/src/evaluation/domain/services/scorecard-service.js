@@ -1,7 +1,7 @@
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
-import { KnowledgeElement } from '../models/KnowledgeElement.js';
-import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
+import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { CompetenceEvaluation } from '../models/CompetenceEvaluation.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { Scorecard } from '../models/Scorecard.js';
 import _ from 'lodash';
 
 async function computeScorecard({
