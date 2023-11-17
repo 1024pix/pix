@@ -17,5 +17,24 @@
     &:hover, &:focus {
       color: var(--pix-color-neutral-0);
     }
+
+    .loader.loader--white > div {
+      background-color: $pix-primary;
+    }
+
+    &:hover {
+      .loader.loader--white > div {
+        background-color: white;
+      }
+    }
+  }
+
+  &--success {
+    background-color: #36925B;
+    border: 1px solid #36925B;
+
+    &:hover {
+      border: 1px solid $pix-success-70;
+    }
   }
 }
