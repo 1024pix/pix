@@ -26,7 +26,7 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
 
   const { complementaryCertificationBadgeId } = pixSourceComplementaryCertificationCourseResult;
   const allowedJuryLevels =
-    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdByComplementaryCertificationBadgeId(
+    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
       complementaryCertificationBadgeId,
     );
 

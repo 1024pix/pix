@@ -93,25 +93,85 @@ describe('Integration | Repository | complementary-certification-courses-result-
     );
   });
 
-  describe('#getAllowedJuryLevelByBadgeKey', function () {
-    it('should return the allowed jury level for a partner key', async function () {
-      // given
-      databaseBuilder.factory.buildTargetProfile({ id: 123 });
-      databaseBuilder.factory.buildBadge({ id: 1212, key: 'KEY_1', targetProfileId: 123 });
+  describe('#getAllowedJuryLevelIdsByComplementaryCertificationBadgeId', function () {
+    context('when there is one target profile for a complementary certification', function () {
+      it('should return the allowed jury level for that complementary certification', async function () {
+        // given
+        databaseBuilder.factory.buildTargetProfile({ id: 123 });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 1 });
+        databaseBuilder.factory.buildBadge({
+          id: 1212,
+          targetProfileId: 123,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 97,
+          badgeId: 1212,
+          complementaryCertificationId: 1,
+        });
 
-      databaseBuilder.factory.buildTargetProfile({ id: 456 });
-      databaseBuilder.factory.buildBadge({ id: 1213, key: 'KEY_2', targetProfileId: 456 });
-      databaseBuilder.factory.buildBadge({ id: 1214, key: 'KEY_3', targetProfileId: 456 });
+        databaseBuilder.factory.buildTargetProfile({ id: 456 });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 2 });
+        databaseBuilder.factory.buildBadge({ id: 1213, targetProfileId: 456 });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 98,
+          badgeId: 1213,
+          complementaryCertificationId: 2,
+        });
 
-      await databaseBuilder.commit();
+        await databaseBuilder.commit();
 
-      // when
-      const allowedBadgeKeys = await complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey({
-        key: 'KEY_2',
+        // when
+        const allowedBadgeKeys =
+          await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
+            97,
+          );
+
+        // then
+        expect(allowedBadgeKeys).to.deep.equal([97]);
       });
+    });
 
-      // then
-      expect(allowedBadgeKeys).to.deep.equal(['KEY_2', 'KEY_3']);
+    context('when there are two target profiles for a complementary certification', function () {
+      it('should return the allowed jury level for that target profile', async function () {
+        // given
+        databaseBuilder.factory.buildTargetProfile({ id: 123 });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 1 });
+        databaseBuilder.factory.buildBadge({
+          id: 1212,
+          key: 'KEY_1',
+          targetProfileId: 123,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 97,
+          badgeId: 1212,
+          complementaryCertificationId: 1,
+        });
+
+        databaseBuilder.factory.buildTargetProfile({ id: 456 });
+        databaseBuilder.factory.buildBadge({ id: 1213, key: 'KEY_2', targetProfileId: 456 });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 98,
+          badgeId: 1213,
+          complementaryCertificationId: 1,
+        });
+        databaseBuilder.factory.buildBadge({ id: 1214, key: 'KEY_3', targetProfileId: 456 });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: 99,
+          badgeId: 1214,
+          complementaryCertificationId: 1,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const allowedBadgeKeys =
+          await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
+            98,
+          );
+
+        // then
+        expect(allowedBadgeKeys).to.deep.equal([98, 99]);
+      });
     });
   });
 
