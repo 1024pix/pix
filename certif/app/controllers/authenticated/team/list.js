@@ -18,11 +18,19 @@ export default class AuthenticatedTeamListController extends Controller {
   }
 
   get shouldDisplayNoRefererSection() {
-    return this.model.hasCleaHabilitation && _hasAtLeastOneMemberAndNoReferer(this.model.members);
+    return (
+      this.model.hasCleaHabilitation &&
+      this.currentUser.isAdminOfCurrentCertificationCenter &&
+      _hasAtLeastOneMemberAndNoReferer(this.model.members)
+    );
   }
 
   get shouldDisplayUpdateRefererButton() {
-    return this.model.hasCleaHabilitation && _hasAtLeastTwoMembersAndOneReferer(this.model.members);
+    return (
+      this.model.hasCleaHabilitation &&
+      this.currentUser.isAdminOfCurrentCertificationCenter &&
+      _hasAtLeastTwoMembersAndOneReferer(this.model.members)
+    );
   }
 
   get shouldDisplayInviteMemberButton() {

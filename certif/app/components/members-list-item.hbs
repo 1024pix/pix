@@ -1,0 +1,26 @@
+<tr aria-label="Membres du centre de certification">
+  <td>{{@member.lastName}}</td>
+  <td>{{@member.firstName}}</td>
+  <td>{{@member.roleLabel}}</td>
+  {{#if @shouldDisplayRefererColumn}}
+    <td>
+      {{#if @member.isReferer}}
+        <div class="members-list-item__is-referer">
+          <PixTag class="members-list-item__tag" @color="blue-light">
+            {{t "pages.team.pix-referer"}}
+          </PixTag>
+          <PixTooltip class="members-list-item__tool-tip" @isWide="true" @position="bottom">
+            <:triggerElement>
+              <span tabindex="0">
+                <FaIcon @icon="info-circle" />
+              </span>
+            </:triggerElement>
+            <:tooltip>
+              {{t "pages.team.pix-referer-tooltip"}}
+            </:tooltip>
+          </PixTooltip>
+        </div>
+      {{/if}}
+    </td>
+  {{/if}}
+</tr>

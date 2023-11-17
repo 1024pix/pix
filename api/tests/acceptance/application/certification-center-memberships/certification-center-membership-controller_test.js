@@ -118,13 +118,12 @@ describe('Acceptance | API | Certification Center Membership', function () {
           expect(response.statusCode).to.equal(200);
           expect(_.omit(response.result, 'included')).to.deep.equal(expectedUpdatedCertificationCenterMembership);
         });
-      });
 
-      context('Error cases', function () {
         context('when pix agent have "CERTIF" as role', function () {
-          it('returns a 403 HTTP status code', async function () {
+          it('returns a 200 HTTP status code with the updated certification center membership', async function () {
             // given
             const pixAgentWithCertifRole = databaseBuilder.factory.buildUser.withRole({ role: 'CERTIF' });
+
             const request = {
               method: 'PATCH',
               url: `/api/admin/certification-center-memberships/${certificationCenterMembership.id}`,
@@ -141,16 +140,45 @@ describe('Acceptance | API | Certification Center Membership', function () {
                 authorization: generateValidRequestAuthorizationHeader(pixAgentWithCertifRole.id),
               },
             };
+
             await databaseBuilder.commit();
 
             // when
-            const { statusCode } = await server.inject(request);
+            const { result, statusCode } = await server.inject(request);
 
-            // then
-            expect(statusCode).to.equal(403);
+            const expectedUpdatedCertificationCenterMembership = {
+              data: {
+                type: 'certification-center-memberships',
+                id: certificationCenterMembership.id.toString(),
+                attributes: {
+                  role: 'ADMIN',
+                  'created-at': result.data.attributes['created-at'],
+                  'updated-at': result.data.attributes['updated-at'],
+                },
+                relationships: {
+                  'certification-center': {
+                    data: {
+                      type: 'certificationCenters',
+                      id: certificationCenter.id.toString(),
+                    },
+                  },
+                  user: {
+                    data: {
+                      type: 'users',
+                      id: user.id.toString(),
+                    },
+                  },
+                },
+              },
+            };
+
+            expect(statusCode).to.equal(200);
+            expect(_.omit(result, 'included')).to.deep.equal(expectedUpdatedCertificationCenterMembership);
           });
         });
+      });
 
+      context('Error cases', function () {
         context('when given certification center membership ID is different from the one in the payload', function () {
           it('returns a 400 HTTP status code', async function () {
             // given

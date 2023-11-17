@@ -151,7 +151,8 @@
         "insee-code": "INSEE code",
         "lastname": "Last name",
         "none": "None",
-        "postcode": "City postcode"
+        "postcode": "City postcode",
+        "role": "Role"
       },
       "line": "Line {line}: "
     },
@@ -854,6 +855,12 @@
       "title": "Team",
       "invite-button": "Invite a member",
       "invite-member-button": "Invite a member",
+      "members": {
+        "role": {
+          "admin": "Administrator",
+          "member": "Member"
+        }
+      },
       "no-referer-section": {
         "title": "Aucun référent Pix désigné",
         "description": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",

@@ -1,3 +1,8 @@
+const CERTIFICATION_CENTER_MEMBERSHIP_ROLES = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
+};
+
 class CertificationCenterMembership {
   constructor({
     id,
@@ -21,11 +26,18 @@ class CertificationCenterMembership {
     this.updatedAt = updatedAt;
   }
 
+  get hasAdminRole() {
+    return this.role === CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN;
+  }
+
   updateRole({ role, updatedByUserId }) {
     this.role = role;
-    this.updatedByUserId = updatedByUserId;
     this.updatedAt = new Date();
+
+    if (updatedByUserId) {
+      this.updatedByUserId = updatedByUserId;
+    }
   }
 }
 
-export { CertificationCenterMembership };
+export { CertificationCenterMembership, CERTIFICATION_CENTER_MEMBERSHIP_ROLES };
