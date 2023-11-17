@@ -1,12 +1,11 @@
 import { Factory } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   solution() {
-    return faker.lorem.word();
+    return 'a word';
   },
 
   hint() {
-    return faker.lorem.word();
+    return 'an other word';
   },
 });

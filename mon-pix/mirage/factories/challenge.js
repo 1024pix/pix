@@ -1,9 +1,8 @@
 import { Factory, trait } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   id() {
-    return `rec_${faker.string.alphanumeric(5)}`;
+    return 'rec_M8fSF';
   },
 
   type() {
@@ -18,28 +17,27 @@ export default Factory.extend({
     return 'Rue de : ${Rue#}';
   },
 
-  // NOTE : ID set in the afterCreate, else faker would always generate the same ID
   forCompetenceEvaluation: trait({
     afterCreate(challenge) {
-      challenge.update({ id: `recCOMPEVAL_${faker.string.alphanumeric(5)}` });
+      challenge.update({ id: 'recCOMPEVAL_3e5V7' });
     },
   }),
 
   forCertification: trait({
     afterCreate(challenge) {
-      challenge.update({ id: `recCERTIF_${faker.string.alphanumeric(5)}` });
+      challenge.update({ id: 'recCERTIF_KWnkZ' });
     },
   }),
 
   forDemo: trait({
     afterCreate(challenge) {
-      challenge.update({ id: `recDEMO_${faker.string.alphanumeric(5)}` });
+      challenge.update({ id: 'recDEMO_6OXcE' });
     },
   }),
 
   forCampaign: trait({
     afterCreate(challenge) {
-      challenge.update({ id: `recSMARPLA_${faker.string.alphanumeric(5)}` });
+      challenge.update({ id: 'recSMARPLA_BsBEP' });
     },
   }),
 
@@ -115,7 +113,7 @@ export default Factory.extend({
   }),
 
   timed: trait({
-    timer: faker.number.int(),
+    timer: 92159,
   }),
 
   QROCwithFile1: trait({
@@ -135,12 +133,12 @@ export default Factory.extend({
   }),
 
   withAttachment: trait({
-    attachments: [faker.internet.url()],
+    attachments: ['https://pix.fr/_nuxt/image/73cc59.svg'],
   }),
 
   withEmbed: trait({
     embedUrl: 'https://example.biz',
-    embedTitle: faker.lorem.words(),
+    embedTitle: 'a title',
     embedHeight: '100',
   }),
 
