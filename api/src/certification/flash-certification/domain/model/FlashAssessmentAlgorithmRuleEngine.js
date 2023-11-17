@@ -4,11 +4,11 @@ export class FlashAssessmentAlgorithmRuleEngine {
     this._configuration = configuration;
   }
 
-  execute({ allAnswers, allChallenges }) {
+  execute({ assessmentAnswers, allChallenges }) {
     const applicableRules = this._getApplicableRules();
 
     return applicableRules.reduce((availableChallenges, rule) => {
-      return rule.execute({ allAnswers, allChallenges, availableChallenges });
+      return rule.execute({ assessmentAnswers, allChallenges, availableChallenges });
     }, allChallenges);
   }
 

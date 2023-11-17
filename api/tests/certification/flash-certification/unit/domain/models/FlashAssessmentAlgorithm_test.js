@@ -30,11 +30,11 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
   describe('#getPossibleNextChallenges', function () {
     context('when enough challenges have been answered', function () {
       it('should throw an AssessmentEndedError', function () {
-        const allAnswers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
+        const assessmentAnswers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
         const skill1 = domainBuilder.buildSkill({ id: 1 });
         const skill2 = domainBuilder.buildSkill({ id: 2 });
         const challenges = [
-          domainBuilder.buildChallenge({ id: allAnswers[0].challengeId, skill: skill1 }),
+          domainBuilder.buildChallenge({ id: assessmentAnswers[0].challengeId, skill: skill1 }),
           domainBuilder.buildChallenge({ competenceId: 'comp2', skill: skill2 }),
         ];
         const estimatedLevel = 0;
@@ -46,7 +46,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
 
         expect(() =>
           algorithm.getPossibleNextChallenges({
-            allAnswers,
+            assessmentAnswers,
             challenges,
             estimatedLevel,
           }),
@@ -94,7 +94,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             skill: skillTube2,
           });
 
-          const allAnswers = [
+          const assessmentAnswers = [
             domainBuilder.buildAnswer({
               challengeId: answeredChallengeTube1.id,
             }),
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
             .withArgs(
               _getEstimatedLevelAndErrorRateParams({
-                allAnswers,
+                allAnswers: assessmentAnswers,
                 challenges,
                 estimatedLevel: initialCapacity,
               }),
@@ -123,7 +123,9 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             })
             .returns(expectedChallenges);
 
-          expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
+          expect(algorithm.getPossibleNextChallenges({ assessmentAnswers, challenges })).to.deep.equal(
+            expectedChallenges,
+          );
         });
       });
 
@@ -168,7 +170,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             skill: skillTube2,
           });
 
-          const allAnswers = [
+          const assessmentAnswers = [
             domainBuilder.buildAnswer({
               challengeId: answeredChallengeTube1.id,
             }),
@@ -179,7 +181,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
             .withArgs(
               _getEstimatedLevelAndErrorRateParams({
-                allAnswers,
+                allAnswers: assessmentAnswers,
                 challenges,
                 estimatedLevel: initialCapacity,
               }),
@@ -197,7 +199,9 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             })
             .returns(expectedChallenges);
 
-          expect(algorithm.getPossibleNextChallenges({ allAnswers, challenges })).to.deep.equal(expectedChallenges);
+          expect(algorithm.getPossibleNextChallenges({ assessmentAnswers, challenges })).to.deep.equal(
+            expectedChallenges,
+          );
         });
       });
     });
@@ -235,7 +239,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         });
 
         const challenges = [hardChallenge, easyChallenge];
-        const allAnswers = [answer1];
+        const assessmentAnswers = [answer1];
         const answersForComputingEstimatedLevel = [];
 
         // when
@@ -267,7 +271,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           .returns([hardChallenge]);
 
         const nextChallenges = algorithm.getPossibleNextChallenges({
-          allAnswers,
+          assessmentAnswers,
           challenges,
           initialCapacity,
           answersForComputingEstimatedLevel,
@@ -307,7 +311,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const challenges = [hardChallenge, easyChallenge];
-          const allAnswers = [];
+          const assessmentAnswers = [];
 
           // when
           const algorithm = new FlashAssessmentAlgorithm({
@@ -338,7 +342,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             .returns([easyChallenge, hardChallenge]);
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
-            allAnswers,
+            assessmentAnswers,
             challenges,
             initialCapacity,
           });
@@ -386,7 +390,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           });
 
           const challenges = [hardChallenge, easyChallenge, hardChallenge2];
-          const allAnswers = [
+          const assessmentAnswers = [
             domainBuilder.buildAnswer({
               challengeId: hardChallenge.id,
             }),
@@ -424,7 +428,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             .returns(expectedChallenges);
 
           const nextChallenges = algorithm.getPossibleNextChallenges({
-            allAnswers,
+            assessmentAnswers,
             challenges,
             initialCapacity,
           });

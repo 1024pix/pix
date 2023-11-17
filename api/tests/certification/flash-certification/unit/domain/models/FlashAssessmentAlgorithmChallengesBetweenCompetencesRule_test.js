@@ -81,10 +81,10 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             challengeId: 'chall3.1',
           });
 
-          const allAnswers = [answer1, answer2, answer3];
+          const assessmentAnswers = [answer1, answer2, answer3];
 
           const options = {
-            allAnswers,
+            assessmentAnswers,
             allChallenges,
             availableChallenges: allChallenges,
             challengesBetweenSameCompetence: 2,
@@ -135,10 +135,10 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
             challengeId: 'chall2.1',
           });
 
-          const allAnswers = [answer1, answer2];
+          const assessmentAnswers = [answer1, answer2];
 
           const options = {
-            allAnswers,
+            assessmentAnswers,
             allChallenges,
             availableChallenges: allChallenges,
             challengesBetweenSameCompetence: 2,

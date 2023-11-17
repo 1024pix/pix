@@ -3,8 +3,8 @@ export class FlashAssessmentAlgorithmOneQuestionPerTubeRule {
     return limitToOneQuestionPerTube;
   }
 
-  static execute({ allAnswers, allChallenges, availableChallenges }) {
-    const alreadyAnsweredTubeIds = allAnswers.map(
+  static execute({ assessmentAnswers, allChallenges, availableChallenges }) {
+    const alreadyAnsweredTubeIds = assessmentAnswers.map(
       (answer) =>
         FlashAssessmentAlgorithmOneQuestionPerTubeRule._findChallengeForAnswer(allChallenges, answer).skill.tubeId,
     );
