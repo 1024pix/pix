@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
-import { MAX_REACHABLE_LEVEL } from '../../../../../lib/domain/constants.js';
+import { expect, domainBuilder } from '../../../../../test-helper.js';
+import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import { MAX_REACHABLE_LEVEL } from '../../../../../../lib/domain/constants.js';
 
 describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
   describe('#serialize()', function () {
