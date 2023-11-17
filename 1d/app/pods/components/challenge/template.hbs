@@ -3,10 +3,10 @@
   <RobotDialog>
     <Bubble @message={{@challenge.instruction}} />
     {{#if (eq this.answer.result "ok")}}
-      <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @color="success" />
+      <Bubble @message={{t "pages.challenge.messages.correct-answer"}} @color="success" aria-live="polite" />
     {{/if}}
     {{#if (eq this.answer.result "ko")}}
-      <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @color="error" />
+      <Bubble @message={{t "pages.challenge.messages.wrong-answer"}} @color="error" aria-live="polite" />
     {{/if}}
 
   </RobotDialog>
