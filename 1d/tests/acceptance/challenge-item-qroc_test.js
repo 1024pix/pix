@@ -40,7 +40,7 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       assert.dom(screen.getByText('Rue de :')).exists();
     });
 
-    test('should display answer feedback dialog if user validates after writing the right answer in text area', async function (assert) {
+    test('should display answer feedback bubble if user validates after writing the right answer in text area', async function (assert) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');

@@ -9,7 +9,6 @@ export default class Challenge extends Component {
   @tracked answerHasBeenValidated = false;
   @tracked answer = null;
   @tracked answerValue = null;
-  @tracked showWarningModal = false;
 
   get disableCheckButton() {
     return this.answerValue === null || this.answerValue === '';
@@ -26,18 +25,14 @@ export default class Challenge extends Component {
   @action
   async validateAnswer() {
     const assessmentIdForPreview = null;
-    if (this.answerValue) {
-      this.answer = this._createActivityAnswer(this.args.challenge);
-      this.answer.value = this.answerValue;
-      try {
-        const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
-        await this.answer.save({ adapterOptions: { assessmentId } });
-        this.answerHasBeenValidated = true;
-      } catch (error) {
-        this.answer.rollbackAttributes();
-      }
-    } else {
-      this.showWarningModal = true;
+    this.answer = this._createActivityAnswer(this.args.challenge);
+    this.answer.value = this.answerValue;
+    try {
+      const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
+      await this.answer.save({ adapterOptions: { assessmentId } });
+      this.answerHasBeenValidated = true;
+    } catch (error) {
+      this.answer.rollbackAttributes();
     }
   }
 
@@ -55,10 +50,5 @@ export default class Challenge extends Component {
     this.answer = null;
 
     this.router.transitionTo('assessment.resume');
-  }
-
-  @action
-  onCloseWarningModal() {
-    this.showWarningModal = false;
   }
 }

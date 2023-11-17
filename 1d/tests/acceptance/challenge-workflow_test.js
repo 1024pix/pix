@@ -103,18 +103,4 @@ module('Acceptance | Challenge workflow', function (hooks) {
       assert.dom(screen.getByText('Nouvelle instruction')).exists();
     });
   });
-
-  module("when user doesn't click yet", function () {
-    test('do not displays any modals', async function (assert) {
-      const assessment = this.server.create('assessment');
-      this.server.create('challenge');
-      // when
-      await visit(`/assessments/${assessment.id}/challenges`);
-
-      // then
-      document.querySelectorAll('.pix-modal__overlay').forEach((modalElement) => {
-        assert.true(modalElement.classList.contains('pix-modal__overlay--hidden'));
-      });
-    });
-  });
 });

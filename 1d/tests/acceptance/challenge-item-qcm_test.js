@@ -24,7 +24,7 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     assert.dom(screen.getByText('Sélectionne les bonnes réponses.')).exists();
   });
 
-  test('should display answer feedback dialog if user validates after writing the right answer in input', async function (assert) {
+  test('should display answer feedback bubble if user validates after writing the right answer in input', async function (assert) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await click(screen.getByRole('checkbox', { name: 'Profil 1' }));
