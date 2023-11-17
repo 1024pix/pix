@@ -1,5 +1,4 @@
 import { Factory, trait } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   format() {
@@ -11,11 +10,11 @@ export default Factory.extend({
   },
 
   link() {
-    return faker.internet.url();
+    return 'https://pix.fr/_nuxt/image/73cc59.svg';
   },
 
   title() {
-    return faker.lorem.word();
+    return 'temporibus';
   },
 
   withUserSavedTutorial: trait({
