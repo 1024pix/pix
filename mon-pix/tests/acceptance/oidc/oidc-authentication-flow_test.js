@@ -16,7 +16,7 @@ module('Acceptance | OIDC | authentication flow', function (hooks) {
         // given
         const screen = await visit('/connexion/oidc-partner?code=code&state=state');
         await click(screen.getByLabelText(this.intl.t('common.cgu.label')));
-        await click(screen.getByRole('button', { name: 'Je créé mon compte' }));
+        await click(screen.getByRole('button', { name: 'Je crée mon compte' }));
         await click(screen.getByRole('button', { name: 'Lloyd Consulter mes informations' }));
 
         // when
