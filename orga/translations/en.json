@@ -820,7 +820,12 @@
             "ariaLabelSortUp": "The table is sorted by last name, in alphabetical order. Click to sort by reverse alphabetical order.",
             "label": "Last name"
           },
-          "latest-participation": "Latest participation",
+          "latest-participation": {
+            "ariaLabelDefaultSort": "The array is not yet sorted by latest participations. Click to sort ascending.",
+            "ariaLabelSortDown": "The array is sorted by descending latest participations. Click to sort ascending.",
+            "ariaLabelSortUp": "The array is sorted by ascending latest participations. Click to sort descending.",
+            "label": "Latest participation"
+          },
           "mainCheckbox": "Select/Unselect whole column",
           "participation-count": {
             "ariaLabelDefaultSort": "The array is not yet sorted by number of participations. Click to sort ascending.",

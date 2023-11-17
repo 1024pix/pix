@@ -13,12 +13,14 @@
               @allSelected={{allSelected}}
               @someSelected={{someSelected}}
               @showCheckbox={{this.showCheckbox}}
-              @lastnameSort={{@lastnameSort}}
               @hasParticipants={{this.hasParticipants}}
-              @participationCountOrder={{@participationCountOrder}}
               @onToggleAll={{toggleAll}}
+              @lastnameSort={{@lastnameSort}}
+              @participationCountOrder={{@participationCountOrder}}
+              @latestParticipationOrder={{@latestParticipationOrder}}
               @onSortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
               @onSortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
+              @onSortByLatestParticipation={{(fn this.addResetOnFunction @sortByLatestParticipation reset)}}
             />
           </InElement>
           {{#if someSelected}}

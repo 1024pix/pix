@@ -30,16 +30,23 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
     'view-active-organization-learners.firstName',
     'view-active-organization-learners.id',
   ];
-  if (sort?.participationCount) {
+  if (sort.participationCount) {
     orderByClause.unshift({
       column: 'participationCount',
       order: sort.participationCount === 'desc' ? 'desc' : 'asc',
     });
   }
-  if (sort?.lastnameSort) {
+  if (sort.lastnameSort) {
     orderByClause.unshift({
       column: 'view-active-organization-learners.lastName',
       order: sort.lastnameSort === 'desc' ? 'desc' : 'asc',
+    });
+  }
+
+  if (sort.latestParticipationOrder) {
+    orderByClause.unshift({
+      column: 'lastParticipationDate',
+      order: sort.latestParticipationOrder === 'desc' ? 'desc' : 'asc',
     });
   }
 
