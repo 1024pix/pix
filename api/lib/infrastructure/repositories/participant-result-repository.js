@@ -9,10 +9,11 @@ import * as areaRepository from './area-repository.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import * as flashAssessmentResultRepository from './flash-assessment-result-repository.js';
 import * as campaignRepository from './campaign-repository.js';
+import * as skillRepository from './skill-repository.js';
 import * as flash from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetcher.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { StageCollection } from '../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
+import { convertLevelStagesIntoThresholds } from '../../../src/evaluation/domain/services/stages/convert-level-stages-into-thresholds-service.js';
 
 /**
  *
@@ -40,14 +41,18 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, r
   const isOrganizationLearnerActive = await _isOrganizationLearnerActive(userId, campaignId);
   const isCampaignArchived = await _isCampaignArchived(campaignId);
   const competences = await _findTargetedCompetences(campaignId, locale);
-  const stageCollection = new StageCollection({ campaignId, stages });
+  if (stages && stages.length) {
+    const skillIds = competences.flatMap(({ targetedSkillIds }) => targetedSkillIds);
+    const skills = await skillRepository.findOperativeByIds(skillIds);
+    convertLevelStagesIntoThresholds(stages, skills);
+  }
   const isTargetProfileResetAllowed = await _getTargetProfileResetAllowed(campaignId);
 
   return new AssessmentResult({
     participationResults,
     competences,
     badgeResultsDTO: badges,
-    stageCollection,
+    stages,
     reachedStage,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,

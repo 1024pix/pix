@@ -978,4 +978,85 @@ module('Integration | component | Campaigns | Evaluation | Skill Review', functi
       assert.ok(true);
     });
   });
+
+  module('#competenceResultsGroupedByAreas', function () {
+    test('should return a competence result', async function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.competenceResults = [
+        {
+          areaColor: 'teal',
+          areaTitle: 'area title',
+          name: 'competence name',
+          index: '1.4',
+          masteryPercentage: 50,
+          masteryRate: 0.5,
+          totalSkillsCount: 3,
+          testedSkillsCount: 2,
+          validatedSkillsCount: 1,
+          reachedStage: 2,
+          acquiredStagesCount: 1,
+        },
+        {
+          areaColor: 'teal',
+          areaTitle: 'area title',
+          name: 'second competence name',
+          index: '1.5',
+          masteryPercentage: 40,
+          masteryRate: 0.4,
+          totalSkillsCount: 10,
+          testedSkillsCount: 6,
+          validatedSkillsCount: 4,
+          reachedStage: 4,
+          acquiredStagesCount: 3,
+        },
+        {
+          areaColor: 'blue',
+          areaTitle: 'second area title',
+          name: 'other area competence',
+          index: '1.5',
+          masteryPercentage: 40,
+          masteryRate: 0.4,
+          totalSkillsCount: 10,
+          testedSkillsCount: 6,
+          validatedSkillsCount: 4,
+          reachedStage: 4,
+          acquiredStagesCount: 3,
+        },
+      ];
+
+      // when
+      const competenceResults = component.competenceResultsGroupedByAreas;
+
+      // then
+      assert.deepEqual(competenceResults, {
+        'area title': {
+          areaColor: 'teal',
+          areaTitle: 'area title',
+          competences: [
+            {
+              acquiredStagesCount: 1,
+              masteryRate: 0.5,
+              name: 'competence name',
+            },
+            {
+              acquiredStagesCount: 3,
+              masteryRate: 0.4,
+              name: 'second competence name',
+            },
+          ],
+        },
+        'second area title': {
+          areaColor: 'blue',
+          areaTitle: 'second area title',
+          competences: [
+            {
+              acquiredStagesCount: 3,
+              masteryRate: 0.4,
+              name: 'other area competence',
+            },
+          ],
+        },
+      });
+    });
+  });
 });

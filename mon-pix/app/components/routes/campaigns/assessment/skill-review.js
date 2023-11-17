@@ -177,8 +177,8 @@ export default class SkillReview extends Component {
       const currentArea = competenceResult.areaTitle;
       const competence = {
         name: competenceResult.name,
-        reachedStage: competenceResult.reachedStage,
         masteryRate: competenceResult.masteryRate,
+        acquiredStagesCount: competenceResult.acquiredStagesCount,
       };
       if (acc[currentArea]) {
         acc[currentArea].competences.push(competence);
