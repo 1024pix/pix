@@ -1,7 +1,8 @@
-import { sinon, expect, hFake } from '../../../test-helper.js';
-import { scorecardController } from '../../../../lib/application/scorecards/scorecard-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { sinon, expect, hFake } from '../../../../test-helper.js';
+import { scorecardController } from '../../../../../src/evaluation/application/scorecards/scorecard-controller.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { evaluationUsecases } from '../../../../../src/evaluation//domain/usecases/index.js';
+import * as requestResponseUtils from '../../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | scorecard-controller', function () {
   const authenticatedUserId = '12';
@@ -14,7 +15,10 @@ describe('Unit | Controller | scorecard-controller', function () {
     const scorecard = { name: 'Competence1' };
 
     beforeEach(function () {
-      sinon.stub(usecases, 'getScorecard').withArgs({ authenticatedUserId, scorecardId, locale }).resolves(scorecard);
+      sinon
+        .stub(evaluationUsecases, 'getScorecard')
+        .withArgs({ authenticatedUserId, scorecardId, locale })
+        .resolves(scorecard);
     });
 
     it('should call the expected usecase', async function () {
