@@ -136,4 +136,36 @@ module('Unit | Controller | authenticated/sup-organization-participants/list', f
       );
     });
   });
+
+  module('#sortByLastname', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.lastnameSort = null;
+      controller.participationCountOrder = 'Godzilla';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByLastname('desc');
+
+      // then
+      assert.strictEqual(controller.lastnameSort, 'desc');
+      assert.strictEqual(controller.participationCountOrder, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
+
+  module('#sortByParticipationCount', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.participationCountOrder = null;
+      controller.lastnameSort = 'T-Rex';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByParticipationCount('desc');
+
+      // then
+      assert.strictEqual(controller.participationCountOrder, 'desc');
+      assert.strictEqual(controller.lastnameSort, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
 });

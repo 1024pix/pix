@@ -33,9 +33,17 @@
   >
     {{t "pages.organization-participants.table.column.participation-count.label"}}
   </Table::HeaderSort>
-  <Table::Header @size="medium" @align="center">
-    {{t "pages.organization-participants.table.column.latest-participation"}}
-  </Table::Header>
+  <Table::HeaderSort
+    @size="medium"
+    @align="center"
+    @onSort={{@onSortByLatestParticipation}}
+    @order={{@latestParticipationOrder}}
+    @ariaLabelDefaultSort={{t "pages.organization-participants.table.column.latest-participation.ariaLabelDefaultSort"}}
+    @ariaLabelSortUp={{t "pages.organization-participants.table.column.latest-participation.ariaLabelSortUp"}}
+    @ariaLabelSortDown={{t "pages.organization-participants.table.column.latest-participation.ariaLabelSortDown"}}
+  >
+    {{t "pages.organization-participants.table.column.latest-participation.label"}}
+  </Table::HeaderSort>
   <Table::Header @size="medium" @align="center">
     <div class="organization-participant-list-page__certificability-header">
       {{t "pages.organization-participants.table.column.is-certifiable.label"}}
