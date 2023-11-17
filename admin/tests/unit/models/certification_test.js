@@ -204,34 +204,6 @@ module('Unit | Model | certification', function (hooks) {
     });
   });
 
-  module('#wasRegisteredBeforeCPF', function () {
-    [
-      { value: '', label: 'Chaîne vide' },
-      { value: null, label: 'NULL' },
-      { value: undefined, label: 'undefined' },
-    ].forEach(({ value, label }) => {
-      test(`it should return true when sex value is ${label}`, function (assert) {
-        // given
-        const certification = store.createRecord('certification', {
-          sex: value,
-        });
-
-        // then
-        assert.true(certification.wasRegisteredBeforeCPF);
-      });
-    });
-
-    test('should return false when sex is defined', function (assert) {
-      // given
-      const certification = store.createRecord('certification', {
-        sex: 'M',
-      });
-
-      // then
-      assert.false(certification.wasRegisteredBeforeCPF);
-    });
-  });
-
   module('#get completionDate', function () {
     test('it should return null if completedAt is null', function (assert) {
       // given
