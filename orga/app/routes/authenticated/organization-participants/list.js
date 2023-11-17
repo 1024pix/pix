@@ -9,6 +9,7 @@ export default class ListRoute extends Route {
     fullName: { refreshModel: true },
     certificability: { refreshModel: true },
     participationCountOrder: { refreshModel: true },
+    latestParticipationOrder: { refreshModel: true },
     lastnameSort: { refreshModel: true },
   };
 
@@ -24,6 +25,7 @@ export default class ListRoute extends Route {
       },
       sort: {
         participationCount: params.participationCountOrder,
+        latestParticipationOrder: params.latestParticipationOrder,
         lastnameSort: params.lastnameSort,
       },
       page: {
@@ -40,6 +42,7 @@ export default class ListRoute extends Route {
       controller.fullName = null;
       controller.certificability = [];
       controller.participationCountOrder = null;
+      controller.latestParticipationOrder = null;
       controller.lastnameSort = 'asc';
     }
   }
