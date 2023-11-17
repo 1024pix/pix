@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { modulesController } from './controller.js';
+import { handlerWithDependencies } from '../../infrastructure/utils/handlerWithDependencies.js';
 
 const register = async function (server) {
   server.route([
@@ -8,7 +9,7 @@ const register = async function (server) {
       path: '/api/modules/{slug}',
       config: {
         auth: false,
-        handler: modulesController.getBySlug,
+        handler: handlerWithDependencies(modulesController.getBySlug),
         validate: {
           params: Joi.object({ slug: Joi.string().required() }),
         },
@@ -21,7 +22,7 @@ const register = async function (server) {
       path: '/api/modules/{moduleSlug}/elements/{elementId}/answers',
       config: {
         auth: false,
-        handler: modulesController.verifyAnswer,
+        handler: handlerWithDependencies(modulesController.verifyAnswer),
         validate: {
           params: Joi.object({
             moduleSlug: Joi.string().required(),
