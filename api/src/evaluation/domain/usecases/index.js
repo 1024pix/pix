@@ -4,9 +4,13 @@ import { dirname, join } from 'node:path';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
+import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 import * as stageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
@@ -23,9 +27,13 @@ const usecasesWithoutInjectedDependencies = {
 
 const dependencies = {
   answerRepository,
+  areaRepository,
   assessmentRepository,
+  campaignRepository,
+  campaignParticipationRepository,
   competenceEvaluationRepository,
   competenceRepository,
+  knowledgeElementRepository,
   stageCollectionForTargetProfileRepository,
   stageAcquisitionRepository,
   feedbackRepository,

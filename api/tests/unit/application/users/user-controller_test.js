@@ -5,6 +5,7 @@ import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-pa
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -876,7 +877,7 @@ describe('Unit | Controller | user-controller', function () {
 
   describe('#resetScorecard', function () {
     beforeEach(function () {
-      sinon.stub(usecases, 'resetScorecard').resolves({
+      sinon.stub(evaluationUsecases, 'resetScorecard').resolves({
         name: 'Comp1',
       });
     });
@@ -905,7 +906,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.resetScorecard(request, hFake, { scorecardSerializer, requestResponseUtils });
 
       // then
-      expect(usecases.resetScorecard).to.have.been.calledWithExactly({ userId, competenceId, locale });
+      expect(evaluationUsecases.resetScorecard).to.have.been.calledWithExactly({ userId, competenceId, locale });
     });
   });
 

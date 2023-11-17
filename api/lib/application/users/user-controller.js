@@ -22,6 +22,7 @@ import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/u
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { eventBus } from '../../domain/events/index.js';
@@ -252,7 +253,7 @@ const resetScorecard = function (request, h, dependencies = { scorecardSerialize
   const competenceId = request.params.competenceId;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
-  return usecases
+  return evaluationUsecases
     .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
     .then(dependencies.scorecardSerializer.serialize);
 };
