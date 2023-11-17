@@ -250,6 +250,24 @@ module('Unit | Model | certification', function (hooks) {
     });
   });
 
+  module('#get isV3', function () {
+    test('it should return false if version is not 3', function (assert) {
+      // given
+      const certification = store.createRecord('certification', { version: 2 });
+
+      // then
+      assert.false(certification.isV3);
+    });
+
+    test('it should return true if version is 3', function (assert) {
+      // given
+      const certification = store.createRecord('certification', { version: 3 });
+
+      // then
+      assert.true(certification.isV3);
+    });
+  });
+
   module('#getInformation', function () {
     test('it should return the certification candidate information', function (assert) {
       // given
