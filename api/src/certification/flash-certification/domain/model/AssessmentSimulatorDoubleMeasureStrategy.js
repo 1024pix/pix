@@ -24,7 +24,7 @@ export class AssessmentSimulatorDoubleMeasureStrategy {
 
     for (let index = 0; index < NUMBER_OF_MEASURES; index++) {
       const possibleChallenges = this.algorithm.getPossibleNextChallenges({
-        allAnswers: [...challengesAnswers, ...newAnswers],
+        assessmentAnswers: [...challengesAnswers, ...newAnswers],
         challenges: this.challenges,
         initialCapacity: this.initialCapacity,
         answersForComputingEstimatedLevel: challengesAnswers,

@@ -60,13 +60,13 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           answeredSkillAnsweredChallenge,
         ];
 
-        const allAnswers = [answerForChallengeWithAnsweredSkill];
+        const assessmentAnswers = [answerForChallengeWithAnsweredSkill];
 
         expect(
           FlashAssessmentAlgorithmNonAnsweredSkillsRule.execute({
             allChallenges,
             availableChallenges: allChallenges,
-            allAnswers,
+            assessmentAnswers,
           }),
         ).to.deep.equal([unansweredSkillUnansweredChallenge]);
       });

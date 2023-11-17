@@ -61,7 +61,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           unansweredTubeUnansweredSkillChallenge,
         ];
 
-        const allAnswers = [
+        const assessmentAnswers = [
           domainBuilder.buildAnswer({
             challengeId: answeredTubeAnsweredSkillChallenge.id,
           }),
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           FlashAssessmentAlgorithmOneQuestionPerTubeRule.execute({
             allChallenges,
             availableChallenges: allChallenges,
-            allAnswers,
+            assessmentAnswers,
           }),
         ).to.deep.equal([unansweredTubeUnansweredSkillChallenge]);
       });

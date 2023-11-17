@@ -78,35 +78,29 @@ class FlashAssessmentAlgorithm {
   }
 
   getPossibleNextChallenges({
-    allAnswers,
+    assessmentAnswers,
     challenges,
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
     answersForComputingEstimatedLevel,
   }) {
-    if (allAnswers.length >= this.maximumAssessmentLength) {
+    if (assessmentAnswers.length >= this.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
     const { estimatedLevel } = this.getEstimatedLevelAndErrorRate({
-      allAnswers: answersForComputingEstimatedLevel ?? allAnswers,
+      allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
       challenges,
       initialCapacity,
       variationPercent: this.variationPercent,
     });
 
-    const minimalSuccessRate = this._computeMinimalSuccessRate(allAnswers.length);
+    const challengesAfterRulesApplication = this._applyChallengeSelectionRules(assessmentAnswers, challenges);
 
-    const challengesAfterRulesApplication = this.ruleEngine.execute({
-      allAnswers,
-      allChallenges: challenges,
-    });
-
-    if (
-      challengesAfterRulesApplication?.length === 0 ||
-      allAnswers.length >= config.features.numberOfChallengesForFlashMethod
-    ) {
+    if (challengesAfterRulesApplication?.length === 0) {
       throw new AssessmentEndedError();
     }
+
+    const minimalSuccessRate = this._computeMinimalSuccessRate(assessmentAnswers.length);
 
     return this.flashAlgorithmImplementation.getPossibleNextChallenges({
       availableChallenges: challengesAfterRulesApplication,
@@ -115,6 +109,13 @@ class FlashAssessmentAlgorithm {
         challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
         minimalSuccessRate,
       },
+    });
+  }
+
+  _applyChallengeSelectionRules(assessmentAnswers, challenges) {
+    return this.ruleEngine.execute({
+      assessmentAnswers,
+      allChallenges: challenges,
     });
   }
 

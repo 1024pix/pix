@@ -33,7 +33,7 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
 
         algorithm.getPossibleNextChallenges
           .withArgs({
-            allAnswers: [],
+            assessmentAnswers: [],
             challenges: allChallenges,
             initialCapacity,
             answersForComputingEstimatedLevel: [],
@@ -85,14 +85,14 @@ describe('Unit | Domain | Models | AssessmentSimulatorDoubleMeasureStrategy', fu
 
         algorithm.getPossibleNextChallenges
           .withArgs({
-            allAnswers: [],
+            assessmentAnswers: [],
             challenges: allChallenges,
             initialCapacity,
             answersForComputingEstimatedLevel: [],
           })
           .returns([challenge2, challenge1])
           .withArgs({
-            allAnswers: [newAnswer2],
+            assessmentAnswers: [newAnswer2],
             challenges: allChallenges,
             initialCapacity,
             answersForComputingEstimatedLevel: [],
