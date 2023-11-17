@@ -10,7 +10,7 @@ import {
   NoCertificationAttestationForDivisionError,
 } from '../../../../src/shared/domain/errors.js';
 
-import { HttpErrors } from '../../../../src/shared/application/http-errors.js';
+import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
 import {
@@ -269,6 +269,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(
         'Aucune attestation de certification pour la classe 1.',
       );
+    });
+
+    it('should instantiate BaseHttpError when UnauthorizedError', async function () {
+      // given
+      const error = new UnauthorizedError();
+      sinon.stub(HttpErrors, 'BaseHttpError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BaseHttpError).to.have.been.calledOnce;
     });
   });
 });
