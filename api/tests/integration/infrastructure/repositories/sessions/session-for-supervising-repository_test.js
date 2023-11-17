@@ -339,7 +339,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             'authorizedToStart',
             'assessmentStatus',
             'startDateTime',
-            'liveAlertStatus',
+            'liveAlert',
           ]),
         );
         expect(actualCandidates).to.have.deep.ordered.members([
@@ -350,7 +350,13 @@ describe('Integration | Repository | SessionForSupervising', function () {
             authorizedToStart: true,
             assessmentStatus: Assessment.states.STARTED,
             startDateTime: '2022-10-19T13:37:00+00:00',
-            liveAlertStatus: CertificationChallengeLiveAlertStatus.ONGOING,
+            liveAlert: {
+              hasAttachment: false,
+              hasImage: false,
+              hasEmbed: false,
+              isFocus: false,
+              status: CertificationChallengeLiveAlertStatus.ONGOING,
+            },
           },
           {
             userId: 33333,
@@ -359,7 +365,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             authorizedToStart: false,
             assessmentStatus: null,
             startDateTime: null,
-            liveAlertStatus: null,
+            liveAlert: null,
           },
           {
             userId: 11111,
@@ -368,7 +374,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             authorizedToStart: true,
             assessmentStatus: null,
             startDateTime: null,
-            liveAlertStatus: null,
+            liveAlert: null,
           },
           {
             userId: 22222,
@@ -377,7 +383,7 @@ describe('Integration | Repository | SessionForSupervising', function () {
             authorizedToStart: false,
             assessmentStatus: null,
             startDateTime: null,
-            liveAlertStatus: null,
+            liveAlert: null,
           },
         ]);
       });

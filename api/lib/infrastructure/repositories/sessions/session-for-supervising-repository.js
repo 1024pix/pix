@@ -35,7 +35,13 @@ const get = async function (idSession) {
           'authorizedToStart', "certification-candidates"."authorizedToStart",
           'assessmentStatus', "assessments"."state",
           'startDateTime', "certification-courses"."createdAt",
-          'liveAlertStatus', "ongoing-live-alerts".status,
+          'liveAlert', json_build_object(
+            'status', "ongoing-live-alerts".status,
+            'hasImage',"ongoing-live-alerts"."hasImage",
+            'hasAttachment', "ongoing-live-alerts"."hasAttachment",
+            'hasEmbed', "ongoing-live-alerts"."hasEmbed",
+            'isFocus', "ongoing-live-alerts"."isFocus"
+          ),
           'complementaryCertification', json_build_object(
             'key', "complementary-certifications"."key",
             'label', "complementary-certifications"."label",
