@@ -14,6 +14,22 @@ import * as dataFetcher from '../../domain/services/algorithm-methods/data-fetch
 import { NotFoundError } from '../../domain/errors.js';
 import { StageCollection } from '../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
 
+/**
+ *
+ * @param {number} userId
+ * @param {number} campaignId
+ * @param {[Badge]} badges
+ * @param {{
+ *  totalStage: number,
+ *  reachedStage: number,
+ *  reachedStageNumber: number,
+ *  totalNumberOfStages: number
+ * }} reachedStage
+ * @param {[Stage]} stages
+ * @param {string} locale
+ *
+ * @returns {Promise<AssessmentResult>}
+ */
 const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, reachedStage, stages, locale }) {
   const participationResults = await _getParticipationResults(userId, campaignId, locale);
   let flashScoringResults;
