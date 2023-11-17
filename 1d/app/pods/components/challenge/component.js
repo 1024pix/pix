@@ -31,9 +31,18 @@ export default class Challenge extends Component {
       const assessmentId = this.args.assessment?.id || assessmentIdForPreview;
       await this.answer.save({ adapterOptions: { assessmentId } });
       this.answerHasBeenValidated = true;
+      this.scrollToTop();
     } catch (error) {
       this.answer.rollbackAttributes();
     }
+  }
+
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 
   @action
