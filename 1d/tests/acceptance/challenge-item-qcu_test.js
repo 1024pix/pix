@@ -24,7 +24,7 @@ module('Acceptance | Displaying a QCU challenge', function (hooks) {
     assert.dom(screen.getByText('Sélectionne la bonne réponse.')).exists();
   });
 
-  test('should display answer feedback dialog if user validates after writing the right answer in input', async function (assert) {
+  test('should display answer feedback bubble if user validates after writing the right answer in input', async function (assert) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await click(screen.getByRole('radio', { name: 'Profil 1' }));
