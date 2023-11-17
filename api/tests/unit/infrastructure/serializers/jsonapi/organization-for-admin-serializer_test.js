@@ -15,6 +15,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
       const organization = domainBuilder.buildOrganizationForAdmin({
         email: 'sco.generic.account@example.net',
         tags,
+        code: null,
         createdBy: 10,
         documentationUrl: 'https://pix.fr/',
         archivistFirstName: 'John',
@@ -44,6 +45,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'external-id': organization.externalId,
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
+            code: organization.code,
             credit: organization.credit,
             email: organization.email,
             'created-by': organization.createdBy,
