@@ -1,6 +1,6 @@
 import {
-  expect,
   databaseBuilder,
+  expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
 } from '../../../test-helper.js';
@@ -86,6 +86,7 @@ describe('Acceptance | Routes | organization-administration-controller', functio
               'form-nps-url': organization.formNPSUrl,
               'show-skills': false,
               'archivist-full-name': 'Jean Bonneau',
+              code: undefined,
               'data-protection-officer-first-name': dataProtectionOfficer.firstName,
               'data-protection-officer-last-name': dataProtectionOfficer.lastName,
               'data-protection-officer-email': dataProtectionOfficer.email,

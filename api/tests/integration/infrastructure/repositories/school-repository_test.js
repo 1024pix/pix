@@ -2,6 +2,7 @@ import { catchErr, databaseBuilder, expect } from '../../../test-helper.js';
 import * as schoolRepository from '../../../../src/school/infrastructure/repositories/school-repository.js';
 import { School } from '../../../../src/school/domain/models/School.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { Organization } from '../../../../lib/domain/models/index.js';
 
 describe('Integration | Repository | School', function () {
   describe('#save', function () {
@@ -67,6 +68,20 @@ describe('Integration | Repository | School', function () {
 
       // then
       expect(isCodeAvailable).to.be.false;
+    });
+  });
+  describe('#getById', function () {
+    it('should return the code for an organization', async function () {
+      //given
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: Organization.types.SCO1D }).id;
+      databaseBuilder.factory.buildSchool({ code: 'BADOIT710', organizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const code = await schoolRepository.getById(organizationId);
+
+      // then
+      expect(code).to.equal('BADOIT710');
     });
   });
 });

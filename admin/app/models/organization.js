@@ -1,5 +1,5 @@
 import { memberAction } from 'ember-api-actions';
-import Model, { hasMany, attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { equal } from '@ember/object/computed';
 import dayjs from 'dayjs';
@@ -27,6 +27,7 @@ export default class Organization extends Model {
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
   @attr() features;
+  @attr('nullable-string') code;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;

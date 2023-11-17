@@ -11,7 +11,8 @@
     </ul>
   {{else}}
     <PixMessage class="organization-information-section__missing-tags-message" @type="information">Cette organisation
-      n'a pas de tags.</PixMessage>
+      n'a pas de tags.
+    </PixMessage>
   {{/if}}
 
   {{#if @organization.isArchived}}
@@ -81,6 +82,10 @@
         <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
         <li>Activer l'envoi multiple sur les campagnes d'évaluation :
           {{if @organization.enableMultipleSendingAssessment "Oui" "Non"}}</li>
+        {{#if @organization.code}}
+          <br />
+          <li>Code : {{@organization.code}}</li>
+        {{/if}}
       </ul>
       {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
         <div class="form-actions">
@@ -108,7 +113,8 @@
         @size="small"
         target="_blank"
         rel="noopener noreferrer"
-      >Tableau de bord</PixButtonLink>
+      >Tableau de bord
+      </PixButtonLink>
     </div>
   </div>
 </div>
