@@ -1,8 +1,9 @@
 .bubble {
   position: relative;
+  width: fit-content;
   height: fit-content;
   margin-top: 8px;
-  margin-left: 20px;
+  margin-left: 8px;
   padding: 12px;
   font-size: 1.5rem;
   text-align: left;
@@ -44,11 +45,27 @@
     content: "";
   }
 
-  &--green {
+  &--success {
     background-color: #C8F0D8;
 
     &::after {
       border-color: transparent #C8F0D8;
+    }
+  }
+
+  &--warning {
+    background-color: #FFEACB;
+
+    &::after {
+      border-color: transparent #FFEACB;
+    }
+  }
+
+  &--error {
+    background-color: #F1C4C3;
+
+    &::after {
+      border-color: transparent #F1C4C3;
     }
   }
 }

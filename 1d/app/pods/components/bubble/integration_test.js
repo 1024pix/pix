@@ -17,10 +17,10 @@ module('Integration | Component | Bubble', function (hooks) {
   });
 
   test('displays bubble with a specific color', async function (assert) {
-    this.set('color', 'green');
+    this.set('color', 'success');
 
     await render(hbs`<Bubble @color={{this.color}} />`);
 
-    assert.dom('.bubble--green').exists();
+    assert.dom('.bubble--success').exists();
   });
 });

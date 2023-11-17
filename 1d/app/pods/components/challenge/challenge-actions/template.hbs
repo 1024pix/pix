@@ -1,14 +1,36 @@
 <div class="challenge-actions">
-  {{#unless (eq @level "TUTORIAL")}}
+  {{#unless this.hideSkipButton}}
     <PixButton class="pix1d-button pix1d-button--skip" @triggerAction={{@skipChallenge}} @shape="rounded" @size="big">
       <span>
-        Je passe
+        {{t "pages.challenge.actions.skip"}}
       </span>
     </PixButton>
   {{/unless}}
-  <PixButton class="pix1d-button" @triggerAction={{@validateAnswer}} @shape="rounded" @size="big">
-    <span>
-      Je continue
-    </span>
-  </PixButton>
+  {{#if @answerHasBeenValidated}}
+    <PixButton
+      class="pix1d-button pix1d-button--success"
+      @iconAfter="arrow-right"
+      @backgroundColor="green"
+      @triggerAction={{@nextAction}}
+      @shape="rounded"
+      @size="big"
+    >
+      <span>
+        {{t "pages.challenge.actions.continue"}}
+      </span>
+    </PixButton>
+  {{else}}
+    <PixButton
+      class="pix1d-button"
+      @isDisabled={{@disableCheckButton}}
+      @triggerAction={{@validateAnswer}}
+      @shape="rounded"
+      @size="big"
+    >
+      <span>
+        {{t "pages.challenge.actions.check"}}
+      </span>
+    </PixButton>
+  {{/if}}
+
 </div>
