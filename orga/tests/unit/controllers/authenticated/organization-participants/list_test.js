@@ -129,12 +129,31 @@ module('Unit | Controller | authenticated/organization-participants', function (
       // given
       controller.lastnameSort = null;
       controller.participationCountOrder = 'Godzilla';
+      controller.latestParticipationOrder = 'Obi wan';
       controller.pageNumber = 9999;
       // when
       controller.sortByLastname('desc');
 
       // then
       assert.strictEqual(controller.lastnameSort, 'desc');
+      assert.strictEqual(controller.participationCountOrder, null);
+      assert.strictEqual(controller.latestParticipationOrder, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
+
+  module('#sortByLatestParticipation', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.lastnameSort = 'toto';
+      controller.participationCountOrder = 'Godzilla';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByLatestParticipation('desc');
+
+      // then
+      assert.strictEqual(controller.latestParticipationOrder, 'desc');
+      assert.strictEqual(controller.lastnameSort, null);
       assert.strictEqual(controller.participationCountOrder, null);
       assert.strictEqual(controller.pageNumber, null);
     });
@@ -145,12 +164,14 @@ module('Unit | Controller | authenticated/organization-participants', function (
       // given
       controller.participationCountOrder = null;
       controller.lastnameSort = 'T-Rex';
+      controller.latestParticipationOrder = 'Obi wan';
       controller.pageNumber = 9999;
       // when
       controller.sortByParticipationCount('desc');
 
       // then
       assert.strictEqual(controller.participationCountOrder, 'desc');
+      assert.strictEqual(controller.latestParticipationOrder, null);
       assert.strictEqual(controller.lastnameSort, null);
       assert.strictEqual(controller.pageNumber, null);
     });

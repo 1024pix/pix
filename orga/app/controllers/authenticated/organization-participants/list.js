@@ -15,6 +15,7 @@ export default class ListController extends Controller {
   @tracked fullName = null;
   @tracked certificability = [];
   @tracked participationCountOrder = null;
+  @tracked latestParticipationOrder = null;
   @tracked lastnameSort = 'asc';
 
   @action
@@ -27,14 +28,24 @@ export default class ListController extends Controller {
   sortByParticipationCount(value) {
     this.participationCountOrder = value || null;
     this.pageNumber = null;
+    this.latestParticipationOrder = null;
+    this.lastnameSort = null;
+  }
+
+  @action
+  sortByLatestParticipation(value) {
+    this.latestParticipationOrder = value || null;
+    this.pageNumber = null;
+    this.participationCountOrder = null;
     this.lastnameSort = null;
   }
 
   @action
   sortByLastname(value) {
     this.lastnameSort = value || null;
-    this.participationCountOrder = null;
     this.pageNumber = null;
+    this.participationCountOrder = null;
+    this.latestParticipationOrder = null;
   }
 
   @action
