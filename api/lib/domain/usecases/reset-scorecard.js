@@ -1,4 +1,4 @@
-import { Scorecard } from '../models/Scorecard.js';
+import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
 import { CompetenceResetError } from '../errors.js';
 import _ from 'lodash';
 

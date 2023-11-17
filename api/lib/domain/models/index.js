@@ -104,7 +104,6 @@ import { ReproducibilityRate } from './ReproducibilityRate.js';
 import { ResultCompetence } from './ResultCompetence.js';
 import { ResultCompetenceTree } from './ResultCompetenceTree.js';
 import { SCOCertificationCandidate } from './SCOCertificationCandidate.js';
-import { Scorecard } from './Scorecard.js';
 import { ScoringSimulation } from './ScoringSimulation.js';
 import { ScoringSimulationContext } from './ScoringSimulationContext.js';
 import { ScoringSimulationDataset } from './ScoringSimulationDataset.js';
@@ -255,7 +254,6 @@ export {
   ResultCompetence,
   ResultCompetenceTree,
   SCOCertificationCandidate,
-  Scorecard,
   ScoringSimulation,
   ScoringSimulationContext,
   ScoringSimulationDataset,
