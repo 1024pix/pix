@@ -2,7 +2,6 @@ import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
-import { StageCollection } from '../../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function () {
   it('computes the number of skills, the number of skill tested and the number of skill validated', function () {
@@ -50,7 +49,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     const assessmentResult = new AssessmentResult({
       participationResults,
       competences,
-      stageCollection: [],
+      stages: [],
       badgeResultsDTO: [],
       isCampaignMultipleSendings: false,
       isOrganizationLearnerActive: false,
@@ -117,7 +116,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences,
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings: false,
             isOrganizationLearnerActive: false,
@@ -150,7 +149,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences,
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings: false,
             isOrganizationLearnerActive: false,
@@ -191,7 +190,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences,
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
@@ -241,7 +240,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     const assessmentResult = new AssessmentResult({
       participationResults,
       competences,
-      stageCollection: [],
+      stages: [],
       badgeResultsDTO: [],
       isCampaignMultipleSendings: false,
       isOrganizationLearnerActive: false,
@@ -294,55 +293,52 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       ];
       const participationResults = { knowledgeElements, acquiredBadgeIds: [], masteryRate: '0.80' };
 
-      const stageCollection = new StageCollection({
-        campaignId: 1,
-        stages: [
-          {
-            id: 1,
-            title: 'Stage0',
-            message: 'message0',
-            threshold: 0,
-            prescriberDescription: 'yolo',
-            prescriberTitle: 'coucou',
-          },
-          {
-            id: 2,
-            title: 'Stage1',
-            message: 'message1',
-            threshold: 35,
-            prescriberDescription: 'yolo',
-            prescriberTitle: 'coucou',
-          },
-          {
-            id: 3,
-            title: 'Stage2',
-            message: 'message2',
-            threshold: 60,
-            prescriberDescription: 'yolo',
-            prescriberTitle: 'coucou',
-          },
-          {
-            id: 4,
-            title: 'Stage3',
-            message: 'message3',
-            threshold: 90,
-            prescriberDescription: 'yolo',
-            prescriberTitle: 'coucou',
-          },
-        ],
-      });
+      const stages = [
+        {
+          id: 1,
+          title: 'Stage0',
+          message: 'message0',
+          threshold: 0,
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
+        },
+        {
+          id: 2,
+          title: 'Stage1',
+          message: 'message1',
+          threshold: 35,
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
+        },
+        {
+          id: 3,
+          title: 'Stage2',
+          message: 'message2',
+          threshold: 60,
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
+        },
+        {
+          id: 4,
+          title: 'Stage3',
+          message: 'message3',
+          threshold: 90,
+          prescriberDescription: 'yolo',
+          prescriberTitle: 'coucou',
+        },
+      ];
 
       const assessmentResult = new AssessmentResult({
         participationResults,
-        stageCollection,
+        stages,
         badgeResultsDTO: [],
         competences,
         isCampaignMultipleSendings: false,
         isOrganizationLearnerActive: false,
       });
 
-      expect(assessmentResult.competenceResults[0].reachedStage).to.equal(2);
-      expect(assessmentResult.competenceResults[1].reachedStage).to.equal(3);
+      expect(assessmentResult.competenceResults[0].reachedStage).to.equal(3);
+      expect(assessmentResult.competenceResults[1].reachedStage).to.equal(4);
     });
   });
 
@@ -385,7 +381,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
 
       const assessmentResult = new AssessmentResult({
         participationResults,
-        stageCollection: [],
+        stages: [],
         badgeResultsDTO,
         competences,
         isCampaignMultipleSendings: false,
@@ -428,7 +424,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -454,7 +450,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -480,7 +476,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -506,7 +502,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -532,7 +528,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -558,7 +554,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -586,7 +582,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences: [],
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings,
             isOrganizationLearnerActive,
@@ -614,7 +610,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
 
           isCampaignMultipleSendings,
@@ -643,7 +639,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences: [],
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings,
             isOrganizationLearnerActive,
@@ -673,7 +669,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences: [],
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings,
             isOrganizationLearnerActive,
@@ -717,7 +713,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -745,7 +741,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -771,7 +767,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -799,7 +795,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,
@@ -827,7 +823,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isTargetProfileResetAllowed,
           isCampaignMultipleSendings,
@@ -855,7 +851,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isTargetProfileResetAllowed,
           isCampaignMultipleSendings,
@@ -882,7 +878,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       const assessmentResult = new AssessmentResult({
         participationResults,
         competences: [],
-        stageCollection: [],
+        stages: [],
         badgeResultsDTO: [],
         isTargetProfileResetAllowed,
         isCampaignMultipleSendings,
@@ -934,7 +930,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences: [],
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings: false,
             isOrganizationLearnerActive: false,
@@ -959,7 +955,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
@@ -984,7 +980,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
@@ -1011,7 +1007,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           const assessmentResult = new AssessmentResult({
             participationResults,
             competences: [],
-            stageCollection: [],
+            stages: [],
             badgeResultsDTO: [],
             isCampaignMultipleSendings: false,
             isOrganizationLearnerActive: false,
@@ -1034,7 +1030,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
@@ -1055,7 +1051,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,
@@ -1076,7 +1072,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection: [],
+          stages: [],
           badgeResultsDTO: [],
           isCampaignMultipleSendings: false,
           isOrganizationLearnerActive: false,

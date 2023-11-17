@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-export default class SkillReviewCompetenceStagesResult extends Component {
+export default class ShareBadgeIcons extends Component {
   get acquiredAndValidBadges() {
     const acquiredAndValidBadges = this.args.badges.filter((badge) => badge.isAcquired && badge.isValid);
     const badgesCertifiableFirst = acquiredAndValidBadges.sort((a) => {

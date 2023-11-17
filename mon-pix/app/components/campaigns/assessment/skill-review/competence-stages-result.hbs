@@ -11,9 +11,13 @@
             </p>
             <PixStars
               class="skill-review-competence-stages-result__reached-stage-stars"
-              @count={{competence.reachedStage}}
+              @count={{competence.acquiredStagesCount}}
               @total={{this.total}}
-              @alt={{t "pages.skill-review.stage.starsAcquired" acquired=competence.reachedStage total=this.total}}
+              @alt={{t
+                "pages.skill-review.stage.starsAcquired"
+                acquired=competence.acquiredStagesCount
+                total=this.total
+              }}
               @color="yellow"
             />
           </div>

@@ -89,8 +89,8 @@ const handleStageAcquisition = async function ({
   const stagesToStore = getNewAcquiredStagesService.getNewAcquiredStages(
     stagesForThisCampaign,
     knowledgeElementsInSkills.length,
-    alreadyAcquiredStagesIds,
     masteryPercentage,
+    alreadyAcquiredStagesIds,
   );
 
   if (!stagesToStore.length) return;

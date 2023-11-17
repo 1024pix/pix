@@ -900,21 +900,21 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
           areaTitle: 'area1',
           name: 'competence1',
           masteryRate: '33',
-          reachedStage: 1,
+          acquiredStagesCount: 1,
         },
         {
           areaColor: 'areaColor1',
           areaTitle: 'area1',
           name: 'competence2',
           masteryRate: '50',
-          reachedStage: 2,
+          acquiredStagesCount: 2,
         },
         {
           areaColor: 'areaColor2',
           areaTitle: 'area2',
           name: 'competence3',
           masteryRate: '60',
-          reachedStage: 3,
+          acquiredStagesCount: 3,
         },
       ];
 
@@ -930,12 +930,12 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
             {
               masteryRate: '33',
               name: 'competence1',
-              reachedStage: 1,
+              acquiredStagesCount: 1,
             },
             {
               masteryRate: '50',
               name: 'competence2',
-              reachedStage: 2,
+              acquiredStagesCount: 2,
             },
           ],
         },
@@ -946,7 +946,7 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
             {
               masteryRate: '60',
               name: 'competence3',
-              reachedStage: 3,
+              acquiredStagesCount: 3,
             },
           ],
         },

@@ -20,4 +20,9 @@ export default class CompetenceResult extends Model {
   get masteryRate() {
     return this.masteryPercentage / 100;
   }
+
+  get acquiredStagesCount() {
+    // We subtract 1 to not display the "zero" level which does not provide information to the user
+    return this.reachedStage - 1;
+  }
 }
