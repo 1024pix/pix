@@ -123,14 +123,14 @@ const configuration = (function () {
       storage: {
         cpfExports: {
           client: {
-            accessKeyId: process.env.CPF_STORAGE_ACCESS_KEY_ID,
-            secretAccessKey: process.env.CPF_STORAGE_SECRET_ACCESS_KEY,
-            endpoint: process.env.CPF_STORAGE_ENDPOINT,
-            region: process.env.CPF_STORAGE_REGION,
-            bucket: process.env.CPF_STORAGE_BUCKET_NAME,
+            accessKeyId: process.env.CPF_EXPORTS_STORAGE_ACCESS_KEY_ID,
+            secretAccessKey: process.env.CPF_EXPORTS_STORAGE_SECRET_ACCESS_KEY,
+            endpoint: process.env.CPF_EXPORTS_STORAGE_ENDPOINT,
+            region: process.env.CPF_EXPORTS_STORAGE_REGION,
+            bucket: process.env.CPF_EXPORTS_STORAGE_BUCKET_NAME,
           },
           commands: {
-            preSignedExpiresIn: process.env.CPF_STORAGE_PRE_SIGNED_EXPIRES_IN || 3600,
+            preSignedExpiresIn: process.env.CPF_EXPORTS_STORAGE_PRE_SIGNED_EXPIRES_IN || 3600,
           },
         },
         cpfReceipts: {
