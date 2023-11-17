@@ -1,21 +1,21 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
 import { NoCampaignParticipationForUserAndCampaign, NotFoundError } from '../errors.js';
-import * as defaultCompareStageAndAcquiredStagesService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 import * as defaultStageRepository from '../../../src/evaluation/infrastructure/repositories/stage-repository.js';
 import * as defaultStageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
 import * as defaultParticipantResultRepository from '../../infrastructure/repositories/participant-result-repository.js';
+import * as defaultCompareStageAndAcquiredStagesService from '../../../src/evaluation/domain/services/stages/stage-and-stage-acquisition-comparison-service.js';
 
 const getUserCampaignAssessmentResult = async function ({
   userId,
   campaignId,
   locale,
-  participantResultRepository = defaultParticipantResultRepository,
   badgeRepository,
   knowledgeElementRepository,
   badgeForCalculationRepository,
   stageRepository = defaultStageRepository,
   stageAcquisitionRepository = defaultStageAcquisitionRepository,
+  participantResultRepository = defaultParticipantResultRepository,
   compareStagesAndAcquiredStages = defaultCompareStageAndAcquiredStagesService,
 }) {
   try {
@@ -47,7 +47,7 @@ const getUserCampaignAssessmentResult = async function ({
       stageAcquisitionRepository.getByCampaignIdAndUserId(campaignId, userId),
     ]);
 
-    const stagesAcquisitionService = compareStagesAndAcquiredStages.compare(stages, acquiredStages);
+    const stagesAndAcquiredStagesComparison = compareStagesAndAcquiredStages.compare(stages, acquiredStages);
 
     return await participantResultRepository.getByUserIdAndCampaignId({
       userId,
@@ -56,9 +56,9 @@ const getUserCampaignAssessmentResult = async function ({
       badges: badgesWithValidity,
       stages,
       reachedStage: {
-        ...stagesAcquisitionService.reachedStage,
-        totalStage: stagesAcquisitionService.totalNumberOfStages,
-        reachedStage: stagesAcquisitionService.reachedStageNumber,
+        ...stagesAndAcquiredStagesComparison.reachedStage,
+        totalStage: stagesAndAcquiredStagesComparison.totalNumberOfStages,
+        reachedStage: stagesAndAcquiredStagesComparison.reachedStageNumber,
       },
     });
   } catch (error) {
