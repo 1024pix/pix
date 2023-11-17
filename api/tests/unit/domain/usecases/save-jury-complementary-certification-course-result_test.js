@@ -26,7 +26,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
         // when
         const error = await catchErr(saveJuryComplementaryCertificationCourseResult)({
           complementaryCertificationCourseId: 12345,
-          juryLevel: 'JURY_LEVEL',
+          juryLevel: 1,
           complementaryCertificationCourseResultRepository,
         });
 
