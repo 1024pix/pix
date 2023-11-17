@@ -1,5 +1,5 @@
-import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
-import { Scorecard } from '../../../src/evaluation/domain/models/Scorecard.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { Scorecard } from '../models/Scorecard.js';
 
 const getScorecard = async function ({
   authenticatedUserId,
