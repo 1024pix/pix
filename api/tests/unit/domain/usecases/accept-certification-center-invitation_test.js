@@ -4,7 +4,7 @@ import { CertificationCenterInvitedUser } from '../../../../lib/domain/models/Ce
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { AlreadyExistingMembershipError } from '../../../../lib/domain/errors.js';
 
-describe('Unit | UseCase | accept-certification-center-invitation', function () {
+describe('Unit | Domain | UseCases | accept-certification-center-invitation', function () {
   it('should throw an error if user is already member of the certification center', async function () {
     const {
       certificationCenterInvitedUserRepository,
@@ -91,6 +91,88 @@ describe('Unit | UseCase | accept-certification-center-invitation', function () 
     // then
     expect(userRepository.update).not.to.have.been.called;
   });
+
+  context('automatic role selection', function () {
+    context('when there is no member in the certification center', function () {
+      it('sets the role "ADMIN" to the new member', async function () {
+        // given
+        const {
+          certificationCenterInvitedUserRepository,
+          certificationCenterMembershipRepository,
+          code,
+          email,
+          certificationCenterInvitation,
+          certificationCenterInvitedUser,
+          userRepository,
+        } = _buildInvitationContext();
+        const { certificationCenterId } = certificationCenterInvitedUser.invitation;
+        const updatedCertificationCenterInvitedUser = new CertificationCenterInvitedUser({
+          ...certificationCenterInvitedUser,
+          status: CertificationCenterInvitation.StatusType.ACCEPTED,
+          role: 'ADMIN',
+        });
+
+        certificationCenterMembershipRepository.countActiveMembersForCertificationCenter
+          .withArgs(certificationCenterId)
+          .resolves(0);
+        certificationCenterInvitedUserRepository.save.withArgs(updatedCertificationCenterInvitedUser).resolves();
+
+        // when
+        await acceptCertificationCenterInvitation({
+          certificationCenterInvitationId: certificationCenterInvitation.id,
+          code,
+          email,
+          certificationCenterInvitedUserRepository,
+          certificationCenterMembershipRepository,
+          userRepository,
+        });
+
+        // then
+        expect(certificationCenterMembershipRepository.countActiveMembersForCertificationCenter).to.have.been.called;
+        expect(certificationCenterInvitedUserRepository.save).to.have.been.called;
+      });
+    });
+
+    context('when there is some members in the certification center', function () {
+      it('sets the role "MEMBER" to the new member', async function () {
+        // given
+        const {
+          certificationCenterInvitedUserRepository,
+          certificationCenterMembershipRepository,
+          code,
+          email,
+          certificationCenterInvitation,
+          certificationCenterInvitedUser,
+          userRepository,
+        } = _buildInvitationContext();
+        const { certificationCenterId } = certificationCenterInvitedUser.invitation;
+        const updatedCertificationCenterInvitedUser = new CertificationCenterInvitedUser({
+          ...certificationCenterInvitedUser,
+          status: CertificationCenterInvitation.StatusType.ACCEPTED,
+          role: 'MEMBER',
+        });
+
+        certificationCenterMembershipRepository.countActiveMembersForCertificationCenter
+          .withArgs(certificationCenterId)
+          .resolves(1);
+        certificationCenterInvitedUserRepository.save.withArgs(updatedCertificationCenterInvitedUser).resolves();
+
+        // when
+        await acceptCertificationCenterInvitation({
+          certificationCenterInvitationId: certificationCenterInvitation.id,
+          code,
+          email,
+          certificationCenterInvitedUserRepository,
+          certificationCenterMembershipRepository,
+          userRepository,
+        });
+
+        // then
+        expect(certificationCenterMembershipRepository.countActiveMembersForCertificationCenter).to.have.been.called;
+        expect(certificationCenterInvitedUserRepository.save).to.have.been.called;
+      });
+    });
+  });
 });
 
 function _buildInvitationContext() {
@@ -100,6 +182,7 @@ function _buildInvitationContext() {
   };
   const certificationCenterMembershipRepository = {
     isMemberOfCertificationCenter: sinon.stub(),
+    countActiveMembersForCertificationCenter: sinon.stub(),
   };
   const code = 'SDFGH123';
   const email = 'user@example.net';
@@ -127,6 +210,7 @@ function _buildInvitationContext() {
     update: sinon.stub(),
   };
   userRepository.getById.resolves(user);
+
   return {
     certificationCenterInvitedUserRepository,
     certificationCenterMembershipRepository,
