@@ -13,7 +13,7 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                juryLevel: Joi.string().required(),
+                juryLevel: Joi.required(),
                 complementaryCertificationCourseId: identifiersType.complementaryCertificationCourseId,
               },
             },
