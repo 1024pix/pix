@@ -7,6 +7,14 @@ module('Unit | Controller | authenticated/organization-participants', function (
   setupTest(hooks);
   setupIntl(hooks);
 
+  let controller;
+
+  hooks.beforeEach(function () {
+    this.intl = this.owner.lookup('service:intl');
+    this.intl.setLocale('fr');
+    controller = this.owner.lookup('controller:authenticated/organization-participants/list');
+  });
+
   module('#triggerFiltering', function () {
     module('when the filters contain the field fullName', function () {
       test('updates the fullName value', async function (assert) {
@@ -113,6 +121,38 @@ module('Unit | Controller | authenticated/organization-participants', function (
           }),
         ),
       );
+    });
+  });
+
+  module('#sortByLastname', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.lastnameSort = null;
+      controller.participationCountOrder = 'Godzilla';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByLastname('desc');
+
+      // then
+      assert.strictEqual(controller.lastnameSort, 'desc');
+      assert.strictEqual(controller.participationCountOrder, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
+
+  module('#sortByParticipationCount', function () {
+    test('update sorting value and reset other', function (assert) {
+      // given
+      controller.participationCountOrder = null;
+      controller.lastnameSort = 'T-Rex';
+      controller.pageNumber = 9999;
+      // when
+      controller.sortByParticipationCount('desc');
+
+      // then
+      assert.strictEqual(controller.participationCountOrder, 'desc');
+      assert.strictEqual(controller.lastnameSort, null);
+      assert.strictEqual(controller.pageNumber, null);
     });
   });
 });
