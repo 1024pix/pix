@@ -13,6 +13,7 @@ import * as stageRepository from '../../infrastructure/repositories/stage-reposi
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
+import * as scorecardService from '../services/scorecard-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -31,6 +32,7 @@ const dependencies = {
   stageRepository,
   targetProfileForAdminRepository,
   getCompetenceLevel,
+  scorecardService,
 };
 
 const evaluationUsecases = injectDependencies(usecasesWithoutInjectedDependencies, dependencies);
