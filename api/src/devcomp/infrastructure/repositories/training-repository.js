@@ -1,5 +1,5 @@
 import { Training } from '../../../../lib/domain/models/Training.js';
-import { TrainingSummary } from '../../../../lib/domain/read-models/TrainingSummary.js';
+import { TrainingSummary } from '../../domain/read-models/TrainingSummary.js';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
