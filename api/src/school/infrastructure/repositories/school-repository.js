@@ -25,4 +25,9 @@ const getByCode = async function (code) {
   return new School(data);
 };
 
-export { save, isCodeAvailable, getByCode };
+const getById = async function (organizationId) {
+  const result = await knex('schools').first('code').where({ organizationId });
+  return result.code;
+};
+
+export { save, isCodeAvailable, getByCode, getById };
