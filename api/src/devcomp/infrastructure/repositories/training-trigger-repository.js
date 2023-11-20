@@ -1,15 +1,16 @@
 import _ from 'lodash';
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
-import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
-import * as areaRepository from './area-repository.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as thematicRepository from './thematic-repository.js';
-import * as tubeRepository from './tube-repository.js';
-import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';
-import { logger } from '../logger.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
+import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
+import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
+
 const TABLE_NAME = 'training-triggers';
 
 const createOrUpdate = async function ({
