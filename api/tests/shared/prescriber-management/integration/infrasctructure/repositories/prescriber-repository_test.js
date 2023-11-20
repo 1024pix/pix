@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { config as settings } from '../../../../../../lib/config.js';
 import { UserNotFoundError } from '../../../../../../lib/domain/errors.js';
 import * as prescriberRepository from '../../../../../../src/shared/prescriber-management/infrastructure/repositories/prescriber-repository.js';
-import { Prescriber } from '../../../../../../lib/domain/read-models/Prescriber.js';
+import { Prescriber } from '../../../../../../src/shared/prescriber-management/domain/read-models/Prescriber.js';
 import { Membership } from '../../../../../../lib/domain/models/Membership.js';
 import { UserOrgaSettings } from '../../../../../../lib/domain/models/UserOrgaSettings.js';
 import { Organization } from '../../../../../../lib/domain/models/Organization.js';
