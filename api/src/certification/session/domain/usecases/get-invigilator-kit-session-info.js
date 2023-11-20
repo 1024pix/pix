@@ -1,5 +1,14 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
+
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['sessionForInvigilatorKitRepository']} params.sessionForInvigilatorKitRepository
+ */
 const getInvigilatorKitSessionInfo = async function ({
   userId,
   sessionId,

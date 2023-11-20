@@ -1,6 +1,17 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
+
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { CertificationIssueReport, CertificationIssueReportCategory } from '../../../../../lib/domain/models/index.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['certificationChallengeLiveAlertRepository']} params.certificationChallengeLiveAlertRepository
+ * @param {deps['assessmentRepository']} params.assessmentRepository
+ * @param {deps['issueReportCategoryRepository']} params.issueReportCategoryRepository
+ * @param {deps['certificationIssueReportRepository']} params.certificationIssueReportRepository
+ */
 export const validateLiveAlert = async ({
   userId,
   sessionId,

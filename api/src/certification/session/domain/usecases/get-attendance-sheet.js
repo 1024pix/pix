@@ -1,5 +1,15 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
+
 import { UserNotAuthorizedToAccessEntityError } from '../../../../shared/domain/errors.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['sessionForAttendanceSheetRepository']} params.sessionForAttendanceSheetRepository
+ * @param {deps['attendanceSheetPdfUtils']} params.attendanceSheetPdfUtils
+ */
 const getAttendanceSheet = async function ({
   userId,
   sessionId,

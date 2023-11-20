@@ -1,7 +1,19 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
+
 import { Session } from '../models/Session.js';
 import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['userRepository']} params.userRepository
+ * @param {deps['sessionValidator']} params.sessionValidator
+ * @param {deps['sessionCodeService']} params.sessionCodeService
+ */
 const createSession = async function ({
   userId,
   session,
