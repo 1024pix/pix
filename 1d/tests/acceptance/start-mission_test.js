@@ -1,16 +1,11 @@
 import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { module, skip } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { currentURL } from '@ember/test-helpers';
-import { setupIntl } from 'ember-intl/test-support';
 import identifyLearner from '../helpers/identify-learner';
+import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Start mission', function (hooks) {
   setupApplicationTest(hooks);
-  setupMirage(hooks);
-  setupIntl(hooks);
-
   //À CREUSER APRÈS LES PANELS
 
   skip('redirect to first challenge page after clicking on start mission', async function (assert) {
