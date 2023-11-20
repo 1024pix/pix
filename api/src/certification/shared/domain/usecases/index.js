@@ -60,9 +60,12 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  *  sessionCodeService : sessionCodeService,
  *  sessionForAttendanceSheetRepository : sessionForAttendanceSheetRepository,
  *  sessionForInvigilatorKitRepository : sessionForInvigilatorKitRepository,
+ *  cpfCertificationResultRepository : cpfCertificationResultRepository,
  *  sessionRepository : sessionRepository,
  *  sessionValidator : sessionValidator,
  *  userRepository : userRepository,
+ *  cpfReceiptsStorage : cpfReceiptsStorage,
+ *  cpfExportsStorage : cpfExportsStorage,
  * }} dependencies
  */
 const dependencies = {
