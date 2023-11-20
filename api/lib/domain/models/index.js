@@ -122,7 +122,7 @@ import { TargetProfileForAdmin } from './TargetProfileForAdmin.js';
 import { TargetProfileForCreation } from './TargetProfileForCreation.js';
 import { TargetProfileSummaryForAdmin } from './TargetProfileSummaryForAdmin.js';
 import { Thematic } from './Thematic.js';
-import { Training } from './Training.js';
+import { Training } from '../../../src/devcomp/domain/models/Training.js';
 import { TrainingTrigger } from '../../../src/devcomp/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../src/devcomp/domain/models/TrainingTriggerTube.js';
 import { Tube } from './Tube.js';
