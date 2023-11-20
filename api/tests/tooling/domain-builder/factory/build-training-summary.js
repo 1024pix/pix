@@ -1,4 +1,4 @@
-import { TrainingSummary } from '../../../../lib/domain/read-models/TrainingSummary.js';
+import { TrainingSummary } from '../../../../src/devcomp/domain/read-models/TrainingSummary.js';
 
 const buildTrainingSummary = function ({
   id = 1,
