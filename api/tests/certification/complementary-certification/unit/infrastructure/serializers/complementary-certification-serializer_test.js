@@ -11,12 +11,14 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
           label: 'badge 1',
           level: 1,
           imageUrl: 'http://badge-image-url.fr',
+          minimumEarnedPix: 10,
         }),
         domainBuilder.buildComplementaryCertificationBadgeForAdmin({
           id: 2,
           label: 'badge 2',
           level: 2,
           imageUrl: 'http://badge-image-url.fr',
+          minimumEarnedPix: 20,
         }),
       ];
 
@@ -63,8 +65,8 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
                 attachedAt: new Date('2023-10-10'),
                 detachedAt: null,
                 badges: [
-                  { id: 1, label: 'badge 1', level: 1, imageUrl: 'http://badge-image-url.fr' },
-                  { id: 2, label: 'badge 2', level: 2, imageUrl: 'http://badge-image-url.fr' },
+                  { id: 1, label: 'badge 1', level: 1, imageUrl: 'http://badge-image-url.fr', minimumEarnedPix: 10 },
+                  { id: 2, label: 'badge 2', level: 2, imageUrl: 'http://badge-image-url.fr', minimumEarnedPix: 20 },
                 ],
               },
               {

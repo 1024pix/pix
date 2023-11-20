@@ -5,8 +5,9 @@ const buildComplementaryCertificationBadgeForAdmin = function ({
   label = 'badge Cascade',
   level = 1,
   imageUrl = 'http://badge-image-url.fr',
+  minimumEarnedPix = 0,
 }) {
-  return new ComplementaryCertificationBadgeForAdmin({ id, label, level, imageUrl });
+  return new ComplementaryCertificationBadgeForAdmin({ id, label, level, imageUrl, minimumEarnedPix });
 };
 
 export { buildComplementaryCertificationBadgeForAdmin };
