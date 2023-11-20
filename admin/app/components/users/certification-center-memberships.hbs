@@ -34,15 +34,12 @@
               <td>{{certificationCenterMembership.certificationCenter.externalId}}</td>
               <td>{{t certificationCenterMembership.roleLabelKey}}</td>
               <td>
-                <PixButton
-                  @size="small"
-                  @backgroundColor="red"
-                  @triggerAction={{fn this.disableCertificationCenterMembership certificationCenterMembership}}
-                  class="member-item-actions__button"
-                  @iconBefore="trash"
-                >
-                  Désactiver
-                </PixButton>
+                <Users::MembershipItemActions
+                  @disableCertificationCenterMembership={{fn
+                    this.disableCertificationCenterMembership
+                    certificationCenterMembership
+                  }}
+                />
               </td>
             </tr>
           {{/each}}
