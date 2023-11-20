@@ -183,12 +183,12 @@ const isMemberOfCertificationCenter = async function ({ userId, certificationCen
   return Boolean(certificationCenterMembershipId);
 };
 
-const disableById = async function ({ certificationCenterMembershipId }) {
+const disableById = async function ({ certificationCenterMembershipId, updatedByUserId }) {
   try {
     const now = new Date();
     const result = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
       .where({ id: certificationCenterMembershipId })
-      .update({ disabledAt: now })
+      .update({ disabledAt: now, updatedByUserId })
       .returning('*');
 
     if (result.length === 0) {
