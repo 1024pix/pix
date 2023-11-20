@@ -478,7 +478,7 @@
         }
       },
       "candidate-list": {
-        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat sélectionné} other {candidats sélectionnés}}",
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidat présent} other {candidats présents}}",
         "clear-field": "Vider le champ",
         "indicate-candidates-attendance": "Confirmez la présence de chaque candidat pour l'autoriser à commencer son test de certification.",
         "no-candidate": "Aucun candidat inscrit à cette session",
