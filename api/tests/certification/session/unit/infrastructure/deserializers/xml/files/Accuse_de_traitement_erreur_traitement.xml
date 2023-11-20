@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rapport xmlns:ns2="urn:cdc:cpf:pc5:rapport:schema">
+    <nomFichier>pix-cpf-export-20231016-223357_002.xml</nomFichier>
+    <idTraitement>68548</idTraitement>
+    <erreurs>
+        <erreur>
+            <type>XSD</type>
+            <message>Un espace est obligatoire entre les données et la cible de l'instruction de traitement.</message>
+            <ligne>1</ligne>
+            <colonne>18</colonne>
+        </erreur>
+    </erreurs>
+</rapport>

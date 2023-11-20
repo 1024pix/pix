@@ -66,12 +66,22 @@ const updateCertificationImportStatus = async function ({ certificationCourseIds
     .whereIn('certificationCourseId', certificationCourseIds);
 };
 
+const updateCpfInfos = async function ({ cpfInfos }) {
+  return knex('certification-courses-cpf-infos')
+    .update({ importStatus: cpfInfos.importStatus, updatedAt: knex.fn.now() })
+    .where({
+      certificationCourseId: cpfInfos.certificationCourseId,
+      filename: cpfInfos.filename,
+    });
+};
+
 export {
-  countExportableCertificationCoursesByTimeRange as countExportableCertificationCoursesByTimeRange,
+  countExportableCertificationCoursesByTimeRange,
   findByBatchId,
   markCertificationCoursesAsExported,
   markCertificationToExport,
   updateCertificationImportStatus,
+  updateCpfInfos,
 };
 
 function _selectCpfCertificationResults(qb = knex) {

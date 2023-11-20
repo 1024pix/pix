@@ -1,38 +1,26 @@
 import { expect, sinon } from '../../../../../test-helper.js';
-import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import { cpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
 import { getPreSignedUrls } from '../../../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
-import { config } from '../../../../../../src/shared/config.js';
-
-const { cpf } = config;
 
 describe('Unit | UseCase | get-cpf-presigned-urls ', function () {
-  context('#getPreSignUrlsOfFilesModifiedAfter', function () {
+  context('#getPreSignedUrls', function () {
     it('should pre sign files modified after a date', async function () {
       // given
-      const date = '2022-03-01';
+      const date = new Date('2022-03-01');
       const filesModifiedBeforeDate = [
-        { Key: 'firstFile', LastModified: '2022-02-14' },
-        { Key: 'secondFile', LastModified: '2022-02-17' },
+        { filename: 'firstFile', lastModifiedDate: new Date('2022-02-14') },
+        { filename: 'secondFile', lastModifiedDate: new Date('2022-02-17') },
       ];
       const filesModifiedAfterDate = [
-        { Key: 'thirdFile', LastModified: '2022-03-01' },
-        { Key: 'fourthFile', LastModified: '2022-03-04' },
+        { filename: 'thirdFile', lastModifiedDate: new Date('2022-03-01') },
+        { filename: 'fourthFile', lastModifiedDate: new Date('2022-03-04') },
       ];
-      const listFilesStub = sinon.stub(S3ObjectStorageProvider.prototype, 'listFiles');
-      listFilesStub.resolves({ Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate] });
-      const preSignFilesStub = sinon.stub(S3ObjectStorageProvider.prototype, 'preSignFiles');
-
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-        preSignedExpiresIn: 3600,
-      });
+      const listFilesStub = sinon.stub(cpfExportsStorage, 'findAll');
+      listFilesStub.resolves([...filesModifiedBeforeDate, ...filesModifiedAfterDate]);
+      const preSignFilesStub = sinon.stub(cpfExportsStorage, 'preSignFiles');
 
       // when
-      await getPreSignedUrls({ date, dependencies: { S3ObjectStorageProvider } });
+      await getPreSignedUrls({ date, cpfExportsStorage });
 
       // then
       expect(listFilesStub).to.have.been.calledOnce;
@@ -44,38 +32,23 @@ describe('Unit | UseCase | get-cpf-presigned-urls ', function () {
 
     it('should not pre signed url of files modified before a date', async function () {
       // given
-      const date = '2022-03-01';
+      const date = new Date('2022-03-01');
       const filesModifiedBeforeDate = [
-        { Key: 'firstFile', LastModified: '2022-02-14' },
-        { Key: 'secondFile', LastModified: '2022-02-17' },
+        { filename: 'firstFile', lastModifiedDate: new Date('2022-02-14') },
+        { filename: 'secondFile', lastModifiedDate: new Date('2022-02-17') },
       ];
       const filesModifiedAfterDate = [
-        { Key: 'thirdFile', LastModified: '2022-03-01' },
-        { Key: 'fourthFile', LastModified: '2022-03-04' },
+        { filename: 'thirdFile', lastModifiedDate: new Date('2022-03-01') },
+        { filename: 'fourthFile', lastModifiedDate: new Date('2022-03-04') },
       ];
 
-      const listFilesStub = sinon.stub(S3ObjectStorageProvider.prototype, 'listFiles');
-      listFilesStub.resolves({
-        Contents: [...filesModifiedBeforeDate, ...filesModifiedAfterDate],
-      });
-      const preSignFilesStub = sinon.stub(S3ObjectStorageProvider.prototype, 'preSignFiles');
+      const listFilesStub = sinon.stub(cpfExportsStorage, 'findAll');
+      listFilesStub.resolves([...filesModifiedBeforeDate, ...filesModifiedAfterDate]);
+      const preSignFilesStub = sinon.stub(cpfExportsStorage, 'preSignFiles');
       preSignFilesStub.resolves(['preSignedThirdFile', 'preSignedFourthFile']);
 
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-      });
-
       // when
-      const result = await getPreSignedUrls({
-        date,
-        dependencies: {
-          S3ObjectStorageProvider,
-        },
-      });
+      const result = await getPreSignedUrls({ date, cpfExportsStorage });
 
       // then
       expect(result).to.deep.equals(['preSignedThirdFile', 'preSignedFourthFile']);

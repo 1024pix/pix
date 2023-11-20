@@ -121,12 +121,27 @@ const configuration = (function () {
       idContrat: 'MCFCER000209',
       codeFranceConnect: 'RS5875',
       storage: {
-        accessKeyId: process.env.CPF_STORAGE_ACCESS_KEY_ID,
-        secretAccessKey: process.env.CPF_STORAGE_SECRET_ACCESS_KEY,
-        endpoint: process.env.CPF_STORAGE_ENDPOINT,
-        region: process.env.CPF_STORAGE_REGION,
-        bucket: process.env.CPF_STORAGE_BUCKET_NAME,
-        preSignedExpiresIn: process.env.CPF_STORAGE_PRE_SIGNED_EXPIRES_IN || 3600,
+        cpfExports: {
+          client: {
+            accessKeyId: process.env.CPF_EXPORTS_STORAGE_ACCESS_KEY_ID,
+            secretAccessKey: process.env.CPF_EXPORTS_STORAGE_SECRET_ACCESS_KEY,
+            endpoint: process.env.CPF_EXPORTS_STORAGE_ENDPOINT,
+            region: process.env.CPF_EXPORTS_STORAGE_REGION,
+            bucket: process.env.CPF_EXPORTS_STORAGE_BUCKET_NAME,
+          },
+          commands: {
+            preSignedExpiresIn: process.env.CPF_EXPORTS_STORAGE_PRE_SIGNED_EXPIRES_IN || 3600,
+          },
+        },
+        cpfReceipts: {
+          client: {
+            accessKeyId: process.env.CPF_RECEIPTS_STORAGE_ACCESS_KEY_ID,
+            secretAccessKey: process.env.CPF_RECEIPTS_STORAGE_SECRET_ACCESS_KEY,
+            endpoint: process.env.CPF_RECEIPTS_STORAGE_ENDPOINT,
+            region: process.env.CPF_RECEIPTS_STORAGE_REGION,
+            bucket: process.env.CPF_RECEIPTS_STORAGE_BUCKET_NAME,
+          },
+        },
       },
       plannerJob: {
         chunkSize: process.env.CPF_PLANNER_JOB_CHUNK_SIZE || 50000,
@@ -430,11 +445,27 @@ const configuration = (function () {
     ];
 
     config.cpf.storage = {
-      accessKeyId: 'accessKeyId',
-      secretAccessKey: 'secretAccessKey',
-      endpoint: 'http://fake.endpoint.example.net',
-      region: 'region',
-      bucket: 'bucket',
+      cpfExports: {
+        client: {
+          accessKeyId: 'cpfExports.accessKeyId',
+          secretAccessKey: 'cpfExports.secretAccessKey',
+          endpoint: 'http://cpf-exports.fake.endpoint.example.net',
+          region: 'cpfExports.region',
+          bucket: 'cpfExports.bucket',
+        },
+        commands: {
+          preSignedExpiresIn: 3600,
+        },
+      },
+      cpfReceipts: {
+        client: {
+          accessKeyId: 'cpfReceipts.accessKeyId',
+          secretAccessKey: 'cpfReceipts.secretAccessKey',
+          endpoint: 'http://cpf-receipts.fake.endpoint.example.net',
+          region: 'cpfReceipts.region',
+          bucket: 'cpfReceipts.bucket',
+        },
+      },
     };
 
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
