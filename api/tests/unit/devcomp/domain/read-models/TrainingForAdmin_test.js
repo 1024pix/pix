@@ -1,4 +1,4 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Read-Models | TrainingForAdmin', function () {
   describe('#constructor', function () {

@@ -1,4 +1,4 @@
-import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
+import { TrainingForAdmin } from '../../../../src/devcomp/domain/read-models/TrainingForAdmin.js';
 
 const buildTrainingForAdmin = function ({
   id = 'training1',

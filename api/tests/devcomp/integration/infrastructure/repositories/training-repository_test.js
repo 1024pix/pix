@@ -13,7 +13,7 @@ import { TrainingSummary } from '../../../../../src/devcomp/domain/read-models/T
 import { Training } from '../../../../../lib/domain/models/Training.js';
 import { UserRecommendedTraining } from '../../../../../lib/domain/read-models/UserRecommendedTraining.js';
 import { TrainingTriggerForAdmin } from '../../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
-import { TrainingForAdmin } from '../../../../../lib/domain/read-models/TrainingForAdmin.js';
+import { TrainingForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingForAdmin.js';
 import { TrainingTrigger } from '../../../../../lib/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../../../lib/domain/models/TrainingTriggerTube.js';
 import _ from 'lodash';
