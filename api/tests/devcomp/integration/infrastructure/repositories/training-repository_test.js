@@ -1,14 +1,21 @@
-import { catchErr, databaseBuilder, domainBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
+import {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  knex,
+  mockLearningContent,
+} from '../../../../test-helper.js';
 
-import * as trainingRepository from '../../../../lib/infrastructure/repositories/training-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { TrainingSummary } from '../../../../lib/domain/read-models/TrainingSummary.js';
-import { Training } from '../../../../lib/domain/models/Training.js';
-import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
-import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
-import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
-import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import * as trainingRepository from '../../../../../src/devcomp/infrastructure/repositories/training-repository.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { TrainingSummary } from '../../../../../lib/domain/read-models/TrainingSummary.js';
+import { Training } from '../../../../../lib/domain/models/Training.js';
+import { UserRecommendedTraining } from '../../../../../lib/domain/read-models/UserRecommendedTraining.js';
+import { TrainingTriggerForAdmin } from '../../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingForAdmin } from '../../../../../lib/domain/read-models/TrainingForAdmin.js';
+import { TrainingTrigger } from '../../../../../lib/domain/models/TrainingTrigger.js';
+import { TrainingTriggerTube } from '../../../../../lib/domain/models/TrainingTriggerTube.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | training-repository', function () {
