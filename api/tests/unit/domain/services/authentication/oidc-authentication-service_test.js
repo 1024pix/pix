@@ -17,6 +17,7 @@ import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTrans
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import { logger } from '../../../../../lib/infrastructure/logger.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 
@@ -106,17 +107,24 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         describe('when config is invalid', function () {
           it('returns false', function () {
             // given
+            sinon.stub(logger, 'error');
+
             settings.someOidcProviderService = {
               isEnabled: true,
             };
             const oidcAuthenticationService = new OidcAuthenticationService({
               configKey: 'someOidcProviderService',
+              identityProvider: 'Example OP code',
+              additionalRequiredProperties: ['exampleProperty'],
             });
 
             // when
             const result = oidcAuthenticationService.isReady;
 
             // then
+            expect(logger.error).to.have.been.calledWithExactly(
+              'Invalid config for OIDC Provider "Example OP code": the following required properties are missing: clientId, clientSecret, authenticationUrl, userInfoUrl, tokenUrl, exampleProperty',
+            );
             expect(result).to.be.false;
           });
         });
@@ -180,15 +188,38 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#createAuthenticationComplement', function () {
-    it('should return null', function () {
-      // given
-      const oidcAuthenticationService = new OidcAuthenticationService({});
+    context('when claimsToStore is empty', function () {
+      it('returns undefined', function () {
+        // given
+        const userInfo = {};
+        const identityProvider = OidcIdentityProviders.PAYSDELALOIRE.code;
+        const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider });
 
-      // when
-      const result = oidcAuthenticationService.createAuthenticationComplement();
+        // when
+        const result = oidcAuthenticationService.createAuthenticationComplement({ userInfo });
 
-      // then
-      expect(result).to.be.null;
+        // then
+        expect(result).to.be.undefined;
+      });
+    });
+
+    context('when claimsToStore is not empty', function () {
+      it('returns an OidcAuthenticationComplement', function () {
+        // given
+        const family_name = 'TITEGOUTTE';
+        const given_name = 'Mélusine';
+        const claimsToStore = ['family_name', 'given_name'];
+        const claimsToStoreWithValues = { family_name, given_name };
+        const userInfo = { ...claimsToStoreWithValues };
+        const identityProvider = OidcIdentityProviders.FWB.code;
+        const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider, claimsToStore });
+
+        // when
+        const result = oidcAuthenticationService.createAuthenticationComplement({ userInfo });
+
+        // then
+        expect(result).to.be.instanceOf(AuthenticationMethod.OidcAuthenticationComplement);
+      });
     });
   });
 
@@ -254,44 +285,6 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           'https://example.net/logout?post_logout_redirect_uri=https%3A%2F%2Fapp.pix.fr%2Fconnexion&id_token_hint=some_dummy_id_token',
         );
       });
-    });
-  });
-
-  describe('#_getUserInfoMissingFields', function () {
-    it('should return a message with missing fields list', async function () {
-      // given
-      const oidcAuthenticationService = new OidcAuthenticationService({});
-
-      // when
-      const response = oidcAuthenticationService._getUserInfoMissingFields({
-        userInfoContent: {
-          given_name: 'givenName',
-          family_name: undefined,
-          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        },
-      });
-
-      // then
-      expect(response).to.equal('Champs manquants : family_name');
-    });
-
-    it('should return false', async function () {
-      // given
-      const oidcAuthenticationService = new OidcAuthenticationService({});
-
-      // when
-      const response = oidcAuthenticationService._getUserInfoMissingFields({
-        userInfoContent: {
-          given_name: 'givenName',
-          family_name: 'familyName',
-          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        },
-      });
-
-      // then
-      expect(response).to.equal(false);
     });
   });
 
@@ -522,7 +515,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         });
 
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
-        sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint');
+        sinon.stub(oidcAuthenticationService, '_getUserInfoFromEndpoint').resolves({});
 
         // when
         await oidcAuthenticationService.getUserInfo({
@@ -667,8 +660,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: {
             message: `Les informations utilisateur renvoyées par votre fournisseur d'identité ${organizationName} ne sont pas au format attendu.`,
-            typeOfUserInfoContent: 'string',
-            userInfoContent: '',
+            typeOfUserInfo: 'string',
+            userInfo: '',
           },
         });
       });
@@ -696,7 +689,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
           });
         const organizationName = 'Organization Name';
         const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl, accessToken, organizationName });
-        const errorMessage = `Un ou des champs obligatoires (Champs manquants : family_name) n'ont pas été renvoyés par votre fournisseur d'identité ${organizationName}.`;
+        const errorMessage = `Un ou des champs obligatoires (family_name) n'ont pas été renvoyés par votre fournisseur d'identité ${organizationName}.`;
 
         // when
         const error = await catchErr(
@@ -713,8 +706,8 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         expect(error.code).to.be.equal(OIDC_ERRORS.USER_INFO.missingFields.code);
         expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWithExactly({
           message: errorMessage,
-          missingFields: 'Champs manquants : family_name',
-          userInfoContent: {
+          missingFields: 'family_name',
+          userInfo: {
             given_name: 'givenName',
             family_name: undefined,
             nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
@@ -750,6 +743,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         firstName: 'Adam',
         lastName: 'Troisjours',
       });
+      const userInfo = {};
       const userId = 1;
       userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
 
@@ -765,6 +759,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const result = await oidcAuthenticationService.createUserAccount({
         externalIdentityId,
         user,
+        userInfo,
         authenticationMethodRepository,
         userToCreateRepository,
       });
@@ -775,6 +770,83 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         domainTransaction,
       });
       expect(result).to.equal(userId);
+    });
+
+    context('when claimsToStore is empty', function () {
+      it('does not store claimsToStore', async function () {
+        // given
+        const externalIdentityId = '1233BBBC';
+        const user = new UserToCreate({
+          firstName: 'Adam',
+          lastName: 'Troisjours',
+        });
+        const userInfo = {};
+        const userId = 1;
+        userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+
+        const identityProvider = OidcIdentityProviders.CNAV.code;
+        const expectedAuthenticationMethod = new AuthenticationMethod({
+          identityProvider,
+          externalIdentifier: externalIdentityId,
+          userId,
+        });
+        const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider });
+
+        // when
+        await oidcAuthenticationService.createUserAccount({
+          externalIdentityId,
+          user,
+          userInfo,
+          authenticationMethodRepository,
+          userToCreateRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
+          authenticationMethod: expectedAuthenticationMethod,
+          domainTransaction,
+        });
+      });
+    });
+
+    context('when claimsToStore is not empty', function () {
+      it('stores claimsToStore', async function () {
+        // given
+        const externalIdentityId = '1233BBBC';
+        const user = new UserToCreate({
+          firstName: 'Adam',
+          lastName: 'Troisjours',
+        });
+        const claimsToStore = ['employeeNumber', 'studentGroup'];
+        const claimsToStoreWithValues = { employeeNumber: 'some-opaque-value', studentGroup: 'another-opaque-value' };
+        const userInfo = { ...claimsToStoreWithValues };
+        const userId = 1;
+        userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+
+        const identityProvider = OidcIdentityProviders.FWB.code;
+        const expectedAuthenticationMethod = new AuthenticationMethod({
+          identityProvider,
+          authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement(claimsToStoreWithValues),
+          externalIdentifier: externalIdentityId,
+          userId,
+        });
+        const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider, claimsToStore });
+
+        // when
+        await oidcAuthenticationService.createUserAccount({
+          externalIdentityId,
+          user,
+          userInfo,
+          authenticationMethodRepository,
+          userToCreateRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.have.been.calledWithExactly({
+          authenticationMethod: expectedAuthenticationMethod,
+          domainTransaction,
+        });
+      });
     });
   });
 });

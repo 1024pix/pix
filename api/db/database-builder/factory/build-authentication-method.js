@@ -116,7 +116,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   const values = {
     id,
     identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
+    authenticationComplement: new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
       accessToken,
       refreshToken,
       expiredDate,
@@ -136,9 +136,6 @@ buildAuthenticationMethod.withIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   identityProvider,
   externalIdentifier,
-  accessToken = 'ABC789',
-  refreshToken = 'DEF753',
-  expiredDate = new Date('2022-01-01'),
   userId,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
@@ -152,11 +149,6 @@ buildAuthenticationMethod.withIdentityProvider = function ({
   const values = {
     id,
     identityProvider,
-    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
-      accessToken,
-      refreshToken,
-      expiredDate,
-    }),
     externalIdentifier: generatedIdentifier,
     userId,
     createdAt,

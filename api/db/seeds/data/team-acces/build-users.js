@@ -30,8 +30,7 @@ function _buildUserWithPoleEmploiAuthenticationMethod(databaseBuilder) {
     lastName: 'Emploi',
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
-    identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
     userId: user.id,
   });
 }

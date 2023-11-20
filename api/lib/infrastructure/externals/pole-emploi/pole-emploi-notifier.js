@@ -66,7 +66,7 @@ const notify = async (userId, payload, dependencies) => {
     }
 
     accessToken = tokenResponse.data['access_token'];
-    const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+    const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
       accessToken,
       refreshToken: tokenResponse.data['refresh_token'],
       expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),

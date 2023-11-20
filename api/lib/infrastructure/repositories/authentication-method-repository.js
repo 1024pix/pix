@@ -289,7 +289,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
   }
 
   if (identityProvider === OidcIdentityProviders.POLE_EMPLOI.code) {
-    return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
+    return new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
   if (identityProvider === NON_OIDC_IDENTITY_PROVIDERS.GAR.code) {
