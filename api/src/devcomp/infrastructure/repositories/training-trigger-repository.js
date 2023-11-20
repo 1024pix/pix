@@ -3,7 +3,7 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { TrainingTriggerForAdmin } from '../../domain/read-models/TrainingTriggerForAdmin.js';
-import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import { TrainingTriggerTube } from '../../domain/models/TrainingTriggerTube.js';
 import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
