@@ -15,7 +15,7 @@ import { UserRecommendedTraining } from '../../../../../lib/domain/read-models/U
 import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
 import { TrainingForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingForAdmin.js';
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
-import { TrainingTriggerTube } from '../../../../../lib/domain/models/TrainingTriggerTube.js';
+import { TrainingTriggerTube } from '../../../../../src/devcomp/domain/models/TrainingTriggerTube.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | training-repository', function () {
