@@ -42,6 +42,7 @@ const register = async function (server) {
                           'sticker-url': Joi.string().required(),
                           'certificate-message': Joi.string().empty(['', null]).optional(),
                           'temporary-certificate-message': Joi.string().empty(['', null]).optional(),
+                          'minimum-earned-pix': Joi.number().empty(['', null]).optional(),
                         }),
                         relationships: Joi.object().required(),
                         type: Joi.string(),
