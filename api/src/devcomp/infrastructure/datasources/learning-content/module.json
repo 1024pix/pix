@@ -13,7 +13,7 @@
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
               "type": "text",
-              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>…</li></ul>"
+              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             {
               "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
@@ -47,8 +47,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>",
-                "invalid": "<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>"
+                "valid": "<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
+                "invalid": "<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
               },
               "solution": "27244df5-7871-4096-b51d-8b1dbd65d2ad"
             },
