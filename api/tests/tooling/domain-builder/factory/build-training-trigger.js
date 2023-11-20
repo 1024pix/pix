@@ -1,5 +1,5 @@
 import { buildTube } from './build-tube.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { TrainingTrigger } from '../../../../src/devcomp/domain/models/TrainingTrigger.js';
 import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
 
 const buildTrainingTrigger = function ({
