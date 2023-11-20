@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html -->
+<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  <Name>bucket</Name>
+  <Prefix />
+  <KeyCount>205</KeyCount>
+  <MaxKeys>1000</MaxKeys>
+  <IsTruncated>false</IsTruncated>
+  <Contents>
+    <Key>Accusé de traitement_pix-cpf-export-20231016-223357_002.xml_20231025.xml</Key>
+    <LastModified>2013-09-17T18:07:53.000Z</LastModified>
+    <ETag>"599bab3ed2c697f1d26842727561fd94"</ETag>
+    <Size>857</Size>
+    <StorageClass>REDUCED_REDUNDANCY</StorageClass>
+  </Contents>
+</ListBucketResult>

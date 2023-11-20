@@ -3,8 +3,6 @@ import * as libStorage from '@aws-sdk/lib-storage';
 import * as s3RequestPresigner from '@aws-sdk/s3-request-presigner';
 import { logger } from '../../../../../lib/infrastructure/logger.js';
 
-import bluebird from 'bluebird';
-
 class S3ObjectStorageProvider {
   #dependencies;
   #s3Client;
@@ -37,7 +35,7 @@ class S3ObjectStorageProvider {
     dependencies = { clientS3, libStorage, s3RequestPresigner },
   }) {
     if ([accessKeyId, secretAccessKey, endpoint, region, bucket].some((prop) => prop === undefined)) {
-      throw new Error('Missing S3 Object Storage configuration');
+      logger.warn('Invalid S3 configuration provided');
     }
 
     return new S3ObjectStorageProvider({
@@ -69,11 +67,19 @@ class S3ObjectStorageProvider {
     return this.#s3Client.send(new this.#dependencies.clientS3.ListObjectsV2Command({ Bucket: this.#bucket }));
   }
 
-  async preSignFiles({ keys, expiresIn }) {
-    return bluebird.mapSeries(keys, async (key) => {
-      const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
-      return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
-    });
+  async preSignFile({ key, expiresIn }) {
+    const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
+    return this.#dependencies.s3RequestPresigner.getSignedUrl(this.#s3Client, getObjectCommand, { expiresIn });
+  }
+
+  async readFile({ key }) {
+    const getObjectCommand = new this.#dependencies.clientS3.GetObjectCommand({ Bucket: this.#bucket, Key: key });
+    return this.#s3Client.send(getObjectCommand);
+  }
+
+  async deleteFile({ key }) {
+    const deleteObjectCommand = new this.#dependencies.clientS3.DeleteObjectCommand({ Bucket: this.#bucket, Key: key });
+    return this.#s3Client.send(deleteObjectCommand);
   }
 }
 

@@ -25,9 +25,12 @@ import * as organizationRepository from '../../../complementary-certification/in
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as sessionForInvigilatorKitRepository from '../../../session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
+import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
+import { cpfReceiptsStorage } from '../../../session/infrastructure/storage/cpf-receipts-storage.js';
+import { cpfExportsStorage } from '../../../session/infrastructure/storage/cpf-exports-storage.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
 
@@ -57,9 +60,12 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  *  sessionCodeService : sessionCodeService,
  *  sessionForAttendanceSheetRepository : sessionForAttendanceSheetRepository,
  *  sessionForInvigilatorKitRepository : sessionForInvigilatorKitRepository,
+ *  cpfCertificationResultRepository : cpfCertificationResultRepository,
  *  sessionRepository : sessionRepository,
  *  sessionValidator : sessionValidator,
  *  userRepository : userRepository,
+ *  cpfReceiptsStorage : cpfReceiptsStorage,
+ *  cpfExportsStorage : cpfExportsStorage,
  * }} dependencies
  */
 const dependencies = {
@@ -87,9 +93,12 @@ const dependencies = {
   sessionCodeService,
   sessionForAttendanceSheetRepository,
   sessionForInvigilatorKitRepository,
+  cpfCertificationResultRepository,
   sessionRepository,
   sessionValidator,
   userRepository,
+  cpfReceiptsStorage,
+  cpfExportsStorage,
 };
 
 const path = dirname(fileURLToPath(import.meta.url));

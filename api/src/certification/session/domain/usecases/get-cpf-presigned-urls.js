@@ -1,19 +1,20 @@
+/** @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps */
 import { config } from '../../../../../lib/config.js';
-import { S3ObjectStorageProvider } from '../../../../shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
 
-const { cpf } = config;
+/**
+ * @param {Object} params
+ * @param {deps['cpfExportsStorage']} params.cpfExportsStorage
+ */
+const getPreSignedUrls = async function ({ date, cpfExportsStorage }) {
+  const cpfExportFiles = await cpfExportsStorage.findAll();
 
-const getPreSignedUrls = async function ({ date, dependencies = { S3ObjectStorageProvider } }) {
-  const s3ObjectStorageProvider = dependencies.S3ObjectStorageProvider.createClient(cpf.storage);
-  const filesInBucket = await s3ObjectStorageProvider.listFiles();
+  const keysOfFilesModifiedAfter = cpfExportFiles
+    ?.filter(({ lastModifiedDate }) => lastModifiedDate >= date)
+    .map(({ filename }) => filename);
 
-  const keysOfFilesModifiedAfter = filesInBucket?.Contents.filter(({ LastModified }) => LastModified >= date).map(
-    ({ Key }) => Key,
-  );
-
-  return s3ObjectStorageProvider.preSignFiles({
+  return cpfExportsStorage.preSignFiles({
     keys: keysOfFilesModifiedAfter,
-    expiresIn: cpf.storage.preSignedExpiresIn,
+    expiresIn: config.cpf.storage.cpfExports.commands.preSignedExpiresIn,
   });
 };
 

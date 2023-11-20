@@ -1,10 +1,7 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { uploadCpfFiles } from '../../../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
-import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
-import { config } from '../../../../../../lib/config.js';
+import { cpfExportsStorage } from '../../../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
 import _ from 'lodash';
-
-const { cpf } = config;
 
 describe('Unit | UseCase | upload-cpf-files', function () {
   let logger;
@@ -15,34 +12,24 @@ describe('Unit | UseCase | upload-cpf-files', function () {
     };
   });
 
-  context('#upload', function () {
-    it('should instantiate an Upload with the expected parameters', async function () {
-      // given
-      const startUploadStub = sinon.stub(S3ObjectStorageProvider.prototype, 'startUpload');
-      startUploadStub.returns({ done: _.noop, on: _.noop });
+  it('should upload a file with the expected parameters', async function () {
+    // given
+    const sendFileStub = sinon.stub(cpfExportsStorage, 'sendFile');
+    sendFileStub.returns({ done: _.noop, on: _.noop });
+    const readableStream = Symbol('readableStream');
 
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-      });
-      const readableStream = Symbol('readableStream');
+    // when
+    await uploadCpfFiles({
+      filename: 'filename.xml',
+      readableStream,
+      logger,
+      cpfExportsStorage,
+    });
 
-      // when
-      await uploadCpfFiles({
-        filename: 'filename.xml',
-        readableStream,
-        logger,
-        dependencies: { S3ObjectStorageProvider },
-      });
-
-      // then
-      expect(startUploadStub).to.have.been.calledWithExactly({
-        filename: 'filename.xml',
-        readableStream,
-      });
+    // then
+    expect(sendFileStub).to.have.been.calledWithExactly({
+      filename: 'filename.xml',
+      readableStream,
     });
   });
 });
