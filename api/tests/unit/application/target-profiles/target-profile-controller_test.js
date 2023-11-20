@@ -1,4 +1,4 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
+import { expect, hFake, sinon } from '../../../test-helper.js';
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -218,79 +218,6 @@ describe('Unit | Controller | target-profile-controller', function () {
         // then
         expect(usecases.outdateTargetProfile).to.have.been.calledWithMatch({ id: 123 });
       });
-    });
-  });
-
-  describe('#getContentAsJsonFile', function () {
-    it('should succeed', async function () {
-      // given
-      const accessToken = 'ABC123';
-      sinon.stub(usecases, 'getTargetProfileContentAsJson');
-      usecases.getTargetProfileContentAsJson.withArgs({ userId: 66, targetProfileId: 123 }).resolves({
-        jsonContent: 'json_content',
-        fileName: 'file_name',
-      });
-      const request = {
-        params: {
-          id: 123,
-        },
-        query: {
-          accessToken,
-        },
-      };
-      const tokenService = {
-        extractUserId: sinon.stub(),
-      };
-      tokenService.extractUserId.withArgs(accessToken).returns(66);
-
-      // when
-      const response = await targetProfileController.getContentAsJsonFile(request, hFake, { tokenService });
-
-      // then
-      expect(response.source).to.equal('json_content');
-      expect(response.headers).to.deep.equal({
-        'Content-Type': 'text/json;charset=utf-8',
-        'Content-Disposition': 'attachment; filename=file_name',
-      });
-    });
-  });
-
-  describe('#getLearningContentAsPdf', function () {
-    it('should return the pdf', async function () {
-      // given
-      const learningContent = domainBuilder.buildLearningContent();
-      const pdfBuffer = 'some_pdf_buffer';
-      sinon
-        .stub(usecases, 'getLearningContentByTargetProfile')
-        .withArgs({ targetProfileId: 123, language: 'fr' })
-        .resolves(learningContent);
-
-      const learningContentPDFPresenter = {
-        present: sinon.stub(),
-      };
-
-      learningContentPDFPresenter.present.withArgs(learningContent, 'titre du doc', 'fr').resolves(pdfBuffer);
-      const request = {
-        params: {
-          id: 123,
-          locale: 'fr',
-        },
-        query: {
-          language: 'fr',
-          title: 'titre du doc',
-        },
-      };
-
-      // when
-      const response = await targetProfileController.getLearningContentAsPdf(request, hFake, {
-        learningContentPDFPresenter,
-      });
-
-      // then
-      expect(response.headers['Content-Disposition'].startsWith('attachment; filename=titre du doc_')).to.be.true;
-      expect(response.headers['Content-Disposition'].endsWith('.pdf')).to.be.true;
-      expect(response.headers['Content-Type']).to.equal('application/pdf');
-      expect(response.source).to.equal(pdfBuffer);
     });
   });
 

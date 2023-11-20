@@ -22,7 +22,7 @@ export default class PdfParametersModal extends Component {
     }
 
     this.errorMessage = null;
-    this.args.onDownloadButtonClicked(this.language, this.args.name);
+    this.args.onDownloadButtonClicked(this.language);
   }
 
   @action
