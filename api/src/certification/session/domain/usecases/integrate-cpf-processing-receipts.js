@@ -1,7 +1,13 @@
+/** @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps */
 import { logger } from '../../../../shared/infrastructure/utils/logger.js';
 import bluebird from 'bluebird';
 import { CONCURRENCY_HEAVY_OPERATIONS } from '../../../../../lib/infrastructure/constants.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['cpfReceiptsStorage']} params.cpfReceiptsStorage
+ * @param {deps['cpfCertificationResultRepository']} params.cpfCertificationResultRepository
+ */
 const integrateCpfProccessingReceipts = async function ({ cpfReceiptsStorage, cpfCertificationResultRepository }) {
   logger.info('Starting CPF receipts integration from external storage');
 
@@ -24,6 +30,11 @@ const integrateCpfProccessingReceipts = async function ({ cpfReceiptsStorage, cp
 
 export { integrateCpfProccessingReceipts };
 
+/**
+ * @param {Object} params
+ * @param {deps['cpfReceiptsStorage']} params.cpfReceiptsStorage
+ * @param {deps['cpfCertificationResultRepository']} params.cpfCertificationResultRepository
+ */
 async function _updateCertificationCourses({ cpfReceipt, cpfReceiptsStorage, cpfCertificationResultRepository }) {
   const cpfInfos = await cpfReceiptsStorage.getCpfInfosByReceipt({ cpfReceipt });
 
