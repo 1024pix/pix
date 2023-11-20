@@ -92,6 +92,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field.name]: 123 });
         const certificationCandidatesError = new CertificationCandidatesError({
           code: field.code,
+          meta: 123,
         });
 
         // when
@@ -154,6 +155,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SESSION_ID_NOT_A_NUMBER',
+        meta: 'salut',
       });
 
       // when
@@ -196,6 +198,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_EXTERNAL_ID_MUST_BE_A_STRING',
+        meta: 1235,
       });
 
       // when
@@ -213,6 +216,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+        meta: 'je mange des légumes',
       });
 
       // when
@@ -227,6 +231,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID',
+        meta: '2020/02/01',
       });
 
       // when
@@ -271,6 +276,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_EXTRA_TIME_INTEGER',
+        meta: NaN,
       });
 
       // when
@@ -285,6 +291,43 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
       const certificationCandidatesError = new CertificationCandidatesError({
         code: 'CANDIDATE_SEX_NOT_VALID',
+        meta: 'something_else',
+      });
+
+      // when
+      const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+    });
+
+    it('should return a report when email is not a valid format', async function () {
+      // given
+      const certificationCandidate = buildCertificationCandidate({
+        ...validAttributes,
+        email: 'email@example.net, anotheremail@example.net',
+      });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_EMAIL_NOT_VALID',
+        meta: 'email@example.net, anotheremail@example.net',
+      });
+
+      // when
+      const error = await catchErr(certificationCandidate.validate, certificationCandidate)();
+
+      // then
+      expect(error).to.deepEqualInstanceOmitting(certificationCandidatesError, ['message', 'stack']);
+    });
+
+    it('should return a report when resultRecipientEmail is not a valid format', async function () {
+      // given
+      const certificationCandidate = buildCertificationCandidate({
+        ...validAttributes,
+        resultRecipientEmail: 'email@example.net, anotheremail@example.net',
+      });
+      const certificationCandidatesError = new CertificationCandidatesError({
+        code: 'CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID',
+        meta: 'email@example.net, anotheremail@example.net',
       });
 
       // when
@@ -313,6 +356,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         });
       });
     });
+
     context('when the certification center is not SCO', function () {
       it('should throw an error if billingMode is null', async function () {
         // given
@@ -323,6 +367,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
         const certificationCandidatesError = new CertificationCandidatesError({
           code: 'CANDIDATE_BILLING_MODE_REQUIRED',
+          meta: null,
         });
 
         // when
@@ -342,6 +387,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
         const certificationCandidatesError = new CertificationCandidatesError({
           code: 'CANDIDATE_BILLING_MODE_NOT_VALID',
+          meta: 'NOT_ALLOWED_VALUE',
         });
 
         // when
@@ -383,6 +429,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
           const certificationCandidatesError = new CertificationCandidatesError({
             code: 'CANDIDATE_PREPAYMENT_CODE_MUST_BE_EMPTY',
+            meta: 'NOT_NULL',
           });
 
           // when
