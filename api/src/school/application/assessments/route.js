@@ -48,7 +48,7 @@ const register = async function (server) {
           }),
         },
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
-        handler: assessmentController.getByAssessmentId,
+        handler: assessmentController.getById,
         tags: ['api'],
       },
     },
