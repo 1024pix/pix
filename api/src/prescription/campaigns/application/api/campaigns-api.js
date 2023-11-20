@@ -1,4 +1,5 @@
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { SavedCampaign } from './SavedCampaign.js';
 
 /**
  * @typedef CampaignApi
@@ -24,13 +25,6 @@ import { usecases } from '../../../../../lib/domain/usecases/index.js';
  */
 
 /**
- * @typedef SavedCampaignResponse
- * @type {object}
- * @property {number} id
- * @property {string} code
- */
-
-/**
  * @function
  * @name save
  *
@@ -47,8 +41,6 @@ export const save = async (campaign) => {
       multipleSendings: false,
     },
   });
-  return {
-    id: savedCampaign.id,
-    code: savedCampaign.code,
-  };
+
+  return new SavedCampaign(savedCampaign);
 };
