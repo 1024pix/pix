@@ -16,6 +16,7 @@ const buildComplementaryCertificationBadge = function ({
   stickerUrl = 'http://stiker-url.fr',
   detachedAt = null,
   createdBy,
+  minimumEarnedPix = 0,
 } = {}) {
   complementaryCertificationId = _.isNull(complementaryCertificationId)
     ? buildComplementaryCertification().id
@@ -35,6 +36,7 @@ const buildComplementaryCertificationBadge = function ({
     stickerUrl,
     detachedAt,
     createdBy,
+    minimumEarnedPix,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-badges',
