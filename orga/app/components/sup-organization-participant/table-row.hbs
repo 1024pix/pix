@@ -38,7 +38,11 @@
     {{/if}}
   </td>
   <td class="table__column--center">
-    <Certificability::Cell @certifiableAt={{@student.certifiableAt}} @isCertifiable={{@student.isCertifiable}} />
+    <Certificability::Cell
+      @hideCertifiableDate={{@hideCertifiableDate}}
+      @certifiableAt={{@student.certifiableAt}}
+      @isCertifiable={{@student.isCertifiable}}
+    />
   </td>
   <td class="organization-participant-list-page__actions hide-on-mobile">
     {{#if @isAdminInOrganization}}

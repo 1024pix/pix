@@ -18,6 +18,7 @@
               @onToggleAll={{toggleAll}}
               @sortByLastname={{(fn this.addResetOnFunction @sortByLastname reset)}}
               @sortByParticipationCount={{(fn this.addResetOnFunction @sortByParticipationCount reset)}}
+              @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </InElement>
           {{#if someSelected}}
@@ -60,6 +61,7 @@
             @openEditStudentNumberModal={{this.openEditStudentNumberModal}}
             @isAdminInOrganization={{this.currentUser.isAdminInOrganization}}
             @onToggleStudent={{(fn this.addStopPropagationOnFunction toggleStudent)}}
+            @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </:item>
       </SelectableList>

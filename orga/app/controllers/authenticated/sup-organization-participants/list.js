@@ -18,6 +18,10 @@ export default class ListController extends Controller {
   @tracked participationCountOrder = null;
   @tracked lastnameSort = 'asc';
 
+  get hasComputeOrganizationLearnerCertificabilityEnabled() {
+    return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
+  }
+
   @action
   goToLearnerPage(learnerId, event) {
     event.preventDefault();
