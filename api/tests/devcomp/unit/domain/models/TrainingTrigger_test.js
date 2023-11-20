@@ -1,6 +1,6 @@
-import { expect, domainBuilder, catchErr, sinon } from '../../../test-helper.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
+import { expect, domainBuilder, catchErr, sinon } from '../../../../test-helper.js';
+import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 
 describe('Unit | Domain | Models | TrainingTrigger', function () {
   describe('#constructor', function () {

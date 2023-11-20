@@ -1,7 +1,7 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
 import { trainingController } from '../../../../lib/application/trainings/training-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { TrainingTrigger } from '../../../../src/devcomp/domain/models/TrainingTrigger.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | training-controller', function () {

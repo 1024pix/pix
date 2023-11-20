@@ -8,7 +8,7 @@ import * as areaRepository from '../../../../lib/infrastructure/repositories/are
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
-import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
+import { TrainingTrigger } from '../../domain/models/TrainingTrigger.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 
 const TABLE_NAME = 'training-triggers';
