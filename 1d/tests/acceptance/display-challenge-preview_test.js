@@ -1,11 +1,9 @@
 import { visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | ChallengePreview', function (hooks) {
   setupApplicationTest(hooks);
-  setupMirage(hooks);
 
   test('displays challenge preview', async function (assert) {
     // given
