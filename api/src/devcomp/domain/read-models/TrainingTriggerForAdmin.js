@@ -1,4 +1,4 @@
-import { TrainingTrigger } from '../models/TrainingTrigger.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 const { types } = TrainingTrigger;
 
