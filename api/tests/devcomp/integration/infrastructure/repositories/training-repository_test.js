@@ -9,7 +9,7 @@ import {
 
 import * as trainingRepository from '../../../../../src/devcomp/infrastructure/repositories/training-repository.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { TrainingSummary } from '../../../../../lib/domain/read-models/TrainingSummary.js';
+import { TrainingSummary } from '../../../../../src/devcomp/domain/read-models/TrainingSummary.js';
 import { Training } from '../../../../../lib/domain/models/Training.js';
 import { UserRecommendedTraining } from '../../../../../lib/domain/read-models/UserRecommendedTraining.js';
 import { TrainingTriggerForAdmin } from '../../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
