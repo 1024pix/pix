@@ -3,10 +3,13 @@ import * as requestResponseUtils from '../../infrastructure/utils/request-respon
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
 import { BadRequestError } from '../http-errors.js';
 
-const disable = async function (request, h) {
+const disable = async function (request, h, dependencies = { requestResponseUtils }) {
   const certificationCenterMembershipId = request.params.id;
+  const pixAgentUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+
   await usecases.disableCertificationCenterMembership({
     certificationCenterMembershipId,
+    updatedByUserId: pixAgentUserId,
   });
   return h.response().code(204);
 };
