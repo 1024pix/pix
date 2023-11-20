@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { MissionAssessment } from '../../domain/models/MissionAssessment.js';
 import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { MissionAssessment } from '../models/mission-assessment.js';
 
 const save = async function ({ missionAssessment }) {
   await knex('mission-assessments').insert({ ...missionAssessment });

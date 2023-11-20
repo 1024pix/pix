@@ -55,7 +55,7 @@ describe('Unit | Application | Router | assessment-router', function () {
     const url = '/api/pix1d/assessments/1';
 
     it('should return 200', async function () {
-      sinon.stub(assessmentController, 'getByAssessmentId').callsFake((request, h) => h.response('ok').code(200));
+      sinon.stub(assessmentController, 'getById').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

@@ -1,7 +1,7 @@
 import { databaseBuilder, expect } from '../../../../test-helper.js';
 import * as missionAssessmentRepository from '../../../../../src/school/infrastructure/repositories/mission-assessment-repository.js';
-import { MissionAssessment } from '../../../../../src/school/domain/models/MissionAssessment.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { MissionAssessment } from '../../../../../src/school/infrastructure/models/mission-assessment.js';
 
 describe('Integration | Repository | mission-assessment-repository', function () {
   describe('#getByAssessmentId', function () {

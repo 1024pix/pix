@@ -1,15 +1,9 @@
 import { Serializer } from 'jsonapi-serializer';
 
-const serialize = function (missionAssessment) {
+const serialize = function (assessment) {
   return new Serializer('assessment', {
-    transform: (missionAssessment) => {
-      return {
-        ...missionAssessment,
-        id: missionAssessment.assessmentId,
-      };
-    },
-    attributes: ['missionId', 'organizationLearnerId'],
-  }).serialize(missionAssessment);
+    attributes: ['missionId', 'organizationLearnerId', 'state'],
+  }).serialize(assessment);
 };
 
 export { serialize };

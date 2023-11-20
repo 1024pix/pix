@@ -1,5 +1,5 @@
-import { Assessment } from '../../../shared/domain/models/Assessment.js';
-import { MissionAssessment } from '../models/MissionAssessment.js';
+import { Assessment } from '../models/Assessment.js';
+import { MissionAssessment } from '../../infrastructure/models/mission-assessment.js';
 
 const createMissionAssessment = async function ({
   missionId,
@@ -17,7 +17,7 @@ const createMissionAssessment = async function ({
   });
   await missionAssessmentRepository.save({ missionAssessment });
 
-  return missionAssessment;
+  return new Assessment({ ...persistedAssessment, ...missionAssessment });
 };
 
 export { createMissionAssessment };
