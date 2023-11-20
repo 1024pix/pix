@@ -7,7 +7,7 @@ import { UserRecommendedTraining } from '../../../../lib/domain/read-models/User
 import { fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import lodash from 'lodash';
 import * as trainingTriggerRepository from './training-trigger-repository.js';
-import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
+import { TrainingForAdmin } from '../../domain/read-models/TrainingForAdmin.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/index.js';
 
 const { pick } = lodash;
