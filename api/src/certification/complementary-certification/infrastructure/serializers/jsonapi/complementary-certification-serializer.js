@@ -8,7 +8,7 @@ const serializeForAdmin = function (complementaryCertification) {
     targetProfilesHistory: {
       attributes: ['id', 'name', 'attachedAt', 'detachedAt', 'badges'],
       badges: {
-        attributes: ['id', 'label', 'level', 'imageUrl'],
+        attributes: ['id', 'label', 'level', 'imageUrl', 'minimumEarnedPix'],
       },
     },
   }).serialize(complementaryCertification);
