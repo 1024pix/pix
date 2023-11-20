@@ -478,7 +478,7 @@
         }
       },
       "candidate-list": {
-        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} selected",
+        "authorized-to-start-candidates": "{authorizedToStartCandidates}/{totalCandidates} {authorizedToStartCandidates, plural,one {candidate} other {candidates}} attending",
         "clear-field": "Clear the field",
         "indicate-candidates-attendance": "Please confirm the attendance of each candidate to allow them to start their certification exam.",
         "no-candidate": "No candidate enrolled in this session",
