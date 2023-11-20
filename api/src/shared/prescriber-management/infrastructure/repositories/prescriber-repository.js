@@ -6,7 +6,7 @@ import { BookshelfMembership } from '../../../../../lib/infrastructure/orm-model
 import { BookshelfUserOrgaSettings } from '../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
-import { Prescriber } from '../../../../../lib/domain/read-models/Prescriber.js';
+import { Prescriber } from '../../domain/read-models/Prescriber.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 function _toPrescriberDomain(bookshelfUser) {
