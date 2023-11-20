@@ -2,7 +2,7 @@ import { injectDependencies } from '../../../src/shared/infrastructure/utils/dep
 
 import * as correctionRepository from './correction-repository.js';
 import * as trainingRepository from '../../../src/devcomp/infrastructure/repositories/training-repository.js';
-import * as trainingTriggerRepository from './training-trigger-repository.js';
+import * as trainingTriggerRepository from '../../../src/devcomp/infrastructure/repositories/training-trigger-repository.js';
 import * as tutorialEvaluationRepository from './tutorial-evaluation-repository.js';
 import * as tutorialRepository from './tutorial-repository.js';
 import * as userRecommendedTrainingRepository from './user-recommended-training-repository.js';

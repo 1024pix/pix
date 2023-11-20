@@ -6,7 +6,7 @@ import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransact
 import { UserRecommendedTraining } from '../../../../lib/domain/read-models/UserRecommendedTraining.js';
 import { fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
 import lodash from 'lodash';
-import * as trainingTriggerRepository from '../../../../lib/infrastructure/repositories/training-trigger-repository.js';
+import * as trainingTriggerRepository from './training-trigger-repository.js';
 import { TrainingForAdmin } from '../../../../lib/domain/read-models/TrainingForAdmin.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/index.js';
 
