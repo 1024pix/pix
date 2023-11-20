@@ -33,6 +33,7 @@ class OrganizationForAdmin {
     tags = [],
     tagIds = [],
     features = {},
+    code,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -69,6 +70,7 @@ class OrganizationForAdmin {
     }
     this.tagsToAdd = [];
     this.tagsToRemove = [];
+    this.code = code;
   }
 
   get archivistFullName() {

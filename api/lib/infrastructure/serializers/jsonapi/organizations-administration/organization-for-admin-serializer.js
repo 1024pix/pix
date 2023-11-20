@@ -21,6 +21,7 @@ const serialize = function (organizations, meta) {
       'externalId',
       'provinceCode',
       'isManagingStudents',
+      'code',
       'credit',
       'email',
       'documentationUrl',
