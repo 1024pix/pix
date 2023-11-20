@@ -22,6 +22,7 @@ import {
 } from './src/certification/complementary-certification/routes.js';
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { learnerListRoutes } from './src/prescription/organization-learner/routes.js';
+import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
@@ -35,7 +36,7 @@ const certificationRoutes = [
   complementaryCertificationRoutes,
   certificationCourseRoutes,
 ];
-const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes];
+const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes, targetProfileRoutes];
 const sharedRoutes = [prescriberManagementRoutes];
 
 monitoringTools.installHapiHook();

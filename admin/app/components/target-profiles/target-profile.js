@@ -94,11 +94,11 @@ export default class TargetProfile extends Component {
   }
 
   @action
-  async downloadPDF(language, title) {
+  async downloadPDF(language) {
     try {
       this.toggleDisplayPdfParametersModal();
       const targetProfileId = this.args.model.id;
-      const url = `/api/admin/target-profiles/${targetProfileId}/learning-content-pdf?language=${language}&title=${title}`;
+      const url = `/api/admin/target-profiles/${targetProfileId}/learning-content-pdf?language=${language}`;
       const fileName = 'whatever.pdf';
       const token = this.session.data.authenticated.access_token;
       await this.fileSaver.save({ url, fileName, token });

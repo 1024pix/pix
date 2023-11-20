@@ -4,7 +4,6 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
   learningContentBuilder,
-  MockDate,
   mockLearningContent,
 } from '../../../test-helper.js';
 
@@ -566,56 +565,6 @@ describe('Acceptance | Route | target-profiles', function () {
         expect(response.statusCode).to.equal(422);
         expect(response.result).to.deep.equal(expectedError);
       });
-    });
-  });
-
-  describe('GET /api/admin/target-profiles/{id}/content-json', function () {
-    let user;
-    let targetProfileId;
-
-    beforeEach(function () {
-      MockDate.set(new Date('2020-11-01'));
-      const learningContent = {
-        areas: [{ id: 'recArea', frameworkId: 'recFmwk', competenceIds: ['recCompetence'] }],
-        competences: [{ id: 'recCompetence', areaId: 'recArea', thematicIds: ['recThematic'] }],
-        thematics: [
-          { id: 'recThematic', name_i18n: { fr: 'somename' }, tubeIds: ['recTube'], competenceId: 'recCompetence' },
-        ],
-        tubes: [{ id: 'recTube', thematicId: 'recThematic' }],
-        skills: [{ id: 'recSkill', tubeId: 'recTube', status: 'actif', level: 5, name: 'skill5' }],
-        challenges: [],
-      };
-      mockLearningContent(learningContent);
-      targetProfileId = databaseBuilder.factory.buildTargetProfile({ name: 'Roxane est très jolie' }).id;
-      databaseBuilder.factory.buildTargetProfileTube({ targetProfileId, tubeId: 'recTube', level: 6 });
-      user = databaseBuilder.factory.buildUser.withRole();
-
-      return databaseBuilder.commit();
-    });
-
-    afterEach(function () {
-      MockDate.reset();
-    });
-
-    it('should return 200 and the json file', async function () {
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
-      const options = {
-        method: 'GET',
-        url: `/api/admin/target-profiles/${targetProfileId}/content-json?accessToken=${token}`,
-        payload: {},
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.payload).to.equal('[{"id":"recTube","level":6,"frameworkId":"recFmwk","skills":["recSkill"]}]');
-      expect(response.headers['content-disposition']).to.equal(
-        'attachment; filename=20201101_profil_cible_Roxane est tr_s jolie.json',
-      );
-      expect(response.headers['content-type']).to.equal('text/json;charset=utf-8');
     });
   });
 
