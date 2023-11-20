@@ -20,7 +20,10 @@ const reconcileOidcUser = async function ({
 
   const { userId, externalIdentityId } = userInfo;
 
-  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
+  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({
+    userInfo,
+    sessionContent,
+  });
   await authenticationMethodRepository.create({
     authenticationMethod: new AuthenticationMethod({
       identityProvider: oidcAuthenticationService.identityProvider,

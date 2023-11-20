@@ -87,25 +87,51 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
   describe('find user', function () {
     describe('#findByExternalIdentifier', function () {
-      it('should return user informations for the given external identity id and identity provider', async function () {
-        // given
-        const externalIdentityId = 'external-identity-id';
-        const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          externalIdentifier: externalIdentityId,
-          userId,
-        });
-        await databaseBuilder.commit();
+      context('when identityProvider is generic', function () {
+        it('should return user informations for the given external identity id and identity provider', async function () {
+          // given
+          const externalIdentityId = 'external-identity-id';
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+            externalIdentifier: externalIdentityId,
+            identityProvider: OidcIdentityProviders.PAYSDELALOIRE.code,
+            userId,
+          });
+          await databaseBuilder.commit();
 
-        // when
-        const foundUser = await userRepository.findByExternalIdentifier({
-          externalIdentityId,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
-        });
+          // when
+          const foundUser = await userRepository.findByExternalIdentifier({
+            externalIdentityId,
+            identityProvider: OidcIdentityProviders.PAYSDELALOIRE.code,
+          });
 
-        // then
-        expect(foundUser).to.be.an.instanceof(User);
-        expect(foundUser.id).to.equal(userId);
+          // then
+          expect(foundUser).to.be.an.instanceof(User);
+          expect(foundUser.id).to.equal(userId);
+        });
+      });
+
+      context('when identityProvider is POLE_EMPLOI', function () {
+        it('should return user informations for the given external identity id and identity provider', async function () {
+          // given
+          const externalIdentityId = 'external-identity-id';
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+            externalIdentifier: externalIdentityId,
+            userId,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const foundUser = await userRepository.findByExternalIdentifier({
+            externalIdentityId,
+            identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
+          });
+
+          // then
+          expect(foundUser).to.be.an.instanceof(User);
+          expect(foundUser.id).to.equal(userId);
+        });
       });
 
       it('should return undefined when no user was found with this external identity id', async function () {

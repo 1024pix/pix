@@ -354,7 +354,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // then
         expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
-          new AuthenticationMethod.OidcAuthenticationComplement({
+          new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
             accessToken: 'AGENCENATIONALEPOURLEMPLOI',
             refreshToken: 'FRANCETRAVAIL',
             expiredDate: '2021-01-01T00:00:00.000Z',
@@ -785,9 +785,8 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       beforeEach(function () {
         clock = sinon.useFakeTimers({ now: new Date('2020-01-02'), toFake: ['Date'] });
         const userId = databaseBuilder.factory.buildUser().id;
-        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           id: 123,
-          identityProvider: OidcIdentityProviders.POLE_EMPLOI.code,
           externalIdentifier: 'identifier',
           accessToken: 'to_be_updated',
           refreshToken: 'to_be_updated',
@@ -805,7 +804,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = authenticationMethod.userId;
         const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
           expiredDate,
@@ -831,7 +830,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = authenticationMethod.userId;
         const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
           expiredDate,

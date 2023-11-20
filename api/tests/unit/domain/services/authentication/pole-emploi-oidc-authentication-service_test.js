@@ -66,7 +66,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
 
       // then
-      expect(result).to.be.instanceOf(AuthenticationMethod.OidcAuthenticationComplement);
+      expect(result).to.be.instanceOf(AuthenticationMethod.PoleEmploiOidcAuthenticationComplement);
     });
   });
 });

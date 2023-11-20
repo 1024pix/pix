@@ -188,7 +188,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .withArgs({ userId, identityProvider: OidcIdentityProviders.POLE_EMPLOI.code })
             .resolves(authenticationMethod);
           httpAgent.post.resolves({ isSuccessful: true, code, data });
-          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+          const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
             accessToken: data['access_token'],
             refreshToken: data['refresh_token'],
             expiredDate: dayjs().add(data['expires_in'], 's').toDate(),
@@ -214,7 +214,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
         it('should send the notification to Pole Emploi', async function () {
           // given
-          const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+          const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
             accessToken: data['access_token'],
             refreshToken: data['refresh_token'],
             expiredDate: dayjs().add(data['expires_in'], 's').toDate(),

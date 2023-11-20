@@ -102,7 +102,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 
   createAuthenticationComplement({ sessionContent }) {
-    return new AuthenticationMethod.OidcAuthenticationComplement({
+    return new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
       accessToken: sessionContent.accessToken,
       refreshToken: sessionContent.refreshToken,
       expiredDate: dayjs().add(sessionContent.expiresIn, 's').toDate(),

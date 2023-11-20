@@ -55,13 +55,16 @@ const authenticateOidcUser = async function ({
 export { authenticateOidcUser };
 
 async function _updateAuthenticationMethodWithComplement({
+  userInfo,
   userId,
   sessionContent,
   oidcAuthenticationService,
   authenticationMethodRepository,
 }) {
-  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
-  if (!authenticationComplement) return;
+  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({
+    userInfo,
+    sessionContent,
+  });
 
   return await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
     authenticationComplement,
