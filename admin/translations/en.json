@@ -46,7 +46,7 @@
       "membership-item-role": {
         "select-role": "Select role"
       },
-      "table-headers" : {
+      "table-headers": {
         "roleLabel": "Role"
       }
     },
@@ -64,6 +64,7 @@
             "id": "ID du RT certifiant",
             "image-url": "Image du badge certifié",
             "level": "Niveau du badge certifié",
+            "minimum-earned-pix": "Nombre de pix minimum",
             "name": "Nom du badge certifié"
           }
         }

@@ -12,6 +12,9 @@
               {{t "components.complementary-certifications.target-profiles.badges-list.header.name"}}
             </th>
             <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.level"}}</th>
+            <th>
+              {{t "components.complementary-certifications.target-profiles.badges-list.header.minimum-earned-pix"}}
+            </th>
             <th>{{t "components.complementary-certifications.target-profiles.badges-list.header.id"}}</th>
           </tr>
         </thead>
@@ -28,6 +31,7 @@
               </td>
               <td>{{badge.label}}</td>
               <td>{{badge.level}}</td>
+              <td>{{this.getMinimumEarnedPixValue badge.minimumEarnedPix}}</td>
               <td>
                 <LinkTo
                   @route="authenticated.target-profiles.target-profile.badges.badge"
