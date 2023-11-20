@@ -9,6 +9,7 @@ class BadgeToAttach {
     temporaryCertificateMessage,
     stickerUrl,
     createdBy,
+    minimumEarnedPix,
   }) {
     this.level = level;
     this.complementaryCertificationId = complementaryCertificationId;
@@ -19,6 +20,7 @@ class BadgeToAttach {
     this.temporaryCertificateMessage = temporaryCertificateMessage;
     this.stickerUrl = stickerUrl;
     this.createdBy = createdBy;
+    this.minimumEarnedPix = minimumEarnedPix ?? 0;
   }
 
   static from({
@@ -31,6 +33,7 @@ class BadgeToAttach {
     temporaryCertificateMessage,
     stickerUrl,
     userId,
+    minimumEarnedPix,
   }) {
     return new BadgeToAttach({
       id: undefined,
@@ -44,6 +47,7 @@ class BadgeToAttach {
       stickerUrl,
       detachedAt: null,
       createdBy: userId,
+      minimumEarnedPix: minimumEarnedPix,
     });
   }
 }
