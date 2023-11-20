@@ -58,9 +58,8 @@
   <Table::Header @size="medium" @align="center">
     <div class="sco-organization-participant-list-page__certificability-header">
       {{t "pages.sco-organization-participants.table.column.is-certifiable.label"}}
-      <Ui::CertificabilityTooltip
-        @aria-label={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip.aria-label"}}
-        @content={{t "pages.sco-organization-participants.table.column.is-certifiable.tooltip.content"}}
+      <Certificability::Tooltip
+        @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
       />
     </div>
   </Table::Header>

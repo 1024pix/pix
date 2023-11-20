@@ -30,7 +30,7 @@ const register = async function (server) {
             'sort[latestParticipationOrder]': Joi.string().empty(''),
           }),
         },
-        handler: learnerListController.getPaginatedParticipantsForAnOrganization,
+        handler: learnerListController.findPaginatedFilteredParticipants,
         tags: ['api', 'organization-participants'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

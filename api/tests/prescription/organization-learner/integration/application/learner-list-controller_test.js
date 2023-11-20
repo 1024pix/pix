@@ -10,7 +10,7 @@ describe('Integration | Application | learner-list-controller', function () {
 
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
+    sandbox.stub(usecases, 'findPaginatedFilteredParticipants');
 
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
     httpTestServer = new HttpTestServer();
@@ -20,11 +20,11 @@ describe('Integration | Application | learner-list-controller', function () {
   afterEach(function () {
     sandbox.restore();
   });
-  describe('#getPaginatedParticipantsForAnOrganization', function () {
+  describe('#findPaginatedFilteredParticipants', function () {
     context('when the organization has participants', function () {
       it('returns organization participants', async function () {
         const organizationId = 5678;
-        usecases.getPaginatedParticipantsForAnOrganization
+        usecases.findPaginatedFilteredParticipants
           .withArgs({ organizationId, page: {}, filters: {}, sort: {} })
           .resolves({
             organizationParticipants: [

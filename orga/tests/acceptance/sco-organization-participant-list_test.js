@@ -71,14 +71,6 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
         assert.strictEqual(currentURL(), '/eleves');
       });
 
-      test('it should display a banner fot automatic certificability calculation', async function (assert) {
-        // when
-        await visit('/eleves');
-
-        // then
-        assert.contains(this.intl.t('pages.sco-organization-participants.banner'));
-      });
-
       module('when admin uploads a file', function (hooks) {
         hooks.beforeEach(async function () {
           user = createUserManagingStudents('ADMIN');

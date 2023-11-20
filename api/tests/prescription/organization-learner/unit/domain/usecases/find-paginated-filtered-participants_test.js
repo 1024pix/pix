@@ -1,5 +1,5 @@
 import { sinon, expect } from '../../../../../test-helper.js';
-import { getPaginatedParticipantsForAnOrganization } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-paginated-participants-for-an-organization.js';
+import { findPaginatedFilteredParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-participants.js';
 
 describe('Unit | UseCases | get-paginated-participants-for-an-organization', function () {
   it('should call organizationParticipantRepository', async function () {
@@ -8,14 +8,14 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     const page = {};
     const sort = { participationCount: 'asc' };
     const organizationParticipantRepository = {
-      getParticipantsByOrganizationId: sinon.stub(),
+      findPaginatedFilteredParticipants: sinon.stub(),
     };
     const filters = {
       fullName: 'name',
     };
 
     // when
-    await getPaginatedParticipantsForAnOrganization({
+    await findPaginatedFilteredParticipants({
       organizationId,
       filters,
       page,
@@ -24,7 +24,7 @@ describe('Unit | UseCases | get-paginated-participants-for-an-organization', fun
     });
 
     // then
-    expect(organizationParticipantRepository.getParticipantsByOrganizationId).to.have.been.calledWithExactly({
+    expect(organizationParticipantRepository.findPaginatedFilteredParticipants).to.have.been.calledWithExactly({
       organizationId,
       page,
       sort,

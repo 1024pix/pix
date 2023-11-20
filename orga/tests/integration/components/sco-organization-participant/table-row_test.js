@@ -23,7 +23,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
         certifiableAt: new Date(certifiableDate),
       };
       this.set('student', student);
-      this.set('hideCertifiableDate', true);
+      this.set('hasComputeOrganizationLearnerCertificabilityEnabled', true);
 
       // when
       const screen = await render(
@@ -34,7 +34,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
   @openAuthenticationMethodModal={{this.noop}}
   @onToggleStudent={{this.noop}}
   @onClickLearner={{this.noop}}
-  @hideCertifiableDate={{this.hideCertifiableDate}}
+  @hideCertifiableDate={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}
 />`,
       );
 
@@ -43,7 +43,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
     });
   });
 
-  module('when hideCertifiableDate is false', function () {
+  module('when hasComputeOrganizationLearnerCertificabilityEnabled is false', function () {
     test('it display certifiableAt date', async function (assert) {
       // given
       const certifiableDate = '10/10/2023';
@@ -59,7 +59,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
         certifiableAt: new Date(certifiableDate),
       };
       this.set('student', student);
-      this.set('hideCertifiableDate', false);
+      this.set('hasComputeOrganizationLearnerCertificabilityEnabled', false);
 
       // when
       const screen = await render(
@@ -70,7 +70,7 @@ module('Integration | Component | ScoOrganizationParticipant::TableRow', functio
   @openAuthenticationMethodModal={{this.noop}}
   @onToggleStudent={{this.noop}}
   @onClickLearner={{this.noop}}
-  @hideCertifiableDate={{this.hideCertifiableDate}}
+  @hideCertifiableDate={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}
 />`,
       );
 

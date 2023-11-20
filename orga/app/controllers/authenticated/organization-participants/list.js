@@ -18,6 +18,10 @@ export default class ListController extends Controller {
   @tracked latestParticipationOrder = null;
   @tracked lastnameSort = 'asc';
 
+  get hasComputeOrganizationLearnerCertificabilityEnabled() {
+    return this.currentUser.prescriber.computeOrganizationLearnerCertificability;
+  }
+
   @action
   triggerFiltering(fieldName, value) {
     this[fieldName] = value || undefined;

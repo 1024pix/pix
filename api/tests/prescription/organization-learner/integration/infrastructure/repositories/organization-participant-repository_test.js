@@ -24,7 +24,7 @@ function buildLearnerWithParticipation({
 }
 
 describe('Integration | Infrastructure | Repository | OrganizationParticipant', function () {
-  describe('#getParticipantsByOrganizationId', function () {
+  describe('#findPaginatedFilteredParticipants', function () {
     let organizationId;
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -34,7 +34,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
     context('display participants', function () {
       it('should return no participants when there are no learners', async function () {
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -47,7 +47,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -62,7 +62,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -75,7 +75,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -91,7 +91,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -110,7 +110,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ participationCount }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -139,7 +139,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ participationCount }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
         // then
@@ -152,7 +152,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
         await databaseBuilder.commit();
         // when
-        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { organizationParticipants } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
         // then
@@ -170,7 +170,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ participationCount }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
         // then
@@ -187,7 +187,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           meta: { participantCount },
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -213,7 +213,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ campaignName }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -240,7 +240,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ campaignType }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -265,7 +265,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ participationStatus }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -289,7 +289,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ lastParticipationDate }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -307,9 +307,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+            });
 
           // then
           expect(organizationParticipants.map(({ lastName }) => lastName)).to.exactlyContainInOrder([
@@ -340,9 +341,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+            });
 
           // then
           expect(organizationParticipants.map(({ firstName }) => firstName)).to.exactlyContainInOrder(['Gwen', 'Yvo']);
@@ -363,9 +365,10 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+            });
 
           // then
           expect(organizationParticipants.map(({ id }) => id)).to.exactlyContainInOrder([1, 2]);
@@ -432,7 +435,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             it('should return participants sorted by ascendant participation count', async function () {
               // when
               const { organizationParticipants } =
-                await organizationParticipantRepository.getParticipantsByOrganizationId({
+                await organizationParticipantRepository.findPaginatedFilteredParticipants({
                   organizationId,
                   sort: {
                     participationCount: 'asc',
@@ -449,7 +452,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             it('should return participants sorted by descendant participation count', async function () {
               // when
               const { organizationParticipants } =
-                await organizationParticipantRepository.getParticipantsByOrganizationId({
+                await organizationParticipantRepository.findPaginatedFilteredParticipants({
                   organizationId,
                   sort: {
                     participationCount: 'desc',
@@ -504,7 +507,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             await databaseBuilder.commit();
             // when
             const { organizationParticipants } =
-              await organizationParticipantRepository.getParticipantsByOrganizationId({
+              await organizationParticipantRepository.findPaginatedFilteredParticipants({
                 organizationId,
                 sort: {
                   participationCount: 'asc',
@@ -563,7 +566,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             it('should return participants sorted by ascendant participation date', async function () {
               // when
               const { organizationParticipants } =
-                await organizationParticipantRepository.getParticipantsByOrganizationId({
+                await organizationParticipantRepository.findPaginatedFilteredParticipants({
                   organizationId,
                   sort: {
                     latestParticipationOrder: 'asc',
@@ -580,7 +583,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             it('should return participants sorted by descendant participation date', async function () {
               // when
               const { organizationParticipants } =
-                await organizationParticipantRepository.getParticipantsByOrganizationId({
+                await organizationParticipantRepository.findPaginatedFilteredParticipants({
                   organizationId,
                   sort: {
                     latestParticipationOrder: 'desc',
@@ -632,7 +635,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             await databaseBuilder.commit();
             // when
             const { organizationParticipants } =
-              await organizationParticipantRepository.getParticipantsByOrganizationId({
+              await organizationParticipantRepository.findPaginatedFilteredParticipants({
                 organizationId,
                 sort: {
                   latestParticipationOrder: 'asc',
@@ -645,6 +648,60 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
             expect(organizationParticipants[1].id).to.equal(organizationLearnerId1);
             expect(organizationParticipants[2].id).to.equal(organizationLearnerId2);
           });
+        });
+
+        it('should return participants sorted by name if participation count are identical', async function () {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          const campaignId1 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const campaignId2 = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+          const { id: organizationLearnerId1, userId: userId1 } = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Aaaah',
+          });
+          const { id: organizationLearnerId2, userId: userId2 } = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Dupont',
+          });
+          const { id: organizationLearnerId3, userId: userId3 } = databaseBuilder.factory.buildOrganizationLearner({
+            organizationId,
+            lastName: 'Dupond',
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId1,
+            userId: userId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId2,
+            organizationLearnerId: organizationLearnerId1,
+            userId: userId1,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId2,
+            userId: userId2,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaignId1,
+            organizationLearnerId: organizationLearnerId3,
+            userId: userId3,
+          });
+          await databaseBuilder.commit();
+          // when
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+              sort: {
+                participationCount: 'asc',
+              },
+            });
+
+          // then
+          expect(organizationParticipants.length).to.equal(3);
+          expect(organizationParticipants[0].id).to.equal(organizationLearnerId3);
+          expect(organizationParticipants[1].id).to.equal(organizationLearnerId2);
+          expect(organizationParticipants[2].id).to.equal(organizationLearnerId1);
         });
 
         context('sort by lastname', function () {
@@ -692,7 +749,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           it('should return participants sorted by ascendant lastname', async function () {
             // when
             const { organizationParticipants } =
-              await organizationParticipantRepository.getParticipantsByOrganizationId({
+              await organizationParticipantRepository.findPaginatedFilteredParticipants({
                 organizationId,
                 sort: {
                   lastnameSort: 'asc',
@@ -709,7 +766,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           it('should return participants sorted by descendant lastname', async function () {
             // when
             const { organizationParticipants } =
-              await organizationParticipantRepository.getParticipantsByOrganizationId({
+              await organizationParticipantRepository.findPaginatedFilteredParticipants({
                 organizationId,
                 sort: {
                   lastnameSort: 'desc',
@@ -746,7 +803,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         // when
         const { organizationParticipants, meta } =
-          await organizationParticipantRepository.getParticipantsByOrganizationId({
+          await organizationParticipantRepository.findPaginatedFilteredParticipants({
             organizationId,
             page,
           });
@@ -775,10 +832,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-            filters: { fullName: ' Anton ' },
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+              filters: { fullName: ' Anton ' },
+            });
 
           const ids = organizationParticipants.map(({ id }) => id);
 
@@ -799,7 +857,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           // when
           const {
             organizationParticipants: [{ id }],
-          } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
             organizationId,
             filters: { fullName: 'nt' },
           });
@@ -823,10 +881,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-            filters: { fullName: ' chigurh ' },
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+              filters: { fullName: ' chigurh ' },
+            });
 
           const ids = organizationParticipants.map(({ id }) => id);
 
@@ -847,7 +906,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           // when
           const {
             organizationParticipants: [{ id }],
-          } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
             organizationId,
             filters: { fullName: 'gu' },
           });
@@ -869,7 +928,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
           const {
             organizationParticipants: [{ id }],
-          } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
             organizationId,
             filters: { fullName: 'anton chur' },
           });
@@ -894,10 +953,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-            filters: { certificability: [true] },
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+              filters: { certificability: [true] },
+            });
 
           //then
           expect(organizationParticipants.length).to.equal(1);
@@ -924,10 +984,11 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           await databaseBuilder.commit();
 
           // when
-          const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-            organizationId,
-            filters: { certificability: [false, null] },
-          });
+          const { organizationParticipants } =
+            await organizationParticipantRepository.findPaginatedFilteredParticipants({
+              organizationId,
+              filters: { certificability: [false, null] },
+            });
 
           //then
           expect(organizationParticipants.length).to.equal(2);
@@ -938,6 +999,43 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
     });
 
     context('#isCertifiable', function () {
+      it('should take the learner certifiable value', async function () {
+        // given
+        const certifiableDate = '2023-01-01';
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          type: CampaignTypes.PROFILES_COLLECTION,
+        }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          certifiableAt: new Date(certifiableDate),
+          isCertifiable: false,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          userId,
+          status: CampaignParticipationStatuses.SHARED,
+          sharedAt: new Date('2022-01-01'),
+          isCertifiable: true,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const {
+          organizationParticipants: [{ isCertifiable, certifiableAt }],
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
+          organizationId,
+        });
+
+        // then
+        expect(isCertifiable).to.be.false;
+        expect(certifiableAt).to.be.deep.equal(certifiableDate);
+      });
+
       it('should take the shared participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -975,7 +1073,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -997,7 +1095,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1043,7 +1141,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1087,7 +1185,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1134,7 +1232,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1175,7 +1273,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1221,7 +1319,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ isCertifiable }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1247,7 +1345,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         // when
         const {
           organizationParticipants: [{ certifiableAt }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
@@ -1255,30 +1353,24 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         expect(certifiableAt).to.deep.equal(new Date('2021-01-01'));
       });
 
-      it('should return null for certifiableAt property if the organization learner is not certifiable', async function () {
+      it('should return null when participant has no participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         buildLearnerWithParticipation({
           organizationId,
-          participationAttributes: {
-            status: CampaignParticipationStatuses.SHARED,
-            sharedAt: new Date('2021-01-01'),
-            isCertifiable: false,
-          },
-          campaignAttributes: { type: CampaignTypes.PROFILES_COLLECTION },
         });
 
         await databaseBuilder.commit();
 
         // when
         const {
-          organizationParticipants: [{ certifiableAt }],
-        } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationParticipants: [{ isCertifiable }],
+        } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId,
         });
 
         //then
-        expect(certifiableAt).to.equal(null);
+        expect(isCertifiable).to.equal(null);
       });
     });
 
@@ -1295,7 +1387,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { meta } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId: organizationId,
         });
 
@@ -1309,7 +1401,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { meta } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId: organizationId,
         });
 
@@ -1332,7 +1424,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { meta } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId: organizationId,
         });
 
@@ -1355,7 +1447,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { meta } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId: organizationId,
         });
 
@@ -1386,7 +1478,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        const { meta } = await organizationParticipantRepository.findPaginatedFilteredParticipants({
           organizationId: organizationId,
         });
 

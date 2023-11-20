@@ -1,6 +1,6 @@
 import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as organizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/organization-participant-repository.js';
-import { getPaginatedParticipantsForAnOrganization } from '../../../../../../src/prescription/organization-learner/domain/usecases/get-paginated-participants-for-an-organization.js';
+import { findPaginatedFilteredParticipants } from '../../../../../../src/prescription/organization-learner/domain/usecases/find-paginated-filtered-participants.js';
 
 describe('Integration | UseCases | get-paginated-participants-for-an-organization', function () {
   it('should get all participations for an organization', async function () {
@@ -20,7 +20,7 @@ describe('Integration | UseCases | get-paginated-participants-for-an-organizatio
     await databaseBuilder.commit();
 
     // when
-    const results = await getPaginatedParticipantsForAnOrganization({
+    const results = await findPaginatedFilteredParticipants({
       organizationId,
       filters: { fullName: 'Ah' },
       page: { number: 1, size: 10 },

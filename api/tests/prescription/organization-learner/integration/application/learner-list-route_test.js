@@ -13,7 +13,7 @@ describe('Integration | Application | Routes | Learner List', function () {
       sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').returns(true);
 
       sinon
-        .stub(learnerListController, 'getPaginatedParticipantsForAnOrganization')
+        .stub(learnerListController, 'findPaginatedFilteredParticipants')
         .callsFake((_, h) => h.response('ok').code(200));
 
       const httpTestServer = new HttpTestServer();
@@ -33,7 +33,7 @@ describe('Integration | Application | Routes | Learner List', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(learnerListController.getPaginatedParticipantsForAnOrganization).to.have.been.calledOnce;
+      expect(learnerListController.findPaginatedFilteredParticipants).to.have.been.calledOnce;
     });
 
     it('should return HTTP code 400 when user not belongs to the organization', async function () {
