@@ -93,8 +93,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
 
     // then
     expect(error).to.be.instanceOf(CertificationCandidatesError);
-    expect(error.code).to.equal('CANDIDATE_FIRST_NAME_REQUIRED');
-    expect(error.meta).to.deep.equal({ line: 13 });
+    expect(error.code).to.equal('CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID');
+    expect(error.meta).to.deep.equal({ line: 13, value: 'destinataire@gmail.com, destinataire@gmail.com' });
   });
 
   it('should throw a CertificationCandidatesError if there is an error in the birth information', async function () {
