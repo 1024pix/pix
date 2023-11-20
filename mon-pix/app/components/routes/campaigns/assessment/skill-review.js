@@ -98,7 +98,10 @@ export default class SkillReview extends Component {
   }
 
   get displayOrganizationCustomMessage() {
-    return Boolean((this.showOrganizationMessage || this.showOrganizationButton) && this.isShared);
+    const hasCustomBlock = this.showOrganizationMessage || this.showOrganizationButton;
+    const showCustomBlock = this.isShared || this.args.model.campaign.isForAbsoluteNovice;
+
+    return hasCustomBlock && showCustomBlock;
   }
 
   get showOrganizationMessage() {
