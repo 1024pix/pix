@@ -84,6 +84,7 @@ export default class AttachTargetProfileController extends Controller {
           certificateMessage: badge['certificate-message'],
           temporaryCertificateMessage: badge['certificate-temporary-message'],
           stickerUrl: badge['certificate-sticker'],
+          minimumEarnedPix: badge['minimum-earned-pix'],
         });
         complementaryCertification.complementaryCertificationBadges.pushObject(aBadge);
       });

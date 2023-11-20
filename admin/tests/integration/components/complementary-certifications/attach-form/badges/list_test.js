@@ -42,6 +42,7 @@ module('Integration | Component | complementary-certifications/attach-badges/lis
       assert.dom(getByText(firstRow, 'ID')).exists();
       assert.dom(getByText(firstRow, 'Nom')).exists();
       assert.dom(getByText(firstRow, 'Niveau')).exists();
+      assert.dom(getByText(firstRow, 'Nombre de pix minimum')).exists();
       assert.dom(getByText(firstRow, 'Image svg certificat Pix App')).exists();
       assert.dom(getByText(firstRow, 'Label du certificat')).exists();
       assert.dom(getByText(firstRow, "Macaron de l'attestation PDF")).exists();
