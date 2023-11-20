@@ -32,6 +32,7 @@
               @someSelected={{someSelected}}
               @onToggleAll={{toggleAll}}
               @hasStudents={{this.hasStudents}}
+              @hasComputeOrganizationLearnerCertificabilityEnabled={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
             />
           </InElement>
           <InElement @destinationId={{this.paginationControlId}} @waitForElement={{true}}>
@@ -62,7 +63,7 @@
             @openAuthenticationMethodModal={{this.openAuthenticationMethodModal}}
             @onToggleStudent={{(fn this.addStopPropagationOnFunction toggleStudent)}}
             @onClickLearner={{(fn @onClickLearner student.id)}}
-            @hideCertifiableDate={{this.hasComputeOrganizationLearnerCertificabilityEnabled}}
+            @hideCertifiableDate={{@hasComputeOrganizationLearnerCertificabilityEnabled}}
           />
         </:item>
       </SelectableList>

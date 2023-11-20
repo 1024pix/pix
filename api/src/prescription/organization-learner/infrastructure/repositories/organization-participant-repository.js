@@ -5,7 +5,7 @@ import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter
 import { CampaignTypes } from '../../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
-async function getParticipantsByOrganizationId({ organizationId, page, filters = {}, sort = {} }) {
+async function findPaginatedFilteredParticipants({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex
     .select(knex.raw('COUNT(DISTINCT "view-active-organization-learners"."id")'))
     .from('view-active-organization-learners')
@@ -56,8 +56,10 @@ async function getParticipantsByOrganizationId({ organizationId, page, filters =
       'view-active-organization-learners.id',
       'view-active-organization-learners.lastName',
       'view-active-organization-learners.firstName',
-      'subquery.isCertifiable',
-      'subquery.certifiableAt',
+      'subquery.isCertifiableFromCampaign',
+      'subquery.certifiableAtFromCampaign',
+      'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
+      'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
       knex.raw(
         'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "view-active-organization-learners"."id") AS "participationCount"',
       ),
@@ -116,9 +118,16 @@ function _filterBySearch(queryBuilder, filters) {
 function _filterByCertificability(queryBuilder, filters) {
   if (filters.certificability) {
     queryBuilder.where(function (query) {
-      query.whereInArray('subquery.isCertifiable', filters.certificability);
+      query.whereInArray(
+        knex.raw(
+          'case when "certifiableAtFromCampaign" > "view-active-organization-learners"."certifiableAt" OR "view-active-organization-learners"."certifiableAt" IS NULL then "isCertifiableFromCampaign" else "view-active-organization-learners"."isCertifiable" end',
+        ),
+        filters.certificability,
+      );
       if (filters.certificability.includes(null)) {
-        query.orWhereRaw('"subquery"."isCertifiable" IS NULL');
+        query.orWhere(function (query) {
+          query.whereNull('certifiableAtFromCampaign').whereNull('view-active-organization-learners.certifiableAt');
+        });
       }
     });
   }
@@ -130,10 +139,10 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .select([
       'view-active-organization-learners.id as organizationLearnerId',
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiable"',
+        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiableFromCampaign"',
       ),
       knex.raw(
-        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAt"',
+        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAtFromCampaign"',
       ),
     ])
     .from('view-active-organization-learners')
@@ -150,4 +159,4 @@ function _buildIsCertifiable(queryBuilder, organizationId) {
     .where('campaign-participations.deletedAt', null);
 }
 
-export { getParticipantsByOrganizationId };
+export { findPaginatedFilteredParticipants };

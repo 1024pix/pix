@@ -3,7 +3,7 @@ import * as organizationParticipantsSerializer from '../infrastructure/serialize
 import { mapCertificabilityByLabel } from './helpers.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 
-const getPaginatedParticipantsForAnOrganization = async function (
+const findPaginatedFilteredParticipants = async function (
   request,
   _,
   dependencies = {
@@ -17,7 +17,7 @@ const getPaginatedParticipantsForAnOrganization = async function (
   if (filters.certificability) {
     filters.certificability = mapCertificabilityByLabel(filters.certificability);
   }
-  const results = await usecases.getPaginatedParticipantsForAnOrganization({
+  const results = await usecases.findPaginatedFilteredParticipants({
     organizationId,
     page,
     filters,
@@ -26,5 +26,5 @@ const getPaginatedParticipantsForAnOrganization = async function (
   return dependencies.organizationParticipantsSerializer.serialize(results);
 };
 
-const learnerListController = { getPaginatedParticipantsForAnOrganization };
+const learnerListController = { findPaginatedFilteredParticipants };
 export { learnerListController };
