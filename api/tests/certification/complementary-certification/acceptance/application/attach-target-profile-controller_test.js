@@ -117,6 +117,7 @@ describe('Acceptance | Controller | Complementary certification | attach-target-
         certificateMessage: null,
         temporaryCertificateMessage: null,
         detachedAt: null,
+        minimumEarnedPix: 0,
       });
       expect(complementaryCertificationBadgesDetached[0].id).to.equal(888);
     });
