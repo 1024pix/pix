@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { createTraining } from '../../../../lib/domain/usecases/create-training.js';
+import { expect, sinon } from '../../../../test-helper.js';
+import { createTraining } from '../../../../../src/devcomp/domain/usecases/create-training.js';
 
 describe('Unit | UseCase | create-training', function () {
   it('should call training repository to create the training', async function () {
