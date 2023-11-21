@@ -1,6 +1,6 @@
 import { buildTube } from './build-tube.js';
-import { TrainingTriggerForAdmin } from '../../../../lib/domain/read-models/TrainingTriggerForAdmin.js';
-import { TrainingTriggerTube } from '../../../../lib/domain/models/TrainingTriggerTube.js';
+import { TrainingTriggerForAdmin } from '../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
+import { TrainingTriggerTube } from '../../../../src/devcomp/domain/models/TrainingTriggerTube.js';
 
 const buildTrainingTriggerForAdmin = function ({
   id = 1000,
