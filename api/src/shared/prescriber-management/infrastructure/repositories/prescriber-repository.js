@@ -14,8 +14,8 @@ import { User } from '../../../../../lib/domain/models/User.js';
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
 import { Membership } from '../../../../../lib/domain/models/index.js';
 
-function _toPrescriberDomain(bookshelfUser, userOrgaSettings, tags, memberships, userOrganizations) {
-  const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
+function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, userOrganizations) {
+  const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = user;
   return new Prescriber({
     id,
     firstName,
@@ -106,9 +106,10 @@ function _availableFeaturesQueryBuilder(currentOrganizationId) {
 
 const getPrescriber = async function (userId) {
   try {
-    const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
-      columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-    });
+    const prescriberFromDB = await knex('users')
+      .select('id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang')
+      .where({ id: userId })
+      .first();
 
     const memberships = await knex('memberships').where({ userId, disabledAt: null }).orderBy('id');
 
