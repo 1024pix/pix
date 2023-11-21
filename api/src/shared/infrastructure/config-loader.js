@@ -1,6 +1,7 @@
 import * as fs from 'fs/promises';
 import * as dotenv from 'dotenv';
 import path from 'path';
+import { logger } from './utils/logger.js';
 
 class ConfigLoader {
   #configDirectoryPath;
@@ -11,9 +12,14 @@ class ConfigLoader {
   }
 
   async loadConfigFile() {
-    const profile = process.env.NODE_ENV;
-    const buffer = await fs.readFile(this.#configFilePath({ profile }));
-    this.#configuration = dotenv.parse(buffer);
+    try {
+      const profile = process.env.NODE_ENV;
+      const buffer = await fs.readFile(this.#configFilePath({ profile }));
+      this.#configuration = dotenv.parse(buffer);
+    } catch (error) {
+      this.#configuration = {};
+      logger.info('Could not load the configuration file');
+    }
   }
 
   get(key) {
