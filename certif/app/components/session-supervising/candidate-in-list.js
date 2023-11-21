@@ -271,6 +271,6 @@ export default class CandidateInList extends Component {
   }
 
   get _hasCertificationOngoingLiveAlert() {
-    return this.args.candidate.liveAlertStatus === 'ongoing';
+    return this.args.candidate.liveAlert.status === 'ongoing';
   }
 }
