@@ -11,7 +11,7 @@ import { Tag } from '../../../../../../lib/domain/models/Tag.js';
 import * as apps from '../../../../../../lib/domain/constants.js';
 import { ForbiddenAccess } from '../../../../../../src/shared/domain/errors.js';
 
-describe('Integration | Infrastructure | Repository | Prescriber', function () {
+describe.only('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {
     firstName: 'estelle',
     lastName: 'popopo',

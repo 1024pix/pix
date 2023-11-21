@@ -8,8 +8,12 @@ import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/u
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { Prescriber } from '../../../../../lib/domain/read-models/Prescriber.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../../lib/domain/models/Organization.js';
+import { User } from '../../../../../lib/domain/models/User.js';
+import { Tag } from '../../../../../lib/domain/models/Tag.js';
 
-function _toPrescriberDomain(bookshelfUser) {
+function _toPrescriberDomain(bookshelfUser, userOrgaSettings, tags) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
   return new Prescriber({
     id,
@@ -21,10 +25,14 @@ function _toPrescriberDomain(bookshelfUser) {
       BookshelfMembership,
       bookshelfUser.related('memberships'),
     ),
-    userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(
-      BookshelfUserOrgaSettings,
-      bookshelfUser.related('userOrgaSettings'),
-    ),
+    userOrgaSettings: new UserOrgaSettings({
+      id: userOrgaSettings.id,
+      user: new User(),
+      currentOrganization: new Organization({
+        id: userOrgaSettings.currentOrganizationId,
+        tags: tags.map((tag) => new Tag(tag)),
+      }),
+    }),
   });
 }
 
@@ -94,19 +102,18 @@ const getPrescriber = async function (userId) {
   try {
     const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
       columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-      withRelated: [
-        { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
-        'memberships.organization',
-        'userOrgaSettings',
-        'userOrgaSettings.currentOrganization',
-        'userOrgaSettings.currentOrganization.tags',
-      ],
+      withRelated: [{ memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') }, 'memberships.organization'],
     });
-    const prescriber = _toPrescriberDomain(prescriberFromDB);
 
-    if (_.isEmpty(prescriber.memberships)) {
+    if (prescriberFromDB.related('memberships').length === 0) {
       throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
     }
+
+    const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
+    const tags = await knex('tags')
+      .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+      .where({ organizationId: userOrgaSettings.currentOrganizationId });
+    const prescriber = _toPrescriberDomain(prescriberFromDB, userOrgaSettings, tags);
 
     await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
     await _getParticipantCount(prescriber);
