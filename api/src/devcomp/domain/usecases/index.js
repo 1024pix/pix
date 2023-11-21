@@ -6,6 +6,8 @@ import { repositories } from '../../infrastructure/repositories/index.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import * as targetProfileTrainingRepository from '../../../../lib/infrastructure/repositories/target-profile-training-repository.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -14,6 +16,8 @@ const dependencies = {
   campaignRepository,
   campaignParticipationRepository,
   knowledgeElementRepository,
+  targetProfileRepository,
+  targetProfileTrainingRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {

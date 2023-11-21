@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { NotFoundError } from '../errors.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const attachTargetProfilesToTraining = async function ({
   trainingId,
