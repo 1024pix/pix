@@ -1,4 +1,4 @@
-import { UserNotAuthorizedToFindTrainings } from '../errors.js';
+import { UserNotAuthorizedToFindTrainings } from '../../../../lib/domain/errors.js';
 
 const findCampaignParticipationTrainings = async function ({
   userId,
