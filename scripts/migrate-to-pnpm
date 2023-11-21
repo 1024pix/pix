@@ -14,7 +14,9 @@ find . -regex ".*node_modules*" -prune -o -name .buildpacks -exec $SED -i 's#Sca
 find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npm run#pnpm run#' {} \;
 
 # Update npx
-find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npx#pnpm dlx#' {} \;
+find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npx check-engine#pnpm dlx check-engine#' {} \;
+
+find . -regex ".*node_modules*" -prune -o -name package.json -exec $SED -i 's#npx#pnpm exec#' {} \;
 
 # Remove package-lock.json files
 find . -regex ".*node_modules*" -prune -o -name package-lock.json -exec git rm {} \;
