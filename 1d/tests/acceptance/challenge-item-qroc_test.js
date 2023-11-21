@@ -1,14 +1,10 @@
 import { click, fillIn } from '@ember/test-helpers';
 import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { setupIntl } from 'ember-intl/test-support';
+import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Displaying a QROC challenge', function (hooks) {
   setupApplicationTest(hooks);
-  setupMirage(hooks);
-  setupIntl(hooks);
   let assessment;
 
   module('with input format', function (hooks) {
