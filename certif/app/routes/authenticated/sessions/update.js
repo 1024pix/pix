@@ -22,6 +22,8 @@ export default class SessionsUpdateRoute extends Route {
   }
 
   deactivate() {
-    this.controller.model.rollbackAttributes();
+    if (!this.isDestroying) {
+      this.controller.model.rollbackAttributes();
+    }
   }
 }
