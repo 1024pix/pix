@@ -1,5 +1,5 @@
 import { Scorecard } from '../models/Scorecard.js';
-import { CompetenceResetError } from '../errors.js';
+import { CompetenceResetError } from '../../../../lib/domain/errors.js';
 import _ from 'lodash';
 
 const resetScorecard = async function ({

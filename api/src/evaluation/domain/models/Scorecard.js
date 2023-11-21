@@ -1,14 +1,14 @@
 import _ from 'lodash';
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/CompetenceEvaluation.js';
-import { KnowledgeElement } from './KnowledgeElement.js';
+import { Assessment } from '../../../shared/domain/models/Assessment.js';
+import { CompetenceEvaluation } from './CompetenceEvaluation.js';
+import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import {
   MINIMUM_DELAY_IN_DAYS_FOR_RESET,
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   PIX_COUNT_BY_LEVEL,
   MAX_REACHABLE_LEVEL,
-} from '../constants.js';
-import * as scoringService from '../services/scoring/scoring-service.js';
+} from '../../../../lib/domain/constants.js';
+import * as scoringService from '../../../../lib/domain/services/scoring/scoring-service.js';
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
