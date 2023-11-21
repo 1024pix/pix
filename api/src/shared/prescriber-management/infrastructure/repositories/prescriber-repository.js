@@ -12,8 +12,9 @@ import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSetti
 import { Organization } from '../../../../../lib/domain/models/Organization.js';
 import { User } from '../../../../../lib/domain/models/User.js';
 import { Tag } from '../../../../../lib/domain/models/Tag.js';
+import { Membership } from '../../../../../lib/domain/models/index.js';
 
-function _toPrescriberDomain(bookshelfUser, userOrgaSettings, tags) {
+function _toPrescriberDomain(bookshelfUser, userOrgaSettings, tags, memberships, userOrganizations) {
   const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
   return new Prescriber({
     id,
@@ -21,9 +22,14 @@ function _toPrescriberDomain(bookshelfUser, userOrgaSettings, tags) {
     lastName,
     pixOrgaTermsOfServiceAccepted,
     lang,
-    memberships: bookshelfToDomainConverter.buildDomainObjects(
-      BookshelfMembership,
-      bookshelfUser.related('memberships'),
+    memberships: memberships.map(
+      (membership) =>
+        new Membership({
+          ...membership,
+          organization: new Organization(
+            userOrganizations.find((userOrganization) => userOrganization.id === membership.organizationId),
+          ),
+        }),
     ),
     userOrgaSettings: new UserOrgaSettings({
       id: userOrgaSettings.id,
@@ -102,10 +108,16 @@ const getPrescriber = async function (userId) {
   try {
     const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
       columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-      withRelated: [{ memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') }, 'memberships.organization'],
     });
 
-    if (prescriberFromDB.related('memberships').length === 0) {
+    const memberships = await knex('memberships').where({ userId, disabledAt: null }).orderBy('id');
+
+    const userOrganizations = await knex('organizations').whereIn(
+      'id',
+      memberships.map((membership) => membership.organizationId),
+    );
+
+    if (memberships.length === 0) {
       throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
     }
 
@@ -113,7 +125,7 @@ const getPrescriber = async function (userId) {
     const tags = await knex('tags')
       .join('organization-tags', 'organization-tags.tagId', 'tags.id')
       .where({ organizationId: userOrgaSettings.currentOrganizationId });
-    const prescriber = _toPrescriberDomain(prescriberFromDB, userOrgaSettings, tags);
+    const prescriber = _toPrescriberDomain(prescriberFromDB, userOrgaSettings, tags, memberships, userOrganizations);
 
     await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
     await _getParticipantCount(prescriber);
