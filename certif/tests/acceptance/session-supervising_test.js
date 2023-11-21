@@ -46,6 +46,13 @@ module('Acceptance | Session supervising', function (hooks) {
             birthdate: '1984-05-28',
             extraTimePercentage: '8',
             authorizedToStart: true,
+            liveAlert: {
+              status: 'ongoing',
+              hasEmbed: false,
+              hasAttachment: false,
+              isFocus: false,
+              hasImage: false,
+            },
           }),
           server.create('certification-candidate-for-supervising', {
             id: 456,
@@ -54,6 +61,7 @@ module('Acceptance | Session supervising', function (hooks) {
             birthdate: '1983-06-28',
             extraTimePercentage: 12,
             authorizedToStart: false,
+            liveAlert: null,
           }),
           server.create('certification-candidate-for-supervising', {
             id: 789,
@@ -62,6 +70,7 @@ module('Acceptance | Session supervising', function (hooks) {
             birthdate: '1987-05-28',
             extraTimePercentage: '6',
             authorizedToStart: true,
+            liveAlert: null,
           }),
           server.create('certification-candidate-for-supervising', {
             id: 1000,
@@ -70,6 +79,7 @@ module('Acceptance | Session supervising', function (hooks) {
             birthdate: '1934-06-28',
             extraTimePercentage: '15',
             authorizedToStart: false,
+            liveAlert: null,
           }),
         ],
       });
@@ -126,6 +136,13 @@ module('Acceptance | Session supervising', function (hooks) {
           birthdate: '1984-05-28',
           extraTimePercentage: '8',
           authorizedToStart: false,
+          liveAlert: {
+            status: 'ongoing',
+            hasEmbed: false,
+            hasAttachment: false,
+            isFocus: false,
+            hasImage: false,
+          },
         }),
       ],
     });
@@ -262,7 +279,13 @@ module('Acceptance | Session supervising', function (hooks) {
                 extraTimePercentage: null,
                 authorizedToStart: true,
                 assessmentStatus: 'started',
-                liveAlertStatus: 'ongoing',
+                liveAlert: {
+                  status: 'ongoing',
+                  hasEmbed: false,
+                  hasAttachment: false,
+                  isFocus: false,
+                  hasImage: false,
+                },
               }),
             ],
           });
@@ -299,7 +322,9 @@ module('Acceptance | Session supervising', function (hooks) {
                 extraTimePercentage: null,
                 authorizedToStart: true,
                 assessmentStatus: 'started',
-                liveAlertStatus: 'ongoing',
+                liveAlert: {
+                  status: 'ongoing',
+                },
               }),
             ],
           });
@@ -346,7 +371,13 @@ module('Acceptance | Session supervising', function (hooks) {
                 extraTimePercentage: null,
                 authorizedToStart: true,
                 assessmentStatus: 'started',
-                liveAlertStatus: 'ongoing',
+                liveAlert: {
+                  status: 'ongoing',
+                  hasEmbed: false,
+                  hasAttachment: false,
+                  isFocus: false,
+                  hasImage: false,
+                },
               }),
             ],
           });
@@ -394,7 +425,13 @@ module('Acceptance | Session supervising', function (hooks) {
                 extraTimePercentage: null,
                 authorizedToStart: true,
                 assessmentStatus: 'started',
-                liveAlertStatus: 'ongoing',
+                liveAlert: {
+                  status: 'ongoing',
+                  hasEmbed: false,
+                  hasAttachment: false,
+                  isFocus: false,
+                  hasImage: false,
+                },
               }),
             ],
           });
@@ -420,6 +457,7 @@ module('Acceptance | Session supervising', function (hooks) {
         });
       });
     });
+
     module('when exiting the form', function () {
       module('when dismissing the alert', function () {
         test('it should reset the form', async function (assert) {
@@ -436,7 +474,13 @@ module('Acceptance | Session supervising', function (hooks) {
                 extraTimePercentage: null,
                 authorizedToStart: true,
                 assessmentStatus: 'started',
-                liveAlertStatus: 'ongoing',
+                liveAlert: {
+                  status: 'ongoing',
+                  hasEmbed: false,
+                  hasAttachment: false,
+                  isFocus: false,
+                  hasImage: false,
+                },
               }),
             ],
           });
@@ -449,7 +493,7 @@ module('Acceptance | Session supervising', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
-          await click(screen.getByLabelText("E1 L'image ne s'affiche pas"));
+          await click(screen.getByLabelText('E4 Le site à visiter est indisponible/en maintenance/inaccessible'));
           await click(screen.getByText('Refuser le signalement'));
 
           const closeButtons = screen.getAllByText('Fermer');
@@ -479,7 +523,13 @@ module('Acceptance | Session supervising', function (hooks) {
                 extraTimePercentage: null,
                 authorizedToStart: true,
                 assessmentStatus: 'started',
-                liveAlertStatus: 'ongoing',
+                liveAlert: {
+                  status: 'ongoing',
+                  hasEmbed: false,
+                  hasAttachment: false,
+                  isFocus: false,
+                  hasImage: false,
+                },
               }),
             ],
           });
@@ -492,7 +542,7 @@ module('Acceptance | Session supervising', function (hooks) {
           // when
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
-          await click(screen.getByLabelText("E1 L'image ne s'affiche pas"));
+          await click(screen.getByLabelText('E4 Le site à visiter est indisponible/en maintenance/inaccessible'));
 
           const modal = await screen.findByRole('dialog');
           await click(within(modal).getByLabelText('Fermer'));

@@ -69,7 +69,7 @@
             class="session-supervising-candidate-in-list__status-container--authorized-to-resume"
           >{{t "common.forms.certification-labels.candidate-status.authorized-to-resume"}}</PixTag>
         {{else}}
-          {{#if @candidate.liveAlertStatus}}
+          {{#if (eq @candidate.liveAlert.status "ongoing")}}
             <PixTag @compact={{true}} class="session-supervising-candidate-in-list__status-container--ongoing-alert">{{t
                 "common.forms.certification-labels.candidate-status.ongoing-live-alert"
               }}</PixTag>
@@ -102,7 +102,7 @@
         <Dropdown::Item @onClick={{this.askUserToConfirmTestResume}}>
           {{t "pages.session-supervising.candidate-in-list.resume-test-modal.allow-test-resume"}}
         </Dropdown::Item>
-        {{#if @candidate.liveAlertStatus}}
+        {{#if @candidate.liveAlert}}
           <Dropdown::Item @onClick={{this.askUserToHandleLiveAlert}}>
             {{t "pages.session-supervising.candidate-in-list.resume-test-modal.handle-live-alert"}}
           </Dropdown::Item>
@@ -129,14 +129,17 @@
     </:description>
   </SessionSupervising::ConfirmationModal>
 
-  <SessionSupervising::HandleLiveAlertModal
-    @showModal={{this.isHandleLiveAlertModalDisplayed}}
-    @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
-    @title={{this.candidateFullName}}
-    @rejectLiveAlert={{this.rejectLiveAlert}}
-    @validateLiveAlert={{this.validateLiveAlert}}
-    @candidateId={{@candidate.id}}
-  />
+  {{#if (eq @candidate.liveAlert.status "ongoing")}}
+    <SessionSupervising::HandleLiveAlertModal
+      @showModal={{this.isHandleLiveAlertModalDisplayed}}
+      @closeConfirmationModal={{this.closeHandleLiveAlertModal}}
+      @title={{this.candidateFullName}}
+      @rejectLiveAlert={{this.rejectLiveAlert}}
+      @validateLiveAlert={{this.validateLiveAlert}}
+      @candidateId={{@candidate.id}}
+      @liveAlert={{@candidate.liveAlert}}
+    />
+  {{/if}}
 
   <SessionSupervising::LiveAlertHandledModal
     @showModal={{this.isLiveAlertHandledModalDisplayed}}

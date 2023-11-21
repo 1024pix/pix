@@ -1,4 +1,10 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } from '../../../test-helper.js';
+import {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  mockLearningContent,
+} from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
@@ -10,8 +16,28 @@ describe('Acceptance | API | assessment-controller-pause-assessment', function (
     let options;
 
     beforeEach(async function () {
-      server = await createServer();
+      const challengeId = '123';
+      const skillId = 'skillId';
+      const learningContent = {
+        challenges: [
+          {
+            id: challengeId,
+            skillId: skillId,
+            type: 'QCM',
+            embedUrl: 'embed.url',
+            illustrationUrl: 'illustration.url',
+            focused: true,
+            attachments: ['attachment.url'],
+          },
+        ],
+        skills: [
+          {
+            id: skillId,
+          },
+        ],
+      };
 
+      server = await createServer();
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         state: Assessment.states.STARTED,
@@ -24,12 +50,13 @@ describe('Acceptance | API | assessment-controller-pause-assessment', function (
         payload: {
           data: {
             attributes: {
-              'challenge-id': '123',
+              'challenge-id': challengeId,
             },
           },
         },
       };
 
+      mockLearningContent(learningContent);
       return databaseBuilder.commit();
     });
 

@@ -5,17 +5,8 @@ const createCertificationChallengeLiveAlert = async function ({
   challengeId,
   certificationChallengeLiveAlertRepository,
   answerRepository,
+  challengeRepository,
 }) {
-  const answers = await answerRepository.findByAssessment(assessmentId);
-
-  const questionNumber = _getCurrentQuestionNumber(answers);
-
-  const certificationChallengeLiveAlert = new CertificationChallengeLiveAlert({
-    assessmentId,
-    challengeId,
-    questionNumber,
-  });
-
   const unhandledCertificationChallengeLiveAlert =
     await certificationChallengeLiveAlertRepository.getOngoingByChallengeIdAndAssessmentId({
       challengeId,
@@ -25,6 +16,22 @@ const createCertificationChallengeLiveAlert = async function ({
   if (unhandledCertificationChallengeLiveAlert) {
     return;
   }
+
+  const answers = await answerRepository.findByAssessment(assessmentId);
+
+  const questionNumber = _getCurrentQuestionNumber(answers);
+
+  const { attachments, embedUrl, illustrationUrl, focused } = await challengeRepository.get(challengeId);
+
+  const certificationChallengeLiveAlert = new CertificationChallengeLiveAlert({
+    assessmentId,
+    challengeId,
+    questionNumber,
+    hasAttachment: attachments?.length > 0,
+    hasImage: illustrationUrl?.length > 0,
+    hasEmbed: embedUrl?.length > 0,
+    isFocus: focused,
+  });
 
   return certificationChallengeLiveAlertRepository.save({ certificationChallengeLiveAlert });
 };

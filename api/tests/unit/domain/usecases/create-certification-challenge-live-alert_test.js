@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 describe('Unit | UseCase | create-certification-challenge-live-alert', function () {
   let certificationChallengeLiveAlertRepository;
+  let challengeRepository;
   let answerRepository;
 
   beforeEach(function () {
@@ -12,15 +13,26 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
       getOngoingByChallengeIdAndAssessmentId: sinon.stub(),
     };
 
+    challengeRepository = {
+      get: sinon.stub(),
+    };
+
     answerRepository = {
       findByAssessment: sinon.stub(),
     };
   });
 
-  it('should pause the assessment', async function () {
+  it('should save the challenge live alert', async function () {
     // given
     const assessmentId = 123;
     const challengeId = 'pix123';
+    const challenge = domainBuilder.buildChallenge({
+      id: challengeId,
+      focused: true,
+      embedUrl: 'embed.url',
+      illustrationUrl: 'illustration.url',
+      attachments: ['attachment.url'],
+    });
     const certificationChallengeLiveAlert = domainBuilder.buildCertificationChallengeLiveAlert({
       assessmentId,
       challengeId,
@@ -30,6 +42,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
     const answers = [domainBuilder.buildAnswer({ id: 1 }), domainBuilder.buildAnswer({ id: 2 })];
 
     answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+    challengeRepository.get.withArgs(challengeId).resolves(challenge);
 
     certificationChallengeLiveAlertRepository.save.withArgs({ certificationChallengeLiveAlert }).resolves();
 
@@ -39,6 +52,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
       challengeId,
       certificationChallengeLiveAlertRepository,
       answerRepository,
+      challengeRepository,
     });
 
     // then
@@ -49,8 +63,12 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
         assessmentId,
         challengeId,
         questionNumber: answers.length + 1,
+        hasAttachment: true,
+        hasImage: true,
+        isFocus: true,
+        hasEmbed: true,
       }),
-      ['assessmentId', 'challengeId', 'questionNumber', 'status'],
+      ['assessmentId', 'challengeId', 'questionNumber', 'status', 'hasAttachment', 'hasImage', 'hasEmbed', 'isFocus'],
     );
 
     expect(certificationChallengeLiveAlertRepository.save).to.have.been.calledWith({
@@ -81,6 +99,7 @@ describe('Unit | UseCase | create-certification-challenge-live-alert', function 
       challengeId,
       certificationChallengeLiveAlertRepository,
       answerRepository,
+      challengeRepository,
     });
 
     // then

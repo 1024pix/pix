@@ -9,6 +9,10 @@ const buildCertificationChallengeLiveAlert = function ({
   challengeId = 'rec123',
   status = 'ongoing',
   questionNumber = 1,
+  hasEmbed = false,
+  isFocus = false,
+  hasImage = false,
+  hasAttachment = false,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-02-01'),
 } = {}) {
@@ -20,6 +24,10 @@ const buildCertificationChallengeLiveAlert = function ({
     challengeId,
     questionNumber,
     status,
+    hasEmbed,
+    isFocus,
+    hasAttachment,
+    hasImage,
     createdAt,
     updatedAt,
   };

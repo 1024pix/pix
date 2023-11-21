@@ -353,7 +353,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           extraTimePercentage: 0.12,
           authorizedToStart: false,
           assessmentStatus: 'started',
-          liveAlertStatus: 'ongoing',
+          liveAlert: {
+            status: 'ongoing',
+          },
         });
 
         // when
@@ -436,7 +438,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         extraTimePercentage: 0.12,
         authorizedToStart: false,
         assessmentStatus: 'started',
-        liveAlertStatus: 'ongoing',
+        liveAlert: {
+          status: 'ongoing',
+        },
       });
 
       // when
@@ -460,7 +464,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
         extraTimePercentage: 0.12,
         authorizedToStart: false,
         assessmentStatus: 'started',
-        liveAlertStatus: 'ongoing',
+        liveAlert: {
+          status: 'ongoing',
+        },
       });
 
       // when

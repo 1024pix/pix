@@ -10,7 +10,7 @@ const serialize = function (sessions) {
 
       cloneSession.certificationCandidates.forEach((candidate) => {
         candidate.enrolledComplementaryCertificationLabel = candidate.enrolledComplementaryCertification?.label ?? null;
-        candidate.liveAlertStatus = candidate.liveAlertStatus ?? null;
+        candidate.liveAlert = candidate.liveAlert ?? null;
       });
 
       return cloneSession;
@@ -42,7 +42,7 @@ const serialize = function (sessions) {
         'theoricalEndDateTime',
         'enrolledComplementaryCertificationLabel',
         'isStillEligibleToComplementaryCertification',
-        'liveAlertStatus',
+        'liveAlert',
       ],
     },
   }).serialize(sessions);

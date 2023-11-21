@@ -13,7 +13,9 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     const candidate = store.createRecord('certification-candidate', {
       firstName: 'Jean-Paul',
       lastName: 'Candidat',
-      liveAlertStatus: 'ongoing',
+      liveAlert: {
+        status: 'ongoing',
+      },
     });
 
     this.set('isModalDisplayed', sinon.stub());
@@ -42,7 +44,9 @@ module('Integration | Component | live-alert-handled-modal', function (hooks) {
     const candidate = store.createRecord('certification-candidate', {
       firstName: 'Jean-Paul',
       lastName: 'Candidat',
-      liveAlertStatus: 'ongoing',
+      liveAlert: {
+        status: 'ongoing',
+      },
     });
 
     this.set('isModalDisplayed', sinon.stub());

@@ -13,6 +13,10 @@ class CertificationChallengeLiveAlert {
     questionNumber,
     createdAt,
     updatedAt,
+    hasEmbed,
+    isFocus,
+    hasImage,
+    hasAttachment,
   } = {}) {
     this.id = id;
     this.assessmentId = assessmentId;
@@ -21,6 +25,10 @@ class CertificationChallengeLiveAlert {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.questionNumber = questionNumber;
+    this.hasEmbed = hasEmbed;
+    this.isFocus = isFocus;
+    this.hasImage = hasImage;
+    this.hasAttachment = hasAttachment;
   }
 
   dismiss() {
