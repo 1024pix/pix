@@ -3,11 +3,15 @@ import { dirname, join } from 'node:path';
 import { importNamedExportsFromDirectory } from '../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
+import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
 
 const dependencies = {
   ...repositories,
+  campaignRepository,
+  knowledgeElementRepository,
 };
 
 const usecasesWithoutInjectedDependencies = {
