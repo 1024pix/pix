@@ -8,7 +8,7 @@ import * as badgeSerializer from '../../infrastructure/serializers/jsonapi/badge
 import { deserializer as badgeCreationDeserializer } from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
+import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
 
 const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
   const options = queryParamsUtils.extractParameters(request.query);
