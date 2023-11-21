@@ -57,33 +57,83 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
-  module('when shouldDisplayContinueButton is true', function () {
-    test('should display continue button', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const grain = store.createRecord('grain', { title: 'Grain title' });
-      this.set('grain', grain);
+  module('when canDisplayContinueButton is true', function () {
+    module('when all elements are answered', function () {
+      test('should display continue button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'qcus' });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
 
-      // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @shouldDisplayContinueButton={{true}} />`);
+        const correction = store.createRecord('correction-response');
+        store.createRecord('element-answer', { element, correction });
+        assert.true(grain.allElementsAreAnswered);
 
-      // then
-      assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists();
+        // when
+        const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @canDisplayContinueButton={{true}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Continuer' })).exists();
+      });
+    });
+
+    module('when not any element are answered', function () {
+      test('should not display continue button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'qcus' });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
+
+        assert.false(grain.allElementsAreAnswered);
+
+        // when
+        const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @canDisplayContinueButton={{true}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
+      });
     });
   });
 
-  module('when shouldDisplayContinueButton is false', function () {
-    test('should not display continue button', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const grain = store.createRecord('grain', { title: 'Grain title' });
-      this.set('grain', grain);
+  module('when canDisplayContinueButton is false', function () {
+    module('when all elements are answered', function () {
+      test('should not display continue button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'qcus' });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
 
-      // when
-      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @shouldDisplayContinueButton={{false}} />`);
+        const correction = store.createRecord('correction-response');
+        store.createRecord('element-answer', { element, correction });
+        assert.true(grain.allElementsAreAnswered);
 
-      // then
-      assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
+        // when
+        const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @canDisplayContinueButton={{false}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
+      });
+    });
+
+    module('when not any element are answered', function () {
+      test('should not display continue button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'qcus' });
+        const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
+        this.set('grain', grain);
+
+        assert.false(grain.allElementsAreAnswered);
+
+        // when
+        const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @canDisplayContinueButton={{false}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Continuer' })).doesNotExist();
+      });
     });
   });
 });
