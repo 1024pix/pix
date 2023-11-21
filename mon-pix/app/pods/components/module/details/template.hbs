@@ -6,26 +6,13 @@
   </div>
 
   <div class="module__content">
-    <article class="grain">
-      {{#each @module.grains as |grain|}}
-        <h2 class="screen-reader-only">{{grain.title}}</h2>
-        {{#each grain.elements as |element|}}
-          {{#if element.isText}}
-            <Module::Text @text={{element}} />
-          {{else if element.isQcu}}
-            <Module::Qcu
-              @qcu={{element}}
-              @submitAnswer={{@submitAnswer}}
-              @correctionResponse={{get @correctionResponse element.id}}
-            />
-          {{/if}}
-        {{/each}}
-      {{/each}}
-      <footer class="grain__footer">
-        <PixButton @backgroundColor="blue" @shape="rounded" @triggerAction={{this.continueToNextGrain}}>
-          {{t "pages.modulix.buttons.grain.continue"}}
-        </PixButton>
-      </footer>
-    </article>
+    {{#each this.grainsToDisplay as |grain index|}}
+      <Module::Grain
+        @grain={{grain}}
+        @submitAnswer={{@submitAnswer}}
+        @canDisplayContinueButton={{this.grainCanDisplayContinueButton index}}
+        @continueAction={{this.addNextGrainToDisplay}}
+      />
+    {{/each}}
   </div>
 </main>
