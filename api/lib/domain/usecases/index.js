@@ -1,6 +1,5 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
-
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -414,6 +413,10 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({ path: join(path, './sessions-mass-import') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './stages') })),
   ...(await importNamedExportsFromDirectory({ path: join(path, './target-profile-management') })),
+  ...(await importNamedExportsFromDirectory({
+    path: join(path, '../../../src/devcomp/domain/usecases'),
+    ignoredFileNames: ['index.js'],
+  })),
   findPaginatedFilteredTargetProfileOrganizations,
   getCampaignDetailsManagement,
 };
