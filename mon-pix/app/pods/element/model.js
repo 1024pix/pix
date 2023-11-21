@@ -1,8 +1,10 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class Element extends Model {
-  @belongsTo('grain') grain;
   @attr('string') type;
+
+  @belongsTo('grain', { inverse: 'elements' }) grain;
+  @hasMany('element-answer', { inverse: 'element' }) elementAnswers;
 
   get isText() {
     return this.type === 'texts';
