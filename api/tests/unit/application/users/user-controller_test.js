@@ -5,6 +5,7 @@ import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-pa
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../../src/evaluation/domain/usecases/index.js';
 import { userController } from '../../../../lib/application/users/user-controller.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
@@ -639,7 +640,7 @@ describe('Unit | Controller | user-controller', function () {
       queryParamsUtils.extractParameters.withArgs(query).returns({ page });
       const requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
       requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
-      sinon.stub(usecases, 'findPaginatedUserRecommendedTrainings').resolves({ userRecommendedTrainings, meta });
+      sinon.stub(devcompUsecases, 'findPaginatedUserRecommendedTrainings').resolves({ userRecommendedTrainings, meta });
       const trainingSerializer = { serialize: sinon.stub() };
       trainingSerializer.serialize.returns(expectedResult);
 
@@ -647,15 +648,15 @@ describe('Unit | Controller | user-controller', function () {
       const response = await userController.findPaginatedUserRecommendedTrainings(request, hFake, {
         queryParamsUtils,
         requestResponseUtils,
-        usecases,
+        devcompUsecases,
         trainingSerializer,
       });
 
       // then
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(requestResponseUtils.extractLocaleFromRequest).to.have.been.calledOnce;
-      expect(usecases.findPaginatedUserRecommendedTrainings).to.have.been.calledOnce;
-      expect(usecases.findPaginatedUserRecommendedTrainings).to.have.been.calledWithExactly({
+      expect(devcompUsecases.findPaginatedUserRecommendedTrainings).to.have.been.calledOnce;
+      expect(devcompUsecases.findPaginatedUserRecommendedTrainings).to.have.been.calledWithExactly({
         userId: 1,
         locale,
         page,

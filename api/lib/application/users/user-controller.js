@@ -22,6 +22,7 @@ import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/u
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -182,11 +183,12 @@ const findPaginatedUserRecommendedTrainings = async function (
     trainingSerializer,
     requestResponseUtils,
     queryParamsUtils,
+    devcompUsecases,
   },
 ) {
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
-  const { userRecommendedTrainings, meta } = await usecases.findPaginatedUserRecommendedTrainings({
+  const { userRecommendedTrainings, meta } = await dependencies.devcompUsecases.findPaginatedUserRecommendedTrainings({
     userId: request.auth.credentials.userId,
     locale,
     page,
