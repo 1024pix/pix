@@ -13,6 +13,9 @@
       "login-user-blocked-error": "Your account has reached the maximum number of failed login attempts and has been temporarily blocked. Please '<'a href=\"{url}\"'>'contact us'</a>' to unblock it.",
       "login-user-temporary-blocked-error": "You have reached too many failed login attempts. Please try again later or '<'a href=\"{url}\"'>'reset your password here'</a>'."
     },
+    "forms": {
+      "mandatory-fields": "The fields marked '<abbr title=\"required\" class=\"mandatory-mark\">'*'</abbr>' are required"
+    },
     "notifications": {
       "generic-error": "An error occurred."
     },

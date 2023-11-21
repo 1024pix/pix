@@ -13,6 +13,9 @@
       "login-user-blocked-error": "Votre compte est bloqué car vous avez effectué trop de tentatives de connexion. Pour le débloquer, '<'a href=\"{url}\"'>'contactez-nous'</a>'.",
       "login-user-temporary-blocked-error": "Vous avez effectué trop de tentatives de connexion. Réessayez plus tard ou cliquez sur '<'a href=\"{url}\"'>'mot de passe oublié'</a>' pour le réinitialiser."
     },
+    "forms": {
+      "mandatory-fields": "Les champs marqués de '<abbr title=\"obligatoire\" class=\"mandatory-mark\">'*'</abbr>' sont obligatoires"
+    },
     "notifications": {
       "generic-error": "Une erreur est survenue."
     },
