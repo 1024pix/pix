@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v4.65.0 (21/11/2023)
+
+
+### :rocket: Amélioration
+- [#7468](https://github.com/1024pix/pix/pull/7468) [FEATURE] Vérification de la typologie d'épreuve lors d'une alerte en certif V3 (PIX-9945).
+- [#7432](https://github.com/1024pix/pix/pull/7432) [FEATURE] afficher la certificabilité depuis les campagnes pour les participants  (PIX-9892).
+- [#7439](https://github.com/1024pix/pix/pull/7439) [FEATURE] Intégration des accusés de traitement CPF en masse via API et script (PIX-9835).
+- [#7481](https://github.com/1024pix/pix/pull/7481) [FEATURE] PIX1D - Ajout du code de l'organisation côté Admin pour les écoles.
+- [#7475](https://github.com/1024pix/pix/pull/7475) [FEATURE] Modifier l'information des candidats présents dans l'espace surveillant sur Pix Certif (PIX-9961).
+- [#7392](https://github.com/1024pix/pix/pull/7392) [FEATURE] [API] Stocker des infos de l'utilisateur (claims de userInfo) lors d'une connexion SSO OIDC (PIX-9270).
+
+### :building_construction: Tech
+- [#7474](https://github.com/1024pix/pix/pull/7474) [TECH] Migrer les scorecards vers la nouvelle arbo API (PIX-9933).
+- [#7497](https://github.com/1024pix/pix/pull/7497) [TECH] Standardisation des config de tests en fonction de la typologie.
+- [#7493](https://github.com/1024pix/pix/pull/7493) [TECH] Déplacer les models et repositories associés aux contenus formatifs dans le bounded context Devcomp (PIX-10028).
+- [#7489](https://github.com/1024pix/pix/pull/7489) [TECH] Pix1D - Utiliser le modèle "Assessment" du contexte "School".
+- [#7478](https://github.com/1024pix/pix/pull/7478) [TECH] api: ajout du seuil en pix dans la table complementary-certification-badges (PIX-9953).
+- [#7479](https://github.com/1024pix/pix/pull/7479) [TECH] Ajouter une API interne pour récupérer les profils cibles d'une organisation (PIX-10003).
+- [#7445](https://github.com/1024pix/pix/pull/7445) [TECH] JSDoc pour naviguer vers les dépendances injectées automatiquement (PIX-9938).
+- [#7473](https://github.com/1024pix/pix/pull/7473) [TECH][DATA] :broom: supprime le script d'analyse des données extraites d'un panel (pix-10005).
+
+### :arrow_up: Montée de version
+- [#7224](https://github.com/1024pix/pix/pull/7224) [BUMP] Update dependency ember-cli-mirage to v3 (certif).
+- [#7495](https://github.com/1024pix/pix/pull/7495) [BUMP] Lock file maintenance (orga).
+- [#7482](https://github.com/1024pix/pix/pull/7482) [BUMP] Lock file maintenance (mon-pix).
+- [#7470](https://github.com/1024pix/pix/pull/7470) [BUMP] Update dependency ember-cp-validations to v6 (admin).
+
 ## v4.64.0 (17/11/2023)
 
 
