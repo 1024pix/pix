@@ -1,6 +1,7 @@
 import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
 import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -103,7 +104,7 @@ describe('Unit | Controller | assessment-controller', function () {
 
       sinon.stub(usecases, 'completeAssessment');
       sinon.stub(usecases, 'handleBadgeAcquisition');
-      sinon.stub(usecases, 'handleTrainingRecommendation');
+      sinon.stub(devcompUsecases, 'handleTrainingRecommendation');
       sinon.stub(usecases, 'handleStageAcquisition');
       usecases.completeAssessment.resolves({
         event: assessmentCompletedEvent,
@@ -137,7 +138,7 @@ describe('Unit | Controller | assessment-controller', function () {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(usecases.handleTrainingRecommendation).to.have.been.calledWithExactly({
+      expect(devcompUsecases.handleTrainingRecommendation).to.have.been.calledWithExactly({
         assessment,
         locale,
         domainTransaction,
