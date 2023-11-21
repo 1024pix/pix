@@ -1,15 +1,10 @@
 import { visit, within } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupIntl } from 'ember-intl/test-support';
 import identifyLearner from '../helpers/identify-learner';
+import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Display missions list', function (hooks) {
   setupApplicationTest(hooks);
-  setupMirage(hooks);
-  setupIntl(hooks);
-
   test('displays missions list page', async function (assert) {
     // given
     identifyLearner(this.owner);

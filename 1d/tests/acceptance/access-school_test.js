@@ -1,16 +1,11 @@
 import { clickByText, visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
-import { setupIntl } from 'ember-intl/test-support';
 import identifyLearner from '../helpers/identify-learner';
+import { setupApplicationTest } from '../../tests/helpers';
 
 module('Acceptance | School', function (hooks) {
   setupApplicationTest(hooks);
-  setupMirage(hooks);
-  setupIntl(hooks);
-
   hooks.afterEach(async function () {
     localStorage.clear();
   });

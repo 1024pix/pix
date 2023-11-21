@@ -1,15 +1,10 @@
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
-import { setupApplicationTest } from 'ember-qunit';
-import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click } from '@ember/test-helpers';
-import { setupIntl } from 'ember-intl/test-support';
+import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Challenge workflow', function (hooks) {
   setupApplicationTest(hooks);
-  setupMirage(hooks);
-  setupIntl(hooks);
-
   module('when user click on skip button', function () {
     test('redirects to next challenge', async function (assert) {
       const assessment = this.server.create('assessment');
