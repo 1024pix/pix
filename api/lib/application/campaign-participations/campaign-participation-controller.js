@@ -8,7 +8,7 @@ import * as campaignAssessmentParticipationSerializer from '../../infrastructure
 import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
 import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
-import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
