@@ -1,0 +1,9 @@
+{{! Cette page est affichée lorsqu'une erreur survient coté api. }}
+<div class="issue">
+  <RobotDialog @class="sad">
+    <Bubble @message={{@message}} />
+  </RobotDialog>
+  <PixButton class="pix1d-button" @triggerAction={{this.goToHome}} @iconBefore="arrow-left">{{t
+      "pages.error.backHome"
+    }}</PixButton>
+</div>

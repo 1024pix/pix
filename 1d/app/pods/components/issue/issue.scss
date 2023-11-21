@@ -1,0 +1,33 @@
+.issue{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
+  height: 100vh;
+  background-image: url('/images/background-blob.svg');
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-size: cover;
+
+
+  .robot-speaking {
+    width: fit-content;
+    margin-left: 250px;
+
+    &__logo {
+      width: 200px;
+    }
+  }
+
+  .pix1d-button {
+    margin-right: 40px;
+    margin-left: auto;
+    padding: 16px 32px 16px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+  }
+
+  p {
+    font-size: 1.5rem;
+  }
+}

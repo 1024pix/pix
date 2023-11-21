@@ -1,8 +1,2 @@
 {{! Cette page est affichée lorsqu'on souhaite aller sur une URL qui n'existe pas coté front }}
-<div class="error">
-  <h1>{{t "pages.not-found.title"}}</h1>
-  <p>{{t "pages.not-found.message"}}</p>
-  <LinkTo class="pix1d-button pix1d-button--small not-found__button" @route="identified.missions">{{t
-      "pages.not-found.backHome"
-    }}</LinkTo>
-</div>
+<Issue @message={{t "pages.not-found.message"}} />
