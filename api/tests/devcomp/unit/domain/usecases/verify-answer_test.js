@@ -11,14 +11,14 @@ describe('Unit | Devcomp | Usecases | validate-answer', function () {
         const userResponse = ['totoId'];
 
         const mockedModuleRepo = {
-          getBySlug: sinon.stub(),
+          getBySlugForVerification: sinon.stub(),
         };
 
         const expectedModule = {
           getElementById: sinon.stub(),
         };
 
-        mockedModuleRepo.getBySlug.withArgs({ slug: moduleSlug }).resolves(expectedModule);
+        mockedModuleRepo.getBySlugForVerification.withArgs({ slug: moduleSlug }).resolves(expectedModule);
 
         const stubElement = {
           assess: sinon.stub(),

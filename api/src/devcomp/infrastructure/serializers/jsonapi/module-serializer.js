@@ -20,7 +20,6 @@ function serialize(module) {
                   id: element.id,
                   instruction: element.instruction,
                   proposals: element.proposals,
-                  solution: element.solution,
                   type: 'qcus',
                 };
               }
