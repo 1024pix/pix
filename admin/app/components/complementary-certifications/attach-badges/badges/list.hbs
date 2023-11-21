@@ -9,7 +9,9 @@
     <h1>Résultats thématiques certifiants</h1>
 
     <div class="complementary-certification-attach-badges-section__table">
-      <p>Tous les champs sont obligatoires.</p>
+      <p>
+        {{t "common.forms.mandatory-fields" htmlSafe=true}}
+      </p>
 
       <table aria-label="Liste des résultats thématiques">
         <thead>
@@ -26,7 +28,7 @@
                 Renseignez un chiffre unique pour chaque RT, niveau minimum = 1 niveau maximum = nombre total de RT.
               </:tooltip>
             </ComplementaryCertifications::AttachBadges::Badges::Header>
-            <ComplementaryCertifications::AttachBadges::Badges::Header>
+            <ComplementaryCertifications::AttachBadges::Badges::Header @isOptionnal="true">
               <:default>Nombre de pix minimum</:default>
             </ComplementaryCertifications::AttachBadges::Badges::Header>
             <ComplementaryCertifications::AttachBadges::Badges::Header>
