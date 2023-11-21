@@ -1,30 +1,32 @@
-import _ from 'lodash';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { config } from '../../../../../lib/config.js';
-import { BookshelfUser } from '../../../../../lib/infrastructure/orm-models/User.js';
-import { BookshelfMembership } from '../../../../../lib/infrastructure/orm-models/Membership.js';
-import { BookshelfUserOrgaSettings } from '../../../../../lib/infrastructure/orm-models/UserOrgaSettings.js';
-import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
 import { UserNotFoundError } from '../../../../../lib/domain/errors.js';
 import { Prescriber } from '../../domain/read-models/Prescriber.js';
 import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
+import { UserOrgaSettings } from '../../../../../lib/domain/models/UserOrgaSettings.js';
+import { Organization } from '../../../../../lib/domain/models/Organization.js';
+import { Tag } from '../../../../../lib/domain/models/Tag.js';
+import { Membership } from '../../../../../lib/domain/models/index.js';
 
-function _toPrescriberDomain(bookshelfUser) {
-  const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
+function _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations) {
   return new Prescriber({
-    id,
-    firstName,
-    lastName,
-    pixOrgaTermsOfServiceAccepted,
-    lang,
-    memberships: bookshelfToDomainConverter.buildDomainObjects(
-      BookshelfMembership,
-      bookshelfUser.related('memberships'),
+    ...user,
+    memberships: memberships.map(
+      (membership) =>
+        new Membership({
+          ...membership,
+          organization: new Organization(
+            organizations.find((organization) => organization.id === membership.organizationId),
+          ),
+        }),
     ),
-    userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(
-      BookshelfUserOrgaSettings,
-      bookshelfUser.related('userOrgaSettings'),
-    ),
+    userOrgaSettings: new UserOrgaSettings({
+      id: userOrgaSettings.id,
+      currentOrganization: new Organization({
+        ...organizations.find((organization) => userOrgaSettings.currentOrganizationId === organization.id),
+        tags: tags.map((tag) => new Tag(tag)),
+      }),
+    }),
   });
 }
 
@@ -91,34 +93,37 @@ function _availableFeaturesQueryBuilder(currentOrganizationId) {
 }
 
 const getPrescriber = async function (userId) {
-  try {
-    const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
-      columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-      withRelated: [
-        { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
-        'memberships.organization',
-        'userOrgaSettings',
-        'userOrgaSettings.currentOrganization',
-        'userOrgaSettings.currentOrganization.tags',
-      ],
-    });
-    const prescriber = _toPrescriberDomain(prescriberFromDB);
+  const user = await knex('users')
+    .select('id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang')
+    .where({ id: userId })
+    .first();
 
-    if (_.isEmpty(prescriber.memberships)) {
-      throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
-    }
-
-    await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
-    await _getParticipantCount(prescriber);
-    await _organizationFeatures(prescriber);
-
-    return prescriber;
-  } catch (err) {
-    if (err instanceof BookshelfUser.NotFoundError) {
-      throw new UserNotFoundError(`User not found for ID ${userId}`);
-    }
-    throw err;
+  if (!user) {
+    throw new UserNotFoundError(`User not found for ID ${userId}`);
   }
+
+  const memberships = await knex('memberships').where({ userId, disabledAt: null }).orderBy('id');
+
+  if (memberships.length === 0) {
+    throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
+  }
+
+  const organizations = await knex('organizations').whereIn(
+    'id',
+    memberships.map((membership) => membership.organizationId),
+  );
+  const userOrgaSettings = await knex('user-orga-settings').where({ userId }).first();
+  const tags = await knex('tags')
+    .join('organization-tags', 'organization-tags.tagId', 'tags.id')
+    .where({ organizationId: userOrgaSettings.currentOrganizationId });
+
+  const prescriber = _toPrescriberDomain(user, userOrgaSettings, tags, memberships, organizations);
+
+  await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
+  await _getParticipantCount(prescriber);
+  await _organizationFeatures(prescriber);
+
+  return prescriber;
 };
 
 export { getPrescriber };

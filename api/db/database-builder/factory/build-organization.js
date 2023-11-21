@@ -13,7 +13,7 @@ const buildOrganization = function buildOrganization({
   updatedAt = new Date('2020-01-02'),
   email = 'contact@example.net',
   documentationUrl = null,
-  createdBy,
+  createdBy = null,
   showNPS = false,
   formNPSUrl = null,
   showSkills = false,
