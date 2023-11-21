@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 import { trainingController as trainingsController } from './training-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
-import { sendJsonApiError, NotFoundError, BadRequestError } from '../http-errors.js';
+import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { sendJsonApiError, NotFoundError, BadRequestError } from '../../../../lib/application/http-errors.js';
 
 const register = async function (server) {
   server.route([
