@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import * as targetProfileSerializer from '../../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
@@ -104,7 +105,7 @@ const findPaginatedTrainings = async function (
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
   const targetProfileId = request.params.id;
 
-  const { trainings, meta } = await usecases.findPaginatedTargetProfileTrainingSummaries({
+  const { trainings, meta } = await devcompUsecases.findPaginatedTargetProfileTrainingSummaries({
     targetProfileId,
     page,
   });
