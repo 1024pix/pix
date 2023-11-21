@@ -1,10 +1,11 @@
-import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
-import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
-import * as trainingTriggerSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
-import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
+import * as trainingTriggerSerializer from '../../infrastructure/serializers/jsonapi/training-trigger-serializer.js';
+import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
+import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 
 const findPaginatedTrainingSummaries = async function (
   request,
@@ -22,7 +23,7 @@ const findTargetProfileSummaries = async function (
   dependencies = { targetProfileSummaryForAdminSerializer },
 ) {
   const { trainingId } = request.params;
-  const targetProfileSummaries = await usecases.findTargetProfileSummariesForTraining({ trainingId });
+  const targetProfileSummaries = await libUsecases.findTargetProfileSummariesForTraining({ trainingId });
   return dependencies.targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
