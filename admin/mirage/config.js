@@ -564,4 +564,21 @@ function routes() {
       ],
     };
   });
+
+  this.get('/oidc/identity-providers', () => {
+    return {
+      data: [
+        {
+          type: 'oidc-identity-providers',
+          id: 'oidc-partner',
+          attributes: {
+            code: 'OIDC_PARTNER',
+            'organization-name': 'Partenaire OIDC',
+            'has-logout-url': false,
+            source: 'oidc-externe',
+          },
+        },
+      ],
+    };
+  });
 }
