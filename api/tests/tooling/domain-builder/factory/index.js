@@ -80,6 +80,7 @@ import { buildCourse } from './build-course.js';
 import { buildCpfCertificationResult } from './build-cpf-certification-result.js';
 import * as buildDataProtectionOfficer from './build-data-protection-officer.js';
 import { buildFinalizedSession } from './build-finalized-session.js';
+import { buildFlashAlgorithmConfiguration } from './build-flash-algorithm-configuration.js';
 import {
   buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
   buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
@@ -245,6 +246,7 @@ export {
   buildDataProtectionOfficer,
   buildFeedback,
   buildFinalizedSession,
+  buildFlashAlgorithmConfiguration,
   buildFlashAssessmentAlgorithmSuccessRateHandlerLinear,
   buildFlashAssessmentAlgorithmSuccessRateHandlerFixed,
   buildFramework,
