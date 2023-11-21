@@ -3,14 +3,14 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | scorecard-controller', function () {
   let options;

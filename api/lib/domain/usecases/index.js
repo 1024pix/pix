@@ -140,7 +140,7 @@ import * as resetPasswordDemandRepository from '../../infrastructure/repositorie
 import * as resetPasswordService from '../../domain/services/reset-password-service.js';
 import * as scoAccountRecoveryService from '../services/sco-account-recovery-service.js';
 import * as scoCertificationCandidateRepository from '../../infrastructure/repositories/sco-certification-candidate-repository.js';
-import * as scorecardService from '../../domain/services/scorecard-service.js';
+import * as scorecardService from '../../../src/evaluation/domain/services/scorecard-service.js';
 import * as scoringCertificationService from '../../domain/services/scoring/scoring-certification-service.js';
 import * as sessionCodeService from '../../../src/certification/session/domain/services/session-code-service.js';
 import * as sessionForSupervisingRepository from '../../infrastructure/repositories/sessions/session-for-supervising-repository.js';

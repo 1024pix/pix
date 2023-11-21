@@ -1,7 +1,7 @@
 import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as campaignParticipationOverviewSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as certificationEligibilitySerializer from '../../infrastructure/serializers/jsonapi/certification-eligibility-serializer.js';
-import * as scorecardSerializer from '../../infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import * as scorecardSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as profileSerializer from '../../infrastructure/serializers/jsonapi/profile-serializer.js';
 import * as participantResultSerializer from '../../infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import * as sharedProfileForCampaignSerializer from '../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer.js';
@@ -22,6 +22,7 @@ import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/u
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 import { eventBus } from '../../domain/events/index.js';
@@ -252,7 +253,7 @@ const resetScorecard = function (request, h, dependencies = { scorecardSerialize
   const competenceId = request.params.competenceId;
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
-  return usecases
+  return evaluationUsecases
     .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
     .then(dependencies.scorecardSerializer.serialize);
 };
