@@ -326,11 +326,20 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
       context('features', function () {
         it('should return features for current organization', async function () {
           // given
-          const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+          const multipleSendingFeature = databaseBuilder.factory.buildFeature(
+            apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT,
+          );
+          const placesManagementFeature = databaseBuilder.factory.buildFeature(
+            apps.ORGANIZATION_FEATURE.PLACES_MANAGEMENT,
+          );
           databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
 
           databaseBuilder.factory.buildOrganizationFeature({
-            featureId: feature.id,
+            featureId: multipleSendingFeature.id,
+            organizationId: organization.id,
+          });
+          databaseBuilder.factory.buildOrganizationFeature({
+            featureId: placesManagementFeature.id,
             organizationId: organization.id,
           });
           await databaseBuilder.commit();
@@ -342,6 +351,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           expect(foundPrescriber.features).to.deep.equal({
             [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
             [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
+            [apps.ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key]: true,
           });
         });
       });
