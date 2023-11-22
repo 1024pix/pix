@@ -1,6 +1,6 @@
 import * as flash from '../../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { AnswerStatus } from '../../../../lib/domain/models/index.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 import { config } from '../../../../lib/config.js';
@@ -9,6 +9,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
   describe('#get-next-challenge-for-campaign-assessment', function () {
     let challengeRepository;
     let answerRepository;
+    let flashAlgorithmConfigurationRepository;
     let flashAssessmentResultRepository;
     let pickChallengeService;
     let flashAlgorithmService;
@@ -23,6 +24,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       assessment = domainBuilder.buildAssessment({ id: 1165 });
 
       answerRepository = { findByAssessment: sinon.stub() };
+      flashAlgorithmConfigurationRepository = { get: sinon.stub() };
       challengeRepository = { get: sinon.stub() };
       challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
@@ -62,6 +64,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
         const challenge = await getNextChallengeForCampaignAssessment({
           challengeRepository,
           answerRepository,
+          flashAlgorithmConfigurationRepository,
           flashAssessmentResultRepository,
           pickChallengeService,
           assessment,
@@ -110,6 +113,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           // given
           const challenges = [firstChallenge, secondChallenge];
           const allAnswers = [answerForFirstChallenge];
+          const configuration = domainBuilder.buildFlashAlgorithmConfiguration({
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
+          });
+          flashAlgorithmConfigurationRepository.get.resolves(configuration);
 
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
@@ -163,14 +171,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           const bestChallenge = await getNextChallengeForCampaignAssessment({
             challengeRepository,
             answerRepository,
+            flashAlgorithmConfigurationRepository,
             flashAssessmentResultRepository,
             pickChallengeService,
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             flashAlgorithmService,
-            limitToOneQuestionPerTube: false,
-            enablePassageByAllCompetences: false,
           });
 
           // then
@@ -186,6 +193,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
+
+          const configuration = domainBuilder.buildFlashAlgorithmConfiguration({
+            limitToOneQuestionPerTube: false,
+            enablePassageByAllCompetences: false,
+          });
+          flashAlgorithmConfigurationRepository.get.resolves(configuration);
 
           algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
@@ -227,14 +240,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           const getNextChallengePromise = getNextChallengeForCampaignAssessment({
             challengeRepository,
             answerRepository,
+            flashAlgorithmConfigurationRepository,
             flashAssessmentResultRepository,
             pickChallengeService,
             assessment,
             locale,
             algorithmDataFetcherService: algorithmDataFetcherServiceStub,
             flashAlgorithmService,
-            limitToOneQuestionPerTube: false,
-            enablePassageByAllCompetences: false,
           });
 
           // then
@@ -243,17 +255,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
       });
 
       describe('when the challenges to be asked number has been reached', function () {
-        let numberOfChallengesForFlashMethod;
-
-        beforeEach(function () {
-          numberOfChallengesForFlashMethod = config.features.numberOfChallengesForFlashMethod;
-          config.features.numberOfChallengesForFlashMethod = 1;
-        });
-
-        afterEach(function () {
-          config.features.numberOfChallengesForFlashMethod = numberOfChallengesForFlashMethod;
-        });
-
         it('should throw an AssessmentEndedError()', async function () {
           // given
           const challenges = [firstChallenge, secondChallenge];
@@ -261,6 +262,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           const algorithmDataFetcherServiceStub = {
             fetchForFlashCampaigns: sinon.stub(),
           };
+
+          const configuration = domainBuilder.buildFlashAlgorithmConfiguration({
+            maximumAssessmentLength: 1,
+          });
+          flashAlgorithmConfigurationRepository.get.resolves(configuration);
 
           algorithmDataFetcherServiceStub.fetchForFlashCampaigns
             .withArgs({
@@ -303,6 +309,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
           const getNextChallengePromise = getNextChallengeForCampaignAssessment({
             challengeRepository,
             answerRepository,
+            flashAlgorithmConfigurationRepository,
             flashAssessmentResultRepository,
             pickChallengeService,
             assessment,
