@@ -122,7 +122,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         } catch {
           throw new CertificationCandidatesError({
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_RESULT_RECIPIENT_EMAIL_NOT_VALID.code,
-            meta: { line, email: resultRecipientEmail },
+            meta: { line, value: resultRecipientEmail },
           });
         }
       }
@@ -133,7 +133,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
         } catch {
           throw new CertificationCandidatesError({
             code: CERTIFICATION_CANDIDATES_ERRORS.CANDIDATE_EMAIL_NOT_VALID.code,
-            meta: { line, email },
+            meta: { line, value: email },
           });
         }
       }
@@ -156,7 +156,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       } catch (err) {
         throw new CertificationCandidatesError({
           code: err.code,
-          meta: { line: parseInt(line) + 1 },
+          meta: { line: parseInt(line) + 1, value: err.meta },
         });
       }
 

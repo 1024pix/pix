@@ -41,7 +41,10 @@ const addCertificationCandidateToSession = async function ({
   try {
     certificationCandidate.validate(isSco);
   } catch (error) {
-    throw new CertificationCandidatesError(error);
+    throw new CertificationCandidatesError({
+      code: error.code,
+      meta: { value: error.meta },
+    });
   }
 
   const duplicateCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
