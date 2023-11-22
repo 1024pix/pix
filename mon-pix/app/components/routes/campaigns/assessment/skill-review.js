@@ -174,6 +174,15 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipationResult.canImprove && !this.isShareButtonClicked;
   }
 
+  get showHeavyBlock() {
+    return (
+      this.showCertifiableBadges ||
+      this.showNotCertifiableBadges ||
+      this.showImproveButton ||
+      !this.args.model.campaign.isForAbsoluteNovice
+    );
+  }
+
   get competenceResultsGroupedByAreas() {
     const competenceResults = this.args.model.campaignParticipationResult.get('competenceResults').toArray();
     return competenceResults.reduce((acc, competenceResult) => {

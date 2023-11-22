@@ -244,103 +244,104 @@
       </div>
     </PixBlock>
   {{/if}}
+  {{#if this.showHeavyBlock}}
+    <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
 
-  <PixBlock @shadow="heavy" class="skill-review__result-detail-container">
-
-    {{#if this.showCertifiableBadges}}
-      <div class="badge-certifiable-container">
-        {{#each this.certifiableBadgesOrderedByValidity as |badge|}}
-          <BadgeCardCertifiable
-            @title={{badge.title}}
-            @message={{badge.message}}
-            @imageUrl={{badge.imageUrl}}
-            @altMessage={{badge.altMessage}}
-            @isAcquired={{badge.isAcquired}}
-            @isValid={{badge.isValid}}
-            @isCertifiable={{badge.isCertifiable}}
-            @isAlwaysVisible={{badge.isAlwaysVisible}}
-            @acquisitionPercentage={{badge.acquisitionPercentage}}
-          />
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#if this.showNotCertifiableBadges}}
-      <h2 class="skill-review-result-detail__badge-subtitle">
-        {{t "pages.skill-review.badges-title"}}
-      </h2>
-      <div class="badge-container">
-        {{#each this.notCertifiableBadges as |badge|}}
-          <BadgeCard
-            @title={{badge.title}}
-            @message={{badge.message}}
-            @isAlwaysVisible={{badge.isAlwaysVisible}}
-            @acquisitionPercentage={{badge.acquisitionPercentage}}
-            @imageUrl={{badge.imageUrl}}
-            @altMessage={{badge.altMessage}}
-            @isAcquired={{badge.isAcquired}}
-          />
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#if this.showImproveButton}}
-      <SkillReviewImprove @improve={{this.improve}} />
-    {{/if}}
-
-    {{#unless @model.campaign.isForAbsoluteNovice}}
-      {{#if this.showStagesWithStars}}
-        <section class="skill-review-result-detail__content">
-          <h2 class="skill-review-competence-stages-result__title">
-            {{t "pages.skill-review.stage.title"}}
-          </h2>
-          {{#each-in this.competenceResultsGroupedByAreas as |area competenceResults|}}
-            <div class="skill-review-competence-stages-result__content">
-              <div class="skill-review-competence-stages-result__area">
-                <span
-                  class="skill-review-competence-stages-result__border skill-review-competence__border--{{competenceResults.areaColor}}"
-                  aria-hidden="true"
-                ></span>
-                <h3 class="skill-review-competence-stages-result__subtitle">{{area}}</h3>
-              </div>
-              <Campaigns::Assessment::SkillReview::CompetenceStagesResult
-                @competenceResults={{competenceResults}}
-                @totalStage={{this.reachedStage.totalStage}}
-              />
-            </div>
-          {{/each-in}}
-        </section>
-      {{else}}
-        <section class="skill-review-result-detail__content">
-          <div class="skill-review-result-detail__table-header">
-            <h2 class="skill-review-result-detail__subtitle">
-              {{t "pages.skill-review.details.title"}}
-            </h2>
-            {{#unless this.isFlashCampaign}}
-              <CircleChart @value={{this.masteryPercentage}}>
-                <span
-                  aria-label="{{t 'pages.skill-review.details.result'}}"
-                  class="skill-review-table-header__circle-chart-value"
-                >
-                  {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
-                </span>
-              </CircleChart>
-            {{/unless}}
-          </div>
-          <Campaigns::Assessment::CampaignSkillReviewCompetenceResult
-            @competenceResults={{@model.campaignParticipationResult.competenceResults}}
-          />
-        </section>
+      {{#if this.showCertifiableBadges}}
+        <div class="badge-certifiable-container">
+          {{#each this.certifiableBadgesOrderedByValidity as |badge|}}
+            <BadgeCardCertifiable
+              @title={{badge.title}}
+              @message={{badge.message}}
+              @imageUrl={{badge.imageUrl}}
+              @altMessage={{badge.altMessage}}
+              @isAcquired={{badge.isAcquired}}
+              @isValid={{badge.isValid}}
+              @isCertifiable={{badge.isCertifiable}}
+              @isAlwaysVisible={{badge.isAlwaysVisible}}
+              @acquisitionPercentage={{badge.acquisitionPercentage}}
+            />
+          {{/each}}
+        </div>
       {{/if}}
 
-      {{#unless this.isFlashCampaign}}
-        <div class="skill-review-result-detail__information">
-          <FaIcon @icon="circle-info" class="skill-review-information__info-icon" aria-hidden="true" />
-          <div class="skill-review-information__text">
-            {{t "pages.skill-review.information"}}
-          </div>
+      {{#if this.showNotCertifiableBadges}}
+        <h2 class="skill-review-result-detail__badge-subtitle">
+          {{t "pages.skill-review.badges-title"}}
+        </h2>
+        <div class="badge-container">
+          {{#each this.notCertifiableBadges as |badge|}}
+            <BadgeCard
+              @title={{badge.title}}
+              @message={{badge.message}}
+              @isAlwaysVisible={{badge.isAlwaysVisible}}
+              @acquisitionPercentage={{badge.acquisitionPercentage}}
+              @imageUrl={{badge.imageUrl}}
+              @altMessage={{badge.altMessage}}
+              @isAcquired={{badge.isAcquired}}
+            />
+          {{/each}}
         </div>
+      {{/if}}
+
+      {{#if this.showImproveButton}}
+        <SkillReviewImprove @improve={{this.improve}} />
+      {{/if}}
+
+      {{#unless @model.campaign.isForAbsoluteNovice}}
+        {{#if this.showStagesWithStars}}
+          <section class="skill-review-result-detail__content">
+            <h2 class="skill-review-competence-stages-result__title">
+              {{t "pages.skill-review.stage.title"}}
+            </h2>
+            {{#each-in this.competenceResultsGroupedByAreas as |area competenceResults|}}
+              <div class="skill-review-competence-stages-result__content">
+                <div class="skill-review-competence-stages-result__area">
+                  <span
+                    class="skill-review-competence-stages-result__border skill-review-competence__border--{{competenceResults.areaColor}}"
+                    aria-hidden="true"
+                  ></span>
+                  <h3 class="skill-review-competence-stages-result__subtitle">{{area}}</h3>
+                </div>
+                <Campaigns::Assessment::SkillReview::CompetenceStagesResult
+                  @competenceResults={{competenceResults}}
+                  @totalStage={{this.reachedStage.totalStage}}
+                />
+              </div>
+            {{/each-in}}
+          </section>
+        {{else}}
+          <section class="skill-review-result-detail__content">
+            <div class="skill-review-result-detail__table-header">
+              <h2 class="skill-review-result-detail__subtitle">
+                {{t "pages.skill-review.details.title"}}
+              </h2>
+              {{#unless this.isFlashCampaign}}
+                <CircleChart @value={{this.masteryPercentage}}>
+                  <span
+                    aria-label="{{t 'pages.skill-review.details.result'}}"
+                    class="skill-review-table-header__circle-chart-value"
+                  >
+                    {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
+                  </span>
+                </CircleChart>
+              {{/unless}}
+            </div>
+            <Campaigns::Assessment::CampaignSkillReviewCompetenceResult
+              @competenceResults={{@model.campaignParticipationResult.competenceResults}}
+            />
+          </section>
+        {{/if}}
+
+        {{#unless this.isFlashCampaign}}
+          <div class="skill-review-result-detail__information">
+            <FaIcon @icon="circle-info" class="skill-review-information__info-icon" aria-hidden="true" />
+            <div class="skill-review-information__text">
+              {{t "pages.skill-review.information"}}
+            </div>
+          </div>
+        {{/unless}}
       {{/unless}}
-    {{/unless}}
-  </PixBlock>
+    </PixBlock>
+  {{/if}}
 </main>
