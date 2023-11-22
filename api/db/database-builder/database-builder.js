@@ -16,6 +16,18 @@ class DatabaseBuilder {
     this.#addListeners();
   }
 
+  static async create({ knex, emptyFirst = true, beforeEmptyDatabase = () => undefined }) {
+    const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst, beforeEmptyDatabase });
+
+    try {
+      await databaseBuilder._init();
+    } catch (_) {
+      // Error thrown only with unit tests
+    }
+
+    return databaseBuilder;
+  }
+
   async commit() {
     if (this.isFirstCommit) {
       await this._init();

@@ -37,7 +37,7 @@ const { apimRegisterApplicationsCredentials, jwtConfig } = config;
 import { knex, disconnect } from '../db/knex-database-connection.js';
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
 
-const databaseBuilder = new DatabaseBuilder({
+const databaseBuilder = await DatabaseBuilder.create({
   knex,
   beforeEmptyDatabase: () => {
     // Sometimes, truncating tables may cause the first ran test to timeout, so
