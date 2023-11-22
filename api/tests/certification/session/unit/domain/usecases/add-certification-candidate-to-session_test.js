@@ -72,7 +72,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       sessionRepository.get.resolves(session);
       sessionRepository.isSco.resolves(false);
       const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
-        birthdate: 'WrongDateFormat',
+        email: 'toto@toto.fr;tutu@tutu.fr',
         sessionId: null,
       });
 
@@ -90,7 +90,14 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       });
 
       // then
-      expect(err).to.be.instanceOf(CertificationCandidatesError);
+      expect(err).to.deepEqualInstance(
+        new CertificationCandidatesError({
+          code: 'CANDIDATE_EMAIL_NOT_VALID',
+          meta: {
+            value: 'toto@toto.fr;tutu@tutu.fr',
+          },
+        }),
+      );
       expect(certificationCandidateRepository.saveInSession).not.to.have.been.called;
     });
   });
