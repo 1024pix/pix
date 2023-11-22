@@ -17,6 +17,14 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
           content: Joi.string().required(),
         }).required();
 
+        const imageElementSchema = Joi.object({
+          id: uuidSchema,
+          type: Joi.string().valid('image').required(),
+          url: Joi.string().required(),
+          alt: Joi.string().required(),
+          alternativeInstruction: Joi.string().required(),
+        }).required();
+
         const qcuElementSchema = Joi.object({
           id: uuidSchema,
           type: Joi.string().valid('qcu').required(),
@@ -46,7 +54,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
                 id: uuidSchema,
                 type: Joi.string().valid('lesson', 'activity').required(),
                 title: Joi.string().required(),
-                elements: Joi.array().items(Joi.alternatives().try(textElementSchema, qcuElementSchema)).required(),
+                elements: Joi.array()
+                  .items(Joi.alternatives().try(textElementSchema, imageElementSchema, qcuElementSchema))
+                  .required(),
               }).required(),
             )
             .required(),
