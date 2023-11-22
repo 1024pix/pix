@@ -164,7 +164,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   });
 
   describe('status', function () {
-    describe('when a certification has config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification or more answers', function () {
+    describe('when at least the minimum number of answers required by the config has been answered', function () {
       it('should be validated', function () {
         const difficulty = 0;
         const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
@@ -193,7 +193,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       });
     });
 
-    describe('when a certification has less than config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification answers', function () {
+    describe('when less than the minimum number of answers required by the config has been answered', function () {
       it('should be rejected', function () {
         const difficulty = 0;
         const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
