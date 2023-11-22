@@ -1,4 +1,4 @@
-import { status } from './AssessmentResult.js';
+import { status as CertificationStatus } from './AssessmentResult.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 
 const MINIMUM_ESTIMATED_LEVEL = -8;
@@ -47,9 +47,10 @@ const MAX_PIX_SCORE = 1024;
 const INTERVAL_HEIGHT = MAX_PIX_SCORE / scoreIntervals.length;
 
 class CertificationAssessmentScoreV3 {
-  constructor({ nbPix, percentageCorrectAnswers = 100 }) {
+  constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED }) {
     this.nbPix = nbPix;
     this.percentageCorrectAnswers = percentageCorrectAnswers;
+    this._status = status;
   }
 
   static fromChallengesAndAnswers({ challenges, allAnswers, flashAlgorithmService }) {
@@ -63,13 +64,18 @@ class CertificationAssessmentScoreV3 {
 
     const nbPix = _computeScore(estimatedLevel);
 
+    const status = _isCertificationRejected({ answers: allAnswers })
+      ? CertificationStatus.REJECTED
+      : CertificationStatus.VALIDATED;
+
     return new CertificationAssessmentScoreV3({
       nbPix,
+      status,
     });
   }
 
   get status() {
-    return status.VALIDATED;
+    return this._status;
   }
 
   get competenceMarks() {
@@ -103,6 +109,10 @@ const _computeScore = (estimatedLevel) => {
   const score = INTERVAL_HEIGHT * (intervalIndex + 1 + (normalizedEstimatedLevel - intervalMaxValue) / intervalWidth);
 
   return Math.round(score);
+};
+
+const _isCertificationRejected = ({ answers }) => {
+  return answers.length < 10;
 };
 
 export { CertificationAssessmentScoreV3 };
