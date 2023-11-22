@@ -54,6 +54,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
         label: 'another badge label',
         complementaryCertificationId: complementaryCertification.id,
         createdAt: attachedAt,
+        minimumEarnedPix: 100,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -61,6 +62,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
         label: 'badge label',
         complementaryCertificationId: complementaryCertification.id,
         createdAt: attachedAt,
+        minimumEarnedPix: 150,
       });
 
       await databaseBuilder.commit();
@@ -89,12 +91,14 @@ describe('Acceptance | API | complementary-certification-controller', function (
                     level: 1,
                     label: 'another badge label',
                     imageUrl: 'http://badge-image-url.fr',
+                    minimumEarnedPix: 100,
                   },
                   {
                     id: 298,
                     level: 1,
                     label: 'badge label',
                     imageUrl: 'http://badge-image-url.fr',
+                    minimumEarnedPix: 150,
                   },
                 ],
               },

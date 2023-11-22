@@ -13,13 +13,22 @@ module('Unit | Component | complementary-certifications/target-profiles/badges-l
       currentTargetProfile: {
         id: 1,
         name: 'current target',
-        badges: [{ id: 1, level: 2, label: 'badge Pluie', imageUrl: 'http://badge-pluie.net' }],
+        badges: [{ id: 1, level: 2, label: 'badge Pluie', imageUrl: 'http://badge-pluie.net', minimumEarnedPix: 0 }],
       },
     };
 
     // when & then
     assert.deepEqual(component.currentTargetProfileBadges, [
-      { id: 1, level: 2, label: 'badge Pluie', imageUrl: 'http://badge-pluie.net' },
+      { id: 1, level: 2, label: 'badge Pluie', imageUrl: 'http://badge-pluie.net', minimumEarnedPix: 0 },
     ]);
+  });
+
+  test('it should not display minimum earned pix if it is zero ', async function (assert) {
+    // given
+    const component = createGlimmerComponent('component:complementary-certifications/target-profiles/badges-list');
+    const minimumEarnedPix = 0;
+
+    // when & then
+    assert.strictEqual(component.getMinimumEarnedPixValue(minimumEarnedPix), '');
   });
 });
