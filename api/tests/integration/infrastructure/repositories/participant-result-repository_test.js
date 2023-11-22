@@ -60,12 +60,12 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           { id: 'recTube2', competenceId: 'rec2' },
         ],
         skills: [
-          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1', pixValue: 2 },
-          { id: 'skill2', status: 'archivé', tubeId: 'recTube1', competenceId: 'rec1' },
-          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 20 },
-          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 200 },
-          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2' },
-          { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2' },
+          { id: 'skill1', status: 'actif', tubeId: 'recTube1', competenceId: 'rec1', pixValue: 2, level: 1 },
+          { id: 'skill2', status: 'archivé', tubeId: 'recTube1', competenceId: 'rec1', level: 4 },
+          { id: 'skill3', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 20, level: 5 },
+          { id: 'skill4', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', pixValue: 200, level: 3 },
+          { id: 'skill5', status: 'actif', tubeId: 'recTube2', competenceId: 'rec2', level: 6 },
+          { id: 'skill6', status: 'périmé', tubeId: 'recTube2', competenceId: 'rec2', level: 7 },
         ],
         challenges: [
           { id: 'challenge1', skillId: 'skill1', status: 'validé', locales: ['FR'], alpha: 1, delta: 0 },
@@ -490,88 +490,246 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       });
     });
 
-    it('computes the results for each competence assessed', async function () {
-      const { id: userId } = databaseBuilder.factory.buildUser();
-      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-      _buildCampaignSkills(campaignId);
-      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-        userId,
-        campaignId,
-        sharedAt: new Date('2020-01-02'),
+    context('computes competences result', function () {
+      let userId;
+      let campaignId;
+
+      beforeEach(async function () {
+        const user = databaseBuilder.factory.buildUser();
+        userId = user.id;
+
+        const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        campaignId = campaign.id;
+        _buildCampaignSkills(campaignId);
+
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          sharedAt: new Date('2020-01-02'),
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+        const knowledgeElementsAttributes = [
+          {
+            userId,
+            skillId: 'skill1',
+            competenceId: 'rec1',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill2',
+            competenceId: 'rec1',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill3',
+            competenceId: 'rec2',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.INVALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill4',
+            competenceId: 'rec2',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+        ];
+
+        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+
+        await databaseBuilder.commit();
       });
 
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+      context('target profile without any stages', function () {
+        it('computes the results for each competence assessed', async function () {
+          // when
+          const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+            userId,
+            campaignId,
+            targetProfile,
+            badges: [],
+            locale: 'FR',
+          });
+          const competenceResult1 = participantResult.competenceResults.find(({ id }) => id === 'rec1');
+          const competenceResult2 = participantResult.competenceResults.find(({ id }) => id === 'rec2');
 
-      const knowledgeElementsAttributes = [
-        {
-          userId,
-          skillId: 'skill1',
-          competenceId: 'rec1',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
-        },
-        {
-          userId,
-          skillId: 'skill2',
-          competenceId: 'rec1',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
-        },
-        {
-          userId,
-          skillId: 'skill3',
-          competenceId: 'rec2',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.INVALIDATED,
-        },
-        {
-          userId,
-          skillId: 'skill4',
-          competenceId: 'rec2',
-          createdAt: new Date('2020-01-01'),
-          status: KnowledgeElement.StatusType.VALIDATED,
-        },
-      ];
-
-      knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
-
-      await databaseBuilder.commit();
-      const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
-        userId,
-        campaignId,
-        targetProfile,
-        badges: [],
-        locale: 'FR',
+          // then
+          expect(competenceResult1).to.deep.equal({
+            id: 'rec1',
+            name: 'comp1Fr',
+            index: '1.1',
+            areaName: 'area1',
+            areaTitle: 'domaine1',
+            areaColor: 'colorArea1',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 2,
+            masteryPercentage: 100,
+            reachedStage: undefined,
+            flashPixScore: undefined,
+          });
+          expect(competenceResult2).to.deep.equal({
+            id: 'rec2',
+            name: 'comp2Fr',
+            index: '2.1',
+            areaName: 'area2',
+            areaTitle: 'domaine2',
+            areaColor: 'colorArea2',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 1,
+            masteryPercentage: 50,
+            reachedStage: undefined,
+            flashPixScore: undefined,
+          });
+        });
       });
-      const competenceResult1 = participantResult.competenceResults.find(({ id }) => id === 'rec1');
-      const competenceResult2 = participantResult.competenceResults.find(({ id }) => id === 'rec2');
-      expect(competenceResult1).to.deep.equal({
-        id: 'rec1',
-        name: 'comp1Fr',
-        index: '1.1',
-        areaName: 'area1',
-        areaTitle: 'domaine1',
-        areaColor: 'colorArea1',
-        testedSkillsCount: 2,
-        totalSkillsCount: 2,
-        validatedSkillsCount: 2,
-        masteryPercentage: 100,
-        reachedStage: undefined,
-        flashPixScore: undefined,
+
+      context('target profile with threshold stages', function () {
+        it('computes the results for each competence assessed', async function () {
+          // given
+          const stage0 = databaseBuilder.factory.buildStage({
+            threshold: 0,
+            targetProfileId: targetProfile.id,
+          });
+          const stageFirstSkill = databaseBuilder.factory.buildStage.firstSkill();
+          const stage2 = databaseBuilder.factory.buildStage({
+            threshold: 50,
+            targetProfileId: targetProfile.id,
+          });
+          const stage3 = databaseBuilder.factory.buildStage({
+            threshold: 51,
+            targetProfileId: targetProfile.id,
+          });
+          const stage4 = databaseBuilder.factory.buildStage({
+            threshold: 76,
+            targetProfileId: targetProfile.id,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+            userId,
+            campaignId,
+            targetProfile,
+            badges: [],
+            stages: [stage0, stageFirstSkill, stage2, stage3, stage4],
+            locale: 'FR',
+          });
+          const competenceResult1 = participantResult.competenceResults.find(({ id }) => id === 'rec1');
+          const competenceResult2 = participantResult.competenceResults.find(({ id }) => id === 'rec2');
+
+          // then
+          expect(competenceResult1).to.deep.equal({
+            id: 'rec1',
+            name: 'comp1Fr',
+            index: '1.1',
+            areaName: 'area1',
+            areaTitle: 'domaine1',
+            areaColor: 'colorArea1',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 2,
+            masteryPercentage: 100,
+            reachedStage: 5,
+            flashPixScore: undefined,
+          });
+          expect(competenceResult2).to.deep.equal({
+            id: 'rec2',
+            name: 'comp2Fr',
+            index: '2.1',
+            areaName: 'area2',
+            areaTitle: 'domaine2',
+            areaColor: 'colorArea2',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 1,
+            masteryPercentage: 50,
+            reachedStage: 3,
+            flashPixScore: undefined,
+          });
+        });
       });
-      expect(competenceResult2).to.deep.equal({
-        id: 'rec2',
-        name: 'comp2Fr',
-        index: '2.1',
-        areaName: 'area2',
-        areaTitle: 'domaine2',
-        areaColor: 'colorArea2',
-        testedSkillsCount: 2,
-        totalSkillsCount: 2,
-        validatedSkillsCount: 1,
-        masteryPercentage: 50,
-        reachedStage: undefined,
-        flashPixScore: undefined,
+
+      context('target profile with level stages', function () {
+        it('computes the results for each competence assessed', async function () {
+          // given
+          const stage0 = databaseBuilder.factory.buildStage({
+            level: 0,
+            threshold: null,
+            targetProfileId: targetProfile.id,
+          });
+          const stageFirstSkill = databaseBuilder.factory.buildStage.firstSkill();
+          const stage2 = databaseBuilder.factory.buildStage({
+            level: 1,
+            threshold: null,
+            targetProfileId: targetProfile.id,
+          });
+          const stage3 = databaseBuilder.factory.buildStage({
+            level: 3,
+            threshold: null,
+            targetProfileId: targetProfile.id,
+          });
+          const stage4 = databaseBuilder.factory.buildStage({
+            level: 7,
+            threshold: null,
+            targetProfileId: targetProfile.id,
+          });
+
+          await databaseBuilder.commit();
+
+          const savedStages = [stage0, stageFirstSkill, stage2, stage3, stage4];
+          const stagesFromDomain = savedStages.map(domainBuilder.buildStage);
+
+          // when
+          const participantResult = await participantResultRepository.getByUserIdAndCampaignId({
+            userId,
+            campaignId,
+            targetProfile,
+            badges: [],
+            stages: stagesFromDomain,
+            locale: 'FR',
+          });
+          const competenceResult1 = participantResult.competenceResults.find(({ id }) => id === 'rec1');
+          const competenceResult2 = participantResult.competenceResults.find(({ id }) => id === 'rec2');
+
+          // then
+          expect(competenceResult1).to.deep.equal({
+            id: 'rec1',
+            name: 'comp1Fr',
+            index: '1.1',
+            areaName: 'area1',
+            areaTitle: 'domaine1',
+            areaColor: 'colorArea1',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 2,
+            masteryPercentage: 100,
+            reachedStage: 5,
+            flashPixScore: undefined,
+          });
+          expect(competenceResult2).to.deep.equal({
+            id: 'rec2',
+            name: 'comp2Fr',
+            index: '2.1',
+            areaName: 'area2',
+            areaTitle: 'domaine2',
+            areaColor: 'colorArea2',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 1,
+            masteryPercentage: 50,
+            reachedStage: 4,
+            flashPixScore: undefined,
+          });
+        });
       });
     });
 
