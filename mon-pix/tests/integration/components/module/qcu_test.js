@@ -50,7 +50,6 @@ module('Integration | Component | Module | QCU', function (hooks) {
       type: 'qcus',
     });
     this.set('qcu', qcuElement);
-    const elementId = qcuElement.id;
     const userResponse = [answeredProposal.id];
     const givenSubmitAnswerSpy = sinon.spy();
     this.set('submitAnswer', givenSubmitAnswerSpy);
@@ -62,30 +61,25 @@ module('Integration | Component | Module | QCU', function (hooks) {
     await click(verifyButton);
 
     // then
-    sinon.assert.calledWith(givenSubmitAnswerSpy, { elementId, userResponse });
+    sinon.assert.calledWith(givenSubmitAnswerSpy, { userResponse, element: qcuElement });
     assert.ok(true);
   });
 
   test('should display an ok feedback when exists', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const qcuElement = store.createRecord('qcu', {
-      instruction: 'Instruction',
-      proposals: [
-        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
-        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
-      ],
-      type: 'qcus',
-    });
-    this.set('qcu', qcuElement);
+
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Good job!',
       status: 'ok',
       solutionId: 'solutionId',
     });
 
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
     // when
-    const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
+    const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
 
     // then
     assert.ok(screen.getByText('Good job!'));
@@ -98,23 +92,17 @@ module('Integration | Component | Module | QCU', function (hooks) {
   test('should display a ko feedback when exists', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const qcuElement = store.createRecord('qcu', {
-      instruction: 'Instruction',
-      proposals: [
-        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
-        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
-      ],
-      type: 'qcus',
-    });
-    this.set('qcu', qcuElement);
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Too Bad!',
       status: 'ko',
       solutionId: 'solutionId',
     });
 
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
     // when
-    const screen = await renderQcuWithCorrectionResponse.call(this, correctionResponse);
+    const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
 
     // then
     assert.ok(screen.getByText('Too Bad!'));
@@ -125,11 +113,23 @@ module('Integration | Component | Module | QCU', function (hooks) {
   });
 });
 
-async function renderQcuWithCorrectionResponse(correctionResponse) {
-  this.set('submitAnswer', () => {});
-  this.set('correctionResponse', correctionResponse);
-
-  return await render(
-    hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} @correctionResponse={{this.correctionResponse}} />`,
-  );
+function prepareContextRecords(store, correctionResponse) {
+  const elementAnswer = store.createRecord('element-answer', {
+    correction: correctionResponse,
+  });
+  const qcuElement = store.createRecord('qcu', {
+    instruction: 'Instruction',
+    proposals: [
+      { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
+      { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+    ],
+    type: 'qcus',
+    elementAnswers: [elementAnswer],
+  });
+  store.createRecord('grain', { id: 'id', elements: [qcuElement] });
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    element: qcuElement,
+  });
+  this.set('qcu', qcuElement);
 }
