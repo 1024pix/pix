@@ -1,7 +1,7 @@
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 
-describe('Acceptance | Controller | session-controller-patch', function () {
+describe('Acceptance | Controller | session | update-session', function () {
   let server;
 
   beforeEach(async function () {
