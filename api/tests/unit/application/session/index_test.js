@@ -33,22 +33,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('PATCH /api/sessions/{id}', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'update').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/sessions/1');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('POST /api/sessions/{id}/certification-candidates/import', function () {
     const testFilePath = `${__dirname}/testFile_temp.ods`;
     const method = 'POST';
@@ -232,11 +216,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'GET', url: '/api/admin/sessions/9999999999' },
-      },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/sessions/salut' } },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/sessions/9999999999' },
       },
       {
         condition: 'session ID params is not a number',
