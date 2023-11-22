@@ -3,17 +3,18 @@ import { AssessmentEndedError } from '../../../../../../lib/domain/errors.js';
 import { config } from '../../../../../../lib/config.js';
 import { FlashAssessmentSuccessRateHandler } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
 import { FlashAssessmentAlgorithm } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
+
+const baseFlashAssessmentAlgorithmConfig = {
+  warmUpLength: 0,
+  forcedCompetences: [],
+  minimumEstimatedSuccessRateRanges: [],
+  limitToOneQuestionPerTube: false,
+  enablePassageByAllCompetences: false,
+};
 
 describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlgorithm', function () {
   let flashAlgorithmImplementation;
-
-  const baseFlashAssessmentAlgorithmConfig = {
-    warmUpLength: 0,
-    forcedCompetences: [],
-    minimumEstimatedSuccessRateRanges: [],
-    limitToOneQuestionPerTube: false,
-    enablePassageByAllCompetences: false,
-  };
 
   const baseGetNextChallengeOptions = {
     challengesBetweenSameCompetence: 2,
@@ -39,9 +40,10 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         ];
         const estimatedLevel = 0;
         const algorithm = new FlashAssessmentAlgorithm({
-          maximumAssessmentLength: 2,
           flashAlgorithmImplementation,
-          ...baseFlashAssessmentAlgorithmConfig,
+          configuration: _getAlgorithmConfig({
+            maximumAssessmentLength: 2,
+          }),
         });
 
         expect(() =>
@@ -64,9 +66,10 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           config.features.numberOfChallengesForFlashMethod = 20;
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
-            maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
-            ...baseFlashAssessmentAlgorithmConfig,
-            limitToOneQuestionPerTube: true,
+            configuration: _getAlgorithmConfig({
+              maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
+              limitToOneQuestionPerTube: true,
+            }),
           });
 
           const skill1Tube1 = domainBuilder.buildSkill({
@@ -138,8 +141,9 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           config.features.numberOfChallengesForFlashMethod = 20;
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
-            maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
-            ...baseFlashAssessmentAlgorithmConfig,
+            configuration: _getAlgorithmConfig({
+              maximumAssessmentLength: alreadyAnsweredChallengesCount + remainingAnswersToGive,
+            }),
           });
 
           const skill1Tube1 = domainBuilder.buildSkill({
@@ -245,7 +249,7 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
         // when
         const algorithm = new FlashAssessmentAlgorithm({
           flashAlgorithmImplementation,
-          ...baseFlashAssessmentAlgorithmConfig,
+          configuration: _getAlgorithmConfig(),
         });
 
         flashAlgorithmImplementation.getEstimatedLevelAndErrorRate
@@ -316,15 +320,16 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           // when
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
-            ...baseFlashAssessmentAlgorithmConfig,
-            limitToOneQuestionPerTube: true,
-            minimumEstimatedSuccessRateRanges: [
-              FlashAssessmentSuccessRateHandler.createFixed({
-                startingChallengeIndex: 0,
-                endingChallengeIndex: 1,
-                value: 0.8,
-              }),
-            ],
+            configuration: _getAlgorithmConfig({
+              limitToOneQuestionPerTube: true,
+              minimumEstimatedSuccessRateRanges: [
+                FlashAssessmentSuccessRateHandler.createFixed({
+                  startingChallengeIndex: 0,
+                  endingChallengeIndex: 1,
+                  value: 0.8,
+                }),
+              ],
+            }),
           });
 
           flashAlgorithmImplementation.getEstimatedLevelAndErrorRate.returns({
@@ -399,16 +404,17 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
           // when
           const algorithm = new FlashAssessmentAlgorithm({
             flashAlgorithmImplementation,
-            ...baseFlashAssessmentAlgorithmConfig,
-            limitToOneQuestionPerTube: false,
-            minimumEstimatedSuccessRateRanges: [
-              FlashAssessmentSuccessRateHandler.createLinear({
-                startingChallengeIndex: 0,
-                endingChallengeIndex: 2,
-                startingValue: 0.8,
-                endingValue: 0.4,
-              }),
-            ],
+            configuration: _getAlgorithmConfig({
+              limitToOneQuestionPerTube: false,
+              minimumEstimatedSuccessRateRanges: [
+                FlashAssessmentSuccessRateHandler.createLinear({
+                  startingChallengeIndex: 0,
+                  endingChallengeIndex: 2,
+                  startingValue: 0.8,
+                  endingValue: 0.4,
+                }),
+              ],
+            }),
           });
 
           const expectedChallenges = [easyChallenge, hardChallenge2];
@@ -439,6 +445,13 @@ describe('Unit | Domain | Models | FlashAssessmentAlgorithm | FlashAssessmentAlg
     });
   });
 });
+
+const _getAlgorithmConfig = (options) => {
+  return new FlashAssessmentAlgorithmConfiguration({
+    ...baseFlashAssessmentAlgorithmConfig,
+    ...options,
+  });
+};
 
 const _getEstimatedLevelAndErrorRateParams = (params) => ({
   variationPercent: undefined,
