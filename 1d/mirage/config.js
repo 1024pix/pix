@@ -1,5 +1,5 @@
 import { applyEmberDataSerializers, discoverEmberDataModels } from 'ember-cli-mirage';
-import { createServer } from 'miragejs';
+import { createServer, Response } from 'miragejs';
 
 export default function makeServer(config) {
   const finalConfig = {

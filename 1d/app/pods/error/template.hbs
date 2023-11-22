@@ -1,8 +1,2 @@
 {{! Cette page est affichée lorsqu'une erreur survient coté api. }}
-<div class="error">
-  <h1>{{t "pages.error.title"}}</h1>
-  <p>{{t "pages.error.message"}}</p>
-  <LinkTo class="pix1d-button pix1d-button--small not-found__button" @route="identified.missions">{{t
-      "pages.error.backHome"
-    }}</LinkTo>
-</div>
+<Issue @message={{t "pages.error.message"}} />
