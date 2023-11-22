@@ -62,7 +62,7 @@ import * as certificationCenterRepository from '../../../src/certification/share
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
-import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
+import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfService from '../../../src/certification/shared/domain/services/certification-cpf-service.js';
