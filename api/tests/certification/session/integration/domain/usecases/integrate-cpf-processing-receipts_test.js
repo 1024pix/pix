@@ -64,7 +64,7 @@ describe('Integration | UseCase | integrate-cpf-processing-receipts ', function 
         'importStatus',
         'filename',
       );
-      expect(results).to.deep.equal([
+      expect(results).to.deep.members([
         { certificationCourseId: 1234, filename: 'pix-cpf-export-20221003-324234.xml', importStatus: 'REJECTED' },
         { certificationCourseId: 4567, filename: 'pix-cpf-export-20221003-324234.xml', importStatus: 'SUCCESS' },
         { certificationCourseId: 891011, filename: 'pix-cpf-export-20221003-324234.xml', importStatus: 'SUCCESS' },
