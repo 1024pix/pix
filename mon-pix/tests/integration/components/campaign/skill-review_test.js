@@ -253,4 +253,14 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     });
   });
+
+  test('it should not display skill review infos if isForabsoluteNovice is true', async function (assert) {
+    model.campaign.set('isForAbsoluteNovice', true);
+    this.set('model', model);
+
+    const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+
+    assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.stage.title')));
+    assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.details.title')));
+  });
 });
