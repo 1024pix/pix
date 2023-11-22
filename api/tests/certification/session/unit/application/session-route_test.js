@@ -1,14 +1,14 @@
 import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
 
-import * as moduleUnderTest from '../../../../../src/certification/session/application/create-session-route.js';
-import { createSessionController } from '../../../../../src/certification/session/application/create-session-controller.js';
+import * as moduleUnderTest from '../../../../../src/certification/session/application/session-route.js';
+import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
 
-describe('Unit | Router | create-session-route', function () {
+describe('Unit | Router | session-route', function () {
   describe('POST /api/certification-centers/{certificationCenterId}/session', function () {
     it('should return CREATED (200) when everything does as expected', async function () {
       // given
-      sinon.stub(createSessionController, 'createSession').returns('ok');
+      sinon.stub(sessionController, 'createSession').returns('ok');
       sinon
         .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter')
         .callsFake((request, h) => h.response(true));

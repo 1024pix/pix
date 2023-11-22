@@ -1,9 +1,9 @@
 import { Session } from '../../../../../lib/domain/models/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { createSessionController } from '../../../../../src/certification/session/application/create-session-controller.js';
+import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
 
-describe('Unit | Controller | create-session-controller', function () {
+describe('Unit | Controller | session-controller', function () {
   describe('#saveSession', function () {
     let request;
     let expectedSession;
@@ -54,7 +54,7 @@ describe('Unit | Controller | create-session-controller', function () {
 
     it('should save the session', async function () {
       // when
-      await createSessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
+      await sessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
       expect(usecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
@@ -78,7 +78,7 @@ describe('Unit | Controller | create-session-controller', function () {
       sessionSerializerStub.serialize.returns(jsonApiSession);
 
       // when
-      const response = await createSessionController.createSession(request, hFake, {
+      const response = await sessionController.createSession(request, hFake, {
         sessionSerializer: sessionSerializerStub,
       });
 
