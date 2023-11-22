@@ -302,14 +302,6 @@ const commentAsJury = async function (request, h) {
   return h.response().code(204);
 };
 
-const remove = async function (request, h) {
-  const sessionId = request.params.id;
-
-  await usecases.deleteSession({ sessionId });
-
-  return h.response().code(204);
-};
-
 const deleteJuryComment = async function (request, h) {
   const sessionId = request.params.id;
   await usecases.deleteSessionJuryComment({ sessionId });
@@ -339,7 +331,6 @@ const sessionController = {
   flagResultsAsSentToPrescriber,
   assignCertificationOfficer,
   commentAsJury,
-  remove,
   deleteJuryComment,
 };
 
