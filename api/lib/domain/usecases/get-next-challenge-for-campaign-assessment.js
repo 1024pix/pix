@@ -1,11 +1,11 @@
 import { AssessmentEndedError } from '../errors.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
-import { config } from '../../../src/shared/config.js';
 import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,
   answerRepository,
+  flashAlgorithmConfigurationRepository,
   flashAssessmentResultRepository,
   assessment,
   pickChallengeService,
@@ -13,11 +13,6 @@ const getNextChallengeForCampaignAssessment = async function ({
   algorithmDataFetcherService,
   smartRandom,
   flashAlgorithmService,
-  warmUpLength = 0,
-  forcedCompetences = [],
-  limitToOneQuestionPerTube = false,
-  minimumEstimatedSuccessRateRanges = [],
-  enablePassageByAllCompetences = false,
 }) {
   let algoResult;
 
@@ -30,16 +25,11 @@ const getNextChallengeForCampaignAssessment = async function ({
       locale,
     });
 
+    const configuration = (await flashAlgorithmConfigurationRepository.get()) ?? _createDefaultAlgorithmConfiguration();
+
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
-      configuration: new FlashAssessmentAlgorithmConfiguration({
-        warmUpLength,
-        forcedCompetences,
-        limitToOneQuestionPerTube,
-        minimumEstimatedSuccessRateRanges,
-        enablePassageByAllCompetences,
-        maximumAssessmentLength: config.features.numberOfChallengesForFlashMethod,
-      }),
+      configuration,
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
@@ -62,6 +52,16 @@ const getNextChallengeForCampaignAssessment = async function ({
       locale,
     });
   }
+};
+
+const _createDefaultAlgorithmConfiguration = () => {
+  return new FlashAssessmentAlgorithmConfiguration({
+    warmUpLength: 0,
+    forcedCompetences: [],
+    limitToOneQuestionPerTube: false,
+    minimumEstimatedSuccessRateRanges: [],
+    enablePassageByAllCompetences: false,
+  });
 };
 
 export { getNextChallengeForCampaignAssessment };

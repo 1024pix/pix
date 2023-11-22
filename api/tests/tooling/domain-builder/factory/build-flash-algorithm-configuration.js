@@ -8,7 +8,7 @@ export const buildFlashAlgorithmConfiguration = ({
   enablePassageByAllCompetences,
   variationPercent,
   doubleMeasuresUntil,
-}) => {
+} = {}) => {
   return {
     warmUpLength,
     forcedCompetences,
