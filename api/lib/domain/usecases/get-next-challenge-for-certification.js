@@ -1,6 +1,6 @@
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationChallenge, FlashAssessmentAlgorithm } from '../models/index.js';
-import { config } from '../../config.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 const getNextChallengeForCertification = async function ({
   algorithmDataFetcherService,
@@ -14,11 +14,7 @@ const getNextChallengeForCertification = async function ({
   locale,
   pickChallengeService,
   flashAlgorithmService,
-  warmUpLength = 0,
-  forcedCompetences = [],
-  limitToOneQuestionPerTube = false,
-  minimumEstimatedSuccessRateRanges = [],
-  enablePassageByAllCompetences = false,
+  flashAlgorithmConfigurationRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
@@ -53,14 +49,12 @@ const getNextChallengeForCertification = async function ({
       locale,
     });
 
+    const algorithmConfiguration =
+      (await flashAlgorithmConfigurationRepository.get()) ?? _createDefaultAlgorithmConfiguration();
+
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
-      maximumAssessmentLength: config.v3Certification.numberOfChallengesPerCourse,
       flashAlgorithmImplementation: flashAlgorithmService,
-      warmUpLength,
-      forcedCompetences,
-      limitToOneQuestionPerTube,
-      minimumEstimatedSuccessRateRanges,
-      enablePassageByAllCompetences,
+      configuration: algorithmConfiguration,
     });
 
     const activeChallenges = challenges.filter((challenge) => !validatedLiveAlertChallengeIds.includes(challenge.id));
@@ -105,6 +99,16 @@ const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository 
 
 const _getValidatedLiveAlertChallengeIds = async ({ assessmentId, certificationChallengeLiveAlertRepository }) => {
   return certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId(assessmentId);
+};
+
+const _createDefaultAlgorithmConfiguration = () => {
+  return new FlashAssessmentAlgorithmConfiguration({
+    warmUpLength: 0,
+    forcedCompetences: [],
+    limitToOneQuestionPerTube: false,
+    minimumEstimatedSuccessRateRanges: [],
+    enablePassageByAllCompetences: false,
+  });
 };
 
 export { getNextChallengeForCertification };
