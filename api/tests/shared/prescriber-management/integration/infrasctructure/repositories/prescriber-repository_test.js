@@ -324,102 +324,24 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
       });
 
       context('features', function () {
-        describe('#features', function () {
-          it('should return features for current organization', async function () {
-            // given
-            const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
-            databaseBuilder.factory.buildFeature(
-              apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
-            );
+        it('should return features for current organization', async function () {
+          // given
+          const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
+          databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY);
 
-            databaseBuilder.factory.buildOrganizationFeature({
-              featureId: feature.id,
-              organizationId: organization.id,
-            });
-            await databaseBuilder.commit();
-
-            // when
-            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
-
-            // then
-            expect(foundPrescriber.features).to.deep.equal({
-              [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
-              [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            });
+          databaseBuilder.factory.buildOrganizationFeature({
+            featureId: feature.id,
+            organizationId: organization.id,
           });
-        });
+          await databaseBuilder.commit();
 
-        describe('#enableMultipleSendingAssessment', function () {
-          it('should return activated feature for current organization', async function () {
-            // given
-            const feature = databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
-            databaseBuilder.factory.buildOrganizationFeature({
-              featureId: feature.id,
-              organizationId: organization.id,
-            });
-            await databaseBuilder.commit();
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
 
-            // when
-            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
-
-            // then
-            expect(foundPrescriber.features).to.deep.equal({
-              [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
-            });
-          });
-
-          it('should return deactivated feature for current organization', async function () {
-            // given
-            expectedPrescriber.userOrgaSettings = userOrgaSettings;
-            databaseBuilder.factory.buildFeature(apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT);
-            await databaseBuilder.commit();
-
-            // when
-            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
-
-            // then
-            expect(foundPrescriber.features).to.deep.equal({
-              [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: false,
-            });
-          });
-        });
-        describe('#isComputeOrganizationLearnerCertificabilityEnabled', function () {
-          it('should return activated feature for current organization', async function () {
-            // given
-            const feature = databaseBuilder.factory.buildFeature(
-              apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
-            );
-            databaseBuilder.factory.buildOrganizationFeature({
-              featureId: feature.id,
-              organizationId: organization.id,
-            });
-            await databaseBuilder.commit();
-
-            // when
-            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
-
-            // then
-            expect(foundPrescriber.features).to.deep.equal({
-              [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: true,
-            });
-          });
-
-          it('should return deactivated feature for current organization', async function () {
-            // given
-            expectedPrescriber.userOrgaSettings = userOrgaSettings;
-            databaseBuilder.factory.buildFeature(
-              apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY,
-            );
-
-            await databaseBuilder.commit();
-
-            // when
-            const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
-
-            // then
-            expect(foundPrescriber.features).to.deep.equal({
-              [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
-            });
+          // then
+          expect(foundPrescriber.features).to.deep.equal({
+            [apps.ORGANIZATION_FEATURE.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY.key]: false,
+            [apps.ORGANIZATION_FEATURE.MULTIPLE_SENDING_ASSESSMENT.key]: true,
           });
         });
       });
