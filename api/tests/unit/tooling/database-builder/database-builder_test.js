@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable import/no-restricted-paths */
-import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { expect, sinon, catchErr, knex } from '../../../test-helper.js';
 import { DatabaseBuilder } from '../../../../db/database-builder/database-builder.js';
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
@@ -447,6 +447,18 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
         await databaseBuilder.fixSequences();
         expect(knexFn.raw).not.to.have.been.called;
       });
+    });
+  });
+
+  describe('#create', function () {
+    it('returns an instance of DatabaseBuilder', async function () {
+      // given
+      // when
+      const databaseBuilder = await DatabaseBuilder.create({ knex });
+
+      // then
+      expect(databaseBuilder).to.be.an.instanceOf(DatabaseBuilder);
+      expect(databaseBuilder.isFirstCommit).to.be.true;
     });
   });
 });
