@@ -79,6 +79,10 @@ const CERTIFICATION_CENTER_TYPES = {
 };
 
 const ORGANIZATION_FEATURE = {
+  PLACES_MANAGEMENT: {
+    key: 'PLACES_MANAGEMENT',
+    description: "Permet l'affichage de la page de gestion des places sur PixOrga",
+  },
   MULTIPLE_SENDING_ASSESSMENT: {
     key: 'MULTIPLE_SENDING_ASSESSMENT',
     description: "Permet d'activer l'envoi multiple sur les campagnes d'évaluation",
