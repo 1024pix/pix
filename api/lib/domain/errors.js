@@ -1127,12 +1127,6 @@ class CampaignParticipationDeletedError extends DomainError {
   }
 }
 
-class SessionStartedDeletionError extends DomainError {
-  constructor(message = 'La session a déjà commencé.') {
-    super(message);
-  }
-}
-
 class DifferentExternalIdentifierError extends DomainError {
   constructor(
     message = "La valeur de l'externalIdentifier de la méthode de connexion ne correspond pas à celui reçu par le partenaire.",
@@ -1297,7 +1291,6 @@ export {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionNotAccessible,
-  SessionStartedDeletionError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithIdAndInformationOnMassImportError,
   SessionWithMissingAbortReasonError,

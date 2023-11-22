@@ -1,4 +1,4 @@
-import { SessionStartedDeletionError } from '../../../../../lib/domain/errors.js';
+import { SessionStartedDeletionError } from '../errors.js';
 
 /**
  * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
