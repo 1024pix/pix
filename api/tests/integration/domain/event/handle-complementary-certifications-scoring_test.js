@@ -135,7 +135,6 @@ function _buildComplementaryCertificationBadge({
 }) {
   databaseBuilder.factory.buildComplementaryCertification({
     id: complementaryCertificationId,
-    minimumEarnedPix,
     minimumReproducibilityRate,
     hasComplementaryReferential,
   });
@@ -144,5 +143,6 @@ function _buildComplementaryCertificationBadge({
     id: complementaryCertificationBadgeId,
     complementaryCertificationId,
     badgeId,
+    minimumEarnedPix,
   });
 }
