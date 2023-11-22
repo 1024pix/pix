@@ -11,6 +11,13 @@
           "title": "Explications : les parties d’une adresse mail",
           "elements": [
             {
+              "id": "8d7687c8-4a02-4d7e-bf6c-693a6d481c78",
+              "type": "image",
+              "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
+              "alt": "Schéma de la syntaxe d'une adresse mail, en trois blocs distincts, décrit dans l'alternative textuelle",
+              "alternativeInstruction": "Bloc 1 : Identifiant, exemple : mickael.aubert123<br/>Bloc 2 : Arobase<br/>Bloc 3 : Fournisseur d'adresse mail, exemple : laposte.net "
+            },
+            {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
               "type": "text",
               "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
