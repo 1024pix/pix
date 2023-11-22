@@ -24,5 +24,5 @@ dockercompose up -d postgres redis api monpix orga
 dockercompose run --name pix-e2e-run-prepare --rm api npm run db:prepare
 dockercompose exec redis redis-cli flushdb
 dockercompose run --name pix-e2e-run-wait --rm cypress npx wait-on http://api:3000/api http://monpix:4200 http://orga:4201
-dockercompose run --name pix-e2e-run-cypress --rm $DC_CYPRESS_ARGS cypress bash -c "npm ci && npx cypress $CYPRESS_ARGS --config baseUrl=http://monpix:4200 --env API_URL=http://api:3000,ORGA_URL=http://orga:4201,CERTIF_URL=http://certif:4203"
+dockercompose run --name pix-e2e-run-cypress --rm $DC_CYPRESS_ARGS cypress bash -c "npm ci && npx cypress $CYPRESS_ARGS --config baseUrl=http://monpix:4200 --env APP_URL=http://monpix:4200,API_URL=http://api:3000,ORGA_URL=http://orga:4201,CERTIF_URL=http://certif:4203"
 dockercompose down
