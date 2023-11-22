@@ -4,7 +4,7 @@ import { usecases } from '../../../../../src/certification/shared/domain/usecase
 import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
 
 describe('Unit | Controller | session-controller', function () {
-  describe('#saveSession', function () {
+  describe('#createSession', function () {
     let request;
     let expectedSession;
     let sessionSerializerStub;
@@ -52,7 +52,7 @@ describe('Unit | Controller | session-controller', function () {
       };
     });
 
-    it('should save the session', async function () {
+    it('should create a session', async function () {
       // when
       await sessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
@@ -60,7 +60,7 @@ describe('Unit | Controller | session-controller', function () {
       expect(usecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
     });
 
-    it('should return the saved session in JSON API', async function () {
+    it('should return the created session in JSON API', async function () {
       // given
       const jsonApiSession = {
         data: {
@@ -85,6 +85,43 @@ describe('Unit | Controller | session-controller', function () {
       // then
       expect(response).to.deep.equal(jsonApiSession);
       expect(sessionSerializerStub.serialize).to.have.been.calledWithExactly({ session: savedSession });
+    });
+  });
+
+  describe('#update', function () {
+    let request, updatedSession, updateSessionArgs;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id: 1 },
+        payload: {},
+      };
+
+      updatedSession = {
+        id: request.params.id,
+      };
+
+      updateSessionArgs = {
+        userId: request.auth.credentials.userId,
+        session: updatedSession,
+      };
+
+      sinon.stub(usecases, 'updateSession');
+    });
+
+    it('should return the updated session', async function () {
+      // given
+      const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
+      sessionSerializer.deserialize.withArgs(request.payload).returns({});
+      usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
+      sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
+
+      // when
+      const response = await sessionController.update(request, hFake, { sessionSerializer });
+
+      // then
+      expect(response).to.deep.equal(updatedSession);
     });
   });
 });
