@@ -9,12 +9,20 @@ if [ "$1" == "open" ]; then
     DC_CYPRESS_ARGS=" --volume /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:0"
 fi
 
+function dockercompose() {
+  if $( docker compose version > /dev/null ); then
+    docker compose "$@"
+    else
+    docker-compose "$@"
+    fi
+}
+
 npm run ci:all
 cd high-level-tests/e2e
-docker-compose stop
-docker-compose up -d postgres redis api monpix certif orga
-docker-compose run --name pix-e2e-run-prepare --rm api npm run db:prepare
-docker-compose exec redis redis-cli flushdb
-docker-compose run --name pix-e2e-run-wait --rm cypress npx wait-on http://api:3000/api http://monpix:4200 http://orga:4201 http://certif:4203
-docker-compose run --name pix-e2e-run-cypress --rm $DC_CYPRESS_ARGS cypress bash -c "npm ci && npx cypress $CYPRESS_ARGS --config baseUrl=http://monpix:4200 --env API_URL=http://api:3000,ORGA_URL=http://orga:4201,CERTIF_URL=http://certif:4203"
-docker-compose down
+dockercompose stop
+dockercompose up -d postgres redis api monpix orga
+dockercompose run --name pix-e2e-run-prepare --rm api npm run db:prepare
+dockercompose exec redis redis-cli flushdb
+dockercompose run --name pix-e2e-run-wait --rm cypress npx wait-on http://api:3000/api http://monpix:4200 http://orga:4201
+dockercompose run --name pix-e2e-run-cypress --rm $DC_CYPRESS_ARGS cypress bash -c "npm ci && npx cypress $CYPRESS_ARGS --config baseUrl=http://monpix:4200 --env API_URL=http://api:3000,ORGA_URL=http://orga:4201,CERTIF_URL=http://certif:4203"
+dockercompose down

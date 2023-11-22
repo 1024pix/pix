@@ -5,7 +5,7 @@ Il est utilisé ici pour les tests de non-régression sur les chemins fonctionne
 
 ### Je veux lancer les tests rapidement, comment faire ?
 
-Si tu es sous Linux et que tu a `docker` et `docker-compose`, alors le plus simple est de lancer a la racine.
+Si tu es sous Linux et que tu as `docker` et `docker compose`, alors le plus simple est de lancer à la racine.
 
     ./scripts/tests-e2e
 

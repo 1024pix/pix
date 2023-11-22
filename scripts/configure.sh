@@ -44,6 +44,13 @@ function assert_program_is_installed() {
   fi
 }
 
+function assert_docker_compose_installed() {
+  if ! $( docker compose version > /dev/null )  && ! [ -x "$(command -v docker-compose)" ]; then
+    echo "Error: docker compose is not installed." >&2
+    exit 1
+  fi
+}
+
 function verify_prerequesite_programs() {
   echo "Verifying prerequesite programs…"
 
@@ -51,7 +58,7 @@ function verify_prerequesite_programs() {
   assert_program_is_installed "node"
   assert_program_is_installed "npm"
   assert_program_is_installed "docker"
-  assert_program_is_installed "docker-compose"
+  assert_docker_compose_installed
 
   echo "✅ Required programs have been found."
   echo ""
@@ -79,14 +86,27 @@ function install_apps_dependencies() {
 function setup_and_run_infrastructure() {
   echo "Starting infrastructure building blocks…"
 
-  docker-compose up -d --force-recreate
+  function dockercompose() {
+    if $( docker compose version > /dev/null ); then
+      docker compose "$@"
+     else
+      docker-compose "$@"
+     fi
+  }
+
+  dockercompose up -d --force-recreate
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
 
   echo "Waiting for PostgreSQL server to be ready…"
 
-  timeout 20s bash -c "until docker-compose exec postgres pg_isready ; do sleep 1 ; done"
+  attempts=20
+  until [ $attempts -eq 0 ] || dockercompose exec postgres pg_isready > /dev/null; do
+    echo "waiting for pg..."
+    ((attempts-=1))
+    sleep 1
+  done
 
   echo "✅ PostgreSQL server is ready."
   echo ""
