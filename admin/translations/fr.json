@@ -54,7 +54,7 @@
       "membership-item-role": {
         "select-role": "Sélectionner un rôle"
       },
-      "table-headers" : {
+      "table-headers": {
         "roleLabel": "Rôle"
       }
     },
@@ -72,6 +72,7 @@
             "id": "ID du RT certifiant",
             "image-url": "Image du badge certifié",
             "level": "Niveau du badge certifié",
+            "minimum-earned-pix": "Nombre de pix minimum",
             "name": "Nom du badge certifié"
           }
         }
@@ -152,10 +153,10 @@
     "user-details": {
       "navbar": {
         "certification-centers-list": "Pix Certif",
-        "details" : "Détails",
+        "details": "Détails",
         "organizations-list": "Pix Orga",
         "participations-list": "Participations",
-        "profile" : "Profil"
+        "profile": "Profil"
       }
     }
   }
