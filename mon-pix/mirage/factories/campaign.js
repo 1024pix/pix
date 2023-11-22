@@ -10,7 +10,7 @@ export default Factory.extend({
   },
 
   code() {
-    return 'B1Bli0';
+    return Math.random().toString(36).slice(2, 8);
   },
 
   idPixLabel() {
