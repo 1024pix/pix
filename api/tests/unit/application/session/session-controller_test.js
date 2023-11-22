@@ -869,31 +869,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#delete', function () {
-    it('should delete the session', async function () {
-      // given
-      const sessionId = 1;
-      const userId = 1;
-      sinon.stub(usecases, 'deleteSession');
-      request = {
-        params: { id: sessionId },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-      };
-
-      // when
-      await sessionController.remove(request, hFake);
-
-      // then
-      expect(usecases.deleteSession).to.have.been.calledWithExactly({
-        sessionId,
-      });
-    });
-  });
-
   describe('#deleteJuryComment', function () {
     it('should delete the session comment', async function () {
       // given

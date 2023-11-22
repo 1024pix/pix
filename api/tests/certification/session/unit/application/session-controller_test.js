@@ -124,4 +124,29 @@ describe('Unit | Controller | session-controller', function () {
       expect(response).to.deep.equal(updatedSession);
     });
   });
+
+  describe('#delete', function () {
+    it('should delete the session', async function () {
+      // given
+      const sessionId = 1;
+      const userId = 1;
+      sinon.stub(usecases, 'deleteSession');
+      const request = {
+        params: { id: sessionId },
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+      };
+
+      // when
+      await sessionController.remove(request, hFake);
+
+      // then
+      expect(usecases.deleteSession).to.have.been.calledWithExactly({
+        sessionId,
+      });
+    });
+  });
 });

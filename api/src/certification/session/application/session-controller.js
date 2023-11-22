@@ -20,8 +20,17 @@ const update = async function (request, h, dependencies = { sessionSerializer })
   return dependencies.sessionSerializer.serialize({ session: updatedSession });
 };
 
+const remove = async function (request, h) {
+  const sessionId = request.params.id;
+
+  await usecases.deleteSession({ sessionId });
+
+  return h.response().code(204);
+};
+
 const sessionController = {
   createSession,
   update,
+  remove,
 };
 export { sessionController };
