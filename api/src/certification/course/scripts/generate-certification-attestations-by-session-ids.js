@@ -9,7 +9,7 @@ import lodash from 'lodash';
 const { isEmpty, compact } = lodash;
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import * as certificateRepository from '../infrastructure/repositories/certificate-repository.js';
-import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
+import * as certificationCourseRepository from '../../shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationAttestationPdf from '../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { learningContentCache as cache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';

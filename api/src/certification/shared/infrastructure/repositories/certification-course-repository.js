@@ -2,18 +2,17 @@ import lodash from 'lodash';
 
 const { _ } = lodash;
 
-import { knex } from '../../../db/knex-database-connection.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import bluebird from 'bluebird';
-import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
-import { BookshelfAssessment } from '../orm-models/Assessment.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
-import { DomainTransaction } from '../DomainTransaction.js';
-import { CertificationCourse } from '../../domain/models/CertificationCourse.js';
-import { NotFoundError } from '../../domain/errors.js';
-import * as certificationChallengeRepository from './certification-challenge-repository.js';
-import { CertificationIssueReport } from '../../../src/certification/shared/domain/models/CertificationIssueReport.js';
-import { ComplementaryCertificationCourse } from '../../domain/models/ComplementaryCertificationCourse.js';
-import { Bookshelf } from '../bookshelf.js';
+import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
+import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
+import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { CertificationCourse, ComplementaryCertificationCourse } from '../../../../../lib/domain/models/index.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import * as certificationChallengeRepository from '../../../../../lib/infrastructure/repositories/certification-challenge-repository.js';
+import { CertificationIssueReport } from '../../domain/models/CertificationIssueReport.js';
+import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 
 async function save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
   const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
