@@ -22,8 +22,8 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
     });
   });
 
-  describe('#validate-answer', function () {
-    it('should call validateAnswer use-case and return the serialized CorrectionResponse', async function () {
+  describe('#verify-answer', function () {
+    it('should call verifyAnswer use-case and return the serialized CorrectionResponse', async function () {
       // Given
       const moduleSlug = 'slug';
       const serializedCorrection = Symbol('serialized correction');
@@ -32,9 +32,9 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       const correctionResponse = Symbol('correction');
 
       const usecases = {
-        validateAnswer: sinon.stub(),
+        verifyAnswer: sinon.stub(),
       };
-      usecases.validateAnswer.withArgs({ moduleSlug, userResponse, elementId }).returns(correctionResponse);
+      usecases.verifyAnswer.withArgs({ moduleSlug, userResponse, elementId }).returns(correctionResponse);
 
       const elementAnswerSerializer = {
         serialize: sinon.stub(),
@@ -42,7 +42,7 @@ describe('Devcomp | Unit | Application | Module | Module Controller', function (
       elementAnswerSerializer.serialize.withArgs(correctionResponse).returns(serializedCorrection);
 
       // When
-      const result = await modulesController.validateAnswer(
+      const result = await modulesController.verifyAnswer(
         { payload: { data: { attributes: { 'user-response': userResponse } } }, params: { moduleSlug, elementId } },
         null,
         { elementAnswerSerializer, usecases },
