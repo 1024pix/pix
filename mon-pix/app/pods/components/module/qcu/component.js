@@ -5,12 +5,18 @@ import { action } from '@ember/object';
 export default class ModuleQcu extends Component {
   @tracked selectedAnswerId = null;
 
+  qcu = this.args.qcu;
+
   get feedbackType() {
-    return this.args.correctionResponse?.isOk ? 'success' : 'error';
+    return this.qcu.lastCorrection?.isOk ? 'success' : 'error';
   }
 
   get disableInput() {
-    return !!this.args.correctionResponse;
+    return !!this.qcu.lastCorrection;
+  }
+
+  get shouldDisplayFeedback() {
+    return !!this.qcu.lastCorrection;
   }
 
   @action
@@ -21,8 +27,7 @@ export default class ModuleQcu extends Component {
   @action
   async submitAnswer(event) {
     event.preventDefault();
-    const elementId = this.args.qcu.id;
-    const answerData = { elementId, userResponse: [this.selectedAnswerId] };
+    const answerData = { userResponse: [this.selectedAnswerId], element: this.qcu };
     await this.args.submitAnswer(answerData);
   }
 }

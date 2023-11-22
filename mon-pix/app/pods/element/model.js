@@ -13,4 +13,12 @@ export default class Element extends Model {
   get isQcu() {
     return this.type === 'qcus';
   }
+
+  get isAnswered() {
+    return this.elementAnswers.length > 0;
+  }
+
+  get lastCorrection() {
+    return this.isAnswered ? this.elementAnswers.lastObject.correction : undefined;
+  }
 }

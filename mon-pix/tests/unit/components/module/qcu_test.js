@@ -11,7 +11,9 @@ module('Unit | Component | Module | QCU', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const correctionResponse = store.createRecord('correction-response', { status: 'ko' });
-        const component = createPodsComponent('module/qcu', { correctionResponse });
+        const elementAnswer = store.createRecord('element-answer', { correction: correctionResponse });
+        const qcuElement = store.createRecord('qcu', { elementAnswers: [elementAnswer] });
+        const component = createPodsComponent('module/qcu', { qcu: qcuElement });
 
         // when
         const feedbackType = component.feedbackType;
@@ -26,7 +28,9 @@ module('Unit | Component | Module | QCU', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const correctionResponse = store.createRecord('correction-response', { status: 'ok' });
-        const component = createPodsComponent('module/qcu', { correctionResponse });
+        const elementAnswer = store.createRecord('element-answer', { correction: correctionResponse });
+        const qcuElement = store.createRecord('qcu', { elementAnswers: [elementAnswer] });
+        const component = createPodsComponent('module/qcu', { qcu: qcuElement });
 
         // when
         const feedbackType = component.feedbackType;
