@@ -2,7 +2,7 @@ import { Factory, trait } from 'miragejs';
 
 export default Factory.extend({
   id() {
-    return 'rec_M8fSF';
+    return 'rec_' + Math.random().toString(36).slice(2, 7);
   },
 
   type() {
@@ -19,25 +19,25 @@ export default Factory.extend({
 
   forCompetenceEvaluation: trait({
     afterCreate(challenge) {
-      challenge.update({ id: 'recCOMPEVAL_3e5V7' });
+      challenge.update({ id: 'recCOMPEVAL_' + Math.random().toString(36).slice(2, 7) });
     },
   }),
 
   forCertification: trait({
     afterCreate(challenge) {
-      challenge.update({ id: 'recCERTIF_KWnkZ' });
+      challenge.update({ id: 'recCERTIF_' + Math.random().toString(36).slice(2, 7) });
     },
   }),
 
   forDemo: trait({
     afterCreate(challenge) {
-      challenge.update({ id: 'recDEMO_6OXcE' });
+      challenge.update({ id: 'recDEMO_' + Math.random().toString(36).slice(2, 7) });
     },
   }),
 
   forCampaign: trait({
     afterCreate(challenge) {
-      challenge.update({ id: 'recSMARPLA_BsBEP' });
+      challenge.update({ id: 'recSMARPLA_' + Math.random().toString(36).slice(2, 7) });
     },
   }),
 
