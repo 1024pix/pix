@@ -1,7 +1,7 @@
 import { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
 
-describe('Acceptance | Controller | Session | create-session', function () {
+describe('Acceptance | Controller | Session | session-route', function () {
   let server;
 
   beforeEach(async function () {

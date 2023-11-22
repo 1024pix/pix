@@ -10,7 +10,7 @@ const createSession = async function (request, _h, dependencies = { sessionSeria
   return dependencies.sessionSerializer.serialize({ session: newSession });
 };
 
-const createSessionController = {
+const sessionController = {
   createSession,
 };
-export { createSessionController };
+export { sessionController };

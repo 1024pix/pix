@@ -1,7 +1,7 @@
-import { createSessionController } from './create-session-controller.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { sessionController } from './session-controller.js';
 
 const register = async function (server) {
   server.route([
@@ -20,7 +20,7 @@ const register = async function (server) {
             certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
-        handler: createSessionController.createSession,
+        handler: sessionController.createSession,
         tags: ['api', 'certification-center', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -31,5 +31,5 @@ const register = async function (server) {
   ]);
 };
 
-const name = 'create-session-api';
+const name = 'session-api';
 export { register, name };
