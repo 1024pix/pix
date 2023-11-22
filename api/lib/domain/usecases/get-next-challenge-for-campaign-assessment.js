@@ -1,6 +1,7 @@
 import { AssessmentEndedError } from '../errors.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,
@@ -31,12 +32,14 @@ const getNextChallengeForCampaignAssessment = async function ({
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
-      maximumAssessmentLength: config.features.numberOfChallengesForFlashMethod,
-      warmUpLength,
-      forcedCompetences,
-      limitToOneQuestionPerTube,
-      minimumEstimatedSuccessRateRanges,
-      enablePassageByAllCompetences,
+      configuration: new FlashAssessmentAlgorithmConfiguration({
+        warmUpLength,
+        forcedCompetences,
+        limitToOneQuestionPerTube,
+        minimumEstimatedSuccessRateRanges,
+        enablePassageByAllCompetences,
+        maximumAssessmentLength: config.features.numberOfChallengesForFlashMethod,
+      }),
     });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
