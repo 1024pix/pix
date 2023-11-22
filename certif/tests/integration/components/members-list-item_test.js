@@ -6,7 +6,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 module('Integration | Component | MembersListItem', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('when user is a member', function () {
+  module('when member is a member', function () {
     test('it shows member firstName, lastName and role', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -27,7 +27,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
     });
   });
 
-  module('when user is an administrator', function () {
+  module('when member is an administrator', function () {
     test('it shows admin firstName, lastName and role', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
