@@ -21,7 +21,7 @@ const register = async function (server) {
       path: '/api/modules/{moduleSlug}/elements/{elementId}/answers',
       config: {
         auth: false,
-        handler: modulesController.validateAnswer,
+        handler: modulesController.verifyAnswer,
         validate: {
           params: Joi.object({
             moduleSlug: Joi.string().required(),

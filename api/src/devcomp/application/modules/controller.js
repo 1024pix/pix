@@ -9,14 +9,14 @@ const getBySlug = async function (request, h, dependencies = { moduleSerializer,
   return dependencies.moduleSerializer.serialize(module);
 };
 
-const validateAnswer = async function (request, h, dependencies = { elementAnswerSerializer, usecases }) {
+const verifyAnswer = async function (request, h, dependencies = { elementAnswerSerializer, usecases }) {
   const { moduleSlug, elementId } = request.params;
   const { 'user-response': userResponse } = request.payload.data.attributes;
-  const answer = await dependencies.usecases.validateAnswer({ moduleSlug, userResponse, elementId });
+  const answer = await dependencies.usecases.verifyAnswer({ moduleSlug, userResponse, elementId });
 
   return dependencies.elementAnswerSerializer.serialize(answer);
 };
 
-const modulesController = { getBySlug, validateAnswer };
+const modulesController = { getBySlug, verifyAnswer };
 
 export { modulesController };
