@@ -606,8 +606,9 @@ describe('Integration | Repository | Certification Center Membership', function 
         // given
         const certificationCenterMembershipId = 7;
         const userId = databaseBuilder.factory.buildUser().id;
+        const updatedByUserId = databaseBuilder.factory.buildUser().id;
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-        const certiciationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+        const certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
           id: certificationCenterMembershipId,
           userId,
           certificationCenterId,
@@ -618,12 +619,14 @@ describe('Integration | Repository | Certification Center Membership', function 
         // when
         await certificationCenterMembershipRepository.disableById({
           certificationCenterMembershipId,
+          updatedByUserId,
         });
 
         // then
         const updatedCertificationCenterMembership = await knex('certification-center-memberships').first();
-        expect(updatedCertificationCenterMembership.id).to.equal(certiciationCenterMembership.id);
+        expect(updatedCertificationCenterMembership.id).to.equal(certificationCenterMembership.id);
         expect(updatedCertificationCenterMembership.disabledAt).to.deep.equal(now);
+        expect(updatedCertificationCenterMembership.updatedByUserId).to.equal(updatedByUserId);
       });
     });
 

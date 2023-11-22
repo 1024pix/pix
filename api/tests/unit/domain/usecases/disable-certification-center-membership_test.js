@@ -12,16 +12,19 @@ describe('Unit | UseCase | disable-certification-center-membership', function ()
   it('should disable certification center membership', async function () {
     // given
     const certificationCenterMembershipId = 100;
+    const updatedByUserId = 10;
 
     // when
     await disableCertificationCenterMembership({
       certificationCenterMembershipId,
+      updatedByUserId,
       certificationCenterMembershipRepository,
     });
 
     // then
     expect(certificationCenterMembershipRepository.disableById).to.have.been.calledWithExactly({
       certificationCenterMembershipId,
+      updatedByUserId,
     });
   });
 });
