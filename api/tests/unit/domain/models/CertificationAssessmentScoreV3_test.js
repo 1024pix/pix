@@ -164,10 +164,10 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   });
 
   describe('status', function () {
-    describe('when a certification has 10 or more answers', function () {
+    describe('when a certification has config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification or more answers', function () {
       it('should be validated', function () {
         const difficulty = 0;
-        const numberOfChallenges = 10;
+        const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
@@ -193,10 +193,10 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       });
     });
 
-    describe('when a certification has less than 10 answers', function () {
+    describe('when a certification has less than config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification answers', function () {
       it('should be rejected', function () {
         const difficulty = 0;
-        const numberOfChallenges = 9;
+        const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
         flashAlgorithmService.getEstimatedLevelAndErrorRate
