@@ -1,9 +1,9 @@
 export const buildFlashAlgorithmConfiguration = ({
   warmUpLength,
-  forcedCompetences,
+  forcedCompetences = [],
   maximumAssessmentLength,
   challengesBetweenSameCompetence,
-  minimumEstimatedSuccessRateRanges,
+  minimumEstimatedSuccessRateRanges = [],
   limitToOneQuestionPerTube,
   enablePassageByAllCompetences,
   variationPercent,

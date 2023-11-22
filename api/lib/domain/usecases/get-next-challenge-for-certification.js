@@ -14,6 +14,7 @@ const getNextChallengeForCertification = async function ({
   locale,
   pickChallengeService,
   flashAlgorithmService,
+  flashAlgorithmConfigurationRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get(assessment.certificationCourseId);
 
@@ -48,7 +49,8 @@ const getNextChallengeForCertification = async function ({
       locale,
     });
 
-    const algorithmConfiguration = _createDefaultAlgorithmConfiguration();
+    const algorithmConfiguration =
+      (await flashAlgorithmConfigurationRepository.get()) ?? _createDefaultAlgorithmConfiguration();
 
     const assessmentAlgorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
