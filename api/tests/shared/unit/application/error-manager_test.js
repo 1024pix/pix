@@ -17,6 +17,7 @@ import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../../src/authentication/domain/errors.js';
+import { SessionStartedDeletionError } from '../../../../src/certification/session/domain/errors.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {
   describe('#handle', function () {
@@ -282,6 +283,19 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.BaseHttpError).to.have.been.calledOnce;
+    });
+
+    it('should instantiate ConflictError when SessionStartedDeletionError', async function () {
+      // given
+      const error = new SessionStartedDeletionError();
+      sinon.stub(HttpErrors, 'ConflictError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
     });
   });
 });
