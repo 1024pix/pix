@@ -83,43 +83,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#update', function () {
-    let request, updatedSession, updateSessionArgs;
-
-    beforeEach(function () {
-      request = {
-        auth: { credentials: { userId: 1 } },
-        params: { id: 1 },
-        payload: {},
-      };
-
-      updatedSession = {
-        id: request.params.id,
-      };
-
-      updateSessionArgs = {
-        userId: request.auth.credentials.userId,
-        session: updatedSession,
-      };
-
-      sinon.stub(usecases, 'updateSession');
-    });
-
-    it('should return the updated session', async function () {
-      // given
-      const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
-      sessionSerializer.deserialize.withArgs(request.payload).returns({});
-      usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
-      sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
-
-      // when
-      const response = await sessionController.update(request, hFake, { sessionSerializer });
-
-      // then
-      expect(response).to.deep.equal(updatedSession);
-    });
-  });
-
   describe('#importCertificationCandidatesFromCandidatesImportSheet', function () {
     const sessionId = 2;
     let request;
