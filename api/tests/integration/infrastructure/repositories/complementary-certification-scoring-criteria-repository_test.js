@@ -26,10 +26,11 @@ describe('Integration | Repository | complementary certification scoring criteri
         complementaryCertificationId: complementaryCertification1.id,
       });
 
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
+      const complementaryCertificationBadge2 = databaseBuilder.factory.buildComplementaryCertificationBadge({
         id: 768,
         badgeId: badge2.id,
         complementaryCertificationId: complementaryCertification2.id,
+        minimumEarnedPix: 70,
       });
 
       const complementaryCertificationCourse1 = databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -65,7 +66,7 @@ describe('Integration | Repository | complementary certification scoring criteri
           minimumReproducibilityRate: complementaryCertification2.minimumReproducibilityRate,
           complementaryCertificationBadgeKey: badge2.key,
           hasComplementaryReferential: complementaryCertification2.hasComplementaryReferential,
-          minimumEarnedPix: complementaryCertification2.minimumEarnedPix,
+          minimumEarnedPix: complementaryCertificationBadge2.minimumEarnedPix,
         }),
       ]);
     });

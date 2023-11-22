@@ -5,7 +5,7 @@ function buildComplementaryCertificationScoringCriteria({
   minimumReproducibilityRate = 70,
   complementaryCertificationBadgeKey = 'badge_key',
   hasComplementaryReferential = false,
-  minimumEarnedPix = null,
+  minimumEarnedPix = 0,
 } = {}) {
   return new ComplementaryCertificationScoringCriteria({
     complementaryCertificationCourseId,
