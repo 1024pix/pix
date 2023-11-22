@@ -3,6 +3,8 @@ import _ from 'lodash';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/index.js';
 import { CertificationAssessmentScoreV3 } from '../../../../lib/domain/models/CertificationAssessmentScoreV3.js';
+import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { config } from '../../../../src/shared/config.js';
 
 describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {
   const assessmentId = 1234;
@@ -158,6 +160,65 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
       // then
       expect(score.nbPix).to.equal(1024);
+    });
+  });
+
+  describe('status', function () {
+    describe('when a certification has 10 or more answers', function () {
+      it('should be validated', function () {
+        const difficulty = 0;
+        const numberOfChallenges = 10;
+        const challenges = _buildChallenges(difficulty, numberOfChallenges);
+        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+
+        flashAlgorithmService.getEstimatedLevelAndErrorRate
+          .withArgs(
+            _getEstimatedLevelAndErrorRateParams({
+              challenges,
+              allAnswers,
+              estimatedLevel: sinon.match.number,
+            }),
+          )
+          .returns({
+            estimatedLevel: 0,
+          });
+
+        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+          challenges,
+          allAnswers,
+          flashAlgorithmService,
+        });
+
+        expect(score.status).to.equal(status.VALIDATED);
+      });
+    });
+
+    describe('when a certification has less than 10 answers', function () {
+      it('should be rejected', function () {
+        const difficulty = 0;
+        const numberOfChallenges = 9;
+        const challenges = _buildChallenges(difficulty, numberOfChallenges);
+        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+        flashAlgorithmService.getEstimatedLevelAndErrorRate
+          .withArgs(
+            _getEstimatedLevelAndErrorRateParams({
+              challenges,
+              allAnswers,
+              estimatedLevel: sinon.match.number,
+            }),
+          )
+          .returns({
+            estimatedLevel: 0,
+          });
+
+        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+          challenges,
+          allAnswers,
+          flashAlgorithmService,
+        });
+
+        expect(score.status).to.equal(status.REJECTED);
+      });
     });
   });
 });
