@@ -1,6 +1,6 @@
 import { sinon, expect, domainBuilder, catchErr } from '../../../../test-helper.js';
 import { findCampaignParticipationTrainings } from '../../../../../src/devcomp/domain/usecases/find-campaign-participation-trainings.js';
-import { UserNotAuthorizedToFindTrainings } from '../../../../../lib/domain/errors.js';
+import { UserNotAuthorizedToFindTrainings } from '../../../../../src/devcomp/domain/errors.js';
 
 describe('Unit | UseCase | find-campaign-participation-trainings', function () {
   let campaignParticipationRepository;
