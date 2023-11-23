@@ -6,22 +6,22 @@
       "title": "Bien écrire son adresse mail",
       "grains": [
         {
-          "id": "z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
+          "id": "af860b1e-0566-4b06-bcb4-a68a5151d621",
           "type": "lesson",
           "title": "Explications : les parties d’une adresse mail",
           "elements": [
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
               "type": "text",
-              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>…</li></ul>"
+              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             {
-              "id": "d9e8a7b6-5c4d-3e2f-1a0b-9f8e7d6c5b4a",
+              "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
               "type": "text",
               "content": "<h3 class='screen-reader-only'>L'arobase</h3><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>"
             },
             {
-              "id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+              "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
               "type": "text",
               "content": "<h3 class='screen-reader-only'>Le fournisseur d’adresse mail</h3><h4><span aria-hidden='true'>2️⃣</span><span class='screen-reader-only'>2</span> Le fournisseur d’adresse mail est la deuxième partie de l’adresse mail.</h4><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p><span aria-hidden='true'>✅</span> Des exemples de fournisseurs d’adresses mail : </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p><span aria-hidden='true'>🧐</span> L’avez-vous remarqué ? Cette partie est en 2 morceaux : le nom du fournisseur (par exemple “laposte”) et une extension (dans notre exemple, “.net”).</p>"
             }
@@ -33,24 +33,24 @@
           "title": "Diversité des identifiants et des fournisseurs d’adresse mail",
           "elements": [
             {
-              "id": "z3b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p7",
+              "id": "29195dde-b603-488f-a554-f391fbdf3b24",
               "type": "qcu",
               "instruction": "<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>",
               "proposals": [
                 {
-                  "id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
+                  "id": "27244df5-7871-4096-b51d-8b1dbd65d2ad",
                   "content": "Vrai"
                 },
                 {
-                  "id": "b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6",
+                  "id": "d2c27595-39ed-4af6-8401-1a082874d97e",
                   "content": "Faux"
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>",
-                "invalid": "<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc…</li></ul>"
+                "valid": "<p>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
+                "invalid": "<p>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
               },
-              "solution": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6"
+              "solution": "27244df5-7871-4096-b51d-8b1dbd65d2ad"
             },
             {
               "id": "ba78dead-a806-4954-b408-e8ef28d28fab",
@@ -107,7 +107,7 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>et La Poste (laposte.net).</li><ul>",
+                "valid": "<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>et La Poste (laposte.net).</li></ul>",
                 "invalid": "<p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>de chez Free (free.fr)</li><li>ou de chez La Poste (laposte.net).</li></ul>"
               },
               "solution": "f56bb715-714e-4a94-ba34-eef5ccd755d0"
