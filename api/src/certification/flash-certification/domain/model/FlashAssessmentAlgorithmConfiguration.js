@@ -52,4 +52,46 @@ export class FlashAssessmentAlgorithmConfiguration {
     this.variationPercent = variationPercent;
     this.doubleMeasuresUntil = doubleMeasuresUntil;
   }
+
+  toDTO() {
+    return {
+      warmUpLength: this.warmUpLength,
+      forcedCompetences: JSON.stringify(this.forcedCompetences),
+      maximumAssessmentLength: this.maximumAssessmentLength,
+      challengesBetweenSameCompetence: this.challengesBetweenSameCompetence,
+      minimumEstimatedSuccessRateRanges: JSON.stringify(
+        this.minimumEstimatedSuccessRateRanges.map((successRateRange) => successRateRange.toDTO()),
+      ),
+      limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
+      enablePassageByAllCompetences: this.enablePassageByAllCompetences,
+      variationPercent: this.variationPercent,
+      doubleMeasuresUntil: this.doubleMeasuresUntil,
+    };
+  }
+
+  static fromDTO({
+    warmUpLength,
+    forcedCompetences,
+    maximumAssessmentLength,
+    challengesBetweenSameCompetence,
+    minimumEstimatedSuccessRateRanges,
+    limitToOneQuestionPerTube,
+    enablePassageByAllCompetences,
+    variationPercent,
+    doubleMeasuresUntil,
+  }) {
+    return new FlashAssessmentAlgorithmConfiguration({
+      warmUpLength,
+      forcedCompetences,
+      maximumAssessmentLength,
+      challengesBetweenSameCompetence,
+      minimumEstimatedSuccessRateRanges: minimumEstimatedSuccessRateRanges
+        ? minimumEstimatedSuccessRateRanges.map((config) => FlashAssessmentSuccessRateHandler.fromDTO(config))
+        : minimumEstimatedSuccessRateRanges,
+      limitToOneQuestionPerTube,
+      enablePassageByAllCompetences,
+      variationPercent,
+      doubleMeasuresUntil,
+    });
+  }
 }

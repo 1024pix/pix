@@ -1,6 +1,5 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import * as flashAlgorithmConfigurationRepository from '../../../../../../../api/src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 describe('Integration | Infrastructure | Repository | FlashAlgorithmConfigurationRepository', function () {
   describe('#save', function () {
@@ -125,7 +124,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
           enablePassageByAllCompetences: false,
         });
 
-        const expectedFlashAlgorithmConfiguration = new FlashAssessmentAlgorithmConfiguration({
+        const expectedFlashAlgorithmConfiguration = domainBuilder.buildFlashAlgorithmConfiguration({
           ...flashAlgorithmConfiguration,
           forcedCompetences: JSON.parse(flashAlgorithmConfiguration.forcedCompetences),
           minimumEstimatedSuccessRateRanges: JSON.parse(flashAlgorithmConfiguration.minimumEstimatedSuccessRateRanges),
@@ -137,7 +136,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         const configResult = await flashAlgorithmConfigurationRepository.get();
 
         // then
-        expect(configResult).to.deep.equal(expectedFlashAlgorithmConfiguration);
+        expect(configResult.toDTO()).to.deep.equal(expectedFlashAlgorithmConfiguration.toDTO());
       });
     });
 
