@@ -6,4 +6,11 @@ export class FlashAssessmentSuccessRateHandlerFixedStrategy {
   getMinimalSuccessRate() {
     return this.value;
   }
+
+  toDTO() {
+    return {
+      type: 'fixed',
+      value: this.value,
+    };
+  }
 }

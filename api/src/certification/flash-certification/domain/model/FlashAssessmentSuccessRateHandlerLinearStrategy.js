@@ -11,4 +11,12 @@ export class FlashAssessmentSuccessRateHandlerLinearStrategy {
 
     return this.startingValue + successRateSlope * (challengeIndex - startingChallengeIndex);
   }
+
+  toDTO() {
+    return {
+      type: 'linear',
+      startingValue: this.startingValue,
+      endingValue: this.endingValue,
+    };
+  }
 }

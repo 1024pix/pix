@@ -46,6 +46,18 @@ class FlashAssessmentSuccessRateHandler {
       }),
     });
   }
+
+  toDTO() {
+    return {
+      startingChallengeIndex: this.startingChallengeIndex,
+      endingChallengeIndex: this.endingChallengeIndex,
+      ...this._strategy.toDTO(),
+    };
+  }
+
+  static fromDTO(config) {
+    return FlashAssessmentSuccessRateHandler.create(config);
+  }
 }
 
 export { FlashAssessmentSuccessRateHandler };

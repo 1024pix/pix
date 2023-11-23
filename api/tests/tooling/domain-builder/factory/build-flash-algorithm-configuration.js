@@ -1,4 +1,5 @@
 import { FlashAssessmentSuccessRateHandler } from '../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 export const buildFlashAlgorithmConfiguration = ({
   warmUpLength,
@@ -11,7 +12,7 @@ export const buildFlashAlgorithmConfiguration = ({
   variationPercent,
   doubleMeasuresUntil,
 } = {}) => {
-  return {
+  return new FlashAssessmentAlgorithmConfiguration({
     warmUpLength,
     forcedCompetences,
     maximumAssessmentLength,
@@ -23,5 +24,5 @@ export const buildFlashAlgorithmConfiguration = ({
     enablePassageByAllCompetences,
     variationPercent,
     doubleMeasuresUntil,
-  };
+  });
 };
