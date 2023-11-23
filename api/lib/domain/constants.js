@@ -25,6 +25,8 @@ const MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL = 2;
 const ALL_TREATMENTS = ['t1', 't2', 't3'];
 const PIX_ORIGIN = 'Pix';
 
+const AUTONOMOUS_COURSES_ORGANIZATION_ID = config.autonomousCourse.autonomousCoursesOrganizationId;
+
 const PIX_CERTIF = {
   SCOPE: 'pix-certif',
   NOT_LINKED_CERTIFICATION_MSG:
@@ -120,6 +122,7 @@ const constants = {
   OIDC_ERRORS,
   CERTIFICATION_CENTER_TYPES,
   ORGANIZATION_FEATURE,
+  AUTONOMOUS_COURSES_ORGANIZATION_ID,
 };
 
 export {
