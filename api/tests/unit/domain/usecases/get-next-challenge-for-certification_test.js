@@ -426,90 +426,114 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
       });
 
       context('when loading a configuration', function () {
-        it('should use the configuration', async function () {
-          //given
-          flashAlgorithmConfigurationRepository.get.reset();
-          const configuration = domainBuilder.buildFlashAlgorithmConfiguration({
-            variationPercent: 20,
-          });
-          flashAlgorithmConfigurationRepository.get.resolves(configuration);
+        const competenceId = 'cmp1';
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        Object.entries({
+          forcedCompetences: [competenceId],
+          challengesBetweenSameCompetence: 2,
+          minimumEstimatedSuccessRateRanges: [
+            {
+              type: 'fixed',
+              startingChallengeIndex: 0,
+              endingChallengeIndex: 10,
+              value: 0.1,
+            },
+          ],
+          limitToOneQuestionPerTube: true,
+          enablePassageByAllCompetences: true,
+          variationPercent: 20,
+        })
+          .map(([key, value]) => ({
+            [key]: value,
+          }))
+          .forEach((flashConfiguration) => {
+            it('should use the configuration', async function () {
+              //given
+              const nextChallengeToAnswer = domainBuilder.buildChallenge({
+                competenceId,
+              });
+              flashAlgorithmConfigurationRepository.get.reset();
+              const configuration = domainBuilder.buildFlashAlgorithmConfiguration(flashConfiguration);
+              flashAlgorithmConfigurationRepository.get.resolves(configuration);
 
-          const nextChallengeToAnswer = domainBuilder.buildChallenge();
-          const v3CertificationCourse = domainBuilder.buildCertificationCourse({
-            version: CertificationVersion.V3,
-          });
-          const assessment = domainBuilder.buildAssessment();
-          const locale = 'fr-FR';
+              const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+                version: CertificationVersion.V3,
+              });
+              const assessment = domainBuilder.buildAssessment();
+              const locale = 'fr-FR';
 
-          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
-          certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
-            .withArgs(assessment.id)
-            .resolves([]);
+              answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+              certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+                .withArgs(assessment.id)
+                .resolves([]);
 
-          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
-          certificationChallengeRepository.getNextChallengeByCourseIdForV3
-            .withArgs(assessment.certificationCourseId, [])
-            .resolves(null);
-          challengeRepository.get.resolves();
-          algorithmDataFetcherService.fetchForFlashCampaigns
-            .withArgs({
-              answerRepository,
-              challengeRepository,
-              flashAssessmentResultRepository,
-              assessmentId: assessment.id,
-              locale,
-            })
-            .resolves({
-              allAnswers: [],
-              challenges: [nextChallengeToAnswer],
-              estimatedLevel: 0,
+              certificationCourseRepository.get
+                .withArgs(assessment.certificationCourseId)
+                .resolves(v3CertificationCourse);
+              certificationChallengeRepository.getNextChallengeByCourseIdForV3
+                .withArgs(assessment.certificationCourseId, [])
+                .resolves(null);
+              challengeRepository.get.resolves();
+              algorithmDataFetcherService.fetchForFlashCampaigns
+                .withArgs({
+                  answerRepository,
+                  challengeRepository,
+                  flashAssessmentResultRepository,
+                  assessmentId: assessment.id,
+                  locale,
+                })
+                .resolves({
+                  allAnswers: [],
+                  challenges: [nextChallengeToAnswer],
+                  estimatedLevel: 0,
+                });
+
+              flashAlgorithmService.getEstimatedLevelAndErrorRate
+                .withArgs({
+                  allAnswers: [],
+                  challenges: [nextChallengeToAnswer],
+                  estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+                  variationPercent: configuration.variationPercent,
+                  doubleMeasuresUntil: undefined,
+                })
+                .returns({ estimatedLevel: 0 });
+
+              flashAlgorithmService.getPossibleNextChallenges
+                .withArgs({
+                  availableChallenges: [nextChallengeToAnswer],
+                  estimatedLevel: 0,
+                  options: sinon.match.any,
+                })
+                .returns([nextChallengeToAnswer]);
+
+              const chooseNextChallengeImpl = sinon.stub();
+              chooseNextChallengeImpl
+                .withArgs({
+                  possibleChallenges: [nextChallengeToAnswer],
+                })
+                .returns(nextChallengeToAnswer);
+              pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+
+              // when
+              const challenge = await getNextChallengeForCertification({
+                algorithmDataFetcherService,
+                assessment,
+                answerRepository,
+                challengeRepository,
+                flashAssessmentResultRepository,
+                pickChallengeService,
+                certificationCourseRepository,
+                certificationChallengeRepository,
+                certificationChallengeLiveAlertRepository,
+                locale,
+                flashAlgorithmService,
+                flashAlgorithmConfigurationRepository,
+              });
+
+              // then
+              expect(challenge).to.equal(nextChallengeToAnswer);
             });
-
-          flashAlgorithmService.getEstimatedLevelAndErrorRate
-            .withArgs({
-              allAnswers: [],
-              challenges: [nextChallengeToAnswer],
-              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
-              variationPercent: configuration.variationPercent,
-              doubleMeasuresUntil: undefined,
-            })
-            .returns({ estimatedLevel: 0 });
-
-          flashAlgorithmService.getPossibleNextChallenges
-            .withArgs({
-              availableChallenges: [nextChallengeToAnswer],
-              estimatedLevel: 0,
-              options: sinon.match.any,
-            })
-            .returns([nextChallengeToAnswer]);
-
-          const chooseNextChallengeImpl = sinon.stub();
-          chooseNextChallengeImpl
-            .withArgs({
-              possibleChallenges: [nextChallengeToAnswer],
-            })
-            .returns(nextChallengeToAnswer);
-          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
-
-          // when
-          const challenge = await getNextChallengeForCertification({
-            algorithmDataFetcherService,
-            assessment,
-            answerRepository,
-            challengeRepository,
-            flashAssessmentResultRepository,
-            pickChallengeService,
-            certificationCourseRepository,
-            certificationChallengeRepository,
-            certificationChallengeLiveAlertRepository,
-            locale,
-            flashAlgorithmService,
-            flashAlgorithmConfigurationRepository,
           });
-
-          // then
-          expect(challenge).to.equal(nextChallengeToAnswer);
-        });
       });
     });
   });
