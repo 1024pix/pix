@@ -5,14 +5,21 @@ export class FlashAssessmentAlgorithmRuleEngine {
   }
 
   execute({ assessmentAnswers, allChallenges }) {
-    const applicableRules = this._getApplicableRules();
+    const applicableRules = this._getApplicableRules({
+      answers: assessmentAnswers,
+    });
 
     return applicableRules.reduce((availableChallenges, rule) => {
       return rule.execute({ assessmentAnswers, allChallenges, availableChallenges });
     }, allChallenges);
   }
 
-  _getApplicableRules() {
-    return this._availableRules.filter((rule) => rule.isApplicable(this._configuration));
+  _getApplicableRules({ answers }) {
+    return this._availableRules.filter((rule) =>
+      rule.isApplicable({
+        answers,
+        ...this._configuration,
+      }),
+    );
   }
 }

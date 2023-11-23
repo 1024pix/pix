@@ -1,3 +1,5 @@
+import { FlashAssessmentSuccessRateHandler } from '../../../../src/certification/flash-certification/domain/model/FlashAssessmentSuccessRateHandler.js';
+
 export const buildFlashAlgorithmConfiguration = ({
   warmUpLength,
   forcedCompetences = [],
@@ -14,7 +16,9 @@ export const buildFlashAlgorithmConfiguration = ({
     forcedCompetences,
     maximumAssessmentLength,
     challengesBetweenSameCompetence,
-    minimumEstimatedSuccessRateRanges,
+    minimumEstimatedSuccessRateRanges: minimumEstimatedSuccessRateRanges.map((successRateConfig) =>
+      FlashAssessmentSuccessRateHandler.create(successRateConfig),
+    ),
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
     variationPercent,
