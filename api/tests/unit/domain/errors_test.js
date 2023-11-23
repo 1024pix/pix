@@ -80,10 +80,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
-  it('should export a UserNotAuthorizedToFindTrainings', function () {
-    expect(errors.UserNotAuthorizedToFindTrainings).to.exist;
-  });
-
   it('should export a SiecleXmlImportError', function () {
     expect(errors.SiecleXmlImportError).to.exist;
   });

@@ -271,12 +271,6 @@ class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToFindTrainings extends DomainError {
-  constructor(message = "Cet utilisateur n'est pas autorisé à récupérer les formations.") {
-    super(message);
-  }
-}
-
 class UserShouldNotBeReconciledOnAnotherAccountError extends DomainError {
   constructor({ message = "Cet utilisateur n'est pas autorisé à se réconcilier avec ce compte", code, meta }) {
     super(message);
@@ -1331,7 +1325,6 @@ export {
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateResourceError,
-  UserNotAuthorizedToFindTrainings,
   UserNotAuthorizedToGenerateUsernamePasswordError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToRemoveAuthenticationMethod,
