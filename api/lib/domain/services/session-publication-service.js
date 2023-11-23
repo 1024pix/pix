@@ -1,3 +1,6 @@
+/**
+ * @typedef {import ('../../../lib/domain/usecases/index.js').dependencies} deps
+ */
 import {
   SendingEmailToResultRecipientError,
   SessionAlreadyPublishedError,
@@ -10,6 +13,12 @@ const { some, uniqBy } = lodash;
 
 import { logger } from '../../infrastructure/logger.js';
 
+/**
+ * @param {Object} params
+ * @param {deps['certificationRepository']} params.certificationRepository
+ * @param {deps['finalizedSessionRepository']} params.finalizedSessionRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ */
 async function publishSession({
   publishedAt = new Date(),
   sessionId,
@@ -31,6 +40,13 @@ async function publishSession({
   return session;
 }
 
+/**
+ * @param {Object} params
+ * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {Object} params.dependencies
+ * @param {deps['mailService']} params.dependencies.mailService
+ */
 async function manageEmails({
   i18n,
   session,
@@ -82,6 +98,10 @@ async function manageEmails({
   }
 }
 
+/**
+ * @param {Object} params
+ * @param {deps['mailService']} params.mailService
+ */
 async function _sendPrescriberEmails({ session, mailService, i18n }) {
   const recipientEmails = _distinctCandidatesResultRecipientEmails(session.certificationCandidates);
 
