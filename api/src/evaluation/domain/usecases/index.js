@@ -8,6 +8,7 @@ import * as areaRepository from '../../../../lib/infrastructure/repositories/are
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
+import { repositories } from '../../infrastructure/repositories/index.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
@@ -16,6 +17,7 @@ import * as stageCollectionForTargetProfileRepository from '../../infrastructure
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
+import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
 import * as scorecardService from '../services/scorecard-service.js';
 
@@ -31,6 +33,7 @@ const dependencies = {
   assessmentRepository,
   campaignRepository,
   campaignParticipationRepository,
+  autonomousCourseRepository: repositories.autonomousCourseRepository,
   competenceEvaluationRepository,
   competenceRepository,
   knowledgeElementRepository,
@@ -39,6 +42,7 @@ const dependencies = {
   feedbackRepository,
   stageRepository,
   targetProfileForAdminRepository,
+  targetProfileRepository,
   getCompetenceLevel,
   scorecardService,
 };

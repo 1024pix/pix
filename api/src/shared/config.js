@@ -348,6 +348,9 @@ const configuration = (function () {
       challengesBetweenSameCompetence: 2,
     },
     version: process.env.CONTAINER_VERSION || 'development',
+    autonomousCourse: {
+      autonomousCoursesOrganizationId: parseInt(process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID, 10),
+    },
   };
 
   if (config.environment === 'development') {
