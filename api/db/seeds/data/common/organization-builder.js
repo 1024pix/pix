@@ -11,6 +11,7 @@ import {
   SUP_ORGANIZATION_USER_ID,
   SUP_MANAGING_ORGANIZATION_ID,
   SCO_MANAGING_ORGANIZATION_ID,
+  FEATURE_PLACES_MANAGEMENT_ID,
 } from './constants.js';
 
 import { organization } from './tooling/index.js';
@@ -76,7 +77,7 @@ async function _createProOrganization(databaseBuilder) {
     externalId: 'PRO_NOT_MANAGING',
     adminIds: [PRO_ORGANIZATION_USER_ID],
     memberIds: [ALL_ORGANIZATION_USER_ID],
-    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID],
+    featureIds: [FEATURE_MULTIPLE_SENDING_ASSESSMENT_ID, FEATURE_PLACES_MANAGEMENT_ID],
   });
 }
 
