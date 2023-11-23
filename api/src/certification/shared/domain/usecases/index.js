@@ -26,6 +26,7 @@ import * as sessionCodeService from '../../../session/domain/services/session-co
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as sessionForInvigilatorKitRepository from '../../../session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
+import * as cpfExportRepository from '../../../session/infrastructure/repositories/cpf-export-repository.js';
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
@@ -94,6 +95,7 @@ const dependencies = {
   sessionForAttendanceSheetRepository,
   sessionForInvigilatorKitRepository,
   cpfCertificationResultRepository,
+  cpfExportRepository,
   sessionRepository,
   sessionValidator,
   userRepository,
