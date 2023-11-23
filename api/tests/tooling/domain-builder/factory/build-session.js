@@ -21,6 +21,7 @@ const buildSession = function ({
   supervisorPassword = 'PIX12',
   certificationCandidates = [],
   version = 2,
+  createdBy = null,
 } = {}) {
   return new Session({
     id,
@@ -43,6 +44,7 @@ const buildSession = function ({
     supervisorPassword,
     certificationCandidates,
     version,
+    createdBy,
   });
 };
 
@@ -59,6 +61,7 @@ buildSession.created = function ({
   time,
   certificationCandidates,
   version = 2,
+  createBy,
 } = {}) {
   return buildSession({
     id,
@@ -80,6 +83,7 @@ buildSession.created = function ({
     publishedAt: null,
     assignedCertificationOfficerId: null,
     version,
+    createBy,
   });
 };
 
@@ -95,6 +99,7 @@ buildSession.finalized = function ({
   room,
   time,
   certificationCandidates,
+  createBy,
 } = {}) {
   return buildSession({
     id,
@@ -115,6 +120,7 @@ buildSession.finalized = function ({
     resultsSentToPrescriberAt: null,
     publishedAt: null,
     assignedCertificationOfficerId: null,
+    createBy,
   });
 };
 
@@ -130,6 +136,7 @@ buildSession.inProcess = function ({
   room,
   time,
   certificationCandidates,
+  createBy,
 } = {}) {
   return buildSession({
     id,
@@ -150,6 +157,7 @@ buildSession.inProcess = function ({
     resultsSentToPrescriberAt: null,
     publishedAt: null,
     assignedCertificationOfficerId: 123,
+    createBy,
   });
 };
 
@@ -165,6 +173,7 @@ buildSession.processed = function ({
   room,
   time,
   certificationCandidates,
+  createBy,
 } = {}) {
   return buildSession({
     id,
@@ -185,6 +194,7 @@ buildSession.processed = function ({
     resultsSentToPrescriberAt: new Date('2020-01-02'),
     publishedAt: new Date('2020-01-02'),
     assignedCertificationOfficerId: 123,
+    createBy,
   });
 };
 
