@@ -208,6 +208,18 @@ function requirePoleEmploiNotifier() {
   }
 }
 
+/**
+ * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
+ *
+ * @typedef {{
+ *  certificationCenterRepository : certificationCenterRepository,
+ *  certificationRepository : certificationRepository,
+ *  finalizedSessionRepository : finalizedSessionRepository,
+ *  mailService : mailService,
+ *  sessionPublicationService : sessionPublicationService,
+ *  sessionRepository : sessionRepository,
+ * }} dependencies
+ */
 const dependencies = {
   accountRecoveryDemandRepository,
   activityAnswerRepository,
