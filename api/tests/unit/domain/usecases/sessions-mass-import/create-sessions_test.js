@@ -34,13 +34,13 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
     it('should throw a NotFound error', async function () {
       // given
       temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(undefined);
-      const userId = 1234;
+      const sessionCreatorId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
 
       // when
       const error = await catchErr(createSessions)({
         cachedValidatedSessionsKey,
-        userId,
+        userId: sessionCreatorId,
         ...dependencies,
       });
 
@@ -73,7 +73,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             },
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-          const userId = 1234;
+          const sessionCreatorId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -82,13 +82,13 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // when
           await createSessions({
             cachedValidatedSessionsKey,
-            userId,
+            userId: sessionCreatorId,
             certificationCenterId: certificationCenter.id,
             ...dependencies,
           });
 
           // then
-          const expectedSession = new Session({ ...temporaryCachedSessions[0] });
+          const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
           expect(certificationCandidateRepository.saveInSession).to.not.have.been.called;
         });
@@ -97,14 +97,15 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       context('when session has at least one candidate', function () {
         it('should save the session and the candidates', async function () {
           // given
-          const certificationCenter = new CertificationCenter();
+          const certificationCenter = new CertificationCenter({ id: 567 });
           certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: undefined });
+          const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
               id: undefined,
               certificationCenter: 'Centre de Certifix',
-              certificationCenterId: 567,
+              certificationCenterId: certificationCenter.id,
               address: 'Site 1',
               room: 'Salle 1',
               date: '2023-03-12',
@@ -114,10 +115,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               supervisorPassword: 'Y722G',
               accessCode: 'accessCode',
               certificationCandidates: [certificationCandidate],
+              createdBy: sessionCreatorId,
             },
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-          const userId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -126,13 +127,13 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // when
           await createSessions({
             cachedValidatedSessionsKey,
-            userId,
+            userId: sessionCreatorId,
             certificationCenterId: certificationCenter.id,
             ...dependencies,
           });
 
           // then
-          const expectedSession = new Session({ ...temporaryCachedSessions[0] });
+          const expectedSession = new Session({ ...temporaryCachedSessions[0], createdBy: sessionCreatorId });
           expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
           expect(certificationCandidateRepository.saveInSession).to.have.been.calledOnceWith({
             sessionId: 1234,
@@ -147,6 +148,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // given
           const certificationCenter = new CertificationCenter({ id: 567, isV3Pilot: true });
           certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
+          const sessionCreatorId = 1234;
           const temporaryCachedSessions = [
             {
               id: undefined,
@@ -161,10 +163,10 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               supervisorPassword: 'Y722G',
               accessCode: 'accessCode',
               certificationCandidates: [],
+              createdBy: sessionCreatorId,
             },
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-          const userId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -173,13 +175,17 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // when
           await createSessions({
             cachedValidatedSessionsKey,
-            userId,
+            userId: sessionCreatorId,
             certificationCenterId: certificationCenter.id,
             ...dependencies,
           });
 
           // then
-          const expectedSession = new Session({ ...temporaryCachedSessions[0], version: CertificationVersion.V3 });
+          const expectedSession = new Session({
+            ...temporaryCachedSessions[0],
+            version: CertificationVersion.V3,
+            createdBy: sessionCreatorId,
+          });
           expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
         });
       });
@@ -187,6 +193,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       context('when certification center is not V3 Pilot', function () {
         it('should save the session with the V2 version', async function () {
           // given
+          const sessionCreatorId = 1234;
           const certificationCenter = new CertificationCenter({ id: 567, isV3Pilot: false });
           certificationCenterRepository.get.withArgs(certificationCenter.id).resolves(certificationCenter);
           const temporaryCachedSessions = [
@@ -203,10 +210,11 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               supervisorPassword: 'Y722G',
               accessCode: 'accessCode',
               certificationCandidates: [],
+              createdBy: sessionCreatorId,
             },
           ];
           temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-          const userId = 1234;
+
           const cachedValidatedSessionsKey = 'uuid';
           const domainTransaction = Symbol('trx');
           sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -215,13 +223,17 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           // when
           await createSessions({
             cachedValidatedSessionsKey,
-            userId,
+            userId: sessionCreatorId,
             certificationCenterId: certificationCenter.id,
             ...dependencies,
           });
 
           // then
-          const expectedSession = new Session({ ...temporaryCachedSessions[0], version: CertificationVersion.V2 });
+          const expectedSession = new Session({
+            ...temporaryCachedSessions[0],
+            version: CertificationVersion.V2,
+            createdBy: sessionCreatorId,
+          });
           expect(sessionRepository.save).to.have.been.calledOnceWith(expectedSession, domainTransaction);
         });
       });
@@ -240,7 +252,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           },
         ];
         temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-        const userId = 1234;
+        const sessionCreatorId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
         const domainTransaction = Symbol('trx');
         sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -248,7 +260,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         // when
         await createSessions({
           cachedValidatedSessionsKey,
-          userId,
+          userId: sessionCreatorId,
           certificationCenterId: certificationCenter.id,
           ...dependencies,
         });
@@ -278,7 +290,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
         },
       ];
       temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(temporaryCachedSessions);
-      const userId = 1234;
+      const sessionCreatorId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
       const domainTransaction = Symbol('trx');
       sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => lambda(domainTransaction));
@@ -286,7 +298,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       // when
       await createSessions({
         cachedValidatedSessionsKey,
-        userId,
+        userId: sessionCreatorId,
         certificationCenterId: certificationCenter.id,
         ...dependencies,
       });
@@ -294,7 +306,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
       // then
       expect(temporarySessionsStorageForMassImportService.remove).to.have.been.calledOnceWith({
         cachedValidatedSessionsKey,
-        userId,
+        userId: sessionCreatorId,
       });
     });
   });
