@@ -1,4 +1,4 @@
-<tr>
+<tr aria-label="Informations du Centre de certification {{@certificationCenterMembership.certificationCenter.name}}">
   <td>{{@certificationCenterMembership.id}}</td>
   <td class="table__column table__column--id">
     <LinkTo
@@ -11,10 +11,22 @@
   <td>{{@certificationCenterMembership.certificationCenter.name}}</td>
   <td>{{@certificationCenterMembership.certificationCenter.type}}</td>
   <td>{{@certificationCenterMembership.certificationCenter.externalId}}</td>
-  <td>{{t @certificationCenterMembership.roleLabelKey}}</td>
+  <td>
+    <Users::CertificationCenters::MembershipItemRole
+      @isEditionMode={{this.isEditionMode}}
+      @certificationCenterRoles={{this.certificationCenterRoles}}
+      @role={{@certificationCenterMembership.role}}
+      @roleLabelKey={{@certificationCenterMembership.roleLabelKey}}
+      @onRoleSelected={{this.onRoleSelected}}
+    />
+  </td>
   <td>
     <Users::CertificationCenters::MembershipItemActions
+      @isEditionMode={{this.isEditionMode}}
       @onDeactivateMembershipButtonClicked={{fn @disableCertificationCenterMembership @certificationCenterMembership}}
+      @onEditRoleButtonClicked={{this.editMembershipRole}}
+      @onSaveRoleButtonClicked={{this.saveMembershipRole}}
+      @onCancelButtonClicked={{this.cancelMembershipRoleEditing}}
     />
   </td>
 </tr>

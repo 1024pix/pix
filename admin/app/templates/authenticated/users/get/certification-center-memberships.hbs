@@ -1,6 +1,7 @@
 <section class="page-section">
   <Users::CertificationCenters::Memberships
     @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+    @onCertificationCenterMembershipRoleChange={{this.updateCertificationCenterMembershipRole}}
     @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
   />
 </section>

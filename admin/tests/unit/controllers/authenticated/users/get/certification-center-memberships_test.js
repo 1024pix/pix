@@ -10,6 +10,7 @@ module('Unit | Controller | authenticated/users/get/certification-center-members
   hooks.beforeEach(function () {
     UserCertificationCenterMembership = {
       destroyRecord: sinon.stub(),
+      save: sinon.stub(),
       rollbackAttributes: sinon.stub(),
     };
     notifications = {
@@ -50,6 +51,46 @@ module('Unit | Controller | authenticated/users/get/certification-center-members
         // then
         sinon.assert.calledOnce(UserCertificationCenterMembership.destroyRecord);
         sinon.assert.notCalled(controller.notifications.success);
+        sinon.assert.calledOnce(controller.notifications.error);
+        assert.ok(true);
+      });
+    });
+  });
+
+  module('#updateCertificationCenterMembershipRole', function () {
+    module('when users certification center membership is disabled', function () {
+      test('it calls success method from notifications service', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/users/get/certification-center-memberships');
+        controller.notifications = notifications;
+        UserCertificationCenterMembership.save.resolves();
+
+        // when
+        await controller.updateCertificationCenterMembershipRole(UserCertificationCenterMembership);
+
+        // then
+        sinon.assert.calledOnce(UserCertificationCenterMembership.save);
+        sinon.assert.calledOnce(controller.notifications.success);
+        sinon.assert.notCalled(UserCertificationCenterMembership.rollbackAttributes);
+        sinon.assert.notCalled(controller.notifications.error);
+        assert.ok(true);
+      });
+    });
+
+    module('when an error occurs during a user certification center membership deactivation', function () {
+      test('it calls error method from notifications service', async function (assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/users/get/certification-center-memberships');
+        controller.notifications = notifications;
+        UserCertificationCenterMembership.save.rejects();
+
+        // when
+        await controller.updateCertificationCenterMembershipRole(UserCertificationCenterMembership);
+
+        // then
+        sinon.assert.calledOnce(UserCertificationCenterMembership.save);
+        sinon.assert.notCalled(controller.notifications.success);
+        sinon.assert.calledOnce(UserCertificationCenterMembership.rollbackAttributes);
         sinon.assert.calledOnce(controller.notifications.error);
         assert.ok(true);
       });

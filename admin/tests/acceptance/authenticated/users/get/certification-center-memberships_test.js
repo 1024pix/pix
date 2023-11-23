@@ -1,4 +1,5 @@
 import { module, test } from 'qunit';
+import { click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, clickByName } from '@1024pix/ember-testing-library';
@@ -70,5 +71,69 @@ module('Acceptance | authenticated/users/get/certification-center-memberships', 
     // then
     assert.dom(screen.getByText('Le membre a correctement été désactivé.')).exists();
     assert.dom(screen.queryByText('Chainsaw Center')).doesNotExist();
+  });
+
+  module('when editing the user certification center membership role', function () {
+    module('when certification center membership role is successfully updated', function () {
+      test('it displays a success notification and the new role', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const user = server.create('user', { firstName: 'Roronoa', lastName: 'Zoro' });
+        const certificationCenter = server.create('certification-center', {
+          name: 'Mugiwara Center',
+          externalId: 'ABCDEF',
+          type: 'SCO',
+        });
+        server.create('certification-center-membership', {
+          certificationCenter,
+          role: 'MEMBER',
+          user,
+        });
+
+        // when
+        const screen = await visit(`/users/${user.id}/certification-center-memberships`);
+        await clickByName('Modifier le rôle');
+        await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Administrateur' }));
+        await clickByName('Enregistrer');
+
+        // then
+        assert.dom(screen.getByText('Le rôle du membre a été modifié.')).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Administrateur' })).exists();
+      });
+    });
+
+    module('when an error occurs during an update of certification center membership role', function () {
+      test('it displays an error notification and the current role', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        const user = server.create('user', { firstName: 'Gilles', lastName: 'Parbal' });
+        const certificationCenter = server.create('certification-center', {
+          name: 'Center 1',
+          externalId: 'ABCDEF',
+          type: 'SCO',
+        });
+        server.create('certification-center-membership', {
+          certificationCenter,
+          role: 'MEMBER',
+          user,
+        });
+
+        // when
+        const screen = await visit(`/users/${user.id}/certification-center-memberships`);
+        await clickByName('Modifier le rôle');
+        await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+        await screen.findByRole('listbox');
+        await click(screen.getByRole('option', { name: 'Administrateur' }));
+        await clickByName('Enregistrer');
+
+        // then
+        assert.dom(screen.getByText("Une erreur est survenue, le rôle du membre n'a pas été modifié.")).exists();
+        assert.dom(screen.getByRole('cell', { name: 'Membre' })).exists();
+      });
+    });
   });
 });

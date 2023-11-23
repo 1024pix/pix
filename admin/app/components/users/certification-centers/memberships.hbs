@@ -21,6 +21,7 @@
           {{#each this.orderedCertificationCenterMemberships as |certificationCenterMembership|}}
             <Users::CertificationCenters::MembershipItem
               @certificationCenterMembership={{certificationCenterMembership}}
+              @onCertificationCenterMembershipRoleChange={{@onCertificationCenterMembershipRoleChange}}
               @disableCertificationCenterMembership={{@disableCertificationCenterMembership}}
             />
           {{/each}}
