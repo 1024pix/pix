@@ -1,5 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 import { QCU } from '../../../domain/models/element/QCU.js';
+import { Image } from '../../../domain/models/element/Image.js';
 
 const { Serializer } = jsonapiSerializer;
 
@@ -20,6 +21,11 @@ function serialize(module) {
                   ...element,
                   type: 'qcus',
                 };
+              } else if (element instanceof Image) {
+                return {
+                  ...element,
+                  type: 'images',
+                };
               }
               return {
                 ...element,
@@ -38,7 +44,16 @@ function serialize(module) {
       elements: {
         ref: 'id',
         includes: true,
-        attributes: ['content', 'instruction', 'proposals', 'type', 'isAnswerable'],
+        attributes: [
+          'content',
+          'instruction',
+          'proposals',
+          'type',
+          'url',
+          'alt',
+          'alternativeInstruction',
+          'isAnswerable',
+        ],
       },
     },
     typeForAttribute(attribute, { type }) {
