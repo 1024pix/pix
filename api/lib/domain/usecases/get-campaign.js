@@ -1,4 +1,4 @@
-import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
 
 const getCampaign = async function ({
   campaignId,
@@ -9,18 +9,6 @@ const getCampaign = async function ({
   stageCollectionRepository,
 }) {
   const integerCampaignId = parseInt(campaignId);
-  if (!Number.isFinite(integerCampaignId)) {
-    throw new NotFoundError(`Campaign not found for ID ${campaignId}`);
-  }
-
-  const userHasAccessToCampaign = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
-    campaignId,
-    userId,
-  );
-  if (!userHasAccessToCampaign) {
-    throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
-  }
-
   const campaignReport = await campaignReportRepository.get(integerCampaignId);
 
   if (campaignReport.isAssessment) {

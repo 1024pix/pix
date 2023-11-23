@@ -44,3 +44,8 @@ export const save = async (campaign) => {
 
   return new SavedCampaign(savedCampaign);
 };
+
+
+export const get = async (campaignId) => {
+  return null;
+};
