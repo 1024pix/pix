@@ -1,18 +1,18 @@
 import _ from 'lodash';
-import { knex } from '../../../db/knex-database-connection.js';
-import { NotFoundError } from '../../domain/errors.js';
-import { LOCALE } from '../../../src/shared/domain/constants.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { LOCALE } from '../../domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
-import * as areaRepository from './area-repository.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as thematicRepository from './thematic-repository.js';
-import * as tubeRepository from './tube-repository.js';
-import * as skillRepository from './skill-repository.js';
-import { TargetProfileForAdmin } from '../../domain/models/index.js';
-import { StageCollection } from '../../../src/shared/domain/models/target-profile-management/StageCollection.js';
-import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
+import * as areaRepository from '../../../../lib/infrastructure/repositories/area-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as thematicRepository from '../../../../lib/infrastructure/repositories/thematic-repository.js';
+import * as tubeRepository from '../../../../lib/infrastructure/repositories/tube-repository.js';
+import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
+import { TargetProfileForAdmin } from '../../../../lib/domain/models/index.js';
+import { StageCollection } from '../../domain/models/target-profile-management/StageCollection.js';
+import { BadgeDetails, BadgeCriterion, CappedTube, SCOPES } from '../../../../lib/domain/models/BadgeDetails.js';
 
 const get = async function ({ id, locale = FRENCH_FRANCE }) {
   const targetProfileDTO = await knex('target-profiles')

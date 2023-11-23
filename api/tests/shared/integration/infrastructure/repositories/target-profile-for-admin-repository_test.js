@@ -5,10 +5,10 @@ import {
   expect,
   mockLearningContent,
   learningContentBuilder,
-} from '../../../test-helper.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/index.js';
+} from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import * as targetProfileForAdminRepository from '../../../../../src/shared/infrastructure/repositories/target-profile-for-admin-repository.js';
+import { TargetProfileForAdmin } from '../../../../../lib/domain/models/index.js';
 
 describe('Integration | Repository | target-profile-for-admin', function () {
   describe('#get', function () {
