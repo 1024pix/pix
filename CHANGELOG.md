@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.66.0 (23/11/2023)
+
+
+### :rocket: Amélioration
+- [#7496](https://github.com/1024pix/pix/pull/7496) [FEATURE] Sauvegarder la configuration de l'algo de choix des épreuves en BDD. (PIX-9967).
+- [#7498](https://github.com/1024pix/pix/pull/7498) [FEATURE] Créer le modèle `QcuForAnswerVerification` (PIX-9858).
+- [#7487](https://github.com/1024pix/pix/pull/7487) [FEATURE] Afficher le nombre minimum de Pix dans la page de détails d'une certification sur Pix Admin (PIX-9963).
+- [#7486](https://github.com/1024pix/pix/pull/7486) [FEATURE] Enregistrer qui a fait l'action de désactivation d'un membre Pix Certif depuis Pix Admin (PIX-9381).
+- [#7485](https://github.com/1024pix/pix/pull/7485) [FEATURE] Ajoute la feature PLACES_MANAGEMENT (PIX-9717).
+
+### :building_construction: Tech
+- [#7504](https://github.com/1024pix/pix/pull/7504) [TECH] Amélioration databasebuilder.
+- [#7505](https://github.com/1024pix/pix/pull/7505) [TECH] Flaky sur integrate-cpf-processing-receipts_test.js (PIX-10064).
+
+### :bug: Correction
+- [#7483](https://github.com/1024pix/pix/pull/7483) [BUGFIX] Empêcher l'ajout de plusieurs adresses emails (destinataire et candidat) dans l'import ods et la modale (PIX-9994).
+
+### :coffee: Autre
+- [#7501](https://github.com/1024pix/pix/pull/7501) [CHORE] :art:  Améliorer les pages d'erreur et de not found (Pix-9829).
+
 ## v4.65.0 (21/11/2023)
 
 
