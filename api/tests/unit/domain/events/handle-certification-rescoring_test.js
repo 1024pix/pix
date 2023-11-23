@@ -309,7 +309,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const competenceMarkRepository = { save: sinon.stub() };
         const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
         const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789 });
-        sinon.spy(certificationCourse, 'cancel');
 
         const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
         const certificationAssessment = new CertificationAssessment({
@@ -370,13 +369,16 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         // then
+        const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+          id: certificationCourse.getId(),
+          isCancelled: true,
+        });
 
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
           certificationCourseId: 789,
           assessmentResult: assessmentResultToBeSaved,
         });
-        expect(certificationCourse.cancel).to.have.been.calledOnce;
-        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(certificationCourse);
+        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
       });
     });
 
@@ -391,8 +393,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
         const competenceMarkRepository = { save: sinon.stub() };
         const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
-        const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789 });
-        sinon.spy(certificationCourse, 'uncancel');
+        const certificationCourse = domainBuilder.buildCertificationCourse({ id: 789, isCancelled: true });
 
         const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
         const certificationAssessment = new CertificationAssessment({
@@ -454,12 +455,13 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         // then
+        const expectedCertificationCourse = domainBuilder.buildCertificationCourse({ id: 789, isCancelled: false });
+
         expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
           certificationCourseId: 789,
           assessmentResult: assessmentResultToBeSaved,
         });
-        expect(certificationCourse.uncancel).to.have.been.calledOnce;
-        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(certificationCourse);
+        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
       });
     });
 
