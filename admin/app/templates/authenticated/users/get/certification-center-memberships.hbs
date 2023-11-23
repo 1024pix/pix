@@ -1,3 +1,6 @@
 <section class="page-section">
-  <Users::CertificationCenterMemberships @certificationCenterMemberships={{@model.certificationCenterMemberships}} />
+  <Users::CertificationCenters::Memberships
+    @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+    @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}}
+  />
 </section>
