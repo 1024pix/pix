@@ -55,7 +55,7 @@ async function manageEmails({
   sessionRepository,
   dependencies = { mailService },
 }) {
-  await _sendCleaReferEmails({
+  const cleaEmailingAttempts = await _manageCleaEmails({
     session,
     sessionRepository,
     certificationCenterRepository,
@@ -63,19 +63,26 @@ async function manageEmails({
     i18n,
   });
 
-  const emailingAttempts = await _sendPrescriberEmails({
+  const prescribersEmailingAttempts = await _managerPrescriberEmails({
     session,
     mailService: dependencies.mailService,
     i18n,
   });
-  if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
+
+  if (_someHaveSucceeded(prescribersEmailingAttempts) && _noneHaveFailed(prescribersEmailingAttempts)) {
     await sessionRepository.flagResultsAsSentToPrescriber({
       id: session.id,
       resultsSentToPrescriberAt: publishedAt,
     });
   }
-  if (_someHaveFailed(emailingAttempts)) {
-    const failedEmailsRecipients = _failedAttemptsEmail(emailingAttempts);
+
+  if (_someHaveFailed(cleaEmailingAttempts)) {
+    const failedEmailsReferer = _failedAttemptsEmail(cleaEmailingAttempts);
+    throw new SendingEmailToRefererError(failedEmailsReferer);
+  }
+
+  if (_someHaveFailed(prescribersEmailingAttempts)) {
+    const failedEmailsRecipients = _failedAttemptsEmail(prescribersEmailingAttempts);
     throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
   }
 }
@@ -86,7 +93,7 @@ async function manageEmails({
  * @param {deps['sessionRepository']} params.sessionRepository
  * @param {deps['mailService']} params.mailService
  */
-async function _sendCleaReferEmails({ session, certificationCenterRepository, sessionRepository, mailService }) {
+async function _manageCleaEmails({ session, certificationCenterRepository, sessionRepository, mailService }) {
   const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
   if (!hasSomeCleaAcquired) {
     logger.debug(`No CLEA certifications in session ${session.id}`);
@@ -109,17 +116,14 @@ async function _sendCleaReferEmails({ session, certificationCenterRepository, se
     refererEmailingAttempts.push(refererEmailingAttempt);
   }
 
-  if (_someHaveFailed(refererEmailingAttempts)) {
-    const failedEmailsReferer = _failedAttemptsEmail(refererEmailingAttempts);
-    throw new SendingEmailToRefererError(failedEmailsReferer);
-  }
+  return refererEmailingAttempts;
 }
 
 /**
  * @param {Object} params
  * @param {deps['mailService']} params.mailService
  */
-async function _sendPrescriberEmails({ session, mailService, i18n }) {
+async function _managerPrescriberEmails({ session, mailService, i18n }) {
   const recipientEmails = _distinctCandidatesResultRecipientEmails(session.certificationCandidates);
 
   const emailingAttempts = [];

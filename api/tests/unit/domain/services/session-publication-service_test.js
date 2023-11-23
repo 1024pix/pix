@@ -389,6 +389,7 @@ describe('Unit | UseCase | session-publication-service', function () {
           // then
           expect(sessionRepository.hasSomeCleaAcquired).to.have.been.calledOnce;
           expect(certificationCenterRepository.getRefererEmails).to.have.been.calledOnce;
+          expect(mailService.sendNotificationToCertificationCenterRefererForCleaResults).to.not.have.been.called;
           expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
         });
       });
