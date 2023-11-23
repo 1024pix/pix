@@ -1,0 +1,20 @@
+<tr>
+  <td>{{@certificationCenterMembership.id}}</td>
+  <td class="table__column table__column--id">
+    <LinkTo
+      @route="authenticated.certification-centers.get"
+      @model={{@certificationCenterMembership.certificationCenter.id}}
+    >
+      {{@certificationCenterMembership.certificationCenter.id}}
+    </LinkTo>
+  </td>
+  <td>{{@certificationCenterMembership.certificationCenter.name}}</td>
+  <td>{{@certificationCenterMembership.certificationCenter.type}}</td>
+  <td>{{@certificationCenterMembership.certificationCenter.externalId}}</td>
+  <td>{{t @certificationCenterMembership.roleLabelKey}}</td>
+  <td>
+    <Users::CertificationCenters::MembershipItemActions
+      @onDeactivateMembershipButtonClicked={{fn @disableCertificationCenterMembership @certificationCenterMembership}}
+    />
+  </td>
+</tr>

@@ -1,13 +1,9 @@
-import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import Controller from '@ember/controller';
 import { service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default class CertificationCenterMemberships extends Component {
+export default class UsersCertificationCenterMembershipsController extends Controller {
   @service notifications;
-
-  get orderedCertificationCenterMemberships() {
-    return this.args.certificationCenterMemberships.sortBy('certificationCenter.name');
-  }
 
   @action
   async disableCertificationCenterMembership(certificationCenterMembership) {

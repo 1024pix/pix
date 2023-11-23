@@ -1,0 +1,35 @@
+<header class="page-section__header">
+  <h2 class="page-section__title">Centres de certification de l’utilisateur</h2>
+</header>
+<div class="content-text content-text--small">
+  <div class="table-admin">
+    <table>
+      <thead>
+        <tr>
+          <th class="table__column table__column--id">Membre ID</th>
+          <th>Centre ID</th>
+          <th>Nom</th>
+          <th>Type</th>
+          <th>Identifiant externe</th>
+          <th>{{t "components.certification-centers.table-headers.roleLabel"}}</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      {{#if this.orderedCertificationCenterMemberships}}
+        <tbody>
+          {{#each this.orderedCertificationCenterMemberships as |certificationCenterMembership|}}
+            <Users::CertificationCenters::MembershipItem
+              @certificationCenterMembership={{certificationCenterMembership}}
+              @disableCertificationCenterMembership={{@disableCertificationCenterMembership}}
+            />
+          {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+  </div>
+  {{#unless this.orderedCertificationCenterMemberships}}
+    <div class="table__empty">Aucun centre de certification</div>
+  {{/unless}}
+</div>
