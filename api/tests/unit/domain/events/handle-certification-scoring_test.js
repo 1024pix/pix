@@ -311,11 +311,15 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         };
       });
 
-      describe('when less than the minimum number of answers required by the config has been answered', function () {
+      describe('when less than the minimum number of answers required by the config has been answered and the candidate abandoned', function () {
         it('should build and save an assessment result with the expected arguments', async function () {
           // given
           const expectedEstimatedLevel = 2;
           const scoreForEstimatedLevel = 592;
+          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+            id: certificationCourseId,
+            abortReason: 'candidate',
+          });
 
           const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
           const challengeIds = challenges.map(({ id }) => id);
@@ -324,7 +328,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
 
           challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
           answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
-          certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
+          certificationCourseRepository.get.withArgs(certificationCourseId).resolves(abortedCertificationCourse);
 
           flashAlgorithmService.getEstimatedLevelAndErrorRate
             .withArgs({
@@ -373,6 +377,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             new CertificationCourse({
               ...certificationCourse.toDTO(),
               completedAt: now,
+              abortReason: 'candidate',
             }),
           );
         });

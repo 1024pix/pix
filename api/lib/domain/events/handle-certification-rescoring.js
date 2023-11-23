@@ -38,6 +38,7 @@ async function handleCertificationRescoring({
         answerRepository,
         certificationAssessment,
         assessmentResultRepository,
+        certificationCourseRepository,
         flashAlgorithmService,
       });
     }
@@ -70,16 +71,20 @@ async function _handleV3Certification({
   answerRepository,
   certificationAssessment,
   assessmentResultRepository,
+  certificationCourseRepository,
   flashAlgorithmService,
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
   const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
   const challenges = await challengeRepository.getManyFlashParameters(challengeIds);
 
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,
     allAnswers,
     flashAlgorithmService,
+    abortReason: certificationCourse.isAbortReasonCandidateRelated() ? 'candidate' : 'technical',
   });
 
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
