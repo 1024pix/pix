@@ -16,8 +16,8 @@ import * as stageAcquisitionRepository from '../../infrastructure/repositories/s
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
 import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
-import * as targetProfileForAdminRepository from '../../../../lib/infrastructure/repositories/target-profile-for-admin-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
+import * as targetProfileForAdminRepository from '../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
 import * as scorecardService from '../services/scorecard-service.js';
 

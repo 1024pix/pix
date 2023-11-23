@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
+import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 const getTargetProfileContentAsJson = async function ({
   userId,
