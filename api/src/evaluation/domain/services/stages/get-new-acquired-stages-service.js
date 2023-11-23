@@ -4,12 +4,12 @@
  *
  * @param {Stage[]} stages
  * @param {number} validatedSkillCount
- * @param {number[]} alreadyAcquiredStagesIds
  * @param {number} masteryPercentage
+ * @param {number[]} [alreadyAcquiredStagesIds]
  *
  * @returns {Stage[]}
  */
-export const getNewAcquiredStages = (stages, validatedSkillCount, alreadyAcquiredStagesIds, masteryPercentage) =>
+export const getNewAcquiredStages = (stages, validatedSkillCount, masteryPercentage, alreadyAcquiredStagesIds = []) =>
   stages.filter((stage) => {
     if (alreadyAcquiredStagesIds.includes(stage.id)) return false;
     if (stage.isZeroStage) return true;

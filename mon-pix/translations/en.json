@@ -1477,7 +1477,7 @@
         "title": "Competence results details",
         "caption": "Details of your results in percentage and stars according to competences",
         "masteryPercentage": "Success rate: {rate, number, ::percent}",
-        "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
+        "starsAcquired": "{acquired, plural, =0 {no star} =1 {# star} other {# stars}} acquired out of {total}"
       },
       "trainings": {
         "title": "Do you want to learn more?",

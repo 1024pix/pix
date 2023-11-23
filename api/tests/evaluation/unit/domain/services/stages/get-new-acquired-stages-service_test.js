@@ -71,8 +71,8 @@ describe('Unit | Service | Stages calculation', function () {
           const acquiredStages = getNewAcquiredStages(
             stages,
             validatedSkillCount,
-            alreadyAcquiredStagesIds,
             masteryPercentage,
+            alreadyAcquiredStagesIds,
           );
 
           expect(acquiredStages.map(({ id }) => id)).to.deep.equal(stageIds);
