@@ -12,6 +12,7 @@ import {
   generateAnswersForChallenges,
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
+import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 
 const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
@@ -47,7 +48,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         });
 
         const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-          abortReason: 'candidate',
+          abortReason: ABORT_REASONS.CANDIDATE,
         });
 
         const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
@@ -153,7 +154,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       });
 
       const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-        abortReason: 'technical',
+        abortReason: ABORT_REASONS.TECHNICAL,
       });
 
       const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });

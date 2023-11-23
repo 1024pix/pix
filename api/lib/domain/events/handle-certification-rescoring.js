@@ -10,6 +10,7 @@ import { CertificationJuryDone } from './CertificationJuryDone.js';
 import { checkEventTypes } from './check-event-types.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
+import { ABORT_REASONS } from '../models/CertificationCourse.js';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 const EMITTER = 'PIX-ALGO';
@@ -80,11 +81,15 @@ async function _handleV3Certification({
 
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
 
+  const abortReason = certificationCourse.isAbortReasonCandidateRelated()
+    ? ABORT_REASONS.CANDIDATE
+    : ABORT_REASONS.TECHNICAL;
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,
     allAnswers,
     flashAlgorithmService,
-    abortReason: certificationCourse.isAbortReasonCandidateRelated() ? 'candidate' : 'technical',
+    abortReason,
   });
 
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({

@@ -1,6 +1,7 @@
 import { status as CertificationStatus } from './AssessmentResult.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
+import { ABORT_REASONS } from './CertificationCourse.js';
 
 const MINIMUM_ESTIMATED_LEVEL = -8;
 const MAXIMUM_ESTIMATED_LEVEL = 8;
@@ -115,7 +116,7 @@ const _computeScore = (estimatedLevel) => {
 const _isCertificationRejected = ({ answers, abortReason }) => {
   return (
     answers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification &&
-    abortReason === 'candidate'
+    abortReason === ABORT_REASONS.CANDIDATE
   );
 };
 
