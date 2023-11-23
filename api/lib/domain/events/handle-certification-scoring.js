@@ -67,10 +67,12 @@ async function _calculateCertificationScore({
       certificationAssessment,
       continueOnError: false,
     });
+    const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
       assessmentResultRepository,
+      certificationCourse,
       certificationCourseRepository,
       competenceMarkRepository,
     });
@@ -107,16 +109,20 @@ async function _handleV3CertificationScoring({
   const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
   const challenges = await challengeRepository.getMany(challengeIds, locale);
 
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,
     allAnswers,
     flashAlgorithmService,
+    abortReason: certificationCourse.isAbortReasonCandidateRelated() ? 'candidate' : 'technical',
   });
 
   await _saveResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
+    certificationCourse,
     certificationCourseRepository,
     competenceMarkRepository,
   });
@@ -132,6 +138,7 @@ async function _saveResult({
   certificationAssessment,
   certificationAssessmentScore,
   assessmentResultRepository,
+  certificationCourse,
   certificationCourseRepository,
   competenceMarkRepository,
 }) {
@@ -148,7 +155,6 @@ async function _saveResult({
     });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);
 }
@@ -177,6 +183,7 @@ async function _saveResultAfterCertificationComputeError({
   certificationCourseRepository,
   certificationComputeError,
 }) {
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   const assessmentResult = AssessmentResult.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
@@ -186,7 +193,6 @@ async function _saveResultAfterCertificationComputeError({
     certificationCourseId: certificationAssessment.certificationCourseId,
     assessmentResult,
   });
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);
 }

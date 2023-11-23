@@ -54,7 +54,7 @@ class CertificationAssessmentScoreV3 {
     this._status = status;
   }
 
-  static fromChallengesAndAnswers({ challenges, allAnswers, flashAlgorithmService }) {
+  static fromChallengesAndAnswers({ challenges, allAnswers, flashAlgorithmService, abortReason }) {
     const algorithm = new FlashAssessmentAlgorithm({
       flashAlgorithmImplementation: flashAlgorithmService,
     });
@@ -65,7 +65,7 @@ class CertificationAssessmentScoreV3 {
 
     const nbPix = _computeScore(estimatedLevel);
 
-    const status = _isCertificationRejected({ answers: allAnswers })
+    const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED
       : CertificationStatus.VALIDATED;
 
@@ -112,8 +112,11 @@ const _computeScore = (estimatedLevel) => {
   return Math.round(score);
 };
 
-const _isCertificationRejected = ({ answers }) => {
-  return answers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
+const _isCertificationRejected = ({ answers, abortReason }) => {
+  return (
+    answers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification &&
+    abortReason === 'candidate'
+  );
 };
 
 export { CertificationAssessmentScoreV3 };

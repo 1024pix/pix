@@ -34,12 +34,20 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           getManyFlashParameters: sinon.stub(),
         };
 
+        const certificationCourseRepository = {
+          get: sinon.stub(),
+        };
+
         const flashAlgorithmService = {
           getEstimatedLevelAndErrorRate: sinon.stub(),
         };
 
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           version: CertificationVersion.V3,
+        });
+
+        const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+          abortReason: 'candidate',
         });
 
         const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
@@ -58,6 +66,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
         challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
+
+        certificationCourseRepository.get
+          .withArgs(certificationAssessment.certificationCourseId)
+          .resolves(abortedCertificationCourse);
 
         flashAlgorithmService.getEstimatedLevelAndErrorRate
           .withArgs({
@@ -80,6 +92,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           answerRepository,
           challengeRepository,
           assessmentResultRepository,
+          certificationCourseRepository,
           flashAlgorithmService,
         };
 
@@ -112,6 +125,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         expect(result).to.deep.equal(expectedEvent);
       });
     });
+
     it('should save the score', async function () {
       const assessmentResultRepository = {
         save: sinon.stub(),
@@ -126,12 +140,20 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         getManyFlashParameters: sinon.stub(),
       };
 
+      const certificationCourseRepository = {
+        get: sinon.stub(),
+      };
+
       const flashAlgorithmService = {
         getEstimatedLevelAndErrorRate: sinon.stub(),
       };
 
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         version: CertificationVersion.V3,
+      });
+
+      const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+        abortReason: 'technical',
       });
 
       const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
@@ -150,6 +172,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
 
       challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
+
+      certificationCourseRepository.get
+        .withArgs(certificationAssessment.certificationCourseId)
+        .resolves(abortedCertificationCourse);
 
       flashAlgorithmService.getEstimatedLevelAndErrorRate
         .withArgs({
@@ -171,6 +197,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         certificationAssessmentRepository,
         answerRepository,
         challengeRepository,
+        certificationCourseRepository,
         assessmentResultRepository,
         flashAlgorithmService,
       };

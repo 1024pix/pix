@@ -215,9 +215,40 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           challenges,
           allAnswers,
           flashAlgorithmService,
+          abortReason: 'candidate',
         });
 
         expect(score.status).to.equal(status.REJECTED);
+      });
+    });
+
+    describe('when less than the minimum number of answers required by the config has been answered and the candidate didnt quit', function () {
+      it('should be validated', function () {
+        const difficulty = 0;
+        const certificationCourseAbortReason = 'technical';
+        const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
+        const challenges = _buildChallenges(difficulty, numberOfChallenges);
+        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+        flashAlgorithmService.getEstimatedLevelAndErrorRate
+          .withArgs(
+            _getEstimatedLevelAndErrorRateParams({
+              challenges,
+              allAnswers,
+              estimatedLevel: sinon.match.number,
+            }),
+          )
+          .returns({
+            estimatedLevel: 0,
+          });
+
+        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+          challenges,
+          allAnswers,
+          flashAlgorithmService,
+          certificationCourseAbortReason,
+        });
+
+        expect(score.status).to.equal(status.VALIDATED);
       });
     });
   });
