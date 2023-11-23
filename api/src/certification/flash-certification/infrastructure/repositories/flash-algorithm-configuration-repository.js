@@ -4,12 +4,7 @@ import { FlashAssessmentAlgorithmConfiguration } from '../../domain/model/FlashA
 const TABLE_NAME = 'flash-algorithm-configurations';
 
 const save = async function (flashAlgorithmConfiguration) {
-  const data = {
-    ...flashAlgorithmConfiguration,
-    forcedCompetences: JSON.stringify(flashAlgorithmConfiguration.forcedCompetences),
-    minimumEstimatedSuccessRateRanges: JSON.stringify(flashAlgorithmConfiguration.minimumEstimatedSuccessRateRanges),
-  };
-  return knex(TABLE_NAME).insert(data);
+  return knex(TABLE_NAME).insert(flashAlgorithmConfiguration.toDTO());
 };
 
 const get = async function () {
@@ -19,7 +14,7 @@ const get = async function () {
     return null;
   }
 
-  return new FlashAssessmentAlgorithmConfiguration(flashAlgorithmConfiguration);
+  return FlashAssessmentAlgorithmConfiguration.fromDTO(flashAlgorithmConfiguration);
 };
 
 export { save, get };
