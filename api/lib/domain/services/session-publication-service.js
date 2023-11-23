@@ -55,31 +55,13 @@ async function manageEmails({
   sessionRepository,
   dependencies = { mailService },
 }) {
-  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
-
-  if (hasSomeCleaAcquired) {
-    const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
-    if (!refererEmails.length) {
-      logger.warn(`Publishing session ${session.id} with Clea certifications but no referer. No email will be sent`);
-      return;
-    }
-
-    const refererEmailingAttempts = [];
-    for (const refererEmail of refererEmails) {
-      const refererEmailingAttempt =
-        await dependencies.mailService.sendNotificationToCertificationCenterRefererForCleaResults({
-          sessionId: session.id,
-          email: refererEmail.email,
-          sessionDate: session.date,
-        });
-      refererEmailingAttempts.push(refererEmailingAttempt);
-    }
-
-    if (_someHaveFailed(refererEmailingAttempts)) {
-      const failedEmailsReferer = _failedAttemptsEmail(refererEmailingAttempts);
-      throw new SendingEmailToRefererError(failedEmailsReferer);
-    }
-  }
+  await _sendCleaReferEmails({
+    session,
+    sessionRepository,
+    certificationCenterRepository,
+    mailService: dependencies.mailService,
+    i18n,
+  });
 
   const emailingAttempts = await _sendPrescriberEmails({
     session,
@@ -95,6 +77,41 @@ async function manageEmails({
   if (_someHaveFailed(emailingAttempts)) {
     const failedEmailsRecipients = _failedAttemptsEmail(emailingAttempts);
     throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
+  }
+}
+
+/**
+ * @param {Object} params
+ * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['mailService']} params.mailService
+ */
+async function _sendCleaReferEmails({ session, certificationCenterRepository, sessionRepository, mailService }) {
+  const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
+  if (!hasSomeCleaAcquired) {
+    logger.debug(`No CLEA certifications in session ${session.id}`);
+    return;
+  }
+
+  const refererEmails = await certificationCenterRepository.getRefererEmails(session.certificationCenterId);
+  if (refererEmails.length <= 0) {
+    logger.warn(`Publishing session ${session.id} with Clea certifications but no referer. No email will be sent`);
+    return;
+  }
+
+  const refererEmailingAttempts = [];
+  for (const refererEmail of refererEmails) {
+    const refererEmailingAttempt = await mailService.sendNotificationToCertificationCenterRefererForCleaResults({
+      sessionId: session.id,
+      email: refererEmail.email,
+      sessionDate: session.date,
+    });
+    refererEmailingAttempts.push(refererEmailingAttempt);
+  }
+
+  if (_someHaveFailed(refererEmailingAttempts)) {
+    const failedEmailsReferer = _failedAttemptsEmail(refererEmailingAttempts);
+    throw new SendingEmailToRefererError(failedEmailsReferer);
   }
 }
 
