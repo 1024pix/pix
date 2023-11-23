@@ -147,6 +147,18 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         );
       });
 
+      it('should return information about organization in user-orga-settings associated to the prescriber', async function () {
+        // given
+        expectedPrescriber.userOrgaSettings = userOrgaSettings;
+        const expectedOrganization = new Organization(organization);
+        // when
+        const foundUser = await prescriberRepository.getPrescriber(user.id);
+
+        // then
+        expect(foundUser.userOrgaSettings.currentOrganization).to.be.an.instanceOf(Organization);
+        expect(foundUser.userOrgaSettings.currentOrganization).to.deep.contains(expectedOrganization);
+      });
+
       context('when current organization defined in user-orga-settings has tags', function () {
         it('should return a list of tags', async function () {
           // given
