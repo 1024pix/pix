@@ -6,6 +6,7 @@ import {
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
 } from '../../constants.js';
 import moment from 'moment';
+import { getNewAcquiredStages } from '../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
 
 class AssessmentResult {
   constructor({
@@ -17,7 +18,7 @@ class AssessmentResult {
     competences,
     reachedStage,
     badgeResultsDTO,
-    stageCollection,
+    stages,
     flashScoringResults,
   }) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
@@ -43,8 +44,9 @@ class AssessmentResult {
       ).length;
       const masteryPercentage = Math.round((validatedSkillsCountForCompetence / targetedSkillIds.length) * 100);
       let reachedStage;
-      if (stageCollection.totalStages > 0) {
-        reachedStage = stageCollection.getReachedStageIndex(validatedSkillsCountForCompetence, masteryPercentage);
+      if (stages && stages.length > 0) {
+        const acquiredStages = getNewAcquiredStages(stages, validatedSkillsCountForCompetence, masteryPercentage);
+        reachedStage = acquiredStages.length;
       }
 
       return _buildCompetenceResult({

@@ -2,7 +2,6 @@ import { domainBuilder, expect } from '../../../../test-helper.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/participant-result-serializer.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/index.js';
-import { StageCollection } from '../../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
 
 describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
   context('#serialize', function () {
@@ -10,7 +9,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
     const isTargetProfileResetAllowed = true;
     const isOrganizationLearnerActive = true;
     const isCampaignArchived = false;
-    let participationResults, competences, stageCollection, badgeResultsDTO, reachedStage;
+    let participationResults, competences, stages, badgeResultsDTO, reachedStage;
 
     beforeEach(function () {
       const knowledgeElements = [
@@ -52,14 +51,11 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         },
       ];
 
-      stageCollection = new StageCollection({
-        campaignId: 1,
-        stages: [
-          { id: 2, title: 'Stage1', message: 'Message1', threshold: 0 },
-          { id: 3, title: 'Stage2', message: 'Message2', threshold: 50 },
-          { id: 4, title: 'Stage3', message: 'Message3', threshold: 100 },
-        ],
-      });
+      stages = [
+        { id: 2, title: 'Stage1', message: 'Message1', threshold: 0 },
+        { id: 3, title: 'Stage2', message: 'Message2', threshold: 50 },
+        { id: 4, title: 'Stage3', message: 'Message3', threshold: 100 },
+      ];
 
       reachedStage = {
         id: 3,
@@ -93,7 +89,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         competences,
         badgeResultsDTO,
         reachedStage,
-        stageCollection,
+        stages,
         isCampaignMultipleSendings,
         isOrganizationLearnerActive,
         isCampaignArchived,
@@ -166,7 +162,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               index: '1.1',
               name: 'Competence1',
               'mastery-percentage': 50,
-              'reached-stage': 1,
+              'reached-stage': 2,
               'tested-skills-count': 2,
               'total-skills-count': 2,
               'validated-skills-count': 1,
@@ -236,7 +232,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         const assessmentResult = new AssessmentResult({
           participationResults,
           competences: [],
-          stageCollection,
+          stages,
           badgeResultsDTO,
           isCampaignMultipleSendings,
           isOrganizationLearnerActive,

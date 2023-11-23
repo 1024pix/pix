@@ -251,7 +251,7 @@ module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
           assert.ok(screen.getByText('You reached Stage 1'));
           assert.ok(screen.getByText('area1'));
           assert.ok(screen.getByText('85 % de réussite'));
-          assert.ok(screen.getByText('2 étoiles acquises sur 4'));
+          assert.ok(screen.getByText('1 étoile acquise sur 4'));
         });
       });
 
