@@ -111,6 +111,7 @@ describe('Unit | UseCase | create-session', function () {
             accessCode,
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
             version: 2,
+            createdBy: userId,
           });
 
           expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);
@@ -146,6 +147,7 @@ describe('Unit | UseCase | create-session', function () {
             accessCode,
             supervisorPassword: sinon.match(/^[2346789BCDFGHJKMPQRTVWXY]{5}$/),
             version: 3,
+            createdBy: userId,
           });
 
           expect(sessionRepository.save).to.have.been.calledWithExactly(expectedSession);

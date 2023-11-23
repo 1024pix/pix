@@ -23,6 +23,7 @@ const SESSION_PROPS = [
   'assignedCertificationOfficerId',
   'supervisorPassword',
   'version',
+  'createdBy',
 ];
 
 describe('Unit | Domain | Models | Session', function () {
@@ -50,6 +51,7 @@ describe('Unit | Domain | Models | Session', function () {
       // references
       certificationCenterId: '',
       assignedCertificationOfficerId: '',
+      createdBy: '',
     });
   });
 
