@@ -20,6 +20,7 @@ import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkU
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
+import * as checkAuthorizationToAccessCampaignUsecase from './usecases/checkAuthorizationToAccessCampaign.js';
 import * as checkOrganizationIsScoAndManagingStudentUsecase from './usecases/checkOrganizationIsScoAndManagingStudent.js';
 import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
 import * as certificationIssueReportRepository from '../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
@@ -548,6 +549,22 @@ async function checkAuthorizationToManageCampaign(
   return _replyForbiddenError(h);
 }
 
+async function checkAuthorizationToAccessCampaign(
+  request,
+  h,
+  dependencies = { checkAuthorizationToAccessCampaignUsecase },
+) {
+  const userId = request.auth.credentials.userId;
+  const campaignId = request.params.id;
+  const belongsToOrganization = await dependencies.checkAuthorizationToAccessCampaignUsecase.execute({
+    userId,
+    campaignId,
+  });
+
+  if (belongsToOrganization) return h.response(true);
+  return _replyForbiddenError(h);
+}
+
 function adminMemberHasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
@@ -626,6 +643,7 @@ const securityPreHandlers = {
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleSupport,
   checkAuthorizationToManageCampaign,
+  checkAuthorizationToAccessCampaign,
   checkCertificationCenterIsNotScoManagingStudents,
   checkIfUserIsBlocked,
   checkPix1dActivated,
