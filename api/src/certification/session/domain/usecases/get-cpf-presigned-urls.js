@@ -5,15 +5,11 @@ import { config } from '../../../../../lib/config.js';
  * @param {Object} params
  * @param {deps['cpfExportsStorage']} params.cpfExportsStorage
  */
-const getPreSignedUrls = async function ({ date, cpfExportsStorage }) {
+const getPreSignedUrls = async function ({ cpfExportsStorage }) {
   const cpfExportFiles = await cpfExportsStorage.findAll();
 
-  const keysOfFilesModifiedAfter = cpfExportFiles
-    ?.filter(({ lastModifiedDate }) => lastModifiedDate >= date)
-    .map(({ filename }) => filename);
-
   return cpfExportsStorage.preSignFiles({
-    keys: keysOfFilesModifiedAfter,
+    keys: cpfExportFiles.map(({ filename }) => filename),
     expiresIn: config.cpf.storage.cpfExports.commands.preSignedExpiresIn,
   });
 };

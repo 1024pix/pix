@@ -11,17 +11,16 @@ describe('Integration | UseCase | get-cpf-presigned-urls ', function () {
   });
 
   context('#getPreSignedUrls', function () {
-    it('should pre sign files modified after a date', async function () {
+    it('should pre sign files', async function () {
       // given
       nock('http://cpf-exports.fake.endpoint.example.net:80')
         .get('/cpfExports.bucket/?list-type=2')
         .replyWithFile(200, __dirname + '/files/xml/getPreSignedUrlsListObjectsV2.xml', {
           'Content-Type': 'application/xml',
         });
-      const date = new Date('2022-12-31');
 
       // when
-      const presignedUrls = await getPreSignedUrls({ date, cpfExportsStorage });
+      const presignedUrls = await getPreSignedUrls({ cpfExportsStorage });
 
       // then
       expect(presignedUrls).to.have.lengthOf(1);

@@ -474,6 +474,10 @@ const configuration = (function () {
       },
     };
 
+    config.cpf.sendEmailJob = {
+      recipient: 'team-all-star-certif-de-ouf@example.net',
+    };
+
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
