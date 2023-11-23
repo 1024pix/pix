@@ -2,6 +2,7 @@ import { injectDependencies } from '../../../../src/shared/infrastructure/utils/
 
 import * as cpfCertificationResultRepository from '../../../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
 import * as cpfCertificationXmlExportService from '../../../domain/services/cpf-certification-xml-export-service.js';
+import * as cpfExportRepository from '../../../../src/certification/session/infrastructure/repositories/cpf-export-repository.js';
 import { cpfExportsStorage } from '../../../../src/certification/session/infrastructure/storage/cpf-exports-storage.js';
 import { getPreSignedUrls } from '../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
 import { uploadCpfFiles } from '../../../../src/certification/session/domain/usecases/upload-cpf-files.js';
@@ -18,6 +19,7 @@ const usecases = injectDependencies(
   },
   {
     cpfExportsStorage,
+    cpfExportRepository,
   },
 );
 
