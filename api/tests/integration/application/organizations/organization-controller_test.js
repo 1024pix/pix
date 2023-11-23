@@ -17,7 +17,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
     sandbox.stub(usecases, 'findGroupsByOrganization');
-    sandbox.stub(usecases, 'findOrganizationPlacesLot');
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
@@ -129,31 +128,6 @@ describe('Integration | Application | Organizations | organization-controller', 
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-  });
-
-  describe('#findOrganizationPlacesLot', function () {
-    context('Success cases', function () {
-      it('should return an HTTP response with status code 200', async function () {
-        // given
-        const organizationId = domainBuilder.buildOrganization().id;
-        const place = domainBuilder.buildOrganizationPlacesLotManagement({
-          organizationId,
-          count: 18,
-          activationDate: new Date('2020-01-01'),
-          expirationDate: new Date('2021-01-01'),
-          reference: 'Toho Godzilla',
-          category: 'T2',
-        });
-        usecases.findOrganizationPlacesLot.resolves([place]);
-        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
-
-        // when
-        const response = await httpTestServer.request('GET', `/api/admin/organizations/${organizationId}/places`);
 
         // then
         expect(response.statusCode).to.equal(200);
