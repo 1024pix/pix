@@ -2,6 +2,7 @@ import { expect } from '../../../../../test-helper.js';
 import { Module } from '../../../../../../src/devcomp/domain/models/Module.js';
 import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/module-serializer.js';
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
+import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 
 describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
@@ -56,6 +57,7 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
                 instruction: 'hello',
                 solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
               }),
+              new Image({ id: '3', url: 'url', alt: 'alt', alternativeInstruction: 'alternativeInstruction' }),
             ],
           },
         ],
@@ -105,6 +107,16 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
           },
           {
             attributes: {
+              url: 'url',
+              alt: 'alt',
+              'alternative-instruction': 'alternativeInstruction',
+              type: 'images',
+            },
+            id: '3',
+            type: 'images',
+          },
+          {
+            attributes: {
               title: 'Grain 1',
               type: 'activity',
             },
@@ -119,6 +131,10 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
                   {
                     id: '2',
                     type: 'qcus',
+                  },
+                  {
+                    id: '3',
+                    type: 'images',
                   },
                 ],
               },
