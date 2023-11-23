@@ -1,10 +1,8 @@
 class CpfExport {
   filename;
-  lastModifiedDate;
 
-  constructor({ filename, lastModifiedDate }) {
+  constructor({ filename }) {
     this.filename = filename;
-    this.lastModifiedDate = lastModifiedDate;
   }
 }
 
