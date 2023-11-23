@@ -9,6 +9,12 @@ import { CertificationScoringCompleted } from '../../../../lib/domain/events/Cer
 import _ from 'lodash';
 import { config } from '../../../../src/shared/config.js';
 import { AnswerStatus } from '../../../../lib/domain/models/index.js';
+import {
+  generateAnswersForChallenges,
+  generateChallengeList,
+} from '../../../certification/shared/fixtures/challenges.js';
+
+const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 
 describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let scoringCertificationService;
@@ -317,12 +323,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             status: status.REJECTED,
           });
           const assessmentResult = Symbol('AssessmentResult');
-          const challenges = _buildChallenges(
-            config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1,
-          );
+          const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
           const challengeIds = challenges.map(({ id }) => id);
 
-          const answers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+          const answers = generateAnswersForChallenges({ challenges });
 
           challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
           answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
@@ -384,12 +388,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             status: status.VALIDATED,
           });
           const assessmentResult = Symbol('AssessmentResult');
-          const challenges = _buildChallenges(
-            config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification,
-          );
+          const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
           const challengeIds = challenges.map(({ id }) => id);
 
-          const answers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+          const answers = generateAnswersForChallenges({ challenges });
 
           challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
           answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
@@ -509,25 +511,3 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     });
   });
 });
-
-const _buildChallenges = (numberOfChallenges) => {
-  const discriminant = 1;
-  const difficulty = 0;
-
-  return _.range(0, numberOfChallenges).map((index) =>
-    domainBuilder.buildChallenge({
-      id: `recCHALL${index}`,
-      difficulty,
-      discriminant,
-    }),
-  );
-};
-
-const _buildAnswersForChallenges = (challenges, answerResult) => {
-  return challenges.map(({ id: challengeId }) =>
-    domainBuilder.buildAnswer({
-      result: answerResult,
-      challengeId,
-    }),
-  );
-};

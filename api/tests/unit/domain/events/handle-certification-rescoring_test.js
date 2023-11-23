@@ -8,10 +8,14 @@ import { CertificationAssessment, CertificationResult, AssessmentResult } from '
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../src/shared/config.js';
-import _ from 'lodash';
+import {
+  generateAnswersForChallenges,
+  generateChallengeList,
+} from '../../../certification/shared/fixtures/challenges.js';
 
 const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
+const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function () {
   describe('when handling a v3 certification', function () {
@@ -38,22 +42,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           version: CertificationVersion.V3,
         });
 
-        const challenges = _.range(
-          0,
-          config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1,
-        ).map((index) =>
-          domainBuilder.buildChallenge({
-            id: `chall${index}`,
-          }),
-        );
-
+        const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
         const challengeIds = challenges.map(({ id }) => id);
 
-        const answers = challenges.map(({ id: challengeId }) =>
-          domainBuilder.buildAnswer({
-            challengeId,
-          }),
-        );
+        const answers = generateAnswersForChallenges({ challenges });
 
         const expectedEstimatedLevel = 2;
         const scoreForEstimatedLevel = 592;
@@ -142,20 +134,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
         version: CertificationVersion.V3,
       });
 
-      const challenges = _.range(0, config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification).map(
-        (index) =>
-          domainBuilder.buildChallenge({
-            id: `chall${index}`,
-          }),
-      );
-
+      const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification });
       const challengeIds = challenges.map(({ id }) => id);
 
-      const answers = challenges.map(({ id: challengeId }) =>
-        domainBuilder.buildAnswer({
-          challengeId,
-        }),
-      );
+      const answers = generateAnswersForChallenges({ challenges });
 
       const expectedEstimatedLevel = 2;
       const scoreForEstimatedLevel = 592;
