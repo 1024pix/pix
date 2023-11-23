@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.67.0 (23/11/2023)
+
+
+### :rocket: Amélioration
+- [#7418](https://github.com/1024pix/pix/pull/7418) [FEATURE] Permettre la création de parcours autonomes dans l'API (PIX-9806).
+- [#7503](https://github.com/1024pix/pix/pull/7503) [FEATURE] Ajoute la feature de gestion des places à la route prescriber (PIX-9718).
+
+### :building_construction: Tech
+- [#7510](https://github.com/1024pix/pix/pull/7510) [TECH] Remplace Bookshelf du prescriber repository par knex (PIX-10071).
+
+### :bug: Correction
+- [#7515](https://github.com/1024pix/pix/pull/7515) [BUGFIX] Corrige un crash de la certification v3 avec les configurations forcedCompetences et enablePassageByAllCompetences.
+- [#7494](https://github.com/1024pix/pix/pull/7494) [BUGFIX] Comportement du scrolling sur la sélection du centre de certif (PIX-9935).
+- [#7491](https://github.com/1024pix/pix/pull/7491) [BUGFIX] Corriger les pétouilles du module `bien-ecrire-son-adresse-mail` (PIX-10026).
+- [#7477](https://github.com/1024pix/pix/pull/7477) [BUGFIX] Afficher correctement les paliers sur les compétences.
+
+### :coffee: Autre
+- [#7490](https://github.com/1024pix/pix/pull/7490) [BUGIFX] Corriger le téléchargement du profil cible lors du téléchargement du PDF (PIX-10009).
+
 ## v4.66.0 (23/11/2023)
 
 
