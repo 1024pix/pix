@@ -1215,6 +1215,52 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkAuthorizationToAccessCampaign', function () {
+    beforeEach(function () {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+    });
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is authenticated and is admin in organization and owner of the campaign', async function () {
+        // given
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: 'user.Id' } },
+          params: { id: 'campaignId' },
+        };
+
+        // when
+        const response = await securityPreHandlers.checkAuthorizationToAccessCampaign(request, hFake, {
+          checkAuthorizationToAccessCampaignUsecase: {
+            execute: sinon.stub().resolves(true),
+          },
+        });
+
+        // then
+        expect(response.source).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user is member but does not own the campaign', async function () {
+        // given
+        const request = {
+          auth: { credentials: { accessToken: 'valid.access.token', userId: 'user.Id' } },
+          params: { id: 'campaignId' },
+        };
+
+        // when
+        const response = await securityPreHandlers.checkAuthorizationToAccessCampaign(request, hFake, {
+          checkAuthorizationToAccessCampaignUsecase: {
+            execute: sinon.stub().resolves(false),
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
   describe('#checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is a member of the organization center', async function () {

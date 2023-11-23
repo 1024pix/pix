@@ -1,4 +1,4 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as checkAuthorizationToAccessCampaign from '../../../../lib/application/usecases/checkAuthorizationToAccessCampaign.js';
 
 describe('Integration | API | checkAuthorizationToAccessCampaign', function () {
@@ -20,7 +20,7 @@ describe('Integration | API | checkAuthorizationToAccessCampaign', function () {
   });
 
   describe('when the user not belong to organization', function () {
-    it('throws', async function () {
+    it('returns false', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const user = databaseBuilder.factory.buildUser();
@@ -28,10 +28,10 @@ describe('Integration | API | checkAuthorizationToAccessCampaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const hasAccess = await catchErr(checkAuthorizationToAccessCampaign.execute)({ campaignId: campaign.id, userId: user.id });
+      const hasAccess = await checkAuthorizationToAccessCampaign.execute({ campaignId: campaign.id, userId: user.id });
 
       // then
-      expect(hasAccess).to.throws;
+      expect(hasAccess).to.be.false;
     });
   });
 });
