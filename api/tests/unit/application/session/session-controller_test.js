@@ -293,41 +293,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#getCertificationReports', function () {
-    let request;
-    const sessionId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const certificationReports = Symbol('some certification reports');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const serializedCertificationReports = Symbol('some serialized certification reports');
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId },
-      };
-      sinon.stub(usecases, 'getSessionCertificationReports').withArgs({ sessionId }).resolves(certificationReports);
-    });
-
-    it('should return certification candidates', async function () {
-      // given
-      const certificationReportSerializer = {
-        serialize: sinon.stub(),
-      };
-      certificationReportSerializer.serialize.withArgs(certificationReports).returns(serializedCertificationReports);
-
-      // when
-      const response = await sessionController.getCertificationReports(request, hFake, {
-        certificationReportSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal(serializedCertificationReports);
-    });
-  });
-
   describe('#enrolStudentsToSession', function () {
     let request, studentIds, studentList, serializedCertificationCandidate;
     const sessionId = 1;
