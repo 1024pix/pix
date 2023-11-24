@@ -1,5 +1,5 @@
-import { Progression } from '../../../../lib/domain/models/index.js';
-import { expect, domainBuilder } from '../../../test-helper.js';
+import { Progression } from '../../../../../src/evaluation/domain/models/Progression.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | Domain | Models | Progression', function () {
   let skillLevel1, skillLevel2, skillLevel3;
