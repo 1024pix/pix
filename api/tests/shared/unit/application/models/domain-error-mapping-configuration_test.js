@@ -1,18 +1,18 @@
 import { expect } from '../../../../test-helper.js';
-import { HttpErrorMapper } from '../../../../../src/shared/application/models/http-error-mapper.js';
+import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
 import { ObjectValidationError } from '../../../../../lib/domain/errors.js';
 
-describe('Unit | Shared | Application | Models | HttpErrorMapper', function () {
+describe('Unit | Shared | Application | Models | DomainErrorMappingConfiguration', function () {
   context('when parameters are valid', function () {
     it('creates an HttpErrorMapper instance', function () {
       // given
       const params = { name: 'DomainErrorName', httpErrorFn: () => undefined };
 
       // when
-      const instance = new HttpErrorMapper(params);
+      const instance = new DomainErrorMappingConfiguration(params);
 
       // then
-      expect(instance).to.be.instanceOf(HttpErrorMapper);
+      expect(instance).to.be.instanceOf(DomainErrorMappingConfiguration);
       expect(instance.name).to.equal('DomainErrorName');
       expect(instance.httpErrorFn).to.be.a('function');
     });
@@ -26,7 +26,7 @@ describe('Unit | Shared | Application | Models | HttpErrorMapper', function () {
 
       // when
       try {
-        new HttpErrorMapper(params);
+        new DomainErrorMappingConfiguration(params);
       } catch (err) {
         error = err;
       }
@@ -43,7 +43,7 @@ describe('Unit | Shared | Application | Models | HttpErrorMapper', function () {
 
       // when
       try {
-        new HttpErrorMapper(params);
+        new DomainErrorMappingConfiguration(params);
       } catch (err) {
         error = err;
       }
@@ -59,7 +59,7 @@ describe('Unit | Shared | Application | Models | HttpErrorMapper', function () {
 
       // when
       try {
-        new HttpErrorMapper();
+        new DomainErrorMappingConfiguration();
       } catch (err) {
         error = err;
       }

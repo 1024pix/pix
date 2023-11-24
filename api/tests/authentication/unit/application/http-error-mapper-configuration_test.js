@@ -6,7 +6,7 @@ import {
   UserShouldChangePasswordError,
 } from '../../../../src/authentication/domain/errors.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
-import { HttpErrorMapper } from '../../../../src/shared/application/models/http-error-mapper.js';
+import { DomainErrorMappingConfiguration } from '../../../../src/shared/application/models/domain-error-mapping-configuration.js';
 
 describe('Unit | Authentication | Application | HttpErrorMapperConfiguration', function () {
   it('contains a list of HttpErrorMapper instances', function () {
@@ -14,7 +14,7 @@ describe('Unit | Authentication | Application | HttpErrorMapperConfiguration', f
     // when
     // then
     authenticationDomainErrorMappingConfiguration.forEach((domainErrorMappingConfiguration) =>
-      expect(domainErrorMappingConfiguration).to.be.instanceOf(HttpErrorMapper),
+      expect(domainErrorMappingConfiguration).to.be.instanceOf(DomainErrorMappingConfiguration),
     );
   });
 

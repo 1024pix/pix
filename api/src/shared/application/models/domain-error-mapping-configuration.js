@@ -7,7 +7,7 @@ const schema = Joi.object({
   httpErrorFn: Joi.function().required(),
 });
 
-export class HttpErrorMapper {
+export class DomainErrorMappingConfiguration {
   constructor({ name, httpErrorFn } = {}) {
     this.name = name;
     this.httpErrorFn = httpErrorFn;
