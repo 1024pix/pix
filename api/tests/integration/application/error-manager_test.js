@@ -11,6 +11,8 @@ import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../src/authentication/domain/errors.js';
+import { domainErrorMapper } from '../../../src/shared/application/domain-error-mapper.js';
+import { authenticationDomainErrorMappingConfiguration } from '../../../src/authentication/application/http-error-mapper-configuration.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
@@ -52,6 +54,7 @@ describe('Integration | API | Controller Error', function () {
         ]);
       },
     };
+    domainErrorMapper.configure(authenticationDomainErrorMappingConfiguration);
     server = new HttpTestServer({ mustThrowOn5XXError: false });
     await server.register(moduleUnderTest);
   });
