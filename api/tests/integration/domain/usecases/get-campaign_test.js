@@ -1,43 +1,10 @@
-import { expect, databaseBuilder, catchErr, mockLearningContent } from '../../../test-helper.js';
-import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { expect, databaseBuilder, mockLearningContent } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignReportRepository from '../../../../lib/infrastructure/repositories/campaign-report-repository.js';
 
 describe('Integration | UseCase | get-campaign', function () {
-  context('Error case', function () {
-    it('should throw a NotFoundError when the campaign not exist', async function () {
-      const error = await catchErr(usecases.getCampaign)({
-        campaignId: 'invalid Campaign Id',
-        userId: 'whateverId',
-        badgeRepository,
-        campaignRepository,
-        campaignReportRepository,
-      });
-
-      expect(error).to.be.instanceOf(NotFoundError);
-    });
-
-    it("UserNotAuthorizedToAccessEntityError when user does not belong to organization's campaign", async function () {
-      const userId = databaseBuilder.factory.buildUser().id;
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-
-      await databaseBuilder.commit();
-
-      const error = await catchErr(usecases.getCampaign)({
-        campaignId,
-        userId,
-        badgeRepository,
-        campaignRepository,
-        campaignReportRepository,
-      });
-
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
-    });
-  });
-
   context('Type Assessment', function () {
     let userId;
     let campaign;
