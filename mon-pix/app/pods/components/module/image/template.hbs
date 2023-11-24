@@ -1,0 +1,24 @@
+<div class="element-image">
+  <img alt={{@image.alt}} src={{@image.url}} />
+  <PixButton
+    @backgroundColor="transparent-light"
+    @shape="rounded"
+    @size="small"
+    @type="button"
+    @triggerAction={{this.showModal}}
+  >
+    {{t "pages.modulix.buttons.element.alternativeInstruction"}}
+  </PixButton>
+  <PixModal
+    @title="Quel titre ?"
+    @showModal={{this.modalIsOpen}}
+    @onCloseButtonClick={{this.closeModal}}
+    class="element__image-modal"
+  >
+    <:content>
+      <p class="image__modal-instruction">
+        {{html-safe @image.alternativeInstruction}}
+      </p>
+    </:content>
+  </PixModal>
+</div>

@@ -1,0 +1,18 @@
+.element-image {
+  margin: $pix-spacing-s;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.image__modal-instruction {
+  // revert the reset
+  ul,
+  ol {
+    margin: revert;
+    padding: revert;
+    list-style: revert;
+  }
+}

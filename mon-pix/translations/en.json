@@ -1174,6 +1174,9 @@
         "activity": {
           "verify": "Verify"
         },
+        "element": {
+          "alternativeInstruction": "Show alternative text"
+        },
         "grain": {
           "continue": "Continue"
         }
