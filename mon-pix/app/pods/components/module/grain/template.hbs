@@ -1,0 +1,18 @@
+<article class="grain">
+  <h2 class="screen-reader-only">{{@grain.title}}</h2>
+  {{#each @grain.elements as |element|}}
+    {{#if element.isText}}
+      <Module::Text @text={{element}} />
+    {{else if element.isQcu}}
+      <Module::Qcu @qcu={{element}} @submitAnswer={{@submitAnswer}} />
+    {{/if}}
+  {{/each}}
+
+  {{#if this.shouldDisplayContinueButton}}
+    <footer class="grain__footer">
+      <PixButton @backgroundColor="blue" @shape="rounded" @triggerAction={{this.continueAction}}>
+        {{t "pages.modulix.buttons.grain.continue"}}
+      </PixButton>
+    </footer>
+  {{/if}}
+</article>
