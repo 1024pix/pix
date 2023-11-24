@@ -171,14 +171,6 @@ const getSessionResultsByRecipientEmail = async function (
     .header('Content-Disposition', `attachment; filename=${csvResult.filename}`);
 };
 
-const getCertificationReports = async function (request, h, dependencies = { certificationReportSerializer }) {
-  const sessionId = request.params.id;
-
-  return usecases
-    .getSessionCertificationReports({ sessionId })
-    .then((certificationReports) => dependencies.certificationReportSerializer.serialize(certificationReports));
-};
-
 const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
   const sessionId = request.params.id;
   const odsBuffer = request.payload;
@@ -320,7 +312,6 @@ const sessionController = {
   generateSessionResultsDownloadLink,
   getSessionResultsToDownload,
   getSessionResultsByRecipientEmail,
-  getCertificationReports,
   importCertificationCandidatesFromCandidatesImportSheet,
   enrolStudentsToSession,
   createCandidateParticipation,
