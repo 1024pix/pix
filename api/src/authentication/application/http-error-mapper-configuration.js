@@ -4,7 +4,7 @@ import {
   PasswordNotMatching,
   UserShouldChangePasswordError,
 } from '../domain/errors.js';
-import { HttpErrorMapper } from '../../shared/application/models/http-error-mapper.js';
+import { DomainErrorMappingConfiguration } from '../../shared/application/models/domain-error-mapping-configuration.js';
 
 const authenticationDomainErrorMappingConfiguration = [
   {
@@ -21,6 +21,6 @@ const authenticationDomainErrorMappingConfiguration = [
     name: UserShouldChangePasswordError.name,
     httpErrorFn: (error) => new HttpErrors.PasswordShouldChangeError(error.message, error.meta),
   },
-].map((domainErrorMapping) => new HttpErrorMapper(domainErrorMapping));
+].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
 
 export { authenticationDomainErrorMappingConfiguration };
