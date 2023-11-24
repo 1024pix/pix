@@ -369,6 +369,30 @@ describe('Unit | UseCase | session-publication-service', function () {
           });
         });
       });
+
+      context('when there is no referer', function () {
+        it('should send result emails', async function () {
+          // given
+          mailService.sendCertificationResultEmail.resolves(EmailingAttempt.success(recipient1));
+          sessionRepository.hasSomeCleaAcquired.withArgs(originalSession.id).resolves(true);
+          certificationCenterRepository.getRefererEmails.withArgs(originalSession.certificationCenterId).resolves([]);
+
+          // when
+          await manageEmails({
+            i18n,
+            session: originalSession,
+            certificationCenterRepository,
+            sessionRepository,
+            dependencies: { mailService },
+          });
+
+          // then
+          expect(sessionRepository.hasSomeCleaAcquired).to.have.been.calledOnce;
+          expect(certificationCenterRepository.getRefererEmails).to.have.been.calledOnce;
+          expect(mailService.sendNotificationToCertificationCenterRefererForCleaResults).to.not.have.been.called;
+          expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
+        });
+      });
     });
 
     context('When at least one of the e-mail sending fails', function () {

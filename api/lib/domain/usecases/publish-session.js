@@ -1,3 +1,15 @@
+/**
+ * @typedef {import ('../../../lib/domain/usecases/index.js').dependencies} deps
+ */
+
+/**
+ * @param {Object} params
+ * @param {deps['certificationRepository']} params.certificationRepository
+ * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
+ * @param {deps['finalizedSessionRepository']} params.finalizedSessionRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['sessionPublicationService']} params.sessionPublicationService
+ */
 const publishSession = async function ({
   i18n,
   sessionId,
