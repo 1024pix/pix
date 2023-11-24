@@ -11,14 +11,16 @@ import * as campaignParticipationRepository from '../../../../lib/infrastructure
 import { repositories } from '../../infrastructure/repositories/index.js';
 import * as competenceRepository from '../../../shared/infrastructure/repositories/competence-repository.js';
 import * as competenceEvaluationRepository from '../../infrastructure/repositories/competence-evaluation-repository.js';
+import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import * as knowledgeElementRepository from '../../../../lib/infrastructure/repositories/knowledge-element-repository.js';
+import * as skillRepository from '../../../../lib/infrastructure/repositories/skill-repository.js';
 import * as stageAcquisitionRepository from '../../infrastructure/repositories/stage-acquisition-repository.js';
 import * as stageCollectionForTargetProfileRepository from '../../infrastructure/repositories/stage-collection-repository.js';
 import * as stageRepository from '../../infrastructure/repositories/stage-repository.js';
-import * as feedbackRepository from '../../infrastructure/repositories/feedback-repository.js';
 import * as targetProfileRepository from '../../../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as targetProfileForAdminRepository from '../../../shared/infrastructure/repositories/target-profile-for-admin-repository.js';
 import { getCompetenceLevel } from '../services/get-competence-level.js';
+import * as improvementService from '../../../../lib/domain/services/improvement-service.js';
 import * as scorecardService from '../services/scorecard-service.js';
 
 const path = dirname(fileURLToPath(import.meta.url));
@@ -36,14 +38,16 @@ const dependencies = {
   autonomousCourseRepository: repositories.autonomousCourseRepository,
   competenceEvaluationRepository,
   competenceRepository,
+  feedbackRepository,
   knowledgeElementRepository,
+  skillRepository,
   stageCollectionForTargetProfileRepository,
   stageAcquisitionRepository,
-  feedbackRepository,
   stageRepository,
   targetProfileForAdminRepository,
   targetProfileRepository,
   getCompetenceLevel,
+  improvementService,
   scorecardService,
 };
 

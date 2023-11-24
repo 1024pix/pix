@@ -1,7 +1,7 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { getProgression } from '../../../../lib/domain/usecases/get-progression.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { getProgression } from '../../../../../src/evaluation/domain/usecases/get-progression.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Use Cases | get-progression', function () {
   const assessmentId = 1234;

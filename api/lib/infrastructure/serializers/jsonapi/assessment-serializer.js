@@ -1,5 +1,5 @@
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { Progression } from '../../../domain/models/Progression.js';
+import { Progression } from '../../../../src/evaluation/domain/models/Progression.js';
 import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;

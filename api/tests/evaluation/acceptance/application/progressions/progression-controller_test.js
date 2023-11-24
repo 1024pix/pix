@@ -4,9 +4,9 @@ import {
   databaseBuilder,
   mockLearningContent,
   learningContentBuilder,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | Progressions', function () {
   let server;
