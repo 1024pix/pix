@@ -1,33 +1,16 @@
-import { NotFoundError, UserNotAuthorizedToAccessEntityError } from '../../domain/errors.js';
-
 const getCampaign = async function ({
   campaignId,
-  userId,
   badgeRepository,
-  campaignRepository,
   campaignReportRepository,
   stageCollectionRepository,
 }) {
-  const integerCampaignId = parseInt(campaignId);
-  if (!Number.isFinite(integerCampaignId)) {
-    throw new NotFoundError(`Campaign not found for ID ${campaignId}`);
-  }
-
-  const userHasAccessToCampaign = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
-    campaignId,
-    userId,
-  );
-  if (!userHasAccessToCampaign) {
-    throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
-  }
-
-  const campaignReport = await campaignReportRepository.get(integerCampaignId);
+  const campaignReport = await campaignReportRepository.get(campaignId);
 
   if (campaignReport.isAssessment) {
     const [badges, stageCollection, aggregatedResults] = await Promise.all([
-      badgeRepository.findByCampaignId(integerCampaignId),
-      stageCollectionRepository.findStageCollection({ campaignId: integerCampaignId }),
-      campaignReportRepository.findMasteryRatesAndValidatedSkillsCount(integerCampaignId),
+      badgeRepository.findByCampaignId(campaignId),
+      stageCollectionRepository.findStageCollection({ campaignId: campaignId }),
+      campaignReportRepository.findMasteryRatesAndValidatedSkillsCount(campaignId),
     ]);
 
     campaignReport.setBadges(badges);

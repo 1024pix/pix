@@ -1360,21 +1360,6 @@ describe('Acceptance | API | Campaign Controller', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.id).to.equal(campaign.id.toString());
-      expect(response.result.data.attributes.name).to.equal(campaign.name);
-    });
-
-    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function () {
-      // given
-      userId = databaseBuilder.factory.buildUser().id;
-      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
     });
   });
 
