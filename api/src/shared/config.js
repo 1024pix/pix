@@ -346,6 +346,9 @@ const configuration = (function () {
       defaultProbabilityToPickChallenge: parseInt(process.env.DEFAULT_PROBABILITY_TO_PICK_CHALLENGE, 10) || 51,
       defaultCandidateCapacity: -3,
       challengesBetweenSameCompetence: 2,
+      scoring: {
+        minimumAnswersRequiredToValidateACertification: 10,
+      },
     },
     version: process.env.CONTAINER_VERSION || 'development',
     autonomousCourse: {

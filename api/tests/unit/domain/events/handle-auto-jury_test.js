@@ -8,6 +8,7 @@ import {
   CertificationIssueReportSubcategories,
   CertificationIssueReportCategory,
 } from '../../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
+import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 
 describe('Unit | Domain | Events | handle-auto-jury', function () {
   it('fails when event is not of correct type', async function () {
@@ -221,7 +222,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         sessionId: 1234,
         id: 4567,
         completedAt: null,
-        abortReason: 'candidate',
+        abortReason: ABORT_REASONS.CANDIDATE,
       });
       certificationCourseRepository.findCertificationCoursesBySessionId
         .withArgs({ sessionId: 1234 })
@@ -281,7 +282,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
         const certificationCourse = domainBuilder.buildCertificationCourse({
           completedAt: null,
-          abortReason: 'candidate',
+          abortReason: ABORT_REASONS.CANDIDATE,
         });
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId: 1234 })
@@ -349,7 +350,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         });
         const certificationCourse = domainBuilder.buildCertificationCourse({
           completedAt: null,
-          abortReason: 'technical',
+          abortReason: ABORT_REASONS.TECHNICAL,
         });
         certificationCourseRepository.findCertificationCoursesBySessionId
           .withArgs({ sessionId: 1234 })
@@ -419,7 +420,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
       });
       const certificationCourse = domainBuilder.buildCertificationCourse({
         completedAt: null,
-        abortReason: 'candidate',
+        abortReason: ABORT_REASONS.CANDIDATE,
       });
       certificationCourseRepository.findCertificationCoursesBySessionId
         .withArgs({ sessionId: 1234 })

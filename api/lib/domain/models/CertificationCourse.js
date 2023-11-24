@@ -5,7 +5,10 @@ const Joi = BaseJoi.extend(JoiDate);
 import { EntityValidationError } from '../../../src/shared/domain/errors.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 
-const ABORT_REASONS = ['candidate', 'technical'];
+export const ABORT_REASONS = {
+  CANDIDATE: 'candidate',
+  TECHNICAL: 'technical',
+};
 
 class CertificationCourse {
   constructor({
@@ -115,7 +118,7 @@ class CertificationCourse {
 
   abort(reason) {
     const { error } = Joi.string()
-      .valid(...ABORT_REASONS)
+      .valid(...Object.values(ABORT_REASONS))
       .validate(reason);
     if (error)
       throw new EntityValidationError({
@@ -192,11 +195,11 @@ class CertificationCourse {
   }
 
   isAbortReasonCandidateRelated() {
-    return this._abortReason === 'candidate';
+    return this._abortReason === ABORT_REASONS.CANDIDATE;
   }
 
   isAbortReasonCandidateUnrelated() {
-    return this._abortReason === 'technical';
+    return this._abortReason === ABORT_REASONS.TECHNICAL;
   }
 
   isPublished() {
