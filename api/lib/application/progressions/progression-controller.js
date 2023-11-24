@@ -1,4 +1,4 @@
-import * as ProgressionSerializer from '../../infrastructure/serializers/jsonapi/progression-serializer.js';
+import * as ProgressionSerializer from '../../../src/evaluation/infrastructure/serializers/jsonapi/progression-serializer.js';
 import { evaluationUsecases as usecases } from '../../../src/evaluation/domain/usecases/index.js';
 
 const get = function (request) {
