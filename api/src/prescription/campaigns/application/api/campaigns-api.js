@@ -1,10 +1,11 @@
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { SavedCampaign } from './SavedCampaign.js';
-
+import { Campaign } from './Campaign.js';
 /**
  * @typedef CampaignApi
  * @type {object}
  * @function save
+ * @function get
  */
 
 /**
@@ -29,7 +30,7 @@ import { SavedCampaign } from './SavedCampaign.js';
  * @name save
  *
  * @param {CampaignPayload} campaign
- * @returns {Promise<SavedCampaignResponse>}
+ * @returns {Promise<SavedCampaign>}
  * @throws {UserNotAuthorizedToCreateCampaignError} to be improved to handle different error types
  */
 export const save = async (campaign) => {
@@ -43,4 +44,16 @@ export const save = async (campaign) => {
   });
 
   return new SavedCampaign(savedCampaign);
+};
+
+/**
+ * @function
+ * @name get
+ *
+ * @param {number} campaignId
+ * @returns {Promise<Campaign>}
+ */
+export const get = async (campaignId) => {
+  const getCampaign = await usecases.getCampaign({ campaignId });
+  return new Campaign(getCampaign);
 };
