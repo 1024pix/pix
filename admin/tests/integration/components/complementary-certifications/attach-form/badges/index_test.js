@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 
 module('Integration | Component | complementary-certifications/attach-badges/badges', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when data are loading', function () {
     test('it should display the loader', async function (assert) {

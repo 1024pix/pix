@@ -32,4 +32,18 @@ module('Integration | Component | ComplementaryCertifications::AttachBadges::Bad
     // then
     assert.dom(screen.getByRole('tooltip')).exists();
   });
+
+  module('if header is required', function () {
+    test('it should display the mandatory mark', async function (assert) {
+      // given & when
+      const screen = await render(hbs`<ComplementaryCertifications::AttachBadges::Badges::Header>
+          LABEL
+        </ComplementaryCertifications::AttachBadges::Badges::Header>
+      `);
+
+      // then
+      assert.dom(screen.getByText('LABEL')).exists();
+      assert.dom(screen.getByTitle('obligatoire')).exists();
+    });
+  });
 });
