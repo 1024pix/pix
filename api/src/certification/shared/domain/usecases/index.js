@@ -9,6 +9,7 @@ import * as certificationCandidateRepository from '../../../shared/infrastructur
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
+import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
@@ -80,6 +81,7 @@ const dependencies = {
   certificationCourseRepository,
   certificationCpfService,
   certificationIssueReportRepository,
+  certificationReportRepository,
   certificateRepository,
   challengeRepository,
   certificationCpfCityRepository,
