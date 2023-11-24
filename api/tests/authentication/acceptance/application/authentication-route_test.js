@@ -5,6 +5,8 @@ import { PIX_ADMIN } from '../../../../src/authorization/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 
 import { createServer } from '../../../../server.js';
+import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
+import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
 
 describe('Acceptance | Authentication | Application | Controller', function () {
   afterEach(async function () {
@@ -29,6 +31,7 @@ describe('Acceptance | Authentication | Application | Controller', function () {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
       await databaseBuilder.commit();
+      domainErrorMapper.configure(authenticationDomainErrorMappingConfiguration);
       server = await createServer();
     });
 
