@@ -23,13 +23,44 @@ module('Unit | Model | Module | Element', function (hooks) {
       test('should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        ['qcus'].forEach((type) => {
+        ['qcus', 'image'].forEach((type) => {
           // when
           const element = store.createRecord('element', { type });
           const isText = element.isText;
 
           // then
           assert.false(isText);
+        });
+      });
+    });
+  });
+
+  module('#isImage', function () {
+    module('when type is images', function () {
+      test('should return true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const element = store.createRecord('element', { type: 'images' });
+
+        // when
+        const isImage = element.isImage;
+
+        // then
+        assert.true(isImage);
+      });
+    });
+
+    module('when type is not images', function () {
+      test('should return false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        ['texts', 'qcus'].forEach((type) => {
+          // when
+          const element = store.createRecord('element', { type });
+          const isImage = element.isImage;
+
+          // then
+          assert.false(isImage);
         });
       });
     });
@@ -54,7 +85,7 @@ module('Unit | Model | Module | Element', function (hooks) {
       test('should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        ['texts'].forEach((type) => {
+        ['texts', 'image'].forEach((type) => {
           // when
           const element = store.createRecord('element', { type });
           const isQcu = element.isQcu;
