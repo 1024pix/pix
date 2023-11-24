@@ -3,11 +3,9 @@ import { usecases } from '../../domain/usecases/index.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
-import * as events from '../../domain/events/index.js';
 import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
 import * as certificationCandidateSerializer from '../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
-import * as certificationReportSerializer from '../../infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
@@ -217,28 +215,6 @@ const createCandidateParticipation = async function (request, h, dependencies = 
   return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
 };
 
-const finalize = async function (request, h, dependencies = { certificationReportSerializer, events }) {
-  const sessionId = request.params.id;
-  const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
-  const hasIncident = request.payload.data.attributes['has-incident'];
-  const hasJoiningIssue = request.payload.data.attributes['has-joining-issue'];
-  const certificationReports = await Promise.all(
-    (request.payload.data.included || [])
-      .filter((data) => data.type === 'certification-reports')
-      .map((data) => dependencies.certificationReportSerializer.deserialize({ data })),
-  );
-
-  const event = await usecases.finalizeSession({
-    sessionId,
-    examinerGlobalComment,
-    hasIncident,
-    hasJoiningIssue,
-    certificationReports,
-  });
-  await dependencies.events.eventDispatcher.dispatch(event);
-  return h.response().code(200);
-};
-
 const publish = async function (request, h, dependencies = { sessionSerializer }) {
   const sessionId = request.params.id;
   const i18n = request.i18n;
@@ -315,7 +291,6 @@ const sessionController = {
   importCertificationCandidatesFromCandidatesImportSheet,
   enrolStudentsToSession,
   createCandidateParticipation,
-  finalize,
   publish,
   publishInBatch,
   unpublish,
