@@ -4,7 +4,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 const { Serializer, Deserializer } = jsonapiSerializer;
 
 import { WrongDateFormatError } from '../../../domain/errors.js';
-import { NO_EXAMINER_COMMENT } from '../../../domain/models/CertificationReport.js';
+import { NO_EXAMINER_COMMENT } from '../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { isValidDate } from '../../../../src/shared/infrastructure/utils/date-utils.js';
 import { CertificationCourse } from '../../../domain/models/CertificationCourse.js';
 
