@@ -11,7 +11,7 @@ import * as trainingRepository from '../../../../../src/devcomp/infrastructure/r
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { TrainingSummary } from '../../../../../src/devcomp/domain/read-models/TrainingSummary.js';
 import { Training } from '../../../../../src/devcomp/domain/models/Training.js';
-import { UserRecommendedTraining } from '../../../../../lib/domain/read-models/UserRecommendedTraining.js';
+import { UserRecommendedTraining } from '../../../../../src/devcomp/domain/read-models/UserRecommendedTraining.js';
 import { TrainingTriggerForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingTriggerForAdmin.js';
 import { TrainingForAdmin } from '../../../../../src/devcomp/domain/read-models/TrainingForAdmin.js';
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
