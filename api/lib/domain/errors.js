@@ -279,12 +279,6 @@ class UserShouldNotBeReconciledOnAnotherAccountError extends DomainError {
   }
 }
 
-class CertificationCourseUpdateError extends DomainError {
-  constructor(message = 'Échec lors la création ou de la mise à jour du test de certification.') {
-    super(message);
-  }
-}
-
 class CertificationCourseNotPublishableError extends DomainError {
   constructor(message = "Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.") {
     super(message);
@@ -1218,7 +1212,6 @@ export {
   CertificationCenterMembershipDisableError,
   CertificationComputeError,
   CertificationCourseNotPublishableError,
-  CertificationCourseUpdateError,
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
   CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
