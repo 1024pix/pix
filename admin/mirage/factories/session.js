@@ -1,5 +1,4 @@
 import { Factory, trait } from 'miragejs';
-import dayjs from 'dayjs';
 import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/session';
 
 export default Factory.extend({
@@ -8,7 +7,7 @@ export default Factory.extend({
   },
 
   certificationCenterExternalId() {
-    return 'center1234';
+    return `center${Math.floor(Math.random() * 100000)}`;
   },
 
   certificationCenterType() {
@@ -16,7 +15,7 @@ export default Factory.extend({
   },
 
   certificationCenterId() {
-    return 1234;
+    return Math.floor(Math.random() * 100000);
   },
 
   address() {
@@ -32,11 +31,16 @@ export default Factory.extend({
   },
 
   date() {
-    return dayjs('2023-05-17');
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    return new Date(+twoDaysAgo + Math.random() * (tenDaysAgo - twoDaysAgo)).toISOString().slice(0, 10);
   },
 
   time() {
-    return '14:15';
+    return `${Math.floor((Math.random() * 10000) % 24)}:${Math.floor((Math.random() * 10000) % 60)}`;
   },
 
   status() {
