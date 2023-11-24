@@ -54,6 +54,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  *  complementaryCertificationRepository : complementaryCertificationRepository,
  *  complementaryCertificationForTargetProfileAttachmentRepository : complementaryCertificationForTargetProfileAttachmentRepository,
  *  complementaryCertificationTargetProfileHistoryRepository : complementaryCertificationTargetProfileHistoryRepository,
+ *  cpfExportRepository: cpfExportRepository,
  *  flashAlgorithmService : flashAlgorithmService,
  *  issueReportCategoryRepository : issueReportCategoryRepository,
  *  mailService : mailService,
