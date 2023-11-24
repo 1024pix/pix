@@ -6,9 +6,9 @@ import {
   knex,
   learningContentBuilder,
   mockLearningContent,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | Controller | training-controller', function () {
   let server;

@@ -1,11 +1,17 @@
 import { injectDependencies } from '../../../shared/infrastructure/utils/dependency-injection.js';
 
 import * as moduleRepository from './module-repository.js';
+import * as trainingRepository from './training-repository.js';
+import * as trainingTriggerRepository from './training-trigger-repository.js';
+import * as userRecommendedTrainingRepository from './user-recommended-training-repository.js';
 
 import moduleDatasource from '../datasources/learning-content/module-datasource.js';
 
 const repositoriesWithoutInjectedDependencies = {
   moduleRepository,
+  trainingRepository,
+  trainingTriggerRepository,
+  userRecommendedTrainingRepository,
 };
 
 const dependencies = {

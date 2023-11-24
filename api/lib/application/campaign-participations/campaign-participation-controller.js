@@ -1,5 +1,6 @@
 import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import * as events from '../../domain/events/index.js';
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
@@ -8,7 +9,7 @@ import * as campaignAssessmentParticipationSerializer from '../../infrastructure
 import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
 import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
-import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
@@ -180,7 +181,11 @@ const findTrainings = async function (request, h, dependencies = { trainingSeria
   const { id: campaignParticipationId } = request.params;
   const locale = extractLocaleFromRequest(request);
 
-  const trainings = await usecases.findCampaignParticipationTrainings({ userId, campaignParticipationId, locale });
+  const trainings = await devcompUsecases.findCampaignParticipationTrainings({
+    userId,
+    campaignParticipationId,
+    locale,
+  });
   return dependencies.trainingSerializer.serialize(trainings);
 };
 
