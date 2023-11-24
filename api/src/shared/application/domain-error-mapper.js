@@ -15,7 +15,7 @@ class DomainErrorMapper {
 
   configure(domainErrorsHttpMapping) {
     domainErrorsHttpMapping.forEach(({ name, httpErrorFn }) => {
-      if (this.#domainErrorsHttpMappings[name] && config.environment !== 'test') {
+      if (this.#isDomainErrorNameAlreadyMapped(name)) {
         throw new Error(`Error ${name} already mapped`);
       }
 
@@ -23,6 +23,10 @@ class DomainErrorMapper {
     });
 
     return this.#domainErrorsHttpMappings;
+  }
+
+  #isDomainErrorNameAlreadyMapped(name) {
+    return this.#domainErrorsHttpMappings[name] && config.environment !== 'test';
   }
 }
 
