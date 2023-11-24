@@ -16,12 +16,13 @@ import * as authenticationMethodsSerializer from '../../infrastructure/serialize
 import * as campaignParticipationForUserManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
 import * as certificationCenterMembershipSerializer from '../../infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
-import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
+import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import { evaluationUsecases } from '../../../src/evaluation/domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -182,11 +183,12 @@ const findPaginatedUserRecommendedTrainings = async function (
     trainingSerializer,
     requestResponseUtils,
     queryParamsUtils,
+    devcompUsecases,
   },
 ) {
   const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
-  const { userRecommendedTrainings, meta } = await usecases.findPaginatedUserRecommendedTrainings({
+  const { userRecommendedTrainings, meta } = await dependencies.devcompUsecases.findPaginatedUserRecommendedTrainings({
     userId: request.auth.credentials.userId,
     locale,
     page,

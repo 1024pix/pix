@@ -2,6 +2,7 @@ import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
 import { campaignParticipationController } from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
 import * as events from '../../../../lib/domain/events/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
@@ -464,14 +465,14 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
   });
 
   describe('#findTrainings', function () {
-    let depencies;
+    let dependencies;
 
     beforeEach(function () {
-      sinon.stub(usecases, 'findCampaignParticipationTrainings');
+      sinon.stub(devcompUsecases, 'findCampaignParticipationTrainings');
       const trainingSerializer = {
         serialize: sinon.stub(),
       };
-      depencies = {
+      dependencies = {
         trainingSerializer,
       };
     });
@@ -483,10 +484,10 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const locale = 'fr-fr';
       const trainings = Symbol('trainings');
       const expectedResults = Symbol('results');
-      usecases.findCampaignParticipationTrainings
+      devcompUsecases.findCampaignParticipationTrainings
         .withArgs({ userId, campaignParticipationId, locale })
         .resolves(trainings);
-      depencies.trainingSerializer.serialize.withArgs(trainings).returns(expectedResults);
+      dependencies.trainingSerializer.serialize.withArgs(trainings).returns(expectedResults);
 
       const request = {
         auth: { credentials: { userId } },
@@ -496,7 +497,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       const h = Symbol('h');
 
       // when
-      const response = await campaignParticipationController.findTrainings(request, h, depencies);
+      const response = await campaignParticipationController.findTrainings(request, h, dependencies);
 
       // then
       expect(response).to.equal(expectedResults);

@@ -1,5 +1,5 @@
-import { handleTrainingRecommendation } from '../../../../lib/domain/usecases/handle-training-recommendation.js';
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { handleTrainingRecommendation } from '../../../../../src/devcomp/domain/usecases/handle-training-recommendation.js';
+import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
   let trainingRepository;

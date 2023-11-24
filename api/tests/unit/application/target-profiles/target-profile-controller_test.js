@@ -1,6 +1,7 @@
 import { expect, hFake, sinon } from '../../../test-helper.js';
 import { targetProfileController } from '../../../../lib/application/target-profiles/target-profile-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | target-profile-controller', function () {
@@ -233,7 +234,7 @@ describe('Unit | Controller | target-profile-controller', function () {
         page: { size: 2, number: 1 },
       };
 
-      sinon.stub(usecases, 'findPaginatedTargetProfileTrainingSummaries').resolves({
+      sinon.stub(devcompUsecases, 'findPaginatedTargetProfileTrainingSummaries').resolves({
         trainings: trainingSummaries,
         meta,
       });
@@ -260,7 +261,9 @@ describe('Unit | Controller | target-profile-controller', function () {
       );
 
       // then
-      expect(usecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWithExactly(useCaseParameters);
+      expect(devcompUsecases.findPaginatedTargetProfileTrainingSummaries).to.have.been.calledWithExactly(
+        useCaseParameters,
+      );
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });

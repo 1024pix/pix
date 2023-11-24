@@ -1,4 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import * as targetProfileSerializer from '../../infrastructure/serializers/jsonapi/target-profile-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as targetProfileForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-serializer.js';
@@ -8,7 +9,7 @@ import * as badgeSerializer from '../../infrastructure/serializers/jsonapi/badge
 import { deserializer as badgeCreationDeserializer } from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import * as trainingSummarySerializer from '../../infrastructure/serializers/jsonapi/training-summary-serializer.js';
+import * as trainingSummarySerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-summary-serializer.js';
 
 const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
   const options = queryParamsUtils.extractParameters(request.query);
@@ -104,7 +105,7 @@ const findPaginatedTrainings = async function (
   const { page } = dependencies.queryParamsUtils.extractParameters(request.query);
   const targetProfileId = request.params.id;
 
-  const { trainings, meta } = await usecases.findPaginatedTargetProfileTrainingSummaries({
+  const { trainings, meta } = await devcompUsecases.findPaginatedTargetProfileTrainingSummaries({
     targetProfileId,
     page,
   });
