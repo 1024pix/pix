@@ -1,4 +1,4 @@
-import { Progression } from '../../../lib/domain/models/Progression.js';
+import { Progression } from '../models/Progression.js';
 
 const getProgression = async function ({
   progressionId,
