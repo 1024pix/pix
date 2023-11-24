@@ -99,7 +99,7 @@ import { PartnerCertificationScoring } from './PartnerCertificationScoring.js';
 import { PlacementProfile } from './PlacementProfile.js';
 import { PoleEmploiSending } from './PoleEmploiSending.js';
 import { PrivateCertificate } from './PrivateCertificate.js';
-import { Progression } from './Progression.js';
+import { Progression } from '../../../src/evaluation/domain/models/Progression.js';
 import { ReproducibilityRate } from './ReproducibilityRate.js';
 import { ResultCompetence } from './ResultCompetence.js';
 import { ResultCompetenceTree } from './ResultCompetenceTree.js';
