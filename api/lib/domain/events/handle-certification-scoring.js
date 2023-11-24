@@ -7,6 +7,7 @@ import { AssessmentCompleted } from './AssessmentCompleted.js';
 import { checkEventTypes } from './check-event-types.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
+import { ABORT_REASONS } from '../models/CertificationCourse.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -67,10 +68,12 @@ async function _calculateCertificationScore({
       certificationAssessment,
       continueOnError: false,
     });
+    const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
       assessmentResultRepository,
+      certificationCourse,
       certificationCourseRepository,
       competenceMarkRepository,
     });
@@ -107,16 +110,24 @@ async function _handleV3CertificationScoring({
   const challengeIds = allAnswers.map(({ challengeId }) => challengeId);
   const challenges = await challengeRepository.getMany(challengeIds, locale);
 
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+
+  const abortReason = certificationCourse.isAbortReasonCandidateRelated()
+    ? ABORT_REASONS.CANDIDATE
+    : ABORT_REASONS.TECHNICAL;
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
     challenges,
     allAnswers,
     flashAlgorithmService,
+    abortReason,
   });
 
   await _saveResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
+    certificationCourse,
     certificationCourseRepository,
     competenceMarkRepository,
   });
@@ -132,6 +143,7 @@ async function _saveResult({
   certificationAssessment,
   certificationAssessmentScore,
   assessmentResultRepository,
+  certificationCourse,
   certificationCourseRepository,
   competenceMarkRepository,
 }) {
@@ -148,7 +160,6 @@ async function _saveResult({
     });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);
 }
@@ -177,6 +188,7 @@ async function _saveResultAfterCertificationComputeError({
   certificationCourseRepository,
   certificationComputeError,
 }) {
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   const assessmentResult = AssessmentResult.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
@@ -186,7 +198,6 @@ async function _saveResultAfterCertificationComputeError({
     certificationCourseId: certificationAssessment.certificationCourseId,
     assessmentResult,
   });
-  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);
 }
