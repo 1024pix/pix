@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer, Deserializer } = jsonapiSerializer;
 
-import { CertificationReport } from '../../../../src/certification/shared/domain/models/CertificationReport.js';
+import { CertificationReport } from '../../../domain/models/CertificationReport.js';
 
 const serialize = function (certificationReports) {
   return new Serializer('certification-report', {
