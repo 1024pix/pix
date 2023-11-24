@@ -2,8 +2,6 @@ import Hapi from '@hapi/hapi';
 import Oppsy from 'oppsy';
 
 import { config } from './lib/config.js';
-import * as preResponseUtils from './lib/application/pre-response-utils.js';
-import * as sharedPreResponseUtils from './src/shared/application/pre-response-utils.js';
 import { routes } from './lib/routes.js';
 import { plugins } from './lib/infrastructure/plugins/index.js';
 import { swaggers } from './lib/swaggers.js';
@@ -23,6 +21,7 @@ import {
 } from './src/certification/complementary-certification/routes.js';
 import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
 import { certificationCourseRoutes } from './src/certification/course/routes.js';
+import { setupErrorHandling } from './config/server-setup-error-handling.js';
 
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { learnerListRoutes } from './src/prescription/organization-learner/routes.js';
@@ -111,11 +110,6 @@ const enableOpsMetrics = async function (server) {
 
   oppsy.start(logging.emitOpsEventEachSeconds * 1000);
   server.oppsy = oppsy;
-};
-
-const setupErrorHandling = function (server) {
-  server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
-  server.ext('onPreResponse', sharedPreResponseUtils.handleDomainAndHttpErrors);
 };
 
 const setupDeserialization = function (server) {
