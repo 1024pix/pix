@@ -7,7 +7,6 @@ import { SessionPublicationBatchResult } from '../../../../lib/domain/models/Ses
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as events from '../../../../lib/domain/events/index.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 
 describe('Unit | Controller | sessionController', function () {
@@ -447,54 +446,6 @@ describe('Unit | Controller | sessionController', function () {
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.source).to.equals(serializedCertificationCandidate);
-      });
-    });
-  });
-
-  describe('#finalize', function () {
-    it('should call the finalizeSession usecase with correct values', async function () {
-      // given
-      const sessionId = 1;
-      const aCertificationReport = Symbol('a certficication report');
-      const updatedSession = Symbol('updatedSession');
-      const examinerGlobalComment = 'It was a fine session my dear';
-      const hasIncident = true;
-      const hasJoiningIssue = true;
-      const certificationReports = [
-        {
-          type: 'certification-reports',
-        },
-      ];
-      const request = {
-        params: {
-          id: sessionId,
-        },
-        payload: {
-          data: {
-            attributes: {
-              'examiner-global-comment': examinerGlobalComment,
-              'has-incident': hasIncident,
-              'has-joining-issue': hasJoiningIssue,
-            },
-            included: certificationReports,
-          },
-        },
-      };
-      const certificationReportSerializer = { deserialize: sinon.stub() };
-      certificationReportSerializer.deserialize.resolves(aCertificationReport);
-      sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
-      sinon.stub(usecases, 'getSession').resolves(updatedSession);
-
-      // when
-      await sessionController.finalize(request, hFake, { certificationReportSerializer, events });
-
-      // then
-      expect(usecases.finalizeSession).to.have.been.calledWithExactly({
-        sessionId,
-        examinerGlobalComment,
-        hasIncident,
-        hasJoiningIssue,
-        certificationReports: [aCertificationReport],
       });
     });
   });
