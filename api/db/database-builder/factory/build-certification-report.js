@@ -1,5 +1,5 @@
 import { buildCertificationCourse } from './build-certification-course.js';
-import { CertificationReport } from '../../../lib/domain/models/CertificationReport.js';
+import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
 import _ from 'lodash';
 
 const buildCertificationReport = function ({
