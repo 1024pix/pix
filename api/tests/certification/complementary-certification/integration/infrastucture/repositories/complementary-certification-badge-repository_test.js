@@ -124,6 +124,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
           label: 'PIX+ Toto',
           imageUrl: 'svg.pix.toto.com',
           stickerUrl: 'pdf.pix.toto.com',
+          minimumEarnedPix: 50,
         }),
 
         domainBuilder.buildBadgeToAttach({
@@ -134,6 +135,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
           label: 'PIX+ Toto 2',
           imageUrl: '2.svg.pix.toto.com',
           stickerUrl: '2.pdf.pix.toto.com',
+          minimumEarnedPix: 80,
         }),
       ];
 
@@ -166,7 +168,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
           label: 'PIX+ Toto',
           imageUrl: 'svg.pix.toto.com',
           stickerUrl: 'pdf.pix.toto.com',
-          minimumEarnedPix: 0,
+          minimumEarnedPix: 50,
         },
         {
           badgeId: badgeId2,
@@ -180,7 +182,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
           label: 'PIX+ Toto 2',
           imageUrl: '2.svg.pix.toto.com',
           stickerUrl: '2.pdf.pix.toto.com',
-          minimumEarnedPix: 0,
+          minimumEarnedPix: 80,
         },
       ]);
     });

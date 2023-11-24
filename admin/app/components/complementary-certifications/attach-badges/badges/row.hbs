@@ -19,6 +19,17 @@
   </td>
   <td>
     <PixInput
+      @id="{{@badgeId}}-minimum-earned-pix"
+      name="minimum-earned-pix"
+      placeholder="Ex : 150"
+      @ariaLabel="{{@badgeId}} {{@badgeLabel}} Nombre de pix minimum"
+      title="{{@badgeId}} {{@badgeLabel}} Nombre de pix minimum"
+      type="number"
+      {{on "input" (fn @onFieldUpdate @badgeId)}}
+    />
+  </td>
+  <td>
+    <PixInput
       @id="{{@badgeId}}-certificate-image"
       name="certificate-image"
       placeholder="Ex : https://images.pix.fr/..."

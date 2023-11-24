@@ -10,6 +10,7 @@ const buildBadgeToAttach = function ({
   temporaryCertificateMessage = null,
   stickerUrl = 'http://stiker-url.fr',
   createdBy = null,
+  minimumEarnedPix = 0,
 }) {
   return new BadgeToAttach({
     level,
@@ -21,6 +22,7 @@ const buildBadgeToAttach = function ({
     temporaryCertificateMessage,
     stickerUrl,
     createdBy,
+    minimumEarnedPix,
   });
 };
 

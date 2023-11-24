@@ -5,6 +5,7 @@ export default class ComplementaryCertificationBadge extends Model {
 
   @attr('number') badgeId;
   @attr('number') level;
+  @attr('number') minimumEarnedPix;
   @attr('string') imageUrl;
   @attr('string') label;
   @attr('string') certificateMessage;
