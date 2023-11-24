@@ -8,7 +8,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
       minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
       complementaryCertificationBadgeKey: 'badges.key',
       hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
-      minimumEarnedPix: 'complementary-certifications.minimumEarnedPix',
+      minimumEarnedPix: 'complementary-certification-badges.minimumEarnedPix',
     })
     .join(
       'complementary-certification-badges',
