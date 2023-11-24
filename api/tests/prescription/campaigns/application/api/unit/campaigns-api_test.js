@@ -2,8 +2,8 @@ import { usecases } from '../../../../../../lib/domain/usecases/index.js';
 import * as campaignApi from '../../../../../../src/prescription/campaigns/application/api/campaigns-api.js';
 import { expect, sinon, catchErr } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { Campaign } from '../../../../../../lib/domain/models/index.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../lib/domain/errors.js';
+import { Campaign } from '../../../../../../lib/domain/models/Campaign.js';
 
 describe('Unit | API | Campaigns', function () {
   describe('#save', function () {
@@ -75,6 +75,36 @@ describe('Unit | API | Campaigns', function () {
         // then
         expect(error).is.instanceOf(UserNotAuthorizedToCreateCampaignError);
       });
+    });
+  });
+
+  describe('#get', function () {
+    it('should return campaign informations', async function () {
+      const campaignInformation = domainBuilder.buildCampaign({
+        id: '777',
+        code: 'SOMETHING',
+        name: 'Godzilla',
+        title: 'is Biohazard',
+        customLandingPageText: 'Pika pika pikaCHUUUUUUUUUUUUUUUUUU',
+        createdAt: new Date('2020-01-01'),
+        archivedAt: new Date('2023-01-01'),
+      });
+
+      const getCampaignStub = sinon.stub(usecases, 'getCampaign');
+      getCampaignStub.withArgs({ campaignId: campaignInformation.id }).resolves(campaignInformation);
+
+      // when
+      const result = await campaignApi.get(campaignInformation.id);
+
+      // then
+      expect(result.id).to.equal(campaignInformation.id);
+      expect(result.code).to.equal(campaignInformation.code);
+      expect(result.name).to.equal(campaignInformation.name);
+      expect(result.title).to.equal(campaignInformation.title);
+      expect(result.createdAt).to.equal(campaignInformation.createdAt);
+      expect(result.archivedAt).to.equal(campaignInformation.archivedAt);
+      expect(result.customLandingPageText).to.equal(campaignInformation.customLandingPageText);
+      expect(result).not.to.be.instanceOf(Campaign);
     });
   });
 });
