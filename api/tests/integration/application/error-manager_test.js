@@ -323,22 +323,6 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
       expect(responseDetail(response)).to.equal("L'invitation a déjà été acceptée ou annulée.");
     });
-
-    it('responds Conflict when a SessionWithAbortReasonOnCompletedCertificationCourseError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SessionWithAbortReasonOnCompletedCertificationCourseError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseCode(response)).to.equal('SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE');
-    });
-
-    it('responds Conflict when a SessionAlreadyFinalizedError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SessionAlreadyFinalizedError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseCode(response)).to.equal('SESSION_ALREADY_FINALIZED');
-    });
   });
 
   context('403 Forbidden', function () {
@@ -559,17 +543,6 @@ describe('Integration | API | Controller Error', function () {
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
       expect(responseDetail(response)).to.equal('Format de date invalide.');
-    });
-
-    it('responds Bad Request when a SessionWithoutStartedCertificationError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SessionWithoutStartedCertificationError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal(
-        "This session hasn't started, you can't finalise it. However, you can delete it.",
-      );
-      expect(responseCode(response)).to.equal('SESSION_WITHOUT_STARTED_CERTIFICATION');
     });
 
     it('responds Bad Request when a SessionAlreadyPublishedError error occurs', async function () {

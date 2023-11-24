@@ -140,18 +140,6 @@ describe('Unit | Domain | Errors', function () {
     });
   });
 
-  it('should export a SessionAlreadyFinalizedError', function () {
-    expect(errors.SessionAlreadyFinalizedError).to.exist;
-  });
-
-  it('should export a SessionWithoutStartedCertificationError', function () {
-    expect(errors.SessionWithoutStartedCertificationError).to.exist;
-  });
-
-  it('should export a SessionWithAbortReasonOnCompletedCertificationCourseError', function () {
-    expect(errors.SessionWithAbortReasonOnCompletedCertificationCourseError).to.exist;
-  });
-
   it('should export a TargetProfileInvalidError', function () {
     expect(errors.TargetProfileInvalidError).to.exist;
   });

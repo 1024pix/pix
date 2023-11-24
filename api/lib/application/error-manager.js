@@ -242,14 +242,8 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.WrongDateFormatError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.SessionWithoutStartedCertificationError) {
-    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
-  }
   if (error instanceof DomainErrors.SessionWithIdAndInformationOnMassImportError) {
     return new HttpErrors.BadRequestError(error.message);
-  }
-  if (error instanceof DomainErrors.SessionWithAbortReasonOnCompletedCertificationCourseError) {
-    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.OrganizationLearnerAlreadyLinkedToUserError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
@@ -400,10 +394,6 @@ function _mapToHttpError(error) {
 
   if (error instanceof DomainErrors.CertificationCandidateNotFoundError) {
     return new HttpErrors.NotFoundError(error.message, error.code);
-  }
-
-  if (error instanceof DomainErrors.SessionAlreadyFinalizedError) {
-    return new HttpErrors.ConflictError(error.message, error.code);
   }
 
   return new HttpErrors.BaseHttpError(error.message);
