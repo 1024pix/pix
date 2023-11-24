@@ -91,7 +91,7 @@ async function _upsertStudents(queryBuilder, supOrganizationLearners) {
   try {
     await queryBuilder('organization-learners')
       .insert(supOrganizationLearnersToInsert)
-      .onConflict(['organizationId', 'studentNumber'])
+      .onConflict(knex.raw('("studentNumber", "organizationId") where "deletedAt" is NULL and "deletedBy" is NULL'))
       .merge();
   } catch (error) {
     throw new OrganizationLearnersCouldNotBeSavedError();
