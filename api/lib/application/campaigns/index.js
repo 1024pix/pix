@@ -37,6 +37,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{id}',
       config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,

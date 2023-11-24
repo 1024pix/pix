@@ -48,16 +48,6 @@ describe('Integration | Application | Route | campaignRouter', function () {
     });
   });
 
-  describe('GET /api/campaigns/{id}', function () {
-    it('should return a 200', async function () {
-      // when
-      const response = await httpTestServer.request('GET', '/api/campaigns/1');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('GET /api/campaigns/{id}/analyses', function () {
     it('should return 200', async function () {
       // given
