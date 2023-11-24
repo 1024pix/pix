@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { Badge } from '../../domain/models/index.js';
+import { Badge } from '../../../src/shared/domain/models/Badge.js';
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError, NotFoundError } from '../../domain/errors.js';
 import { DomainTransaction } from '../DomainTransaction.js';
