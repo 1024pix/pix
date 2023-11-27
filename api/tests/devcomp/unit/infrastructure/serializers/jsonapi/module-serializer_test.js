@@ -111,6 +111,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
               alt: 'alt',
               'alternative-instruction': 'alternativeInstruction',
               type: 'images',
+              'is-answerable': false,
             },
             id: '3',
             type: 'images',
