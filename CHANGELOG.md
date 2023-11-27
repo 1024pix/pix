@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v4.68.0 (27/11/2023)
+
+
+### :rocket: Amélioration
+- [#7509](https://github.com/1024pix/pix/pull/7509) [FEATURE] Le nombre de pix minimum pour une certification complémentaire est porté par ses badges (PIX-9955).
+- [#7476](https://github.com/1024pix/pix/pull/7476) [FEATURE] Afficher uniquement un grain à la fois (PIX-9894).
+- [#7511](https://github.com/1024pix/pix/pull/7511) [FEATURE] Rejeter une certification si le candidat n'a pas répondu à assez de questions (PIX-9980).
+- [#7492](https://github.com/1024pix/pix/pull/7492) [FEATURE] Pouvoir définir un nombre de pix minimum lors du rattachement d'un profil cible sur Pix Admin (PIX-9951).
+- [#7484](https://github.com/1024pix/pix/pull/7484) [FEATURE] Affichage du bloc personnalisé de fin de parcours pour les campagnes isForAbsoluteNovice (PIX-10020).
+
+### :building_construction: Tech
+- [#7512](https://github.com/1024pix/pix/pull/7512) [TECH] Migration des routes de modification et suppression de session vers le dossier src (PIX-9877).
+- [#7519](https://github.com/1024pix/pix/pull/7519) [TECH] Exposer une API afin de récupérer les informations d'une campagne (Pix-10062).
+- [#7520](https://github.com/1024pix/pix/pull/7520) [TECH] Migrer Progression vers la nouvelle arbo API (PIX-9932).
+- [#7506](https://github.com/1024pix/pix/pull/7506) [TECH] Finir la migration des contenus formatifs dans devcomp (PIX-10067).
+
+### :bug: Correction
+- [#7524](https://github.com/1024pix/pix/pull/7524) [BUGFIX] Modification du format de données de variationPercent en BDD (PIX-10116).
+
+### :coffee: Autre
+- [#7514](https://github.com/1024pix/pix/pull/7514) [BUG] Le manque de référent Pix pour CLEA ne doit pas bloquer l'envoi de résultats de certifications (PIX-10013).
+
 ## v4.67.0 (23/11/2023)
 
 
