@@ -66,37 +66,6 @@ module('Unit | Model | Element', function (hooks) {
     });
   });
 
-  module('#isAnswerable', function () {
-    module('when element is answerable', function () {
-      test('should return true', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
-
-        // when
-        const isAnswerable = element.isAnswerable;
-
-        // then
-        assert.true(isAnswerable);
-      });
-    });
-
-    module('when element is not answerable', function () {
-      test('should return false', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        ['texts'].forEach((type) => {
-          // when
-          const element = store.createRecord('element', { type });
-          const isAnswerable = element.isAnswerable;
-
-          // then
-          assert.false(isAnswerable);
-        });
-      });
-    });
-  });
-
   module('#isAnswered', function () {
     module('when element is answered', function () {
       test('should return true', function (assert) {

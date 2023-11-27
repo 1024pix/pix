@@ -2,6 +2,7 @@ import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class Element extends Model {
   @attr('string') type;
+  @attr('boolean') isAnswerable;
 
   @belongsTo('grain', { inverse: 'elements' }) grain;
   @hasMany('element-answer', { inverse: 'element' }) elementAnswers;
@@ -12,10 +13,6 @@ export default class Element extends Model {
 
   get isQcu() {
     return this.type === 'qcus';
-  }
-
-  get isAnswerable() {
-    return this.isQcu;
   }
 
   get isAnswered() {
