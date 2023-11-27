@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | Grain', function (hooks) {
+module('Unit | Model | Module | Grain', function (hooks) {
   setupTest(hooks);
 
   module('#answerableElements', function () {
@@ -9,8 +9,8 @@ module('Unit | Model | Grain', function (hooks) {
       test('should return only answerable elements', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const qcu = store.createRecord('qcu', { type: 'qcus' });
-        const text = store.createRecord('text', { type: 'texts' });
+        const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
         const grain = store.createRecord('grain', {
           elements: [qcu, text],
         });
@@ -67,7 +67,7 @@ module('Unit | Model | Grain', function (hooks) {
       test('should return false', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const qcu = store.createRecord('qcu', { type: 'qcus' });
+        const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
         const grain = store.createRecord('grain', {
           elements: [qcu],
         });

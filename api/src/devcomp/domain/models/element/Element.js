@@ -5,6 +5,7 @@ class Element {
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un élément");
 
     this.id = id;
+    this.isAnswerable = false;
   }
 }
 

@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | Module', function (hooks) {
+module('Unit | Model | Module | Module', function (hooks) {
   setupTest(hooks);
 
   test('Module model should exist with the right properties', function (assert) {

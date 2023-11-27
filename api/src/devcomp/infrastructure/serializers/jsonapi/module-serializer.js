@@ -17,15 +17,12 @@ function serialize(module) {
             elements: grain.elements.map((element) => {
               if (element instanceof QCU) {
                 return {
-                  id: element.id,
-                  instruction: element.instruction,
-                  proposals: element.proposals,
+                  ...element,
                   type: 'qcus',
                 };
               }
               return {
-                id: element.id,
-                content: element.content,
+                ...element,
                 type: 'texts',
               };
             }),
@@ -41,7 +38,7 @@ function serialize(module) {
       elements: {
         ref: 'id',
         includes: true,
-        attributes: ['content', 'instruction', 'proposals', 'type'],
+        attributes: ['content', 'instruction', 'proposals', 'type', 'isAnswerable'],
       },
     },
     typeForAttribute(attribute, { type }) {
