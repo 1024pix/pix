@@ -20,7 +20,6 @@ describe('Unit | UseCase | get-cpf-presigned-urls ', function () {
       // then
       expect(preSignFilesStub).to.have.been.calledWithExactly({
         keys: ['thirdFile', 'fourthFile'],
-        expiresIn: 3600,
       });
     });
   });
