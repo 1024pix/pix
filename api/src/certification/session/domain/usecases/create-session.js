@@ -42,6 +42,7 @@ const createSession = async function ({
     accessCode,
     certificationCenter: certificationCenterName,
     version,
+    createdBy: userId,
   });
 
   return sessionRepository.save(domainSession);

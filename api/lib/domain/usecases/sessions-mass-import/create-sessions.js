@@ -35,7 +35,7 @@ const createSessions = async function ({
       } else {
         const { id } = await _saveNewSessionReturningId({
           sessionRepository,
-          sessionDTO,
+          sessionDTO: { ...sessionDTO, createdBy: userId },
           domainTransaction,
           isV3Pilot,
         });

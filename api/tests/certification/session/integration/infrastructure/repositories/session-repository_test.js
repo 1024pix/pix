@@ -6,10 +6,11 @@ import * as sessionRepository from '../../../../../../src/certification/session/
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
-    let session, certificationCenter;
+    let session, certificationCenter, sessionCreator;
 
     beforeEach(async function () {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      sessionCreator = databaseBuilder.factory.buildUser({});
       session = new Session({
         certificationCenter: certificationCenter.name,
         certificationCenterId: certificationCenter.id,
@@ -29,6 +30,7 @@ describe('Integration | Repository | Session', function () {
         accessCode: 'XXXX',
         supervisorPassword: 'AB2C7',
         version: 2,
+        createdBy: sessionCreator.id,
       });
 
       await databaseBuilder.commit();
@@ -85,9 +87,11 @@ describe('Integration | Repository | Session', function () {
   describe('#get', function () {
     let session;
     let expectedSessionValues;
+    let sessionCreator;
 
     beforeEach(async function () {
       // given
+      sessionCreator = databaseBuilder.factory.buildUser({});
       session = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
@@ -97,6 +101,7 @@ describe('Integration | Repository | Session', function () {
         time: '12:00:00',
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10',
+        createdBy: sessionCreator.id,
       });
       expectedSessionValues = {
         id: session.id,
@@ -108,6 +113,7 @@ describe('Integration | Repository | Session', function () {
         time: session.time,
         description: session.description,
         accessCode: session.accessCode,
+        createdBy: sessionCreator.id,
       };
       await databaseBuilder.commit();
     });
@@ -133,6 +139,8 @@ describe('Integration | Repository | Session', function () {
   describe('#getWithCertificationCandidates', function () {
     it('should return session information in a session Object', async function () {
       // given
+
+      const sessionCreator = databaseBuilder.factory.buildUser();
       const session = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
@@ -143,6 +151,7 @@ describe('Integration | Repository | Session', function () {
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10',
         version: 2,
+        createdBy: sessionCreator.id,
       });
       await databaseBuilder.commit();
 
