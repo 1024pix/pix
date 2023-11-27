@@ -21,8 +21,17 @@ const get = async function (request, h, dependencies = { certificationCandidateS
   return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
 };
 
+const deleteCandidate = async function (request) {
+  const certificationCandidateId = request.params.certificationCandidateId;
+
+  await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
+
+  return null;
+};
+
 const certificationCandidateController = {
   add,
   get,
+  deleteCandidate,
 };
 export { certificationCandidateController };

@@ -79,4 +79,26 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       expect(response).to.deep.equal(certificationCandidatesJsonApi);
     });
   });
+
+  describe('#deleteCandidate ', function () {
+    let request;
+    const sessionId = 1;
+    const certificationCandidateId = 1;
+
+    beforeEach(function () {
+      // given
+      request = {
+        params: { id: sessionId, certificationCandidateId },
+      };
+      sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
+    });
+
+    it('should return 204 when deleting successfully the candidate', async function () {
+      // when
+      const response = await certificationCandidateController.deleteCandidate(request, hFake);
+
+      // then
+      expect(response).to.be.null;
+    });
+  });
 });
