@@ -1,7 +1,6 @@
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { certificationCandidateController } from '../../../../../src/certification/session/application/certification-candidate-controller.js';
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { usecases as usecasesLib } from '../../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Controller | certification-candidate-controller', function () {
   describe('#add', function () {
@@ -61,7 +60,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
         params: { id: sessionId },
       };
       sinon
-        .stub(usecasesLib, 'getSessionCertificationCandidates')
+        .stub(usecases, 'getSessionCertificationCandidates')
         .withArgs({ sessionId })
         .resolves(certificationCandidates);
     });
