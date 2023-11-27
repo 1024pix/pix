@@ -22,7 +22,7 @@ class FlashAssessmentAlgorithm {
    * @param configuration - options to configure algorithm challenge selection and behaviour
    */
   constructor({ flashAlgorithmImplementation, configuration = {} } = {}) {
-    this.configuration = configuration;
+    this._configuration = configuration;
     this.flashAlgorithmImplementation = flashAlgorithmImplementation;
 
     this.ruleEngine = new FlashAssessmentAlgorithmRuleEngine(availableRules, {
@@ -40,7 +40,7 @@ class FlashAssessmentAlgorithm {
     initialCapacity = config.v3Certification.defaultCandidateCapacity,
     answersForComputingEstimatedLevel,
   }) {
-    if (assessmentAnswers.length >= this.configuration.maximumAssessmentLength) {
+    if (assessmentAnswers.length >= this._configuration.maximumAssessmentLength) {
       throw new AssessmentEndedError();
     }
 
@@ -48,7 +48,7 @@ class FlashAssessmentAlgorithm {
       allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
       challenges,
       initialCapacity,
-      variationPercent: this.configuration.variationPercent,
+      variationPercent: this._configuration.variationPercent,
     });
 
     const challengesAfterRulesApplication = this._applyChallengeSelectionRules(assessmentAnswers, challenges);
@@ -63,7 +63,7 @@ class FlashAssessmentAlgorithm {
       availableChallenges: challengesAfterRulesApplication,
       estimatedLevel,
       options: {
-        challengesBetweenSameCompetence: this.configuration.challengesBetweenSameCompetence,
+        challengesBetweenSameCompetence: this._configuration.challengesBetweenSameCompetence,
         minimalSuccessRate,
       },
     });
@@ -87,7 +87,7 @@ class FlashAssessmentAlgorithm {
   }
 
   _findApplicableSuccessRateConfiguration(questionIndex) {
-    return this.configuration.minimumEstimatedSuccessRateRanges.find((successRateRange) =>
+    return this._configuration.minimumEstimatedSuccessRateRanges.find((successRateRange) =>
       successRateRange.isApplicable(questionIndex),
     );
   }
@@ -101,13 +101,17 @@ class FlashAssessmentAlgorithm {
       allAnswers,
       challenges,
       estimatedLevel: initialCapacity,
-      variationPercent: this.configuration.variationPercent,
-      doubleMeasuresUntil: this.configuration.doubleMeasuresUntil,
+      variationPercent: this._configuration.variationPercent,
+      doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,
     });
   }
 
   getReward({ estimatedLevel, discriminant, difficulty }) {
     return this.flashAlgorithmImplementation.getReward({ estimatedLevel, discriminant, difficulty });
+  }
+
+  getConfiguration() {
+    return this._configuration;
   }
 }
 

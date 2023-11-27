@@ -60,7 +60,13 @@ class CertificationAssessmentScoreV3 {
       allAnswers,
     });
 
-    const nbPix = _computeScore(estimatedLevel);
+    const { maximumAssessmentLength } = algorithm.getConfiguration();
+
+    const rawScore = _computeScore(estimatedLevel);
+
+    const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers })
+      ? _downgradeScore(rawScore)
+      : rawScore;
 
     const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED
@@ -109,8 +115,21 @@ const _computeScore = (estimatedLevel) => {
   return Math.round(score);
 };
 
+const _downgradeScore = (score) => Math.round(score * 0.8);
+
+const _shouldDowngradeScore = ({ maximumAssessmentLength, answers }) => {
+  return (
+    _hasCandidateAnsweredEnoughQuestions({ answers }) &&
+    !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength })
+  );
+};
+
 const _isCertificationRejected = ({ answers, abortReason }) => {
   return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason === ABORT_REASONS.CANDIDATE;
+};
+
+const _hasCandidateCompletedTheCertification = ({ answers, maximumAssessmentLength }) => {
+  return answers.length >= maximumAssessmentLength;
 };
 
 const _hasCandidateAnsweredEnoughQuestions = ({ answers }) => {
