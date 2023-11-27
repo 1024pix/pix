@@ -178,30 +178,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'DELETE',
-      path: '/api/sessions/{id}/certification-candidates/{certificationCandidateId}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-            certificationCandidateId: identifiersType.certificationCandidateId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.deleteCertificationCandidate,
-        tags: ['api', 'sessions', 'certification-candidates'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle supprime un candidat de certification à la session.',
-        ],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/admin/sessions/{id}/jury-certification-summaries',
       config: {

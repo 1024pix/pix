@@ -82,14 +82,6 @@ const getCandidatesImportSheet = async function (
     .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
 };
 
-const deleteCertificationCandidate = async function (request) {
-  const certificationCandidateId = request.params.certificationCandidateId;
-
-  await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
-
-  return null;
-};
-
 const getJuryCertificationSummaries = async function (
   request,
   h,
@@ -276,7 +268,6 @@ const sessionController = {
   getJurySession,
   get,
   getCandidatesImportSheet,
-  deleteCertificationCandidate,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
   getSessionResultsToDownload,

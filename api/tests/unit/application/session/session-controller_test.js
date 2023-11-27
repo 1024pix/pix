@@ -113,28 +113,6 @@ describe('Unit | Controller | sessionController', function () {
     });
   });
 
-  describe('#deleteCertificationCandidate ', function () {
-    let request;
-    const sessionId = 1;
-    const certificationCandidateId = 1;
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId, certificationCandidateId },
-      };
-      sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
-    });
-
-    it('should return 204 when deleting successfully the candidate', async function () {
-      // when
-      const response = await sessionController.deleteCertificationCandidate(request, hFake);
-
-      // then
-      expect(response).to.be.null;
-    });
-  });
-
   describe('#getJuryCertificationSummaries ', function () {
     it('should return jury certification summaries', async function () {
       // given

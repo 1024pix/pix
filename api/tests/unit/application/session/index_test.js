@@ -106,48 +106,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
-    it('should return 404 if the user is not authorized on the session', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const response = await httpTestServer.request('DELETE', '/api/sessions/3/certification-candidates');
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it('should exist', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'deleteCertificationCandidate').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('DELETE', '/api/sessions/3/certification-candidates/1');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return an error if certification candidate id is incorrect', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'deleteCertificationCandidate').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('DELETE', '/api/sessions/3/certification-candidates/ID');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('POST /api/sessions/{id}/candidate-participation', function () {
     it('should exist', async function () {
       // given
@@ -175,22 +133,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'GET', url: '/api/admin/sessions/9999999999' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'DELETE', url: '/api/sessions/salut/certification-candidates/1' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'DELETE', url: '/api/sessions/9999999999/certification-candidates/1' },
-      },
-      {
-        condition: 'certification candidate ID params is not a number',
-        request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/salut' },
-      },
-      {
-        condition: 'certification candidate ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/9999999999' },
       },
       {
         condition: 'session ID params is not a number',
