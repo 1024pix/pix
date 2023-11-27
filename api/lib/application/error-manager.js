@@ -122,9 +122,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidatesError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
-  if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
-    return new HttpErrors.ForbiddenError(error.message);
-  }
   if (error instanceof DomainErrors.CancelledInvitationError) {
     return new HttpErrors.ForbiddenError(error.message);
   }

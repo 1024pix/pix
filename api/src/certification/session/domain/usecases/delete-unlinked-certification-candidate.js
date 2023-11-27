@@ -2,7 +2,7 @@
  * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
  */
 
-import { CertificationCandidateForbiddenDeletionError } from '../../../../../lib/domain/errors.js';
+import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
 
 /**
  * @param {Object} params

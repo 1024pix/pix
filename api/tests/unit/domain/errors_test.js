@@ -48,10 +48,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.CertificationCandidatePersonalInfoWrongFormat).to.exist;
   });
 
-  it('should export a CertificationCandidateForbiddenDeletionError', function () {
-    expect(errors.CertificationCandidateForbiddenDeletionError).to.exist;
-  });
-
   it('should export a NotFoundError', function () {
     expect(errors.NotFoundError).to.exist;
   });

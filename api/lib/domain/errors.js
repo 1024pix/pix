@@ -525,12 +525,6 @@ class CertificationCandidatePersonalInfoWrongFormat extends DomainError {
   }
 }
 
-class CertificationCandidateForbiddenDeletionError extends DomainError {
-  constructor(message = 'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.') {
-    super(message);
-  }
-}
-
 class CertificationCandidatesError extends DomainError {
   constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null, meta = null } = {}) {
     super(message, code, meta);
@@ -1165,7 +1159,6 @@ export {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
-  CertificationCandidateForbiddenDeletionError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
   CertificationCandidateNotFoundError,
   CertificationCandidateOnFinalizedSessionError,
