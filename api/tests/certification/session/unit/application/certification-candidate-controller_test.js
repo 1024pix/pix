@@ -49,7 +49,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
     });
   });
 
-  describe('#getCertificationCandidates', function () {
+  describe('#get', function () {
     let request;
     const sessionId = 1;
     const certificationCandidates = 'candidates';
@@ -72,7 +72,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       certificationCandidateSerializer.serialize
         .withArgs(certificationCandidates)
         .returns(certificationCandidatesJsonApi);
-      const response = await certificationCandidateController.getCertificationCandidates(request, hFake, {
+      const response = await certificationCandidateController.get(request, hFake, {
         certificationCandidateSerializer,
       });
 

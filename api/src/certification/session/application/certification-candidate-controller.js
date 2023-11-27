@@ -15,7 +15,7 @@ const add = async function (request, h, dependencies = { certificationCandidateS
   return h.response(dependencies.certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
 };
 
-const getCertificationCandidates = async function (request, h, dependencies = { certificationCandidateSerializer }) {
+const get = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
 
   const certificationCandidates = await usecasesLib.getSessionCertificationCandidates({ sessionId });
@@ -24,6 +24,6 @@ const getCertificationCandidates = async function (request, h, dependencies = { 
 
 const certificationCandidateController = {
   add,
-  getCertificationCandidates,
+  get,
 };
 export { certificationCandidateController };
