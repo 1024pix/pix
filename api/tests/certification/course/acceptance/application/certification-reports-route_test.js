@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | Controller | session-controller-get-certification-reports', function () {
+describe('Acceptance | Route | Course | certification-reports-route', function () {
   let server;
 
   beforeEach(async function () {
