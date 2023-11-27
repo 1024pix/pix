@@ -6,13 +6,22 @@ import Component from '@glimmer/component';
 
 export default class OrganizationTargetProfilesSectionComponent extends Component {
   @tracked targetProfilesToAttach = '';
+  @tracked showModal = false;
+  @tracked targetProfileToDetach;
 
   @service accessControl;
   @service notifications;
   @service router;
+  @service store;
 
   get isDisabled() {
     return this.targetProfilesToAttach === '';
+  }
+
+  @action
+  canDetachTargetProfile({ isPublic }) {
+    console.log(this.accessControl);
+    return this.accessControl.hasAccessToOrganizationActionsScope && !isPublic;
   }
 
   @action
@@ -58,6 +67,32 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
   @action
   goToTargetProfilePage(targetProfileId) {
     this.router.transitionTo('authenticated.target-profiles.target-profile', targetProfileId);
+  }
+
+  @action
+  async detachTargetProfile(targetProfilId) {
+    const adapter = this.store.adapterFor('target-profile');
+
+    try {
+      await adapter.detachOrganizations(targetProfilId, [this.args.organization.id]);
+      this.closeModal();
+      await this.args.organization.get('targetProfileSummaries').reload();
+      return this.notifications.success('Profil cible détaché avec succès.');
+    } catch (responseError) {
+      this._handleResponseError(responseError);
+    }
+  }
+
+  @action
+  openModal(targetProfile) {
+    this.showModal = true;
+    this.targetProfileToDetach = targetProfile;
+  }
+
+  @action
+  closeModal() {
+    this.showModal = false;
+    this.targetProfileToDetach = null;
   }
 
   _handleResponseError({ errors }) {
