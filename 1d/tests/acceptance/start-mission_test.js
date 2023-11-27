@@ -1,14 +1,13 @@
 import { clickByText, visit } from '@1024pix/ember-testing-library';
-import { module, skip } from 'qunit';
+import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import identifyLearner from '../helpers/identify-learner';
 import { setupApplicationTest } from '../helpers';
 
 module('Acceptance | Start mission', function (hooks) {
   setupApplicationTest(hooks);
-  //À CREUSER APRÈS LES PANELS
 
-  skip('redirect to first challenge page after clicking on start mission', async function (assert) {
+  test('redirect to first challenge page after clicking on start mission', async function (assert) {
     // given
     identifyLearner(this.owner);
     const mission = this.server.create('mission');
