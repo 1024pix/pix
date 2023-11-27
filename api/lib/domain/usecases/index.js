@@ -62,7 +62,7 @@ import * as certificationCenterRepository from '../../../src/certification/share
 import * as certificationChallengeLiveAlertRepository from '../../../src/certification/session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationChallengeRepository from '../../infrastructure/repositories/certification-challenge-repository.js';
 import * as certificationChallengesService from '../../domain/services/certification-challenges-service.js';
-import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
+import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationCpfCityRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationCpfCountryRepository from '../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfService from '../../../src/certification/shared/domain/services/certification-cpf-service.js';
@@ -150,7 +150,6 @@ import * as sessionPublicationService from '../../domain/services/session-public
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
-import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
 import * as stageAcquisitionRepository from '../../../src/evaluation/infrastructure/repositories/stage-acquisition-repository.js';
@@ -370,7 +369,6 @@ const dependencies = {
   sessionPublicationService,
   sessionRepository,
   sessionSummaryRepository,
-  sessionValidator,
   sessionsImportValidationService,
   skillRepository,
   smartRandom,

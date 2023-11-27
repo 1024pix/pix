@@ -54,16 +54,6 @@ const get = async function (request, h, dependencies = { sessionSerializer }) {
   return dependencies.sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
 };
 
-const update = async function (request, h, dependencies = { sessionSerializer }) {
-  const userId = request.auth.credentials.userId;
-  const session = dependencies.sessionSerializer.deserialize(request.payload);
-  session.id = request.params.id;
-
-  const updatedSession = await usecases.updateSession({ userId, session });
-
-  return dependencies.sessionSerializer.serialize({ session: updatedSession });
-};
-
 const getCandidatesImportSheet = async function (
   request,
   h,
@@ -312,14 +302,6 @@ const commentAsJury = async function (request, h) {
   return h.response().code(204);
 };
 
-const remove = async function (request, h) {
-  const sessionId = request.params.id;
-
-  await usecases.deleteSession({ sessionId });
-
-  return h.response().code(204);
-};
-
 const deleteJuryComment = async function (request, h) {
   const sessionId = request.params.id;
   await usecases.deleteSessionJuryComment({ sessionId });
@@ -331,7 +313,6 @@ const sessionController = {
   findPaginatedFilteredJurySessions,
   getJurySession,
   get,
-  update,
   getCandidatesImportSheet,
   getCertificationCandidates,
   deleteCertificationCandidate,
@@ -350,7 +331,6 @@ const sessionController = {
   flagResultsAsSentToPrescriber,
   assignCertificationOfficer,
   commentAsJury,
-  remove,
   deleteJuryComment,
 };
 

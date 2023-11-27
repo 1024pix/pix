@@ -1,6 +1,6 @@
-import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { deleteSession } from '../../../../lib/domain/usecases/delete-session.js';
-import { SessionStartedDeletionError } from '../../../../lib/domain/errors.js';
+import { expect, sinon, domainBuilder, catchErr } from '../../../../../test-helper.js';
+import { deleteSession } from '../../../../../../src/certification/session/domain/usecases/delete-session.js';
+import { SessionStartedDeletionError } from '../../../../../../src/certification/session/domain/errors.js';
 
 describe('Unit | UseCase | delete-session', function () {
   context('when there are no certification courses', function () {
