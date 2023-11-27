@@ -401,29 +401,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/sessions/{id}/certification-reports',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.getCertificationReports,
-        tags: ['api', 'sessions', 'certification-reports'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle retourne des infos sur les certifications d'une session.",
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {
