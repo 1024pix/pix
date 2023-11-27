@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import stream from 'stream';
 import { MissingQueryParamError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
@@ -19,39 +18,6 @@ import { certificabilityByLabel } from '../../../src/prescription/organization-l
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const { PassThrough } = stream;
-
-const save = async function (request, h, dependencies = { campaignReportSerializer }) {
-  const { userId: creatorId } = request.auth.credentials;
-  const {
-    name,
-    type,
-    title,
-    'multiple-sendings': multipleSendings,
-    'id-pix-label': idPixLabel,
-    'custom-landing-page-text': customLandingPageText,
-    'owner-id': ownerId,
-  } = request.payload.data.attributes;
-  // eslint-disable-next-line no-restricted-syntax
-  const targetProfileId = parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
-  // eslint-disable-next-line no-restricted-syntax
-  const organizationId = parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
-
-  const campaign = {
-    name,
-    type,
-    title,
-    idPixLabel,
-    customLandingPageText,
-    creatorId,
-    ownerId: _getOwnerId(ownerId, creatorId),
-    organizationId,
-    targetProfileId,
-    multipleSendings,
-  };
-
-  const createdCampaign = await usecases.createCampaign({ campaign });
-  return h.response(dependencies.campaignReportSerializer.serialize(createdCampaign)).created();
-};
 
 const getByCode = async function (request) {
   const filters = extractParameters(request.query).filter;
@@ -248,7 +214,6 @@ const getGroups = async function (request) {
 };
 
 const campaignController = {
-  save,
   getByCode,
   getById,
   getCsvAssessmentResults,
@@ -270,8 +235,4 @@ function _validateFilters(filters) {
   if (typeof filters.code === 'undefined') {
     throw new MissingQueryParamError('filter.code');
   }
-}
-
-function _getOwnerId(ownerId, defaultOwnerId) {
-  return ownerId ? ownerId : defaultOwnerId;
 }

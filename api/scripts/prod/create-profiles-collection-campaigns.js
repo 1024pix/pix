@@ -1,9 +1,9 @@
 import bluebird from 'bluebird';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
-import { CampaignTypes } from '../../lib/domain/models/CampaignTypes.js';
+import { CampaignTypes } from '../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import * as codeGenerator from '../../lib/domain/services/code-generator.js';
 import * as campaignValidator from '../../lib/domain/validators/campaign-validator.js';
-import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { parseCsvWithHeader } from '../helpers/csvHelpers.js';
 import * as url from 'url';
 

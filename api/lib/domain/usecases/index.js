@@ -32,7 +32,7 @@ import * as campaignAssessmentParticipationResultListRepository from '../../infr
 import * as campaignAssessmentParticipationResultRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-repository.js';
 import * as codeGenerator from '../services/code-generator.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
-import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
+import * as campaignCreatorRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignCsvExportService from '../../domain/services/campaign-csv-export-service.js';
 import * as campaignForArchivingRepository from '../../infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
 import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';

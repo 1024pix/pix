@@ -1,7 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { SupOrganizationParticipant } from '../../domain/read-models/SupOrganizationParticipant.js';
-import { CampaignTypes } from '../../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 
