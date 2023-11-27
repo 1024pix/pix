@@ -14,7 +14,7 @@ class CpfExportsStorage {
     return this.#client.startUpload({ filename, readableStream });
   }
 
-  async preSignFiles({ keys, expiresIn }) {
+  async preSignFiles({ keys, expiresIn = config.cpf.storage.cpfExports.commands.preSignedExpiresIn }) {
     return bluebird.map(
       keys,
       (key) => {

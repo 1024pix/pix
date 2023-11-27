@@ -1,5 +1,4 @@
 /** @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps */
-import { config } from '../../../../../lib/config.js';
 import { CpfImportStatus } from '../models/CpfImportStatus.js';
 
 /**
@@ -12,7 +11,6 @@ const getPreSignedUrls = async function ({ cpfExportRepository, cpfExportsStorag
 
   return cpfExportsStorage.preSignFiles({
     keys: filenames,
-    expiresIn: config.cpf.storage.cpfExports.commands.preSignedExpiresIn,
   });
 };
 
