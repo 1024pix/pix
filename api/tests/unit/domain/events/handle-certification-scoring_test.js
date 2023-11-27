@@ -1,6 +1,5 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-const { handleCertificationScoring } = _forTestOnly.handlers;
 import { AssessmentResult, status } from '../../../../lib/domain/models/AssessmentResult.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
@@ -12,6 +11,8 @@ import {
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
 
+const { handleCertificationScoring } = _forTestOnly.handlers;
+
 const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 
 describe('Unit | Domain | Events | handle-certification-scoring', function () {
@@ -22,6 +23,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
   let competenceMarkRepository;
   let challengeRepository;
   let answerRepository;
+  let flashAlgorithmConfigurationRepository;
   let flashAlgorithmService;
 
   const now = new Date('2019-01-01T05:06:07Z');
@@ -41,6 +43,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
     competenceMarkRepository = { save: sinon.stub() };
     challengeRepository = { getMany: sinon.stub() };
     answerRepository = { findByAssessment: sinon.stub() };
+    flashAlgorithmConfigurationRepository = { get: sinon.stub() };
   });
 
   afterEach(function () {
@@ -352,6 +355,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             competenceMarkRepository,
             scoringCertificationService,
             certificationAssessmentRepository,
+            flashAlgorithmConfigurationRepository,
             flashAlgorithmService,
           });
 
@@ -418,6 +422,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             competenceMarkRepository,
             scoringCertificationService,
             certificationAssessmentRepository,
+            flashAlgorithmConfigurationRepository,
             flashAlgorithmService,
           });
 
@@ -478,6 +483,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           answerRepository,
           assessmentResultRepository,
           certificationCourseRepository,
+          flashAlgorithmConfigurationRepository,
           flashAlgorithmService,
         });
 

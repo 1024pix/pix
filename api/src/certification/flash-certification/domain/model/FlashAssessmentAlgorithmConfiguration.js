@@ -41,7 +41,7 @@ export class FlashAssessmentAlgorithmConfiguration {
     enablePassageByAllCompetences,
     variationPercent,
     doubleMeasuresUntil,
-  }) {
+  } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
     this.maximumAssessmentLength = maximumAssessmentLength;
