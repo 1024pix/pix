@@ -26,6 +26,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     };
     algorithm = {
       getEstimatedLevelAndErrorRate: sinon.stub(),
+      getConfiguration: sinon.stub(),
     };
 
     const challenge1 = domainBuilder.buildChallenge({
@@ -70,28 +71,79 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     baseAnswers = [answer1, answer3, answer2];
   });
 
-  it('should return the score', async function () {
-    const expectedEstimatedLevel = 2;
-    const expectedScoreForEstimatedLevel = 592;
+  describe('when the candidate finished the test', function () {
+    it('should return the full score', async function () {
+      const expectedEstimatedLevel = 2;
+      const expectedScoreForEstimatedLevel = 592;
 
-    answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
-    challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-    algorithm.getEstimatedLevelAndErrorRate
-      .withArgs({
-        challenges: baseChallenges,
-        allAnswers: baseAnswers,
-      })
-      .returns({
-        estimatedLevel: expectedEstimatedLevel,
+      const numberOfQuestions = 32;
+
+      const challenges = _buildChallenges(0, numberOfQuestions);
+      const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
+      challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
+      algorithm.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers,
+        })
+        .returns({
+          estimatedLevel: expectedEstimatedLevel,
+        });
+
+      algorithm.getConfiguration.returns(
+        domainBuilder.buildFlashAlgorithmConfiguration({
+          maximumAssessmentLength: numberOfQuestions,
+        }),
+      );
+
+      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+        challenges,
+        allAnswers,
+        algorithm,
       });
 
-    const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-      challenges: baseChallenges,
-      allAnswers: baseAnswers,
-      algorithm,
+      expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
     });
+  });
 
-    expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+  describe('when the candidate did not finish the test', function () {
+    it('should return a downgraded score', async function () {
+      const expectedEstimatedLevel = 2;
+      const expectedScoreForEstimatedLevel = 474;
+
+      const numberOfAnsweredQuestions = 20;
+      const numberCertificationQuestions = 32;
+
+      const challenges = _buildChallenges(0, numberOfAnsweredQuestions);
+      const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+
+      answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
+      challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
+      algorithm.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers,
+        })
+        .returns({
+          estimatedLevel: expectedEstimatedLevel,
+        });
+
+      algorithm.getConfiguration.returns(
+        domainBuilder.buildFlashAlgorithmConfiguration({
+          maximumAssessmentLength: numberCertificationQuestions,
+        }),
+      );
+
+      const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+        challenges,
+        allAnswers,
+        algorithm,
+      });
+
+      expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
+    });
   });
 
   describe('when we reach an estimated level below the MINIMUM', function () {
@@ -111,6 +163,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         .returns({
           estimatedLevel: veryLowEstimatedLevel,
         });
+      algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
       // when
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
@@ -141,6 +194,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         .returns({
           estimatedLevel: veryHighEstimatedLevel,
         });
+      algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
       // when
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
@@ -171,6 +225,8 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             estimatedLevel: 0,
           });
 
+        algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
+
         const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
           allAnswers,
@@ -195,6 +251,8 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           .returns({
             estimatedLevel: 0,
           });
+
+        algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
         const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
@@ -222,6 +280,8 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           .returns({
             estimatedLevel: 0,
           });
+
+        algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
 
         const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
