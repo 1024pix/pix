@@ -28,6 +28,9 @@
           <tr>
             <th class="table__column table__column--id">ID</th>
             <th>Nom du profil cible</th>
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              <th>Actions</th>
+            {{/if}}
           </tr>
         </thead>
 
@@ -41,6 +44,13 @@
                     {{summary.name}}
                   </LinkTo>
                 </td>
+                {{#if (this.canDetachTargetProfile summary)}}
+                  <td>
+                    <PixButton @backgroundColor="red" @size="small" @triggerAction={{(fn this.openModal summary)}}>
+                      Détacher
+                    </PixButton>
+                  </td>
+                {{/if}}
               </tr>
             {{/each}}
           </tbody>
@@ -53,3 +63,29 @@
     </div>
   </div>
 </section>
+
+<PixModal
+  @title="Détacher le profil cible de l'organisation"
+  @onCloseButtonClick={{this.closeModal}}
+  @showModal={{this.showModal}}
+  aria-hidden="{{(not this.showModal)}}"
+>
+  <:content>
+    <p>
+      Etes-vous sûr de vouloir détacher le profil cible
+      <strong>{{this.targetProfileToDetach.name}}</strong>
+      de l'organisation
+      <strong>{{@targetProfileName}}</strong>
+      ?
+    </p>
+  </:content>
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.closeModal}}>
+      Annuler
+    </PixButton>
+    <PixButton
+      @backgroundColor="red"
+      @triggerAction={{fn this.detachTargetProfile this.targetProfileToDetach.id}}
+    >Confirmer</PixButton>
+  </:footer>
+</PixModal>
