@@ -15,20 +15,27 @@ import { knex } from './db/knex-database-connection.js';
 
 // bounded context migration
 import { evaluationRoutes } from './src/evaluation/routes.js';
+
 import { certificationSessionRoutes } from './src/certification/session/routes.js';
 import {
   attachTargetProfileRoutes,
   complementaryCertificationRoutes,
 } from './src/certification/complementary-certification/routes.js';
+import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
+import { certificationCourseRoutes } from './src/certification/course/routes.js';
+
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { learnerListRoutes } from './src/prescription/organization-learner/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
+import { campaignRoutes } from './src/prescription/campaign/routes.js';
+
 import { prescriberManagementRoutes } from './src/shared/prescriber-management/routes.js';
+
 import { devcompRoutes } from './src/devcomp/routes.js';
+
 import { schoolRoutes } from './src/school/routes.js';
+
 import { authenticationRoutes } from './src/authentication/application/routes.js';
-import { scenarioSimulatorRoutes } from './src/certification/flash-certification/routes.js';
-import { certificationCourseRoutes } from './src/certification/course/routes.js';
 
 const certificationRoutes = [
   certificationSessionRoutes,
@@ -36,7 +43,7 @@ const certificationRoutes = [
   complementaryCertificationRoutes,
   certificationCourseRoutes,
 ];
-const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes, targetProfileRoutes];
+const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes, targetProfileRoutes, campaignRoutes];
 const sharedRoutes = [prescriberManagementRoutes];
 
 monitoringTools.installHapiHook();

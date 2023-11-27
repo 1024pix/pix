@@ -1,4 +1,4 @@
-import { CampaignTypes } from '../models/CampaignTypes.js';
+import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import lodash from 'lodash';
 
 const { countBy } = lodash;

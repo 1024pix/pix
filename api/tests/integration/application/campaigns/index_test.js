@@ -6,7 +6,6 @@ describe('Integration | Application | Route | campaignRouter', function () {
   let httpTestServer;
 
   beforeEach(async function () {
-    sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getCsvAssessmentResults').callsFake((request, h) => h.response('ok').code(200));
     sinon
       .stub(campaignController, 'getCsvProfilesCollectionResults')
@@ -16,16 +15,6 @@ describe('Integration | Application | Route | campaignRouter', function () {
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
-  });
-
-  describe('POST /api/campaigns', function () {
-    it('should exist', async function () {
-      // when
-      const response = await httpTestServer.request('POST', '/api/campaigns');
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
   });
 
   describe('GET /api/campaigns/{id}/csv-assessment-results', function () {

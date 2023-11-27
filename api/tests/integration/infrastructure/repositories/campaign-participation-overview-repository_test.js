@@ -5,7 +5,7 @@ import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import * as campaignParticipationOverviewRepository from '../../../../lib/infrastructure/repositories/campaign-participation-overview-repository.js';
 import _ from 'lodash';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 
 let userId;
 

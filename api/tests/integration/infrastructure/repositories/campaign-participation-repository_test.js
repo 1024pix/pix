@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { sinon, expect, knex, databaseBuilder, catchErr } from '../../../test-helper.js';
 import { Campaign } from '../../../../lib/domain/models/Campaign.js';
-import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
 import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';

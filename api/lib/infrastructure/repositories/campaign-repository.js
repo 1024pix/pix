@@ -6,8 +6,6 @@ import * as skillRepository from './skill-repository.js';
 import { DomainTransaction } from '../DomainTransaction.js';
 import { tubeDatasource } from '../datasources/learning-content/tube-datasource.js';
 
-const CAMPAIGNS_TABLE = 'campaigns';
-
 const areKnowledgeElementsResettable = async function ({
   id,
   domainTransaction = DomainTransaction.emptyTransaction(),
@@ -23,10 +21,6 @@ const areKnowledgeElementsResettable = async function ({
     .where({ 'campaigns.id': id, 'campaigns.multipleSendings': true })
     .first();
   return Boolean(result);
-};
-
-const isCodeAvailable = async function (code) {
-  return !(await knex('campaigns').first('id').where({ code }));
 };
 
 const getByCode = async function (code) {
@@ -46,55 +40,6 @@ const get = async function (id) {
     targetProfile: { id: campaign.targetProfileId },
     creator: { id: campaign.creatorId },
   });
-};
-
-const save = async function (campaigns, dependencies = { skillRepository }) {
-  const trx = await knex.transaction();
-  const campaignsToCreate = _.isArray(campaigns) ? campaigns : [campaigns];
-
-  try {
-    let latestCreatedCampaign;
-    for (const campaign of campaignsToCreate) {
-      const campaignAttributes = _.pick(campaign, [
-        'name',
-        'code',
-        'title',
-        'type',
-        'idPixLabel',
-        'customLandingPageText',
-        'creatorId',
-        'ownerId',
-        'organizationId',
-        'targetProfileId',
-        'multipleSendings',
-        'createdAt',
-        'customResultPageText',
-        'customResultPageButtonText',
-        'customResultPageButtonUrl',
-      ]);
-      const [createdCampaignDTO] = await trx(CAMPAIGNS_TABLE).insert(campaignAttributes).returning('*');
-      latestCreatedCampaign = new Campaign(createdCampaignDTO);
-      if (latestCreatedCampaign.isAssessment()) {
-        const cappedTubes = await trx('target-profile_tubes')
-          .select('tubeId', 'level')
-          .where('targetProfileId', campaignAttributes.targetProfileId);
-        const skillData = [];
-        for (const cappedTube of cappedTubes) {
-          const allLevelSkills = await dependencies.skillRepository.findActiveByTubeId(cappedTube.tubeId);
-          const rightLevelSkills = allLevelSkills.filter((skill) => skill.difficulty <= cappedTube.level);
-          skillData.push(
-            ...rightLevelSkills.map((skill) => ({ skillId: skill.id, campaignId: latestCreatedCampaign.id })),
-          );
-        }
-        await trx.batchInsert('campaign_skills', skillData);
-      }
-    }
-    await trx.commit();
-    return latestCreatedCampaign;
-  } catch (err) {
-    await trx.rollback();
-    throw err;
-  }
 };
 
 const update = async function (campaign) {
@@ -199,10 +144,8 @@ const findAllSkills = async function ({ campaignId, domainTransaction }) {
 };
 
 export {
-  isCodeAvailable,
   getByCode,
   get,
-  save,
   update,
   checkIfUserOrganizationHasAccessToCampaign,
   getCampaignTitleByCampaignParticipationId,

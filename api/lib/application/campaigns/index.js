@@ -11,19 +11,6 @@ const campaignParticipationStatuses = Object.values(CampaignParticipationStatuse
 const register = async function (server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/campaigns',
-      config: {
-        handler: campaignController.save,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Création d‘une nouvelle campagne\n' +
-            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
-        ],
-        tags: ['api', 'campaign'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/campaigns',
       config: {
