@@ -1,17 +1,21 @@
 import { Factory } from 'miragejs';
-import dayjs from 'dayjs';
 
 export default Factory.extend({
   firstName() {
-    return 'Quentin';
+    return `Quentin_${Math.floor(Math.random() * 100000)}`;
   },
 
   lastName() {
-    return 'Leboncollegue';
+    return `Leboncollègue_${Math.floor(Math.random() * 100000)}`;
   },
 
   birthdate() {
-    return dayjs('1990-01-02');
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+    const tenDaysAgo = new Date();
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+    return new Date(+twoDaysAgo + Math.random() * (tenDaysAgo - twoDaysAgo)).toISOString().slice(0, 10);
   },
 
   birthCity() {
@@ -31,7 +35,7 @@ export default Factory.extend({
   },
 
   externalId() {
-    return '123456ABCD';
+    return Math.random().toString(36).slice(2, 12);
   },
 
   extraTimePercentage() {
