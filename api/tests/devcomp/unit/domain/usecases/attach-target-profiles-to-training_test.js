@@ -1,8 +1,8 @@
-import { expect, sinon, catchErr } from '../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { attachTargetProfilesToTraining } from '../../../../../src/devcomp/domain/usecases/attach-target-profiles-to-training.js';
 
-describe('Unit | UseCase | attach-target-profiles-to-training', function () {
+describe('Unit | Devcomp | Domain | UseCases | attach-target-profiles-to-training', function () {
   let targetProfileRepository;
   let targetProfileTrainingRepository;
   const trainingId = 1;

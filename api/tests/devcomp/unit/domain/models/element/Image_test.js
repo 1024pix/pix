@@ -1,7 +1,7 @@
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Devcomp | Domain | Models | Image', function () {
+describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
   describe('#constructor', function () {
     it('should create an image and keep attributes', function () {
       // when

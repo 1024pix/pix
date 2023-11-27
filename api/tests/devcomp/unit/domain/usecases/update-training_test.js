@@ -2,7 +2,7 @@ import { catchErr, expect, sinon } from '../../../../test-helper.js';
 import { updateTraining } from '../../../../../src/devcomp/domain/usecases/update-training.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
-describe('Unit | UseCase | update-training', function () {
+describe('Unit | Devcomp | Domain | UseCases | update-training', function () {
   let trainingRepository;
 
   beforeEach(function () {

@@ -5,7 +5,7 @@ import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.j
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 
-describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
+describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {
   describe('#serialize', function () {
     it('should serialize with empty list', function () {
       // given

@@ -3,7 +3,7 @@ import { expect } from '../../../../../test-helper.js';
 import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import Joi from 'joi';
 
-describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasource', function () {
+describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasource', function () {
   describe('#getBySlug', function () {
     describe('when exists', function () {
       let moduleSchema;

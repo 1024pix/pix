@@ -1,7 +1,7 @@
 import { expect } from '../../../../../test-helper.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 
-describe('Unit | Devcomp | Domain | Models | QCU', function () {
+describe('Unit | Devcomp | Domain | Models | Element | QCU', function () {
   describe('#constructor', function () {
     it('should instanciate a QCU with right properties', function () {
       // Given
