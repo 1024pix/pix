@@ -1,0 +1,50 @@
+asyncapi: 2.6.0
+info:
+  title: Evaluation API
+  version: 1.0.0
+  description: |
+    All events produced and consumed by the bounded context evaluation
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+channels:
+  evaluation/skills/reinitialized:
+    publish:
+      summary: Triggered when a user has reinitialized a skill
+      message:
+        name: skillReinitialized
+        payload:
+          $ref: "#/components/schemas/skillEvent"
+  evaluation/skills/level-one-acquired:
+    publish:
+      summary: Triggered when a user has acquired the level one for a skill
+      message:
+        name: levelOneAcquired
+        payload:
+          $ref: "#/components/schemas/skillEvent"
+components:
+  schemas:
+    skillEvent:
+      type: object
+      properties:
+        eventId:
+          type: integer
+          minimum: 0
+          example: 234567
+          description: Event identifier, could be used by idempotent consumer.
+        skillId:
+          type: integer
+          minimum: 0
+          example: 1
+          description: Skill identifier.
+        userId:
+          type: integer
+          minimum: 0
+          example: 2
+          description: User identifier.
+        sentAt:
+          type: string
+          format: date-time
+          description: Date and time when the event was sent.
+
+
