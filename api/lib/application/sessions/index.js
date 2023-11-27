@@ -213,30 +213,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/sessions/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.update,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Modification d'une session de certification\n" +
-            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la session à modifier',
-        ],
-        tags: ['api', 'session'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/sessions/{id}/certification-candidates',
       config: {
@@ -665,29 +641,6 @@ const register = async function (server) {
             "- Supprime le commentaire d'un membre du pôle certification (certification-officer)",
         ],
         tags: ['api', 'session', 'assignment'],
-      },
-    },
-    {
-      method: 'DELETE',
-      path: '/api/sessions/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.remove,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès au centre de certification**\n" +
-            "- Supprime la session et les candidats si la session n'a pas démarrée",
-        ],
-        tags: ['api', 'session'],
       },
     },
     {

@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { catchErr, expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
-import { BookshelfCertificationCourse } from '../../../../lib/infrastructure/orm-models/CertificationCourse.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { catchErr, expect, databaseBuilder, domainBuilder } from '../../../../../test-helper.js';
+import * as certificationCourseRepository from '../../../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
+import { BookshelfCertificationCourse } from '../../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { CertificationCourse } from '../../../../../../lib/domain/models/index.js';
 
 describe('Integration | Repository | Certification Course', function () {
   describe('#save', function () {

@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { updateSession } from '../../../../lib/domain/usecases/update-session.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { updateSession } from '../../../../../../src/certification/session/domain/usecases/update-session.js';
 
 describe('Unit | UseCase | update-session', function () {
   let originalSession;

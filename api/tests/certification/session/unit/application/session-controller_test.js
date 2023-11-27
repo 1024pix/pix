@@ -1,10 +1,10 @@
 import { Session } from '../../../../../lib/domain/models/index.js';
 import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { usecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
-import { createSessionController } from '../../../../../src/certification/session/application/create-session-controller.js';
+import { sessionController } from '../../../../../src/certification/session/application/session-controller.js';
 
-describe('Unit | Controller | create-session-controller', function () {
-  describe('#saveSession', function () {
+describe('Unit | Controller | session-controller', function () {
+  describe('#createSession', function () {
     let request;
     let expectedSession;
     let sessionSerializerStub;
@@ -52,15 +52,15 @@ describe('Unit | Controller | create-session-controller', function () {
       };
     });
 
-    it('should save the session', async function () {
+    it('should create a session', async function () {
       // when
-      await createSessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
+      await sessionController.createSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
       expect(usecases.createSession).to.have.been.calledWithExactly({ userId, session: expectedSession });
     });
 
-    it('should return the saved session in JSON API', async function () {
+    it('should return the created session in JSON API', async function () {
       // given
       const jsonApiSession = {
         data: {
@@ -78,13 +78,75 @@ describe('Unit | Controller | create-session-controller', function () {
       sessionSerializerStub.serialize.returns(jsonApiSession);
 
       // when
-      const response = await createSessionController.createSession(request, hFake, {
+      const response = await sessionController.createSession(request, hFake, {
         sessionSerializer: sessionSerializerStub,
       });
 
       // then
       expect(response).to.deep.equal(jsonApiSession);
       expect(sessionSerializerStub.serialize).to.have.been.calledWithExactly({ session: savedSession });
+    });
+  });
+
+  describe('#update', function () {
+    let request, updatedSession, updateSessionArgs;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id: 1 },
+        payload: {},
+      };
+
+      updatedSession = {
+        id: request.params.id,
+      };
+
+      updateSessionArgs = {
+        userId: request.auth.credentials.userId,
+        session: updatedSession,
+      };
+
+      sinon.stub(usecases, 'updateSession');
+    });
+
+    it('should return the updated session', async function () {
+      // given
+      const sessionSerializer = { serialize: sinon.stub(), deserialize: sinon.stub() };
+      sessionSerializer.deserialize.withArgs(request.payload).returns({});
+      usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
+      sessionSerializer.serialize.withArgs({ session: updatedSession }).returns(updatedSession);
+
+      // when
+      const response = await sessionController.update(request, hFake, { sessionSerializer });
+
+      // then
+      expect(response).to.deep.equal(updatedSession);
+    });
+  });
+
+  describe('#delete', function () {
+    it('should delete the session', async function () {
+      // given
+      const sessionId = 1;
+      const userId = 1;
+      sinon.stub(usecases, 'deleteSession');
+      const request = {
+        params: { id: sessionId },
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+      };
+
+      // when
+      await sessionController.remove(request, hFake);
+
+      // then
+      expect(usecases.deleteSession).to.have.been.calledWithExactly({
+        sessionId,
+      });
     });
   });
 });

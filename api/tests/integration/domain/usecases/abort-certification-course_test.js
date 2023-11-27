@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { abortCertificationCourse } from '../../../../lib/domain/usecases/abort-certification-course.js';
-import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
+import * as certificationCourseRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 
 describe('Integration | UseCase | abort-certification-course', function () {
   context('when abort reason is valid', function () {

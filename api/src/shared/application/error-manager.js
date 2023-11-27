@@ -12,6 +12,7 @@ import {
   UserShouldChangePasswordError,
 } from '../../authentication/domain/errors.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
+import { SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -116,6 +117,9 @@ function _mapToHttpError(error) {
   }
   if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
     return new HttpErrors.BadRequestError(error.message);
+  }
+  if (error instanceof SessionStartedDeletionError) {
+    return new HttpErrors.ConflictError(error.message);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

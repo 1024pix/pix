@@ -26,7 +26,6 @@ import {
   UserShouldNotBeReconciledOnAnotherAccountError,
   CertificationCandidateOnFinalizedSessionError,
   CertificationEndedByFinalizationError,
-  SessionStartedDeletionError,
   CampaignTypeError,
   InvalidJuryLevelError,
   UnexpectedOidcStateError,
@@ -327,19 +326,6 @@ describe('Unit | Application | ErrorManager', function () {
     it('should instantiate ConflictError when CertificationEndedByFinalizationError', async function () {
       // given
       const error = new CertificationEndedByFinalizationError();
-      sinon.stub(HttpErrors, 'ConflictError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
-    });
-
-    it('should instantiate ConflictError when SessionStartedDeletionError', async function () {
-      // given
-      const error = new SessionStartedDeletionError();
       sinon.stub(HttpErrors, 'ConflictError');
       const params = { request: {}, h: hFake, error };
 
