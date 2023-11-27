@@ -1,6 +1,5 @@
 import * as certificationCandidateSerializer from '../../shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import { usecases } from '../../shared/domain/usecases/index.js';
-import { usecases as usecasesLib } from '../../../../lib/domain/usecases/index.js';
 
 const add = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
@@ -18,7 +17,7 @@ const add = async function (request, h, dependencies = { certificationCandidateS
 const get = async function (request, h, dependencies = { certificationCandidateSerializer }) {
   const sessionId = request.params.id;
 
-  const certificationCandidates = await usecasesLib.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
   return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
 };
 
