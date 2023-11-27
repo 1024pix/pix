@@ -1181,6 +1181,11 @@
           "continue": "Continuer"
         }
       },
+      "modals": {
+        "alternativeInstruction": {
+          "title": "Alternative textuelle"
+        }
+      },
       "qcu": {
         "direction": "Choisissez une seule réponse."
       }
