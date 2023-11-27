@@ -9,12 +9,14 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
         domainBuilder.buildTargetProfileSummaryForAdmin({
           id: 1,
           name: 'TPA',
+          isPublic: false,
           outdated: false,
           createdAt: new Date('2021-01-01'),
         }),
         domainBuilder.buildTargetProfileSummaryForAdmin({
           id: 2,
           name: 'TPB',
+          isPublic: true,
           outdated: true,
           createdAt: new Date('2021-01-01'),
         }),
@@ -33,6 +35,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             attributes: {
               name: 'TPA',
               outdated: false,
+              'is-public': false,
               'created-at': new Date('2021-01-01'),
             },
           },
@@ -42,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () 
             attributes: {
               name: 'TPB',
               outdated: true,
+              'is-public': true,
               'created-at': new Date('2021-01-01'),
             },
           },
