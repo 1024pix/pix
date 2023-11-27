@@ -11,7 +11,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
   let answerRepository;
   let challengeRepository;
-  let flashAlgorithmService;
+  let algorithm;
 
   let baseChallenges;
   let baseAnswers;
@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     challengeRepository = {
       findFlashCompatible: sinon.stub(),
     };
-    flashAlgorithmService = {
+    algorithm = {
       getEstimatedLevelAndErrorRate: sinon.stub(),
     };
 
@@ -76,14 +76,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
 
     answerRepository.findByAssessment.withArgs(assessmentId).resolves(baseAnswers);
     challengeRepository.findFlashCompatible.withArgs().resolves(baseChallenges);
-    flashAlgorithmService.getEstimatedLevelAndErrorRate
-      .withArgs(
-        _getEstimatedLevelAndErrorRateParams({
-          challenges: baseChallenges,
-          allAnswers: baseAnswers,
-          estimatedLevel: sinon.match.number,
-        }),
-      )
+    algorithm.getEstimatedLevelAndErrorRate
+      .withArgs({
+        challenges: baseChallenges,
+        allAnswers: baseAnswers,
+      })
       .returns({
         estimatedLevel: expectedEstimatedLevel,
       });
@@ -91,7 +88,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
       challenges: baseChallenges,
       allAnswers: baseAnswers,
-      flashAlgorithmService,
+      algorithm,
     });
 
     expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
@@ -106,14 +103,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(veryEasyDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.KO);
 
-      flashAlgorithmService.getEstimatedLevelAndErrorRate
-        .withArgs(
-          _getEstimatedLevelAndErrorRateParams({
-            challenges,
-            allAnswers,
-            estimatedLevel: sinon.match.number,
-          }),
-        )
+      algorithm.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers,
+        })
         .returns({
           estimatedLevel: veryLowEstimatedLevel,
         });
@@ -122,7 +116,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
         challenges,
         allAnswers,
-        flashAlgorithmService,
+        algorithm,
       });
 
       // then
@@ -139,14 +133,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const challenges = _buildChallenges(veryHardDifficulty, numberOfChallenges);
       const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-      flashAlgorithmService.getEstimatedLevelAndErrorRate
-        .withArgs(
-          _getEstimatedLevelAndErrorRateParams({
-            challenges,
-            allAnswers,
-            estimatedLevel: sinon.match.number,
-          }),
-        )
+      algorithm.getEstimatedLevelAndErrorRate
+        .withArgs({
+          challenges,
+          allAnswers,
+        })
         .returns({
           estimatedLevel: veryHighEstimatedLevel,
         });
@@ -155,7 +146,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
       const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
         challenges,
         allAnswers,
-        flashAlgorithmService,
+        algorithm,
       });
 
       // then
@@ -171,14 +162,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
 
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
-          .withArgs(
-            _getEstimatedLevelAndErrorRateParams({
-              challenges,
-              allAnswers,
-              estimatedLevel: sinon.match.number,
-            }),
-          )
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers,
+          })
           .returns({
             estimatedLevel: 0,
           });
@@ -186,7 +174,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
           allAnswers,
-          flashAlgorithmService,
+          algorithm,
         });
 
         expect(score.status).to.equal(status.VALIDATED);
@@ -199,14 +187,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
-          .withArgs(
-            _getEstimatedLevelAndErrorRateParams({
-              challenges,
-              allAnswers,
-              estimatedLevel: sinon.match.number,
-            }),
-          )
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers,
+          })
           .returns({
             estimatedLevel: 0,
           });
@@ -214,7 +199,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
           allAnswers,
-          flashAlgorithmService,
+          algorithm,
           abortReason: 'candidate',
         });
 
@@ -229,14 +214,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
         const challenges = _buildChallenges(difficulty, numberOfChallenges);
         const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
-          .withArgs(
-            _getEstimatedLevelAndErrorRateParams({
-              challenges,
-              allAnswers,
-              estimatedLevel: sinon.match.number,
-            }),
-          )
+        algorithm.getEstimatedLevelAndErrorRate
+          .withArgs({
+            challenges,
+            allAnswers,
+          })
           .returns({
             estimatedLevel: 0,
           });
@@ -244,7 +226,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
           challenges,
           allAnswers,
-          flashAlgorithmService,
+          algorithm,
           certificationCourseAbortReason,
         });
 
@@ -265,12 +247,6 @@ const _buildChallenges = (difficulty, numberOfChallenges) => {
     }),
   );
 };
-
-const _getEstimatedLevelAndErrorRateParams = (params) => ({
-  ...params,
-  doubleMeasuresUntil: undefined,
-  variationPercent: undefined,
-});
 
 const _buildAnswersForChallenges = (challenges, answerResult) => {
   return challenges.map(({ id: challengeId }) =>

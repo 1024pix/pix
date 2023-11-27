@@ -47,7 +47,7 @@ import { handlePoleEmploiParticipationFinished } from './handle-pole-emploi-part
 import { handlePoleEmploiParticipationStarted } from './handle-pole-emploi-participation-started.js';
 import { handleSessionFinalized } from './handle-session-finalized.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
-
+import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 const { performance } = perf_hooks;
 
 function requirePoleEmploiNotifier() {
@@ -78,6 +78,7 @@ const dependencies = {
   complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
   finalizedSessionRepository,
+  flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   juryCertificationSummaryRepository,
   knowledgeElementRepository,

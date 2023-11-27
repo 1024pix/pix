@@ -1,10 +1,9 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-const { handleCertificationRescoring } = _forTestOnly.handlers;
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { CertificationAssessment, CertificationResult, AssessmentResult } from '../../../../lib/domain/models/index.js';
+import { AssessmentResult, CertificationAssessment, CertificationResult } from '../../../../lib/domain/models/index.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
 import { config } from '../../../../src/shared/config.js';
@@ -14,35 +13,63 @@ import {
 } from '../../../certification/shared/fixtures/challenges.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 
+const { handleCertificationRescoring } = _forTestOnly.handlers;
+
 const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
 const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function () {
   describe('when handling a v3 certification', function () {
+    let assessmentResultRepository,
+      certificationAssessmentRepository,
+      answerRepository,
+      challengeRepository,
+      certificationCourseRepository,
+      flashAlgorithmConfigurationRepository,
+      flashAlgorithmService;
+
+    let dependencies;
+
+    beforeEach(function () {
+      assessmentResultRepository = {
+        save: sinon.stub(),
+      };
+      certificationAssessmentRepository = {
+        getByCertificationCourseId: sinon.stub(),
+      };
+      answerRepository = {
+        findByAssessment: sinon.stub(),
+      };
+      challengeRepository = {
+        getManyFlashParameters: sinon.stub(),
+      };
+
+      certificationCourseRepository = {
+        get: sinon.stub(),
+      };
+
+      flashAlgorithmConfigurationRepository = {
+        get: sinon.stub(),
+      };
+
+      flashAlgorithmService = {
+        getEstimatedLevelAndErrorRate: sinon.stub(),
+      };
+
+      dependencies = {
+        certificationAssessmentRepository,
+        answerRepository,
+        challengeRepository,
+        assessmentResultRepository,
+        certificationCourseRepository,
+        flashAlgorithmConfigurationRepository,
+        flashAlgorithmService,
+      };
+    });
+
     describe('when less than the minimum number of answers required by the config has been answered', function () {
       it('should save the score with a rejected status', async function () {
-        const assessmentResultRepository = {
-          save: sinon.stub(),
-        };
-        const certificationAssessmentRepository = {
-          getByCertificationCourseId: sinon.stub(),
-        };
-        const answerRepository = {
-          findByAssessment: sinon.stub(),
-        };
-        const challengeRepository = {
-          getManyFlashParameters: sinon.stub(),
-        };
-
-        const certificationCourseRepository = {
-          get: sinon.stub(),
-        };
-
-        const flashAlgorithmService = {
-          getEstimatedLevelAndErrorRate: sinon.stub(),
-        };
-
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           version: CertificationVersion.V3,
         });
@@ -88,15 +115,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           certificationCourseId,
         });
 
-        const dependencies = {
-          certificationAssessmentRepository,
-          answerRepository,
-          challengeRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          flashAlgorithmService,
-        };
-
         const result = await handleCertificationRescoring({
           ...dependencies,
           event,
@@ -128,27 +146,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     });
 
     it('should save the score', async function () {
-      const assessmentResultRepository = {
-        save: sinon.stub(),
-      };
-      const certificationAssessmentRepository = {
-        getByCertificationCourseId: sinon.stub(),
-      };
-      const answerRepository = {
-        findByAssessment: sinon.stub(),
-      };
-      const challengeRepository = {
-        getManyFlashParameters: sinon.stub(),
-      };
-
-      const certificationCourseRepository = {
-        get: sinon.stub(),
-      };
-
-      const flashAlgorithmService = {
-        getEstimatedLevelAndErrorRate: sinon.stub(),
-      };
-
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         version: CertificationVersion.V3,
       });
@@ -193,15 +190,6 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       const event = new CertificationJuryDone({
         certificationCourseId,
       });
-
-      const dependencies = {
-        certificationAssessmentRepository,
-        answerRepository,
-        challengeRepository,
-        certificationCourseRepository,
-        assessmentResultRepository,
-        flashAlgorithmService,
-      };
 
       const result = await handleCertificationRescoring({
         ...dependencies,
