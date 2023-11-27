@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | Grain', function (hooks) {
+module('Unit | Model | Module | Grain', function (hooks) {
   setupTest(hooks);
 
   module('#answerableElements', function () {

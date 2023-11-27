@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | Element', function (hooks) {
+module('Unit | Model | Module | Element', function (hooks) {
   setupTest(hooks);
 
   module('#isText', function () {
