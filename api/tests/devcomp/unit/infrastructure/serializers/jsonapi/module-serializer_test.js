@@ -49,10 +49,10 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
             title: 'Grain 1',
             type: 'activity',
             elements: [
-              new Text({ id: '1', content: '' }),
+              new Text({ id: '1', content: 'toto' }),
               new QCU({
                 id: '2',
-                proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: '' }],
+                proposals: [{ id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'toto' }],
                 instruction: 'hello',
                 solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
               }),
@@ -81,7 +81,8 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
         included: [
           {
             attributes: {
-              content: '',
+              content: 'toto',
+              'is-answerable': false,
               type: 'texts',
             },
             id: '1',
@@ -90,9 +91,10 @@ describe('Unit | DevComp | Serializers | ModuleSerializer', function () {
           {
             attributes: {
               instruction: 'hello',
+              'is-answerable': true,
               proposals: [
                 {
-                  content: '',
+                  content: 'toto',
                   id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
                 },
               ],
