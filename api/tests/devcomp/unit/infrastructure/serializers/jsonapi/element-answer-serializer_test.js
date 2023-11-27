@@ -5,7 +5,7 @@ import * as elementAnswerSerializer from '../../../../../../src/devcomp/infrastr
 import { ElementAnswer } from '../../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import omit from 'lodash/omit.js';
 
-describe('Unit | DevComp | Serializers | ElementAnswerSerializer', function () {
+describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswerSerializer', function () {
   describe('#serialize', function () {
     it('should return a serialized ElementAnswer', function () {
       // given

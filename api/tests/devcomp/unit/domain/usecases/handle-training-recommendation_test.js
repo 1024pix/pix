@@ -1,7 +1,7 @@
 import { handleTrainingRecommendation } from '../../../../../src/devcomp/domain/usecases/handle-training-recommendation.js';
-import { expect, sinon, domainBuilder } from '../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | handle-training-recommendation', function () {
+describe('Unit | Devcomp | Domain | UseCases | handle-training-recommendation', function () {
   let trainingRepository;
   let userRecommendedTrainingRepository;
   let findWithTriggersByCampaignParticipationIdAndLocaleStub;

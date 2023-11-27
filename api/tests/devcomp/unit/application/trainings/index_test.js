@@ -3,7 +3,7 @@ import { securityPreHandlers } from '../../../../../lib/application/security-pre
 import { trainingController } from '../../../../../src/devcomp/application/trainings/training-controller.js';
 import * as moduleUnderTest from '../../../../../src/devcomp/application/trainings/index.js';
 
-describe('Unit | Router | training-router', function () {
+describe('Unit | Devcomp | Application | Trainings | Router | training-router', function () {
   describe('GET /api/admin/trainings/${trainingId}', function () {
     describe('Security Prehandlers', function () {
       it('should allow user if its role is SUPER_ADMIN', async function () {

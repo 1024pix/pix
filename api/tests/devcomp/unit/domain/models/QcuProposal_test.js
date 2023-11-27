@@ -1,7 +1,7 @@
 import { expect } from '../../../../test-helper.js';
 import { QcuProposal } from '../../../../../src/devcomp/domain/models/QcuProposal.js';
 
-describe('Unit | Devcomp | Models | QcuProposal', function () {
+describe('Unit | Devcomp | Domain | Models | QcuProposal', function () {
   describe('#constructor', function () {
     it('should create a QCU proposal with correct attributes', function () {
       // given

@@ -1,7 +1,7 @@
 import { ElementAnswer } from '../../../../../src/devcomp/domain/models/ElementAnswer.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Devcomp | Models | ElementAnswer', function () {
+describe('Unit | Devcomp | Domain | Models | ElementAnswer', function () {
   describe('#constructor', function () {
     it('should create an element answer and keep attributes', function () {
       // given

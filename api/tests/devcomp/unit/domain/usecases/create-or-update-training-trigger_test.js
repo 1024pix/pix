@@ -1,7 +1,7 @@
 import { createOrUpdateTrainingTrigger } from '../../../../../src/devcomp/domain/usecases/create-or-update-training-trigger.js';
-import { expect, catchErr, sinon } from '../../../../test-helper.js';
+import { catchErr, expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | UseCase | create-or-update-training-trigger', function () {
+describe('Unit | Devcomp | Domain | UseCases | create-or-update-training-trigger', function () {
   let trainingRepository;
   let trainingTriggerRepository;
 

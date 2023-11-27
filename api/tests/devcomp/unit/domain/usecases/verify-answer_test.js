@@ -1,7 +1,7 @@
 import { verifyAnswer } from '../../../../../src/devcomp/domain/usecases/verify-answer.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Devcomp | Usecases | verify-answer', function () {
+describe('Unit | Devcomp | Domain | UseCases | verify-answer', function () {
   describe('#verifyAnswer', function () {
     describe('When the selected proposal is valid', function () {
       it('should return a valid Correction Response', async function () {
