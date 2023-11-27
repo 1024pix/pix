@@ -113,6 +113,18 @@
               "solution": "f56bb715-714e-4a94-ba34-eef5ccd755d0"
             }
           ]
+        },
+        {
+          "id": "d54142a3-43df-4bde-b1a3-8a795384f428",
+          "type": "lesson",
+          "title": "Diversité des identifiants et des fournisseurs d’adresse mail : synthèse",
+          "elements": [
+            {
+              "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
+              "type": "text",
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br/><span aria-hidden='true'>💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br/><span aria-hidden='true'>✅</span> Exemples : laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            }
+          ]
         }
       ]
     }
