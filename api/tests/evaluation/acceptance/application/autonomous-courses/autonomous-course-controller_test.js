@@ -90,4 +90,76 @@ describe('Acceptance | API | Autonomous Course', function () {
       });
     });
   });
+
+  describe('GET /api/admin/autonomous-courses/target-profiles', function () {
+    let mainOrganization, otherOrganization;
+    let targetProfiles;
+    beforeEach(async function () {
+      mainOrganization = databaseBuilder.factory.buildOrganization();
+      otherOrganization = databaseBuilder.factory.buildOrganization();
+
+      const validTargetProfile1 = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: mainOrganization.id,
+        isSimplifiedAccess: true,
+      });
+
+      const validTargetProfile2 = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: mainOrganization.id,
+        isSimplifiedAccess: true,
+      });
+
+      const targetProfileFromAnotherOrganization = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: otherOrganization.id,
+        isSimplifiedAccess: true,
+      });
+
+      const targetProfileNotSimplifiedAccess = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: mainOrganization.id,
+        isSimplifiedAccess: false,
+      });
+
+      targetProfiles = [
+        validTargetProfile1,
+        validTargetProfile2,
+        targetProfileFromAnotherOrganization,
+        targetProfileNotSimplifiedAccess,
+      ];
+
+      await databaseBuilder.commit();
+    });
+
+    it('should get all simplified-access target-profiles from autonomous-courses specific organization', async function () {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/admin/autonomous-courses/target-profiles`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const expectedResult = [
+        {
+          attributes: {
+            name: targetProfiles[0].name,
+          },
+          id: targetProfiles[0].id.toString(),
+          type: 'autonomous-courses-target-profiles',
+        },
+        {
+          attributes: {
+            name: targetProfiles[1].name,
+          },
+          id: targetProfiles[1].id.toString(),
+          type: 'autonomous-courses-target-profiles',
+        },
+      ];
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.length).to.equal(2);
+      expect(response.result.data).to.deep.equal(expectedResult);
+    });
+  });
 });
