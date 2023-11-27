@@ -531,6 +531,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
             attributes: {
               name: 'Super profil cible',
               outdated: false,
+              'is-public': undefined,
               'created-at': undefined,
             },
           },
