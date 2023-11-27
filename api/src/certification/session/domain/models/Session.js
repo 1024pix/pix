@@ -42,6 +42,7 @@ class Session {
     assignedCertificationOfficerId,
     supervisorPassword = Session.generateSupervisorPassword(),
     version = CertificationVersion.V2,
+    createdBy,
   } = {}) {
     this.id = id;
     this.accessCode = accessCode;
@@ -63,6 +64,7 @@ class Session {
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
     this.supervisorPassword = supervisorPassword;
     this.version = version;
+    this.createdBy = createdBy;
   }
 
   areResultsFlaggedAsSent() {

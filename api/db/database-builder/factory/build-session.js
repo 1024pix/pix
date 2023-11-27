@@ -1,6 +1,7 @@
 import { buildCertificationCenter } from './build-certification-center.js';
 import { databaseBuffer } from '../database-buffer.js';
 import _ from 'lodash';
+import { buildUser } from './build-user.js';
 
 const buildSession = function ({
   id = databaseBuffer.getNextId(),
@@ -26,11 +27,15 @@ const buildSession = function ({
   juryCommentedAt = null,
   supervisorPassword = 'PIX12',
   version = 2,
+  createdBy = null,
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
     const builtCertificationCenter = buildCertificationCenter();
     certificationCenter = builtCertificationCenter.name;
     certificationCenterId = builtCertificationCenter.id;
+  }
+  if (_.isUndefined(createdBy)) {
+    createdBy = buildUser();
   }
   const values = {
     id,
@@ -56,6 +61,7 @@ const buildSession = function ({
     juryCommentedAt,
     supervisorPassword,
     version,
+    createdBy,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'sessions',
