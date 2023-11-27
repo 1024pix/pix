@@ -12,6 +12,7 @@ class QCU extends Element {
     this.instruction = instruction;
     this.locales = locales;
     this.proposals = proposals;
+    this.isAnswerable = true;
   }
 
   #assertProposalsAreNotEmpty(proposals) {

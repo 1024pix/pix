@@ -24,7 +24,11 @@ module('Integration | Component | Module | Grain', function (hooks) {
     test('should display text element', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const textElement = store.createRecord('text', { content: 'element content', type: 'texts' });
+      const textElement = store.createRecord('text', {
+        content: 'element content',
+        type: 'texts',
+        isAnswerable: false,
+      });
       const elements = [textElement];
       const grain = store.createRecord('grain', { title: 'Grain title', elements });
       this.set('grain', grain);
@@ -45,6 +49,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
         instruction: 'instruction',
         proposals: ['radio1', 'radio2'],
         type: 'qcus',
+        isAnswerable: true,
       });
       const elements = [qcuElement];
       const grain = store.createRecord('grain', { title: 'Grain title', elements });
@@ -63,7 +68,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       test('should display continue button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
+        const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
         const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
 
@@ -83,7 +88,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       test('should not display continue button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
+        const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
         const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
 
@@ -103,7 +108,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       test('should not display continue button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
+        const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
         const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
 
@@ -123,7 +128,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       test('should not display continue button', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
+        const element = store.createRecord('element', { type: 'qcus', isAnswerable: true });
         const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
         this.set('grain', grain);
 
@@ -142,7 +147,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
     test('should call continueAction pass in argument and push event', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const element = store.createRecord('text', { type: 'texts' });
+      const element = store.createRecord('text', { type: 'texts', isAnswerable: false });
       const grain = store.createRecord('grain', { title: 'Grain title', elements: [element] });
       store.createRecord('module', { id: 'module-id', grains: [grain] });
       this.set('grain', grain);

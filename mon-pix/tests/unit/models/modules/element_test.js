@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | Element', function (hooks) {
+module('Unit | Model | Module | Element', function (hooks) {
   setupTest(hooks);
 
   module('#isText', function () {
@@ -61,37 +61,6 @@ module('Unit | Model | Element', function (hooks) {
 
           // then
           assert.false(isQcu);
-        });
-      });
-    });
-  });
-
-  module('#isAnswerable', function () {
-    module('when element is answerable', function () {
-      test('should return true', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
-
-        // when
-        const isAnswerable = element.isAnswerable;
-
-        // then
-        assert.true(isAnswerable);
-      });
-    });
-
-    module('when element is not answerable', function () {
-      test('should return false', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        ['texts'].forEach((type) => {
-          // when
-          const element = store.createRecord('element', { type });
-          const isAnswerable = element.isAnswerable;
-
-          // then
-          assert.false(isAnswerable);
         });
       });
     });
