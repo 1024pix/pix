@@ -24,7 +24,7 @@ export default Factory.extend({
   },
 
   room() {
-    return 375491208;
+    return Math.random().toString(36).slice(2, 12);
   },
 
   time() {

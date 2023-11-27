@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 
 export default Factory.extend({
   firstName() {
-    return 'Barish';
+    return `Barish_${Math.floor(Math.random() * 100000)}`;
   },
 
   lastName() {
-    return 'Joel';
+    return `Joel_${Math.floor(Math.random() * 100000)}`;
   },
 
   birthdate() {
