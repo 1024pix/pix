@@ -81,13 +81,6 @@ const getCandidatesImportSheet = async function (
     .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
 };
 
-const getCertificationCandidates = async function (request, h, dependencies = { certificationCandidateSerializer }) {
-  const sessionId = request.params.id;
-
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-  return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
-};
-
 const deleteCertificationCandidate = async function (request) {
   const certificationCandidateId = request.params.certificationCandidateId;
 
@@ -282,7 +275,6 @@ const sessionController = {
   getJurySession,
   get,
   getCandidatesImportSheet,
-  getCertificationCandidates,
   deleteCertificationCandidate,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
