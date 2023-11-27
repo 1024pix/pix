@@ -25,11 +25,17 @@
         </li>
       </ul>
 
-      <PixButton @triggerAction={{this.goToResume}} @shape="rounded" class="pix1d-button details-action">
+      <PixButtonLink
+        @route="identified.missions.mission.resume"
+        @shape="rounded"
+        class="details-action"
+        {{on "click" this.activeLoadingButton}}
+      >
         <p>{{t "pages.missions.start-page.start-mission"}}</p>
         <FaIcon @icon="arrow-right" class="details-action__icon" />
-      </PixButton>
+      </PixButtonLink>
 
+      <PixButton class="details-action details-action__loader" @isLoading="true" />
     </div>
   </div>
 </div>

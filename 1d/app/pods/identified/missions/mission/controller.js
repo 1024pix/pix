@@ -6,7 +6,10 @@ export default class Mission extends Controller {
   @service router;
 
   @action
-  async goToResume() {
-    await this.router.transitionTo('identified.missions.mission.resume');
+  async activeLoadingButton() {
+    document.getElementsByClassName('details-action')[0].remove();
+    document
+      .getElementsByClassName('details-action__loader')[0]
+      .classList.replace('details-action__loader', 'details-action__loader--visible');
   }
 }
