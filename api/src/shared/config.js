@@ -130,7 +130,7 @@ const configuration = (function () {
             bucket: process.env.CPF_EXPORTS_STORAGE_BUCKET_NAME,
           },
           commands: {
-            preSignedExpiresIn: process.env.CPF_EXPORTS_STORAGE_PRE_SIGNED_EXPIRES_IN || 3600,
+            preSignedExpiresIn: process.env.CPF_EXPORTS_STORAGE_PRE_SIGNED_EXPIRES_IN || 604800,
           },
         },
         cpfReceipts: {
