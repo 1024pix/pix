@@ -1,9 +1,8 @@
 import { Factory, trait } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   title() {
-    return faker.lorem.words();
+    return 'Campagne des compétences incroyables';
   },
 
   type() {
@@ -11,7 +10,7 @@ export default Factory.extend({
   },
 
   code() {
-    return faker.string.alphanumeric(6);
+    return Math.random().toString(36).slice(2, 8);
   },
 
   idPixLabel() {
@@ -23,7 +22,7 @@ export default Factory.extend({
   },
 
   organizationName() {
-    return faker.company.name();
+    return 'Ligue des congres et tanches';
   },
 
   isRestricted() {

@@ -1,5 +1,4 @@
 import { Factory, trait } from 'miragejs';
-import { faker } from '@faker-js/faker';
 import sumBy from 'lodash/sumBy';
 
 function _addDefaultProfile(user, server) {
@@ -258,10 +257,10 @@ function _createTutorial(server) {
 
 export default Factory.extend({
   firstName() {
-    return faker.person.firstName();
+    return 'Victoria';
   },
   lastName() {
-    return faker.person.lastName();
+    return 'Osinski';
   },
   cgu() {
     return false;
@@ -279,11 +278,11 @@ export default Factory.extend({
     shouldChangePassword: true,
   }),
   withEmail: trait({
-    email: faker.internet.exampleEmail(),
+    email: 'Victoria4@hotmail.com',
     password: 'Azerty123*',
   }),
   withUsername: trait({
-    username: faker.internet.userName(),
+    username: 'VO4',
     password: 'Azerty123*',
   }),
   external: trait({

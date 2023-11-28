@@ -1,15 +1,14 @@
 import { Factory } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   firstName() {
-    return faker.person.firstName();
+    return 'Michel';
   },
   lastName() {
-    return faker.person.lastName();
+    return 'Chefchef';
   },
   email() {
-    return faker.internet.exampleEmail().toLowerCase();
+    return 'chef-michou@example.net';
   },
   lang() {
     return 'FR';

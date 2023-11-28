@@ -56,7 +56,6 @@
     "@embroider/core": "^3.0.0",
     "@embroider/util": "^1.11.1",
     "@embroider/webpack": "^3.0.0",
-    "@faker-js/faker": "^8.0.0",
     "@formatjs/intl": "^2.5.1",
     "@formatjs/intl-getcanonicallocales": "^2.0.4",
     "@formatjs/intl-locale": "^3.0.7",

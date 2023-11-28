@@ -54,7 +54,6 @@
     "@embroider/compat": "^3.0.0",
     "@embroider/core": "^3.0.0",
     "@embroider/webpack": "^3.0.0",
-    "@faker-js/faker": "^8.0.0",
     "@formatjs/intl": "^2.9.1",
     "@fortawesome/ember-fontawesome": "^2.0.0",
     "@fortawesome/fontawesome-svg-core": "6.4.2",

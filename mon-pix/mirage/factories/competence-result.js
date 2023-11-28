@@ -1,17 +1,16 @@
 import { Factory } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   name() {
-    return faker.lorem.words();
+    return 'Nom de competence pas inspiré';
   },
 
   index() {
-    return faker.string.alphanumeric(2);
+    return '1a';
   },
 
   totalSkillsCount() {
-    return faker.number.int() + 3;
+    return 27;
   },
 
   afterCreate(competenceResult) {

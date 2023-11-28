@@ -63,7 +63,12 @@ module('Acceptance | Session Update', function (hooks) {
 
   test('it should allow to update a session and redirect to the session details', async function (assert) {
     // given
-    const session = server.create('session', { room: 'beforeRoom', examiner: 'beforeExaminer' });
+    const session = server.create('session', {
+      room: 'beforeRoom',
+      examiner: 'beforeExaminer',
+      date: '2023-12-12',
+      time: '10:12',
+    });
     const newRoom = 'New room';
     const newExaminer = 'New examiner';
 
