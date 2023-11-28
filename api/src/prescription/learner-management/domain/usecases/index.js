@@ -1,9 +1,9 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import * as supOrganizationLearnerRepository from '../../../learner-management/infrastructure/repositories/sup-organization-learner-repository.js';
-import * as organizationLearnerRepository from '../../../learner-management/infrastructure/repositories/organization-learner-repository.js';
-import * as campaignParticipationRepository from '../../../learner-management/infrastructure/repositories/campaign-participation-repository.js';
+import * as supOrganizationLearnerRepository from '../../infrastructure/repositories/sup-organization-learner-repository.js';
+import * as organizationLearnerRepository from '../../infrastructure/repositories/organization-learner-repository.js';
+import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
@@ -18,7 +18,7 @@ const path = dirname(fileURLToPath(import.meta.url));
 
 const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
-    path: join(path, '../../../learner-management/domain/usecases/'),
+    path: join(path, './'),
     ignoredFileNames: ['index.js'],
   })),
 };
