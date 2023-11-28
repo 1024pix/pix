@@ -1,32 +1,31 @@
 import { Factory } from 'miragejs';
-import { faker } from '@faker-js/faker';
 
 export default Factory.extend({
   certificationCourseId() {
-    return faker.number.int();
+    return 15263748;
   },
 
   firstName() {
-    return faker.person.firstName();
+    return 'Ivan';
   },
 
   lastName() {
-    return faker.person.lastName();
+    return 'Denissovitch';
   },
 
   externalId() {
-    return faker.string.uuid();
+    return 'CH-854';
   },
 
   hasSeenEndTestScreen() {
-    return faker.datatype.boolean();
+    return false;
   },
 
   isCompleted() {
-    return faker.datatype.boolean();
+    return false;
   },
 
   abortReason() {
-    return faker.lorem.word();
+    return 'Avait froid aux mains';
   },
 });
