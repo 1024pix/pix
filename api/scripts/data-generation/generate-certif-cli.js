@@ -141,7 +141,7 @@ async function main({ centerType, candidateNumber, complementaryCertifications =
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }),
   );
 
-  const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
+  const sessionId = await _createSessionAndReturnId({ certificationCenterId, databaseBuilder, userIds });
   if (centerType === 'SCO') {
     await _createScoCertificationCandidates({ candidateNumber, sessionId, organizationId }, databaseBuilder);
   } else {
@@ -202,7 +202,7 @@ async function _createComplementaryCertificationHabilitations(
   });
 }
 
-async function _createSessionAndReturnId(certificationCenterId, databaseBuilder) {
+async function _createSessionAndReturnId({ certificationCenterId, databaseBuilder, userIds }) {
   const sessionCode = getNewSessionCode();
   const { id } = databaseBuilder.factory.buildSession({
     certificationCenterId,
@@ -210,6 +210,8 @@ async function _createSessionAndReturnId(certificationCenterId, databaseBuilder)
     address: 'via le script de génération',
     createdAt: new Date(),
   });
+
+  _buildSupervisorAccess({ databaseBuilder, sessionId: id, userId: userIds.at(0) });
   return id;
 }
 
@@ -401,6 +403,15 @@ async function _createUser({ firstName, lastName, birthdate, email, organization
   });
 
   return { userId, organizationLearnerId };
+}
+
+function _buildSupervisorAccess({ databaseBuilder, sessionId }) {
+  const supervisor = databaseBuilder.factory.buildUser({ firstName: `supervisor${sessionId}` });
+  databaseBuilder.factory.buildSupervisorAccess({
+    sessionId,
+    userId: supervisor.id,
+    authorizedAt: new Date(),
+  });
 }
 
 const modulePath = url.fileURLToPath(import.meta.url);
