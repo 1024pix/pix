@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../../test-helper.js';
 import { modulesController } from '../../../../../src/devcomp/application/modules/controller.js';
 
-describe('Devcomp | Unit | Application | Module | Module Controller', function () {
+describe('Unit | Devcomp | Application | Modules | Module Controller', function () {
   describe('#getBySlug', function () {
     it('should call getModule use-case and return serialized modules', async function () {
       const slug = 'slug';

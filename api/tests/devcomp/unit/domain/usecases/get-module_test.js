@@ -1,7 +1,7 @@
 import { getModule } from '../../../../../src/devcomp/domain/usecases/get-module.js';
 import { expect, sinon } from '../../../../test-helper.js';
 
-describe('Unit | Devcomp | Usecases | get-module', function () {
+describe('Unit | Devcomp | Domain | UseCases | get-module', function () {
   describe('#getModule', function () {
     it('should get and return a Module', async function () {
       // given

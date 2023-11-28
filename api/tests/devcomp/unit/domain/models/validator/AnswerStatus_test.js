@@ -3,7 +3,7 @@ import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/valida
 
 const { expect } = chai;
 
-describe('Unit | Devcomp | Domain | Models | AnswerStatus', function () {
+describe('Unit | Devcomp | Domain | Models | Validator | AnswerStatus', function () {
   context('AnswerStatus#isOK', function () {
     it('should be true with AnswerStatus.OK', function () {
       expect(AnswerStatus.OK.isOK()).to.be.true;

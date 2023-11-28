@@ -1,6 +1,7 @@
 import { NotFoundError } from '../../../shared/domain/errors.js';
 import { Module } from '../../domain/models/Module.js';
 import { Text } from '../../domain/models/element/Text.js';
+import { Image } from '../../domain/models/element/Image.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
 import { Grain } from '../../domain/models/Grain.js';
@@ -45,23 +46,12 @@ function _toDomain(moduleData) {
         type: grain.type,
         elements: grain.elements.map((element) => {
           if (element.type === 'qcu') {
-            return new QCU({
-              id: element.id,
-              instruction: element.instruction,
-              locales: element.locales,
-              proposals: element.proposals.map((proposal) => {
-                return new QcuProposal({
-                  id: proposal.id,
-                  content: proposal.content,
-                });
-              }),
-            });
+            return _toQCUDomain(element);
+          } else if (element.type === 'image') {
+            return _toImageDomain(element);
           }
 
-          return new Text({
-            id: element.id,
-            content: element.content,
-          });
+          return _toTextDomain(element);
         }),
       });
     }),
@@ -80,26 +70,59 @@ function _toDomainForVerification(moduleData) {
         type: grain.type,
         elements: grain.elements.map((element) => {
           if (element.type === 'qcu') {
-            return new QCUForAnswerVerification({
-              id: element.id,
-              instruction: element.instruction,
-              locales: element.locales,
-              proposals: element.proposals.map((proposal) => {
-                return new QcuProposal({
-                  id: proposal.id,
-                  content: proposal.content,
-                });
-              }),
-              feedbacks: element.feedbacks,
-              solution: element.solution,
-            });
+            return _toQCUForAnswerVerificationDomain(element);
+          } else if (element.type === 'image') {
+            return _toImageDomain(element);
           }
 
-          return new Text({
-            id: element.id,
-            content: element.content,
-          });
+          return _toTextDomain(element);
         }),
+      });
+    }),
+  });
+}
+
+function _toTextDomain(element) {
+  return new Text({
+    id: element.id,
+    content: element.content,
+  });
+}
+
+function _toImageDomain(element) {
+  return new Image({
+    id: element.id,
+    url: element.url,
+    alt: element.alt,
+    alternativeText: element.alternativeText,
+  });
+}
+
+function _toQCUForAnswerVerificationDomain(element) {
+  return new QCUForAnswerVerification({
+    id: element.id,
+    instruction: element.instruction,
+    locales: element.locales,
+    proposals: element.proposals.map((proposal) => {
+      return new QcuProposal({
+        id: proposal.id,
+        content: proposal.content,
+      });
+    }),
+    feedbacks: element.feedbacks,
+    solution: element.solution,
+  });
+}
+
+function _toQCUDomain(element) {
+  return new QCU({
+    id: element.id,
+    instruction: element.instruction,
+    locales: element.locales,
+    proposals: element.proposals.map((proposal) => {
+      return new QcuProposal({
+        id: proposal.id,
+        content: proposal.content,
       });
     }),
   });

@@ -1,7 +1,7 @@
-import { sinon, expect } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../../test-helper.js';
 import { findPaginatedTargetProfileTrainingSummaries as findPaginatedTargetProfileTrainings } from '../../../../../src/devcomp/domain/usecases/find-paginated-target-profile-training-summaries.js';
 
-describe('Unit | UseCase | findPaginatedTargetProfileTrainingSummaries', function () {
+describe('Unit | Devcomp | Domain | UseCases | findPaginatedTargetProfileTrainingSummaries', function () {
   it('should call the repository with the right arguments and return summaries', async function () {
     // given
     const page = Symbol('page');

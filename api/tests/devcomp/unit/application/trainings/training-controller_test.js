@@ -1,11 +1,11 @@
-import { sinon, expect, hFake } from '../../../../test-helper.js';
+import { expect, hFake, sinon } from '../../../../test-helper.js';
 import { trainingController } from '../../../../../src/devcomp/application/trainings/training-controller.js';
 import { usecases } from '../../../../../src/devcomp/domain/usecases/index.js';
 import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { TrainingTrigger } from '../../../../../src/devcomp/domain/models/TrainingTrigger.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
-describe('Unit | Controller | training-controller', function () {
+describe('Unit | Devcomp | Application | Trainings | Controller | training-controller', function () {
   describe('#findPaginatedTrainingSummaries', function () {
     it('should call the training findPaginatedTrainingSummaries use-case', async function () {
       // given

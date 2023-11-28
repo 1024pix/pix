@@ -11,6 +11,10 @@ export default class Element extends Model {
     return this.type === 'texts';
   }
 
+  get isImage() {
+    return this.type === 'images';
+  }
+
   get isQcu() {
     return this.type === 'qcus';
   }

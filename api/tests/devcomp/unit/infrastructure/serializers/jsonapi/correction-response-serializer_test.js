@@ -3,7 +3,7 @@ import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/mode
 import { AnswerStatus } from '../../../../../../lib/domain/models/index.js';
 import * as correctionResponseSerializer from '../../../../../../src/devcomp/infrastructure/serializers/jsonapi/correction-response-serializer.js';
 
-describe('Unit | DevComp | Serializers | CorrectionResponseSerializer', function () {
+describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | CorrectionResponseSerializer', function () {
   describe('#serialize', function () {
     it('should return a serialized CorrectionReponse', function () {
       // given

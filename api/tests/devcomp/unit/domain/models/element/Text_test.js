@@ -1,7 +1,7 @@
-import { Text } from '../../../../../src/devcomp/domain/models/element/Text.js';
-import { expect } from '../../../../test-helper.js';
+import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
+import { expect } from '../../../../../test-helper.js';
 
-describe('Unit | Devcomp | Domain | Models | Text', function () {
+describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
   describe('#constructor', function () {
     it('should create a text and keep attributes', function () {
       // when

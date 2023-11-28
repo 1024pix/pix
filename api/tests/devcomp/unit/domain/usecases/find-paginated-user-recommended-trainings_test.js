@@ -1,7 +1,7 @@
-import { sinon, expect } from '../../../../test-helper.js';
+import { expect, sinon } from '../../../../test-helper.js';
 import { findPaginatedUserRecommendedTrainings } from '../../../../../src/devcomp/domain/usecases/find-paginated-user-recommended-trainings.js';
 
-describe('Unit | UseCase | find-user-recommended-trainings', function () {
+describe('Unit | Devcomp | Domain | UseCases | find-user-recommended-trainings', function () {
   it('should return paginated recommended trainings', async function () {
     // given
     const userId = 123;
