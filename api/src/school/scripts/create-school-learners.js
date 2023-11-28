@@ -59,9 +59,12 @@ async function buildSchoolOrganization({ name }) {
   return savedOrganization;
 }
 
-async function buildLearners({ organizationId }) {
+async function buildLearners({ organizationId, quantity = STUDENT_NAMES.length }) {
+  if (quantity > STUDENT_NAMES.length) {
+    quantity = STUDENT_NAMES.length;
+  }
   logger.info('Create learners for organization.');
-  await bluebird.map(STUDENT_NAMES, async (studentName) => {
+  await bluebird.map(STUDENT_NAMES.slice(0, quantity), async (studentName) => {
     await knex('organization-learners').insert({
       organizationId,
       firstName: studentName.firstName,
@@ -69,7 +72,7 @@ async function buildLearners({ organizationId }) {
       division: 'CM2',
     });
   });
-  logger.info('Learners created.');
+  logger.info(`${quantity} learners created.`);
 }
 
 async function showSchools() {
@@ -83,11 +86,11 @@ async function showSchools() {
   schools.forEach((school) => logger.info(`${school.code} | ${school.organizationId} | ${school.name}`));
 }
 
-function _validateArgs({ generate, name }) {
+function _validateArgs({ generate, name, quantity }) {
   if (generate && !name) {
     throw new Error('Name argument should be given to generate school.');
   }
-  return { generate, name };
+  return { generate, name, quantity };
 }
 
 async function main() {
@@ -99,11 +102,15 @@ async function main() {
       description: 'Name of the school to create.',
       type: 'string',
     })
+    .option('quantity', {
+      description: 'Quantity of learners to create.',
+      type: 'number',
+    })
     .help().argv;
-  const { generate, name } = _validateArgs(commandLineArgs);
+  const { generate, name, quantity } = _validateArgs(commandLineArgs);
   if (generate) {
     const organization = await buildSchoolOrganization({ name });
-    await buildLearners({ organizationId: organization.id });
+    await buildLearners({ organizationId: organization.id, quantity });
   } else {
     await showSchools();
   }
