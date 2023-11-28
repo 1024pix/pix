@@ -9,10 +9,11 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
   hooks.beforeEach(async function () {
     assessment = this.server.create('assessment');
-    this.server.create('challenge', 'QROCM');
   });
 
   test('should render challenge information and question', async function (assert) {
+    this.server.create('challenge', 'QROCM');
+
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     // then
@@ -21,6 +22,8 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
   });
 
   test('should display answer feedback bubble if user validates after writing the right answer in input and selecting the correct option', async function (assert) {
+    this.server.create('challenge', 'QROCM');
+
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await fillIn(screen.getByLabelText('prenom'), 'good-answer');
@@ -31,5 +34,47 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
 
     // then
     assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+  });
+
+  module('when user has partially answered in a list box', function () {
+    test('"Je vérifie" button remains disabled', async function (assert) {
+      this.server.create('challenge', 'QROCWithMultipleSelect');
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await clickByName('banana');
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'a' }));
+
+      // then
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+    });
+  });
+
+  module('when user has partially answered in an input', function () {
+    test('"Je vérifie" button remains disabled', async function (assert) {
+      this.server.create('challenge', 'QROCM');
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await fillIn(screen.getByLabelText('prenom'), 'bob');
+
+      // then
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+    });
+  });
+
+  module('when user removes an answer', function () {
+    test('"Je vérifie" button is disabled again', async function (assert) {
+      this.server.create('challenge', 'QROCM');
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await fillIn(screen.getByLabelText('prenom'), 'bob');
+      await clickByName('livre');
+      await screen.findByRole('listbox');
+      await click(screen.getByRole('option', { name: 'good-answer' }));
+      await fillIn(screen.getByLabelText('prenom'), '');
+
+      // then
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+    });
   });
 });

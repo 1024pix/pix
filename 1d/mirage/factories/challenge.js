@@ -17,6 +17,13 @@ export default Factory.extend({
     instruction: 'Un QROC est une question',
     proposals: 'Select: ${banana#tomatoPlaceholder§saladAriaLabel options=["good-answer","bad-answer"]}',
   }),
+  QROCWithMultipleSelect: trait({
+    type: 'QROCM-ind',
+    instruction: 'Un QROCM attend plusieurs réponses.',
+    proposals:
+      'Banana: ${banana# - Sélectionne - §banana options=["a","b"]}\nPeach: ${peach# - Sélectionne - §peach options=["c","d"]}',
+    embedUrl: '',
+  }),
   QROCM: trait({
     type: 'QROCM-dep',
     instruction: 'Trouve les bonnes réponses.',

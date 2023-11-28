@@ -20,7 +20,7 @@ module('Acceptance | Challenge workflow', function (hooks) {
   });
 
   module('when user has not answered yet', function () {
-    test('disable "Je vérifie" button', async function (assert) {
+    test('"Je vérifie" button is disabled', async function (assert) {
       const assessment = this.server.create('assessment');
       this.server.create('challenge');
       // when

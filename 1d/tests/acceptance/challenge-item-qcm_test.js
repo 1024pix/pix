@@ -30,4 +30,16 @@ module('Acceptance | Displaying a QCM challenge', function (hooks) {
     // then
     assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
   });
+
+  module('when user unselects all checkboxes', function () {
+    test('"Je vérifie" button is enabled', async function (assert) {
+      // when
+      const screen = await visit(`/assessments/${assessment.id}/challenges`);
+      await click(screen.getByRole('checkbox', { name: 'Profil 1' }));
+      await click(screen.getByRole('checkbox', { name: 'Profil 1' }));
+
+      // then
+      assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+    });
+  });
 });
