@@ -15,89 +15,99 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
       {
         case: 'when two numbers are strictly equal',
         answer: '0.123',
-        solution: '0.123',
+        solutions: ['0.123'],
         expectedAnswerStatus: ANSWER_OK,
       },
       {
         case: 'when 0 is added in front of the answer',
         answer: '0123',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_OK,
       },
-      { case: 'when 0 is added behind the answer', answer: '1230', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      {
+        case: 'when 0 is added behind the answer',
+        answer: '1230',
+        solutions: ['123'],
+        expectedAnswerStatus: ANSWER_KO,
+      },
       {
         case: 'when answer contains a dot followed by zero',
         answer: '123.0',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_OK,
       },
       {
         case: 'when answer contains a comma followed by zero',
         answer: '123,0',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_OK,
       },
       {
         case: 'when answer contains a comma followed by several zeros',
         answer: '123,000',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_OK,
       },
       {
         case: 'when answer contains a dot followed by a non-zero digit',
         answer: '123.4',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_KO,
       },
-      { case: 'when answer contains two commas', answer: '123,,00', solution: '123', expectedAnswerStatus: ANSWER_KO },
-      { case: 'when answer contains two dots', answer: '123..00', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      {
+        case: 'when answer contains two commas',
+        answer: '123,,00',
+        solutions: ['123'],
+        expectedAnswerStatus: ANSWER_KO,
+      },
+      { case: 'when answer contains two dots', answer: '123..00', solutions: ['123'], expectedAnswerStatus: ANSWER_KO },
       {
         case: 'when answer contains a comma and a dot',
         answer: '123,.00',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_KO,
       },
       {
         case: 'when answer is close to actual solution (inferior)',
         answer: '122,1',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_KO,
       },
       {
         case: 'when answer is close to actual solution (superior)',
         answer: '123,4',
-        solution: '123',
+        solutions: ['123'],
         expectedAnswerStatus: ANSWER_KO,
       },
       {
         case: 'when answer is different of the actual solution',
         answer: '123',
-        solution: '123.4',
+        solutions: ['123.4'],
         expectedAnswerStatus: ANSWER_KO,
       },
       {
         case: 'when answer and solution are equal but solutions contains a dot',
         answer: '123',
-        solution: '123.0',
+        solutions: ['123.0'],
         expectedAnswerStatus: ANSWER_OK,
       },
-      { case: 'when number has space', answer: '00025 000', solution: '25000', expectedAnswerStatus: ANSWER_OK },
+      { case: 'when number has space', answer: '00025 000', solutions: ['25000'], expectedAnswerStatus: ANSWER_OK },
       {
         case: '(multiple solutions) when answer is correct but there are multiple solutions',
         answer: '123,00',
-        solution: '123.0\n123',
+        solutions: ['123.0', '123'],
         expectedAnswerStatus: ANSWER_OK,
       },
       {
         case: '(multiple solutions) answer is not the first possible solution',
         answer: '23',
-        solution: '21\n22\n23\n',
+        solutions: ['21', '22', '23'],
         expectedAnswerStatus: ANSWER_OK,
       },
     ].forEach((data) => {
       it(`should return ${data.expectedAnswerStatus.status} when answer is ${data.answer} and solution is ${data.solution}`, function () {
-        const solution = { value: data.solution, deactivations: {} };
-        expect(service.match({ answer: data.answer, solution, challengeFormat })).to.deep.equal(
+        const solutions = { value: data.solutions, deactivations: {} };
+        expect(service.match({ answer: data.answer, solutions, challengeFormat })).to.deep.equal(
           data.expectedAnswerStatus,
         );
       });
@@ -106,59 +116,59 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
 
   describe('match, combining most weird cases without deactivations', function () {
     const successfulCases = [
-      { case: '(single solution) same answer and solution', answer: 'Answer', solution: 'Answer' },
+      { case: '(single solution) same answer and solution', answer: 'Answer', solutions: ['Answer'] },
       {
         case: '(single solution) same answer and solution, but answer is lowercased, solution is uppercased',
         answer: 'answer',
-        solution: 'ANSWER',
+        solutions: ['ANSWER'],
       },
-      { case: '(single solution) answer with spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde' },
+      { case: '(single solution) answer with spaces, solution hasnt', answer: 'a b c d e', solutions: ['abcde'] },
       {
         case: '(single solution) answer with unbreakable spaces, solution hasnt',
         answer: 'a b c d e',
-        solution: 'abcde',
+        solutions: ['abcde'],
       },
-      { case: '(single solution) solution with trailing spaces', answer: 'abcd', solution: '    abcd   ' },
+      { case: '(single solution) solution with trailing spaces', answer: 'abcd', solutions: ['    abcd   '] },
       {
         case: '(single solution) solution with trailing spaces and uppercase',
         answer: 'aaa bbb ccc',
-        solution: '    AAABBBCCC   ',
+        solutions: ['    AAABBBCCC   '],
       },
-      { case: '(single solution) solution contains too much spaces', answer: 'a b c d e', solution: 'a b c d e' },
+      { case: '(single solution) solution contains too much spaces', answer: 'a b c d e', solutions: ['a b c d e'] },
       {
         case: '(single solution) answer without punctuation, but solution has',
         answer: ',.!p-u-n-c-t',
-        solution: 'punct',
+        solutions: ['punct'],
       },
       {
         case: '(single solution) answer with punctuation, but solution has not',
         answer: 'punct',
-        solution: ',.!p-u-n-c-t',
+        solutions: [',.!p-u-n-c-t'],
       },
       {
         case: '(single solution) answer without accent, but solution has',
         answer: 'with accents eee',
-        solution: 'wîth àccénts êêê',
+        solutions: ['wîth àccénts êêê'],
       },
       {
         case: '(single solution) answer with accent, but solution has not',
         answer: 'wîth àccénts êêê',
-        solution: 'with accents eee',
+        solutions: ['with accents eee'],
       },
       {
         case: '(multiple solutions) answer is amongst solution',
         answer: 'variant 1',
-        solution: 'variant 1\nvariant 2\nvariant 3\n',
+        solutions: ['variant 1', 'variant 2', 'variant 3'],
       },
       {
         case: '(multiple solutions) answer is 0.2 away from the closest solution',
         answer: 'quack',
-        solution: 'quacks\nazertysqdf\nblablabla\n',
+        solutions: ['quacks', 'azertysqdf', 'blablabla'],
       },
       {
         case: '(multiple solutions) answer is 0.25 away from the closest solution',
         answer: 'quak',
-        solution: 'qvak\nqwak\nanything\n',
+        solutions: ['qvak', 'qwak', 'anything'],
       },
     ];
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
@@ -169,32 +179,32 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ', should return "ok" when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: {} };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(ANSWER_OK);
+          const solutions = { value: data.solutions, deactivations: {} };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(ANSWER_OK);
         },
       );
     });
 
     const failingCases = [
       { case: 'solution do not exists', answer: 'any answer' },
-      { case: 'solution is not a String', answer: 'a', solution: new Date() },
-      { case: 'solution is empty', answer: '', solution: '' },
-      { case: 'answer is not a String', answer: new Date(), solution: '' },
+      { case: 'solution is not a String', answer: 'a', solutions: [new Date()] },
+      { case: 'solution is empty', answer: '', solutions: [''] },
+      { case: 'answer is not a String', answer: new Date(), solutions: [''] },
       {
         case: 'answer does not match any solution variants',
         answer: 'abandoned answer',
-        solution: 'unmatched solution variant',
+        solutions: ['unmatched solution variant'],
       },
-      { case: '(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567' },
-      { case: '(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345' },
-      { case: '(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789' },
+      { case: '(single solution) answer is 0.3 away from solution', answer: '0123456789', solutions: ['1234567'] },
+      { case: '(single solution) answer is 0.5 away from solution', answer: '0123456789', solutions: ['12345'] },
+      { case: '(single solution) answer is 10 away from solution', answer: 'a', solutions: ['0123456789'] },
       {
         case: '(multiple solutions) answer is minimum 0.4 away from a solution',
         answer: 'quaks',
-        solution: 'qvakes\nqwakes\nanything\n',
+        solutions: ['qvakes', 'qwakes', 'anything'],
       },
     ];
     // Rule disabled to allow dynamic generated tests. See https://github.com/lo1tuma/eslint-plugin-mocha/blob/master/docs/rules/no-setup-in-describe.md#disallow-setup-in-describe-blocks-mochano-setup-in-describe
@@ -205,11 +215,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ', should return "ko" when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: {} };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(ANSWER_KO);
+          const solutions = { value: data.solutions, deactivations: {} };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(ANSWER_KO);
         },
       );
     });
@@ -217,89 +227,89 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
 
   describe('match, strong focus on treatments', function () {
     const allCases = [
-      { when: 'no stress', output: ANSWER_OK, answer: 'Answer', solution: '\nvariant1\nAnswer\n', deactivations: {} },
+      { when: 'no stress', output: ANSWER_OK, answer: 'Answer', solutions: ['variant1', 'Answer'], deactivations: {} },
       {
         when: 'spaces stress',
         output: ANSWER_OK,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: {},
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_OK,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: {},
       },
       {
         when: 'uppercase stress',
         output: ANSWER_OK,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: {},
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_OK,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: {},
       },
       {
         when: 'accent stress',
         output: ANSWER_OK,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: {},
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_OK,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: {},
       },
       {
         when: 'diacritic stress',
         output: ANSWER_OK,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: {},
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_OK,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: {},
       },
       {
         when: 'punctuation stress',
         output: ANSWER_OK,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: {},
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_OK,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: {},
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_OK,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: {},
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_OK,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: {},
       },
     ];
@@ -313,11 +323,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -329,91 +339,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t1: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_KO,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t1: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_KO,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t1: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_KO,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t1: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_KO,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t1: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_KO,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t1: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_KO,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t1: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_KO,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t1: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_KO,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t1: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_OK,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t1: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_OK,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t1: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_OK,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t1: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_OK,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t1: true },
       },
     ];
@@ -427,11 +437,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -443,91 +453,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t2: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_OK,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t2: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_OK,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t2: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_OK,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t2: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_OK,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t2: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_OK,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t2: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_OK,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t2: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_OK,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t2: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_OK,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t2: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_KO,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t2: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_KO,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t2: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_OK,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t2: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_OK,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t2: true },
       },
     ];
@@ -541,11 +551,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -557,91 +567,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t3: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_OK,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t3: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_OK,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t3: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_OK,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t3: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_OK,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t3: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_OK,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t3: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_OK,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t3: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_OK,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t3: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_OK,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t3: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_OK,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t3: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_OK,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t3: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_KO,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t3: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_KO,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t3: true },
       },
     ];
@@ -655,11 +665,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -671,91 +681,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_KO,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_KO,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_KO,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_KO,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_KO,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_KO,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_KO,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_KO,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_KO,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_KO,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_OK,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t1: true, t2: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_OK,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t1: true, t2: true },
       },
     ];
@@ -769,11 +779,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -785,91 +795,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_KO,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_KO,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_KO,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_KO,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_KO,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_KO,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_KO,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_KO,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_OK,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_OK,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_KO,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t1: true, t3: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_KO,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t1: true, t3: true },
       },
     ];
@@ -883,11 +893,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -899,91 +909,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_OK,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_OK,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_OK,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_OK,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_OK,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_OK,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_OK,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_OK,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_KO,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_KO,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_KO,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t2: true, t3: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_KO,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t2: true, t3: true },
       },
     ];
@@ -997,11 +1007,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -1013,91 +1023,91 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
         when: 'no stress',
         output: ANSWER_OK,
         answer: 'Answer',
-        solution: '\nvariant1\nAnswer\n',
+        solutions: ['variant1', 'Answer'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'spaces stress',
         output: ANSWER_KO,
         answer: 'a b c d e',
-        solution: '\nvariant1\nabcde\n',
+        solutions: ['variant1', 'abcde'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'reverted spaces stress',
         output: ANSWER_KO,
         answer: 'abcde',
-        solution: '\nvariant1\na b c d e\n',
+        solutions: ['variant1', 'a b c d e'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'uppercase stress',
         output: ANSWER_KO,
         answer: 'ANSWER',
-        solution: '\nvariant1\nanswer\n',
+        solutions: ['variant1', 'answer'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'reverted uppercase stress',
         output: ANSWER_KO,
         answer: 'answer',
-        solution: '\nvariant1\nANSWER\n',
+        solutions: ['variant1', 'ANSWER'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'accent stress',
         output: ANSWER_KO,
         answer: 'îàé êêê',
-        solution: '\nvariant1\niae eee\n',
+        solutions: ['variant1', 'iae eee'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'reverted accent stress',
         output: ANSWER_KO,
         answer: 'iae eee',
-        solution: '\nvariant1\nîàé êêê\n',
+        solutions: ['variant1', 'îàé êêê'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'diacritic stress',
         output: ANSWER_KO,
         answer: 'ççççç',
-        solution: '\nvariant1\nccccc\n',
+        solutions: ['variant1', 'ccccc'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'reverted diacritic stress',
         output: ANSWER_KO,
         answer: 'ccccc',
-        solution: '\nvariant1\nççççç\n',
+        solutions: ['variant1', 'ççççç'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'punctuation stress',
         output: ANSWER_KO,
         answer: '.!p-u-n-c-t',
-        solution: '\nvariant1\npunct\n',
+        solutions: ['variant1', 'punct'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'reverted punctuation stress',
         output: ANSWER_KO,
         answer: 'punct',
-        solution: '\nvariant1\n.!p-u-n-c-t\n',
+        solutions: ['variant1', '.!p-u-n-c-t'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'levenshtein stress',
         output: ANSWER_KO,
         answer: '0123456789',
-        solution: '\nvariant1\n123456789\n',
+        solutions: ['variant1', '123456789'],
         deactivations: { t1: true, t2: true, t3: true },
       },
       {
         when: 'reverted levenshtein stress',
         output: ANSWER_KO,
         answer: '123456789',
-        solution: '\nvariant1\n0123456789\n',
+        solutions: ['variant1', '0123456789'],
         deactivations: { t1: true, t2: true, t3: true },
       },
     ];
@@ -1111,11 +1121,11 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ' when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = { value: data.solution, deactivations: data.deactivations };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          const solutions = { value: data.solutions, deactivations: data.deactivations };
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
@@ -1123,36 +1133,36 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
 
   describe('match with the type select for the QROC', function () {
     const successfulCases = [
-      { case: 'Same answer and solution', answer: 'Answer', solution: 'Answer', output: ANSWER_OK },
+      { case: 'Same answer and solution', answer: 'Answer', solutions: ['Answer'], output: ANSWER_OK },
       {
         case: 'Same answer and solution, but answer is lowercased, solution is uppercased',
         answer: 'answer',
-        solution: 'ANSWER',
+        solutions: ['ANSWER'],
         output: ANSWER_KO,
       },
-      { case: 'answer with spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde', output: ANSWER_KO },
+      { case: 'answer with spaces, solution hasnt', answer: 'a b c d e', solutions: ['abcde'], output: ANSWER_KO },
       {
         case: 'answer with unbreakable spaces, solution hasnt',
         answer: 'a b c d e',
-        solution: 'abcde',
+        solutions: ['abcde'],
         output: ANSWER_KO,
       },
       {
         case: 'answer without punctuation, but solution has',
         answer: ',.!p-u-n-c-t',
-        solution: 'punct',
+        solutions: ['punct'],
         output: ANSWER_KO,
       },
       {
         case: '(multiple solutions) answer is amongst solution',
         answer: 'variant 1',
-        solution: 'variant 1\nvariant 2\nvariant 3\n',
+        solutions: ['variant 1', 'variant 2', 'variant 3'],
         output: ANSWER_OK,
       },
       {
         case: '(multiple solutions) answer is 0.2 away from the closest solution',
         answer: 'quack',
-        solution: 'quacks\nazertysqdf\nblablabla\n',
+        solutions: ['quacks', 'azertysqdf', 'blablabla'],
         output: ANSWER_KO,
       },
     ];
@@ -1164,15 +1174,15 @@ describe('Unit | Devcomp | Domain | Services | SolutionServiceQROC ', function (
           ', should return "ok" when answer is "' +
           data.answer +
           '" and solution is "' +
-          escape(data.solution) +
+          escape(data.solutions) +
           '"',
         function () {
-          const solution = {
-            value: data.solution,
+          const solutions = {
+            value: data.solutions,
             deactivations: data.deactivations,
             qrocBlocksTypes: { rep: 'select' },
           };
-          expect(service.match({ answer: data.answer, solution })).to.deep.equal(data.output);
+          expect(service.match({ answer: data.answer, solutions })).to.deep.equal(data.output);
         },
       );
     });
