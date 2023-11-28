@@ -4,5 +4,5 @@ import Element from '../element/model';
 export default class Image extends Element {
   @attr('string') url;
   @attr('string') alt;
-  @attr('string') alternativeInstruction;
+  @attr('string') alternativeText;
 }

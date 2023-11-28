@@ -16,7 +16,7 @@ module('Integration | Component | Module | Image', function (hooks) {
     const imageElement = store.createRecord('image', {
       url,
       alt: 'alt text',
-      alternativeInstruction: 'alternative instruction',
+      alternativeText: 'alternative instruction',
     });
 
     this.set('image', imageElement);
@@ -34,12 +34,12 @@ module('Integration | Component | Module | Image', function (hooks) {
   test('should be able to use the modal for alternative instruction', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
-    const alternativeInstruction = 'alternative instruction';
+    const alternativeText = 'alternative instruction';
 
     const imageElement = store.createRecord('image', {
       url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
       alt: 'alt text',
-      alternativeInstruction,
+      alternativeText,
     });
 
     this.set('image', imageElement);
@@ -50,6 +50,6 @@ module('Integration | Component | Module | Image', function (hooks) {
     // then
     await click(screen.getByRole('button', { name: "Afficher l'alternative textuelle" }));
     assert.strictEqual(findAll('.element__image-modal').length, 1);
-    assert.ok(screen.getByText(alternativeInstruction));
+    assert.ok(screen.getByText(alternativeText));
   });
 });

@@ -72,7 +72,7 @@ module('Integration | Component | Module | Grain', function (hooks) {
       const imageElement = store.createRecord('image', {
         url,
         alt: 'alt text',
-        alternativeInstruction: 'alternative instruction',
+        alternativeText: 'alternative instruction',
         type: 'images',
       });
       const elements = [imageElement];
