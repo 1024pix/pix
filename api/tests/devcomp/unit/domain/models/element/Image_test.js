@@ -5,13 +5,13 @@ describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
   describe('#constructor', function () {
     it('should create an image and keep attributes', function () {
       // when
-      const image = new Image({ id: 'id', url: 'url', alt: 'alt', alternativeInstruction: 'alternativeInstruction' });
+      const image = new Image({ id: 'id', url: 'url', alt: 'alt', alternativeText: 'alternativeText' });
 
       // then
       expect(image.id).to.equal('id');
       expect(image.url).to.equal('url');
       expect(image.alt).to.equal('alt');
-      expect(image.alternativeInstruction).to.equal('alternativeInstruction');
+      expect(image.alternativeText).to.equal('alternativeText');
     });
   });
 

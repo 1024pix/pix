@@ -15,7 +15,7 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
               "alt": "Schéma de la syntaxe d'une adresse mail, en trois blocs distincts, décrit dans l'alternative textuelle",
-              "alternativeInstruction": "Bloc 1 : Identifiant, exemple : mickael.aubert123<br/>Bloc 2 : Arobase<br/>Bloc 3 : Fournisseur d'adresse mail, exemple : laposte.net "
+              "alternativeText": "Bloc 1 : Identifiant, exemple : mickael.aubert123<br/>Bloc 2 : Arobase<br/>Bloc 3 : Fournisseur d'adresse mail, exemple : laposte.net "
             },
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",

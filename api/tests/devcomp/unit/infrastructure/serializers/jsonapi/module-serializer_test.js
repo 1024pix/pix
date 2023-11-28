@@ -57,7 +57,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                 instruction: 'hello',
                 solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
               }),
-              new Image({ id: '3', url: 'url', alt: 'alt', alternativeInstruction: 'alternativeInstruction' }),
+              new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
             ],
           },
         ],
@@ -109,7 +109,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
             attributes: {
               url: 'url',
               alt: 'alt',
-              'alternative-instruction': 'alternativeInstruction',
+              'alternative-text': 'alternativeText',
               type: 'images',
               'is-answerable': false,
             },

@@ -22,7 +22,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
           type: Joi.string().valid('image').required(),
           url: Joi.string().required(),
           alt: Joi.string().required(),
-          alternativeInstruction: Joi.string().required(),
+          alternativeText: Joi.string().required(),
         }).required();
 
         const qcuElementSchema = Joi.object({
