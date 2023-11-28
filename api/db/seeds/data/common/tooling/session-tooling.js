@@ -238,6 +238,8 @@ async function createStartedSession({
     supervisorPassword,
   });
 
+  _buildSupervisorAccess({ databaseBuilder, sessionId });
+
   const certificationCandidates = await _registerSomeCandidatesToSession({
     databaseBuilder,
     sessionId,
@@ -387,6 +389,8 @@ async function createPublishedScoSession({
     assignedCertificationOfficerName: 'Mariah Carey',
   });
 
+  _buildSupervisorAccess({ databaseBuilder, sessionId });
+
   const certificationCandidates = await _registerOrganizationLearnersToSession({
     databaseBuilder,
     sessionId,
@@ -503,6 +507,8 @@ async function createPublishedSession({
     publishedAt,
     assignedCertificationOfficerName: 'Mariah Carey',
   });
+
+  _buildSupervisorAccess({ databaseBuilder, sessionId });
 
   const certificationCandidates = await _registerCandidatesToSession({
     databaseBuilder,
@@ -1201,4 +1207,13 @@ function _buildChallenges({ databaseBuilder, competenceData, assessmentId, certi
       resultDetails: 'dummy value',
     });
   }
+}
+
+function _buildSupervisorAccess({ databaseBuilder, sessionId }) {
+  const supervisor = databaseBuilder.factory.buildUser({ firstName: `supervisor${sessionId}` });
+  databaseBuilder.factory.buildSupervisorAccess({
+    sessionId,
+    userId: supervisor.id,
+    authorizedAt: new Date(),
+  });
 }
