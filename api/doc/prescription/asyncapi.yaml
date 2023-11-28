@@ -1,22 +1,22 @@
 asyncapi: 2.6.0
 info:
-  title: Evaluation Async API
+  title: Prescription Async API
   version: 1.0.0
   description: |
-    All events produced and subscribed by the bounded context evaluation
+    All events produced and subscribed by the bounded context prescription
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 channels:
   evaluation/skills/reinitialized:
-    publish:
+    subscribe:
       summary: Triggered when a user has reinitialized a skill
       message:
         name: skillReinitialized
         payload:
           $ref: "#/components/schemas/skillEvent"
   evaluation/skills/level-one-acquired:
-    publish:
+    subscribe:
       summary: Triggered when a user has acquired the level one for a skill
       message:
         name: levelOneAcquired
@@ -42,7 +42,5 @@ components:
           minimum: 0
           example: 2
           description: User identifier.
-        sentAt:
-          type: string
-          format: date-time
-          description: Date and time when the event was sent.
+
+
