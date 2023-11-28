@@ -1175,14 +1175,14 @@
           "verify": "Vérifier"
         },
         "element": {
-          "alternativeInstruction": "Afficher l'alternative textuelle"
+          "alternativeText": "Afficher l'alternative textuelle"
         },
         "grain": {
           "continue": "Continuer"
         }
       },
       "modals": {
-        "alternativeInstruction": {
+        "alternativeText": {
           "title": "Alternative textuelle"
         }
       },

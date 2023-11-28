@@ -10,17 +10,17 @@
     @isBorderVisible={{true}}
     @triggerAction={{this.showModal}}
   >
-    {{t "pages.modulix.buttons.element.alternativeInstruction"}}
+    {{t "pages.modulix.buttons.element.alternativeText"}}
   </PixButton>
   <PixModal
-    @title={{t "pages.modulix.modals.alternativeInstruction.title"}}
+    @title={{t "pages.modulix.modals.alternativeText.title"}}
     @showModal={{this.modalIsOpen}}
     @onCloseButtonClick={{this.closeModal}}
     class="element__image-modal"
   >
     <:content>
       <p class="image__modal-instruction">
-        {{html-safe @image.alternativeInstruction}}
+        {{html-safe @image.alternativeText}}
       </p>
     </:content>
   </PixModal>
