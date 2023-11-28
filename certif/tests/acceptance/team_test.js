@@ -107,11 +107,18 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert.dom(screen.getByText(this.intl.t('pages.team.no-referer-section.title'))).exists();
+              assert.dom(screen.getByText('Aucun référent désigné pour la certification Pix-CléA Numérique')).exists();
+              assert
+                .dom(
+                  screen.getByText(
+                    'Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.',
+                  ),
+                )
+                .exists();
               assert
                 .dom(
                   screen.getByRole('button', {
-                    name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
+                    name: 'Désigner un référent',
                   }),
                 )
                 .exists();
