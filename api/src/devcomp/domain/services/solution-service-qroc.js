@@ -1,8 +1,4 @@
-import {
-  cleanStringAndParseFloat,
-  isNumeric,
-  splitIntoWordsAndRemoveBackspaces,
-} from '../../../shared/infrastructure/utils/string-utils.js';
+import { cleanStringAndParseFloat, isNumeric } from '../../../shared/infrastructure/utils/string-utils.js';
 import lodash from 'lodash';
 import { applyPreTreatments, applyTreatments } from '../../../../lib/domain/services/validation-treatments.js';
 import { validateAnswer } from '../../../../lib/domain/services/string-comparison-service.js';
@@ -12,29 +8,28 @@ import { getEnabledTreatments, useLevenshteinRatio } from '../../../../lib/domai
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 const { every, isEmpty, isString, map } = lodash;
 
-const match = function ({ answer, challengeFormat, solution }) {
-  const solutionValue = solution.value;
-  const deactivations = solution.deactivations;
-  const qrocBlocksTypes = solution.qrocBlocksTypes || {};
+const match = function ({ answer, challengeFormat, solutions }) {
+  const deactivations = solutions.deactivations;
+  const qrocBlocksTypes = solutions.qrocBlocksTypes || {};
   const shouldApplyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
 
   const isIncorrectAnswerFormat = !isString(answer);
-  const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
+  const isIncorrectSolutionFormat = solutions.value?.some((s) => !isString(s) || isEmpty(s));
 
   if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
     return AnswerStatus.KO;
   }
 
-  const solutions = splitIntoWordsAndRemoveBackspaces(solutionValue);
-  const areAllNumericSolutions = every(solutions, (solution) => {
+  const solutionsValue = solutions.value;
+  const areAllNumericSolutions = every(solutionsValue, (solution) => {
     return isNumeric(solution);
   });
 
   if (isNumeric(answer) && areAllNumericSolutions && challengeFormat === CHALLENGE_NUMBER_FORMAT) {
-    return _getAnswerStatusFromNumberMatching(answer, solutions);
+    return _getAnswerStatusFromNumberMatching(answer, solutionsValue);
   }
 
-  return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments);
+  return _getAnswerStatusFromStringMatching(answer, solutionsValue, deactivations, shouldApplyTreatments);
 };
 
 export { match };

@@ -7,15 +7,15 @@ import { Validator } from './Validator.js';
  */
 class ValidatorQROC extends Validator {
   injectedSolutionServiceQROC;
-  constructor({ solution } = {}, injectedSolutionServiceQROC = solutionServiceQROC) {
-    super({ solution });
+  constructor({ solutions } = {}, injectedSolutionServiceQROC = solutionServiceQROC) {
+    super({ solution: solutions });
     this.injectedSolutionServiceQROC = injectedSolutionServiceQROC;
   }
 
   assess({ answer, challengeFormat }) {
     const result = this.injectedSolutionServiceQROC.match({
       answer: answer.value,
-      solution: this.solution,
+      solutions: this.solution,
       challengeFormat,
     });
 

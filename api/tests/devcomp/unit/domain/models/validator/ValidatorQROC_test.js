@@ -15,15 +15,15 @@ describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQROC', functio
     let uncorrectedAnswer;
     let validation;
     let validator;
-    let solution;
+    let solutions;
     let challengeFormat;
 
     beforeEach(function () {
       // given
-      solution = domainBuilder.buildSolution({ type: 'QROC' });
+      solutions = domainBuilder.buildSolution({ type: 'QROC', value: ['1'] });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
-      validator = new ValidatorQROC({ solution: solution }, solutionServiceQROCStub);
+      validator = new ValidatorQROC({ solutions }, solutionServiceQROCStub);
 
       // when
       validation = validator.assess({ answer: uncorrectedAnswer });
@@ -33,7 +33,7 @@ describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQROC', functio
       // then
       expect(solutionServiceQROCStub.match).to.have.been.calledWithExactly({
         answer: uncorrectedAnswer.value,
-        solution: solution,
+        solutions,
         challengeFormat,
       });
     });
