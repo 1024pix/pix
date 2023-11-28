@@ -1,4 +1,4 @@
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 const deleteOrganizationLearners = async function (request, h) {
