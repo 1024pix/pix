@@ -4,11 +4,11 @@
   padding: $pix-spacing-m;
   background-color: $pix-neutral-10;
 
-  h6 {
+  &__title {
+    @extend %pix-title-xs;
+
     margin: 0;
     color: $pix-neutral-90;
-    font-weight: normal;
-    font-size: 1.125rem;
   }
 
   label {

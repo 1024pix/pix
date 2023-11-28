@@ -45,11 +45,9 @@
 
 .import-students-page-section {
   &__title {
+    @extend %pix-title-xs;
+
     margin: 8px;
-    color: $pix-neutral-90;
-    font-weight: 500;
-    font-size: 1.25rem;
-    font-family: $font-open-sans;
   }
 
   &__details {

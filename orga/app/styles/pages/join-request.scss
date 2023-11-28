@@ -25,12 +25,9 @@
   }
 
   &__title {
+    @extend %pix-title-m;
+
     margin: 14px 0;
-    font-weight: 300;
-    font-size: 2rem;
-    font-family: $font-open-sans;
-    line-height: 2.6875rem;
-    letter-spacing: 0.009375rem;
     text-align: center;
   }
 

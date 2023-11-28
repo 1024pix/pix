@@ -28,12 +28,11 @@
 .preselect-target-profile {
   .pix-collapsible {
     &__title {
+      @extend %pix-title-s;
+
       position: relative;
       align-items: center;
       padding-left: 2rem;
-      font-weight: 500;
-      font-size: 1.5rem;
-      font-family: $font-open-sans;
 
       &:before {
         position: absolute;
@@ -70,11 +69,11 @@
       cursor: auto;
 
       h2 {
+        @extend %pix-title-xs;
+
         margin: 0;
         padding: 1rem;
         color: $pix-neutral-90;
-        font-size: 1.125rem;
-        font-family: $font-open-sans;
       }
 
       table {
