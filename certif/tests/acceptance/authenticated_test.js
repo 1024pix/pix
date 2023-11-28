@@ -133,6 +133,56 @@ module('Acceptance | authenticated', function (hooks) {
         });
       });
     });
+
+    module('role management banner', function () {
+      module('when certification center is SCO', function () {
+        test('it should not display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+            'SCO',
+            'Scoule',
+          );
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visitScreen('/sessions/liste');
+
+          // then
+          assert
+            .dom(
+              screen.queryByText(
+                'Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification.',
+              ),
+            )
+            .doesNotExist();
+          assert.dom(screen.queryByRole('link', { name: 'Plus d’information ici' })).doesNotExist();
+        });
+      });
+
+      module('when certification center is SUP or PRO', function () {
+        test('it should not display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+            'SUP',
+            'Soupère',
+          );
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visitScreen('/sessions/liste');
+
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification.',
+              ),
+            )
+            .exists();
+          assert.dom(screen.getByRole('link', { name: 'Plus d’information ici' })).exists();
+        });
+      });
+    });
   });
 
   module('When user changes current certification center', function () {

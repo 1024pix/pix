@@ -21,6 +21,10 @@ export default class AuthenticatedController extends Controller {
     );
   }
 
+  get displayRoleManagementBanner() {
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+  }
+
   get documentationLink() {
     if (this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents) {
       return LINK_SCO;

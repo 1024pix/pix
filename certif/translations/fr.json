@@ -851,6 +851,12 @@
         }
       }
     },
+    "sup-and-pro": {
+      "banner": {
+        "information": "Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! '</br>' Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification. '<br>'",
+        "url-label": "Plus d’information ici"
+      }
+    },
     "team": {
       "title": "Équipe",
       "invite-button": "Inviter un membre",
