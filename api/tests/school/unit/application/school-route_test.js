@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
-import { schoolController } from '../../../../../src/school/application/school/controller.js';
-import * as moduleUnderTest from '../../../../../src/school/application/school/index.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { schoolController } from '../../../../src/school/application/school-controller.js';
+import * as moduleUnderTest from '../../../../src/school/application/school-route.js';
 
 describe('Unit | Router | school-router', function () {
   describe('GET /api/pix1d/schools/:code', function () {

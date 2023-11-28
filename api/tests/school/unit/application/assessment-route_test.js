@@ -1,7 +1,7 @@
-import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
-import { assessmentController } from '../../../../../src/school/application/assessments/controller.js';
-import * as moduleUnderTest from '../../../../../src/school/application/assessments/route.js';
-import { AssessmentEndedError } from '../../../../../src/shared/domain/errors.js';
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import { assessmentController } from '../../../../src/school/application/assessment-controller.js';
+import * as moduleUnderTest from '../../../../src/school/application/assessment-route.js';
+import { AssessmentEndedError } from '../../../../src/shared/domain/errors.js';
 
 describe('Unit | Application | Router | assessment-router', function () {
   describe('GET /api/pix1d/assessments/{id}/next', function () {
