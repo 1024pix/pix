@@ -125,7 +125,9 @@ const register = async function (server) {
                   hours: Joi.number().min(0).max(23).default(0),
                   minutes: Joi.number().min(0).max(59).default(0),
                 }).required(),
-                type: Joi.string().valid('autoformation', 'webinaire').required(),
+                type: Joi.string()
+                  .valid('autoformation', 'e-learning', 'hybrid-training', 'in-person-training', 'webinaire')
+                  .required(),
                 locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').required(),
                 'editor-name': Joi.string().required(),
                 'editor-logo-url': Joi.string().uri().required(),
@@ -169,7 +171,9 @@ const register = async function (server) {
                   hours: Joi.number().min(0).max(23).required(),
                   minutes: Joi.number().min(0).max(59).required(),
                 }).allow(null),
-                type: Joi.string().valid('autoformation', 'webinaire').allow(null),
+                type: Joi.string()
+                  .valid('autoformation', 'e-learning', 'hybrid-training', 'in-person-training', 'webinaire')
+                  .allow(null),
                 locale: Joi.string().valid('fr-fr', 'fr', 'en-gb').allow(null),
                 'editor-name': Joi.string().allow(null),
                 'editor-logo-url': Joi.string().allow(null),
