@@ -17,7 +17,7 @@
     "home": {
       "title": "Bienvenue chez Pix1D",
       "field-description": "Champ numéro",
-      "code-instruction": "Rentre le code de ton école pour accéder ta classe",
+      "code-instruction": "Rentre le code de ton école pour accéder à ta classe",
       "code-description": "Le code de l'école est composé de 6 chiffres et 3 lettres.",
       "go-to-school": "Je valide le code"
     },
