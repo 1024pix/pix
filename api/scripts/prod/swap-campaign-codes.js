@@ -1,7 +1,7 @@
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { generate } from '../../lib/domain/services/code-generator.js';
 import { DomainTransaction } from '../../lib/infrastructure/DomainTransaction.js';
-import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import * as url from 'url';
 
 async function swapCampaignCodes(campaignId, otherCampaignId) {

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { CampaignTypes } from '../models/CampaignTypes.js';
+import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 
 class CampaignReport {
   constructor({

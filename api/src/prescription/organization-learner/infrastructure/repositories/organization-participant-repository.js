@@ -2,7 +2,7 @@ import { OrganizationParticipant } from '../../domain/read-models/OrganizationPa
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
-import { CampaignTypes } from '../../../../../lib/domain/models/CampaignTypes.js';
+import { CampaignTypes } from '../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
 
 async function findPaginatedFilteredParticipants({ organizationId, page, filters = {}, sort = {} }) {
