@@ -245,9 +245,15 @@ async function createStartedSession({
     certificationCenterId,
   });
 
-  await _makeCandidatesCertifiable({ databaseBuilder, certificationCandidates, maxLevel: configSession.maxLevel });
+  const { coreProfileData } = await _makeCandidatesCertifiable({
+    databaseBuilder,
+    certificationCandidates,
+    maxLevel: configSession.maxLevel,
+  });
 
   certificationCandidates.forEach((certificationCandidate) => {
+    if (!certificationCandidate.userId) return;
+
     const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       userId: certificationCandidate.userId,
       sessionId,
@@ -260,11 +266,10 @@ async function createStartedSession({
       sex: certificationCandidate.sex,
       birthplace: certificationCandidate.birthCity,
       externalId: certificationCandidate.externalId,
-      hasSeenEndTestScreen: true,
       createdAt: new Date(),
       updatedAt: new Date(),
-      completedAt: new Date(),
-      isPublished: true,
+      completedAt: null,
+      isPublished: false,
       verificationCode: `P-${verifCodeCount}`.padEnd(10, 'A'),
       maxReachableLevelOnCertificationDate: 6,
       isCancelled: false,
@@ -272,12 +277,16 @@ async function createStartedSession({
       pixCertificationStatus: 'validated',
     }).id;
     verifCodeCount++;
-    databaseBuilder.factory.buildAssessment({
+    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       certificationCourseId,
       userId: certificationCandidate.userId,
       type: 'CERTIFICATION',
       state: 'started',
     }).id;
+
+    for (const competenceData of Object.values(coreProfileData)) {
+      _buildChallenges({ databaseBuilder, competenceData, assessmentId, certificationCourseId, configSession });
+    }
   });
 
   await databaseBuilder.commit();
@@ -1162,30 +1171,34 @@ function _makeCandidatesPassCertification({
         assessmentResultId,
         createdAt: configSession.sessionDate,
       });
-      for (const { challenge, skill } of competenceData.threeMostDifficultSkillsAndChallenges) {
-        databaseBuilder.factory.buildCertificationChallenge({
-          associatedSkillName: skill.name,
-          associatedSkillId: skill.id,
-          challengeId: challenge.id,
-          competenceId: skill.competenceId,
-          courseId: certificationCourseId,
-          createdAt: configSession.sessionDate,
-          updatedAt: configSession.sessionDate,
-          isNeutralized: false,
-          hasBeenSkippedAutomatically: false,
-          certifiableBadgeKey: null,
-        });
-        databaseBuilder.factory.buildAnswer({
-          value: 'dummy value',
-          result: 'ok',
-          assessmentId,
-          challengeId: challenge.id,
-          createdAt: configSession.sessionDate,
-          updatedAt: configSession.sessionDate,
-          timeout: null,
-          resultDetails: 'dummy value',
-        });
-      }
+      _buildChallenges({ databaseBuilder, competenceData, assessmentId, certificationCourseId, configSession });
     }
+  }
+}
+
+function _buildChallenges({ databaseBuilder, competenceData, assessmentId, certificationCourseId, configSession }) {
+  for (const { challenge, skill } of competenceData.threeMostDifficultSkillsAndChallenges) {
+    databaseBuilder.factory.buildCertificationChallenge({
+      associatedSkillName: skill.name,
+      associatedSkillId: skill.id,
+      challengeId: challenge.id,
+      competenceId: skill.competenceId,
+      courseId: certificationCourseId,
+      createdAt: configSession.sessionDate,
+      updatedAt: configSession.sessionDate,
+      isNeutralized: false,
+      hasBeenSkippedAutomatically: false,
+      certifiableBadgeKey: null,
+    });
+    databaseBuilder.factory.buildAnswer({
+      value: 'dummy value',
+      result: 'ok',
+      assessmentId,
+      challengeId: challenge.id,
+      createdAt: configSession.sessionDate,
+      updatedAt: configSession.sessionDate,
+      timeout: null,
+      resultDetails: 'dummy value',
+    });
   }
 }
