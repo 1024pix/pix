@@ -7,21 +7,6 @@ import { campaignManagementController } from '../../../../lib/application/campai
 import * as moduleUnderTest from '../../../../lib/application/campaigns/index.js';
 
 describe('Unit | Application | Router | campaign-router ', function () {
-  describe('POST /api/campaigns', function () {
-    it('should return 201', async function () {
-      // given
-      sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/campaigns');
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
-  });
-
   describe('GET /api/campaigns?filter[code=SOMECODE]', function () {
     it('should return 200', async function () {
       // given

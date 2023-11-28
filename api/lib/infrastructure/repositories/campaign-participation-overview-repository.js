@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignTypes } from '../../domain/models/CampaignTypes.js';
+import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import { CampaignParticipationOverview } from '../../domain/read-models/CampaignParticipationOverview.js';

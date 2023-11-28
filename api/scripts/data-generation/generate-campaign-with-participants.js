@@ -12,6 +12,7 @@ import moment from 'moment';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignAdministrationRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
 import { computeParticipantResultsShared as computeParticipationResults } from '../prod/compute-participation-results.js';
 import {
@@ -236,7 +237,7 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId, 
   if (!adminMemberId) {
     throw new Error(`Organisation ${organizationId} n'a pas de membre ADMIN.`);
   }
-  const code = await generate(campaignRepository);
+  const code = await generate(campaignAdministrationRepository);
   const [{ id: campaignId }] = await knex('campaigns')
     .returning('id')
     .insert({

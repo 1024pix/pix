@@ -29,28 +29,4 @@ describe('Unit | Application | Controller | Campaign Administration', function (
       expect(response.statusCode).to.be.equal(204);
     });
   });
-  describe('#createCampaigns', function () {
-    it('should return a 204', async function () {
-      // given
-      const userId = Symbol('userId');
-      const path = Symbol('path');
-      const csvSerializerStub = { deserializeForCampaignsImport: sinon.stub() };
-      const request = { auth: { credentials: { userId } }, payload: { path } };
-      sinon.stub(usecases, 'createCampaigns');
-      const deserializedCampaignsToCreate = Symbol('deserializedCampaignsToCreate');
-      csvSerializerStub.deserializeForCampaignsImport.withArgs(path).resolves(deserializedCampaignsToCreate);
-
-      // when
-      const response = await campaignController.createCampaigns(request, hFake, {
-        csvSerializer: csvSerializerStub,
-      });
-
-      // then
-      expect(response.statusCode).to.be.equal(204);
-      expect(usecases.createCampaigns).to.have.been.calledWithExactly({
-        campaignsToCreate: deserializedCampaignsToCreate,
-      });
-      expect(csvSerializerStub.deserializeForCampaignsImport).to.have.been.called;
-    });
-  });
 });
