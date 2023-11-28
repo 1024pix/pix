@@ -13,11 +13,6 @@
 
   &__title {
     @extend %pix-title-m;
-
-    margin-top: $pix-spacing-m;
-    color: $pix-neutral-80;
-    font-weight: $font-normal;
-    font-family: $font-open-sans;
   }
 
   &__container {

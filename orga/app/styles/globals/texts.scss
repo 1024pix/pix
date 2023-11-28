@@ -1,8 +1,7 @@
 .paragraph {
+  @extend %pix-body-m;
+
   color: $pix-neutral-60;
-  font-size: 0.875rem;
-  font-family: $font-open-sans;
-  line-height: 20px;
 }
 
 .help-text {
@@ -12,16 +11,15 @@
 }
 
 .information-text {
+  @extend %pix-title-s;
+
   color: $pix-neutral-60;
-  font-size: 1.2rem;
-  font-family: $font-open-sans;
 }
 
 .label-text {
+  @extend %pix-body-s;
+
   color: $pix-neutral-50;
-  font-weight: 400;
-  font-size: 0.875rem;
-  font-family: $font-roboto;
 
   &--dark {
     color: $pix-neutral-60;
@@ -33,10 +31,10 @@
 }
 
 .value-text {
+  @extend %pix-body-m;
+
   color: $pix-neutral-80;
   font-weight: 500;
-  font-size: 0.875rem;
-  font-family: $font-roboto;
 
   &--highlight {
     color: $pix-neutral-90;

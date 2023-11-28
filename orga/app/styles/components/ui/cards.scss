@@ -7,11 +7,10 @@
   box-shadow: $shadow-base;
 
   &__title {
+    @extend %pix-title-xs;
+
     margin-top: 0;
     margin-bottom: 32px;
     color: $pix-neutral-60;
-    font-weight: 600;
-    font-size: 1.125rem;
-    font-family: $font-open-sans;
   }
 }

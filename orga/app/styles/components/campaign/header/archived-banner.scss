@@ -1,4 +1,6 @@
 .campaign-archived-banner {
+  @extend %pix-title-xs;
+
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -7,8 +9,6 @@
   margin-bottom: 24px;
   padding: 8px 10px;
   color: $pix-neutral-0;
-  font-weight: 600;
-  font-family: $font-open-sans;
   background: $pix-neutral-60;
   border-radius: 6px;
 
