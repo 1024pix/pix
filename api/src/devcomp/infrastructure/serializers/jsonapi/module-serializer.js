@@ -44,16 +44,7 @@ function serialize(module) {
       elements: {
         ref: 'id',
         includes: true,
-        attributes: [
-          'content',
-          'instruction',
-          'proposals',
-          'type',
-          'url',
-          'alt',
-          'alternativeInstruction',
-          'isAnswerable',
-        ],
+        attributes: ['content', 'instruction', 'proposals', 'type', 'url', 'alt', 'alternativeText', 'isAnswerable'],
       },
     },
     typeForAttribute(attribute, { type }) {

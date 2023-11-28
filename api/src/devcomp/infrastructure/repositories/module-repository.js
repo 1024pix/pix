@@ -94,7 +94,7 @@ function _toImageDomain(element) {
     id: element.id,
     url: element.url,
     alt: element.alt,
-    alternativeInstruction: element.alternativeInstruction,
+    alternativeText: element.alternativeText,
   });
 }
 

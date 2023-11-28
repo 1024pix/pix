@@ -197,7 +197,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
                 type: 'image',
                 url: 'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg',
                 alt: 'missing alt',
-                alternativeInstruction: 'missing alternative instructions',
+                alternativeText: 'missing alternative instructions',
               },
             ],
           },

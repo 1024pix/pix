@@ -23,7 +23,7 @@ describe('Unit | Devcomp | Domain | Models | Element', function () {
     it('should instanciate non answerable elements', function () {
       // Given
       const text = new Text({ id: 'id', content: 'content' });
-      const image = new Image({ id: 'id', url: 'url', alt: 'alt', alternativeInstruction: 'alternativeInstruction' });
+      const image = new Image({ id: 'id', url: 'url', alt: 'alt', alternativeText: 'alternativeText' });
 
       const nonAnswerableElements = [text, image];
 
