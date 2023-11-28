@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { autonomousCourseController } from './autonomous-course-controller.js';
+import { autonomousCourseTargetProfileController } from './autonomous-course-target-profile-controller.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 
@@ -36,6 +37,30 @@ const register = async function (server) {
         },
         notes: [
           '- **Route nécessitant une authentification**\n' + '- Cette route permet de créer un parcours autonome.',
+        ],
+        tags: ['api', 'autonomous-courses'],
+      },
+    },
+
+    {
+      method: 'GET',
+      path: '/api/admin/autonomous-courses/target-profiles',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: autonomousCourseTargetProfileController.get,
+        notes: [
+          '- **Route nécessitant une authentification**\n' +
+            '- Cette route renvoie la liste des profils cibles pour les parcours autonomes\n',
         ],
         tags: ['api', 'autonomous-courses'],
       },
