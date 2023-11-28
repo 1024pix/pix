@@ -63,6 +63,30 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
+  module('when element is an image', function () {
+    test('should display image element', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const url =
+        'https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg';
+      const imageElement = store.createRecord('image', {
+        url,
+        alt: 'alt text',
+        alternativeText: 'alternative instruction',
+        type: 'images',
+      });
+      const elements = [imageElement];
+      const grain = store.createRecord('grain', { title: 'Grain title', elements });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.ok(screen.getByRole('img', { name: 'alt text' }).hasAttribute('src', url));
+    });
+  });
+
   module('when canDisplayContinueButton is true', function () {
     module('when all elements are answered', function () {
       test('should display continue button', async function (assert) {

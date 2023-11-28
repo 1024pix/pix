@@ -1,9 +1,9 @@
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
 import { ValidatorQCU } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCU.js';
-import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 
-describe('Unit | Devcomp | Domain | Models | ValidatorQCU', function () {
+describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQCU', function () {
   let solutionServiceQCUStub;
 
   beforeEach(function () {

@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../../test-helper.js';
 import { createTraining } from '../../../../../src/devcomp/domain/usecases/create-training.js';
 
-describe('Unit | UseCase | create-training', function () {
+describe('Unit | Devcomp | Domain | UseCases | create-training', function () {
   it('should call training repository to create the training', async function () {
     // given
     const training = Symbol('training');

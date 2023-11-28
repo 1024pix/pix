@@ -4,7 +4,7 @@ import { ElementAnswer } from '../../../../../../src/devcomp/domain/models/Eleme
 import { QcuCorrectionResponse } from '../../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { Feedbacks } from '../../../../../../src/devcomp/domain/models/Feedbacks.js';
 
-describe('Unit | Devcomp | Domain | Models | QcuForAnswerVerification', function () {
+describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification', function () {
   describe('#constructor', function () {
     it('should instanciate a QCU For Verification with right attributes', function () {
       // Given

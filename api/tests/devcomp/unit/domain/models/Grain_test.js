@@ -1,7 +1,7 @@
 import { Grain } from '../../../../../src/devcomp/domain/models/Grain.js';
 import { expect } from '../../../../test-helper.js';
 
-describe('Unit | Devcomp | Models | Grain', function () {
+describe('Unit | Devcomp | Domain | Models | Grain', function () {
   describe('#constructor', function () {
     it('should create a grain and keep attributes', function () {
       // given

@@ -2,7 +2,7 @@ import { expect } from '../../../../test-helper.js';
 import { QcuCorrectionResponse } from '../../../../../src/devcomp/domain/models/QcuCorrectionResponse.js';
 import { AnswerStatus } from '../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 
-describe('Unit | Devcomp | Models | QcuCorrectionResponse', function () {
+describe('Unit | Devcomp | Domain | Models | QcuCorrectionResponse', function () {
   describe('#constructor', function () {
     it('should create a QCU correction response and keep attributes', function () {
       // given

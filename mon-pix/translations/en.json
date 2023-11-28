@@ -1174,8 +1174,16 @@
         "activity": {
           "verify": "Verify"
         },
+        "element": {
+          "alternativeText": "Show alternative text"
+        },
         "grain": {
           "continue": "Continue"
+        }
+      },
+      "modals": {
+        "alternativeText": {
+          "title": "Alternative text"
         }
       },
       "qcu": {

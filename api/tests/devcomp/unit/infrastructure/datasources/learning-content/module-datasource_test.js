@@ -3,7 +3,7 @@ import { expect } from '../../../../../test-helper.js';
 import { LearningContentResourceNotFound } from '../../../../../../src/shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import Joi from 'joi';
 
-describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasource', function () {
+describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasource', function () {
   describe('#getBySlug', function () {
     describe('when exists', function () {
       let moduleSchema;
@@ -15,6 +15,14 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
           id: uuidSchema,
           type: Joi.string().valid('text').required(),
           content: Joi.string().required(),
+        }).required();
+
+        const imageElementSchema = Joi.object({
+          id: uuidSchema,
+          type: Joi.string().valid('image').required(),
+          url: Joi.string().required(),
+          alt: Joi.string().required(),
+          alternativeText: Joi.string().required(),
         }).required();
 
         const qcuElementSchema = Joi.object({
@@ -46,7 +54,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ModuleDatasour
                 id: uuidSchema,
                 type: Joi.string().valid('lesson', 'activity').required(),
                 title: Joi.string().required(),
-                elements: Joi.array().items(Joi.alternatives().try(textElementSchema, qcuElementSchema)).required(),
+                elements: Joi.array()
+                  .items(Joi.alternatives().try(textElementSchema, imageElementSchema, qcuElementSchema))
+                  .required(),
               }).required(),
             )
             .required(),

@@ -1174,8 +1174,16 @@
         "activity": {
           "verify": "Vérifier"
         },
+        "element": {
+          "alternativeText": "Afficher l'alternative textuelle"
+        },
         "grain": {
           "continue": "Continuer"
+        }
+      },
+      "modals": {
+        "alternativeText": {
+          "title": "Alternative textuelle"
         }
       },
       "qcu": {
