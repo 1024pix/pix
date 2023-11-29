@@ -1,9 +1,8 @@
 import Hapi from '@hapi/hapi';
 
-import * as preResponseUtils from '../../../lib/application/pre-response-utils.js';
 import { handleFailAction } from '../../../lib/validate.js';
 import { authentication } from '../../../lib/infrastructure/authentication.js';
-import * as sharedPreResponseUtils from '../../../src/shared/application/pre-response-utils.js';
+import { setupErrorHandling } from '../../../config/server-setup-error-handling.js';
 
 const routesConfig = {
   routes: {
@@ -29,16 +28,11 @@ class HttpTestServer {
   constructor({ mustThrowOn5XXError = true } = {}) {
     this.hapiServer = Hapi.server(routesConfig);
     this._mustThrow5XXOnError = mustThrowOn5XXError;
-    this._setupErrorHandling();
+    setupErrorHandling(this.hapiServer);
   }
 
   async register(moduleUnderTest) {
     await this.hapiServer.register(moduleUnderTest);
-  }
-
-  _setupErrorHandling() {
-    this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
-    this.hapiServer.ext('onPreResponse', sharedPreResponseUtils.handleDomainAndHttpErrors);
   }
 
   async request(method, url, payload, auth, headers) {

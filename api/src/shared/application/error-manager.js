@@ -6,13 +6,9 @@ import jsonapiSerializer from 'jsonapi-serializer';
 import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
 import _ from 'lodash';
 import * as translations from '../../../translations/index.js';
-import {
-  MissingOrInvalidCredentialsError,
-  PasswordNotMatching,
-  UserShouldChangePasswordError,
-} from '../../authentication/domain/errors.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
+import { domainErrorMapper } from './domain-error-mapper.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -66,6 +62,7 @@ function _formatInvalidAttribute(locale, { attribute, message }) {
   }
   return _formatAttribute({ attribute, message, locale });
 }
+
 function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
@@ -106,15 +103,6 @@ function _mapToHttpError(error) {
   if (error instanceof AdminMemberError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
-  if (error instanceof MissingOrInvalidCredentialsError) {
-    return new HttpErrors.UnauthorizedError("L'adresse e-mail et/ou le mot de passe saisis sont incorrects.");
-  }
-  if (error instanceof PasswordNotMatching) {
-    return new HttpErrors.UnauthorizedError(error.message);
-  }
-  if (error instanceof UserShouldChangePasswordError) {
-    return new HttpErrors.PasswordShouldChangeError(error.message, error.meta);
-  }
   if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
     return new HttpErrors.BadRequestError(error.message);
   }
@@ -135,7 +123,7 @@ function handle(request, h, error) {
     return h.response(jsonApiError).code(422);
   }
 
-  const httpError = _mapToHttpError(error);
+  const httpError = domainErrorMapper.mapToHttpError(error) ?? _mapToHttpError(error);
 
   return h.response(errorSerializer.serialize(httpError)).code(httpError.status);
 }
