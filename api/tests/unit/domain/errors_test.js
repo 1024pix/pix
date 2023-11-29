@@ -56,10 +56,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.NotFoundError).to.exist;
   });
 
-  it('should export a InvalidCertificationReportForFinalization', function () {
-    expect(errors.InvalidCertificationReportForFinalization).to.exist;
-  });
-
   it('should export a UserAlreadyLinkedToCandidateInSessionError', function () {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });

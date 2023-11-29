@@ -7,7 +7,7 @@ import {
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithMissingAbortReasonError,
 } from '../../../../../../src/certification/session/domain/errors.js';
-import { InvalidCertificationReportForFinalization } from '../../../../../../lib/domain/errors.js';
+import { InvalidCertificationReportForFinalization } from '../../../../../../src/certification/shared/domain/errors.js';
 import { SessionFinalized } from '../../../../../../lib/domain/events/SessionFinalized.js';
 
 describe('Unit | UseCase | finalize-session', function () {

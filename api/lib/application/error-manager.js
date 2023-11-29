@@ -143,9 +143,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidCertificationCandidate) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.InvalidCertificationReportForFinalization) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
   if (error instanceof DomainErrors.InvalidExternalAPIResponseError) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }
