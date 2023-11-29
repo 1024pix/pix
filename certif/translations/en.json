@@ -895,6 +895,7 @@
     "team-invitations": {
       "table": {
         "labels": {
+          "actions": "Actions",
           "email-address": "Email address",
           "last-sending-date": "Last sending date"
         },
