@@ -5,4 +5,10 @@ class CertificationCourseUpdateError extends DomainError {
     super(message);
   }
 }
-export { CertificationCourseUpdateError };
+class InvalidCertificationReportForFinalization extends DomainError {
+  constructor(message = 'Échec lors de la validation du certification course') {
+    super(message);
+  }
+}
+
+export { CertificationCourseUpdateError, InvalidCertificationReportForFinalization };

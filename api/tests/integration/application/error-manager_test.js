@@ -11,6 +11,7 @@ import {
   MissingOrInvalidCredentialsError,
   UserShouldChangePasswordError,
 } from '../../../src/authentication/domain/errors.js';
+import { InvalidCertificationReportForFinalization } from '../../../src/certification/shared/domain/errors.js';
 
 describe('Integration | API | Controller Error', function () {
   let server;
@@ -499,9 +500,7 @@ describe('Integration | API | Controller Error', function () {
 
     it('responds Bad Request when a InvalidCertificationReportForFinalization error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.InvalidCertificationReportForFinalization(
-          'Echec lors de la validation du certification course',
-        ),
+        new InvalidCertificationReportForFinalization('Echec lors de la validation du certification course'),
       );
       const response = await server.requestObject(request);
 

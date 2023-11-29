@@ -347,12 +347,6 @@ class InvalidCertificationCandidate extends DomainError {
   }
 }
 
-class InvalidCertificationReportForFinalization extends DomainError {
-  constructor(message = 'Échec lors de la validation du certification course') {
-    super(message);
-  }
-}
-
 class InvalidCertificationIssueReportForSaving extends DomainError {
   constructor(message = 'Échec lors de la validation du signalement') {
     super(message);
@@ -1201,7 +1195,6 @@ export {
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationIssueReportForSaving,
-  InvalidCertificationReportForFinalization,
   InvalidExternalAPIResponseError,
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
