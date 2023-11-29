@@ -10,7 +10,7 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     this.set('training', {
       title: 'Un contenu formatif',
       link: 'https://un-contenu-formatif',
-      type: 'Webinaire',
+      type: 'webinaire',
       locale: 'fr-fr',
       editorName: 'Un éditeur de contenu formatif',
       editorLogoUrl: 'un-logo.svg',
@@ -28,7 +28,7 @@ module('Integration | Component | Trainings::TrainingDetailsCard', function (hoo
     // then
     assert.dom(screen.getByText('Un contenu formatif')).exists();
     assert.dom(screen.getByText('https://un-contenu-formatif')).exists();
-    assert.dom(screen.getByText('Webinaire')).exists();
+    assert.dom(screen.getByText('webinaire')).exists();
     assert.dom(screen.getByText('2j')).exists();
     assert.dom(screen.getByText('Franco-français (fr-fr)')).exists();
     assert.dom(screen.getByText('Un éditeur de contenu formatif')).exists();

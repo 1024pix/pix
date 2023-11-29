@@ -1510,6 +1510,9 @@
       "editor": "Contenu formatif proposé par",
       "type": {
         "autoformation": "Parcours d'autoformation",
+        "e-learning": "Formation à distance",
+        "hybrid-training": "Formation hybride",
+        "in-person-training": "Formation en présentiel",
         "webinaire": "Webinaire"
       }
     },

@@ -1510,6 +1510,9 @@
       "editor": "Training provided by",
       "type": {
         "autoformation": "Autoformation course",
+        "e-learning": "E-Learning",
+        "hybrid-training": "Hybrid training",
+        "in-person-training": "In person training",
         "webinaire": "Webinar"
       }
     },
