@@ -80,6 +80,10 @@
   padding-right: 0.625rem;
   margin-left: auto;
   margin-right: 1.25rem;
+
+  > label, a {
+    min-width: 164px;
+  }
 }
 
 .panel-actions__warning {

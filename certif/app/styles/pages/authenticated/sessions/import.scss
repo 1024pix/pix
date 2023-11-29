@@ -124,6 +124,10 @@
     display: grid;
     grid-template-columns: 1fr 10fr 2fr;
     padding: 24px 16px 24px 0;
+
+    > label, button {
+      width: 164px;
+    }
   }
 
   &__section--download__button:first-of-type {
