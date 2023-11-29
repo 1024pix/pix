@@ -5,6 +5,9 @@ import { memberAction } from 'ember-api-actions';
 export const typeCategories = {
   webinaire: 'Webinaire',
   autoformation: "Parcours d'autoformation",
+  'e-learning': 'Formation en ligne',
+  'hybrid-training': 'Formation hybride',
+  'in-person-training': 'Formation en présentiel',
 };
 
 export const optionsTypeList = formatList(typeCategories);
