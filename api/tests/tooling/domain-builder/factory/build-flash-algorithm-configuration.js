@@ -3,7 +3,7 @@ import { FlashAssessmentAlgorithmConfiguration } from '../../../../src/certifica
 
 export const buildFlashAlgorithmConfiguration = ({
   warmUpLength,
-  forcedCompetences = [],
+  forcedCompetences,
   maximumAssessmentLength,
   challengesBetweenSameCompetence,
   minimumEstimatedSuccessRateRanges = [],

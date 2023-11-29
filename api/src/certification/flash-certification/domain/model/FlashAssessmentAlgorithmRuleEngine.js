@@ -10,7 +10,7 @@ export class FlashAssessmentAlgorithmRuleEngine {
     });
 
     return applicableRules.reduce((availableChallenges, rule) => {
-      return rule.execute({ assessmentAnswers, allChallenges, availableChallenges });
+      return rule.execute({ assessmentAnswers, allChallenges, availableChallenges, ...this._configuration });
     }, allChallenges);
   }
 

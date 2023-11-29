@@ -1,5 +1,6 @@
 import { databaseBuilder, domainBuilder, expect, knex } from '../../../../../test-helper.js';
 import * as flashAlgorithmConfigurationRepository from '../../../../../../../api/src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
+import { FlashAssessmentAlgorithmConfiguration } from '../../../../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 describe('Integration | Infrastructure | Repository | FlashAlgorithmConfigurationRepository', function () {
   describe('#save', function () {
@@ -141,12 +142,12 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
     });
 
     describe('when there is no saved configuration', function () {
-      it('should return null', async function () {
+      it('should return default configuration', async function () {
         // when
         const configResult = await flashAlgorithmConfigurationRepository.get();
 
         // then
-        expect(configResult).to.equal(null);
+        expect(configResult).to.be.instanceOf(FlashAssessmentAlgorithmConfiguration);
       });
     });
   });
