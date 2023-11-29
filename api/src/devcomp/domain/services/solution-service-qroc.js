@@ -1,9 +1,9 @@
 import { cleanStringAndParseFloat, isNumeric } from '../../../shared/infrastructure/utils/string-utils.js';
 import lodash from 'lodash';
-import { applyPreTreatments, applyTreatments } from '../../../../lib/domain/services/validation-treatments.js';
-import { validateAnswer } from '../../../../lib/domain/services/string-comparison-service.js';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
+import { validateAnswer } from './string-comparison-service.js';
 import { AnswerStatus } from '../models/validator/AnswerStatus.js';
-import { getEnabledTreatments, useLevenshteinRatio } from '../../../../lib/domain/services/services-utils.js';
+import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 const { every, isEmpty, isString, map } = lodash;
