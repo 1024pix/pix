@@ -1,28 +1,11 @@
 import _ from 'lodash';
 
-class PlacesLot {
-  #deletedAt;
-  #activationDate;
-  #expirationDate;
-
-  constructor({ count, deletedAt, activationDate, expirationDate }) {
-    this.count = count;
-    this.#deletedAt = deletedAt;
-    this.#activationDate = activationDate;
-    this.#expirationDate = expirationDate;
-  }
-
-  get isActive() {
-    return this.#expirationDate > Date.now() && this.#activationDate < Date.now() && !this.#deletedAt;
-  }
-}
-
 export class PlaceStatistics {
   #placesLots;
   #numberOfParticipantWithAtLeastOneParticipation;
 
   constructor({ placesLots = [], numberOfParticipantWithAtLeastOneParticipation } = {}) {
-    this.#placesLots = placesLots.map((p) => new PlacesLot(p));
+    this.#placesLots = placesLots;
     this.#numberOfParticipantWithAtLeastOneParticipation = numberOfParticipantWithAtLeastOneParticipation;
   }
 

@@ -1,5 +1,6 @@
 import { expect, sinon } from '../../../../../test-helper.js';
 import { PlaceStatistics } from '../../../../../../src/prescription/organization-place/domain/read-models/PlaceStatistics.js';
+import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
 
 describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
   let clock;
@@ -22,7 +23,14 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
 
     it('should return total when there is a places lot', function () {
       const statistics = new PlaceStatistics({
-        placesLots: [{ count: 1, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01') }],
+        placesLots: [
+          new PlacesLot({
+            count: 1,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+        ],
       });
 
       expect(statistics.total).to.equal(1);
@@ -31,41 +39,22 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
     it('should return total when there are places lots', function () {
       const statistics = new PlaceStatistics({
         placesLots: [
-          { count: 1, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01') },
-          { count: 1, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01') },
+          new PlacesLot({
+            count: 1,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+          new PlacesLot({
+            count: 1,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
         ],
       });
 
       expect(statistics.total).to.equal(2);
-    });
-
-    it('should return 0 when there are only expired place lots', function () {
-      const statistics = new PlaceStatistics({ placesLots: [{ count: 1, expirationDate: new Date('2021-04-30') }] });
-
-      expect(statistics.total).to.equal(0);
-    });
-
-    it('should return 0 when there are only not active yet place lots', function () {
-      const statistics = new PlaceStatistics({
-        placesLots: [{ count: 1, expirationDate: new Date('2021-07-07'), activationDate: new Date('2021-06-06') }],
-      });
-
-      expect(statistics.total).to.equal(0);
-    });
-
-    it('should return 0 when there are only deleted place lots', function () {
-      const statistics = new PlaceStatistics({
-        placesLots: [
-          {
-            count: 1,
-            expirationDate: new Date('2021-07-07'),
-            activationDate: new Date('2021-04-01'),
-            deletedAt: new Date('2021-01-01'),
-          },
-        ],
-      });
-
-      expect(statistics.total).to.equal(0);
     });
   });
 
@@ -92,7 +81,14 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
 
     it('should return total when there are no participants', function () {
       const statistics = new PlaceStatistics({
-        placesLots: [{ count: 1, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01') }],
+        placesLots: [
+          new PlacesLot({
+            count: 1,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+        ],
       });
 
       expect(statistics.available).to.equal(1);
@@ -100,7 +96,14 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
 
     it('should return total of avalaible places when there are less participant than total places', function () {
       const statistics = new PlaceStatistics({
-        placesLots: [{ count: 2, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01') }],
+        placesLots: [
+          new PlacesLot({
+            count: 2,
+            expirationDate: new Date('2021-05-02'),
+            activationDate: new Date('2021-04-01'),
+            deletedAt: null,
+          }),
+        ],
         numberOfParticipantWithAtLeastOneParticipation: 1,
       });
 
@@ -109,7 +112,9 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
 
     it('should return 0 when there are more participant than total places', function () {
       const statistics = new PlaceStatistics({
-        placesLots: [{ count: 2, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01') }],
+        placesLots: [
+          { count: 2, expirationDate: new Date('2021-05-02'), activationDate: new Date('2021-04-01'), deletedAt: null },
+        ],
         numberOfParticipantWithAtLeastOneParticipation: 3,
       });
 
