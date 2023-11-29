@@ -93,6 +93,29 @@
       }
     },
     "users": {
+      "certification-centers": {
+        "memberships": {
+          "empty-table": "Aucun centre de certification",
+          "items": {
+            "actions": {
+              "edit-role": "Modifier le rôle"
+            },
+            "role": {
+              "select-role": "Sélectionner un rôle"
+            }
+          },
+          "section-title": "Centres de certification de l’utilisateur",
+          "table-headers": {
+            "actions-label": "Actions",
+            "center-external-id": "Identifiant externe",
+            "center-id": "Centre ID",
+            "center-name": "Nom",
+            "center-type": "Type",
+            "member-id": "Membre ID",
+            "role-label": "Rôle"
+          }
+        }
+      },
       "user-detail-personal-information": {
         "authentication-method": {
           "should-change-password-status": "Mot de passe temporaire :"
