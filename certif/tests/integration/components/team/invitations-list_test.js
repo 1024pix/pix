@@ -13,6 +13,26 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
+  test('displays email address, last sending date and actions headers', async function (assert) {
+    // given
+    this.set('invitations', []);
+
+    // when
+    const screen = await renderScreen(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
+
+    // then
+    assert.strictEqual(screen.getAllByRole('columnheader').length, 3);
+    assert.dom(screen.getByRole('columnheader', { name: this.intl.t('Adresse email') })).exists();
+    assert
+      .dom(
+        screen.getByRole('columnheader', {
+          name: this.intl.t('Date de dernier envoi'),
+        }),
+      )
+      .exists();
+    assert.dom(screen.getByRole('columnheader', { name: this.intl.t('Actions') })).exists();
+  });
+
   test('displays pending invitations list ', async function (assert) {
     // given
     const invitation = store.createRecord('certification-center-invitation', {
