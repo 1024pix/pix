@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 import createComponent from '../../../helpers/create-glimmer-component';
 
@@ -160,6 +161,57 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
           assert.ok(component.notifications.error.calledWith('Une erreur est survenue.'));
         });
       });
+    });
+  });
+
+  module('#canDetachTargetProfile', () => {
+    test('should return false if target profile is public and user can has access to organization action', function (assert) {
+      //given
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = true;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+
+      const component = createComponent('component:organizations/target-profiles-section');
+
+      // then
+      assert.notOk(component.canDetachTargetProfile({ isPublic: true }));
+    });
+    test("should return false if target profile is public and user don't has access to organization action", function (assert) {
+      //given
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = false;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+
+      const component = createComponent('component:organizations/target-profiles-section');
+
+      // then
+      assert.notOk(component.canDetachTargetProfile({ isPublic: true }));
+    });
+    test("should return false if target profile is private and user don't has access to organization action", function (assert) {
+      //given
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = false;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+
+      const component = createComponent('component:organizations/target-profiles-section');
+
+      // then
+      assert.notOk(component.canDetachTargetProfile({ isPublic: false }));
+    });
+    test('should return true if target profile is private and user  has access to organization action', function (assert) {
+      //given
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = true;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+
+      const component = createComponent('component:organizations/target-profiles-section');
+
+      // then
+      assert.ok(component.canDetachTargetProfile({ isPublic: false }));
     });
   });
 });

@@ -22,6 +22,7 @@ const findByOrganization = async function ({ organizationId }) {
       id: 'target-profiles.id',
       name: 'target-profiles.name',
       outdated: 'target-profiles.outdated',
+      isPublic: 'target-profiles.isPublic',
     })
     .leftJoin('target-profile-shares', function () {
       this.on('target-profile-shares.targetProfileId', 'target-profiles.id').on(
