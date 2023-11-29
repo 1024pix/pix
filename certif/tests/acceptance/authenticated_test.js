@@ -92,40 +92,46 @@ module('Acceptance | authenticated', function (hooks) {
     });
   });
 
-  module('SCO temporary banner', function () {
-    test('it should display the banner when User is SCO isManagingStudent', async function (assert) {
-      // given
-      const certificationPointOfContact =
-        createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
+  module('banners', function () {
+    module('certification opening dates banner', function () {
+      module('when certification center is SCO isManagingStudent', function () {
+        test('it should display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact =
+            createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
+          await authenticateSession(certificationPointOfContact.id);
 
-      // when
-      const screen = await visitScreen('/sessions/liste');
+          // when
+          const screen = await visitScreen('/sessions/liste');
 
-      // then
-      assert
-        .dom(
-          screen.getByText(
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
+              ),
+            )
+            .exists();
+          assert.dom(screen.getByRole('link', { name: 'documentation pour voir les nouveautés.' })).exists();
+        });
+      });
+
+      module('when certification center is not SCO isManagingStudent', function () {
+        test('it should not display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visitScreen('/sessions/liste');
+
+          // then
+          const certificationBannerMessage = screen.queryByText(
             'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
-          ),
-        )
-        .exists();
-      assert.dom(screen.getByRole('link', { name: 'documentation pour voir les nouveautés.' })).exists();
-    });
-
-    test('it should not display the banner when User is NOT SCO isManagingStudent', async function (assert) {
-      // given
-      const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
-
-      // when
-      const screen = await visitScreen('/sessions/liste');
-
-      // then
-      const certificationBannerMessage = screen.queryByText(
-        'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
-      );
-      assert.dom(certificationBannerMessage).doesNotExist();
+          );
+          assert.dom(certificationBannerMessage).doesNotExist();
+        });
+      });
     });
   });
 
