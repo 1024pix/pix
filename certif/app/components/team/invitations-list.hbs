@@ -9,7 +9,10 @@
     </thead>
     <tbody>
       {{#each @invitations as |invitation|}}
-        <Team::InvitationsListItem @invitation={{invitation}} />
+        <Team::InvitationsListItem
+          @invitation={{invitation}}
+          @onCancelInvitationButtonClicked={{@onCancelInvitationButtonClicked}}
+        />
       {{/each}}
     </tbody>
   </table>
