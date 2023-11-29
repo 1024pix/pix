@@ -35,8 +35,9 @@ export default Factory.extend({
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
     const tenDaysAgo = new Date();
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-
-    return new Date(+twoDaysAgo + Math.random() * (tenDaysAgo - twoDaysAgo)).toISOString().slice(0, 10);
+    //generate a random session date between 2 and 10 days ago
+    const randomTimestamp = twoDaysAgo.getTime() + Math.random() * (tenDaysAgo - twoDaysAgo);
+    return new Date(randomTimestamp).toISOString().slice(0, 10);
   },
 
   time() {
