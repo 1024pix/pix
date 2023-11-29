@@ -27,7 +27,7 @@ module('Unit | Controller | authenticated/trainings/new', function (hooks) {
         id: 3,
         title: 'Ma formation',
         link: 'https://mon-lien',
-        type: 'Webinaire',
+        type: 'webinaire',
         locale: 'fr-fr',
         editorLogoUrl: 'https//images.fr/mon-logo.svg',
         editorName: 'Un éditeur de contenu formatif',
