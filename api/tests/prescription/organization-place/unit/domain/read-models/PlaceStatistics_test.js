@@ -14,6 +14,25 @@ describe('Unit | Domain | ReadModels | PlaceStatistics', function () {
     clock.restore();
   });
 
+  describe('#buildFrom', function () {
+    it('builds a PlaceStatistics with an id', function () {
+      const organizationId = 1;
+      const placeStatistics = PlaceStatistics.buildFrom({ organizationId });
+
+      expect(placeStatistics).is.instanceof(PlaceStatistics);
+      expect(placeStatistics.id).to.includes(organizationId);
+    });
+  });
+
+  describe('#id', function () {
+    it('should create an id including organizationId', function () {
+      const organizationId = 1;
+      const placeStatistics = PlaceStatistics.buildFrom({ organizationId });
+
+      expect(placeStatistics.id).to.equal(`${organizationId}_place_statistics`);
+    });
+  });
+
   describe('#total', function () {
     it('should return 0 when there are no places lots', function () {
       const statistics = new PlaceStatistics();

@@ -4,9 +4,14 @@ export class PlaceStatistics {
   #placesLots;
   #numberOfParticipantWithAtLeastOneParticipation;
 
-  constructor({ placesLots = [], numberOfParticipantWithAtLeastOneParticipation } = {}) {
+  constructor({ placesLots = [], numberOfParticipantWithAtLeastOneParticipation, organizationId } = {}) {
+    this.id = `${organizationId}_place_statistics`;
     this.#placesLots = placesLots;
     this.#numberOfParticipantWithAtLeastOneParticipation = numberOfParticipantWithAtLeastOneParticipation;
+  }
+
+  static buildFrom({ placesLots, numberOfParticipantWithAtLeastOneParticipation, organizationId } = {}) {
+    return new PlaceStatistics({ placesLots, numberOfParticipantWithAtLeastOneParticipation, organizationId });
   }
 
   get total() {
