@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v4.69.0 (29/11/2023)
+
+
+### :rocket: Amélioration
+- [#7508](https://github.com/1024pix/pix/pull/7508) [FEATURE] Ajouter un élément Image (PIX-9903).
+- [#7527](https://github.com/1024pix/pix/pull/7527) [FEATURE] ajouter texte de synthèse du module (PIX-10076).
+- [#7518](https://github.com/1024pix/pix/pull/7518) [FEATURE] Sauvegarder le créateur d'une session de certification (PIX-8002).
+
+### :building_construction: Tech
+- [#7534](https://github.com/1024pix/pix/pull/7534) [TECH] Migrer le usecase createCampaign & createCampaigns dans leurs bounded Context (PIX-10134).
+- [#7532](https://github.com/1024pix/pix/pull/7532) [TECH] Renome des fichiers du domaine « school » qui on été mal nomé (PIX-10131).
+- [#6432](https://github.com/1024pix/pix/pull/6432) [TECH] Enlever Faker des applications Front (PIX-8406).
+- [#7499](https://github.com/1024pix/pix/pull/7499) [TECH] Retourner tous les fichiers XML en READY_TO_SEND dans le mail CPF à destination du métier (PIX-9102).
+- [#7529](https://github.com/1024pix/pix/pull/7529) [TECH] Créer et retourner le champ `isAnswerable` via l'API (PIX-10094).
+- [#7507](https://github.com/1024pix/pix/pull/7507) [TECH] Mettre à jour pix-ui pour avoir la modif du composant pix input code (Pix-10074).
+
+### :bug: Correction
+- [#7523](https://github.com/1024pix/pix/pull/7523) [BUGFIX] Mettre à jour la contrainte d'unicité pour valider la mise à jour ou la création d'un OrganizationLearner SUP (PIX-10112).
+
 ## v4.68.0 (27/11/2023)
 
 
