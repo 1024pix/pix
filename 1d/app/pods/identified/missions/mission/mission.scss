@@ -19,6 +19,16 @@
       &__icon {
         margin-left: 8px;
       }
+
+      &__loader {
+        visibility: hidden;
+
+        &--visible {
+          width: 200px;
+          height: 58px;
+          visibility: visible;
+        }
+      }
     }
 
     .details-go-back {
