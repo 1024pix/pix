@@ -343,7 +343,7 @@ async function _createTraining(databaseBuilder) {
     trainingId: TEAM_CONTENU_OFFSET_ID,
     title: 'Contenu formatif / équipe contenu',
     link: 'https://www.youtube.com/watch?v=qq09UkPRdFY',
-    type: 'Webinaire',
+    type: 'webinaire',
     duration: '00:04:08',
     locale: 'fr-fr',
     editorName: 'Mariah Carey',
