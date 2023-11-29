@@ -2,6 +2,7 @@ import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/valida
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
 import { ValidatorQROC } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQROC.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import * as devcompDomainBuilder from '../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQROC', function () {
   let solutionServiceQROCStub;
@@ -20,7 +21,7 @@ describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQROC', functio
 
     beforeEach(function () {
       // given
-      solutions = domainBuilder.buildSolution({ type: 'QROC', value: ['1'] });
+      solutions = devcompDomainBuilder.buildSolution({ type: 'QROC' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQROC({ solutions }, solutionServiceQROCStub);
