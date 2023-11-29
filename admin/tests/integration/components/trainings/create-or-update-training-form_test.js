@@ -17,7 +17,7 @@ module('Integration | Component | Trainings::CreateOrUpdateTrainingForm', functi
     form = {
       title: 'Un contenu formatif',
       link: 'https://un-contenu-formatif',
-      type: 'Webinaire',
+      type: 'webinaire',
       locale: 'fr-fr',
       editorName: 'Un éditeur de contenu formatif',
       editorLogoUrl: 'un-logo.svg',
