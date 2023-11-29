@@ -7,12 +7,7 @@ import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/requ
 import _ from 'lodash';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
-import {
-  SessionStartedDeletionError,
-  SessionWithoutStartedCertificationError,
-  SessionWithAbortReasonOnCompletedCertificationCourseError,
-  SessionAlreadyFinalizedError,
-} from '../../certification/session/domain/errors.js';
+import { SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
@@ -113,15 +108,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof SessionStartedDeletionError) {
     return new HttpErrors.ConflictError(error.message);
-  }
-  if (error instanceof SessionWithoutStartedCertificationError) {
-    return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
-  }
-  if (error instanceof SessionWithAbortReasonOnCompletedCertificationCourseError) {
-    return new HttpErrors.ConflictError(error.message, error.code, error.meta);
-  }
-  if (error instanceof SessionAlreadyFinalizedError) {
-    return new HttpErrors.ConflictError(error.message, error.code);
   }
 
   return new HttpErrors.BaseHttpError(error.message);
