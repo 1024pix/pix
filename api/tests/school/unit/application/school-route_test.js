@@ -14,7 +14,7 @@ describe('Unit | Router | school-router', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const response = await httpTestServer.request('GET', '/api/pix1d/schools/AZERTY34');
+      const response = await httpTestServer.request('GET', '/api/pix1d/schools?code=AZERTY123');
 
       // then
       expect(response.statusCode).to.equal(200);
