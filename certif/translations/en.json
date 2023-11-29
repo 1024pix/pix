@@ -893,6 +893,9 @@
       "update-referer-button": "Changer de référent"
     },
     "team-invitations": {
+      "actions": {
+        "cancel-invitation": "Delete invitation"
+      },
       "table": {
         "labels": {
           "actions": "Actions",
