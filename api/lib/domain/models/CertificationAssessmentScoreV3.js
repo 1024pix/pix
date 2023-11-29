@@ -64,7 +64,7 @@ class CertificationAssessmentScoreV3 {
 
     const rawScore = _computeScore(estimatedLevel);
 
-    const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers })
+    const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers, abortReason })
       ? _downgradeScore(rawScore)
       : rawScore;
 
@@ -117,10 +117,11 @@ const _computeScore = (estimatedLevel) => {
 
 const _downgradeScore = (score) => Math.round(score * 0.8);
 
-const _shouldDowngradeScore = ({ maximumAssessmentLength, answers }) => {
+const _shouldDowngradeScore = ({ maximumAssessmentLength, answers, abortReason }) => {
   return (
     _hasCandidateAnsweredEnoughQuestions({ answers }) &&
-    !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength })
+    !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength }) &&
+    abortReason === ABORT_REASONS.CANDIDATE
   );
 };
 
