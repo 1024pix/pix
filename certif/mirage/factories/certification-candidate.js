@@ -10,12 +10,13 @@ export default Factory.extend({
   },
 
   birthdate() {
-    const twoDaysAgo = new Date();
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-    const tenDaysAgo = new Date();
-    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-
-    return new Date(+twoDaysAgo + Math.random() * (tenDaysAgo - twoDaysAgo)).toISOString().slice(0, 10);
+    const twentyYearsAgo = new Date();
+    twentyYearsAgo.setFullYear(twentyYearsAgo.getFullYear() - 20);
+    const fiftyYearsAgo = new Date();
+    fiftyYearsAgo.setFullYear(fiftyYearsAgo.getFullYear() - 50);
+    //generate a random birthdate between 20 and 50 years ago
+    const randomTimestamp = twentyYearsAgo.getTime() + Math.random() * (fiftyYearsAgo - twentyYearsAgo);
+    return new Date(randomTimestamp).toISOString().slice(0, 10);
   },
 
   birthCity() {
