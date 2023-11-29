@@ -2,6 +2,7 @@ import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/valida
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
 import { ValidatorQCU } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCU.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
+import * as devcompDomainBuilder from '../../../../tooling/domain-builder/factory/index.js';
 
 describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQCU', function () {
   let solutionServiceQCUStub;
@@ -21,7 +22,7 @@ describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQCU', function
     beforeEach(function () {
       // given
       solutionServiceQCUStub.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QCU' });
+      solution = devcompDomainBuilder.buildSolution({ type: 'QCU' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new ValidatorQCU({
