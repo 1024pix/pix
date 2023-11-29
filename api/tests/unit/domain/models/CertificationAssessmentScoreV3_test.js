@@ -283,30 +283,60 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
     });
 
     describe('when less than the minimum number of answers required by the config has been answered', function () {
-      it('should be rejected', function () {
-        const difficulty = 0;
-        const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
-        const challenges = _buildChallenges(difficulty, numberOfChallenges);
-        const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
-        algorithm.getEstimatedLevelAndErrorRate
-          .withArgs({
+      describe('when the candidate did not finish the test due to technical issues', function () {
+        it('should be cancelled', function () {
+          const difficulty = 0;
+          const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
+          const challenges = _buildChallenges(difficulty, numberOfChallenges);
+          const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+          algorithm.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers,
+            })
+            .returns({
+              estimatedLevel: 0,
+            });
+
+          algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
+
+          const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
             challenges,
             allAnswers,
-          })
-          .returns({
-            estimatedLevel: 0,
+            algorithm,
+            abortReason: 'candidate',
           });
 
-        algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
-
-        const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
-          challenges,
-          allAnswers,
-          algorithm,
-          abortReason: 'candidate',
+          expect(score.status).to.equal(status.REJECTED);
         });
+      });
 
-        expect(score.status).to.equal(status.REJECTED);
+      describe('when the candidate did not finish the test due to time issues', function () {
+        it('should be rejected', function () {
+          const difficulty = 0;
+          const numberOfChallenges = config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification - 1;
+          const challenges = _buildChallenges(difficulty, numberOfChallenges);
+          const allAnswers = _buildAnswersForChallenges(challenges, AnswerStatus.OK);
+          algorithm.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers,
+            })
+            .returns({
+              estimatedLevel: 0,
+            });
+
+          algorithm.getConfiguration.returns(domainBuilder.buildFlashAlgorithmConfiguration());
+
+          const score = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+            challenges,
+            allAnswers,
+            algorithm,
+            abortReason: 'candidate',
+          });
+
+          expect(score.status).to.equal(status.REJECTED);
+        });
       });
     });
 
