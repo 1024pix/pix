@@ -9,7 +9,6 @@ import { CertificationVersion } from '../../../src/shared/domain/models/Certific
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
-import { FlashAssessmentAlgorithmConfiguration } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithmConfiguration.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -121,8 +120,7 @@ async function _handleV3CertificationScoring({
     ? ABORT_REASONS.CANDIDATE
     : ABORT_REASONS.TECHNICAL;
 
-  const configuration =
-    (await flashAlgorithmConfigurationRepository.get()) ?? new FlashAssessmentAlgorithmConfiguration();
+  const configuration = await flashAlgorithmConfigurationRepository.get();
 
   const algorithm = new FlashAssessmentAlgorithm({
     flashAlgorithmImplementation: flashAlgorithmService,
