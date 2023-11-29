@@ -29,7 +29,7 @@ describe('Integration | Application | complementary-certification-course-results
         const payload = {
           data: {
             attributes: {
-              juryLevel: 'JURY_LEVEL',
+              juryLevel: 1,
               complementaryCertificationCourseId: 123456,
             },
           },
@@ -56,7 +56,7 @@ describe('Integration | Application | complementary-certification-course-results
           const payload = {
             data: {
               attributes: {
-                juryLevel: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
+                juryLevel: 1,
                 complementaryCertificationCourseId: 123456,
               },
             },

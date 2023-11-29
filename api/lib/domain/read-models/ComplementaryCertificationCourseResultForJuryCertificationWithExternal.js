@@ -9,11 +9,11 @@ const { EXTERNAL, PIX } = sources;
 class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
   constructor({
     complementaryCertificationCourseId,
-    pixPartnerKey,
+    pixComplementaryCertificationBadgeId,
     pixLabel,
     pixAcquired,
     pixLevel,
-    externalPartnerKey,
+    externalComplementaryCertificationBadgeId,
     externalLabel,
     externalAcquired,
     externalLevel,
@@ -21,13 +21,13 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
   }) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.pixSection = new Section({
-      partnerKey: pixPartnerKey,
+      complementaryCertificationBadgeId: pixComplementaryCertificationBadgeId,
       label: pixLabel,
       acquired: pixAcquired,
       level: pixLevel,
     });
     this.externalSection = new Section({
-      partnerKey: externalPartnerKey,
+      complementaryCertificationBadgeId: externalComplementaryCertificationBadgeId,
       label: externalLabel,
       acquired: externalAcquired,
       level: externalLevel,
@@ -36,7 +36,7 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
     this.defaultJuryOptions = Object.values(juryOptions);
   }
 
-  static from(complementaryCertificationCourseResultWithExternal, badgesKeyAndLabel) {
+  static from(complementaryCertificationCourseResultWithExternal, badgesIdAndLabels) {
     if (!complementaryCertificationCourseResultWithExternal.length) {
       return;
     }
@@ -47,16 +47,18 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
       ({ source }) => source === EXTERNAL,
     );
 
-    const allowedExternalLevels = badgesKeyAndLabel.map(({ key, label }) => ({ label, value: key }));
+    const allowedExternalLevels = badgesIdAndLabels.map(({ id, label }) => ({ label, value: id }));
 
     return new ComplementaryCertificationCourseResultForJuryCertificationWithExternal({
       complementaryCertificationCourseId:
         complementaryCertificationCourseResultWithExternal[0].complementaryCertificationCourseId,
-      pixPartnerKey: pixComplementaryCertificationCourseResult?.partnerKey,
+      pixComplementaryCertificationBadgeId:
+        pixComplementaryCertificationCourseResult?.complementaryCertificationBadgeId,
       pixLabel: pixComplementaryCertificationCourseResult?.label,
       pixAcquired: pixComplementaryCertificationCourseResult?.acquired,
       pixLevel: pixComplementaryCertificationCourseResult?.level,
-      externalPartnerKey: externalComplementaryCertificationCourseResult?.partnerKey,
+      externalComplementaryCertificationBadgeId:
+        externalComplementaryCertificationCourseResult?.complementaryCertificationBadgeId,
       externalLabel: externalComplementaryCertificationCourseResult?.label,
       externalAcquired: externalComplementaryCertificationCourseResult?.acquired,
       externalLevel: externalComplementaryCertificationCourseResult?.level,
@@ -86,15 +88,15 @@ class ComplementaryCertificationCourseResultForJuryCertificationWithExternal {
 }
 
 class Section {
-  constructor({ partnerKey, label, acquired, level }) {
-    this.partnerKey = partnerKey;
+  constructor({ complementaryCertificationBadgeId, label, acquired, level }) {
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.label = label;
     this.acquired = acquired ?? false;
     this.level = level;
   }
 
   get isEvaluated() {
-    return Boolean(this.partnerKey);
+    return Boolean(this.complementaryCertificationBadgeId);
   }
 }
 

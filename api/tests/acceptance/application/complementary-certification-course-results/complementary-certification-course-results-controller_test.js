@@ -13,12 +13,30 @@ describe('Acceptance | API | Certifications', function () {
     it('should return 201 HTTP status code', async function () {
       // given
       const server = await createServer();
+      databaseBuilder.factory.buildTargetProfile({ id: 99 });
       const badge = databaseBuilder.factory.buildBadge({
         key: 'BADGE_KEY',
+        targetProfileId: 99,
+      });
+      const badge2 = databaseBuilder.factory.buildBadge({
+        key: 'BADGE_KEY_2',
+        targetProfileId: 99,
       });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
         name: 'Pix+ Test',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 24,
+        complementaryCertificationId: 1,
+        badgeId: badge.id,
+        level: 1,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 25,
+        complementaryCertificationId: 1,
+        badgeId: badge2.id,
+        level: 2,
       });
       databaseBuilder.factory.buildCertificationCourse({
         id: 456,
@@ -27,10 +45,12 @@ describe('Acceptance | API | Certifications', function () {
         id: 1234,
         certificationCourseId: 456,
         complementaryCertificationId: 1,
+        complementaryCertificationBadgeId: 24,
       });
 
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 1234,
+        complementaryCertificationBadgeId: 24,
         partnerKey: badge.key,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -45,7 +65,7 @@ describe('Acceptance | API | Certifications', function () {
         payload: {
           data: {
             attributes: {
-              juryLevel: badge.key,
+              juryLevel: 25,
               complementaryCertificationCourseId: 1234,
             },
           },

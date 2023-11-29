@@ -37,6 +37,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           complementaryCertificationBadgeId: 3453,
           level: 1,
           label: 'Badge for complementary certification without external jury',
+          complementaryCertificationCourse: null,
         });
 
         databaseBuilder.factory.buildUser({ id: 789 });
@@ -71,7 +72,6 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           complementaryCertificationId: 23,
           certificationCourseId: 1,
           complementaryCertificationBadgeId: 3453,
-          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
         });
 
         databaseBuilder.factory.buildUser({ id: 22, firstName: 'Jury' });
@@ -137,8 +137,8 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           version: 2,
           commonComplementaryCertificationCourseResult: {
             acquired: true,
+            complementaryCertificationBadgeId: 3453,
             id: 456,
-            partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_WITHOUT_EXTERNAL_JURY',
             label: 'Badge for complementary certification without external jury',
           },
           complementaryCertificationCourseResultWithExternal: undefined,
@@ -205,15 +205,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           complementaryCertificationCourseId: 456,
           complementaryCertificationId: 24,
           certificationCourseId: 1,
-          complementaryCertificationBadgeId: 3454,
-          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
+          complementaryCertificationBadgeId: 3453,
         });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 456,
           complementaryCertificationId: 24,
           certificationCourseId: 1,
-          complementaryCertificationBadgeId: 3455,
-          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
+          complementaryCertificationBadgeId: 3454,
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         });
 
@@ -231,28 +229,28 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         const expectedJuryCertification = {
           complementaryCertificationCourseId: 456,
           externalSection: {
+            complementaryCertificationBadgeId: 3454,
             acquired: true,
             label: 'Badge for complementary certification with external jury level 2',
             level: 2,
-            partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
           },
           pixSection: {
+            complementaryCertificationBadgeId: 3453,
             acquired: true,
-            partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
             label: 'Badge for complementary certification with external jury level 1',
             level: 1,
           },
           allowedExternalLevels: [
             {
-              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
+              value: 3453,
               label: 'Badge for complementary certification with external jury level 1',
             },
             {
-              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
+              value: 3454,
               label: 'Badge for complementary certification with external jury level 2',
             },
             {
-              value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_3',
+              value: 3455,
               label: 'Badge for complementary certification with external jury level 3',
             },
           ],
@@ -335,14 +333,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           complementaryCertificationId: 24,
           certificationCourseId: 1,
           complementaryCertificationBadgeId: 3454,
-          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
         });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 456,
           complementaryCertificationId: 24,
           certificationCourseId: 1,
           complementaryCertificationBadgeId: 3455,
-          partnerKey: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
           source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
         });
 
@@ -362,15 +358,15 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         // then
         expect(complementaryCertificationCourseResultWithExternal.allowedExternalLevels).to.deep.equals([
           {
-            value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_1',
+            value: 3453,
             label: 'Badge for complementary certification with external jury level 1',
           },
           {
-            value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_2',
+            value: 3454,
             label: 'Badge for complementary certification with external jury level 2',
           },
           {
-            value: 'BADGE_FOR_COMPLEMENTARY_CERTIFICATION_1_WITH_EXTERNAL_JURY_LEVEL_3',
+            value: 3455,
             label: 'Badge for complementary certification with external jury level 3',
           },
         ]);

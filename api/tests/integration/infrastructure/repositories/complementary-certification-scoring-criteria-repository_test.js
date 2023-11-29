@@ -57,12 +57,14 @@ describe('Integration | Repository | complementary certification scoring criteri
       expect(results).to.deep.equal([
         domainBuilder.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: complementaryCertificationCourse1.id,
+          complementaryCertificationBadgeId: complementaryCertificationCourse1.complementaryCertificationBadgeId,
           minimumReproducibilityRate: complementaryCertification1.minimumReproducibilityRate,
           complementaryCertificationBadgeKey: badge1.key,
           hasComplementaryReferential: complementaryCertification1.hasComplementaryReferential,
         }),
         domainBuilder.buildComplementaryCertificationScoringCriteria({
           complementaryCertificationCourseId: complementaryCertificationCourse2.id,
+          complementaryCertificationBadgeId: complementaryCertificationCourse2.complementaryCertificationBadgeId,
           minimumReproducibilityRate: complementaryCertification2.minimumReproducibilityRate,
           complementaryCertificationBadgeKey: badge2.key,
           hasComplementaryReferential: complementaryCertification2.hasComplementaryReferential,

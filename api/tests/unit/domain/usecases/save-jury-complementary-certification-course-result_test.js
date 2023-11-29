@@ -11,7 +11,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
       complementaryCertificationCourseResultRepository = {
         save: sinon.stub(),
         getPixSourceResultByComplementaryCertificationCourseId: sinon.stub(),
-        getAllowedJuryLevelByBadgeKey: sinon.stub(),
+        getAllowedJuryLevelIdsByComplementaryCertificationBadgeId: sinon.stub(),
         removeExternalJuryResult: sinon.stub(),
       };
     });
@@ -26,7 +26,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
         // when
         const error = await catchErr(saveJuryComplementaryCertificationCourseResult)({
           complementaryCertificationCourseId: 12345,
-          juryLevel: 'JURY_LEVEL',
+          juryLevel: 1,
           complementaryCertificationCourseResultRepository,
         });
 
@@ -46,20 +46,19 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
             .withArgs({ complementaryCertificationCourseId: 1234 })
             .resolves(
               domainBuilder.buildComplementaryCertificationCourseResult({
-                partnerKey: 'KEY_1',
+                complementaryCertificationBadgeId: 99,
                 complementaryCertificationCourseId: 1234,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
               }),
             );
-
-          complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey
-            .withArgs({ key: 'KEY_1' })
-            .resolves(['KEY_1', 'KEY_2']);
+          complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId
+            .withArgs(99)
+            .resolves([98, 99, 100]);
 
           // when
           const error = await catchErr(saveJuryComplementaryCertificationCourseResult)({
             complementaryCertificationCourseId: 1234,
-            juryLevel: 'KEY_3',
+            juryLevel: 101,
             complementaryCertificationCourseResultRepository,
           });
 
@@ -102,20 +101,20 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
             .withArgs({ complementaryCertificationCourseId: 1234 })
             .resolves(
               domainBuilder.buildComplementaryCertificationCourseResult({
-                partnerKey: 'KEY_1',
+                complementaryCertificationBadgeId: 99,
                 complementaryCertificationCourseId: 1234,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
               }),
             );
 
-          complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey
-            .withArgs({ key: 'KEY_1' })
-            .resolves(['KEY_1', 'KEY_2']);
+          complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId
+            .withArgs(99)
+            .resolves([98, 99, 100]);
 
           // when
           await saveJuryComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 1234,
-            juryLevel: 'KEY_2',
+            juryLevel: 99,
             complementaryCertificationCourseResultRepository,
           });
 
@@ -123,6 +122,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             new ComplementaryCertificationCourseResult({
               partnerKey: 'KEY_2',
+              complementaryCertificationBadgeId: 99,
               source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
               acquired: true,
               complementaryCertificationCourseId: 1234,

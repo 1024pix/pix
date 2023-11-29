@@ -186,6 +186,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         key: 'PARTNER_KEY',
       }).id;
       const oneComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 100,
         badgeId: oneBadgeId,
         complementaryCertificationId: oneComplementaryCertificationId,
         label: 'PARTNER_LABEL',
@@ -198,7 +199,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
-        partnerKey: 'PARTNER_KEY',
+        complementaryCertificationBadgeId: 100,
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -211,6 +212,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const otherComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification().id;
       databaseBuilder.factory.buildBadge({ id: 12345, key: 'OTHER_PARTNER_KEY' });
       const otherComplementaryCertificationBadgeId = databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 101,
         badgeId: '12345',
         complementaryCertificationId: otherComplementaryCertificationId,
         label: 'OTHER_PARTNER_LABEL',
@@ -223,7 +225,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: 'OTHER_PARTNER_KEY',
+        complementaryCertificationBadgeId: 101,
         acquired: false,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -262,7 +264,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 998,
-              partnerKey: 'PARTNER_KEY',
+              complementaryCertificationBadgeId: 100,
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'PARTNER_LABEL',
             }),
@@ -295,7 +297,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: false,
               complementaryCertificationCourseId: 997,
-              partnerKey: 'OTHER_PARTNER_KEY',
+              complementaryCertificationBadgeId: 101,
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'OTHER_PARTNER_LABEL',
             }),
@@ -320,27 +322,29 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         id: 997,
         certificationCourseId: oneCertificationCourseId,
       });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 997,
-        partnerKey: 'PARTNER_KEY_PIX',
-        acquired: true,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 997,
-        partnerKey: 'PARTNER_KEY_EXTERNAL',
-        acquired: true,
-        source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
-      });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 100,
         badgeId: 12345,
         complementaryCertificationId: oneComplementaryCertificationId,
         label: 'PARTNER_LABEL_PIX',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 101,
         badgeId: 12346,
         complementaryCertificationId: oneComplementaryCertificationId,
         label: 'PARTNER_LABEL_EXTERNAL',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 997,
+        complementaryCertificationBadgeId: 100,
+        acquired: true,
+        source: ComplementaryCertificationCourseResult.sources.PIX,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 997,
+        complementaryCertificationBadgeId: 101,
+        acquired: true,
+        source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
 
       await databaseBuilder.commit();
@@ -377,7 +381,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 997,
-              partnerKey: 'PARTNER_KEY_PIX',
+              complementaryCertificationBadgeId: 100,
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'PARTNER_LABEL_PIX',
             }),
@@ -387,136 +391,88 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       expect(certificationResults).to.deepEqualArray(expectedResult);
     });
 
-    it(`should return complementary certification results ordered by complementaryCertificationId and level`, async function () {
+    it(`should return complementary certification results`, async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCourseId } = await _buildCertificationResultInSession(sessionId);
-      databaseBuilder.factory.buildBadge({ key: 'First badge expert', id: 123 });
-      databaseBuilder.factory.buildBadge({ key: 'First badge maître', id: 456 });
-      databaseBuilder.factory.buildBadge({ key: 'Second badge expert', id: 789 });
-      databaseBuilder.factory.buildBadge({ key: 'Second badge maître', id: 101112 });
+      const { certificationCourseId: certificationCourseId1 } = await _buildCertificationResultInSession(sessionId);
+      const { certificationCourseId: certificationCourseId2 } = await _buildCertificationResultInSession(sessionId);
       databaseBuilder.factory.buildComplementaryCertification({
         id: 123,
       });
-      databaseBuilder.factory.buildComplementaryCertification({
-        id: 456,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 101,
-        badgeId: 789,
-        complementaryCertificationId: 456,
-        level: 1,
-        label: 'Second badge expert',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 102,
-        badgeId: 456,
+      const buildComplementaryResult = ({
+        certificationCourseId,
+        complementaryCertificationId,
+        complementaryCertificationBadgeId,
+        complementaryCertificationCourseId,
+        acquired = true,
+        label,
+        level,
+      }) => {
+        const { id: badgeId } = databaseBuilder.factory.buildBadge();
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          id: complementaryCertificationBadgeId,
+          badgeId,
+          complementaryCertificationId,
+          level,
+          label,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: complementaryCertificationCourseId,
+          certificationCourseId,
+          complementaryCertificationId,
+          complementaryCertificationBadgeId,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId,
+          complementaryCertificationBadgeId,
+          acquired,
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+        });
+      };
+      buildComplementaryResult({
+        certificationCourseId: certificationCourseId1,
         complementaryCertificationId: 123,
-        level: 2,
-        label: 'First badge maître',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 103,
-        badgeId: 101112,
-        complementaryCertificationId: 456,
-        level: 2,
-        label: 'Second badge maître',
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 104,
-        badgeId: 123,
-        complementaryCertificationId: 123,
-        level: 1,
+        complementaryCertificationBadgeId: 101,
+        complementaryCertificationCourseId: 998,
         label: 'First badge expert',
       });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 996,
-        certificationCourseId,
-        complementaryCertificationId: 123,
-        complementaryCertificationBadgeId: 104,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 997,
-        certificationCourseId,
-        complementaryCertificationId: 456,
-        complementaryCertificationBadgeId: 103,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 998,
-        certificationCourseId,
+
+      buildComplementaryResult({
+        certificationCourseId: certificationCourseId2,
         complementaryCertificationId: 123,
         complementaryCertificationBadgeId: 102,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourse({
-        id: 999,
-        certificationCourseId,
-        complementaryCertificationId: 456,
-        complementaryCertificationBadgeId: 101,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 998,
-        partnerKey: 'First badge expert',
-        acquired: true,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 996,
-        partnerKey: 'First badge maître',
-        acquired: true,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 999,
-        partnerKey: 'Second badge expert',
-        acquired: true,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        complementaryCertificationCourseId: 997,
-        partnerKey: 'Second badge maître',
-        acquired: true,
-        source: ComplementaryCertificationCourseResult.sources.PIX,
+        label: 'First badge avance',
+        acquired: false,
       });
 
       await databaseBuilder.commit();
 
       // when
-      const [result] = await certificationResultRepository.findBySessionId({
+      const [results1, results2] = await certificationResultRepository.findBySessionId({
         sessionId,
       });
 
       // then
-      const expectedResult = [
+
+      expect(results1.complementaryCertificationCourseResults[0]).to.deepEqualInstance(
         domainBuilder.buildComplementaryCertificationCourseResult({
           acquired: true,
           complementaryCertificationCourseId: 998,
-          partnerKey: 'First badge expert',
-          source: ComplementaryCertificationCourseResult.sources.PIX,
+          complementaryCertificationBadgeId: 101,
           label: 'First badge expert',
-        }),
-        domainBuilder.buildComplementaryCertificationCourseResult({
-          acquired: true,
-          complementaryCertificationCourseId: 996,
-          partnerKey: 'First badge maître',
           source: ComplementaryCertificationCourseResult.sources.PIX,
-          label: 'First badge maître',
         }),
+      );
+      expect(results2.complementaryCertificationCourseResults[0]).to.deepEqualInstance(
         domainBuilder.buildComplementaryCertificationCourseResult({
-          acquired: true,
+          acquired: false,
           complementaryCertificationCourseId: 999,
-          partnerKey: 'Second badge expert',
+          complementaryCertificationBadgeId: 102,
+          label: 'First badge avance',
           source: ComplementaryCertificationCourseResult.sources.PIX,
-          label: 'Second badge expert',
         }),
-        domainBuilder.buildComplementaryCertificationCourseResult({
-          acquired: true,
-          complementaryCertificationCourseId: 997,
-          partnerKey: 'Second badge maître',
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-          label: 'Second badge maître',
-        }),
-      ];
-      expect(result.complementaryCertificationCourseResults).to.deepEqualArray(expectedResult);
+      );
     });
   });
 
@@ -727,36 +683,10 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     it(`should return only complementary certifications of Pix source`, async function () {
       // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
       const userId = databaseBuilder.factory.buildUser().id;
-      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-        firstName: 'Buffy',
-        lastName: 'Summers',
-        birthdate: '1981-01-19',
-        birthplace: 'Torreilles',
-        isPublished: true,
-        isCancelled: false,
-        externalId: 'VAMPIRES_SUCK',
-        createdAt: new Date('2020-01-01'),
-        sessionId,
-        userId,
-      }).id;
-      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({
-        certificationCourseId,
-        pixScore: 123,
-        status: CertificationResult.status.VALIDATED,
-        commentForOrganization: 'Un commentaire orga 1',
-      }).id;
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const { certificationCourseId } = await _buildCertificationResultInSession(sessionId, userId);
 
-      databaseBuilder.factory.buildCompetenceMark({
-        id: 123,
-        score: 10,
-        level: 4,
-        competence_code: '2.3',
-        area_code: '2',
-        competenceId: 'recComp23',
-        assessmentResultId,
-      });
       const oneComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         label: 'PARTNER_LABEL',
       }).id;
@@ -765,68 +695,43 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         id: 997,
         certificationCourseId,
       });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 789,
+        badgeId: 12345,
+        complementaryCertificationId: oneComplementaryCertificationId,
+        label: 'PARTNER_LABEL',
+      });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: 'PARTNER_KEY',
+        complementaryCertificationBadgeId: 789,
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 997,
-        partnerKey: 'PARTNER_KEY',
+        complementaryCertificationBadgeId: 789,
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
-      });
-      databaseBuilder.factory.buildComplementaryCertificationBadge({
-        badgeId: 12345,
-        complementaryCertificationId: oneComplementaryCertificationId,
-        label: 'PARTNER_LABEL',
       });
       const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
       await databaseBuilder.commit();
 
       // when
-      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
+      const [certificationResults] = await certificationResultRepository.findByCertificationCandidateIds({
         certificationCandidateIds: [certificationCandidateId],
       });
 
       // then
       const expectedResult = [
-        domainBuilder.buildCertificationResult({
-          id: certificationCourseId,
-          firstName: 'Buffy',
-          lastName: 'Summers',
-          externalId: 'VAMPIRES_SUCK',
-          pixScore: 123,
-          sessionId,
-          status: 'validated',
-          birthdate: '1981-01-19',
-          birthplace: 'Torreilles',
-          createdAt: new Date('2020-01-01T00:00:00Z'),
-          commentForOrganization: 'Un commentaire orga 1',
-          competencesWithMark: [
-            domainBuilder.buildCompetenceMark({
-              id: 123,
-              score: 10,
-              level: 4,
-              competence_code: '2.3',
-              area_code: '2',
-              competenceId: 'recComp23',
-              assessmentResultId,
-            }),
-          ],
-          complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({
-              acquired: true,
-              complementaryCertificationCourseId: 997,
-              partnerKey: 'PARTNER_KEY',
-              source: ComplementaryCertificationCourseResult.sources.PIX,
-              label: 'PARTNER_LABEL',
-            }),
-          ],
+        domainBuilder.buildComplementaryCertificationCourseResult({
+          acquired: true,
+          complementaryCertificationCourseId: 997,
+          complementaryCertificationBadgeId: 789,
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+          label: 'PARTNER_LABEL',
         }),
       ];
-      expect(certificationResults).to.deepEqualArray(expectedResult);
+      expect(certificationResults.complementaryCertificationCourseResults).to.deepEqualArray(expectedResult);
     });
 
     it(`should return complementary certification linked to the candidates`, async function () {
@@ -854,7 +759,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
-        partnerKey: 'PARTNER_KEY',
+        complementaryCertificationBadgeId: 100,
         acquired: true,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
@@ -895,7 +800,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             domainBuilder.buildComplementaryCertificationCourseResult({
               acquired: true,
               complementaryCertificationCourseId: 998,
-              partnerKey: 'PARTNER_KEY',
+              complementaryCertificationBadgeId: 100,
               source: ComplementaryCertificationCourseResult.sources.PIX,
               label: 'PARTNER_LABEL',
             }),
@@ -907,9 +812,10 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
   });
 });
 
-async function _buildCertificationResultInSession(sessionId) {
+async function _buildCertificationResultInSession(sessionId, userId) {
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     sessionId,
+    userId,
     isPublished: true,
   }).id;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult.last({

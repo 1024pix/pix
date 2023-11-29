@@ -116,6 +116,7 @@ describe('Acceptance | API | Certifications', function () {
 
         await databaseBuilder.commit();
       });
+
       it('should return 200 HTTP status code', async function () {
         options = {
           method: 'GET',
@@ -204,6 +205,7 @@ describe('Acceptance | API | Certifications', function () {
 
         await databaseBuilder.commit();
       });
+
       it('should return 200 HTTP status code', async function () {
         options = {
           method: 'GET',
@@ -287,7 +289,16 @@ describe('Acceptance | API | Certifications', function () {
             'last-name': certificationCourse.lastName,
             'pix-score': assessmentResult.pixScore,
             status: assessmentResult.status,
-            'certified-badge-images': [],
+            'certified-badge-images': [
+              {
+                imageUrl: 'http://tarte.fr/mirabelle.png',
+                isTemporaryBadge: false,
+                label: 'tarte à la mirabelle',
+                partnerKey: 'charlotte_aux_fraises',
+                stickerUrl: 'http://tarte.fr/sticker.png',
+                message: 'Miam',
+              },
+            ],
             'verification-code': certificationCourse.verificationCode,
             'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
           },
@@ -442,7 +453,16 @@ describe('Acceptance | API | Certifications', function () {
               'is-published': certificationCourse.isPublished,
               'last-name': certificationCourse.lastName,
               'pix-score': assessmentResult.pixScore,
-              'certified-badge-images': [],
+              'certified-badge-images': [
+                {
+                  imageUrl: 'http://tarte.fr/mirabelle.png',
+                  isTemporaryBadge: false,
+                  label: 'tarte à la mirabelle',
+                  partnerKey: 'charlotte_aux_fraises',
+                  stickerUrl: 'http://tarte.fr/sticker.png',
+                  message: 'Miam',
+                },
+              ],
               'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
             },
             id: `${certificationCourse.id}`,
@@ -638,6 +658,17 @@ async function _buildDatabaseForV2Certification() {
   const userId = databaseBuilder.factory.buildUser().id;
   const session = databaseBuilder.factory.buildSession({ publishedAt: new Date('2018-12-01T01:02:03Z') });
   const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
+  const cc = databaseBuilder.factory.buildComplementaryCertification();
+  const ccBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
+    complementaryCertificationId: cc.id,
+    partnerKey: 'charlotte_aux_fraises',
+    badgeId: badge.id,
+    imageUrl: 'http://tarte.fr/mirabelle.png',
+    isTemporaryBadge: false,
+    label: 'tarte à la mirabelle',
+    certificateMessage: 'Miam',
+    stickerUrl: 'http://tarte.fr/sticker.png',
+  });
   const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
     sessionId: session.id,
     userId,
@@ -665,6 +696,7 @@ async function _buildDatabaseForV2Certification() {
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: id,
+    complementaryCertificationBadgeId: ccBadge.id,
     partnerKey: badge.key,
   });
   return { userId, session, badge, certificationCourse, assessment, assessmentResult };

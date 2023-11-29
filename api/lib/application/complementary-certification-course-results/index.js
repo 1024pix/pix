@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { complementaryCertificationCourseResultsController } from './complementary-certification-course-results-controller.js';
+import { juryOptions } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 
 const register = async function (server) {
   server.route([
@@ -13,7 +14,12 @@ const register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                juryLevel: Joi.string().required(),
+                juryLevel: Joi.alternatives()
+                  .try(
+                    identifiersType.complementaryCertificationBadgeId,
+                    Joi.string().valid(juryOptions.REJECTED).valid(juryOptions.UNSET),
+                  )
+                  .required(),
                 complementaryCertificationCourseId: identifiersType.complementaryCertificationCourseId,
               },
             },

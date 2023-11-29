@@ -127,10 +127,6 @@ class CertificationResult {
       ),
     ];
   }
-
-  _getCertificationCourseResultByPartnerKeys(partnerKeys) {
-    return this.complementaryCertificationCourseResults.find(({ partnerKey }) => partnerKeys.includes(partnerKey));
-  }
 }
 
 CertificationResult.status = status;

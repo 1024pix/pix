@@ -66,21 +66,21 @@ describe('Integration | Repository | complementary-certification-course-reposito
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             acquired: true,
             complementaryCertificationCourseId: 999,
-            partnerKey: 'PIX_TEST_1',
+            complementaryCertificationBadgeId: 123,
             source: ComplementaryCertificationCourseResult.sources.PIX,
           }).id;
         const complementaryCertificationCourseResultId2 =
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             acquired: true,
             complementaryCertificationCourseId: 1000,
-            partnerKey: 'PIX_TEST_2',
+            complementaryCertificationBadgeId: 456,
             source: ComplementaryCertificationCourseResult.sources.PIX,
           }).id;
         const complementaryCertificationCourseResultId3 =
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             acquired: true,
             complementaryCertificationCourseId: 1000,
-            partnerKey: 'PIX_TEST_2',
+            complementaryCertificationBadgeId: 456,
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
           }).id;
 
@@ -100,7 +100,7 @@ describe('Integration | Repository | complementary-certification-course-reposito
               {
                 id: complementaryCertificationCourseResultId1,
                 acquired: true,
-                partnerKey: 'PIX_TEST_1',
+                complementaryCertificationBadgeId: 123,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
               },
             ],
@@ -114,13 +114,13 @@ describe('Integration | Repository | complementary-certification-course-reposito
               {
                 id: complementaryCertificationCourseResultId3,
                 acquired: true,
-                partnerKey: 'PIX_TEST_2',
+                complementaryCertificationBadgeId: 456,
                 source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
               },
               {
                 id: complementaryCertificationCourseResultId2,
                 acquired: true,
-                partnerKey: 'PIX_TEST_2',
+                complementaryCertificationBadgeId: 456,
                 source: ComplementaryCertificationCourseResult.sources.PIX,
               },
             ],

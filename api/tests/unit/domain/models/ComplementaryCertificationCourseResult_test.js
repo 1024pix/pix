@@ -7,7 +7,6 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
       // given
       const complementaryCertificationCourseResult = new ComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 'complementaryCertificationCourseId',
-        partnerKey: 'partnerKey',
         acquired: true,
         source: 'source',
       });
@@ -23,7 +22,6 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
       // given
       const complementaryCertificationCourseResult = new ComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 'complementaryCertificationCourseId',
-        partnerKey: 'partnerKey',
         acquired: false,
         source: 'source',
       });
@@ -50,14 +48,12 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
         const result = ComplementaryCertificationCourseResult.buildFromJuryLevel({
           juryLevel: complementaryCertificationCourseResult.partnerKey,
           complementaryCertificationCourseId: 12,
-          pixPartnerKey: 'PARTNER_KEY',
         });
 
         // then
         expect(result).to.deepEqualInstance(
           new ComplementaryCertificationCourseResult({
             acquired: true,
-            partnerKey: 'PARTNER_KEY',
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
             complementaryCertificationCourseId: 12,
           }),
@@ -68,25 +64,16 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
     describe('when the jury level is "REJECTED"', function () {
       it('should return an acquired ComplementaryCertificationCourseResult with an external source', function () {
         // given
-        const complementaryCertificationCourseResult = domainBuilder.buildComplementaryCertificationCourseResult({
-          partnerKey: 'REJECTED',
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-          acquired: true,
-          complementaryCertificationCourseId: 12,
-        });
-
         // when
         const result = ComplementaryCertificationCourseResult.buildFromJuryLevel({
-          juryLevel: complementaryCertificationCourseResult.partnerKey,
+          juryLevel: 'REJECTED',
           complementaryCertificationCourseId: 12,
-          pixPartnerKey: 'PARTNER_KEY',
         });
 
         // then
         expect(result).to.deepEqualInstance(
           new ComplementaryCertificationCourseResult({
             acquired: false,
-            partnerKey: 'PARTNER_KEY',
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
             complementaryCertificationCourseId: 12,
           }),

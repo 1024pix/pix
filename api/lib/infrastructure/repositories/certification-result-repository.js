@@ -1,9 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { ComplementaryCertificationCourseResult } from '../../domain/models/ComplementaryCertificationCourseResult.js';
 import { CertificationResult } from '../../domain/models/CertificationResult.js';
-import lodash from 'lodash';
-
-const { isEmpty } = lodash;
 
 const findBySessionId = async function ({ sessionId }) {
   const certificationResultDTOs = await _selectCertificationResults()
@@ -16,13 +13,9 @@ const findBySessionId = async function ({ sessionId }) {
       sessionId,
     });
 
-  return certificationResultDTOs.map((certificationResultDTO) => {
-    certificationResultDTO.complementaryCertificationCourseResults =
-      complementaryCertificationCourseResultsByCertificationCourseId.find(
-        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id,
-      )?.complementaryCertificationCourseResults;
-    return _toDomain(certificationResultDTO);
-  });
+  return certificationResultDTOs.map((certificationResultDTO) =>
+    _toDomain({ certificationResultDTO, complementaryCertificationCourseResultsByCertificationCourseId }),
+  );
 };
 
 const findByCertificationCandidateIds = async function ({ certificationCandidateIds }) {
@@ -36,21 +29,18 @@ const findByCertificationCandidateIds = async function ({ certificationCandidate
     .orderBy('certification-courses.lastName', 'ASC')
     .orderBy('certification-courses.firstName', 'ASC');
 
-  let complementaryCertificationCourseResultsByCertificationCourseId = [];
-  if (!isEmpty(certificationResultDTOs)) {
-    complementaryCertificationCourseResultsByCertificationCourseId =
-      await _selectComplementaryCertificationCourseResultsBySessionId({
-        sessionId: certificationResultDTOs[0].sessionId,
-      });
+  if (!certificationResultDTOs.length) {
+    return [];
   }
 
-  return certificationResultDTOs.map((certificationResultDTO) => {
-    certificationResultDTO.complementaryCertificationCourseResults =
-      complementaryCertificationCourseResultsByCertificationCourseId.find(
-        ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id,
-      )?.complementaryCertificationCourseResults;
-    return _toDomain(certificationResultDTO);
-  });
+  const complementaryCertificationCourseResultsByCertificationCourseId =
+    await _selectComplementaryCertificationCourseResultsBySessionId({
+      sessionId: certificationResultDTOs[0].sessionId,
+    });
+
+  return certificationResultDTOs.map((certificationResultDTO) =>
+    _toDomain({ certificationResultDTO, complementaryCertificationCourseResultsByCertificationCourseId }),
+  );
 };
 
 export { findBySessionId, findByCertificationCandidateIds };
@@ -94,27 +84,26 @@ function _selectCertificationResults() {
 
 function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }) {
   return knex('complementary-certification-course-results')
-    .select({ certificationCourseId: 'certification-courses.id' })
-    .select(
-      knex.raw(`
-        array_agg(json_build_object(
-        'complementaryCertificationCourseId', "complementary-certification-course-results"."complementaryCertificationCourseId",
-        'id', "complementary-certification-course-results"."id",
-        'partnerKey', "complementary-certification-course-results"."partnerKey",
-        'acquired', "complementary-certification-course-results"."acquired",
-        'source', "complementary-certification-course-results"."source",
-        'label', "complementary-certification-badges"."label",
-        'order', "complementary-certifications".id
-        ) order by "complementary-certifications".id, "complementary-certification-badges".level) as "complementaryCertificationCourseResults"
-        `),
-    )
+    .select({
+      certificationCourseId: 'certification-courses.id',
+      complementaryCertificationCourseId:
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+      id: 'complementary-certification-course-results.id',
+      complementaryCertificationBadgeId: 'complementary-certification-course-results.complementaryCertificationBadgeId',
+      acquired: 'complementary-certification-course-results.acquired',
+      source: 'complementary-certification-course-results.source',
+      label: 'complementary-certification-badges.label',
+    })
     .join(
       'complementary-certification-courses',
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId',
     )
-    .join('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
-    .join('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .join(
+      'complementary-certification-badges',
+      'complementary-certification-badges.id',
+      'complementary-certification-course-results.complementaryCertificationBadgeId',
+    )
     .join(
       'complementary-certifications',
       'complementary-certifications.id',
@@ -125,13 +114,20 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
       'certification-courses.id',
       'complementary-certification-courses.certificationCourseId',
     )
-    .where({ sessionId })
-    .where('complementary-certification-course-results.source', ComplementaryCertificationCourseResult.sources.PIX)
-    .groupBy('certification-courses.id');
+    .where({
+      sessionId,
+      'complementary-certification-course-results.source': ComplementaryCertificationCourseResult.sources.PIX,
+    });
 }
 
-function _toDomain(certificationResultDTO) {
+function _toDomain({ certificationResultDTO, complementaryCertificationCourseResultsByCertificationCourseId }) {
+  const complementaryCertificationCourseResult = complementaryCertificationCourseResultsByCertificationCourseId.find(
+    (results) => results.certificationCourseId === certificationResultDTO.id,
+  );
   return CertificationResult.from({
-    certificationResultDTO,
+    certificationResultDTO: {
+      ...certificationResultDTO,
+      complementaryCertificationCourseResults: [complementaryCertificationCourseResult],
+    },
   });
 }

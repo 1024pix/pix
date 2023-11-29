@@ -5,11 +5,15 @@ import {
   learningContentBuilder,
   mockLearningContent,
   insertUserWithRoleSuperAdmin,
+  nock,
 } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 import { generateCertificateVerificationCode } from '../../../../../lib/domain/services/verify-certificate-code-service.js';
 import { AssessmentResult, Membership } from '../../../../../lib/domain/models/index.js';
+import { readFile } from 'node:fs/promises';
+import * as url from 'url';
+
 describe('Acceptance | Route | certification-attestation', function () {
   beforeEach(async function () {
     const learningContent = [
@@ -98,6 +102,11 @@ describe('Acceptance | Route | certification-attestation', function () {
 
     const learningContentObjects = learningContentBuilder.fromAreas(learningContent);
     mockLearningContent(learningContentObjects);
+
+    const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+    nock('http://tarte.fr')
+      .get('/sticker.pdf')
+      .reply(200, () => readFile(`${__dirname}/sticker.pdf`));
   });
 
   describe('GET /api/attestation/', function () {
@@ -105,7 +114,7 @@ describe('Acceptance | Route | certification-attestation', function () {
       it('should return 200 HTTP status code and the certification', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        await _buildDatabaseForV2Certification({ userId });
+        await _buildDatabaseForV2Certification({ userId, certificationCourseId: 1234 });
         await databaseBuilder.commit();
 
         const server = await createServer();
@@ -130,7 +139,7 @@ describe('Acceptance | Route | certification-attestation', function () {
     it('should return 200 HTTP status code and the certification', async function () {
       // given
       const superAdmin = await insertUserWithRoleSuperAdmin();
-      await _buildDatabaseForV2Certification({ userId: superAdmin.id });
+      await _buildDatabaseForV2Certification({ userId: superAdmin.id, sessionId: 4567 });
       await databaseBuilder.commit();
 
       const server = await createServer();
@@ -221,39 +230,56 @@ describe('Acceptance | Route | certification-attestation', function () {
       expect(response.statusCode).to.equal(200);
     });
   });
-
-  async function _buildDatabaseForV2Certification({ userId }) {
-    const session = databaseBuilder.factory.buildSession({ id: 4567, publishedAt: new Date('2018-12-01T01:02:03Z') });
-    const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
-    const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-      id: 1234,
-      sessionId: session.id,
-      userId,
-      isPublished: true,
-      maxReachableLevelOnCertificationDate: 3,
-      verificationCode: await generateCertificateVerificationCode(),
-    });
-    const assessment = databaseBuilder.factory.buildAssessment({
-      userId,
-      certificationCourseId: certificationCourse.id,
-      type: Assessment.types.CERTIFICATION,
-      state: 'completed',
-    });
-    databaseBuilder.factory.buildAssessmentResult.last({
-      certificationCourseId: certificationCourse.id,
-      assessmentId: assessment.id,
-      level: 1,
-      pixScore: 23,
-      emitter: 'PIX-ALGO',
-      status: 'validated',
-    });
-    const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
-      certificationCourseId: certificationCourse.id,
-      name: 'patisseries au fruits',
-    });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-      complementaryCertificationCourseId: id,
-      partnerKey: badge.key,
-    });
-  }
 });
+
+async function _buildDatabaseForV2Certification({ userId, certificationCourseId = 10, sessionId = 12 }) {
+  const session = databaseBuilder.factory.buildSession({
+    id: sessionId,
+    publishedAt: new Date('2018-12-01T01:02:03Z'),
+  });
+  const badge = databaseBuilder.factory.buildBadge({ key: 'charlotte_aux_fraises' });
+  const cc = databaseBuilder.factory.buildComplementaryCertification();
+  const ccBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
+    complementaryCertificationId: cc.id,
+    partnerKey: 'charlotte_aux_fraises',
+    badgeId: badge.id,
+    imageUrl: 'http://tarte.fr/mirabelle.png',
+    isTemporaryBadge: false,
+    label: 'tarte à la mirabelle',
+    certificateMessage: 'Miam',
+    stickerUrl: 'http://tarte.fr/sticker.pdf',
+  });
+  const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+    sessionId: session.id,
+    id: certificationCourseId,
+    userId,
+    isPublished: true,
+    maxReachableLevelOnCertificationDate: 3,
+    verificationCode: await generateCertificateVerificationCode(),
+  });
+  const assessment = databaseBuilder.factory.buildAssessment({
+    userId,
+    certificationCourseId: certificationCourse.id,
+    type: Assessment.types.CERTIFICATION,
+    state: 'completed',
+  });
+  const assessmentResult = databaseBuilder.factory.buildAssessmentResult.last({
+    certificationCourseId: certificationCourse.id,
+    assessmentId: assessment.id,
+    level: 1,
+    pixScore: 23,
+    emitter: 'PIX-ALGO',
+    status: 'validated',
+  });
+  const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
+    certificationCourseId: certificationCourse.id,
+    complementaryCertificationBadgeId: ccBadge.id,
+    name: 'patisseries au fruits',
+  });
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId: id,
+    complementaryCertificationBadgeId: ccBadge.id,
+    partnerKey: badge.key,
+  });
+  return { userId, session, badge, certificationCourse, assessment, assessmentResult };
+}

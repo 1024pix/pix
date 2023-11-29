@@ -9,29 +9,29 @@ const juryOptions = {
 };
 
 class ComplementaryCertificationCourseResult {
-  constructor({ complementaryCertificationCourseId, partnerKey, source, acquired, label } = {}) {
+  constructor({ complementaryCertificationCourseId, complementaryCertificationBadgeId, source, acquired, label } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
-    this.partnerKey = partnerKey;
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.acquired = acquired;
     this.source = source;
     this.label = label;
   }
 
-  static from({ complementaryCertificationCourseId, partnerKey, acquired, source, label }) {
+  static from({ complementaryCertificationCourseId, complementaryCertificationBadgeId, acquired, source, label }) {
     return new ComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey,
+      complementaryCertificationBadgeId,
       acquired,
       source,
       label,
     });
   }
 
-  static buildFromJuryLevel({ complementaryCertificationCourseId, juryLevel, pixPartnerKey }) {
-    if (juryLevel === juryOptions.REJECTED) {
+  static buildFromJuryLevel({ complementaryCertificationCourseId, complementaryCertificationBadgeId, juryLevel }) {
+    if (juryLevel === 'REJECTED') {
       return new ComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
-        partnerKey: pixPartnerKey,
+        complementaryCertificationBadgeId,
         acquired: false,
         source: sources.EXTERNAL,
       });
@@ -39,7 +39,7 @@ class ComplementaryCertificationCourseResult {
 
     return new ComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: juryLevel,
+      complementaryCertificationBadgeId: juryLevel,
       acquired: true,
       source: sources.EXTERNAL,
     });
