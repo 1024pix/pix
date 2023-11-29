@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import { click } from '@ember/test-helpers';
 
 module('Integration | Component | organizations/target-profiles-section', function (hooks) {
   setupRenderingTest(hooks);
@@ -77,6 +78,122 @@ module('Integration | Component | organizations/target-profiles-section', functi
       assert
         .dom(screen.getByRole('link', { name: 'Number of The Beast' }))
         .hasAttribute('href', '/target-profiles/666');
+    });
+
+    module('when detaching a target profile from an organization', function () {
+      test('it should display an Actions column with a detach button', async function (assert) {
+        // given
+        const publicTargetProfileSummary = store.createRecord('target-profile-summary', {
+          id: 666,
+          name: 'Number of The Beast',
+          isPublic: true,
+        });
+        const privateTargetProfileSummary = store.createRecord('target-profile-summary', {
+          id: 777,
+          name: 'Super Lucky',
+          isPublic: false,
+        });
+        const organization = store.createRecord('organization', {
+          id: 1,
+          targetProfiles: [],
+          targetProfileSummaries: [publicTargetProfileSummary, privateTargetProfileSummary],
+        });
+
+        this.set('organization', organization);
+
+        // when
+        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+
+        //then
+        assert.ok(screen.getByText('Actions'));
+        const row = screen.getByRole('cell', { name: 'Super Lucky' }).closest('tr');
+        assert.ok(within(row).getByRole('button', { name: 'Détacher' }));
+      });
+
+      test('it should open confirm modal when click on "Détacher" button', async function (assert) {
+        // given
+        const targetProfileSummary = store.createRecord('target-profile-summary', {
+          id: 666,
+          name: 'Number of The Beast',
+        });
+        const organization = store.createRecord('organization', {
+          id: 1,
+          targetProfiles: [],
+          targetProfileSummaries: [targetProfileSummary],
+        });
+
+        this.set('organization', organization);
+        // when
+        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const detachButton = screen.getByRole('button', { name: 'Détacher' });
+        await click(detachButton);
+        await screen.findByRole('dialog');
+        //then
+        assert.ok(screen.getByRole('heading', { name: "Détacher le profil cible de l'organisation" }));
+      });
+
+      test('it should detach a target profile when click on "Confirmer" button', async function (assert) {
+        // given
+
+        const notificationService = this.owner.lookup('service:notifications');
+        sinon.stub(notificationService, 'success');
+
+        const adapter = store.adapterFor('target-profile');
+        const detachOrganizationsTargetProfileStub = sinon.stub(adapter, 'detachOrganizations').resolves();
+        const targetProfileSummary = store.createRecord('target-profile-summary', {
+          id: 666,
+          name: 'Number of The Beast',
+        });
+        const organization = store.createRecord('organization', {
+          id: 1,
+          targetProfiles: [],
+          targetProfileSummaries: [targetProfileSummary],
+          get: sinon.stub().returns({ reload: sinon.stub() }),
+        });
+
+        this.set('organization', organization);
+
+        //when
+        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const detachButton = screen.getByRole('button', { name: 'Détacher' });
+        await click(detachButton);
+        const confirmButton = await screen.findByRole('button', { name: 'Confirmer' });
+        await click(confirmButton);
+        // then
+        assert.true(detachOrganizationsTargetProfileStub.calledOnceWith(targetProfileSummary.id));
+      });
+
+      test('it should show a notification on success', async function (assert) {
+        // given
+        const notificationService = this.owner.lookup('service:notifications');
+        const notificationSuccessStub = sinon.stub(notificationService, 'success');
+
+        const adapter = store.adapterFor('target-profile');
+        sinon.stub(adapter, 'detachOrganizations').resolves();
+
+        const organization = store.createRecord('organization', {
+          id: 1,
+          targetProfiles: [],
+          targetProfileSummaries: [
+            store.createRecord('target-profile-summary', {
+              id: 666,
+              name: 'Number of The Beast',
+            }),
+          ],
+          get: sinon.stub().returns({ reload: sinon.stub() }),
+        });
+
+        this.set('organization', organization);
+        // when
+        const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{this.organization}} />`);
+        const detachButton = screen.getByRole('button', { name: 'Détacher' });
+        await click(detachButton);
+        const confirmButton = await screen.findByRole('button', { name: 'Confirmer' });
+        await click(confirmButton);
+
+        // then
+        assert.ok(notificationSuccessStub.calledOnceWithExactly('Profil cible détaché avec succès.'));
+      });
     });
   });
 
