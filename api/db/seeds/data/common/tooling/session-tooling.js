@@ -1094,6 +1094,8 @@ function _makeCandidatesPassCertification({
       }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         partnerKey: certificationCandidate.complementaryCertificationBadgeInfo.partnerKey,
+        complementaryCertificationBadgeId:
+          certificationCandidate.complementaryCertificationBadgeInfo.complementaryCertificationBadgeId,
         acquired: true,
         source: 'PIX',
         complementaryCertificationCourseId,

@@ -142,7 +142,7 @@ function _toDomainForCertificationAttestation({ certificationCourseDTO, competen
 async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
-      'complementary-certification-course-results.partnerKey',
+      'badges.key as partnerKey',
       'complementary-certification-course-results.source',
       'complementary-certification-course-results.acquired',
       'complementary-certification-course-results.complementaryCertificationCourseId',
@@ -160,15 +160,19 @@ async function _getCertifiedBadges(certificationCourseId) {
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId',
     )
-    .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
-    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .innerJoin(
+      'complementary-certification-badges',
+      'complementary-certification-badges.id',
+      'complementary-certification-course-results.complementaryCertificationBadgeId',
+    )
+    .innerJoin('badges', 'badges.id', 'complementary-certification-badges.badgeId')
     .innerJoin(
       'complementary-certifications',
       'complementary-certifications.id',
       'complementary-certification-badges.complementaryCertificationId',
     )
     .where({ certificationCourseId })
-    .orderBy('partnerKey');
+    .orderBy('badges.key');
 
   return CertifiedBadge.fromComplementaryCertificationCourseResults(complementaryCertificationCourseResults);
 }

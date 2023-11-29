@@ -220,17 +220,19 @@ describe('Acceptance | API | Certification Course', function () {
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 777,
         badgeId: 456,
         complementaryCertificationId: pixBoxeComplementaryCertificationId,
         label: 'Pix Boxe 1',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        id: 789,
+        id: 778,
         badgeId: 457,
         complementaryCertificationId: pixBoxeComplementaryCertificationId,
         label: 'Pix Boxe 2',
       });
       databaseBuilder.factory.buildComplementaryCertificationBadge({
+        id: 779,
         badgeId: 458,
         complementaryCertificationId: pixBoxeComplementaryCertificationId,
         label: 'Pix Boxe 3',
@@ -239,20 +241,20 @@ describe('Acceptance | API | Certification Course', function () {
         id: 654,
         certificationCourseId: 123,
         complementaryCertificationId: pixBoxeComplementaryCertificationId,
-        complementaryCertificationBadgeId: 789,
+        complementaryCertificationBadgeId: 778,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 987,
-        partnerKey: 'PIX_BOXE_2',
         acquired: true,
         complementaryCertificationCourseId: 654,
+        complementaryCertificationBadgeId: 778,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         id: 986,
-        partnerKey: 'PIX_BOXE_2',
         acquired: false,
         complementaryCertificationCourseId: 654,
+        complementaryCertificationBadgeId: 778,
         source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
       });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 123 });
@@ -353,15 +355,15 @@ describe('Acceptance | API | Certification Course', function () {
             'allowed-external-levels': [
               {
                 label: 'Pix Boxe 1',
-                value: 'PIX_BOXE_1',
+                value: 777,
               },
               {
                 label: 'Pix Boxe 2',
-                value: 'PIX_BOXE_2',
+                value: 778,
               },
               {
                 label: 'Pix Boxe 3',
-                value: 'PIX_BOXE_3',
+                value: 779,
               },
             ],
             'default-jury-options': ['REJECTED', 'UNSET'],

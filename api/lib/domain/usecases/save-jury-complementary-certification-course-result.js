@@ -17,8 +17,6 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
     );
   }
 
-  const { partnerKey: pixPartnerKey } = pixSourceComplementaryCertificationCourseResult;
-
   if (juryLevel === ComplementaryCertificationCourseResult.juryOptions.UNSET) {
     await complementaryCertificationCourseResultRepository.removeExternalJuryResult({
       complementaryCertificationCourseId,
@@ -26,9 +24,11 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
     return;
   }
 
-  const allowedJuryLevels = await complementaryCertificationCourseResultRepository.getAllowedJuryLevelByBadgeKey({
-    key: pixPartnerKey,
-  });
+  const { complementaryCertificationBadgeId } = pixSourceComplementaryCertificationCourseResult;
+  const allowedJuryLevels =
+    await complementaryCertificationCourseResultRepository.getAllowedJuryLevelIdsByComplementaryCertificationBadgeId(
+      complementaryCertificationBadgeId,
+    );
 
   if (![...allowedJuryLevels, ComplementaryCertificationCourseResult.juryOptions.REJECTED].includes(juryLevel)) {
     throw new InvalidJuryLevelError();
@@ -36,7 +36,7 @@ const saveJuryComplementaryCertificationCourseResult = async function ({
 
   const externalComplementaryCertificationCourseResult = ComplementaryCertificationCourseResult.buildFromJuryLevel({
     juryLevel,
-    pixPartnerKey,
+    complementaryCertificationBadgeId,
     complementaryCertificationCourseId,
   });
 

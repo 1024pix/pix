@@ -3,9 +3,8 @@ import dayjs from 'dayjs';
 import { isSameBinary } from '../../../../../../tooling/binary-comparator.js';
 import { getCertificationAttestationsPdfBuffer } from '../../../../../../../src/certification/course/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { CertificationAttestationGenerationError } from '../../../../../../../src/shared/domain/errors.js';
-import fs from 'fs';
 import pdfLibUtils from 'pdf-lib/cjs/utils/index.js';
-import { writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import * as url from 'url';
 import { getI18n } from '../../../../../../tooling/i18n/i18n.js';
 
@@ -17,17 +16,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
 
     nock('https://images.pix.fr')
       .get('/stickers/macaron_clea.pdf')
-      // eslint-disable-next-line no-sync
-      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_clea.pdf`))
+      .reply(200, async () => readFile(`${__dirname}/stickers/macaron_clea.pdf`))
       .get('/stickers/macaron_droit_avance.pdf')
-      // eslint-disable-next-line no-sync
-      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_avance.pdf`))
+      .reply(200, async () => readFile(`${__dirname}/stickers/macaron_droit_avance.pdf`))
       .get('/stickers/macaron_edu_2nd_initie.pdf')
-      // eslint-disable-next-line no-sync
-      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_edu_2nd_initie.pdf`))
+      .reply(200, async () => readFile(`${__dirname}/stickers/macaron_edu_2nd_initie.pdf`))
       .get('/stickers/macaron_droit_expert.pdf')
-      // eslint-disable-next-line no-sync
-      .reply(200, () => fs.readFileSync(`${__dirname}/stickers/macaron_droit_expert.pdf`));
+      .reply(200, async () => readFile(`${__dirname}/stickers/macaron_droit_expert.pdf`));
   });
 
   it('should generate full attestation (non-regression test)', async function () {

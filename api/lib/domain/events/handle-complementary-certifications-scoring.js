@@ -30,6 +30,7 @@ async function handleComplementaryCertificationsScoring({
     const {
       minimumReproducibilityRate,
       complementaryCertificationCourseId,
+      complementaryCertificationBadgeId,
       complementaryCertificationBadgeKey,
       hasComplementaryReferential,
       minimumEarnedPix,
@@ -49,6 +50,7 @@ async function handleComplementaryCertificationsScoring({
         _buildComplementaryCertificationScoringWithReferential(
           minimumReproducibilityRate,
           complementaryCertificationCourseId,
+          complementaryCertificationBadgeId,
           pixPlusChallenges,
           pixPlusAnswers,
           complementaryCertificationBadgeKey,
@@ -58,6 +60,7 @@ async function handleComplementaryCertificationsScoring({
       complementaryCertificationScoringWithComplementaryReferential =
         new ComplementaryCertificationScoringWithoutComplementaryReferential({
           complementaryCertificationCourseId,
+          complementaryCertificationBadgeId,
           complementaryCertificationBadgeKey,
           reproducibilityRate: assessmentResult.reproducibilityRate,
           pixScore: assessmentResult.pixScore,
@@ -69,6 +72,7 @@ async function handleComplementaryCertificationsScoring({
     await complementaryCertificationCourseResultRepository.save(
       ComplementaryCertificationCourseResult.from({
         ...complementaryCertificationScoringWithComplementaryReferential,
+        source: ComplementaryCertificationCourseResult.sources.PIX,
         acquired: complementaryCertificationScoringWithComplementaryReferential.isAcquired(),
       }),
     );
@@ -78,6 +82,7 @@ async function handleComplementaryCertificationsScoring({
 function _buildComplementaryCertificationScoringWithReferential(
   minimumReproducibilityRate,
   complementaryCertificationCourseId,
+  complementaryCertificationBadgeId,
   challenges,
   answers,
   complementaryCertificationBadgeKey,
@@ -92,6 +97,7 @@ function _buildComplementaryCertificationScoringWithReferential(
   return new ComplementaryCertificationScoringWithComplementaryReferential({
     minimumReproducibilityRate,
     complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
     reproducibilityRate,
     complementaryCertificationBadgeKey,
     hasAcquiredPixCertification: assessmentResult.isValidated(),

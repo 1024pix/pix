@@ -2,6 +2,7 @@ import { ComplementaryCertificationScoringWithoutComplementaryReferential } from
 
 const buildComplementaryCertificationScoringWithoutComplementaryReferential = function ({
   complementaryCertificationCourseId = 99,
+  complementaryCertificationBadgeId = 60,
   certificationCourseId = 42,
   reproducibilityRate = 50,
   complementaryCertificationBadgeKey = 'badge_key',
@@ -11,6 +12,7 @@ const buildComplementaryCertificationScoringWithoutComplementaryReferential = fu
 } = {}) {
   return new ComplementaryCertificationScoringWithoutComplementaryReferential({
     complementaryCertificationCourseId,
+    complementaryCertificationBadgeId,
     certificationCourseId,
     reproducibilityRate,
     complementaryCertificationBadgeKey,
