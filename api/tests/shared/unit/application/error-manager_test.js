@@ -13,11 +13,9 @@ import {
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
-import {
-  MissingOrInvalidCredentialsError,
-  UserShouldChangePasswordError,
-} from '../../../../src/authentication/domain/errors.js';
 import { SessionStartedDeletionError } from '../../../../src/certification/session/domain/errors.js';
+import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
+import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
 
 describe('Shared | Unit | Application | ErrorManager', function () {
   describe('#handle', function () {
@@ -134,6 +132,10 @@ describe('Shared | Unit | Application | ErrorManager', function () {
   });
 
   describe('#_mapToHttpError', function () {
+    before(function () {
+      domainErrorMapper.configure(authenticationDomainErrorMappingConfiguration);
+    });
+
     it('should instantiate NotFoundError when NotFoundError', async function () {
       // given
       const error = new NotFoundError();
@@ -160,35 +162,6 @@ describe('Shared | Unit | Application | ErrorManager', function () {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
         'Utilisateur non autorisé à accéder à la ressource',
       );
-    });
-
-    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async function () {
-      // given
-      const error = new MissingOrInvalidCredentialsError();
-      sinon.stub(HttpErrors, 'UnauthorizedError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      const message = "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.";
-      expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(message);
-    });
-
-    it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async function () {
-      // given
-      const message = 'Erreur, vous devez changer votre mot de passe.';
-      const meta = 'RESET_PASSWORD_TOKEN';
-      const error = new UserShouldChangePasswordError(message, meta);
-      sinon.stub(HttpErrors, 'PasswordShouldChangeError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message, meta);
     });
 
     it('should instantiate UnprocessableEntityError when AdminMemberError', async function () {
