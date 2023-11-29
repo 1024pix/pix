@@ -85,6 +85,27 @@
       }
     },
     "users": {
+      "certification-centers": {
+        "memberships": {
+          "empty-table": "There is no certification center",
+          "items": {
+            "actions": {
+              "edit-role": "Edit the role"
+            },
+            "role": {
+              "select-role": "Select a role"
+            }
+          },
+          "table-headers": {
+            "actions-label": "Actions",
+            "center-external-id": "External ID",
+            "center-id": "Center ID",
+            "center-name": "Name",
+            "center-type": "Type",
+            "role-label": "Role"
+          }
+        }
+      },
       "user-detail-personal-information": {
         "authentication-method": {
           "should-change-password-status": "Temporary password :"
