@@ -11,6 +11,7 @@ import { checkEventTypes } from './check-event-types.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
+import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 const EMITTER = 'PIX-ALGO';
@@ -24,6 +25,7 @@ async function handleCertificationRescoring({
   certificationCourseRepository,
   challengeRepository,
   answerRepository,
+  flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
 }) {
   checkEventTypes(event, eventTypes);
@@ -40,6 +42,7 @@ async function handleCertificationRescoring({
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
+        flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
       });
     }
@@ -73,6 +76,7 @@ async function _handleV3Certification({
   certificationAssessment,
   assessmentResultRepository,
   certificationCourseRepository,
+  flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
 }) {
   const allAnswers = await answerRepository.findByAssessment(certificationAssessment.id);
@@ -85,10 +89,17 @@ async function _handleV3Certification({
     ? ABORT_REASONS.CANDIDATE
     : ABORT_REASONS.TECHNICAL;
 
+  const configuration = await flashAlgorithmConfigurationRepository.get();
+
+  const algorithm = new FlashAssessmentAlgorithm({
+    flashAlgorithmImplementation: flashAlgorithmService,
+    configuration,
+  });
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+    algorithm,
     challenges,
     allAnswers,
-    flashAlgorithmService,
     abortReason,
   });
 

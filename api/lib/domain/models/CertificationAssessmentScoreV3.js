@@ -1,5 +1,4 @@
 import { status as CertificationStatus } from './AssessmentResult.js';
-import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
 import { ABORT_REASONS } from './CertificationCourse.js';
 
@@ -55,16 +54,19 @@ class CertificationAssessmentScoreV3 {
     this._status = status;
   }
 
-  static fromChallengesAndAnswers({ challenges, allAnswers, flashAlgorithmService, abortReason }) {
-    const algorithm = new FlashAssessmentAlgorithm({
-      flashAlgorithmImplementation: flashAlgorithmService,
-    });
+  static fromChallengesAndAnswers({ algorithm, challenges, allAnswers, abortReason }) {
     const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
       allAnswers,
     });
 
-    const nbPix = _computeScore(estimatedLevel);
+    const { maximumAssessmentLength } = algorithm.getConfiguration();
+
+    const rawScore = _computeScore(estimatedLevel);
+
+    const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers, abortReason })
+      ? _downgradeScore(rawScore)
+      : rawScore;
 
     const status = _isCertificationRejected({ answers: allAnswers, abortReason })
       ? CertificationStatus.REJECTED
@@ -113,11 +115,26 @@ const _computeScore = (estimatedLevel) => {
   return Math.round(score);
 };
 
-const _isCertificationRejected = ({ answers, abortReason }) => {
+const _downgradeScore = (score) => Math.round(score * 0.8);
+
+const _shouldDowngradeScore = ({ maximumAssessmentLength, answers, abortReason }) => {
   return (
-    answers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification &&
+    _hasCandidateAnsweredEnoughQuestions({ answers }) &&
+    !_hasCandidateCompletedTheCertification({ answers, maximumAssessmentLength }) &&
     abortReason === ABORT_REASONS.CANDIDATE
   );
+};
+
+const _isCertificationRejected = ({ answers, abortReason }) => {
+  return !_hasCandidateAnsweredEnoughQuestions({ answers }) && abortReason === ABORT_REASONS.CANDIDATE;
+};
+
+const _hasCandidateCompletedTheCertification = ({ answers, maximumAssessmentLength }) => {
+  return answers.length >= maximumAssessmentLength;
+};
+
+const _hasCandidateAnsweredEnoughQuestions = ({ answers }) => {
+  return answers.length >= config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification;
 };
 
 export { CertificationAssessmentScoreV3 };

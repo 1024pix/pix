@@ -8,6 +8,7 @@ import { checkEventTypes } from './check-event-types.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
+import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -22,6 +23,7 @@ async function handleCertificationScoring({
   scoringCertificationService,
   answerRepository,
   challengeRepository,
+  flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
 }) {
   checkEventTypes(event, eventTypes);
@@ -38,6 +40,7 @@ async function handleCertificationScoring({
         assessmentResultRepository,
         certificationCourseRepository,
         competenceMarkRepository,
+        flashAlgorithmConfigurationRepository,
         flashAlgorithmService,
         locale: event.locale,
       });
@@ -103,6 +106,7 @@ async function _handleV3CertificationScoring({
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
+  flashAlgorithmConfigurationRepository,
   flashAlgorithmService,
   locale,
 }) {
@@ -116,10 +120,17 @@ async function _handleV3CertificationScoring({
     ? ABORT_REASONS.CANDIDATE
     : ABORT_REASONS.TECHNICAL;
 
+  const configuration = await flashAlgorithmConfigurationRepository.get();
+
+  const algorithm = new FlashAssessmentAlgorithm({
+    flashAlgorithmImplementation: flashAlgorithmService,
+    configuration,
+  });
+
   const certificationAssessmentScore = CertificationAssessmentScoreV3.fromChallengesAndAnswers({
+    algorithm,
     challenges,
     allAnswers,
-    flashAlgorithmService,
     abortReason,
   });
 
@@ -201,5 +212,6 @@ async function _saveResultAfterCertificationComputeError({
   certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);
 }
+
 handleCertificationScoring.eventTypes = eventTypes;
 export { handleCertificationScoring };
