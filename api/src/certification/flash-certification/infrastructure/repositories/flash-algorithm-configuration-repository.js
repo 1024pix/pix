@@ -11,7 +11,7 @@ const get = async function () {
   const flashAlgorithmConfiguration = await knex(TABLE_NAME).first();
 
   if (!flashAlgorithmConfiguration) {
-    return null;
+    return new FlashAssessmentAlgorithmConfiguration();
   }
 
   return FlashAssessmentAlgorithmConfiguration.fromDTO(flashAlgorithmConfiguration);

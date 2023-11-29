@@ -1,24 +1,6 @@
 import { config } from '../../../../shared/config.js';
 import { FlashAssessmentSuccessRateHandler } from './FlashAssessmentSuccessRateHandler.js';
 
-const defaultMinimumEstimatedSuccessRateRanges = [
-  // Between question 1 and question 8 included, we set the minimum estimated
-  // success rate to 80%
-  FlashAssessmentSuccessRateHandler.createFixed({
-    startingChallengeIndex: 0,
-    endingChallengeIndex: 7,
-    value: 0.8,
-  }),
-  // Between question 9 and question 16 included, we linearly decrease the
-  // minimum estimated success rate from 80% to 50%
-  FlashAssessmentSuccessRateHandler.createLinear({
-    startingChallengeIndex: 8,
-    endingChallengeIndex: 15,
-    startingValue: 0.8,
-    endingValue: 0.5,
-  }),
-];
-
 /**
  * @param forcedCompetences - force the algorithm to ask questions on the specified competences
  * @param maximumAssessmentLength - override the default limit for an assessment length
@@ -32,16 +14,16 @@ const defaultMinimumEstimatedSuccessRateRanges = [
  */
 export class FlashAssessmentAlgorithmConfiguration {
   constructor({
-    warmUpLength,
-    forcedCompetences,
+    warmUpLength = 0,
+    forcedCompetences = [],
     maximumAssessmentLength = config.v3Certification.numberOfChallengesPerCourse,
     challengesBetweenSameCompetence = config.v3Certification.challengesBetweenSameCompetence,
-    minimumEstimatedSuccessRateRanges = defaultMinimumEstimatedSuccessRateRanges,
-    limitToOneQuestionPerTube,
-    enablePassageByAllCompetences,
+    minimumEstimatedSuccessRateRanges = [],
+    limitToOneQuestionPerTube = false,
+    enablePassageByAllCompetences = false,
     variationPercent,
     doubleMeasuresUntil,
-  }) {
+  } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
     this.maximumAssessmentLength = maximumAssessmentLength;
