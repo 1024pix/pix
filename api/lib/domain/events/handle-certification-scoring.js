@@ -9,6 +9,7 @@ import { CertificationVersion } from '../../../src/shared/domain/models/Certific
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
+import { config } from '../../../src/shared/config.js';
 
 const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
@@ -72,6 +73,7 @@ async function _calculateCertificationScore({
       continueOnError: false,
     });
     const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+    certificationCourse.complete({ now: new Date() });
     await _saveResult({
       certificationAssessmentScore,
       certificationAssessment,
@@ -134,6 +136,12 @@ async function _handleV3CertificationScoring({
     abortReason,
   });
 
+  if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
+    certificationCourse.cancel();
+  } else {
+    certificationCourse.complete({ now: new Date() });
+  }
+
   await _saveResult({
     certificationAssessment,
     certificationAssessmentScore,
@@ -148,6 +156,13 @@ async function _handleV3CertificationScoring({
     certificationCourseId: certificationAssessment.certificationCourseId,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
   });
+}
+
+function _shouldCancelV3Certification({ allAnswers, certificationCourse }) {
+  return (
+    !certificationCourse.isAbortReasonCandidateRelated() &&
+    allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification
+  );
 }
 
 async function _saveResult({
@@ -171,7 +186,6 @@ async function _saveResult({
     });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
-  certificationCourse.complete({ now: new Date() });
   return certificationCourseRepository.update(certificationCourse);
 }
 
