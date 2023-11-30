@@ -27,10 +27,10 @@ const register = async function (server) {
             data: Joi.object({
               type: Joi.string().valid('autonomous-courses'),
               attributes: Joi.object({
-                targetProfileId: identifiersType.targetProfileId,
-                internalTitle: Joi.string().required(),
-                publicTitle: Joi.string().required(),
-                customLandingPageText: Joi.string().allow(null).optional(),
+                'target-profile-id': identifiersType.targetProfileId.required(),
+                'internal-title': Joi.string().required(),
+                'public-title': Joi.string().required(),
+                'custom-landing-page-text': Joi.string().allow(null).optional(),
               }),
             }),
           }),
