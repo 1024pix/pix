@@ -2,7 +2,7 @@ import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
 import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
 
 import * as moduleUnderTest from '../../../../../src/certification/session/application/session-mass-import-route.js';
-import { certificationCenterController } from '../../../../../lib/application/certification-centers/certification-center-controller.js';
+import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
 import FormData from 'form-data';
 import fs from 'fs';
 import { writeFile, stat, unlink } from 'fs/promises';
@@ -38,7 +38,7 @@ describe('Unit | Router | session-mass-import-route', function () {
       sinon
         .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
         .callsFake((_request, h) => h.response(true));
-      sinon.stub(certificationCenterController, 'validateSessionsForMassImport').returns('ok');
+      sinon.stub(sessionMassImportController, 'validateSessionsForMassImport').returns('ok');
       const certificationCenterId = 123;
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -66,7 +66,7 @@ describe('Unit | Router | session-mass-import-route', function () {
           sinon
             .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
             .callsFake((_request, h) => Promise.resolve(h.response().code(403).takeover()));
-          sinon.stub(certificationCenterController, 'validateSessionsForMassImport').returns('ok');
+          sinon.stub(sessionMassImportController, 'validateSessionsForMassImport').returns('ok');
           const certificationCenterId = 123;
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -94,7 +94,7 @@ describe('Unit | Router | session-mass-import-route', function () {
           sinon
             .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
             .callsFake((_request, h) => Promise.resolve(h.response().code(200).takeover()));
-          sinon.stub(certificationCenterController, 'validateSessionsForMassImport').returns('ok');
+          sinon.stub(sessionMassImportController, 'validateSessionsForMassImport').returns('ok');
           const certificationCenterId = 123;
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);

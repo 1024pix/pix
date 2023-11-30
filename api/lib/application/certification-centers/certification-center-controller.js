@@ -10,8 +10,6 @@ import * as certificationCenterInvitationSerializer from '../../infrastructure/s
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
-import * as csvHelpers from './csvHelpers.js';
-import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
@@ -196,41 +194,6 @@ const getSessionsImportTemplate = async function (request, h) {
     .code(200);
 };
 
-const validateSessionsForMassImport = async function (request, h, dependencies = { csvHelpers, csvSerializer }) {
-  const certificationCenterId = request.params.certificationCenterId;
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
-
-  const certificationCenter = await usecases.getCertificationCenter({ id: certificationCenterId });
-
-  const sessions = dependencies.csvSerializer.deserializeForSessionsImport({
-    parsedCsvData,
-    hasBillingMode: certificationCenter.hasBillingMode,
-  });
-  const sessionMassImportReport = await usecases.validateSessions({
-    sessions,
-    certificationCenterId,
-    userId: authenticatedUserId,
-    i18n: request.i18n,
-  });
-  return h.response(sessionMassImportReport).code(200);
-};
-
-const createSessionsForMassImport = async function (request, h) {
-  const { certificationCenterId } = request.params;
-  const authenticatedUserId = request.auth.credentials.userId;
-
-  const { cachedValidatedSessionsKey } = request.payload.data.attributes;
-
-  await usecases.createSessions({
-    cachedValidatedSessionsKey,
-    certificationCenterId,
-    userId: authenticatedUserId,
-  });
-  return h.response().code(201);
-};
-
 const sendInvitations = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const emails = request.payload.data.attributes.emails;
@@ -244,7 +207,6 @@ const sendInvitations = async function (request, h) {
 const certificationCenterController = {
   create,
   createCertificationCenterMembershipByEmail,
-  createSessionsForMassImport,
   findCertificationCenterMemberships,
   findCertificationCenterMembershipsByCertificationCenter,
   findPaginatedFilteredCertificationCenters,
@@ -258,7 +220,6 @@ const certificationCenterController = {
   sendInvitations,
   update,
   updateReferer,
-  validateSessionsForMassImport,
 };
 
 export { certificationCenterController };
