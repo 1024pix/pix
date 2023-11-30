@@ -74,6 +74,26 @@
         </PixTooltip>
       </li>
     {{/if}}
+
+    {{#if
+      (or
+        this.currentUser.adminMember.isSuperAdmin
+        this.currentUser.adminMember.isMetier
+        this.currentUser.adminMember.isSupport
+      )
+    }}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right">
+          <:triggerElement>
+            <LinkTo @route="authenticated.autonomous-courses" class="menu-bar__link">
+              <FaIcon @icon="signs-post" @title="Parcours autonomes" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Parcours autonomes</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
+
     {{#if this.currentUser.adminMember.isSuperAdmin}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right">
@@ -122,6 +142,7 @@
         </PixTooltip>
       </li>
     {{/if}}
+
     <li class="menu-bar__entry">
       <PixTooltip @position="right" @inline={{true}}>
         <:triggerElement>
