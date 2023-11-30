@@ -1,6 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { OrganizationPlacesLotManagement } from '../../domain/read-models/OrganizationPlacesLotManagement.js';
 import { NotFoundError, DeletedError } from '../../../../../lib/domain/errors.js';
+import { PlacesLot } from '../../domain/read-models/PlacesLot.js';
 
 const findByOrganizationId = async function (organizationId) {
   const results = await knex('organization-places')
@@ -26,6 +27,13 @@ const findByOrganizationId = async function (organizationId) {
   });
 };
 
+//On utilise pas le findByOrganizationId car c'est un aggregat avec la table users, et les regles métiers ne sont pas utiles ici
+const findAllByOrganizationId = async function (organizationId) {
+  const placesLots = await knex('organization-places')
+    .select('count', 'activationDate', 'expirationDate', 'deletedAt')
+    .where({ organizationId });
+  return placesLots.map((e) => new PlacesLot(e));
+};
 const get = async function (id) {
   const result = await knex('organization-places')
     .select(
@@ -64,4 +72,4 @@ const remove = async function ({ id, deletedBy }) {
   }
 };
 
-export { findByOrganizationId, get, create, remove };
+export { findByOrganizationId, findAllByOrganizationId, get, create, remove };
