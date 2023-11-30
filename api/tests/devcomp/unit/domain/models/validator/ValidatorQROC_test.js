@@ -1,15 +1,14 @@
 import { AnswerStatus } from '../../../../../../src/devcomp/domain/models/validator/AnswerStatus.js';
 import { Validation } from '../../../../../../src/devcomp/domain/models/validator/Validation.js';
-import { ValidatorQCU } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQCU.js';
+import { ValidatorQROC } from '../../../../../../src/devcomp/domain/models/validator/ValidatorQROC.js';
 import { domainBuilder, expect, sinon } from '../../../../../test-helper.js';
 import * as devcompDomainBuilder from '../../../../tooling/domain-builder/factory/index.js';
 
-describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQCU', function () {
-  let solutionServiceQCUStub;
-
+describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQROC', function () {
+  let solutionServiceQROCStub;
   beforeEach(function () {
-    solutionServiceQCUStub = {
-      match: sinon.stub(),
+    solutionServiceQROCStub = {
+      match: sinon.stub().returns(AnswerStatus.OK),
     };
   });
 
@@ -17,26 +16,27 @@ describe('Unit | Devcomp | Domain | Models | Validator | ValidatorQCU', function
     let uncorrectedAnswer;
     let validation;
     let validator;
-    let solution;
+    let solutions;
+    let challengeFormat;
 
     beforeEach(function () {
       // given
-      solutionServiceQCUStub.match.returns(AnswerStatus.OK);
-      solution = devcompDomainBuilder.buildSolution({ type: 'QCU' });
+      solutions = devcompDomainBuilder.buildSolution({ type: 'QROC' });
 
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
-      validator = new ValidatorQCU({
-        solution: solution,
-        dependencies: { solutionServiceQCU: solutionServiceQCUStub },
-      });
+      validator = new ValidatorQROC({ solutions }, solutionServiceQROCStub);
 
       // when
       validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
-    it('should call solutionServiceQCU', function () {
+    it('should call solutionServiceQROC', function () {
       // then
-      expect(solutionServiceQCUStub.match).to.have.been.calledWithExactly(uncorrectedAnswer.value, solution.value);
+      expect(solutionServiceQROCStub.match).to.have.been.calledWithExactly({
+        answer: uncorrectedAnswer.value,
+        solutions,
+        challengeFormat,
+      });
     });
     it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
