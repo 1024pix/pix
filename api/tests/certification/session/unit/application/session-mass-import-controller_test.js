@@ -1,9 +1,10 @@
 import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { usecases as sessionUsecases } from '../../../../../src/certification/shared/domain/usecases/index.js';
 import { sessionMassImportController } from '../../../../../src/certification/session/application/session-mass-import-controller.js';
 
 describe('Unit | Controller | mass-import-controller', function () {
-  describe('#validateSessionsForMassImport', function () {
+  describe('#validateSessions', function () {
     it('should call the usecase to validate sessions', async function () {
       // given
       const i18n = Symbol('i18n');
@@ -22,19 +23,19 @@ describe('Unit | Controller | mass-import-controller', function () {
         deserializeForSessionsImport: sinon.stub().returns(['session']),
       };
 
-      sinon.stub(usecases, 'validateSessions');
+      sinon.stub(sessionUsecases, 'validateSessions');
       sinon.stub(usecases, 'getCertificationCenter');
 
-      usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
+      sessionUsecases.validateSessions.resolves({ cachedValidatedSessionsKey });
       usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
       // when
-      await sessionMassImportController.validateSessionsForMassImport(request, hFake, {
+      await sessionMassImportController.validateSessions(request, hFake, {
         csvHelpers: csvHelpersStub,
         csvSerializer: csvSerializerStub,
       });
 
       // then
-      expect(usecases.validateSessions).to.have.been.calledWithExactly({
+      expect(sessionUsecases.validateSessions).to.have.been.calledWithExactly({
         sessions: ['session'],
         certificationCenterId: 123,
         userId: 2,
@@ -61,10 +62,10 @@ describe('Unit | Controller | mass-import-controller', function () {
         deserializeForSessionsImport: sinon.stub().returns(['session']),
       };
 
-      sinon.stub(usecases, 'validateSessions');
+      sinon.stub(sessionUsecases, 'validateSessions');
       sinon.stub(usecases, 'getCertificationCenter');
 
-      usecases.validateSessions.resolves({
+      sessionUsecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
         sessionsCount,
         sessionsWithoutCandidatesCount,
@@ -73,7 +74,7 @@ describe('Unit | Controller | mass-import-controller', function () {
       usecases.getCertificationCenter.resolves(domainBuilder.buildCertificationCenter());
 
       // when
-      const result = await sessionMassImportController.validateSessionsForMassImport(request, hFake, {
+      const result = await sessionMassImportController.validateSessions(request, hFake, {
         csvHelpers: csvHelpersStub,
         csvSerializer: csvSerializerStub,
       });
@@ -88,7 +89,7 @@ describe('Unit | Controller | mass-import-controller', function () {
     });
   });
 
-  describe('#createSessionsForMassImport', function () {
+  describe('#createSessions', function () {
     it('should call the usecase to create sessions', async function () {
       // given
       const request = {
@@ -97,15 +98,15 @@ describe('Unit | Controller | mass-import-controller', function () {
         auth: { credentials: { userId: 2 } },
       };
 
-      sinon.stub(usecases, 'createSessions');
+      sinon.stub(sessionUsecases, 'createSessions');
 
-      usecases.createSessions.resolves();
+      sessionUsecases.createSessions.resolves();
 
       // when
-      await sessionMassImportController.createSessionsForMassImport(request, hFake);
+      await sessionMassImportController.createSessions(request, hFake);
 
       // then
-      expect(usecases.createSessions).to.have.been.calledWithExactly({
+      expect(sessionUsecases.createSessions).to.have.been.calledWithExactly({
         cachedValidatedSessionsKey: 'uuid',
         certificationCenterId: 123,
         userId: 2,

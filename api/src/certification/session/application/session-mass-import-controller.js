@@ -1,9 +1,10 @@
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as sessionUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
 
 import * as csvHelpers from '../../../../lib/application/certification-centers/csvHelpers.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 
-const validateSessionsForMassImport = async function (request, h, dependencies = { csvHelpers, csvSerializer }) {
+const validateSessions = async function (request, h, dependencies = { csvHelpers, csvSerializer }) {
   const certificationCenterId = request.params.certificationCenterId;
   const authenticatedUserId = request.auth.credentials.userId;
 
@@ -15,7 +16,7 @@ const validateSessionsForMassImport = async function (request, h, dependencies =
     parsedCsvData,
     hasBillingMode: certificationCenter.hasBillingMode,
   });
-  const sessionMassImportReport = await usecases.validateSessions({
+  const sessionMassImportReport = await sessionUsecases.validateSessions({
     sessions,
     certificationCenterId,
     userId: authenticatedUserId,
@@ -24,13 +25,13 @@ const validateSessionsForMassImport = async function (request, h, dependencies =
   return h.response(sessionMassImportReport).code(200);
 };
 
-const createSessionsForMassImport = async function (request, h) {
+const createSessions = async function (request, h) {
   const { certificationCenterId } = request.params;
   const authenticatedUserId = request.auth.credentials.userId;
 
   const { cachedValidatedSessionsKey } = request.payload.data.attributes;
 
-  await usecases.createSessions({
+  await sessionUsecases.createSessions({
     cachedValidatedSessionsKey,
     certificationCenterId,
     userId: authenticatedUserId,
@@ -39,8 +40,8 @@ const createSessionsForMassImport = async function (request, h) {
 };
 
 const sessionMassImportController = {
-  createSessionsForMassImport,
-  validateSessionsForMassImport,
+  createSessions,
+  validateSessions,
 };
 
 export { sessionMassImportController };

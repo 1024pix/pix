@@ -1,9 +1,9 @@
-import { NotFoundError } from '../../errors.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import bluebird from 'bluebird';
-import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { Session } from '../../../../src/certification/session/domain/models/Session.js';
-import { CertificationCandidate } from '../../models/CertificationCandidate.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { Session } from '../models/Session.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
 
 const createSessions = async function ({
   userId,

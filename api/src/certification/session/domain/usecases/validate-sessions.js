@@ -1,6 +1,6 @@
-import { Session } from '../../../../src/certification/session/domain/models/Session.js';
-import { SessionMassImportReport } from '../../../../src/certification/session/domain/models/SessionMassImportReport.js';
-import { CertificationCandidate } from '../../models/CertificationCandidate.js';
+import { Session } from '../models/Session.js';
+import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import bluebird from 'bluebird';
 
 const validateSessions = async function ({
