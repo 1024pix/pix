@@ -1,21 +1,19 @@
 .tube-recommendation-title {
+  @extend %pix-title-xs;
+
   color: $pix-neutral-80;
-  font-weight: 600;
-  font-size: 0.875rem;
-  font-family: $font-open-sans;
+  font-size:0.875rem;
 
   &--open {
     margin-left: $pix-spacing-s;
-    color: $pix-neutral-100;
-    font-weight: 700;
   }
 }
 
 .tube-recommendation-subtitle {
+  @extend %pix-body-s;
+
   color: $pix-neutral-50;
   font-weight: 400;
-  font-size: 0.75rem;
-  font-family: $font-open-sans;
 
   &--open {
     color: $pix-neutral-60;
@@ -33,10 +31,11 @@
   }
 
   &__description {
+    @extend %pix-title-s;
+
     margin-bottom: $pix-spacing-s;
     color: $pix-neutral-60;
-    font-size: 0.875rem;
-    font-family: $font-open-sans;
+    font-size:0.875rem;
   }
 
   &__column {
@@ -46,11 +45,11 @@
   }
 
   &__title {
+    @extend %pix-title-xs;
+
     margin-bottom: $pix-spacing-s;
     padding-left: $pix-spacing-m;
-    font-weight: 400;
-    font-size: 1rem;
-    font-family: $font-open-sans;
+    font-weight: 500;
   }
 }
 

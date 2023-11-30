@@ -1,6 +1,5 @@
 sub {
+  @extend %pix-title-xs;
+
   color: $pix-neutral-60;
-  font-weight: normal;
-  font-size: 0.6875rem;
-  font-family: $font-open-sans;
 }

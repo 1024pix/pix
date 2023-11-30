@@ -31,12 +31,12 @@
   }
 
   &__title {
+    @extend %pix-title-s;
+
     margin-bottom: 30px;
     color: $pix-neutral-100;
-    font-weight: 300;
-    font-size: 1.15em;
-    font-family: $font-roboto;
     text-align: center;
+    text-transform: uppercase;
   }
 
   &__line {
@@ -48,62 +48,39 @@
   }
 
   &__text {
+    @extend %pix-body-m;
+
     height: 400px;
     margin: 0 60px 20px;
     padding: 0 35px;
     overflow-x: hidden;
     overflow-y: scroll;
-    font-family: $font-open-sans;
 
     @include device-is('mobile') {
-      margin: 0;
+      margin: 20px 0;
     }
   }
 
   &__actions {
     display: flex;
     flex-direction: row;
+    gap: $pix-spacing-m;
     justify-content: flex-end;
-    margin: 0 100px;
-
-    > button {
-      margin-left: 24px;
-    }
+    margin: 0 60px;
 
     @include device-is('mobile') {
       flex-direction: column;
       align-items: center;
-      margin: 15px 10px 0 10px;
-
-      > button {
-        margin-left: 0px;
-      }
-    }
-  }
-
-  &__submit {
-    margin-left: 10px;
-
-    @include device-is('mobile') {
-      margin: 10px 0 0 0;
-    }
-
-    &:focus,
-    &:hover,
-    &:focus-within {
-      padding: 0;
-      border: 2px solid $pix-neutral-0;
-      box-shadow: 0 0 0 2px $pix-primary;
     }
   }
 }
 
 .terms-of-service-form-text {
   &__article-title {
-    font-size: 1.15em;
+    @extend %pix-title-xs;
   }
 
   &__article-subtitle {
-    font-size: 1em;
+    @extend %pix-title-xs;
   }
 }

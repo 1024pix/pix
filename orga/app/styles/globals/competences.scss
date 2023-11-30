@@ -4,12 +4,12 @@
 
 .competences-col {
   &__name {
+    @extend %pix-title-xs;
+
     position: relative;
     padding-left: 1rem;
     color: $pix-neutral-80;
-    font-weight: 600;
     font-size: 0.875rem;
-    font-family: $font-open-sans;
   }
 
   &__gauge {
