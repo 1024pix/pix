@@ -9,6 +9,8 @@ import {
 import { CertificationCenterInvitation } from '../../../../lib/domain/models/CertificationCenterInvitation.js';
 import { createServer } from '../../../../server.js';
 
+const CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME = 'certification-center-invitations';
+
 describe('Acceptance | API | Certification center invitations', function () {
   let server;
 
@@ -70,7 +72,9 @@ describe('Acceptance | API | Certification center invitations', function () {
     describe('GET /api/certification-center-invitations/{id}', function () {
       it('should return the certification-center invitation and 200 status code', async function () {
         // given
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre des Pixous' }).id;
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          name: 'Centre des Pixous',
+        }).id;
         const certificationCenterInvitationId = databaseBuilder.factory.buildCertificationCenterInvitation({
           certificationCenterId,
           status: CertificationCenterInvitation.StatusType.PENDING,
@@ -97,6 +101,50 @@ describe('Acceptance | API | Certification center invitations', function () {
               status: CertificationCenterInvitation.StatusType.PENDING,
             },
           },
+        });
+      });
+    });
+
+    describe('DELETE /api/certification-center-invitations/{id}', function () {
+      context('when user is an admin', function () {
+        let adminUser, certificationCenter;
+
+        beforeEach(async function () {
+          adminUser = databaseBuilder.factory.buildUser();
+          certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            userId: adminUser.id,
+            certificationCenterId: certificationCenter.id,
+            role: 'ADMIN',
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('cancels the certification center invitation and returns a 204 HTTP status code', async function () {
+          // given
+          const certificationCenterInvitation = databaseBuilder.factory.buildCertificationCenterInvitation({
+            certificationCenterId: certificationCenter.id,
+          });
+          const request = {
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(adminUser.id),
+            },
+            method: 'DELETE',
+            url: `/api/certification-center-invitations/${certificationCenterInvitation.id}`,
+          };
+
+          await databaseBuilder.commit();
+
+          // when
+          const { statusCode } = await server.inject(request);
+
+          // then
+          const cancelledCertificationCenterInvitation = await knex(CERTIFICATION_CENTER_INVITATIONS_TABLE_NAME)
+            .where({ id: certificationCenterInvitation.id })
+            .first();
+          expect(cancelledCertificationCenterInvitation.status).to.equal('cancelled');
+          expect(statusCode).to.equal(204);
         });
       });
     });
