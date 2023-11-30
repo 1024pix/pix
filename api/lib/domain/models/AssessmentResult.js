@@ -92,6 +92,25 @@ class AssessmentResult {
   isValidated() {
     return this.status === status.VALIDATED;
   }
+
+  clone() {
+    return new AssessmentResult({
+      commentForCandidate: this.commentForCandidate,
+      commentForJury: this.commentForJury,
+      commentForOrganization: this.commentForOrganization,
+      emitter: this.emitter,
+      pixScore: this.pixScore,
+      reproducibilityRate: this.reproducibilityRate,
+      status: this.status,
+      competenceMarks: this.competenceMarks,
+      assessmentId: this.assessmentId,
+      juryId: this.juryId,
+    });
+  }
+
+  reject() {
+    this.status = AssessmentResult.status.REJECTED;
+  }
 }
 
 AssessmentResult.status = status;
