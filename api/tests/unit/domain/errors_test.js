@@ -56,10 +56,6 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.NotFoundError).to.exist;
   });
 
-  it('should export a InvalidCertificationReportForFinalization', function () {
-    expect(errors.InvalidCertificationReportForFinalization).to.exist;
-  });
-
   it('should export a UserAlreadyLinkedToCandidateInSessionError', function () {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
@@ -138,18 +134,6 @@ describe('Unit | Domain | Errors', function () {
       expect(error.getErrorMessage).to.be.a('function');
       expect(error.getErrorMessage()).to.eql(expectedErrorMessage);
     });
-  });
-
-  it('should export a SessionAlreadyFinalizedError', function () {
-    expect(errors.SessionAlreadyFinalizedError).to.exist;
-  });
-
-  it('should export a SessionWithoutStartedCertificationError', function () {
-    expect(errors.SessionWithoutStartedCertificationError).to.exist;
-  });
-
-  it('should export a SessionWithAbortReasonOnCompletedCertificationCourseError', function () {
-    expect(errors.SessionWithAbortReasonOnCompletedCertificationCourseError).to.exist;
   });
 
   it('should export a TargetProfileInvalidError', function () {

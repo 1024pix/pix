@@ -50,7 +50,7 @@ import { CertificationIssueReportCategory } from '../../../src/certification/sha
 import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from './CertificationIssueReportResolutionStrategies.js';
 import { CertificationOfficer } from './CertificationOfficer.js';
-import { CertificationReport } from './CertificationReport.js';
+import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
 import { CertificationResult } from './CertificationResult.js';
 import { CertifiedLevel } from './CertifiedLevel.js';
 import { CertifiedScore } from './CertifiedScore.js';

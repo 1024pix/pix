@@ -151,41 +151,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PUT',
-      path: '/api/sessions/{id}/finalization',
-      config: {
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'examiner-global-comment': Joi.string().optional().allow(null).allow('').max(500),
-                'has-incident': Joi.boolean().required(),
-                'has-joining-issue': Joi.boolean().required(),
-              },
-            },
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.finalize,
-        tags: ['api', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de finaliser une session de certification afin de la signaler comme terminée',
-        ],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/sessions/{id}/certification-candidates/import',
       config: {
@@ -397,29 +362,6 @@ const register = async function (server) {
         notes: [
           'Cette route est accessible via un token généré par un utilisateur ayant le rôle SUPERADMIN',
           "Elle retourne tous les résultats de certifications d'une session, sous format CSV",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/sessions/{id}/certification-reports',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: authorization.verifySessionAuthorization,
-            assign: 'authorizationCheck',
-          },
-        ],
-        handler: sessionController.getCertificationReports,
-        tags: ['api', 'sessions', 'certification-reports'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          "Elle retourne des infos sur les certifications d'une session.",
         ],
       },
     },

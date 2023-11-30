@@ -1,4 +1,4 @@
-import { CertificationReport } from '../../../../lib/domain/models/CertificationReport.js';
+import { CertificationReport } from '../../../../src/certification/shared/domain/models/CertificationReport.js';
 import { buildCertificationIssueReport } from './build-certification-issue-report.js';
 
 const buildCertificationReport = function ({

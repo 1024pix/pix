@@ -5,7 +5,7 @@ import {
   SessionWithMissingAbortReasonError,
 } from '../errors.js';
 
-import { SessionFinalized } from '../events/SessionFinalized.js';
+import { SessionFinalized } from '../../../../../lib/domain/events/SessionFinalized.js';
 import bluebird from 'bluebird';
 
 const finalizeSession = async function ({

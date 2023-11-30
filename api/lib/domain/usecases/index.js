@@ -70,7 +70,6 @@ import * as certificationIssueReportRepository from '../../../src/certification/
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
 import * as certificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
-import * as certificationReportRepository from '../../infrastructure/repositories/certification-report-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
@@ -284,7 +283,6 @@ const dependencies = {
   certificationLsRepository,
   certificationOfficerRepository,
   certificationPointOfContactRepository,
-  certificationReportRepository,
   certificationRepository,
   certificationResultRepository,
   challengeRepository,
