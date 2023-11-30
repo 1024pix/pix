@@ -7,12 +7,12 @@ const register = async function (server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/pix1d/schools/{code}',
+      path: '/api/pix1d/schools',
       config: {
         pre: [{ method: securityPreHandlers.checkPix1dActivated }],
         auth: false,
         validate: {
-          params: Joi.object({
+          query: Joi.object({
             code: identifiersType.code,
           }),
         },

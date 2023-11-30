@@ -32,7 +32,7 @@ describe('Unit | Controller | school-controller', function () {
         // when
 
         const request = {
-          params: { code },
+          query: { code },
         };
         const response = await schoolController.getSchool(request, hFake);
         // Then

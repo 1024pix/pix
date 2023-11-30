@@ -60,8 +60,8 @@ function routes() {
     return schema.challenges.find(request.params.challenge_id);
   });
 
-  this.get('/schools/:code', (schema, request) => {
-    if (request.params.code === 'MINIPIXOU') {
+  this.get('/schools', (schema, request) => {
+    if (request.queryParams.code === 'MINIPIXOU') {
       return schema.schools.first();
     }
     return new Response(404);
