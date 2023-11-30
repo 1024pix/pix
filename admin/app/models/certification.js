@@ -148,6 +148,11 @@ export default class Certification extends Model {
     urlType: 'uncancel',
   });
 
+  reject = memberAction({
+    type: 'post',
+    urlType: 'reject',
+  });
+
   editJuryLevel = memberAction({
     type: 'post',
     urlType: 'edit-jury-level',
