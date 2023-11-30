@@ -26,8 +26,10 @@ export default class CertificationInformationsController extends Controller {
   @service notifications;
   @service intl;
   @service featureToggles;
+  @service store;
 
   @tracked displayConfirm = false;
+  @tracked modalTitle = null;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
   @tracked confirmAction = 'onCandidateResultsSave';
@@ -136,7 +138,7 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCandidateResultsCancelConfirm() {
+  onCancelConfirm() {
     this.displayConfirm = false;
   }
 
@@ -218,6 +220,16 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
+  onRejectCertificationButtonClick() {
+    const confirmMessage =
+      'Êtes-vous sûr·e de vouloir rejeter cette certification ? Cliquez sur confirmer pour poursuivre.';
+    this.modalTitle = 'Confirmer le rejet de la certification';
+    this.confirmAction = 'onRejectCertificationConfirmation';
+    this.confirmMessage = confirmMessage;
+    this.displayConfirm = true;
+  }
+
+  @action
   async onCancelCertificationConfirmation() {
     try {
       await this.certification.cancel();
@@ -233,6 +245,18 @@ export default class CertificationInformationsController extends Controller {
   async onUncancelCertificationConfirmation() {
     try {
       await this.certification.uncancel();
+      await this.certification.reload();
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue.');
+    }
+
+    this.displayConfirm = false;
+  }
+
+  @action
+  async onRejectCertificationConfirmation() {
+    try {
+      await this.certification.reject();
       await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');

@@ -9,16 +9,27 @@
         Désannuler la certification
       </PixButton>
     {{else}}
-      <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onCancelCertificationButtonClick}}>
-        Annuler la certification
-      </PixButton>
+      <span class="certification-informations__row__actions">
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible="true"
+          @size="small"
+          @triggerAction={{this.onCancelCertificationButtonClick}}
+        >
+          Annuler la certification
+        </PixButton>
+        <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
+          Rejeter la certification
+        </PixButton>
+      </span>
     {{/if}}
   </div>
 
   <div class="certification-informations__row">
     <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
       <h2 class="certification-informations__card__title">
-        <Certifications::InfoTag @record={{this.certification}} @float={{true}} />État
+        <Certifications::InfoTag @record={{this.certification}} @float={{true}} />
+        État
       </h2>
       <Certifications::InfoField
         @value={{this.certification.sessionId}}
@@ -279,11 +290,12 @@
 </div>
 
 <ConfirmPopup
+  @title={{this.modalTitle}}
   @message={{this.confirmMessage}}
   @error={{this.confirmErrorMessage}}
   @confirm={{action this.confirmAction}}
-  @cancel={{action this.onCandidateResultsCancelConfirm}}
   @show={{this.displayConfirm}}
+  @cancel={{action this.onCancelConfirm}}
 />
 
 {{#if this.isCandidateEditModalOpen}}
