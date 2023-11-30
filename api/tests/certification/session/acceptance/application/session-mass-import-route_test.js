@@ -6,7 +6,7 @@ import {
   sinon,
 } from '../../../../test-helper.js';
 import { createServer } from '../../../../../server.js';
-import * as temporarySessionsStorageForMassImportService from '../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
+import * as temporarySessionsStorageForMassImportService from '../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 
 import lodash from 'lodash';
 

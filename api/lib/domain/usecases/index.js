@@ -147,7 +147,6 @@ import * as sessionForSupervisingRepository from '../../infrastructure/repositor
 import * as sessionJuryCommentRepository from '../../infrastructure/repositories/sessions/session-jury-comment-repository.js';
 import * as sessionPublicationService from '../../domain/services/session-publication-service.js';
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
-import * as sessionsImportValidationService from '../../domain/services/sessions-mass-import/sessions-import-validation-service.js';
 import * as sessionSummaryRepository from '../../infrastructure/repositories/sessions/session-summary-repository.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
 import * as smartRandom from '../../domain/services/algorithm-methods/smart-random.js';
@@ -166,7 +165,6 @@ import * as targetProfileRepository from '../../infrastructure/repositories/targ
 import * as targetProfileShareRepository from '../../infrastructure/repositories/target-profile-share-repository.js';
 import * as targetProfileSummaryForAdminRepository from '../../infrastructure/repositories/target-profile-summary-for-admin-repository.js';
 import * as targetProfileTrainingRepository from '../../infrastructure/repositories/target-profile-training-repository.js';
-import * as temporarySessionsStorageForMassImportService from '../services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
 import * as thematicRepository from '../../infrastructure/repositories/thematic-repository.js';
 import * as tubeRepository from '../../infrastructure/repositories/tube-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
@@ -367,7 +365,6 @@ const dependencies = {
   sessionPublicationService,
   sessionRepository,
   sessionSummaryRepository,
-  sessionsImportValidationService,
   skillRepository,
   smartRandom,
   stageAndStageAcquisitionComparisonService,
@@ -386,7 +383,6 @@ const dependencies = {
   targetProfileShareRepository,
   targetProfileSummaryForAdminRepository,
   targetProfileTrainingRepository,
-  temporarySessionsStorageForMassImportService,
   thematicRepository,
   tokenService,
   trainingRepository: repositories.trainingRepository,
