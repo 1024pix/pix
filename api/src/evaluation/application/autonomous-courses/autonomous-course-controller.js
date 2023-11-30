@@ -4,8 +4,11 @@ import * as autonomousCourseSerializer from '../../infrastructure/serializers/js
 
 const save = async (request, h, dependencies = { requestResponseUtils, usecases, autonomousCourseSerializer }) => {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+
+  const deserializedPayload = await dependencies.autonomousCourseSerializer.deserialize(request.payload);
+
   const autonomousCourseForCreation = {
-    ...request.payload.data.attributes,
+    ...deserializedPayload,
     ownerId: userId,
   };
   const autonomousCourseId = await dependencies.usecases.saveAutonomousCourse({

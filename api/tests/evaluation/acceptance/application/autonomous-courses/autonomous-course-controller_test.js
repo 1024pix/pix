@@ -57,10 +57,10 @@ describe('Acceptance | API | Autonomous Course', function () {
         it('should return 201', async function () {
           // when
           const autonomousCourseAttributes = {
-            internalTitle: 'Titre pour usage interne',
-            publicTitle: 'Titre pour usage public',
-            targetProfileId,
-            customLandingPageText: 'customLandingPageText',
+            'internal-title': 'Titre pour usage interne',
+            'public-title': 'Titre pour usage public',
+            'target-profile-id': targetProfileId,
+            'custom-landing-page-text': 'customLandingPageText',
           };
           const payload = {
             data: {
