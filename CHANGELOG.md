@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.70.0 (30/11/2023)
+
+
+### :rocket: Amélioration
+- [#7537](https://github.com/1024pix/pix/pull/7537) [FEATURE] Mettre à jour Pix UI pour utiliser la font Nunito sur Pix Orga (PIX-10135).
+- [#7543](https://github.com/1024pix/pix/pull/7543) [FEATURE] Annuler la certification quand il n'y a pas assez de réponse et un problème technique (PIX-9978).
+- [#7535](https://github.com/1024pix/pix/pull/7535) [FEATURE] Ajouter 3 nouveaux types de contenus formatif (PIX-10173).
+- [#7531](https://github.com/1024pix/pix/pull/7531) [FEATURE] Ajout d'une route récupérant les profils-cibles dédiés aux parcours autonomes (PIX-10113).
+- [#7530](https://github.com/1024pix/pix/pull/7530) [FEATURE] Dégrader le score d'une certification avec plus de V questions et SANS problème technique. (PIX-9979).
+- [#7528](https://github.com/1024pix/pix/pull/7528) [FEATURE] détache un profil cible target depuis la page organisation (PIX-9983).
+
+### :building_construction: Tech
+- [#7544](https://github.com/1024pix/pix/pull/7544) [TECH] Récupérer une organisation grâce au code en tant que queryparams (Pix-10133).
+- [#7447](https://github.com/1024pix/pix/pull/7447) [TECH] Refacto des badges des certifications complémentaires (PIX-9862).
+- [#7538](https://github.com/1024pix/pix/pull/7538) [TECH] ajoute un paramètre sur le nombre d'élève à créer au script de création d'une école (pix-10097).
+- [#7533](https://github.com/1024pix/pix/pull/7533) [TECH] Faire les corrections nécessaires pour enlever les erreurs en console (Pix-9946).
+- [#7480](https://github.com/1024pix/pix/pull/7480) [TECH] Déplacer le mapping des erreurs HTTP vers les bounded context (PIX-10080).
+
+### :bug: Correction
+- [#7542](https://github.com/1024pix/pix/pull/7542) [BUGFIX] Elargir la période de génération d'une date au hasard pour une factory de mirage dans certif (Pix-10161).
+
 ## v4.69.0 (29/11/2023)
 
 
