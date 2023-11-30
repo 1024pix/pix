@@ -79,6 +79,34 @@ module('Acceptance | Team | Invitations', function (hooks) {
         assert.dom(screen.queryByText('daisy.draté@example.net')).doesNotExist();
         assert.dom(screen.getByText('L’invitation a bien été supprimée.')).exists();
       });
+
+      module('when an error occurs', function () {
+        test('displays an error notification', async function (assert) {
+          // given
+          this.server.create('certification-center-invitation', {
+            id: 15,
+            certificationCenterId: 1,
+            email: 'anna.liz@example.net',
+            updatedAt: new Date('2023-11-30'),
+          });
+          this.server.delete(`/certification-center-invitations/15`, () => new Response(500));
+
+          const screen = await visit('/equipe/invitations');
+
+          // when
+          await clickByName(this.intl.t('pages.team-invitations.actions.cancel-invitation'));
+
+          // then
+          assert.dom(screen.queryByText('anna.liz@example.net')).exists();
+          assert
+            .dom(
+              screen.getByText(
+                'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+              ),
+            )
+            .exists();
+        });
+      });
     });
   });
 });

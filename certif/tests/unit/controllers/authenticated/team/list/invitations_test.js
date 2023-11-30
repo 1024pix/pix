@@ -33,5 +33,25 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
       assert.ok(certificationCenterInvitation.destroyRecord.called);
       assert.ok(controller.notifications.success.calledWithExactly('L’invitation a bien été supprimée.'));
     });
+
+    module('when an error occurs', function () {
+      test('displays an error notification', async function (assert) {
+        // given
+        const certificationCenterInvitation = {
+          destroyRecord: sinon.stub().rejects(),
+        };
+        controller.notifications = { error: sinon.stub() };
+
+        // when
+        await controller.cancelInvitation(certificationCenterInvitation);
+
+        // then
+        assert.ok(
+          controller.notifications.error.calledWithExactly(
+            'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+          ),
+        );
+      });
+    });
   });
 });
