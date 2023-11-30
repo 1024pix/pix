@@ -1,8 +1,24 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
+
 import { Session } from '../models/Session.js';
 import { SessionMassImportReport } from '../models/SessionMassImportReport.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import bluebird from 'bluebird';
 
+/**
+ * @param {Object} params
+ * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['certificationCpfCountryRepository']} params.certificationCpfCountryRepository
+ * @param {deps['certificationCpfCityRepository']} params.certificationCpfCityRepository
+ * @param {deps['complementaryCertificationRepository']} params.complementaryCertificationRepository
+ * @param {deps['certificationCourseRepository']} params.certificationCourseRepository
+ * @param {deps['sessionCodeService']} params.sessionCodeService
+ * @param {deps['sessionsImportValidationService']} params.sessionsImportValidationService
+ * @param {deps['temporarySessionsStorageForMassImportService']} params.temporarySessionsStorageForMassImportService
+ */
 const validateSessions = async function ({
   sessions,
   userId,
