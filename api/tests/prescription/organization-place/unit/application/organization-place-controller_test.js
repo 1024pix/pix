@@ -32,6 +32,38 @@ describe('Unit | Application | organization-place-controller', function () {
     });
   });
 
+  describe('#getOrganizationPlacesStatistics', function () {
+    it('should call the usecase and serialize the response', async function () {
+      // given
+      const organizationId = 1234;
+      const request = { params: { id: organizationId } };
+
+      const organizationPlacesStatistics = Symbol('organizationPlaces');
+      const organizationPlacesStatisticsSerialized = Symbol('organizationPlacesSerialized');
+      sinon
+        .stub(usecases, 'getOrganizationPlacesStatistics')
+        .withArgs({ organizationId })
+        .resolves(organizationPlacesStatistics);
+      const organizationPlacesStatisticsSerializerStub = {
+        serialize: sinon.stub(),
+      };
+
+      organizationPlacesStatisticsSerializerStub.serialize
+        .withArgs(organizationPlacesStatistics)
+        .returns(organizationPlacesStatisticsSerialized);
+
+      const dependencies = {
+        organizationPlacesStatisticsSerializer: organizationPlacesStatisticsSerializerStub,
+      };
+
+      // when
+      const result = await organizationPlaceController.getOrganizationPlacesStatistics(request, hFake, dependencies);
+
+      // then
+      expect(result).to.equal(organizationPlacesStatisticsSerialized);
+    });
+  });
+
   describe('#createOrganizationPlacesLot', function () {
     let dependencies;
 

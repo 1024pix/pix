@@ -2,6 +2,7 @@ import { securityPreHandlers } from '../../../../lib/application/security-pre-ha
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 import { organizationPlaceController } from './organization-place-controller.js';
 import Joi from 'joi';
+import { ORGANIZATION_FEATURE } from '../../../../lib/domain/constants.js';
 
 const register = async (server) => {
   server.route([
@@ -114,6 +115,33 @@ const register = async (server) => {
             "- Elle permet d'ajouter un lot des places à une organization",
         ],
         tags: ['api', 'organizations'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/place-statistics',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+          {
+            method: securityPreHandlers.makeCheckOrganizationHasFeature(ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key),
+            assign: 'checkOrganizationHasPlacesFeature',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationPlaceController.getOrganizationPlacesStatistics,
+        tags: ['api', 'organizations'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation**\n" +
+            "- Elle permet la récuperation des statistiques de places de l'organisation",
+        ],
       },
     },
   ]);

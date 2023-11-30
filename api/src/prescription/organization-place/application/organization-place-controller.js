@@ -1,6 +1,7 @@
 import * as organizationPlacesLotSerializer from '../infrastructure/serializers/jsonapi/organization-places-lot-serializer.js';
 import * as organizationPlacesLotManagementSerializer from '../infrastructure/serializers/jsonapi/organization-places-lot-management-serializer.js';
 import * as organizationPlacesCapacitySerializer from '../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
+import * as organizationPlacesStatisticsSerializer from '../infrastructure/serializers/jsonapi/organization-places-statistics-serializer.js';
 import { usecases } from '../domain/usecases/index.js';
 
 const createOrganizationPlacesLot = async function (
@@ -47,11 +48,22 @@ const getOrganizationPlacesCapacity = async function (request) {
   return organizationPlacesCapacitySerializer.serialize(organizationPlacesCapacity);
 };
 
+const getOrganizationPlacesStatistics = async function (
+  request,
+  h,
+  dependencies = { organizationPlacesStatisticsSerializer },
+) {
+  const organizationId = request.params.id;
+  const organizationPlacesStatistics = await usecases.getOrganizationPlacesStatistics({ organizationId });
+  return dependencies.organizationPlacesStatisticsSerializer.serialize(organizationPlacesStatistics);
+};
+
 const organizationPlaceController = {
   createOrganizationPlacesLot,
   deleteOrganizationPlacesLot,
   findOrganizationPlacesLot,
   getOrganizationPlacesCapacity,
+  getOrganizationPlacesStatistics,
 };
 
 export { organizationPlaceController };
