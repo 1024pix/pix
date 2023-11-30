@@ -179,31 +179,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('PUT /api/sessions/{id}/finalization', function () {
-    it('should respond OK', async function () {
-      // given
-      sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(sessionController, 'finalize').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-      const payload = {
-        data: {
-          attributes: {
-            'examiner-global-comment': 'a comment',
-            'has-incident': false,
-            'has-joining-issue': false,
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/finalization', payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('id validation', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
@@ -256,14 +231,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'PUT', url: '/api/sessions/salut/finalization' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PUT', url: '/api/sessions/9999999999/finalization' },
       },
       {
         condition: 'session ID params is not a number',

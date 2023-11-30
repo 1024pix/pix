@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import bluebird from 'bluebird';
 
-import { Bookshelf } from '../bookshelf.js';
+import { Bookshelf } from '../../../../../lib/infrastructure/bookshelf.js';
 import { CertificationReport } from '../../domain/models/CertificationReport.js';
-import { BookshelfCertificationCourse } from '../orm-models/CertificationCourse.js';
+import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { CertificationCourseUpdateError } from '../../domain/errors.js';
-import { toDomain } from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
+import { toDomain } from './certification-course-repository.js';
 
 const findBySessionId = async function (sessionId) {
   const results = await BookshelfCertificationCourse.where({ sessionId })

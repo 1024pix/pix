@@ -279,12 +279,6 @@ class UserShouldNotBeReconciledOnAnotherAccountError extends DomainError {
   }
 }
 
-class CertificationCourseUpdateError extends DomainError {
-  constructor(message = 'Échec lors la création ou de la mise à jour du test de certification.') {
-    super(message);
-  }
-}
-
 class CertificationCourseNotPublishableError extends DomainError {
   constructor(message = "Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.") {
     super(message);
@@ -350,12 +344,6 @@ class InvalidCertificationCandidate extends DomainError {
     }
 
     return new InvalidCertificationCandidate({ error });
-  }
-}
-
-class InvalidCertificationReportForFinalization extends DomainError {
-  constructor(message = 'Échec lors de la validation du certification course') {
-    super(message);
   }
 }
 
@@ -761,39 +749,9 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
-class SessionAlreadyFinalizedError extends DomainError {
-  constructor(message = 'Cannot finalize session more than once.') {
-    super(message);
-    this.code = 'SESSION_ALREADY_FINALIZED';
-  }
-}
-
+// FIXME: used ?
 class SessionWithIdAndInformationOnMassImportError extends DomainError {
   constructor(message = 'Merci de ne pas renseigner les informations de session') {
-    super(message);
-  }
-}
-
-class SessionWithoutStartedCertificationError extends DomainError {
-  constructor(message = "This session hasn't started, you can't finalise it. However, you can delete it.") {
-    super(message);
-    this.code = 'SESSION_WITHOUT_STARTED_CERTIFICATION';
-  }
-}
-
-class SessionWithAbortReasonOnCompletedCertificationCourseError extends DomainError {
-  constructor(
-    message = 'The field "Reason for abandonment" has been filled in for a candidate who has finished their certification exam in between. The session therefore can\'t be finalised. Please refresh the page before finalising.',
-  ) {
-    super(message);
-    this.code = 'SESSION_WITH_ABORT_REASON_ON_COMPLETED_CERTIFICATION_COURSE';
-  }
-}
-
-class SessionWithMissingAbortReasonError extends DomainError {
-  constructor(
-    message = "Une ou plusieurs certifications non terminées n'ont pas de “Raison de l’abandon” renseignées. La session ne peut donc pas être finalisée.",
-  ) {
     super(message);
   }
 }
@@ -1218,7 +1176,6 @@ export {
   CertificationCenterMembershipDisableError,
   CertificationComputeError,
   CertificationCourseNotPublishableError,
-  CertificationCourseUpdateError,
   CertificationEndedByFinalizationError,
   CertificationEndedBySupervisorError,
   CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
@@ -1238,7 +1195,6 @@ export {
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationIssueReportForSaving,
-  InvalidCertificationReportForFinalization,
   InvalidExternalAPIResponseError,
   InvalidIdentityProviderError,
   InvalidJuryLevelError,
@@ -1288,13 +1244,9 @@ export {
   SendingEmailToInvalidEmailAddressError,
   SendingEmailToRefererError,
   SendingEmailToResultRecipientError,
-  SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionNotAccessible,
-  SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionWithIdAndInformationOnMassImportError,
-  SessionWithMissingAbortReasonError,
-  SessionWithoutStartedCertificationError,
   SIECLE_ERRORS,
   SiecleXmlImportError,
   StageModificationForbiddenForLinkedTargetProfileError,
