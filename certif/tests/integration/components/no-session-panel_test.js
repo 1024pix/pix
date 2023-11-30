@@ -7,7 +7,7 @@ import { render } from '@1024pix/ember-testing-library';
 module('Integration | Component | no-session-panel', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it renders a button link to the new session creation page', async function (assert) {
+  test('it renders buttons links to create sessions', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
@@ -22,55 +22,62 @@ module('Integration | Component | no-session-panel', function (hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
 
     // when
-    const { getByRole } = await render(hbs`<NoSessionPanel />`);
+    const screen = await render(hbs`<NoSessionPanel />`);
 
     // then
-    assert.dom(getByRole('link', { name: 'Créer une session' })).exists();
+    const createOneSessionButton = screen.getByRole('link', { name: 'Créer une session' });
+    const createMultipleSessionsButton = screen.getByRole('link', { name: 'Créer plusieurs sessions' });
+    assert.dom(createOneSessionButton).exists();
+    assert.dom(createMultipleSessionsButton).exists();
+    const buttonsInTheRightOrder = createOneSessionButton.compareDocumentPosition(createMultipleSessionsButton);
+    assert.strictEqual(buttonsInTheRightOrder, Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
-  module('when certification center is not a type SCO which manages students', function () {
-    test('it renders a button link to the sessions import page', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        type: 'SUP',
-        isRelatedToManagingStudentsOrganization: false,
+  module('when certification center is a type SCO', function () {
+    module('when it manages students', function () {
+      test('it does not render a button link to the sessions import page', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          type: 'SCO',
+          isRelatedToManagingStudentsOrganization: true,
+        });
+
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        const { queryByRole } = await render(hbs`<NoSessionPanel />`);
+
+        // then
+        assert.dom(queryByRole('link', { name: 'Créer plusieurs sessions' })).doesNotExist();
       });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // when
-      const { getByRole } = await render(hbs`<NoSessionPanel />`);
-
-      // then
-      assert.dom(getByRole('link', { name: 'Créer plusieurs sessions' })).exists();
     });
-  });
 
-  module('when certification center is a type SCO which manages students', function () {
-    test('it does not render a button link to the sessions import page', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        type: 'SCO',
-        isRelatedToManagingStudentsOrganization: true,
+    module('when it does not manage students', function () {
+      test('it does render a button link to the sessions import page', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
+          type: 'SCO',
+          isRelatedToManagingStudentsOrganization: false,
+        });
+
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        const { getByRole } = await render(hbs`<NoSessionPanel />`);
+
+        // then
+        assert.dom(getByRole('link', { name: 'Créer plusieurs sessions' })).exists();
       });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // when
-      const { queryByRole } = await render(hbs`<NoSessionPanel />`);
-
-      // then
-      assert.dom(queryByRole('link', { name: 'Créer plusieurs sessions' })).doesNotExist();
     });
   });
 });
