@@ -4,6 +4,7 @@ import * as attendanceSheet from './application/attendance-sheet-route.js';
 import * as certificationCandidate from './application/certification-candidate-route.js';
 import * as invigilatorKit from './application/invigilator-kit-route.js';
 import * as updateCpfImportStatus from './application/update-cpf-import-status-route.js';
+import * as sessionMassImport from './application/session-mass-import-route.js';
 
 const certificationSessionRoutes = [
   session,
@@ -12,6 +13,7 @@ const certificationSessionRoutes = [
   certificationCandidate,
   invigilatorKit,
   updateCpfImportStatus,
+  sessionMassImport,
 ];
 
 export { certificationSessionRoutes };
