@@ -6,4 +6,10 @@ class OrganizationLearnersCouldNotBeSavedError extends DomainError {
   }
 }
 
-export { OrganizationLearnersCouldNotBeSavedError };
+class OrganizationDoesNotHaveFeatureEnabledError extends DomainError {
+  constructor(message = 'The organization does not have the feature enabled') {
+    super(message);
+  }
+}
+
+export { OrganizationLearnersCouldNotBeSavedError, OrganizationDoesNotHaveFeatureEnabledError };
