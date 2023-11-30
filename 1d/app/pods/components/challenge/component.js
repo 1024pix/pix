@@ -13,7 +13,6 @@ export default class Challenge extends Component {
   get disableCheckButton() {
     return this.answerValue === null || this.answerValue === '';
   }
-
   @action
   setAnswerValue(value) {
     this.answerValue = value;
