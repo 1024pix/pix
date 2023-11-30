@@ -4,7 +4,7 @@ import { Session } from '../../../../../src/certification/session/domain/models/
 import { CpfBirthInformationValidation } from '../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
-import { SessionMassImportReport } from '../../../../../lib/domain/models/SessionMassImportReport.js';
+import { SessionMassImportReport } from '../../../../../src/certification/session/domain/models/SessionMassImportReport.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
 
