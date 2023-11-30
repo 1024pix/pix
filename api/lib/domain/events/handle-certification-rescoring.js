@@ -12,6 +12,7 @@ import { CertificationVersion } from '../../../src/shared/domain/models/Certific
 import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmentScoreV3.js';
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
+import { config } from '../../../src/shared/config.js';
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 const EMITTER = 'PIX-ALGO';
@@ -111,15 +112,31 @@ async function _handleV3Certification({
     emitter: EMITTER,
   });
 
+  if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
+    const cancelMessage = 'Cancelled due to lack of answers and technical issues';
+    assessmentResult.commentForCandidate = cancelMessage;
+    assessmentResult.commentForOrganization = cancelMessage;
+    certificationCourse.cancel();
+    certificationCourseRepository.update(certificationCourse);
+  }
+
   await assessmentResultRepository.save({
     certificationCourseId: certificationAssessment.certificationCourseId,
     assessmentResult,
   });
+
   return new CertificationRescoringCompleted({
     userId: certificationAssessment.userId,
     certificationCourseId: certificationAssessment.certificationCourseId,
     reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
   });
+}
+
+function _shouldCancelV3Certification({ allAnswers, certificationCourse }) {
+  return (
+    allAnswers.length < config.v3Certification.scoring.minimumAnswersRequiredToValidateACertification &&
+    !certificationCourse.isAbortReasonCandidateRelated()
+  );
 }
 
 async function _handleV2Certification({
