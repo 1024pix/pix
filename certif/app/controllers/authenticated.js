@@ -22,7 +22,10 @@ export default class AuthenticatedController extends Controller {
   }
 
   get displayRoleManagementBanner() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.isSco;
+    return (
+      this.currentUser.currentAllowedCertificationCenterAccess.isPro ||
+      this.currentUser.currentAllowedCertificationCenterAccess.isSup
+    );
   }
 
   get documentationLink() {

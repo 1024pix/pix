@@ -31,6 +31,34 @@ module('Unit | Model | allowed-certification-center-access', function (hooks) {
     });
   });
 
+  module('#get isPro', function () {
+    module('when AllowedCertificationCenterAccess type is PRO', function () {
+      test('should return true', function (assert) {
+        // when
+        const model = store.createRecord('allowed-certification-center-access', {
+          type: 'PRO',
+        });
+
+        // then
+        assert.true(model.isPro);
+      });
+    });
+  });
+
+  module('#get isSup', function () {
+    module('when AllowedCertificationCenterAccess type is SUP', function () {
+      test('should return true', function (assert) {
+        // when
+        const model = store.createRecord('allowed-certification-center-access', {
+          type: 'SUP',
+        });
+
+        // then
+        assert.true(model.isSup);
+      });
+    });
+  });
+
   module('#get isScoManagingStudents', function () {
     test('should return false when AllowedCertificationCenterAccess is not managing students', function (assert) {
       // when

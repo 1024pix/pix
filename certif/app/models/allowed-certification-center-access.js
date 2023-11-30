@@ -24,6 +24,14 @@ export default class AllowedCertificationCenterAccess extends Model {
     return this.type === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
+  get isPro() {
+    return this.type === CERTIFICATION_CENTER_TYPES.PRO;
+  }
+
+  get isSup() {
+    return this.type === CERTIFICATION_CENTER_TYPES.SUP;
+  }
+
   get isScoManagingStudents() {
     return this.type === CERTIFICATION_CENTER_TYPES.SCO && this.isRelatedToManagingStudentsOrganization;
   }

@@ -159,27 +159,31 @@ module('Acceptance | authenticated', function (hooks) {
         });
       });
 
-      module('when certification center is SUP or PRO', function () {
-        test('it should not display the banner', async function (assert) {
-          // given
-          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
-            'SUP',
-            'Soupère',
-          );
-          await authenticateSession(certificationPointOfContact.id);
+      const nonSchoolCertificationCentersTypes = ['SUP', 'PRO'];
 
-          // when
-          const screen = await visitScreen('/sessions/liste');
+      nonSchoolCertificationCentersTypes.forEach((type) => {
+        module(`when certification center is ${type}`, function () {
+          test('it should not display the banner', async function (assert) {
+            // given
+            const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+              type,
+              'Soupère',
+            );
+            await authenticateSession(certificationPointOfContact.id);
 
-          // then
-          assert
-            .dom(
-              screen.getByText(
-                'Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification.',
-              ),
-            )
-            .exists();
-          assert.dom(screen.getByRole('link', { name: 'Plus d’information ici' })).exists();
+            // when
+            const screen = await visitScreen('/sessions/liste');
+
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  'Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification.',
+                ),
+              )
+              .exists();
+            assert.dom(screen.getByRole('link', { name: 'Plus d’information ici' })).exists();
+          });
         });
       });
     });
