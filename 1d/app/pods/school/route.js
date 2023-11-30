@@ -9,8 +9,10 @@ export default class SchoolRoute extends Route {
     this.currentLearner.remove();
   }
 
-  async model(params) {
-    const school = await this.store.findRecord('school', params.code);
+  async model(_params, transition) {
+    const school = await this.store.queryRecord('school', {
+      code: transition.to.parent.params.code,
+    });
     const divisions = [...new Set(school.organizationLearners.map((learner) => learner.division))];
     return {
       code: school.code,
