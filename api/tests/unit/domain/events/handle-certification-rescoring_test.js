@@ -50,6 +50,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
       certificationCourseRepository = {
         get: sinon.stub(),
+        update: sinon.stub().resolves(),
       };
 
       flashAlgorithmConfigurationRepository = {
@@ -76,79 +77,168 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
     });
 
     describe('when less than the minimum number of answers required by the config has been answered', function () {
-      it('should save the score with a rejected status', async function () {
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          version: CertificationVersion.V3,
-        });
-
-        const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
-          abortReason: ABORT_REASONS.CANDIDATE,
-        });
-
-        const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
-        const challengeIds = challenges.map(({ id }) => id);
-
-        const answers = generateAnswersForChallenges({ challenges });
-
-        const expectedEstimatedLevel = 2;
-        const scoreForEstimatedLevel = 592;
-        const { certificationCourseId } = certificationAssessment;
-
-        certificationAssessmentRepository.getByCertificationCourseId
-          .withArgs({ certificationCourseId })
-          .resolves(certificationAssessment);
-
-        answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
-
-        challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
-
-        certificationCourseRepository.get
-          .withArgs(certificationAssessment.certificationCourseId)
-          .resolves(abortedCertificationCourse);
-
-        flashAlgorithmService.getEstimatedLevelAndErrorRate
-          .withArgs({
-            challenges,
-            allAnswers: answers,
-            estimatedLevel: sinon.match.number,
-            variationPercent: undefined,
-            doubleMeasuresUntil: undefined,
-          })
-          .returns({
-            estimatedLevel: expectedEstimatedLevel,
+      describe('when the certification was not finished due to a lack of time', function () {
+        it('should save the score with a rejected status', async function () {
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            version: CertificationVersion.V3,
           });
 
-        const event = new CertificationJuryDone({
-          certificationCourseId,
-        });
+          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+            abortReason: ABORT_REASONS.CANDIDATE,
+          });
 
-        const result = await handleCertificationRescoring({
-          ...dependencies,
-          event,
-        });
+          const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
+          const challengeIds = challenges.map(({ id }) => id);
 
-        const expectedResult = {
-          certificationCourseId,
-          assessmentResult: new AssessmentResult({
-            commentForJury: 'Computed',
-            emitter: 'PIX-ALGO',
-            pixScore: scoreForEstimatedLevel,
+          const answers = generateAnswersForChallenges({ challenges });
+
+          const expectedEstimatedLevel = 2;
+          const scoreForEstimatedLevel = 592;
+          const { certificationCourseId } = certificationAssessment;
+
+          certificationAssessmentRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationAssessment);
+
+          answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
+
+          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
+
+          certificationCourseRepository.get
+            .withArgs(certificationAssessment.certificationCourseId)
+            .resolves(abortedCertificationCourse);
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns({
+              estimatedLevel: expectedEstimatedLevel,
+            });
+
+          const event = new CertificationJuryDone({
+            certificationCourseId,
+          });
+
+          const result = await handleCertificationRescoring({
+            ...dependencies,
+            event,
+          });
+
+          const expectedResult = {
+            certificationCourseId,
+            assessmentResult: new AssessmentResult({
+              commentForJury: 'Computed',
+              emitter: 'PIX-ALGO',
+              pixScore: scoreForEstimatedLevel,
+              reproducibilityRate: 100,
+              status: 'rejected',
+              competenceMarks: [],
+              assessmentId: 123,
+            }),
+          };
+
+          expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+
+          const expectedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
+            certificationCourseId,
+            userId: certificationAssessment.certificationCourseId,
             reproducibilityRate: 100,
-            status: 'rejected',
-            competenceMarks: [],
-            assessmentId: 123,
-          }),
-        };
+          });
 
-        expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
-
-        const expectedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
-          certificationCourseId,
-          userId: certificationAssessment.certificationCourseId,
-          reproducibilityRate: 100,
+          expect(result).to.deep.equal(expectedEvent);
         });
+      });
 
-        expect(result).to.deep.equal(expectedEvent);
+      describe('when the certification was not finished due to technical difficulties', function () {
+        it('should save the score with a rejected status and cancel the certification course', async function () {
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            version: CertificationVersion.V3,
+          });
+
+          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+            abortReason: ABORT_REASONS.TECHNICAL,
+          });
+
+          const challenges = generateChallengeList({ length: minimumAnswersRequiredToValidateACertification - 1 });
+          const challengeIds = challenges.map(({ id }) => id);
+
+          const answers = generateAnswersForChallenges({ challenges });
+
+          const expectedEstimatedLevel = 2;
+          const scoreForEstimatedLevel = 592;
+          const { certificationCourseId } = certificationAssessment;
+
+          certificationAssessmentRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationAssessment);
+
+          answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
+
+          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
+
+          certificationCourseRepository.get
+            .withArgs(certificationAssessment.certificationCourseId)
+            .resolves(abortedCertificationCourse);
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns({
+              estimatedLevel: expectedEstimatedLevel,
+            });
+
+          const event = new CertificationJuryDone({
+            certificationCourseId,
+          });
+
+          const result = await handleCertificationRescoring({
+            ...dependencies,
+            event,
+          });
+
+          const expectedResult = {
+            certificationCourseId,
+            assessmentResult: new AssessmentResult({
+              commentForJury: 'Computed',
+              emitter: 'PIX-ALGO',
+              pixScore: scoreForEstimatedLevel,
+              reproducibilityRate: 100,
+              status: 'validated',
+              competenceMarks: [],
+              assessmentId: 123,
+              commentForCandidate: 'Cancelled due to lack of answers and technical issues',
+              commentForOrganization: 'Cancelled due to lack of answers and technical issues',
+            }),
+          };
+
+          const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+            abortReason: ABORT_REASONS.TECHNICAL,
+            isCancelled: true,
+          });
+
+          expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+
+          expect(certificationCourseRepository.update).to.have.been.calledOnce;
+          expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+
+          const expectedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
+            certificationCourseId,
+            userId: certificationAssessment.certificationCourseId,
+            reproducibilityRate: 100,
+          });
+
+          expect(result).to.deep.equal(expectedEvent);
+        });
       });
     });
 
