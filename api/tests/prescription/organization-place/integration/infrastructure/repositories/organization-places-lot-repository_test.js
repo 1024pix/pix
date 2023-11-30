@@ -5,6 +5,7 @@ import { OrganizationPlacesLotManagement } from '../../../../../../src/prescript
 import { OrganizationPlacesLot } from '../../../../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
 import * as categories from '../../../../../../src/prescription/organization-place/domain/constants/organization-places-categories.js';
 import { NotFoundError, DeletedError } from '../../../../../../lib/domain/errors.js';
+import { PlacesLot } from '../../../../../../src/prescription/organization-place/domain/read-models/PlacesLot.js';
 
 describe('Integration | Repository | Organization Places Lot', function () {
   describe('#findByOrganizationId', function () {
@@ -206,6 +207,62 @@ describe('Integration | Repository | Organization Places Lot', function () {
         expect(foundOrganizationPlace[0].id).to.deep.equal(organizationPlace2.id);
         expect(foundOrganizationPlace[1].id).to.deep.equal(organizationPlace1.id);
       });
+    });
+  });
+
+  describe('#findAllByOrganizationId', function () {
+    let organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should return array of PlaceLot model', async function () {
+      databaseBuilder.factory.buildOrganizationPlace({ organizationId });
+      await databaseBuilder.commit();
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationId(organizationId);
+
+      expect(places[0]).to.be.instanceOf(PlacesLot);
+    });
+
+    it('should return empty array if there is no places', async function () {
+      await databaseBuilder.commit();
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationId(organizationId);
+
+      expect(places).to.be.empty;
+    });
+
+    it('should return places if there are places for given organizationId', async function () {
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId,
+        count: 7,
+      });
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId,
+        count: 3,
+        deletedAt: new Date(),
+      });
+      await databaseBuilder.commit();
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationId(organizationId);
+
+      expect(places.length).to.equal(2);
+      expect(places[0].count).to.equal(7);
+      expect(places[1].count).to.equal(3);
+    });
+
+    it('should not return places from another organizationId', async function () {
+      const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.buildOrganizationPlace({ organizationId });
+      await databaseBuilder.commit();
+
+      const places = await organizationPlacesLotRepository.findAllByOrganizationId(anotherOrganizationId);
+
+      expect(places.length).to.equal(0);
     });
   });
 
