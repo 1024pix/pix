@@ -62,7 +62,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
     });
 
     module('when user clicks on cancel invitation button', function () {
-      test('removes the invitation', async function (assert) {
+      test('removes the invitation and displays a success notification', async function (assert) {
         // given
         this.server.create('certification-center-invitation', {
           certificationCenterId: 1,
@@ -77,6 +77,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
 
         // then
         assert.dom(screen.queryByText('daisy.draté@example.net')).doesNotExist();
+        assert.dom(screen.getByText('L’invitation a bien été supprimée.')).exists();
       });
     });
   });

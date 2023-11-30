@@ -896,6 +896,11 @@
       "actions": {
         "cancel-invitation": "Delete invitation"
       },
+      "notifications": {
+        "success": {
+          "invitation-cancelled": "The invitation has been deleted."
+        }
+      },
       "table": {
         "labels": {
           "actions": "Actions",
