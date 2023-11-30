@@ -1,5 +1,5 @@
 <div class="organization-participant-list-page__header">
-  <h1 class="page__title page-title">{{t "pages.sco-organization-participants.title" count=@participantCount}}</h1>
+  <h1 class="page-title">{{t "pages.sco-organization-participants.title" count=@participantCount}}</h1>
   {{#if this.currentUser.isAdminInOrganization}}
     {{#if @isLoading}}
       <PixMessage @type="information" @withIcon="true">

@@ -2,7 +2,7 @@
 
 <div class="list-team-page">
   <div class="list-team-page__header">
-    <h1 class="page__title page-title">{{t "pages.team-list.title"}}</h1>
+    <h1 class="page-title">{{t "pages.team-list.title"}}</h1>
     {{#if this.currentUser.isAdminInOrganization}}
       <PixButtonLink @route="authenticated.team.new" class="list-team-page-header__add-member-button">
         {{t "pages.team-list.add-member-button"}}

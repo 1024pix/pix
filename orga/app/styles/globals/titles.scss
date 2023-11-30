@@ -6,31 +6,27 @@
 }
 
 .page-sub-title {
+  @extend %pix-title-s;
+
   margin-bottom: $pix-spacing-m;
   color: $pix-neutral-60;
-  font-weight: 300;
-  font-size: 1.5rem;
-  font-family: $font-open-sans;
 }
 
 .form-title {
+  @extend %pix-title-m;
+
   color: $pix-neutral-100;
-  font-weight: 300;
-  font-size: 1.9rem;
-  font-family: $font-open-sans;
 }
 
 .panel-header-title {
   @extend  %pix-title-xs;
 
   color: $pix-neutral-70;
-  font-weight: $font-medium;
 }
 
 .back-title {
   margin: 0;
   color: $pix-neutral-90;
-  font-weight: 400;
-  font-size: 1.25rem;
-  font-family: $font-open-sans;
+
+  @extend  %pix-title-s;
 }
