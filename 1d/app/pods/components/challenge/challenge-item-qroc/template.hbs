@@ -31,7 +31,7 @@
           name={{block.randomName}}
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
-          {{on "change" this.updateUserAnswerValue}}
+          {{on "keyup" this.updateUserAnswerValue}}
         />
       {{else if (eq @challenge.format "phrase")}}
         <PixInput
@@ -42,7 +42,7 @@
           placeholder={{block.placeholder}}
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
-          {{on "change" this.updateUserAnswerValue}}
+          {{on "keyup" this.updateUserAnswerValue}}
         />
       {{else if (eq @challenge.format "nombre")}}
         <PixInput
@@ -54,7 +54,7 @@
           placeholder={{block.placeholder}}
           @value={{this.userAnswer}}
           data-uid="qroc-proposal-uid"
-          {{on "change" this.updateUserAnswerValue}}
+          {{on "keyup" this.updateUserAnswerValue}}
         />
       {{else}}
         <PixInput
@@ -64,7 +64,7 @@
           type="text"
           autocomplete="nope"
           data-uid="qroc-proposal-uid"
-          {{on "change" this.updateUserAnswerValue}}
+          {{on "keyup" this.updateUserAnswerValue}}
         />
       {{/if}}
     {{/if}}

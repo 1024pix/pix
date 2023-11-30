@@ -41,7 +41,7 @@
               placeholder={{block.placeholder}}
               name={{block.randomName}}
               autocomplete="nope"
-              {{on "change" (fn this.onInputChange block.input)}}
+              {{on "keyup" (fn this.onInputChange block.input)}}
             />
           {{else if (eq @challenge.format "phrase")}}
             <PixInput
@@ -52,7 +52,7 @@
               autocomplete="nope"
               placeholder={{block.placeholder}}
               @ariaLabel={{block.ariaLabel}}
-              {{on "change" (fn this.onInputChange block.input)}}
+              {{on "keyup" (fn this.onInputChange block.input)}}
             />
           {{else}}
             <PixInput
@@ -64,7 +64,7 @@
               placeholder={{block.placeholder}}
               @value={{get @answersValue block.input}}
               @ariaLabel={{block.ariaLabel}}
-              {{on "change" (fn this.onInputChange block.input)}}
+              {{on "keyup" (fn this.onInputChange block.input)}}
             />
           {{/if}}
         </div>
