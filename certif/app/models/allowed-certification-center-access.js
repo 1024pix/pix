@@ -1,5 +1,11 @@
 import Model, { attr } from '@ember-data/model';
 
+const CERTIFICATION_CENTER_TYPES = {
+  SUP: 'SUP',
+  SCO: 'SCO',
+  PRO: 'PRO',
+};
+
 export default class AllowedCertificationCenterAccess extends Model {
   @attr() name;
   @attr() externalId;
@@ -15,11 +21,11 @@ export default class AllowedCertificationCenterAccess extends Model {
   @attr() pixCertifScoBlockedAccessDateCollege;
 
   get isSco() {
-    return this.type === 'SCO';
+    return this.type === CERTIFICATION_CENTER_TYPES.SCO;
   }
 
   get isScoManagingStudents() {
-    return this.type === 'SCO' && this.isRelatedToManagingStudentsOrganization;
+    return this.type === CERTIFICATION_CENTER_TYPES.SCO && this.isRelatedToManagingStudentsOrganization;
   }
 
   get isAccessRestricted() {
