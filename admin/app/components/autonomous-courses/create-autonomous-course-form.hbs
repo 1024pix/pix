@@ -1,0 +1,72 @@
+<form class="form create-autonomous-course" {{on "submit" this.onSubmit}}>
+  <section class="form-section">
+    <p class="create-autonomous-course__mandatory-text">Les champs marqués de
+      <span class="mandatory-mark">*</span>
+      sont obligatoires.</p>
+    <Card class="create-autonomous-course__card" @title="Informations techniques">
+      <PixInput
+        class="form-field"
+        @id="autonomousCourseName"
+        @label="Nom interne : "
+        required="true"
+        @requiredLabel="Champ obligatoire"
+        {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
+      />
+      <PixFilterableAndSearchableSelect
+        @label="Quel profil cible voulez-vous associer à ce parcours autonome ?"
+        @placeholder="Choisir un profil cible"
+        @options={{this.targetProfileListOptions}}
+        @hideDefaultOption={{true}}
+        @onChange={{this.selectTargetProfile}}
+        @categoriesLabel="Sélectionner une ou plusieurs catégories de profils cibles"
+        @categoriesPlaceholder="Filtres"
+        @value={{@autonomousCourse.targetProfileId}}
+        @requiredText="Champ obligatoire"
+        @errorMessage={{if @errors.autonomousCourse (t "api-error-messages.campaign-creation.target-profile-required")}}
+        @isSearchable={{true}}
+        @searchLabel="Recherchez un profil cible"
+        @subLabel="Le profil cible doit être relié à l’organisation &quot;Organisation pour les parcours autonomes&quot;"
+        required={{true}}
+      />
+    </Card>
+    <Card class="create-autonomous-course__card" @title="Informations pour les utilisateurs">
+      <PixInput
+        @id="nom-public"
+        class="form-field"
+        @label="Nom public : "
+        placeholder="Exemple : Le super nom de mon parcours autonome"
+        required={{true}}
+        @requiredLabel="Champ obligatoire"
+        @information="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+        {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
+      />
+      <PixTextarea
+        @id="text-page-accueil"
+        class="form-field"
+        @maxlength="5000"
+        @label="Texte de la page d'accueil : "
+        placeholder="Exemple : description, objectifs..."
+        {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
+      />
+    </Card>
+
+  </section>
+  <section class="form-section form-actions form-section--actions">
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="big"
+      @triggerAction={{@onCancel}}
+    >Annuler
+    </PixButton>
+    <PixButton
+      @backgroundColor="green"
+      @size="big"
+      @type="submit"
+      @isLoading={{this.submitting}}
+      @triggerAction={{this.noop}}
+    >
+      Créer le parcours autonome
+    </PixButton>
+  </section>
+</form>
