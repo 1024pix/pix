@@ -2762,4 +2762,93 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(result.length).to.be.equal(1);
     });
   });
+
+  describe('#countActiveWithAtLeastOneParticipationByOrganizationId', function () {
+    let activeOrganizationLearnerId, organizationId;
+
+    beforeEach(async function () {
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      activeOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return count of active learner with at least one participation for given organizationId', async function () {
+      databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId: activeOrganizationLearnerId,
+      });
+
+      await databaseBuilder.commit();
+
+      const count =
+        await organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId(organizationId);
+
+      expect(count).to.equal(1);
+    });
+
+    it('should not count an active learner several times for given organizationId', async function () {
+      databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId: activeOrganizationLearnerId,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId: activeOrganizationLearnerId,
+      });
+
+      await databaseBuilder.commit();
+
+      const count =
+        await organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId(organizationId);
+
+      expect(count).to.equal(1);
+    });
+
+    it('should return 0 for active learner without participation', async function () {
+      const count =
+        await organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId(organizationId);
+
+      expect(count).to.equal(0);
+    });
+
+    it('should return 0 for active learner with deleted participation', async function () {
+      databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId: activeOrganizationLearnerId,
+        deletedAt: new Date(),
+      });
+      await databaseBuilder.commit();
+
+      const count =
+        await organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId(organizationId);
+
+      expect(count).to.equal(0);
+    });
+
+    it('should return 0 for active learner with at least one participation from another organization', async function () {
+      const { id: activeOrganizationLearnerFromAnotherOrganizationId } =
+        databaseBuilder.factory.buildOrganizationLearner();
+      databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId: activeOrganizationLearnerFromAnotherOrganizationId,
+      });
+      await databaseBuilder.commit();
+
+      const count =
+        await organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId(organizationId);
+
+      expect(count).to.equal(0);
+    });
+
+    it('should return 0 for deleted learner', async function () {
+      const deletedById = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        deletedAt: new Date(),
+        deletedBy: deletedById,
+      });
+      await databaseBuilder.commit();
+
+      const count =
+        await organizationLearnerRepository.countActiveWithAtLeastOneParticipationByOrganizationId(organizationId);
+
+      expect(count).to.equal(0);
+    });
+  });
 });
