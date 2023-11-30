@@ -43,13 +43,19 @@ Par ailleurs, on souhaite que le CHANGELOG puisse être compris par des interven
 
 On suit la convention que la description doit marcher comme une fin de phrase à `Une fois mergée, cette _pull request_ permettra de …`.
 
-// BAD
-// Serialise tout les badgeParnerCompetences
-// Proposition d'ADR pour séparer Domain Transactions et Domain Events
+#### Mauvais exemples
 
-// GOOD
-// Sérialiser tout les badgeParnerCompetences
-// Proposer un ADR pour séparer Domain Transactions et Domain Events
+> [!CAUTION]
+> Serialise tout les badgeParnerCompetences
+> 
+> Proposition d'ADR pour séparer Domain Transactions et Domain Events
+
+#### Bons exemples
+
+> [!TIP]
+> Sérialiser tout les badgeParnerCompetences
+>
+> Proposer un ADR pour séparer Domain Transactions et Domain Events
 
 ### `US_ID`
 
