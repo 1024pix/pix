@@ -22,7 +22,7 @@ const register = async function (server) {
         validate: {
           params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
         },
-        handler: sessionMassImportController.validateSessionsForMassImport,
+        handler: sessionMassImportController.validateSessions,
         payload: {
           maxBytes: 20715200,
           output: 'file',
@@ -59,7 +59,7 @@ const register = async function (server) {
             },
           }),
         },
-        handler: sessionMassImportController.createSessionsForMassImport,
+        handler: sessionMassImportController.createSessions,
         tags: ['api', 'certification-center', 'sessions', 'mass-import'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
