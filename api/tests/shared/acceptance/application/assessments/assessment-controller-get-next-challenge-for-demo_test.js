@@ -1,5 +1,5 @@
-import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
+import { expect, databaseBuilder, mockLearningContent, learningContentBuilder } from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function () {
   let server;

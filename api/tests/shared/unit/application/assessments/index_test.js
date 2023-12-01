@@ -1,9 +1,9 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { config as settings } from '../../../../lib/config.js';
-import { assessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
-import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/assessments/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { config as settings } from '../../../../../lib/config.js';
+import { assessmentAuthorization } from '../../../../../lib/application/preHandlers/assessment-authorization.js';
+import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
+import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../../src/shared/application/assessments/index.js';
 
 describe('Unit | Application | Router | assessment-router', function () {
   describe('POST /api/assessments', function () {

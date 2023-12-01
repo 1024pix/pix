@@ -1,11 +1,11 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
-import { assessmentController } from '../../../../lib/application/assessments/assessment-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases as devcompUsecases } from '../../../../src/devcomp/domain/usecases/index.js';
-import * as events from '../../../../lib/domain/events/index.js';
-import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { Activity } from '../../../../src/school/domain/models/Activity.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
+import { assessmentController } from '../../../../../src/shared/application/assessments/assessment-controller.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
+import { usecases as devcompUsecases } from '../../../../../src/devcomp/domain/usecases/index.js';
+import * as events from '../../../../../lib/domain/events/index.js';
+import { AssessmentCompleted } from '../../../../../lib/domain/events/AssessmentCompleted.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { Activity } from '../../../../../src/school/domain/models/Activity.js';
 
 describe('Unit | Controller | assessment-controller', function () {
   describe('#createAssessmentPreviewForPix1d', function () {

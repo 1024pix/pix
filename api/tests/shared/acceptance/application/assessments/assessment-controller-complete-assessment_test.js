@@ -5,11 +5,11 @@ import {
   knex,
   mockLearningContent,
   learningContentBuilder,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { Assessment, TrainingTrigger } from '../../../../lib/domain/models/index.js';
-import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
-import { createServer } from '../../../../server.js';
+import { Assessment, TrainingTrigger } from '../../../../../lib/domain/models/index.js';
+import * as badgeAcquisitionRepository from '../../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+import { createServer } from '../../../../../server.js';
 import _ from 'lodash';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {

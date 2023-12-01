@@ -3,10 +3,10 @@ import {
   databaseBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { createServer } from '../../../../../server.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-get-last-challenge-id', function () {
   let server;
