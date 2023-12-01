@@ -1,16 +1,22 @@
 .no-session-panel {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  padding: 92px 0 92px 0;
+  align-items: center;
+  text-align: center;
 
-  &__explain-create-session {
-    text-align: center;
-    margin: 5%;
+  @include device-is('mobile') {
+    padding: $pix-spacing-xxs 0 $pix-spacing-xxs 0;
+  }
+
+  &__icon {
+    width: 100%;
+    max-width: 294px;
   }
 
   &__link-to-create {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     padding-top: 20px;
     gap: 8px;
   }
