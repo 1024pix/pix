@@ -92,40 +92,100 @@ module('Acceptance | authenticated', function (hooks) {
     });
   });
 
-  module('SCO temporary banner', function () {
-    test('it should display the banner when User is SCO isManagingStudent', async function (assert) {
-      // given
-      const certificationPointOfContact =
-        createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
+  module('banners', function () {
+    module('certification opening dates banner', function () {
+      module('when certification center is SCO isManagingStudent', function () {
+        test('it should display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact =
+            createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
+          await authenticateSession(certificationPointOfContact.id);
 
-      // when
-      const screen = await visitScreen('/sessions/liste');
+          // when
+          const screen = await visitScreen('/sessions/liste');
 
-      // then
-      assert
-        .dom(
-          screen.getByText(
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
+              ),
+            )
+            .exists();
+          assert.dom(screen.getByRole('link', { name: 'documentation pour voir les nouveautés.' })).exists();
+        });
+      });
+
+      module('when certification center is not SCO isManagingStudent', function () {
+        test('it should not display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+          await authenticateSession(certificationPointOfContact.id);
+
+          // when
+          const screen = await visitScreen('/sessions/liste');
+
+          // then
+          const certificationBannerMessage = screen.queryByText(
             'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
-          ),
-        )
-        .exists();
-      assert.dom(screen.getByRole('link', { name: 'documentation pour voir les nouveautés.' })).exists();
+          );
+          assert.dom(certificationBannerMessage).doesNotExist();
+        });
+      });
     });
 
-    test('it should not display the banner when User is NOT SCO isManagingStudent', async function (assert) {
-      // given
-      const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      await authenticateSession(certificationPointOfContact.id);
+    module('role management banner', function () {
+      module('when certification center is SCO', function () {
+        test('it should not display the banner', async function (assert) {
+          // given
+          const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+            'SCO',
+            'Scoule',
+          );
+          await authenticateSession(certificationPointOfContact.id);
 
-      // when
-      const screen = await visitScreen('/sessions/liste');
+          // when
+          const screen = await visitScreen('/sessions/liste');
 
-      // then
-      const certificationBannerMessage = screen.queryByText(
-        'La certification Pix se déroulera du 6 novembre 2023 au 29 mars 2024 pour les lycées et du 4 mars au 14 juin 2024 pour les collèges. Pensez à consulter la',
-      );
-      assert.dom(certificationBannerMessage).doesNotExist();
+          // then
+          assert
+            .dom(
+              screen.queryByText(
+                'Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification.',
+              ),
+            )
+            .doesNotExist();
+          assert.dom(screen.queryByRole('link', { name: 'Plus d’information ici' })).doesNotExist();
+        });
+      });
+
+      const nonSchoolCertificationCentersTypes = ['SUP', 'PRO'];
+
+      nonSchoolCertificationCentersTypes.forEach((type) => {
+        module(`when certification center is ${type}`, function () {
+          test('it should not display the banner', async function (assert) {
+            // given
+            const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+              type,
+              'Soupère',
+            );
+            await authenticateSession(certificationPointOfContact.id);
+
+            // when
+            const screen = await visitScreen('/sessions/liste');
+
+            // then
+            assert
+              .dom(
+                screen.getByText(
+                  'Nouveauté : Gestion des accès à Pix Certif, plus d’autonomie pour les centres ! Rendez-vous dans l’onglet Equipe pour découvrir les administrateurs et membres de votre espace Pix Certif. Les administrateurs peuvent dorénavant ajouter des membres dans Pix Certif sans avoir à contacter l’équipe Certification.',
+                ),
+              )
+              .exists();
+            assert.dom(screen.getByRole('link', { name: 'Plus d’information ici' })).exists();
+          });
+        });
+      });
     });
   });
 

@@ -239,4 +239,56 @@ module('Unit | Controller | authenticated', function (hooks) {
       assert.true(showLinkToSessions);
     });
   });
+
+  module('#get displayRoleManagementBanner', function () {
+    module('when certif center is SCO', function () {
+      test('should not display banner', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = run(() =>
+          store.createRecord('allowed-certification-center-access', {
+            id: 123,
+            name: 'Scoule',
+            type: 'SCO',
+          }),
+        );
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        const controller = this.owner.lookup('controller:authenticated');
+
+        // when
+        const displayBanner = controller.displayRoleManagementBanner;
+
+        // then
+        assert.false(displayBanner);
+      });
+    });
+
+    module('when certif center is SUP or PRO', function () {
+      test('should display banner', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const currentAllowedCertificationCenterAccess = run(() =>
+          store.createRecord('allowed-certification-center-access', {
+            id: 345,
+            name: 'Super',
+            type: 'SUP',
+          }),
+        );
+        class CurrentUserStub extends Service {
+          currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        const controller = this.owner.lookup('controller:authenticated');
+
+        // when
+        const displayBanner = controller.displayRoleManagementBanner;
+
+        // then
+        assert.true(displayBanner);
+      });
+    });
+  });
 });
