@@ -29,7 +29,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     assert.strictEqual(findAll('.element-qcu-header__instruction').length, 1);
     assert.strictEqual(findAll('.element-qcu-header__direction').length, 1);
     assert.ok(screen.getByText('Instruction'));
-    assert.ok(screen.getByText(this.intl.t('pages.modulix.qcu.direction')));
+    assert.ok(screen.getByText('Choisissez une seule réponse.'));
 
     assert.strictEqual(screen.getAllByRole('radio').length, qcuElement.proposals.length);
     assert.ok(screen.getByLabelText('radio1'));
@@ -82,7 +82,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
 
     // then
-    assert.ok(screen.getByText('Good job!'));
+    const status = screen.getByRole('status');
+    assert.strictEqual(status.innerText, 'Good job!');
     assert.ok(screen.getByRole('group').disabled);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
@@ -103,7 +104,8 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
 
     // then
-    assert.ok(screen.getByText('Too Bad!'));
+    const status = screen.getByRole('status');
+    assert.strictEqual(status.innerText, 'Too Bad!');
     assert.ok(screen.getByRole('group').disabled);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
