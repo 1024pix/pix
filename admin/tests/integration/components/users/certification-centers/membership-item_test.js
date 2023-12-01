@@ -65,8 +65,10 @@ module('Integration | Component | users | certification-centers | membership-ite
     assert
       .dom(screen.getByLabelText('Informations du Centre de certification Centre Jean-Bonboeur'))
       .containsText('Membre');
-    assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+    assert
+      .dom(screen.getByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
+      .exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre de centre de certification' })).exists();
   });
 
   module('when clicking on "Modifier le rôle" button', function () {
@@ -92,14 +94,18 @@ module('Integration | Component | users | certification-centers | membership-ite
       const screen = await renderScreen(
         hbs`<Users::CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
       );
-      await clickByName('Modifier le rôle');
+      await clickByName('Modifier le rôle du membre de ce centre de certification');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Sélectionner un rôle' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
-      assert.dom(screen.queryByRole('button', { name: 'Modifier le rôle' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Désactiver' })).doesNotExist();
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer la modification du rôle' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler la modification de rôle' })).exists();
+      assert
+        .dom(screen.queryByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
+        .doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: 'Désactiver le membre de centre de certification' }))
+        .doesNotExist();
     });
 
     module('when saving role modification', function () {
@@ -127,19 +133,21 @@ module('Integration | Component | users | certification-centers | membership-ite
         const screen = await renderScreen(
           hbs`<Users::CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} @onCertificationCenterMembershipRoleChange={{this.onCertificationCenterMembershipRoleChange}} />`,
         );
-        await clickByName('Modifier le rôle');
+        await clickByName('Modifier le rôle du membre de ce centre de certification');
         await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Administrateur' }));
-        await clickByName('Enregistrer');
+        await clickByName('Enregistrer la modification du rôle');
 
         // then
         sinon.assert.calledWith(onCertificationCenterMembershipRoleChange, certificationCenterMembership);
-        assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-        assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+        assert
+          .dom(screen.getByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
+          .exists();
+        assert.dom(screen.getByRole('button', { name: 'Désactiver le membre de centre de certification' })).exists();
         assert.dom(screen.queryByRole('button', { name: 'Sélectionner un rôle' })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: 'Enregistrer' })).doesNotExist();
-        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Enregistrer la modification du rôle' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Annuler la modification de rôle' })).doesNotExist();
       });
     });
 
@@ -187,11 +195,11 @@ module('Integration | Component | users | certification-centers | membership-ite
         const screen = await renderScreen(
           hbs`<Users::CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} @onCertificationCenterMembershipRoleChange={{this.onCertificationCenterMembershipRoleChange}} />`,
         );
-        await clickByName('Modifier le rôle');
+        await clickByName('Modifier le rôle du membre de ce centre de certification');
         await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Administrateur' }));
-        await clickByName('Annuler');
+        await clickByName('Annuler la modification de rôle');
 
         // then
         assert.dom(screen.getByRole('cell', { name: 'Membre' })).exists();

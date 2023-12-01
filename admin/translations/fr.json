@@ -98,7 +98,11 @@
           "empty-table": "Aucun centre de certification",
           "items": {
             "actions": {
-              "edit-role": "Modifier le rôle"
+              "cancel-extra-informations": "Annuler la modification de rôle",
+              "deactivate-extra-informations": "Désactiver le membre de centre de certification",
+              "edit-role": "Modifier le rôle",
+              "edit-role-extra-informations": "Modifier le rôle du membre de ce centre de certification",
+              "save-extra-informations": "Enregistrer la modification du rôle"
             },
             "role": {
               "select-role": "Sélectionner un rôle"
