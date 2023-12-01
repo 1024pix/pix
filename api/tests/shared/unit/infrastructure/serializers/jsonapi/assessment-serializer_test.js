@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer.js';
-import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { expect, domainBuilder } from '../../../../../test-helper.js';
+import * as serializer from '../../../../../../src/shared/infrastructure/serializers/jsonapi/assessment-serializer.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
   describe('#serialize()', function () {
