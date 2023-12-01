@@ -2,7 +2,7 @@ import { knex } from '../../bookshelf.js';
 import { fetchPage } from '../../utils/knex-utils.js';
 import { NotFoundError } from '../../../domain/errors.js';
 import { JurySession, statuses } from '../../../domain/models/JurySession.js';
-import { CertificationOfficer } from '../../../domain/models/CertificationOfficer.js';
+import { CertificationOfficer } from '../../../../src/certification/session/domain/models/CertificationOfficer.js';
 import { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } from '../../../../db/pgsql-errors.js';
 
 const COLUMNS = Object.freeze([
