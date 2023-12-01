@@ -68,7 +68,7 @@ import * as certificationCpfCountryRepository from '../../../src/certification/s
 import * as certificationCpfService from '../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
-import * as certificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';
+import * as certificationOfficerRepository from '../../../src/certification/session/infrastructure/repositories/certification-officer-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
