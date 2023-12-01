@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 
 export default class ModuleQcu extends Component {
   @tracked selectedAnswerId = null;
+  @tracked requiredMessage = false;
 
   qcu = this.args.qcu;
 
@@ -27,6 +28,12 @@ export default class ModuleQcu extends Component {
   @action
   async submitAnswer(event) {
     event.preventDefault();
+    if (!this.selectedAnswerId) {
+      this.requiredMessage = true;
+
+      return;
+    }
+    this.requiredMessage = false;
     const answerData = { userResponse: [this.selectedAnswerId], element: this.qcu };
     await this.args.submitAnswer(answerData);
   }

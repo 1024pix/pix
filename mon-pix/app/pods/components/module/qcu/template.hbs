@@ -12,17 +12,18 @@
 
     <div class="element-qcu__proposals">
       {{#each @qcu.proposals as |proposal|}}
-        <PixRadioButton
-          name={{@qcu.id}}
-          @value={{proposal.id}}
-          {{on "click" (fn this.radioClicked proposal.id)}}
-          required
-        >
+        <PixRadioButton name={{@qcu.id}} @value={{proposal.id}} {{on "click" (fn this.radioClicked proposal.id)}}>
           {{proposal.content}}
         </PixRadioButton>
       {{/each}}
     </div>
   </fieldset>
+
+  {{#if this.requiredMessage}}
+    <PixMessage role="alert" @type="error" @withIcon={{true}}>
+      {{t "pages.modulix.verification-precondition-failed-alert.qcu"}}
+    </PixMessage>
+  {{/if}}
 
   {{#unless this.qcu.lastCorrection}}
     <PixButton @backgroundColor="green" @shape="rounded" @type="submit" class="element-qcu__verify_button">
