@@ -1,8 +1,8 @@
-import { expect, domainBuilder } from '../../../../test-helper.js';
-import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
-import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
-import { AnswerStatusJsonApiAdapter as answerStatusJSONAPIAdapter } from '../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
+import { expect, domainBuilder } from '../../../../../test-helper.js';
+import { Answer } from '../../../../../../src/evaluation/domain/models/Answer.js';
+import { AnswerStatus } from '../../../../../../src/shared/domain/models/AnswerStatus.js';
+import { AnswerStatusJsonApiAdapter as answerStatusJSONAPIAdapter } from '../../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
+import * as serializer from '../../../../../../src/evaluation/infrastructure/serializers/jsonapi/answer-serializer.js';
 
 describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
   describe('#serialize', function () {

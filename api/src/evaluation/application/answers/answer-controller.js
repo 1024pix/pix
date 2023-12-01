@@ -1,4 +1,4 @@
-import * as answerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
+import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
 import * as correctionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { evaluationUsecases } from '../../domain/usecases/index.js';
