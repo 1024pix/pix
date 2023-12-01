@@ -1,4 +1,4 @@
-import { AnswerStatus } from './AnswerStatus.js';
+import { AnswerStatus } from '../../../src/school/domain/models/AnswerStatus.js';
 import { Validation } from './Validation.js';
 
 /**

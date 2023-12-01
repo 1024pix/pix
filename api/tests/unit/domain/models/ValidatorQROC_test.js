@@ -1,4 +1,4 @@
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQROC } from '../../../../lib/domain/models/ValidatorQROC.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';

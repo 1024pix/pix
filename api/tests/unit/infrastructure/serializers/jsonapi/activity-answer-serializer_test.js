@@ -1,7 +1,7 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../src/school/domain/models/AnswerStatus.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/activity-answer-serializer.js';
-import { ActivityAnswer } from '../../../../../lib/domain/models/ActivityAnswer.js';
+import { ActivityAnswer } from '../../../../../src/school/domain/models/ActivityAnswer.js';
 
 describe('Unit | Serializer | JSONAPI | activity-answer-serializer', function () {
   describe('#serialize', function () {

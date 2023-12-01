@@ -3,7 +3,7 @@ import { ScoringSimulationContext } from '../../../../lib/domain/models/ScoringS
 import { ScoringSimulation } from '../../../../lib/domain/models/ScoringSimulation.js';
 import { ScoringSimulationResult } from '../../../../lib/domain/models/ScoringSimulationResult.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
 
 describe('Integration | UseCases | simulateFlashScoring', function () {
   const locale = 'fr-fr';

@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../../test-helper.js';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
-import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../src/school/domain/models/AnswerStatus.js';
 import { AnswerStatusJsonApiAdapter as answerStatusJSONAPIAdapter } from '../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
 

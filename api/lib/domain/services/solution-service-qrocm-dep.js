@@ -3,7 +3,7 @@ import { applyPreTreatments, applyTreatments } from './validation-treatments.js'
 import { YamlParsingError } from '../../domain/errors.js';
 import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
 import { validateAnswer } from './string-comparison-service.js';
-import { AnswerStatus } from '../models/AnswerStatus.js';
+import { AnswerStatus } from '../../../src/school/domain/models/AnswerStatus.js';
 
 function applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return Object.fromEntries(
