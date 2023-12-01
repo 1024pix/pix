@@ -35,7 +35,7 @@ import { CertificationAssessment } from './CertificationAssessment.js';
 import { CertificationAssessmentScore } from './CertificationAssessmentScore.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
-import { CertificationCandidateForSupervising } from './CertificationCandidateForSupervising.js';
+import { CertificationCandidateForSupervising } from '../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';
 import { CertificationCenter } from './CertificationCenter.js';
 import { CertificationCenterForAdmin } from './CertificationCenterForAdmin.js';
 import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
