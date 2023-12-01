@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { answerController } from './answer-controller.js';
-import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { NotFoundError } from '../../domain/errors.js';
+import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 const register = async function (server) {
   server.route([
