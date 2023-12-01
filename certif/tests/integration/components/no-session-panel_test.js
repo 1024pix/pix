@@ -27,8 +27,6 @@ module('Integration | Component | no-session-panel', function (hooks) {
     // then
     const createOneSessionButton = screen.getByRole('link', { name: 'Créer une session' });
     const createMultipleSessionsButton = screen.getByRole('link', { name: 'Créer plusieurs sessions' });
-    assert.dom(createOneSessionButton).exists();
-    assert.dom(createMultipleSessionsButton).exists();
     const buttonsInTheRightOrder = createOneSessionButton.compareDocumentPosition(createMultipleSessionsButton);
     assert.strictEqual(buttonsInTheRightOrder, Node.DOCUMENT_POSITION_FOLLOWING);
   });
