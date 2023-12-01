@@ -1,5 +1,8 @@
 /**
- * @typedef {import ('../../../lib/domain/usecases/index.js').dependencies} deps
+ * @typedef {import('../../../lib/domain/usecases/index.js').CertificationRepository} CertificationRepository
+ * @typedef {import('../../../lib/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import('../../../lib/domain/usecases/index.js').MailService} MailService
  */
 import {
   SendingEmailToResultRecipientError,
@@ -15,9 +18,9 @@ import { logger } from '../../infrastructure/logger.js';
 
 /**
  * @param {Object} params
- * @param {deps['certificationRepository']} params.certificationRepository
- * @param {deps['finalizedSessionRepository']} params.finalizedSessionRepository
- * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {CertificationRepository} params.certificationRepository
+ * @param {FinalizedSessionRepository} params.finalizedSessionRepository
+ * @param {SessionRepository} params.sessionRepository
  */
 async function publishSession({
   publishedAt = new Date(),
@@ -42,10 +45,10 @@ async function publishSession({
 
 /**
  * @param {Object} params
- * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
- * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {certificationCenterRepository} params.certificationCenterRepository
+ * @param {sessionRepository} params.sessionRepository
  * @param {Object} params.dependencies
- * @param {deps['mailService']} params.dependencies.mailService
+ * @param {mailService} params.dependencies.mailService
  */
 async function manageEmails({
   i18n,
@@ -89,9 +92,9 @@ async function manageEmails({
 
 /**
  * @param {Object} params
- * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
- * @param {deps['sessionRepository']} params.sessionRepository
- * @param {deps['mailService']} params.mailService
+ * @param {CertificationCenterRepository} params.certificationCenterRepository
+ * @param {SessionRepository} params.sessionRepository
+ * @param {MailService} params.mailService
  */
 async function _manageCleaEmails({ session, certificationCenterRepository, sessionRepository, mailService }) {
   const hasSomeCleaAcquired = await sessionRepository.hasSomeCleaAcquired(session.id);
@@ -121,7 +124,7 @@ async function _manageCleaEmails({ session, certificationCenterRepository, sessi
 
 /**
  * @param {Object} params
- * @param {deps['mailService']} params.mailService
+ * @param {MailService} params.mailService
  */
 async function _managerPrescriberEmails({ session, mailService, i18n }) {
   const recipientEmails = _distinctCandidatesResultRecipientEmails(session.certificationCandidates);

@@ -1,14 +1,17 @@
 /**
- * @typedef {import ('../../../lib/domain/usecases/index.js').dependencies} deps
+ * @typedef {import ('../../../lib/domain/usecases/index.js').CertificationRepository} CertificationRepository
+ * @typedef {import ('../../../lib/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import ('../../../lib/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import ('../../../lib/domain/usecases/index.js').MailService} MailService
  */
 
 /**
  * @param {Object} params
- * @param {deps['certificationRepository']} params.certificationRepository
- * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
- * @param {deps['finalizedSessionRepository']} params.finalizedSessionRepository
- * @param {deps['sessionRepository']} params.sessionRepository
- * @param {deps['sessionPublicationService']} params.sessionPublicationService
+ * @param {CertificationRepository} params.certificationRepository
+ * @param {certificationCenterRepository} params.certificationCenterRepository
+ * @param {FinalizedSessionRepository} params.finalizedSessionRepository
+ * @param {SessionRepository} params.sessionRepository
+ * @param {SessionPublicationService} params.sessionPublicationService
  */
 const publishSession = async function ({
   i18n,
