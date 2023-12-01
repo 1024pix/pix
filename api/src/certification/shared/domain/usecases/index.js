@@ -14,12 +14,15 @@ import * as certificateRepository from '../../../course/infrastructure/repositor
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfCityRepository from '../../../shared/infrastructure/repositories/certification-cpf-city-repository.js';
+import * as certificationOfficerRepository from '../../../session/infrastructure/repositories/certification-officer-repository.js';
 import * as complementaryCertificationBadgesRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import * as finalizedSessionRepository from '../../../../../lib/infrastructure/repositories/sessions/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
+import * as jurySessionRepository from '../../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
 import * as mailService from '../services/mail-service.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
@@ -53,13 +56,16 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  *  challengeRepository : challengeRepository,
  *  certificationCpfCityRepository : certificationCpfCityRepository,
  *  certificationCpfCountryRepository : certificationCpfCountryRepository,
+ *  certificationOfficerRepository: certificationOfficerRepository,
  *  complementaryCertificationBadgesRepository : complementaryCertificationBadgesRepository,
  *  complementaryCertificationRepository : complementaryCertificationRepository,
  *  complementaryCertificationForTargetProfileAttachmentRepository : complementaryCertificationForTargetProfileAttachmentRepository,
  *  complementaryCertificationTargetProfileHistoryRepository : complementaryCertificationTargetProfileHistoryRepository,
  *  cpfExportRepository: cpfExportRepository,
+ *  finalizedSessionRepository: finalizedSessionRepository,
  *  flashAlgorithmService : flashAlgorithmService,
  *  issueReportCategoryRepository : issueReportCategoryRepository,
+ *  jurySessionRepository: jurySessionRepository,
  *  mailService : mailService,
  *  organizationRepository : organizationRepository,
  *  sessionCodeService : sessionCodeService,
@@ -85,6 +91,7 @@ const dependencies = {
   certificationCourseRepository,
   certificationCpfService,
   certificationIssueReportRepository,
+  certificationOfficerRepository,
   certificationReportRepository,
   certificateRepository,
   challengeRepository,
@@ -94,8 +101,10 @@ const dependencies = {
   complementaryCertificationRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationTargetProfileHistoryRepository,
+  finalizedSessionRepository,
   flashAlgorithmService,
   issueReportCategoryRepository,
+  jurySessionRepository,
   mailService,
   organizationRepository,
   sessionCodeService,
