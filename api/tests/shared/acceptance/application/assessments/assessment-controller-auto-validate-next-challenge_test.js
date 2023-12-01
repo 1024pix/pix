@@ -6,11 +6,11 @@ import {
   learningContentBuilder,
   insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { config as settings } from '../../../../lib/config.js';
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { config as settings } from '../../../../../lib/config.js';
+import { createServer } from '../../../../../server.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 const lastChallengeAnswer = 'last challenge answer';
 const lastChallengeId = 'lastChallengeId';

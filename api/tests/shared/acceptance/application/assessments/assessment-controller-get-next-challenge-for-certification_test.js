@@ -6,11 +6,11 @@ import {
   learningContentBuilder,
   knex,
   sinon,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+import { createServer } from '../../../../../server.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
+import { CertificationVersion } from '../../../../../src/shared/domain/models/CertificationVersion.js';
 
 const competenceId = 'recCompetence';
 const skillWeb1Id = 'recAcquisWeb1';

@@ -4,9 +4,9 @@ import {
   generateValidRequestAuthorizationHeader,
   knex,
   mockLearningContent,
-} from '../../../test-helper.js';
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+} from '../../../../test-helper.js';
+import { createServer } from '../../../../../server.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | API | assessment-controller-pause-assessment', function () {
   describe('POST /api/assessments/{id}/alert', function () {
