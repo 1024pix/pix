@@ -4,10 +4,10 @@ import {
   databaseBuilder,
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-import { LOCALE } from '../../../../src/shared/domain/constants.js';
+import { createServer } from '../../../../../server.js';
+import { LOCALE } from '../../../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = LOCALE;
 

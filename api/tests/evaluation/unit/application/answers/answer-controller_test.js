@@ -1,6 +1,6 @@
-import { domainBuilder, expect, hFake, sinon } from '../../../test-helper.js';
-import { answerController } from '../../../../lib/application/answers/answer-controller.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { domainBuilder, expect, hFake, sinon } from '../../../../test-helper.js';
+import { answerController } from '../../../../../src/evaluation/application/answers/answer-controller.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
 
 describe('Unit | Controller | answer-controller', function () {
   let answerSerializerStub;
