@@ -240,13 +240,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
   return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
 };
 
-const assignCertificationOfficer = async function (request, h, dependencies = { jurySessionSerializer }) {
-  const sessionId = request.params.id;
-  const certificationOfficerId = request.auth.credentials.userId;
-  const jurySession = await usecases.assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId });
-  return dependencies.jurySessionSerializer.serialize(jurySession);
-};
-
 const commentAsJury = async function (request, h) {
   const sessionId = request.params.id;
   const juryCommentAuthorId = request.auth.credentials.userId;
@@ -279,7 +272,6 @@ const sessionController = {
   publishInBatch,
   unpublish,
   flagResultsAsSentToPrescriber,
-  assignCertificationOfficer,
   commentAsJury,
   deleteJuryComment,
 };

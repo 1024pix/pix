@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { writeFile, stat, unlink } from 'fs/promises';
+import { stat, unlink, writeFile } from 'fs/promises';
 
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';
@@ -14,6 +14,7 @@ import { authorization } from '../../../../lib/application/preHandlers/authoriza
 import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { assessmentSupervisorAuthorization as sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Application | Sessions | Routes', function () {
@@ -173,14 +174,6 @@ describe('Unit | Application | Sessions | Routes', function () {
       {
         condition: 'session ID params is out of range for database integer (> 2147483647)',
         request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' },
-      },
-      {
-        condition: 'session ID params is not a number',
-        request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' },
-      },
-      {
-        condition: 'session ID params is out of range for database integer (> 2147483647)',
-        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' },
       },
       {
         condition: 'session ID params is not a number',
@@ -562,54 +555,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // when
         const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/results-sent-to-prescriber');
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
-      it('should exist', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-        sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request(
-          'PATCH',
-          '/api/admin/sessions/1/certification-officer-assignment',
-        );
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
-
-      it('return forbidden access if user has METIER role', async function () {
-        // given
-        sinon
-          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
-          .withArgs([
-            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkAdminMemberHasRoleSupport,
-          ])
-          .callsFake(
-            () => (request, h) =>
-              h
-                .response({ errors: new Error('forbidden') })
-                .code(403)
-                .takeover(),
-          );
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const response = await httpTestServer.request(
-          'PATCH',
-          '/api/admin/sessions/1/certification-officer-assignment',
-        );
 
         // then
         expect(response.statusCode).to.equal(403);

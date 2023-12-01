@@ -4,7 +4,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases as certificationUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
-import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
+import { SessionPublicationBatchResult } from '../../../../lib/domain/models/index.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
 import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
@@ -663,42 +663,6 @@ describe('Unit | Controller | sessionController', function () {
 
       // then
       expect(result).to.equal(serializedJurySessionsForPaginatedList);
-    });
-  });
-
-  describe('#assignCertificationOfficer', function () {
-    it('should return updated session', async function () {
-      // given
-      const sessionId = 1;
-      const session = Symbol('session');
-      const sessionJsonApi = Symbol('someSessionSerialized');
-      const request = {
-        params: { id: sessionId },
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-      };
-      sinon
-        .stub(usecases, 'assignCertificationOfficerToJurySession')
-        .withArgs({
-          sessionId,
-          certificationOfficerId: userId,
-        })
-        .resolves(session);
-      const jurySessionSerializer = { serialize: sinon.stub() };
-      jurySessionSerializer.serialize.withArgs(session).returns(sessionJsonApi);
-
-      // when
-      const response = await sessionController.assignCertificationOfficer(request, hFake, { jurySessionSerializer });
-
-      // then
-      expect(usecases.assignCertificationOfficerToJurySession).to.have.been.calledWithExactly({
-        sessionId,
-        certificationOfficerId: userId,
-      });
-      expect(response).to.deep.equal(sessionJsonApi);
     });
   });
 
