@@ -3,7 +3,7 @@ import { click, currentURL, fillIn, find, triggerEvent } from '@ember/test-helpe
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, within } from '@1024pix/ember-testing-library';
 import { setupIntl } from 'ember-intl/test-support/index';
 
 module('Acceptance | Session Details Certification Candidates', function (hooks) {
@@ -336,6 +336,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           const screen = await visit(`/sessions/${sessionWithoutCandidates.id}/candidats`);
 
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
+          const modal = await screen.findByRole('dialog');
           await fillIn(screen.getByLabelText('* Nom de naissance'), 'BackStreet');
           await fillIn(screen.getByLabelText('* Prénom'), 'Boys');
           await click(screen.getByLabelText('Homme'));
@@ -358,8 +359,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           );
           await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
-          const closeButton = screen.getByRole('button', { name: 'Fermer' });
-          await click(closeButton);
+          await click(within(modal).getByRole('button', { name: 'Fermer' }));
 
           // when
           await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));

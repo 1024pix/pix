@@ -65,7 +65,16 @@
       >
         {{t "pages.sco.banner.information"}}
       </PixBanner>
+    {{/if}}
 
+    {{#if this.displayRoleManagementBanner}}
+      <PixBanner
+        @actionLabel={{t "pages.sup-and-pro.banner.url-label"}}
+        @actionUrl="https://cloud.pix.fr/s/xfPrK5n7K73kmbz"
+        @canCloseBanner="true"
+      >
+        {{t "pages.sup-and-pro.banner.information" htmlSafe=true}}
+      </PixBanner>
     {{/if}}
 
     <div class="page">

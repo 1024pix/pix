@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
-import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, visit, within } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { waitForDialogClose } from '../helpers/wait-for';
@@ -203,12 +203,11 @@ module('Acceptance | Session Finalization', function (hooks) {
           // when
           const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
           await click(screen.getByRole('button', { name: 'Ajouter / Supprimer' }));
-          await screen.findByRole('dialog');
+          const modal = await screen.findByRole('dialog');
           const allDeleteIssueReportButtons = screen.getAllByRole('button', { name: 'Supprimer le signalement' });
           await click(allDeleteIssueReportButtons[0]);
 
-          const closeButton = screen.getByRole('button', { name: 'Fermer' });
-          await click(closeButton);
+          await click(within(modal).getByRole('button', { name: 'Fermer' }));
 
           // then
           assert.dom(screen.getByText('1 signalement')).exists();
