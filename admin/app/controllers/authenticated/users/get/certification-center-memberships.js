@@ -12,12 +12,12 @@ export default class UsersCertificationCenterMembershipsController extends Contr
     try {
       await certificationCenterMembership.save();
       this.notifications.success(
-        this.intl.t('pages.certification-centers.notifications.success.update-certification-center-membership-role'),
+        this.intl.t('pages.user-details.notifications.success.update-certification-center-membership-role'),
       );
     } catch (_) {
       certificationCenterMembership.rollbackAttributes();
       this.notifications.error(
-        this.intl.t('pages.certification-centers.notifications.failure.update-certification-center-membership-role'),
+        this.intl.t('pages.user-details.notifications.failure.update-certification-center-membership-role'),
       );
     }
   }
@@ -26,9 +26,13 @@ export default class UsersCertificationCenterMembershipsController extends Contr
   async disableCertificationCenterMembership(certificationCenterMembership) {
     try {
       await certificationCenterMembership.destroyRecord();
-      this.notifications.success('Le membre a correctement été désactivé.');
+      this.notifications.success(
+        this.intl.t('pages.user-details.notifications.success.deactivate-certification-center-membership'),
+      );
     } catch (e) {
-      this.notifications.error("Une erreur est survenue, le membre n'a pas été désactivé.");
+      this.notifications.error(
+        this.intl.t('pages.user-details.notifications.failure.deactivate-certification-center-membership'),
+      );
     }
   }
 }
