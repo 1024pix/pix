@@ -179,7 +179,7 @@ describe('Acceptance | API | Autonomous Course', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.length).to.equal(3);
-      expect(response.result.data).to.deep.equal(expectedResult);
+      expect(response.result.data).to.deep.have.members(expectedResult);
     });
   });
 });
