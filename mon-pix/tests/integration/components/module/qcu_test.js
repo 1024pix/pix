@@ -84,8 +84,6 @@ module('Integration | Component | Module | QCU', function (hooks) {
     // then
     assert.ok(screen.getByText('Good job!'));
     assert.ok(screen.getByRole('group').disabled);
-    assert.ok(screen.getByLabelText('radio1').required);
-    assert.ok(screen.getByLabelText('radio2').required);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
   });
 
@@ -107,9 +105,53 @@ module('Integration | Component | Module | QCU', function (hooks) {
     // then
     assert.ok(screen.getByText('Too Bad!'));
     assert.ok(screen.getByRole('group').disabled);
-    assert.ok(screen.getByLabelText('radio1').required);
-    assert.ok(screen.getByLabelText('radio2').required);
     assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  });
+
+  test('should display an error message if QCU is validated without response', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const qcuElement = store.createRecord('qcu', {
+      instruction: 'Instruction',
+      proposals: [
+        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
+        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+      ],
+      type: 'qcus',
+    });
+    this.set('qcu', qcuElement);
+    const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
+
+    // when
+    await click(screen.queryByRole('button', { name: 'Vérifier' }));
+
+    // then
+    assert.dom(screen.getByRole('alert')).exists();
+  });
+
+  test('should hide the error message when QCU is validated with response', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const qcuElement = store.createRecord('qcu', {
+      instruction: 'Instruction',
+      proposals: [
+        { id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio1' },
+        { id: 'b5a4c3d2-e1f6-7g8h-9i0j-k1l2m3n4o5p6', content: 'radio2' },
+      ],
+      type: 'qcus',
+    });
+    const givenSubmitAnswerStub = function () {};
+    this.set('submitAnswer', givenSubmitAnswerStub);
+    this.set('qcu', qcuElement);
+    const screen = await render(hbs`<Module::Qcu @qcu={{this.qcu}} @submitAnswer={{this.submitAnswer}} />`);
+
+    // when
+    await click(screen.queryByRole('button', { name: 'Vérifier' }));
+    await click(screen.getByLabelText('radio1'));
+    await click(screen.queryByRole('button', { name: 'Vérifier' }));
+
+    // then
+    assert.dom(screen.queryByRole('alert', { name: 'Pour valider, sélectionnez une réponse.' })).doesNotExist();
   });
 });
 

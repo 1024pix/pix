@@ -1188,6 +1188,9 @@
       },
       "qcu": {
         "direction": "Choisissez une seule réponse."
+      },
+      "verification-precondition-failed-alert": {
+        "qcu": "Pour valider, sélectionnez une réponse."
       }
     },
     "not-connected": {
