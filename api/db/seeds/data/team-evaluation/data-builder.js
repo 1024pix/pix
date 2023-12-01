@@ -1,6 +1,7 @@
 import * as tooling from '../common/tooling/index.js';
 import evalCampaignWithBadgesUser from './users/eval-campaign-with-badges.js';
 import evalCampaignWithStagesUser from './users/eval-campaign-with-stages.js';
+import createSeedsForAutonomousCourse from './build-seeds-for-autonomous-courses.js';
 
 const TEAM_EVALUATION_OFFSET_ID = 1000000;
 /// USERS
@@ -23,6 +24,7 @@ export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   // Other users
   await evalCampaignWithBadgesUser(TEAM_EVALUATION_OFFSET_ID, databaseBuilder);
   await evalCampaignWithStagesUser(TEAM_EVALUATION_OFFSET_ID, databaseBuilder);
+  await createSeedsForAutonomousCourse(TEAM_EVALUATION_OFFSET_ID, databaseBuilder);
 }
 
 function createScoOrganization(databaseBuilder) {
