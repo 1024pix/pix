@@ -90,7 +90,11 @@
           "empty-table": "There is no certification center",
           "items": {
             "actions": {
-              "edit-role": "Edit the role"
+              "cancel-extra-informations": "Cancel role modification",
+              "deactivate-extra-informations": "Deactivate certification center membership",
+              "edit-role": "Edit the role",
+              "edit-role-extra-informations": "Edit certification center membership role",
+              "save-extra-informations": "Save certification center membership role"
             },
             "role": {
               "select-role": "Select a role"

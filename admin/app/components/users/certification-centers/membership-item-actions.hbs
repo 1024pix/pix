@@ -1,12 +1,18 @@
 <div class="membership-item-actions">
   {{#if @isEditionMode}}
-    <PixButton class="member-item-actions__button" @size="small" @triggerAction={{@onSaveRoleButtonClicked}}>
+    <PixButton
+      aria-label={{t "components.users.certification-centers.memberships.items.actions.save-extra-informations"}}
+      class="member-item-actions__button"
+      @size="small"
+      @triggerAction={{@onSaveRoleButtonClicked}}
+    >
       {{t "common.actions.save"}}
     </PixButton>
 
     <PixButton
-      class="member-item-actions__button"
+      aria-label={{t "components.users.certification-centers.memberships.items.actions.cancel-extra-informations"}}
       @backgroundColor="grey"
+      class="member-item-actions__button"
       @size="small"
       @triggerAction={{@onCancelButtonClicked}}
     >
@@ -14,21 +20,22 @@
     </PixButton>
   {{else}}
     <PixButton
-      @size="small"
+      aria-label={{t "components.users.certification-centers.memberships.items.actions.edit-role-extra-informations"}}
       class="member-item-actions__button"
-      aria-label="Modifier le rôle"
       @iconBefore="pen-to-square"
+      @size="small"
       @triggerAction={{@onEditRoleButtonClicked}}
     >
       {{t "components.users.certification-centers.memberships.items.actions.edit-role"}}
     </PixButton>
 
     <PixButton
-      @size="small"
+      aria-label={{t "components.users.certification-centers.memberships.items.actions.deactivate-extra-informations"}}
       @backgroundColor="red"
-      @triggerAction={{@onDeactivateMembershipButtonClicked}}
       class="member-item-actions__button"
       @iconBefore="trash"
+      @size="small"
+      @triggerAction={{@onDeactivateMembershipButtonClicked}}
     >
       {{t "common.actions.deactivate"}}
     </PixButton>

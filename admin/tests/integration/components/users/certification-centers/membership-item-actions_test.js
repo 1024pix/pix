@@ -18,8 +18,10 @@ module('Integration | Component |  users/certification-centers/membership-item-a
       );
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+      assert
+        .dom(screen.getByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
+        .exists();
+      assert.dom(screen.getByRole('button', { name: 'Désactiver le membre de centre de certification' })).exists();
     });
 
     module('when the edit role button is clicked', function () {
@@ -34,7 +36,7 @@ module('Integration | Component |  users/certification-centers/membership-item-a
         await renderScreen(
           hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}} @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}} />`,
         );
-        await clickByName('Modifier le rôle');
+        await clickByName('Modifier le rôle du membre de ce centre de certification');
 
         // then
         sinon.assert.calledOnce(onEditRoleButtonClicked);
@@ -54,7 +56,7 @@ module('Integration | Component |  users/certification-centers/membership-item-a
         await renderScreen(
           hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onEditRoleButtonClicked={{this.onEditRoleButtonClicked}} @onDeactivateMembershipButtonClicked={{this.onDeactivateMembershipButtonClicked}} />`,
         );
-        await clickByName('Désactiver');
+        await clickByName('Désactiver le membre de centre de certification');
 
         // then
         sinon.assert.calledOnce(onDeactivateMembershipButtonClicked);
@@ -74,10 +76,14 @@ module('Integration | Component |  users/certification-centers/membership-item-a
       );
 
       // then
-      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
-      assert.dom(screen.queryByRole('button', { name: 'Modifier le rôle' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Désactiver' })).doesNotExist();
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer la modification du rôle' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler la modification de rôle' })).exists();
+      assert
+        .dom(screen.queryByRole('button', { name: 'Modifier le rôle du membre de ce centre de certification' }))
+        .doesNotExist();
+      assert
+        .dom(screen.queryByRole('button', { name: 'Désactiver le membre de centre de certification' }))
+        .doesNotExist();
     });
 
     module('when the save button is clicked', function () {
@@ -92,7 +98,7 @@ module('Integration | Component |  users/certification-centers/membership-item-a
         await renderScreen(
           hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}} @onCancelButtonClicked={{this.onCancelButtonClicked}} />`,
         );
-        await clickByName('Enregistrer');
+        await clickByName('Enregistrer la modification du rôle');
 
         // then
         sinon.assert.calledOnce(onSaveRoleButtonClicked);
@@ -112,7 +118,7 @@ module('Integration | Component |  users/certification-centers/membership-item-a
         await renderScreen(
           hbs`<Users::CertificationCenters::MembershipItemActions @isEditionMode={{this.isEditionMode}} @onSaveRoleButtonClicked={{this.onSaveRoleButtonClicked}} @onCancelButtonClicked={{this.onCancelButtonClicked}} />`,
         );
-        await clickByName('Annuler');
+        await clickByName('Annuler la modification de rôle');
 
         // then
         sinon.assert.calledOnce(onCancelButtonClicked);

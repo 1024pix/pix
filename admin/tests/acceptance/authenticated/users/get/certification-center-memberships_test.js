@@ -66,7 +66,7 @@ module('Acceptance | authenticated/users/get/certification-center-memberships', 
     // when
     const screen = await visit(`/users/${user.id}/certification-center-memberships`);
     await screen.getByText(certificationCenter.name);
-    await clickByName('Désactiver');
+    await clickByName('Désactiver le membre de centre de certification');
 
     // then
     assert.dom(screen.getByText('Le membre a correctement été désactivé.')).exists();
@@ -93,11 +93,11 @@ module('Acceptance | authenticated/users/get/certification-center-memberships', 
 
         // when
         const screen = await visit(`/users/${user.id}/certification-center-memberships`);
-        await clickByName('Modifier le rôle');
+        await clickByName('Modifier le rôle du membre de ce centre de certification');
         await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Administrateur' }));
-        await clickByName('Enregistrer');
+        await clickByName('Enregistrer la modification du rôle');
 
         // then
         assert.dom(screen.getByText('Le rôle du membre a été modifié.')).exists();
@@ -124,11 +124,11 @@ module('Acceptance | authenticated/users/get/certification-center-memberships', 
 
         // when
         const screen = await visit(`/users/${user.id}/certification-center-memberships`);
-        await clickByName('Modifier le rôle');
+        await clickByName('Modifier le rôle du membre de ce centre de certification');
         await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
         await screen.findByRole('listbox');
         await click(screen.getByRole('option', { name: 'Administrateur' }));
-        await clickByName('Enregistrer');
+        await clickByName('Enregistrer la modification du rôle');
 
         // then
         assert.dom(screen.getByText("Une erreur est survenue, le rôle du membre n'a pas été modifié.")).exists();
