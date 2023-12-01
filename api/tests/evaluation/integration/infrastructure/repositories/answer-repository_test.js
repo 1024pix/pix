@@ -1,5 +1,5 @@
 import { catchErr, databaseBuilder, domainBuilder, expect, knex } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../src/school/domain/models/AnswerStatus.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { ChallengeAlreadyAnsweredError, NotFoundError } from '../../../../../lib/domain/errors.js';
 import * as answerRepository from '../../../../../src/evaluation/infrastructure/repositories/answer-repository.js';
