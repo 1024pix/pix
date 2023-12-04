@@ -1,4 +1,4 @@
-import { click, fillIn } from '@ember/test-helpers';
+import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from '../helpers';
@@ -27,6 +27,7 @@ module('Acceptance | Displaying a QROCM challenge', function (hooks) {
     // when
     const screen = await visit(`/assessments/${assessment.id}/challenges`);
     await fillIn(screen.getByLabelText('prenom'), 'good-answer');
+    await triggerKeyEvent(screen.getByLabelText('prenom'), 'keyup', 13);
     await clickByName('livre');
     await screen.findByRole('listbox');
     await click(screen.getByRole('option', { name: 'good-answer' }));
