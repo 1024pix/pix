@@ -438,7 +438,6 @@ describe('Acceptance | Controller | training-controller', function () {
         id: 1,
         name: 'Super profil cible',
         outdated: false,
-        'is-public': undefined,
         'created-at': undefined,
       });
       databaseBuilder.factory.buildTargetProfileTraining({
@@ -453,8 +452,8 @@ describe('Acceptance | Controller | training-controller', function () {
         attributes: {
           name: targetProfile.name,
           outdated: false,
-          'is-public': undefined,
           'created-at': undefined,
+          'can-detach': false,
         },
       };
 

@@ -23,6 +23,8 @@ const findByOrganization = async function ({ organizationId }) {
       name: 'target-profiles.name',
       outdated: 'target-profiles.outdated',
       isPublic: 'target-profiles.isPublic',
+      ownerOrganizationId: 'target-profiles.ownerOrganizationId',
+      sharedOrganizationId: 'target-profile-shares.organizationId',
     })
     .leftJoin('target-profile-shares', function () {
       this.on('target-profile-shares.targetProfileId', 'target-profiles.id').on(
@@ -47,7 +49,12 @@ const findByTraining = async function ({ trainingId, domainTransaction = DomainT
   const knexConn = domainTransaction?.knexTransaction || knex;
 
   const results = await knexConn('target-profiles')
-    .select({ id: 'target-profiles.id', name: 'target-profiles.name', outdated: 'target-profiles.outdated' })
+    .select({
+      id: 'target-profiles.id',
+      name: 'target-profiles.name',
+      outdated: 'target-profiles.outdated',
+      ownerOrganizationId: 'target-profiles.ownerOrganizationId',
+    })
     .innerJoin('target-profile-trainings', 'target-profiles.id', 'target-profile-trainings.targetProfileId')
     .where({ trainingId })
     .orderBy('id', 'ASC');
