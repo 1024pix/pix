@@ -99,7 +99,7 @@ import * as improvementService from '../../domain/services/improvement-service.j
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as juryCertificationRepository from '../../infrastructure/repositories/jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
-import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
+import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';
