@@ -38,7 +38,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       certificationCandidateSerializer.deserialize.resolves(certificationCandidate);
 
       // when
-      const response = await certificationCandidateController.add(request, hFake, {
+      const response = await certificationCandidateController.addCandidate(request, hFake, {
         certificationCandidateSerializer,
       });
 
@@ -71,7 +71,7 @@ describe('Unit | Controller | certification-candidate-controller', function () {
       certificationCandidateSerializer.serialize
         .withArgs(certificationCandidates)
         .returns(certificationCandidatesJsonApi);
-      const response = await certificationCandidateController.get(request, hFake, {
+      const response = await certificationCandidateController.getCandidate(request, hFake, {
         certificationCandidateSerializer,
       });
 

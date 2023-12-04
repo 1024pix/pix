@@ -44,7 +44,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       it('should return 200', async function () {
         // given
         sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
-        sinon.stub(certificationCandidateController, 'add').returns('ok');
+        sinon.stub(certificationCandidateController, 'addCandidate').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -66,7 +66,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         it('should return 400', async function () {
           // given
           sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
-          sinon.stub(certificationCandidateController, 'add').returns('ok');
+          sinon.stub(certificationCandidateController, 'addCandidate').returns('ok');
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
 
@@ -89,7 +89,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         it('should return 400', async function () {
           // given
           sinon.stub(authorization, 'verifySessionAuthorization').returns(true);
-          sinon.stub(certificationCandidateController, 'add').returns('ok');
+          sinon.stub(certificationCandidateController, 'addCandidate').returns('ok');
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
 
@@ -114,7 +114,7 @@ describe('Unit | Application | Sessions | Routes', function () {
     it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
-      sinon.stub(certificationCandidateController, 'get').returns('ok');
+      sinon.stub(certificationCandidateController, 'getCandidate').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

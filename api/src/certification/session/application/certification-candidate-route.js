@@ -55,7 +55,7 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
-        handler: certificationCandidateController.add,
+        handler: certificationCandidateController.addCandidate,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
@@ -78,7 +78,7 @@ const register = async function (server) {
             assign: 'authorizationCheck',
           },
         ],
-        handler: certificationCandidateController.get,
+        handler: certificationCandidateController.getCandidate,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
