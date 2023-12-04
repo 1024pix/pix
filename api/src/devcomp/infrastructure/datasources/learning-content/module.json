@@ -15,22 +15,22 @@
               "type": "image",
               "url": "https://images.pix.fr/modulix/bien-ecrire-son-adresse-mail-explication-les-parties-dune-adresse-mail.svg",
               "alt": "Schéma de la syntaxe d'une adresse mail, en trois blocs distincts, décrit dans l'alternative textuelle",
-              "alternativeText": "Bloc 1 : Identifiant, exemple : mickael.aubert123<br/>Bloc 2 : Arobase<br/>Bloc 3 : Fournisseur d'adresse mail, exemple : laposte.net "
+              "alternativeText": "Bloc 1&nbsp;: Identifiant, exemple&nbsp;: mickael.aubert123<br/>Bloc 2&nbsp;: Arobase<br/>Bloc 3&nbsp;: Fournisseur d'adresse mail, exemple&nbsp;: laposte.net "
             },
             {
               "id": "c1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d",
               "type": "text",
-              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple : mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits :</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
+              "content": "<h3 class='screen-reader-only'>L'identifiant</h3><h4><span aria-hidden='true'>1️⃣</span><span class='screen-reader-only'>1</span> L’identifiant est la première partie de l’adresse mail. Il a été choisi par Mickaël.</h4><p>Tous les identifiants sont possibles, ou presque. Même avec des majuscules !</p><p><span aria-hidden='true'>✅</span> Par exemple&nbsp;: mika671 ou G3oDu671</p><p><span aria-hidden='true'>❌</span> Des caractères sont interdits&nbsp;:</p><ul><li>&amp;</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
             },
             {
               "id": "ad8ad08a-3ff7-4228-8233-6cd5ce0f4812",
               "type": "text",
-              "content": "<h3 class='screen-reader-only'>L'arobase</h3><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous : c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>"
+              "content": "<h3 class='screen-reader-only'>L'arobase</h3><p>L’arobase est dans toutes les adresses mails. Il sépare l’identifiant et le fournisseur d’adresse mail.</p><p><span aria-hidden='true'>🇬🇧</span> En anglais, ce symbole se lit <i lang='en'>“at”</i> qui veut dire “chez”.</p><p><span aria-hidden='true'>🤔</span> Le saviez-vous&nbsp;: c’est un symbole qui était utilisé bien avant l’informatique ! Par exemple, pour compter des quantités.</p>"
             },
             {
               "id": "1fd829f8-1799-4779-a28d-5d26fba31b8b",
               "type": "text",
-              "content": "<h3 class='screen-reader-only'>Le fournisseur d’adresse mail</h3><h4><span aria-hidden='true'>2️⃣</span><span class='screen-reader-only'>2</span> Le fournisseur d’adresse mail est la deuxième partie de l’adresse mail.</h4><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p><span aria-hidden='true'>✅</span> Des exemples de fournisseurs d’adresses mail : </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p><span aria-hidden='true'>🧐</span> L’avez-vous remarqué ? Cette partie est en 2 morceaux : le nom du fournisseur (par exemple “laposte”) et une extension (dans notre exemple, “.net”).</p>"
+              "content": "<h3 class='screen-reader-only'>Le fournisseur d’adresse mail</h3><h4><span aria-hidden='true'>2️⃣</span><span class='screen-reader-only'>2</span> Le fournisseur d’adresse mail est la deuxième partie de l’adresse mail.</h4><p>Cette partie de l’adresse est donnée par le fournisseur.</p><p><span aria-hidden='true'>✅</span> Des exemples de fournisseurs d’adresses mail&nbsp;: </p><ul><li>La Poste (laposte.net)</li><li>Google (gmail.com)</li><li>Yahoo (yahoo.com)</li><li>Microsoft (hotmail.com, live.fr)</li></ul><p><span aria-hidden='true'>🧐</span> L’avez-vous remarqué ? Cette partie est en 2 morceaux&nbsp;: le nom du fournisseur (par exemple “laposte”) et une extension (dans notre exemple, “.net”).</p>"
             }
           ]
         },
@@ -129,7 +129,7 @@
             {
               "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
               "type": "text",
-              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br/><span aria-hidden='true'>💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br/><span aria-hidden='true'>✅</span> Exemples : laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+              "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br/><span aria-hidden='true'>💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br/><span aria-hidden='true'>✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
             }
           ]
         }
