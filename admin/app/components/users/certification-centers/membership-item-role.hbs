@@ -1,0 +1,14 @@
+{{#if @isEditionMode}}
+  <PixSelect
+    @onChange={{@onRoleSelected}}
+    @value={{@role}}
+    @label={{t "components.users.certification-centers.memberships.items.role.select-role"}}
+    @screenReaderOnly={{true}}
+    @options={{@certificationCenterRoles}}
+    as |certificationCenterRole|
+  >
+    {{certificationCenterRole.label}}
+  </PixSelect>
+{{else}}
+  {{t @roleLabelKey}}
+{{/if}}

@@ -85,6 +85,31 @@
       }
     },
     "users": {
+      "certification-centers": {
+        "memberships": {
+          "empty-table": "There is no certification center",
+          "items": {
+            "actions": {
+              "cancel-extra-informations": "Cancel role modification",
+              "deactivate-extra-informations": "Deactivate certification center membership",
+              "edit-role": "Edit the role",
+              "edit-role-extra-informations": "Edit certification center membership role",
+              "save-extra-informations": "Save certification center membership role"
+            },
+            "role": {
+              "select-role": "Select a role"
+            }
+          },
+          "table-headers": {
+            "actions-label": "Actions",
+            "center-external-id": "External ID",
+            "center-id": "Center ID",
+            "center-name": "Name",
+            "center-type": "Type",
+            "role-label": "Role"
+          }
+        }
+      },
       "user-detail-personal-information": {
         "authentication-method": {
           "should-change-password-status": "Temporary password :"
@@ -138,6 +163,16 @@
         "organizations-list": "Pix Orga",
         "participations-list": "Participations",
         "profile": "Profile"
+      },
+      "notifications": {
+        "failure": {
+          "deactivate-certification-center-membership": "Une erreur est survenue, le membre n'a pas été désactivé.",
+          "update-certification-center-membership-role": "Une erreur est survenue, le rôle du membre n'a pas été modifié."
+        },
+        "success": {
+          "deactivate-certification-center-membership": "Le membre a correctement été désactivé.",
+          "update-certification-center-membership-role": "Le rôle du membre a été modifié."
+        }
       }
     }
   }
