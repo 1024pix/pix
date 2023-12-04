@@ -9,8 +9,9 @@ export const buildFlashAlgorithmConfiguration = ({
   minimumEstimatedSuccessRateRanges = [],
   limitToOneQuestionPerTube,
   enablePassageByAllCompetences,
-  variationPercent,
   doubleMeasuresUntil,
+  variationPercent,
+  variationPercentUntil,
 } = {}) => {
   return new FlashAssessmentAlgorithmConfiguration({
     warmUpLength,
@@ -22,7 +23,8 @@ export const buildFlashAlgorithmConfiguration = ({
     ),
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
-    variationPercent,
     doubleMeasuresUntil,
+    variationPercent,
+    variationPercentUntil,
   });
 };
