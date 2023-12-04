@@ -367,16 +367,6 @@ describe('Integration | API | Controller Error', function () {
       expect(responseCode(response)).to.equal('SESSION_STARTED_CANDIDATE_ALREADY_LINKED_TO_USER');
     });
 
-    it('responds Forbidden when a CertificationCandidateForbiddenDeletionError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.CertificationCandidateForbiddenDeletionError());
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
-      expect(responseDetail(response)).to.equal(
-        'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.',
-      );
-    });
-
     it('responds Forbidden when a ForbiddenAccess error occurs', async function () {
       routeHandler.throws(new ForbiddenAccess('Accès non autorisé.'));
       const response = await server.requestObject(request);

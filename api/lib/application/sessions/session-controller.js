@@ -1,5 +1,6 @@
 import { SessionPublicationBatchError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
+import { usecases as certificationUsecases } from '../../../src/certification/shared/domain/usecases/index.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
 import * as sessionValidator from '../../../src/certification/session/domain/validators/session-validator.js';
@@ -79,21 +80,6 @@ const getCandidatesImportSheet = async function (
     .response(candidateImportSheet)
     .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
     .header('Content-Disposition', `attachment; filename=${filename + sessionId}.ods`);
-};
-
-const getCertificationCandidates = async function (request, h, dependencies = { certificationCandidateSerializer }) {
-  const sessionId = request.params.id;
-
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-  return dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
-};
-
-const deleteCertificationCandidate = async function (request) {
-  const certificationCandidateId = request.params.certificationCandidateId;
-
-  await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
-
-  return null;
 };
 
 const getJuryCertificationSummaries = async function (
@@ -189,7 +175,7 @@ const enrolStudentsToSession = async function (
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 
   await usecases.enrolStudentsToSession({ sessionId, referentId, studentIds });
-  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidates = await certificationUsecases.getSessionCertificationCandidates({ sessionId });
   const certificationCandidatesSerialized =
     dependencies.certificationCandidateSerializer.serialize(certificationCandidates);
   return h.response(certificationCandidatesSerialized).created();
@@ -282,8 +268,6 @@ const sessionController = {
   getJurySession,
   get,
   getCandidatesImportSheet,
-  getCertificationCandidates,
-  deleteCertificationCandidate,
   getJuryCertificationSummaries,
   generateSessionResultsDownloadLink,
   getSessionResultsToDownload,

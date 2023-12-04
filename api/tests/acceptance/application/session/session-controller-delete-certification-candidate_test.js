@@ -8,7 +8,7 @@ describe('Acceptance | Controller | session-controller-delete-certification-cand
     server = await createServer();
   });
 
-  describe('#deleteCertificationCandidate', function () {
+  describe('#deleteCandidate', function () {
     let sessionId;
     let userId;
     let certificationCandidateId;
