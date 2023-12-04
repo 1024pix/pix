@@ -1,3 +1,4 @@
+import { TEAM_EVALUATION_OFFSET_ID } from './constants.js';
 import { createTargetProfile } from '../common/tooling/target-profile-tooling.js';
 import { organization } from '../common/tooling/index.js';
 import { REAL_PIX_SUPER_ADMIN_ID } from '../common/common-builder.js';
@@ -7,8 +8,8 @@ import {
   SCO_ORGANIZATION_USER_ID,
 } from '../common/constants.js';
 
-export default async function createSeedsForAutonomousCourse(teamOffset, databaseBuilder) {
-  const ALL_PURPOSE_ID = teamOffset + 8;
+export default async function createSeedsForAutonomousCourse(databaseBuilder) {
+  const ALL_PURPOSE_ID = TEAM_EVALUATION_OFFSET_ID + 8;
   const AUTONOMOUS_COURSES_ORGANIZATION_ID = process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID;
 
   await organization.createOrganization({

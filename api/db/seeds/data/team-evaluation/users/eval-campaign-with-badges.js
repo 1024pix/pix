@@ -1,9 +1,9 @@
+import { TEAM_EVALUATION_OFFSET_ID } from '../constants.js';
 import * as tooling from '../../common/tooling/index.js';
 import dayjs from 'dayjs';
 
-export default async function initUser(teamOffset, databaseBuilder) {
-  const TEAM_OFFSET = teamOffset;
-  const ALL_PURPOSE_ID = teamOffset + 1;
+export default async function initUser(databaseBuilder) {
+  const ALL_PURPOSE_ID = TEAM_EVALUATION_OFFSET_ID + 1;
 
   /**
    * User configuration
@@ -29,14 +29,14 @@ export default async function initUser(teamOffset, databaseBuilder) {
   // 2. Link user to organization
   databaseBuilder.factory.buildMembership({
     userId: user.id,
-    organizationId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
     organizationRole: 'ADMIN',
   });
 
   // 3. Transform it into an organization learner
   const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
     userId: user.id,
-    organizationId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
   });
 
   /**
@@ -48,7 +48,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID,
     name: 'Profil cible paliers et RT acquis',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par niveaux et avec des RT acquis, certifiables et en lacune',
     configTargetProfile: {
@@ -235,8 +235,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   // 1. Build campaign with a specific campaign code
   const campaign = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: "Campagne d'évaluation SCO - envoi simple",
     code: 'EVALBADGE',
     targetProfileId: targetProfileId,
