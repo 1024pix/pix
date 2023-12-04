@@ -871,7 +871,7 @@
         "description": "Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.",
         "select-referer-button": "Désigner un référent"
       },
-      "pix-referer": "Référent Pix",
+      "pix-referer": "Référent CléA Numérique",
       "pix-referer-tooltip": "Le référent Pix est le contact privilégié des équipes de Pix. Il est le responsable du bon déroulement des sessions de certification.",
       "referer": "Référent",
       "select-referer-modal": {
