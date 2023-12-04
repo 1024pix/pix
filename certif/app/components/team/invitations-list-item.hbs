@@ -3,4 +3,21 @@
   <td>
     {{dayjs-format @invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
   </td>
+  <td>
+    <div class="invitations-list-item__actions">
+      <PixTooltip @isInline={{true}}>
+        <:triggerElement>
+          <PixIconButton
+            @ariaLabel={{t "pages.team-invitations.actions.cancel-invitation"}}
+            @icon="trash-can"
+            @triggerAction={{fn @onCancelInvitationButtonClicked @invitation}}
+            @withBackground={{true}}
+          />
+        </:triggerElement>
+        <:tooltip>
+          {{t "pages.team-invitations.actions.cancel-invitation"}}
+        </:tooltip>
+      </PixTooltip>
+    </div>
+  </td>
 </tr>

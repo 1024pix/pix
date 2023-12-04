@@ -17,6 +17,7 @@ import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelo
 import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
+import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
@@ -207,6 +208,31 @@ function checkUserIsAdminOfCertificationCenter(
     })
     .catch(() => _replyForbiddenError(h));
 }
+
+function checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+  request,
+  h,
+  dependencies = { checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase },
+) {
+  if (
+    !request.auth.credentials ||
+    !request.auth.credentials.userId ||
+    !request.params.certificationCenterInvitationId
+  ) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
+
+  return dependencies.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase
+    .execute({ certificationCenterInvitationId, userId })
+    .then((isAdminInCertificationCenter) => {
+      return isAdminInCertificationCenter ? h.response(true) : _replyForbiddenError(h);
+    })
+    .catch(() => _replyForbiddenError(h));
+}
+
 function checkUserIsMemberOfCertificationCenter(
   request,
   h,
@@ -660,6 +686,7 @@ const securityPreHandlers = {
   checkUserIsAdminInSUPOrganizationManagingStudents,
   checkUserIsMemberOfAnOrganization,
   checkUserIsAdminOfCertificationCenter,
+  checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
   checkUserIsMemberOfCertificationCenter,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
