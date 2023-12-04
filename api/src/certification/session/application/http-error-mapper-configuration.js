@@ -3,6 +3,7 @@ import {
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionAlreadyFinalizedError,
+  CertificationCandidateForbiddenDeletionError,
 } from '../domain/errors.js';
 import { DomainErrorMappingConfiguration } from '../../../shared/application/models/domain-error-mapping-configuration.js';
 
@@ -18,6 +19,10 @@ const sessionDomainErrorMappingConfiguration = [
   {
     name: SessionAlreadyFinalizedError.name,
     httpErrorFn: (error) => new HttpErrors.ConflictError(error.message, error.code),
+  },
+  {
+    name: CertificationCandidateForbiddenDeletionError.name,
+    httpErrorFn: (error) => new HttpErrors.ForbiddenError(error.message, error.code),
   },
 ].map((domainErrorMappingConfiguration) => new DomainErrorMappingConfiguration(domainErrorMappingConfiguration));
 

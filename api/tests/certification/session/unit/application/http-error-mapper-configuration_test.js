@@ -4,6 +4,7 @@ import {
   SessionWithoutStartedCertificationError,
   SessionWithAbortReasonOnCompletedCertificationCourseError,
   SessionAlreadyFinalizedError,
+  CertificationCandidateForbiddenDeletionError,
 } from '../../../../../src/certification/session/domain/errors.js';
 import { sessionDomainErrorMappingConfiguration } from '../../../../../src/certification/session/application/http-error-mapper-configuration.js';
 import { DomainErrorMappingConfiguration } from '../../../../../src/shared/application/models/domain-error-mapping-configuration.js';
@@ -74,6 +75,24 @@ describe('Unit | Certification | Session | Application | HttpErrorMapperConfigur
       expect(error).to.be.instanceOf(HttpErrors.ConflictError);
       expect(error.message).to.equal(message);
       expect(error.code).to.equal(code);
+    });
+  });
+
+  context('when mapping "CertificationCandidateForbiddenDeletionError"', function () {
+    it('returns an CertificationCandidateForbiddenDeletionError Http Error', function () {
+      //given
+      const httpErrorMapper = sessionDomainErrorMappingConfiguration.find(
+        (httpErrorMapper) => httpErrorMapper.name === CertificationCandidateForbiddenDeletionError.name,
+      );
+
+      //when
+      const error = httpErrorMapper.httpErrorFn(new CertificationCandidateForbiddenDeletionError());
+
+      //then
+      expect(error).to.be.instanceOf(HttpErrors.ForbiddenError);
+      expect(error.message).to.equal(
+        'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.',
+      );
     });
   });
 });
