@@ -53,6 +53,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
  * @typedef {certificationCpfService} CertificationCpfService
  * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
  * @typedef {challengeRepository} ChallengeRepository
