@@ -1,5 +1,44 @@
 # Pix Changelog
 
+## v4.71.0 (04/12/2023)
+
+
+### :rocket: Amélioration
+- [#7576](https://github.com/1024pix/pix/pull/7576) [FEATURE] Ajouter un tracking sur le click "alternative textuelle" d'un élément Image (PIX-10122).
+- [#7577](https://github.com/1024pix/pix/pull/7577) [FEATURE] Permettre au contenu de styliser les listes à puces (PIX-10224).
+- [#7547](https://github.com/1024pix/pix/pull/7547) [FEATURE] Pix1D - Activation du bouton de vérification uniquement sur réponse complète.
+- [#7540](https://github.com/1024pix/pix/pull/7540) [FEATURE] Afficher une bannière de gestion des rôles sur Pix Certif (PIX-10079).
+- [#7557](https://github.com/1024pix/pix/pull/7557) [FEATURE] QCU - Remplacer l'alerte native `required` par une alerte comme sur l'éval (PIX-10027).
+- [#7553](https://github.com/1024pix/pix/pull/7553) [FEATURE] Modification de la hiérarchie des boutons de création de sessions (PIX-10146).
+
+### :building_construction: Tech
+- [#7549](https://github.com/1024pix/pix/pull/7549) [TECH] Déplacer l'import en masse de sessions dans src (PIX-9878).
+- [#7548](https://github.com/1024pix/pix/pull/7548) [TECH] Déplacer les routes d'affichage et de suppression d'un candidat à une session dans src (PIX-9876).
+- [#7570](https://github.com/1024pix/pix/pull/7570) [TECH] Corriger le test flaky.
+- [#7539](https://github.com/1024pix/pix/pull/7539) [TECH] Corriger les seeds pour la session "started" (PIX-10139).
+- [#7552](https://github.com/1024pix/pix/pull/7552) [TECH] Renommage d'un fichier de test avec le suffixe nécessaire.
+- [#7526](https://github.com/1024pix/pix/pull/7526) [TECH] Déplacement de la finalisation d'une session dans le dossier src (PIX-10106). .
+- [#7536](https://github.com/1024pix/pix/pull/7536) [TECH] Copier le ValidatorQroc dans le bounded context de devcomp (PIX-10025).
+
+### :arrow_up: Montée de version
+- [#7525](https://github.com/1024pix/pix/pull/7525) [BUMP] Update dependency eslint-config-standard-with-typescript to v40 (audit-logger).
+- [#7572](https://github.com/1024pix/pix/pull/7572) [BUMP] Lock file maintenance (certif+orga).
+- [#7571](https://github.com/1024pix/pix/pull/7571) [BUMP] Lock file maintenance (mon-pix).
+- [#7569](https://github.com/1024pix/pix/pull/7569) [BUMP] eslint-config to v1.1.1 (audit-logger).
+- [#7568](https://github.com/1024pix/pix/pull/7568) [BUMP] Lock file maintenance (admin).
+- [#7566](https://github.com/1024pix/pix/pull/7566) [BUMP] Lock file maintenance (1d).
+- [#7564](https://github.com/1024pix/pix/pull/7564) [BUMP] Lock file maintenance (dossier racine).
+- [#7562](https://github.com/1024pix/pix/pull/7562) [BUMP] Lock file maintenance (dossier racine).
+- [#7560](https://github.com/1024pix/pix/pull/7560) [BUMP] Lock file maintenance (certif).
+- [#7561](https://github.com/1024pix/pix/pull/7561) [BUMP] Lock file maintenance (orga).
+- [#7556](https://github.com/1024pix/pix/pull/7556) [BUMP] Lock file maintenance (mon-pix).
+- [#7516](https://github.com/1024pix/pix/pull/7516) [BUMP] Lock file maintenance (admin).
+- [#7513](https://github.com/1024pix/pix/pull/7513) [BUMP] Update node.
+- [#7555](https://github.com/1024pix/pix/pull/7555) [BUMP] Lock file maintenance (1d).
+
+### :coffee: Autre
+- [#7551](https://github.com/1024pix/pix/pull/7551) [DOCS] Améliorer le style du fichier de documentation de contribution.
+
 ## v4.70.0 (30/11/2023)
 
 
