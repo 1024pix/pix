@@ -9,8 +9,9 @@ import { FlashAssessmentSuccessRateHandler } from './FlashAssessmentSuccessRateH
  * @param limitToOneQuestionPerTube - limits questions to one per tube
  * @param flashImplementation - the flash algorithm implementation
  * @param enablePassageByAllCompetences - enable or disable the passage through all competences
- * @param variationPercent - maximum variation of estimated level between two answers
  * @param doubleMeasuresUntil - use the double measure strategy for specified number of challenges
+ * @param variationPercent - maximum variation of estimated level between two answers
+ * @param variationPercentUntil - maximum variation of estimated level between two answers for a specified number of challenges
  */
 export class FlashAssessmentAlgorithmConfiguration {
   constructor({
@@ -21,8 +22,9 @@ export class FlashAssessmentAlgorithmConfiguration {
     minimumEstimatedSuccessRateRanges = [],
     limitToOneQuestionPerTube = false,
     enablePassageByAllCompetences = false,
-    variationPercent,
     doubleMeasuresUntil,
+    variationPercent,
+    variationPercentUntil,
   } = {}) {
     this.warmUpLength = warmUpLength;
     this.forcedCompetences = forcedCompetences;
@@ -31,8 +33,9 @@ export class FlashAssessmentAlgorithmConfiguration {
     this.minimumEstimatedSuccessRateRanges = minimumEstimatedSuccessRateRanges;
     this.limitToOneQuestionPerTube = limitToOneQuestionPerTube;
     this.enablePassageByAllCompetences = enablePassageByAllCompetences;
-    this.variationPercent = variationPercent;
     this.doubleMeasuresUntil = doubleMeasuresUntil;
+    this.variationPercent = variationPercent;
+    this.variationPercentUntil = variationPercentUntil;
   }
 
   toDTO() {
@@ -46,8 +49,9 @@ export class FlashAssessmentAlgorithmConfiguration {
       ),
       limitToOneQuestionPerTube: this.limitToOneQuestionPerTube,
       enablePassageByAllCompetences: this.enablePassageByAllCompetences,
-      variationPercent: this.variationPercent,
       doubleMeasuresUntil: this.doubleMeasuresUntil,
+      variationPercent: this.variationPercent,
+      variationPercentUntil: this.variationPercentUntil,
     };
   }
 
@@ -59,8 +63,9 @@ export class FlashAssessmentAlgorithmConfiguration {
     minimumEstimatedSuccessRateRanges,
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
-    variationPercent,
     doubleMeasuresUntil,
+    variationPercent,
+    variationPercentUntil,
   }) {
     return new FlashAssessmentAlgorithmConfiguration({
       warmUpLength,
@@ -72,8 +77,9 @@ export class FlashAssessmentAlgorithmConfiguration {
         : minimumEstimatedSuccessRateRanges,
       limitToOneQuestionPerTube,
       enablePassageByAllCompetences,
-      variationPercent,
       doubleMeasuresUntil,
+      variationPercent,
+      variationPercentUntil,
     });
   }
 }
