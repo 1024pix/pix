@@ -301,38 +301,6 @@ function routes() {
     return new Response(204);
   });
 
-  this.get('/certification-center-invitations/:id', (schema, request) => {
-    const certificationCenterInvitationId = request.params.id;
-    const code = request.queryParams?.code;
-
-    switch (code) {
-      case 'CANCELLED':
-        return new Response(403, {}, { errors: [{ status: '403' }] });
-      case 'ACCEPTED':
-        return new Response(412, {}, { errors: [{ status: '412' }] });
-      default:
-        return schema.certificationCenterInvitations.find(certificationCenterInvitationId);
-    }
-  });
-
-  this.post('/certification-center-invitations/:id/accept', (schema) => {
-    const certificationPointOfContact = schema.certificationPointOfContacts.first();
-    const allowedCertificationCenterAccess = schema.allowedCertificationCenterAccesses.create({
-      name: 'Collège Truffaut',
-      type: 'SCO',
-      externalId: 'ABC123',
-      isRelatedToManagingStudentsOrganization: false,
-      isAccessBlockedCollege: false,
-      isAccessBlockedLycee: false,
-      isAccessBlockedAEFE: false,
-      isAccessBlockedAgri: false,
-    });
-
-    certificationPointOfContact.update({ allowedCertificationCenterAccesses: [allowedCertificationCenterAccess] });
-
-    return new Response(204);
-  });
-
   this.post('/certification-centers/:id/sessions/validate-for-mass-import', async (schema, request) => {
     const { type } = request.requestBody;
     const { id: certificationCenterId } = request.params;
@@ -382,4 +350,51 @@ function routes() {
   });
 
   this.patch('/sessions/:id/candidates/:candidateId/dismiss-live-alert', () => new Response(204));
+
+  _configureCertificationCenterInvitationRoutes(this);
+}
+
+function _configureCertificationCenterInvitationRoutes(context) {
+  const basePath = '/certification-center-invitations';
+
+  context.delete(`${basePath}/:id`, (schema, request) => {
+    const certificationCenterInvitationId = request.params.id;
+    const certificationCenterInvitation = schema.certificationCenterInvitations.find(certificationCenterInvitationId);
+
+    certificationCenterInvitation.destroy();
+
+    return new Response(204);
+  });
+
+  context.get(`${basePath}/:id`, (schema, request) => {
+    const certificationCenterInvitationId = request.params.id;
+    const code = request.queryParams?.code;
+
+    switch (code) {
+      case 'CANCELLED':
+        return new Response(403, {}, { errors: [{ status: '403' }] });
+      case 'ACCEPTED':
+        return new Response(412, {}, { errors: [{ status: '412' }] });
+      default:
+        return schema.certificationCenterInvitations.find(certificationCenterInvitationId);
+    }
+  });
+
+  context.post(`${basePath}/:id/accept`, (schema) => {
+    const certificationPointOfContact = schema.certificationPointOfContacts.first();
+    const allowedCertificationCenterAccess = schema.allowedCertificationCenterAccesses.create({
+      name: 'Collège Truffaut',
+      type: 'SCO',
+      externalId: 'ABC123',
+      isRelatedToManagingStudentsOrganization: false,
+      isAccessBlockedCollege: false,
+      isAccessBlockedLycee: false,
+      isAccessBlockedAEFE: false,
+      isAccessBlockedAgri: false,
+    });
+
+    certificationPointOfContact.update({ allowedCertificationCenterAccesses: [allowedCertificationCenterAccess] });
+
+    return new Response(204);
+  });
 }

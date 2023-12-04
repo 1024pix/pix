@@ -2,6 +2,7 @@ import { expect, sinon, hFake, domainBuilder } from '../../test-helper.js';
 import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 import { NotFoundError } from '../../../lib/domain/errors.js';
+
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let request;
@@ -1096,6 +1097,111 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+  describe('#checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId', function () {
+    context('successful cases', function () {
+      context('when user is an admin of the certification center', function () {
+        it('authorizes access to the resource', async function () {
+          // given
+          const adminUser = domainBuilder.buildUser();
+          const certificationCenter = domainBuilder.buildCertificationCenter();
+          const certificationCenterInvitation = domainBuilder.buildCertificationCenterInvitation({
+            certificationCenterId: certificationCenter.id,
+          });
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: adminUser.id,
+              },
+            },
+            params: {
+              certificationCenterInvitationId: certificationCenterInvitation.id,
+            },
+          };
+          const checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase = {
+            execute: sinon.stub().resolves(true),
+          };
+
+          // when
+          const response =
+            await securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+              request,
+              hFake,
+              { checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase },
+            );
+
+          // then
+          expect(response.source).to.be.true;
+        });
+      });
+    });
+
+    context('error cases', function () {
+      context('when user is not an admin of the certification center', function () {
+        it('forbids access to the resource', async function () {
+          // given
+          const user = domainBuilder.buildUser();
+          const certificationCenterInvitation = domainBuilder.buildCertificationCenterInvitation();
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: user.id,
+              },
+            },
+            params: {
+              certificationCenterInvitationId: certificationCenterInvitation.id,
+            },
+          };
+          const checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase = {
+            execute: sinon.stub().resolves(false),
+          };
+
+          // when
+          const response =
+            await securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+              request,
+              hFake,
+              { checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase },
+            );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+
+      context('when certification center invitation id is not provided', function () {
+        it('forbids access to the resource', async function () {
+          // given
+          const user = domainBuilder.buildUser();
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: user.id,
+              },
+            },
+            params: {},
+          };
+          const checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase = {
+            execute: sinon.stub().resolves(false),
+          };
+
+          // when
+          const response =
+            await securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+              request,
+              hFake,
+              { checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase },
+            );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
       });
     });
   });

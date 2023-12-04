@@ -5,7 +5,40 @@ import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 
 const register = async function (server) {
+  const adminRoutes = [
+    {
+      method: 'DELETE',
+      path: '/api/admin/certification-center-invitations/{certificationCenterInvitationId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterInvitationId: identifiersType.certificationCenterInvitationId,
+          }),
+        },
+        handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
+        tags: ['api', 'admin', 'invitations', 'cancel'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet d'annuler une invitation envoyée mais non acceptée encore.",
+        ],
+      },
+    },
+  ];
+
   server.route([
+    ...adminRoutes,
     {
       method: 'POST',
       path: '/api/certification-center-invitations/{id}/accept',
@@ -51,31 +84,25 @@ const register = async function (server) {
     },
     {
       method: 'DELETE',
-      path: '/api/admin/certification-center-invitations/{certificationCenterInvitationId}',
+      path: '/api/certification-center-invitations/{certificationCenterInvitationId}',
       config: {
+        handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
+            method: securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
+            assign: 'isAdminOfCertificationCenter',
           },
         ],
         validate: {
           params: Joi.object({
-            certificationCenterInvitationId: identifiersType.certificationCenterInvitationId,
+            certificationCenterInvitationId: identifiersType.certificationCenterInvitationId.required(),
           }),
         },
-        handler: certificationCenterInvitationController.cancelCertificationCenterInvitation,
-        tags: ['api', 'admin', 'invitations', 'cancel'],
         notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet d'annuler une invitation envoyée mais non acceptée encore.",
+          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification**\n',
+          "- Cette route permet d'annuler une invitation actuellement en attente selon un **id d'invitation**",
         ],
+        tags: ['api', 'certification-center-invitation'],
       },
     },
   ]);
