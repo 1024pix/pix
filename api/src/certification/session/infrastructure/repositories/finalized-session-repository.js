@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { NotFoundError } from '../../../domain/errors.js';
-import { knex } from '../../bookshelf.js';
-import { FinalizedSession } from '../../../domain/models/index.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { knex } from '../../../../../lib/infrastructure/bookshelf.js';
+import { FinalizedSession } from '../../../../../lib/domain/models/index.js';
 
 const save = async function (finalizedSession) {
   await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();

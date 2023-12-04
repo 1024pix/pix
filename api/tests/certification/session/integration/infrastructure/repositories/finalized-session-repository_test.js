@@ -1,7 +1,7 @@
-import { expect, databaseBuilder, catchErr } from '../../../../test-helper.js';
-import * as finalizedSessionRepository from '../../../../../lib/infrastructure/repositories/sessions/finalized-session-repository.js';
-import { FinalizedSession } from '../../../../../lib/domain/models/FinalizedSession.js';
-import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js';
+import * as finalizedSessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
+import { FinalizedSession } from '../../../../../../lib/domain/models/FinalizedSession.js';
+import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 
 describe('Integration | Repository | Finalized-session', function () {
   describe('#save', function () {
