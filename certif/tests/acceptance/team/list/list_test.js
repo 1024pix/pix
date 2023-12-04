@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -122,6 +122,42 @@ module('Acceptance | authenticated | team', function (hooks) {
                   }),
                 )
                 .exists();
+            });
+
+            module('when clicking on "referer selection"', function () {
+              test('displays a modal to select the referer', async function (assert) {
+                // given
+                const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                  undefined,
+                  'CCNG',
+                  false,
+                  'ADMIN',
+                );
+                server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
+                server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                await authenticateSession(certificationPointOfContact.id);
+
+                // when
+                const screen = await visitScreen('/equipe');
+
+                await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+
+                await clickByName('Sélectionner le référent CléA Numérique');
+                await screen.findByRole('listbox');
+                await click(screen.getByRole('option', { name: 'Lili Dupont' }));
+
+                // then
+                assert.dom(screen.getByRole('heading', { name: 'Sélection du référent CléA Numérique' })).exists();
+                assert.dom(screen.getByText('Sélectionner le référent CléA Numérique')).exists();
+
+                assert
+                  .dom(
+                    screen.getByRole('button', {
+                      name: 'Valider la sélection de référent',
+                    }),
+                  )
+                  .exists();
+              });
             });
           });
 
