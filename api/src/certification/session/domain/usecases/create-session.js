@@ -1,5 +1,9 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCenterRepository} CertificationCenterRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').UserRepository} UserRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').SessionValidator} SessionValidator
+ * @typedef {import ('../../../shared/domain/usecases/index.js').SessionCodeService} SessionCodeService
  */
 
 import { Session } from '../models/Session.js';
@@ -8,11 +12,11 @@ import { ForbiddenAccess } from '../../../../shared/domain/errors.js';
 
 /**
  * @param {Object} params
- * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
- * @param {deps['sessionRepository']} params.sessionRepository
- * @param {deps['userRepository']} params.userRepository
- * @param {deps['sessionValidator']} params.sessionValidator
- * @param {deps['sessionCodeService']} params.sessionCodeService
+ * @param {CertificationCenterRepository} params.certificationCenterRepository
+ * @param {SessionRepository} params.sessionRepository
+ * @param {UserRepository} params.userRepository
+ * @param {SessionValidator} params.sessionValidator
+ * @param {SessionCodeService} params.sessionCodeService
  */
 const createSession = async function ({
   userId,
