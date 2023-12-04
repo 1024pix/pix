@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, within } from '@1024pix/ember-testing-library';
 
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -141,22 +141,54 @@ module('Acceptance | authenticated | team', function (hooks) {
                 const screen = await visitScreen('/equipe');
 
                 await click(screen.getByRole('button', { name: 'Désigner un référent' }));
-
-                await clickByName('Sélectionner le référent CléA Numérique');
-                await screen.findByRole('listbox');
-                await click(screen.getByRole('option', { name: 'Lili Dupont' }));
+                const modal = within(await screen.findByRole('dialog'));
 
                 // then
-                assert.dom(screen.getByRole('heading', { name: 'Sélection du référent CléA Numérique' })).exists();
-                assert.dom(screen.getByText('Sélectionner le référent CléA Numérique')).exists();
-
+                assert.dom(modal.getByRole('heading', { name: 'Sélection du référent CléA Numérique' })).exists();
+                assert.dom(modal.getByText('Sélectionner le référent CléA Numérique')).exists();
                 assert
                   .dom(
-                    screen.getByRole('button', {
+                    modal.getByRole('button', {
                       name: 'Valider la sélection de référent',
                     }),
                   )
                   .exists();
+              });
+
+              module('when selecting a referer in the modal', function () {
+                test('displays a modal to select the referer', async function (assert) {
+                  // given
+                  const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                    undefined,
+                    'CCNG',
+                    false,
+                    'ADMIN',
+                  );
+                  server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'ADMIN' });
+                  server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                  await authenticateSession(certificationPointOfContact.id);
+
+                  // when
+                  const screen = await visitScreen('/equipe');
+
+                  await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+                  const modal = within(await screen.findByRole('dialog'));
+                  await click(modal.getByRole('button', { name: 'Sélectionner le référent CléA Numérique' }));
+                  await screen.findByRole('listbox');
+                  await click(modal.getByRole('option', { name: 'Lili Dupont' }));
+                  await click(
+                    modal.getByRole('button', {
+                      name: 'Valider la sélection de référent',
+                    }),
+                  );
+
+                  // then
+                  const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
+                  assert.dom(row.getByRole('cell', { name: 'Dupont' })).exists();
+                  assert.dom(row.getByRole('cell', { name: 'Lili' })).exists();
+                  assert.dom(row.getByRole('cell', { name: 'Administrateur' })).exists();
+                  assert.dom(row.getByRole('cell', { name: 'Référent CléA Numérique' })).exists();
+                });
               });
             });
           });
