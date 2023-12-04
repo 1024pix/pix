@@ -6,6 +6,8 @@ const buildTargetProfileSummaryForAdmin = function ({
   outdated = false,
   isPublic,
   createdAt,
+  ownerOrganizationId,
+  sharedOrganizationId,
 } = {}) {
   return new TargetProfileSummaryForAdmin({
     id,
@@ -13,6 +15,8 @@ const buildTargetProfileSummaryForAdmin = function ({
     outdated,
     isPublic,
     createdAt,
+    ownerOrganizationId,
+    sharedOrganizationId,
   });
 };
 
