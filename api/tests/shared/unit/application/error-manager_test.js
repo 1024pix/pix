@@ -13,6 +13,7 @@ import {
 import { HttpErrors, UnauthorizedError } from '../../../../src/shared/application/http-errors.js';
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
+
 import { SessionStartedDeletionError } from '../../../../src/certification/session/domain/errors.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';

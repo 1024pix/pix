@@ -1,6 +1,7 @@
 import { catchErr, expect, hFake, sinon } from '../../../test-helper.js';
 import { sessionController } from '../../../../lib/application/sessions/session-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { usecases as certificationUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
@@ -109,60 +110,6 @@ describe('Unit | Controller | sessionController', function () {
         odsBuffer,
         i18n: request.i18n,
       });
-    });
-  });
-
-  describe('#getCertificationCandidates', function () {
-    let request;
-    const sessionId = 1;
-    const certificationCandidates = 'candidates';
-    const certificationCandidatesJsonApi = 'candidatesJSONAPI';
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId },
-      };
-      sinon
-        .stub(usecases, 'getSessionCertificationCandidates')
-        .withArgs({ sessionId })
-        .resolves(certificationCandidates);
-    });
-
-    it('should return certification candidates', async function () {
-      // when
-      const certificationCandidateSerializer = { serialize: sinon.stub() };
-      certificationCandidateSerializer.serialize
-        .withArgs(certificationCandidates)
-        .returns(certificationCandidatesJsonApi);
-      const response = await sessionController.getCertificationCandidates(request, hFake, {
-        certificationCandidateSerializer,
-      });
-
-      // then
-      expect(response).to.deep.equal(certificationCandidatesJsonApi);
-    });
-  });
-
-  describe('#deleteCertificationCandidate ', function () {
-    let request;
-    const sessionId = 1;
-    const certificationCandidateId = 1;
-
-    beforeEach(function () {
-      // given
-      request = {
-        params: { id: sessionId, certificationCandidateId },
-      };
-      sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
-    });
-
-    it('should return 204 when deleting successfully the candidate', async function () {
-      // when
-      const response = await sessionController.deleteCertificationCandidate(request, hFake);
-
-      // then
-      expect(response).to.be.null;
     });
   });
 
@@ -319,7 +266,7 @@ describe('Unit | Controller | sessionController', function () {
       };
       const requestResponseUtils = { extractUserIdFromRequest: sinon.stub() };
       sinon.stub(usecases, 'enrolStudentsToSession');
-      sinon.stub(usecases, 'getSessionCertificationCandidates');
+      sinon.stub(certificationUsecases, 'getSessionCertificationCandidates');
       const certificationCandidateSerializer = { serialize: sinon.stub() };
       dependencies = {
         requestResponseUtils,
@@ -331,7 +278,7 @@ describe('Unit | Controller | sessionController', function () {
       beforeEach(function () {
         dependencies.requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
         usecases.enrolStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
-        usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
+        certificationUsecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
         dependencies.certificationCandidateSerializer.serialize
           .withArgs(studentList)
           .returns(serializedCertificationCandidate);
