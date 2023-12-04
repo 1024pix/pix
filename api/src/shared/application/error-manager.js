@@ -8,10 +8,7 @@ import _ from 'lodash';
 import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
-import {
-  SessionStartedDeletionError,
-  CertificationCandidateForbiddenDeletionError,
-} from '../../certification/session/domain/errors.js';
+import { SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -102,7 +99,6 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.LocaleNotSupportedError) {
     return new HttpErrors.BadRequestError(error.message, error.code, error.meta);
   }
-
   if (error instanceof AdminMemberError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code);
   }
@@ -111,9 +107,6 @@ function _mapToHttpError(error) {
   }
   if (error instanceof SessionStartedDeletionError) {
     return new HttpErrors.ConflictError(error.message);
-  }
-  if (error instanceof CertificationCandidateForbiddenDeletionError) {
-    return new HttpErrors.ForbiddenError(error.message);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

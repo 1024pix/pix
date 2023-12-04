@@ -14,10 +14,7 @@ import { HttpErrors, UnauthorizedError } from '../../../../src/shared/applicatio
 import { handle } from '../../../../src/shared/application/error-manager.js';
 import { AdminMemberError } from '../../../../src/authorization/domain/errors.js';
 
-import {
-  SessionStartedDeletionError,
-  CertificationCandidateForbiddenDeletionError,
-} from '../../../../src/certification/session/domain/errors.js';
+import { SessionStartedDeletionError } from '../../../../src/certification/session/domain/errors.js';
 import { domainErrorMapper } from '../../../../src/shared/application/domain-error-mapper.js';
 import { authenticationDomainErrorMappingConfiguration } from '../../../../src/authentication/application/http-error-mapper-configuration.js';
 
@@ -179,21 +176,6 @@ describe('Shared | Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code);
-    });
-
-    it('should instantiate ForbiddenError when a CertificationCandidateForbiddenDeletionError', async function () {
-      // given
-      const error = new CertificationCandidateForbiddenDeletionError();
-      sinon.stub(HttpErrors, 'ForbiddenError');
-      const params = { request: {}, h: hFake, error };
-
-      // when
-      await handle(params.request, params.h, params.error);
-
-      // then
-      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(
-        'Il est interdit de supprimer un candidat de certification déjà lié à un utilisateur.',
-      );
     });
 
     context('Locale errors', function () {
