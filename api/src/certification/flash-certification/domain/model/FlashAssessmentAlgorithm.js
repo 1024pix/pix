@@ -48,7 +48,6 @@ class FlashAssessmentAlgorithm {
       allAnswers: answersForComputingEstimatedLevel ?? assessmentAnswers,
       challenges,
       initialCapacity,
-      variationPercent: this._configuration.variationPercent,
     });
 
     const challengesAfterRulesApplication = this._applyChallengeSelectionRules(assessmentAnswers, challenges);
@@ -102,6 +101,7 @@ class FlashAssessmentAlgorithm {
       challenges,
       estimatedLevel: initialCapacity,
       variationPercent: this._configuration.variationPercent,
+      variationPercentUntil: this._configuration.variationPercentUntil,
       doubleMeasuresUntil: this._configuration.doubleMeasuresUntil,
     });
   }

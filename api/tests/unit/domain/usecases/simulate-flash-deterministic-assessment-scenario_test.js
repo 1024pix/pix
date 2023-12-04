@@ -347,6 +347,7 @@ function prepareStubs({
       challenges: sinon.match.any,
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 0, errorRate: 0.1 })
@@ -355,6 +356,7 @@ function prepareStubs({
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 1, errorRate: 1.1 })
@@ -363,6 +365,7 @@ function prepareStubs({
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 2, errorRate: 2.1 })
@@ -371,6 +374,7 @@ function prepareStubs({
       challenges: [firstChallenge, secondChallenge, thirdChallenge],
       estimatedLevel: initialCapacity,
       variationPercent: undefined,
+      variationPercentUntil: undefined,
       doubleMeasuresUntil,
     })
     .returns({ estimatedLevel: 3, errorRate: 3.1 });
