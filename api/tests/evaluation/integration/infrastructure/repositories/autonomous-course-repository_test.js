@@ -1,12 +1,8 @@
-import { databaseBuilder, expect, knex, sinon } from '../../../../test-helper.js';
+import { databaseBuilder, expect, sinon } from '../../../../test-helper.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 
 describe('Integration | Repository | Autonomous Course', function () {
-  afterEach(function () {
-    return knex('autonomous-courses').delete();
-  });
-
   it('#save', async function () {
     // given
     sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
