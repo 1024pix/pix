@@ -24,6 +24,8 @@ import * as mailService from '../services/mail-service.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
+import * as sessionsImportValidationService from '../../../session/domain/services/sessions-import-validation-service.js';
+import * as temporarySessionsStorageForMassImportService from '../../../session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
 import * as sessionForAttendanceSheetRepository from '../../../session/infrastructure/repositories/session-for-attendance-sheet-repository.js';
 import * as sessionForInvigilatorKitRepository from '../../../session/infrastructure/repositories/session-for-invigilator-kit-repository.js';
 import * as cpfCertificationResultRepository from '../../../session/infrastructure/repositories/cpf-certification-result-repository.js';
@@ -61,6 +63,8 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  *  mailService : mailService,
  *  organizationRepository : organizationRepository,
  *  sessionCodeService : sessionCodeService,
+ *  sessionsImportValidationService : sessionsImportValidationService,
+ *  temporarySessionsStorageForMassImportService : temporarySessionsStorageForMassImportService,
  *  sessionForAttendanceSheetRepository : sessionForAttendanceSheetRepository,
  *  sessionForInvigilatorKitRepository : sessionForInvigilatorKitRepository,
  *  cpfCertificationResultRepository : cpfCertificationResultRepository,
@@ -95,6 +99,8 @@ const dependencies = {
   mailService,
   organizationRepository,
   sessionCodeService,
+  sessionsImportValidationService,
+  temporarySessionsStorageForMassImportService,
   sessionForAttendanceSheetRepository,
   sessionForInvigilatorKitRepository,
   cpfCertificationResultRepository,

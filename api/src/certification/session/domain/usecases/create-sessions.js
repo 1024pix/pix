@@ -1,10 +1,21 @@
-import { NotFoundError } from '../../errors.js';
-import bluebird from 'bluebird';
-import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
-import { Session } from '../../../../src/certification/session/domain/models/Session.js';
-import { CertificationCandidate } from '../../models/CertificationCandidate.js';
-import { CertificationVersion } from '../../../../src/shared/domain/models/CertificationVersion.js';
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ */
 
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import bluebird from 'bluebird';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { Session } from '../models/Session.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';
+
+/**
+ * @param {Object} params
+ * @param {deps['certificationCandidateRepository']} params.certificationCandidateRepository
+ * @param {deps['certificationCenterRepository']} params.certificationCenterRepository
+ * @param {deps['sessionRepository']} params.sessionRepository
+ * @param {deps['temporarySessionsStorageForMassImportService']} params.temporarySessionsStorageForMassImportService
+ */
 const createSessions = async function ({
   userId,
   cachedValidatedSessionsKey,
