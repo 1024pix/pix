@@ -8,8 +8,8 @@ import {
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
-} from '../helpers/test-init';
-import setupIntl from '../helpers/setup-intl';
+} from '../../../helpers/test-init';
+import setupIntl from '../../../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | authenticated | team', function (hooks) {
