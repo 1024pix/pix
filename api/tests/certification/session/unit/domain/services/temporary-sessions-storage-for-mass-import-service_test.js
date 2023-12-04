@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import * as temporarySessionsStorageForMassImportService from '../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
-import { temporaryStorage } from '../../../../../lib/infrastructure/temporary-storage/index.js';
+import { expect } from '../../../../../test-helper.js';
+import * as temporarySessionsStorageForMassImportService from '../../../../../../src/certification/session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
+import { temporaryStorage } from '../../../../../../lib/infrastructure/temporary-storage/index.js';
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');
 
 describe('Unit | Domain | Services | sessions mass import', function () {

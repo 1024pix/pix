@@ -195,36 +195,6 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'POST',
-      path: '/api/certification-centers/{certificationCenterId}/sessions/validate-for-mass-import',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
-            assign: 'isMemberOfCertificationCenter',
-          },
-          {
-            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
-            assign: 'isCertificationCenterNotScoManagingStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
-        },
-        handler: certificationCenterController.validateSessionsForMassImport,
-        payload: {
-          maxBytes: 20715200,
-          output: 'file',
-          parse: 'gunzip',
-        },
-        tags: ['api', 'certification-center', 'sessions'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Elle permet de valider avant sauvegarde les données d'un fichier contenant une liste de sessions à importer",
-        ],
-      },
-    },
   ];
   const certifRoutes = [
     {
@@ -454,39 +424,6 @@ const register = async function (server) {
             "- Elle permet à un administrateur d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification, via leur **email**",
         ],
         tags: ['api', 'invitations', 'certification-center'],
-      },
-    },
-
-    {
-      method: 'POST',
-      path: '/api/certification-centers/{certificationCenterId}/sessions/confirm-for-mass-import',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
-            assign: 'isMemberOfCertificationCenter',
-          },
-          {
-            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
-            assign: 'isCertificationCenterNotScoManagingStudents',
-          },
-        ],
-        validate: {
-          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                cachedValidatedSessionsKey: Joi.string().required(),
-              },
-            },
-          }),
-        },
-        handler: certificationCenterController.createSessionsForMassImport,
-        tags: ['api', 'certification-center', 'sessions', 'mass-import'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Elle permet de créer les sessions et candidats lors de l'import en masse",
-        ],
       },
     },
   ]);

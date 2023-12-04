@@ -1,9 +1,9 @@
-import * as sessionValidator from '../../../../src/certification/session/domain/validators/session-validator.js';
-import * as certificationCpfService from '../../../../src/certification/shared/domain/services/certification-cpf-service.js';
-import { CERTIFICATION_SESSIONS_ERRORS } from '../../constants/sessions-errors.js';
+import * as sessionValidator from '../validators/session-validator.js';
+import * as certificationCpfService from '../../../shared/domain/services/certification-cpf-service.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
 import dayjs from 'dayjs';
-import { CERTIFICATION_CANDIDATES_ERRORS } from '../../constants/certification-candidates-errors.js';
-import * as mailCheck from '../../../../src/shared/mail/infrastructure/services/mail-check.js';
+import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import * as mailCheck from '../../../../shared/mail/infrastructure/services/mail-check.js';
 
 const validateSession = async function ({
   session,
