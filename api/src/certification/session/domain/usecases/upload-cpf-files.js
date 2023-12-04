@@ -1,8 +1,10 @@
-/** @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps */
+/**
+ * @typedef {import('../../../shared/domain/usecases/index.js').CpfExportsStorage} CpfExportsStorage
+ */
 
 /**
  * @param {Object} params
- * @param {deps['cpfExportsStorage']} params.cpfExportsStorage
+ * @param {cpfExportsStorage} params.cpfExportsStorage
  */
 const uploadCpfFiles = async function ({ filename, readableStream, logger, cpfExportsStorage }) {
   logger.trace('uploadCpfFiles: start upload');

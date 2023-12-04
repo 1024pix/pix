@@ -1,5 +1,9 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import ('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCpfService} CertificationCpfService
+ * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCpfCountryRepository} CertificationCpfCountryRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').CertificationCpfCityRepository} CertificationCpfCityRepository
  */
 
 import {
@@ -12,11 +16,11 @@ import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/const
 
 /**
  * @param {Object} params
- * @param {deps['sessionRepository']} params.sessionRepository
- * @param {deps['certificationCandidateRepository']} params.certificationCandidateRepository
- * @param {deps['certificationCpfService']} params.certificationCpfService
- * @param {deps['certificationCpfCountryRepository']} params.certificationCpfCountryRepository
- * @param {deps['certificationCpfCityRepository']} params.certificationCpfCityRepository
+ * @param {SessionRepository} params.sessionRepository
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
+ * @param {CertificationCpfService} params.certificationCpfService
+ * @param {CertificationCpfCountryRepository} params.certificationCpfCountryRepository
+ * @param {CertificationCpfCityRepository} params.certificationCpfCityRepository
  */
 const addCertificationCandidateToSession = async function ({
   sessionId,
