@@ -22,7 +22,7 @@ import * as complementaryCertificationTargetProfileHistoryRepository from '../..
 import * as finalizedSessionRepository from '../../../session/infrastructure/repositories/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
-import * as jurySessionRepository from '../../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
+import * as jurySessionRepository from '../../../session/infrastructure/repositories/jury-session-repository.js';
 import * as mailService from '../services/mail-service.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
 import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
