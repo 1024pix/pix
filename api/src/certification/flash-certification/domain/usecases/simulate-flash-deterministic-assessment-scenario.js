@@ -21,7 +21,7 @@ export async function simulateFlashDeterministicAssessmentScenario({
   enablePassageByAllCompetences = false,
   doubleMeasuresUntil = 0,
   variationPercent,
-  variationPercentUntil = 0,
+  variationPercentUntil,
 }) {
   const challenges = await challengeRepository.findFlashCompatible({ locale, useObsoleteChallenges });
 

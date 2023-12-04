@@ -348,6 +348,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 allAnswers: answers,
                 estimatedLevel: sinon.match.number,
                 variationPercent: undefined,
+                variationPercentUntil: undefined,
                 doubleMeasuresUntil: undefined,
               })
               .returns({
@@ -425,6 +426,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 allAnswers: answers,
                 estimatedLevel: sinon.match.number,
                 variationPercent: undefined,
+                variationPercentUntil: undefined,
                 doubleMeasuresUntil: undefined,
               })
               .returns({
@@ -504,6 +506,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                 allAnswers: answers,
                 estimatedLevel: sinon.match.number,
                 variationPercent: undefined,
+                variationPercentUntil: undefined,
                 doubleMeasuresUntil: undefined,
               })
               .returns({
@@ -577,6 +580,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                   allAnswers: answers,
                   estimatedLevel: sinon.match.number,
                   variationPercent: undefined,
+                  variationPercentUntil: undefined,
                   doubleMeasuresUntil: undefined,
                 })
                 .returns({
@@ -650,6 +654,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
                   allAnswers: answers,
                   estimatedLevel: sinon.match.number,
                   variationPercent: undefined,
+                  variationPercentUntil: undefined,
                   doubleMeasuresUntil: undefined,
                 })
                 .returns({
@@ -717,6 +722,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
             allAnswers: answers,
             estimatedLevel: sinon.match.number,
             variationPercent: undefined,
+            variationPercentUntil: undefined,
             doubleMeasuresUntil: undefined,
           })
           .returns({
