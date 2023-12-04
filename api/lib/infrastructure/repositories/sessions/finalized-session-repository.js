@@ -1,9 +1,6 @@
 import _ from 'lodash';
 import { NotFoundError } from '../../../domain/errors.js';
 import { knex } from '../../bookshelf.js';
-import { BookshelfFinalizedSession } from '../../orm-models/FinalizedSession.js';
-
-import * as bookshelfToDomainConverter from '../../utils/bookshelf-to-domain-converter.js';
 import { FinalizedSession } from '../../../domain/models/index.js';
 
 const save = async function (finalizedSession) {
@@ -12,13 +9,13 @@ const save = async function (finalizedSession) {
 };
 
 const get = async function ({ sessionId }) {
-  const bookshelfFinalizedSession = await BookshelfFinalizedSession.where({ sessionId }).fetch({ require: false });
+  const finalizedSessionDto = await knex('finalized-sessions').where({ sessionId }).first();
 
-  if (bookshelfFinalizedSession) {
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfFinalizedSession, bookshelfFinalizedSession);
+  if (!finalizedSessionDto) {
+    throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
   }
 
-  throw new NotFoundError(`Session of id ${sessionId} does not exist.`);
+  return _toDomainObject(finalizedSessionDto);
 };
 
 const findFinalizedSessionsToPublish = async function ({ version } = {}) {
