@@ -1,4 +1,4 @@
-import { click, fillIn } from '@ember/test-helpers';
+import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from '../helpers';
@@ -20,6 +20,30 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       assert.dom('.challenge-item-proposals__response').exists({ count: 1 });
       assert.dom(screen.getByText('Rue de :')).exists();
     });
+
+    module('when user provides an answer', function () {
+      test('"Je vérifie" button is enabled', async function (assert) {
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges`);
+        await fillIn(screen.getByLabelText('Rue de :'), 'la paix');
+        await triggerKeyEvent(screen.getByLabelText('Rue de :'), 'keyup', 13);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isEnabled();
+      });
+    });
+
+    module('when user removes its answer', function () {
+      test('"Je vérifie" button is enabled', async function (assert) {
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges`);
+        await fillIn(screen.getByLabelText('Rue de :'), 'la paix');
+        await fillIn(screen.getByLabelText('Rue de :'), '');
+
+        // then
+        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+      });
+    });
   });
 
   module('with text-area format', function (hooks) {
@@ -40,10 +64,23 @@ module('Acceptance | Displaying a QROC challenge', function (hooks) {
       // when
       const screen = await visit(`/assessments/${assessment.id}/challenges`);
       await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');
+      await triggerKeyEvent('textarea[data-uid="qroc-proposal-uid"]', 'keyup', 13);
       await click(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') }));
 
       // then
       assert.dom(screen.getByText(this.intl.t('pages.challenge.messages.correct-answer'))).exists();
+    });
+
+    module('when user removes its answer', function () {
+      test('"Je vérifie" button is disabled again', async function (assert) {
+        // when
+        const screen = await visit(`/assessments/${assessment.id}/challenges`);
+        await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'good-answer');
+        await fillIn('textarea[data-uid="qroc-proposal-uid"]', '');
+
+        // then
+        assert.dom(screen.getByRole('button', { name: this.intl.t('pages.challenge.actions.check') })).isDisabled();
+      });
     });
   });
 

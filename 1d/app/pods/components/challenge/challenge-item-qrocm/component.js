@@ -37,7 +37,7 @@ export default class ChallengeItemQrocm extends Component {
   @action
   onInputChange(key, event) {
     this.answersValue[key] = event.target.value;
-    this.args.setAnswerValue(JSON.stringify(this.answersValue));
+    this._synchronizeAnswers();
   }
 
   @action
@@ -46,6 +46,18 @@ export default class ChallengeItemQrocm extends Component {
     const newAnswersValue = this.answersValue;
     newAnswersValue[key] = value;
     this.answersValue = newAnswersValue;
-    this.args.setAnswerValue(JSON.stringify(this.answersValue));
+    this._synchronizeAnswers();
+  }
+
+  _synchronizeAnswers() {
+    if (this._allFieldsAnswered(this.answersValue)) {
+      this.args.setAnswerValue(JSON.stringify(this.answersValue));
+    } else {
+      this.args.setAnswerValue('');
+    }
+  }
+
+  _allFieldsAnswered(answers) {
+    return !Object.values(answers).includes('');
   }
 }
