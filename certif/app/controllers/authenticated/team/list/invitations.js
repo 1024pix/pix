@@ -23,8 +23,10 @@ export default class AuthenticatedTeamListInvitationsController extends Controll
     try {
       await certificationCenterInvitation.save();
       this.notifications.success(this.intl.t('pages.team-invitations.notifications.success.invitation-resent'));
-    } catch (_) {
-      //
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }
   }
 }
