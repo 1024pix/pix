@@ -5,11 +5,13 @@ const LOCALE = {
   FRENCH_FRANCE: 'fr-fr',
   FRENCH_SPOKEN: 'fr',
 };
+
 const LANG = {
   ENGLISH: 'en',
   FRENCH: 'fr',
 };
-const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR'];
+
+const SUPPORTED_LOCALES = ['en', 'fr', 'fr-BE', 'fr-FR', 'nl'];
 
 const constants = {
   LEVENSHTEIN_DISTANCE_MAX_RATE,

@@ -1,8 +1,8 @@
 import accept from '@hapi/accept';
 import { tokenService } from '../../../src/shared/domain/services/token-service.js';
-import { LOCALE } from '../../../src/shared/domain/constants.js';
+import { SUPPORTED_LOCALES, LOCALE } from '../../../src/shared/domain/constants.js';
 
-const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
+const { FRENCH_FRANCE } = LOCALE;
 
 export { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
 
@@ -24,6 +24,5 @@ function extractLocaleFromRequest(request) {
   if (!languageHeader) {
     return defaultLocale;
   }
-  const acceptedLanguages = [ENGLISH_SPOKEN, FRENCH_SPOKEN, FRENCH_FRANCE];
-  return accept.language(languageHeader, acceptedLanguages) || defaultLocale;
+  return accept.language(languageHeader, SUPPORTED_LOCALES) || defaultLocale;
 }
