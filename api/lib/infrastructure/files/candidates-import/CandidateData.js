@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 const FRANCE_COUNTRY_CODE = '99100';
 import { CertificationCandidate } from '../../../domain/models/CertificationCandidate.js';
@@ -48,7 +48,7 @@ class CandidateData {
     this.email = this._emptyStringIfNull(email);
     this.resultRecipientEmail = this._emptyStringIfNull(resultRecipientEmail);
     this.externalId = this._emptyStringIfNull(externalId);
-    this.birthdate = birthdate === null ? '' : moment(birthdate, 'YYYY-MM-DD').format('YYYY-MM-DD');
+    this.birthdate = birthdate === null ? '' : dayjs(birthdate, 'YYYY-MM-DD').format('YYYY-MM-DD');
     if (!_.isFinite(extraTimePercentage) || extraTimePercentage <= 0) {
       this.extraTimePercentage = '';
     } else {

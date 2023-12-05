@@ -1,6 +1,8 @@
-import moment from 'moment';
-import lodash from 'lodash';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+dayjs.extend(customParseFormat);
 
+import lodash from 'lodash';
 const { isEmpty, isNil, each } = lodash;
 
 import { SiecleXmlImportError, SIECLE_ERRORS } from '../../../domain/errors.js';
@@ -72,7 +74,7 @@ function _mapStudentInformationToOrganizationLearner(studentNode) {
     middleName: _getValueFromParsedElement(studentNode.PRENOM2),
     thirdName: _getValueFromParsedElement(studentNode.PRENOM3),
     sex: _convertSexCode(studentNode.CODE_SEXE),
-    birthdate: moment(studentNode.DATE_NAISS, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
+    birthdate: dayjs(studentNode.DATE_NAISS?.[0], 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
     birthCountryCode: _getValueFromParsedElement(studentNode.CODE_PAYS),
     birthProvinceCode: _getValueFromParsedElement(studentNode.CODE_DEPARTEMENT_NAISS),
     birthCityCode: _getValueFromParsedElement(studentNode.CODE_COMMUNE_INSEE_NAISS),

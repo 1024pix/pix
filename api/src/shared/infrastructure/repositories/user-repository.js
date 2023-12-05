@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { knex } from '../../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
@@ -316,7 +315,7 @@ const acceptPixLastTermsOfService = async function (id) {
   const user = await BookshelfUser.where({ id }).fetch({ require: false });
   await user.save(
     {
-      lastTermsOfServiceValidatedAt: moment().toDate(),
+      lastTermsOfServiceValidatedAt: new Date(),
       mustValidateTermsOfService: false,
     },
     { patch: true, method: 'update' },

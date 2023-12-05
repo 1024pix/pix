@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 class SessionData {
   constructor({
@@ -33,8 +33,8 @@ class SessionData {
     this.publishedAt = publishedAt;
     this.certificationCenterId = certificationCenterId;
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
-    this.startTime = moment(time, 'HH:mm').format('HH:mm');
-    this.date = moment(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    this.startTime = dayjs(time, 'HH:mm').format('HH:mm');
+    this.date = dayjs(date, 'YYYY-MM-DD').format('DD/MM/YYYY');
   }
 
   static fromSession(session) {
