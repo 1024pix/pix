@@ -8,6 +8,7 @@ export default class LanguageSwitcher extends Component {
   availableLanguages = [
     { label: 'Français', value: 'fr' },
     { label: 'English', value: 'en' },
+    { label: 'Nederlands', value: 'nl' },
   ];
 
   @action
