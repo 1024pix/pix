@@ -22,10 +22,6 @@ function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
-function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
-  return environmentVariable === 'true' ? true : defaultValue;
-}
-
 function _getNumber(numberAsString, defaultValue) {
   const number = parseInt(numberAsString, 10);
   return isNaN(number) ? defaultValue : number;
@@ -79,7 +75,7 @@ const configuration = (function () {
       },
     ],
     auditLogger: {
-      isEnabled: isBooleanFeatureEnabledElseDefault(process.env.PIX_AUDIT_LOGGER_ENABLED, false),
+      isEnabled: isFeatureEnabled(process.env.PIX_AUDIT_LOGGER_ENABLED),
       baseUrl: process.env.PIX_AUDIT_LOGGER_BASE_URL,
       clientSecret: process.env.PIX_AUDIT_LOGGER_CLIENT_SECRET,
     },
@@ -481,7 +477,7 @@ const configuration = (function () {
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
-    config.logging.enabled = isBooleanFeatureEnabledElseDefault(process.env.TEST_LOG_ENABLED, false);
+    config.logging.enabled = isFeatureEnabled(process.env.TEST_LOG_ENABLED);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
