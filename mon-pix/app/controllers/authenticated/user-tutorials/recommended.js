@@ -5,6 +5,7 @@ import { service } from '@ember/service';
 
 export default class RecommendedController extends Controller {
   @service router;
+  @service intl;
 
   @tracked isSidebarVisible = false;
 
