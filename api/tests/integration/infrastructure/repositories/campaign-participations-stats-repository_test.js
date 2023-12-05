@@ -1,6 +1,6 @@
 import { CampaignParticipationsStatsRepository as campaignParticipationsStatsRepository } from '../../../../lib/infrastructure/repositories/campaign-participations-stats-repository.js';
 import { expect, databaseBuilder } from '../../../test-helper.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

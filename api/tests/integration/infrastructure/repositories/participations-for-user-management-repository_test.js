@@ -2,7 +2,7 @@ import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as participationsForUserManagementRepository from '../../../../lib/infrastructure/repositories/participations-for-user-management-repository.js';
 import _ from 'lodash';
 import { CampaignParticipationForUserManagement } from '../../../../lib/domain/read-models/CampaignParticipationForUserManagement.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

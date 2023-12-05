@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

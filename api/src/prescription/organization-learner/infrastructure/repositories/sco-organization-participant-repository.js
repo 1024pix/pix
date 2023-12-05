@@ -5,7 +5,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { ScoOrganizationParticipant } from '../../domain/read-models/ScoOrganizationParticipant.js';
 import { CampaignTypes } from '../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {

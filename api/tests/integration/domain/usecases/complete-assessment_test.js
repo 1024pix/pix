@@ -3,7 +3,7 @@ import { completeAssessment } from '../../../../lib/domain/usecases/complete-ass
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { TO_SHARE, STARTED } = CampaignParticipationStatuses;
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';

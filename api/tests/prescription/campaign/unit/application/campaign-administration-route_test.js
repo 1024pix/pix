@@ -1,8 +1,8 @@
-import { expect, HttpTestServer, sinon } from '../../../../../test-helper.js';
-import { campaignAdministrationController } from '../../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
-import * as moduleUnderTest from '../../../../../../src/prescription/campaign/application/campaign-administration-route.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
+import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-administration-route.js';
 
-describe('Unit | Application | Router | campaign-router ', function () {
+describe('Unit | Application | Router | campaign-administration-router ', function () {
   describe('POST /api/campaigns', function () {
     it('should return 201', async function () {
       // given

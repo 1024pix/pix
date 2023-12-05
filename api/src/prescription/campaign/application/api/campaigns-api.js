@@ -1,5 +1,4 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { usecases as libUsecases } from '../../../../../lib/domain/usecases/index.js';
 import { SavedCampaign } from './SavedCampaign.js';
 import { Campaign } from './Campaign.js';
 /**
@@ -55,6 +54,6 @@ export const save = async (campaign) => {
  * @returns {Promise<Campaign>}
  */
 export const get = async (campaignId) => {
-  const getCampaign = await libUsecases.getCampaign({ campaignId });
+  const getCampaign = await usecases.getCampaign({ campaignId });
   return new Campaign(getCampaign);
 };

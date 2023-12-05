@@ -13,7 +13,7 @@ import * as competenceRepository from '../../src/shared/infrastructure/repositor
 import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import * as campaignAdministrationRepository from '../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
-import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 import { computeParticipantResultsShared as computeParticipationResults } from '../prod/compute-participation-results.js';
 import {
   getEligibleCampaignParticipations,

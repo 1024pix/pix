@@ -4,7 +4,7 @@ import {
   UserNotAuthorizedToAccessEntityError,
   CampaignParticipationDeletedError,
 } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { LOCALE } from '../../../../src/shared/domain/constants.js';
 
 const { computeCampaignParticipationAnalysis } = usecases;
