@@ -118,6 +118,14 @@ class CertificationCourse {
     this._completedAt = now;
   }
 
+  rejectForFraud() {
+    this._isRejectedForFraud = true;
+  }
+
+  isRejectedForFraud() {
+    return this._isRejectedForFraud;
+  }
+
   abort(reason) {
     const { error } = Joi.string()
       .valid(...Object.values(ABORT_REASONS))

@@ -1,7 +1,11 @@
-export const rejectCertificationCourse = async ({ certificationCourseId, assessmentResultRepository }) => {
-  const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
+import { CertificationCourseRejected } from '../../../../../lib/domain/events/CertificationCourseRejected.js';
 
-  const updatedAssessmentResult = assessmentResult.clone();
-  updatedAssessmentResult.reject();
-  await assessmentResultRepository.save({ certificationCourseId, assessmentResult: updatedAssessmentResult });
+export const rejectCertificationCourse = async ({ certificationCourseId, juryId, certificationCourseRepository }) => {
+  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+
+  certificationCourse.rejectForFraud();
+
+  await certificationCourseRepository.update(certificationCourse);
+
+  return new CertificationCourseRejected({ certificationCourseId, juryId });
 };
