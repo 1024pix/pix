@@ -3,7 +3,7 @@ import { expect, databaseBuilder, mockLearningContent, knex, catchErr } from '..
 import * as campaignManagementRepository from '../../../../lib/infrastructure/repositories/campaign-management-repository.js';
 import * as campaignValidator from '../../../../lib/domain/validators/campaign-validator.js';
 import { updateCampaignDetailsManagement } from '../../../../lib/domain/usecases/update-campaign-details-management.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
 
 const { SHARED } = CampaignParticipationStatuses;

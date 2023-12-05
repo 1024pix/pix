@@ -1,5 +1,5 @@
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { expect, domainBuilder, sinon, catchErr } from '../../../test-helper.js';
 import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';

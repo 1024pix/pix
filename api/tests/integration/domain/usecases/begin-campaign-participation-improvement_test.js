@@ -2,7 +2,7 @@ import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import { beginCampaignParticipationImprovement } from '../../../../lib/domain/usecases/begin-campaign-participation-improvement.js';
 import * as assessmentRepository from '../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 

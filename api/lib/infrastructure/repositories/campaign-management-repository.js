@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignManagement } from '../../domain/read-models/CampaignManagement.js';
 import { fetchPage } from '../utils/knex-utils.js';
-import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;

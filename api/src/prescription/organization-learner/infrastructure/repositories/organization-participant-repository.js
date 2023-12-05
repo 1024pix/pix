@@ -3,7 +3,7 @@ import { knex } from '../../../../../db/knex-database-connection.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 import { CampaignTypes } from '../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 
 async function findPaginatedFilteredParticipants({ organizationId, page, filters = {}, sort = {} }) {
   const { count } = await knex

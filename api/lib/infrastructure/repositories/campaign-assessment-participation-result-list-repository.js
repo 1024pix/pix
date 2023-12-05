@@ -3,7 +3,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
 import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

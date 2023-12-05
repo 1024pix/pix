@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
 import * as campaignCollectiveResultRepository from '../../../../lib/infrastructure/repositories/campaign-collective-result-repository.js';
 import { CampaignCollectiveResult } from '../../../../lib/domain/read-models/CampaignCollectiveResult.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED } = CampaignParticipationStatuses;
 

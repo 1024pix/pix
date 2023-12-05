@@ -1,4 +1,3 @@
-import { usecases as libUsecases } from '../../../../../../lib/domain/usecases/index.js';
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as campaignApi from '../../../../../../src/prescription/campaign/application/api/campaigns-api.js';
 import { expect, sinon, catchErr } from '../../../../../test-helper.js';
@@ -91,7 +90,7 @@ describe('Unit | API | Campaigns', function () {
         archivedAt: new Date('2023-01-01'),
       });
 
-      const getCampaignStub = sinon.stub(libUsecases, 'getCampaign');
+      const getCampaignStub = sinon.stub(usecases, 'getCampaign');
       getCampaignStub.withArgs({ campaignId: campaignInformation.id }).resolves(campaignInformation);
 
       // when

@@ -1,4 +1,4 @@
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';

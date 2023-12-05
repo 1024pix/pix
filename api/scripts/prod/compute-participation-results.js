@@ -8,7 +8,7 @@ dotenv.config({ path: `${__dirname}/../../.env` });
 import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/repositories/knowledge-element-snapshot-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { ParticipantResultsShared } from '../../lib/domain/models/ParticipantResultsShared.js';
-import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 import { knex, disconnect } from '../../db/knex-database-connection.js';

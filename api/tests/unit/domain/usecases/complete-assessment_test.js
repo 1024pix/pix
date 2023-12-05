@@ -4,7 +4,7 @@ import { completeAssessment } from '../../../../lib/domain/usecases/complete-ass
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { AlreadyRatedAssessmentError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 describe('Unit | UseCase | complete-assessment', function () {
   let assessmentRepository;
