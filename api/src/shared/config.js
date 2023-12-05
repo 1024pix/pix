@@ -22,8 +22,8 @@ function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
-function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
-  return environmentVariable === 'true' ? true : defaultValue;
+function isFeatureNotDisabled(environmentVariable) {
+  return environmentVariable !== 'false';
 }
 
 function _getNumber(numberAsString, defaultValue) {
@@ -79,7 +79,7 @@ const configuration = (function () {
       },
     ],
     auditLogger: {
-      isEnabled: isBooleanFeatureEnabledElseDefault(process.env.PIX_AUDIT_LOGGER_ENABLED, false),
+      isEnabled: isFeatureEnabled(process.env.PIX_AUDIT_LOGGER_ENABLED),
       baseUrl: process.env.PIX_AUDIT_LOGGER_BASE_URL,
       clientSecret: process.env.PIX_AUDIT_LOGGER_CLIENT_SECRET,
     },
@@ -357,7 +357,7 @@ const configuration = (function () {
   };
 
   if (config.environment === 'development') {
-    config.logging.enabled = true;
+    config.logging.enabled = isFeatureNotDisabled(process.env.LOG_ENABLED);
   } else if (process.env.NODE_ENV === 'test') {
     config.auditLogger.baseUrl = 'http://audit-logger.local';
     config.auditLogger.clientSecret = 'client-super-secret';
@@ -481,7 +481,7 @@ const configuration = (function () {
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
-    config.logging.enabled = isBooleanFeatureEnabledElseDefault(process.env.TEST_LOG_ENABLED, false);
+    config.logging.enabled = isFeatureEnabled(process.env.TEST_LOG_ENABLED);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
