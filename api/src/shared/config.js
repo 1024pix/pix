@@ -1,11 +1,11 @@
 import * as dotenv from 'dotenv';
 import path from 'path';
-import moment from 'moment';
 import ms from 'ms';
 
 import { getArrayOfStrings, getArrayOfUpperStrings } from './infrastructure/utils/string-utils.js';
 
 import * as url from 'url';
+import dayjs from 'dayjs';
 
 dotenv.config();
 
@@ -35,7 +35,7 @@ function _getDate(dateAsString) {
   if (!dateAsString) {
     return null;
   }
-  const dateAsMoment = moment(dateAsString);
+  const dateAsMoment = dayjs(dateAsString);
   if (!dateAsMoment.isValid()) {
     return null;
   }

@@ -1,6 +1,6 @@
+import dayjs from 'dayjs';
 import { Skill } from '../models/Skill.js';
 import _ from 'lodash';
-import moment from 'moment';
 
 const statuses = {
   VALIDATED: 'validated',
@@ -93,7 +93,7 @@ class KnowledgeElement {
   static computeDaysSinceLastKnowledgeElement(knowledgeElements) {
     const lastCreatedAt = _(knowledgeElements).map('createdAt').max();
     const precise = true;
-    return moment().diff(lastCreatedAt, 'days', precise);
+    return dayjs().diff(lastCreatedAt, 'days', precise);
   }
 
   static findDirectlyValidatedFromGroups(knowledgeElementsByCompetence) {

@@ -15,9 +15,6 @@ import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat.js';
-dayjs.extend(customParseFormat);
 import { getDivisionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-division-certification-results-csv.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organizations-administration/organization-for-admin-serializer.js';
 
