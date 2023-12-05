@@ -148,6 +148,7 @@
     "lint:translations:fix": "npm run lint:translations -- --fix",
     "postdeploy": "DEBUG=knex:* npm run db:migrate",
     "preinstall": "npx check-engine",
+    "postinstall": "node scripts/install-libxmljs2/check-if-build-is-compatible.js",
     "scalingo-postbuild": "node scripts/generate-cron > cron.json",
     "start": "node index.js",
     "start:watch": "nodemon index.js",
