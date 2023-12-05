@@ -54,4 +54,19 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
       });
     });
   });
+
+  module('#resendInvitation', function () {
+    test('resends invitation', async function (assert) {
+      // given
+      const certificationCenterInvitation = {
+        save: sinon.stub(),
+      };
+
+      // when
+      await controller.resendInvitation(certificationCenterInvitation);
+
+      // then
+      assert.ok(certificationCenterInvitation.save.called);
+    });
+  });
 });

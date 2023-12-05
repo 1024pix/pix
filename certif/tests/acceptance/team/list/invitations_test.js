@@ -108,5 +108,25 @@ module('Acceptance | Team | Invitations', function (hooks) {
         });
       });
     });
+
+    module('when user clicks on resend invitation button', function () {
+      test('resends the invitation', async function (assert) {
+        // given
+        this.server.create('certification-center-invitation', {
+          certificationCenterId: 1,
+          email: 'medhi.khaman@example.net',
+          updatedAt: new Date('2023-12-05T11:30:00Z'),
+        });
+
+        const screen = await visit('/equipe/invitations');
+
+        // when
+        await clickByName(this.intl.t('pages.team-invitations.actions.resend-invitation'));
+
+        // then
+        assert.dom(screen.getByRole('cell', { name: 'medhi.khaman@example.net' })).exists();
+        assert.dom(screen.getByRole('cell', { name: '05/12/2023 - 12:35' })).exists();
+      });
+    });
   });
 });
