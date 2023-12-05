@@ -71,5 +71,26 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
       assert.ok(certificationCenterInvitation.save.called);
       assert.ok(controller.notifications.success.calledWithExactly("L'invitation a bien été renvoyée."));
     });
+
+    module('when an error occurs', function () {
+      test('displays an error notification', async function (assert) {
+        // given
+        const certificationCenterInvitation = {
+          save: sinon.stub().rejects(),
+        };
+
+        controller.notifications = { error: sinon.stub() };
+
+        // when
+        await controller.resendInvitation(certificationCenterInvitation);
+
+        // then
+        assert.ok(
+          controller.notifications.error.calledWithExactly(
+            'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.',
+          ),
+        );
+      });
+    });
   });
 });
