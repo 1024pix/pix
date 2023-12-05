@@ -5,7 +5,6 @@ import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library
 import sinon from 'sinon';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
-import ENV from 'pix-orga/config/environment';
 
 module('Integration | Component | SupOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -744,8 +743,6 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
 
   module('when user is admin of organisation', function (hooks) {
     hooks.beforeEach(function () {
-      ENV.APP.FT_DELETE_PARTICIPANT = true;
-
       const store = this.owner.lookup('service:store');
       const organization = store.createRecord('organization', { groups: [] });
 
@@ -754,10 +751,6 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
         organization = organization;
       }
       this.owner.register('service:current-user', CurrentUserStub);
-    });
-
-    hooks.afterEach(function () {
-      ENV.APP.FT_DELETE_PARTICIPANT = false;
     });
 
     test('it should display checkboxes', async function (assert) {
@@ -1271,15 +1264,7 @@ module('Integration | Component | SupOrganizationParticipant::List', function (h
     });
   });
 
-  module('when user is not admin of organisation', function (hooks) {
-    hooks.beforeEach(function () {
-      ENV.APP.FT_DELETE_PARTICIPANT = true;
-    });
-
-    hooks.afterEach(function () {
-      ENV.APP.FT_DELETE_PARTICIPANT = false;
-    });
-
+  module('when user is not admin of organisation', function () {
     test('it should not display checkboxes', async function (assert) {
       //given
       const store = this.owner.lookup('service:store');
