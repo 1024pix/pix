@@ -1,5 +1,5 @@
 import { Answer } from '../../../../src/evaluation/domain/models/Answer.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import { Examiner } from '../../../../lib/domain/models/Examiner.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';
 

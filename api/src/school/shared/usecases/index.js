@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import * as activityAnswerRepository from '../../../../lib/infrastructure/repositories/activity-answer-repository.js';
+import * as activityAnswerRepository from '../../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../infrastructure/repositories/activity-repository.js';
 import * as assessmentRepository from '../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as challengeRepository from '../../../school/infrastructure/repositories/challenge-repository.js';

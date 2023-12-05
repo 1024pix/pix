@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { AnswerCollectionForScoring } from '../../../../lib/domain/models/AnswerCollectionForScoring.js';
-import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 
 describe('Unit | Domain | Models | AnswerCollectionForScoring', function () {
   context('#numberOfChallenges', function () {

@@ -9,7 +9,7 @@ import { config } from '../../config.js';
 import { repositories } from '../../infrastructure/repositories/index.js';
 
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
-import * as activityAnswerRepository from '../../infrastructure/repositories/activity-answer-repository.js';
+import * as activityAnswerRepository from '../../../src/school/infrastructure/repositories/activity-answer-repository.js';
 import * as activityRepository from '../../../src/school/infrastructure/repositories/activity-repository.js';
 import * as adminMemberRepository from '../../../src/shared/infrastructure/repositories/admin-member-repository.js';
 import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
