@@ -17,4 +17,9 @@ export default class AuthenticatedTeamListInvitationsController extends Controll
       this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }
   }
+
+  @action
+  async resendInvitation(certificationCenterInvitation) {
+    await certificationCenterInvitation.save();
+  }
 }
