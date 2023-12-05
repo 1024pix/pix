@@ -213,5 +213,6 @@ function _pickUpdatableProperties(certificationCourse) {
     'birthPostalCode',
     'abortReason',
     'completedAt',
+    'isRejectedForFraud',
   ]);
 }

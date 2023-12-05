@@ -1,40 +1,43 @@
 import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
 import { rejectCertificationCourse } from '../../../../../../src/certification/course/domain/usecases/reject-certification-course.js';
-import { AssessmentResult } from '../../../../../../lib/domain/models/index.js';
+import { CertificationCourse } from '../../../../../../lib/domain/models/index.js';
+import { CertificationCourseRejected } from '../../../../../../lib/domain/events/CertificationCourseRejected.js';
 
 describe('Unit | UseCase | reject-certification-course', function () {
   it('should reject a newly created assessment result', async function () {
     // given
-    const assessmentResultRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-    const certificationCourseId = 1;
-    const assessmentResultId = 123;
+    const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
+    const juryId = 123;
 
-    const assessmentResult = domainBuilder.buildAssessmentResult({
-      assessmentId: assessmentResultId,
-      status: AssessmentResult.status.VALIDATED,
-    });
+    const dependencies = {
+      certificationCourseRepository,
+    };
+    const certificationCourse = domainBuilder.buildCertificationCourse();
+    const certificationCourseId = certificationCourse.getId();
 
-    assessmentResultRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId })
-      .resolves(assessmentResult);
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    certificationCourseRepository.update.resolves();
 
     // when
-    await rejectCertificationCourse({
+    const event = await rejectCertificationCourse({
+      ...dependencies,
+      juryId,
       certificationCourseId: certificationCourseId,
-      assessmentResultRepository,
     });
 
     // then
-    const expectedAssessmentResult = new AssessmentResult({
-      ...assessmentResult,
-      status: AssessmentResult.status.REJECTED,
-      id: undefined,
-      createdAt: undefined,
+    const expectedCertificationCourse = new CertificationCourse({
+      ...certificationCourse.toDTO(),
+      isRejectedForFraud: true,
     });
 
-    expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
-      certificationCourseId,
-      assessmentResult: expectedAssessmentResult,
-    });
+    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+    expect(event).to.be.instanceOf(CertificationCourseRejected);
+    expect(event).to.deep.equal(
+      new CertificationCourseRejected({
+        certificationCourseId,
+        juryId,
+      }),
+    );
   });
 });
