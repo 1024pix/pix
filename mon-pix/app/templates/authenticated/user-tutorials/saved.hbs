@@ -10,7 +10,7 @@
       <PixPagination
         @pagination={{@model.savedTutorials.meta.pagination}}
         @pageOptions={{this.pageOptions}}
-        @locale="{{t 'current-lang'}}"
+        @locale={{this.intl.primaryLocale}}
         @isCondensed="true"
       />
     {{else}}
