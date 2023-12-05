@@ -8,17 +8,13 @@
 
 # dependencies
 **/node_modules
-**/bower_components
 
 # misc
 **/.eslintcache
 **/.sass-cache
-**/connect.lock
-**/libpeerconnection.log
 **/npm-debug.log
 **/testem.log
 **/out.log
-**/api/.env
 **/*.log
 **/*.log.*
 
@@ -28,9 +24,6 @@
 !.idea/runConfigurations/*.xml
 *.iml
 *.code-workspace
-
-# SQLite3 local dev file
-*.sqlite3
 
 # system
 .DS_Store
@@ -78,16 +71,8 @@ api/scripts/extractions
 # Visual regression snapshots
 high-level-tests/e2e/cypress/snapshots/actual/**
 
-# Jupyter Notebook
-**/.cache
-**/.config
-**/.ipython
-**/.ipynb_checkpoints
-**/.local
-
 # Pipe viewer
 **/pv*.out
-
 
 # Docker-compose config
 docker/data/
