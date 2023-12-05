@@ -8,8 +8,9 @@ const buildFlashAlgorithmConfiguration = function ({
   minimumEstimatedSuccessRateRanges = [],
   limitToOneQuestionPerTube = null,
   enablePassageByAllCompetences = false,
-  variationPercent = null,
   doubleMeasuresUntil = null,
+  variationPercent = null,
+  variationPercentUntil = null,
 } = {}) {
   const values = {
     warmUpLength,
@@ -19,8 +20,9 @@ const buildFlashAlgorithmConfiguration = function ({
     minimumEstimatedSuccessRateRanges: JSON.stringify(minimumEstimatedSuccessRateRanges),
     limitToOneQuestionPerTube,
     enablePassageByAllCompetences,
-    variationPercent,
     doubleMeasuresUntil,
+    variationPercent,
+    variationPercentUntil,
   };
 
   return databaseBuffer.pushInsertable({

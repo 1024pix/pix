@@ -30,8 +30,9 @@ const _baseScenarioParametersValidator = Joi.object().keys({
   limitToOneQuestionPerTube: Joi.boolean(),
   minimumEstimatedSuccessRateRanges: Joi.array().items(_successRatesConfigurationValidator),
   enablePassageByAllCompetences: Joi.boolean(),
-  variationPercent: Joi.number().min(0).max(1),
   doubleMeasuresUntil: Joi.number().min(0),
+  variationPercent: Joi.number().min(0).max(1),
+  variationPercentUntil: Joi.number().min(0),
 });
 
 const register = async (server) => {

@@ -152,6 +152,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               allAnswers,
               estimatedLevel: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
+              variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({
@@ -219,6 +220,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
               allAnswers,
               estimatedLevel: config.v3Certification.defaultCandidateCapacity,
               variationPercent: undefined,
+              variationPercentUntil: undefined,
               doubleMeasuresUntil: undefined,
             })
             .returns({

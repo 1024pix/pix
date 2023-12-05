@@ -35,6 +35,7 @@ async function simulateFlashAssessmentScenario(
     enablePassageByAllCompetences,
     doubleMeasuresUntil,
     variationPercent,
+    variationPercentUntil,
   } = request.payload;
 
   const pickAnswerStatus = _getPickAnswerStatusMethod(dependencies.pickAnswerStatusService, request.payload);
@@ -67,6 +68,7 @@ async function simulateFlashAssessmentScenario(
           enablePassageByAllCompetences,
           doubleMeasuresUntil,
           variationPercent,
+          variationPercentUntil,
         },
         _.isUndefined,
       );

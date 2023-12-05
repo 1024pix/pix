@@ -11,6 +11,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         maximumAssessmentLength: 2,
         challengesBetweenSameCompetence: 3,
         variationPercent: 4,
+        variationPercentUntil: 3,
         doubleMeasuresUntil: 5,
         forcedCompetences: ['comp1', 'comp2'],
         minimumEstimatedSuccessRateRanges: [
@@ -36,6 +37,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         limitToOneQuestionPerTube: true,
         enablePassageByAllCompetences: false,
         variationPercent: 4,
+        variationPercentUntil: 3,
         doubleMeasuresUntil: 5,
       });
     });
@@ -47,6 +49,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         maximumAssessmentLength: 2,
         challengesBetweenSameCompetence: 3,
         variationPercent: 4,
+        variationPercentUntil: 3,
         doubleMeasuresUntil: 5,
         minimumEstimatedSuccessRateRanges: [
           { type: 'fixed', startingChallengeIndex: 0, endingChallengeIndex: 7, value: 0.8 },
@@ -71,6 +74,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         limitToOneQuestionPerTube: true,
         enablePassageByAllCompetences: false,
         variationPercent: 4,
+        variationPercentUntil: 3,
         doubleMeasuresUntil: 5,
       });
     });
@@ -82,6 +86,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         maximumAssessmentLength: 2,
         challengesBetweenSameCompetence: 3,
         variationPercent: 4,
+        variationPercentUntil: 3,
         doubleMeasuresUntil: 5,
         forcedCompetences: ['comp1', 'comp2'],
         limitToOneQuestionPerTube: true,
@@ -102,6 +107,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
         limitToOneQuestionPerTube: true,
         enablePassageByAllCompetences: false,
         variationPercent: 4,
+        variationPercentUntil: 3,
         doubleMeasuresUntil: 5,
       });
     });
@@ -116,6 +122,7 @@ describe('Integration | Infrastructure | Repository | FlashAlgorithmConfiguratio
           maximumAssessmentLength: 2,
           challengesBetweenSameCompetence: 3,
           variationPercent: 4,
+          variationPercentUntil: 3,
           doubleMeasuresUntil: 5,
           forcedCompetences: ['comp1', 'comp2'],
           minimumEstimatedSuccessRateRanges: [
