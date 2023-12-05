@@ -33,7 +33,7 @@ module('Unit | Component | signup-form', function (hooks) {
     }
 
     class IntlStub extends Service {
-      t = sinon.stub().returns('fr');
+      primaryLocale = 'fr';
       get = sinon.stub().returns(['fr']);
     }
 

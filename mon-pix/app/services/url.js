@@ -15,12 +15,12 @@ export default class Url extends Service {
   }
 
   get homeUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     return `${this.definedHomeUrl}?lang=${currentLanguage}`;
   }
 
   get cguUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/conditions-generales-d-utilisation`;
     }
@@ -30,7 +30,7 @@ export default class Url extends Service {
   }
 
   get dataProtectionPolicyUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/politique-protection-donnees-personnelles-app`;
     }
@@ -41,7 +41,7 @@ export default class Url extends Service {
   }
 
   get _showcaseWebsiteUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
 
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
@@ -54,7 +54,7 @@ export default class Url extends Service {
   }
 
   get accessibilityUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     if (this.currentDomain.isFranceDomain) {
       return `https://pix.fr/accessibilite`;
     }
@@ -64,7 +64,7 @@ export default class Url extends Service {
   }
 
   get accessibilityHelpUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return `https://pix.${this.currentDomain.getExtension()}/en-gb/help-accessibility`;
     }
@@ -72,7 +72,7 @@ export default class Url extends Service {
   }
 
   get supportHomeUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
 
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return 'https://support.pix.org/en/support/home';
@@ -81,7 +81,7 @@ export default class Url extends Service {
   }
 
   get levelSevenNewsUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
 
     if (currentLanguage === ENGLISH_INTERNATIONAL_LOCALE) {
       return 'https://pix.org/en/news/discover-level-7-on-pix';
