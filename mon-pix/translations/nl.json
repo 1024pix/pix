@@ -93,8 +93,8 @@
         "previous": "Ga naar de vorige pagina",
         "select-page-size": "Aantal items dat per pagina moet worden weergegeven"
       },
-      "page-info": "{start, aantal}-{einde, aantal} op {totaal, meervoud, =0 {0 element} =1 {1 element} andere {{totaal, aantal} elementen}}",
-      "page-number": "Pagina {huidig, aantal} / {totaal, aantal}",
+      "page-info": "{start, number}-{end, number} op {total, plural, =0 {0 element} =1 {1 element} other {{total, number} elementen}}",
+      "page-number": "Pagina {current, number} / {total, number}",
       "page-results": "{totaal, meervoud, =0 {0 item} =1 {1 item} overige {{totaal, aantal} items}}",
       "result-by-page": "Zie"
     },
@@ -139,7 +139,7 @@
       "sign-up": "Meld je nu aan"
     },
     "pix": "Pix",
-    "showcase-homepage": "Startpagina Pix.{ tld",
+    "showcase-homepage": "Startpagina Pix.{ tld }",
     "user-logged-menu": {
       "details": "Mijn informatie bekijken"
     },
@@ -323,13 +323,13 @@
         "title-with-username": "<span>'{userFirstName}'</span>','<br>' stuur je profiel"
       },
       "title": "Presentatie",
-      "warning-message": "Ben jij niet {voornaam} {achternaam }?",
+      "warning-message": "Ben jij niet {firstName} {lastName }?",
       "warning-message-logout": "Log uit."
     },
     "campaign-participation-overview": {
       "card": {
-        "finished-at": "Voltooid op {datum}",
-        "results": "{resultaat, getal, ::percentage} van succes",
+        "finished-at": "Voltooid op {date}",
+        "results": "{result, number, ::percent} van succes",
         "resume": {
           "extra-information": "Hervat de {campaignTitle} route",
           "information": "Overnemen"
@@ -337,7 +337,7 @@
         "see-more": "Zie details",
         "send": "Stuur mijn resultaten",
         "stages": "{count} {count, plural, =0 {star} =1 {star} other {stars} } on {total}",
-        "started-at": "Gestart op {datum}",
+        "started-at": "Gestart op {date}",
         "tag": {
           "completed": "Om te sturen",
           "disabled": "Inactief",
@@ -363,12 +363,12 @@
     "certificate": {
       "attestation": "Mijn certificaat downloaden",
       "back-link": "Terug naar mijn certificeringen",
-      "candidate-birth": "Geboren op {geboortedatum}",
-      "candidate-birth-complete": "Geboren op {geboortedatum} te {geboorteplaats}.",
+      "candidate-birth": "Geboren op {birthdate}",
+      "candidate-birth-complete": "Geboren op {birthdate} te {birthplace}.",
       "certification-center": "Certificeringscentrum :",
       "competences": {
         "information": "Je gecertificeerde score is berekend op basis van je antwoorden tijdens het certificeringsproces. Deze kan daarom afwijken van het aantal Pix dat wordt weergegeven in je profiel. Op de dag van je certificering was het mogelijk om het {maxReachableLevelOnCertificationDate} vaardigheidsniveau en {maxReachablePixCountOnCertificationDate} pix maximaal te behalen.",
-        "subtitle": "(niveaus op {maxBereikbaarLevel})",
+        "subtitle": "(niveaus op {maxReachableLevel})",
         "title": "Gecertificeerde vaardigheden"
       },
       "complementary": {
@@ -538,7 +538,7 @@
       },
       "already-answered": "U hebt deze vraag al beantwoord",
       "answer-input": {
-        "numbered-label": "Antwoord {aantal}"
+        "numbered-label": "Antwoord {number}"
       },
       "certification": {
         "banner": {
@@ -550,7 +550,7 @@
           "problem": "het ondervonden probleem",
           "question-number": "het vraagnummer (rechtsboven in het scherm)"
         },
-        "title": "Certificering {certificeringsNummer}"
+        "title": "Certificering {certificationNumber}"
       },
       "embed-simulator": {
         "actions": {
@@ -747,7 +747,7 @@
       "title": {
         "default": "Vrije modus - Vraag {stepNumber} op {totalChallengeNumber}.",
         "focused": "Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
-        "focused-out": "Mislukt - Focusmodus - Vraag {stapNummer} op {totalChallengeNumber}.",
+        "focused-out": "Mislukt - Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
         "timed-out": "Verstreken tijd - Vraag {stapNummer} van {totaalUitdagingNummer}"
       }
     },
@@ -840,22 +840,22 @@
     "competence-details": {
       "actions": {
         "continue": {
-          "extra-information": "CV-vaardigheid {competentienaam}",
+          "extra-information": "CV-vaardigheid {competenceName}",
           "label": "Overnemen"
         },
         "improve": {
           "description": {
-            "countdown": "{ daysBeforeImproving, meervoud, =0 {0 dag.} =1 {1 dag.} overig {# dagen.} }",
+            "countdown": "{ daysBeforeImproving, plural, =0 {0 dag.} =1 {1 dag.} other {# dagen.} }",
             "waiting-text": "Probeer het volgende niveau in"
           },
           "improvingText": "Probeer het volgende niveau te bereiken!",
           "label": "Retenter"
         },
         "reset": {
-          "description": "Reset beschikbaar in { daysBeforeReset, meervoud, =0 {0 dag.} =1 {1 dag.} overig {# dagen.} }",
+          "description": "Reset beschikbaar in { daysBeforeReset, plural, =0 {0 dag.} =1 {1 dag.} other {# dagen.} }",
           "label": "Op nul zetten",
           "modal": {
-            "important-message": "Uw { verdiendPix } Pix wordt verwijderd uit de vaardigheid: { scoreCardName }.",
+            "important-message": "Uw { earnedPix } Pix wordt verwijderd uit de vaardigheid: { scoreCardName }.",
             "important-message-above-level-one": "Je { level } en { earnedPix } Pix worden verwijderd uit de vaardigheid: { scoreCardName }.",
             "title": "Vaardigheden resetten",
             "warning": {
@@ -866,11 +866,11 @@
           }
         },
         "start": {
-          "extra-information": "Start de vaardigheid {competentienaam}",
+          "extra-information": "Start de vaardigheid {competenceName}",
           "label": "Start"
         }
       },
-      "for-competence": "competentie",
+      "for-competence": "competentie  {competence}",
       "next-level-info": "{ remainingPixToNextLevel } pix before level { level }",
       "title": "Bevoegdheid",
       "tutorials": {
@@ -920,7 +920,7 @@
           "text": "Om er meer over te weten",
           "url": "https://pix.fr/actualites/decouvrez-votre-nouveau-tableau-de-bord"
         },
-        "message": "<h2>Hallo { voornaam }, ontdek uw dashboard.</h2><p>Snel en eenvoudig toegang tot uw cursussen en vaardigheidstests die al zijn gestart.<br/>Ontdek hoe uw Pix-score zich ontwikkelt en controleer of uw profiel klaar is voor Pix-certificering.</p>"
+        "message": "<h2>Hallo { firstname }, ontdek uw dashboard.</h2><p>Snel en eenvoudig toegang tot uw cursussen en vaardigheidstests die al zijn gestart.<br/>Ontdek hoe uw Pix-score zich ontwikkelt en controleer of uw profiel klaar is voor Pix-certificering.</p>"
       },
       "recommended-competences": {
         "extra-information": "Toegang tot alle aanbevolen vaardigheden",
@@ -965,7 +965,7 @@
       },
       "start": "Toegang tot de cursus",
       "title": "Ik heb een code",
-      "warning-message": "Ben jij niet {voornaam} {achternaam }?",
+      "warning-message": "Ben jij niet {firstName} {lastName }?",
       "warning-message-logout": "Log uit."
     },
     "fill-in-certificate-verification-code": {
@@ -1033,7 +1033,7 @@
         "associate": "Geassocieerd",
         "continue-with-pix": "Doorgaan met mijn Pix-account",
         "error-not-found": "Ben je student? '<br>' Controleer je gegevens (voornaam, achternaam en geboortedatum) of neem contact op met een docent.'<br><br>' Ben je docent? '<br>' Toegang tot een cursus is momenteel niet beschikbaar.",
-        "first-title": "Word lid van de organisatie { organisationName }",
+        "first-title": "Word lid van de organisatie { organizationName }",
         "invalid-reconciliation-error": "Er is een fout opgetreden. Neem contact op met ondersteuning.",
         "login-information-message": "Het Pix-account '<b>'{ connectionMethod }'</b>' wordt gekoppeld aan de leerling: '<b>'{ firstName } { lastName }'</b>'.'<br><br>'Als jij dit bent, klik je op \"Koppelen\", anders log je uit.",
         "login-information-title": "Verbindingsinformatie",
@@ -1059,7 +1059,7 @@
       "title": "Voor meer informatie"
     },
     "levelup-notif": {
-      "obtained-level": "Level gewonnen!"
+      "obtained-level": "Level {level} gewonnen!"
     },
     "login-or-register-oidc": {
       "error": {
@@ -1081,15 +1081,15 @@
         "button": "Ik maak mijn account aan",
         "description": "Er wordt een account aangemaakt met de informatie die door de organisatie is verstrekt.",
         "information": {
-          "family-name": "Naam: {familienaam}",
-          "given-name": "Voornaam : {GivenName}"
+          "family-name": "Naam: {familyName}",
+          "given-name": "Voornaam : {givenName}"
         },
         "title": "Ik heb geen Pix-account"
       },
       "title": "Maak je Pix-account aan"
     },
     "login-or-register": {
-      "invitation": "{organisatieNaam } nodigt u uit om lid te worden van Pix",
+      "invitation": "{ organizationName } nodigt u uit om lid te worden van Pix",
       "login-form": {
         "button": "Inloggen",
         "error": "Het e-mailadres of de ingevoerde gebruikersnaam en/of wachtwoord zijn onjuist",
@@ -1174,7 +1174,6 @@
         "activity": {
           "verify": "Kijk op"
         },
-        "continue": "Ga verder met",
         "element": {
           "alternativeText": "Geef het tekstalternatief weer"
         },
@@ -1239,11 +1238,11 @@
       "actions": {
         "continue": "Zet je Pix-ervaring voort"
       },
-      "explanation": "Je hebt het onderstaande profiel al verzonden naar de organisatie {organisatie}'<br>'op {datum} om {uur,tijd,hhmm}",
+      "explanation": "Je hebt het onderstaande profiel al verzonden naar de organisatie {organization}'<br>'op {date} om {hour,time,hhmm}",
       "first-title": "Niet alles gaat volgens plan",
       "retry": {
         "button": "Mijn profiel opnieuw verzenden",
-        "message": "{organisatie} nodigt je uit om je profiel terug te sturen om je vooruitgang te meten."
+        "message": "{organization} nodigt je uit om je profiel terug te sturen om je vooruitgang te meten."
       },
       "title": "Profiel al verzonden"
     },
@@ -1324,7 +1323,7 @@
       "first-title": "Je Pix-profiel verzenden",
       "form": {
         "continue": "Zet je Pix-ervaring voort",
-        "recipient": "Aan: {ontvanger}",
+        "recipient": "Aan: {recipient}",
         "send": "Ik stuur mijn profiel",
         "shared": "Bedankt, je profiel is verzonden!"
       },
@@ -1421,7 +1420,7 @@
       "title": "Kaart"
     },
     "skill-review": {
-      "abstract": "Je beheerst '<strong>'{percentage, aantal, ::procent}'</strong><br>'van de getoetste vaardigheden.",
+      "abstract": "Je beheerst '<strong>'{rate, number, ::percent}'</strong><br>'van de getoetste vaardigheden.",
       "abstract-title": "Je resultaat voor deze route",
       "actions": {
         "continue": "Zet je Pix-ervaring voort",
@@ -1437,10 +1436,10 @@
       "badges-title": "Je thematische resultaten",
       "details": {
         "caption": "Details van je resultaten in percentages volgens vaardigheden",
-        "flash-pix-score": "{score, getal, ::.} Pix",
+        "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Resultaten",
         "header-skill": "Geteste vaardigheden",
-        "percentage": "{percentage, getal, ::procent}",
+        "percentage": "{rate, number, ::percent}",
         "progress-bar-label": "Slagingspercentage voor de vaardigheid",
         "result": "Algemeen resultaat",
         "title": "Je resultaten per vaardigheid"
@@ -1477,7 +1476,7 @@
       },
       "retry": {
         "button": "Mijn reis naspelen",
-        "message": "{organisatieNaam} nodigt je uit om deze cursus opnieuw te volgen om je resultaat te verbeteren en vooruitgang te blijven boeken."
+        "message": "{organizationName} nodigt je uit om deze cursus opnieuw te volgen om je resultaat te verbeteren en vooruitgang te blijven boeken."
       },
       "send-results": "Vergeet niet je resultaten naar de cursusorganisator te sturen.",
       "send-status": {
@@ -1486,8 +1485,8 @@
       "send-title": "Stuur ons uw resultaten",
       "stage": {
         "caption": "Details van je resultaten in de vorm van percentages en sterren volgens vaardigheden",
-        "masteryPercentage": "{percentage, getal, ::procent} van succes",
-        "starsAcquired": "{verworven, meervoud, =0 {geen sterren verworven} andere {# sterren verworven}} uit {totaal}",
+        "masteryPercentage": "{rate, number, ::percent} van succes",
+        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} uit {totaal}",
         "title": "Vaardigheden"
       },
       "title": "Resultaten",
