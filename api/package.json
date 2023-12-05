@@ -86,7 +86,6 @@
   },
   "devDependencies": {
     "@1024pix/eslint-config": "^1.1.1",
-    "@1024pix/eslint-plugin": "^1.0.0",
     "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@ls-lint/ls-lint": "^2.0.0",
