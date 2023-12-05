@@ -22,6 +22,10 @@ function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
+function isFeatureNotDisabled(environmentVariable) {
+  return environmentVariable !== 'false';
+}
+
 function _getNumber(numberAsString, defaultValue) {
   const number = parseInt(numberAsString, 10);
   return isNaN(number) ? defaultValue : number;
@@ -353,7 +357,7 @@ const configuration = (function () {
   };
 
   if (config.environment === 'development') {
-    config.logging.enabled = true;
+    config.logging.enabled = isFeatureNotDisabled(process.env.LOG_ENABLED);
   } else if (process.env.NODE_ENV === 'test') {
     config.auditLogger.baseUrl = 'http://audit-logger.local';
     config.auditLogger.clientSecret = 'client-super-secret';
