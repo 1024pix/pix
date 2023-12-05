@@ -1,5 +1,5 @@
 import { domainBuilder, expect } from '../../../../test-helper.js';
-import { AnswerStatus } from '../../../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/activity-answer-serializer.js';
 import { ActivityAnswer } from '../../../../../src/school/domain/models/ActivityAnswer.js';
 

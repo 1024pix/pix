@@ -1,5 +1,5 @@
 import { ActivityAnswer } from '../../../../src/school/domain/models/ActivityAnswer.js';
-import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 
 function buildActivityAnswer({
   id = 123,

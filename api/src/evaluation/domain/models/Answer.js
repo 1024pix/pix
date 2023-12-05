@@ -1,4 +1,4 @@
-import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import _ from 'lodash';
 
 class Answer {

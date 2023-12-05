@@ -1,5 +1,5 @@
 import { expect } from '../../../test-helper.js';
-import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import * as service from '../../../../lib/domain/services/solution-service-qroc.js';
 
 const ANSWER_KO = AnswerStatus.KO;

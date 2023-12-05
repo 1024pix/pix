@@ -3,7 +3,7 @@ import { ActivityAnswer } from '../../../src/school/domain/models/ActivityAnswer
 import { AdminMember } from '../../../src/shared/domain/models/AdminMember.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import { AnswerCollectionForScoring } from './AnswerCollectionForScoring.js';
-import { AnswerStatus } from '../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 import { Area } from './Area.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';

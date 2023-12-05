@@ -1,6 +1,6 @@
 import { logger } from '../../infrastructure/logger.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
-import { AnswerStatus } from '../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 
 /**
  * Traduction: Correcteur

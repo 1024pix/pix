@@ -1,5 +1,5 @@
-import * as AnswerStatusDatabaseAdapter from '../../../../src/school/infrastructure/adapters/answer-status-database-adapter.js';
-import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
+import * as AnswerStatusDatabaseAdapter from '../../../../src/shared/infrastructure/adapters/answer-status-database-adapter.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 
 import chai from 'chai';
 

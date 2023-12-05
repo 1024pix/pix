@@ -1,4 +1,4 @@
-import { AnswerStatus } from './AnswerStatus.js';
+import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
 
 class ActivityAnswer {
   constructor({ id, challengeId, activityId, value, result, resultDetails } = {}) {

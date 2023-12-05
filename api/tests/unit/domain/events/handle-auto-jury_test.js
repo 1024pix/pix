@@ -3,7 +3,7 @@ import { handleAutoJury } from '../../../../lib/domain/events/handle-auto-jury.j
 import { SessionFinalized } from '../../../../lib/domain/events/SessionFinalized.js';
 import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 import { CertificationJuryDone } from '../../../../lib/domain/events/CertificationJuryDone.js';
-import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../src/shared/domain/models/AnswerStatus.js';
 import {
   CertificationIssueReportSubcategories,
   CertificationIssueReportCategory,
