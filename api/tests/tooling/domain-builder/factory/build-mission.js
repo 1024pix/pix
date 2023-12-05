@@ -1,4 +1,4 @@
-import { Mission } from '../../../../lib/domain/models/Mission.js';
+import { Mission } from '../../../../src/school/domain/models/Mission.js';
 
 const buildMission = function buildMission({ id = 'recThem1', name = 'My Mission' } = {}) {
   return new Mission({
