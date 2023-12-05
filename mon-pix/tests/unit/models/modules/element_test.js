@@ -4,94 +4,59 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Model | Module | Element', function (hooks) {
   setupTest(hooks);
 
-  module('#isText', function () {
-    module('when type is texts', function () {
-      test('should return true', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'texts' });
+  const getters = [
+    {
+      getterName: 'isQcu',
+      cases: [
+        {
+          modelType: 'qcus',
+          expectedResult: true,
+        },
+        {
+          modelType: 'texts',
+          expectedResult: false,
+        },
+      ],
+    },
+    {
+      getterName: 'isText',
+      cases: [
+        {
+          modelType: 'texts',
+          expectedResult: true,
+        },
+        {
+          modelType: 'qcus',
+          expectedResult: false,
+        },
+      ],
+    },
+    {
+      getterName: 'isImage',
+      cases: [
+        {
+          modelType: 'images',
+          expectedResult: true,
+        },
+        {
+          modelType: 'qcus',
+          expectedResult: false,
+        },
+      ],
+    },
+  ];
 
-        // when
-        const isText = element.isText;
-
-        // then
-        assert.true(isText);
-      });
-    });
-
-    module('when type is not texts', function () {
-      test('should return false', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        ['qcus', 'image'].forEach((type) => {
+  getters.forEach((getter) => {
+    module(`#${getter.getterName}`, function () {
+      getter.cases.forEach((c) => {
+        test(`should return ${c.expectedResult} according to element of type ${c.modelType}`, function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const element = store.createRecord('element', { type: c.modelType });
           // when
-          const element = store.createRecord('element', { type });
-          const isText = element.isText;
-
+          const isType = element[getter.getterName];
           // then
-          assert.false(isText);
-        });
-      });
-    });
-  });
-
-  module('#isImage', function () {
-    module('when type is images', function () {
-      test('should return true', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'images' });
-
-        // when
-        const isImage = element.isImage;
-
-        // then
-        assert.true(isImage);
-      });
-    });
-
-    module('when type is not images', function () {
-      test('should return false', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        ['texts', 'qcus'].forEach((type) => {
-          // when
-          const element = store.createRecord('element', { type });
-          const isImage = element.isImage;
-
-          // then
-          assert.false(isImage);
-        });
-      });
-    });
-  });
-
-  module('#isQcu', function () {
-    module('when type is qcus', function () {
-      test('should return true', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        const element = store.createRecord('element', { type: 'qcus' });
-
-        // when
-        const isQcu = element.isQcu;
-
-        // then
-        assert.true(isQcu);
-      });
-    });
-
-    module('when type is not qcus', function () {
-      test('should return false', function (assert) {
-        // given
-        const store = this.owner.lookup('service:store');
-        ['texts', 'image'].forEach((type) => {
-          // when
-          const element = store.createRecord('element', { type });
-          const isQcu = element.isQcu;
-
-          // then
-          assert.false(isQcu);
+          assert.strictEqual(isType, c.expectedResult);
         });
       });
     });
