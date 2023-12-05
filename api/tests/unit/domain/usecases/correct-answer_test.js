@@ -1,7 +1,7 @@
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { correctAnswer } from '../../../../lib/domain/usecases/correct-answer.js';
 import { Challenge } from '../../../../src/shared/domain/models/Challenge.js';
-import { ActivityAnswer } from '../../../../lib/domain/models/ActivityAnswer.js';
+import { ActivityAnswer } from '../../../../src/school/domain/models/ActivityAnswer.js';
 import { AnswerStatus } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Domain | Use Cases | correct-answer', function () {

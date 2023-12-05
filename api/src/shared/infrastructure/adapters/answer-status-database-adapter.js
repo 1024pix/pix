@@ -1,4 +1,4 @@
-import { AnswerStatus } from '../../domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../shared/domain/models/AnswerStatus.js';
 
 const UNIMPLEMENTED = 'unimplemented';
 const TIMEDOUT = 'timedout';

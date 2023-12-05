@@ -6,7 +6,7 @@ import { applyPreTreatments, applyTreatments } from './validation-treatments.js'
 import { YamlParsingError } from '../../domain/errors.js';
 import { LEVENSHTEIN_DISTANCE_MAX_RATE } from '../../../src/shared/domain/constants.js';
 import { useLevenshteinRatio } from './services-utils.js';
-import { AnswerStatus } from '../models/AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments, qrocBlocksTypes = {}) {
   return _.forEach(solutions, (solution, solutionKey) => {

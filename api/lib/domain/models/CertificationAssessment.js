@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } from '../errors.js';
 
-import { AnswerStatus } from './AnswerStatus.js';
+import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js';
 import { NeutralizationAttempt } from './NeutralizationAttempt.js';
 import { CertificationAnswerStatusChangeAttempt } from './CertificationAnswerStatusChangeAttempt.js';
 import { CertificationVersion } from '../../../src/shared/domain/models/CertificationVersion.js';

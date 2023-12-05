@@ -1,5 +1,5 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import { ActivityAnswer } from '../../../domain/models/ActivityAnswer.js';
+import { ActivityAnswer } from '../../../../src/school/domain/models/ActivityAnswer.js';
 
 const { Serializer } = jsonapiSerializer;
 
