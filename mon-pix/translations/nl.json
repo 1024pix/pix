@@ -93,9 +93,9 @@
         "previous": "Ga naar de vorige pagina",
         "select-page-size": "Aantal items dat per pagina moet worden weergegeven"
       },
-      "page-info": "{start, aantal}-{einde, aantal} op {totaal, meervoud, =0 {0 element} =1 {1 element} andere {{totaal, aantal} elementen}}",
-      "page-number": "Pagina {huidig, aantal} / {totaal, aantal}",
-      "page-results": "{totaal, meervoud, =0 {0 item} =1 {1 item} overige {{totaal, aantal} items}}",
+      "page-info": "{start, number}-{end, number} op {total, plural, =0 {0 element} =1 {1 element} other {{total, number} elementen}}",
+      "page-number": "Pagina {current, number} / {total, number}",
+      "page-results": "{total, plural, =0 {0 item} =1 {1 item} other {{total, number} items}}",
       "result-by-page": "Zie"
     },
     "pix": "Pix",
@@ -139,7 +139,7 @@
       "sign-up": "Meld je nu aan"
     },
     "pix": "Pix",
-    "showcase-homepage": "Startpagina Pix.{ tld",
+    "showcase-homepage": "Startpagina Pix.{ tld }",
     "user-logged-menu": {
       "details": "Mijn informatie bekijken"
     },
@@ -329,7 +329,7 @@
     "campaign-participation-overview": {
       "card": {
         "finished-at": "Voltooid op {datum}",
-        "results": "{resultaat, getal, ::percentage} van succes",
+        "results": "{result, number, ::percent} van succes",
         "resume": {
           "extra-information": "Hervat de {campaignTitle} route",
           "information": "Overnemen"
@@ -412,7 +412,7 @@
     "certification-joiner": {
       "congratulation-banner": {
         "complementary-certification": {
-          "eligible": "U komt ook in aanmerking {tellen, meervoud, =1 {voor aanvullende certificering} andere {voor aanvullende certificeringen} } :",
+          "eligible": "U komt ook in aanmerking {count, plural, =1 {voor aanvullende certificering} other {voor aanvullende certificeringen} } :",
           "outdated": "<strong>Je komt niet langer in aanmerking voor de {complementaryCertificationName}-certificering na de evolutie ervan.</strong><br />Neem contact op met je school of de organisatie die je de cursus heeft aangeboden om opnieuw een campagne te doen en zo weer in aanmerking te komen. Je voortgang is bewaard gebleven en je hoeft alleen nog maar de nieuwe evenementen te spelen, wat snel zou moeten gaan."
         },
         "link": {
@@ -845,14 +845,14 @@
         },
         "improve": {
           "description": {
-            "countdown": "{ daysBeforeImproving, meervoud, =0 {0 dag.} =1 {1 dag.} overig {# dagen.} }",
+            "countdown": "{ daysBeforeImproving, plural, =0 {0 dag.} =1 {1 dag.} other {# dagen.} }",
             "waiting-text": "Probeer het volgende niveau in"
           },
           "improvingText": "Probeer het volgende niveau te bereiken!",
           "label": "Retenter"
         },
         "reset": {
-          "description": "Reset beschikbaar in { daysBeforeReset, meervoud, =0 {0 dag.} =1 {1 dag.} overig {# dagen.} }",
+          "description": "Reset beschikbaar in { daysBeforeReset, plural, =0 {0 dag.} =1 {1 dag.} other {# dagen.} }",
           "label": "Op nul zetten",
           "modal": {
             "important-message": "Uw { verdiendPix } Pix wordt verwijderd uit de vaardigheid: { scoreCardName }.",
@@ -1174,7 +1174,6 @@
         "activity": {
           "verify": "Kijk op"
         },
-        "continue": "Ga verder met",
         "element": {
           "alternativeText": "Geef het tekstalternatief weer"
         },
@@ -1239,7 +1238,7 @@
       "actions": {
         "continue": "Zet je Pix-ervaring voort"
       },
-      "explanation": "Je hebt het onderstaande profiel al verzonden naar de organisatie {organisatie}'<br>'op {datum} om {uur,tijd,hhmm}",
+      "explanation": "Je hebt het onderstaande profiel al verzonden naar de organisatie {organisation}'<br>'op {date} om {hour,time,hhmm}",
       "first-title": "Niet alles gaat volgens plan",
       "retry": {
         "button": "Mijn profiel opnieuw verzenden",
@@ -1421,7 +1420,7 @@
       "title": "Kaart"
     },
     "skill-review": {
-      "abstract": "Je beheerst '<strong>'{percentage, aantal, ::procent}'</strong><br>'van de getoetste vaardigheden.",
+      "abstract": "Je beheerst '<strong>'{date, number, ::percent}'</strong><br>'van de getoetste vaardigheden.",
       "abstract-title": "Je resultaat voor deze route",
       "actions": {
         "continue": "Zet je Pix-ervaring voort",
@@ -1437,10 +1436,10 @@
       "badges-title": "Je thematische resultaten",
       "details": {
         "caption": "Details van je resultaten in percentages volgens vaardigheden",
-        "flash-pix-score": "{score, getal, ::.} Pix",
+        "flash-pix-score": "{score, number, ::.} Pix",
         "header-result": "Resultaten",
         "header-skill": "Geteste vaardigheden",
-        "percentage": "{percentage, getal, ::procent}",
+        "percentage": "{rate, number, ::percent}",
         "progress-bar-label": "Slagingspercentage voor de vaardigheid",
         "result": "Algemeen resultaat",
         "title": "Je resultaten per vaardigheid"
@@ -1450,7 +1449,7 @@
       "flash": {
         "abstract": "Goed gedaan, je bent er helemaal voor gegaan!",
         "nonDefinitive": "(berekening niet definitief)",
-        "pixScore": "Je hebt {score, getal, ::.} behaald. Pix"
+        "pixScore": "Je hebt {score, number, ::.} behaald. Pix"
       },
       "improve": {
         "description": "Je kunt sommige vragen opnieuw proberen",
@@ -1486,8 +1485,8 @@
       "send-title": "Stuur ons uw resultaten",
       "stage": {
         "caption": "Details van je resultaten in de vorm van percentages en sterren volgens vaardigheden",
-        "masteryPercentage": "{percentage, getal, ::procent} van succes",
-        "starsAcquired": "{verworven, meervoud, =0 {geen sterren verworven} andere {# sterren verworven}} uit {totaal}",
+        "masteryPercentage": "{rate, number, ::percent} van succes",
+        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} uit {totaal}",
         "title": "Vaardigheden"
       },
       "title": "Resultaten",
