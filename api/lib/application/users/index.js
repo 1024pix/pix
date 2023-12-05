@@ -238,7 +238,7 @@ const register = async function (server) {
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 email: Joi.string().email().allow(null).optional(),
                 username: Joi.string().allow(null).optional(),
-                lang: Joi.string().valid('fr', 'en'),
+                lang: Joi.string().valid('fr', 'en', 'nl'),
                 locale: Joi.string().allow(null).optional().valid('en', 'fr', 'fr-BE', 'fr-FR'),
               },
             },
@@ -734,7 +734,7 @@ const register = async function (server) {
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
-            lang: Joi.string().valid('fr', 'en'),
+            lang: Joi.string().valid('fr', 'en', 'nl'),
           }),
         },
         pre: [
