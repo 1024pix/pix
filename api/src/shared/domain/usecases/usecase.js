@@ -1,0 +1,3 @@
+class UseCase {}
+
+export { UseCase };
