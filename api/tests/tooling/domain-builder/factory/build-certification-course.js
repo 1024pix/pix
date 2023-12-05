@@ -27,6 +27,7 @@ function buildCertificationCourse({
   userId = 456,
   sessionId = 789,
   isCancelled = false,
+  isRejectedForFraud = false,
   abortReason = null,
   complementaryCertificationCourses = [],
 } = {}) {
@@ -65,6 +66,7 @@ function buildCertificationCourse({
     challenges,
     sessionId,
     userId,
+    isRejectedForFraud,
     isCancelled,
     abortReason,
     complementaryCertificationCourses,
@@ -93,6 +95,7 @@ buildCertificationCourse.unpersisted = function ({
   userId = 456,
   sessionId = 789,
   isCancelled = false,
+  isRejectedForFraud = false,
   abortReason = null,
   complementaryCertificationCourses = [],
 } = {}) {
@@ -119,6 +122,7 @@ buildCertificationCourse.unpersisted = function ({
     sessionId,
     userId,
     isCancelled,
+    isRejectedForFraud,
     abortReason,
     complementaryCertificationCourses,
   });

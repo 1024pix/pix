@@ -185,6 +185,7 @@ describe('Integration | Repository | Certification Course', function () {
         birthdate: '1993-08-14',
         birthplace: 'Cuba',
         isPublished: true,
+        isRejectedForFraud: true,
       });
       anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
       _.each(
@@ -254,6 +255,9 @@ describe('Integration | Repository | Certification Course', function () {
         expect(actualCertificationCourseDTO.birthplace).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourseDTO.sessionId).to.equal(sessionId);
         expect(actualCertificationCourseDTO.isPublished).to.equal(expectedCertificationCourse.isPublished);
+        expect(actualCertificationCourseDTO.isRejectedForFraud).to.equal(
+          expectedCertificationCourse.isRejectedForFraud,
+        );
         expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
       });
 

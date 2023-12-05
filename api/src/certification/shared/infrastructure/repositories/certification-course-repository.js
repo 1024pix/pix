@@ -168,6 +168,7 @@ function toDomain(bookshelfCertificationCourse) {
       'isPublished',
       'hasSeenEndTestScreen',
       'isCancelled',
+      'isRejectedForFraud',
       'maxReachableLevelOnCertificationDate',
       'verificationCode',
       'abortReason',

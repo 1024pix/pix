@@ -37,6 +37,7 @@ class CertificationCourse {
     abortReason,
     complementaryCertificationCourses = [],
     version = CertificationVersion.V2,
+    isRejectedForFraud = false,
   } = {}) {
     this._id = id;
     this._firstName = firstName;
@@ -63,6 +64,7 @@ class CertificationCourse {
     this._isCancelled = isCancelled;
     this._abortReason = abortReason;
     this._complementaryCertificationCourses = complementaryCertificationCourses;
+    this._isRejectedForFraud = isRejectedForFraud;
   }
 
   static from({
@@ -238,6 +240,7 @@ class CertificationCourse {
       createdAt: this._createdAt,
       completedAt: this._completedAt,
       isPublished: this._isPublished,
+      isRejectedForFraud: this._isRejectedForFraud,
       verificationCode: this._verificationCode,
       assessment: this._assessment,
       challenges: this._challenges,
