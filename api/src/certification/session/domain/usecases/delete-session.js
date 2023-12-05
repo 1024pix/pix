@@ -2,8 +2,9 @@
  * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
  */
 import { SessionStartedDeletionError } from '../errors.js';
+import { UseCase } from '../../../../shared/domain/usecases/usecase.js';
 
-class DeleteSession {
+class DeleteSession extends UseCase {
   /** @type {deps['sessionRepository']} */
   #sessionRepository;
 
@@ -16,6 +17,7 @@ class DeleteSession {
    * @param {deps['certificationCourseRepository']} params.certificationCourseRepository
    */
   constructor({ sessionRepository, certificationCourseRepository }) {
+    super();
     this.#sessionRepository = sessionRepository;
     this.#certificationCourseRepository = certificationCourseRepository;
   }
@@ -40,7 +42,4 @@ class DeleteSession {
   }
 }
 
-const deleteSession = async ({ sessionId, sessionRepository, certificationCourseRepository }) => {
-  return new DeleteSession({ sessionRepository, certificationCourseRepository }).execute({ sessionId });
-};
-export { deleteSession };
+export { DeleteSession as deleteSession };

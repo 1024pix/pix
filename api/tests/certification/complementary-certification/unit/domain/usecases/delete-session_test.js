@@ -11,11 +11,10 @@ describe('Unit | UseCase | delete-session', function () {
       certificationCourseRepository.findCertificationCoursesBySessionId.resolves([]);
 
       // when
-      await deleteSession({
-        sessionId: 123,
+      await new deleteSession({
         sessionRepository,
         certificationCourseRepository,
-      });
+      }).execute({ sessionId: 123 });
 
       // then
       expect(sessionRepository.remove).to.have.been.calledWithExactly(123);
@@ -32,11 +31,11 @@ describe('Unit | UseCase | delete-session', function () {
       ]);
 
       // when
-      const error = await catchErr(deleteSession)({
-        sessionId: 123,
+      const service = new deleteSession({
         sessionRepository,
         certificationCourseRepository,
       });
+      const error = await catchErr(service.execute, service)({ sessionId: 123 });
 
       // then
       expect(error).to.be.instanceOf(SessionStartedDeletionError);
