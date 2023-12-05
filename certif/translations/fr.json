@@ -896,7 +896,8 @@
     },
     "team-invitations": {
       "actions": {
-        "cancel-invitation": "Supprimer l'invitation"
+        "cancel-invitation": "Supprimer l'invitation",
+        "resend-invitation": "Renvoyer l'invitation"
       },
       "notifications": {
         "success": {
