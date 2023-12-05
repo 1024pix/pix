@@ -54,6 +54,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  *  certificationCpfService : certificationCpfService,
  *  certificationIssueReportRepository : certificationIssueReportRepository,
  *  challengeRepository : challengeRepository,
+ *  certificationCourseRepository : certificationCourseRepository,
  *  certificationCpfCityRepository : certificationCpfCityRepository,
  *  certificationCpfCountryRepository : certificationCpfCountryRepository,
  *  certificationOfficerRepository: certificationOfficerRepository,
