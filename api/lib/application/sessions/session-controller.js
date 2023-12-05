@@ -9,7 +9,7 @@ import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi
 import * as certificationCandidateSerializer from '../../../src/certification/shared/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
-import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
+import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 import { getSessionCertificationResultsCsv } from '../../infrastructure/utils/csv/certification-results/get-session-certification-results-csv.js';
@@ -240,13 +240,6 @@ const flagResultsAsSentToPrescriber = async function (request, h, dependencies =
   return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
 };
 
-const assignCertificationOfficer = async function (request, h, dependencies = { jurySessionSerializer }) {
-  const sessionId = request.params.id;
-  const certificationOfficerId = request.auth.credentials.userId;
-  const jurySession = await usecases.assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId });
-  return dependencies.jurySessionSerializer.serialize(jurySession);
-};
-
 const commentAsJury = async function (request, h) {
   const sessionId = request.params.id;
   const juryCommentAuthorId = request.auth.credentials.userId;
@@ -279,7 +272,6 @@ const sessionController = {
   publishInBatch,
   unpublish,
   flagResultsAsSentToPrescriber,
-  assignCertificationOfficer,
   commentAsJury,
   deleteJuryComment,
 };

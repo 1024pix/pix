@@ -50,7 +50,7 @@ import * as certifiableProfileForLearningContentRepository from '../../infrastru
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
-import * as certificationCandidateForSupervisingRepository from '../../infrastructure/repositories/certification-candidate-for-supervising-repository.js';
+import * as certificationCandidateForSupervisingRepository from '../../../src/certification/supervision/infrastructure/repositories/certification-candidate-for-supervising-repository.js';
 import * as certificationCandidateRepository from '../../../src/certification/shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCandidatesOdsService from '../../domain/services/certification-candidates-ods-service.js';
 import * as certificationCenterForAdminRepository from '../../infrastructure/repositories/certification-center-for-admin-repository.js';
@@ -68,7 +68,7 @@ import * as certificationCpfCountryRepository from '../../../src/certification/s
 import * as certificationCpfService from '../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import * as certificationIssueReportRepository from '../../../src/certification/shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationLsRepository from '../../infrastructure/repositories/certification-livret-scolaire-repository.js';
-import * as certificationOfficerRepository from '../../infrastructure/repositories/certification-officer-repository.js';
+import * as certificationOfficerRepository from '../../../src/certification/session/infrastructure/repositories/certification-officer-repository.js';
 import * as certificationPointOfContactRepository from '../../infrastructure/repositories/certification-point-of-contact-repository.js';
 import * as certificationRepository from '../../infrastructure/repositories/certification-repository.js';
 import * as certificationResultRepository from '../../infrastructure/repositories/certification-result-repository.js';
@@ -89,7 +89,7 @@ import * as dataProtectionOfficerRepository from '../../infrastructure/repositor
 import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as encryptionService from '../../../src/shared/domain/services/encryption-service.js';
-import * as finalizedSessionRepository from '../../infrastructure/repositories/sessions/finalized-session-repository.js';
+import * as finalizedSessionRepository from '../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
 import * as flashAlgorithmConfigurationRepository from '../../../src/certification/flash-certification/infrastructure/repositories/flash-algorithm-configuration-repository.js';
 import * as flashAlgorithmService from '../../../src/certification/flash-certification/domain/services/algorithm-methods/flash.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
@@ -99,7 +99,7 @@ import * as improvementService from '../../domain/services/improvement-service.j
 import * as issueReportCategoryRepository from '../../../src/certification/shared/infrastructure/repositories/issue-report-category-repository.js';
 import * as juryCertificationRepository from '../../infrastructure/repositories/jury-certification-repository.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
-import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
+import * as jurySessionRepository from '../../../src/certification/session/infrastructure/repositories/jury-session-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as learningContentConversionService from '../services/learning-content/learning-content-conversion-service.js';
 import * as learningContentRepository from '../../infrastructure/repositories/learning-content-repository.js';

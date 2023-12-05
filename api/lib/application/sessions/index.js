@@ -454,34 +454,7 @@ const register = async function (server) {
         ],
       },
     },
-    {
-      method: 'PATCH',
-      path: '/api/admin/sessions/{id}/certification-officer-assignment',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.sessionId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: sessionController.assignCertificationOfficer,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Assigne la session à un membre du pôle certification (certification-officer)',
-        ],
-        tags: ['api', 'session', 'assignment'],
-      },
-    },
+
     {
       method: 'PUT',
       path: '/api/admin/sessions/{id}/comment',

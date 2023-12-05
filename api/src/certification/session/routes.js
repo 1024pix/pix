@@ -5,6 +5,7 @@ import * as certificationCandidate from './application/certification-candidate-r
 import * as invigilatorKit from './application/invigilator-kit-route.js';
 import * as updateCpfImportStatus from './application/update-cpf-import-status-route.js';
 import * as sessionMassImport from './application/session-mass-import-route.js';
+import * as certificationOfficer from './application/certification-officer-route.js';
 
 const certificationSessionRoutes = [
   session,
@@ -14,6 +15,7 @@ const certificationSessionRoutes = [
   invigilatorKit,
   updateCpfImportStatus,
   sessionMassImport,
+  certificationOfficer,
 ];
 
 export { certificationSessionRoutes };
