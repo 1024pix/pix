@@ -1,20 +1,16 @@
-import * as moduleSerializer from '../../infrastructure/serializers/jsonapi/module-serializer.js';
-import * as elementAnswerSerializer from '../../infrastructure/serializers/jsonapi/element-answer-serializer.js';
-import { usecases } from '../../domain/usecases/index.js';
-
-const getBySlug = async function (request, h, dependencies = { moduleSerializer, usecases }) {
+const getBySlug = async function (request, h, { moduleSerializer, usecases }) {
   const { slug } = request.params;
-  const module = await dependencies.usecases.getModule({ slug });
+  const module = await usecases.getModule({ slug });
 
-  return dependencies.moduleSerializer.serialize(module);
+  return moduleSerializer.serialize(module);
 };
 
-const verifyAnswer = async function (request, h, dependencies = { elementAnswerSerializer, usecases }) {
+const verifyAnswer = async function (request, h, { elementAnswerSerializer, usecases }) {
   const { moduleSlug, elementId } = request.params;
   const { 'user-response': userResponse } = request.payload.data.attributes;
-  const answer = await dependencies.usecases.verifyAnswer({ moduleSlug, userResponse, elementId });
+  const answer = await usecases.verifyAnswer({ moduleSlug, userResponse, elementId });
 
-  return dependencies.elementAnswerSerializer.serialize(answer);
+  return elementAnswerSerializer.serialize(answer);
 };
 
 const modulesController = { getBySlug, verifyAnswer };
