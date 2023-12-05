@@ -357,9 +357,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
         });
       });
 
-      context('when limiting the estimated level variation', function () {
+      context('when limiting the estimated level variation to a given number of challenges', function () {
         context('when giving a right answer', function () {
-          it('should return the limited estimatedLevel', function () {
+          it('should return the limited estimatedLevel for the correct number of challenges', function () {
             // given
             const challenges = [
               domainBuilder.buildChallenge({
@@ -371,12 +371,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.OK, challengeId: challenges[0].id })];
 
             const variationPercent = 0.5;
+            const variationPercentUntil = 1;
 
             // when
             const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
               allAnswers,
               challenges,
               variationPercent,
+              variationPercentUntil,
             });
 
             // then
@@ -397,12 +399,14 @@ describe('Integration | Domain | Algorithm-methods | Flash', function () {
             const allAnswers = [domainBuilder.buildAnswer({ result: AnswerStatus.KO, challengeId: challenges[0].id })];
 
             const variationPercent = 0.5;
+            const variationPercentUntil = 1;
 
             // when
             const { estimatedLevel } = flash.getEstimatedLevelAndErrorRate({
               allAnswers,
               challenges,
               variationPercent,
+              variationPercentUntil,
             });
 
             // then

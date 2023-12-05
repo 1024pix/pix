@@ -40,8 +40,9 @@ function getEstimatedLevelAndErrorRate({
   allAnswers,
   challenges,
   estimatedLevel = DEFAULT_ESTIMATED_LEVEL,
-  variationPercent,
   doubleMeasuresUntil = 0,
+  variationPercent,
+  variationPercentUntil,
 }) {
   if (allAnswers.length === 0) {
     return { estimatedLevel, errorRate: DEFAULT_ERROR_RATE };
@@ -54,6 +55,8 @@ function getEstimatedLevelAndErrorRate({
   let answerIndex = 0;
 
   while (answerIndex < allAnswers.length) {
+    const variationPercentForCurrentAnswer = variationPercentUntil >= answerIndex ? variationPercent : undefined;
+
     if (!_shouldUseDoubleMeasure({ doubleMeasuresUntil, answerIndex, answersLength: allAnswers.length })) {
       const answer = allAnswers[answerIndex];
       ({ latestEstimatedLevel, likelihood, normalizedPosteriori } = _singleMeasure({
@@ -62,7 +65,7 @@ function getEstimatedLevelAndErrorRate({
         latestEstimatedLevel,
         likelihood,
         normalizedPosteriori,
-        variationPercent,
+        variationPercent: variationPercentForCurrentAnswer,
       }));
 
       answerIndex++;
@@ -75,7 +78,7 @@ function getEstimatedLevelAndErrorRate({
         latestEstimatedLevel,
         likelihood,
         normalizedPosteriori,
-        variationPercent,
+        variationPercent: variationPercentForCurrentAnswer,
       }));
 
       answerIndex += 2;

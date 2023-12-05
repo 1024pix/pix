@@ -455,6 +455,7 @@ const _getAlgorithmConfig = (options) => {
 
 const _getEstimatedLevelAndErrorRateParams = (params) => ({
   variationPercent: undefined,
+  variationPercentUntil: undefined,
   doubleMeasuresUntil: undefined,
   ...params,
 });
