@@ -2,7 +2,7 @@ import chai from 'chai';
 
 const { expect } = chai;
 
-import { AnswerStatus } from '../../../../src/school/domain/models/AnswerStatus.js';
+import { AnswerStatus } from '../../../../../src/shared/domain/models/AnswerStatus.js';
 
 describe('AnswerStatus', function () {
   context('AnswerStatus#isOK', function () {

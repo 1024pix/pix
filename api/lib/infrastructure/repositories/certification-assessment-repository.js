@@ -4,7 +4,7 @@ import { CertificationAssessment } from '../../domain/models/CertificationAssess
 import { CertificationChallengeWithType } from '../../domain/models/CertificationChallengeWithType.js';
 import { Answer } from '../../../src/evaluation/domain/models/Answer.js';
 import * as challengeRepository from '../../../src/shared/infrastructure/repositories/challenge-repository.js';
-import * as answerStatusDatabaseAdapter from '../../../src/school/infrastructure/adapters/answer-status-database-adapter.js';
+import * as answerStatusDatabaseAdapter from '../../../src/shared/infrastructure/adapters/answer-status-database-adapter.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
 
