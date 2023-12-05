@@ -45,7 +45,7 @@ export default class LoginOrRegisterOidcComponent extends Component {
   }
 
   get currentLanguage() {
-    return this.intl.t('current-lang');
+    return this.intl.primaryLocale;
   }
 
   get cguUrl() {

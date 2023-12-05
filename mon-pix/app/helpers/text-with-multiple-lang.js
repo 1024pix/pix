@@ -10,7 +10,7 @@ export default class textWithMultipleLang extends Helper {
     if (isHTMLSafe(text)) {
       text = text.toString();
     }
-    const lang = this.intl.t('current-lang');
+    const lang = this.intl.primaryLocale;
     const listOfLocales = this.intl.locales;
     let outputText = _clean(text, listOfLocales);
     if (text && listOfLocales.includes(lang)) {

@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 
 export default class SavedController extends Controller {
   @service router;
+  @service intl;
 
   pageOptions = [
     { label: '10', value: 10 },

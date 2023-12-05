@@ -126,7 +126,7 @@ export default class SignupForm extends Component {
     this.isLoading = true;
 
     this._trimNamesAndEmailOfUser();
-    this.args.user.lang = this.intl.t('current-lang');
+    this.args.user.lang = this.intl.primaryLocale;
 
     const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
 

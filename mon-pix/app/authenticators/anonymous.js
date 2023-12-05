@@ -12,7 +12,7 @@ export default BaseAuthenticator.extend({
   serverTokenEndpoint: `${ENV.APP.API_HOST}/api/token/anonymous`,
 
   async authenticate({ campaignCode }) {
-    const bodyObject = { campaign_code: campaignCode, lang: this.intl.t('current-lang') };
+    const bodyObject = { campaign_code: campaignCode, lang: this.intl.primaryLocale };
 
     const body = Object.keys(bodyObject)
       .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)

@@ -27,7 +27,7 @@ export default class DataProtectionPolicyInformationBanner extends Component {
   }
 
   get dataProtectionPolicyUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.prumaryLocale;
     if (currentLanguage === 'en') {
       return 'https://pix.org/en-gb/personal-data-protection-policy';
     }

@@ -18,7 +18,7 @@
         <PixPagination
           @pagination={{@model.trainings.meta.pagination}}
           @pageOptions={{this.pageOptions}}
-          @locale={{t "current-lang"}}
+          @locale={{this.intl.primaryLocale}}
           @isCondensed="true"
         />
       </div>
