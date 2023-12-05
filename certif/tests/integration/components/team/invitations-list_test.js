@@ -9,11 +9,16 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
-  let cancelInvitation;
+  let cancelInvitation, resendInvitation;
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
+
     cancelInvitation = sinon.stub();
+    resendInvitation = sinon.stub();
+
+    this.set('cancelInvitation', cancelInvitation);
+    this.set('resendInvitation', resendInvitation);
   });
 
   hooks.afterEach(function () {
@@ -23,11 +28,10 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
   test('displays email address, last sending date and actions headers', async function (assert) {
     // given
     this.set('invitations', []);
-    this.set('cancelInvitation', cancelInvitation);
 
     // when
     const screen = await renderScreen(
-      hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} />`,
+      hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
     );
 
     // then
@@ -52,11 +56,10 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
     });
 
     this.set('invitations', [invitation, secondInvitation]);
-    this.set('cancelInvitation', cancelInvitation);
 
     //  when
     const screen = await renderScreen(
-      hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} />`,
+      hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
     );
 
     // then
@@ -70,10 +73,9 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
       const invitation = store.createRecord('certification-center-invitation');
 
       this.set('invitations', [invitation]);
-      this.set('cancelInvitation', cancelInvitation);
 
       await renderScreen(
-        hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} />`,
+        hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
       );
 
       // when
@@ -81,6 +83,25 @@ module('Integration | Component |  team/invitation-list', function (hooks) {
 
       // then
       assert.ok(cancelInvitation.calledWith(invitation));
+    });
+  });
+
+  module('when the user clicks on the resend invitation button', function () {
+    test('calls the resend invitation action', async function (assert) {
+      // given
+      const invitation = store.createRecord('certification-center-invitation');
+
+      this.set('invitations', [invitation]);
+
+      await renderScreen(
+        hbs`<Team::InvitationsList @invitations={{this.invitations}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
+      );
+
+      // when
+      await clickByName(this.intl.t('pages.team-invitations.actions.resend-invitation'));
+
+      // then
+      assert.ok(resendInvitation.calledWith(invitation));
     });
   });
 });
