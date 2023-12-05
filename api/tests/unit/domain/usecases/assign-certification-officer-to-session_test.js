@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { assignCertificationOfficerToJurySession } from '../../../../lib/domain/usecases/assign-certification-officer-to-jury-session.js';
+import { assignCertificationOfficerToJurySession } from '../../../../src/certification/session/domain/usecases/assign-certification-officer-to-jury-session.js';
 
 describe('Unit | UseCase | assign-certification-officer-to-session', function () {
   it('should return the session id after assigningUser to it', async function () {

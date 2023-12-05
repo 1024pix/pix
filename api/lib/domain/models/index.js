@@ -35,7 +35,7 @@ import { CertificationAssessment } from './CertificationAssessment.js';
 import { CertificationAssessmentScore } from './CertificationAssessmentScore.js';
 import { CertificationAttestation } from '../../../src/certification/course/domain/models/CertificationAttestation.js';
 import { CertificationCandidate } from './CertificationCandidate.js';
-import { CertificationCandidateForSupervising } from './CertificationCandidateForSupervising.js';
+import { CertificationCandidateForSupervising } from '../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';
 import { CertificationCenter } from './CertificationCenter.js';
 import { CertificationCenterForAdmin } from './CertificationCenterForAdmin.js';
 import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
@@ -49,7 +49,7 @@ import { CertificationIssueReport } from '../../../src/certification/shared/doma
 import { CertificationIssueReportCategory } from '../../../src/certification/shared/domain/models/CertificationIssueReportCategory.js';
 import { CertificationIssueReportResolutionAttempt } from './CertificationIssueReportResolutionAttempt.js';
 import { CertificationIssueReportResolutionStrategies } from './CertificationIssueReportResolutionStrategies.js';
-import { CertificationOfficer } from './CertificationOfficer.js';
+import { CertificationOfficer } from '../../../src/certification/session/domain/models/CertificationOfficer.js';
 import { CertificationReport } from '../../../src/certification/shared/domain/models/CertificationReport.js';
 import { CertificationResult } from './CertificationResult.js';
 import { CertifiedLevel } from './CertifiedLevel.js';

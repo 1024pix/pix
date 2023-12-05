@@ -1,6 +1,6 @@
 import { knex } from '../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../domain/errors.js';
-import { CertificationCandidateForSupervising } from '../../../domain/models/CertificationCandidateForSupervising.js';
+import { CertificationCandidateForSupervising } from '../../../../src/certification/supervision/domain/models/CertificationCandidateForSupervising.js';
 import { CertificationChallengeLiveAlertStatus } from '../../../../src/certification/session/domain/models/CertificationChallengeLiveAlert.js';
 import { ComplementaryCertificationForSupervising } from '../../../domain/models/ComplementaryCertificationForSupervising.js';
 import { SessionForSupervising } from '../../../domain/read-models/SessionForSupervising.js';
