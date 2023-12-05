@@ -214,6 +214,27 @@ module('Acceptance | authenticated | team', function (hooks) {
                 .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.update-referer-button') }))
                 .doesNotExist();
             });
+
+            test('does display a tooltip to inform of what is a Pix Referer', async function (assert) {
+              // given
+              const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                undefined,
+                'CCNG',
+                false,
+                'ADMIN',
+              );
+              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
+              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              await authenticateSession(certificationPointOfContact.id);
+
+              // when
+              const screen = await visitScreen('/equipe');
+
+              // then
+              const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
+              const pixRefererCell = within(row.getByRole('cell', { name: "Référent CléA Numérique" }));
+              assert.dom(pixRefererCell.getByText('Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.')).exists();
+            });
           });
         });
 
