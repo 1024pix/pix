@@ -20,6 +20,11 @@ export default class AuthenticatedTeamListInvitationsController extends Controll
 
   @action
   async resendInvitation(certificationCenterInvitation) {
-    await certificationCenterInvitation.save();
+    try {
+      await certificationCenterInvitation.save();
+      this.notifications.success(this.intl.t('pages.team-invitations.notifications.success.invitation-resent'));
+    } catch (_) {
+      //
+    }
   }
 }

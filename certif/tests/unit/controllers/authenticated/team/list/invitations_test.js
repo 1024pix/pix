@@ -56,17 +56,20 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
   });
 
   module('#resendInvitation', function () {
-    test('resends invitation', async function (assert) {
+    test('resends invitation and displays a success notification', async function (assert) {
       // given
       const certificationCenterInvitation = {
         save: sinon.stub(),
       };
+
+      controller.notifications = { success: sinon.stub() };
 
       // when
       await controller.resendInvitation(certificationCenterInvitation);
 
       // then
       assert.ok(certificationCenterInvitation.save.called);
+      assert.ok(controller.notifications.success.calledWithExactly("L'invitation a bien été renvoyée."));
     });
   });
 });

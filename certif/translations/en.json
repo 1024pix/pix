@@ -901,7 +901,8 @@
       },
       "notifications": {
         "success": {
-          "invitation-cancelled": "The invitation has been deleted."
+          "invitation-cancelled": "The invitation has been deleted.",
+          "invitation-resent": "The invitation has been resent."
         }
       },
       "table": {
