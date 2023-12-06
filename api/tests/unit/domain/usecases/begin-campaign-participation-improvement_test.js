@@ -7,7 +7,7 @@ import {
   UserNotAuthorizedToAccessEntityError,
 } from '../../../../lib/domain/errors.js';
 
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { beginCampaignParticipationImprovement } = usecases;
 

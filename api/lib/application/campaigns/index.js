@@ -4,7 +4,7 @@ import { campaignManagementController } from './campaign-management-controller.j
 import { campaignStatsController } from './campaign-stats-controller.js';
 import { securityPreHandlers } from '../security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 const campaignParticipationStatuses = Object.values(CampaignParticipationStatuses);
 
@@ -17,21 +17,6 @@ const register = async function (server) {
         auth: false,
         handler: campaignController.getByCode,
         notes: ['- Récupération de la campagne dont le code est spécifié dans les filtres de la requête'],
-        tags: ['api', 'campaign'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/campaigns/{id}',
-      config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-        },
-        handler: campaignController.getById,
-        notes: ["- Récupération d'une campagne par son id"],
         tags: ['api', 'campaign'],
       },
     },

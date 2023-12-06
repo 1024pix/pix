@@ -25,7 +25,7 @@ import { CampaignLearningContent } from './CampaignLearningContent.js';
 import { CampaignParticipant } from './CampaignParticipant.js';
 import { CampaignParticipation } from './CampaignParticipation.js';
 import { CampaignParticipationResult } from './CampaignParticipationResult.js';
-import { CampaignParticipationStatuses } from './CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { CampaignToStartParticipation } from './CampaignToStartParticipation.js';
 import { CampaignTypes } from '../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { CertifiableBadgeAcquisition } from './CertifiableBadgeAcquisition.js';

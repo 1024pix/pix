@@ -27,23 +27,6 @@ const getByCode = async function (request) {
   return campaignToJoinSerializer.serialize(campaignToJoin);
 };
 
-const getById = async function (
-  request,
-  h,
-  dependencies = {
-    campaignReportSerializer,
-    tokenService,
-  },
-) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-
-  const tokenForCampaignResults = dependencies.tokenService.createTokenForCampaignResults({ userId, campaignId });
-
-  const campaign = await usecases.getCampaign({ campaignId, userId });
-  return dependencies.campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
-};
-
 const getCsvAssessmentResults = async function (request, h, dependencies = { tokenService }) {
   const token = request.query.accessToken;
   const { userId, campaignId: extractedCampaignId } =
@@ -215,7 +198,6 @@ const getGroups = async function (request) {
 
 const campaignController = {
   getByCode,
-  getById,
   getCsvAssessmentResults,
   getCsvProfilesCollectionResults,
   update,

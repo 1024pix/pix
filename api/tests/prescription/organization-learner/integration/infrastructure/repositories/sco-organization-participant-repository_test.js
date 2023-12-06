@@ -3,7 +3,7 @@ import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as scoOrganizationParticipantRepository from '../../../../../../src/prescription/organization-learner/infrastructure/repositories/sco-organization-participant-repository.js';
 import { ScoOrganizationParticipant } from '../../../../../../src/prescription/organization-learner/domain/read-models/ScoOrganizationParticipant.js';
 import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
-import { CampaignParticipationStatuses } from '../../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../../../src/prescription/shared/domain/constants.js';
 
 describe('Integration | Infrastructure | Repository | sco-organization-participant-repository', function () {
   describe('#findPaginatedFilteredScoParticipants', function () {

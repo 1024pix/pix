@@ -3,7 +3,7 @@ import * as serializer from '../../../../../lib/infrastructure/serializers/jsona
 import { CampaignProfile } from '../../../../../lib/domain/read-models/CampaignProfile.js';
 import { PlacementProfile } from '../../../../../lib/domain/models/PlacementProfile.js';
 import { UserCompetence } from '../../../../../lib/domain/models/UserCompetence.js';
-import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

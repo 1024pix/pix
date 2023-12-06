@@ -3,7 +3,7 @@ import * as campaignManagementRepository from '../../../../lib/infrastructure/re
 import _ from 'lodash';
 import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { knex } from '../../../../lib/infrastructure/bookshelf.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
