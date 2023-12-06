@@ -36,18 +36,6 @@ module('Unit | Service | url', function (hooks) {
   });
 
   module('#homeUrl', function () {
-    test('calls intl to get first locale configured', function (assert) {
-      // given
-      const service = this.owner.lookup('service:url');
-      sinon.spy(this.intl, 'get');
-
-      // when
-      service.homeUrl;
-
-      // then
-      assert.ok(this.intl.get.calledWith('primaryLocale'));
-    });
-
     test('returns home url with current locale', function (assert) {
       // given
       const currentLocale = 'en';
@@ -70,6 +58,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.fr/mentions-legales';
       service.currentDomain = { isFranceDomain: true };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const url = service.legalNoticeUrl;
@@ -83,7 +72,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/en-gb/legal-notice';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('en') };
+      service.intl = { primaryLocale: 'en' };
 
       // when
       const url = service.legalNoticeUrl;
@@ -97,7 +86,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/mentions-legales';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('fr') };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const url = service.legalNoticeUrl;
@@ -113,6 +102,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
       service.currentDomain = { isFranceDomain: true };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const cguUrl = service.dataProtectionPolicyUrl;
@@ -126,7 +116,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('en') };
+      service.intl = { primaryLocale: 'en' };
 
       // when
       const cguUrl = service.dataProtectionPolicyUrl;
@@ -140,7 +130,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/fr/politique-protection-donnees-personnelles-app';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('fr') };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const cguUrl = service.dataProtectionPolicyUrl;
@@ -156,6 +146,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
       service.currentDomain = { isFranceDomain: true };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const cguUrl = service.cguUrl;
@@ -169,7 +160,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('en') };
+      service.intl = { primaryLocale: 'en' };
 
       // when
       const cguUrl = service.cguUrl;
@@ -183,7 +174,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/fr/conditions-generales-d-utilisation';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('fr') };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const cguUrl = service.cguUrl;
@@ -199,6 +190,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.fr/accessibilite-pix-orga';
       service.currentDomain = { isFranceDomain: true };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const url = service.accessibilityUrl;
@@ -212,7 +204,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/en-gb/accessibility-pix-orga';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('en') };
+      service.intl = { primaryLocale: 'en' };
 
       // when
       const url = service.accessibilityUrl;
@@ -226,7 +218,7 @@ module('Unit | Service | url', function (hooks) {
       const service = this.owner.lookup('service:url');
       const expectedUrl = 'https://pix.org/fr/accessibilite-pix-orga';
       service.currentDomain = { isFranceDomain: false };
-      service.intl = { t: sinon.stub().returns('fr') };
+      service.intl = { primaryLocale: 'fr' };
 
       // when
       const url = service.accessibilityUrl;
