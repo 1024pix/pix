@@ -125,16 +125,9 @@ const buildKnowledgeElementsFromAnswers = ({ answers, challenges, userId }) => {
   });
 };
 
-export const createSuccessfulCertificationCourse = async ({ userId }) => {
+export const createSuccessfulCertificationCourse = async ({ userId, certificationCourse }) => {
   const { challenges } = createLearningContent();
 
-  const session = databaseBuilder.factory.buildSession({
-    publishedAt: new Date('2018-12-01T01:02:03Z'),
-  });
-  const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-    sessionId: session.id,
-    userId,
-  });
   const assessment = databaseBuilder.factory.buildAssessment({
     userId,
     certificationCourseId: certificationCourse.id,
@@ -166,6 +159,5 @@ export const createSuccessfulCertificationCourse = async ({ userId }) => {
     assessment,
     assessmentResult,
     certificationCourse,
-    session,
   };
 };

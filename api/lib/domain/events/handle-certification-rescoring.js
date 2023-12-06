@@ -14,8 +14,15 @@ import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
 import { CertificationCourseRejected } from './CertificationCourseRejected.js';
+import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 
-const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone, CertificationCourseRejected];
+const eventTypes = [
+  ChallengeNeutralized,
+  ChallengeDeneutralized,
+  CertificationJuryDone,
+  CertificationCourseRejected,
+  CertificationCourseUnrejected,
+];
 const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationRescoring({
@@ -281,7 +288,7 @@ function _getEmitterFromEvent(event) {
     emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
   }
 
-  if (event instanceof CertificationCourseRejected) {
+  if (event instanceof CertificationCourseRejected || event instanceof CertificationCourseUnrejected) {
     emitter = CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION;
   }
 

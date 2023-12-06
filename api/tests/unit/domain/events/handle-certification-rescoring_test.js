@@ -12,11 +12,14 @@ import {
   generateChallengeList,
 } from '../../../certification/shared/fixtures/challenges.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationCourseUnrejected } from '../../../../lib/domain/events/CertificationCourseUnrejected.js';
+import { CertificationCourseRejected } from '../../../../lib/domain/events/CertificationCourseRejected.js';
 
 const { handleCertificationRescoring } = _forTestOnly.handlers;
 
 const CERTIFICATION_RESULT_EMITTER_AUTOJURY = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
 const CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
+const CERTIFICATION_RESULT_EMITTER_FRAUD_REJECTION = CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION;
 const { minimumAnswersRequiredToValidateACertification } = config.v3Certification.scoring;
 const maximumAssessmentLength = 32;
 
@@ -1048,6 +1051,14 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       {
         eventType: ChallengeDeneutralized,
         emitter: CERTIFICATION_RESULT_EMITTER_NEUTRALIZATION,
+      },
+      {
+        eventType: CertificationCourseRejected,
+        emitter: CERTIFICATION_RESULT_EMITTER_FRAUD_REJECTION,
+      },
+      {
+        eventType: CertificationCourseUnrejected,
+        emitter: CERTIFICATION_RESULT_EMITTER_FRAUD_REJECTION,
       },
     ].forEach(({ eventType, emitter }) => {
       context(`when event is of type ${eventType}`, function () {

@@ -122,6 +122,10 @@ class CertificationCourse {
     this._isRejectedForFraud = true;
   }
 
+  unrejectForFraud() {
+    this._isRejectedForFraud = false;
+  }
+
   isRejectedForFraud() {
     return this._isRejectedForFraud;
   }
