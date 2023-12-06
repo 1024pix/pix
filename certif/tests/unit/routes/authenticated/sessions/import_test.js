@@ -23,7 +23,7 @@ module('Unit | Route | authenticated/sessions/import', function (hooks) {
           getExtension = sinon.stub().returns('org');
         }
         class IntlStub extends Service {
-          t = sinon.stub().returns('fr');
+          primaryLocale = 'fr';
         }
         class RouterStub extends Service {
           replaceWith = sinon.stub().resolves();
@@ -59,7 +59,7 @@ module('Unit | Route | authenticated/sessions/import', function (hooks) {
           getExtension = sinon.stub().returns('org');
         }
         class IntlStub extends Service {
-          t = sinon.stub().returns('en');
+          primaryLocale = 'en';
         }
         class RouterStub extends Service {
           replaceWith = sinon.stub().resolves();
@@ -96,7 +96,7 @@ module('Unit | Route | authenticated/sessions/import', function (hooks) {
         getExtension = sinon.stub().returns('fr');
       }
       class IntlStub extends Service {
-        t = sinon.stub().returns('fr');
+        primaryLocale = 'fr';
       }
       class RouterStub extends Service {
         replaceWith = sinon.stub().resolves();

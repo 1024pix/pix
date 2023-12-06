@@ -12,7 +12,7 @@ export default class PanelHeader extends Component {
 
   get shouldRenderImportTemplateButton() {
     const topLevelDomain = this.currentDomain.getExtension();
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     const isOrgTldAndEnglishCurrentLanguage = topLevelDomain === 'org' && currentLanguage === 'en';
 
     return !this.isScoManagingStudents && !isOrgTldAndEnglishCurrentLanguage;
