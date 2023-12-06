@@ -660,7 +660,6 @@ async function _buildValidShareableCertificateWithAcquiredBadges({ shareableCert
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
         complementaryCertificationBadgeId,
-        partnerKey: key,
         acquired: true,
       });
     },

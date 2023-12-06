@@ -38,16 +38,11 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
     describe('when the jury level is not "REJECTED"', function () {
       it('should return an acquired ComplementaryCertificationCourseResult with an external source', function () {
         // given
-        const complementaryCertificationCourseResult = domainBuilder.buildComplementaryCertificationCourseResult({
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-          acquired: true,
-          complementaryCertificationCourseId: 12,
-        });
-
         // when
         const result = ComplementaryCertificationCourseResult.buildFromJuryLevel({
-          juryLevel: complementaryCertificationCourseResult.partnerKey,
+          juryLevel: 25,
           complementaryCertificationCourseId: 12,
+          complementaryCertificationBadgeId: 25,
         });
 
         // then
@@ -55,6 +50,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', func
           new ComplementaryCertificationCourseResult({
             acquired: true,
             source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+            complementaryCertificationBadgeId: 25,
             complementaryCertificationCourseId: 12,
           }),
         );

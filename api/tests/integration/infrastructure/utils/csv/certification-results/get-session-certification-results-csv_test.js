@@ -167,7 +167,6 @@ describe('Integration | Application | UseCases | certification-results | get-ses
     context(`when at least one candidate has passed PIX_EMPLOI_CLEA_V3 certification`, function () {
       it(`should return correct csvContent with the PIX_EMPLOI_CLEA_V3 information`, async function () {
         // given
-        const partnerKey = 'PARTNER_KEY';
         const expectedHeader = 'Certification skateboard numérique';
         const label = 'skateboard numérique';
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
@@ -187,7 +186,7 @@ describe('Integration | Application | UseCases | certification-results | get-ses
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
+            domainBuilder.buildComplementaryCertificationCourseResult({ acquired: true, label }),
           ],
         });
 
@@ -207,7 +206,6 @@ describe('Integration | Application | UseCases | certification-results | get-ses
 
       it(`should return a cancelled complementary certification when certification pix is cancelled`, async function () {
         // given
-        const partnerKey = 'PARTNER_KEY';
         const expectedHeader = 'Certification skateboard numérique';
         const label = 'skateboard numérique';
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
@@ -227,7 +225,7 @@ describe('Integration | Application | UseCases | certification-results | get-ses
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
+            domainBuilder.buildComplementaryCertificationCourseResult({ acquired: true, label }),
           ],
         });
 
@@ -268,13 +266,11 @@ describe('Integration | Application | UseCases | certification-results | get-ses
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
               id: 1,
-              partnerKey: '1ST_PARTNER_KEY',
               acquired: false,
               label: 'Pix+ Bandjo Maître',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
               id: 2,
-              partnerKey: '2ND_PARTNER_KEY',
               acquired: true,
               label: 'Pix+ Bandjo Expert',
             }),

@@ -44,29 +44,28 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commonComplementaryCertificationCourseResult:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
             id: 12,
-            partnerKey: 'BADGE_KEY_1',
             acquired: true,
             label: 'Badge Key 1',
           }),
         complementaryCertificationCourseResultWithExternal:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             complementaryCertificationCourseId: 1234,
-            pixPartnerKey: 'BADGE_KEY_3',
+            pixComplementaryCertificationBadgeId: 98,
             pixLabel: 'Badge Key 3',
             pixAcquired: true,
             pixLevel: 2,
-            externalPartnerKey: 'BADGE_KEY_4',
+            externalComplementaryCertificationBadgeId: 99,
             externalLabel: 'Badge Key 4',
             externalAcquired: true,
             externalLevel: 4,
             allowedExternalLevels: [
               {
                 label: 'Badge Key 3',
-                value: 'BADGE_KEY_3',
+                value: 98,
               },
               {
                 label: 'Badge Key 4',
-                value: 'BADGE_KEY_4',
+                value: 99,
               },
             ],
           }),
@@ -145,11 +144,11 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
               'allowed-external-levels': [
                 {
                   label: 'Badge Key 3',
-                  value: 'BADGE_KEY_3',
+                  value: 98,
                 },
                 {
                   label: 'Badge Key 4',
-                  value: 'BADGE_KEY_4',
+                  value: 99,
                 },
               ],
               'default-jury-options': ['REJECTED', 'UNSET'],
