@@ -4,7 +4,7 @@ import { Campaign } from '../../../../lib/domain/models/Campaign.js';
 import { CampaignTypes } from '../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 import { CampaignParticipation } from '../../../../lib/domain/models/CampaignParticipation.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';

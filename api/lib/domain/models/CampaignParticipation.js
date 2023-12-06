@@ -8,7 +8,7 @@ import {
   CampaignParticipationDeletedError,
 } from '../errors.js';
 
-import { CampaignParticipationStatuses } from './CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 class CampaignParticipation {
   constructor({

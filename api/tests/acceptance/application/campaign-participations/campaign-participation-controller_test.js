@@ -1,6 +1,6 @@
 import { createServer } from '../../../../server.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 import { buildLearningContent } from '../../../tooling/learning-content-builder/build-learning-content.js';
 
 import {

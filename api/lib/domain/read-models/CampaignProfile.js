@@ -1,5 +1,5 @@
 import { CampaignProfileCompetence } from './CampaignProfileCompetence.js';
-import { CampaignParticipationStatuses } from '../models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -4,7 +4,7 @@ import { buildCampaignParticipation } from './build-campaign-participation.js';
 import { buildCampaignSkill } from './build-campaign-skill.js';
 import { buildUser } from './build-user.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
-import { CampaignParticipationStatuses } from '../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 
 const { STARTED, SHARED, TO_SHARE } = CampaignParticipationStatuses;
 

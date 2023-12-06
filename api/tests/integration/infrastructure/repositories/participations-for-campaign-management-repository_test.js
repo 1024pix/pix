@@ -3,7 +3,7 @@ import * as participationsForCampaignManagementRepository from '../../../../lib/
 import _ from 'lodash';
 import { ParticipationForCampaignManagement } from '../../../../lib/domain/models/ParticipationForCampaignManagement.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

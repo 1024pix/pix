@@ -3,7 +3,7 @@ import bluebird from 'bluebird';
 import { knex } from '../../../db/knex-database-connection.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
 import { CampaignAnalysis } from '../../domain/read-models/CampaignAnalysis.js';
-import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
 import { constants } from '../constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;

@@ -10,7 +10,6 @@ describe('Integration | Application | Route | campaignRouter', function () {
     sinon
       .stub(campaignController, 'getCsvProfilesCollectionResults')
       .callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer();

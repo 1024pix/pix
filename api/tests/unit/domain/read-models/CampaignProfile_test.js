@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { CampaignProfile } from '../../../../lib/domain/read-models/CampaignProfile.js';
-import { CampaignParticipationStatuses } from '../../../../lib/domain/models/CampaignParticipationStatuses.js';
+import { CampaignParticipationStatuses } from '../../../../src/prescription/shared/domain/constants.js';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
