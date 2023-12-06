@@ -106,7 +106,7 @@ import * as learningContentRepository from '../../infrastructure/repositories/le
 import * as localeService from '../../domain/services/locale-service.js';
 import * as mailService from '../../domain/services/mail-service.js';
 import * as membershipRepository from '../../infrastructure/repositories/membership-repository.js';
-import * as missionRepository from '../../infrastructure/repositories/mission-repository.js';
+import * as missionRepository from '../../../src/school/infrastructure/repositories/mission-repository.js';
 import * as obfuscationService from '../../domain/services/obfuscation-service.js';
 import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 import * as organizationForAdminRepository from '../../infrastructure/repositories/organization-for-admin-repository.js';
