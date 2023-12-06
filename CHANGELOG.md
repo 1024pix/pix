@@ -1,5 +1,54 @@
 # Pix Changelog
 
+## v4.72.0 (06/12/2023)
+
+
+### :rocket: Amélioration
+- [#7579](https://github.com/1024pix/pix/pull/7579) [FEATURE] Pouvoir configurer le nombre max de challenges capés sur la variation de capacité (PIX-10187).
+- [#7488](https://github.com/1024pix/pix/pull/7488) [FEATURE][ADMIN] Pouvoir changer le rôle d'un membre d'un centre de certif depuis la page de l'utilisateur.
+- [#7554](https://github.com/1024pix/pix/pull/7554) [FEATURE][CERTIF] Permettre l'annulation d'une invitation par un administrateur (PIX-5002).
+
+### :building_construction: Tech
+- [#7623](https://github.com/1024pix/pix/pull/7623) [TECH] Supprimer la clef de traduction current-lang de certif.
+- [#7601](https://github.com/1024pix/pix/pull/7601) [TECH] Factoriser les adapter dans Pix Orga afin de n'avoir qu'une mention au deleteParticipant (PIX-10258).
+- [#7594](https://github.com/1024pix/pix/pull/7594) [TECH] Retirer l'utilisation du Feature Toggle Suppression d'un participant (PIX-10255).
+- [#7624](https://github.com/1024pix/pix/pull/7624) [TECH] Passer le versionning de `@fortawesome/fontawesome-svg-core` en `^`.
+- [#7407](https://github.com/1024pix/pix/pull/7407) [TECH] Migrer pix certif sur ember-data 4.12.
+- [#7589](https://github.com/1024pix/pix/pull/7589) [TECH] Permet de désactiver le logger en développement.
+- [#7588](https://github.com/1024pix/pix/pull/7588) [TECH] Nettoyer le fichier .gitignore.
+- [#7585](https://github.com/1024pix/pix/pull/7585) [TECH] Supprimer la clef de traduction current-lang de mon-pix.
+- [#7563](https://github.com/1024pix/pix/pull/7563) [TECH] Déplace les fichiers liés à l'`ActivityAnswer` (PIX-10214).
+- [#7582](https://github.com/1024pix/pix/pull/7582) [TECH] Simplifier l'injection de dépendances au niveau des controllers dans le contexte de DevComp (PIX-10238). .
+- [#7565](https://github.com/1024pix/pix/pull/7565) [TECH] Migration de certification candidate for supervising dans src.
+- [#7567](https://github.com/1024pix/pix/pull/7567) [TECH] Ajouter le script de migration supprimant la table autonomous-courses (PIX-10104).
+
+### :arrow_up: Montée de version
+- [#7614](https://github.com/1024pix/pix/pull/7614) [BUMP] Update dependency @1024pix/stylelint-config to ^5.0.2 (certif).
+- [#7621](https://github.com/1024pix/pix/pull/7621) [BUMP] Update dependency @fortawesome/fontawesome-svg-core to v6.5.0 (orga).
+- [#7620](https://github.com/1024pix/pix/pull/7620) [BUMP] Update dependency @fortawesome/fontawesome-svg-core to v6.5.0 (mon-pix).
+- [#7619](https://github.com/1024pix/pix/pull/7619) [BUMP] Update dependency @fortawesome/fontawesome-svg-core to v6.5.0 (certif).
+- [#7618](https://github.com/1024pix/pix/pull/7618) [BUMP] Update dependency @fortawesome/fontawesome-svg-core to v6.5.0 (1d).
+- [#7617](https://github.com/1024pix/pix/pull/7617) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (load-testing).
+- [#7616](https://github.com/1024pix/pix/pull/7616) [BUMP] Update dependency @1024pix/stylelint-config to ^5.0.2 (orga).
+- [#7615](https://github.com/1024pix/pix/pull/7615) [BUMP] Update dependency @1024pix/stylelint-config to ^5.0.2 (mon-pix).
+- [#7613](https://github.com/1024pix/pix/pull/7613) [BUMP] Update dependency @fortawesome/fontawesome-svg-core to v6.5.0 (admin).
+- [#7612](https://github.com/1024pix/pix/pull/7612) [BUMP] Update dependency @1024pix/stylelint-config to ^5.0.2 (admin).
+- [#7597](https://github.com/1024pix/pix/pull/7597) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (certif).
+- [#7611](https://github.com/1024pix/pix/pull/7611) [BUMP] Update dependency @1024pix/stylelint-config to ^5.0.2 (1d).
+- [#7603](https://github.com/1024pix/pix/pull/7603) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.1 (1d).
+- [#7606](https://github.com/1024pix/pix/pull/7606) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.1 (mon-pix).
+- [#7608](https://github.com/1024pix/pix/pull/7608) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (api).
+- [#7604](https://github.com/1024pix/pix/pull/7604) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.1 (admin).
+- [#7596](https://github.com/1024pix/pix/pull/7596) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (audit-logger).
+- [#7607](https://github.com/1024pix/pix/pull/7607) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.1 (orga).
+- [#7605](https://github.com/1024pix/pix/pull/7605) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.1 (certif).
+- [#7599](https://github.com/1024pix/pix/pull/7599) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (mon-pix).
+- [#7600](https://github.com/1024pix/pix/pull/7600) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (orga).
+- [#7598](https://github.com/1024pix/pix/pull/7598) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (dossier racine).
+- [#7595](https://github.com/1024pix/pix/pull/7595) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (admin).
+- [#7591](https://github.com/1024pix/pix/pull/7591) [BUMP] Update dependency @1024pix/ember-matomo-tag-manager to ^2.4.3 (mon-pix).
+- [#7592](https://github.com/1024pix/pix/pull/7592) [BUMP] Update dependency @1024pix/eslint-config to ^1.1.1 (1d).
+
 ## v4.71.0 (04/12/2023)
 
 
