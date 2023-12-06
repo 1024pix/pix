@@ -1,5 +1,6 @@
 import { usecases } from '../../domain/usecases/index.js';
-import * as certificationCenterInvitationSerializer from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { certificationCenterInvitationSerializer } from '../../infrastructure/serializers/jsonapi/certification-center-invitation-serializer.js';
+import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
 
 const acceptCertificationCenterInvitation = async function (request, h) {
   const certificationCenterInvitationId = request.params.id;
@@ -33,10 +34,23 @@ const cancelCertificationCenterInvitation = async function (request, h) {
   return h.response().code(204);
 };
 
+const resendCertificationCenterInvitation = async function (request, h) {
+  const certificationCenterInvitationId = request.params.certificationCenterInvitationId;
+  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+
+  const certificationCenterInvitation = await usecases.resendCertificationCenterInvitation({
+    certificationCenterInvitationId,
+    locale,
+  });
+
+  return h.response(certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation)).code(200);
+};
+
 const certificationCenterInvitationController = {
   acceptCertificationCenterInvitation,
   getCertificationCenterInvitation,
   cancelCertificationCenterInvitation,
+  resendCertificationCenterInvitation,
 };
 
 export { certificationCenterInvitationController };
