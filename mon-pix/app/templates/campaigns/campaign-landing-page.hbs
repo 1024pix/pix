@@ -3,7 +3,14 @@
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
   <main class="campaign-landing-page__container rounded-panel--over-background-banner" role="main">
-    <CampaignStartBlock @campaign={{@model}} @startCampaignParticipation={{this.startCampaignParticipation}} />
+    {{#if this.isAutonomousCourse}}
+      <AutonomousCourse::LandingPageStartBlock
+        @campaign={{@model}}
+        @startCampaignParticipation={{this.startCampaignParticipation}}
+      />
+    {{else}}
+      <CampaignStartBlock @campaign={{@model}} @startCampaignParticipation={{this.startCampaignParticipation}} />
+    {{/if}}
 
     {{#if @model.isAssessment}}
       <div class="campaign-landing-page__details rounded-panel">
