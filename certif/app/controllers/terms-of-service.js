@@ -9,7 +9,7 @@ export default class TermsOfServiceController extends Controller {
   @service router;
   @service intl;
 
-  @tracked isEnglishLocale = this.intl.t('current-lang') === 'en';
+  @tracked isEnglishLocale = this.intl.primaryLocale === 'en';
 
   @action
   async submit() {

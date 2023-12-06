@@ -31,7 +31,7 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
             getExtension = sinon.stub().returns('org');
           }
           class IntlStub extends Service {
-            t = sinon.stub().returns('fr');
+            primaryLocale = 'fr';
           }
 
           this.owner.register('service:current-domain', CurrentDomainStub);
@@ -61,7 +61,7 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
             getExtension = sinon.stub().returns('org');
           }
           class IntlStub extends Service {
-            t = sinon.stub().returns('en');
+            primaryLocale = 'en';
           }
 
           this.owner.register('service:current-domain', CurrentDomainStub);
@@ -93,7 +93,7 @@ module('Unit | Component | sessions | panel-header', function (hooks) {
           getExtension = sinon.stub().returns('fr');
         }
         class IntlStub extends Service {
-          t = sinon.stub().returns('fr');
+          primaryLocale = 'fr';
         }
 
         this.owner.register('service:current-domain', CurrentDomainStub);
