@@ -484,6 +484,85 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
         expect(result).to.deep.equal(expectedEvent);
       });
+      describe('when certification is rejected for fraud', function () {
+        it('should save the score with rejected status', async function () {
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            version: CertificationVersion.V3,
+          });
+
+          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({
+            isRejectedForFraud: true,
+          });
+
+          const challenges = generateChallengeList({ length: maximumAssessmentLength });
+          const challengeIds = challenges.map(({ id }) => id);
+
+          const answers = generateAnswersForChallenges({ challenges });
+
+          const expectedEstimatedLevel = 2;
+          const scoreForEstimatedLevel = 592;
+          const { certificationCourseId } = certificationAssessment;
+
+          certificationAssessmentRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationAssessment);
+
+          flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+
+          answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
+
+          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
+
+          certificationCourseRepository.get
+            .withArgs(certificationAssessment.certificationCourseId)
+            .resolves(abortedCertificationCourse);
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns({
+              estimatedLevel: expectedEstimatedLevel,
+            });
+
+          const event = new CertificationJuryDone({
+            certificationCourseId,
+          });
+
+          const result = await handleCertificationRescoring({
+            ...dependencies,
+            event,
+          });
+
+          const expectedResult = {
+            certificationCourseId,
+            assessmentResult: new AssessmentResult({
+              commentForJury: 'Computed',
+              emitter: 'PIX-ALGO',
+              pixScore: scoreForEstimatedLevel,
+              reproducibilityRate: 100,
+              status: 'rejected',
+              competenceMarks: [],
+              assessmentId: 123,
+            }),
+          };
+
+          expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+
+          const expectedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
+            certificationCourseId,
+            userId: certificationAssessment.certificationCourseId,
+            reproducibilityRate: 100,
+          });
+
+          expect(result).to.deep.equal(expectedEvent);
+        });
+      });
     });
   });
 
@@ -747,6 +826,94 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
       });
     });
 
+    context('when the certification course is rejected for fraud', function () {
+      it('save a standard rejected assessment result ', async function () {
+        // given
+        const certificationCourseRepository = {
+          get: sinon.stub(),
+          update: sinon.stub(),
+        };
+        const assessmentResultRepository = { save: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+        const competenceMarkRepository = { save: sinon.stub() };
+        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          id: 789,
+          isRejectedForFraud: true,
+        });
+
+        const event = new ChallengeNeutralized({ certificationCourseId: 789, juryId: 7 });
+        const certificationAssessment = new CertificationAssessment({
+          id: 123,
+          userId: 123,
+          certificationCourseId: 789,
+          createdAt: new Date('2020-01-01'),
+          completedAt: new Date('2020-01-01'),
+          state: CertificationAssessment.states.STARTED,
+          version: 2,
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+            domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          ],
+          certificationAnswersByDate: ['answer'],
+        });
+        certificationAssessmentRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId: 789 })
+          .resolves(certificationAssessment);
+        certificationCourseRepository.get.withArgs(789).resolves(certificationCourse);
+        const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 12 });
+        const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 18 });
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          status: AssessmentResult.status.VALIDATED,
+          competenceMarks: [competenceMark1, competenceMark2],
+          percentageCorrectAnswers: 80,
+          hasEnoughNonNeutralizedChallengesToBeTrusted: true,
+        });
+        scoringCertificationService.calculateCertificationAssessmentScore
+          .withArgs({ certificationAssessment, continueOnError: false })
+          .resolves(certificationAssessmentScore);
+
+        const assessmentResultToBeSaved = domainBuilder.buildAssessmentResult.standard({
+          emitter: 'PIX-ALGO-NEUTRALIZATION',
+          pixScore: 30,
+          reproducibilityRate: 80,
+          status: AssessmentResult.status.REJECTED,
+          assessmentId: 123,
+          juryId: 7,
+        });
+        const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
+        assessmentResultRepository.save.resolves({
+          certificationCourseId: 789,
+          assessmentResult: savedAssessmentResult,
+        });
+
+        const dependendencies = {
+          assessmentResultRepository,
+          certificationAssessmentRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationCourseRepository,
+        };
+
+        // when
+        await handleCertificationRescoring({
+          ...dependendencies,
+          event,
+        });
+
+        // then
+        const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+          id: 789,
+          isRejectedForFraud: true,
+        });
+
+        expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+          certificationCourseId: 789,
+          assessmentResult: assessmentResultToBeSaved,
+        });
+        expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+      });
+    });
     it('returns a CertificationRescoringCompleted event', async function () {
       // given
       const certificationCourseRepository = {
