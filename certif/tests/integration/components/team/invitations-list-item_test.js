@@ -88,4 +88,25 @@ module('Integration | Component |  team/invitation-list-item', function (hooks) 
       assert.ok(resendInvitation.calledWith(invitation));
     });
   });
+
+  module('when certification center invitation has already been resent', function () {
+    test('disables the resend invitation button', async function (assert) {
+      // given
+      const invitation = store.createRecord('certification-center-invitation');
+
+      invitation.isResendingInvitation = true;
+
+      this.set('invitation', invitation);
+      this.set('cancelInvitation', sinon.stub());
+      this.set('resendInvitation', sinon.stub());
+
+      // when
+      const screen = await renderScreen(
+        hbs`<Team::InvitationsListItem @invitation={{this.invitation}} @onCancelInvitationButtonClicked={{this.cancelInvitation}} @onResendInvitationButtonClicked={{this.resendInvitation}} />`,
+      );
+
+      // then
+      assert.dom(screen.getByRole('button', { name: "Renvoyer l'invitation" })).isDisabled();
+    });
+  });
 });
