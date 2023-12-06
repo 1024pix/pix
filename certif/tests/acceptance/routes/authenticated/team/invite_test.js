@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit, settled } from '@ember/test-helpers';
 import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 
 import setupIntl from '../../../../helpers/setup-intl';
@@ -38,6 +38,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
       await visit('/equipe/inviter');
       await fillByLabel(inputLabel, email);
       await clickByName(inviteButtonLabel);
+      await settled();
 
       // then
       const expectedEmail = email.replace(/ /g, '');
@@ -58,6 +59,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
       await visit('/equipe/inviter');
       await fillByLabel(inputLabel, emails);
       await clickByName(inviteButtonLabel);
+      await settled();
 
       // then
       const expectedEmails = emails.replace(/ /g, '').split(',');
@@ -107,6 +109,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
           await visit('/equipe/inviter');
           await fillByLabel(inputLabel, email);
           await clickByName(inviteButtonLabel);
+          await settled();
 
           // then
           assert.strictEqual(currentURL(), '/equipe/inviter');
@@ -144,6 +147,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
           await visit('/equipe/inviter');
           await fillByLabel(inputLabel, email);
           await clickByName(inviteButtonLabel);
+          await settled();
 
           // then
           assert.strictEqual(currentURL(), '/equipe/inviter');
@@ -181,6 +185,7 @@ module('Acceptance | Routes | Team | Invite', function (hooks) {
           await visit('/equipe/inviter');
           await fillByLabel(inputLabel, email);
           await clickByName(inviteButtonLabel);
+          await settled();
 
           // then
           assert.strictEqual(currentURL(), '/equipe/inviter');

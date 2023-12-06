@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, triggerEvent } from '@ember/test-helpers';
+import { click, currentURL, triggerEvent, settled } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -11,6 +11,7 @@ import {
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { Response } from 'miragejs';
 
+/* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Session Import', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -84,6 +85,7 @@ module('Acceptance | Session Import', function (hooks) {
 
           // when
           await click(importButton);
+          await settled();
 
           // then
           assert.dom(screen.getByText("Une erreur s'est produite pendant le téléchargement")).exists();
@@ -178,8 +180,10 @@ module('Acceptance | Session Import', function (hooks) {
             screen = await visit('/sessions/import');
             const input = await screen.findByLabelText('Importer le modèle complété');
             await triggerEvent(input, 'change', { files: [file] });
+            await settled();
             const cancelButton = await screen.findByLabelText("Annuler l'import");
             await click(cancelButton);
+            await settled();
 
             // then
             assert.dom(await screen.queryByLabelText('fichier.csv')).doesNotExist();
@@ -211,6 +215,7 @@ module('Acceptance | Session Import', function (hooks) {
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = getByRole('button', { name: 'Continuer' });
             await click(importButton);
+            await settled();
 
             // then
             assert.dom(getByText('2 sessions dont 1 session sans candidat')).exists();
@@ -248,6 +253,7 @@ module('Acceptance | Session Import', function (hooks) {
               await triggerEvent(input, 'change', { files: [file] });
               const importButton = screen.getByRole('button', { name: 'Continuer' });
               await click(importButton);
+              await settled();
 
               // then
               assert.dom(screen.getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
@@ -281,8 +287,10 @@ module('Acceptance | Session Import', function (hooks) {
               await triggerEvent(input, 'change', { files: [file] });
               const importButton = screen.getByRole('button', { name: 'Continuer' });
               await click(importButton);
+              await settled();
               const confirmButton = screen.getByRole('button', { name: 'Finaliser la création/édition' });
               await click(confirmButton);
+              await settled();
 
               // then
               assert.strictEqual(currentURL(), '/sessions/liste');
@@ -315,8 +323,10 @@ module('Acceptance | Session Import', function (hooks) {
                 await triggerEvent(input, 'change', { files: [file] });
                 const importButton = screen.getByRole('button', { name: 'Continuer' });
                 await click(importButton);
+                await settled();
                 const confirmButton = screen.getByRole('button', { name: 'Finaliser la création/édition' });
                 await click(confirmButton);
+                await settled();
 
                 // then
                 assert
@@ -356,8 +366,10 @@ module('Acceptance | Session Import', function (hooks) {
                 await triggerEvent(input, 'change', { files: [file] });
                 const importButton = screen.getByRole('button', { name: 'Continuer' });
                 await click(importButton);
+                await settled();
                 const confirmButton = screen.getByRole('button', { name: 'Finaliser la création/édition' });
                 await click(confirmButton);
+                await settled();
 
                 // then
                 assert
@@ -400,6 +412,7 @@ module('Acceptance | Session Import', function (hooks) {
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = screen.getByRole('button', { name: 'Continuer' });
             await click(importButton);
+            await settled();
 
             // then
             assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau')).exists();
@@ -466,6 +479,7 @@ module('Acceptance | Session Import', function (hooks) {
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = screen.getByRole('button', { name: 'Continuer' });
             await click(importButton);
+            await settled();
 
             // then
             assert.dom(screen.getByText('Le modèle a été altéré, merci de le télécharger à nouveau')).exists();
@@ -499,6 +513,7 @@ module('Acceptance | Session Import', function (hooks) {
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = screen.getByRole('button', { name: 'Continuer' });
             await click(importButton);
+            await settled();
 
             // then
             assert
@@ -524,6 +539,7 @@ module('Acceptance | Session Import', function (hooks) {
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = screen.getByRole('button', { name: 'Continuer' });
             await click(importButton);
+            await settled();
 
             // then
             assert
@@ -539,3 +555,4 @@ module('Acceptance | Session Import', function (hooks) {
     });
   });
 });
+/* eslint-enable ember/no-settled-after-test-helper */

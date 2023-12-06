@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, fillIn, waitUntil } from '@ember/test-helpers';
+import { click, fillIn, waitUntil, settled } from '@ember/test-helpers';
 import { visit, within } from '@1024pix/ember-testing-library';
 import { authenticateSession } from '../helpers/test-init';
 import { Response } from 'miragejs';
@@ -17,6 +17,7 @@ const waitUntilElementIsVisible = (element) => {
   return waitUntil(() => isVisible(element));
 };
 
+/* eslint-disable ember/no-settled-after-test-helper */
 module('Acceptance | Session supervising', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -154,12 +155,14 @@ module('Acceptance | Session supervising', function (hooks) {
 
     // when
     await click(firstVisit.getByRole('button', { name: "Confirmer la présence de l'élève John Doe" }));
+    await settled();
 
     // then
     const secondVisit = await visit('/connexion-espace-surveillant');
     await fillIn(secondVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
     await fillIn(secondVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
     await click(secondVisit.getByRole('button', { name: 'Surveiller la session' }));
+    await settled();
 
     assert
       .dom(secondVisit.getByRole('button', { name: "Annuler la confirmation de présence de l'élève John Doe" }))
@@ -191,6 +194,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
     // when
     await click(firstVisit.getByRole('button', { name: "Confirmer la présence de l'élève John Doe" }));
+    await settled();
     await click(firstVisit.getByRole('button', { name: "Annuler la confirmation de présence de l'élève John Doe" }));
 
     // then
@@ -225,6 +229,7 @@ module('Acceptance | Session supervising', function (hooks) {
     await click(firstVisit.getByRole('button', { name: 'Autoriser la reprise du test' }));
     await firstVisit.findByRole('dialog');
     await click(firstVisit.getByRole('button', { name: "Je confirme l'autorisation" }));
+    await settled();
 
     // then
     assert.contains('Succès ! John Doe peut reprendre son test de certification.');
@@ -338,6 +343,7 @@ module('Acceptance | Session supervising', function (hooks) {
           await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
           await click(screen.getByRole('button', { name: 'Gérer un signalement' }));
           await click(screen.getByText('Refuser le signalement'));
+          await settled();
 
           // then
           assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
@@ -398,6 +404,7 @@ module('Acceptance | Session supervising', function (hooks) {
           );
 
           await click(screen.getByText('Valider le signalement'));
+          await settled();
 
           // then
           const successMessage = screen.getByText('Le signalement a bien été validé.');
@@ -451,6 +458,7 @@ module('Acceptance | Session supervising', function (hooks) {
           );
 
           await click(screen.getByText('Valider le signalement'));
+          await settled();
 
           // then
           assert.contains('Une erreur a eu lieu. Merci de réessayer ultérieurement.');
@@ -555,3 +563,4 @@ module('Acceptance | Session supervising', function (hooks) {
     });
   });
 });
+/* eslint-enable ember/no-settled-after-test-helper */
