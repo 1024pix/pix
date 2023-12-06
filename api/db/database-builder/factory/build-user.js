@@ -368,6 +368,7 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   createdAt = new Date(),
   updatedAt = new Date(),
   certificationCenterId = null,
+  role = 'MEMBER',
 } = {}) {
   email = _generateAnEmailIfNecessary(email, id, lastName, firstName);
 
@@ -396,6 +397,7 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   buildCertificationCenterMembership({
     userId: user.id,
     certificationCenterId,
+    role,
   });
 
   return user;
