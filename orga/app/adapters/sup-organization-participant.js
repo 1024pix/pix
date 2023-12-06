@@ -1,6 +1,6 @@
-import ApplicationAdapter from './application';
+import OrganizationParticipantAdapter from './organization-participant';
 
-export default class SupOrganizationParticipantAdapter extends ApplicationAdapter {
+export default class SupOrganizationParticipantAdapter extends OrganizationParticipantAdapter {
   urlForQuery(query) {
     const { organizationId } = query.filter;
     delete query.filter.organizationId;
@@ -25,10 +25,5 @@ export default class SupOrganizationParticipantAdapter extends ApplicationAdapte
     }
 
     return super.updateRecord(store, type, snapshot);
-  }
-
-  deleteParticipants(organizationId, ids) {
-    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/organization-learners`;
-    return this.ajax(url, 'DELETE', { data: { listLearners: ids } });
   }
 }
