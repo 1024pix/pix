@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { waitUntil } from '@ember/test-helpers';
 import sinon from 'sinon';
+import ENV from 'pix-certif/config/environment';
 
 import setupIntl from '../../../../../helpers/setup-intl';
 
@@ -70,6 +72,34 @@ module('Unit | Controller | authenticated/team/list/invitations', function (hook
       // then
       assert.ok(certificationCenterInvitation.save.called);
       assert.ok(controller.notifications.success.calledWithExactly("L'invitation a bien été renvoyée."));
+    });
+
+    module('when resending the same invitation multiple times without waiting X seconds (default to 5s)', function () {
+      test('resends invitation and displays a success notification only twice', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certificationCenterInvitation = store.createRecord('certification-center-invitation');
+        const waitForInMilliseconds = 10;
+
+        controller.notifications = { success: sinon.stub() };
+        sinon.stub(certificationCenterInvitation, 'save').resolves();
+        sinon.stub(ENV.APP, 'MILLISECONDS_BEFORE_MAIL_RESEND').value(waitForInMilliseconds);
+
+        // when
+        await controller.resendInvitation(certificationCenterInvitation);
+        await controller.resendInvitation(certificationCenterInvitation);
+        await waitUntil(
+          async () => {
+            return new Promise((resolve) => setTimeout(() => resolve(true), waitForInMilliseconds));
+          },
+          { timeout: waitForInMilliseconds },
+        );
+        await controller.resendInvitation(certificationCenterInvitation);
+
+        // then
+        assert.ok(certificationCenterInvitation.save.calledTwice);
+        assert.ok(controller.notifications.success.calledTwice);
+      });
     });
 
     module('when an error occurs', function () {

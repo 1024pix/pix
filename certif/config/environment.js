@@ -84,6 +84,11 @@ module.exports = function (environment) {
         defaultValue: 8,
         minValue: 1,
       }),
+      MILLISECONDS_BEFORE_MAIL_RESEND: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'MILLISECONDS_BEFORE_MAIL_RESEND',
+        defaultValue: 5000,
+        minValue: 0,
+      }),
       sessionSupervisingPollingRate: process.env.SESSION_SUPERVISING_POLLING_RATE ?? 5000,
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
     },
