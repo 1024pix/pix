@@ -871,6 +871,9 @@
         "description": "Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.",
         "select-referer-button": "Désigner un référent"
       },
+      "notifications": {
+        "success": "Un nouveau référent CléA Numérique a été nommé."
+      },
       "pix-referer": "Référent CléA Numérique",
       "pix-referer-tooltip": "Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.",
       "referer": "Référent",

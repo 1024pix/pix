@@ -156,7 +156,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               });
 
               module('when selecting a referer in the modal', function () {
-                test('displays a modal to select the referer', async function (assert) {
+                test('select a new referer and display a success notification', async function (assert) {
                   // given
                   const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
                     undefined,
@@ -187,7 +187,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                   assert.dom(row.getByRole('cell', { name: 'Dupont' })).exists();
                   assert.dom(row.getByRole('cell', { name: 'Lili' })).exists();
                   assert.dom(row.getByRole('cell', { name: 'Administrateur' })).exists();
-                  assert.dom(row.getByRole('cell', { name: 'Référent CléA Numérique' })).exists();
+                  assert.dom(await screen.findByText('Un nouveau référent CléA Numérique a été nommé.')).exists();
+                  assert.dom(await row.findByRole('cell', { name: 'Référent CléA Numérique' })).exists();
                 });
               });
             });
@@ -232,8 +233,14 @@ module('Acceptance | authenticated | team', function (hooks) {
 
               // then
               const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
-              const pixRefererCell = within(row.getByRole('cell', { name: "Référent CléA Numérique" }));
-              assert.dom(pixRefererCell.getByText('Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.')).exists();
+              const pixRefererCell = within(row.getByRole('cell', { name: 'Référent CléA Numérique' }));
+              assert
+                .dom(
+                  pixRefererCell.getByText(
+                    'Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.',
+                  ),
+                )
+                .exists();
             });
           });
         });
