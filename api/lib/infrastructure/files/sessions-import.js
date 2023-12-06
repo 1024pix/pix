@@ -14,7 +14,7 @@ function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true
     fields,
     delimiter: ';',
   });
-  return json2csvParser.parse(fields);
+  return json2csvParser.parse([]);
 }
 
 function _getComplementaryCertificationsHeaders(habilitationLabels) {
