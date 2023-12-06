@@ -12,6 +12,8 @@ import { deserializer } from './lib/infrastructure/serializers/jsonapi/deseriali
 import { knex } from './db/knex-database-connection.js';
 
 // bounded context migration
+import { sharedRoutes } from './src/shared/routes.js';
+
 import { evaluationRoutes } from './src/evaluation/routes.js';
 
 import { certificationSessionRoutes } from './src/certification/session/routes.js';
@@ -43,7 +45,7 @@ const certificationRoutes = [
   certificationCourseRoutes,
 ];
 const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes, targetProfileRoutes, campaignRoutes];
-const sharedRoutes = [prescriberManagementRoutes];
+const prescriptionSharedRoutes = [prescriberManagementRoutes];
 
 monitoringTools.installHapiHook();
 
@@ -134,13 +136,14 @@ const setupRoutesAndPlugins = async function (server) {
     plugins,
     routes,
     authenticationRoutes,
+    sharedRoutes,
     evaluationRoutes,
     scenarioSimulatorRoutes,
     devcompRoutes,
     schoolRoutes,
     ...certificationRoutes,
-    ...sharedRoutes,
     ...prescriptionRoutes,
+    ...prescriptionSharedRoutes,
   );
   await server.register(configuration);
 };
