@@ -8,43 +8,6 @@
     margin-bottom: 8px;
   }
 
-  &_section--instructions {
-    .pix-collapsible {
-      margin-bottom: 8px;
-    }
-
-    .pix-collapsible,
-    .pix-collapsible__title {
-      border-radius: 8px;
-      color: $pix-neutral-70;
-    }
-
-    .pix-collapsible__title[aria-expanded='true'] {
-      background-color: inherit;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .pix-collapsible__title--uncollapsed {
-      border-radius: 8px 8px 0 0;
-    }
-
-    .pix-collapsible__content {
-      line-height: 20px;
-      padding: 14px 16px;
-    }
-
-    .pix-collapsible ul {
-      list-style: disc;
-      margin-top: 6px;
-      margin-left: 24px;
-    }
-  }
-
-  .pix-collapsible .pix-message {
-    border-radius: 4px;
-    margin-top: 8px;
-  }
-
   &__section--breadcrumb {
     background-color: $pix-neutral-5;
     border: 1px solid $pix-neutral-15;
@@ -97,20 +60,25 @@
   }
 
   &__section--download__instruction {
-    color: $pix-neutral_50;
-    padding-top: 24px;
+    color: $pix-neutral-50;
     font-size: 14px;
+
     ul {
       list-style: disc;
       margin-top: 6px;
       margin-left: 24px;
     }
+
+    > p {
+        margin-top: $pix-spacing-s;
+      }
   }
 
   &__section--download {
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: $pix-spacing-m;
+    gap: $pix-spacing-m;
 
     .pix-message__content {
       color: $pix-neutral-70;
@@ -128,8 +96,8 @@
 
   &__section--download__button {
     align-items: center;
-    background-color: $pix-neutral-5;
-    border: 1px solid $pix-neutral-10;
+    background-color: $pix-neutral-10;
+    border: 1px solid $pix-neutral-15;
     border-radius: 8px;
     color: $pix-neutral-90;
     display: grid;
@@ -141,10 +109,6 @@
     }
   }
 
-  &__section--download__button:first-of-type {
-    margin-bottom: 16px;
-  }
-
   &__section--download__button .download-icon {
     color: $pix-neutral-25;
     margin: auto;
@@ -153,7 +117,6 @@
   &__section--link-buttons {
     display: flex;
     gap: $pix-spacing-s;
-    margin-top: 24px;
   }
 
   &__file-name {
@@ -161,7 +124,6 @@
     justify-content: center;
     align-items: center;
     padding: 16px 24px;
-    margin-top: 24px;
     width: fit-content;
     border: 1px solid $pix-neutral-15;
     border-radius: 8px;
@@ -218,4 +180,11 @@
       color: $pix-warning-40;
     }
   }
+
+  &__collapsible-header--non-blocking-list, &__collapsible-header--blocking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
 }

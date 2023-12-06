@@ -31,7 +31,7 @@
         @iconTitle="plus"
         class="import-page-section__collapsible-header--non-blocking"
       >
-        <ul>
+        <ul class="import-page-section__collapsible-header--non-blocking-list">
           {{#each this.translatedNonBlockingErrorReport as |report|}}
             <li>
               <PixMessage @type="warning">
@@ -60,7 +60,7 @@
         @iconTitle="plus"
         class="import-page-section__collapsible-header--blocking"
       >
-        <ul>
+        <ul class="import-page-section__collapsible-header--blocking-list">
           {{#each this.translatedBlockingErrorReport as |report|}}
             <li>
               <PixMessage @type="error">
