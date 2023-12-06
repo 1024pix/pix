@@ -9,7 +9,7 @@ export default class ImportRoute extends Route {
 
   beforeModel() {
     const topLevelDomain = this.currentDomain.getExtension();
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     const isOrgTldAndEnglishCurrentLanguage = topLevelDomain === 'org' && currentLanguage === 'en';
 
     if (
