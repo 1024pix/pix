@@ -117,7 +117,6 @@ module.exports = function (environment) {
   };
 
   if (environment === 'development') {
-    ENV.APP.FT_DELETE_PARTICIPANT = true;
     ENV.APP.CAMPAIGNS_ROOT_URL = 'http://localhost:4200/campagnes/';
     ENV.APP.CERTIFICATION_BANNER_DISPLAY_DATES = '04 05 06 07';
     // ENV.APP.LOG_RESOLVER = true;
@@ -156,7 +155,6 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.APP.FT_DELETE_PARTICIPANT = _isFeatureEnabled(process.env.FT_DELETE_PARTICIPANT) || false;
 
     if (analyticsEnabled) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
