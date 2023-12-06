@@ -21,7 +21,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
       });
 
       // then
-      expect(actualTargetProfileSummary).to.deep.equal({ ...targetProfile, isPublic: undefined });
+      expect(actualTargetProfileSummary).to.deep.equal(targetProfile);
     });
 
     context('ordered target profile list', function () {
@@ -148,7 +148,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
             { id: 1, name: 'paTtErN', outdated: false, createdAt: new Date('2021-01-01') },
             { id: 2, name: 'AApatterNOo', outdated: true, createdAt: new Date('2021-01-01') },
             { id: 3, name: 'NotUnderTheRadar', outdated: false, createdAt: new Date('2021-01-01') },
-            { id: 4, name: 'PaTternXXXX', outdated: true, isPublic: true, createdAt: new Date('2021-01-01') },
+            { id: 4, name: 'PaTternXXXX', outdated: true, createdAt: new Date('2021-01-01') },
           ];
           targetProfileData.map(databaseBuilder.factory.buildTargetProfile);
           return databaseBuilder.commit();
@@ -339,8 +339,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', isPublic: false, outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', isPublic: false, outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -368,7 +368,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', isPublic: false, outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -407,8 +407,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', isPublic: false, outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', isPublic: false, outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -442,8 +442,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', isPublic: true, outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', isPublic: true, outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -471,7 +471,7 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', isPublic: true, outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'A_tp', outdated: false }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -513,9 +513,9 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
           // then
           const expectedTargetProfileSummaries = [
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'A_tp', isPublic: true, outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'B_tp', isPublic: false, outdated: false }),
-            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 12, name: 'C_tp', isPublic: false, outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 10, name: 'A_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 11, name: 'B_tp', outdated: false }),
+            domainBuilder.buildTargetProfileSummaryForAdmin({ id: 12, name: 'C_tp', outdated: false }),
           ];
           expect(actualTargetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
         });
@@ -553,16 +553,8 @@ describe('Integration | Repository | Target-profile-summary-for-admin', function
 
       // then
       const expectedTargetProfileSummaries = [
-        domainBuilder.buildTargetProfileSummaryForAdmin({
-          ...targetProfile1,
-          isPublic: undefined,
-          createdAt: undefined,
-        }),
-        domainBuilder.buildTargetProfileSummaryForAdmin({
-          ...targetProfile2,
-          isPublic: undefined,
-          createdAt: undefined,
-        }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile1, createdAt: undefined }),
+        domainBuilder.buildTargetProfileSummaryForAdmin({ ...targetProfile2, createdAt: undefined }),
       ];
       expect(targetProfileSummaries).to.deepEqualArray(expectedTargetProfileSummaries);
     });

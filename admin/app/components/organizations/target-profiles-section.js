@@ -19,9 +19,8 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
   }
 
   @action
-  canDetachTargetProfile({ isPublic }) {
-    console.log(this.accessControl);
-    return this.accessControl.hasAccessToOrganizationActionsScope && !isPublic;
+  canDetachTargetProfile({ canDetach }) {
+    return canDetach;
   }
 
   @action

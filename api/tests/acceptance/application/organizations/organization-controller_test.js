@@ -1202,8 +1202,8 @@ describe('Acceptance | Application | organization-controller', function () {
             attributes: {
               name: 'Super profil cible',
               outdated: false,
-              'is-public': true,
               'created-at': undefined,
+              'can-detach': false,
             },
           },
         ],
