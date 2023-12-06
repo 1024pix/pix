@@ -59,7 +59,7 @@
     "@formatjs/intl-locale": "^3.0.11",
     "@formatjs/intl-pluralrules": "^5.1.8",
     "@fortawesome/ember-fontawesome": "^2.0.0",
-    "@fortawesome/fontawesome-svg-core": "6.4.2",
+    "@fortawesome/fontawesome-svg-core": "6.5.0",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@glimmer/component": "^1.1.2",
