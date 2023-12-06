@@ -1,7 +1,11 @@
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
+import { tracked } from '@glimmer/tracking';
 
 export default class CertificationCenterInvitation extends Model {
+  @tracked
+  isResendingInvitation = false;
+
   @attr('string') email;
   @attr('string') status;
   @attr('date') updatedAt;
