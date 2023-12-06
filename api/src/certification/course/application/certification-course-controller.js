@@ -13,6 +13,19 @@ const reject = async function (request, h, dependencies = { events }) {
   return h.response().code(200);
 };
 
+const unreject = async function (request, h, dependencies = { events }) {
+  const certificationCourseId = request.params.id;
+  const juryId = request.auth.credentials.userId;
+  const certificationCourseRejectedEvent = await usecases.unrejectCertificationCourse({
+    certificationCourseId,
+    juryId,
+  });
+
+  await dependencies.events.eventDispatcher.dispatch(certificationCourseRejectedEvent);
+  return h.response().code(200);
+};
+
 export const certificationCourseController = {
   reject,
+  unreject,
 };
