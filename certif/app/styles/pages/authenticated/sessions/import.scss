@@ -96,6 +96,17 @@
     }
   }
 
+  &__section--download__instruction {
+    color: $pix-neutral_50;
+    padding-top: 24px;
+    font-size: 14px;
+    ul {
+      list-style: disc;
+      margin-top: 6px;
+      margin-left: 24px;
+    }
+  }
+
   &__section--download {
     display: flex;
     flex-direction: column;

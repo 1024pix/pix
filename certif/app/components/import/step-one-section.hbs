@@ -1,12 +1,5 @@
 <p>{{t "pages.sessions.import.step-one.instructions.title"}}</p>
 <div class="import-page_section--instructions">
-  <PixCollapsible @title={{t "pages.sessions.import.step-one.instructions.creation.title"}} @iconTitle="plus">
-    {{t "pages.sessions.import.step-one.instructions.creation.list"}}
-    <ul>
-      <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
-      <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
-    </ul>
-  </PixCollapsible>
   <PixCollapsible @title={{t "pages.sessions.import.step-one.instructions.edition.title"}} @iconTitle="plus">
     <ul>
       <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
@@ -19,6 +12,13 @@
 </div>
 
 <section class="import-page__section--download panel">
+  <div class="import-page__section--download__instruction">
+    {{t "pages.sessions.import.step-one.instructions.creation.list"}}
+    <ul>
+      <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
+      <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
+    </ul>
+  </div>
   <div class="import-page__section--download__button">
     <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
     <span>{{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}</span>
