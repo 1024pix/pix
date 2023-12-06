@@ -293,6 +293,20 @@
         "header": "Your answers"
       }
     },
+    "autonomous-course": {
+      "landing-page": {
+        "actions": {
+          "sign-in": "I have an account, log in to the Pix platform",
+          "start-anonymously": "Begin without a Pix account",
+          "start-connected": "Begin the course"
+        },
+        "texts": {
+          "title": "Start the course:",
+          "first-course": "Is this your first course?",
+          "legal-informations": "With or without a Pix account, information relating to your progress in the customized test will be transmitted to us.'<br>'This information is used by Pix to improve our service. "
+        }
+      }
+    },
     "campaign": {
       "errors": {
         "existing-participation": "You cannot take this customised test.",
