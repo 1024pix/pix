@@ -39,7 +39,23 @@ const createOrUpdateCertificationCenterInvitation = function ({
   };
 };
 
-export { createOrUpdateCertificationCenterInvitation };
+const resendCertificationCenterInvitation = function ({
+  certificationCenterInvitationRepository,
+  mailService = maillingService,
+}) {
+  return async function ({ certificationCenter, certificationCenterInvitation, locale }) {
+    await _sendInvitationEmail(
+      mailService,
+      certificationCenterInvitation,
+      certificationCenter,
+      certificationCenterInvitation.email,
+      locale,
+      certificationCenterInvitationRepository,
+    );
+  };
+};
+
+export { createOrUpdateCertificationCenterInvitation, resendCertificationCenterInvitation };
 
 async function _sendInvitationEmail(
   mailService,
