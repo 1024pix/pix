@@ -1,5 +1,4 @@
 {
-  "current-lang": "en",
   "api-error-messages": {
     "campaign-creation": {
       "custom-landing-page_too_long": "Please choose a shorter text to display on the starting page.",
