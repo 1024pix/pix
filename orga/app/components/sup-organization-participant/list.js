@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
-import ENV from 'pix-orga/config/environment';
 
 export default class ListItems extends Component {
   @service currentUser;
@@ -22,9 +21,7 @@ export default class ListItems extends Component {
   }
 
   get showCheckbox() {
-    const isFeatureEnabled = ENV.APP.FT_DELETE_PARTICIPANT;
-
-    return isFeatureEnabled && this.currentUser.isAdminInOrganization;
+    return this.currentUser.isAdminInOrganization;
   }
 
   get headerId() {
