@@ -961,7 +961,6 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
     .select({
       badgeId: 'complementary-certification-badges.badgeId',
       complementaryCertificationBadgeId: 'complementary-certification-badges.id',
-      partnerKey: 'badges.key',
       campaignId: 'campaigns.id',
     })
     .join('badges', 'badges.id', 'complementary-certification-badges.badgeId')
@@ -973,7 +972,6 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
       const {
         badgeId: selectedBadgeId,
         complementaryCertificationBadgeId,
-        partnerKey,
         campaignId,
       } = generic.pickOneRandomAmong(badgeAndComplementaryCertificationBadgeIds);
 
@@ -998,7 +996,10 @@ async function _makeCandidatesComplementaryCertificationCertifiable(
         type: Assessment.types.CAMPAIGN,
         campaignParticipationId,
       }).id;
-      certificationCandidate.complementaryCertificationBadgeInfo = { complementaryCertificationBadgeId, partnerKey };
+      certificationCandidate.complementaryCertificationBadgeInfo = {
+        complementaryCertificationBadgeId,
+        badgeId: selectedBadgeId,
+      };
       return { assessmentId, userId: certificationCandidate.userId };
     }),
   );
@@ -1108,7 +1109,7 @@ function _makeCandidatesPassCertification({
         createdAt: configSession.sessionDate,
       }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        partnerKey: certificationCandidate.complementaryCertificationBadgeInfo.partnerKey,
+        badgeId: certificationCandidate.complementaryCertificationBadgeInfo.badgeId,
         complementaryCertificationBadgeId:
           certificationCandidate.complementaryCertificationBadgeInfo.complementaryCertificationBadgeId,
         acquired: true,

@@ -43,7 +43,6 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       const certificationIssueReports = [certificationIssueReport];
       const commonComplementaryCertificationCourseResult =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
-          partnerKey: 'PIX_PARTNER_KEY',
           acquired: true,
         });
 
@@ -62,9 +61,9 @@ describe('Unit | Domain | Models | JuryCertification', function () {
       const complementaryCertificationCourseResultWithExternal =
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
           complementaryCertificationCourseId: 123,
-          pixPartnerKey: 'PIX_PARTNER_KEY',
+          pixComplementaryCertificationBadgeId: 98,
           pixAcquired: true,
-          externalPartnerKey: 'PIX_PARTNER_KEY_EXTERNAL',
+          externalComplementaryCertificationBadgeId: 99,
           externalAcquired: true,
         });
 

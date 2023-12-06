@@ -3,7 +3,7 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 
 describe('Unit | Domain | Models | ComplementaryCertificationScoringWithComplementaryReferential', function () {
   context('#constructor', function () {
-    it('set partnerKey and source', function () {
+    it('set badge key and source', function () {
       // given / when
       const complementaryCertificationScoringWithComplementaryReferential =
         new ComplementaryCertificationScoringWithComplementaryReferential({
