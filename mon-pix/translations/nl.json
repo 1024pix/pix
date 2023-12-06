@@ -104,7 +104,6 @@
       "skip-to-footer": "Ga naar de onderkant van de pagina"
     }
   },
-  "current-lang": "nl",
   "navigation": {
     "back-to-homepage": "Terug naar de startpagina",
     "back-to-profile": "Terug naar profiel",
@@ -269,7 +268,7 @@
           "login-button": "Ik ben online.",
           "password-label": "Wachtwoord"
         },
-        "welcome-message": "Welkom terug { voornaam }!"
+        "welcome-message": "Welkom terug { firstName }!"
       }
     },
     "assessment-banner": {
@@ -748,7 +747,7 @@
         "default": "Vrije modus - Vraag {stepNumber} op {totalChallengeNumber}.",
         "focused": "Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
         "focused-out": "Mislukt - Focusmodus - Vraag {stepNumber} op {totalChallengeNumber}.",
-        "timed-out": "Verstreken tijd - Vraag {stapNummer} van {totaalUitdagingNummer}"
+        "timed-out": "Verstreken tijd - Vraag {stepNumber} van {totalChallengeNumber}"
       }
     },
     "checkpoint": {
@@ -1050,7 +1049,7 @@
           }
         },
         "message": "Voer de gegevens in zoals ze op je studentenkaart staan om toegang te krijgen tot de test en de resultaten te versturen. Pix zal het de volgende keer onthouden.",
-        "title": "Registreer je Pix-account bij {organisatienaam}."
+        "title": "Registreer je Pix-account bij {organizationName}."
       },
       "title": "Word lid van"
     },
@@ -1486,7 +1485,7 @@
       "stage": {
         "caption": "Details van je resultaten in de vorm van percentages en sterren volgens vaardigheden",
         "masteryPercentage": "{rate, number, ::percent} van succes",
-        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} uit {totaal}",
+        "starsAcquired": "{acquired, plural, =0 {geen sterren verworven} other {# sterren verworven}} uit {total}",
         "title": "Vaardigheden"
       },
       "title": "Resultaten",
