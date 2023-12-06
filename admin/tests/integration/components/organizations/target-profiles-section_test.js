@@ -86,12 +86,12 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const publicTargetProfileSummary = store.createRecord('target-profile-summary', {
           id: 666,
           name: 'Number of The Beast',
-          isPublic: true,
+          canDetach: false,
         });
         const privateTargetProfileSummary = store.createRecord('target-profile-summary', {
           id: 777,
           name: 'Super Lucky',
-          isPublic: false,
+          canDetach: true,
         });
         const organization = store.createRecord('organization', {
           id: 1,
@@ -115,6 +115,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const targetProfileSummary = store.createRecord('target-profile-summary', {
           id: 666,
           name: 'Number of The Beast',
+          canDetach: true,
         });
         const organization = store.createRecord('organization', {
           id: 1,
@@ -143,6 +144,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
         const targetProfileSummary = store.createRecord('target-profile-summary', {
           id: 666,
           name: 'Number of The Beast',
+          canDetach: true,
         });
         const organization = store.createRecord('organization', {
           id: 1,
@@ -178,6 +180,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
             store.createRecord('target-profile-summary', {
               id: 666,
               name: 'Number of The Beast',
+              canDetach: true,
             }),
           ],
           get: sinon.stub().returns({ reload: sinon.stub() }),

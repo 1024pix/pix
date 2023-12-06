@@ -165,7 +165,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
   });
 
   module('#canDetachTargetProfile', () => {
-    test('should return false if target profile is public and user can has access to organization action', function (assert) {
+    test('should return true if target profile is detachable and user can has access to organization action', function (assert) {
       //given
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = true;
@@ -175,9 +175,9 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
       const component = createComponent('component:organizations/target-profiles-section');
 
       // then
-      assert.notOk(component.canDetachTargetProfile({ isPublic: true }));
+      assert.ok(component.canDetachTargetProfile({ canDetach: true }));
     });
-    test("should return false if target profile is public and user don't has access to organization action", function (assert) {
+    test("should return false if target profile is not detachable and user don't has access to organization action", function (assert) {
       //given
       class AccessControlStub extends Service {
         hasAccessToOrganizationActionsScope = false;
@@ -187,31 +187,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
       const component = createComponent('component:organizations/target-profiles-section');
 
       // then
-      assert.notOk(component.canDetachTargetProfile({ isPublic: true }));
-    });
-    test("should return false if target profile is private and user don't has access to organization action", function (assert) {
-      //given
-      class AccessControlStub extends Service {
-        hasAccessToOrganizationActionsScope = false;
-      }
-      this.owner.register('service:access-control', AccessControlStub);
-
-      const component = createComponent('component:organizations/target-profiles-section');
-
-      // then
-      assert.notOk(component.canDetachTargetProfile({ isPublic: false }));
-    });
-    test('should return true if target profile is private and user  has access to organization action', function (assert) {
-      //given
-      class AccessControlStub extends Service {
-        hasAccessToOrganizationActionsScope = true;
-      }
-      this.owner.register('service:access-control', AccessControlStub);
-
-      const component = createComponent('component:organizations/target-profiles-section');
-
-      // then
-      assert.ok(component.canDetachTargetProfile({ isPublic: false }));
+      assert.notOk(component.canDetachTargetProfile({ canDetach: false }));
     });
   });
 });

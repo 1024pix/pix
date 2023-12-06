@@ -44,11 +44,13 @@
                     {{summary.name}}
                   </LinkTo>
                 </td>
-                {{#if (this.canDetachTargetProfile summary)}}
+                {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
                   <td>
-                    <PixButton @backgroundColor="red" @size="small" @triggerAction={{(fn this.openModal summary)}}>
-                      Détacher
-                    </PixButton>
+                    {{#if (this.canDetachTargetProfile summary)}}
+                      <PixButton @backgroundColor="red" @size="small" @triggerAction={{(fn this.openModal summary)}}>
+                        Détacher
+                      </PixButton>
+                    {{/if}}
                   </td>
                 {{/if}}
               </tr>

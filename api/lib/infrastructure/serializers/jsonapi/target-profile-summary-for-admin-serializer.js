@@ -4,7 +4,7 @@ const { Serializer } = jsonapiSerializer;
 
 const serialize = function (targetProfileSummaries, meta) {
   return new Serializer('target-profile-summary', {
-    attributes: ['name', 'isPublic', 'outdated', 'createdAt'],
+    attributes: ['name', 'outdated', 'createdAt', 'canDetach'],
     meta,
   }).serialize(targetProfileSummaries);
 };
