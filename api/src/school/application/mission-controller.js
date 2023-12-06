@@ -1,5 +1,5 @@
-import * as missionSerializer from '../../infrastructure/serializers/jsonapi/mission-serializer.js';
-import { usecases } from '../../domain/usecases/index.js';
+import * as missionSerializer from '../infrastructure/serializers/mission-serializer.js';
+import { usecases } from '../shared/usecases/index.js';
 
 const getById = async function (request, h, dependencies = { missionSerializer }) {
   const { id: missionId } = request.params;
