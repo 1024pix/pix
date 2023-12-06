@@ -71,7 +71,7 @@ describe('Acceptance | API | Autonomous Course', function () {
 
           const options = {
             method: 'POST',
-            url: '/api/autonomous-courses',
+            url: '/api/admin/autonomous-courses',
             headers: {
               authorization: generateValidRequestAuthorizationHeader(userId),
             },

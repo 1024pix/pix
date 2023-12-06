@@ -8,7 +8,7 @@ const register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/autonomous-courses',
+      path: '/api/admin/autonomous-courses',
       config: {
         pre: [
           {
