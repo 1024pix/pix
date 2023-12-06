@@ -76,10 +76,10 @@ export default class Url extends Service {
   }
 
   #isFrenchSpoken() {
-    return this.intl.t('current-lang') === 'fr';
+    return this.intl.primaryLocale === 'fr';
   }
 
   #isEnglishSpoken() {
-    return this.intl.t('current-lang') === 'en';
+    return this.intl.primaryLocale === 'en';
   }
 }
