@@ -1,5 +1,4 @@
 {
-  "current-lang": "fr",
   "api-error-messages": {
     "campaign-creation": {
       "custom-landing-page_too_long": "Le texte de présentation de la campagne est trop long.",

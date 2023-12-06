@@ -42,7 +42,7 @@ export default class Url extends Service {
   }
 
   get homeUrl() {
-    const currentLanguage = this.intl.get('primaryLocale');
+    const currentLanguage = this.intl.primaryLocale;
     return `${this.definedHomeUrl}?lang=${currentLanguage}`;
   }
 
@@ -67,7 +67,7 @@ export default class Url extends Service {
   }
 
   get forgottenPasswordUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
     let url = `${this.pixAppUrlWithoutExtension}${this.currentDomain.getExtension()}/mot-de-passe-oublie`;
     if (currentLanguage === 'en') {
       url += '?lang=en';
@@ -76,7 +76,7 @@ export default class Url extends Service {
   }
 
   _computeShowcaseWebsiteUrl({ en: englishPath, fr: frenchPath }) {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.primaryLocale;
 
     if (this.currentDomain.isFranceDomain) {
       return `${PIX_FR_DOMAIN}${frenchPath}`;
