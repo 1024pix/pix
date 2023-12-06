@@ -12,6 +12,8 @@
             @icon="redo"
             @triggerAction={{fn @onResendInvitationButtonClicked @invitation}}
             @withBackground={{true}}
+            disabled={{@invitation.isResendingInvitation}}
+            aria-disabled={{@invitation.isResendingInvitation}}
           />
         </:triggerElement>
         <:tooltip>
