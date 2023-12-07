@@ -29,10 +29,7 @@
 
 .session-list-header__actions {
   display: flex;
-
-  & .pix-button:not(:last-child) {
-    margin-right: 12px;
-  }
+  gap: $pix-spacing-xs;
 }
 
 .new-session-icon {
