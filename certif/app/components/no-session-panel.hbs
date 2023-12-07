@@ -2,18 +2,22 @@
   <img class="no-session-panel__icon" src="{{this.rootURL}}/icons/empty-list-session.svg" alt="" role="none" />
   <h1 class="page-title">{{t "pages.sessions.list.empty.title"}}</h1>
 
-  <div class="no-session-panel__link-to-create">
-    <PixButtonLink @route="authenticated.sessions.new">
-      {{t "pages.sessions.list.actions.creation.label"}}
-    </PixButtonLink>
-    {{#if this.shouldRenderImportTemplateButton}}
-      <PixButtonLink
-        @route="authenticated.sessions.import"
-        @backgroundColor="transparent-light"
-        @isBorderVisible="true"
-      >
-        {{t "pages.sessions.list.actions.multiple-creation.label"}}
+  <ul class="no-session-panel__link-to-create">
+    <li>
+      <PixButtonLink @route="authenticated.sessions.new">
+        {{t "pages.sessions.list.actions.creation.label"}}
       </PixButtonLink>
+    </li>
+    {{#if this.shouldRenderImportTemplateButton}}
+      <li>
+        <PixButtonLink
+          @route="authenticated.sessions.import"
+          @backgroundColor="transparent-light"
+          @isBorderVisible="true"
+        >
+          {{t "pages.sessions.list.actions.multiple-creation.label"}}
+        </PixButtonLink>
+      </li>
     {{/if}}
-  </div>
+  </ul>
 </div>
