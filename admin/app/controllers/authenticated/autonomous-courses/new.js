@@ -23,6 +23,10 @@ export default class NewController extends Controller {
       if (!autonomousCourse.targetProfileId) {
         return this.notifications.error('Aucun profil cible sélectionné !');
       }
+      const badRequestError = error.errors.find((error) => error.status === '400');
+      if (badRequestError) {
+        return this.notifications.error(error.errors[0].detail);
+      }
       return this.notifications.error('Une erreur est survenue.');
     }
   }

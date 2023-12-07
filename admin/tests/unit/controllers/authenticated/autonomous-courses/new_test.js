@@ -69,7 +69,7 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
         error: sinon.stub(),
       };
 
-      const saveStub = sinon.stub().rejects();
+      const saveStub = sinon.stub().rejects({ errors: [] });
 
       controller.store.createRecord = sinon.stub().returns({ save: saveStub });
 
@@ -83,6 +83,35 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
       // then
       assert.ok(saveStub.called);
       assert.ok(controller.notifications.error.calledWith('Une erreur est survenue.'));
+    });
+
+    test('it should display error message from API when it receives a "bad request" error', async function (assert) {
+      // given
+      const autonomousCourse = {
+        targetProfileId: 32,
+      };
+      controller.notifications = {
+        error: sinon.stub(),
+      };
+
+      const errors = {
+        errors: [{ status: '400', detail: 'Le profil cible ne correspond pas' }],
+      };
+
+      const saveStub = sinon.stub().rejects(errors);
+
+      controller.store.createRecord = sinon.stub().returns({ save: saveStub });
+
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+
+      // when
+      await controller.createAutonomousCourse(event, autonomousCourse);
+
+      // then
+      assert.ok(saveStub.called);
+      assert.ok(controller.notifications.error.calledWith('Le profil cible ne correspond pas'));
     });
 
     test('it should display not selected target profile error notification when autonomous-course is saved without target profile', async function (assert) {
