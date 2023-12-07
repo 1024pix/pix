@@ -9,7 +9,7 @@ export default class AuthenticatedTeamListRoute extends Route {
   async model() {
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     let invitations = [];
-    const members = await this.store.query('member', { certificationCenterId });
+    const members = await this.store.query('certification-center-member', { certificationCenterId });
 
     if (this.currentUser.isAdminOfCurrentCertificationCenter) {
       invitations = await this.store.findAll('certification-center-invitation', {

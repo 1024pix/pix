@@ -39,6 +39,7 @@ import { CertificationCenter } from './CertificationCenter.js';
 import { CertificationCenterForAdmin } from './CertificationCenterForAdmin.js';
 import { CertificationCenterInvitation } from './CertificationCenterInvitation.js';
 import { CertificationCenterInvitedUser } from './CertificationCenterInvitedUser.js';
+import { CertificationCenterMember } from './CertificationCenterMember.js';
 import { CertificationCenterMembership } from './CertificationCenterMembership.js';
 import { CertificationChallenge } from './CertificationChallenge.js';
 import { CertificationChallengeWithType } from './CertificationChallengeWithType.js';
@@ -187,6 +188,7 @@ export {
   CertificationCenterForAdmin,
   CertificationCenterInvitation,
   CertificationCenterInvitedUser,
+  CertificationCenterMember,
   CertificationCenterMembership,
   CertificationChallenge,
   CertificationChallengeWithType,

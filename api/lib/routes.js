@@ -10,6 +10,7 @@ import * as campaignsAdministration from './application/campaigns-administration
 import * as certificationCandidates from './application/certification-candidates/index.js';
 import * as certificationCenters from './application/certification-centers/index.js';
 import * as certificationCenterInvitations from './application/certification-center-invitations/index.js';
+import * as certificationCenterMembers from './application/certification-center-members/index.js';
 import * as certificationCenterMemberships from './application/certification-center-memberships/index.js';
 import * as certificationCourses from './application/certification-courses/index.js';
 import * as certificationPointOfContacts from './application/certification-point-of-contacts/index.js';
@@ -59,6 +60,7 @@ const routes = [
   certificationCandidates,
   certificationCenters,
   certificationCenterInvitations,
+  certificationCenterMembers,
   certificationCenterMemberships,
   certificationCourses,
   certificationPointOfContacts,

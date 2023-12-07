@@ -18,6 +18,7 @@ import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
 import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-invitation-id.js';
+import * as checkUserIsAdminOfCertificationCenterWithCertificationCenterMemberIdUseCase from './usecases/check-user-is-admin-of-certification-center-with-certification-center-member-id.js';
 import * as checkUserIsMemberOfCertificationCenterUsecase from './usecases/checkUserIsMemberOfCertificationCenter.js';
 import * as checkUserIsMemberOfCertificationCenterSessionUsecase from './usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as checkAuthorizationToManageCampaignUsecase from './usecases/checkAuthorizationToManageCampaign.js';
@@ -197,7 +198,7 @@ function checkUserIsAdminOfCertificationCenter(
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCenterId = request.params.certificationCenterId;
+  const certificationCenterId = request.params.certificationCenterId ?? request.query.certificationCenterId;
 
   return dependencies.checkUserIsAdminOfCertificationCenterUsecase
     .execute(userId, certificationCenterId)
@@ -228,6 +229,26 @@ function checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationI
 
   return dependencies.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase
     .execute({ certificationCenterInvitationId, userId })
+    .then((isAdminInCertificationCenter) => {
+      return isAdminInCertificationCenter ? h.response(true) : _replyForbiddenError(h);
+    })
+    .catch(() => _replyForbiddenError(h));
+}
+
+function checkUserIsAdminOfCertificationCenterWithCertificationCenterMemberId(
+  request,
+  h,
+  dependencies = { checkUserIsAdminOfCertificationCenterWithCertificationCenterMemberIdUseCase },
+) {
+  if (!request.auth.credentials || !request.auth.credentials.userId || !request.params.certificationCenterMemberId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationCenterMemberId = request.params.certificationCenterMemberId;
+
+  return dependencies.checkUserIsAdminOfCertificationCenterWithCertificationCenterMemberIdUseCase
+    .execute({ certificationCenterMemberId, userId })
     .then((isAdminInCertificationCenter) => {
       return isAdminInCertificationCenter ? h.response(true) : _replyForbiddenError(h);
     })
@@ -703,6 +724,7 @@ const securityPreHandlers = {
   checkUserIsMemberOfAnOrganization,
   checkUserIsAdminOfCertificationCenter,
   checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId,
+  checkUserIsAdminOfCertificationCenterWithCertificationCenterMemberId,
   checkUserIsMemberOfCertificationCenter,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,

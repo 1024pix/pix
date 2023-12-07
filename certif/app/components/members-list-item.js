@@ -46,7 +46,7 @@ export default class MembersListItem extends Component {
   }
 
   get isCurrentUserMembership() {
-    return this.currentUser.certificationPointOfContact.id === this.args.member.id;
+    return this.currentUser.certificationPointOfContact.id === this.args.member.userId;
   }
 
   @action
