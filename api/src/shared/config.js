@@ -244,7 +244,7 @@ const configuration = (function () {
       apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
     },
     logging: {
-      enabled: isFeatureEnabled(process.env.LOG_ENABLED),
+      enabled: isFeatureNotDisabled(process.env.LOG_ENABLED),
       logLevel: process.env.LOG_LEVEL || 'info',
       logForHumans: _getLogForHumans(),
       enableKnexPerformanceMonitoring: isFeatureEnabled(process.env.ENABLE_KNEX_PERFORMANCE_MONITORING),
@@ -371,9 +371,7 @@ const configuration = (function () {
     },
   };
 
-  if (config.environment === 'development') {
-    config.logging.enabled = isFeatureNotDisabled(process.env.LOG_ENABLED);
-  } else if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     config.auditLogger.baseUrl = 'http://audit-logger.local';
     config.auditLogger.clientSecret = 'client-super-secret';
 
