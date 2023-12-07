@@ -1,13 +1,17 @@
 <div class="session-list__header">
   <h1 class="page-title">{{t "pages.sessions.list.title"}}</h1>
-  <div class="session-list-header__actions">
-    <PixButtonLink @route="authenticated.sessions.new">
+  <ul class="session-list-header__actions">
+    {{#if this.shouldRenderImportTemplateButton}}
+      <li>
+        <PixButtonLink @route="authenticated.sessions.import">
+          {{t "pages.sessions.list.actions.multiple-creation-edition.label"}}
+        </PixButtonLink>
+      </li>
+    {{/if}}
+    <li>
+      <PixButtonLink @route="authenticated.sessions.new">
       {{t "pages.sessions.list.actions.creation.label"}}
     </PixButtonLink>
-    {{#if this.shouldRenderImportTemplateButton}}
-      <PixButtonLink @route="authenticated.sessions.import">
-        {{t "pages.sessions.list.actions.multiple-creation-edition.label"}}
-      </PixButtonLink>
-    {{/if}}
-  </div>
+    </li>
+  </ul>
 </div>

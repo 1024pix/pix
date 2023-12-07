@@ -67,10 +67,13 @@ module('Integration | Component | panel-header', function (hooks) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // when
-      const { getByRole } = await render(hbs`<Sessions::PanelHeader />`);
+      const screen = await render(hbs`<Sessions::PanelHeader />`);
 
       // then
-      assert.dom(getByRole('link', { name: 'Créer/éditer plusieurs sessions' })).exists();
+      const createOneSessionButton = screen.getByRole('link', { name: 'Créer une session' });
+      const createOrEditMultipleSessionsButton = screen.getByRole('link', { name: 'Créer/éditer plusieurs sessions' });
+      const buttonsInTheRightOrder = createOrEditMultipleSessionsButton.compareDocumentPosition(createOneSessionButton);
+      assert.strictEqual(buttonsInTheRightOrder, Node.DOCUMENT_POSITION_FOLLOWING);
     });
   });
 });
