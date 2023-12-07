@@ -230,6 +230,16 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
+  onUnrejectCertificationButtonClick() {
+    const confirmMessage =
+      'Êtes-vous sûr·e de vouloir annuler le rejet de cette certification ? Cliquez sur confirmer pour poursuivre.';
+    this.modalTitle = "Confirmer l'annulation du rejet de la certification";
+    this.confirmAction = 'onUnrejectCertificationConfirmation';
+    this.confirmMessage = confirmMessage;
+    this.displayConfirm = true;
+  }
+
+  @action
   async onCancelCertificationConfirmation() {
     try {
       await this.certification.cancel();
@@ -257,6 +267,18 @@ export default class CertificationInformationsController extends Controller {
   async onRejectCertificationConfirmation() {
     try {
       await this.certification.reject();
+      await this.certification.reload();
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue.');
+    }
+
+    this.displayConfirm = false;
+  }
+
+  @action
+  async onUnrejectCertificationConfirmation() {
+    try {
+      await this.certification.unreject();
       await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');

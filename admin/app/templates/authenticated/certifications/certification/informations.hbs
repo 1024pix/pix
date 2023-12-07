@@ -18,9 +18,15 @@
         >
           Annuler la certification
         </PixButton>
-        <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
-          Rejeter la certification
-        </PixButton>
+        {{#if (eq this.certification.status "rejected")}}
+          <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onUnrejectCertificationButtonClick}}>
+            Annuler le rejet
+          </PixButton>
+        {{else}}
+          <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
+            Rejeter la certification
+          </PixButton>
+        {{/if}}
       </span>
     {{/if}}
   </div>
