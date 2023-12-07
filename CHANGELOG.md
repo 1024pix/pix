@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v4.73.0 (07/12/2023)
+
+
+### :building_construction: Tech
+- [#7622](https://github.com/1024pix/pix/pull/7622) [TECH] Supprimer la clef de traduction current-lang de orga.
+- [#7609](https://github.com/1024pix/pix/pull/7609) [TECH] Déplacer la route Mission dans le contexte School (Pix-10253).
+- [#7558](https://github.com/1024pix/pix/pull/7558) [TECH] Migrer les routes et controllers d'Answer et Assessment vers la nouvelle arbo API (PIX-9591).
+- [#7625](https://github.com/1024pix/pix/pull/7625) [TECH] Supprimer des seeds obsolètes (PIX-10180).
+- [#7590](https://github.com/1024pix/pix/pull/7590) [TECH] Migrer get campaign dans son Bounded Context (PIX-10254).
+
+### :bug: Correction
+- [#7583](https://github.com/1024pix/pix/pull/7583) [BUGFIX] Cacher le bouton détacher le profil cible pour les organisations qui sont référentes (PIX-10205).
+
+### :arrow_up: Montée de version
+- [#7636](https://github.com/1024pix/pix/pull/7636) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.2 (orga).
+- [#7634](https://github.com/1024pix/pix/pull/7634) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.2 (certif).
+- [#7633](https://github.com/1024pix/pix/pull/7633) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.2 (admin).
+- [#7632](https://github.com/1024pix/pix/pull/7632) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.2 (1d).
+- [#7559](https://github.com/1024pix/pix/pull/7559) [BUMP] Lock file maintenance (api).
+
 ## v4.72.0 (06/12/2023)
 
 
