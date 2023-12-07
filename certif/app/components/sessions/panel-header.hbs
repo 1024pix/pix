@@ -3,15 +3,19 @@
   <ul class="session-list-header__actions">
     {{#if this.shouldRenderImportTemplateButton}}
       <li>
-        <PixButtonLink @route="authenticated.sessions.import">
+        <PixButtonLink
+          @backgroundColor="transparent-light"
+          @isBorderVisible="true"
+          @route="authenticated.sessions.import"
+        >
           {{t "pages.sessions.list.actions.multiple-creation-edition.label"}}
         </PixButtonLink>
       </li>
     {{/if}}
     <li>
       <PixButtonLink @route="authenticated.sessions.new">
-      {{t "pages.sessions.list.actions.creation.label"}}
-    </PixButtonLink>
+        {{t "pages.sessions.list.actions.creation.label"}}
+      </PixButtonLink>
     </li>
   </ul>
 </div>
