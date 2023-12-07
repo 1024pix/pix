@@ -14,7 +14,7 @@ const disable = async function (request, h, dependencies = { requestResponseUtil
   return h.response().code(204);
 };
 
-const update = async function (
+const updateFromPixAdmin = async function (
   request,
   h,
   dependencies = { requestResponseUtils, certificationCenterMembershipSerializer },
@@ -40,6 +40,6 @@ const update = async function (
   );
 };
 
-const certificationCenterMembershipController = { disable, update };
+const certificationCenterMembershipController = { disable, updateFromPixAdmin };
 
 export { certificationCenterMembershipController };

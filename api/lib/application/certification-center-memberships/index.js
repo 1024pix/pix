@@ -32,7 +32,7 @@ const register = async function (server) {
       method: 'PATCH',
       path: '/api/admin/certification-center-memberships/{id}',
       config: {
-        handler: certificationCenterMembershipController.update,
+        handler: certificationCenterMembershipController.updateFromPixAdmin,
         pre: [
           {
             method: (request, h) =>
