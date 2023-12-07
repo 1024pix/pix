@@ -41,9 +41,12 @@ module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm'
     assert.dom(screen.getByText(/Quel profil cible voulez-vous associer à ce parcours autonome ?/)).exists();
     assert
       .dom(
-        screen.getByText(/Le profil cible doit être relié à l’organisation "Organisation pour les parcours autonomes"/),
+        screen.getByText(
+          /Le profil cible doit être en accès simplifié et relié à l’organisation "Organisation pour les parcours autonomes"/,
+        ),
       )
       .exists();
+
     assert.dom(screen.getByText(/Nom public/)).exists();
     assert
       .dom(screen.getByText(/Le nom du parcours autonome sera affiché sur la page de démarrage du candidat./))
