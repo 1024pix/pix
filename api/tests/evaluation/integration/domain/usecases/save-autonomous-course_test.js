@@ -8,8 +8,10 @@ import {
   sinon,
 } from '../../../../test-helper.js';
 import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization } from '../../../../../src/evaluation/domain/errors.js';
+import {
+  NotFoundError,
+  TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
+} from '../../../../../src/shared/domain/errors.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 
 describe('Integration | Usecases | Save autonomous course', function () {

@@ -1,7 +1,11 @@
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
 import { HttpErrors } from './http-errors.js';
 import * as DomainErrors from '../domain/errors.js';
-import { EntityValidationError } from '../domain/errors.js';
+import {
+  AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
+  EntityValidationError,
+  TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
+} from '../domain/errors.js';
 import jsonapiSerializer from 'jsonapi-serializer';
 import { extractLocaleFromRequest } from '../../../lib/infrastructure/utils/request-response-utils.js';
 import _ from 'lodash';
@@ -107,6 +111,14 @@ function _mapToHttpError(error) {
   }
   if (error instanceof SessionStartedDeletionError) {
     return new HttpErrors.ConflictError(error.message);
+  }
+
+  if (error instanceof AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError) {
+    return new HttpErrors.BadRequestError(error.message);
+  }
+
+  if (error instanceof TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization) {
+    return new HttpErrors.BadRequestError(error.message);
   }
 
   return new HttpErrors.BaseHttpError(error.message);

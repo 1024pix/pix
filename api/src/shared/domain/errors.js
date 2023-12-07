@@ -128,6 +128,18 @@ class NoCertificationAttestationForDivisionError extends DomainError {
   }
 }
 
+class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
+  constructor() {
+    super('Autonomous course requires a target profile with simplified access.');
+  }
+}
+
+class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends DomainError {
+  constructor() {
+    super('Target profile requires to be linked to autonomous course organization.');
+  }
+}
+
 export {
   DomainError,
   AssessmentEndedError,
@@ -144,4 +156,6 @@ export {
   NoCertificationAttestationForDivisionError,
   LocaleFormatError,
   LocaleNotSupportedError,
+  AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
+  TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 };

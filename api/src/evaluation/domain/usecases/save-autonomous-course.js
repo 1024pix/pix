@@ -1,8 +1,8 @@
-import { NotFoundError } from '../../../shared/domain/errors.js';
 import {
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
+  NotFoundError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
-} from '../errors.js';
+} from '../../../shared/domain/errors.js';
 import { constants } from '../../../../lib/domain/constants.js';
 
 /**
@@ -10,6 +10,7 @@ import { constants } from '../../../../lib/domain/constants.js';
  * @param autonomousCourseRepository
  * @param targetProfileRepository
  * @param targetProfileForAdminRepository
+ *
  * @returns {Promise<*>}
  */
 const saveAutonomousCourse = async ({
