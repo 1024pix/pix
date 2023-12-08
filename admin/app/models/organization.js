@@ -39,6 +39,7 @@ export default class Organization extends Model {
   static get featureList() {
     return {
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
+      PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
     };
   }
 
@@ -52,6 +53,18 @@ export default class Organization extends Model {
       this.features = {};
     }
     this.features[Organization.featureList.MULTIPLE_SENDING_ASSESSMENT] = value;
+  }
+
+  get enablePlacesManagement() {
+    if (!this.features) return false;
+    return this.features[Organization.featureList.PLACES_MANAGEMENT];
+  }
+
+  set enablePlacesManagement(value) {
+    if (!this.features) {
+      this.features = {};
+    }
+    this.features[Organization.featureList.PLACES_MANAGEMENT] = value;
   }
 
   async hasMember(userId) {

@@ -4,6 +4,90 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Model | organization', function (hooks) {
   setupTest(hooks);
 
+  module('#enablePlacesManagement', function () {
+    module('#get', function () {
+      test('it returns true when feature is enabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: true },
+        });
+
+        // when
+        const enablePlacesManagement = model.enablePlacesManagement;
+
+        // then
+        assert.true(enablePlacesManagement);
+      });
+      test('it returns false when feature is disabled', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: false },
+        });
+
+        // when
+        const enablePlacesManagement = model.enablePlacesManagement;
+
+        // then
+        assert.false(enablePlacesManagement);
+      });
+      test('it returns false when no features are provided', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        const enablePlacesManagement = model.enablePlacesManagement;
+
+        // then
+        assert.false(enablePlacesManagement);
+      });
+    });
+
+    module('#set', function () {
+      test('it enables feature', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: false },
+        });
+
+        // when
+        model.enablePlacesManagement = true;
+
+        // then
+        const enablePlacesManagement = model.enablePlacesManagement;
+        assert.true(enablePlacesManagement);
+      });
+      test('it disable feature', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {
+          features: { ['PLACES_MANAGEMENT']: true },
+        });
+        // when
+        model.enablePlacesManagement = false;
+
+        // then
+        const enablePlacesManagement = model.enablePlacesManagement;
+        assert.false(enablePlacesManagement);
+      });
+      test('it handles having no features yet', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = store.createRecord('organization', {});
+
+        // when
+        model.enablePlacesManagement = true;
+
+        // then
+        const enablePlacesManagement = model.enablePlacesManagement;
+        assert.true(enablePlacesManagement);
+      });
+    });
+  });
+
   module('#enableMultipleSendingAssessment', function () {
     module('#get', function () {
       test('it returns true when feature is enabled', function (assert) {
