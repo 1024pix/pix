@@ -861,6 +861,24 @@
       "invite-button": "Invite a member",
       "invite-member-button": "Invite a member",
       "members": {
+        "actions": {
+          "edit-role": "Change role",
+          "manage": "Manage",
+          "save": "Save",
+          "select-role": {
+            "label": "Select a role",
+            "options": {
+              "admin": "Administrator",
+              "member": "Member"
+            }
+          }
+        },
+        "notifications": {
+          "change-member-role": {
+            "error": "An error occurred while changing this member's role.",
+            "success": "The role has been changed."
+          }
+        },
         "role": {
           "admin": "Administrator",
           "member": "Member"
