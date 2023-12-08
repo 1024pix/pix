@@ -155,7 +155,7 @@
                   "display": "inline",
                   "placeholder": "",
                   "ariaLabel": "Réponse 1",
-                  "defaultValue": null,
+                  "defaultValue": "",
                   "tolerances": ["t1"],
                   "solutions": ["@"]
                 },
@@ -169,7 +169,7 @@
                   "display": "inline",
                   "placeholder": "",
                   "ariaLabel": "Réponse 2",
-                  "defaultValue": null,
+                  "defaultValue": "",
                   "tolerances": [],
                   "options": [
                     {
@@ -193,7 +193,7 @@
                   "display": "inline",
                   "placeholder": "",
                   "ariaLabel": "Réponse 3",
-                  "defaultValue": null,
+                  "defaultValue": "",
                   "tolerances": [],
                   "options": [
                     {
@@ -230,7 +230,7 @@
                   "display": "inline",
                   "placeholder": "",
                   "ariaLabel": "Adresse mail de Naomi",
-                  "defaultValue": null,
+                  "defaultValue": "",
                   "tolerances": [],
                   "solutions": ["naomizao@yahoo.com", "naomizao@yahoo.fr"]
                 }
