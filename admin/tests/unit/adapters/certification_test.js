@@ -128,6 +128,22 @@ module('Unit | Adapter | certification', function (hooks) {
       assert.strictEqual(url, 'http://localhost:3000/api/admin/certification-courses/123/uncancel');
     });
 
+    test('it should build specific URL when requestType is "reject"', function (assert) {
+      // when
+      const url = adapter.buildURL('not_used', 123, 'not_used', 'reject', 'not_used');
+
+      // then
+      assert.strictEqual(url, 'http://localhost:3000/api/admin/certification-courses/123/reject');
+    });
+
+    test('it should build specific URL when requestType is "unreject"', function (assert) {
+      // when
+      const url = adapter.buildURL('not_used', 123, 'not_used', 'unreject', 'not_used');
+
+      // then
+      assert.strictEqual(url, 'http://localhost:3000/api/admin/certification-courses/123/unreject');
+    });
+
     test('it should build specific URL when requestType is "edit-jury-level"', function (assert) {
       // when
       const url = adapter.buildURL('not_used', 'not_used', 'not_used', 'edit-jury-level', 'not_used');

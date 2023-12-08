@@ -901,6 +901,184 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
       });
     });
+
+    module('Certification rejection', function (hooks) {
+      hooks.beforeEach(async function () {
+        certification.update({ status: 'validated' });
+      });
+
+      test('should display a rejection button', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        // when
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
+      });
+
+      test('should display confirmation popup for rejection when certification is not yet rejected and rejection button is clicked', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // when
+        await clickByName('Rejeter la certification');
+
+        await screen.findByRole('dialog');
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              'Êtes-vous sûr·e de vouloir rejeter cette certification ? Cliquez sur confirmer pour poursuivre.',
+            ),
+          )
+          .exists();
+      });
+
+      test('should not reject the certification when aborting action in the confirmation popup', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+        await clickByName('Rejeter la certification');
+
+        await screen.findByRole('dialog');
+        // when
+        await clickByName('Fermer');
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
+      });
+
+      test('should reject the certification when confirming action in the confirmation popup', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+        await clickByName('Rejeter la certification');
+
+        await screen.findByRole('dialog');
+
+        // when
+        await clickByName('Confirmer');
+
+        // then
+        assert.dom(screen.getByText('Rejetée')).exists();
+        assert.dom(screen.queryByText('Validée')).doesNotExist();
+        assert.dom(screen.getByRole('button', { name: 'Annuler le rejet' })).exists();
+      });
+
+      test('should display an error notification when the certification cannot be rejected', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+        await clickByName('Rejeter la certification');
+
+        await screen.findByRole('dialog');
+
+        this.server.post('/admin/certification-courses/:id/reject', () => {
+          return new Response(400);
+        });
+
+        // when
+        await clickByName('Confirmer');
+
+        // then
+        assert.dom(screen.getByText('Validée')).exists();
+        assert.dom(screen.queryByText('Rejetée')).doesNotExist();
+        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
+      });
+    });
+
+    module('Certification unrejection', function (hooks) {
+      hooks.beforeEach(async function () {
+        certification.update({ status: 'rejected' });
+      });
+
+      test('should display a unrejection button', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+        // when
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Annuler le rejet' })).exists();
+      });
+
+      test('should display confirmation popup for rejection when certification is not yet rejected and rejection button is clicked', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // when
+        await clickByName('Annuler le rejet');
+
+        await screen.findByRole('dialog');
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              'Êtes-vous sûr·e de vouloir annuler le rejet de cette certification ? Cliquez sur confirmer pour poursuivre.',
+            ),
+          )
+          .exists();
+      });
+
+      test('should not reject the certification when aborting action in the confirmation popup', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+        await clickByName('Annuler le rejet');
+
+        await screen.findByRole('dialog');
+        // when
+        await clickByName('Fermer');
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Annuler le rejet' })).exists();
+      });
+
+      test('should reject the certification when confirming action in the confirmation popup', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+        await clickByName('Annuler le rejet');
+
+        await screen.findByRole('dialog');
+
+        // when
+        await clickByName('Confirmer');
+
+        // then
+        assert.dom(screen.getByText('Validée')).exists();
+        assert.dom(screen.queryByText('Rejetée')).doesNotExist();
+        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
+      });
+
+      test('should display an error notification when the certification cannot be unrejected', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const screen = await visit(`/certifications/${certification.id}`);
+        await clickByName('Annuler le rejet');
+
+        await screen.findByRole('dialog');
+
+        this.server.post('/admin/certification-courses/:id/unreject', () => {
+          return new Response(400);
+        });
+
+        // when
+        await clickByName('Confirmer');
+
+        // then
+        assert.dom(screen.getByText('Rejetée')).exists();
+        assert.dom(screen.queryByText('Validée')).doesNotExist();
+        assert.dom(screen.getByRole('button', { name: 'Annuler le rejet' })).exists();
+      });
+    });
   });
 });
 

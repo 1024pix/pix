@@ -185,6 +185,7 @@ describe('Integration | Repository | Certification Course', function () {
         birthdate: '1993-08-14',
         birthplace: 'Cuba',
         isPublished: true,
+        isRejectedForFraud: true,
       });
       anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
       _.each(
@@ -254,6 +255,9 @@ describe('Integration | Repository | Certification Course', function () {
         expect(actualCertificationCourseDTO.birthplace).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourseDTO.sessionId).to.equal(sessionId);
         expect(actualCertificationCourseDTO.isPublished).to.equal(expectedCertificationCourse.isPublished);
+        expect(actualCertificationCourseDTO.isRejectedForFraud).to.equal(
+          expectedCertificationCourse.isRejectedForFraud,
+        );
         expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
       });
 
@@ -388,6 +392,7 @@ describe('Integration | Repository | Certification Course', function () {
         birthPostalCode: '01200',
         birthCountry: 'Kazakhstan',
         sex: 'M',
+        isRejectedForFraud: true,
       });
 
       // when
@@ -423,6 +428,7 @@ describe('Integration | Repository | Certification Course', function () {
       expect(persistedUpdatedCertificationCourseDTO.sex).to.equal(unpersistedUpdatedCertificationCourseDTO.sex);
       expect(persistedUpdatedCertificationCourseDTO.isCancelled).to.be.true;
       expect(persistedUpdatedCertificationCourseDTO.completedAt).to.deep.equal(new Date('1999-12-31'));
+      expect(persistedUpdatedCertificationCourseDTO.isRejectedForFraud).to.be.true;
     });
 
     it('should prevent other values to be updated', async function () {

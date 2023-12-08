@@ -13,8 +13,16 @@ import { CertificationAssessmentScoreV3 } from '../models/CertificationAssessmen
 import { ABORT_REASONS } from '../models/CertificationCourse.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
 import { config } from '../../../src/shared/config.js';
+import { CertificationCourseRejected } from './CertificationCourseRejected.js';
+import { CertificationCourseUnrejected } from './CertificationCourseUnrejected.js';
 
-const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
+const eventTypes = [
+  ChallengeNeutralized,
+  ChallengeDeneutralized,
+  CertificationJuryDone,
+  CertificationCourseRejected,
+  CertificationCourseUnrejected,
+];
 const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationRescoring({
@@ -40,6 +48,7 @@ async function handleCertificationRescoring({
       return _handleV3Certification({
         challengeRepository,
         answerRepository,
+        event,
         certificationAssessment,
         assessmentResultRepository,
         certificationCourseRepository,
@@ -75,6 +84,7 @@ async function _handleV3Certification({
   challengeRepository,
   answerRepository,
   certificationAssessment,
+  event,
   assessmentResultRepository,
   certificationCourseRepository,
   flashAlgorithmConfigurationRepository,
@@ -104,12 +114,22 @@ async function _handleV3Certification({
     abortReason,
   });
 
+  const emitter =
+    _getEmitterFromEvent(event) === CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION
+      ? CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION
+      : EMITTER;
+
+  const status = certificationCourse.isRejectedForFraud()
+    ? AssessmentResult.status.REJECTED
+    : certificationAssessmentScore.status;
+
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-    status: certificationAssessmentScore.status,
+    status,
     assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
+    emitter,
+    juryId: event.juryId,
   });
 
   if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
@@ -157,6 +177,7 @@ async function _handleV2Certification({
     certificationAssessment,
     event,
     assessmentResultRepository,
+    certificationCourseRepository,
   );
   await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
@@ -214,14 +235,20 @@ async function _saveAssessmentResult(
   certificationAssessment,
   event,
   assessmentResultRepository,
+  certificationCourseRepository,
 ) {
   let assessmentResult;
   const emitter = _getEmitterFromEvent(event);
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  const assessmentResultStatus = certificationCourse.isRejectedForFraud()
+    ? AssessmentResult.status.REJECTED
+    : certificationAssessmentScore.status;
+
   if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
     assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
+      status: assessmentResultStatus,
       assessmentId: certificationAssessment.id,
       emitter,
       juryId: event.juryId,
@@ -230,7 +257,7 @@ async function _saveAssessmentResult(
     assessmentResult = AssessmentResult.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
-      status: certificationAssessmentScore.status,
+      status: assessmentResultStatus,
       assessmentId: certificationAssessment.id,
       emitter,
       juryId: event.juryId,
@@ -259,6 +286,10 @@ function _getEmitterFromEvent(event) {
 
   if (event instanceof CertificationJuryDone) {
     emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+  }
+
+  if (event instanceof CertificationCourseRejected || event instanceof CertificationCourseUnrejected) {
+    emitter = CertificationResult.emitters.PIX_ALGO_FRAUD_REJECTION;
   }
 
   return emitter;

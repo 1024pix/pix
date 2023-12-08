@@ -510,6 +510,22 @@ function routes() {
     return new Response(200);
   });
 
+  this.post('/admin/certification-courses/:id/reject', (schema, request) => {
+    const certificationId = request.params.id;
+    const certificationToUpdate = schema.certifications.find(certificationId);
+    certificationToUpdate.update({ status: 'rejected' });
+
+    return new Response(200);
+  });
+
+  this.post('/admin/certification-courses/:id/unreject', (schema, request) => {
+    const certificationId = request.params.id;
+    const certificationToUpdate = schema.certifications.find(certificationId);
+    certificationToUpdate.update({ status: 'validated' });
+
+    return new Response(200);
+  });
+
   this.post('/admin/certification-courses/:id/assessment-results/', () => {
     return new Response(204);
   });
