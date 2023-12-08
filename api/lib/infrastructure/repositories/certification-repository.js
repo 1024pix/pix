@@ -1,6 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCourseNotPublishableError } from '../../../lib/domain/errors.js';
-import { status } from '../../../lib/domain/models/AssessmentResult.js';
+import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
 
 const publishCertificationCoursesBySessionId = async function (sessionId) {
   const certificationDTOs = await knex('certification-courses')

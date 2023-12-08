@@ -1,4 +1,4 @@
-import { status as assessmentResultStatuses } from '../models/AssessmentResult.js';
+import { status as assessmentResultStatuses } from '../../../src/shared/domain/models/AssessmentResult.js';
 const STARTED = 'started';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 

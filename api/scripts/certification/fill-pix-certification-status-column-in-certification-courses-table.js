@@ -10,7 +10,7 @@ import { learningContentCache as cache } from '../../lib/infrastructure/caches/l
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import yargs from 'yargs';
 import bluebird from 'bluebird';
-import { status } from '../../lib/domain/models/AssessmentResult.js';
+import { status } from '../../src/shared/domain/models/AssessmentResult.js';
 import readline from 'readline';
 import * as url from 'url';
 

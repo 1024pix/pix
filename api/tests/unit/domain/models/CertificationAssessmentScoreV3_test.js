@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { AnswerStatus } from '../../../../lib/domain/models/index.js';
 import { CertificationAssessmentScoreV3 } from '../../../../lib/domain/models/CertificationAssessmentScoreV3.js';
-import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { config } from '../../../../src/shared/config.js';
 import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse.js';
 

@@ -1,6 +1,6 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import lodash from 'lodash';
 const { forIn } = lodash;
 

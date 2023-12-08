@@ -1,6 +1,6 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { _forTestOnly } from '../../../../lib/domain/events/index.js';
-import { AssessmentResult, status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult, status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationComputeError } from '../../../../lib/domain/errors.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { ABORT_REASONS, CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';

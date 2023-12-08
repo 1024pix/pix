@@ -1,7 +1,7 @@
 import {
   status as assessmentResultStatuses,
   AssessmentResult,
-} from '../../../../lib/domain/models/AssessmentResult.js';
+} from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 const buildAssessmentResult = function ({

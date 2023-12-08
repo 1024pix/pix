@@ -1,6 +1,6 @@
-import { expect, domainBuilder } from '../../../test-helper.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { expect, domainBuilder } from '../../../../test-helper.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Unit | Domain | Models | AssessmentResult', function () {
   describe('#buildAlgoErrorResult', function () {

@@ -5,7 +5,7 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import * as assessmentRepository from '../../../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import { Answer } from '../../../../../src/evaluation/domain/models/Answer.js';
 import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', function () {
   describe('#getWithAnswers', function () {

@@ -1,5 +1,5 @@
 import { databaseBuilder, learningContentBuilder, mockLearningContent } from '../../../test-helper.js';
-import { status } from '../../../../lib/domain/models/AssessmentResult.js';
+import { status } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
 
 const assessmentCreatedDate = new Date('2020-04-19');

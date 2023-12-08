@@ -7,7 +7,7 @@ import { AnswerStatus } from '../../../src/shared/domain/models/AnswerStatus.js'
 import { Area } from './Area.js';
 import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
 import { FlashAssessmentAlgorithm } from '../../../src/certification/flash-certification/domain/model/FlashAssessmentAlgorithm.js';
-import { AssessmentResult } from './AssessmentResult.js';
+import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { AssessmentSimulator } from '../../../src/certification/flash-certification/domain/model/AssessmentSimulator.js';
 import { Authentication } from './Authentication.js';
 import { AuthenticationMethod } from './AuthenticationMethod.js';
