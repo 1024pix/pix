@@ -116,6 +116,11 @@ Router.map(function () {
       });
     });
 
+    this.route('autonomous-courses', function () {
+      this.route('list');
+      this.route('new');
+    });
+
     this.route('trainings', function () {
       this.route('list');
       this.route('new');

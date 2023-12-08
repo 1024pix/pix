@@ -1,7 +1,9 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
 import { saveAutonomousCourse } from '../../../../../src/evaluation/domain/usecases/save-autonomous-course.js';
-import { NotFoundError } from '../../../../../src/shared/domain/errors.js';
-import { AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError } from '../../../../../src/evaluation/domain/errors.js';
+import {
+  AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
+  NotFoundError,
+} from '../../../../../src/shared/domain/errors.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 
 describe('Unit | UseCase | save-autonomous-course', function () {
