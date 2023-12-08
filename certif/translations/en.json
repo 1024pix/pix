@@ -641,11 +641,6 @@
       },
       "import": {
         "title": "Créer/éditer plusieurs sessions",
-        "breadcrumb": {
-          "extra-information": "Fil d'Arianne",
-          "import": "Import du modèle",
-          "summary": "Récapitulatif"
-        },
         "candidates-list": {
           "import-fail-prefix": "No candidate has been uploaded.<br/>",
           "import-success": "The candidate list has been successfully uploaded.",
