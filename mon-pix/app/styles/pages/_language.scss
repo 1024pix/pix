@@ -1,11 +1,7 @@
 .language {
-  display: flex;
-  flex-direction: column;
-  gap: $pix-spacing-s;
   padding: $pix-spacing-xs 0;
 
-  &__label {
-    min-width: 200px;
-    margin: 0;
+  &__notification {
+    margin-top: $pix-spacing-s;
   }
 }

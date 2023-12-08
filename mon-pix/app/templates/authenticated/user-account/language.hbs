@@ -6,7 +6,7 @@
   />
 
   {{#if this.shouldDisplayLanguageUpdatedMessage}}
-    <PixMessage @type="success" @withIcon={{true}}>
+    <PixMessage class="language__notification" @type="success" @withIcon={{true}}>
       {{t "pages.user-account.language.update-successful"}}
     </PixMessage>
   {{/if}}
