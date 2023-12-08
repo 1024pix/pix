@@ -1,4 +1,4 @@
-import { OrganizationPlacesLotManagement } from '../../../../lib/domain/read-models/OrganizationPlacesLotManagement.js';
+import { OrganizationPlacesLotManagement } from '../../../../src/prescription/organization-place/domain/read-models/OrganizationPlacesLotManagement.js';
 
 function buildOrganizationPlacesLotManagement({
   id,

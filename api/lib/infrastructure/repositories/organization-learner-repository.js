@@ -456,6 +456,20 @@ function _queryBuilderForCertificability({
     });
 }
 
+const countActiveWithAtLeastOneParticipationByOrganizationId = async function (organizationId) {
+  const { count } = await knex('view-active-organization-learners')
+    .countDistinct('view-active-organization-learners.id')
+    .join(
+      'campaign-participations',
+      'campaign-participations.organizationLearnerId',
+      'view-active-organization-learners.id',
+    )
+    .where({ organizationId })
+    .whereNull('campaign-participations.deletedAt')
+    .first();
+  return count;
+};
+
 export {
   findByIds,
   countByOrganizationsWhichNeedToComputeCertificability,
@@ -479,4 +493,5 @@ export {
   updateUserIdWhereNull,
   isActive,
   updateCertificability,
+  countActiveWithAtLeastOneParticipationByOrganizationId,
 };

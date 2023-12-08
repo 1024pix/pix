@@ -2,6 +2,7 @@ import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from
 import { createServer } from '../../../server.js';
 import { Membership } from '../../../lib/domain/models/Membership.js';
 import { securityPreHandlers } from '../../../lib/application/security-pre-handlers.js';
+import { ORGANIZATION_FEATURE } from '../../../lib/domain/constants.js';
 
 describe('Acceptance | Application | SecurityPreHandlers', function () {
   const jsonApiError403 = {
@@ -448,6 +449,31 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
         expect(response.statusCode).to.equal(403);
         expect(response.result).to.deep.equal(jsonApiError403);
       });
+    });
+  });
+
+  describe('#makeCheckOrganizationHasFeature', function () {
+    it('should return a well formed JSON API error when organization does not have feature enabled', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildFeature({
+        key: ORGANIZATION_FEATURE.PLACES_MANAGEMENT.key,
+      });
+      const userId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/place-statistics`,
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.result).to.deep.equal(jsonApiError403);
     });
   });
 });

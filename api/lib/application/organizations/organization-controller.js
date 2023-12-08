@@ -10,9 +10,6 @@ import * as organizationSerializer from '../../infrastructure/serializers/jsonap
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import * as targetProfileForSpecifierSerializer from '../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
-import * as organizationPlacesLotManagementSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
-import * as organizationPlacesLotSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
-import * as organizationPlacesCapacitySerializer from '../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
@@ -141,50 +138,6 @@ const getOrganizationMemberIdentities = async function (
   const organizationId = request.params.id;
   const members = await usecases.getOrganizationMemberIdentities({ organizationId });
   return dependencies.organizationMemberIdentitySerializer.serialize(members);
-};
-
-const getOrganizationPlacesCapacity = async function (request) {
-  const organizationId = request.params.id;
-  const organizationPlacesCapacity = await usecases.getOrganizationPlacesCapacity({ organizationId });
-  return organizationPlacesCapacitySerializer.serialize(organizationPlacesCapacity);
-};
-
-const findOrganizationPlacesLot = async function (
-  request,
-  h,
-  dependencies = { organizationPlacesLotManagementSerializer },
-) {
-  const organizationId = request.params.id;
-  const places = await usecases.findOrganizationPlacesLot({ organizationId });
-  return dependencies.organizationPlacesLotManagementSerializer.serialize(places);
-};
-
-const deleteOrganizationPlacesLot = async function (request, h) {
-  const organizationPlaceId = request.params.placeId;
-  const userId = request.auth.credentials.userId;
-
-  await usecases.deleteOrganizationPlaceLot({ organizationPlaceId, userId });
-
-  return h.response(null).code(204);
-};
-
-const createOrganizationPlacesLot = async function (
-  request,
-  h,
-  dependencies = {
-    organizationPlacesLotSerializer,
-    organizationPlacesLotManagementSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const createdBy = request.auth.credentials.userId;
-  const organizationPlacesLotData = await dependencies.organizationPlacesLotSerializer.deserialize(request.payload);
-  const organizationPlacesLot = await usecases.createOrganizationPlacesLot({
-    organizationPlacesLotData,
-    organizationId,
-    createdBy,
-  });
-  return h.response(dependencies.organizationPlacesLotManagementSerializer.serialize(organizationPlacesLot)).code(201);
 };
 
 const downloadCertificationResults = async function (
@@ -341,10 +294,6 @@ const organizationController = {
   findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredMemberships,
   getOrganizationMemberIdentities,
-  getOrganizationPlacesCapacity,
-  findOrganizationPlacesLot,
-  deleteOrganizationPlacesLot,
-  createOrganizationPlacesLot,
   downloadCertificationResults,
   findTargetProfiles,
   attachTargetProfiles,
