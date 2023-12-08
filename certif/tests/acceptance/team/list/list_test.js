@@ -107,7 +107,14 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert.dom(screen.getByText('Aucun référent désigné pour la certification Pix-CléA Numérique')).exists();
+              assert
+                .dom(
+                  screen.getByRole('heading', {
+                    name: 'Aucun référent désigné pour la certification Pix-CléA Numérique',
+                    level: 2,
+                  }),
+                )
+                .exists();
               assert
                 .dom(
                   screen.getByText(
