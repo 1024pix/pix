@@ -673,7 +673,6 @@
             "forbidden": "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session."
           },
           "instructions": {
-            "title": "Comment ça marche ?",
             "creation": {
               "title": "Pour créer des sessions ?",
               "list": "Vous pouvez créer des sessions :",
