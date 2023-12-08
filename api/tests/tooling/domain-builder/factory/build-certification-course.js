@@ -30,6 +30,7 @@ function buildCertificationCourse({
   isRejectedForFraud = false,
   abortReason = null,
   complementaryCertificationCourses = [],
+  maxReachableLevelOnCertificationDate = 7,
 } = {}) {
   const certificationIssueReports = [];
   if (examinerComment && examinerComment !== '') {
@@ -70,6 +71,7 @@ function buildCertificationCourse({
     isCancelled,
     abortReason,
     complementaryCertificationCourses,
+    maxReachableLevelOnCertificationDate,
   });
 }
 
@@ -98,6 +100,7 @@ buildCertificationCourse.unpersisted = function ({
   isRejectedForFraud = false,
   abortReason = null,
   complementaryCertificationCourses = [],
+  maxReachableLevelOnCertificationDate = 7,
 } = {}) {
   return new CertificationCourse({
     firstName,
@@ -125,6 +128,7 @@ buildCertificationCourse.unpersisted = function ({
     isRejectedForFraud,
     abortReason,
     complementaryCertificationCourses,
+    maxReachableLevelOnCertificationDate,
   });
 };
 

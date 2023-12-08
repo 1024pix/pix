@@ -236,6 +236,10 @@ class CertificationCourse {
     return this._version;
   }
 
+  getMaxReachableLevelOnCertificationDate() {
+    return this._maxReachableLevelOnCertificationDate;
+  }
+
   toDTO() {
     return {
       id: this._id,

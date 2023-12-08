@@ -9,6 +9,7 @@ import { ABORT_REASONS } from '../../../../lib/domain/models/CertificationCourse
 
 describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function () {
   const assessmentId = 1234;
+  const maxReachableLevelOnCertificationDate = 7;
 
   let answerRepository;
   let challengeRepository;
@@ -103,6 +104,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         challenges,
         allAnswers,
         algorithm,
+        maxReachableLevelOnCertificationDate,
       });
 
       expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
@@ -144,6 +146,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
           algorithm,
           abortReason,
+          maxReachableLevelOnCertificationDate,
         });
 
         expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
@@ -184,6 +187,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
           algorithm,
           abortReason,
+          maxReachableLevelOnCertificationDate,
         });
 
         expect(score.nbPix).to.equal(expectedScoreForEstimatedLevel);
@@ -215,6 +219,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         challenges,
         allAnswers,
         algorithm,
+        maxReachableLevelOnCertificationDate,
       });
 
       // then
@@ -223,7 +228,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
   });
 
   describe('when we reach an estimated level above the MAXIMUM', function () {
-    it('the score should be 1024', function () {
+    it('the score should be 896', function () {
       // given
       const veryHighEstimatedLevel = 1200;
       const veryHardDifficulty = 8;
@@ -246,10 +251,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
         challenges,
         allAnswers,
         algorithm,
+        maxReachableLevelOnCertificationDate,
       });
 
       // then
-      expect(score.nbPix).to.equal(1024);
+      expect(score.nbPix).to.equal(896);
     });
   });
 
@@ -276,6 +282,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           challenges,
           allAnswers,
           algorithm,
+          maxReachableLevelOnCertificationDate,
         });
 
         expect(score.status).to.equal(status.VALIDATED);
@@ -305,6 +312,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
             algorithm,
             abortReason: 'candidate',
+            maxReachableLevelOnCertificationDate,
           });
 
           expect(score.status).to.equal(status.REJECTED);
@@ -333,6 +341,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
             allAnswers,
             algorithm,
             abortReason: 'candidate',
+            maxReachableLevelOnCertificationDate,
           });
 
           expect(score.status).to.equal(status.REJECTED);
@@ -363,6 +372,7 @@ describe('Unit | Domain | Models | CertificationAssessmentScoreV3 ', function ()
           allAnswers,
           algorithm,
           certificationCourseAbortReason,
+          maxReachableLevelOnCertificationDate,
         });
 
         expect(score.status).to.equal(status.VALIDATED);
