@@ -1,5 +1,4 @@
 .certification-issue-reports {
-
   &__title {
     margin-bottom: 16px;
     font-size: 1.25rem;
@@ -13,7 +12,7 @@
     border-radius: 4px;
 
     &--with-action-required {
-      color: var(--pix-secondary-500)-70;
+      color: var(--pix-secondary-700);
       background-color: var(--pix-warning-100);
     }
 
