@@ -252,6 +252,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
         it('should save the returned next challenge', async function () {
           // given
           const locale = 'fr-FR';
+          const skill = domainBuilder.buildSkill({ id: 'skill1' });
 
           const v3CertificationCourse = domainBuilder.buildCertificationCourse({
             version: CertificationVersion.V3,
@@ -264,6 +265,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           const nextChallenge = domainBuilder.buildChallenge({
             id: 'NextChallenge',
+            skill,
           });
 
           const lastSeenChallenge = domainBuilder.buildChallenge({
@@ -312,7 +314,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
           certificationChallengeRepository.getNextChallengeByCourseIdForV3
             .withArgs(assessment.certificationCourseId, [])
             .resolves(nonAnsweredCertificationChallenge);
-          challengeRepository.get.withArgs(nonAnsweredCertificationChallenge.challengeId).resolves(lastSeenChallenge);
 
           const chooseNextChallengeImpl = sinon.stub();
           chooseNextChallengeImpl
@@ -340,6 +341,108 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', fun
 
           // then
           expect(challenge).to.equal(nextChallenge);
+          expect(certificationChallengeRepository.save).to.have.been.called;
+        });
+
+        it('should not return a challenge with the same skill', async function () {
+          // given
+          const locale = 'fr-FR';
+          const firstSkill = domainBuilder.buildSkill({ id: 'skill1' });
+          const secondSkill = domainBuilder.buildSkill({ id: 'skill2' });
+
+          const v3CertificationCourse = domainBuilder.buildCertificationCourse({
+            version: CertificationVersion.V3,
+          });
+          const assessment = domainBuilder.buildAssessment();
+
+          const nonAnsweredCertificationChallenge = domainBuilder.buildCertificationChallenge({
+            courseId: v3CertificationCourse.getId(),
+          });
+
+          const challengeWithLiveAlertedSkill = domainBuilder.buildChallenge({
+            id: 'NextChallenge',
+            skill: firstSkill,
+          });
+
+          const challengeWithOtherSkill = domainBuilder.buildChallenge({
+            id: 'NextChallenge',
+            skill: secondSkill,
+          });
+
+          const challengeWithLiveAlert = domainBuilder.buildChallenge({
+            id: nonAnsweredCertificationChallenge.challengeId,
+            skill: firstSkill,
+          });
+
+          algorithmDataFetcherService.fetchForFlashCampaigns
+            .withArgs({
+              answerRepository,
+              challengeRepository,
+              flashAssessmentResultRepository,
+              assessmentId: assessment.id,
+              locale,
+            })
+            .resolves({
+              allAnswers: [],
+              challenges: [challengeWithLiveAlert, challengeWithOtherSkill, challengeWithLiveAlertedSkill],
+              estimatedLevel: 0,
+            });
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              allAnswers: [],
+              challenges: [challengeWithOtherSkill],
+              estimatedLevel: config.v3Certification.defaultCandidateCapacity,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns({ estimatedLevel: 0 });
+
+          flashAlgorithmService.getPossibleNextChallenges
+            .withArgs({
+              availableChallenges: [challengeWithOtherSkill],
+              estimatedLevel: 0,
+              options: sinon.match.any,
+            })
+            .returns([challengeWithOtherSkill]);
+
+          answerRepository.findByAssessment.withArgs(assessment.id).resolves([]);
+          certificationChallengeLiveAlertRepository.getLiveAlertValidatedChallengeIdsByAssessmentId
+            .withArgs(assessment.id)
+            .resolves([nonAnsweredCertificationChallenge.challengeId]);
+
+          certificationCourseRepository.get.withArgs(assessment.certificationCourseId).resolves(v3CertificationCourse);
+          certificationChallengeRepository.getNextChallengeByCourseIdForV3
+            .withArgs(assessment.certificationCourseId, [])
+            .resolves(nonAnsweredCertificationChallenge);
+
+          const chooseNextChallengeImpl = sinon.stub();
+          chooseNextChallengeImpl
+            .withArgs({
+              possibleChallenges: [challengeWithOtherSkill],
+            })
+            .returns(challengeWithOtherSkill);
+          pickChallengeService.chooseNextChallenge.withArgs(assessment.id).returns(chooseNextChallengeImpl);
+
+          // when
+          const challenge = await getNextChallengeForCertification({
+            algorithmDataFetcherService,
+            assessment,
+            answerRepository,
+            challengeRepository,
+            flashAssessmentResultRepository,
+            flashAlgorithmService,
+            certificationChallengeLiveAlertRepository,
+            pickChallengeService,
+            certificationCourseRepository,
+            certificationChallengeRepository,
+            flashAlgorithmConfigurationRepository,
+            locale,
+          });
+
+          // then
+          expect(challenge).to.equal(challengeWithOtherSkill);
           expect(certificationChallengeRepository.save).to.have.been.called;
         });
       });
