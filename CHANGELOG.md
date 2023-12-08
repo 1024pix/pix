@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v4.74.0 (08/12/2023)
+
+
+### :rocket: Amélioration
+- [#7517](https://github.com/1024pix/pix/pull/7517) [FEATURE] Ajoute la route pour remonter les stats sur les places d'une organisation (PIX-9719).
+- [#7550](https://github.com/1024pix/pix/pull/7550) [FEATURE] Rejeter une certification V2 et V3 sur la page d'infos (PIX-10016).
+- [#7522](https://github.com/1024pix/pix/pull/7522) [FEATURE] Ajouter le formulaire de création d'un parcours autonome dans PixAdmin (PIX-9807).
+
+### :bug: Correction
+- [#7546](https://github.com/1024pix/pix/pull/7546) [BUGFIX] Harmoniser la taille des boutons sur la création de session en masse et ajout de candidat sur Pix Certif (PIX-10142).
+
+### :arrow_up: Montée de version
+- [#7645](https://github.com/1024pix/pix/pull/7645) [BUMP] Update dependency @1024pix/pix-ui to ^41.2.0 (1d).
+- [#7635](https://github.com/1024pix/pix/pull/7635) [BUMP] Update dependency @1024pix/pix-ui to ^41.1.2 (mon-pix).
+
 ## v4.73.0 (07/12/2023)
 
 
