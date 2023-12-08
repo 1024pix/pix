@@ -168,6 +168,7 @@ function toDomain(bookshelfCertificationCourse) {
       'isPublished',
       'hasSeenEndTestScreen',
       'isCancelled',
+      'isRejectedForFraud',
       'maxReachableLevelOnCertificationDate',
       'verificationCode',
       'abortReason',
@@ -212,5 +213,6 @@ function _pickUpdatableProperties(certificationCourse) {
     'birthPostalCode',
     'abortReason',
     'completedAt',
+    'isRejectedForFraud',
   ]);
 }

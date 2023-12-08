@@ -25,6 +25,7 @@ const buildCertificationCourse = function ({
   sessionId,
   maxReachableLevelOnCertificationDate = 5,
   isCancelled = false,
+  isRejectedForFraud = false,
   abortReason = null,
   pixCertificationStatus = null,
 } = {}) {
@@ -52,6 +53,7 @@ const buildCertificationCourse = function ({
     sessionId,
     maxReachableLevelOnCertificationDate,
     isCancelled,
+    isRejectedForFraud,
     abortReason,
     pixCertificationStatus,
   };

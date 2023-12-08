@@ -11,6 +11,12 @@
     justify-content: space-between;
     margin-bottom: 20px;
 
+    &__actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
     &--center {
       justify-content: center;
     }

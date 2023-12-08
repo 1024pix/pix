@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
+import * as assessmentResultRepository from '../../../../../lib/infrastructure/repositories/assessment-result-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
 import * as badgeRepository from '../../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
@@ -83,6 +84,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  */
 const dependencies = {
   assessmentRepository,
+  assessmentResultRepository,
   attendanceSheetPdfUtils,
   badgeRepository,
   certificationCandidateRepository,
