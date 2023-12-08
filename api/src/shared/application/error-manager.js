@@ -13,6 +13,7 @@ import * as translations from '../../../translations/index.js';
 import { AdminMemberError } from '../../authorization/domain/errors.js';
 import { domainErrorMapper } from './domain-error-mapper.js';
 import { SessionStartedDeletionError } from '../../certification/session/domain/errors.js';
+import { OrganizationCantGetPlacesStatisticsError } from '../../prescription/organization-place/domain/errors.js';
 
 const { Error: JSONAPIError } = jsonapiSerializer;
 const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
@@ -111,6 +112,9 @@ function _mapToHttpError(error) {
   }
   if (error instanceof SessionStartedDeletionError) {
     return new HttpErrors.ConflictError(error.message);
+  }
+  if (error instanceof OrganizationCantGetPlacesStatisticsError) {
+    return new HttpErrors.PreconditionFailedError(error.message);
   }
 
   if (error instanceof AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError) {

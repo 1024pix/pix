@@ -27,6 +27,7 @@ import { setupErrorHandling } from './config/server-setup-error-handling.js';
 
 import { learnerManagementRoutes } from './src/prescription/learner-management/routes.js';
 import { learnerListRoutes } from './src/prescription/organization-learner/routes.js';
+import { organizationPlaceRoutes } from './src/prescription/organization-place/routes.js';
 import { targetProfileRoutes } from './src/prescription/target-profile/routes.js';
 import { campaignRoutes } from './src/prescription/campaign/routes.js';
 
@@ -44,7 +45,13 @@ const certificationRoutes = [
   complementaryCertificationRoutes,
   certificationCourseRoutes,
 ];
-const prescriptionRoutes = [learnerManagementRoutes, learnerListRoutes, targetProfileRoutes, campaignRoutes];
+const prescriptionRoutes = [
+  learnerManagementRoutes,
+  learnerListRoutes,
+  targetProfileRoutes,
+  campaignRoutes,
+  organizationPlaceRoutes,
+];
 const prescriptionSharedRoutes = [prescriberManagementRoutes];
 
 monitoringTools.installHapiHook();

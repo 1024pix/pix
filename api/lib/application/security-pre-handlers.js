@@ -28,6 +28,7 @@ import * as certificationIssueReportRepository from '../../src/certification/sha
 import * as organizationRepository from '../infrastructure/repositories/organization-repository.js';
 
 import * as checkUserIsMemberOfAnOrganizationUseCase from '../../src/shared/application/validator/checkUserIsMemberOfAnOrganization.js';
+import * as checkOrganizationHasFeatureUseCase from '../../src/shared/application/usecases/checkOrganizationHasFeature.js';
 
 import { Organization } from '../domain/models/index.js';
 import { NotFoundError } from '../domain/errors.js';
@@ -658,6 +659,21 @@ async function checkUserCanDisableHisOrganizationMembership(
   }
 }
 
+function makeCheckOrganizationHasFeature(featureKey) {
+  return async function (request, h, dependencies = { checkOrganizationHasFeatureUseCase }) {
+    try {
+      const organizationId = request.params.id;
+      await dependencies.checkOrganizationHasFeatureUseCase.execute({
+        organizationId,
+        featureKey,
+      });
+      return h.response(true);
+    } catch (e) {
+      return _replyForbiddenError(h);
+    }
+  };
+}
+
 function _noOrganizationFound(error) {
   return error instanceof NotFoundError;
 }
@@ -691,6 +707,7 @@ const securityPreHandlers = {
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
   checkUserOwnsCertificationCourse,
+  makeCheckOrganizationHasFeature,
 };
 
 export { securityPreHandlers };

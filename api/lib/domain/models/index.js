@@ -90,7 +90,7 @@ import { OrganizationInvitation } from './OrganizationInvitation.js';
 import { OrganizationInvitedUser } from './OrganizationInvitedUser.js';
 import { OrganizationLearner } from './OrganizationLearner.js';
 import { OrganizationMemberIdentity } from './OrganizationMemberIdentity.js';
-import { OrganizationPlacesLot } from './OrganizationPlacesLot.js';
+import { OrganizationPlacesLot } from '../../../src/prescription/organization-place/domain/models/OrganizationPlacesLot.js';
 import { OrganizationTag } from './OrganizationTag.js';
 import { OrganizationsToAttachToTargetProfile } from './OrganizationsToAttachToTargetProfile.js';
 import { ParticipantResultsShared } from './ParticipantResultsShared.js';

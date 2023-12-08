@@ -1694,4 +1694,61 @@ describe('Unit | Application | SecurityPreHandlers', function () {
       });
     });
   });
+
+  describe('#makeCheckOrganizationHasFeature', function () {
+    context('Successful case', function () {
+      let request;
+
+      beforeEach(function () {
+        request = {
+          params: { id: 1234 },
+        };
+      });
+
+      it('should authorize access to resource when the organization has feature enabled', async function () {
+        const featureKey = 'ma feature';
+        const organizationId = 1234;
+
+        const checkOrganizationHasFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationHasFeatureUseCaseStub.execute.withArgs({ organizationId, featureKey }).resolves();
+
+        const checkOrganizationHasFeature = await securityPreHandlers.makeCheckOrganizationHasFeature(featureKey);
+        const response = await checkOrganizationHasFeature(request, hFake, {
+          checkOrganizationHasFeatureUseCase: checkOrganizationHasFeatureUseCaseStub,
+        });
+
+        expect(response.source).to.be.true;
+      });
+    });
+
+    context('Error cases', function () {
+      let request;
+
+      beforeEach(function () {
+        request = { params: { id: 1234 } };
+      });
+
+      it('should forbid resource access when organization do not have feature enabled', async function () {
+        const featureKey = 'ma feature';
+        const organizationId = 1234;
+
+        const checkOrganizationHasFeatureUseCaseStub = {
+          execute: sinon.stub(),
+        };
+
+        checkOrganizationHasFeatureUseCaseStub.execute.withArgs({ organizationId, featureKey }).rejects();
+
+        const checkOrganizationHasFeature = await securityPreHandlers.makeCheckOrganizationHasFeature(featureKey);
+        const response = await checkOrganizationHasFeature(request, hFake, {
+          checkOrganizationHasFeatureUseCase: checkOrganizationHasFeatureUseCaseStub,
+        });
+
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
 });
