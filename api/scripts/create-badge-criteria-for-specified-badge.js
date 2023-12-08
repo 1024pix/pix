@@ -2,7 +2,7 @@ import Joi from 'joi';
 import bluebird from 'bluebird';
 import { NotFoundError } from '../lib/domain/errors.js';
 import { SCOPES } from '../lib/domain/models/BadgeDetails.js';
-import * as badgeRepository from '../lib/infrastructure/repositories/badge-repository.js';
+import * as badgeRepository from '../src/shared/infrastructure/repositories/badge-repository.js';
 import * as badgeCriteriaRepository from '../lib/infrastructure/repositories/badge-criteria-repository.js';
 import { DomainTransaction } from '../lib/infrastructure/DomainTransaction.js';
 import { disconnect } from '../db/knex-database-connection.js';

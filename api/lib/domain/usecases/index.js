@@ -20,11 +20,12 @@ import * as assessmentResultRepository from '../../../src/shared/infrastructure/
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import * as authenticationServiceRegistry from '../services/authentication/authentication-service-registry.js';
+
 import * as authenticationSessionService from '../../domain/services/authentication/authentication-session-service.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
 import * as badgeForCalculationRepository from '../../infrastructure/repositories/badge-for-calculation-repository.js';
-import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
+import * as badgeRepository from '../../../src/shared/infrastructure/repositories/badge-repository.js';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaigns-administration/campaign-repository.js';
 import * as campaignAnalysisRepository from '../../infrastructure/repositories/campaign-analysis-repository.js';
 import * as campaignAssessmentParticipationRepository from '../../infrastructure/repositories/campaign-assessment-participation-repository.js';
