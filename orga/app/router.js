@@ -77,6 +77,7 @@ Router.map(function () {
     });
     this.route('certifications');
     this.route('preselect-target-profile', { path: '/selection-sujets' });
+    this.route('places');
   });
 
   this.route('logout');
