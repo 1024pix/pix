@@ -888,6 +888,9 @@
         "empty-option": "--Sélectionner--",
         "label": "Sélectionner le référent CléA Numérique"
       },
+      "table-headers": {
+        "actions": "Actions"
+      },
       "tabs": {
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
         "member": "Membres ({count, plural, =0 {-} other {{count}}})"
