@@ -112,6 +112,7 @@ async function _handleV3Certification({
     challenges,
     allAnswers,
     abortReason,
+    maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
   });
 
   const emitter =

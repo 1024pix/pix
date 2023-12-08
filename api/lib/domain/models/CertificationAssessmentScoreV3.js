@@ -46,6 +46,8 @@ const scoreIntervals = [
 
 const MAX_PIX_SCORE = 1024;
 const INTERVAL_HEIGHT = MAX_PIX_SCORE / scoreIntervals.length;
+const NUMBER_OF_COMPETENCES = 16;
+const PIX_PER_LEVEL = 8;
 
 class CertificationAssessmentScoreV3 {
   constructor({ nbPix, percentageCorrectAnswers = 100, status = CertificationStatus.VALIDATED }) {
@@ -54,7 +56,13 @@ class CertificationAssessmentScoreV3 {
     this._status = status;
   }
 
-  static fromChallengesAndAnswers({ algorithm, challenges, allAnswers, abortReason }) {
+  static fromChallengesAndAnswers({
+    algorithm,
+    challenges,
+    allAnswers,
+    abortReason,
+    maxReachableLevelOnCertificationDate,
+  }) {
     const { estimatedLevel } = algorithm.getEstimatedLevelAndErrorRate({
       challenges,
       allAnswers,
@@ -62,7 +70,7 @@ class CertificationAssessmentScoreV3 {
 
     const { maximumAssessmentLength } = algorithm.getConfiguration();
 
-    const rawScore = _computeScore(estimatedLevel);
+    const rawScore = _computeScore(estimatedLevel, maxReachableLevelOnCertificationDate);
 
     const nbPix = _shouldDowngradeScore({ maximumAssessmentLength, answers: allAnswers, abortReason })
       ? _downgradeScore(rawScore)
@@ -94,7 +102,7 @@ class CertificationAssessmentScoreV3 {
 const _findIntervalIndex = (estimatedLevel) =>
   scoreIntervals.findIndex(({ start, end }) => estimatedLevel <= end && estimatedLevel >= start);
 
-const _computeScore = (estimatedLevel) => {
+const _computeScore = (estimatedLevel, maxReachableLevelOnCertificationDate) => {
   let normalizedEstimatedLevel = estimatedLevel;
 
   if (normalizedEstimatedLevel < MINIMUM_ESTIMATED_LEVEL) {
@@ -112,7 +120,11 @@ const _computeScore = (estimatedLevel) => {
   // Formula is defined here : https://1024pix.atlassian.net/wiki/spaces/DD/pages/3835133953/Vulgarisation+score+2023#Le-score
   const score = INTERVAL_HEIGHT * (intervalIndex + 1 + (normalizedEstimatedLevel - intervalMaxValue) / intervalWidth);
 
-  return Math.round(score);
+  const maximumReachableScore = maxReachableLevelOnCertificationDate * NUMBER_OF_COMPETENCES * PIX_PER_LEVEL;
+
+  const limitedScore = Math.min(maximumReachableScore, score);
+
+  return Math.round(limitedScore);
 };
 
 const _downgradeScore = (score) => Math.round(score * 0.8);

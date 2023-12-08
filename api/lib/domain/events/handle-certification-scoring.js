@@ -134,6 +134,7 @@ async function _handleV3CertificationScoring({
     challenges,
     allAnswers,
     abortReason,
+    maxReachableLevelOnCertificationDate: certificationCourse.getMaxReachableLevelOnCertificationDate(),
   });
 
   if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
