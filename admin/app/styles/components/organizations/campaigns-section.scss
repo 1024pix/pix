@@ -3,12 +3,12 @@
   align-items: center;
 
   &__icon-assessment {
-    color: $pix-tertiary-50;
+    color: var(--pix-tertiary-500);
     font-size: 1.5rem;
   }
 
   &__icon-profile-collection {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
     font-size: 1.5rem;
   }
 }

@@ -1,17 +1,17 @@
 .card {
-  background: $pix-neutral-0;
-  border: 1.2px $pix-neutral-35 solid;
+  background: var(--pix-neutral-0);
+  border: 1.2px var(--pix-neutral-100) solid;
   border-radius: 8px;
   box-shadow: 5px 4px 10px 2px rgb(0 0 0 / 10%);
 
   &__title {
     padding: 11px 32px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-weight: $font-medium;
     font-size: 1.5rem;
     font-family: $font-open-sans;
     line-height: 28px;
-    background: $pix-neutral-70;
+    background: var(--pix-neutral-800);
     border-radius: 8px 8px 0 0;
   }
 

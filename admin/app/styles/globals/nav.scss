@@ -6,11 +6,11 @@
   height: 60px;
   margin: 20px 0;
   padding: 0 10px;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   border-radius: 4px;
   box-shadow:
-    0 1px 1px 0 $pix-neutral-0,
-    0 2px 5px 0 $pix-neutral-0;
+    0 1px 1px 0 var(--pix-neutral-0),
+    0 2px 5px 0 var(--pix-neutral-0);
 
   a {
     text-decoration: none;
@@ -22,13 +22,13 @@
     justify-content: center;
     min-width: 150px;
     padding: 0 $pix-spacing-xs;
-    color: $pix-neutral-45;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     cursor: pointer;
     transition: all ease-in-out 0.2s;
 
     &:hover {
-      color: $pix-communication-dark;
+      color: var(--pix-communication-dark);
     }
   }
 
@@ -42,30 +42,30 @@
 
   .navbar-list-item {
     &__link {
-      color: $pix-neutral-45;
+      color: var(--pix-neutral-500);
       font-weight: 500;
     }
 
     &__link.active {
-      color: $pix-communication-dark;
+      color: var(--pix-communication-dark);
     }
   }
 
   &__list--item:has(.navbar-list-item__link.active) {
-    border-bottom: 2px solid $pix-communication-dark;
+    border-bottom: 2px solid var(--pix-communication-dark);
   }
 
   &-item.active {
-    color: $pix-communication-dark;
-    border-bottom: 2px solid $pix-communication-dark;
+    color: var(--pix-communication-dark);
+    border-bottom: 2px solid var(--pix-communication-dark);
   }
 }
 
 .navbar + section {
   padding: 20px;
-  background: $pix-neutral-0;
+  background: var(--pix-neutral-0);
   border-radius: 4px;
   box-shadow:
-    0 1px 1px 0 $pix-neutral-0,
-    0 2px 5px 0 $pix-neutral-0;
+    0 1px 1px 0 var(--pix-neutral-0),
+    0 2px 5px 0 var(--pix-neutral-0);
 }

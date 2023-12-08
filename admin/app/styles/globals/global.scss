@@ -1,12 +1,12 @@
 html {
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
   font-size: 16px;
   font-family: Roboto, Arial, sans-serif;
 }
 
 body {
   margin: 0;
-  background-color: $pix-neutral-15;
+  background-color: var(--pix-neutral-20);
 }
 
 h1,
@@ -35,7 +35,7 @@ abbr {
   &.mandatory-mark {
     display: contents;
     margin: 1.25rem;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     text-decoration: none;
   }
 }
@@ -51,7 +51,7 @@ a {
 
 a.pix-button {
   &:hover {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     text-decoration: none;
   }
 }

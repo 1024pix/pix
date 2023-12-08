@@ -13,13 +13,13 @@
     border-radius: 4px;
 
     &--with-action-required {
-      color: $pix-secondary-70;
-      background-color: $pix-warning-10;
+      color: var(--pix-secondary-500)-70;
+      background-color: var(--pix-warning-100);
     }
 
     &--without-action-required {
-      color: $pix-neutral-60;
-      background-color: $pix-neutral-10;
+      color: var(--pix-neutral-500);
+      background-color: var(--pix-neutral-20);
     }
   }
 

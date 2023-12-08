@@ -14,7 +14,7 @@
     font-size: 0.75rem;
 
     &--link {
-      color: $pix-primary-70;
+      color: var(--pix-primary-700);
       text-decoration: underline;
     }
   }
@@ -64,7 +64,7 @@
   &-criterion {
     margin-bottom: 24px;
     padding: 16px;
-    background: $pix-neutral-5;
+    background: var(--pix-neutral-20);
     border: 1px solid #A5ADBA;
     border-radius: 8px;
 

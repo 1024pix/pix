@@ -15,7 +15,7 @@
   }
 
   &__subtitle {
-    color: $pix-neutral-35;
+    color: var(--pix-neutral-100);
     font-size: 0.9rem;
   }
 
@@ -27,28 +27,28 @@
     border-radius: 1.5px;
 
     &--jaffa {
-      background: $pix-information-light;
-      border-color: $pix-information-light;
+      background: var(--pix-information-light);
+      border-color: var(--pix-information-light);
     }
 
     &--emerald {
-      background: $pix-content-light;
-      border-color: $pix-content-light;
+      background: var(--pix-content-light);
+      border-color: var(--pix-content-light);
     }
 
     &--cerulean {
-      background: $pix-communication-light;
-      border-color: $pix-communication-light;
+      background: var(--pix-communication-light);
+      border-color: var(--pix-communication-light);
     }
 
     &--wild-strawberry {
-      background: $pix-security-light;
-      border-color: $pix-security-light;
+      background: var(--pix-security-light);
+      border-color: var(--pix-security-light);
     }
 
     &--butterfly-bush {
-      background: $pix-environment-light;
-      border-color: $pix-environment-light;
+      background: var(--pix-environment-light);
+      border-color: var(--pix-environment-light);
     }
   }
 }
@@ -57,12 +57,12 @@
   overflow: visible;
 
   &--check {
-    color: $pix-success-70;
+    color: var(--pix-success-700);
     font-size: 1.7rem;
   }
 
   &--uncheck {
-    color: $pix-neutral-20;
+    color: var(--pix-neutral-20);
     font-size: 1.7rem;
   }
 }

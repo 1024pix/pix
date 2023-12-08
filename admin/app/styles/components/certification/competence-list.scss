@@ -8,7 +8,7 @@
     flex-flow: row wrap;
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid $pix-neutral-20;
+    border-bottom: 1px solid var(--pix-neutral-20);
 
     > *:not(:last-of-type) {
       min-width: 6em;
@@ -27,7 +27,7 @@ div.competence-list-edited {
 
   .certification-info-field {
     &:last-of-type {
-      border-bottom: 1px solid $pix-neutral-20;
+      border-bottom: 1px solid var(--pix-neutral-20);
     }
 
     > *:first-child {

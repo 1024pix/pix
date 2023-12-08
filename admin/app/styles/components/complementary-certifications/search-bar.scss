@@ -16,22 +16,22 @@
     max-height: 12.5rem;
     padding: $pix-spacing-xs $pix-spacing-s;
     overflow-y: auto;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
     white-space: nowrap;
     list-style-type: none;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-top: none;
     border-radius: 0 0 $pix-spacing-xxs $pix-spacing-xxs;
     box-shadow: 0 6px 12px rgb(7 20 46 / 8%);
     transition: all 0.1s ease-in-out;
 
     &__option {
-      color: $pix-neutral-80;
+      color: var(--pix-neutral-800);
     }
 
     &__option:hover,
     &__option:focus {
-      background-color: $pix-neutral-10;
+      background-color: var(--pix-neutral-20);
       outline: none;
       cursor: pointer;
     }
@@ -41,19 +41,19 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: $pix-neutral-20;
-      border: 1px solid $pix-neutral-20;
+      background: var(--pix-neutral-20);
+      border: 1px solid var(--pix-neutral-20);
       border-radius: $pix-spacing-xxs;
     }
 
     &::-webkit-scrollbar-thumb {
       width: 0.375rem;
-      background: $pix-neutral-30;
+      background: var(--pix-neutral-100);
       border-radius: $pix-spacing-xxs;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: $pix-neutral-35;
+      background: var(--pix-neutral-100);
     }
   }
 }

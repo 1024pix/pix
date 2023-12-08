@@ -10,10 +10,10 @@
   }
 
   &--isEnabled {
-    color: $pix-success-70;
+    color: var(--pix-success-700);
   }
 
   &--isDisabled {
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-100);
   }
 }
