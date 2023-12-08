@@ -1,6 +1,6 @@
 import { expect, knex, databaseBuilder, domainBuilder, catchErr } from '../../../test-helper.js';
 import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import * as assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository.js';
 import { MissingAssessmentId } from '../../../../lib/domain/errors.js';
 

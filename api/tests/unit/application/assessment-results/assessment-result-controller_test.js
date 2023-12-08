@@ -1,6 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
 import { assessmentResultController } from '../../../../lib/application/assessment-results/assessment-result-controller.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
 describe('Unit | Controller | assessment-results', function () {

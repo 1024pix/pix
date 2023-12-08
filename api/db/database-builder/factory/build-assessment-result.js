@@ -2,7 +2,7 @@ import { buildAssessment } from './build-assessment.js';
 import { buildCertificationCourseLastAssessmentResult } from './build-certification-course-last-assessment-result.js';
 import { buildUser } from './build-user.js';
 import { databaseBuffer } from '../database-buffer.js';
-import { AssessmentResult } from '../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import _ from 'lodash';
 
 function buildAssessmentResult({

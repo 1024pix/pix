@@ -7,7 +7,7 @@ import {
   catchErr,
 } from '../../../../../test-helper.js';
 import * as certificationRepository from '../../../../../../src/certification/course/infrastructure/repositories/certificate-repository.js';
-import { status } from '../../../../../../lib/domain/models/AssessmentResult.js';
+import { status } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Integration | Infrastructure | Repository | Certification', function () {
