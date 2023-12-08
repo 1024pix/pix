@@ -7,7 +7,7 @@ import {
 import * as tooling from '../common/tooling/index.js';
 import evalCampaignWithBadgesUser from './users/eval-campaign-with-badges.js';
 import evalCampaignWithStagesUser from './users/eval-campaign-with-stages.js';
-import createSeedsForAutonomousCourse from './build-seeds-for-autonomous-courses.js';
+import createAutonomousCourses from './autonomous-courses/create-autonomous-courses.js';
 
 export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   createScoOrganization(databaseBuilder);
@@ -17,7 +17,9 @@ export async function teamEvaluationDataBuilder({ databaseBuilder }) {
   // Other users
   await evalCampaignWithBadgesUser(databaseBuilder);
   await evalCampaignWithStagesUser(databaseBuilder);
-  await createSeedsForAutonomousCourse(databaseBuilder);
+
+  // Autonomous courses
+  await createAutonomousCourses(databaseBuilder);
 }
 
 function createScoOrganization(databaseBuilder) {
