@@ -61,6 +61,8 @@ module('Acceptance | Routes | Authenticated | Sessions | import', function (hook
       // then
       assert.strictEqual(currentURL(), '/sessions/import');
       assert.dom(screen.getByText('Créer/éditer plusieurs sessions')).exists();
+      assert.dom(screen.getByText('Télécharger (.csv)')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Importer (.csv)' })).exists();
     });
   });
 });
