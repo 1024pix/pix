@@ -1,7 +1,6 @@
 import * as accountRecovery from './application/account-recovery/index.js';
 import * as adminMembers from './application/admin-members/index.js';
 import * as activityAnswers from './application/activity-answers/index.js';
-import * as assessmentResults from './application/assessment-results/index.js';
 import * as authentication from './application/authentication/index.js';
 import * as authenticationOidc from './application/authentication/oidc/index.js';
 import * as badges from './application/badges/index.js';
@@ -52,7 +51,6 @@ const routes = [
   accountRecovery,
   adminMembers,
   activityAnswers,
-  assessmentResults,
   authentication,
   authenticationOidc,
   badges,
