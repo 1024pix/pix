@@ -61,6 +61,64 @@ module('Integration | Component | menu-bar', function (hooks) {
     });
   });
 
+  module('Autonomous course tab', function () {
+    module('when admin member has "SUPER_ADMIN" as role', function () {
+      test('should contain link to "Autonomous course" page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: true };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).exists();
+      });
+    });
+
+    module('when admin member has "SUPPORT" as role', function () {
+      test('should contain link to "Autonomous course" page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSupport: true };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).exists();
+      });
+    });
+
+    module('when admin member has "METIER" as role', function () {
+      test('should contain link to "Autonomous course" page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isMetier: true };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).exists();
+      });
+    });
+
+    module('when admin member has "CERTIF" as role', function () {
+      test('should not contain link to "Autonomous course" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isCertif: true };
+
+        // when
+        const screen = await render(hbs`<MenuBar />`);
+
+        // then
+        assert.dom(screen.queryByRole('link', { name: 'Parcours autonomes' })).doesNotExist();
+      });
+    });
+  });
+
   module('Trainings tab', function () {
     module('when admin member have "SUPER_ADMIN", "SUPPORT" or "METIER" as role', function () {
       test('should contain link to "Trainings" page', async function (assert) {

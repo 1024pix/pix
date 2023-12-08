@@ -1,0 +1,17 @@
+{{page-title "Nouveau parcours autonome"}}
+<header class="page-header">
+  <div class="page-title">
+    <h1>Nouveau parcours autonome</h1>
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    <AutonomousCourses::CreateAutonomousCourseForm
+      @autonomousCourse={{this.model.autonomousCourse}}
+      @targetProfiles={{this.model.targetProfiles}}
+      @onSubmit={{this.createAutonomousCourse}}
+      @onCancel={{this.goBackToAutonomousCoursesList}}
+    />
+  </section>
+</main>

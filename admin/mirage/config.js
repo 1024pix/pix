@@ -40,6 +40,7 @@ import {
 import { findFrameworkAreas } from './handlers/frameworks';
 import { getWithRequiredActionSessions } from './handlers/get-with-required-action-sessions';
 import { getToBePublishedSessions } from './handlers/get-to-be-published-sessions';
+import { findAutonomousCourseTargetProfiles, createAutonomousCourse } from './handlers/autonomous-courses';
 
 export default function makeServer(config) {
   const finalConfig = {
@@ -60,6 +61,9 @@ function routes() {
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
+
+  this.get('/admin/autonomous-courses/target-profiles', findAutonomousCourseTargetProfiles);
+  this.post('/admin/autonomous-courses', createAutonomousCourse);
 
   this.get('/admin/campaigns/:id');
   this.get('/admin/campaigns/:id/participations', (schema) => {
