@@ -684,6 +684,7 @@
           }
         },
         "step-two": {
+          "title": "Récapitulatif",
           "actions": {
             "confirm": {
               "label": "Finaliser la création/édition"
