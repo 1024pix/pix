@@ -203,6 +203,18 @@
     }
   },
   "components": {
+    "campaign": {
+      "type": {
+        "explanation" : {
+          "ASSESSMENT":"Campagne d'évaluation",
+          "PROFILES_COLLECTION":"Campagne de collecte de profil"
+        },
+        "information" : {
+          "ASSESSMENT":"Évaluation",
+          "PROFILES_COLLECTION":"Collecte de profil"
+        }
+      }
+    },
     "certificability": {
       "placeholder-select": "Certifiable / Non certifiable"
     },
@@ -754,10 +766,6 @@
               "status": "Statut"
             },
             "row-title": "Participation"
-          },
-          "type": {
-            "ASSESSMENT": "Evaluation",
-            "PROFILES_COLLECTION": "Collecte de profil"
           }
         },
         "participations-title": "Liste de toutes les participations",

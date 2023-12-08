@@ -200,6 +200,18 @@
     }
   },
   "components": {
+    "campaign": {
+      "type": {
+        "explanation" : {
+          "ASSESSMENT":"Campaign of type assessment",
+          "PROFILES_COLLECTION":"Campaign of type profiles collection"
+        },
+        "information" : {
+          "ASSESSMENT": "Assessment",
+          "PROFILES_COLLECTION": "Profiles collection"
+        }
+      }
+    },
     "certificability": {
       "placeholder-select": "Eligible / Non-eligible"
     },

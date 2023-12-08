@@ -13,6 +13,13 @@ export default class List extends Component {
     }
   }
 
+  get labels() {
+    return {
+      ASSESSMENT: 'components.campaign.type.explanation.ASSESSMENT',
+      PROFILES_COLLECTION: 'components.campaign.type.explanation.PROFILES_COLLECTION',
+    };
+  }
+
   @action
   stopPropagation(event) {
     event.stopPropagation();
