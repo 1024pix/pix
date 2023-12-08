@@ -26,14 +26,14 @@
         <FaIcon @icon="bell" />
       </div>
       <div>
-        <h1 class="team__no-referer-title">
+        <h2 class="team__no-referer-title">
           {{t "pages.team.no-referer-section.title"}}
-        </h1>
+        </h2>
         <p class="team__no-referer-description">
           {{t "pages.team.no-referer-section.description"}}
         </p>
 
-        <PixButton class="team__referer-add-button" @triggerAction={{this.toggleRefererModal}}>
+        <PixButton @triggerAction={{this.toggleRefererModal}}>
           {{t "pages.team.no-referer-section.select-referer-button"}}
         </PixButton>
       </div>
