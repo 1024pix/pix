@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, within } from '@1024pix/ember-testing-library';
 
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -8,8 +8,8 @@ import {
   createAllowedCertificationCenterAccess,
   createCertificationPointOfContactWithCustomCenters,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
-} from '../helpers/test-init';
-import setupIntl from '../helpers/setup-intl';
+} from '../../../helpers/test-init';
+import setupIntl from '../../../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | authenticated | team', function (hooks) {
@@ -107,14 +107,97 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert.dom(screen.getByText(this.intl.t('pages.team.no-referer-section.title'))).exists();
               assert
                 .dom(
-                  screen.getByRole('button', {
-                    name: this.intl.t('pages.team.no-referer-section.select-referer-button'),
+                  screen.getByRole('heading', {
+                    name: 'Aucun référent désigné pour la certification Pix-CléA Numérique',
+                    level: 2,
                   }),
                 )
                 .exists();
+              assert
+                .dom(
+                  screen.getByText(
+                    'Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.',
+                  ),
+                )
+                .exists();
+              assert
+                .dom(
+                  screen.getByRole('button', {
+                    name: 'Désigner un référent',
+                  }),
+                )
+                .exists();
+            });
+
+            module('when clicking on "referer selection"', function () {
+              test('displays a modal to select the referer', async function (assert) {
+                // given
+                const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                  undefined,
+                  'CCNG',
+                  false,
+                  'ADMIN',
+                );
+                server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false });
+                server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                await authenticateSession(certificationPointOfContact.id);
+
+                // when
+                const screen = await visitScreen('/equipe');
+
+                await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+                const modal = within(await screen.findByRole('dialog'));
+
+                // then
+                assert.dom(modal.getByRole('heading', { name: 'Sélection du référent CléA Numérique' })).exists();
+                assert.dom(modal.getByText('Sélectionner le référent CléA Numérique')).exists();
+                assert
+                  .dom(
+                    modal.getByRole('button', {
+                      name: 'Valider la sélection de référent',
+                    }),
+                  )
+                  .exists();
+              });
+
+              module('when selecting a referer in the modal', function () {
+                test('select a new referer and display a success notification', async function (assert) {
+                  // given
+                  const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                    undefined,
+                    'CCNG',
+                    false,
+                    'ADMIN',
+                  );
+                  server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'ADMIN' });
+                  server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+                  await authenticateSession(certificationPointOfContact.id);
+
+                  // when
+                  const screen = await visitScreen('/equipe');
+
+                  await click(screen.getByRole('button', { name: 'Désigner un référent' }));
+                  const modal = within(await screen.findByRole('dialog'));
+                  await click(modal.getByRole('button', { name: 'Sélectionner le référent CléA Numérique' }));
+                  await screen.findByRole('listbox');
+                  await click(modal.getByRole('option', { name: 'Lili Dupont' }));
+                  await click(
+                    modal.getByRole('button', {
+                      name: 'Valider la sélection de référent',
+                    }),
+                  );
+
+                  // then
+                  const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
+                  assert.dom(row.getByRole('cell', { name: 'Dupont' })).exists();
+                  assert.dom(row.getByRole('cell', { name: 'Lili' })).exists();
+                  assert.dom(row.getByRole('cell', { name: 'Administrateur' })).exists();
+                  assert.dom(await screen.findByText('Un nouveau référent CléA Numérique a été nommé.')).exists();
+                  assert.dom(await row.findByRole('cell', { name: 'Référent CléA Numérique' })).exists();
+                });
+              });
             });
           });
 
@@ -138,6 +221,33 @@ module('Acceptance | authenticated | team', function (hooks) {
               assert
                 .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.update-referer-button') }))
                 .doesNotExist();
+            });
+
+            test('does display a tooltip to inform of what is a Pix Referer', async function (assert) {
+              // given
+              const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted(
+                undefined,
+                'CCNG',
+                false,
+                'ADMIN',
+              );
+              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
+              server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
+              await authenticateSession(certificationPointOfContact.id);
+
+              // when
+              const screen = await visitScreen('/equipe');
+
+              // then
+              const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
+              const pixRefererCell = within(row.getByRole('cell', { name: 'Référent CléA Numérique' }));
+              assert
+                .dom(
+                  pixRefererCell.getByText(
+                    'Le référent de cette double certification sera notifié lorsque des résultats Pix-CléA Numérique seront disponibles et devront être enregistrés sur la plateforme de CléA Numérique.',
+                  ),
+                )
+                .exists();
             });
           });
         });

@@ -59,6 +59,7 @@ export default class AuthenticatedTeamListController extends Controller {
         await member.updateReferer({ userId: member.id, isReferer: true });
         this.shouldShowRefererSelectionModal = !this.shouldShowRefererSelectionModal;
         this.send('refreshModel');
+        this.notifications.success(this.intl.t('pages.team.notifications.success'));
       } catch (responseError) {
         this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
       }
