@@ -5,7 +5,7 @@ import * as campaignAdministrationRepository from '../../infrastructure/reposito
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 
-import * as badgeRepository from '../../../../../lib/infrastructure/repositories/badge-repository.js';
+import * as badgeRepository from '../../../../shared/infrastructure/repositories/badge-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 import * as codeGenerator from '../../../../../lib/domain/services/code-generator.js';
 import * as membershipRepository from '../../../../../lib/infrastructure/repositories/membership-repository.js';

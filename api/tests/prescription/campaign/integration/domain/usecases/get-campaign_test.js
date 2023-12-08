@@ -2,7 +2,7 @@ import { expect, databaseBuilder, mockLearningContent } from '../../../../../tes
 import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 import * as campaignReportRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-report-repository.js';
 
-import * as badgeRepository from '../../../../../../lib/infrastructure/repositories/badge-repository.js';
+import * as badgeRepository from '../../../../../../src/shared/infrastructure/repositories/badge-repository.js';
 import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
 
 describe('Integration | UseCase | get-campaign', function () {
