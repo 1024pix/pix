@@ -1,8 +1,11 @@
 .certification-search {
-  @include whiteBlock;
-
   padding: 50px;
   color: $pix-neutral-45;
   font-style: italic;
   text-align: center;
+  background: $pix-neutral-0;
+  border-radius: 4px;
+  box-shadow:
+    0 1px 1px 0 rgba($pix-neutral-100, 0.1),
+    0 2px 5px 0 rgba($pix-neutral-100, 0.1);
 }
