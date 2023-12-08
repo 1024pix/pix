@@ -77,11 +77,11 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     module('when there is no candidates yet', function () {
       test('it should display a download button and upload button', async function (assert) {
         // when
-        await visit(`/sessions/${session.id}/candidats`);
+        const screen = await visit(`/sessions/${session.id}/candidats`);
 
         // then
-        assert.contains('Télécharger (.ods)');
-        assert.contains('Importer (.ods)');
+        assert.dom(screen.getByRole('link', { name: 'Télécharger (.ods)' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Importer (.ods)' })).exists();
       });
 
       test('it should display a sentence when there is no certification candidates yet', async function (assert) {
