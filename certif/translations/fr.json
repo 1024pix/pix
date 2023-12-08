@@ -648,6 +648,7 @@
           "unknown-document-version": "La version du document est inconnue."
         },
         "step-one": {
+          "title": "Import du modèle",
           "actions": {
             "cancel": {
               "label": "Annuler l'import"

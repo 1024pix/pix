@@ -30,6 +30,7 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
     );
 
     // then
+    assert.dom(getByRole('heading', { name: 'Import du modèle', level: 2 })).exists();
     assert.dom(getByText('Vous pouvez créer des sessions :')).exists();
     assert.ok(getByTextWithHtml('<strong>Avec candidats</strong>, complétez le modèle dans son intégralité,'));
     assert.ok(getByTextWithHtml('<strong>Sans candidat</strong>, complétez uniquement les informations des sessions.'));
