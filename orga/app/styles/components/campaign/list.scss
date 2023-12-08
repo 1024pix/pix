@@ -1,11 +1,10 @@
 .campaign-list {
   padding: 0;
 
-  &__link {
-    display: block;
-    padding: 20px 24px;
-    color: $pix-neutral-80;
-    text-decoration: none;
+  &__campaign-link {
+    display: flex;
+    gap: $pix-spacing-xs;
+    align-items: center;
   }
 
   &__item {

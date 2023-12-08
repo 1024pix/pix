@@ -37,15 +37,14 @@
 
       <tbody>
         {{#each @campaigns as |campaign|}}
-          <tr
-            aria-label={{t "pages.campaigns-list.table.row-title"}}
-            {{on "click" (fn @onClickCampaign campaign.id)}}
-            class="tr--clickable"
-          >
+          <tr {{on "click" (fn @onClickCampaign campaign.id)}} class="tr--clickable">
             <td class="table__column">
-              <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
-                {{campaign.name}}
-              </LinkTo>
+              <span class="campaign-list__campaign-link">
+                <Campaign::Detail::Type @labels={{this.labels}} @campaignType={{campaign.type}} @hideLabel={{true}} />
+                <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
+                  {{campaign.name}}
+                </LinkTo>
+              </span>
             </td>
             <td class="table__column--small" {{on "click" this.stopPropagation}}>{{campaign.code}}</td>
             {{#unless @listOnlyCampaignsOfCurrentUser}}

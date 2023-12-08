@@ -64,7 +64,7 @@ module('Acceptance | /campaigns/list/my-campaigns ', function (hooks) {
         const screen = await visitScreen('/campagnes/les-miennes');
 
         // then
-        assert.strictEqual(screen.getAllByLabelText('Campagne').length, 2, 'the number of campaigns');
+        assert.strictEqual(screen.getAllByRole('row').length, 3, 'Table length included header');
       });
 
       test('it should redirect to campaign details on click', async function (assert) {

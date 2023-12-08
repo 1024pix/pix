@@ -50,7 +50,7 @@ module('Acceptance | campaigns/all-campaigns', function (hooks) {
         const screen = await visit('/campagnes/toutes');
 
         // then
-        assert.strictEqual(screen.getAllByLabelText('Campagne').length, 12, 'the number of campaigns');
+        assert.strictEqual(screen.getAllByRole('row').length, 13, 'Table length header included');
       });
 
       test('it should redirect to campaign details on click', async function (assert) {

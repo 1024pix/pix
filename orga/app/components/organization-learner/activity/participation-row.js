@@ -11,6 +11,13 @@ export default class ParticipationRow extends Component {
       : 'authenticated.campaigns.participant-profile';
   }
 
+  get labels() {
+    return {
+      ASSESSMENT: 'components.campaign.type.information.ASSESSMENT',
+      PROFILES_COLLECTION: 'components.campaign.type.information.PROFILES_COLLECTION',
+    };
+  }
+
   @action
   goToParticipationDetail(event) {
     event.preventDefault();
