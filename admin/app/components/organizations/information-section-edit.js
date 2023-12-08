@@ -44,6 +44,11 @@ export default class OrganizationInformationSectionEditionMode extends Component
   }
 
   @action
+  onChangePlacesManagement() {
+    this.form.enablePlacesManagement = !this.form.enablePlacesManagement;
+  }
+
+  @action
   async updateOrganization(event) {
     event.preventDefault();
 
@@ -69,6 +74,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.args.organization.set('showSkills', this.form.showSkills);
     this.args.organization.set('identityProviderForCampaigns', this.form.identityProviderForCampaigns);
     this.args.organization.set('enableMultipleSendingAssessment', this.form.enableMultipleSendingAssessment);
+    this.args.organization.set('enablePlacesManagement', this.form.enablePlacesManagement);
 
     this.closeAndResetForm();
     return this.args.onSubmit();
@@ -87,6 +93,7 @@ export default class OrganizationInformationSectionEditionMode extends Component
     this.form.documentationUrl = this.args.organization.documentationUrl;
     this.form.showSkills = this.args.organization.showSkills;
     this.form.enableMultipleSendingAssessment = this.args.organization.enableMultipleSendingAssessment;
+    this.form.enablePlacesManagement = this.args.organization.enablePlacesManagement;
     this.form.identityProviderForCampaigns =
       this.args.organization.identityProviderForCampaigns ?? this.noIdentityProviderOption.value;
   }
