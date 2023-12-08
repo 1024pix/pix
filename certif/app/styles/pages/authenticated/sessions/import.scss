@@ -8,6 +8,21 @@
     margin-bottom: 8px;
   }
 
+  &__section--download__title {
+    display: flex;
+    align-items: center;
+    gap: $pix-spacing-xs;
+
+    > svg {
+      color: $pix-neutral-50;
+    }
+
+    > h2 {
+      @extend %pix-title-s;
+      color: $pix-neutral-90;
+    }
+  }
+
   &__section--download__instruction {
     color: $pix-neutral-50;
     font-size: 14px;
