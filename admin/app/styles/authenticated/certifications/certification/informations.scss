@@ -32,7 +32,7 @@
     background: $pix-neutral-0;
     border: 1px solid $pix-neutral-20;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba($pix-neutral-110, 0.08);
+    box-shadow: 0 4px 8px $pix-neutral-110;
 
     .certification-info-field {
       display: flex;
