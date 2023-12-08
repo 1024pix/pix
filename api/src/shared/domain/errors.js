@@ -93,6 +93,18 @@ class AssessmentEndedError extends DomainError {
   }
 }
 
+class AssessmentResultNotCreatedError extends DomainError {
+  constructor(message = "L'assessment result n'a pas pu être généré.") {
+    super(message);
+  }
+}
+
+class MissingAssessmentId extends DomainError {
+  constructor(message = 'AssessmentId manquant ou incorrect') {
+    super(message);
+  }
+}
+
 class LocaleFormatError extends DomainError {
   constructor(locale) {
     super(`Given locale is in invalid format: "${locale}"`);
@@ -143,6 +155,7 @@ class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends Doma
 export {
   DomainError,
   AssessmentEndedError,
+  AssessmentResultNotCreatedError,
   ForbiddenAccess,
   EntityValidationError,
   CertificationAttestationGenerationError,
@@ -151,6 +164,7 @@ export {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   InvalidTemporaryKeyError,
+  MissingAssessmentId,
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
   NoCertificationAttestationForDivisionError,

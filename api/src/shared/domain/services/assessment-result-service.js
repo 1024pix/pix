@@ -1,4 +1,4 @@
-import * as assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository.js';
+import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
 import * as competenceMarkRepository from '../../../../lib/infrastructure/repositories/competence-mark-repository.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 import bluebird from 'bluebird';
