@@ -205,6 +205,15 @@
         Activer l'envoi multiple pour les campagnes de type évaluation
       </PixCheckbox>
     </div>
+    <div class="form-field organization-edit-form__checkbox">
+      <PixCheckbox
+        @id="enablePlacesManagement"
+        {{on "change" this.onChangePlacesManagement}}
+        @checked={{this.form.enablePlacesManagement}}
+      >
+        Activer la page de Places sur PixOrga
+      </PixCheckbox>
+    </div>
     <div class="form-actions">
       <PixButton
         @size="small"
