@@ -1,6 +1,6 @@
-import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
-import * as moduleUnderTest from '../../../../lib/application/assessment-results/index.js';
+import { expect, HttpTestServer, sinon } from '../../../../test-helper.js';
+import { securityPreHandlers } from '../../../../../lib/application/security-pre-handlers.js';
+import * as moduleUnderTest from '../../../../../src/shared/application/assessment-results/index.js';
 
 describe('Unit | Application | Assessmnet results | Route', function () {
   describe('POST /api/admin/assessment-results', function () {

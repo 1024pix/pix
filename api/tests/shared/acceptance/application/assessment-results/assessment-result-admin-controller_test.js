@@ -4,10 +4,10 @@ import {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-import { createServer } from '../../../../server.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { createServer } from '../../../../../server.js';
+import { Assessment } from '../../../../../src/shared/domain/models/Assessment.js';
 
 describe('Acceptance | Controller | assessment-results-controller', function () {
   let server;
