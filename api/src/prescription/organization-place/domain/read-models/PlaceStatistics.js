@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { OrganizationCantGetPlacesStatisticsError } from '../../../../prescription/organization-place/domain/errors.js';
 
 export class PlaceStatistics {
   #placesLots;
@@ -8,8 +9,14 @@ export class PlaceStatistics {
     this.id = `${organizationId}_place_statistics`;
     this.#placesLots = placesLots;
     this.#numberOfParticipantWithAtLeastOneParticipation = numberOfParticipantWithAtLeastOneParticipation;
+    this.#validate();
   }
 
+  #validate() {
+    if (this.#placesLots.every((placesLot) => placesLot.count === 0) && this.#placesLots.length > 0) {
+      throw new OrganizationCantGetPlacesStatisticsError();
+    }
+  }
   static buildFrom({ placesLots, numberOfParticipantWithAtLeastOneParticipation, organizationId } = {}) {
     return new PlaceStatistics({ placesLots, numberOfParticipantWithAtLeastOneParticipation, organizationId });
   }
