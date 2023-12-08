@@ -1,6 +1,6 @@
 .training-trigger {
   &__link {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
 
     svg {
       height: 0.75em;
@@ -22,7 +22,7 @@
 
   &__threshold {
     margin-left: $pix-spacing-s;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-size: 1rem;
     line-height: 1.5;
   }

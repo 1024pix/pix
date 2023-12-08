@@ -20,8 +20,8 @@
   margin-right: 0.4rem;
 
   &--error {
-    border-color: $pix-error-70;
-    border-right: 1px solid $pix-error-70;
+    border-color: var(--pix-error-700);
+    border-right: 1px solid var(--pix-error-700);
   }
 }
 
@@ -30,6 +30,6 @@
 }
 
 .certification-center-invitations-form-container__error-message {
-  color: $pix-error-70;
+  color: var(--pix-error-700);
   font-size: 0.85rem;
 }

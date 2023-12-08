@@ -29,17 +29,17 @@
   &__card {
     flex-grow: 1;
     padding: 1rem;
-    background: $pix-neutral-0;
-    border: 1px solid $pix-neutral-20;
+    background: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-20);
     border-radius: 8px;
-    box-shadow: 0 4px 8px $pix-neutral-110;
+    box-shadow: 0 4px 8px var(--pix-neutral-900);
 
     .certification-info-field {
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 0.5em;
       padding-bottom: 0.5em;
-      border-bottom: 1px solid $pix-neutral-20;
+      border-bottom: 1px solid var(--pix-neutral-20);
 
       &:last-of-type {
         border-bottom: none;
@@ -47,7 +47,7 @@
 
       :first-child:not(button) {
         min-width: 16em;
-        color: $pix-neutral-50;
+        color: var(--pix-neutral-20)0;
         font-weight: bold;
       }
     }
@@ -58,11 +58,11 @@
 
     &--pix-edu {
       flex: 1;
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-20)0;
       font-weight: 500;
       text-align: center;
-      background-color: $pix-neutral-5;
-      border: 2px solid $pix-neutral-20;
+      background-color: var(--pix-neutral-20);
+      border: 2px solid var(--pix-neutral-20);
       box-shadow: none;
     }
 
@@ -88,11 +88,11 @@
     &__list-label {
       display: inline-block;
       min-width: 180px;
-      color: $pix-neutral-40;
+      color: var(--pix-neutral-500);
     }
 
     &__score {
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-size: 1.125rem;
     }
   }
@@ -123,7 +123,7 @@
 
         .jury-level-edit-icon-button {
           margin-left: 10px;
-          color: $pix-neutral-60;
+          color: var(--pix-neutral-500);
           font-size: 19px;
           background: none;
           border: none;
@@ -170,7 +170,7 @@
     &__warning-cpf-message {
       margin-top: 8px;
       margin-left: 5px;
-      color: $pix-error-60;
+      color: var(--pix-error-700);
       font-style: italic;
     }
   }

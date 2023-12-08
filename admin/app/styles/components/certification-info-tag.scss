@@ -2,6 +2,6 @@
   float: right;
 
   .cancelled {
-    background-color: $pix-error-70;
+    background-color: var(--pix-error-700);
   }
 }

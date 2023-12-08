@@ -3,7 +3,7 @@
   margin-bottom: $pix-spacing-s;
 
   a:not(.pix-button) {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
   }
 
   thead label {
@@ -12,19 +12,19 @@
 
   tbody > tr,
   thead > tr {
-    border-bottom: 1px solid $pix-neutral-22;
+    border-bottom: 1px solid var(--pix-neutral-100);
 
     &:first-child {
-      border-top: 1px solid $pix-neutral-22;
+      border-top: 1px solid var(--pix-neutral-100);
     }
 
     td,
     th {
       padding: 6px 18px;
-      border-left: 1px solid $pix-neutral-22;
+      border-left: 1px solid var(--pix-neutral-100);
 
       &:last-child {
-        border-right: 1px solid $pix-neutral-22;
+        border-right: 1px solid var(--pix-neutral-100);
       }
     }
   }

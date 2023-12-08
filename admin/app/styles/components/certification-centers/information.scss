@@ -22,7 +22,7 @@
     .property {
       display: block;
       padding: 0.5rem 1rem;
-      border-bottom: 0.05rem solid $pix-neutral-20;
+      border-bottom: 0.05rem solid var(--pix-neutral-20);
 
       &:last-child {
         border-bottom: none;
@@ -40,7 +40,7 @@
   }
 
   .field__label {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-weight: normal;
     font-size: 0.875rem;
   }
@@ -62,7 +62,7 @@
 
   .error {
     padding-top: 5px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-size: 0.85rem;
   }
 
@@ -105,11 +105,11 @@
     border-radius: 8px;
 
     .granted-habilitation-icon {
-      color: $pix-success-60;
+      color: var(--pix-success-700);
     }
 
     .not-granted-habilitation-icon {
-      color: $pix-neutral-35;
+      color: var(--pix-neutral-100);
     }
   }
 }

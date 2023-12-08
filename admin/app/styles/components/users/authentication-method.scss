@@ -37,12 +37,12 @@
 
   &__check {
     margin: 0 20px;
-    color: $pix-success-70;
+    color: var(--pix-success-700);
   }
 
   &__uncheck {
     margin: 0 20px;
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-100);
   }
 }
 

@@ -20,7 +20,7 @@
 
         th {
           padding: $pix-spacing-s;
-          border: 1px solid $pix-neutral-20;
+          border: 1px solid var(--pix-neutral-20);
         }
       }
 
@@ -36,7 +36,7 @@
 
           th, td {
             padding: $pix-spacing-s;
-            border: 1px solid $pix-neutral-20;
+            border: 1px solid var(--pix-neutral-20);
 
             .pix-textarea, .pix-textarea textarea {
               height: 100%;

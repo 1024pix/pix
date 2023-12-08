@@ -16,11 +16,11 @@
   }
 
   .certificate {
-    color: $pix-information-light;
+    color: var(--pix-information-light);
   }
 
   .jury {
-    color: $pix-error-70;
+    color: var(--pix-error-700);
   }
 
   &__actions {

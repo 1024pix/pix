@@ -6,7 +6,7 @@
   font-size: 1.125rem;
 
   &__link {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
 
     &:hover {
       text-decoration: underline;
