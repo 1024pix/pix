@@ -133,9 +133,12 @@ async function _handleV3Certification({
   });
 
   if (_shouldCancelV3Certification({ allAnswers, certificationCourse })) {
-    const cancelMessage = 'Cancelled due to lack of answers and technical issues';
-    assessmentResult.commentForCandidate = cancelMessage;
-    assessmentResult.commentForOrganization = cancelMessage;
+    const organizationCancelMessage =
+      "Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidat(e) au surveillant de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).";
+    const candidateCancelMessage =
+      "Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification, a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification (le cas échéant), en est informé.";
+    assessmentResult.commentForCandidate = candidateCancelMessage;
+    assessmentResult.commentForOrganization = organizationCancelMessage;
     certificationCourse.cancel();
     certificationCourseRepository.update(certificationCourse);
   }
