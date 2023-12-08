@@ -1,6 +1,6 @@
 import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
-import * as assessmentResultService from '../../domain/services/assessment-result-service.js';
+import * as assessmentResultService from '../../../src/shared/domain/services/assessment-result-service.js';
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
