@@ -8,9 +8,6 @@
   padding: 0 10px;
   background: var(--pix-neutral-0);
   border-radius: 4px;
-  box-shadow:
-    0 1px 1px 0 var(--pix-neutral-0),
-    0 2px 5px 0 var(--pix-neutral-0);
 
   &-item {
     display: flex;
@@ -74,7 +71,4 @@
   padding: 20px;
   background: var(--pix-neutral-0);
   border-radius: 4px;
-  box-shadow:
-    0 1px 1px 0 var(--pix-neutral-0),
-    0 2px 5px 0 var(--pix-neutral-0);
 }
