@@ -40,12 +40,12 @@ abbr {
   }
 }
 
-a {
-  text-decoration: none;
+a:not(.pix-button) {
+  color: var(--pix-tertiary-500);
+  text-decoration: underline;
 
-  &:hover,
-  &:focus {
-    text-decoration: underline;
+  &:visited {
+    color: var(--pix-primary-500);
   }
 }
 

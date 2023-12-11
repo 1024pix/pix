@@ -41,10 +41,6 @@
   color: var(--pix-neutral-0);
   background-color: var(--pix-error-500);
   border-radius: 3px;
-  
-  & a {
-    text-decoration: underline;
-  }
 }
 
 .login-form__control {
