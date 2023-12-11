@@ -551,6 +551,67 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
               }),
             );
           });
+
+          describe('when the certification would reach a very high score', function () {
+            it('should return the score capped based on the maximum available level when the certification was done', async function () {
+              // given
+              const expectedEstimatedLevel = 8;
+              const cappedScoreForEstimatedLevel = 896;
+              const challenges = generateChallengeList({ length: maximumAssessmentLength });
+              const challengeIds = challenges.map(({ id }) => id);
+
+              const answers = generateAnswersForChallenges({ challenges });
+
+              challengeRepository.getMany.withArgs(challengeIds).resolves(challenges);
+              answerRepository.findByAssessment.withArgs(assessmentId).resolves(answers);
+              certificationCourseRepository.get.withArgs(certificationCourseId).resolves(certificationCourse);
+              flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfiguration);
+              flashAlgorithmService.getEstimatedLevelAndErrorRate
+                .withArgs({
+                  challenges,
+                  allAnswers: answers,
+                  estimatedLevel: sinon.match.number,
+                  variationPercent: undefined,
+                  variationPercentUntil: undefined,
+                  doubleMeasuresUntil: undefined,
+                })
+                .returns({
+                  estimatedLevel: expectedEstimatedLevel,
+                });
+
+              // when
+              await handleCertificationScoring({
+                event,
+                challengeRepository,
+                answerRepository,
+                assessmentResultRepository,
+                certificationCourseRepository,
+                competenceMarkRepository,
+                scoringCertificationService,
+                certificationAssessmentRepository,
+                flashAlgorithmConfigurationRepository,
+                flashAlgorithmService,
+              });
+
+              // then
+              const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScoreV3({
+                nbPix: cappedScoreForEstimatedLevel,
+                status: status.VALIDATED,
+              });
+              const expectedAssessmentResult = new AssessmentResult({
+                pixScore: cappedScoreForEstimatedLevel,
+                reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
+                status: status.VALIDATED,
+                assessmentId: certificationAssessment.id,
+                emitter: 'PIX-ALGO',
+                commentForJury: 'Computed',
+              });
+              expect(assessmentResultRepository.save).to.have.been.calledWithExactly({
+                certificationCourseId: 1234,
+                assessmentResult: expectedAssessmentResult,
+              });
+            });
+          });
         });
 
         describe('when the certification was not completed', function () {
