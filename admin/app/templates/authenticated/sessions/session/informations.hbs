@@ -134,7 +134,12 @@
             <p>{{this.copyButtonText}}</p>
           {{/if}}
 
-          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
+          <PixButton
+            size="small"
+            @triggerAction={{this.copyResultsDownloadLink}}
+            @backgroundColor="transparent-light"
+            @isBorderVisible="true"
+          >
             <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
             Lien de téléchargement des résultats
           </PixButton>
@@ -143,7 +148,8 @@
         <div class="session-info__published-buttons">
           <PixButton
             @triggerAction={{this.downloadPDFAttestations}}
-            @backgroundColor="grey"
+            @backgroundColor="transparent-light"
+            @isBorderVisible="true"
             class="session-info__download-button"
             @isDisabled={{not this.sessionModel.isPublished}}
             @iconBefore="file-arrow-down"
@@ -155,7 +161,8 @@
             <PixButton
               size="small"
               @triggerAction={{this.tagSessionAsSentToPrescriber}}
-              @backgroundColor="grey"
+              @backgroundColor="transparent-light"
+              @isBorderVisible="true"
               class="session-info__download-button"
             >
               Résultats transmis au prescripteur
