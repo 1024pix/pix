@@ -861,6 +861,24 @@
       "invite-button": "Invite a member",
       "invite-member-button": "Invite a member",
       "members": {
+        "actions": {
+          "edit-role": "Change role",
+          "manage": "Manage",
+          "save": "Save",
+          "select-role": {
+            "label": "Select a role",
+            "options": {
+              "admin": "Administrator",
+              "member": "Member"
+            }
+          }
+        },
+        "notifications": {
+          "change-member-role": {
+            "error": "An error occurred while changing this member's role.",
+            "success": "The role has been changed."
+          }
+        },
         "role": {
           "admin": "Administrator",
           "member": "Member"
@@ -887,6 +905,9 @@
         "description": "Le Groupement d’intérêt public, sis 21-23 rue des Ardennes 75019 Paris PIX met en œuvre en tant que responsable de traitement un traitement de données à caractère personnel portant sur votre adresse email professionnel de référent Pix.<br />La finalité de ce traitement est la communication des informations nécessaires aux attributions du référent Pix au sein du centre de certification agréé. Le traitement de cette données repose sur l’exécution de la convention d’agrément de votre centre de certification.<br />Les données sont conservées pendant la durée de la convention d’agrément en vigueur entre le GIP Pix et le centre habilité auquel vous êtes rattaché.<br />Vous disposez de droits personnels, droits d'accès, de rectification et d’effacement des données, le droit de limitation ou d’opposition au traitement pour motif légitime et le droit d’introduire une réclamation auprès d’une autorité de contrôle ainsi que le droit de définir des directives relatives à la conservation, à l'effacement et à la communication de vos données à caractère personnel en cas de décès que vous pouvez exercer par courriel auprès de notre DPD en adressant votre demande à l’adresse électronique suivante : dpd@pix.fr .<br />Vous disposez de la possibilité d’introduire une réclamation auprès de Commission nationale Informatique et libertés « CNIL » à l’adresse suivante : 3 Place de Fontenoy – TSA 80715 – 75334 Paris Cedex 07.",
         "empty-option": "--Sélectionner--",
         "label": "Sélectionner le référent CléA Numérique"
+      },
+      "table-headers": {
+        "actions": "Actions"
       },
       "tabs": {
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
