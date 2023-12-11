@@ -122,7 +122,7 @@ describe('Unit | Router | session-mass-import-route', function () {
       sinon
         .stub(securityPreHandlers, 'checkCertificationCenterIsNotScoManagingStudents')
         .callsFake((_, h) => h.response(true));
-      sinon.stub(sessionMassImportController, 'getSessionsImportTemplate').returns('ok');
+      sinon.stub(sessionMassImportController, 'getTemplate').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
