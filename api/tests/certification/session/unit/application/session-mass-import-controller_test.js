@@ -113,4 +113,27 @@ describe('Unit | Controller | mass-import-controller', function () {
       });
     });
   });
+
+  describe('#getSessionsImportTemplate', function () {
+    it('should call the usecases to build the mass import spreadsheet template', async function () {
+      // given
+      const request = {
+        payload: { data: { attributes: { cachedValidatedSessionsKey: 'uuid' } } },
+        params: { certificationCenterId: 123 },
+        auth: { credentials: { userId: 2 } },
+      };
+
+      sinon.stub(libUsecases, 'getImportSessionComplementaryCertificationHabilitationsLabels').resolves();
+      sinon.stub(libUsecases, 'getCertificationCenter').resolves({ hasBillingMode: true });
+
+      // when
+      await sessionMassImportController.getSessionsImportTemplate(request, hFake);
+
+      // then
+      expect(libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels).to.have.been.calledWithExactly({
+        certificationCenterId: 123,
+      });
+      expect(libUsecases.getCertificationCenter).to.have.been.calledWithExactly({ id: 123 });
+    });
+  });
 });
