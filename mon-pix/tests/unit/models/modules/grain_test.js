@@ -10,17 +10,18 @@ module('Unit | Model | Module | Grain', function (hooks) {
         // given
         const store = this.owner.lookup('service:store');
         const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const qrocm = store.createRecord('qrocm', { type: 'qrocms', isAnswerable: true });
         const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
         const grain = store.createRecord('grain', {
-          elements: [qcu, text],
+          elements: [qcu, qrocm, text],
         });
 
         // when
         const answerableElements = grain.answerableElements;
 
         // then
-        assert.strictEqual(answerableElements.length, 1);
-        assert.deepEqual(answerableElements, [qcu]);
+        assert.strictEqual(answerableElements.length, 2);
+        assert.deepEqual(answerableElements, [qcu, qrocm]);
       });
     });
 

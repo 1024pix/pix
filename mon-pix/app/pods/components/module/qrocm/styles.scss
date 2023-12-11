@@ -1,0 +1,30 @@
+.element-qrocm {
+  @extend %pix-body-l;
+
+  padding: $pix-spacing-s;
+
+  // revert the reset
+  ul:not([class]),
+  ol {
+    margin: revert;
+    padding: revert;
+    list-style: revert;
+  }
+
+  &__verify_button {
+    margin: $pix-spacing-s $pix-spacing-s $pix-spacing-s 0;
+  }
+
+  &__instruction {
+    margin-bottom: $pix-spacing-xs;
+  }
+}
+
+.element-qrocm-proposals {
+  &__input {
+    &--block {
+      display: block;
+      width: fit-content;
+    }
+  }
+}
