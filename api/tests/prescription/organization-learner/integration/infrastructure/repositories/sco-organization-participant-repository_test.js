@@ -725,12 +725,23 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
       it('should return campaign name and type only for a campaign in the given organization', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({
           name: 'some campaign name',
+          organizationId: otherOrganizationId,
         }).id;
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+        const otherOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganizationId,
+          userId,
+        }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId: otherOrganizationLearnerId,
+          userId,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -898,18 +909,29 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+        //learner A
+        const userId = databaseBuilder.factory.buildUser().id;
+        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
+          userId,
         });
-
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
           userId,
         });
-        databaseBuilder.factory.buildCampaignParticipation({
-          organizationLearnerId,
+        // learner B
+        const anotherUserId = databaseBuilder.factory.buildUser().id;
+        const { id: anotherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          userId: anotherUserId,
         });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          organizationLearnerId: anotherOrganizationLearnerId,
+          userId: anotherUserId,
+        });
+
         await databaseBuilder.commit();
 
         // when
@@ -1640,15 +1662,23 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({
-          organizationId,
+          organizationId: otherOrganizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
         const otherCampaignId = databaseBuilder.factory.buildCampaign({
           organizationId: otherOrganizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+
+        const userId = databaseBuilder.factory.buildUser().id;
+        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
+          userId,
+        });
+
+        const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganizationId,
+          userId,
         });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -1661,7 +1691,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
-          organizationLearnerId,
+          organizationLearnerId: otherOrganizationLearnerId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
           isCertifiable: false,
@@ -1711,18 +1741,21 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         expect(certifiableAt).to.deep.equal(campaignParticipation.sharedAt);
       });
 
-      it('should return null for certifiableAt property if the organization learner is not certifiable', async function () {
+      it('should return certifiableAt property even if the organization learner is not certifiable', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({
           organizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+        });
 
-        databaseBuilder.factory.buildCampaignParticipation({
+        const participation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2021-01-01'),
           isCertifiable: false,
@@ -1737,7 +1770,7 @@ describe('Integration | Infrastructure | Repository | sco-organization-participa
         });
 
         // then
-        expect(certifiableAt).to.equal(null);
+        expect(certifiableAt).to.deep.equal(participation.sharedAt);
       });
 
       it('should be null when sco participant has no participation', async function () {
