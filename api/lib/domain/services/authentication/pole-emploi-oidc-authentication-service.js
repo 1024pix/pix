@@ -87,9 +87,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 
   async saveIdToken({ idToken, userId }) {
-    // The session ID must be unpredictable, thus we disable the entropy cache
-    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
-    const uuid = randomUUID({ disableEntropyCache: true });
+    const uuid = randomUUID();
     const { idTokenLifespanMs } = this.temporaryStorageConfig;
 
     await logoutUrlTemporaryStorage.save({
