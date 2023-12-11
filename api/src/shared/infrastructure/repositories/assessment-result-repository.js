@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { knex } from '../../../db/knex-database-connection.js';
-import { MissingAssessmentId, AssessmentResultNotCreatedError } from '../../domain/errors.js';
-import { DomainTransaction } from '../DomainTransaction.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { AssessmentResultNotCreatedError, MissingAssessmentId } from '../../domain/errors.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));

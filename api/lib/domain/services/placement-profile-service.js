@@ -5,7 +5,7 @@ import { UserCompetence } from '../models/UserCompetence.js';
 import { PlacementProfile } from '../models/PlacementProfile.js';
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as skillRepository from '../../infrastructure/repositories/skill-repository.js';
-import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
+import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as knowledgeElementRepository from '../../infrastructure/repositories/knowledge-element-repository.js';
 import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as scoringService from './scoring/scoring-service.js';

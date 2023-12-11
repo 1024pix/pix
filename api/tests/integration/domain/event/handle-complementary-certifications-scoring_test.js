@@ -2,7 +2,7 @@ import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 import _ from 'lodash';
 
 import { handleComplementaryCertificationsScoring } from '../../../../lib/domain/events/handle-complementary-certifications-scoring.js';
-import * as assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository.js';
+import * as assessmentResultRepository from '../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../lib/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';

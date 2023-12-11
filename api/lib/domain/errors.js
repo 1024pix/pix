@@ -117,12 +117,6 @@ class AlreadyRatedAssessmentError extends DomainError {
   }
 }
 
-class AssessmentResultNotCreatedError extends DomainError {
-  constructor(message = "L'assessment result n'a pas pu être généré.") {
-    super(message);
-  }
-}
-
 class AlreadyRegisteredEmailAndUsernameError extends DomainError {
   constructor(message = 'Cette adresse e-mail et cet identifiant sont déjà utilisés.') {
     super(message);
@@ -623,12 +617,6 @@ class MembershipUpdateError extends DomainError {
 
 class MissingAttributesError extends DomainError {
   constructor(message = 'Attributs manquants.') {
-    super(message);
-  }
-}
-
-class MissingAssessmentId extends DomainError {
-  constructor(message = 'AssessmentId manquant ou incorrect') {
     super(message);
   }
 }
@@ -1140,7 +1128,6 @@ export {
   ArchivedCampaignError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
-  AssessmentResultNotCreatedError,
   AuditLoggerApiError,
   AuthenticationKeyExpired,
   AuthenticationMethodAlreadyExistsError,
@@ -1200,7 +1187,6 @@ export {
   MatchingReconciledStudentNotFoundError,
   MembershipCreationError,
   MembershipUpdateError,
-  MissingAssessmentId,
   MissingAttributesError,
   MissingBadgeCriterionError,
   MissingUserAccountError,
