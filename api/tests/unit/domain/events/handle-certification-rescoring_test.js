@@ -568,6 +568,76 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
           expect(result).to.deep.equal(expectedEvent);
         });
       });
+
+      describe('when the certification would reach a very high score', function () {
+        it('should return the score capped based on the maximum available level when the certification was done', async function () {
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            version: CertificationVersion.V3,
+          });
+
+          const abortedCertificationCourse = domainBuilder.buildCertificationCourse({});
+
+          const challenges = generateChallengeList({ length: maximumAssessmentLength });
+          const challengeIds = challenges.map(({ id }) => id);
+
+          const answers = generateAnswersForChallenges({ challenges });
+
+          const expectedEstimatedLevel = 8;
+          const cappedScoreForEstimatedLevel = 896;
+          const { certificationCourseId } = certificationAssessment;
+
+          certificationAssessmentRepository.getByCertificationCourseId
+            .withArgs({ certificationCourseId })
+            .resolves(certificationAssessment);
+
+          flashAlgorithmConfigurationRepository.get.resolves(baseFlashAlgorithmConfig);
+
+          answerRepository.findByAssessment.withArgs(certificationAssessment.id).resolves(answers);
+
+          challengeRepository.getManyFlashParameters.withArgs(challengeIds).resolves(challenges);
+
+          certificationCourseRepository.get
+            .withArgs(certificationAssessment.certificationCourseId)
+            .resolves(abortedCertificationCourse);
+
+          flashAlgorithmService.getEstimatedLevelAndErrorRate
+            .withArgs({
+              challenges,
+              allAnswers: answers,
+              estimatedLevel: sinon.match.number,
+              variationPercent: undefined,
+              variationPercentUntil: undefined,
+              doubleMeasuresUntil: undefined,
+            })
+            .returns({
+              estimatedLevel: expectedEstimatedLevel,
+            });
+
+          const expectedResult = {
+            certificationCourseId,
+            assessmentResult: new AssessmentResult({
+              commentForJury: 'Computed',
+              emitter: 'PIX-ALGO',
+              pixScore: cappedScoreForEstimatedLevel,
+              reproducibilityRate: 100,
+              status: 'validated',
+              competenceMarks: [],
+              assessmentId: 123,
+            }),
+          };
+
+          const event = new CertificationJuryDone({
+            certificationCourseId,
+          });
+
+          await handleCertificationRescoring({
+            ...dependencies,
+            event,
+          });
+
+          expect(assessmentResultRepository.save).to.have.been.calledWith(expectedResult);
+        });
+      });
     });
   });
 
