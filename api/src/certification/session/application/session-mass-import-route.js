@@ -84,7 +84,7 @@ const register = async function (server) {
         validate: {
           params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
         },
-        handler: sessionMassImportController.getSessionsImportTemplate,
+        handler: sessionMassImportController.getTemplate,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

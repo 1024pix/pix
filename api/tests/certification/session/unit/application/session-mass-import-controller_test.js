@@ -114,7 +114,7 @@ describe('Unit | Controller | mass-import-controller', function () {
     });
   });
 
-  describe('#getSessionsImportTemplate', function () {
+  describe('#getTemplate', function () {
     it('should call the usecases to build the mass import spreadsheet template', async function () {
       // given
       const request = {
@@ -127,7 +127,7 @@ describe('Unit | Controller | mass-import-controller', function () {
       sinon.stub(libUsecases, 'getCertificationCenter').resolves({ hasBillingMode: true });
 
       // when
-      await sessionMassImportController.getSessionsImportTemplate(request, hFake);
+      await sessionMassImportController.getTemplate(request, hFake);
 
       // then
       expect(libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels).to.have.been.calledWithExactly({
