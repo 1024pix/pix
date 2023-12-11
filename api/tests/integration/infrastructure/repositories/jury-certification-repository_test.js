@@ -127,6 +127,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           createdAt: new Date('2020-01-01'),
           completedAt: new Date('2020-02-01'),
           isPublished: false,
+          isRejectedForFraud: false,
           juryId: 22,
           pixScore: 123,
           commentForOrganization: 'Un commentaire orga',
