@@ -666,7 +666,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
     module('Certification results edition', function () {
       module('when candidate results edit button is clicked', function () {
-        test('it disables candidate informations edit button', async function (assert) {
+        test('it disables candidate information edit button', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -675,12 +675,12 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Modifier les résultats du candidat');
 
           // then
-          assert.dom(screen.getByLabelText('Modifier les informations du candidat')).isDisabled();
+          assert.dom(screen.getByRole('button', { name: 'Modifier les informations du candidat' })).isDisabled();
         });
       });
 
       module('when candidate results form cancel button is clicked', function () {
-        test('it re-enables candidate informations edit button', async function (assert) {
+        test('it re-enables candidate information edit button', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -690,12 +690,15 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Annuler la modification des résultats du candidat');
 
           // then
-          assert.dom(screen.getByLabelText('Modifier les informations du candidat')).exists().isEnabled();
+          assert
+            .dom(screen.getByRole('button', { name: 'Modifier les informations du candidat' }))
+            .exists()
+            .isEnabled();
         });
       });
 
       module('when candidate results form is submitted', function () {
-        test('it also re-enables candidate informations edit button', async function (assert) {
+        test('it also re-enables candidate information edit button', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
@@ -709,7 +712,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Confirmer');
 
           // then
-          assert.dom(screen.getByLabelText('Modifier les informations du candidat')).exists().isEnabled();
+          assert
+            .dom(screen.getByRole('button', { name: 'Modifier les informations du candidat' }))
+            .exists()
+            .isEnabled();
         });
       });
     });
