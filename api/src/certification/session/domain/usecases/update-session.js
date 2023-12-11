@@ -1,11 +1,13 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import('../../../shared/domain/usecases/index.js').SessionRepository} SessionRepository
+ *
+ * @typedef {import('../../../shared/domain/usecases/index.js').SessionValidator} SessionValidator
  */
 
 /**
  * @param {Object} params
- * @param {deps['sessionRepository']} params.sessionRepository
- * @param {deps['sessionValidator']} params.sessionValidator
+ * @param {SessionRepository} params.sessionRepository
+ * @param {SessionValidator} params.sessionValidator
  */
 const updateSession = async function ({ session, sessionRepository, sessionValidator }) {
   sessionValidator.validate(session);

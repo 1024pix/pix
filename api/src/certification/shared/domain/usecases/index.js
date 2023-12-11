@@ -1,3 +1,5 @@
+// eslint-disable import/no-restricted-paths
+
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -45,42 +47,39 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
 /**
  * Using {@link https://jsdoc.app/tags-type "Closure Compiler's syntax"} to document injected dependencies
  *
- * @typedef {{
- *  assessmentRepository : assessmentRepository,
- *  attendanceSheetPdfUtils : attendanceSheetPdfUtils,
- *  badgeRepository : badgeRepository,
- *  certificationCandidateRepository : certificationCandidateRepository,
- *  certificationCenterRepository : certificationCenterRepository,
- *  certificationChallengeLiveAlertRepository : certificationChallengeLiveAlertRepository,
- *  certificationCpfService : certificationCpfService,
- *  certificationIssueReportRepository : certificationIssueReportRepository,
- *  challengeRepository : challengeRepository,
- *  certificationCpfCityRepository : certificationCpfCityRepository,
- *  certificationCpfCountryRepository : certificationCpfCountryRepository,
- *  certificationOfficerRepository: certificationOfficerRepository,
- *  complementaryCertificationBadgesRepository : complementaryCertificationBadgesRepository,
- *  complementaryCertificationRepository : complementaryCertificationRepository,
- *  complementaryCertificationForTargetProfileAttachmentRepository : complementaryCertificationForTargetProfileAttachmentRepository,
- *  complementaryCertificationTargetProfileHistoryRepository : complementaryCertificationTargetProfileHistoryRepository,
- *  cpfExportRepository: cpfExportRepository,
- *  finalizedSessionRepository: finalizedSessionRepository,
- *  flashAlgorithmService : flashAlgorithmService,
- *  issueReportCategoryRepository : issueReportCategoryRepository,
- *  jurySessionRepository: jurySessionRepository,
- *  mailService : mailService,
- *  organizationRepository : organizationRepository,
- *  sessionCodeService : sessionCodeService,
- *  sessionsImportValidationService : sessionsImportValidationService,
- *  temporarySessionsStorageForMassImportService : temporarySessionsStorageForMassImportService,
- *  sessionForAttendanceSheetRepository : sessionForAttendanceSheetRepository,
- *  sessionForInvigilatorKitRepository : sessionForInvigilatorKitRepository,
- *  cpfCertificationResultRepository : cpfCertificationResultRepository,
- *  sessionRepository : sessionRepository,
- *  sessionValidator : sessionValidator,
- *  userRepository : userRepository,
- *  cpfReceiptsStorage : cpfReceiptsStorage,
- *  cpfExportsStorage : cpfExportsStorage,
- * }} dependencies
+ * @typedef {assessmentRepository} AssessmentRepository
+ * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
+ * @typedef {badgeRepository} BadgeRepository
+ * @typedef {certificationCandidateRepository} CertificationCandidateRepository
+ * @typedef {certificationCenterRepository} CertificationCenterRepository
+ * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ * @typedef {certificationCourseRepository} CertificationCourseRepository
+ * @typedef {certificationCpfService} CertificationCpfService
+ * @typedef {certificationIssueReportRepository} CertificationIssueReportRepository
+ * @typedef {challengeRepository} ChallengeRepository
+ * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
+ * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
+ * @typedef {certificationOfficerRepository} CertificationOfficerRepository
+ * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
+ * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
+ * @typedef {complementaryCertificationTargetProfileHistoryRepository} ComplementaryCertificationTargetProfileHistoryRepository
+ * @typedef {cpfExportRepository} CpfExportRepository
+ * @typedef {finalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {flashAlgorithmService} FlashAlgorithmService
+ * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
+ * @typedef {jurySessionRepository} JurySessionRepository
+ * @typedef {mailService} MailService
+ * @typedef {organizationRepository} OrganizationRepository
+ * @typedef {sessionCodeService} SessionCodeService
+ * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
+ * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
+ * @typedef {cpfCertificationResultRepository} CpfCertificationResultRepository
+ * @typedef {sessionRepository} SessionRepository
+ * @typedef {sessionValidator} SessionValidator
+ * @typedef {userRepository} UserRepository
+ * @typedef {cpfReceiptsStorage} CpfReceiptsStorage
+ * @typedef {cpfExportsStorage} CpfExportsStorage
  */
 const dependencies = {
   assessmentRepository,

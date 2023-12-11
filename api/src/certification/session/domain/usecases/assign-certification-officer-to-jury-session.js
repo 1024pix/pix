@@ -1,3 +1,15 @@
+/**
+ * @typedef {import('../../../shared/domain/usecases/index.js').JurySessionRepository} JurySessionRepository
+ * @typedef {import('../../../shared/domain/usecases/index.js').FinalizedSessionRepository} FinalizedSessionRepository
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationOfficerRepository} CertificationOfficerRepository
+ */
+
+/**
+ * @param {Object} params
+ * @param {JurySessionRepository} params.jurySessionRepository
+ * @param {FinalizedSessionRepository} params.finalizedSessionRepository
+ * @param {CertificationOfficerRepository} params.certificationOfficerRepository
+ */
 const assignCertificationOfficerToJurySession = async function ({
   sessionId,
   certificationOfficerId,

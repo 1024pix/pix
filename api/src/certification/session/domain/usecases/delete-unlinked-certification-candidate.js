@@ -1,12 +1,12 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  */
 
 import { CertificationCandidateForbiddenDeletionError } from '../errors.js';
 
 /**
  * @param {Object} params
- * @param {deps['certificationCandidateRepository']} params.certificationCandidateRepository
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  */
 const deleteUnlinkedCertificationCandidate = async function ({
   certificationCandidateId,

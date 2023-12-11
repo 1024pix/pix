@@ -1,5 +1,13 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
+ *
+ *
+ * @typedef {import('../../../shared/domain/usecases/index.js').AssessmentRepository} AssessmentRepository
+ *
+ * @typedef {import('../../../shared/domain/usecases/index.js').IssueReportCategoryRepository} IssueReportCategoryRepository
+ *
+ *
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationIssueReportRepository} CertificationIssueReportRepository
  */
 
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
@@ -7,10 +15,10 @@ import { CertificationIssueReport, CertificationIssueReportCategory } from '../.
 
 /**
  * @param {Object} params
- * @param {deps['certificationChallengeLiveAlertRepository']} params.certificationChallengeLiveAlertRepository
- * @param {deps['assessmentRepository']} params.assessmentRepository
- * @param {deps['issueReportCategoryRepository']} params.issueReportCategoryRepository
- * @param {deps['certificationIssueReportRepository']} params.certificationIssueReportRepository
+ * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
+ * @param {AssessmentRepository} params.assessmentRepository
+ * @param {IssueReportCategoryRepository} params.issueReportCategoryRepository
+ * @param {CertificationIssueReportRepository} params.certificationIssueReportRepository
  */
 export const validateLiveAlert = async ({
   userId,
