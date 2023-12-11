@@ -40,7 +40,7 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
   return h.response(sessionMassImportReport).code(200);
 };
 
-const getSessionsImportTemplate = async function (request, h) {
+const getTemplate = async function (request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const habilitationLabels = await libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels({
     certificationCenterId,
@@ -60,7 +60,7 @@ const getSessionsImportTemplate = async function (request, h) {
 const sessionMassImportController = {
   createSessions,
   validateSessions,
-  getSessionsImportTemplate,
+  getTemplate,
 };
 
 export { sessionMassImportController };
