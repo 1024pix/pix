@@ -4,9 +4,11 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { triggerEvent } from '@ember/test-helpers';
 import { clickByName, render } from '@1024pix/ember-testing-library';
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Integration | Component | AutonomousCourses::CreateAutonomousCourseForm', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   let autonomousCourse, targetProfiles, onSubmit, onCancel;
 
