@@ -44,6 +44,19 @@ module('Unit | Model | Module | Element', function (hooks) {
         },
       ],
     },
+    {
+      getterName: 'isQrocm',
+      cases: [
+        {
+          modelType: 'qrocms',
+          expectedResult: true,
+        },
+        {
+          modelType: 'qcus',
+          expectedResult: false,
+        },
+      ],
+    },
   ];
 
   getters.forEach((getter) => {
