@@ -7,7 +7,7 @@
   margin: 20px 0;
   padding: 0 10px;
   background: var(--pix-neutral-0);
-  border-radius: 4px;
+  border-radius: var(--pix-spacing-1x);
 
   &-item {
     display: flex;
@@ -72,5 +72,5 @@
 .navbar + section {
   padding: 20px;
   background: var(--pix-neutral-0);
-  border-radius: 4px;
+  border-radius: var(--pix-spacing-1x);
 }
