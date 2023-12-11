@@ -63,6 +63,62 @@ module('Integration | Component | Module | Grain', function (hooks) {
     });
   });
 
+  module('when element is a qrocm', function () {
+    test('should display qrocm element', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const qrocmElement = store.createRecord('qrocm', {
+        instruction: 'Mon instruction',
+        proposals: [
+          {
+            type: 'text',
+            content: '<p>Le symbole</>',
+          },
+          {
+            input: 'symbole',
+            type: 'input',
+            inputType: 'text',
+            size: 1,
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 1',
+            defaultValue: '',
+          },
+          {
+            input: 'premiere-partie',
+            type: 'select',
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 2',
+            defaultValue: '',
+            options: [
+              {
+                id: '1',
+                content: "l'identifiant",
+              },
+              {
+                id: '2',
+                content: "le fournisseur d'adresse mail",
+              },
+            ],
+          },
+        ],
+        type: 'qrocms',
+        isAnswerable: true,
+      });
+      const elements = [qrocmElement];
+      const grain = store.createRecord('grain', { title: 'Grain title', elements });
+      this.set('grain', grain);
+
+      // when
+      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.ok(screen);
+      assert.dom(screen.getByText('Mon instruction')).exists({ count: 1 });
+    });
+  });
+
   module('when element is an image', function () {
     test('should display image element', async function (assert) {
       // given

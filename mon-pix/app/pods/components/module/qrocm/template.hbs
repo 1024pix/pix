@@ -1,0 +1,47 @@
+<form class="element-qrocm">
+  <div class="element-qrocm__instruction">
+    {{html-unsafe @qrocm.instruction}}
+  </div>
+
+  <div class="element-qrocm__proposals">
+    {{#each @qrocm.formattedProposals as |block|}}
+      {{#if (eq block.type "text")}}
+        {{html-unsafe block.content}}
+      {{/if}}
+      {{#if (eq block.type "input")}}
+        {{#if (eq block.inputType "text")}}
+          <div class="element-qrocm-proposals__input--block">
+            <PixInput
+              @type="text"
+              @id={{block.input}}
+              autocomplete="nope"
+              placeholder={{block.placeholder}}
+              @ariaLabel={{block.ariaLabel}}
+              size={{block.size}}
+            />
+          </div>
+        {{/if}}
+      {{else if (eq block.type "select")}}
+        <PixSelect
+          @value={{get this.selectedValues block.input}}
+          @placeholder={{block.placeholder}}
+          @label={{block.ariaLabel}}
+          @options={{block.options}}
+          @hideDefaultOption={{true}}
+          @onChange={{fn this.onSelectChange block}}
+          @screenReaderOnly={{true}}
+        />
+      {{/if}}
+    {{/each}}
+  </div>
+
+  <PixButton
+    @backgroundColor="green"
+    @shape="rounded"
+    @type="submit"
+    @isDisabled={{true}}
+    class="element-qrocm__verify_button"
+  >
+    {{t "pages.modulix.buttons.activity.verify"}}
+  </PixButton>
+</form>
