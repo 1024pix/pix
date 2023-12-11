@@ -1,5 +1,6 @@
 import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
 import { usecases } from '../../../../src/certification/shared/domain/usecases/index.js';
+import { getHeaders } from '../../../../lib/infrastructure/files/sessions-import.js';
 
 import * as csvHelpers from '../../../../lib/application/certification-centers/csvHelpers.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
@@ -39,9 +40,27 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
   return h.response(sessionMassImportReport).code(200);
 };
 
+const getSessionsImportTemplate = async function (request, h) {
+  const certificationCenterId = request.params.certificationCenterId;
+  const habilitationLabels = await libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels({
+    certificationCenterId,
+  });
+  const certificationCenter = await libUsecases.getCertificationCenter({ id: certificationCenterId });
+  const headers = getHeaders({
+    habilitationLabels,
+    shouldDisplayBillingModeColumns: certificationCenter.hasBillingMode,
+  });
+  return h
+    .response(headers)
+    .header('Content-Type', 'text/csv; charset=utf-8')
+    .header('content-disposition', 'filename=import-sessions')
+    .code(200);
+};
+
 const sessionMassImportController = {
   createSessions,
   validateSessions,
+  getSessionsImportTemplate,
 };
 
 export { sessionMassImportController };
