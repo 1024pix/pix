@@ -8,6 +8,18 @@ export default class MemberAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/certification-centers/${query.certificationCenterId}/members`;
   }
 
+  urlForUpdateRecord(id) {
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
+    return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/certification-center-memberships/${id}`;
+  }
+
+  updateRecord(store, type, snapshot) {
+    const payload = this.serialize(snapshot);
+    const certificationCenterMembershipId = payload.data.attributes['certification-center-membership-id'];
+    const url = this.buildURL(type.modelName, certificationCenterMembershipId, snapshot, 'updateRecord');
+    return this.ajax(url, 'PATCH', { data: payload });
+  }
+
   buildURL(modelName, id, snapshot, requestType, query) {
     if (requestType === 'update-referer') {
       const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;

@@ -14,4 +14,16 @@
     font-weight: 900;
     font-size: 18px;
   }
+
+  &__managing-role {
+    display:flex;
+    gap: $pix-spacing-s;
+  }
+
+}
+
+.managing-member{
+  &__dropdown-content {
+    width: 150px;
+  }
 }

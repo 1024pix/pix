@@ -9,6 +9,7 @@ export default class Member extends Model {
   @attr('string') lastName;
   @attr('boolean') isReferer;
   @attr('string') role;
+  @attr('number') certificationCenterMembershipId;
 
   certificationCenterMembersRole = {
     ADMIN: this.intl.t('pages.team.members.role.admin'),
