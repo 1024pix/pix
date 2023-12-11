@@ -896,11 +896,13 @@
     },
     "team-invitations": {
       "actions": {
-        "cancel-invitation": "Delete invitation"
+        "cancel-invitation": "Delete invitation",
+        "resend-invitation": "Resend invitation"
       },
       "notifications": {
         "success": {
-          "invitation-cancelled": "The invitation has been deleted."
+          "invitation-cancelled": "The invitation has been deleted.",
+          "invitation-resent": "The invitation has been resent."
         }
       },
       "table": {

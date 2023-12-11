@@ -3,8 +3,9 @@ import { tokenService } from '../../../src/shared/domain/services/token-service.
 import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
+const requestResponseUtils = { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
 
-export { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest };
+export { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest, requestResponseUtils };
 
 function escapeFileName(fileName) {
   return fileName.replace(/[^_. A-Za-z0-9-]/g, '_');

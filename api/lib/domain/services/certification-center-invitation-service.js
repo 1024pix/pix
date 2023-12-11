@@ -28,28 +28,62 @@ const createOrUpdateCertificationCenterInvitation = function ({
       );
     }
 
-    const mailerResponse = await mailService.sendCertificationCenterInvitationEmail({
-      certificationCenterInvitationId: certificationCenterInvitation.id,
-      certificationCenterName: certificationCenter.name,
-      code: certificationCenterInvitation.code,
+    await _sendInvitationEmail(
+      mailService,
+      certificationCenterInvitation,
+      certificationCenter,
       email,
       locale,
-    });
-
-    if (mailerResponse.status !== 'SUCCESS') {
-      if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
-        throw new SendingEmailToInvalidDomainError(email);
-      }
-
-      if (mailerResponse.hasFailedBecauseEmailWasInvalid()) {
-        throw new SendingEmailToInvalidEmailAddressError(email, mailerResponse.errorMessage);
-      }
-
-      throw new SendingEmailError();
-    }
-
-    await certificationCenterInvitationRepository.updateModificationDate(certificationCenterInvitation.id);
+      certificationCenterInvitationRepository,
+    );
   };
 };
 
-export { createOrUpdateCertificationCenterInvitation };
+const resendCertificationCenterInvitation = function ({
+  certificationCenterInvitationRepository,
+  mailService = maillingService,
+}) {
+  return async function ({ certificationCenter, certificationCenterInvitation, locale }) {
+    await _sendInvitationEmail(
+      mailService,
+      certificationCenterInvitation,
+      certificationCenter,
+      certificationCenterInvitation.email,
+      locale,
+      certificationCenterInvitationRepository,
+    );
+  };
+};
+
+export { createOrUpdateCertificationCenterInvitation, resendCertificationCenterInvitation };
+
+async function _sendInvitationEmail(
+  mailService,
+  certificationCenterInvitation,
+  certificationCenter,
+  email,
+  locale,
+  certificationCenterInvitationRepository,
+) {
+  const mailerResponse = await mailService.sendCertificationCenterInvitationEmail({
+    certificationCenterInvitationId: certificationCenterInvitation.id,
+    certificationCenterName: certificationCenter.name,
+    code: certificationCenterInvitation.code,
+    email,
+    locale,
+  });
+
+  if (mailerResponse.status !== 'SUCCESS') {
+    if (mailerResponse.hasFailedBecauseDomainWasInvalid()) {
+      throw new SendingEmailToInvalidDomainError(email);
+    }
+
+    if (mailerResponse.hasFailedBecauseEmailWasInvalid()) {
+      throw new SendingEmailToInvalidEmailAddressError(email, mailerResponse.errorMessage);
+    }
+
+    throw new SendingEmailError();
+  }
+
+  await certificationCenterInvitationRepository.updateModificationDate(certificationCenterInvitation.id);
+}
