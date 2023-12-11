@@ -8,6 +8,22 @@
       <PixTooltip @isInline={{true}}>
         <:triggerElement>
           <PixIconButton
+            @ariaLabel={{t "pages.team-invitations.actions.resend-invitation"}}
+            @icon="redo"
+            @triggerAction={{fn @onResendInvitationButtonClicked @invitation}}
+            @withBackground={{true}}
+            disabled={{@invitation.isResendingInvitation}}
+            aria-disabled={{@invitation.isResendingInvitation}}
+          />
+        </:triggerElement>
+        <:tooltip>
+          {{t "pages.team-invitations.actions.resend-invitation"}}
+        </:tooltip>
+      </PixTooltip>
+
+      <PixTooltip @isInline={{true}}>
+        <:triggerElement>
+          <PixIconButton
             @ariaLabel={{t "pages.team-invitations.actions.cancel-invitation"}}
             @icon="trash-can"
             @triggerAction={{fn @onCancelInvitationButtonClicked @invitation}}

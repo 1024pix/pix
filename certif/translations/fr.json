@@ -896,11 +896,13 @@
     },
     "team-invitations": {
       "actions": {
-        "cancel-invitation": "Supprimer l'invitation"
+        "cancel-invitation": "Supprimer l'invitation",
+        "resend-invitation": "Renvoyer l'invitation"
       },
       "notifications": {
         "success": {
-          "invitation-cancelled": "L’invitation a bien été supprimée."
+          "invitation-cancelled": "L’invitation a bien été supprimée.",
+          "invitation-resent": "L'invitation a bien été renvoyée."
         }
       },
       "table": {

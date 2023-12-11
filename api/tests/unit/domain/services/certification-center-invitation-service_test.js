@@ -1,5 +1,8 @@
 import { catchErr, domainBuilder, expect, sinon } from '../../../test-helper.js';
-import { createOrUpdateCertificationCenterInvitation } from '../../../../lib/domain/services/certification-center-invitation-service.js';
+import {
+  createOrUpdateCertificationCenterInvitation,
+  resendCertificationCenterInvitation,
+} from '../../../../lib/domain/services/certification-center-invitation-service.js';
 import { CertificationCenterInvitation, EmailingAttempt } from '../../../../lib/domain/models/index.js';
 import { SendingEmailError } from '../../../../lib/domain/errors.js';
 
@@ -167,6 +170,72 @@ describe('Unit | Domain | Services | CertificationCenterInvitationService', func
 
           // then
           expect(error).to.be.instanceOf(SendingEmailError);
+        });
+      });
+    });
+  });
+
+  describe('#resendCertificationCenterInvitation', function () {
+    let certificationCenterInvitationRepository;
+    let mailService;
+
+    beforeEach(function () {
+      certificationCenterInvitationRepository = {
+        create: sinon.stub(),
+        get: sinon.stub(),
+        updateModificationDate: sinon.stub(),
+      };
+      mailService = {
+        sendCertificationCenterInvitationEmail: sinon.stub(),
+      };
+    });
+
+    context('success', function () {
+      context('when an invitation is passed in parameter', function () {
+        it('sends an email and updates invitation modification date', async function () {
+          // given
+          const certificationCenter = domainBuilder.buildCertificationCenter({
+            id: 202310130,
+            name: 'Best Certification Center',
+          });
+          const code = 'AZERTY007';
+          const email = 'dick.cionère@example.net';
+          const locale = 'fr-fr';
+          const certificationCenterInvitation = new CertificationCenterInvitation({
+            certificationCenterId: certificationCenter.id,
+            code,
+            createdAt: new Date('2023-10-10'),
+            email,
+            id: 202310131,
+            updatedAt: new Date('2023-10-11'),
+          });
+
+          certificationCenterInvitationRepository.get.resolves(certificationCenterInvitation);
+          mailService.sendCertificationCenterInvitationEmail.resolves(
+            EmailingAttempt.success(certificationCenterInvitation.email),
+          );
+
+          // when
+          await resendCertificationCenterInvitation({
+            certificationCenterInvitationRepository,
+            mailService,
+          })({
+            certificationCenter,
+            certificationCenterInvitation,
+            locale,
+          });
+
+          // then
+          expect(mailService.sendCertificationCenterInvitationEmail).to.have.been.calledWithExactly({
+            certificationCenterInvitationId: certificationCenterInvitation.id,
+            certificationCenterName: certificationCenter.name,
+            code,
+            email,
+            locale,
+          });
+          expect(certificationCenterInvitationRepository.updateModificationDate).to.have.been.calledWith(
+            certificationCenterInvitation.id,
+          );
         });
       });
     });

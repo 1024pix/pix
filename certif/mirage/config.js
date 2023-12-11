@@ -380,6 +380,15 @@ function _configureCertificationCenterInvitationRoutes(context) {
     }
   });
 
+  context.patch(`${basePath}/:id`, (schema, request) => {
+    const certificationCenterInvitationId = request.params.id;
+    const certificationCenterInvitation = schema.certificationCenterInvitations.find(certificationCenterInvitationId);
+
+    certificationCenterInvitation.updatedAt = new Date('2023-12-05T11:35:00Z');
+
+    return certificationCenterInvitation;
+  });
+
   context.post(`${basePath}/:id/accept`, (schema) => {
     const certificationPointOfContact = schema.certificationPointOfContacts.first();
     const allowedCertificationCenterAccess = schema.allowedCertificationCenterAccesses.create({
