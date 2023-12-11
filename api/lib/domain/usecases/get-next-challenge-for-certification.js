@@ -55,11 +55,14 @@ const getNextChallengeForCertification = async function ({
       configuration: algorithmConfiguration,
     });
 
-    const activeChallenges = challenges.filter((challenge) => !validatedLiveAlertChallengeIds.includes(challenge.id));
+    const challengesWithoutSkillsWithAValidatedLiveAlert = _excludeChallengesWithASkillWithAValidatedLiveAlert({
+      validatedLiveAlertChallengeIds,
+      challenges,
+    });
 
     const possibleChallenges = assessmentAlgorithm.getPossibleNextChallenges({
       assessmentAnswers: allAnswers,
-      challenges: activeChallenges,
+      challenges: challengesWithoutSkillsWithAValidatedLiveAlert,
     });
 
     const challenge = pickChallengeService.chooseNextChallenge(assessment.id)({ possibleChallenges });
@@ -86,6 +89,20 @@ const getNextChallengeForCertification = async function ({
         return challengeRepository.get(certificationChallenge.challengeId);
       });
   }
+};
+
+const _excludeChallengesWithASkillWithAValidatedLiveAlert = ({ validatedLiveAlertChallengeIds, challenges }) => {
+  const validatedLiveAlertChallenges = challenges.filter((challenge) => {
+    return validatedLiveAlertChallengeIds.includes(challenge.id);
+  });
+
+  const excludedSkillIds = validatedLiveAlertChallenges.map((challenge) => challenge.skill.id);
+
+  const challengesWithoutSkillsWithAValidatedLiveAlert = challenges.filter(
+    (challenge) => !excludedSkillIds.includes(challenge.skill.id),
+  );
+
+  return challengesWithoutSkillsWithAValidatedLiveAlert;
 };
 
 const _getAlreadyAnsweredChallengeIds = async ({ assessmentId, answerRepository }) => {
