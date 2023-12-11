@@ -1,9 +1,9 @@
+import { TEAM_EVALUATION_OFFSET_ID } from '../constants.js';
 import * as tooling from '../../common/tooling/index.js';
 import dayjs from 'dayjs';
 
-export default async function initUser(teamOffset, databaseBuilder) {
-  const TEAM_OFFSET = teamOffset;
-  const ALL_PURPOSE_ID = teamOffset + 2;
+export default async function initUser(databaseBuilder) {
+  const ALL_PURPOSE_ID = TEAM_EVALUATION_OFFSET_ID + 2;
 
   /**
    * User configuration
@@ -29,14 +29,14 @@ export default async function initUser(teamOffset, databaseBuilder) {
   // 2. Link user to organization
   databaseBuilder.factory.buildMembership({
     userId: user.id,
-    organizationId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
     organizationRole: 'ADMIN',
   });
 
   // 3. Transform it into an organization learner
   const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
     userId: user.id,
-    organizationId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
   });
 
   /**
@@ -48,7 +48,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID,
     name: 'Profil cible palier par niveau à 0',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier par niveau à 0',
     configTargetProfile: {
@@ -67,7 +67,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID + 1,
     name: 'Profil cible paliers "Premier acquis" et un niveau à 0',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier "Premier acquis" et un niveau à 0',
     configTargetProfile: {
@@ -86,7 +86,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID + 2,
     name: 'Profil cible paliers par niveaux',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par niveaux',
     configTargetProfile: {
@@ -105,7 +105,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID + 3,
     name: 'Profil cible palier par seuil à 0',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier par seuil à 0',
     configTargetProfile: {
@@ -124,7 +124,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID + 4,
     name: 'Profil cible paliers "Premier acquis" et un seuil à 0',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec un palier "Premier acquis" et un niveau à 0',
     configTargetProfile: {
@@ -143,7 +143,7 @@ export default async function initUser(teamOffset, databaseBuilder) {
     targetProfileId: ALL_PURPOSE_ID + 5,
     name: 'Profil cible paliers par seuils',
     isPublic: true,
-    ownerOrganizationId: TEAM_OFFSET,
+    ownerOrganizationId: TEAM_EVALUATION_OFFSET_ID,
     isSimplifiedAccess: false,
     description: 'Profil cible avec des paliers par seuils',
     configTargetProfile: {
@@ -214,8 +214,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   // 1. Build campaign with a specific campaign code
   const campaign1 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par niveaux - niveau à 0 ',
     code: 'EVALSTAG1',
     targetProfileId: targetProfile1.targetProfileId,
@@ -224,8 +224,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   });
   const campaign2 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par niveaux - niveau à 0  et un "Premier Acquis"',
     code: 'EVALSTAG2',
     targetProfileId: targetProfile2.targetProfileId,
@@ -234,8 +234,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   });
   const campaign3 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par niveau - niveau à 0 et paliers de niveaux',
     code: 'EVALSTAG3',
     targetProfileId: targetProfile3.targetProfileId,
@@ -244,8 +244,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   });
   const campaign4 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par seuil - seuil à 0',
     code: 'EVALSTAG4',
     targetProfileId: targetProfile4.targetProfileId,
@@ -254,8 +254,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   });
   const campaign5 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: 'Campagne avec des paliers par seuil - seuil à 0 et un "Premier Acquis"',
     code: 'EVALSTAG5',
     targetProfileId: targetProfile5.targetProfileId,
@@ -264,8 +264,8 @@ export default async function initUser(teamOffset, databaseBuilder) {
   });
   const campaign6 = await tooling.campaign.createAssessmentCampaign({
     databaseBuilder,
-    organizationId: TEAM_OFFSET,
-    ownerId: TEAM_OFFSET,
+    organizationId: TEAM_EVALUATION_OFFSET_ID,
+    ownerId: TEAM_EVALUATION_OFFSET_ID,
     name: "Campagne d'évaluation SCO - seuil à 0 et paliers de seuil",
     code: 'EVALSTAG6',
     targetProfileId: targetProfile6.targetProfileId,
