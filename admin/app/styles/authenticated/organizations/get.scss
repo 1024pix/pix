@@ -17,7 +17,7 @@
         margin: 0;
         padding: 3px;
         border: 2px solid var(--pix-neutral-20);
-        border-radius: 4px;
+        border-radius: var(--pix-spacing-1x);
 
         > img {
           max-width: 100%;
