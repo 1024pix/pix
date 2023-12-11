@@ -1,11 +1,11 @@
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 import {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
 describe('Acceptance | API | Badges', function () {
   let server, options, userId, badge;
