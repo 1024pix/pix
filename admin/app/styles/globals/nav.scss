@@ -12,23 +12,31 @@
     0 1px 1px 0 var(--pix-neutral-0),
     0 2px 5px 0 var(--pix-neutral-0);
 
-  a {
-    text-decoration: none;
-  }
-
   &-item {
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: 150px;
     padding: 0 $pix-spacing-xs;
-    color: var(--pix-neutral-500);
     font-weight: 500;
     cursor: pointer;
-    transition: all ease-in-out 0.2s;
 
-    &:hover {
-      color: var(--pix-communication-dark);
+    &:not(.pix-button) {
+      color: var(--pix-neutral-500);
+      text-decoration: none;
+
+      &:visited {
+        color: var(--pix-neutral-500);
+      }
+
+      &:hover {
+        color: var(--pix-tertiary-500);
+      }
+
+      &.active {
+        color: var(--pix-primary-500);
+        border-bottom: 2px solid var(--pix-primary-500);
+      }
     }
   }
 
@@ -38,26 +46,27 @@
     justify-content: center;
     width: 150px;
     cursor: pointer;
-  }
 
-  .navbar-list-item {
-    &__link {
+    a:not(.pix-button) {
       color: var(--pix-neutral-500);
-      font-weight: 500;
+      text-decoration: none;
+
+      &:visited {
+        color: var(--pix-neutral-500);
+      }
+
+      &:hover {
+        color: var(--pix-tertiary-500);
+      }
     }
 
-    &__link.active {
-      color: var(--pix-communication-dark);
+    &:has(.active) {
+      border-bottom: 2px solid var(--pix-primary-500);
+
+      a:not(.pix-button) {
+        color: var(--pix-primary-500);
+      }
     }
-  }
-
-  &__list--item:has(.navbar-list-item__link.active) {
-    border-bottom: 2px solid var(--pix-communication-dark);
-  }
-
-  &-item.active {
-    color: var(--pix-communication-dark);
-    border-bottom: 2px solid var(--pix-communication-dark);
   }
 }
 
