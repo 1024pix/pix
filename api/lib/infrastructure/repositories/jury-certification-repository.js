@@ -85,6 +85,7 @@ function _selectJuryCertifications() {
       birthCountry: 'certification-courses.birthCountry',
       isCancelled: 'certification-courses.isCancelled',
       isPublished: 'certification-courses.isPublished',
+      isRejectedForFraud: 'certification-courses.isRejectedForFraud',
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
       version: 'certification-courses.version',
