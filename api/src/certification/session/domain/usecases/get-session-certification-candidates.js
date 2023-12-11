@@ -1,10 +1,10 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationCandidateRepository} CertificationCandidateRepository
  */
 
 /**
  * @param {Object} params
- * @param {deps['certificationCandidateRepository']} params.certificationCandidateRepository
+ * @param {CertificationCandidateRepository} params.certificationCandidateRepository
  */
 const getSessionCertificationCandidates = async function ({ sessionId, certificationCandidateRepository }) {
   return certificationCandidateRepository.findBySessionId(sessionId);

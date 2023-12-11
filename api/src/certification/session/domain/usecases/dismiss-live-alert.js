@@ -1,12 +1,12 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').dependencies} deps
+ * @typedef {import('../../../shared/domain/usecases/index.js').CertificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
  */
 
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 
 /**
  * @param {Object} params
- * @param {deps['certificationChallengeLiveAlertRepository']} params.certificationChallengeLiveAlertRepository
+ * @param {CertificationChallengeLiveAlertRepository} params.certificationChallengeLiveAlertRepository
  */
 export const dismissLiveAlert = async ({ userId, sessionId, certificationChallengeLiveAlertRepository }) => {
   const certificationChallengeLiveAlert =
