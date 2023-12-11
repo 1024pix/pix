@@ -20,7 +20,6 @@ import * as assessmentResultRepository from '../../../src/shared/infrastructure/
 import * as attachableTargetProfileRepository from '../../infrastructure/repositories/attachable-target-profiles-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
 import * as authenticationServiceRegistry from '../services/authentication/authentication-service-registry.js';
-
 import * as authenticationSessionService from '../../domain/services/authentication/authentication-session-service.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
