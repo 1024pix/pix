@@ -18,11 +18,14 @@
         >
           Annuler la certification
         </PixButton>
-        {{#if (eq this.certification.status "rejected")}}
+
+        {{#if this.shouldDisplayUnrejectCertificationButton}}
           <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onUnrejectCertificationButtonClick}}>
             Annuler le rejet
           </PixButton>
-        {{else}}
+        {{/if}}
+
+        {{#if this.shouldDisplayRejectCertificationButton}}
           <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
             Rejeter la certification
           </PixButton>

@@ -33,6 +33,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       userId: 888,
       sex: 'M',
       isCancelled: false,
+      isRejectedForFraud: false,
       birthCountry: 'JAPON',
       birthInseeCode: '99217',
       birthPostalCode: null,
@@ -924,6 +925,20 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
       });
 
+      module('when certification is rejected when scoring', function () {
+        test('should not display the rejection button', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+          certification.update({ status: 'rejected', isRejectedForFraud: false });
+
+          // when
+          const screen = await visit(`/certifications/${certification.id}`);
+
+          // then
+          assert.dom(screen.queryByRole('button', { name: 'Rejeter la certification' })).doesNotExist();
+        });
+      });
+
       test('should display confirmation popup for rejection when certification is not yet rejected and rejection button is clicked', async function (assert) {
         // given
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
@@ -999,7 +1014,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
     module('Certification unrejection', function (hooks) {
       hooks.beforeEach(async function () {
-        certification.update({ status: 'rejected' });
+        certification.update({ status: 'rejected', isRejectedForFraud: true });
       });
 
       test('should display a unrejection button', async function (assert) {
