@@ -32,7 +32,6 @@
     background: var(--pix-neutral-0);
     border: 1px solid var(--pix-neutral-20);
     border-radius: 8px;
-    box-shadow: 0 4px 8px var(--pix-neutral-900);
 
     .certification-info-field {
       display: flex;
@@ -63,7 +62,6 @@
       text-align: center;
       background-color: var(--pix-neutral-20);
       border: 2px solid var(--pix-neutral-20);
-      box-shadow: none;
     }
 
     &__title {
