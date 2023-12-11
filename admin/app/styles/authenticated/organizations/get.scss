@@ -69,7 +69,7 @@
         & > input[type='checkbox'] {
           width: 16px;
           height: 16px;
-          margin: 0 8px;
+          margin-right: var(--pix-spacing-3x);
         }
       }
     }

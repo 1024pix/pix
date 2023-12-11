@@ -140,18 +140,18 @@
     </div>
 
     <div class="form-field organization-edit-form__checkbox">
-      <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
-      {{#if (v-get this.form "showSkills" "isInvalid")}}
-        <div class="form-field__error">
-          {{v-get this.form "showSkills" "message"}}
-        </div>
-      {{/if}}
       <Input
         id="showSkills"
         @type="checkbox"
         class={{if (v-get this.form "showSkills" "isInvalid") "form-control is-invalid" "form-control"}}
         @checked={{this.form.showSkills}}
       />
+      <label for="showSkills" class="form-field__label">Affichage des acquis dans l'export de résultats</label>
+      {{#if (v-get this.form "showSkills" "isInvalid")}}
+        <div class="form-field__error">
+          {{v-get this.form "showSkills" "message"}}
+        </div>
+      {{/if}}
     </div>
 
     <div class="form-field">
@@ -181,18 +181,18 @@
 
     {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
       <div class="form-field organization-edit-form__checkbox">
-        <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
-        {{#if (v-get this.form "isManagingStudents" "isInvalid")}}
-          <div class="form-field__error">
-            {{v-get this.form "isManagingStudents" "message"}}
-          </div>
-        {{/if}}
         <Input
           id="isManagingStudents"
           @type="checkbox"
           class={{if (v-get this.form "isManagingStudents" "isInvalid") "form-control is-invalid" "form-control"}}
           @checked={{this.form.isManagingStudents}}
         />
+        <label for="isManagingStudents" class="form-field__label">Gestion d’élèves/étudiants</label>
+        {{#if (v-get this.form "isManagingStudents" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "isManagingStudents" "message"}}
+          </div>
+        {{/if}}
       </div>
     {{/if}}
 
@@ -201,8 +201,19 @@
         @id="enableMultipleSendingAssessement"
         {{on "change" this.onChangeMultipleSendingAssessment}}
         @checked={{this.form.enableMultipleSendingAssessment}}
+        @class="form-field__label"
       >
         Activer l'envoi multiple pour les campagnes de type évaluation
+      </PixCheckbox>
+    </div>
+    <div class="form-field organization-edit-form__checkbox">
+      <PixCheckbox
+        @id="enablePlacesManagement"
+        {{on "change" this.onChangePlacesManagement}}
+        @checked={{this.form.enablePlacesManagement}}
+        @class="form-field__label"
+      >
+        Activer la page de Places sur PixOrga
       </PixCheckbox>
     </div>
     <div class="form-actions">
