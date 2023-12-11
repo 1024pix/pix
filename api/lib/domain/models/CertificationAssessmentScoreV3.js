@@ -1,4 +1,4 @@
-import { status as CertificationStatus } from './AssessmentResult.js';
+import { status as CertificationStatus } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { config } from '../../../src/shared/config.js';
 import { ABORT_REASONS } from './CertificationCourse.js';
 

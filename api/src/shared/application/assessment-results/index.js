@@ -1,5 +1,5 @@
 import { assessmentResultController } from './assessment-result-controller.js';
-import { securityPreHandlers } from '../security-pre-handlers.js';
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 
 const register = async function (server) {
   server.route([

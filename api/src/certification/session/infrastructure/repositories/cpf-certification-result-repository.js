@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CpfCertificationResult } from '../../../../../lib/domain/read-models/CpfCertificationResult.js';
-import { AssessmentResult } from '../../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../../src/shared/domain/models/AssessmentResult.js';
 import { CpfImportStatus } from '../../domain/models/CpfImportStatus.js';
 
 const findByBatchId = async function (batchId) {

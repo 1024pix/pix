@@ -6,9 +6,9 @@ import * as certifiedProfileRepository from '../../infrastructure/repositories/c
 import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
-import * as assessmentResultService from '../../domain/services/assessment-result-service.js';
+import * as assessmentResultService from '../../../src/shared/domain/services/assessment-result-service.js';
 
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 

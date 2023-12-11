@@ -1,7 +1,7 @@
 import { catchErr, expect, domainBuilder, sinon } from '../../../test-helper.js';
 import { handleSessionFinalized as handleFinalizedSession } from '../../../../lib/domain/events/handle-session-finalized.js';
 import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { status as assessmentResultStatuses } from '../../../../lib/domain/models/AssessmentResult.js';
+import { status as assessmentResultStatuses } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { AutoJuryDone } from '../../../../lib/domain/events/AutoJuryDone.js';
 import { FinalizedSession } from '../../../../lib/domain/models/FinalizedSession.js';
 

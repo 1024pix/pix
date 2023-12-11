@@ -1,5 +1,5 @@
 import { AssessmentResult } from '../../domain/models/AssessmentResult.js';
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
+import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 import * as assessmentResultService from '../../domain/services/assessment-result-service.js';
 
 // TODO: Should be removed and replaced by a real serializer

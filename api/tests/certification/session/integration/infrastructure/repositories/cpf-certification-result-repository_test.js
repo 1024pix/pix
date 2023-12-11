@@ -1,6 +1,6 @@
 import { databaseBuilder, expect, knex, domainBuilder } from '../../../../../test-helper.js';
 import * as cpfCertificationResultRepository from '../../../../../../src/certification/session/infrastructure/repositories/cpf-certification-result-repository.js';
-import { AssessmentResult } from '../../../../../../lib/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../../../src/shared/domain/models/AssessmentResult.js';
 import { CpfImportStatus } from '../../../../../../src/certification/session/domain/models/CpfImportStatus.js';
 
 describe('Integration | Repository | CpfCertificationResult', function () {

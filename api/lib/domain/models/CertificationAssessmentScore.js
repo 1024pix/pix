@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { status } from './AssessmentResult.js';
+import { status } from '../../../src/shared/domain/models/AssessmentResult.js';
 
 class CertificationAssessmentScore {
   constructor({

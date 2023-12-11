@@ -1,4 +1,4 @@
-import { Assessment } from '../../../src/shared/domain/models/Assessment.js';
+import { Assessment } from './Assessment.js';
 
 const status = {
   REJECTED: 'rejected',

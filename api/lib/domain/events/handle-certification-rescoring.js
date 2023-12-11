@@ -1,4 +1,4 @@
-import { AssessmentResult } from '../models/AssessmentResult.js';
+import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
 import { CertificationResult } from '../models/CertificationResult.js';
 import { CompetenceMark } from '../models/CompetenceMark.js';
 import { CertificationRescoringCompleted } from './CertificationRescoringCompleted.js';

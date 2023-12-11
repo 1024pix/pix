@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
 
-import * as service from '../../../../lib/domain/services/assessment-result-service.js';
-import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import * as service from '../../../../src/shared/domain/services/assessment-result-service.js';
+import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
 import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
 describe('Unit | Domain | Services | assessment-results', function () {
