@@ -145,7 +145,7 @@
               "proposals": [
                 {
                   "type": "text",
-                  "content": "<p>Le symbole</>"
+                  "content": "<p>Le symbole</p>"
                 },
                 {
                   "input": "symbole",
@@ -161,7 +161,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "permet de séparer les deux parties d’une adresse mail&nbsp;:</p><ul><li>Première partie&nbsp;: "
+                  "content": "<p>permet de séparer les deux parties d’une adresse mail&nbsp;:</p><ul><li>Première partie&nbsp;:</li></ul>"
                 },
                 {
                   "input": "premiere-partie",
@@ -185,7 +185,7 @@
                 },
                 {
                   "type": "text",
-                  "content": "Seconde partie&nbsp;:"
+                  "content": "<ul><li>Seconde partie&nbsp;:</li></ul>"
                 },
                 {
                   "input": "seconde-partie",
@@ -220,7 +220,7 @@
               "proposals": [
                 {
                   "type": "text",
-                  "content": "<p>Adresse mail de Naomi : ${email}</p>"
+                  "content": "<p>Adresse mail de Naomi&nbsp;:</p>"
                 },
                 {
                   "input": "email",
