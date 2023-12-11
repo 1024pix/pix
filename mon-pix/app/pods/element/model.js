@@ -19,6 +19,10 @@ export default class Element extends Model {
     return this.type === 'qcus';
   }
 
+  get isQrocm() {
+    return this.type === 'qrocms';
+  }
+
   get isAnswered() {
     return this.elementAnswers.length > 0;
   }
