@@ -125,6 +125,7 @@ module('Integration | Component | organizations/information-section', function (
       await click(screen.getByRole('option', { name: 'organization 2' }));
       await clickByName("Affichage des acquis dans l'export de résultats");
       await clickByName("Activer l'envoi multiple pour les campagnes de type évaluation");
+      await clickByName('Activer la page de Places sur PixOrga');
 
       // when
       await clickByName('Enregistrer');
@@ -138,6 +139,7 @@ module('Integration | Component | organizations/information-section', function (
       assert.dom(screen.getByRole('link', { name: 'https://pix.fr/' })).exists();
       assert.dom(screen.getByText('SSO : organization 2')).exists();
       assert.dom(screen.getByText("Activer l'envoi multiple sur les campagnes d'évaluation : Oui")).exists();
+      assert.dom(screen.getByText('Activer la page de Places sur PixOrga : Oui')).exists();
     });
   });
 });
