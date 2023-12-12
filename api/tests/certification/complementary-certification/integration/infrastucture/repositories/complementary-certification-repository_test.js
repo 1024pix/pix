@@ -1,7 +1,8 @@
-import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
-import * as complementaryCertificationRepository from '../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
+import { databaseBuilder, domainBuilder, expect, catchErr } from '../../../../../test-helper.js';
+import * as complementaryCertificationRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
+import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
 
-describe('Integration | Repository | complementary-certification-repository', function () {
+describe('Integration | Certification | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {
     describe('when there are complementary certifications', function () {
       it('should return all complementary certifications ordered by id', async function () {
@@ -103,6 +104,22 @@ describe('Integration | Repository | complementary-certification-repository', fu
   });
 
   describe('#getById', function () {
+    context('when the complementary certification does not exists', function () {
+      it('should throw a NotFoundError', async function () {
+        // given
+        const unknownComplementaryCertificationId = 1;
+
+        // when
+        const error = await catchErr(complementaryCertificationRepository.getById)({
+          id: unknownComplementaryCertificationId,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('Complementary certification does not exist');
+      });
+    });
+
     it('should return the complementary certification by its id', async function () {
       // given
       const complementaryCertificationId = 1;
@@ -116,7 +133,7 @@ describe('Integration | Repository | complementary-certification-repository', fu
 
       // when
       const complementaryCertification = await complementaryCertificationRepository.getById({
-        complementaryCertificationId,
+        id: complementaryCertificationId,
       });
 
       // then

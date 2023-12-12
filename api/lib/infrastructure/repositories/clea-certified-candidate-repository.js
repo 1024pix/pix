@@ -1,5 +1,5 @@
 import { knex } from '../../../db/knex-database-connection.js';
-import { CLEA } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../domain/models/index.js';
 import { CleaCertifiedCandidate } from '../../domain/read-models/CleaCertifiedCandidate.js';
 
 const getBySessionId = async function (sessionId) {
@@ -40,7 +40,7 @@ const getBySessionId = async function (sessionId) {
     .where({
       'certification-courses.sessionId': sessionId,
       'certification-courses.isPublished': true,
-      'complementary-certifications.key': CLEA,
+      'complementary-certifications.key': ComplementaryCertification.CLEA,
       'complementary-certification-course-results.acquired': true,
     });
   return results.map((candidate) => new CleaCertifiedCandidate(candidate));

@@ -59,7 +59,7 @@ import { CompetenceEvaluation } from '../../../src/evaluation/domain/models/Comp
 import { CompetenceMark } from './CompetenceMark.js';
 import { CompetenceResult } from './CompetenceResult.js';
 import { CompetenceTree } from './CompetenceTree.js';
-import { ComplementaryCertification } from './ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationCourse } from './ComplementaryCertificationCourse.js';
 import { ComplementaryCertificationCourseResult } from './ComplementaryCertificationCourseResult.js';
 import { ComplementaryCertificationHabilitation } from './ComplementaryCertificationHabilitation.js';

@@ -1,4 +1,4 @@
-import { ComplementaryCertification } from '../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../lib/domain/models/index.js';
 import { databaseBuffer } from '../database-buffer.js';
 
 function buildComplementaryCertification({

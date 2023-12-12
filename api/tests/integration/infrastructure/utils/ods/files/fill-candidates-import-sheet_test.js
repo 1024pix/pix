@@ -9,12 +9,7 @@ import { expect, databaseBuilder } from '../../../../../test-helper.js';
 import * as readOdsUtils from '../../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 import { fillCandidatesImportSheet } from '../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
 import { usecases } from '../../../../../../lib/domain/usecases/index.js';
-import {
-  PIX_PLUS_DROIT,
-  CLEA,
-  PIX_PLUS_EDU_1ER_DEGRE,
-  PIX_PLUS_EDU_2ND_DEGRE,
-} from '../../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../../../lib/domain/models/index.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 import * as url from 'url';
@@ -149,7 +144,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-one-complementary-certification-sco.tmp.ods`;
 
       const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
-        key: CLEA,
+        key: ComplementaryCertification.CLEA,
         label: 'CléA Numérique',
       });
 
@@ -244,19 +239,19 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-all-complementary-certifications-sco.tmp.ods`;
 
       const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
-        key: CLEA,
+        key: ComplementaryCertification.CLEA,
         label: 'CléA Numérique',
       });
       const pixPlusDroit = databaseBuilder.factory.buildComplementaryCertification({
-        key: PIX_PLUS_DROIT,
+        key: ComplementaryCertification.PIX_PLUS_DROIT,
         label: 'Pix+ Droit',
       });
       const pixPlusEdu1erDegre = databaseBuilder.factory.buildComplementaryCertification({
-        key: PIX_PLUS_EDU_1ER_DEGRE,
+        key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
         label: 'Pix+ Édu 1er degré',
       });
       const pixPlusEdu2ndDegre = databaseBuilder.factory.buildComplementaryCertification({
-        key: PIX_PLUS_EDU_2ND_DEGRE,
+        key: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
         label: 'Pix+ Édu 2nd degré',
       });
 
@@ -475,7 +470,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.tmp.ods`;
 
         const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
-          key: CLEA,
+          key: ComplementaryCertification.CLEA,
           label: 'CléA Numérique',
         });
 
