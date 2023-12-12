@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'is-simplified-access': campaignToJoin.isSimplifiedAccess,
             'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
             'identity-provider': campaignToJoin.identityProvider,
+            'organization-id': campaignToJoin.organizationId,
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,
             'organization-logo-url': campaignToJoin.organizationLogoUrl,
