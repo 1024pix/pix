@@ -59,7 +59,7 @@
     }
   }
 
-  &__section--download__instruction {
+  &__section--download-instruction {
     color: $pix-neutral-50;
     font-size: 14px;
 
@@ -70,8 +70,8 @@
     }
 
     .pix-message--warning {
-        margin-top: $pix-spacing-s;
-      }
+      margin-top: $pix-spacing-s;
+    }
   }
 
   &__section--download {
@@ -94,7 +94,7 @@
     }
   }
 
-  &__section--download__button {
+  &__section--download-button {
     align-items: center;
     background-color: $pix-neutral-10;
     border: 1px solid $pix-neutral-15;
@@ -104,12 +104,13 @@
     grid-template-columns: 1fr 10fr 2fr;
     padding: 24px 16px 24px 0;
 
-    > label, button {
+    > label,
+    button {
       width: 164px;
     }
   }
 
-  &__section--download__button .download-icon {
+  &__section--download-button .download-icon {
     color: $pix-neutral-25;
     margin: auto;
   }
@@ -160,31 +161,29 @@
     color: $pix-neutral-70;
     font-weight: $font-medium;
   }
+}
 
-  &__collapsible-header--blocking,
-  &__collapsible-header--non-blocking {
-    .pix-collapsible-title__label {
-      font-size: 1rem;
-      font-weight: 400;
-    }
+.collapsible-header {
+  .pix-collapsible-title__label {
+    font-size: 1rem;
+    font-weight: 400;
   }
 
-  &__collapsible-header--blocking {
-    .pix-collapsible-title__icon {
-      color: $pix-error-70;
-    }
-  }
-
-  &__collapsible-header--non-blocking {
-    .pix-collapsible-title__icon {
-      color: $pix-warning-40;
-    }
-  }
-
-  &__collapsible-header--non-blocking-list, &__collapsible-header--blocking-list {
+  &__list {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
+}
 
+.collapsible-header--blocking {
+  .pix-collapsible-title__icon {
+    color: $pix-error-70;
+  }
+}
+
+.collapsible-header--non-blocking {
+  .pix-collapsible-title__icon {
+    color: $pix-warning-40;
+  }
 }
