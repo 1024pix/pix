@@ -19,6 +19,7 @@ class JuryCertification {
     status,
     isCancelled,
     isPublished,
+    isRejectedForFraud,
     juryId,
     pixScore,
     competenceMarks,
@@ -47,6 +48,7 @@ class JuryCertification {
     this.status = status;
     this.isCancelled = isCancelled;
     this.isPublished = isPublished;
+    this.isRejectedForFraud = isRejectedForFraud;
     this.juryId = juryId;
     this.pixScore = pixScore;
     this.competenceMarks = competenceMarks;
@@ -91,6 +93,7 @@ class JuryCertification {
       status: juryCertificationDTO.assessmentResultStatus,
       isCancelled: juryCertificationDTO.isCancelled,
       isPublished: juryCertificationDTO.isPublished,
+      isRejectedForFraud: juryCertificationDTO.isRejectedForFraud,
       juryId: juryCertificationDTO.juryId,
       pixScore: juryCertificationDTO.pixScore,
       competenceMarks,

@@ -35,6 +35,7 @@ export default class Certification extends Model {
   @attr() createdAt;
   @attr() completedAt;
   @attr() isCancelled;
+  @attr() isRejectedForFraud;
   @attr() status;
   @attr() juryId;
   @attr('string') commentForCandidate;

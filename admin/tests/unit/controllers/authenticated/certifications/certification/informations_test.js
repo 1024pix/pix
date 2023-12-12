@@ -666,6 +666,92 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     sinon.assert.calledOnce(rollbackAttributes);
   });
 
+  module('#shouldDisplayUnrejectCertificationButton', function () {
+    module('when certification status is rejected for fraud', function () {
+      test('it should display the unreject button', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certification = store.createRecord('certification', {
+          status: 'rejected',
+          isRejectedForFraud: true,
+        });
+
+        controller.model = {
+          certification,
+        };
+
+        // when
+        const shouldDisplayUnrejectCertificationButton = controller.shouldDisplayUnrejectCertificationButton;
+
+        // then
+        assert.ok(shouldDisplayUnrejectCertificationButton);
+      });
+    });
+
+    module('when certification status is rejected but not for fraud', function () {
+      test('it should not display the unreject button', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certification = store.createRecord('certification', {
+          status: 'rejected',
+          isRejectedForFraud: false,
+        });
+
+        controller.model = {
+          certification,
+        };
+
+        // when
+        const shouldDisplayUnrejectCertificationButton = controller.shouldDisplayUnrejectCertificationButton;
+
+        // then
+        assert.notOk(shouldDisplayUnrejectCertificationButton);
+      });
+    });
+  });
+
+  module('#shouldDisplayRejectCertificationButton', function () {
+    module('when certification status is rejected', function () {
+      test('it should not display the reject button', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certification = store.createRecord('certification', {
+          status: 'rejected',
+        });
+
+        controller.model = {
+          certification,
+        };
+
+        // when
+        const shouldDisplayRejectCertificationButton = controller.shouldDisplayRejectCertificationButton;
+
+        // then
+        assert.notOk(shouldDisplayRejectCertificationButton);
+      });
+    });
+
+    module('when certification status is not rejected', function () {
+      test('it should display the reject button', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const certification = store.createRecord('certification', {
+          status: 'validated',
+        });
+
+        controller.model = {
+          certification,
+        };
+
+        // when
+        const shouldDisplayRejectCertificationButton = controller.shouldDisplayRejectCertificationButton;
+
+        // then
+        assert.ok(shouldDisplayRejectCertificationButton);
+      });
+    });
+  });
+
   function _getCompetenceWithMark(code, competences = competencesWithMark) {
     return competences.find((value) => value.competence_code === code);
   }
