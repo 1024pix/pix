@@ -1,6 +1,6 @@
-import { expect, generateValidRequestAuthorizationHeader, databaseBuilder } from '../../../test-helper.js';
+import { databaseBuilder, expect, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../lib/domain/models/index.js';
 
 describe('Acceptance | API | Certifications candidates', function () {
   describe('POST /api/certification-candidates/:id/authorize-to-start', function () {

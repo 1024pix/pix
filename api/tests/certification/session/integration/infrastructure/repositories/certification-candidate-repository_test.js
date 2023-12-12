@@ -5,7 +5,7 @@ import {
   NotFoundError,
   CertificationCandidateMultipleUserLinksWithinSessionError,
 } from '../../../../../../lib/domain/errors.js';
-import { ComplementaryCertification } from '../../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
 import _ from 'lodash';
 
 describe('Integration | Repository | CertificationCandidate', function () {

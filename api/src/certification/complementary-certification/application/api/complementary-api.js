@@ -1,3 +1,6 @@
+/**
+ * @typedef {import ('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
+ */
 import { usecases } from '../../../shared/domain/usecases/index.js';
 
 /**
@@ -6,6 +9,9 @@ import { usecases } from '../../../shared/domain/usecases/index.js';
  *
  * @param {object} params
  * @param {number} params.id mandatory
+ *
+ * @throws {NotFoundError} Complementary certification does not exist
+ * @throws {Error} Id parameter was not provided
  */
 export const getById = ({ id }) => {
   _assertIdExists(id);

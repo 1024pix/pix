@@ -5,7 +5,7 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Session } from '../../domain/models/Session.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {

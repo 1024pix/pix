@@ -1,4 +1,4 @@
-import { ComplementaryCertification } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../../src/certification/complementary-certification/domain/models/ComplementaryCertification.js';
 
 const buildComplementaryCertification = function ({
   id = 1,
