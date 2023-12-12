@@ -8,10 +8,12 @@
           "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
           sessionsCount=@sessionsCount
           sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
-        }}</li>
+        }}
+      </li>
       <li>
         <FaIcon @icon="user" />
-        {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}</li>
+        {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}
+      </li>
     </ul>
   </PixMessage>
   {{#if (gt this.nonBlockingErrorReportsCount 0)}}
@@ -29,9 +31,9 @@
           nonBlockingErrorReportsCount=this.nonBlockingErrorReportsCount
         }}
         @iconTitle="plus"
-        class="import-page-section__collapsible-header--non-blocking"
+        class="collapsible-header collapsible-header--non-blocking"
       >
-        <ul class="import-page-section__collapsible-header--non-blocking-list">
+        <ul class="collapsible-header__list">
           {{#each this.translatedNonBlockingErrorReport as |report|}}
             <li>
               <PixMessage @type="warning">
@@ -58,9 +60,9 @@
           blockingErrorReportsCount=this.blockingErrorReportsCount
         }}
         @iconTitle="plus"
-        class="import-page-section__collapsible-header--blocking"
+        class="collapsible-header collapsible-header--blocking"
       >
-        <ul class="import-page-section__collapsible-header--blocking-list">
+        <ul class="collapsible-header__list">
           {{#each this.translatedBlockingErrorReport as |report|}}
             <li>
               <PixMessage @type="error">
