@@ -3,6 +3,8 @@ import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 import dayjs from 'dayjs';
+import groupBy from 'lodash/groupBy';
+import sortBy from 'lodash/sortBy';
 
 export default class CertificationDetails extends Model {
   @attr() competencesWithMark;
@@ -16,37 +18,24 @@ export default class CertificationDetails extends Model {
 
   @computed('listChallengesAndAnswers', 'listChallengesAndAnswers.@each.isNeutralized')
   get answers() {
-    let count = 1;
-    return this.listChallengesAndAnswers.map((answer) => {
-      answer.order = count;
-      count++;
+    return this.listChallengesAndAnswers.map((answer, index) => {
+      answer.order = index + 1;
       return answer;
     });
   }
 
   @computed('answers', 'competencesWithMark')
   get competences() {
-    let competences = this.competencesWithMark.reduce((accumulator, competence) => {
-      accumulator[competence.index] = competence;
-      return accumulator;
-    }, {});
+    const answersByCompetence = groupBy(this.answers, 'competence');
 
-    competences = this.answers.reduce((accumulator, answer) => {
-      if (accumulator[answer.competence]) {
-        if (!accumulator[answer.competence].answers) {
-          accumulator[answer.competence].answers = [];
-        }
-        accumulator[answer.competence].answers.push(answer);
-      }
-      return accumulator;
-    }, competences);
-    const sortedCompetences = [];
-    Object.keys(competences)
-      .sort()
-      .forEach((key) => {
-        sortedCompetences.push(competences[key]);
-      });
-    return sortedCompetences;
+    const competences = this.competencesWithMark.map((competenceWithMark) => {
+      return {
+        ...competenceWithMark,
+        answers: answersByCompetence[competenceWithMark.index],
+      };
+    });
+
+    return sortBy(competences, 'index');
   }
 
   @computed('createdAt')
