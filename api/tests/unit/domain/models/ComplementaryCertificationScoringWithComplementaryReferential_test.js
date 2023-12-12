@@ -9,7 +9,6 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
         new ComplementaryCertificationScoringWithComplementaryReferential({
           complementaryCertificationCourseId: 99,
           complementaryCertificationBadgeId: 89,
-          complementaryCertificationBadgeKey: 'BADGE',
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
         });
@@ -19,7 +18,6 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
         new ComplementaryCertificationScoringWithComplementaryReferential({
           complementaryCertificationCourseId: 99,
           complementaryCertificationBadgeId: 89,
-          complementaryCertificationBadgeKey: 'BADGE',
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
           minimumReproducibilityRate: undefined,

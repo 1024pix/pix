@@ -1,8 +1,7 @@
 import _ from 'lodash';
 
 class CertifiedBadge {
-  constructor({ partnerKey, label, imageUrl, stickerUrl, isTemporaryBadge, message }) {
-    this.partnerKey = partnerKey;
+  constructor({ label, imageUrl, stickerUrl, isTemporaryBadge, message }) {
     this.label = label;
     this.imageUrl = imageUrl;
     this.stickerUrl = stickerUrl;
@@ -18,10 +17,9 @@ class CertifiedBadge {
 
     return Object.values(complementaryCertificationCourseResultsByComplementaryCertificationCourseId)
       .map((complementaryCertificationCourseResultsForCourseId) => {
-        const { partnerKey, label, acquired, hasExternalJury, imageUrl, stickerUrl, certificateMessage } =
+        const { label, acquired, hasExternalJury, imageUrl, stickerUrl, certificateMessage } =
           complementaryCertificationCourseResultsForCourseId[0];
         const acquiredCertifiedBadge = {
-          partnerKey,
           label,
           imageUrl,
           stickerUrl,
@@ -51,14 +49,12 @@ function _getLowestByLevel(complementaryCertificationCourseResults) {
 function _getAcquiredCertifiedBadgesDTOWithExternalJury(complementaryCertificationCourseResults) {
   if (complementaryCertificationCourseResults.length === 1) {
     const {
-      partnerKey,
       label,
       imageUrl,
       stickerUrl,
       temporaryCertificateMessage: message,
     } = complementaryCertificationCourseResults[0];
     return new CertifiedBadge({
-      partnerKey,
       label,
       imageUrl,
       stickerUrl,
@@ -67,13 +63,12 @@ function _getAcquiredCertifiedBadgesDTOWithExternalJury(complementaryCertificati
     });
   }
 
-  const { partnerKey, label, imageUrl, stickerUrl, certificateMessage, acquired } = _getLowestByLevel(
+  const { label, imageUrl, stickerUrl, certificateMessage, acquired } = _getLowestByLevel(
     complementaryCertificationCourseResults,
   );
 
   if (acquired) {
     return new CertifiedBadge({
-      partnerKey,
       label,
       imageUrl,
       stickerUrl,

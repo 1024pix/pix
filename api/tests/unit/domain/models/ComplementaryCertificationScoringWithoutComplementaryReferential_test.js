@@ -104,12 +104,13 @@ function _buildComplementaryCertificationScoringWithoutComplementaryReferential(
 }) {
   const certificationCourseId = 42;
   const complementaryCertificationCourseId = 999;
+  const complementaryCertificationBadgeId = 99;
 
   return domainBuilder.buildComplementaryCertificationScoringWithoutComplementaryReferential({
     complementaryCertificationCourseId,
     certificationCourseId,
     reproducibilityRate,
-    complementaryCertificationBadgeKey: 'PIX_TEST',
+    complementaryCertificationBadgeId,
     pixScore,
     minimumEarnedPix,
     minimumReproducibilityRate,

@@ -204,7 +204,6 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
           // given
           const complementaryCertificationCourseResults = [
             {
-              partnerKey: 'PIX_TEST_2',
               label: 'Pix+ Test 2',
               level: 4,
               complementaryCertificationCourseId: 456,
@@ -217,7 +216,6 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
               temporaryCertificateMessage: 'XXX NOT ME',
             },
             {
-              partnerKey: 'PIX_TEST_1',
               label: 'Pix+ Test 1',
               level: 2,
               complementaryCertificationCourseId: 456,
@@ -239,7 +237,6 @@ describe('Unit | Domain | Read-models | CertifiedBadge', function () {
           // then
           expect(certifiedBadgesDTO).to.deepEqualArray([
             new CertifiedBadge({
-              partnerKey: 'PIX_TEST_1',
               label: 'Pix+ Test 1',
               isTemporaryBadge: false,
               imageUrl: 'https://wwww.pix-badge-image-url1.com',

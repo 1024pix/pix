@@ -16,8 +16,10 @@ const up = async function (knex) {
   });
 };
 
-const down = async function () {
-  // do nothing
+const down = async function (knex) {
+  await knex.schema.table(TABLE_NAME, (table) => {
+    table.string(COLUMN_NAME).nullable();
+  });
 };
 
 export { up, down };
