@@ -8,43 +8,6 @@
     margin-bottom: 8px;
   }
 
-  &_section--instructions {
-    .pix-collapsible {
-      margin-bottom: 8px;
-    }
-
-    .pix-collapsible,
-    .pix-collapsible__title {
-      border-radius: 8px;
-      color: $pix-neutral-70;
-    }
-
-    .pix-collapsible__title[aria-expanded='true'] {
-      background-color: inherit;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .pix-collapsible__title--uncollapsed {
-      border-radius: 8px 8px 0 0;
-    }
-
-    .pix-collapsible__content {
-      line-height: 20px;
-      padding: 14px 16px;
-    }
-
-    .pix-collapsible ul {
-      list-style: disc;
-      margin-top: 6px;
-      margin-left: 24px;
-    }
-  }
-
-  .pix-collapsible .pix-message {
-    border-radius: 4px;
-    margin-top: 8px;
-  }
-
   &__section--breadcrumb {
     background-color: $pix-neutral-5;
     border: 1px solid $pix-neutral-15;
@@ -96,10 +59,26 @@
     }
   }
 
+  &__section--download-instruction {
+    color: $pix-neutral-50;
+    font-size: 14px;
+
+    ul {
+      list-style: disc;
+      margin-top: 6px;
+      margin-left: 24px;
+    }
+
+    .pix-message--warning {
+      margin-top: $pix-spacing-s;
+    }
+  }
+
   &__section--download {
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: $pix-spacing-m;
+    gap: $pix-spacing-m;
 
     .pix-message__content {
       color: $pix-neutral-70;
@@ -115,26 +94,23 @@
     }
   }
 
-  &__section--download__button {
+  &__section--download-button {
     align-items: center;
-    background-color: $pix-neutral-5;
-    border: 1px solid $pix-neutral-10;
+    background-color: $pix-neutral-10;
+    border: 1px solid $pix-neutral-15;
     border-radius: 8px;
     color: $pix-neutral-90;
     display: grid;
     grid-template-columns: 1fr 10fr 2fr;
     padding: 24px 16px 24px 0;
 
-    > label, button {
+    > label,
+    button {
       width: 164px;
     }
   }
 
-  &__section--download__button:first-of-type {
-    margin-bottom: 16px;
-  }
-
-  &__section--download__button .download-icon {
+  &__section--download-button .download-icon {
     color: $pix-neutral-25;
     margin: auto;
   }
@@ -142,7 +118,6 @@
   &__section--link-buttons {
     display: flex;
     gap: $pix-spacing-s;
-    margin-top: 24px;
   }
 
   &__file-name {
@@ -150,7 +125,6 @@
     justify-content: center;
     align-items: center;
     padding: 16px 24px;
-    margin-top: 24px;
     width: fit-content;
     border: 1px solid $pix-neutral-15;
     border-radius: 8px;
@@ -187,24 +161,29 @@
     color: $pix-neutral-70;
     font-weight: $font-medium;
   }
+}
 
-  &__collapsible-header--blocking,
-  &__collapsible-header--non-blocking {
-    .pix-collapsible-title__label {
-      font-size: 1rem;
-      font-weight: 400;
-    }
+.collapsible-header {
+  .pix-collapsible-title__label {
+    font-size: 1rem;
+    font-weight: 400;
   }
 
-  &__collapsible-header--blocking {
-    .pix-collapsible-title__icon {
-      color: $pix-error-70;
-    }
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
+}
 
-  &__collapsible-header--non-blocking {
-    .pix-collapsible-title__icon {
-      color: $pix-warning-40;
-    }
+.collapsible-header--blocking {
+  .pix-collapsible-title__icon {
+    color: $pix-error-70;
+  }
+}
+
+.collapsible-header--non-blocking {
+  .pix-collapsible-title__icon {
+    color: $pix-warning-40;
   }
 }

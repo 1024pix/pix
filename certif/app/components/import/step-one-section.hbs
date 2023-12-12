@@ -1,13 +1,13 @@
-<p>{{t "pages.sessions.import.step-one.instructions.title"}}</p>
-<div class="import-page_section--instructions">
-  <PixCollapsible @title={{t "pages.sessions.import.step-one.instructions.creation.title"}} @iconTitle="plus">
+<section class="import-page__section--download panel">
+  <div class="import-page__section--download-instruction">
     {{t "pages.sessions.import.step-one.instructions.creation.list"}}
     <ul>
       <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
       <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
     </ul>
-  </PixCollapsible>
-  <PixCollapsible @title={{t "pages.sessions.import.step-one.instructions.edition.title"}} @iconTitle="plus">
+  </div>
+  <div class="import-page__section--download-instruction">
+    {{t "pages.sessions.import.step-one.instructions.edition.title"}}
     <ul>
       <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
       <li>{{t "pages.sessions.import.step-one.instructions.edition.subscription" htmlSafe=true}}</li>
@@ -15,11 +15,8 @@
     <PixMessage @type="warning" @withIcon={{true}}>
       {{t "pages.sessions.import.step-one.instructions.edition.warning"}}
     </PixMessage>
-  </PixCollapsible>
-</div>
-
-<section class="import-page__section--download panel">
-  <div class="import-page__section--download__button">
+  </div>
+  <div class="import-page__section--download-button">
     <FaIcon @icon="file-arrow-down" class="fa-2x download-icon" />
     <span>{{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}</span>
     <PixButton
@@ -32,7 +29,7 @@
     </PixButton>
   </div>
 
-  <div tabindex="0" class="import-page__section--download__button">
+  <div tabindex="0" class="import-page__section--download-button">
     <FaIcon @icon="cloud-arrow-up" class="fa-2x download-icon" />
     <span>{{t "pages.sessions.import.step-one.actions.session-import-upload.extra-information"}}</span>
     <PixButtonUpload
