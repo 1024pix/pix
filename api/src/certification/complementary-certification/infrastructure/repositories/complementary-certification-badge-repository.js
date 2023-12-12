@@ -1,5 +1,5 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
-import { Badge } from '../../../../../lib/domain/models/Badge.js';
+import { Badge } from '../../../../shared/domain/models/Badge.js';
 
 const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {
   const complementaryCertificationBadgesIds = await knex('badges')

@@ -12,7 +12,6 @@ import { AssessmentSimulator } from '../../../src/certification/flash-certificat
 import { Authentication } from './Authentication.js';
 import { AuthenticationMethod } from './AuthenticationMethod.js';
 import { AuthenticationSessionContent } from './AuthenticationSessionContent.js';
-import { Badge } from './Badge.js';
 import { BadgeAcquisition } from './BadgeAcquisition.js';
 import { BadgeDetails } from './BadgeDetails.js';
 import { BadgeForCalculation } from './BadgeForCalculation.js';
@@ -161,7 +160,6 @@ export {
   Authentication,
   AuthenticationMethod,
   AuthenticationSessionContent,
-  Badge,
   BadgeAcquisition,
   BadgeDetails,
   BadgeForCalculation,
