@@ -90,6 +90,8 @@
   {{#if this.optionsMenuShouldBeDisplayed}}
     <div class="session-supervising-candidate-in-list__menu">
       <PixIconButton
+        @withBackground="{{true}}"
+        @size="small"
         @icon="ellipsis-v"
         aria-label={{t "pages.session-supervising.candidate-in-list.display-candidate-options"}}
         @triggerAction={{this.toggleMenu}}
