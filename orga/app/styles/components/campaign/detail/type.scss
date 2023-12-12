@@ -1,5 +1,5 @@
 .campaign-type {
-  display: flex;
+  display: inline-flex;
   align-items: center;
 
   &__label {
@@ -7,12 +7,14 @@
   }
 
   &__icon-assessment {
+    width: 1.5rem;
+    height: 1.5rem;
     color: $pix-tertiary-50;
-    font-size: 1.5rem;
   }
 
   &__icon-profile-collection {
+    width: 1.5rem;
+    height: 1.5rem;
     color: $pix-primary;
-    font-size: 1.5rem;
   }
 }

@@ -36,7 +36,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     assert
       .dom(
         screen.getByRole('cell', {
-          name: this.intl.t('pages.organization-learner.activity.participation-list.type.ASSESSMENT'),
+          name: this.intl.t('components.campaign.type.information.ASSESSMENT'),
         }),
       )
       .exists();
@@ -76,7 +76,7 @@ module('Integration | Component | OrganizationLearner | Activity::ParticipationR
     this.participation = {
       id: '125',
       campaignId: '789',
-      campaignType: 'PROFILE_COLLECTION',
+      campaignType: 'PROFILES_COLLECTION',
       campaignName: 'Ma campagne',
       createdAt: new Date('2023-02-01'),
       sharedAt: new Date('2023-03-01'),

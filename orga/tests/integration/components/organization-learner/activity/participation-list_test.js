@@ -6,7 +6,7 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component | OrganizationLearner::Activity::ParticipationList', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should display participations details', async function (assert) {
+  test('it should display participations details of Assessment', async function (assert) {
     this.set('participations', [
       {
         campaignType: 'ASSESSMENT',
@@ -17,12 +17,36 @@ module('Integration | Component | OrganizationLearner::Activity::ParticipationLi
       },
     ]);
 
-    await render(hbs`<OrganizationLearner::Activity::ParticipationList @participations={{this.participations}} />`);
+    const screen = await render(
+      hbs`<OrganizationLearner::Activity::ParticipationList @participations={{this.participations}} />`,
+    );
 
-    assert.contains('Ma 1ère campagne');
-    assert.contains('Evaluation');
-    assert.contains('12/12/2022');
-    assert.contains('25/12/2022');
-    assert.contains('Résultats reçus');
+    assert.ok(screen.getByText('Ma 1ère campagne'));
+    assert.ok(screen.getByText('Évaluation'));
+    assert.ok(screen.getByText('12/12/2022'));
+    assert.ok(screen.getByText('25/12/2022'));
+    assert.ok(screen.getByText('Résultats reçus'));
+  });
+
+  test('it should display participations details of Profiles collection', async function (assert) {
+    this.set('participations', [
+      {
+        campaignType: 'PROFILES_COLLECTION',
+        campaignName: 'Ma 1ère campagne',
+        createdAt: '2022-12-12',
+        sharedAt: '2022-12-25',
+        status: 'SHARED',
+      },
+    ]);
+
+    const screen = await render(
+      hbs`<OrganizationLearner::Activity::ParticipationList @participations={{this.participations}} />`,
+    );
+
+    assert.ok(screen.getByText('Ma 1ère campagne'));
+    assert.ok(screen.getByText('Collecte de profil'));
+    assert.ok(screen.getByText('12/12/2022'));
+    assert.ok(screen.getByText('25/12/2022'));
+    assert.ok(screen.getByText('Profil reçu'));
   });
 });

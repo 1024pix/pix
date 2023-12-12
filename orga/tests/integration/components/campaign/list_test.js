@@ -47,10 +47,21 @@ module('Integration | Component | Campaign::List', function (hooks) {
   module('When there are campaigns to display', function () {
     test('it should display a list of campaigns', async function (assert) {
       // given
-      const campaigns = [
-        { name: 'campagne 1', code: 'AAAAAA111' },
-        { name: 'campagne 2', code: 'BBBBBB222' },
-      ];
+      const store = this.owner.lookup('service:store');
+
+      const campaign1 = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
+      });
+      const campaign2 = store.createRecord('campaign', {
+        id: 2,
+        name: 'campagne 2',
+        code: 'BBBBBB222',
+        type: 'ASSESSMENT',
+      });
+      const campaigns = [campaign1, campaign2];
       campaigns.meta = {
         rowCount: 2,
       };
@@ -62,8 +73,9 @@ module('Integration | Component | Campaign::List', function (hooks) {
       );
 
       // then
-      assert.dom(screen.queryByLabelText('Aucune campagne')).doesNotExist();
-      assert.dom('[aria-label="Campagne"]').exists({ count: 2 });
+      assert.notOk(screen.queryByLabelText('Aucune campagne'));
+      assert.ok(screen.queryByText('campagne 1'));
+      assert.ok(screen.queryByText('campagne 2'));
     });
 
     test('it should display a link to access campaign detail', async function (assert) {
@@ -71,15 +83,16 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.owner.setupRouter();
 
       const store = this.owner.lookup('service:store');
+
       const campaign1 = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
       });
-
       const campaigns = [campaign1];
       campaigns.meta = {
-        rowCount: 2,
+        rowCount: 1,
       };
       this.set('campaigns', campaigns);
 
@@ -93,18 +106,19 @@ module('Integration | Component | Campaign::List', function (hooks) {
     });
 
     test('it should display the name of the campaigns', async function (assert) {
-      // given
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
       });
       const campaign2 = store.createRecord('campaign', {
         id: 2,
         name: 'campagne 2',
         code: 'BBBBBB222',
+        type: 'ASSESSMENT',
       });
       const campaigns = [campaign1, campaign2];
       campaigns.meta = {
@@ -123,21 +137,24 @@ module('Integration | Component | Campaign::List', function (hooks) {
     });
 
     test('it should display the code of the campaigns', async function (assert) {
-      // given
       const store = this.owner.lookup('service:store');
 
       const campaign1 = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
       });
       const campaign2 = store.createRecord('campaign', {
         id: 2,
         name: 'campagne 2',
         code: 'BBBBBB222',
+        type: 'ASSESSMENT',
       });
       const campaigns = [campaign1, campaign2];
-
+      campaigns.meta = {
+        rowCount: 2,
+      };
       this.set('campaigns', campaigns);
 
       // when
@@ -151,13 +168,21 @@ module('Integration | Component | Campaign::List', function (hooks) {
     });
 
     test('it should display the owner of the campaigns', async function (assert) {
-      // given
       const store = this.owner.lookup('service:store');
+
       const campaign1 = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        code: 'AAAAAA111',
+        type: 'PROFILES_COLLECTION',
         ownerFirstName: 'Jean-Michel',
         ownerLastName: 'Jarre',
       });
       const campaign2 = store.createRecord('campaign', {
+        id: 2,
+        name: 'campagne 2',
+        code: 'BBBBBB222',
+        type: 'ASSESSMENT',
         ownerFirstName: 'Mathilde',
         ownerLastName: 'Bonnin de La Bonninière de Beaumont',
       });
@@ -168,13 +193,13 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
-      assert.dom('[aria-label="Campagne"]:first-child').containsText('Jean-Michel Jarre');
-      assert.dom('[aria-label="Campagne"]:last-child').containsText('Mathilde Bonnin de La Bonninière de Beaumont');
+      assert.ok(screen.getByText('Jean-Michel Jarre'));
+      assert.ok(screen.getByText('Mathilde Bonnin de La Bonninière de Beaumont'));
     });
 
     test('it must display the creation date of the campaigns', async function (assert) {
@@ -183,12 +208,14 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const campaign1 = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
+        type: 'ASSESSMENT',
         code: 'AAAAAA111',
         createdAt: '03/02/2020',
       });
       const campaign2 = store.createRecord('campaign', {
         id: 2,
         name: 'campagne 2',
+        type: 'ASSESSMENT',
         code: 'BBBBBB222',
         createdAt: '02/02/2020',
       });
@@ -212,6 +239,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
         participationsCount: 10,
+        type: 'ASSESSMENT',
       });
 
       const campaigns = [campaign1];
@@ -221,12 +249,12 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
-      assert.dom('[aria-label="Campagne"]').containsText('10');
+      assert.ok(screen.getByRole('cell', { name: '10' }));
     });
 
     test('it should display the shared participations count', async function (assert) {
@@ -234,6 +262,7 @@ module('Integration | Component | Campaign::List', function (hooks) {
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
         sharedParticipationsCount: 4,
+        type: 'ASSESSMENT',
       });
 
       const campaigns = [campaign1];
@@ -243,20 +272,20 @@ module('Integration | Component | Campaign::List', function (hooks) {
       this.set('campaigns', campaigns);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Campaign::List @campaigns={{this.campaigns}} @onFilter={{this.noop}} @onClickCampaign={{this.noop}} />`,
       );
 
       // then
-      assert.dom('[aria-label="Campagne"]').containsText('4');
+      assert.ok(screen.getByText('4'));
     });
 
     module('when showing current user campaign list', function () {
       test('it should not show created by column and value', async function (assert) {
         // given
         const campaigns = [
-          { name: 'campagne 1', code: 'AAAAAA111', ownerFullName: 'Dupont Alice' },
-          { name: 'campagne 2', code: 'BBBBBB222', ownerFullName: 'Dupont Alice' },
+          { name: 'campagne 1', code: 'AAAAAA111', type: 'ASSESSMENT', ownerFullName: 'Dupont Alice' },
+          { name: 'campagne 2', code: 'BBBBBB222', type: 'ASSESSMENT', ownerFullName: 'Dupont Alice' },
         ];
         campaigns.meta = {
           rowCount: 2,
