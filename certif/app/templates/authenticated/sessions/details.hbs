@@ -44,7 +44,8 @@
       <PixButtonLink
         class="session-details__controls-download-button"
         @href="{{this.urlToDownloadSessionIssueReportSheet}}"
-        @backgroundColor="transparent"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
         @size="small"
         target="_blank"
         aria-label={{t "pages.sessions.detail.downloads.incident-report.extra-information"}}
@@ -57,7 +58,8 @@
       <PixButtonLink
         class="session-details__controls-download-button"
         @href="{{this.session.urlToDownloadSupervisorKitPdf}}"
-        @backgroundColor="transparent"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
         @size="small"
         target="_blank"
         aria-label={{t "pages.sessions.detail.downloads.invigilator-kit.extra-information"}}
@@ -71,7 +73,8 @@
         <PixButtonLink
           class="session-details__controls-download-button"
           @href="{{this.session.urlToDownloadAttendanceSheet}}"
-          @backgroundColor="transparent"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
           @size="small"
           target="_blank"
           aria-label={{t "pages.sessions.detail.downloads.attendance-sheet.extra-information"}}
