@@ -118,12 +118,16 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
     });
   }
 
+  const availableTriggerTubes = triggerTubes.filter(({ tubeId }) => {
+    return tubeIds.includes(tubeId);
+  });
+
   return new TrainingTrigger({
     id: trainingTrigger.id,
     trainingId: trainingTrigger.trainingId,
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
-    triggerTubes: triggerTubes.map(
+    triggerTubes: availableTriggerTubes.map(
       ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level }),
     ),
   });
