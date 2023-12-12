@@ -481,7 +481,7 @@ describe('Integration | Repository | training-trigger-repository', function () {
         });
       });
 
-      it('should return training triggers with empty tube', async function () {
+      it('should return only available training triggers', async function () {
         // given
         const trainingId = databaseBuilder.factory.buildTraining().id;
         const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId });
@@ -502,9 +502,8 @@ describe('Integration | Repository | training-trigger-repository', function () {
 
         // then
         expect(trainingTriggers).to.have.lengthOf(1);
-        expect(trainingTriggers[0].triggerTubes).to.have.lengthOf(2);
-        expect(trainingTriggers[0].triggerTubes[0].tube).to.be.undefined;
-        expect(trainingTriggers[0].triggerTubes[1].tube.id).to.be.equal('recTube0');
+        expect(trainingTriggers[0].triggerTubes).to.have.lengthOf(1);
+        expect(trainingTriggers[0].triggerTubes[0].tube.id).to.be.equal('recTube0');
       });
     });
 
