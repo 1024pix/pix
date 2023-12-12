@@ -229,6 +229,14 @@ export default class CertificationInformationsController extends Controller {
     this.displayConfirm = true;
   }
 
+  get shouldDisplayUnrejectCertificationButton() {
+    return this.certification.status === 'rejected' && this.certification.isRejectedForFraud;
+  }
+
+  get shouldDisplayRejectCertificationButton() {
+    return this.certification.status !== 'rejected';
+  }
+
   @action
   onUnrejectCertificationButtonClick() {
     const confirmMessage =

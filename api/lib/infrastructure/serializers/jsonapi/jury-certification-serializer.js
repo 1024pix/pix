@@ -28,6 +28,7 @@ const serialize = function (juryCertification) {
       'status',
       'isCancelled',
       'isPublished',
+      'isRejectedForFraud',
       'juryId',
       'pixScore',
       'competencesWithMark',

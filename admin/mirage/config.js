@@ -513,7 +513,7 @@ function routes() {
   this.post('/admin/certification-courses/:id/reject', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
-    certificationToUpdate.update({ status: 'rejected' });
+    certificationToUpdate.update({ status: 'rejected', isRejectedForFraud: true });
 
     return new Response(200);
   });
@@ -521,7 +521,7 @@ function routes() {
   this.post('/admin/certification-courses/:id/unreject', (schema, request) => {
     const certificationId = request.params.id;
     const certificationToUpdate = schema.certifications.find(certificationId);
-    certificationToUpdate.update({ status: 'validated' });
+    certificationToUpdate.update({ status: 'validated', isRejectedForFraud: false });
 
     return new Response(200);
   });

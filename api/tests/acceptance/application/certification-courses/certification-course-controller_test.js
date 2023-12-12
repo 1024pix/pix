@@ -312,6 +312,7 @@ describe('Acceptance | API | Certification Course', function () {
           status: 'rejected',
           'is-cancelled': false,
           'is-published': true,
+          'is-rejected-for-fraud': false,
           'created-at': new Date('2020-01-01'),
           'completed-at': new Date('2020-02-01'),
           'pix-score': 55,
