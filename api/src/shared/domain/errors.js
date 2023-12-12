@@ -41,6 +41,12 @@ class CsvImportError extends DomainError {
   }
 }
 
+class AlreadyExistingEntityError extends DomainError {
+  constructor(message = 'L’entité existe déjà.') {
+    super(message);
+  }
+}
+
 class InvalidExternalUserTokenError extends DomainError {
   constructor(message = 'L’idToken de l’utilisateur externe est invalide.') {
     super(message);
@@ -140,6 +146,12 @@ class NoCertificationAttestationForDivisionError extends DomainError {
   }
 }
 
+class MissingBadgeCriterionError extends DomainError {
+  constructor(message = 'Vous devez définir au moins un critère pour créer ce résultat thématique.') {
+    super(message);
+  }
+}
+
 class AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError extends DomainError {
   constructor() {
     super('Autonomous course requires a target profile with simplified access.');
@@ -154,6 +166,7 @@ class TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization extends Doma
 
 export {
   DomainError,
+  AlreadyExistingEntityError,
   AssessmentEndedError,
   AssessmentResultNotCreatedError,
   ForbiddenAccess,
@@ -170,6 +183,7 @@ export {
   NoCertificationAttestationForDivisionError,
   LocaleFormatError,
   LocaleNotSupportedError,
+  MissingBadgeCriterionError,
   AutonomousCourseRequiresATargetProfileWithSimplifiedAccessError,
   TargetProfileRequiresToBeLinkedToAutonomousCourseOrganization,
 };

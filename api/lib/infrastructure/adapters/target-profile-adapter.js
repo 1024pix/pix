@@ -1,5 +1,5 @@
 import { TargetProfile } from '../../domain/models/index.js';
-import { Badge } from '../../domain/models/Badge.js';
+import { Badge } from '../../../src/shared/domain/models/Badge.js';
 import * as skillAdapter from './skill-adapter.js';
 
 const fromDatasourceObjects = function ({ bookshelfTargetProfile, associatedSkillDatasourceObjects = [] }) {

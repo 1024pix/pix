@@ -3,7 +3,6 @@ import * as adminMembers from './application/admin-members/index.js';
 import * as activityAnswers from './application/activity-answers/index.js';
 import * as authentication from './application/authentication/index.js';
 import * as authenticationOidc from './application/authentication/oidc/index.js';
-import * as badges from './application/badges/index.js';
 import * as cache from './application/cache/index.js';
 import * as campaignParticipations from './application/campaign-participations/index.js';
 import * as campaigns from './application/campaigns/index.js';
@@ -53,7 +52,6 @@ const routes = [
   activityAnswers,
   authentication,
   authenticationOidc,
-  badges,
   cache,
   campaignParticipations,
   campaigns,

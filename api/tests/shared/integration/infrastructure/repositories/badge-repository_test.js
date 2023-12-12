@@ -1,10 +1,8 @@
-import { catchErr, databaseBuilder, expect, knex } from '../../../test-helper.js';
-import * as badgeRepository from '../../../../lib/infrastructure/repositories/badge-repository.js';
-import { Badge } from '../../../../lib/domain/models/index.js';
-import lodash from 'lodash';
-import { AlreadyExistingEntityError } from '../../../../lib/domain/errors.js';
-
-const { omit } = lodash;
+import { catchErr, databaseBuilder, expect, knex } from '../../../../test-helper.js';
+import * as badgeRepository from '../../../../../src/shared/infrastructure/repositories/badge-repository.js';
+import { Badge } from '../../../../../src/shared/domain/models/Badge.js';
+import { AlreadyExistingEntityError } from '../../../../../src/shared/domain/errors.js';
+import omit from 'lodash/omit.js';
 
 describe('Integration | Repository | Badge', function () {
   let targetProfileWithoutBadge;

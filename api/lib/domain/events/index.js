@@ -12,7 +12,6 @@ import * as authenticationMethodRepository from '../../infrastructure/repositori
 import * as assessmentRepository from '../../../src/shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
-import * as badgeRepository from '../../infrastructure/repositories/badge-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignParticipationResultRepository from '../../infrastructure/repositories/campaign-participation-result-repository.js';
@@ -64,7 +63,6 @@ const dependencies = {
   assessmentResultRepository,
   authenticationMethodRepository,
   badgeAcquisitionRepository,
-  badgeRepository,
   campaignRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,

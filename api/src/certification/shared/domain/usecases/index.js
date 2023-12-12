@@ -6,7 +6,6 @@ import { dirname, join } from 'node:path';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
-import * as badgeRepository from '../../../../../lib/infrastructure/repositories/badge-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
@@ -85,7 +84,6 @@ const dependencies = {
   assessmentRepository,
   assessmentResultRepository,
   attendanceSheetPdfUtils,
-  badgeRepository,
   certificationCandidateRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
