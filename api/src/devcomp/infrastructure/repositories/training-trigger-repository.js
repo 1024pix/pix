@@ -82,7 +82,8 @@ const findByTrainingId = async function ({ trainingId, domainTransaction = Domai
   const trainingTriggerIds = trainingTriggers.map(({ id }) => id);
   const trainingTriggerTubes = await knexConn('training-trigger-tubes')
     .whereIn('trainingTriggerId', trainingTriggerIds)
-    .select('*');
+    .select('*')
+    .orderBy('tubeId', 'asc');
 
   return Promise.all(
     trainingTriggers.map(async (trainingTrigger) => {
@@ -117,12 +118,16 @@ async function _toDomain({ trainingTrigger, triggerTubes }) {
     });
   }
 
+  const availableTriggerTubes = triggerTubes.filter(({ tubeId }) => {
+    return tubeIds.includes(tubeId);
+  });
+
   return new TrainingTrigger({
     id: trainingTrigger.id,
     trainingId: trainingTrigger.trainingId,
     type: trainingTrigger.type,
     threshold: trainingTrigger.threshold,
-    triggerTubes: triggerTubes.map(
+    triggerTubes: availableTriggerTubes.map(
       ({ id, tubeId, level }) => new TrainingTriggerTube({ id, tube: tubes.find(({ id }) => id === tubeId), level }),
     ),
   });
