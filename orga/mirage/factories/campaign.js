@@ -21,6 +21,10 @@ export default Factory.extend({
     return 'Jack';
   },
 
+  type() {
+    return 'PROFILES_COLLECTION';
+  },
+
   ofTypeAssessment: trait({
     afterCreate(campaign) {
       campaign.update({

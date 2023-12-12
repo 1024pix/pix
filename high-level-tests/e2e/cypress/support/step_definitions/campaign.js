@@ -35,7 +35,7 @@ When(
 );
 
 Then(`je vois {int} campagne\(s\)`, (campaignsCount) => {
-  cy.get('[aria-label="Campagne"]').should("have.lengthOf", campaignsCount);
+  cy.get('table tbody tr').should("have.lengthOf", campaignsCount);
 });
 
 Then(`je vois {int} tutoriel\(s\)`, (tutorialsCount) => {

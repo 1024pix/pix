@@ -14,8 +14,17 @@ export default class CampaignType extends Component {
     return campaignType === 'ASSESSMENT' ? 'campaign-type__icon-assessment' : 'campaign-type__icon-profile-collection';
   }
 
+  get pictoAriaHidden() {
+    return !this.args.hideLabel;
+  }
+
+  get pictoTitle() {
+    return this.args.hideLabel ? this.label : null;
+  }
+
   get label() {
-    const { campaignType } = this.args;
-    return this.intl.t(`pages.organization-learner.activity.participation-list.type.${campaignType}`);
+    const { campaignType, labels } = this.args;
+
+    return this.intl.t(labels[campaignType]);
   }
 }

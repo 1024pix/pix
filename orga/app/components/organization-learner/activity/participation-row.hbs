@@ -9,7 +9,7 @@
     </LinkTo>
   </td>
   <td class="ellipsis">
-    <OrganizationLearner::Activity::CampaignType @campaignType={{@participation.campaignType}} />
+    <Campaign::Detail::Type @labels={{this.labels}} @campaignType={{@participation.campaignType}} />
   </td>
   <td class="table__column--left">
     <Ui::Date @date={{@participation.createdAt}} />
