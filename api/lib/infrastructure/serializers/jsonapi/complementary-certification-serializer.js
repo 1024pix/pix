@@ -2,7 +2,7 @@ import jsonapiSerializer from 'jsonapi-serializer';
 
 const { Serializer } = jsonapiSerializer;
 
-import { ComplementaryCertification } from '../../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../domain/models/index.js';
 
 const serialize = function (complementaryCertifications) {
   return new Serializer('complementary-certification', {

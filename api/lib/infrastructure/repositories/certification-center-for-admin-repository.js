@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { knex } from '../../../db/knex-database-connection.js';
 import { CertificationCenterForAdmin } from '../../domain/models/CertificationCenterForAdmin.js';
-import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../domain/models/index.js';
 import { NotFoundError } from '../../domain/errors.js';
 
 const CERTIFICATION_CENTERS_TABLE_NAME = 'certification-centers';
