@@ -16,6 +16,7 @@ const serialize = function (campaignsToJoin) {
       'isForAbsoluteNovice',
       'isRestricted',
       'isSimplifiedAccess',
+      'organizationId',
       'organizationName',
       'organizationType',
       'organizationLogoUrl',
