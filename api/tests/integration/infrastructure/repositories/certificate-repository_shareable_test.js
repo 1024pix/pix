@@ -509,7 +509,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
               isTemporaryBadge: false,
               label: 'Pix+ test',
               message: 'message badge 1',
-              partnerKey: 'PIX_TEST_1',
             },
             {
               imageUrl: 'https://images.pix.fr/badge2.svg',
@@ -517,7 +516,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
               isTemporaryBadge: true,
               label: 'Pix+ test',
               message: 'temporary message badge 2',
-              partnerKey: 'PIX_TEST_2',
             },
           ],
         };
