@@ -480,6 +480,31 @@ describe('Integration | Repository | training-trigger-repository', function () {
           trainingTriggerId: trainingTrigger.id,
         });
       });
+
+      it('should return only available training triggers', async function () {
+        // given
+        const trainingId = databaseBuilder.factory.buildTraining().id;
+        const trainingTrigger = databaseBuilder.factory.buildTrainingTrigger({ trainingId });
+        databaseBuilder.factory.buildTrainingTriggerTube({
+          trainingTriggerId: trainingTrigger.id,
+          tubeId: 'notExistTubeId',
+        });
+        databaseBuilder.factory.buildTrainingTriggerTube({
+          trainingTriggerId: trainingTrigger.id,
+          tubeId: 'recTube0',
+        });
+        await databaseBuilder.commit();
+
+        sinon.stub(logger, 'warn').returns();
+
+        // when
+        const trainingTriggers = await trainingTriggerRepository.findByTrainingId({ trainingId });
+
+        // then
+        expect(trainingTriggers).to.have.lengthOf(1);
+        expect(trainingTriggers[0].triggerTubes).to.have.lengthOf(1);
+        expect(trainingTriggers[0].triggerTubes[0].tube.id).to.be.equal('recTube0');
+      });
     });
 
     it('should return empty array when no training trigger found', async function () {
