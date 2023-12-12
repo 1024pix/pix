@@ -1,5 +1,37 @@
 # Pix Changelog
 
+## v4.75.0 (12/12/2023)
+
+
+### :rocket: Amélioration
+- [#7668](https://github.com/1024pix/pix/pull/7668) [FEATURE] Ajoute l'organizationId sur le model Campaign de PixApp (PIX-10345).
+- [#7651](https://github.com/1024pix/pix/pull/7651) [FEATURE] Ajouter une icône sur la liste des campagnes (PIX-10310).
+- [#7661](https://github.com/1024pix/pix/pull/7661) [FEATURE] Ne pas afficher le bouton de rejet d'une certif pour une certif initialement rejetée sur Pix Admin (PIX-10207).
+- [#7660](https://github.com/1024pix/pix/pull/7660) [FEATURE] Renommer le bouton permettant de modifier les infos candidats d'une certification sur Pix Admin (PIX-10164).
+- [#7631](https://github.com/1024pix/pix/pull/7631) [FEATURE][CERTIF] Permettre aux administrateurs d'un centre de certification de changer le rôle de ses membres (PIX-5001).
+- [#7650](https://github.com/1024pix/pix/pull/7650) [FEATURE] Retirer les variantes de challenges avec des signalements validés (PIX-10171).
+- [#7627](https://github.com/1024pix/pix/pull/7627) [FEATURE][CERTIF] Permettre à un administrateur de renvoyer une invitation en attente (PIX-9786).
+- [#7643](https://github.com/1024pix/pix/pull/7643) [FEATURE] Fixer le score maximum d'une certification à 896 Pix (PIX-10132).
+- [#7652](https://github.com/1024pix/pix/pull/7652) [FEATURE] Pouvoir activer l'affichage des places à une orga depuis PixAdmin (PIX-9725).
+- [#7642](https://github.com/1024pix/pix/pull/7642) [FEATURE] MAJ des commentaires auto-jury en certif V3 (PIX-10212).
+- [#7541](https://github.com/1024pix/pix/pull/7541) [FEATURE] Expliciter la désignation d'un référent CléA Numérique dans les espaces Pix Certif des CDC habilités (PIX-9882).
+
+### :building_construction: Tech
+- [#7628](https://github.com/1024pix/pix/pull/7628) [TECH] Fix la version de  libxmljs2 à 0.32.0 pour rester compatible avec les proc ARM (PIX-10260).
+- [#7667](https://github.com/1024pix/pix/pull/7667) [TECH] Impacts suite mise à  jour Pix UI v41.2.0. (PIX-10344).
+- [#7638](https://github.com/1024pix/pix/pull/7638) [TECH] Migrer le scope Badge vers la nouvelle arbo API (PIX-9929).
+- [#7581](https://github.com/1024pix/pix/pull/7581) [TECH] Ajouter des seeds pour les parcours autonomes (PIX-10234).
+- [#7644](https://github.com/1024pix/pix/pull/7644) [TECH] Migrer AssessmentResult vers la nouvelle arbo API (PIX-9927).
+- [#7575](https://github.com/1024pix/pix/pull/7575) [TECH] Simplification des definitions JSDoc (PIX-10211).
+
+### :arrow_up: Montée de version
+- [#7658](https://github.com/1024pix/pix/pull/7658) [BUMP] Lock file maintenance (admin).
+- [#7657](https://github.com/1024pix/pix/pull/7657) [BUMP] Lock file maintenance (1d).
+- [#7654](https://github.com/1024pix/pix/pull/7654) [BUMP] Update dependency @1024pix/pix-ui to ^41.2.0 (orga).
+- [#7649](https://github.com/1024pix/pix/pull/7649) [BUMP] Update dependency @1024pix/pix-ui to ^41.2.0 (mon-pix).
+- [#7648](https://github.com/1024pix/pix/pull/7648) [BUMP] Update dependency @1024pix/pix-ui to ^41.2.0 (certif).
+- [#7646](https://github.com/1024pix/pix/pull/7646) [BUMP] Update dependency @1024pix/pix-ui to ^41.2.0 (admin).
+
 ## v4.74.0 (08/12/2023)
 
 
