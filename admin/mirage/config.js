@@ -44,6 +44,7 @@ import {
   findAutonomousCourseTargetProfiles,
   createAutonomousCourse,
   getAutonomousCourseDetails,
+  getPaginatedAutonomousCourses,
 } from './handlers/autonomous-courses';
 
 export default function makeServer(config) {
@@ -68,6 +69,7 @@ function routes() {
 
   this.get('/admin/autonomous-courses/target-profiles', findAutonomousCourseTargetProfiles);
   this.post('/admin/autonomous-courses', createAutonomousCourse);
+  this.get('/admin/autonomous-courses', getPaginatedAutonomousCourses);
   this.get('/admin/autonomous-courses/:id', getAutonomousCourseDetails);
 
   this.get('/admin/campaigns/:id');
