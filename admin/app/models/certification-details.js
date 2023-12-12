@@ -15,6 +15,7 @@ export default class CertificationDetails extends Model {
   @attr() status;
   @attr() completedAt;
   @attr() listChallengesAndAnswers;
+  version = 2;
 
   @computed('listChallengesAndAnswers', 'listChallengesAndAnswers.@each.isNeutralized')
   get answers() {
