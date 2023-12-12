@@ -164,8 +164,20 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           organizationId,
         });
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          otherOrganizationId,
+          userId,
+        });
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+
         databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, userId, campaignId });
-        databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, userId });
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId: otherOrganizationLearnerId,
+          userId,
+          campaignId: otherCampaignId,
+        });
         await databaseBuilder.commit();
         // when
         const {
@@ -1293,10 +1305,15 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
           organizationId: otherOrganizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+        const userId = databaseBuilder.factory.buildUser().id;
+        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
+          userId,
         });
-
+        const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganizationId,
+          userId,
+        });
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           organizationLearnerId,
@@ -1308,7 +1325,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
-          organizationLearnerId,
+          organizationLearnerId: otherOrganizationLearnerId,
           userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
