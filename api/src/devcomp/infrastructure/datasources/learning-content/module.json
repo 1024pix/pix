@@ -37,12 +37,12 @@
         {
           "id": "edd7fec3-a649-425b-b8e3-65b13c6c47ea",
           "type": "activity",
-          "title": "Écrire une adresse mail correctement",
+          "title": "Les parties d’une adresse mail : applications",
           "elements": [
             {
               "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
               "type": "qrocm",
-              "instruction": "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+              "instruction": "<p>Complétez le texte ci-dessous.</p>",
               "proposals": [
                 {
                   "type": "text",
