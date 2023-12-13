@@ -24,17 +24,6 @@
     </div>
   </div>
   <div class="card-footer">
-    <PixSelect
-      @onChange={{this.selectOption}}
-      @options={{this.resultOptions}}
-      @value={{this.selectedOption}}
-      @hideDefaultOption={{true}}
-      @label="Sélectionner un résultat"
-      @screenReaderOnly={{true}}
-      class={{this.resultClass}}
-      as |result|
-    >
-      {{result.label}}
-    </PixSelect>
+    <p>{{this.resultLabel}}</p>
   </div>
 </Card>

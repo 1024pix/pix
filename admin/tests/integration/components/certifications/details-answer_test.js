@@ -2,8 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { resolve } from 'rsvp';
-import { click } from '@ember/test-helpers';
 
 module('Integration | Component | certifications/details-answer', function (hooks) {
   setupRenderingTest(hooks);
@@ -30,7 +28,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     );
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
+    assert.dom(screen.getByText('Succès partiel')).exists();
   });
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
@@ -46,7 +44,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     );
 
     // then
-    assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Neutralisée');
+    assert.dom(screen.getByText('Neutralisée')).exists();
   });
 
   test('info are correctly displayed', async function (assert) {
@@ -66,10 +64,10 @@ module('Integration | Component | certifications/details-answer', function (hook
     assert.dom(screen.getByText('@skill6')).exists();
     assert.dom(screen.getByText('rec1234')).exists();
     assert.dom(screen.getByText('coucou')).exists();
-    assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
+    assert.dom(screen.getByText('Succès partiel')).exists();
   });
 
-  module('when chalenge has been skipped automatically', function () {
+  module('when challenge has been skipped automatically', function () {
     test('info are correctly displayed ', async function (assert) {
       // given
       const skippedAnswerData = {
@@ -91,68 +89,8 @@ module('Integration | Component | certifications/details-answer', function (hook
       assert.dom(screen.getByText('@skill6')).exists();
       assert.dom(screen.getByText('rec1234')).exists();
       assert.dom(screen.getByText('coucou')).exists();
-      assert.dom(screen.getByRole('button', { name: 'Sélectionner un résultat' })).containsText('Abandon');
+      assert.dom(screen.getByText('Abandon')).exists();
     });
-  });
-
-  test('jury class is set when answer is modified', async function (assert) {
-    // given
-    this.setProperties({
-      answer: answerData,
-      onUpdateRate: () => {},
-    });
-    const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-    );
-
-    // when
-    await click(screen.getByText('Sélectionner un résultat'));
-    await screen.findByRole('listbox');
-    await click(screen.getByRole('option', { name: 'Temps écoulé' }));
-
-    // then
-    assert.dom('.pix-select.jury').exists();
-  });
-
-  test('update rate function is called when answer is modified and jury is set', async function (assert) {
-    assert.expect(1);
-    // given
-    this.setProperties({
-      answer: answerData,
-      onUpdateRate: () => {
-        // then
-        assert.strictEqual(answerData.jury, 'timedout');
-        return resolve();
-      },
-    });
-    const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-    );
-
-    // when
-    await click(screen.getByText('Sélectionner un résultat'));
-    await screen.findByRole('listbox');
-    await click(screen.getByRole('option', { name: 'Temps écoulé' }));
-  });
-
-  test('jury is set back to false when answer is set to default value', async function (assert) {
-    // given
-    this.setProperties({
-      answer: answerData,
-      onUpdateRate: () => resolve(),
-    });
-    const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-    );
-
-    // when
-    await click(screen.getByText('Sélectionner un résultat'));
-    await screen.findByRole('listbox');
-    await click(screen.getByRole('option', { name: 'Temps écoulé' }));
-    await click(screen.getByRole('option', { name: 'Succès partiel' }));
-
-    // then
-    assert.strictEqual(answerData.jury, null);
   });
 
   test('it should render links to challenge preview and info', async function (assert) {
@@ -171,5 +109,26 @@ module('Integration | Component | certifications/details-answer', function (hook
     assert
       .dom(screen.getByRole('link', { name: 'Info' }))
       .hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec1234');
+  });
+
+  module('when certification is not finished', function () {
+    test('it should display "En cours" label', async function (assert) {
+      // given
+      this.setProperties({
+        answer: {
+          skill: '@skill6',
+          challengeId: 'rec1234',
+          order: 5,
+          isNeutralized: false,
+          value: 'coucou',
+        },
+      });
+
+      // when
+      const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
+
+      // then
+      assert.dom(screen.getByText('En cours')).exists();
+    });
   });
 });
