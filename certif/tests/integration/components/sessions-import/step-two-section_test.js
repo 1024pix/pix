@@ -24,6 +24,22 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
     assert.dom(getByText('12 candidats')).exists();
   });
 
+  test('it renders a title', async function (assert) {
+    // given
+    this.set('sessionsCount', 2);
+    this.set('sessionsWithoutCandidatesCount', 0);
+    this.set('candidatesCount', 12);
+    this.set('errorReports', []);
+
+    // when
+    const { getByRole } = await render(
+      hbs`<Import::StepTwoSection @sessionsCount={{this.sessionsCount}} @sessionsWithoutCandidatesCount={{this.sessionsWithoutCandidatesCount}}  @candidatesCount={{this.candidatesCount}} @errorReports={{this.errorReports}}/>`,
+    );
+
+    // then
+    assert.dom(getByRole('heading', { name: 'Récapitulatif', level: 2 })).exists();
+  });
+
   module('when the imported file contains errors', function () {
     [
       { error: 'CANDIDATE_FIRST_NAME_REQUIRED', expectedMessage: 'Champ obligatoire "Prénom" manquant' },

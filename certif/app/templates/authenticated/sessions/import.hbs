@@ -6,18 +6,6 @@
   </PixReturnTo>
   <h1 class="page-title">{{t "pages.sessions.import.title"}}</h1>
 
-  <div class="import-page__section--breadcrumb panel">
-    <ol aria-label={{t "pages.sessions.import.breadcrumb.extra-information"}}>
-      <li class={{if this.isImportStepOne "active" ""}} aria-current={{if this.isImportStepOne "step" ""}}>
-        {{t "pages.sessions.import.breadcrumb.import"}}
-      </li>
-      <FaIcon @icon="chevron-right" class="breadcrumb-icon" />
-      <li class={{if this.isImportStepOne "" "active"}} aria-current={{if this.isImportStepOne "" "step"}}>
-        {{t "pages.sessions.import.breadcrumb.summary"}}
-      </li>
-    </ol>
-  </div>
-
   {{#if this.isImportStepOne}}
     <Import::StepOneSection
       @downloadSessionImportTemplate={{this.downloadSessionImportTemplate}}

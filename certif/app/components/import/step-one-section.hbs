@@ -1,14 +1,18 @@
 <section class="import-page__section--download panel">
-  <div class="import-page__section--download-instruction">
+  <div class="import-page__title">
+    <FaIcon @icon="cloud-arrow-up" class="fa-lg" />
+    <h2>{{t "pages.sessions.import.step-one.title"}}</h2>
+  </div>
+  <div class="import-page__section--download__instruction">
     {{t "pages.sessions.import.step-one.instructions.creation.list"}}
-    <ul>
+    <ul aria-label={{t "pages.sessions.import.step-one.instructions.creation.list"}}>
       <li>{{t "pages.sessions.import.step-one.instructions.creation.list-with-candidates" htmlSafe=true}}</li>
       <li>{{t "pages.sessions.import.step-one.instructions.creation.list-without-candidates" htmlSafe=true}}</li>
     </ul>
   </div>
-  <div class="import-page__section--download-instruction">
+  <div class="import-page__section--download__instruction">
     {{t "pages.sessions.import.step-one.instructions.edition.title"}}
-    <ul>
+    <ul aria-label={{t "pages.sessions.import.step-one.instructions.edition.title"}}>
       <li>{{t "pages.sessions.import.step-one.instructions.edition.replace" htmlSafe=true}}</li>
       <li>{{t "pages.sessions.import.step-one.instructions.edition.subscription" htmlSafe=true}}</li>
     </ul>
