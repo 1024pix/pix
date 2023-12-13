@@ -13,6 +13,11 @@ export default class NewController extends Controller {
   }
 
   @action
+  goBackToTrainingList() {
+    this.router.transitionTo('authenticated.trainings.list');
+  }
+
+  @action
   async createOrUpdateTraining(trainingFormData) {
     try {
       const { id } = await this.store.createRecord('training', trainingFormData).save();
