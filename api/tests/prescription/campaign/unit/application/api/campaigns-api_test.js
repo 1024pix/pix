@@ -4,6 +4,7 @@ import { expect, sinon, catchErr } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { UserNotAuthorizedToCreateCampaignError } from '../../../../../../lib/domain/errors.js';
 import { Campaign } from '../../../../../../lib/domain/models/Campaign.js';
+import { CampaignReport } from '../../../../../../lib/domain/read-models/CampaignReport.js';
 
 describe('Unit | API | Campaigns', function () {
   describe('#save', function () {
@@ -105,6 +106,49 @@ describe('Unit | API | Campaigns', function () {
       expect(result.archivedAt).to.equal(campaignInformation.archivedAt);
       expect(result.customLandingPageText).to.equal(campaignInformation.customLandingPageText);
       expect(result).not.to.be.instanceOf(Campaign);
+    });
+  });
+
+  describe('#findAllForOrganization', function () {
+    it('should return paginated campaign list from organizationId', async function () {
+      const organizationId = Symbol('organizationId');
+      const page = Symbol('page');
+      const meta = Symbol('meta');
+      const campaignInformation1 = domainBuilder.buildCampaignReport({
+        id: 777,
+        code: 'SOMETHING',
+        name: 'Godzilla',
+        title: 'is Biohazard',
+        customLandingPageText: 'Rooooooooooooar',
+        createdAt: new Date('2020-01-01'),
+        archivedAt: new Date('2023-01-01'),
+      });
+      const campaignInformation2 = domainBuilder.buildCampaignReport({
+        id: 666,
+        code: 'SOMETHING',
+        name: 'Monarch',
+        title: 'is a butterfly',
+        customLandingPageText: 'pshh pshh pshhh pshhh',
+        createdAt: new Date('2020-01-01'),
+        archivedAt: new Date('2023-01-01'),
+      });
+
+      const getCampaignStub = sinon.stub(usecases, 'findPaginatedFilteredOrganizationCampaigns');
+      getCampaignStub
+        .withArgs({ organizationId, page })
+        .resolves({ models: [campaignInformation1, campaignInformation2], meta });
+
+      // when
+      const result = await campaignApi.findAllForOrganization({ organizationId, page });
+
+      // then
+      const firstCampaignListItem = result.models[0];
+      expect(result.meta).to.be.equal(meta);
+      expect(firstCampaignListItem).not.to.be.instanceOf(CampaignReport);
+      expect(firstCampaignListItem.id).to.be.equal(campaignInformation1.id);
+      expect(firstCampaignListItem.name).to.be.equal(campaignInformation1.name);
+      expect(firstCampaignListItem.createdAt).to.be.equal(campaignInformation1.createdAt);
+      expect(firstCampaignListItem.archivedAt).to.be.equal(campaignInformation1.archivedAt);
     });
   });
 });
