@@ -35,6 +35,88 @@
           ]
         },
         {
+          "id": "edd7fec3-a649-425b-b8e3-65b13c6c47ea",
+          "type": "activity",
+          "title": "Écrire une adresse mail correctement",
+          "elements": [
+            {
+              "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
+              "type": "qrocm",
+              "instruction": "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+              "proposals": [
+                {
+                  "type": "text",
+                  "content": "<p>Le symbole</p>"
+                },
+                {
+                  "input": "symbole",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 1,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 1",
+                  "defaultValue": "",
+                  "tolerances": ["t1"],
+                  "solutions": ["@"]
+                },
+                {
+                  "type": "text",
+                  "content": "<p>permet de séparer les deux parties d’une adresse mail&nbsp;:</p><p>Première partie&nbsp;:</p>"
+                },
+                {
+                  "input": "premiere-partie",
+                  "type": "select",
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 2",
+                  "defaultValue": "",
+                  "tolerances": [],
+                  "options": [
+                    {
+                      "id": "1",
+                      "content": "l'identifiant"
+                    },
+                    {
+                      "id": "2",
+                      "content": "le fournisseur d'adresse mail"
+                    }
+                  ],
+                  "solutions": ["1"]
+                },
+                {
+                  "type": "text",
+                  "content": "<p>Seconde partie&nbsp;:</p>"
+                },
+                {
+                  "input": "seconde-partie",
+                  "type": "select",
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 3",
+                  "defaultValue": "",
+                  "tolerances": [],
+                  "options": [
+                    {
+                      "id": "1",
+                      "content": "l'identifiant"
+                    },
+                    {
+                      "id": "2",
+                      "content": "le fournisseur d'adresse mail"
+                    }
+                  ],
+                  "solutions": ["2"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Bravo ! 🎉 </p>",
+                "invalid": "<p class='pix-list-inline'>Et non !</p>"
+              }
+            }
+          ]
+        },
+        {
           "id": "71792e45-966a-4070-b4fc-9e8a773c3f6f",
           "type": "activity",
           "title": "Diversité des identifiants et des fournisseurs d’adresse mail",
@@ -138,81 +220,6 @@
           "type": "activity",
           "title": "Écrire une adresse mail correctement",
           "elements": [
-            {
-              "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
-              "type": "qrocm",
-              "instruction": "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
-              "proposals": [
-                {
-                  "type": "text",
-                  "content": "<p>Le symbole</p>"
-                },
-                {
-                  "input": "symbole",
-                  "type": "input",
-                  "inputType": "text",
-                  "size": 1,
-                  "display": "inline",
-                  "placeholder": "",
-                  "ariaLabel": "Réponse 1",
-                  "defaultValue": "",
-                  "tolerances": ["t1"],
-                  "solutions": ["@"]
-                },
-                {
-                  "type": "text",
-                  "content": "<p>permet de séparer les deux parties d’une adresse mail&nbsp;:</p><ul><li>Première partie&nbsp;:</li></ul>"
-                },
-                {
-                  "input": "premiere-partie",
-                  "type": "select",
-                  "display": "inline",
-                  "placeholder": "",
-                  "ariaLabel": "Réponse 2",
-                  "defaultValue": "",
-                  "tolerances": [],
-                  "options": [
-                    {
-                      "id": "1",
-                      "content": "l'identifiant"
-                    },
-                    {
-                      "id": "2",
-                      "content": "le fournisseur d'adresse mail"
-                    }
-                  ],
-                  "solutions": ["1"]
-                },
-                {
-                  "type": "text",
-                  "content": "<ul><li>Seconde partie&nbsp;:</li></ul>"
-                },
-                {
-                  "input": "seconde-partie",
-                  "type": "select",
-                  "display": "inline",
-                  "placeholder": "",
-                  "ariaLabel": "Réponse 3",
-                  "defaultValue": "",
-                  "tolerances": [],
-                  "options": [
-                    {
-                      "id": "1",
-                      "content": "l'identifiant"
-                    },
-                    {
-                      "id": "2",
-                      "content": "le fournisseur d'adresse mail"
-                    }
-                  ],
-                  "solutions": ["2"]
-                }
-              ],
-              "feedbacks": {
-                "valid": "<p>Bravo ! 🎉 </p>",
-                "invalid": "<p class='pix-list-inline'>Et non !</p>"
-              }
-            },
             {
               "id": "8709ad92-093e-447a-a7b6-3223e6171196",
               "type": "qrocm",
