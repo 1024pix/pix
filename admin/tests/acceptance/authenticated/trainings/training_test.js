@@ -71,6 +71,39 @@ module('Acceptance | Trainings | Training', function (hooks) {
         // then
         assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).hasClass('active');
       });
+
+      test('should be redirected to training detail page after training creation', async function (assert) {
+        // when
+        await visit(`/trainings/list`);
+        await clickByName('Nouveau contenu formatif');
+
+        await fillByLabel('Titre', 'Nouveau contenu formatif');
+        await fillByLabel('Lien', 'http://www.example.net');
+        await click(screen.getByText('Webinaire'));
+
+        await fillByLabel('Jours (JJ)', 1);
+        await fillByLabel('Heures (HH)', 0);
+        await fillByLabel('Minutes (MM)', 0);
+        await click(screen.getByText('Francophone (fr)'));
+        await fillByLabel('Nom du fichier du logo éditeur', 'Logo.svg', { exact: false });
+        await fillByLabel("Nom de l'éditeur", 'Editeur', { exact: false });
+        await click(screen.getByRole('button', { name: 'Créer le contenu formatif' }));
+
+        // then
+        assert.strictEqual(currentURL(), `/trainings/3/triggers`);
+      });
+
+      test('should be redirected to training list when user click on cancel button', async function (assert) {
+        // when
+        await visit(`/trainings/list`);
+        await clickByName('Nouveau contenu formatif');
+
+        // given
+        await clickByName('Annuler');
+
+        // then
+        assert.strictEqual(currentURL(), `/trainings/list`);
+      });
     });
 
     module('triggers details page', function () {
@@ -91,27 +124,6 @@ module('Acceptance | Trainings | Training', function (hooks) {
         // then
         assert.dom(screen.getByRole('link', { name: 'Contenus formatifs' })).hasClass('active');
       });
-    });
-
-    test('should be redirected to training detail page after training creation', async function (assert) {
-      // when
-      await visit(`/trainings/list`);
-      await clickByName('Nouveau contenu formatif');
-
-      await fillByLabel('Titre', 'Nouveau contenu formatif');
-      await fillByLabel('Lien', 'http://www.example.net');
-      await click(screen.getByText('Webinaire'));
-
-      await fillByLabel('Jours (JJ)', 1);
-      await fillByLabel('Heures (HH)', 0);
-      await fillByLabel('Minutes (MM)', 0);
-      await click(screen.getByText('Francophone (fr)'));
-      await fillByLabel('Nom du fichier du logo éditeur', 'Logo.svg', { exact: false });
-      await fillByLabel("Nom de l'éditeur", 'Editeur', { exact: false });
-      await click(screen.getByRole('button', { name: 'Créer le contenu formatif' }));
-
-      // then
-      assert.strictEqual(currentURL(), `/trainings/3/triggers`);
     });
 
     test('triggers should be accessible for an authenticated user', async function (assert) {
