@@ -5,26 +5,23 @@
       <Card>
         <div class="certification-details__info">
           <div>Statut :</div>
-          <div>{{this.details.status}}</div>
+          <div>{{@model.status}}</div>
 
           <div>Créé le :</div>
-          <div>{{this.details.creationDate}}</div>
+          <div>{{@model.creationDate}}</div>
 
           <div>Terminée le :</div>
-          <div>{{this.details.completionDate}}</div>
+          <div>{{@model.completionDate}}</div>
 
           <div>Score :</div>
-          <div class="certificate">{{this.details.totalScore}}</div>
+          <div class="certificate">{{@model.totalScore}}</div>
           <div>Taux de reproductibilité :</div>
-          <div class="certificate">{{this.details.percentageCorrectAnswers}}</div>
+          <div class="certificate">{{@model.percentageCorrectAnswers}}</div>
         </div>
       </Card>
     </div>
-    {{#each this.details.competences as |competence|}}
-      <Certifications::DetailsCompetence
-        @competence={{competence}}
-        @rate={{this.details.percentageCorrectAnswers}}
-      />
+    {{#each @model.competences as |competence|}}
+      <Certifications::DetailsCompetence @competence={{competence}} @rate={{@model.percentageCorrectAnswers}} />
     {{/each}}
   </div>
 </div>
