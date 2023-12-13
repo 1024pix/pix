@@ -9,12 +9,7 @@ import { CampaignParticipationStatuses } from '../../../../../src/prescription/s
 
 function _setFilters(qb, { search, divisions, connectionTypes, certificability } = {}) {
   if (search) {
-    filterByFullName(
-      qb,
-      search,
-      'view-active-organization-learners.firstName',
-      'view-active-organization-learners.lastName',
-    );
+    filterByFullName(qb, search, 'firstName', 'lastName');
   }
   if (!_.isEmpty(divisions)) {
     qb.whereIn('division', divisions);
@@ -23,24 +18,24 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
     qb.where(function () {
       if (connectionTypes.includes('none')) {
         this.orWhere(function () {
-          this.whereRaw('"users"."username" IS NULL');
-          this.whereRaw('"users"."email" IS NULL');
+          this.whereNull('username');
+          this.whereNull('email');
           // we only retrieve GAR authentication method in join clause
-          this.whereRaw('"authentication-methods"."externalIdentifier" IS NULL');
+          this.whereNull('samlId');
         });
       }
       if (connectionTypes.includes('identifiant')) {
-        this.orWhereRaw('"users"."username" IS NOT NULL');
+        this.orWhereNotNull('username');
       }
       if (connectionTypes.includes('email')) {
-        this.orWhereRaw('"users"."email" IS NOT NULL');
+        this.orWhereNotNull('email');
       }
       if (connectionTypes.includes('mediacentre')) {
         // we only retrieve GAR authentication method in join clause
-        this.orWhereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
+        this.orWhereNotNull('samlId');
       }
       if (connectionTypes.includes('without_mediacentre')) {
-        this.orWhereRaw('"authentication-methods"."externalIdentifier" IS NULL');
+        this.orWhereNull('samlId');
       }
     });
   }
@@ -48,44 +43,17 @@ function _setFilters(qb, { search, divisions, connectionTypes, certificability }
     qb.where(function (query) {
       query.whereInArray(
         knex.raw(
-          'case when "certifiableAtFromCampaign" > "view-active-organization-learners"."certifiableAt" OR "view-active-organization-learners"."certifiableAt" IS NULL then "isCertifiableFromCampaign" else "view-active-organization-learners"."isCertifiable" end',
+          'case when "certifiableAtFromCampaign" > "certifiableAtFromLearner" OR "certifiableAtFromLearner" IS NULL then "isCertifiableFromCampaign" else "isCertifiableFromLearner" end',
         ),
         certificability,
       );
       if (certificability.includes(null)) {
         query.orWhere(function (query) {
-          query.whereNull('certifiableAtFromCampaign').whereNull('view-active-organization-learners.certifiableAt');
+          query.whereNull('certifiableAtFromCampaign').whereNull('certifiableAtFromLearner');
         });
       }
     });
   }
-}
-
-function _buildIsCertifiable(queryBuilder, organizationId) {
-  queryBuilder
-    .distinct('view-active-organization-learners.id')
-    .select([
-      'view-active-organization-learners.id as organizationLearnerId',
-      knex.raw(
-        'FIRST_VALUE("campaign-participations"."isCertifiable") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "isCertifiableFromCampaign"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("campaign-participations"."sharedAt") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."sharedAt" DESC) AS "certifiableAtFromCampaign"',
-      ),
-    ])
-    .from('view-active-organization-learners')
-    .join('campaign-participations', function () {
-      this.on('view-active-organization-learners.id', 'campaign-participations.organizationLearnerId')
-        .andOn('view-active-organization-learners.userId', 'campaign-participations.userId')
-        .andOnVal('campaign-participations.status', CampaignParticipationStatuses.SHARED)
-        .andOn('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
-    })
-    .join('campaigns', function () {
-      this.on('campaigns.id', 'campaign-participations.campaignId')
-        .andOnVal('campaigns.type', CampaignTypes.PROFILES_COLLECTION)
-        .andOnVal('campaigns.organizationId', organizationId);
-    })
-    .where('view-active-organization-learners.organizationId', organizationId);
 }
 
 const findPaginatedFilteredScoParticipants = async function ({ organizationId, filter, page = {}, sort = {} }) {
@@ -95,12 +63,7 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
     .where({ organizationId: organizationId, isDisabled: false })
     .first();
 
-  const orderByClause = [
-    'view-active-organization-learners.lastName',
-    'view-active-organization-learners.firstName',
-    'view-active-organization-learners.division',
-    'view-active-organization-learners.id',
-  ];
+  const orderByClause = ['lastName', 'firstName', 'division', 'id'];
   if (sort?.participationCount) {
     orderByClause.unshift({
       column: 'participationCount',
@@ -109,77 +72,136 @@ const findPaginatedFilteredScoParticipants = async function ({ organizationId, f
   }
   if (sort?.lastnameSort) {
     orderByClause.unshift({
-      column: 'view-active-organization-learners.lastName',
+      column: 'lastName',
       order: sort.lastnameSort == 'desc' ? 'desc' : 'asc',
     });
   }
 
   if (sort?.divisionSort) {
     orderByClause.unshift({
-      column: 'view-active-organization-learners.division',
+      column: 'division',
       order: sort.divisionSort == 'desc' ? 'desc' : 'asc',
     });
   }
 
   const query = knex
-    .with('subquery', (qb) => _buildIsCertifiable(qb, organizationId))
-    .distinct('view-active-organization-learners.id')
-    .select([
-      'view-active-organization-learners.id',
-      'view-active-organization-learners.firstName',
-      'view-active-organization-learners.lastName',
-      knex.raw('LOWER("view-active-organization-learners"."firstName") AS "lowerFirstName"'),
-      knex.raw('LOWER("view-active-organization-learners"."lastName") AS "lowerLastName"'),
-      'view-active-organization-learners.birthdate',
-      'view-active-organization-learners.division',
-      'view-active-organization-learners.userId',
-      'view-active-organization-learners.organizationId',
-      'users.username',
-      'users.email',
-      'authentication-methods.externalIdentifier as samlId',
-      'subquery.isCertifiableFromCampaign',
-      'subquery.certifiableAtFromCampaign',
-      'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
-      'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
-      knex.raw(
-        'FIRST_VALUE("name") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"',
-      ),
-      knex.raw(
-        'FIRST_VALUE("type") OVER(PARTITION BY "view-active-organization-learners"."id" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"',
-      ),
-      knex.raw(
-        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "view-active-organization-learners"."id") AS "participationCount"',
-      ),
-      knex.raw(
-        'max("campaign-participations"."createdAt") OVER(PARTITION BY "view-active-organization-learners"."id") AS "lastParticipationDate"',
-      ),
-    ])
-    .from('view-active-organization-learners')
-    .leftJoin('subquery', 'subquery.organizationLearnerId', 'view-active-organization-learners.id')
-    .leftJoin('users', 'users.id', 'view-active-organization-learners.userId')
-    .leftJoin('campaign-participations', function () {
-      this.on('campaign-participations.organizationLearnerId', 'view-active-organization-learners.id')
-        .andOn('campaign-participations.userId', 'view-active-organization-learners.userId')
-        .andOnVal('campaign-participations.isImproved', false)
-        .andOnVal('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
-    })
-    .leftJoin('authentication-methods', function () {
-      this.on('users.id', 'authentication-methods.userId').andOnVal(
-        'authentication-methods.identityProvider',
-        NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
-      );
-    })
-    .leftJoin('campaigns', function () {
-      this.on('campaigns.id', 'campaign-participations.campaignId').andOn(
-        'campaigns.organizationId',
-        'view-active-organization-learners.organizationId',
-      );
-    })
-    .where('view-active-organization-learners.isDisabled', false)
-    .where('view-active-organization-learners.organizationId', organizationId)
+    .with(
+      'participants',
+      knex
+        .select([
+          'view-active-organization-learners.id',
+          'view-active-organization-learners.lastName',
+          'view-active-organization-learners.firstName',
+          knex.raw('LOWER("view-active-organization-learners"."firstName") AS "lowerFirstName"'),
+          knex.raw('LOWER("view-active-organization-learners"."lastName") AS "lowerLastName"'),
+          'view-active-organization-learners.birthdate',
+          'users.username',
+          'users.email',
+          'authentication-methods.externalIdentifier as samlId',
+          'view-active-organization-learners.division',
+          'view-active-organization-learners.group',
+          'view-active-organization-learners.userId',
+          'view-active-organization-learners.studentNumber',
+          'view-active-organization-learners.organizationId',
+          'view-active-organization-learners.isCertifiable as isCertifiableFromLearner',
+          'view-active-organization-learners.certifiableAt as certifiableAtFromLearner',
+          knex('campaign-participations')
+            .join('campaigns', 'campaigns.id', 'campaignId')
+            .select('isCertifiable')
+            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .and.where('status', CampaignParticipationStatuses.SHARED)
+            .and.where('type', CampaignTypes.PROFILES_COLLECTION)
+            .and.whereNull('campaign-participations.deletedAt')
+            .orderBy('sharedAt', 'desc')
+            .limit(1)
+            .as('isCertifiableFromCampaign'),
+
+          knex('campaign-participations')
+            .join('campaigns', 'campaigns.id', 'campaignId')
+            .select('sharedAt')
+            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .and.where('status', CampaignParticipationStatuses.SHARED)
+            .and.where('type', CampaignTypes.PROFILES_COLLECTION)
+            .and.whereNull('campaign-participations.deletedAt')
+            .orderBy('sharedAt', 'desc')
+            .limit(1)
+            .as('certifiableAtFromCampaign'),
+
+          knex('campaign-participations')
+            .join('campaigns', 'campaigns.id', 'campaignId')
+            .select('campaigns.name')
+            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .and.whereNull('campaign-participations.deletedAt')
+            .and.where('isImproved', false)
+            .orderBy('campaign-participations.createdAt', 'desc')
+            .limit(1)
+            .as('campaignName'),
+
+          knex('campaign-participations')
+            .join('campaigns', 'campaigns.id', 'campaignId')
+            .select('campaign-participations.status')
+            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .and.whereNull('campaign-participations.deletedAt')
+            .and.where('isImproved', false)
+            .orderBy('campaign-participations.createdAt', 'desc')
+            .limit(1)
+            .as('participationStatus'),
+
+          knex('campaign-participations')
+            .join('campaigns', 'campaigns.id', 'campaignId')
+            .select('campaigns.type')
+            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .and.whereNull('campaign-participations.deletedAt')
+            .and.where('isImproved', false)
+            .orderBy('campaign-participations.createdAt', 'desc')
+            .limit(1)
+            .as('campaignType'),
+
+          knex('campaign-participations')
+            .join('campaigns', 'campaigns.id', 'campaignId')
+            .select('campaign-participations.createdAt')
+            .whereRaw('"organizationLearnerId" = "view-active-organization-learners"."id"')
+            .and.whereNull('campaign-participations.deletedAt')
+            .and.where('isImproved', false)
+            .orderBy('campaign-participations.createdAt', 'desc')
+            .limit(1)
+            .as('lastParticipationDate'),
+          /**
+           * We use knex.raw here since there is no easy way to wrap
+           * the query into a coalesce with knex)
+           */
+          knex.raw(`(
+            coalesce (
+              (
+                select count("id") as "participationCount"
+                from "campaign-participations"
+                where
+                  "organizationLearnerId" = "view-active-organization-learners"."id"
+                  and "isImproved" = false
+                  and "deletedAt" is null
+                group by
+                  "organizationLearnerId"
+              ), 0
+            )
+          )
+          as "participationCount"
+          `),
+        ])
+        .from('view-active-organization-learners')
+        .leftJoin('users', function () {
+          this.on('view-active-organization-learners.userId', 'users.id');
+        })
+        .leftJoin('authentication-methods', function () {
+          this.on('users.id', 'authentication-methods.userId').andOnVal(
+            'authentication-methods.identityProvider',
+            NON_OIDC_IDENTITY_PROVIDERS.GAR.code,
+          );
+        })
+        .where('view-active-organization-learners.organizationId', organizationId)
+        .and.where('view-active-organization-learners.isDisabled', false),
+    )
+    .select('*')
+    .from('participants')
     .modify(_setFilters, filter)
     .orderBy(orderByClause);
 
