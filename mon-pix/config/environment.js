@@ -168,6 +168,7 @@ module.exports = function (environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
+    ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 999;
     ENV.metrics.enabled = false;
   }
 
