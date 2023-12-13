@@ -107,27 +107,32 @@ module('Integration | Component | MembersListItem', function (hooks) {
       });
 
       module('when member is the connected user', function () {
-        test('it shows member firstName, lastName, role but does not show manage button', async function (assert) {
-          // given
-          const memberWithMemberRole = store.createRecord('member', {
-            id: 123,
-            firstName: 'John',
-            lastName: 'Williams',
-            role: 'MEMBER',
+        module('and is the only admin in the certification center', function () {
+          test('it shows member firstName, lastName, role but does not show manage button', async function (assert) {
+            // given
+            const memberWithMemberRole = store.createRecord('member', {
+              id: 123,
+              firstName: 'John',
+              lastName: 'Williams',
+              role: 'MEMBER',
+            });
+            this.set('member', memberWithMemberRole);
+            this.set('isMultipleAdminsAvailable', false);
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithMemberRole.id });
+
+            // when
+            const screen = await renderScreen(
+              hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} />`,
+            );
+
+            // then
+            assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
+            assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
+            assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
+            assert
+              .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.actions.manage') }))
+              .doesNotExist();
           });
-          this.set('member', memberWithMemberRole);
-          sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithMemberRole.id });
-
-          // when
-          const screen = await renderScreen(hbs`<MembersListItem @member={{this.member}} />`);
-
-          // then
-          assert.dom(screen.getByRole('cell', { name: 'John' })).exists();
-          assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
-          assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
-          assert
-            .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.members.actions.manage') }))
-            .doesNotExist();
         });
       });
     });
