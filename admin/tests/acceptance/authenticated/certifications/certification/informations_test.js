@@ -1100,6 +1100,83 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert.dom(screen.getByRole('button', { name: 'Annuler le rejet' })).exists();
       });
     });
+
+    module('Certification jury comments edition', function () {
+      module('when jury comments edit button is clicked', function () {
+        test('it displays the jury comments edition form', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          // when
+          const screen = await visit(`/certifications/${certification.id}`);
+          await clickByName('Modifier commentaires jury');
+
+          // then
+          assert.dom(screen.getByRole('textbox', { name: 'Pour le candidat :' })).exists();
+          assert.dom(screen.getByRole('textbox', { name: "Pour l'organisation :" })).exists();
+          assert.dom(screen.getByRole('textbox', { name: 'Pour le jury :' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+          assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+        });
+      });
+
+      module('when jury comments form cancel button is clicked', function () {
+        test('it returns to the non-editable mode', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+          // when
+          const screen = await visit(`/certifications/${certification.id}`);
+          await clickByName('Modifier commentaires jury');
+          await clickByName('Annuler');
+
+          // then
+          assert.dom(screen.getByRole('button', { name: 'Modifier commentaires jury' })).exists();
+        });
+      });
+
+      module('when jury comments results form is submitted', function () {
+        module('when the form is successfully submitted', function () {
+          test('it displays a success notification', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+            // when
+            const screen = await visit(`/certifications/${certification.id}`);
+            await clickByName('Modifier commentaires jury');
+            await fillByLabel('Pour le candidat :', 'Summers');
+
+            await clickByName('Enregistrer');
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Modifier commentaires jury' })).exists();
+            assert.dom(screen.getByText('Les commentaires du jury ont bien été enregistrés.')).exists();
+          });
+        });
+
+        module('when the form is submitted with an error', function () {
+          test('it displays an error notification', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
+            server.post('/admin/certification-courses/:id/assessment-results/', () => {
+              return new Response(400);
+            });
+
+            // when
+            const screen = await visit(`/certifications/${certification.id}`);
+            await clickByName('Modifier commentaires jury');
+            await fillByLabel('Pour le candidat :', 'Summers');
+
+            await clickByName('Enregistrer');
+
+            // then
+            assert.dom(screen.queryByText('button', { name: 'Modifier commentaires jury' })).doesNotExist();
+            assert.dom(screen.getByText("Les commentaires du jury n'ont pas pu être enregistrés.")).exists();
+          });
+        });
+      });
+    });
   });
 });
 

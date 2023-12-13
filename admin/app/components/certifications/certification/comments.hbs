@@ -1,0 +1,56 @@
+<div class="certification-informations__row">
+  <div class="certification-informations__card">
+    <h2 class="certification-informations__card__title">Commentaires jury</h2>
+    <Certifications::InfoField
+      @value={{@certification.commentForCandidate}}
+      @edition={{this.editingComments}}
+      @label="Pour le candidat :"
+      @fieldId="certification-commentForCandidate"
+      @isTextarea={{true}}
+    />
+    <Certifications::InfoField
+      @value={{@certification.commentForOrganization}}
+      @edition={{this.editingComments}}
+      @label="Pour l'organisation :"
+      @fieldId="certification-commentForOrganization"
+      @isTextarea={{true}}
+    />
+    <Certifications::InfoField
+      @value={{@certification.commentForJury}}
+      @edition={{this.editingComments}}
+      @label="Pour le jury :"
+      @fieldId="certification-commentForJury"
+      @isTextarea={{true}}
+    />
+    <Certifications::InfoField
+      @value={{@certification.juryId}}
+      @edition={{false}}
+      @label="Identifiant jury :"
+      @isTextarea={{true}}
+    />
+
+    {{#if this.editingComments}}
+      <ul class="certification-information-comments">
+        <li>
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancelCommentsEdit}}
+          >
+            Annuler
+          </PixButton>
+        </li>
+        <li>
+          <PixButton @size="small" @triggerAction={{this.saveComments}}>
+            Enregistrer
+          </PixButton>
+        </li>
+      </ul>
+    {{else}}
+      <PixButton @size="small" @triggerAction={{this.editComments}}>
+        Modifier commentaires jury
+      </PixButton>
+    {{/if}}
+  </div>
+</div>
