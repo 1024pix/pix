@@ -451,12 +451,24 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
       it('should return campaign name and type only for a campaign in the given organization', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId: otherOrganizationId,
           name: 'some campaign name',
         }).id;
-        const userId = databaseBuilder.factory.buildUser().id;
-        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+        const otherOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganizationId,
+          userId,
+        }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId: otherOrganizationLearnerId,
+          userId,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -1262,8 +1274,16 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
           organizationId: otherOrganizationId,
           type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
-        const { id: organizationLearnerId, userId } = databaseBuilder.factory.buildOrganizationLearner({
+
+        const { id: userId } = databaseBuilder.factory.buildUser();
+
+        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
+          userId,
+        });
+        const { id: otherOrganizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId: otherOrganizationId,
+          userId,
         });
 
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -1277,13 +1297,14 @@ describe('Integration | Infrastructure | Repository | sup-organization-participa
 
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
-          organizationLearnerId,
+          organizationLearnerId: otherOrganizationLearnerId,
+          userId,
           status: CampaignParticipationStatuses.SHARED,
           sharedAt: new Date('2022-01-01'),
           isCertifiable: false,
         });
-        await databaseBuilder.commit();
 
+        await databaseBuilder.commit();
         // when
         const {
           data: [{ isCertifiable }],
