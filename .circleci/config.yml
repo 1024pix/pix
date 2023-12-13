@@ -266,7 +266,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-api-npm-{{ checksum "cachekey" }}
-      - run: npm ci --no-optional
+      - run: npm ci
       - save_cache:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
@@ -323,7 +323,7 @@ jobs:
       - restore_cache:
           keys:
             - v7-audit-logger-npm-{{ checksum "cachekey" }}
-      - run: npm ci --no-optional
+      - run: npm ci
       - save_cache:
           key: v7-audit-logger-npm-{{ checksum "cachekey" }}
           paths:
@@ -499,7 +499,7 @@ jobs:
       - run:
           name: Install Pix API
           working_directory: ~/pix/api
-          command: npm ci --no-optional
+          command: npm ci
 
       - run:
           working_directory: ~/pix/mon-pix
@@ -570,7 +570,7 @@ jobs:
       - run:
           name: Install Pix API
           working_directory: ~/pix/api
-          command: npm ci --no-optional
+          command: npm ci
 
       - run:
           working_directory: ~/pix/orga
