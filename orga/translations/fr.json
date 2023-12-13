@@ -60,6 +60,14 @@
     }
   },
   "cards": {
+    "available-seats-count": {
+      "title": "Places disponibles",
+      "value": "/{total} places"
+    },
+    "occupied-seats-count": {
+      "title": "Places occupées",
+      "value": "/{total} places"
+    },
     "participants-average-results": {
       "title": "Résultat moyen",
       "information": "Retrouvez ici la moyenne des résultats de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat."
