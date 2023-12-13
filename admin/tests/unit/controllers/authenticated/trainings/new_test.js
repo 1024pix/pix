@@ -21,6 +21,16 @@ module('Unit | Controller | authenticated/trainings/new', function (hooks) {
     });
   });
 
+  module('#goBackToTrainingList', function () {
+    test('should go to training list page', async function (assert) {
+      controller.router.transitionTo = sinon.stub();
+
+      controller.goBackToTrainingList();
+
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.trainings.list'));
+    });
+  });
+
   module('#createOrUpdateTraining', function () {
     test('it should save training', async function (assert) {
       const trainingData = {

@@ -92,6 +92,18 @@ module('Acceptance | Trainings | Training', function (hooks) {
         // then
         assert.strictEqual(currentURL(), `/trainings/3/triggers`);
       });
+
+      test('should be redirected to training list when user click on cancel button', async function (assert) {
+        // when
+        await visit(`/trainings/list`);
+        await clickByName('Nouveau contenu formatif');
+
+        // given
+        await clickByName('Annuler');
+
+        // then
+        assert.strictEqual(currentURL(), `/trainings/list`);
+      });
     });
 
     module('triggers details page', function () {
