@@ -134,6 +134,29 @@ module('Integration | Component | MembersListItem', function (hooks) {
               .doesNotExist();
           });
         });
+
+        module('and is not the only admin in the certification center', function () {
+          test('shows manage button', async function (assert) {
+            // given
+            const memberWithAdminRole = store.createRecord('member', {
+              id: 123,
+              firstName: 'John',
+              lastName: 'Williams',
+              role: 'ADMIN',
+            });
+            this.set('member', memberWithAdminRole);
+            this.set('isMultipleAdminsAvailable', true);
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+
+            // when
+            const screen = await renderScreen(
+              hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} />`,
+            );
+
+            // then
+            assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
+          });
+        });
       });
     });
 
