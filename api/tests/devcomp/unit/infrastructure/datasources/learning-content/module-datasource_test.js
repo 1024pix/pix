@@ -46,7 +46,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
           input: Joi.string().required(),
           type: Joi.string().valid('input').required(),
           inputType: Joi.string().valid('text', 'number').required(),
-          size: Joi.string().valid('small', 'medium', 'large').required(),
+          size: Joi.number().positive().required(),
           display: Joi.string().valid('inline', 'block').required(),
           placeholder: Joi.string().allow('').required(),
           ariaLabel: Joi.string().required(),
