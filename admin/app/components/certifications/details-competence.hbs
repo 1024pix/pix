@@ -30,23 +30,6 @@
       </div>
       <div class="certificate">{{@competence.obtainedScore}} Pix</div>
     </div>
-    {{#if this.competenceJury}}
-      <div class="jury">
-        <div>Corrigé :</div>
-        <div class="progress">
-          <div
-            aria-label="Jauge de compétences corrigées"
-            class="progress-bar jury"
-            role="progressbar"
-            aria-valuenow="{{this.competenceJury.level}}"
-            aria-valuemin="0"
-            aria-valuemax="8"
-            style={{this.competenceJury.width}}
-          >{{this.competenceJury.level}}</div>
-        </div>
-        <div class="jury competence-score">{{this.competenceJury.score}} Pix</div>
-      </div>
-    {{/if}}
     <div class="certification-details-competence-challenges">
       {{#each this.answers as |answer|}}
         <Certifications::DetailsAnswer @answer={{answer}} />
