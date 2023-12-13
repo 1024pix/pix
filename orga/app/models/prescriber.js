@@ -15,6 +15,7 @@ export default class Prescriber extends Model {
     return {
       MULTIPLE_SENDING_ASSESSMENT: 'MULTIPLE_SENDING_ASSESSMENT',
       COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY: 'COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY',
+      PLACES_MANAGEMENT: 'PLACES_MANAGEMENT',
     };
   }
   get fullName() {
@@ -31,6 +32,10 @@ export default class Prescriber extends Model {
 
   get computeOrganizationLearnerCertificability() {
     return this.features[Prescriber.featureList.COMPUTE_ORGANIZATION_LEARNER_CERTIFICABILITY];
+  }
+
+  get placesManagement() {
+    return this.features[Prescriber.featureList.PLACES_MANAGEMENT];
   }
 
   get isAdminOfTheCurrentOrganization() {

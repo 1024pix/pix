@@ -1,0 +1,9 @@
+.places-page-header {
+ display: flex;
+ gap: $pix-spacing-xs;
+ align-items: baseline;
+
+ &__date {
+  @extend %pix-body-xs;
+ }
+}

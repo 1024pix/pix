@@ -868,6 +868,10 @@
         "participation-TO_SHARE-status": "En attente d'envoi"
       }
     },
+    "places": {
+      "title":"Places",
+      "before-date":"au"
+    },
     "preselect-target-profile": {
       "title": "Sélection des sujets",
       "download": "Télécharger la sélection des sujets ({ numberOfTubesSelected }) (JSON, { fileSize }ko)",
