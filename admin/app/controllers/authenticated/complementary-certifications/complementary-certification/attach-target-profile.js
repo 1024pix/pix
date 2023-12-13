@@ -72,6 +72,7 @@ export default class AttachTargetProfileController extends Controller {
 
       complementaryCertificationBadges.forEach((complementaryCertificationBadge) => {
         complementaryCertification.complementaryCertificationBadges.removeObject(complementaryCertificationBadge);
+        complementaryCertificationBadge.deleteRecord();
       });
 
       this.#targetProfileBadges.forEach((badge, badgeId) => {
