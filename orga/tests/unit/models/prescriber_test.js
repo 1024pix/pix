@@ -133,4 +133,32 @@ module('Unit | Model | prescriber', function (hooks) {
       assert.false(computeOrganizationLearnerCertificability);
     });
   });
+
+  module('#placesManagement', function () {
+    test('it returns true when feature is enabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['PLACES_MANAGEMENT']: true },
+      });
+      // when
+      const placesManagement = model.placesManagement;
+
+      // then
+      assert.true(placesManagement);
+    });
+
+    test('it returns false when feature is disabled', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('prescriber', {
+        features: { ['PLACES_MANAGEMENT']: false },
+      });
+      // when
+      const placesManagement = model.placesManagement;
+
+      // then
+      assert.false(placesManagement);
+    });
+  });
 });

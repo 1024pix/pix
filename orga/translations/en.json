@@ -869,6 +869,10 @@
         "participation-TO_SHARE-status": "Pending"
       }
     },
+    "places": {
+      "title":"Places",
+      "before-date":"at"
+    },
     "preselect-target-profile": {
       "title": "Topic selection",
       "download": "Download topics selection ({ numberOfTubesSelected }) (JSON, { fileSize }kB)",
