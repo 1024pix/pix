@@ -37,36 +37,6 @@
       }
     }
   }
-
-  &__list--item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    cursor: pointer;
-
-    a:not(.pix-button) {
-      color: var(--pix-neutral-500);
-      text-decoration: none;
-
-      &:visited {
-        color: var(--pix-neutral-500);
-      }
-
-      &:hover {
-        color: var(--pix-tertiary-500);
-      }
-    }
-
-    &:has(.active) {
-      font-weight: var(--pix-font-bold);
-      border-bottom: 2px solid var(--pix-primary-500);
-
-      a:not(.pix-button) {
-        color: var(--pix-primary-500);
-      }
-    }
-  }
 }
 
 .navbar + section {
