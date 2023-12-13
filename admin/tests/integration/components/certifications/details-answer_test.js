@@ -19,13 +19,10 @@ module('Integration | Component | certifications/details-answer', function (hook
     // given
     this.setProperties({
       answer: answerData,
-      onUpdateRate: () => {},
     });
 
     // when
-    const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-    );
+    const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
     // then
     assert.dom(screen.getByText('Succès partiel')).exists();
@@ -35,13 +32,10 @@ module('Integration | Component | certifications/details-answer', function (hook
     // given
     this.setProperties({
       answer: { ...answerData, isNeutralized: true },
-      onUpdateRate: () => {},
     });
 
     // when
-    const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-    );
+    const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
     // then
     assert.dom(screen.getByText('Neutralisée')).exists();
@@ -51,13 +45,10 @@ module('Integration | Component | certifications/details-answer', function (hook
     // given
     this.setProperties({
       answer: answerData,
-      onUpdateRate: () => {},
     });
 
     // when
-    const screen = await render(
-      hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-    );
+    const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
     // then
     assert.dom(screen.getByText('5')).exists();
@@ -76,13 +67,10 @@ module('Integration | Component | certifications/details-answer', function (hook
       };
       this.setProperties({
         answer: skippedAnswerData,
-        onUpdateRate: () => {},
       });
 
       // when
-      const screen = await render(
-        hbs`<Certifications::DetailsAnswer @answer={{this.answer}} @onUpdateRate={{this.onUpdateRate}} />`,
-      );
+      const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
       // then
       assert.dom(screen.getByText('5')).exists();
