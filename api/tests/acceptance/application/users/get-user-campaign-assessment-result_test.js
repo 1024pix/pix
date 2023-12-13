@@ -353,6 +353,7 @@ describe('Acceptance | API | Campaign Assessment Result', function () {
             attributes: {
               message: 'Tu as le palier 1',
               title: 'palier 1',
+              threshold: 20,
               'reached-stage': 1,
               'total-stage': 2,
             },
