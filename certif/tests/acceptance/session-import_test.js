@@ -147,7 +147,7 @@ module('Acceptance | Session Import', function (hooks) {
             // given
             const blob = new Blob(['foo']);
             const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
-            const { getAllByRole, getByLabelText, getByRole, queryByLabelText } = await visit('/sessions/import');
+            const { getByLabelText, getByRole, queryByLabelText } = await visit('/sessions/import');
             const importButton = getByLabelText('Importer le modèle complété');
             await triggerEvent(importButton, 'change', { files: [file] });
             const importConfirmationButton = getByRole('button', { name: 'Continuer' });
@@ -161,12 +161,6 @@ module('Acceptance | Session Import', function (hooks) {
             // then
             assert.dom(importButton).exists();
             assert.dom(queryByLabelText('fichier.csv')).doesNotExist();
-            assert
-              .dom(getAllByRole('listitem').find((listItem) => listItem.textContent?.trim() === 'Import du modèle'))
-              .hasAttribute('aria-current', 'step');
-            assert
-              .dom(getAllByRole('listitem').find((listItem) => listItem.textContent?.trim() === 'Récapitulatif'))
-              .hasAttribute('aria-current', '');
           });
         });
 
@@ -209,8 +203,7 @@ module('Acceptance | Session Import', function (hooks) {
             });
 
             // when
-            const { getAllByRole, getByLabelText, getByRole, getByText, queryByLabelText } =
-              await visit('/sessions/import');
+            const { getByLabelText, getByRole, getByText, queryByLabelText } = await visit('/sessions/import');
             const input = getByLabelText('Importer le modèle complété');
             await triggerEvent(input, 'change', { files: [file] });
             const importButton = getByRole('button', { name: 'Continuer' });
@@ -220,12 +213,6 @@ module('Acceptance | Session Import', function (hooks) {
             // then
             assert.dom(getByText('2 sessions dont 1 session sans candidat')).exists();
             assert.dom(getByText('3 candidats')).exists();
-            assert
-              .dom(getAllByRole('listitem').find((listItem) => listItem.textContent?.trim() === 'Récapitulatif'))
-              .hasAttribute('aria-current', 'step');
-            assert
-              .dom(getAllByRole('listitem').find((listItem) => listItem.textContent?.trim() === 'Import du modèle'))
-              .hasAttribute('aria-current', '');
             assert.dom(queryByLabelText('fichier.csv')).doesNotExist();
           });
 

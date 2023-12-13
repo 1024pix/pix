@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, getByTextWithHtml } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Import::StepOneSection', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -30,11 +30,8 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
     );
 
     // then
+    assert.dom(getByRole('heading', { name: 'Import du modèle', level: 2 })).exists();
     assert.dom(getByText('Vous pouvez créer des sessions :')).exists();
-    assert.ok(getByTextWithHtml('<strong>Avec candidats</strong>, complétez le modèle dans son intégralité,'));
-    assert.ok(getByTextWithHtml('<strong>Sans candidat</strong>, complétez uniquement les informations des sessions.'));
-    assert.ok(getByTextWithHtml('<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,'));
-    assert.ok(getByTextWithHtml('<strong>Pour inscrire</strong> des candidats dans une session vide.'));
     assert
       .dom(
         getByText(
@@ -52,5 +49,22 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
       .exists();
     assert.dom(getByText('Importer le modèle complété')).exists();
     assert.dom(getByText('Importer (.csv)')).exists();
+
+    const createSessionsFirstList = getByRole('list', { name: 'Vous pouvez créer des sessions :' });
+    const createSessionsSecondList = getByRole('list', {
+      name: 'Pour éditer la liste des candidats de sessions déjà créées ?',
+    });
+    const firstListItems = within(createSessionsFirstList).getAllByRole('listitem');
+    const secondListItems = within(createSessionsSecondList).getAllByRole('listitem');
+    assert.strictEqual(firstListItems[0].textContent, 'Avec candidats, complétez le modèle dans son intégralité,');
+    assert.strictEqual(
+      firstListItems[1].textContent,
+      'Sans candidat, complétez uniquement les informations des sessions.',
+    );
+    assert.strictEqual(
+      secondListItems[0].textContent,
+      'Pour remplacer une liste pré-existante dans le fichier modèle,',
+    );
+    assert.strictEqual(secondListItems[1].textContent, 'Pour inscrire des candidats dans une session vide.');
   });
 });

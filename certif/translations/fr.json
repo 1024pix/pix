@@ -641,11 +641,6 @@
       },
       "import": {
         "title": "Créer/éditer plusieurs sessions",
-        "breadcrumb": {
-          "extra-information": "Fil d'Arianne",
-          "import": "Import du modèle",
-          "summary": "Récapitulatif"
-        },
         "candidates-list": {
           "import-fail-prefix": "Aucun candidat n’a été importé. <br/>",
           "import-success": "La liste des candidats a été importée avec succès.",
@@ -653,6 +648,7 @@
           "unknown-document-version": "La version du document est inconnue."
         },
         "step-one": {
+          "title": "Import du modèle",
           "actions": {
             "cancel": {
               "label": "Annuler l'import"
@@ -676,18 +672,19 @@
             "creation": {
               "title": "Pour créer des sessions ?",
               "list": "Vous pouvez créer des sessions :",
-              "list-with-candidates": "<strong>Avec candidats</strong>, complétez le modèle dans son intégralité,",
-              "list-without-candidates": "<strong>Sans candidat</strong>, complétez uniquement les informations des sessions."
+              "list-with-candidates": "'<'span class=\"content-text--bold\"'>'Avec candidats'</span>', complétez le modèle dans son intégralité,",
+              "list-without-candidates": "'<'span class=\"content-text--bold\"'>'Sans candidat'</span>', complétez uniquement les informations des sessions."
             },
             "edition": {
               "title": "Pour éditer la liste des candidats de sessions déjà créées ?",
-              "replace": "<strong>Pour remplacer</strong> une liste pré-existante dans le fichier modèle,",
-              "subscription": "<strong>Pour inscrire</strong> des candidats dans une session vide.",
+              "replace": "'<'span class=\"content-text--bold\"'>'Pour remplacer'</span>' une liste pré-existante dans le fichier modèle,",
+              "subscription": "'<'span class=\"content-text--bold\"'>'Pour inscrire'</span>' des candidats dans une session vide.",
               "warning": "Attention à renseigner le numéro de session sans les autres informations de sessions (ex: date, heure, etc.) pour éviter les doublons lors de la création."
             }
           }
         },
         "step-two": {
+          "title": "Récapitulatif",
           "actions": {
             "confirm": {
               "label": "Finaliser la création/édition"

@@ -8,58 +8,22 @@
     margin-bottom: 8px;
   }
 
-  &__section--breadcrumb {
-    background-color: $pix-neutral-5;
-    border: 1px solid $pix-neutral-15;
-    box-shadow: none;
-    margin: 24px 0 16px;
-    padding: 16px;
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $pix-spacing-xs;
 
-    .breadcrumb-icon {
-      color: $pix-neutral-40;
-      margin: 0 24px;
+    > svg {
+      color: $pix-neutral-50;
     }
 
-    ol {
-      align-items: center;
-      counter-reset: import-breadcrumb;
-      display: flex;
-      justify-content: center;
-      list-style: none;
-    }
-
-    ol li {
-      align-items: center;
-      color: $pix-neutral_50;
-      counter-increment: import-breadcrumb;
-      display: flex;
-    }
-
-    ol li::before {
-      align-items: center;
-      background-color: $pix-neutral-25;
-      border-radius: 50%;
-      color: $pix-neutral-0;
-      content: '' counter(import-breadcrumb);
-      font-size: 1.1rem;
-      font-weight: $font-medium;
-      display: flex;
-      height: 30px;
-      justify-content: center;
-      margin-right: 16px;
-      width: 30px;
-    }
-
-    ol li.active {
-      color: $pix-neutral_90;
-    }
-
-    ol li.active::before {
-      background-color: $pix-success-60;
+    > h2 {
+      @extend %pix-title-s;
+      color: $pix-neutral-90;
     }
   }
 
-  &__section--download-instruction {
+  &__section--download__instruction {
     color: $pix-neutral-50;
     font-size: 14px;
 
@@ -133,12 +97,6 @@
     color: $pix-neutral-70;
     font-size: 1rem;
     line-height: 1.5rem;
-  }
-}
-
-.import-page-section-breadcrumb {
-  &__summary-link {
-    cursor: default;
   }
 }
 
