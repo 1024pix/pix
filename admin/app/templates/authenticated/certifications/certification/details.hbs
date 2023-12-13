@@ -14,33 +14,17 @@
           <div>{{this.details.completionDate}}</div>
 
           <div>Score :</div>
-          <div class="certificate">{{this.score}}</div>
-          {{#if this.shouldDisplayJuryScore}}
-            <div class="jury">Score corrigé :</div>
-            <div class="jury">{{this.juryScore}}</div>
-          {{/if}}
+          <div class="certificate">{{this.details.totalScore}}</div>
           <div>Taux de reproductibilité :</div>
-          <div class="certificate">{{this.rate}}</div>
-          {{#if this.juryRate}}
-            <div>Taux corrigé :</div>
-            <div class="jury">{{this.juryRate}}</div>
-          {{/if}}
+          <div class="certificate">{{this.details.percentageCorrectAnswers}}</div>
         </div>
       </Card>
     </div>
     {{#each this.details.competences as |competence|}}
       <Certifications::DetailsCompetence
         @competence={{competence}}
-        @rate={{this.rate}}
-        @juryRate={{this.juryRate}}
+        @rate={{this.details.percentageCorrectAnswers}}
       />
     {{/each}}
-  </div>
-  <div>
-    <div class="certification-details__actions">
-      {{#if this.accessControl.hasAccessToCertificationActionsScope}}
-        <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
-      {{/if}}
-    </div>
   </div>
 </div>
