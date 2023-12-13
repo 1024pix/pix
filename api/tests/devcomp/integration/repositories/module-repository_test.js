@@ -250,7 +250,7 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
                     input: 'symbole',
                     type: 'input',
                     inputType: 'text',
-                    size: 'small',
+                    size: 1,
                     display: 'inline',
                     placeholder: '',
                     ariaLabel: 'Réponse 1',
