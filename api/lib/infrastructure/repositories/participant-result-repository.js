@@ -45,9 +45,16 @@ const getByUserIdAndCampaignId = async function ({ userId, campaignId, badges, r
     const skillIds = competences.flatMap(({ targetedSkillIds }) => targetedSkillIds);
     const skills = await skillRepository.findOperativeByIds(skillIds);
     convertLevelStagesIntoThresholds(stages, skills);
+    if (reachedStage) {
+      const stage = stages.find((stage) => stage.id == reachedStage.id);
+      // if the stage is a stage level, we need to add the converted threshold
+      reachedStage = {
+        ...reachedStage,
+        threshold: stage.threshold,
+      };
+    }
   }
   const isTargetProfileResetAllowed = await _getTargetProfileResetAllowed(campaignId);
-
   return new AssessmentResult({
     participationResults,
     competences,

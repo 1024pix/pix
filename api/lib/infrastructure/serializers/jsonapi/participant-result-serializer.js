@@ -56,7 +56,7 @@ const serialize = function (results) {
     },
     reachedStage: {
       ref: 'id',
-      attributes: ['title', 'message', 'totalStage', 'reachedStage'],
+      attributes: ['title', 'message', 'totalStage', 'reachedStage', 'threshold'],
     },
     typeForAttribute(attribute) {
       return attribute === 'reachedStage' ? 'reached-stages' : attribute;

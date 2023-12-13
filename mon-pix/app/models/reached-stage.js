@@ -5,6 +5,7 @@ export default class ReachedStage extends Model {
   @attr('string') message;
   @attr('number') totalStage;
   @attr('number') reachedStage;
+  @attr('number') threshold;
 
   @belongsTo('campaign-participation-result') campaignParticipationResult;
 }

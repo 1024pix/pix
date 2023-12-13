@@ -693,6 +693,12 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
             userId,
             campaignId,
             targetProfile,
+            reachedStage: {
+              id: stage3.id,
+              totalStage: 4,
+              reachedStageNumber: 3,
+              reachedStage: stage3,
+            },
             badges: [],
             stages: stagesFromDomain,
             locale: 'FR',
@@ -701,6 +707,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           const competenceResult2 = participantResult.competenceResults.find(({ id }) => id === 'rec2');
 
           // then
+          expect(participantResult.reachedStage.threshold).to.equal(50);
           expect(competenceResult1).to.deep.equal({
             id: 'rec1',
             name: 'comp1Fr',

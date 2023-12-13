@@ -177,6 +177,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               message: 'Message2',
               'total-stage': 3,
               'reached-stage': 2,
+              threshold: 50,
             },
             id: '3',
             type: 'reached-stages',
