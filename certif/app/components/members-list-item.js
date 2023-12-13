@@ -36,7 +36,7 @@ export default class MembersListItem extends Component {
   }
 
   get shouldDisplayMemberManageButton() {
-    return this.shouldDisplayChangeRoleOption;
+    return this.shouldDisplayChangeRoleOption || this.shouldDisplayLeaveCertificationCenterOption;
   }
 
   get shouldDisplayChangeRoleOption() {
@@ -49,6 +49,10 @@ export default class MembersListItem extends Component {
     }
 
     return !this.isEditionMode;
+  }
+
+  get shouldDisplayLeaveCertificationCenterOption() {
+    return this.args.isMultipleAdminsAvailable && this.isCurrentUserMembership;
   }
 
   get isCurrentUserMembership() {

@@ -33,6 +33,11 @@
               {{t "pages.team.members.actions.edit-role"}}
             </Dropdown::Item>
           {{/if}}
+          {{#if this.shouldDisplayLeaveCertificationCenterOption}}
+            <Dropdown::Item @onClick={{@onLeaveCertificationCenterButtonClicked}}>
+              {{t "pages.team.members.actions.leave-certification-center"}}
+            </Dropdown::Item>
+          {{/if}}
         </Dropdown::IconTrigger>
       {{/if}}
       {{#if this.isEditionMode}}
