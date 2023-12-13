@@ -212,39 +212,11 @@
     </section>
   {{/if}}
 
-  <div class="certification-informations__row">
-    <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
-      <h2 class="certification-informations__card__title">Commentaires jury</h2>
-      <Certifications::InfoField
-        @value={{this.certification.commentForCandidate}}
-        @edition={{this.editingCandidateResults}}
-        @label="Pour le candidat :"
-        @fieldId="certification-commentForCandidate"
-        @isTextarea={{true}}
-      />
-      <Certifications::InfoField
-        @value={{this.certification.commentForOrganization}}
-        @edition={{this.editingCandidateResults}}
-        @label="Pour l'organisation :"
-        @fieldId="certification-commentForOrganization"
-        @isTextarea={{true}}
-      />
-      <Certifications::InfoField
-        @value={{this.certification.commentForJury}}
-        @edition={{this.editingCandidateResults}}
-        @label="Pour le jury :"
-        @fieldId="certification-commentForJury"
-        @isTextarea={{true}}
-      />
-      <Certifications::InfoField
-        @value={{this.certification.juryId}}
-        @edition={{false}}
-        @label="Identifiant jury :"
-        @isTextarea={{true}}
-      />
-    </div>
+  <Certifications::Certification::Comments
+    @onCommentsSave={{this.onCommentsSave}}
+    @certification={{this.certification}}
+  />
 
-  </div>
   <div class="certification-informations__row">
     <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
       <h2 class="certification-informations__card__title">Résultats</h2>
