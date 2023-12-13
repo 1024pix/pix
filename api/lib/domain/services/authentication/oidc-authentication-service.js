@@ -126,9 +126,7 @@ class OidcAuthenticationService {
       return null;
     }
 
-    // The session ID must be unpredictable, thus we disable the entropy cache
-    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
-    const uuid = randomUUID({ disableEntropyCache: true });
+    const uuid = randomUUID();
 
     const { idTokenLifespanMs } = this.temporaryStorageConfig;
 
@@ -179,10 +177,8 @@ class OidcAuthenticationService {
 
   getAuthenticationUrl({ redirectUri }) {
     const redirectTarget = new URL(this.authenticationUrl);
-    // The session ID must be unpredictable, thus we disable the entropy cache
-    // See https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#session-id-entropy
-    const state = randomUUID({ disableEntropyCache: true });
-    const nonce = randomUUID({ disableEntropyCache: true });
+    const state = randomUUID();
+    const nonce = randomUUID();
 
     const params = [
       { key: 'state', value: state },
