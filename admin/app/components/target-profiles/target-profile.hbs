@@ -14,12 +14,12 @@
     <TargetProfiles::UpdateTargetProfile @model={{@model}} @toggleEditMode={{this.toggleEditMode}} />
 
   {{else}}
-    <section class="page-section">
+    <section class="page-section target-profile-section">
       <div class="page-section__header">
         <h2 class="page-section__title target-profile__title">{{@model.name}}</h2>
         <TargetProfiles::Category @category={{@model.category}} />
       </div>
-      <div class="page-section__container">
+      <div class="target-profile-section__container">
         <ul>
           <li><span class="bold">ID : </span>{{@model.id}}</li>
           <li><span class="bold">Date de création : </span>{{format-date @model.createdAt}}</li>
