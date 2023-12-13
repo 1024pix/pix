@@ -15,7 +15,7 @@ module('Unit | Component | Badges | badge', function (hooks) {
       };
 
       // then
-      assert.strictEqual(component.isCertifiableColor, 'green');
+      assert.strictEqual(component.isCertifiableColor, 'tertiary');
       assert.strictEqual(component.isCertifiableText, 'Certifiable');
     });
   });
@@ -29,7 +29,7 @@ module('Unit | Component | Badges | badge', function (hooks) {
       };
 
       // then
-      assert.strictEqual(component.isAlwaysVisibleColor, 'green');
+      assert.strictEqual(component.isAlwaysVisibleColor, 'tertiary');
       assert.strictEqual(component.isAlwaysVisibleText, 'Lacunes');
     });
   });
