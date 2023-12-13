@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 const options = [
@@ -11,6 +10,7 @@ const options = [
   { value: 'aband', label: 'Passée' },
   { value: 'skip', label: 'Neutralisée' },
   { value: 'skippedAutomatically', label: 'Abandon' },
+  { value: 'in progress', label: 'En cours' },
 ];
 
 export default class CertificationDetailsAnswer extends Component {
@@ -31,18 +31,12 @@ export default class CertificationDetailsAnswer extends Component {
     return `https://app.recette.pix.fr/challenges/${this.args.answer.challengeId}/preview`;
   }
 
-  get linkToChallengeInfoInPixEditor() {
-    return `https://editor.pix.fr/#/challenge/${this.args.answer.challengeId}`;
+  get resultLabel() {
+    return this.resultOptions.find((option) => option.value === this.selectedOption).label;
   }
 
-  @action
-  selectOption(newResult) {
-    const answer = this.args.answer;
-    const answerResult = this._answerResultValue();
-    answer.jury = answerResult !== newResult ? newResult : null;
-    this.selectedOption = newResult ?? answerResult;
-    this.hasJuryResult = !!newResult;
-    this.args.onUpdateRate();
+  get linkToChallengeInfoInPixEditor() {
+    return `https://editor.pix.fr/#/challenge/${this.args.answer.challengeId}`;
   }
 
   _answerResultValue() {
@@ -52,6 +46,6 @@ export default class CertificationDetailsAnswer extends Component {
     if (this.args.answer.hasBeenSkippedAutomatically) {
       return 'skippedAutomatically';
     }
-    return this.args.answer.result;
+    return this.args.answer.result ?? 'in progress';
   }
 }
