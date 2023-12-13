@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
-import { getSettledState, settled } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
 import setupIntl from '../../../../../helpers/setup-intl';
@@ -15,16 +14,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       competence_code: code,
       score: score,
       level: level,
-    };
-  };
-
-  const createMark = ({ competence_code, score, level, competenceId }) => {
-    return {
-      competence_code,
-      level,
-      score,
-      area_code: competence_code.substr(0, 1),
-      competenceId: competenceId,
     };
   };
 
@@ -448,69 +437,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         assert.ok(controller.confirmMessage);
         assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
         assert.ok(controller.confirmErrorMessage.match(new RegExp(scoreErrorRegexp)));
-      });
-    });
-  });
-
-  module('#onCheckMarks', () => {
-    module('when there is no mark', () => {
-      test('should not set competencesWithMark', async function (assert) {
-        // when
-        await controller.onCheckMarks();
-        // then
-        assert.deepEqual(controller.certification.competencesWithMark, competencesWithMark);
-      });
-    });
-
-    module('when there are marks', () => {
-      test('should set competencesWithMark', async function (assert) {
-        // given
-        const score = 100;
-        const anExistingCompetence = _getCompetenceWithMark(anExistingCompetenceCode);
-
-        const expectedCompetencesWithMark = [
-          createMark({
-            competence_code: anExistingCompetenceCode,
-            level: anExistingCompetence.level + 1,
-            score: anExistingCompetence.score + 1,
-            competenceId: 'recComp1',
-          }),
-          createMark({
-            competence_code: aNewCompetenceCode,
-            level: 5,
-            score: 6,
-            competenceId: 'recComp2',
-          }),
-        ];
-
-        const store = this.owner.lookup('service:mark-store');
-        store.storeState({
-          score,
-          marks: {
-            [anExistingCompetenceCode]: {
-              level: anExistingCompetence.level + 1,
-              score: anExistingCompetence.score + 1,
-              competenceId: 'recComp1',
-            },
-            [aNewCompetenceCode]: {
-              level: 5,
-              score: 6,
-              competenceId: 'recComp2',
-            },
-          },
-        });
-
-        // when
-        await controller.onCheckMarks();
-        const state = await getSettledState();
-
-        // then
-        assert.strictEqual(controller.certification.pixScore, score);
-        assert.deepEqual(controller.certification.competencesWithMark, expectedCompetencesWithMark);
-        assert.ok(state.hasPendingTimers);
-
-        await settled();
-        assert.ok(controller.editingCandidateResults);
       });
     });
   });
