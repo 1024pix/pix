@@ -871,6 +871,12 @@
             }
           }
         },
+        "modals": {
+          "leave-certification-center": {
+            "title": "Leave this Pix Certif space",
+            "message": "Are you sure you want to leave this Pix Certif space? You will no longer have access to <strong>{certificationCenterName}</strong>.<br/><br/>Your sessions remain accessible to the rest of the team.<br/><br/>Your access to other Pix Certif spaces will not be affected.<br/><br/>You'll be disconnected."
+          }
+        },
         "notifications": {
           "change-member-role": {
             "error": "An error occurred while changing this member's role.",
