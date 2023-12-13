@@ -1,0 +1,21 @@
+<PixModal
+  @title={{t "pages.team.members.modals.leave-certification-center.title"}}
+  @showModal={{@isOpen}}
+  @onCloseButtonClick={{@onClose}}
+>
+  <:content>
+    <p class="leave-certification-center-modal">
+      {{t
+        "pages.team.members.modals.leave-certification-center.message"
+        certificationCenterName=@certificationCenterName
+        htmlSafe=true
+      }}
+    </p>
+  </:content>
+  <:footer>
+    <PixButton @triggerAction={{@onClose}} @backgroundColor="transparent-light" @isBorderVisible={{true}}>{{t
+        "common.actions.cancel"
+      }}</PixButton>
+    <PixButton @triggerAction={{@onSubmit}} @backgroundColor="error">{{t "common.actions.confirm"}}</PixButton>
+  </:footer>
+</PixModal>
