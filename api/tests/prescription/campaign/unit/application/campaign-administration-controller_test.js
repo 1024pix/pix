@@ -2,7 +2,7 @@ import { sinon, expect, hFake } from '../../../../test-helper.js';
 import { campaignAdministrationController } from '../../../../../src/prescription/campaign/application/campaign-adminstration-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
 
-describe('Unit | Application | Controller | Campaign', function () {
+describe('Unit | Application | Controller | Campaign administration', function () {
   describe('#save', function () {
     let campaignReportSerializerStub;
     let requestResponseUtils;

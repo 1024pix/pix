@@ -19,6 +19,24 @@ const register = async function (server) {
         tags: ['api', 'campaign'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/campaigns',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: campaignDetailController.findPaginatedFilteredCampaigns,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les campagnes rattachées à l’organisation.',
+        ],
+      },
+    },
   ]);
 };
 

@@ -128,26 +128,6 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('GET /api/organizations/:id/campaigns', function () {
-    it('should call the organization controller to get the campaigns', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/organizations/1/campaigns';
-
-      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
-      sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
-    });
-  });
-
   describe('POST /api/organizations/:id/invitations', function () {
     it('should call the organization controller to send invitations', async function () {
       // given
