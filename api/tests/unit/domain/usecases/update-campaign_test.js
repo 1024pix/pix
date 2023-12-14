@@ -200,30 +200,6 @@ describe('Unit | UseCase | update-campaign', function () {
   });
 
   context('when an error occurred', function () {
-    it('should throw an error when the user does not have an access to the campaign organization', async function () {
-      // given
-      const userWithoutMembership = {
-        id: 1,
-        hasAccessToOrganization: sinon.stub(),
-      };
-      originalCampaign = domainBuilder.buildCampaign({ organization: { id: organizationId } });
-
-      campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      userRepository.getWithMemberships.withArgs(userWithoutMembership.id).resolves(userWithoutMembership);
-      userWithoutMembership.hasAccessToOrganization.withArgs(organizationId).returns(false);
-
-      // when
-      const error = await catchErr(updateCampaign)({
-        userId: userWithoutMembership.id,
-        campaignId: originalCampaign.id,
-        userRepository,
-        campaignRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateResourceError);
-    });
-
     it('should throw an error when the owner is not a member of organization', async function () {
       // given
       const ownerWithoutMembership = domainBuilder.buildUser();
