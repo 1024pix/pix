@@ -17,7 +17,6 @@ export default class CertificationInformationsRoute extends Route {
     super.setupController(...arguments);
     controller.certificationId = model.certification.id;
     controller.certificationStatus = model.certification.status;
-    controller.send('onCheckMarks');
   }
 
   @action

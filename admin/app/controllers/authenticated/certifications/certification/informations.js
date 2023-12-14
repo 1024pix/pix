@@ -1,11 +1,9 @@
-import { A } from '@ember/array';
 import Controller from '@ember/controller';
 /* eslint-disable ember/no-computed-properties-in-native-classes */
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 /* eslint-enable ember/no-computed-properties-in-native-classes */
 import { service } from '@ember/service';
-import { schedule } from '@ember/runloop';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import ENV from 'pix-admin/config/environment';
@@ -40,7 +38,6 @@ export default class CertificationInformationsController extends Controller {
 
   // private properties
   _competencesCopy = null;
-  @service('mark-store') _markStore;
 
   @computed('certification.status')
   get isValid() {
@@ -178,27 +175,6 @@ export default class CertificationInformationsController extends Controller {
   @action
   onUpdateLevel(code, value) {
     this._updatePropForCompetence(code, value, 'level', 'score');
-  }
-
-  @action
-  onCheckMarks() {
-    if (this._markStore.hasState()) {
-      const state = this._markStore.getState();
-      this.certification.pixScore = state.score;
-      const newCompetences = Object.entries(state.marks).map(([code, mark]) => {
-        return {
-          competenceId: mark.competenceId,
-          competence_code: code,
-          area_code: code.substr(0, 1),
-          level: mark.level,
-          score: mark.score,
-        };
-      });
-      this.certification.competencesWithMark = A(newCompetences);
-      schedule('afterRender', this, () => {
-        this.editingCandidateResults = true;
-      });
-    }
   }
 
   @action
