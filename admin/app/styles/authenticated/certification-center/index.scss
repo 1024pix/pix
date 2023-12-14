@@ -20,7 +20,7 @@
 
   .error {
     padding-top: 5px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-size: 0.85rem;
   }
 }

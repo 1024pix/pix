@@ -1,23 +1,13 @@
 /* stylelint-disable selector-class-pattern */
-@mixin whiteBlock {
-  background: $pix-neutral-0;
-  border-radius: 4px;
-  box-shadow: 0 1px 1px 0 rgba($pix-neutral-100, 0.1), 0 2px 5px 0 rgba($pix-neutral-100, 0.1);
-}
-
 .navbar {
-  @include whiteBlock;
-
   display: flex;
   align-items: normal;
   justify-content: start;
   height: 60px;
   margin: 20px 0;
   padding: 0 10px;
-
-  a {
-    text-decoration: none;
-  }
+  background: var(--pix-neutral-0);
+  border-radius: var(--pix-spacing-1x);
 
   &-item {
     display: flex;
@@ -25,47 +15,32 @@
     justify-content: center;
     min-width: 150px;
     padding: 0 $pix-spacing-xs;
-    color: $pix-neutral-45;
     font-weight: 500;
     cursor: pointer;
-    transition: all ease-in-out 0.2s;
 
-    &:hover {
-      color: $pix-communication-dark;
+    &:not(.pix-button) {
+      color: var(--pix-neutral-500);
+      text-decoration: none;
+
+      &:visited {
+        color: var(--pix-neutral-500);
+      }
+
+      &:hover {
+        color: var(--pix-tertiary-500);
+      }
+
+      &.active {
+        color: var(--pix-primary-500);
+        font-weight: var(--pix-font-bold);
+        border-bottom: 2px solid var(--pix-primary-500);
+      }
     }
-  }
-
-  &__list--item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    cursor: pointer;
-  }
-
-  .navbar-list-item {
-    &__link {
-      color: $pix-neutral-45;
-      font-weight: 500;
-    }
-
-    &__link.active {
-      color: $pix-communication-dark;
-    }
-  }
-
-  &__list--item:has(.navbar-list-item__link.active) {
-    border-bottom: 2px solid $pix-communication-dark;
-  }
-
-  &-item.active {
-    color: $pix-communication-dark;
-    border-bottom: 2px solid $pix-communication-dark;
   }
 }
 
 .navbar + section {
-  @include whiteBlock;
-
   padding: 20px;
+  background: var(--pix-neutral-0);
+  border-radius: var(--pix-spacing-1x);
 }

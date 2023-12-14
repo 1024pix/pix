@@ -2,7 +2,7 @@
   &__resume {
     margin-bottom: $pix-spacing-s;
     padding-bottom: $pix-spacing-s;
-    border-bottom: 3px solid $pix-neutral-20;
+    border-bottom: 3px solid var(--pix-neutral-20);
   }
 
   &__button {
@@ -10,7 +10,7 @@
     margin-top: $pix-spacing-s;
 
     &:hover {
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
       text-decoration: none;
     }
   }

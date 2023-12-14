@@ -1,6 +1,6 @@
 .tubes-selection {
   margin-bottom: $pix-spacing-m;
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
 
   &__card {
     margin-bottom: $pix-spacing-m;
@@ -17,7 +17,7 @@
     .vertical-delimiter {
       height: 32px;
       margin: 0 1em;
-      border-left: 1px solid $pix-neutral-90;
+      border-left: 1px solid var(--pix-neutral-900);
     }
 
     &--count {
@@ -42,23 +42,23 @@
 
 .select-tube-table {
   .is-responsive {
-    color: $pix-success-60;
+    color: var(--pix-success-700);
   }
 
   .not-responsive {
     position: absolute;
     top: 50%;
     left: 50%;
-    color: $pix-error-60;
+    color: var(--pix-error-700);
     transform: translate(-50%, -50%);
   }
 
   table {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
   }
 
   th {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: 500;
 
     p {
@@ -86,11 +86,11 @@
   }
 
   thead {
-    background: $pix-neutral-10;
+    background: var(--pix-neutral-20);
   }
 
   tr:not(:first-child) {
-    border-top: solid 1px $pix-neutral-20;
+    border-top: solid 1px var(--pix-neutral-20);
   }
 }
 
@@ -105,27 +105,27 @@
     z-index: 2;
     width: 4px;
     height: calc(100% - 24px);
-    background-color: $pix-primary-70;
+    background-color: var(--pix-primary-700);
     border-radius: 2px;
 
     &.jaffa {
-      background-color: $pix-information-light;
+      background-color: var(--pix-information-light);
     }
 
     &.emerald {
-      background-color: $pix-content-light;
+      background-color: var(--pix-content-light);
     }
 
     &.cerulean {
-      background-color: $pix-communication-light;
+      background-color: var(--pix-communication-light);
     }
 
     &.wild-strawberry {
-      background-color: $pix-security-light;
+      background-color: var(--pix-security-light);
     }
 
     &.butterfly-bush {
-      background-color: $pix-environment-light;
+      background-color: var(--pix-environment-light);
     }
   }
 }
@@ -142,10 +142,10 @@
     font-weight: 500;
     font-size: 1.3rem;
     font-family: $font-open-sans;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
 
     &:hover {
-      background-color: $pix-neutral-10;
+      background-color: var(--pix-neutral-20);
     }
   }
 
@@ -180,11 +180,11 @@
     border-radius: 4px;
 
     &__active {
-      background-color: $pix-success-70;
+      background-color: var(--pix-success-700);
     }
 
     &__missing {
-      background-color: $pix-error-70;
+      background-color: var(--pix-error-700);
     }
   }
 }

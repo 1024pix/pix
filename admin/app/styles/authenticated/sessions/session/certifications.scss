@@ -8,7 +8,7 @@
   /* stylelint-disable selector-class-pattern */
   td.certification-list-page__cell--important,
   span.certification-list-page__cell--important {
-    color: $pix-information-dark;
+    color: var(--pix-information-dark);
     font-weight: bold;
   }
 
