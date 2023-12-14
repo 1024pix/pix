@@ -9,6 +9,7 @@ import { BlockText } from '../../../../../../src/devcomp/domain/models/block/Blo
 import { BlockInput } from '../../../../../../src/devcomp/domain/models/block/BlockInput.js';
 import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/block/BlockSelectOption.js';
+import { Video } from '../../../../../../src/devcomp/domain/models/element/Video.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {
   describe('#serialize', function () {
@@ -108,6 +109,14 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                 ],
               }),
               new Image({ id: '3', type: 'image', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
+              new Video({
+                id: '4',
+                title: 'title',
+                url: 'url',
+                subtitles: 'subtitles',
+                transcription: 'transcription',
+                alternativeText: 'alternativeText',
+              }),
             ],
           },
         ],
@@ -215,6 +224,19 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           },
           {
             attributes: {
+              'alternative-text': 'alternativeText',
+              'is-answerable': false,
+              subtitles: 'subtitles',
+              transcription: 'transcription',
+              title: 'title',
+              type: 'videos',
+              url: 'url',
+            },
+            id: '4',
+            type: 'videos',
+          },
+          {
+            attributes: {
               title: 'Grain 1',
               type: 'activity',
             },
@@ -237,6 +259,10 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                   {
                     id: '3',
                     type: 'images',
+                  },
+                  {
+                    id: '4',
+                    type: 'videos',
                   },
                 ],
               },
