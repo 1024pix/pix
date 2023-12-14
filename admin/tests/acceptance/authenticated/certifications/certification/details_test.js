@@ -9,8 +9,39 @@ module('Acceptance | authenticated/certifications/certification/details', functi
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  module('when certification is V2', function () {
+    test('renders the V2 details page', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const listChallengesAndAnswers = [
+        {
+          result: 'ok',
+          value: 'Dummy value',
+          challengeId: 'recCGEqqWBQnzD3NZ',
+          competence: '1.1',
+          skill: '',
+          isNeutralized: false,
+        },
+      ];
+      const certificationId = this.server.create('certification').id;
+      this.server.create('certification-detail', {
+        id: certificationId,
+        competencesWithMark: [],
+        status: 'started',
+        listChallengesAndAnswers,
+        version: 2,
+      });
+
+      // when
+      const screen = await visit(`/certifications/${certificationId}/details`);
+
+      // then
+      assert.dom(screen.getByText('Statut :')).exists();
+    });
+  });
+
   module('when user does not have access to certification action scope', function () {
-    test('it should not render save button', async function (assert) {
+    test('does not render save button', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isMetier: true })(server);
       const listChallengesAndAnswers = [
