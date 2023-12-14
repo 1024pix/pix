@@ -12,4 +12,9 @@ export default class MembersList extends Component {
   get shouldDisplayManagingColumn() {
     return this.currentUser.isAdminOfCurrentCertificationCenter;
   }
+
+  get isMultipleAdminsAvailable() {
+    const adminMembers = this.args.members?.filter((member) => member.isAdmin);
+    return adminMembers.length > 1;
+  }
 }
