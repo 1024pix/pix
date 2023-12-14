@@ -3,9 +3,14 @@ import { CampaignParticipant } from '../../domain/models/CampaignParticipant.js'
 import { OrganizationLearnerForStartingParticipation } from '../../domain/read-models/OrganizationLearnerForStartingParticipation.js';
 import { CampaignToStartParticipation } from '../../domain/models/CampaignToStartParticipation.js';
 import { UserIdentity } from '../../domain/read-models/UserIdentity.js';
-import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../domain/errors.js';
+import {
+  AlreadyExistingCampaignParticipationError,
+  OrganizationLearnersCouldNotBeSavedError,
+  NotFoundError,
+} from '../../domain/errors.js';
 import * as campaignRepository from '../repositories/campaign-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { PreviousCampaignParticipation } from '../../domain/read-models/PreviousCampaignParticipation.js';
 
 const { pick } = lodash;
@@ -50,16 +55,26 @@ async function _createNewOrganizationLearner(organizationLearner, queryBuilder) 
 
       return existingOrganizationLearner.id;
     } else {
-      const [{ id }] = await queryBuilder('organization-learners').insert(
-        {
-          userId: organizationLearner.userId,
-          organizationId: organizationLearner.organizationId,
-          firstName: organizationLearner.firstName,
-          lastName: organizationLearner.lastName,
-        },
-        ['id'],
-      );
-      return id;
+      try {
+        const [{ id }] = await queryBuilder('organization-learners').insert(
+          {
+            userId: organizationLearner.userId,
+            organizationId: organizationLearner.organizationId,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
+          },
+          ['id'],
+        );
+        return id;
+      } catch (error) {
+        if (knexUtils.isUniqConstraintViolated(error) && error.constraint === 'one_active_organization_learner') {
+          throw new OrganizationLearnersCouldNotBeSavedError(
+            `User ${organizationLearner.userId} already inserted into ${organizationLearner.organizationId}`,
+          );
+        }
+
+        throw error;
+      }
     }
   }
 }
