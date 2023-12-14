@@ -1,27 +1,6 @@
 {{page-title "Certif " @model.id " Détails | Pix Admin" replace=true}}
-<div class="certification-details">
-  <div>
-    <div>
-      <Card>
-        <div class="certification-details__info">
-          <div>Statut :</div>
-          <div>{{@model.status}}</div>
-
-          <div>Créé le :</div>
-          <div>{{@model.creationDate}}</div>
-
-          <div>Terminée le :</div>
-          <div>{{@model.completionDate}}</div>
-
-          <div>Score :</div>
-          <div class="certificate">{{@model.totalScore}}</div>
-          <div>Taux de reproductibilité :</div>
-          <div class="certificate">{{@model.percentageCorrectAnswers}}</div>
-        </div>
-      </Card>
-    </div>
-    {{#each @model.competences as |competence|}}
-      <Certifications::DetailsCompetence @competence={{competence}} @rate={{@model.percentageCorrectAnswers}} />
-    {{/each}}
-  </div>
-</div>
+{{#if (eq @model.version 3)}}
+  <Certifications::Certification::DetailsV3 />
+{{else}}
+  <Certifications::Certification::DetailsV2 @details={{@model}} />
+{{/if}}

@@ -29,6 +29,39 @@ module('Unit | Model | certification details', function (hooks) {
     });
   });
 
+  module('#get competences', function () {
+    test('returns competences', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const listChallengesAndAnswers = [
+        { id: 'answerId1', competence: '1.1' },
+        { id: 'answerId2', competence: '1.1' },
+        { id: 'answerId3', competence: '1.2' },
+      ];
+      const competencesWithMark = [{ index: '1.1' }, { index: '1.2' }];
+
+      // when
+      const certification = run(() =>
+        store.createRecord('certification-details', {
+          listChallengesAndAnswers,
+          competencesWithMark,
+        }),
+      );
+
+      // then
+      assert.deepEqual(certification.competences, [
+        {
+          index: '1.1',
+          answers: [
+            { id: 'answerId1', competence: '1.1', order: 1 },
+            { id: 'answerId2', competence: '1.1', order: 2 },
+          ],
+        },
+        { index: '1.2', answers: [{ id: 'answerId3', competence: '1.2', order: 3 }] },
+      ]);
+    });
+  });
+
   module('#neutralizeChallenge', function () {
     test('neutralizes a challenge', async function (assert) {
       // given

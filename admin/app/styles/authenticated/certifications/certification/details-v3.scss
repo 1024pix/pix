@@ -1,0 +1,7 @@
+.certification-details-v3 {
+   &__container {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: $pix-spacing-s;
+   }
+}
