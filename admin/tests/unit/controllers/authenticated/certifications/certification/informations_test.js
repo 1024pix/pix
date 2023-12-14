@@ -4,6 +4,7 @@ import { setupTest } from 'ember-qunit';
 
 import EmberObject from '@ember/object';
 import setupIntl from '../../../../../helpers/setup-intl';
+import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/certifications/certification/informations', function (hooks) {
   setupTest(hooks);
@@ -675,6 +676,48 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         assert.ok(shouldDisplayRejectCertificationButton);
       });
+    });
+  });
+
+  module('#onCommentsSave', function () {
+    test('it displays a success notification if comments are saved', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
+      controller.saveAssessmentResult = sinon.stub();
+      controller.saveAssessmentResult.resolves();
+
+      const notificationSuccessStub = sinon.stub();
+      class NotificationsStub extends Service {
+        success = notificationSuccessStub;
+      }
+      this.owner.register('service:notifications', NotificationsStub);
+
+      // when
+      await controller.onCommentsSave();
+
+      // then
+      sinon.assert.calledOnce(notificationSuccessStub);
+      assert.ok(controller);
+    });
+
+    test('it displays an error notification if comments cannot be saved', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
+      controller.saveAssessmentResult = sinon.stub();
+      controller.saveAssessmentResult.throws();
+
+      const notificationErrorStub = sinon.stub();
+      class NotificationsStub extends Service {
+        error = notificationErrorStub;
+      }
+      this.owner.register('service:notifications', NotificationsStub);
+
+      // when
+      await controller.onCommentsSave();
+
+      // then
+      sinon.assert.calledOnce(notificationErrorStub);
+      assert.ok(controller);
     });
   });
 

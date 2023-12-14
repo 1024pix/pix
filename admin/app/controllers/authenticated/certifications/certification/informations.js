@@ -290,6 +290,18 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
+  async onCommentsSave() {
+    try {
+      await this.saveAssessmentResult();
+      this.notifications.success('Les commentaires du jury ont bien été enregistrés.');
+      return true;
+    } catch (e) {
+      this.notifications.error("Les commentaires du jury n'ont pas pu être enregistrés.");
+      return false;
+    }
+  }
+
+  @action
   openCandidateEditModal() {
     this.isCandidateEditModalOpen = true;
   }
