@@ -17,6 +17,8 @@
   }
 }
 
-.pix-button--background-blue.card:hover {
-  background-color: transparent;
+.pix-button.card {
+  &:hover, &:focus, &:active, &:focus-visible {
+    background-color: transparent;
+  }
 }
