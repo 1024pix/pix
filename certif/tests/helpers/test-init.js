@@ -13,6 +13,7 @@ export function createCertificationPointOfContact(
   isRelatedOrganizationManagingStudents = false,
   certificationCenterCount = 1,
   certificationCenterRole = 'MEMBER',
+  isCertificationPointOfContactReferer = false,
 ) {
   const allowedCertificationCenterAccesses = _createCertificationCenters(certificationCenterCount, {
     certificationCenterName,
@@ -30,12 +31,22 @@ export function createCertificationPointOfContact(
     role: certificationCenterRole,
   });
 
-  return createCertificationPointOfContactWithCustomCenters({
+  const certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
     certificationCenterRole,
     certificationCenterMemberships,
   });
+
+  _createCertificationCenterMember({
+    id: certificationPointOfContact.id,
+    firstName: certificationPointOfContact.firstName,
+    lastName: certificationPointOfContact.lastName,
+    role: certificationCenterRole,
+    isReferer: isCertificationPointOfContactReferer,
+  });
+
+  return certificationPointOfContact;
 }
 
 export function createCertificationPointOfContactWithCustomCenters({
@@ -51,6 +62,16 @@ export function createCertificationPointOfContactWithCustomCenters({
     pixCertifTermsOfServiceAccepted,
     allowedCertificationCenterAccesses,
     certificationCenterMemberships,
+  });
+}
+
+function _createCertificationCenterMember({ role, firstName, lastName, id, isReferer }) {
+  return server.create('member', {
+    id,
+    role,
+    firstName,
+    lastName,
+    isReferer,
   });
 }
 
@@ -107,6 +128,7 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(
   certificationCenterName = 'Centre de certification du pix',
   isRelatedOrganizationManagingStudents = false,
   certificationCenterRole = 'MEMBER',
+  isCertificationPointOfContactReferer = false,
 ) {
   return createCertificationPointOfContact(
     true,
@@ -115,6 +137,7 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(
     isRelatedOrganizationManagingStudents,
     1,
     certificationCenterRole,
+    isCertificationPointOfContactReferer,
   );
 }
 

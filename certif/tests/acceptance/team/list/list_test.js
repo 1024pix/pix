@@ -40,7 +40,7 @@ module('Acceptance | authenticated | team', function (hooks) {
       assert.dom(screen.getByRole('cell', { name: 'Lee' })).exists();
       assert.dom(screen.getByRole('cell', { name: 'Tige' })).exists();
 
-      assert.dom(screen.getByRole('link', { name: 'Membres (2)' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Membres (3)' })).exists();
       assert.dom(screen.getByRole('link', { name: 'Invitations (-)' })).exists();
 
       assert.dom(screen.getByText(this.intl.t('pages.team.invite-button'))).exists();
@@ -171,7 +171,7 @@ module('Acceptance | authenticated | team', function (hooks) {
                     false,
                     'ADMIN',
                   );
-                  server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'ADMIN' });
+                  server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'MEMBER' });
                   server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
                   await authenticateSession(certificationPointOfContact.id);
 
@@ -190,12 +190,11 @@ module('Acceptance | authenticated | team', function (hooks) {
                   );
 
                   // then
-                  const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
-                  assert.dom(row.getByRole('cell', { name: 'Dupont' })).exists();
-                  assert.dom(row.getByRole('cell', { name: 'Lili' })).exists();
-                  assert.dom(row.getByRole('cell', { name: 'Administrateur' })).exists();
+                  assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
+                  assert.dom(screen.getByRole('cell', { name: 'Lili' })).exists();
+                  assert.dom(screen.getByRole('cell', { name: 'Membre' })).exists();
                   assert.dom(await screen.findByText('Un nouveau référent CléA Numérique a été nommé.')).exists();
-                  assert.dom(await row.findByRole('cell', { name: 'Référent CléA Numérique' })).exists();
+                  assert.dom(await screen.findByRole('cell', { name: 'Référent CléA Numérique' })).exists();
                 });
               });
             });
@@ -209,8 +208,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'CCNG',
                 false,
                 'ADMIN',
+                true,
               );
-              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
               server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -228,8 +227,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'CCNG',
                 false,
                 'ADMIN',
+                true,
               );
-              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
               server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
               await authenticateSession(certificationPointOfContact.id);
 
