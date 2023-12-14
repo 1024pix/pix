@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.76.0 (14/12/2023)
+
+
+### :rocket: Amélioration
+- [#7580](https://github.com/1024pix/pix/pull/7580) [FEATURE] Accéder à un élément QROC M Indep (PIX-10117).
+- [#7639](https://github.com/1024pix/pix/pull/7639) [FEATURE] Modification de la hiérarchie des boutons de création de sessions (PIX-10147).
+- [#7666](https://github.com/1024pix/pix/pull/7666) [FEATURE] Supprimer le fil d’Ariane de l'import en masse des sessions sur Pix Certif (PIX-10149). .
+- [#7647](https://github.com/1024pix/pix/pull/7647) [FEATURE] Afficher le titre et la date du jour sur la page Places (PIX-9722).
+
+### :building_construction: Tech
+- [#7677](https://github.com/1024pix/pix/pull/7677) [TECH] Suppression de l'édition de résultats de la page détails d'Admin (PIX-10361).
+- [#7587](https://github.com/1024pix/pix/pull/7587) [TECH] améliore le temps d'exécution de la requête qui affiche les participants d'une orga sup (PIX-10109).
+- [#7640](https://github.com/1024pix/pix/pull/7640) [TECH] améliore le temps d'exécution de la requête qui affiche les participants d'une orga SCO (PIX-10110).
+- [#7665](https://github.com/1024pix/pix/pull/7665) [TECH] améliore le temps d'exécution de la requête qui affiche les participants d'une orga sans import (PIX-10108).
+- [#7663](https://github.com/1024pix/pix/pull/7663) [TECH] Supprimer le paramètre disableEntropyCache des appels a randomUUID.
+- [#7664](https://github.com/1024pix/pix/pull/7664) [TECH] Installer toutes les dépendances dans circleci.
+- [#7637](https://github.com/1024pix/pix/pull/7637) [TECH] Afficher directement les informations pour l'import de sessions en masse sur Pix Certif (PIX-10148).
+
+### :bug: Correction
+- [#7685](https://github.com/1024pix/pix/pull/7685) [BUGFIX] Améliorer les différents états des boutons (PIX-10388).
+- [#7679](https://github.com/1024pix/pix/pull/7679) [BUGFIX] Rétablir la possibilité d'annuler la création d'un contenu formatif (PIX-10367).
+- [#7670](https://github.com/1024pix/pix/pull/7670) [BUGFIX] Finaliser un parcours lorsqu'un tube de déclencheur de CF n'est plus disponible dans le référentiel (PIX-10347).
+
+### :arrow_up: Montée de version
+- [#7662](https://github.com/1024pix/pix/pull/7662) [BUMP] Update vitest monorepo to v1 (audit-logger) (major).
+
 ## v4.75.0 (12/12/2023)
 
 
