@@ -24,6 +24,11 @@ export default class MembersList extends Component {
   }
 
   @action
+  openLeaveCertificationCenterModal() {
+    this.isLeaveCertificationCenterModalOpen = true;
+  }
+
+  @action
   closeLeaveCertificationCenterModal() {
     this.isLeaveCertificationCenterModalOpen = false;
   }
