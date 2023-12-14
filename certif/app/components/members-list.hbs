@@ -17,10 +17,22 @@
         </thead>
         <tbody>
           {{#each @members as |member|}}
-            <MembersListItem @member={{member}} @shouldDisplayRefererColumn={{this.shouldDisplayRefererColumn}} />
+            <MembersListItem
+              @member={{member}}
+              @shouldDisplayRefererColumn={{this.shouldDisplayRefererColumn}}
+              @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
+              @onLeaveCertificationCenterButtonClicked={{this.openLeaveCertificationCenterModal}}
+            />
           {{/each}}
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+<Team::Modal::LeaveCertificationCenter
+  @certificationCenterName={{this.currentUser.currentAllowedCertificationCenterAccess.name}}
+  @isOpen={{this.isLeaveCertificationCenterModalOpen}}
+  @onClose={{this.closeLeaveCertificationCenterModal}}
+  @onSubmit={{this.leaveCertificationCenter}}
+/>
