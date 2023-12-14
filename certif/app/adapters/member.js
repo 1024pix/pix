@@ -29,4 +29,9 @@ export default class MemberAdapter extends ApplicationAdapter {
       return super.buildURL(modelName, id, snapshot, requestType, query);
     }
   }
+
+  async leaveCertificationCenter(certificationCenterId) {
+    const url = `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/members/me/disable`;
+    return this.ajax(url, 'POST', { data: { certificationCenterId } });
+  }
 }

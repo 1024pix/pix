@@ -110,4 +110,27 @@ module('Unit | Adapter | member', function (hooks) {
       });
     });
   });
+
+  module('#leaveCertificationCenter', function (hooks) {
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
+
+    test('triggers a POST request to "/certification-centers/{certificationCenterId}/members/me/disable"', async function (assert) {
+      // given
+      const adapter = this.owner.lookup('adapter:member');
+      sinon.stub(adapter, 'ajax').resolves();
+      const certificationCenterId = 1;
+
+      // when
+      await adapter.leaveCertificationCenter(certificationCenterId);
+
+      // then
+      assert.true(
+        adapter.ajax.calledWith('http://localhost:3000/api/certification-centers/1/members/me/disable', 'POST', {
+          data: { certificationCenterId },
+        }),
+      );
+    });
+  });
 });
