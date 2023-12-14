@@ -72,4 +72,19 @@ module('Unit | Component | MembersList', (hooks) => {
       });
     });
   });
+
+  module.only('Methods', function () {
+    module('#closeLeaveCertificationCenterModal', function () {
+      test('sets "isLeaveCertificationCenterModalOpen" value to "false"', function (assert) {
+        // given
+        component.isLeaveCertificationCenterModalOpen = true;
+
+        // when
+        component.closeLeaveCertificationCenterModal();
+
+        // then
+        assert.false(component.isLeaveCertificationCenterModalOpen);
+      });
+    });
+  });
 });
