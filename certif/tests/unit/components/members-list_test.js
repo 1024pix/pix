@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import sinon from 'sinon';
 
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import setupIntl from '../../helpers/setup-intl';
@@ -73,7 +74,7 @@ module('Unit | Component | MembersList', (hooks) => {
     });
   });
 
-  module.only('Methods', function () {
+  module('Methods', function () {
     module('#closeLeaveCertificationCenterModal', function () {
       test('sets "isLeaveCertificationCenterModalOpen" value to "false"', function (assert) {
         // given
@@ -84,6 +85,20 @@ module('Unit | Component | MembersList', (hooks) => {
 
         // then
         assert.false(component.isLeaveCertificationCenterModalOpen);
+      });
+    });
+
+    module('#leaveCertificationCenter', function () {
+      test('calls parent component onLeaveCertificationCenter event handler', async function (assert) {
+        // given
+        const onLeaveCertificationCenter = sinon.stub().resolves();
+        component.args.onLeaveCertificationCenter = onLeaveCertificationCenter;
+
+        // when
+        await component.leaveCertificationCenter();
+
+        // then
+        assert.true(onLeaveCertificationCenter.calledOnce);
       });
     });
   });
