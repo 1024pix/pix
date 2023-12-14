@@ -156,6 +156,62 @@ module('Integration | Component | MembersListItem', function (hooks) {
             // then
             assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
           });
+
+          module('when clicking on manage button', function () {
+            test('displays a dropdown with one option to leave the current certification center', async function (assert) {
+              // given
+              const memberWithAdminRole = store.createRecord('member', {
+                id: 123,
+                firstName: 'John',
+                lastName: 'Williams',
+                role: 'ADMIN',
+              });
+              this.set('member', memberWithAdminRole);
+              this.set('isMultipleAdminsAvailable', true);
+              this.set('leaveCertificationCenter', sinon.stub());
+              sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+
+              const screen = await renderScreen(
+                hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}} />`,
+              );
+
+              // when
+              await clickByName('Gérer');
+
+              // then
+              assert.dom(screen.getByRole('list')).exists();
+              assert.strictEqual(screen.getAllByRole('listitem').length, 1);
+              assert.dom(screen.getByText('Quitter cet espace Pix Certif')).exists();
+            });
+
+            module('when clicking on "Quitter cet espace Pix Certif"', function () {
+              test('calls the onLeaveCertificationCenterButtonClicked event handler', async function (assert) {
+                // given
+                const memberWithAdminRole = store.createRecord('member', {
+                  id: 123,
+                  firstName: 'John',
+                  lastName: 'Williams',
+                  role: 'ADMIN',
+                });
+                const leaveCertificationCenter = sinon.stub();
+                this.set('member', memberWithAdminRole);
+                this.set('isMultipleAdminsAvailable', true);
+                this.set('leaveCertificationCenter', leaveCertificationCenter);
+                sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
+
+                await renderScreen(
+                  hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}} />`,
+                );
+
+                // when
+                await clickByName('Gérer');
+                await clickByName('Quitter cet espace Pix Certif');
+
+                // then
+                assert.true(leaveCertificationCenter.calledOnce);
+              });
+            });
+          });
         });
       });
     });
