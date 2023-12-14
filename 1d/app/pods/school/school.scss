@@ -27,8 +27,8 @@
   }
 }
 
-.pix-button--background-blue.learners__item {
-  &:hover {
+.pix-button.learners__item {
+  &:hover, &:focus, &:active, &:focus-visible {
     background-color: #EBEFFF;
   }
 }
