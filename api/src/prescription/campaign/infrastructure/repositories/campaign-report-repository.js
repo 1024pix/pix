@@ -5,6 +5,8 @@ import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import _ from 'lodash';
 import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 
@@ -94,4 +96,50 @@ const findMasteryRatesAndValidatedSkillsCount = async function (campaignId) {
   return aggregatedResults;
 };
 
-export { get, findMasteryRatesAndValidatedSkillsCount };
+const findPaginatedFilteredByOrganizationId = async function ({ organizationId, filter, page, userId }) {
+  const query = knex('campaigns')
+    .distinct('campaigns.id')
+    .select(
+      'campaigns.*',
+      'users.id AS "ownerId"',
+      'users.firstName AS ownerFirstName',
+      'users.lastName AS ownerLastName',
+      knex.raw(
+        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "participationsCount"',
+      ),
+      knex.raw(
+        'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"',
+      ),
+    )
+    .join('users', 'users.id', 'campaigns.ownerId')
+    .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+    .where('campaigns.organizationId', organizationId)
+    .modify(_setSearchFiltersForQueryBuilder, filter, userId)
+    .orderBy('campaigns.createdAt', 'DESC');
+
+  const { results, pagination } = await fetchPage(query, page);
+  const atLeastOneCampaign = await knex('campaigns').select('id').where({ organizationId }).first(1);
+  const hasCampaigns = Boolean(atLeastOneCampaign);
+
+  const campaignReports = results.map((result) => new CampaignReport(result));
+  return { models: campaignReports, meta: { ...pagination, hasCampaigns } };
+};
+
+function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName, isOwnedByMe }, userId) {
+  if (name) {
+    qb.whereILike('name', `%${name}%`);
+  }
+  if (ongoing) {
+    qb.whereNull('campaigns.archivedAt');
+  } else {
+    qb.whereNotNull('campaigns.archivedAt');
+  }
+  if (ownerName) {
+    filterByFullName(qb, ownerName, 'users.firstName', 'users.lastName');
+  }
+  if (isOwnedByMe) {
+    qb.where('users.id', '=', userId);
+  }
+}
+
+export { get, findMasteryRatesAndValidatedSkillsCount, findPaginatedFilteredByOrganizationId };

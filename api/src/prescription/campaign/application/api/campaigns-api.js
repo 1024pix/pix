@@ -1,11 +1,13 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { SavedCampaign } from './SavedCampaign.js';
-import { Campaign } from './Campaign.js';
+import { SavedCampaign } from './models/SavedCampaign.js';
+import { Campaign } from './models/Campaign.js';
+import { CampaignListItem } from './models/CampaignListItem.js';
 /**
  * @typedef CampaignApi
  * @type {object}
  * @function save
  * @function get
+ * @function findAllForOrganization
  */
 
 /**
@@ -56,4 +58,52 @@ export const save = async (campaign) => {
 export const get = async (campaignId) => {
   const getCampaign = await usecases.getCampaign({ campaignId });
   return new Campaign(getCampaign);
+};
+
+/**
+ * @typedef PageDefinition
+ * @type {object}
+ * @property {number} size
+ * @property {Page} number
+ */
+
+/**
+ * @typedef CampaignListPayload
+ * @type {object}
+ * @property {number} organizationId
+ * @property {PageDefinition} page
+ */
+
+/**
+ * @typedef Pagination
+ * @type {object}
+ * @property {number} page
+ * @property {number} pageSize
+ * @property {number} rowCount
+ * @property {number} pageCount
+ */
+
+/**
+ * @typedef CampaignListResponse
+ * @type {object}
+ * @property {[CampaignListItem]} models
+ * @property {Pagination} meta
+ */
+
+/**
+ * @function
+ * @name findAllForOrganization
+ *
+ * @param {CampaignListPayload} payload
+ * @returns {Promise<CampaignListResponse>}
+ */
+export const findAllForOrganization = async (payload) => {
+  const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({
+    organizationId: payload.organizationId,
+    page: payload.page,
+  });
+
+  const campaignsList = campaigns.map((campaign) => new CampaignListItem(campaign));
+
+  return { models: campaignsList, meta };
 };

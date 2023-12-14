@@ -2,7 +2,6 @@ import { tokenService } from '../../../src/shared/domain/services/token-service.
 import { usecases } from '../../domain/usecases/index.js';
 
 import * as campaignManagementSerializer from '../../infrastructure/serializers/jsonapi/campaign-management-serializer.js';
-import * as campaignReportSerializer from '../../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
@@ -60,31 +59,6 @@ const findPaginatedFilteredOrganizations = async function (
     page: options.page,
   });
   return dependencies.organizationSerializer.serialize(organizations, pagination);
-};
-
-const findPaginatedFilteredCampaigns = async function (
-  request,
-  h,
-  dependencies = {
-    queryParamsUtils,
-    campaignReportSerializer,
-  },
-) {
-  const organizationId = request.params.id;
-  const options = dependencies.queryParamsUtils.extractParameters(request.query);
-  const userId = request.auth.credentials.userId;
-
-  if (options.filter.status === 'archived') {
-    options.filter.ongoing = false;
-    delete options.filter.status;
-  }
-  const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({
-    organizationId,
-    filter: options.filter,
-    page: options.page,
-    userId,
-  });
-  return dependencies.campaignReportSerializer.serialize(campaigns, meta);
 };
 
 const findPaginatedCampaignManagements = async function (
@@ -289,7 +263,6 @@ const organizationController = {
   create,
   createInBatch,
   findPaginatedFilteredOrganizations,
-  findPaginatedFilteredCampaigns,
   findPaginatedCampaignManagements,
   findPaginatedFilteredMembershipsForAdmin,
   findPaginatedFilteredMemberships,
