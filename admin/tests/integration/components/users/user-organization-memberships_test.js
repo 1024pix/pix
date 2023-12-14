@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
+import { render, within } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -69,20 +69,23 @@ module('Integration | Component | users | organization-memberships', function (h
 
       // then
       const formattedUpdatedAt1 = dayjsService.self(membershipUpdatedAt1).format('DD/MM/YYYY [-] HH:mm');
-      const formattedUpdatedAt2 = dayjsService.self(membershipUpdatedAt1).format('DD/MM/YYYY [-] HH:mm');
+      const formattedUpdatedAt2 = dayjsService.self(membershipUpdatedAt2).format('DD/MM/YYYY [-] HH:mm');
 
-      assert.dom(screen.getByRole('cell', { name: '111' })).exists();
-      assert.dom(screen.getByRole('cell', { name: '100025' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'Dragon & Co' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'PRO' })).exists();
-      assert.dom(screen.getByRole('cell', { name: formattedUpdatedAt1 })).exists();
+      const rows = await screen.findAllByRole('row');
+      assert.dom(within(rows[1]).getByRole('cell', { name: '222' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: '100095' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: 'Collège The Night Watch' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: 'SCO' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: '1237457A' })).exists();
+      assert.dom(within(rows[1]).getByRole('cell', { name: formattedUpdatedAt2 })).exists();
 
-      assert.dom(screen.getByRole('cell', { name: '222' })).exists();
-      assert.dom(screen.getByRole('cell', { name: '100095' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'Collège The Night Watch' })).exists();
-      assert.dom(screen.getByRole('cell', { name: 'SCO' })).exists();
-      assert.dom(screen.getByRole('cell', { name: '1237457A' })).exists();
-      assert.dom(screen.getByRole('cell', { name: formattedUpdatedAt2 })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: '111' })).exists();
+
+      assert.dom(within(rows[2]).getByRole('cell', { name: '111' })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: '100025' })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: 'Dragon & Co' })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: 'PRO' })).exists();
+      assert.dom(within(rows[2]).getByRole('cell', { name: formattedUpdatedAt1 })).exists();
     });
   });
 });
