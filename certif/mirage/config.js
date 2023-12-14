@@ -352,6 +352,7 @@ function routes() {
   this.patch('/sessions/:id/candidates/:candidateId/dismiss-live-alert', () => new Response(204));
 
   _configureCertificationCenterInvitationRoutes(this);
+  _configureCertificationCenterMemberRoutes(this);
 }
 
 function _configureCertificationCenterInvitationRoutes(context) {
@@ -404,6 +405,14 @@ function _configureCertificationCenterInvitationRoutes(context) {
 
     certificationPointOfContact.update({ allowedCertificationCenterAccesses: [allowedCertificationCenterAccess] });
 
+    return new Response(204);
+  });
+}
+
+function _configureCertificationCenterMemberRoutes(context) {
+  context.post('/certification-centers/:certificationCenterId/members/me/disable', (schema, request) => {
+    const member = schema.members.first();
+    member.destroy();
     return new Response(204);
   });
 }

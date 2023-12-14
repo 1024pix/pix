@@ -4,8 +4,9 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class MembersList extends Component {
-  @service featureToggles;
   @service currentUser;
+  @service featureToggles;
+  @service session;
 
   @tracked
   isLeaveCertificationCenterModalOpen = false;
@@ -37,5 +38,6 @@ export default class MembersList extends Component {
   async leaveCertificationCenter() {
     await this.args.onLeaveCertificationCenter();
     this.closeLeaveCertificationCenterModal();
+    this.session.invalidate();
   }
 }
