@@ -377,71 +377,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onCandidateResultsSave', () => {
-    test('it saves competences info when save is sent', async function (assert) {
-      // given
-      const save = sinon.stub().resolves();
-      const store = this.owner.lookup('service:store');
-
-      const certification = store.createRecord('certification', {
-        competencesWithMark,
-      });
-      certification.save = save;
-      controller.certification = certification;
-
-      // when
-      await controller.onCandidateResultsSave();
-
-      // then
-      sinon.assert.calledWith(save, { adapterOptions: { updateMarks: true } });
-      assert.ok(true);
-    });
-  });
-
-  module('#onCandidateResultsSaveConfirm', () => {
-    module('when there are no error', () => {
-      test('should get no error and enable confirm dialog', async function (assert) {
-        // when
-        await controller.onCandidateResultsSaveConfirm();
-
-        // then
-        assert.strictEqual(controller.confirmAction, 'onCandidateResultsSave');
-        assert.ok(controller.displayConfirm);
-        assert.ok(controller.confirmMessage);
-        assert.notOk(controller.confirmErrorMessage);
-      });
-    });
-
-    module('when there are errors', () => {
-      test('should get errors and enable confirm dialog', async function (assert) {
-        // given
-        controller.certification.competencesWithMark.addObject({
-          competence_code: anExistingCompetenceCode,
-          level: controller.MAX_REACHABLE_LEVEL + 1,
-          score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE,
-        });
-        controller.certification.competencesWithMark.addObject({
-          competence_code: anotherExistingCompetenceCode,
-          level: controller.MAX_REACHABLE_LEVEL,
-          score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1,
-        });
-
-        // when
-        await controller.onCandidateResultsSaveConfirm();
-
-        // then
-        const levelErrorRegexp = `.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`;
-        const scoreErrorRegexp = `.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`;
-
-        assert.strictEqual(controller.confirmAction, 'onCandidateResultsSave');
-        assert.ok(controller.displayConfirm);
-        assert.ok(controller.confirmMessage);
-        assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
-        assert.ok(controller.confirmErrorMessage.match(new RegExp(scoreErrorRegexp)));
-      });
-    });
-  });
-
   module('#onCandidateInformationSave', () => {
     test('it closes the modal', async function (assert) {
       // given
@@ -560,37 +495,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         assert.notOk(controller.certification.reload.calledOnce);
       });
     });
-  });
-
-  test('it restores competences when cancel is sent', async function (assert) {
-    // given
-    const rollbackAttributes = sinon.stub().resolves();
-    controller.certification.rollbackAttributes = rollbackAttributes;
-
-    await controller.onCandidateResultsEdit();
-    await controller.onUpdateLevel(anExistingCompetenceCode, '5');
-    await controller.onUpdateScore(anExistingCompetenceCode, '50');
-    await controller.onUpdateLevel(anotherExistingCompetenceCode, '');
-    await controller.onUpdateScore(anotherExistingCompetenceCode, '');
-
-    // when
-    await controller.onCandidateResultsCancel();
-
-    // then
-    const competences = controller.certification.competencesWithMark;
-
-    let aCompetence = _getCompetenceWithMark(anotherExistingCompetenceCode);
-    let aCompetenceRef = _getCompetenceWithMark(anotherExistingCompetenceCode);
-
-    assert.strictEqual(aCompetence.score, aCompetenceRef.score);
-    assert.strictEqual(aCompetence.level, aCompetenceRef.level);
-
-    aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
-    aCompetenceRef = _getCompetenceWithMark(anExistingCompetenceCode);
-    assert.strictEqual(aCompetence.score, aCompetenceRef.score);
-    assert.strictEqual(aCompetence.level, aCompetenceRef.level);
-
-    sinon.assert.calledOnce(rollbackAttributes);
   });
 
   module('#shouldDisplayUnrejectCertificationButton', function () {
