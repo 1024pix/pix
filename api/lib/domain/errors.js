@@ -216,6 +216,12 @@ class OrganizationLearnersCouldNotBeSavedError extends DomainError {
   }
 }
 
+class OrganizationLearnersConstraintError extends DomainError {
+  constructor(message = 'Constraint during inserting organization learners') {
+    super(message);
+  }
+}
+
 class MultipleOrganizationLearnersWithDifferentNationalStudentIdError extends DomainError {
   constructor(message = 'Multiple organization learners with different INE') {
     super(message);
@@ -1213,6 +1219,7 @@ export {
   OrganizationLearnerDisabledError,
   OrganizationLearnerNotFound,
   OrganizationLearnersCouldNotBeSavedError,
+  OrganizationLearnersConstraintError,
   OrganizationNotAuthorizedMultipleSendingAssessmentToCreateCampaignError,
   OrganizationNotFoundError,
   OrganizationTagNotFound,

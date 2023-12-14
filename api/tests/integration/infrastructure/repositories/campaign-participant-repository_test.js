@@ -4,7 +4,11 @@ import * as campaignParticipantRepository from '../../../../lib/infrastructure/r
 import { CampaignParticipant } from '../../../../lib/domain/models/CampaignParticipant.js';
 import { CampaignToStartParticipation } from '../../../../lib/domain/models/CampaignToStartParticipation.js';
 import lodash from 'lodash';
-import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
+import {
+  AlreadyExistingCampaignParticipationError,
+  OrganizationLearnersCouldNotBeSavedError,
+  NotFoundError,
+} from '../../../../lib/domain/errors.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 const { pick } = lodash;
@@ -519,6 +523,26 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           //THEN
           expect(error.constraint).to.equal('organization_learners_userid_foreign');
         });
+      });
+
+      it('throw one_active_learner', async function () {
+        const campaignParticipant = await makeCampaignParticipant({
+          campaignAttributes: { idPixLabel: null },
+          userIdentity,
+          participantExternalId: null,
+          isRestricted: false,
+        });
+
+        const error = await catchErr(() => {
+          return DomainTransaction.execute(async (domainTransaction) => {
+            await Promise.all([
+              campaignParticipantRepository.save(campaignParticipant, domainTransaction),
+              campaignParticipantRepository.save(campaignParticipant, domainTransaction),
+            ]);
+          });
+        })();
+
+        expect(error).to.be.instanceOf(OrganizationLearnersCouldNotBeSavedError);
       });
 
       it('does not update data', async function () {
