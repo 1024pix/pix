@@ -14,7 +14,7 @@
     color: $pix-primary;
     background-color: var(--pix-color-neutral-0);
 
-    &:hover, &:focus {
+    &:hover, &:focus, &:active, &:focus-visible {
       color: var(--pix-color-neutral-0);
     }
 
