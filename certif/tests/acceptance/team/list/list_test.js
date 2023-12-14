@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { visit as visitScreen, within } from '@1024pix/ember-testing-library';
-
+import { clickByName, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { currentSession } from 'ember-simple-auth/test-support';
+
 import {
   authenticateSession,
   createAllowedCertificationCenterAccess,
@@ -11,6 +12,7 @@ import {
 } from '../../../helpers/test-init';
 import setupIntl from '../../../helpers/setup-intl';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
@@ -324,6 +326,33 @@ module('Acceptance | authenticated | team', function (hooks) {
           assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
           assert.dom(screen.queryByRole('cell', { name: 'Jack' })).doesNotExist();
           assert.dom(screen.queryByRole('cell', { name: 'Adit' })).doesNotExist();
+        });
+      });
+
+      module('when user wants to leave the certification center', function () {
+        test('leaves the certification center and disconnects the user', async function (assert) {
+          // given
+          const leavingAdminUser = createCertificationPointOfContactWithTermsOfServiceAccepted(
+            undefined,
+            'Shelltif',
+            false,
+            'ADMIN',
+          );
+          server.create('member', { id: 1234, firstName: 'Lili', lastName: 'Dupont', role: 'ADMIN' });
+          await authenticateSession(leavingAdminUser.id);
+
+          const screen = await visitScreen('/equipe');
+
+          await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
+          await clickByName('Quitter cet espace Pix Certif');
+          await waitForDialog();
+
+          // when
+          await clickByName('Confirmer');
+          await waitForDialogClose();
+
+          // then
+          assert.false(currentSession().get('isAuthenticated'));
         });
       });
     });
