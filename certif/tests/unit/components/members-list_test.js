@@ -101,5 +101,18 @@ module('Unit | Component | MembersList', (hooks) => {
         assert.true(onLeaveCertificationCenter.calledOnce);
       });
     });
+
+    module('#openLeaveCertificationCenterModal', function () {
+      test('sets "isLeaveCertificationCenterModalOpen" value to "true"', function (assert) {
+        // given
+        component.isLeaveCertificationCenterModalOpen = false;
+
+        // when
+        component.openLeaveCertificationCenterModal();
+
+        // then
+        assert.true(component.isLeaveCertificationCenterModalOpen);
+      });
+    });
   });
 });
