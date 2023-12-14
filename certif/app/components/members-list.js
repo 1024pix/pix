@@ -27,4 +27,9 @@ export default class MembersList extends Component {
   closeLeaveCertificationCenterModal() {
     this.isLeaveCertificationCenterModalOpen = false;
   }
+
+  @action
+  async leaveCertificationCenter() {
+    await this.args.onLeaveCertificationCenter();
+  }
 }
