@@ -1,5 +1,5 @@
 .create-training-form {
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
 
   .training-editor-logo-url-input {
     margin-top: 1rem;
@@ -13,7 +13,7 @@
       display: block;
       margin-top: 4px;
       margin-bottom: 4px;
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
       font-size: 0.75rem;
     }
   }

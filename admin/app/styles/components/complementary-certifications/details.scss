@@ -4,7 +4,7 @@
   gap: 15px;
 
   &__title {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-500);
     font-weight: 400;
     font-size: 12px;
     font-family: $font-roboto;
@@ -15,7 +15,7 @@
 
 
   &__label {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-weight: 500;
     font-size: 28px;
     line-height: 36px;

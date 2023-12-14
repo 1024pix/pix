@@ -13,11 +13,11 @@ export default class Badge extends Component {
   IMAGE_BASE_URL = 'https://images.pix.fr/badges/';
 
   get isCertifiableColor() {
-    return this.args.badge.isCertifiable ? 'green' : null;
+    return this.args.badge.isCertifiable ? 'tertiary' : null;
   }
 
   get isAlwaysVisibleColor() {
-    return this.args.badge.isAlwaysVisible ? 'green' : null;
+    return this.args.badge.isAlwaysVisible ? 'tertiary' : null;
   }
 
   get isCertifiableText() {

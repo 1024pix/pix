@@ -21,7 +21,7 @@
 
   .form-section--actions {
     padding: 20px;
-    border-top: 1px solid $pix-neutral-22;
+    border-top: 1px solid var(--pix-neutral-100);
   }
 
   .form-field {
@@ -29,7 +29,7 @@
 
     .form-field__error {
       width: 100%;
-      color: $pix-error-70;
+      color: var(--pix-error-700);
       font-size: 0.8em;
     }
 
@@ -61,14 +61,14 @@
 .input {
   height: 40px;
   padding-left: 15px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-size: 1rem;
-  border: 2px solid $pix-neutral-20;
+  border: 2px solid var(--pix-neutral-20);
   border-radius: 4px;
   outline: none;
 
   &:focus {
-    border: 2px solid $pix-communication-dark;
+    border: 2px solid var(--pix-communication-dark);
   }
 
   &--small {
@@ -86,11 +86,11 @@
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-size: 1rem;
   line-height: 1.5;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
   background-clip: padding-box;
-  border: 1px solid $pix-neutral-22;
+  border: 1px solid var(--pix-neutral-100);
   border-radius: 0.25rem;
 }

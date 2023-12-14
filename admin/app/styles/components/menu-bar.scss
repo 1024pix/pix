@@ -1,7 +1,7 @@
 /* stylelint-disable selector-class-pattern */
 .menu-bar {
   width: 100%;
-  color: $pix-neutral-0;
+  color: var(--pix-neutral-0);
 
   .menu-bar__entries {
     margin: 0;
@@ -17,7 +17,7 @@
         display: block;
         width: 50px;
         padding: 0;
-        color: $pix-neutral-22;
+        color: var(--pix-neutral-100);
         font-size: 1.25rem;
         line-height: 50px;
         text-align: center;
@@ -30,14 +30,14 @@
         }
 
         &:hover {
-          color: $pix-neutral-0;
+          color: var(--pix-neutral-0);
           text-decoration: none;
         }
 
         &.active {
-          color: $pix-neutral-0;
+          color: var(--pix-neutral-0);
           font-weight: 600;
-          background-color: $pix-neutral-40;
+          background-color: var(--pix-neutral-500);
         }
       }
     }
