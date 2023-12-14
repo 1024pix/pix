@@ -36,5 +36,6 @@ export default class MembersList extends Component {
   @action
   async leaveCertificationCenter() {
     await this.args.onLeaveCertificationCenter();
+    this.closeLeaveCertificationCenterModal();
   }
 }
