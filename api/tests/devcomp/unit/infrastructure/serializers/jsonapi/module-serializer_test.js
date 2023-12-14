@@ -4,6 +4,11 @@ import * as moduleSerializer from '../../../../../../src/devcomp/infrastructure/
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
+import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
+import { BlockText } from '../../../../../../src/devcomp/domain/models/block/BlockText.js';
+import { BlockInput } from '../../../../../../src/devcomp/domain/models/block/BlockInput.js';
+import { BlockSelect } from '../../../../../../src/devcomp/domain/models/block/BlockSelect.js';
+import { BlockSelectOption } from '../../../../../../src/devcomp/domain/models/block/BlockSelectOption.js';
 
 describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerializer', function () {
   describe('#serialize', function () {
@@ -57,6 +62,49 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                 instruction: 'hello',
                 solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
               }),
+              new QROCM({
+                id: '100',
+                instruction: '',
+                locales: ['fr-FR'],
+                proposals: [
+                  new BlockText({
+                    type: 'text',
+                    content: '<p>Adresse mail de Naomi : ${email}</p>',
+                  }),
+                  new BlockInput({
+                    type: 'input',
+                    input: 'email',
+                    inputType: 'text',
+                    size: 10,
+                    display: 'inline',
+                    placeholder: '',
+                    ariaLabel: 'Adresse mail de Naomi',
+                    defaultValue: '',
+                    tolerances: [],
+                    solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
+                  }),
+                  new BlockSelect({
+                    type: 'select',
+                    input: 'seconde-partie',
+                    display: 'inline',
+                    placeholder: '',
+                    ariaLabel: 'Réponse 3',
+                    defaultValue: '',
+                    tolerances: [],
+                    options: [
+                      new BlockSelectOption({
+                        id: '1',
+                        content: "l'identifiant",
+                      }),
+                      new BlockSelectOption({
+                        id: '2',
+                        content: "le fournisseur d'adresse mail",
+                      }),
+                    ],
+                    solutions: ['2'],
+                  }),
+                ],
+              }),
               new Image({ id: '3', url: 'url', alt: 'alt', alternativeText: 'alternativeText' }),
             ],
           },
@@ -107,6 +155,53 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           },
           {
             attributes: {
+              instruction: '',
+              'is-answerable': true,
+              type: 'qrocms',
+              proposals: [
+                {
+                  type: 'text',
+                  content: '<p>Adresse mail de Naomi : ${email}</p>',
+                },
+                {
+                  type: 'input',
+                  input: 'email',
+                  inputType: 'text',
+                  size: 10,
+                  display: 'inline',
+                  placeholder: '',
+                  ariaLabel: 'Adresse mail de Naomi',
+                  defaultValue: '',
+                  solutions: ['naomizao@yahoo.com', 'naomizao@yahoo.fr'],
+                  tolerances: [],
+                },
+                {
+                  type: 'select',
+                  input: 'seconde-partie',
+                  display: 'inline',
+                  placeholder: '',
+                  ariaLabel: 'Réponse 3',
+                  defaultValue: '',
+                  options: [
+                    {
+                      id: '1',
+                      content: "l'identifiant",
+                    },
+                    {
+                      id: '2',
+                      content: "le fournisseur d'adresse mail",
+                    },
+                  ],
+                  solutions: ['2'],
+                  tolerances: [],
+                },
+              ],
+            },
+            id: '100',
+            type: 'qrocms',
+          },
+          {
+            attributes: {
               url: 'url',
               alt: 'alt',
               'alternative-text': 'alternativeText',
@@ -132,6 +227,10 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
                   {
                     id: '2',
                     type: 'qcus',
+                  },
+                  {
+                    id: '100',
+                    type: 'qrocms',
                   },
                   {
                     id: '3',

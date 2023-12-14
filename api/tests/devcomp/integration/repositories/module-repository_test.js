@@ -5,9 +5,14 @@ import { Module } from '../../../../src/devcomp/domain/models/Module.js';
 import { Grain } from '../../../../src/devcomp/domain/models/Grain.js';
 import { Text } from '../../../../src/devcomp/domain/models/element/Text.js';
 import { QCU } from '../../../../src/devcomp/domain/models/element/QCU.js';
+import { QROCM } from '../../../../src/devcomp/domain/models/element/QROCM.js';
 import { Image } from '../../../../src/devcomp/domain/models/element/Image.js';
 import moduleDatasource from '../../../../src/devcomp/infrastructure/datasources/learning-content/module-datasource.js';
 import { QCUForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QCU-for-answer-verification.js';
+import { BlockInput } from '../../../../src/devcomp/domain/models/block/BlockInput.js';
+import { BlockSelect } from '../../../../src/devcomp/domain/models/block/BlockSelect.js';
+import { BlockText } from '../../../../src/devcomp/domain/models/block/BlockText.js';
+import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -217,6 +222,140 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       // then
       expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Image))).to.be.true;
     });
+
+    it('should return a module which contains elements of type QROCM if it exists', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        grains: [
+          {
+            id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
+            type: 'activity',
+            title: 'Écrire une adresse mail correctement',
+            elements: [
+              {
+                id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
+                type: 'qrocm',
+                instruction:
+                  "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+                proposals: [
+                  {
+                    type: 'text',
+                    content: '<p>Le symbole</>',
+                  },
+                  {
+                    input: 'symbole',
+                    type: 'input',
+                    inputType: 'text',
+                    size: 1,
+                    display: 'inline',
+                    placeholder: '',
+                    ariaLabel: 'Réponse 1',
+                    defaultValue: '',
+                    tolerances: ['t1'],
+                    solutions: ['@'],
+                  },
+                  {
+                    input: 'premiere-partie',
+                    type: 'select',
+                    display: 'inline',
+                    placeholder: '',
+                    ariaLabel: 'Réponse 2',
+                    defaultValue: '',
+                    tolerances: [],
+                    options: [
+                      {
+                        id: '1',
+                        content: "l'identifiant",
+                      },
+                      {
+                        id: '2',
+                        content: "le fournisseur d'adresse mail",
+                      },
+                    ],
+                    solutions: ['1'],
+                  },
+                ],
+                feedbacks: {
+                  valid: '<p>Bravo ! 🎉 </p>',
+                  invalid: "<p class='pix-list-inline'>Et non !</p>",
+                },
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
+
+      const BLOCK_TEXT_INDEX = 0;
+      const BLOCK_INPUT_INDEX = 1;
+      const BLOCK_SELECT_INDEX = 2;
+
+      // when
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource: moduleDatasourceStub,
+      });
+
+      // then
+      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof QROCM))).to.be.true;
+      expect(module.grains[0].elements[0].proposals[BLOCK_TEXT_INDEX]).to.be.instanceOf(BlockText);
+      expect(module.grains[0].elements[0].proposals[BLOCK_INPUT_INDEX]).to.be.instanceOf(BlockInput);
+      expect(module.grains[0].elements[0].proposals[BLOCK_SELECT_INDEX]).to.be.instanceOf(BlockSelect);
+    });
+
+    it('should log a warning if none of the element types match and return an empty element', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        grains: [
+          {
+            id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
+            type: 'activity',
+            title: 'Écrire une adresse mail correctement',
+            elements: [
+              {
+                id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
+                type: 'TOTO',
+                instruction:
+                  "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+                proposals: [''],
+                feedbacks: {
+                  valid: '<p>Bravo ! 🎉 </p>',
+                  invalid: "<p class='pix-list-inline'>Et non !</p>",
+                },
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
+
+      const loggerMessage = { event: 'module_element_type_unknown', message: 'Element inconnu: TOTO' };
+      sinon.stub(logger, 'warn').returns();
+
+      // when
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource: moduleDatasourceStub,
+      });
+
+      // then
+      expect(logger.warn).to.have.been.calledWithExactly(loggerMessage);
+      expect(module.grains[0].elements).to.be.deep.equal([]);
+    });
   });
 
   describe('#getBySlugForVerification', function () {
@@ -275,6 +414,56 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
             .every((qcu) => qcu instanceof QCUForAnswerVerification),
         ),
       ).to.be.true;
+    });
+
+    it('should log a warning if none of the element types match and return an empty element', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        grains: [
+          {
+            id: 'b7ea7630-824a-4a49-83d1-abb9b8d0d120',
+            type: 'activity',
+            title: 'Écrire une adresse mail correctement',
+            elements: [
+              {
+                id: '98c51fa7-03b7-49b1-8c5e-49341d35909c',
+                type: 'TOTO',
+                instruction:
+                  "<p>Pour être sûr que tout est clair, complétez le texte ci-dessous <span aria-hidden='true'>🧩</span></p><p>Si vous avez besoin d’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>",
+                proposals: [''],
+                feedbacks: {
+                  valid: '<p>Bravo ! 🎉 </p>',
+                  invalid: "<p class='pix-list-inline'>Et non !</p>",
+                },
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
+
+      const loggerMessage = {
+        event: 'module_element_type_unknown',
+        message: `Element inconnu: TOTO`,
+      };
+      sinon.stub(logger, 'warn').returns();
+
+      // when
+      const module = await moduleRepository.getBySlugForVerification({
+        slug: existingModuleSlug,
+        moduleDatasource: moduleDatasourceStub,
+      });
+
+      // then
+      expect(logger.warn).to.have.been.calledWithExactly(loggerMessage);
+      expect(module.grains[0].elements).to.be.deep.equal([]);
     });
   });
 });
