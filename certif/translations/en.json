@@ -861,6 +861,7 @@
       "members": {
         "actions": {
           "edit-role": "Change role",
+          "leave-certification-center": "Leave this Pix Certif space",
           "manage": "Manage",
           "save": "Save",
           "select-role": {
