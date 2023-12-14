@@ -2,6 +2,7 @@ import { expect } from '../../../../../test-helper.js';
 import { QCU } from '../../../../../../src/devcomp/domain/models/element/QCU.js';
 import { Text } from '../../../../../../src/devcomp/domain/models/element/Text.js';
 import { Image } from '../../../../../../src/devcomp/domain/models/element/Image.js';
+import { QROCM } from '../../../../../../src/devcomp/domain/models/element/QROCM.js';
 
 describe('Unit | Devcomp | Domain | Models | Element', function () {
   describe('#isAnswerable', function () {
@@ -14,7 +15,14 @@ describe('Unit | Devcomp | Domain | Models | Element', function () {
         proposals: [Symbol('proposal1'), Symbol('proposal2')],
       });
 
-      const answerableElements = [qcu];
+      const qrocm = new QROCM({
+        id: '1',
+        instruction: '',
+        locales: ['fr-FR'],
+        proposals: [Symbol('block')],
+      });
+
+      const answerableElements = [qcu, qrocm];
 
       // Then
       answerableElements.forEach((element) => expect(element.isAnswerable).to.be.true);

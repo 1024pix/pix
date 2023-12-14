@@ -7,6 +7,12 @@ import { QcuProposal } from '../../domain/models/QcuProposal.js';
 import { Grain } from '../../domain/models/Grain.js';
 import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { QCUForAnswerVerification } from '../../domain/models/element/QCU-for-answer-verification.js';
+import { BlockText } from '../../domain/models/block/BlockText.js';
+import { BlockInput } from '../../domain/models/block/BlockInput.js';
+import { BlockSelect } from '../../domain/models/block/BlockSelect.js';
+import { BlockSelectOption } from '../../domain/models/block/BlockSelectOption.js';
+import { QROCM } from '../../domain/models/element/QROCM.js';
+import { logger } from '../../../shared/infrastructure/utils/logger.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -44,15 +50,26 @@ function _toDomain(moduleData) {
         id: grain.id,
         title: grain.title,
         type: grain.type,
-        elements: grain.elements.map((element) => {
-          if (element.type === 'qcu') {
-            return _toQCUDomain(element);
-          } else if (element.type === 'image') {
-            return _toImageDomain(element);
-          }
-
-          return _toTextDomain(element);
-        }),
+        elements: grain.elements
+          .map((element) => {
+            switch (element.type) {
+              case 'image':
+                return _toImageDomain(element);
+              case 'text':
+                return _toTextDomain(element);
+              case 'qcu':
+                return _toQCUDomain(element);
+              case 'qrocm':
+                return _toQROCMDomain(element);
+              default:
+                logger.warn({
+                  event: 'module_element_type_unknown',
+                  message: `Element inconnu: ${element.type}`,
+                });
+                return undefined;
+            }
+          })
+          .filter((element) => element !== undefined),
       });
     }),
   });
@@ -68,15 +85,26 @@ function _toDomainForVerification(moduleData) {
         id: grain.id,
         title: grain.title,
         type: grain.type,
-        elements: grain.elements.map((element) => {
-          if (element.type === 'qcu') {
-            return _toQCUForAnswerVerificationDomain(element);
-          } else if (element.type === 'image') {
-            return _toImageDomain(element);
-          }
-
-          return _toTextDomain(element);
-        }),
+        elements: grain.elements
+          .map((element) => {
+            switch (element.type) {
+              case 'image':
+                return _toImageDomain(element);
+              case 'text':
+                return _toTextDomain(element);
+              case 'qcu':
+                return _toQCUForAnswerVerificationDomain(element);
+              case 'qrocm':
+                return _toQROCMDomain(element);
+              default:
+                logger.warn({
+                  event: 'module_element_type_unknown',
+                  message: `Element inconnu: ${element.type}`,
+                });
+                return undefined;
+            }
+          })
+          .filter((element) => element !== undefined),
       });
     }),
   });
@@ -124,6 +152,29 @@ function _toQCUDomain(element) {
         id: proposal.id,
         content: proposal.content,
       });
+    }),
+  });
+}
+
+function _toQROCMDomain(element) {
+  return new QROCM({
+    id: element.id,
+    instruction: element.instruction,
+    locales: element.locales,
+    proposals: element.proposals.map((proposal) => {
+      switch (proposal.type) {
+        case 'text':
+          return new BlockText(proposal);
+        case 'input':
+          return new BlockInput(proposal);
+        case 'select':
+          return new BlockSelect({
+            ...proposal,
+            options: proposal.options.map((option) => new BlockSelectOption(option)),
+          });
+        default:
+          logger.warn(`Type de proposal inconnu: ${proposal.type}`);
+      }
     }),
   });
 }

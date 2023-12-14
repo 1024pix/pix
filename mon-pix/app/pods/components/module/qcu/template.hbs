@@ -2,7 +2,7 @@
   <fieldset disabled={{this.disableInput}}>
     <div class="element-qcu__header">
       <div class="element-qcu-header__instruction">
-        {{html-safe @qcu.instruction}}
+        {{html-unsafe @qcu.instruction}}
       </div>
 
       <legend class="element-qcu-header__direction">
@@ -34,7 +34,7 @@
   <div role="status" tabindex="-1">
     {{#if this.shouldDisplayFeedback}}
       <PixMessage @type={{this.feedbackType}} @withIcon={{true}} class="element-qcu__feedback">
-        {{html-safe this.qcu.lastCorrection.feedback}}
+        {{html-unsafe this.qcu.lastCorrection.feedback}}
       </PixMessage>
     {{/if}}
   </div>

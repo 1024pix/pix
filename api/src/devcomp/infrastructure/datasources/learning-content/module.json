@@ -35,6 +35,88 @@
           ]
         },
         {
+          "id": "edd7fec3-a649-425b-b8e3-65b13c6c47ea",
+          "type": "activity",
+          "title": "Les parties d’une adresse mail : applications",
+          "elements": [
+            {
+              "id": "98c51fa7-03b7-49b1-8c5e-49341d35909c",
+              "type": "qrocm",
+              "instruction": "<p>Complétez le texte ci-dessous.</p>",
+              "proposals": [
+                {
+                  "type": "text",
+                  "content": "<p>Le symbole</p>"
+                },
+                {
+                  "input": "symbole",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 1,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 1",
+                  "defaultValue": "",
+                  "tolerances": ["t1"],
+                  "solutions": ["@"]
+                },
+                {
+                  "type": "text",
+                  "content": "<p>permet de séparer les deux parties d’une adresse mail&nbsp;:</p><p>Première partie&nbsp;:</p>"
+                },
+                {
+                  "input": "premiere-partie",
+                  "type": "select",
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 2",
+                  "defaultValue": "",
+                  "tolerances": [],
+                  "options": [
+                    {
+                      "id": "1",
+                      "content": "l'identifiant"
+                    },
+                    {
+                      "id": "2",
+                      "content": "le fournisseur d'adresse mail"
+                    }
+                  ],
+                  "solutions": ["1"]
+                },
+                {
+                  "type": "text",
+                  "content": "<p>Seconde partie&nbsp;:</p>"
+                },
+                {
+                  "input": "seconde-partie",
+                  "type": "select",
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Réponse 3",
+                  "defaultValue": "",
+                  "tolerances": [],
+                  "options": [
+                    {
+                      "id": "1",
+                      "content": "l'identifiant"
+                    },
+                    {
+                      "id": "2",
+                      "content": "le fournisseur d'adresse mail"
+                    }
+                  ],
+                  "solutions": ["2"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Bravo ! 🎉 </p>",
+                "invalid": "<p class='pix-list-inline'>Et non !</p>"
+              }
+            }
+          ]
+        },
+        {
           "id": "71792e45-966a-4070-b4fc-9e8a773c3f6f",
           "type": "activity",
           "title": "Diversité des identifiants et des fournisseurs d’adresse mail",
@@ -130,6 +212,40 @@
               "id": "b0fcb950-b5b1-4384-886e-79fb852d5bb7",
               "type": "text",
               "content": "<h3>Ce qu’il faut retenir</h3><ul><li>Il peut y avoir des chiffres dans l’identifiant d’une adresse mail. Ils peuvent être n’importe où dans l’adresse. <br/><span aria-hidden='true'>💡</span> Ça peut être utile si deux personnes ont le même nom et qu’elles veulent le même fournisseur d’adresse mail.</li><li>Il y a une seule @ (arobase) dans une adresse mail. Elle permet de séparer l’identifiant du fournisseur d’adresse mail.</li><li>Les adresses mails se terminent de différentes manières après l'@, selon le fournisseur d’adresse mail.<br/><span aria-hidden='true'>✅</span> Exemples&nbsp;: laposte.net, free.fr, gmail.com, yahoo.com, etc.</li></ul>"
+            }
+          ]
+        },
+        {
+          "id": "b7ea7630-824a-4a49-83d1-abb9b8d0d120",
+          "type": "activity",
+          "title": "Écrire une adresse mail correctement",
+          "elements": [
+            {
+              "id": "8709ad92-093e-447a-a7b6-3223e6171196",
+              "type": "qrocm",
+              "instruction": "<p>Écrivez l'adresse mail de Naomi. On sait que :</p><ul><li>son identifiant est naomizao</li><li>son fournisseur d’adresse mail est Yahoo</li></ul>",
+              "proposals": [
+                {
+                  "type": "text",
+                  "content": "<p>Adresse mail de Naomi&nbsp;:</p>"
+                },
+                {
+                  "input": "email",
+                  "type": "input",
+                  "inputType": "text",
+                  "size": 18,
+                  "display": "inline",
+                  "placeholder": "",
+                  "ariaLabel": "Adresse mail de Naomi",
+                  "defaultValue": "",
+                  "tolerances": [],
+                  "solutions": ["naomizao@yahoo.com", "naomizao@yahoo.fr"]
+                }
+              ],
+              "feedbacks": {
+                "valid": "<p>Bravo ! 🎉 Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
+                "invalid": "<p class='pix-list-inline'>Et non ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li><li>Les adresses mail fournies par Yahoo se terminent par yahoo.com</li></ul>"
+              }
             }
           ]
         }

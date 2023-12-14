@@ -7,6 +7,8 @@
       <Module::Image @image={{element}} />
     {{else if element.isQcu}}
       <Module::Qcu @qcu={{element}} @submitAnswer={{@submitAnswer}} />
+    {{else if element.isQrocm}}
+      <Module::Qrocm @qrocm={{element}} @submitAnswer={{@submitAnswer}} />
     {{/if}}
   {{/each}}
 
