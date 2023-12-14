@@ -60,6 +60,30 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
 
       assert.dom(screen.getByText('Documentation')).exists();
     });
+
+    test('should display Places menu if shouldAccessPlacesPage is true', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 1 });
+        shouldAccessPlacesPage = true;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      assert.ok(screen.getByText(this.intl.t('navigation.main.places')));
+    });
+
+    test('should not display Places menu if shouldAccessPlacesPage is false', async function (assert) {
+      class CurrentUserStub extends Service {
+        organization = Object.create({ id: 1 });
+        shouldAccessPlacesPage = false;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      const screen = await render(hbs`<Layout::Sidebar />`);
+
+      assert.notOk(screen.queryByText(this.intl.t('navigation.main.places')));
+    });
   });
 
   module('When the user is from a PRO organization', function () {

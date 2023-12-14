@@ -13,6 +13,10 @@ export default class SidebarMenu extends Component {
     return this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents;
   }
 
+  get shouldDisplayPlacesEntry() {
+    return this.currentUser.shouldAccessPlacesPage;
+  }
+
   get organizationLearnersList() {
     if (this.currentUser.isSCOManagingStudents) {
       return {
