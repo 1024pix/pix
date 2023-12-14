@@ -210,11 +210,11 @@
   "components": {
     "campaign": {
       "type": {
-        "explanation" : {
-          "ASSESSMENT":"Campaign of type assessment",
-          "PROFILES_COLLECTION":"Campaign of type profiles collection"
+        "explanation": {
+          "ASSESSMENT": "Campaign of type assessment",
+          "PROFILES_COLLECTION": "Campaign of type profiles collection"
         },
-        "information" : {
+        "information": {
           "ASSESSMENT": "Assessment",
           "PROFILES_COLLECTION": "Profiles collection"
         }
@@ -272,6 +272,7 @@
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
+      "places": "Seats",
       "sco-organization-participants": "Students",
       "sup-organization-participants": "Students",
       "team": "Team"
@@ -878,8 +879,8 @@
       }
     },
     "places": {
-      "title":"Seats",
-      "before-date":"on"
+      "title": "Seats",
+      "before-date": "on"
     },
     "preselect-target-profile": {
       "title": "Topic selection",

@@ -213,13 +213,13 @@
   "components": {
     "campaign": {
       "type": {
-        "explanation" : {
-          "ASSESSMENT":"Campagne d'évaluation",
-          "PROFILES_COLLECTION":"Campagne de collecte de profil"
+        "explanation": {
+          "ASSESSMENT": "Campagne d'évaluation",
+          "PROFILES_COLLECTION": "Campagne de collecte de profil"
         },
-        "information" : {
-          "ASSESSMENT":"Évaluation",
-          "PROFILES_COLLECTION":"Collecte de profil"
+        "information": {
+          "ASSESSMENT": "Évaluation",
+          "PROFILES_COLLECTION": "Collecte de profil"
         }
       }
     },
@@ -275,6 +275,7 @@
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
+      "places": "Places",
       "sco-organization-participants": "Élèves",
       "sup-organization-participants": "Étudiants",
       "team": "Équipe"
@@ -877,8 +878,8 @@
       }
     },
     "places": {
-      "title":"Places",
-      "before-date":"au"
+      "title": "Places",
+      "before-date": "au"
     },
     "preselect-target-profile": {
       "title": "Sélection des sujets",

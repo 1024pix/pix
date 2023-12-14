@@ -3,7 +3,7 @@ import { currentURL } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import { createAdmin, createMember } from '../helpers/test-init';
+import { createAdmin, createMember, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -14,6 +14,7 @@ module('Acceptance | Campaign Update', function (hooks) {
   test('it should show campaign title', async function (assert) {
     // given
     const { user } = createAdmin();
+    createPrescriberByUser(user);
     await authenticateSession(user.id);
     const campaign = server.create('campaign', { id: 1, name: 'Super Campagne', ownerId: user.id });
 
@@ -28,6 +29,7 @@ module('Acceptance | Campaign Update', function (hooks) {
     test('it should allow to update a campaign and redirect to the newly updated campaign', async function (assert) {
       // given
       const { user } = createAdmin();
+      createPrescriberByUser(user);
       await authenticateSession(user.id);
       const campaign = server.create('campaign', { id: 1, ownerId: user.id });
       const newName = 'New Name';

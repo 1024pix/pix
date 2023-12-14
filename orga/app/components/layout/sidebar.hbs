@@ -32,6 +32,14 @@
       </span>
       {{t "navigation.main.team"}}
     </LinkTo>
+    {{#if this.shouldDisplayPlacesEntry}}
+      <LinkTo @route="authenticated.places" class="sidebar-nav__item">
+        <span class="sidebar-nav__item-icon">
+          <FaIcon @icon="ticket" @prefix="fapix" />
+        </span>
+        {{t "navigation.main.places"}}
+      </LinkTo>
+    {{/if}}
     {{#if this.documentationUrl}}
       <a class="sidebar-nav__item" href={{this.documentationUrl}} target="_blank" rel="noopener noreferrer">
         <span class="sidebar-nav__item-icon">
@@ -40,5 +48,6 @@
         {{t "navigation.main.documentation"}}
       </a>
     {{/if}}
+
   </nav>
 </aside>
