@@ -20,6 +20,10 @@ export default class Member extends Model {
     return this.certificationCenterMembersRole[this.role];
   }
 
+  get isAdmin() {
+    return this.role === 'ADMIN';
+  }
+
   updateReferer = memberAction({
     type: 'post',
     urlType: 'update-referer',
