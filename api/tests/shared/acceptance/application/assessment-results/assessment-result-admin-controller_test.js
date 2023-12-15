@@ -12,7 +12,7 @@ import { Assessment } from '../../../../../src/shared/domain/models/Assessment.j
 describe('Acceptance | Controller | assessment-results-controller', function () {
   let server;
 
-  describe('POST /admin/assessment-results', function () {
+  describe('POST /api/admin/certification-courses/{certificationCourseId}/assessment-results', function () {
     let certificationCourseId;
     let options;
 
@@ -22,6 +22,11 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
         certificationCourseId: certificationCourseId,
         type: Assessment.types.CERTIFICATION,
       }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+      }).id;
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
+
       server = await createServer();
 
       options = {
@@ -33,37 +38,12 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
             type: 'assessment-results',
             attributes: {
               'assessment-id': assessmentId,
-              'certification-id': certificationCourseId,
-              level: 3,
               'pix-score': 27,
               status: 'validated',
               emitter: 'Jury',
               'comment-for-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',
               'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
-              'competences-with-mark': [
-                {
-                  level: 2,
-                  score: 18,
-                  area_code: 2,
-                  competence_code: 2.1,
-                  competenceId: '2.1',
-                },
-                {
-                  level: 3,
-                  score: 27,
-                  area_code: 3,
-                  competence_code: 3.2,
-                  competenceId: '3.2',
-                },
-                {
-                  level: 1,
-                  score: 9,
-                  area_code: 1,
-                  competence_code: 1.3,
-                  competenceId: '1.3',
-                },
-              ],
             },
           },
         },
@@ -91,111 +71,15 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should save a assessment-results and 3 marks', async function () {
+    it('should save an assessment-results and 1 mark', async function () {
       // when
       await server.inject(options);
 
       // then
-      const assessmentResults = await knex('assessment-results').select();
-      const marks = await knex('competence-marks').select();
-
-      expect(assessmentResults).to.have.lengthOf(1);
-      expect(marks).to.have.lengthOf(3);
-    });
-
-    context('when assessment has already the assessment-result compute', function () {
-      beforeEach(async function () {
-        const [{ id: assessmentResultId }] = await knex('assessment-results').insert(
-          {
-            level: -1,
-            pixScore: 0,
-            status: 'rejected',
-            emitter: 'PIX-ALGO',
-            commentForJury: 'Computed',
-          },
-          'id',
-        );
-
-        await knex('competence-marks').insert({
-          assessmentResultId,
-          level: -1,
-          score: 0,
-          area_code: 2,
-          competence_code: 2.1,
-          competenceId: 'rec123',
-        });
-      });
-
-      it('should save a assessment-results and 3 marks', async function () {
-        // when
-        await server.inject(options);
-
-        // then
-        const assessmentResults = await knex('assessment-results').select();
-        const marks = await knex('competence-marks').select();
-
-        expect(assessmentResults).to.have.lengthOf(2);
-        expect(marks).to.have.lengthOf(4);
-      });
-    });
-
-    context('when the correction to be applied has a mistake', function () {
-      it('should return a 422 error', async function () {
-        const wrongScore = 9999999999;
-
-        const options = {
-          method: 'POST',
-          url: `/api/admin/certification-courses/${certificationCourseId}/assessment-results`,
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-          payload: {
-            data: {
-              type: 'assessment-results',
-              attributes: {
-                'assessment-id': 1,
-                'certification-id': certificationCourseId,
-                level: 3,
-                'pix-score': 27,
-                status: 'validated',
-                emitter: 'Jury',
-                'comment-for-jury': 'Parce que',
-                'comment-for-candidate': 'Voilà',
-                'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
-                'competences-with-mark': [
-                  {
-                    level: 2,
-                    score: 18,
-                    area_code: 2,
-                    competence_code: 2.1,
-                  },
-                  {
-                    level: 3,
-                    score: wrongScore,
-                    area_code: 3,
-                    competence_code: 3.2,
-                  },
-                  {
-                    level: 1,
-                    score: 218158186,
-                    area_code: 1,
-                    competence_code: 1.3,
-                  },
-                ],
-              },
-            },
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(422);
-        expect(response.result.errors[0]).to.deep.equal({
-          title: 'Unprocessable entity',
-          detail: 'ValidationError: "score" must be less than or equal to 64',
-          status: '422',
-        });
-      });
+      const assessmentResults = await knex('assessment-results').orderBy('createdAt', 'desc');
+      expect(assessmentResults).to.have.lengthOf(2);
+      const competenceMarks = await knex('competence-marks').where({ assessmentResultId: assessmentResults[0].id });
+      expect(competenceMarks).to.have.lengthOf(1);
     });
   });
 });

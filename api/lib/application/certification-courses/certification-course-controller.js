@@ -4,11 +4,9 @@ import * as juryCertificationSerializer from '../../infrastructure/serializers/j
 import * as certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer.js';
 import * as certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository.js';
 import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
+import * as assessmentResultSerializer from '../../infrastructure/serializers/jsonapi/assessment-result-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
-import { AssessmentResult } from '../../../src/shared/domain/models/AssessmentResult.js';
-import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
-import * as assessmentResultService from '../../../src/shared/domain/services/assessment-result-service.js';
 
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
@@ -89,17 +87,16 @@ const uncancel = async function (request, h) {
   return h.response().code(200);
 };
 
-const saveAssessmentResult = async function (request, h, dependencies = { assessmentResultService }) {
-  const jsonResult = request.payload.data.attributes;
+const updateJuryComments = async function (request, h, dependencies = { assessmentResultSerializer }) {
   const certificationCourseId = request.params.id;
-  const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
+  const deserializedAssessmentResult = await dependencies.assessmentResultSerializer.deserialize(request.payload);
   const juryId = request.auth.credentials.userId;
-  // FIXME (re)calculate partner certifications which may be invalidated/validated
-  await dependencies.assessmentResultService.save({
+
+  await usecases.updateJuryComments({
     certificationCourseId,
-    assessmentResult: { ...assessmentResult, juryId },
-    competenceMarks,
+    assessmentResult: { ...deserializedAssessmentResult, juryId },
   });
+
   return null;
 };
 
@@ -112,31 +109,7 @@ const certificationCourseController = {
   getCertifiedProfile,
   cancel,
   uncancel,
-  saveAssessmentResult,
+  updateJuryComments,
 };
 
 export { certificationCourseController };
-
-// TODO: Should be removed and replaced by a real serializer
-function _deserializeResultsAdd(json) {
-  const assessmentResult = new AssessmentResult({
-    assessmentId: json['assessment-id'],
-    emitter: json.emitter,
-    status: json.status,
-    commentForJury: json['comment-for-jury'],
-    commentForCandidate: json['comment-for-candidate'],
-    commentForOrganization: json['comment-for-organization'],
-    pixScore: json['pix-score'],
-  });
-
-  const competenceMarks = json['competences-with-mark'].map((competenceMark) => {
-    return new CompetenceMark({
-      level: competenceMark.level,
-      score: competenceMark.score,
-      area_code: competenceMark.area_code,
-      competence_code: competenceMark.competence_code,
-      competenceId: competenceMark['competenceId'],
-    });
-  });
-  return { assessmentResult, competenceMarks };
-}

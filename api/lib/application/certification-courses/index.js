@@ -233,8 +233,13 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: certificationCourseController.saveAssessmentResult,
-        tags: ['api'],
+        handler: certificationCourseController.updateJuryComments,
+        tags: ['api', 'admin', 'assessment-results', 'certification-courses'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Elle permet de mettre à jour les commentaires jury\n' +
+            ' - Elle recrée un assessment result pour mettre à jour les commentaires jury\n',
+        ],
       },
     },
   ]);
