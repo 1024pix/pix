@@ -38,6 +38,11 @@ class CertificationCenterMembership {
       this.updatedByUserId = updatedByUserId;
     }
   }
+
+  disableMembership(updatedByUserId) {
+    this.disabledAt = new Date();
+    this.updatedByUserId = updatedByUserId;
+  }
 }
 
 export { CertificationCenterMembership, CERTIFICATION_CENTER_MEMBERSHIP_ROLES };
