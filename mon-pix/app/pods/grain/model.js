@@ -4,7 +4,7 @@ export default class Grain extends Model {
   @attr('string') title;
 
   @hasMany('element', { polymorphic: true }) elements;
-  @belongsTo('module', { async: false }) module;
+  @belongsTo('module', { async: false, inverse: 'grains' }) module;
 
   get answerableElements() {
     return this.elements.filter((element) => {
