@@ -15,7 +15,7 @@ export default class CompetenceResult extends Model {
   @attr('number') reachedStage;
 
   // includes
-  @belongsTo('campaignParticipationResult') campaignParticipationResult;
+  @belongsTo('campaignParticipationResult', { async: true, inverse: 'competenceResults' }) campaignParticipationResult;
 
   get masteryRate() {
     return this.masteryPercentage / 100;
