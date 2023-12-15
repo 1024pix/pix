@@ -109,6 +109,36 @@ describe('Unit | API | Campaigns', function () {
     });
   });
 
+  describe('#update', function () {
+    it('should return campaign informations', async function () {
+      const campaignInformation = domainBuilder.buildCampaign({
+        id: '777',
+        code: 'SOMETHING',
+        name: 'Godzilla',
+        title: 'is Biohazard',
+        customLandingPageText: 'Pika pika pikaCHUUUUUUUUUUUUUUUUUU',
+        createdAt: new Date('2020-01-01'),
+        archivedAt: new Date('2023-01-01'),
+      });
+
+      const updateCampaignStub = sinon.stub(usecases, 'updateCampaign');
+      updateCampaignStub
+        .withArgs({ campaignId: campaignInformation.id, name: campaignInformation.name })
+        .resolves(campaignInformation);
+
+      // when
+      const result = await campaignApi.update({
+        campaignId: campaignInformation.id,
+        name: campaignInformation.name,
+        customLandingPageText: 'custom page text',
+      });
+
+      // then
+      expect(result).not.to.be.instanceOf(Campaign);
+      expect(result.customLandingPageText).to.equal(campaignInformation.customLandingPageText);
+    });
+  });
+
   describe('#findAllForOrganization', function () {
     it('should return paginated campaign list from organizationId', async function () {
       const organizationId = Symbol('organizationId');
