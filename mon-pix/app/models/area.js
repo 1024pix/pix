@@ -1,4 +1,5 @@
 import Model, { attr, hasMany } from '@ember-data/model';
+import sortBy from 'lodash/sortBy';
 
 export default class Area extends Model {
   // attributes
@@ -9,9 +10,9 @@ export default class Area extends Model {
 
   // includes
   @hasMany('resultCompetence', { async: true, inverse: 'area' }) resultCompetences;
-  @hasMany('competence', { async: true, inverse: 'area' }) competences;
+  @hasMany('competence', { async: false, inverse: 'area' }) competences;
 
   get sortedCompetences() {
-    return this.competences.sortBy('code');
+    return sortBy(this.competences, 'code');
   }
 }

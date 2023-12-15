@@ -1,8 +1,9 @@
 import Component from '@glimmer/component';
+import sortBy from 'lodash/sortBy';
 
 export default class UserCertificationsDetailCompetencesList extends Component {
   get sortedAreas() {
-    return this.args.resultCompetenceTree.get('areas').sortBy('code');
+    return sortBy(this.args.resultCompetenceTree.get('areas'), 'code');
   }
 
   get maxReachableLevel() {
