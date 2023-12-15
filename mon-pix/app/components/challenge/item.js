@@ -95,8 +95,8 @@ export default class Item extends Component {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
   }
 
-  _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
+  async _findOrCreateAnswer(challenge, assessment) {
+    let answer = (await assessment.answers).find((answer) => answer.challenge.get('id') === challenge.id);
     if (!answer) {
       answer = this.store.createRecord('answer', { assessment, challenge });
     }
@@ -112,7 +112,7 @@ export default class Item extends Component {
 
   @action
   async answerValidated(challenge, assessment, answerValue, answerTimeout, answerFocusedOut) {
-    const answer = this._findOrCreateAnswer(challenge, assessment);
+    const answer = await this._findOrCreateAnswer(challenge, assessment);
     answer.setProperties({
       value: answerValue.trim(),
       timeout: answerTimeout,
