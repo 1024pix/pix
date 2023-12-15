@@ -1,6 +1,8 @@
+import Joi from 'joi';
 import { campaignAdministrationController } from './campaign-adminstration-controller.js';
 import { sendJsonApiError, PayloadTooLargeError } from '../../../../lib/application/http-errors.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 const TWENTY_MEGABYTES = 1048576 * 20;
 
 const ERRORS = {
@@ -19,7 +21,45 @@ const register = async function (server) {
             '- Création d‘une nouvelle campagne\n' +
             '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
         ],
-        tags: ['api', 'campaign'],
+        tags: ['api', 'orga', 'campaign'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/campaigns/{id}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAuthorizationToManageCampaign,
+            assign: 'isAdminOrCreatorFromTheCampaign',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+          payload: Joi.object({
+            data: {
+              type: 'campaigns',
+              attributes: {
+                'owner-id': identifiersType.ownerId,
+                name: Joi.string().required(),
+                title: Joi.string().allow(null).required(),
+                'custom-landing-page-text': Joi.string().allow(null).required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: campaignAdministrationController.update,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Modification d'une campagne\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à modifier',
+        ],
+        tags: ['api', 'orga', 'campaign'],
       },
     },
     {
@@ -51,7 +91,7 @@ const register = async function (server) {
             '- Elle permet de créer des campagnes à partir d‘un fichier au format CSV\n' +
             '- Elle ne retourne aucune valeur',
         ],
-        tags: ['api', 'campaigns'],
+        tags: ['api', 'admin', 'campaigns'],
       },
     },
   ]);

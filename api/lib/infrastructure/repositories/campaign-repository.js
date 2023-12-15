@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { NotFoundError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { Campaign } from '../../domain/models/Campaign.js';
@@ -40,24 +39,6 @@ const get = async function (id) {
     targetProfile: { id: campaign.targetProfileId },
     creator: { id: campaign.creatorId },
   });
-};
-
-const update = async function (campaign) {
-  const editedAttributes = _.pick(campaign, [
-    'name',
-    'title',
-    'customLandingPageText',
-    'archivedAt',
-    'archivedBy',
-    'ownerId',
-    'customResultPageText',
-    'customResultPageButtonText',
-    'customResultPageButtonUrl',
-  ]);
-
-  const [editedCampaign] = await knex('campaigns').update(editedAttributes).where({ id: campaign.id }).returning('*');
-
-  return new Campaign(editedCampaign);
 };
 
 const checkIfUserOrganizationHasAccessToCampaign = async function (campaignId, userId) {
@@ -146,7 +127,6 @@ const findAllSkills = async function ({ campaignId, domainTransaction }) {
 export {
   getByCode,
   get,
-  update,
   checkIfUserOrganizationHasAccessToCampaign,
   getCampaignTitleByCampaignParticipationId,
   getCampaignCodeByCampaignParticipationId,

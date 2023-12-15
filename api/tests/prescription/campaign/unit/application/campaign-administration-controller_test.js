@@ -148,4 +148,39 @@ describe('Unit | Application | Controller | Campaign administration', function (
       expect(csvSerializerStub.deserializeForCampaignsImport).to.have.been.called;
     });
   });
+
+  describe('#update', function () {
+    it('should return the updated campaign', async function () {
+      // given
+      const request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id: 1 },
+        deserializedPayload: {
+          name: 'New name',
+          title: 'New title',
+          customLandingPageText: 'New text',
+          ownerId: 5,
+        },
+      };
+
+      const updatedCampaign = Symbol('campaign');
+      const updatedCampaignSerialized = Symbol('campaign serialized');
+
+      sinon
+        .stub(usecases, 'updateCampaign')
+        .withArgs({ campaignId: 1, ...request.deserializedPayload })
+        .resolves(updatedCampaign);
+      const campaignReportSerializerStub = {
+        serialize: sinon.stub(),
+      };
+      campaignReportSerializerStub.serialize.withArgs(updatedCampaign).returns(updatedCampaignSerialized);
+      // when
+      const response = await campaignAdministrationController.update(request, hFake, {
+        campaignReportSerializer: campaignReportSerializerStub,
+      });
+
+      // then
+      expect(response).to.deep.equal(updatedCampaignSerialized);
+    });
+  });
 });
