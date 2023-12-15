@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import sortBy from 'lodash/sortBy';
 
 export default class ResultsRoute extends Route {
   @service store;
@@ -12,8 +13,7 @@ export default class ResultsRoute extends Route {
       adapterOptions: { assessmentId },
     });
 
-    const competenceEvaluation = competenceEvaluations
-      .sortBy('createdAt')
+    const competenceEvaluation = sortBy(competenceEvaluations, 'createdAt')
       .reverse()
       .find((competenceEvaluation) => competenceEvaluation.assessment.get('id') === assessmentId);
 
