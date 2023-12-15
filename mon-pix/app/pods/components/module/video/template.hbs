@@ -1,0 +1,40 @@
+<div class="element-video">
+  <div class="element-video-container">
+    <video
+      {{did-insert this.launchPlyr}}
+      id={{@video.id}}
+      ref="video"
+      class="pix-video-player"
+      alt={{@video.alternativeText}}
+      playsinline
+      controls
+      crossorigin
+    >
+      <source src={{@video.url}} type="video/webm" />
+      <track kind="captions" label="Français" src={{@captionVtt}} srclang="fr" default />
+    </video>
+
+  </div>
+  <PixButton
+    @backgroundColor="transparent-light"
+    @shape="rounded"
+    @size="small"
+    @type="button"
+    @isBorderVisible={{true}}
+    @triggerAction={{this.showModal}}
+  >
+    {{t "pages.modulix.buttons.element.alternativeText"}}
+  </PixButton>
+  <PixModal
+    @title={{t "pages.modulix.modals.alternativeText.title"}}
+    @showModal={{this.modalIsOpen}}
+    @onCloseButtonClick={{this.closeModal}}
+    class="element__video-modal"
+  >
+    <:content>
+      <p class="video__modal-instruction">
+        {{html-unsafe @video.alternativeText}}
+      </p>
+    </:content>
+  </PixModal>
+</div>

@@ -5,6 +5,8 @@
       <Module::Text @text={{element}} />
     {{else if element.isImage}}
       <Module::Image @image={{element}} />
+    {{else if element.isVideo}}
+      <Module::Video @video={{element}} />
     {{else if element.isQcu}}
       <Module::Qcu @qcu={{element}} @submitAnswer={{@submitAnswer}} />
     {{else if element.isQrocm}}
