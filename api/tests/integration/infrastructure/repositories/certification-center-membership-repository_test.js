@@ -275,6 +275,51 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#findActiveAdminsByCertificationCenterId', function () {
+    it('returns a list of active members with the role "ADMIN"', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        email: 'admin1@example.net',
+        certificationCenterId,
+        role: 'ADMIN',
+      });
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        email: 'admin2@example.net',
+        certificationCenterId,
+        role: 'ADMIN',
+      });
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        email: 'user@example.net',
+        certificationCenterId,
+        role: 'MEMBER',
+      });
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        email: 'disabled-admin@example.net',
+        certificationCenterId,
+        role: 'ADMIN',
+        membershipDisabledAt: '2019-04-28',
+      });
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        email: 'other-center-admin@example.net',
+        otherCertificationCenterId,
+        role: 'ADMIN',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCenterMemberships =
+        await certificationCenterMembershipRepository.findActiveAdminsByCertificationCenterId(certificationCenterId);
+
+      // then
+      expect(certificationCenterMemberships.length).to.equal(2);
+      expect(certificationCenterMemberships[0].user.email).to.equal('admin1@example.net');
+      expect(certificationCenterMemberships[1].user.email).to.equal('admin2@example.net');
+    });
+  });
+
   describe('#findActiveByCertificationCenterIdSortedByRole', function () {
     it('should return certification center membership associated to the certification center', async function () {
       // given
