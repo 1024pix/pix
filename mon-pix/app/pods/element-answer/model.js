@@ -2,7 +2,7 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class ElementAnswer extends Model {
   @attr('array') userResponse;
-  @belongsTo('correction-response', { async: false }) correction;
+  @belongsTo('correction-response', { async: false, inverse: null }) correction;
 
-  @belongsTo('element', { polymorphic: true }) element;
+  @belongsTo('element', { async: true, polymorphic: true, inverse: 'elementAnswers' }) element;
 }
