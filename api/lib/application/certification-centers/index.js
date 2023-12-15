@@ -111,7 +111,6 @@ const register = async function (server) {
         tags: ['api', 'admin', 'certification-center-membership'],
       },
     },
-
     {
       method: 'POST',
       path: '/api/admin/certification-centers/{certificationCenterId}/certification-center-memberships',
@@ -145,7 +144,6 @@ const register = async function (server) {
         tags: ['api', 'certification-center-membership'],
       },
     },
-
     {
       method: 'PATCH',
       path: '/api/admin/certification-centers/{id}',
@@ -171,28 +169,73 @@ const register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/certification-centers/{certificationCenterId}/import',
+      method: 'POST',
+      path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
-            assign: 'isMemberOfCertificationCenter',
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
+        ],
+        handler: certificationCenterController.sendInvitationForAdmin,
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+                language: Joi.string().valid('fr-fr', 'fr', 'en'),
+                role: Joi.string().valid('ADMIN', 'MEMBER').allow(null),
+              },
+            },
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet à un administrateur d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification, via leur **email**",
+        ],
+        tags: ['api', 'invitations', 'certification-center'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
+      config: {
+        pre: [
           {
-            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
-            assign: 'isCertificationCenterNotScoManagingStudents',
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
-          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
         },
-        handler: certificationCenterController.getSessionsImportTemplate,
-        tags: ['api', 'sessions'],
+        handler: certificationCenterController.findPendingInvitations,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Elle permet de récupérer le fichier de création de sessions de certification',
+          '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
+            '- Récupération de la liste des invitations en attente liée un centre de certification',
         ],
+        tags: ['api', 'certification-center', 'invitations', 'admin'],
       },
     },
   ];
@@ -306,7 +349,31 @@ const register = async function (server) {
         tags: ['api', 'certification-center', 'members'],
       },
     },
-
+    {
+      method: 'GET',
+      path: '/api/certification-centers/{certificationCenterId}/import',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+          {
+            method: securityPreHandlers.checkCertificationCenterIsNotScoManagingStudents,
+            assign: 'isCertificationCenterNotScoManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({ certificationCenterId: identifiersType.certificationCenterId }),
+        },
+        handler: certificationCenterController.getSessionsImportTemplate,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Elle permet de récupérer le fichier de création de sessions de certification',
+        ],
+      },
+    },
     {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/invitations',
@@ -358,78 +425,6 @@ const register = async function (server) {
             "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification via leur **email**",
         ],
         tags: ['api', 'certification-center', 'invitations'],
-      },
-    },
-
-    {
-      method: 'GET',
-      path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            certificationCenterId: identifiersType.certificationCenterId,
-          }),
-        },
-        handler: certificationCenterController.findPendingInvitations,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés et ayant accès à Pix Admin**\n' +
-            '- Récupération de la liste des invitations en attente liée un centre de certification',
-        ],
-        tags: ['api', 'certification-center', 'invitations', 'admin'],
-      },
-    },
-
-    {
-      method: 'POST',
-      path: '/api/admin/certification-centers/{certificationCenterId}/invitations',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkAdminMemberHasRoleSupport,
-                securityPreHandlers.checkAdminMemberHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: certificationCenterController.sendInvitationForAdmin,
-        validate: {
-          params: Joi.object({
-            certificationCenterId: identifiersType.certificationCenterId,
-          }),
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                email: Joi.string().email().required(),
-                language: Joi.string().valid('fr-fr', 'fr', 'en'),
-                role: Joi.string().valid('ADMIN', 'MEMBER').allow(null),
-              },
-            },
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet à un administrateur d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'un centre de certification, via leur **email**",
-        ],
-        tags: ['api', 'invitations', 'certification-center'],
       },
     },
   ]);
