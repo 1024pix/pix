@@ -7,5 +7,5 @@ export default class ReachedStage extends Model {
   @attr('number') reachedStage;
   @attr('number') threshold;
 
-  @belongsTo('campaign-participation-result') campaignParticipationResult;
+  @belongsTo('campaign-participation-result', { async: true, inverse: 'reachedStage' }) campaignParticipationResult;
 }
