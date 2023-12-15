@@ -94,20 +94,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
     });
   });
 
-  describe('PATCH /api/campaigns/{id}', function () {
-    it('should return 400 with an invalid campaign id', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/campaigns/invalid');
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('PATCH /api/admin/campaigns/{id}', function () {
     it('should return 204', async function () {
       // given

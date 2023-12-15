@@ -91,15 +91,6 @@ const getCsvProfilesCollectionResults = async function (request, h, dependencies
   return writableStream;
 };
 
-const update = function (request, h, dependencies = { campaignReportSerializer }) {
-  const { userId } = request.auth.credentials;
-  const campaignId = request.params.id;
-
-  return usecases
-    .updateCampaign({ userId, campaignId, ...request.deserializedPayload })
-    .then(dependencies.campaignReportSerializer.serialize);
-};
-
 const archiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
@@ -200,7 +191,6 @@ const campaignController = {
   getByCode,
   getCsvAssessmentResults,
   getCsvProfilesCollectionResults,
-  update,
   archiveCampaign,
   unarchiveCampaign,
   getCollectiveResult,

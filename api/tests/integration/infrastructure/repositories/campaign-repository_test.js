@@ -1,4 +1,4 @@
-import { databaseBuilder, domainBuilder, expect, knex, mockLearningContent } from '../../../test-helper.js';
+import { databaseBuilder, domainBuilder, expect, mockLearningContent } from '../../../test-helper.js';
 
 import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
 import { Campaign } from '../../../../lib/domain/models/Campaign.js';
@@ -216,75 +216,6 @@ describe('Integration | Repository | Campaign', function () {
       const promise = campaignRepository.get(nonExistentId);
       // then
       return expect(promise).to.have.been.rejectedWith(NotFoundError);
-    });
-  });
-
-  describe('#update', function () {
-    let campaign;
-
-    beforeEach(function () {
-      campaign = databaseBuilder.factory.buildCampaign();
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return a Campaign domain object', async function () {
-      // when
-      const campaignSaved = await campaignRepository.update({ id: campaign.id, title: 'Title' });
-
-      // then
-      expect(campaignSaved).to.be.an.instanceof(Campaign);
-    });
-
-    it('should update the correct campaign', async function () {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ title: 'MASH' }).id;
-      await databaseBuilder.commit();
-
-      // when
-      await campaignRepository.update({ id: campaign.id, title: 'Title' });
-      const row = await knex.from('campaigns').where({ id: campaignId }).first();
-
-      // then
-      expect(row.title).to.equal('MASH');
-    });
-
-    it('should not add row in table "campaigns"', async function () {
-      // given
-      const rowsCountBeforeUpdate = await knex.select('id').from('campaigns');
-      // when
-      await campaignRepository.update({ id: campaign.id, title: 'Title' });
-
-      // then
-      const rowCountAfterUpdate = await knex.select('id').from('campaigns');
-      expect(rowCountAfterUpdate.length).to.equal(rowsCountBeforeUpdate.length);
-    });
-
-    it('should update model in database', async function () {
-      // given
-      const archivedBy = databaseBuilder.factory.buildUser().id;
-      const ownerId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-
-      // when
-      const campaignSaved = await campaignRepository.update({
-        id: campaign.id,
-        title: 'New title',
-        name: 'New name',
-        customLandingPageText: 'New text',
-        archivedAt: new Date('2020-12-12T06:07:08Z'),
-        archivedBy,
-        ownerId,
-      });
-
-      // then
-      expect(campaignSaved.id).to.equal(campaign.id);
-      expect(campaignSaved.name).to.equal('New name');
-      expect(campaignSaved.title).to.equal('New title');
-      expect(campaignSaved.customLandingPageText).to.equal('New text');
-      expect(campaignSaved.archivedAt).to.deep.equal(new Date('2020-12-12T06:07:08Z'));
-      expect(campaignSaved.archivedBy).to.equal(archivedBy);
-      expect(campaignSaved.ownerId).to.equal(ownerId);
     });
   });
 
