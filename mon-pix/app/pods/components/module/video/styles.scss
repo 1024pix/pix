@@ -1,0 +1,24 @@
+.element-video {
+  margin: $pix-spacing-s;
+
+  &-container {
+    aspect-ratio: auto 16 / 9;
+    margin: 0 auto $pix-spacing-xxs auto;
+
+    video {
+      display: block;
+      height: 100%;
+    }
+  }
+
+}
+
+.video__modal-instruction {
+  // revert the reset
+  ul,
+  ol {
+    margin: revert;
+    padding: revert;
+    list-style: revert;
+  }
+}
