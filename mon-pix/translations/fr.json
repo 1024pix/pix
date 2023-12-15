@@ -293,6 +293,20 @@
         "header": "Vos réponses"
       }
     },
+    "autonomous-course": {
+      "landing-page": {
+        "actions": {
+          "sign-in": "J'ai déjà un compte, je me connecte",
+          "start-anonymously": "Je commence sans compte Pix",
+          "start-connected": "Je commence"
+        },
+        "texts": {
+          "title": "Commencez le parcours :",
+          "first-course": "C'est votre premier parcours Pix ?",
+          "legal-informations": "Avec ou sans compte Pix, les informations relatives à votre avancée dans le parcours nous seront transmises.'<br>'Ces informations sont à l'usage de Pix pour l'amélioration du service."
+        }
+      }
+    },
     "campaign": {
       "errors": {
         "existing-participation": "Le parcours n'est pas accessible pour vous.",
