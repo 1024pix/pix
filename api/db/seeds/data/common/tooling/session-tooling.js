@@ -163,7 +163,7 @@ async function createDraftSession({
     version,
   });
 
-  await _registerCandidatesToSession({
+  const certificationCandidates = await _registerCandidatesToSession({
     databaseBuilder,
     sessionId,
     hasJoinSession: false,
@@ -172,7 +172,7 @@ async function createDraftSession({
   });
 
   await databaseBuilder.commit();
-  return { sessionId };
+  return { sessionId, certificationCandidates };
 }
 
 /**
@@ -442,8 +442,10 @@ async function createPublishedScoSession({
  * @param {string} juryComment
  * @param {number} juryCommentAuthorId
  * @param {Date} juryCommentedAt
+ * @param {boolean} makeCandidatesPassCertification
  * @param {string} supervisorPassword
  * @param {candidatesToRegisterCount: number, hasComplementaryCertificationsToRegister : boolean, maxLevel: number, sessionDate: Date } configSession
+ * @param {number} version
  * @returns {sessionId: number} sessionId
  */
 async function createPublishedSession({
@@ -469,8 +471,10 @@ async function createPublishedSession({
   juryComment,
   juryCommentAuthorId,
   juryCommentedAt,
+  makeCandidatesPassCertification = true,
   supervisorPassword,
   configSession,
+  version,
 }) {
   _buildSession({
     databaseBuilder,
@@ -496,6 +500,7 @@ async function createPublishedSession({
     juryCommentAuthorId,
     juryCommentedAt,
     supervisorPassword,
+    version,
   });
   databaseBuilder.factory.buildFinalizedSession({
     sessionId,
@@ -523,17 +528,19 @@ async function createPublishedSession({
     certificationCandidates,
     maxLevel: configSession.maxLevel,
   });
-  await _makeCandidatesPassCertification({
-    databaseBuilder,
-    sessionId,
-    certificationCandidates,
-    coreProfileData,
-    complementaryCertificationsProfileData,
-    configSession,
-  });
+  if (makeCandidatesPassCertification) {
+    await _makeCandidatesPassCertification({
+      databaseBuilder,
+      sessionId,
+      certificationCandidates,
+      coreProfileData,
+      complementaryCertificationsProfileData,
+      configSession,
+    });
+  }
 
   await databaseBuilder.commit();
-  return { sessionId };
+  return { sessionId, certificationCandidates };
 }
 
 async function _registerOrganizationLearnersToSession({

@@ -78,6 +78,17 @@ async function _getValidatedChallengesBySkill() {
   return VALIDATED_CHALLENGES_BY_SKILL;
 }
 
+async function getV3CertificationChallenges(count) {
+  const challenges = await getAllChallenges();
+
+  return challenges
+    .filter(
+      ({ status, difficulty, discriminant }) =>
+        status === 'validé' && difficulty !== undefined && discriminant !== undefined,
+    )
+    .slice(0, count);
+}
+
 async function findActiveSkillsByFrameworkName(frameworkName) {
   const allCompetences = await getAllCompetences();
   const competenceIds = _.filter(allCompetences, { origin: frameworkName }).map(({ id }) => id);
@@ -93,4 +104,5 @@ export {
   findFirstValidatedChallengeBySkillId,
   findCompetence,
   findActiveSkillsByFrameworkName,
+  getV3CertificationChallenges,
 };
