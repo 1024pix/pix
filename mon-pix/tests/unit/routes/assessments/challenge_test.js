@@ -118,24 +118,24 @@ module('Unit | Route | Assessments | Challenge', function (hooks) {
     });
 
     module('when the asked challenges is already answered', function (hooks) {
+      let answer;
+
       hooks.beforeEach(function () {
+        answer = {
+          id: 3,
+          challenge: {
+            id: 'oldRecId',
+            get: () => 'oldRecId',
+          },
+        };
         const assessmentWithAnswers = {
-          answers: [
-            {
-              id: 3,
-              challenge: {
-                id: 'oldRecId',
-                get: () => 'oldRecId',
-              },
-            },
-          ],
+          answers: [answer],
           type: 'COMPETENCE',
         };
         route.modelFor.returns(assessmentWithAnswers);
-        storeStub.findRecord.resolves({ id: 'recId' });
       });
 
-      test('should call findRecord to find the asked challenge', async function (assert) {
+      test('should use challenge from answer', async function (assert) {
         // given
         const params = {
           challengeId: 'recId',
@@ -143,11 +143,10 @@ module('Unit | Route | Assessments | Challenge', function (hooks) {
         };
 
         // when
-        await route.model(params);
+        const model = await route.model(params);
 
         // then
-        sinon.assert.calledWith(findRecordStub, 'challenge', 'oldRecId');
-        assert.ok(true);
+        assert.strictEqual(model.challenge, answer.challenge);
       });
     });
   });

@@ -12,5 +12,5 @@ export default class CertificationCourse extends Model {
   @attr('number') sessionId;
 
   // includes
-  @belongsTo('assessment') assessment;
+  @belongsTo('assessment', { async: true, inverse: 'certificationCourse' }) assessment;
 }
