@@ -100,6 +100,44 @@ module('Unit | Component | MembersList', (hooks) => {
         // then
         assert.true(onLeaveCertificationCenter.calledOnce);
       });
+
+      module('when connected user leaves the certification center ', function () {
+        test('calls notifications service to display a success message', async function (assert) {
+          // given
+          const notifications = this.owner.lookup('service:notifications');
+          sinon.stub(notifications, 'success');
+          const currentUser = this.owner.lookup('service:current-user');
+          sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ name: 'Shertif' });
+          const onLeaveCertificationCenter = sinon.stub().resolves();
+          component.args.onLeaveCertificationCenter = onLeaveCertificationCenter;
+
+          // when
+          await component.leaveCertificationCenter();
+
+          // then
+          assert.true(
+            notifications.success.calledOnceWith(
+              'Votre accès a été supprimé avec succès du centre de certification Shertif. Vous allez être déconnecté de Pix Certif...',
+            ),
+          );
+        });
+      });
+
+      module('when an error occurs', function () {
+        test('calls notifications service to display an error message', async function (assert) {
+          // given
+          const notifications = this.owner.lookup('service:notifications');
+          sinon.stub(notifications, 'error');
+          const onLeaveCertificationCenter = sinon.stub().rejects(new Error());
+          component.args.onLeaveCertificationCenter = onLeaveCertificationCenter;
+
+          // when
+          await component.leaveCertificationCenter();
+
+          // then
+          assert.true(notifications.error.calledOnceWith('Une erreur est survenue lors de la suppression du membre.'));
+        });
+      });
     });
 
     module('#openLeaveCertificationCenterModal', function () {

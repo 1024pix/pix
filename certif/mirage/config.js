@@ -410,7 +410,7 @@ function _configureCertificationCenterInvitationRoutes(context) {
 }
 
 function _configureCertificationCenterMemberRoutes(context) {
-  context.post('/certification-centers/:certificationCenterId/members/me/disable', (schema, request) => {
+  context.post('/certification-centers/:certificationCenterId/members/me/disable', (schema) => {
     const member = schema.members.first();
     member.destroy();
     return new Response(204);

@@ -6,6 +6,8 @@ import { tracked } from '@glimmer/tracking';
 export default class MembersList extends Component {
   @service currentUser;
   @service featureToggles;
+  @service intl;
+  @service notifications;
   @service session;
 
   @tracked
@@ -36,8 +38,20 @@ export default class MembersList extends Component {
 
   @action
   async leaveCertificationCenter() {
-    await this.args.onLeaveCertificationCenter();
-    this.closeLeaveCertificationCenterModal();
-    this.session.invalidate();
+    try {
+      await this.args.onLeaveCertificationCenter();
+      this.notifications.success(
+        this.intl.t('pages.team.members.notifications.leave-certification-center.success', {
+          certificationCenterName: this.currentUser.currentAllowedCertificationCenterAccess.name,
+        }),
+      );
+      this.session.invalidate();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      this.notifications.error(this.intl.t('pages.team.members.notifications.leave-certification-center.error'));
+    } finally {
+      this.closeLeaveCertificationCenterModal();
+    }
   }
 }
