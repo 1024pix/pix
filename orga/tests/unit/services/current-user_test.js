@@ -250,6 +250,35 @@ module('Unit | Service | current-user', function (hooks) {
         assert.strictEqual(currentUserService.organization.id, organization2.id);
       });
     });
+
+    module('#shouldAccessPlacesPage', function () {
+      test('should return true if user is admin and organization has feature activated', function (assert) {
+        currentUserService.isAdminInOrganization = true;
+        currentUserService.prescriber = {
+          placesManagement: true,
+        };
+
+        assert.true(currentUserService.shouldAccessPlacesPage);
+      });
+
+      test('should return false if user is admin and organization does not have feature activated', function (assert) {
+        currentUserService.isAdminInOrganization = true;
+        currentUserService.prescriber = {
+          placesManagement: false,
+        };
+
+        assert.false(currentUserService.shouldAccessPlacesPage);
+      });
+
+      test('should return false if user is not admin', function (assert) {
+        currentUserService.isAdminInOrganization = false;
+        currentUserService.prescriber = {
+          placesManagement: true,
+        };
+
+        assert.false(currentUserService.shouldAccessPlacesPage);
+      });
+    });
   });
 
   module('user is not authenticated', function () {

@@ -7,7 +7,7 @@ export default class AuthenticatedPlacesRoute extends Route {
   @service store;
 
   beforeModel() {
-    if (!this.currentUser.isAdminInOrganization || !this.currentUser.prescriber.placesManagement) {
+    if (!this.currentUser.shouldAccessPlacesPage) {
       this.router.replaceWith('application');
     }
   }

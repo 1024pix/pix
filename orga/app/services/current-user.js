@@ -56,4 +56,8 @@ export default class CurrentUserService extends Service {
 
     this.organization = organization;
   }
+
+  get shouldAccessPlacesPage() {
+    return this.isAdminInOrganization && this.prescriber.placesManagement;
+  }
 }
