@@ -4,8 +4,8 @@ export default class Element extends Model {
   @attr('string') type;
   @attr('boolean') isAnswerable;
 
-  @belongsTo('grain', { inverse: 'elements' }) grain;
-  @hasMany('element-answer', { inverse: 'element' }) elementAnswers;
+  @belongsTo('grain', { async: true, inverse: 'elements' }) grain;
+  @hasMany('element-answer', { async: true, inverse: 'element' }) elementAnswers;
 
   get isText() {
     return this.type === 'texts';
