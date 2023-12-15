@@ -878,8 +878,8 @@
       }
     },
     "places": {
-      "title":"Places",
-      "before-date":"at"
+      "title":"Seats",
+      "before-date":"on"
     },
     "preselect-target-profile": {
       "title": "Topic selection",
