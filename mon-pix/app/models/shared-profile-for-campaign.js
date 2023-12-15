@@ -9,7 +9,7 @@ export default class SharedProfileForCampaign extends Model {
   @attr('number') maxReachableLevel;
   @attr('date') sharedAt;
   @attr('boolean') canRetry;
-  @hasMany('scorecard') scorecards;
+  @hasMany('scorecard', { async: true, inverse: null }) scorecards;
 
   @computed('scorecards.@each.area')
   get areas() {
