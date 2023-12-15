@@ -2,7 +2,10 @@ import { Parser } from '@json2csv/plainjs';
 
 const { omit } = lodash;
 
-import { headers, COMPLEMENTARY_CERTIFICATION_SUFFIX } from '../utils/csv/sessions-import.js';
+import {
+  headers,
+  COMPLEMENTARY_CERTIFICATION_SUFFIX,
+} from '../../../../../lib/infrastructure/utils/csv/sessions-import.js';
 import lodash from 'lodash';
 
 function getHeaders({ habilitationLabels, shouldDisplayBillingModeColumns = true }) {
