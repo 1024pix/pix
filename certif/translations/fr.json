@@ -882,6 +882,10 @@
           "change-member-role": {
             "error": "Une erreur est survenue lors de la modification du rôle du membre.",
             "success": "Le rôle a bien été changé."
+          },
+          "leave-certification-center": {
+            "error": "Une erreur est survenue lors de la suppression du membre.",
+            "success": "Votre accès a été supprimé avec succès du centre de certification {certificationCenterName}. Vous allez être déconnecté de Pix Certif..."
           }
         },
         "role": {

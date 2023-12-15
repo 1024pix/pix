@@ -882,6 +882,10 @@
           "change-member-role": {
             "error": "An error occurred while changing this member's role.",
             "success": "The role has been changed."
+          },
+          "leave-certification-center": {
+            "error": "An error occurred while deleting the member.",
+            "success": "You have been successfully removed from the {certificationCenterName} certification centre. You are about to be disconnected from Pix Certif..."
           }
         },
         "role": {

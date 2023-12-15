@@ -3,6 +3,8 @@ import { click, currentURL } from '@ember/test-helpers';
 import { clickByName, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { Response } from 'miragejs';
 
 import {
   authenticateSession,
@@ -11,7 +13,6 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../helpers/test-init';
 import setupIntl from '../../../helpers/setup-intl';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
 
 module('Acceptance | authenticated | team', function (hooks) {
@@ -330,7 +331,7 @@ module('Acceptance | authenticated | team', function (hooks) {
       });
 
       module('when user wants to leave the certification center', function () {
-        test('leaves the certification center and disconnects the user', async function (assert) {
+        test('leaves the certification center, displays a success notification and disconnects the user', async function (assert) {
           // given
           const leavingAdminUser = createCertificationPointOfContactWithTermsOfServiceAccepted(
             undefined,
@@ -352,7 +353,42 @@ module('Acceptance | authenticated | team', function (hooks) {
           await waitForDialogClose();
 
           // then
+          assert
+            .dom(
+              screen.getByText(
+                'Votre accès a été supprimé avec succès du centre de certification Shelltif. Vous allez être déconnecté de Pix Certif...',
+              ),
+            )
+            .exists();
           assert.false(currentSession().get('isAuthenticated'));
+        });
+
+        module('when an error occurs', function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const leavingAdminUser = createCertificationPointOfContactWithTermsOfServiceAccepted(
+              undefined,
+              'Shelltif',
+              false,
+              'ADMIN',
+            );
+            server.create('member', { id: 1234, firstName: 'Lili', lastName: 'Dupont', role: 'ADMIN' });
+            server.delete('/certification-center-memberships/:id', () => new Response(500));
+            await authenticateSession(leavingAdminUser.id);
+
+            const screen = await visitScreen('/equipe');
+
+            await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
+            await clickByName('Quitter cet espace Pix Certif');
+            await waitForDialog();
+
+            // when
+            await clickByName('Confirmer');
+            await waitForDialogClose();
+
+            // then
+            assert.dom(screen.getByText('Une erreur est survenue lors de la suppression du membre.')).exists();
+          });
         });
       });
     });
