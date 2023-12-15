@@ -1,7 +1,7 @@
-import { expect } from '../../../../test-helper.js';
-import { getHeaders } from '../../../../../lib/infrastructure/files/sessions-import.js';
+import { expect } from '../../../../../test-helper.js';
+import { getHeaders } from '../../../../../../src/certification/session/infrastructure/files/sessions-import.js';
 const BOM_CHAR = '\ufeff';
-describe('Integration | Infrastructure | Utils | csv | sessions-import', function () {
+describe('Integration | Infrastructure | Files | sessions-import', function () {
   context('#getHeaders', function () {
     context('when should display billing mode', function () {
       context('when no habilitation labels are passed', function () {
