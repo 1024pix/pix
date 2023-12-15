@@ -1,0 +1,9 @@
+.statistics {
+  display: flex;
+  gap: var(--pix-spacing-8x);
+  margin-top: var(--pix-spacing-8x);
+
+  &__total {
+    @extend %pix-body-m;
+  }
+}

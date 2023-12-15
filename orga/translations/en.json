@@ -57,6 +57,14 @@
     }
   },
   "cards": {
+    "available-seats-count": {
+      "title": "Seats available",
+      "value": "/{total} seats"
+    },
+    "occupied-seats-count": {
+      "title": "Seats occupied",
+      "value": "/{total} seats"
+    },
     "participants-average-results": {
       "title": "Average result",
       "information": "Find here the average results of your campaign. This includes all the participants who have completed their customised test and sent their results."
