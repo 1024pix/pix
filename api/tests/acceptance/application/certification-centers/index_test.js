@@ -3,6 +3,7 @@ import {
   expect,
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
+  knex,
   sinon,
 } from '../../../test-helper.js';
 
@@ -11,9 +12,19 @@ import { CertificationCenterInvitation } from '../../../../lib/domain/models/Cer
 
 describe('Acceptance | Route | Certification Centers', function () {
   let server;
+  let clock;
+  const now = new Date('2021-05-01');
 
   beforeEach(async function () {
+    clock = sinon.useFakeTimers({
+      now,
+      toFake: ['Date'],
+    });
     server = await createServer();
+  });
+
+  afterEach(async function () {
+    clock.restore();
   });
 
   describe('PATCH /api/admin/certification-centers/{id}', function () {
@@ -57,20 +68,6 @@ describe('Acceptance | Route | Certification Centers', function () {
   });
 
   describe('POST /api/admin/certification-centers/{certificationCenterId}/invitations', function () {
-    let clock;
-    const now = new Date('2021-05-01');
-
-    beforeEach(async function () {
-      clock = sinon.useFakeTimers({
-        now,
-        toFake: ['Date'],
-      });
-    });
-
-    afterEach(async function () {
-      clock.restore();
-    });
-
     it('should return 201 HTTP status code with created invitation', async function () {
       // given
       const adminMember = await insertUserWithRoleSuperAdmin();
@@ -104,6 +101,37 @@ describe('Acceptance | Route | Certification Centers', function () {
         email: 'some.user@example.net',
         role: 'ADMIN',
       });
+    });
+  });
+
+  describe('POST /api/certification-centers/{certificationCenterId}/members/me/disable', function () {
+    it('disables the connected user certification center membership and returns 204 HTTP status code', async function () {
+      // given
+      const adminUserId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId,
+        userId: adminUserId,
+        role: 'ADMIN',
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId, role: 'ADMIN' });
+      await databaseBuilder.commit();
+
+      // when
+      const { statusCode } = await server.inject({
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(adminUserId),
+        },
+        method: 'POST',
+        url: `/api/admin/certification-centers/${certificationCenterId}/members/me/disable`,
+      });
+
+      // then
+      const certificationCenterMembership = await knex('certification-center-memberships')
+        .where({ certificationCenterId, userId: adminUserId })
+        .first();
+      expect(statusCode).to.equal(204);
+      expect(certificationCenterMembership.disabledAt).to.deep.equal(now);
     });
   });
 });

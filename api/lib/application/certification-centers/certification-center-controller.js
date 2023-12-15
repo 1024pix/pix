@@ -11,7 +11,10 @@ import * as certificationCenterInvitationSerializer from '../../infrastructure/s
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import lodash from 'lodash';
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
-import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import {
+  extractLocaleFromRequest,
+  extractUserIdFromRequest,
+} from '../../infrastructure/utils/request-response-utils.js';
 
 const { map } = lodash;
 
@@ -204,9 +207,21 @@ const sendInvitations = async function (request, h) {
   return h.response().code(204);
 };
 
+async function disableOwnCertificationCenterMembership(request, h) {
+  const certificationCenterId = request.params.certificationCenterId;
+  const userId = extractUserIdFromRequest(request);
+
+  console.log({ certificationCenterId, userId });
+
+  await usecases.disableOwnCertificationCenterMembership({ certificationCenterId, userId });
+
+  return h.response().code(204);
+}
+
 const certificationCenterController = {
   create,
   createCertificationCenterMembershipByEmail,
+  disableOwnCertificationCenterMembership,
   findCertificationCenterMemberships,
   findCertificationCenterMembershipsByCertificationCenter,
   findPaginatedFilteredCertificationCenters,

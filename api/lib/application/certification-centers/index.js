@@ -421,6 +421,32 @@ const register = async function (server) {
         tags: ['api', 'certification-center', 'invitations'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/certification-centers/{certificationCenterId}/members/me/disable',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminOfCertificationCenter,
+            assign: 'isAdminOfCertificationCenter',
+          },
+          {
+            method: securityPreHandlers.checkUserCanDisableHisCertificationCenterMembership,
+            assign: 'canDisableHisCertificationCenterMembership',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: certificationCenterController.disableOwnCertificationCenterMembership,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur du centre de certification\n" +
+            "- Elle permet de se retirer d'un centre de certification",
+        ],
+      },
+    },
   ]);
 };
 

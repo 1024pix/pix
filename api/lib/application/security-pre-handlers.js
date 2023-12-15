@@ -641,7 +641,7 @@ async function checkUserCanDisableHisCertificationCenterMembership(
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCenterId = request.payload.certificationCenterId;
+  const certificationCenterId = request.params.certificationCenterId;
 
   try {
     const canDisableHisCertificationCenterMembership =
