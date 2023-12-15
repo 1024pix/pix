@@ -45,6 +45,19 @@ module('Unit | Model | Module | Element', function (hooks) {
       ],
     },
     {
+      getterName: 'isVideo',
+      cases: [
+        {
+          modelType: 'videos',
+          expectedResult: true,
+        },
+        {
+          modelType: 'qcus',
+          expectedResult: false,
+        },
+      ],
+    },
+    {
       getterName: 'isQrocm',
       cases: [
         {
