@@ -36,14 +36,14 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
     it('should return an instance of ComplementaryCertificationCourseResultForJuryCertification', function () {
       // given
       const id = 121;
-      const partnerKey = 'KEY';
       const acquired = true;
       const label = 'label';
+      const complementaryCertificationBadgeId = 99;
 
       // when
       const result = ComplementaryCertificationCourseResultForJuryCertification.from({
         id,
-        partnerKey,
+        complementaryCertificationBadgeId,
         acquired,
         label,
       });
@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultForJury
       expect(result).to.deepEqualInstance(
         domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
           id,
-          partnerKey,
+          complementaryCertificationBadgeId,
           acquired,
           label,
         }),

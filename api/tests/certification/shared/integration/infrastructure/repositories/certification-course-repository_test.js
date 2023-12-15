@@ -227,7 +227,6 @@ describe('Integration | Repository | Certification Course', function () {
             complementaryCertificationBadgeId,
           }).id;
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            partnerKey: badge.partnerKey,
             complementaryCertificationCourseId,
             certificationCourseId,
           });

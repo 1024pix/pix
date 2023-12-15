@@ -142,7 +142,6 @@ function _toDomainForCertificationAttestation({ certificationCourseDTO, competen
 async function _getCertifiedBadges(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select(
-      'badges.key as partnerKey',
       'complementary-certification-course-results.source',
       'complementary-certification-course-results.acquired',
       'complementary-certification-course-results.complementaryCertificationCourseId',

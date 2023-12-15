@@ -5,7 +5,6 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
   constructor({
     complementaryCertificationCourseId,
     complementaryCertificationBadgeId,
-    complementaryCertificationBadgeKey,
     reproducibilityRate,
     hasAcquiredPixCertification,
     minimumReproducibilityRate,
@@ -13,7 +12,6 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
     super({
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
-      partnerKey: complementaryCertificationBadgeKey,
       source: ComplementaryCertificationCourseResult.sources.PIX,
     });
 

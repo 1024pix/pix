@@ -75,7 +75,7 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
               .withArgs({ complementaryCertificationCourseId: 1234 })
               .resolves(
                 domainBuilder.buildComplementaryCertificationCourseResult({
-                  partnerKey: 'KEY_1',
+                  complementaryCertificationBadgeId: 99,
                   complementaryCertificationCourseId: 1234,
                   source: ComplementaryCertificationCourseResult.sources.PIX,
                 }),
@@ -121,7 +121,6 @@ describe('Unit | UseCase | save-jury-complementary-certification-course-results'
           // then
           expect(complementaryCertificationCourseResultRepository.save).to.have.been.calledWithExactly(
             new ComplementaryCertificationCourseResult({
-              partnerKey: 'KEY_2',
               complementaryCertificationBadgeId: 99,
               source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
               acquired: true,

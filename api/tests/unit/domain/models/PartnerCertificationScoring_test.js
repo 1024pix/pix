@@ -10,7 +10,6 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
         complementaryCertificationCourseId: 999,
         complementaryCertificationBadgeId: 60,
         certificationCourseId: 123,
-        partnerKey: 'partnerKey',
       };
     });
 
@@ -26,11 +25,11 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
       ).to.throw(ObjectValidationError);
     });
 
-    it('should not throw an ObjectValidationError when partnerKey is null', function () {
+    it('should not throw an ObjectValidationError when complementaryCerticationBadgeId is null', function () {
       // when
-      expect(() => new PartnerCertificationScoring({ ...validArguments, partnerKey: null })).to.not.throw(
-        ObjectValidationError,
-      );
+      expect(
+        () => new PartnerCertificationScoring({ ...validArguments, complementaryCerticationBadgeId: null }),
+      ).to.not.throw(ObjectValidationError);
     });
   });
 });

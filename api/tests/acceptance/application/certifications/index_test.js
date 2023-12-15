@@ -294,7 +294,6 @@ describe('Acceptance | API | Certifications', function () {
                 imageUrl: 'http://tarte.fr/mirabelle.png',
                 isTemporaryBadge: false,
                 label: 'tarte à la mirabelle',
-                partnerKey: 'charlotte_aux_fraises',
                 stickerUrl: 'http://tarte.fr/sticker.png',
                 message: 'Miam',
               },
@@ -458,7 +457,6 @@ describe('Acceptance | API | Certifications', function () {
                   imageUrl: 'http://tarte.fr/mirabelle.png',
                   isTemporaryBadge: false,
                   label: 'tarte à la mirabelle',
-                  partnerKey: 'charlotte_aux_fraises',
                   stickerUrl: 'http://tarte.fr/sticker.png',
                   message: 'Miam',
                 },
@@ -661,7 +659,6 @@ async function _buildDatabaseForV2Certification() {
   const cc = databaseBuilder.factory.buildComplementaryCertification();
   const ccBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
     complementaryCertificationId: cc.id,
-    partnerKey: 'charlotte_aux_fraises',
     badgeId: badge.id,
     imageUrl: 'http://tarte.fr/mirabelle.png',
     isTemporaryBadge: false,
@@ -697,7 +694,6 @@ async function _buildDatabaseForV2Certification() {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: id,
     complementaryCertificationBadgeId: ccBadge.id,
-    partnerKey: badge.key,
   });
   return { userId, session, badge, certificationCourse, assessment, assessmentResult };
 }

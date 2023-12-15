@@ -2,13 +2,13 @@ import { ComplementaryCertificationCourseResultForJuryCertification } from '../.
 
 const buildComplementaryCertificationCourseResultForJuryCertification = function ({
   id = 1234,
-  partnerKey = 'PARTNER_KEY',
+  complementaryCertificationBadgeId = 99,
   acquired = true,
   label = 'label par défaut',
 } = {}) {
   return new ComplementaryCertificationCourseResultForJuryCertification({
     id,
-    partnerKey,
+    complementaryCertificationBadgeId,
     acquired,
     label,
   });
