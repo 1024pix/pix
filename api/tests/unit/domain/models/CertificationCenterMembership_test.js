@@ -1,4 +1,4 @@
-import { expect, sinon } from '../../../test-helper.js';
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import {
   CERTIFICATION_CENTER_MEMBERSHIP_ROLES,
   CertificationCenterMembership,
@@ -70,6 +70,22 @@ describe('Unit | Domain | Models | CertificationCenterMembership', function () {
         // then
         expect(certificationCenterMembership).to.deep.equal(expectedCertificationCenterMembership);
       });
+    });
+  });
+
+  describe('#disableMembership', function () {
+    it('updates certification center membership "disabledAt", "updatedAt" and "updatedByUserId" attributes', function () {
+      // given
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
+      const updatedByUserId = certificationCenterMembership.user.id;
+
+      // when
+      certificationCenterMembership.disableMembership(updatedByUserId);
+
+      // then
+      expect(certificationCenterMembership.updatedByUserId).to.equal(updatedByUserId);
+      expect(certificationCenterMembership.disabledAt).to.deep.equal(now);
+      expect(certificationCenterMembership.updatedAt).to.deep.equal(now);
     });
   });
 });
