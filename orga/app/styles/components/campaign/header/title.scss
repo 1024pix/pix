@@ -6,19 +6,34 @@
     align-items: center;
     justify-content: space-between;
   }
-  
+
   &__breadcrumb {
     margin-bottom: $pix-spacing-s;
   }
 
-  &__name {
+  &__type-icon {
+    @extend %pix-title-l;
+
+    width: 3rem;
+    height: 3rem;
+  }
+
+  h1 {
     @extend %pix-title-m;
 
+    display: flex;
     flex: 0 1 auto;
+    flex-direction: row;
+    gap: $pix-spacing-s;
     padding-right: $pix-spacing-s;
     overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis; 
+
+    .campaign-header-title__name {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   &__details {
