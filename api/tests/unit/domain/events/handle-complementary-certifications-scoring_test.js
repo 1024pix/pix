@@ -108,7 +108,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           ComplementaryCertificationCourseResult.from({
             complementaryCertificationCourseId: 999,
             complementaryCertificationBadgeId: 888,
-            partnerKey: 'PIX_PLUS_TEST',
             source: ComplementaryCertificationCourseResult.sources.PIX,
             acquired: true,
           }),
@@ -163,7 +162,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
             }),
@@ -223,7 +221,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
             }),
@@ -283,7 +280,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: true,
             }),
@@ -345,7 +341,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
           ComplementaryCertificationCourseResult.from({
             complementaryCertificationCourseId: 999,
             complementaryCertificationBadgeId: 888,
-            partnerKey: 'PIX_PLUS_TEST',
             source: ComplementaryCertificationCourseResult.sources.PIX,
             acquired: true,
           }),
@@ -404,7 +399,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
             }),
@@ -467,7 +461,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
             }),
@@ -530,7 +523,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: false,
             }),
@@ -593,7 +585,6 @@ describe('Unit | Domain | Events | handle-complementary-certification-certificat
             ComplementaryCertificationCourseResult.from({
               complementaryCertificationCourseId: 999,
               complementaryCertificationBadgeId: 888,
-              partnerKey: 'PIX_PLUS_TEST',
               source: ComplementaryCertificationCourseResult.sources.PIX,
               acquired: true,
             }),

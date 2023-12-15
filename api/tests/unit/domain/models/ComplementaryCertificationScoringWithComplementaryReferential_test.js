@@ -3,13 +3,12 @@ import { ComplementaryCertificationScoringWithComplementaryReferential } from '.
 
 describe('Unit | Domain | Models | ComplementaryCertificationScoringWithComplementaryReferential', function () {
   context('#constructor', function () {
-    it('set partnerKey and source', function () {
+    it('set badge key and source', function () {
       // given / when
       const complementaryCertificationScoringWithComplementaryReferential =
         new ComplementaryCertificationScoringWithComplementaryReferential({
           complementaryCertificationCourseId: 99,
           complementaryCertificationBadgeId: 89,
-          complementaryCertificationBadgeKey: 'BADGE',
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
         });
@@ -19,7 +18,6 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithCompleme
         new ComplementaryCertificationScoringWithComplementaryReferential({
           complementaryCertificationCourseId: 99,
           complementaryCertificationBadgeId: 89,
-          complementaryCertificationBadgeKey: 'BADGE',
           reproducibilityRate: 71,
           hasAcquiredPixCertification: false,
           minimumReproducibilityRate: undefined,

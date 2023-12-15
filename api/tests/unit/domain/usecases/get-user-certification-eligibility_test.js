@@ -84,7 +84,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
               {
                 id: 3,
                 acquired: false,
-                partnerKey: 'BADGE_KEY',
                 source: 'PIX',
               },
             ],
@@ -126,7 +125,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
               {
                 id: 3,
                 acquired: true,
-                partnerKey: 'BADGE_KEY',
                 source: 'PIX',
               },
             ],
@@ -203,13 +201,11 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
               {
                 id: 3,
                 acquired: true,
-                partnerKey: 'BADGE_KEY',
                 source: 'PIX',
               },
               {
                 id: 4,
                 acquired: true,
-                partnerKey: 'BADGE_KEY',
                 source: 'EXTERNAL',
               },
             ],
@@ -256,13 +252,11 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                 {
                   id: 3,
                   acquired: true,
-                  partnerKey: 'BADGE_KEY',
                   source: 'PIX',
                 },
                 {
                   id: 4,
                   acquired: false,
-                  partnerKey: 'BADGE_KEY',
                   source: 'EXTERNAL',
                 },
               ],
@@ -306,7 +300,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
                 {
                   id: 3,
                   acquired: true,
-                  partnerKey: 'BADGE_KEY',
                   source: 'PIX',
                 },
               ],

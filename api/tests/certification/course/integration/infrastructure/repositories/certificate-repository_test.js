@@ -383,7 +383,6 @@ describe('Integration | Infrastructure | Repository | Certification', function (
             {
               isTemporaryBadge: false,
               label: 'Pix+ Test 1',
-              partnerKey: 'PIX_TEST_1',
               imageUrl: 'https://images.pix.fr/badge1.svg',
               stickerUrl: 'https://images.pix.fr/skicker1.pdf',
               message: 'Pix+ Test 1 certificate message',
@@ -391,7 +390,6 @@ describe('Integration | Infrastructure | Repository | Certification', function (
             {
               isTemporaryBadge: true,
               label: 'Pix+ Test 2',
-              partnerKey: 'PIX_TEST_2',
               imageUrl: 'https://images.pix.fr/badge2.svg',
               stickerUrl: 'https://images.pix.fr/skicker2.pdf',
               message: 'Pix+ Test 2 temporary certificate message',

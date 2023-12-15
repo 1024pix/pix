@@ -51,7 +51,6 @@ describe('Acceptance | API | Certifications', function () {
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 1234,
         complementaryCertificationBadgeId: 24,
-        partnerKey: badge.key,
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
 
