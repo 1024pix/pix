@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v4.77.0 (15/12/2023)
+
+
+### :rocket: Amélioration
+- [#7704](https://github.com/1024pix/pix/pull/7704) [FEATURE] Utiliser la bonne couleur de fond dans les tag du Pix Score d'une collecte de profil (PIX-10432).
+- [#7702](https://github.com/1024pix/pix/pull/7702) [FEATURE] Modification de la traduction "places" en anglais (PIX-10419).
+- [#7703](https://github.com/1024pix/pix/pull/7703) [FEATURE] Modification du texte sur l'activation de la feature places d'une organisation (PIX-10413).
+- [#7682](https://github.com/1024pix/pix/pull/7682) [FEATURE] affiches les statistiques de places d'une organisation.
+- [#7630](https://github.com/1024pix/pix/pull/7630) [FEATURE] Créer la page d'atterrissage d'un parcours autonome (PIX-9184).
+- [#7676](https://github.com/1024pix/pix/pull/7676) [FEATURE] Ajouter une route pour lister les campagnes d'une organisation (PIX-10136).
+- [#7655](https://github.com/1024pix/pix/pull/7655) [FEATURE] Migrer les couleurs d'Admin vers le nouveau format (PIX-10358).
+- [#7683](https://github.com/1024pix/pix/pull/7683) [FEATURE] Ajouter un bouton de modification pour les commentaires jury d'une certification sur Pix Admin (PIX-10165).
+- [#7671](https://github.com/1024pix/pix/pull/7671) [FEATURE] Créer la page de détails pour une certification en V3 sur Pix Admin(PIX-10285).
+
+### :building_construction: Tech
+- [#7697](https://github.com/1024pix/pix/pull/7697) [TECH] Ajout de seeds d'une session de certification v3 complétée (PIX-10415).
+- [#7698](https://github.com/1024pix/pix/pull/7698) [TECH] Revert "Créer la page d'atterrissage d'un parcours autonome (PIX-9184).".
+- [#7659](https://github.com/1024pix/pix/pull/7659) [TECH] Supprime la colonne partnerKey (PIX-10162 ).
+- [#7686](https://github.com/1024pix/pix/pull/7686) [TECH] Mettre à jour ember-data en 4.7 sur Pix App (PIX-10420).
+
+### :bug: Correction
+- [#7684](https://github.com/1024pix/pix/pull/7684) [BUGFIX] Ne plus remonter une 500 lors du double appel à la création d'une participation (PIX-10374).
+
+### :coffee: Autre
+- [#7680](https://github.com/1024pix/pix/pull/7680) [REFACTOR] Amélioration du style des détails de la page d'atterrissage des campagnes (PIX-10376).
+
 ## v4.76.0 (14/12/2023)
 
 
