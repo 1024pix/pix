@@ -275,6 +275,25 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#findActiveAdminsByCertificationCenterId', function () {
+    it('returns a list of active members with the role "ADMIN"', async function () {
+      // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({ certificationCenterId, role: 'ADMIN' });
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({ certificationCenterId, role: 'ADMIN' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCenterMemberships =
+        await certificationCenterMembershipRepository.findActiveAdminsByCertificationCenterId(certificationCenterId);
+
+      // then
+      expect(certificationCenterMemberships).to.be.an('array');
+      expect(certificationCenterMemberships[0]).to.be.an.instanceof(CertificationCenterMembership);
+    });
+  });
+
   describe('#findActiveByCertificationCenterIdSortedByRole', function () {
     it('should return certification center membership associated to the certification center', async function () {
       // given

@@ -294,11 +294,36 @@ const findOneWithCertificationCenterIdAndUserId = async function ({ certificatio
   return _toDomain(certificationCenterMembership);
 };
 
+async function findActiveAdminsByCertificationCenterId(certificationCenterId) {
+  const certificationCenterMemberships = await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME)
+    .select(
+      'certification-center-memberships.*',
+      'users.lastName',
+      'users.firstName',
+      'users.email',
+      'certification-centers.name',
+      'certification-centers.type',
+      'certification-centers.externalId',
+      'certification-centers.createdAt AS certificationCenterCreatedAt',
+      'certification-centers.updatedAt AS certificationCenterUpdatedAt',
+    )
+    .join('users', 'certification-center-memberships.userId', 'users.id')
+    .join('certification-centers', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
+    .where({
+      certificationCenterId,
+      disabledAt: null,
+      role: 'ADMIN',
+    });
+
+  return certificationCenterMemberships.map(_toDomain);
+}
+
 export {
   countActiveMembersForCertificationCenter,
   create,
   disableById,
   disableMembershipsByUserId,
+  findActiveAdminsByCertificationCenterId,
   findActiveByCertificationCenterIdSortedByRole,
   findByCertificationCenterIdAndUserId,
   findOneWithCertificationCenterIdAndUserId,
