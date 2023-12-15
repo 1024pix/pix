@@ -1,6 +1,6 @@
 /* eslint ember/no-classic-classes: 0 */
 
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { equal, not } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Mixin from '@ember/object/mixin';
@@ -22,10 +22,10 @@ export default Model.extend(ValueAsArrayOfString, {
   resultDetails: attr('string'),
   timeout: attr('number'),
   focusedOut: attr('boolean'),
-  assessment: belongsTo('assessment'),
-  challenge: belongsTo('challenge'),
-  correction: belongsTo('correction'),
-  levelup: belongsTo('levelup'),
+  assessment: belongsTo('assessment', { async: true, inverse: 'answers' }),
+  challenge: belongsTo('challenge', { async: true, inverse: 'answer' }),
+  correction: belongsTo('correction', { async: true, inverse: null }),
+  levelup: belongsTo('levelup', { async: false, inverse: null }),
 
   isResultOk: equal('result', 'ok'),
   isResultNotOk: not('isResultOk'),
