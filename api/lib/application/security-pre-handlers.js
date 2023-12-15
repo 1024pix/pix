@@ -14,6 +14,7 @@ import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from './u
 import * as checkUserBelongsToSupOrganizationAndManagesStudentsUseCase from './usecases/checkUserBelongsToSupOrganizationAndManagesStudents.js';
 import * as checkUserOwnsCertificationCourseUseCase from './usecases/checkUserOwnsCertificationCourse.js';
 import * as checkUserBelongsToOrganizationUseCase from './usecases/checkUserBelongsToOrganization.js';
+import * as checkUserCanDisableHisCertificationCenterMembershipUseCase from './usecases/check-user-can-disable-his-certification-center-membership.js';
 import * as checkUserCanDisableHisOrganizationMembershipUseCase from './usecases/checkUserCanDisableHisOrganizationMembership.js';
 import * as checkUserIsAdminAndManagingStudentsForOrganization from './usecases/checkUserIsAdminAndManagingStudentsForOrganization.js';
 import * as checkUserIsAdminOfCertificationCenterUsecase from './usecases/checkUserIsAdminOfCertificationCenter.js';
@@ -630,6 +631,35 @@ async function checkUserOwnsCertificationCourse(
   }
 }
 
+async function checkUserCanDisableHisCertificationCenterMembership(
+  request,
+  h,
+  dependencies = { checkUserCanDisableHisCertificationCenterMembershipUseCase },
+) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationCenterId = request.payload.certificationCenterId;
+
+  try {
+    const canDisableHisCertificationCenterMembership =
+      await dependencies.checkUserCanDisableHisCertificationCenterMembershipUseCase.execute({
+        certificationCenterId,
+        userId,
+      });
+
+    if (canDisableHisCertificationCenterMembership) {
+      return h.response(true);
+    }
+
+    return _replyForbiddenError(h);
+  } catch (_) {
+    return _replyForbiddenError(h);
+  }
+}
+
 async function checkUserCanDisableHisOrganizationMembership(
   request,
   h,
@@ -695,6 +725,7 @@ const securityPreHandlers = {
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
+  checkUserCanDisableHisCertificationCenterMembership,
   checkUserCanDisableHisOrganizationMembership,
   checkUserDoesNotBelongsToScoOrganizationManagingStudents,
   checkUserIsAdminInOrganization,
