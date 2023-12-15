@@ -8,6 +8,8 @@ import {
   PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } from '../common/common-builder.js';
+import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
+import { getV3CertificationChallenges } from '../common/tooling/learning-content.js';
 
 const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 // IDS
@@ -35,6 +37,7 @@ const DRAFT_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 const PUBLISHED_SESSION_BEFORE_JULY_21_ID = TEAM_CERTIFICATION_OFFSET_ID + 6;
 const V3_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
+const V3_PUBLISHED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 7;
 const PRO_STARTED_SESSION_ID = TEAM_CERTIFICATION_OFFSET_ID + 5;
 const complementaryCertificationIds = [
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
@@ -59,6 +62,7 @@ async function teamCertificationDataBuilder({ databaseBuilder }) {
   await _createProStartedSession({ databaseBuilder });
   await _createIssueReportCategories({ databaseBuilder });
   await _createPublishedSessionBeforeJuly2021({ databaseBuilder });
+  await _createAPublishedV3CertificationSession({ databaseBuilder });
 }
 
 export { teamCertificationDataBuilder };
@@ -319,10 +323,16 @@ async function _createSuccessCertifiableUser({ databaseBuilder }) {
   });
 }
 
-async function _createV3Session({ databaseBuilder }) {
-  await tooling.session.createDraftSession({
+async function _createV3Session({
+  databaseBuilder,
+  configSession = {
+    candidatesToRegisterCount: 1,
+    hasComplementaryCertificationsToRegister: false,
+  },
+}) {
+  return tooling.session.createDraftSession({
     databaseBuilder,
-    sessionId: V3_SESSION_ID,
+    sessionId: configSession.id ?? V3_SESSION_ID,
     accessCode: 'SUPV30',
     address: '1 rue Certification',
     certificationCenter: 'Centre de certification v3',
@@ -334,10 +344,34 @@ async function _createV3Session({ databaseBuilder }) {
     time: '13:00',
     createdAt: new Date(),
     version: 3,
-    configSession: {
-      candidatesToRegisterCount: 1,
-      hasComplementaryCertificationsToRegister: false,
-    },
+    configSession,
+  });
+}
+
+async function _createPublishedV3Session({
+  databaseBuilder,
+  configSession = {
+    candidatesToRegisterCount: 1,
+    hasComplementaryCertificationsToRegister: false,
+  },
+}) {
+  return tooling.session.createPublishedSession({
+    databaseBuilder,
+    sessionId: configSession.id ?? V3_SESSION_ID,
+    accessCode: 'SUPV30',
+    address: '1 rue Certification',
+    certificationCenter: 'Centre de certification v3',
+    certificationCenterId: V3_CERTIFICATION_CENTER_ID,
+    date: new Date(),
+    description: 'une description de session V3',
+    examiner: 'Un super examinateur de session V3',
+    room: '43',
+    time: '13:00',
+    createdAt: new Date(),
+    publishedAt: new Date(),
+    makeCandidatesPassCertification: false,
+    version: 3,
+    configSession,
   });
 }
 
@@ -579,5 +613,71 @@ async function _createIssueReportCategories({ databaseBuilder }) {
     isDeprecated: false,
     isImpactful: true,
     issueReportCategoryId: inChallengeId,
+  });
+}
+
+async function _createAPublishedV3CertificationSession({ databaseBuilder }) {
+  const answers = ['ok', 'ko'];
+  const scores = [640, 29];
+  const numberOfChallengesPerCourse = 32;
+
+  const { certificationCandidates } = await _createPublishedV3Session({
+    databaseBuilder,
+    configSession: {
+      candidatesToRegisterCount: answers.length,
+      hasComplementaryCertificationsToRegister: false,
+      id: V3_PUBLISHED_SESSION_ID,
+    },
+  });
+
+  const challenges = await getV3CertificationChallenges(numberOfChallengesPerCourse);
+  certificationCandidates.map(async (certificationCandidate, candidateIndex) => {
+    const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
+      ...certificationCandidate,
+      userId: CERTIFIABLE_SUCCESS_USER_ID,
+      hasSeenEndTestScreen: true,
+      isPublished: true,
+      version: 3,
+      pixCertificationStatus: 'validated',
+    });
+
+    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+      certificationCourseId,
+      userId: CERTIFIABLE_SUCCESS_USER_ID,
+      type: Assessment.types.CERTIFICATION,
+      state: Assessment.states.COMPLETED,
+    });
+
+    challenges.forEach((challenge) => {
+      databaseBuilder.factory.buildCertificationChallenge({
+        associatedSkillName: challenge.skill.name,
+        associatedSkillId: challenge.skill.id,
+        challengeId: challenge.id,
+        competenceId: challenge.competenceId,
+        courseId: certificationCourseId,
+      });
+
+      databaseBuilder.factory.buildAnswer({
+        associatedSkillName: challenge.skill.name,
+        associatedSkillId: challenge.skill.id,
+        challengeId: challenge.id,
+        competenceId: challenge.competenceId,
+        courseId: certificationCourseId,
+        result: answers[candidateIndex],
+        assessmentId,
+      });
+    });
+
+    const { id: lastAssessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
+      juryId: 9000,
+      assessmentId,
+      certificationCourseId,
+      pixScore: scores[candidateIndex],
+    });
+
+    databaseBuilder.factory.buildCertificationCourseLastAssessmentResult({
+      lastAssessmentResultId,
+      certificationCourseId,
+    });
   });
 }
