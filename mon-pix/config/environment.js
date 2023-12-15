@@ -100,7 +100,6 @@ module.exports = function (environment) {
         minValue: 1,
       }),
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
-      AUTONOMOUS_COURSES_ORGANIZATION_ID: process.env.AUTONOMOUS_COURSES_ORGANIZATION_ID,
     },
 
     fontawesome: {
@@ -168,7 +167,6 @@ module.exports = function (environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
-    ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID = 999;
     ENV.metrics.enabled = false;
   }
 
