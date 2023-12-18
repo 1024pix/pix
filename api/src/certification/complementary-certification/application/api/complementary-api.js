@@ -1,7 +1,7 @@
 /**
  * @typedef {import ('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
-import { usecases } from '../../../shared/domain/usecases/index.js';
+import { usecases } from '../../domain/usecases/index.js';
 
 /**
  * @function
