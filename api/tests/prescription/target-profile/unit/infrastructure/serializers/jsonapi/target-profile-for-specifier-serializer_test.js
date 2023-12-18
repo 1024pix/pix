@@ -1,6 +1,6 @@
-import { expect } from '../../../../../test-helper.js';
-import * as serializer from '../../../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
-import { TargetProfileForSpecifier } from '../../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { expect } from '../../../../../../test-helper.js';
+import * as serializer from '../../../../../../../src/prescription/target-profile/infrastructure/serializers/jsonapi/target-profile-for-specifier-serializer.js';
+import { TargetProfileForSpecifier } from '../../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
 
 describe('Unit | Serializer | JSONAPI | target-profile-for-specifier-serializer', function () {
   describe('#serialize', function () {

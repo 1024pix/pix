@@ -1,7 +1,7 @@
-import { usecases } from '../../../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
 import { expect, sinon } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
-import { TargetProfileForSpecifier } from '../../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
 
 describe('Unit | API | TargetProfile', function () {

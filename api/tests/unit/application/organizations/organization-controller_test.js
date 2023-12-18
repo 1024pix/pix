@@ -244,38 +244,6 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findTargetProfiles', function () {
-    it('should reply 200 with serialized target profiles', async function () {
-      // given
-      const connectedUserId = 1;
-      const organizationId = 145;
-
-      const request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-      };
-
-      const foundTargetProfiles = Symbol('TargetProfile');
-
-      sinon.stub(usecases, 'getAvailableTargetProfilesForOrganization');
-      const targetProfileForSpecifierSerializerStub = {
-        serialize: sinon.stub(),
-      };
-      const dependencies = {
-        targetProfileForSpecifierSerializer: targetProfileForSpecifierSerializerStub,
-      };
-
-      usecases.getAvailableTargetProfilesForOrganization.withArgs({ organizationId }).resolves(foundTargetProfiles);
-      targetProfileForSpecifierSerializerStub.serialize.withArgs(foundTargetProfiles).returns({});
-
-      // when
-      const response = await organizationController.findTargetProfiles(request, hFake, dependencies);
-
-      // then
-      expect(response).to.deep.equal({});
-    });
-  });
-
   describe('#attachTargetProfiles', function () {
     let request;
 

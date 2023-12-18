@@ -1,5 +1,5 @@
-import { knex } from '../../../../db/knex-database-connection.js';
-import { TargetProfileForSpecifier } from '../../../domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { TargetProfileForSpecifier } from '../../domain/read-models/TargetProfileForSpecifier.js';
 import bluebird from 'bluebird';
 
 async function availableForOrganization(organizationId) {

@@ -652,27 +652,7 @@ const register = async function (server) {
     },
   ];
 
-  server.route([
-    ...adminRoutes,
-    ...orgaRoutes,
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/target-profiles',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findTargetProfiles,
-        tags: ['api', 'target-profile'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des profiles cibles utilisables par l‘organisation\n',
-        ],
-      },
-    },
-  ]);
+  server.route([...adminRoutes, ...orgaRoutes]);
 };
 
 const name = 'organization-api';
