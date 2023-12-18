@@ -132,17 +132,17 @@ describe('Integration | Certification | Repository | complementary-certification
       await databaseBuilder.commit();
 
       // when
-      const complementaryCertification = await complementaryCertificationRepository.getById({
+      const result = await complementaryCertificationRepository.getById({
         id: complementaryCertificationId,
       });
 
       // then
       const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        id: 1,
+        id: complementaryCertificationId,
         key: 'EDU_1ER_DEGRE',
         label: 'Pix+ Édu 1er degré',
       });
-      expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
+      expect(result).to.deep.equal(expectedComplementaryCertification);
     });
   });
 });

@@ -11,7 +11,7 @@ const attachBadges = async function ({
   userId,
   targetProfileIdToDetach,
   complementaryCertificationBadgesToAttachDTO,
-  complementaryCertificationBadgesRepository,
+  badgesRepository,
 }) {
   _verifyThatLevelsAreConsistent({
     complementaryCertificationBadgesToAttachDTO,
@@ -19,7 +19,7 @@ const attachBadges = async function ({
 
   await _verifyThatBadgesToAttachExist({
     complementaryCertificationBadgesToAttachDTO,
-    complementaryCertificationBadgesRepository,
+    badgesRepository,
   });
 
   if (complementaryCertification.hasExternalJury) {
@@ -38,19 +38,18 @@ const attachBadges = async function ({
   });
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    const relatedComplementaryCertificationBadgesIds =
-      await complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId({
-        targetProfileId: targetProfileIdToDetach,
-      });
+    const relatedComplementaryCertificationBadgesIds = await badgesRepository.getAllIdsByTargetProfileId({
+      targetProfileId: targetProfileIdToDetach,
+    });
 
     await _detachExistingComplementaryCertificationBadge({
-      complementaryCertificationBadgesRepository,
+      badgesRepository,
       relatedComplementaryCertificationBadgesIds,
       domainTransaction,
     });
 
     await _attachNewComplementaryCertificationBadges({
-      complementaryCertificationBadgesRepository,
+      badgesRepository,
       complementaryCertificationBadges,
       domainTransaction,
     });
@@ -68,18 +67,18 @@ function _isRequiredInformationMissing(complementaryCertificationBadgesToAttachD
 }
 
 async function _attachNewComplementaryCertificationBadges({
-  complementaryCertificationBadgesRepository,
+  badgesRepository,
   complementaryCertificationBadges,
   domainTransaction,
 }) {
-  await complementaryCertificationBadgesRepository.attach({
+  return badgesRepository.attach({
     complementaryCertificationBadges,
     domainTransaction,
   });
 }
 
 async function _detachExistingComplementaryCertificationBadge({
-  complementaryCertificationBadgesRepository,
+  badgesRepository,
   relatedComplementaryCertificationBadgesIds,
   domainTransaction,
 }) {
@@ -87,7 +86,7 @@ async function _detachExistingComplementaryCertificationBadge({
     throw new NotFoundError('No badges for this target profile.');
   }
 
-  await complementaryCertificationBadgesRepository.detachByIds({
+  await badgesRepository.detachByIds({
     complementaryCertificationBadgeIds: relatedComplementaryCertificationBadgesIds,
     domainTransaction,
   });
@@ -126,16 +125,13 @@ function _verifyThatLevelsAreConsistent({ complementaryCertificationBadgesToAtta
   }
 }
 
-async function _verifyThatBadgesToAttachExist({
-  complementaryCertificationBadgesToAttachDTO,
-  complementaryCertificationBadgesRepository,
-}) {
+async function _verifyThatBadgesToAttachExist({ complementaryCertificationBadgesToAttachDTO, badgesRepository }) {
   if (complementaryCertificationBadgesToAttachDTO?.length <= 0) {
     throw new NotFoundError('One or several badges are not attachable.');
   }
 
   const ids = complementaryCertificationBadgesToAttachDTO.map((ccBadgeToAttach) => ccBadgeToAttach.badgeId);
-  const badges = await complementaryCertificationBadgesRepository.findAttachableBadgesByIds({ ids });
+  const badges = await badgesRepository.findAttachableBadgesByIds({ ids });
 
   if (badges?.length !== ids.length) {
     throw new NotFoundError('One or several badges are not attachable.');

@@ -1,5 +1,5 @@
 import { databaseBuilder, expect } from '../../../../../test-helper.js';
-import * as complementaryCertificationTargetProfileHistoryRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import * as targetProfileHistoryRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/target-profile-history-repository.js';
 import { TargetProfileHistoryForAdmin } from '../../../../../../lib/domain/models/TargetProfileHistoryForAdmin.js';
 import { ComplementaryCertificationBadgeForAdmin } from '../../../../../../lib/domain/models/ComplementaryCertificationBadgeForAdmin.js';
 
@@ -55,11 +55,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         // when
         const result =
-          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
-            {
-              complementaryCertificationId: complementaryCertification.id,
-            },
-          );
+          await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
+            complementaryCertificationId: complementaryCertification.id,
+          });
 
         // then
         expect(result).to.deepEqualInstance([
@@ -141,11 +139,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         // when
         const result =
-          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
-            {
-              complementaryCertificationId: complementaryCertification.id,
-            },
-          );
+          await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
+            complementaryCertificationId: complementaryCertification.id,
+          });
 
         // then
         expect(result).to.deepEqualInstance([
@@ -219,11 +215,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         // when
         const result =
-          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
-            {
-              complementaryCertificationId: complementaryCertification.id,
-            },
-          );
+          await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
+            complementaryCertificationId: complementaryCertification.id,
+          });
 
         // then
         expect(result).to.deepEqualInstance([
@@ -307,11 +301,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         // when
         const result =
-          await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
-            {
-              complementaryCertificationId: complementaryCertification.id,
-            },
-          );
+          await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
+            complementaryCertificationId: complementaryCertification.id,
+          });
 
         // then
         expect(result).to.deepEqualInstance([
@@ -367,11 +359,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         // when
         const result =
-          await complementaryCertificationTargetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
-            {
-              complementaryCertificationId: complementaryCertification.id,
-            },
-          );
+          await targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId({
+            complementaryCertificationId: complementaryCertification.id,
+          });
 
         // then
         expect(result).to.be.empty;
@@ -393,11 +383,9 @@ describe('Integration | Repository | complementary-certification-target-profile-
 
         // when
         const result =
-          await complementaryCertificationTargetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
-            {
-              complementaryCertificationId: complementaryCertification.id,
-            },
-          );
+          await targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId({
+            complementaryCertificationId: complementaryCertification.id,
+          });
 
         // then
         expect(result).to.deepEqualInstance([
