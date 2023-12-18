@@ -10,39 +10,25 @@ import ENV from 'pix-admin/config/environment';
 
 import { tracked } from '@glimmer/tracking';
 
-const PIX_COUNT_BY_LEVEL = 8;
-
 export default class CertificationInformationsController extends Controller {
   // Domain constants
   MAX_REACHABLE_LEVEL = ENV.APP.MAX_REACHABLE_LEVEL;
-  MAX_REACHABLE_PIX_BY_COMPETENCE = this.MAX_REACHABLE_LEVEL * PIX_COUNT_BY_LEVEL;
 
   // Properties
   @alias('model.certification') certification;
   @alias('model.countries') countries;
-  @tracked editingCandidateResults = false;
   @service notifications;
   @service intl;
-  @service featureToggles;
-  @service store;
 
   @tracked displayConfirm = false;
   @tracked modalTitle = null;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
-  @tracked confirmAction = 'onCandidateResultsSave';
+  @tracked confirmAction = 'onCancelCertificationConfirmation';
   @tracked isCandidateEditModalOpen = false;
   @tracked displayJuryLevelSelect = false;
 
   @tracked selectedJuryLevel = null;
-
-  // private properties
-  _competencesCopy = null;
-
-  @computed('certification.status')
-  get isValid() {
-    return this.certification.status !== 'missing-assessment';
-  }
 
   @computed('certification.certificationIssueReports.@each.isImpactful')
   get impactfulCertificationIssueReports() {
@@ -78,10 +64,6 @@ export default class CertificationInformationsController extends Controller {
     return this.certification.status === 'cancelled';
   }
 
-  get isModifyButtonDisabled() {
-    return this.editingCandidateResults;
-  }
-
   get juryLevelOptions() {
     const translatedDefaultJuryOptions = this.certification.complementaryCertificationCourseResultWithExternal
       .get('defaultJuryOptions')
@@ -107,56 +89,8 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCandidateResultsEdit() {
-    this.editingCandidateResults = true;
-    this._competencesCopy = this._copyCompetences();
-  }
-
-  @action
-  onCandidateResultsCancel() {
-    this.editingCandidateResults = false;
-    this.certification.rollbackAttributes();
-    if (this._competencesCopy) {
-      this.certification.competencesWithMark = this._competencesCopy;
-      this._competencesCopy = null;
-    }
-  }
-
-  @action
-  onCandidateResultsSaveConfirm() {
-    const confirmMessage = 'Souhaitez-vous mettre à jour cette certification ?';
-    const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
-    const confirmErrorMessage = this._formatErrorsToHtmlString(errors);
-
-    this.confirmMessage = confirmMessage;
-    this.confirmErrorMessage = confirmErrorMessage;
-    this.confirmAction = 'onCandidateResultsSave';
-    this.displayConfirm = true;
-  }
-
-  @action
   onCancelConfirm() {
     this.displayConfirm = false;
-  }
-
-  @action
-  async onCandidateResultsSave() {
-    this.displayConfirm = false;
-    try {
-      await this.saveAssessmentResult();
-
-      this.notifications.success('Modifications enregistrées');
-      this.editingCandidateResults = false;
-      this._competencesCopy = null;
-    } catch (e) {
-      if (e.errors && e.errors.length > 0) {
-        e.errors.forEach((error) => {
-          this.notifications.error(error.detail);
-        });
-      } else {
-        this.notifications.error(e);
-      }
-    }
   }
 
   saveAssessmentResult() {
@@ -346,42 +280,6 @@ export default class CertificationInformationsController extends Controller {
   // Private methods
   _copyCompetences() {
     return cloneDeep(this.certification.competencesWithMark);
-  }
-
-  _getCertificationErrorsAfterJuryUpdateIfAny() {
-    return this._getCertificationErrorsAfterJuryUpdate(this.certification.competencesWithMark);
-  }
-
-  _getCertificationErrorsAfterJuryUpdate(competencesWithMark) {
-    const errors = [];
-    for (const [index, { level, score }] of competencesWithMark.entries()) {
-      if (level > this.MAX_REACHABLE_LEVEL) {
-        errors.push({
-          type: 'level',
-          message:
-            'Le niveau de la compétence ' +
-            competencesWithMark[index].competence_code +
-            ' dépasse ' +
-            this.MAX_REACHABLE_LEVEL,
-        });
-      }
-      if (score > this.MAX_REACHABLE_PIX_BY_COMPETENCE) {
-        errors.push({
-          type: 'score',
-          message:
-            'Le nombre de pix de la compétence ' +
-            competencesWithMark[index].competence_code +
-            ' dépasse ' +
-            this.MAX_REACHABLE_PIX_BY_COMPETENCE,
-        });
-      }
-    }
-
-    return errors;
-  }
-
-  _formatErrorsToHtmlString(errors) {
-    return errors && errors.map((err) => `${err.message}\n`).join('');
   }
 
   _removeFromArray(array, element) {

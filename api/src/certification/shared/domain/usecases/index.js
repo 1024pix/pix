@@ -21,6 +21,7 @@ import * as complementaryCertificationBadgesRepository from '../../../complement
 import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
+import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
 import * as finalizedSessionRepository from '../../../session/infrastructure/repositories/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
@@ -63,6 +64,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  * @typedef {complementaryCertificationTargetProfileHistoryRepository} ComplementaryCertificationTargetProfileHistoryRepository
+ * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -100,6 +102,7 @@ const dependencies = {
   complementaryCertificationRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationTargetProfileHistoryRepository,
+  competenceMarkRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
   issueReportCategoryRepository,

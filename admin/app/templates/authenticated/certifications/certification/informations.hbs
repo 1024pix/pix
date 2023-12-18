@@ -35,7 +35,7 @@
   </div>
 
   <div class="certification-informations__row">
-    <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
+    <div class="certification-informations__card">
       <h2 class="certification-informations__card__title">
         <Certifications::InfoTag @record={{this.certification}} @float={{true}} />
         État
@@ -46,7 +46,11 @@
         @label="Session :"
         @linkRoute="authenticated.sessions.session"
       />
-      <Certifications::StatusSelect @certification={{this.certification}} @edition={{this.editingCandidateResults}} />
+      <Certifications::InfoField
+        @value={{this.certification.statusLabelAndValue.label}}
+        @edition={{false}}
+        @label="Statut :"
+      />
       <Certifications::InfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
       <Certifications::InfoField
         @value={{this.certification.completionDate}}
@@ -96,7 +100,6 @@
           @size="small"
           @triggerAction={{this.openCandidateEditModal}}
           aria-label="Modifier les informations du candidat"
-          @isDisabled={{this.isModifyButtonDisabled}}
         >
           Modifier infos candidat
         </PixButton>
@@ -160,7 +163,6 @@
                         @size="small"
                         @triggerAction={{this.onEditJuryLevelSave}}
                         aria-label="Modifier le niveau du jury"
-                        @isDisabled={{this.isModifyButtonDisabled}}
                       >
                         Enregistrer
                       </PixButton>
@@ -218,11 +220,11 @@
   />
 
   <div class="certification-informations__row">
-    <div class="certification-informations__card {{if this.editingCandidateResults 'border-primary'}}">
+    <div class="certification-informations__card">
       <h2 class="certification-informations__card__title">Résultats</h2>
       <Certifications::InfoField
         @value={{this.certification.pixScore}}
-        @edition={{this.editingCandidateResults}}
+        @edition={{false}}
         @label="Score :"
         @fieldId="certification-pixScore"
         @suffix=" Pix"
@@ -230,44 +232,12 @@
 
       <Certifications::CompetenceList
         @competences={{this.certification.competences}}
-        @edition={{this.editingCandidateResults}}
+        @edition={{false}}
         @onUpdateScore={{this.onUpdateScore}}
         @onUpdateLevel={{this.onUpdateLevel}}
       />
     </div>
   </div>
-  {{#if this.isValid}}
-    <div class="certification-informations__row certification-informations__row--center">
-      {{#if this.editingCandidateResults}}
-        <PixButton
-          @size="small"
-          @backgroundColor="transparent-light"
-          @isBorderVisible={{true}}
-          @triggerAction={{this.onCandidateResultsCancel}}
-          aria-label="Annuler la modification des résultats du candidat"
-        >
-          Annuler
-        </PixButton>
-        <PixButton
-          @size="small"
-          @triggerAction={{this.onCandidateResultsSaveConfirm}}
-          @backgroundColor="green"
-          aria-label="Enregistrer les résultats du candidat"
-        >
-          Enregistrer
-        </PixButton>
-      {{else}}
-        <PixButton
-          @size="small"
-          @triggerAction={{this.onCandidateResultsEdit}}
-          aria-label="Modifier les résultats du candidat"
-          @isDisabled={{this.editingCandidateInformations}}
-        >
-          Modifier
-        </PixButton>
-      {{/if}}
-    </div>
-  {{/if}}
 </div>
 
 <ConfirmPopup

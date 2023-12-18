@@ -100,7 +100,7 @@ module('Integration | Component | certifications/details-answer', function (hook
   });
 
   module('when certification is not finished', function () {
-    test('it should display "En cours" label', async function (assert) {
+    test('it should display "Non répondue" label', async function (assert) {
       // given
       this.setProperties({
         answer: {
@@ -116,7 +116,7 @@ module('Integration | Component | certifications/details-answer', function (hook
       const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{this.answer}} />`);
 
       // then
-      assert.dom(screen.getByText('En cours')).exists();
+      assert.dom(screen.getByText('Non répondue')).exists();
     });
   });
 });

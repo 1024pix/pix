@@ -3,7 +3,7 @@ import { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBu
 import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
+import { CertificationCourse } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationDetailsSerializer;
