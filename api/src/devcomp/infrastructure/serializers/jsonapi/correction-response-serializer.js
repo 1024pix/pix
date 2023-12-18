@@ -7,11 +7,11 @@ function serialize(correctionResponse) {
     transform(correctionResponse) {
       return {
         ...correctionResponse,
-        id: correctionResponse.solutionId,
+        id: correctionResponse.solution,
         status: correctionResponse.status.status,
       };
     },
-    attributes: ['status', 'feedback', 'solutionId'],
+    attributes: ['status', 'feedback', 'solution'],
   }).serialize(correctionResponse);
 }
 

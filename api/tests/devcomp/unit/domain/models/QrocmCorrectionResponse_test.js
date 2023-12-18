@@ -8,16 +8,16 @@ describe('Unit | Devcomp | Domain | Models | QrocmCorrectionResponse', function 
       // given
       const status = AnswerStatus.OK;
       const feedback = 'Bien joué !';
-      const solutionValue = Symbol('solutionValue');
+      const solution = Symbol('solution');
 
       // when
-      const qcuCorrectionResponse = new QrocmCorrectionResponse({ status, feedback, solutionValue });
+      const qcuCorrectionResponse = new QrocmCorrectionResponse({ status, feedback, solution });
 
       // then
       expect(qcuCorrectionResponse).not.to.be.undefined;
       expect(qcuCorrectionResponse.status).to.deep.equal(status);
       expect(qcuCorrectionResponse.feedback).to.equal(feedback);
-      expect(qcuCorrectionResponse.solutionValue).to.equal(solutionValue);
+      expect(qcuCorrectionResponse.solution).to.equal(solution);
     });
   });
 

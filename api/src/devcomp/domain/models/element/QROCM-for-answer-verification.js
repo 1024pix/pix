@@ -6,7 +6,7 @@ import { ValidatorQROCMInd } from '../validator/ValidatorQROCMInd.js';
 import { QrocmSolutions } from '../QrocmSolutions.js';
 
 class QROCMForAnswerVerification extends QROCM {
-  #solutionValue;
+  #solution;
 
   constructor({ id, instruction, feedbacks, proposals, locales, validator }) {
     super({ id, instruction, proposals, locales });
@@ -15,9 +15,9 @@ class QROCMForAnswerVerification extends QROCM {
 
     this.feedbacks = feedbacks;
 
-    this.#solutionValue = new QrocmSolutions(proposals);
-    this.solutions = this.#solutionValue.value;
-    this.tolerances = this.#solutionValue.tolerances;
+    this.#solution = new QrocmSolutions(proposals);
+    this.solutions = this.#solution.value;
+    this.tolerances = this.#solution.tolerances;
 
     if (validator) {
       this.validator = validator;
@@ -36,7 +36,7 @@ class QROCMForAnswerVerification extends QROCM {
     const correction = new QrocmCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solutionValue: this.solutions,
+      solution: this.solutions,
     });
 
     return new ElementAnswer({

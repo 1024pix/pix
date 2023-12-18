@@ -160,7 +160,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         correction: {
           status: assessResult.result,
           feedback: qrocm.feedbacks.valid,
-          solutionValue: qrocmSolution,
+          solution: qrocmSolution,
         },
       };
 
@@ -243,7 +243,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QrocMForAnswerVerificatio
         correction: {
           status: assessResult.result,
           feedback: qrocm.feedbacks.invalid,
-          solutionValue: qrocmSolution,
+          solution: qrocmSolution,
         },
       };
 

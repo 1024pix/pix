@@ -103,7 +103,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
           });
           expect(response.result.data.attributes['element-id']).to.equal('98c51fa7-03b7-49b1-8c5e-49341d35909c');
           expect(response.result.included[0].attributes.status).to.equal('ok');
-          expect(response.result.included[0].attributes['solution-value']).deep.equal({
+          expect(response.result.included[0].attributes.solution).deep.equal({
             symbole: ['@'],
             'premiere-partie': ['1'],
             'seconde-partie': ['2'],
@@ -151,7 +151,7 @@ describe('Acceptance | Controller | modules-controller-validateAnswer', function
           });
           expect(response.result.data.attributes['element-id']).to.equal('98c51fa7-03b7-49b1-8c5e-49341d35909c');
           expect(response.result.included[0].attributes.status).to.equal('ko');
-          expect(response.result.included[0].attributes['solution-value']).deep.equal({
+          expect(response.result.included[0].attributes.solution).deep.equal({
             symbole: ['@'],
             'premiere-partie': ['1'],
             'seconde-partie': ['2'],

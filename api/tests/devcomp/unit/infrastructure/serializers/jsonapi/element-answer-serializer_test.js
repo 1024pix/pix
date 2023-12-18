@@ -14,7 +14,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
         const givenCorrectionResponse = new QcuCorrectionResponse({
           status: AnswerStatus.OK,
           feedback: 'Good job!',
-          solutionId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+          solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
         });
 
         const elementAnswer = new ElementAnswer({
@@ -42,7 +42,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
               attributes: {
                 feedback: 'Good job!',
                 status: 'ok',
-                'solution-id': givenCorrectionResponse.solutionId,
+                solution: givenCorrectionResponse.solution,
               },
               type: 'correction-responses',
             },
@@ -61,7 +61,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
     describe('When correction response is for QROCM-ind', function () {
       it('should return a serialized ElementAnswer', function () {
         // given
-        const solutionValue = {
+        const solution = {
           inputBlock: ['@'],
           selectBlock: ['1'],
         };
@@ -72,7 +72,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
         const givenCorrectionResponse = new QrocmCorrectionResponse({
           status: AnswerStatus.OK,
           feedback: 'Good job!',
-          solutionValue,
+          solution,
         });
 
         const elementAnswer = new ElementAnswer({
@@ -100,7 +100,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ElementAnswe
               attributes: {
                 feedback: 'Good job!',
                 status: 'ok',
-                'solution-value': givenCorrectionResponse.solutionValue,
+                solution: givenCorrectionResponse.solution,
               },
               type: 'correction-responses',
             },
