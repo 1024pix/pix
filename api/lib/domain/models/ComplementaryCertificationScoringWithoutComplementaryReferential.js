@@ -8,10 +8,12 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
     pixScore,
     minimumEarnedPix,
     minimumReproducibilityRate,
+    isRejectedForFraud,
   } = {}) {
     super({
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
+      isRejectedForFraud,
     });
 
     this.reproducibilityRate = reproducibilityRate;
@@ -21,7 +23,7 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
   }
 
   isAcquired() {
-    return this._isAboveMinimumReproducibilityRate() && this._isAboveMinimumScore();
+    return !this.isRejectedForFraud && this._isAboveMinimumReproducibilityRate() && this._isAboveMinimumScore();
   }
 
   _isAboveMinimumScore() {
