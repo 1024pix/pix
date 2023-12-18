@@ -6,14 +6,17 @@ import {
   databaseBuilder,
   sinon,
   mockLearningContent,
-  learningContentBuilder,
   knex,
+  learningContentBuilder,
+  insertUserWithRoleSuperAdmin,
 } from '../../../../test-helper.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 
 describe('Acceptance | API | Autonomous Course', function () {
   let server;
   let userId;
+  const skillWeb1Id = 'recAcquisWeb1';
+  const skillWeb1Name = '@web1';
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser.withRole().id;
@@ -28,6 +31,14 @@ describe('Acceptance | API | Autonomous Course', function () {
             id: 'recNv8qhaY887jQb2',
             index: '1.3',
             name: 'Traiter des données',
+          },
+        ],
+        skills: [
+          {
+            id: skillWeb1Id,
+            name: skillWeb1Name,
+            status: 'actif',
+            competenceId: 'recCompetence',
           },
         ],
       },
@@ -88,6 +99,67 @@ describe('Acceptance | API | Autonomous Course', function () {
           expect(campaign).to.exist;
         });
       });
+    });
+  });
+
+  describe('GET /api/admin/autonomous-courses/{autonomousCourseId}', function () {
+    let targetProfileId;
+    let organizationId;
+
+    beforeEach(async function () {
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      });
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({
+        isSimplifiedAccess: true,
+        ownerOrganizationId: organizationId,
+      }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should get a autonomous course with the specific id', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const { id: autonomousCourseId, ...autonomousCourseAttributes } = databaseBuilder.factory.buildCampaign({
+        name: 'Nom interne parcours autonome',
+        title: 'Nom externe parcours autonome',
+        code: 'PARCOURS1',
+        type: 'ASSESSMENT',
+        organizationId: organizationId,
+        ownerId: userId,
+        targetProfileId: targetProfileId,
+        customLandingPageText: "un texte de page d'accueil",
+        createdAt: new Date('2020-01-02'),
+      });
+      await databaseBuilder.commit();
+
+      const expectedResponse = {
+        type: 'autonomous-courses',
+        id: `${autonomousCourseId}`,
+        attributes: {
+          'internal-title': autonomousCourseAttributes.name,
+          'public-title': autonomousCourseAttributes.title,
+          'custom-landing-page-text': autonomousCourseAttributes.customLandingPageText,
+          'created-at': new Date('2020-01-02'),
+          code: autonomousCourseAttributes.code,
+        },
+      };
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: `/api/admin/autonomous-courses/${autonomousCourseId}`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.type).to.equal(expectedResponse.type);
+      expect(response.result.data.id).to.equal(expectedResponse.id);
+      expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
     });
   });
 

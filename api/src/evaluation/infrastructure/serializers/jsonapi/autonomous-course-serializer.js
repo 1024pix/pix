@@ -4,10 +4,16 @@ const serializeId = function (autonomousCourseId) {
   return new Serializer('autonomous-course', {}).serialize({ id: autonomousCourseId });
 };
 
+const serialize = function (autonomousCourse) {
+  return new Serializer('autonomous-course', {
+    attributes: ['internalTitle', 'publicTitle', 'customLandingPageText', 'createdAt', 'code'],
+  }).serialize(autonomousCourse);
+};
+
 const deserialize = function (payload) {
   return new Deserializer({
     keyForAttribute: 'camelCase',
   }).deserialize(payload);
 };
 
-export { serializeId, deserialize };
+export { serializeId, serialize, deserialize };
