@@ -158,9 +158,10 @@ import { buildUserOrgaSettings } from './build-user-orga-settings.js';
 import { buildUserScorecard } from './build-user-scorecard.js';
 import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
 import { buildUserSavedTutorialWithTutorial } from './build-user-saved-tutorial-with-tutorial.js';
+import { buildV3CertificationChallengeForAdministration } from './build-v3-certification-challenge-for-administration.js';
+import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
-import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildFeedback } from './build-feedback.js';
 
 export {
@@ -323,7 +324,8 @@ export {
   buildUserScorecard,
   buildUserSavedTutorial,
   buildUserSavedTutorialWithTutorial,
+  buildV3CertificationChallengeForAdministration,
+  buildV3CertificationCourseDetailsForAdministration,
   buildValidation,
   buildValidator,
-  buildV3CertificationCourseDetailsForAdministration,
 };
