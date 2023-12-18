@@ -13,9 +13,9 @@ import { usecases } from '../../domain/usecases/index.js';
  * @throws {NotFoundError} Complementary certification does not exist
  * @throws {Error} Id parameter was not provided
  */
-export const getById = ({ id }) => {
+export const getById = async ({ id }) => {
   _assertIdExists(id);
-  usecases.getComplementaryCertificationById();
+  await usecases.getById({ id });
   return;
 };
 

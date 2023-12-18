@@ -1,5 +1,5 @@
 /**
- * @typedef {import ('../../../shared/domain/usecases/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
+ * @typedef {import ('../../domain/usecases/index.js').ComplementaryCertificationRepository} ComplementaryCertificationRepository
  */
 
 /**
