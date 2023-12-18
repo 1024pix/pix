@@ -14,9 +14,16 @@ const allOidcProviderServices = [
 ];
 
 const readyOidcProviderServices = allOidcProviderServices.filter((oidcProvider) => oidcProvider.isReady);
+const readyOidcProviderServicesForPixAdmin = allOidcProviderServices.filter(
+  (oidcProvider) => oidcProvider.isReadyForPixAdmin,
+);
 
 function getReadyOidcProviderServices() {
   return readyOidcProviderServices;
+}
+
+function getReadyOidcProviderServicesForPixAdmin() {
+  return readyOidcProviderServicesForPixAdmin;
 }
 
 function getAllOidcProviderServices() {
@@ -32,4 +39,9 @@ function getOidcProviderServiceByCode(identityProvider) {
   return oidcProviderService;
 }
 
-export { getReadyOidcProviderServices, getOidcProviderServiceByCode, getAllOidcProviderServices };
+export {
+  getReadyOidcProviderServices,
+  getOidcProviderServiceByCode,
+  getAllOidcProviderServices,
+  getReadyOidcProviderServicesForPixAdmin,
+};

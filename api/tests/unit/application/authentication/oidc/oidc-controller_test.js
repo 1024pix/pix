@@ -74,7 +74,7 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       ]);
 
       // when
-      const response = await oidcController.getIdentityProviders(null, hFake);
+      const response = await oidcController.getIdentityProviders({ query: { audience: null } }, hFake);
 
       // then
       expect(usecases.getReadyIdentityProviders).to.have.been.called;
