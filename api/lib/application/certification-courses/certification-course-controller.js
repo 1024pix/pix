@@ -4,7 +4,6 @@ import * as juryCertificationSerializer from '../../infrastructure/serializers/j
 import * as certificationCourseSerializer from '../../infrastructure/serializers/jsonapi/certification-course-serializer.js';
 import * as certifiedProfileRepository from '../../infrastructure/repositories/certified-profile-repository.js';
 import * as certifiedProfileSerializer from '../../infrastructure/serializers/jsonapi/certified-profile-serializer.js';
-import * as assessmentResultSerializer from '../../infrastructure/serializers/jsonapi/assessment-result-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
@@ -87,19 +86,6 @@ const uncancel = async function (request, h) {
   return h.response().code(200);
 };
 
-const updateJuryComments = async function (request, h, dependencies = { assessmentResultSerializer }) {
-  const certificationCourseId = request.params.id;
-  const deserializedAssessmentResult = await dependencies.assessmentResultSerializer.deserialize(request.payload);
-  const juryId = request.auth.credentials.userId;
-
-  await usecases.updateJuryComments({
-    certificationCourseId,
-    assessmentResult: { ...deserializedAssessmentResult, juryId },
-  });
-
-  return null;
-};
-
 const certificationCourseController = {
   getCertificationDetails,
   getJuryCertification,
@@ -109,7 +95,6 @@ const certificationCourseController = {
   getCertifiedProfile,
   cancel,
   uncancel,
-  updateJuryComments,
 };
 
 export { certificationCourseController };

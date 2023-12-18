@@ -1,5 +1,5 @@
-import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { updateJuryComments } from '../../../../lib/domain/usecases/update-jury-comments.js';
+import { expect, sinon, domainBuilder } from '../../../../../test-helper.js';
+import { updateJuryComments } from '../../../../../../src/certification/course/domain/usecases/update-jury-comments.js';
 
 describe('Unit | UseCase | update-jury-comments', function () {
   it('should save jury comments', async function () {
