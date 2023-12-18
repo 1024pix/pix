@@ -7,10 +7,10 @@
   text-align: center;
 
   &__information-text {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 
   .link-icon {
-    color: $pix-primary;
+    color: var(--pix-primary-500);
   }
 }

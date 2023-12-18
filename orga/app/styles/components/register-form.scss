@@ -9,14 +9,14 @@
 
   &__cgu-error {
     margin-top: 20px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     font-size: 0.75em;
   }
 
   &__information {
     @extend %pix-body-s;
 
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 

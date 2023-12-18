@@ -10,20 +10,20 @@
   padding: 0 $pix-spacing-xs;
   font-size: 0.875rem;
   text-align: left;
-  border-left: 1px solid $pix-neutral-22;
+  border-left: 1px solid var(--pix-neutral-100);
 
   &__title {
     margin-bottom: $pix-spacing-xs;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
   }
 
   &__content {
     margin: 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
 
 
     &--date {
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-20)0;
       font-size: 0.75rem;
     }
   }

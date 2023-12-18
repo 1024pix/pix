@@ -16,7 +16,7 @@ $margin-right: $pix-spacing-l;
   &__tabs {
     display: flex;
     margin-bottom: $pix-spacing-m;
-    border-bottom: 1px solid $pix-neutral-20;
+    border-bottom: 1px solid var(--pix-neutral-20);
   }
 
   .modal-dialog-width {

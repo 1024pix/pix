@@ -1,7 +1,7 @@
 .explanation-card {
   padding: $pix-spacing-s;
-  color: $pix-neutral-60;
-  background: $pix-neutral-15;
+  color: var(--pix-neutral-500);
+  background: var(--pix-neutral-20);
   border-radius: 8px;
 
   &__title {
@@ -9,18 +9,18 @@
 
     display: block;
     margin-bottom: $pix-spacing-xs;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 500;
   }
 
   &__icon {
     margin-right: $pix-spacing-xs;
-    color: $pix-primary;
+    color: var(--pix-primary-500);
   }
 
   &__message {
     @extend %pix-body-s;
 
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }

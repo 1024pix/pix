@@ -1,23 +1,23 @@
 .c-notification.notification {
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
   font-weight: 500;
   font-size: 1rem;
   font-family: $font-roboto;
   line-height: 1.3125rem;
-  border: 1.5px solid $pix-neutral-60;
+  border: 1.5px solid var(--pix-neutral-500);
   border-radius: 6px;
 
   > div:first-child {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: $pix-neutral-60;
+    background-color: var(--pix-neutral-500);
   }
 
   > div:nth-child(2) {
     align-items: center;
     padding: 8px 12px;
-    background-color: $pix-neutral-20;
+    background-color: var(--pix-neutral-20);
 
     > div {
       align-self: center;
@@ -27,7 +27,7 @@
   }
 
   a {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
   }
 
   .fa {
@@ -35,80 +35,80 @@
   }
 
   .fa-exclamation-circle {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
   }
 
   .c-notification__close svg {
-    fill: $pix-neutral-60;
+    fill: var(--pix-neutral-500);
 
     &:hover,
     &:active {
-      fill: $pix-neutral-70;
+      fill: var(--pix-neutral-800);
     }
   }
 
   &--error {
-    border: 1.5px solid $pix-error-70;
+    border: 1.5px solid var(--pix-error-700);
 
     div:first-child {
-      background-color: $pix-error-70;
+      background-color: var(--pix-error-700);
     }
 
     div:nth-child(2) {
-      color: $pix-error-70;
-      background-color: $pix-error-5;
+      color: var(--pix-error-700);
+      background-color: var(--pix-error-50);
     }
 
     .c-notification__close svg {
-      fill: $pix-error-70;
+      fill: var(--pix-error-700);
 
       &:hover,
       &:active {
-        fill: $pix-error-80;
+        fill: var(--pix-error-900);
       }
     }
   }
 
   &--warning {
-    border: 1.5px solid $pix-warning-70;
+    border: 1.5px solid var(--pix-warning-700);
 
     div:first-child {
-      background-color: $pix-warning-70;
+      background-color: var(--pix-warning-700);
     }
 
     div:nth-child(2) {
-      color: $pix-warning-70;
-      background-color: $pix-warning-5;
+      color: var(--pix-warning-700);
+      background-color: var(--pix-warning-50);
     }
 
     .c-notification__close svg {
-      fill: $pix-warning-70;
+      fill: var(--pix-warning-700);
 
       &:hover,
       &:active {
-        fill: $pix-warning-80;
+        fill: var(--pix-warning-900);
       }
     }
   }
 
   &--success {
-    border: 1.5px solid $pix-success-70;
+    border: 1.5px solid var(--pix-success-700);
 
     div:first-child {
-      background-color: $pix-success-70;
+      background-color: var(--pix-success-700);
     }
 
     div:nth-child(2) {
-      color: $pix-success-70;
-      background-color: $pix-success-5;
+      color: var(--pix-success-700);
+      background-color: var(--pix-success-50);
     }
 
     .c-notification__close svg {
-      fill: $pix-success-70;
+      fill: var(--pix-success-700);
 
       &:hover,
       &:active {
-        fill: $pix-success-80;
+        fill: var(--pix-success-900);
       }
     }
   }
@@ -122,7 +122,7 @@
   text-align: right;
 
   &--error {
-    color: $pix-error-70;
+    color: var(--pix-error-700);
   }
 
   &--left {

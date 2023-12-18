@@ -9,7 +9,7 @@
 
   &__legal-information {
     max-width: 500px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.6875rem;
   }
 
@@ -19,7 +19,7 @@
     text-align: left;
 
     a {
-      color: $pix-communication-dark;
+      color: var(--pix-communication-dark);
       text-decoration: none;
 
       svg {

@@ -8,8 +8,8 @@
   min-height: 60px;
   margin-bottom: 24px;
   padding: 8px 10px;
-  color: $pix-neutral-0;
-  background: $pix-neutral-60;
+  color: var(--pix-neutral-0);
+  background: var(--pix-neutral-500);
   border-radius: 6px;
 
   &__text {
@@ -26,16 +26,16 @@
 
   &__unarchive-button {
     margin-left: auto;
-    background: $pix-neutral-60;
-    border: 2px solid $pix-neutral-0;
+    background: var(--pix-neutral-500);
+    border: 2px solid var(--pix-neutral-0);
 
     &:hover {
-      background: $pix-neutral-60;
+      background: var(--pix-neutral-500);
       opacity: 0.8;
     }
 
     &:focus {
-      background: $pix-neutral-60;
+      background: var(--pix-neutral-500);
     }
   }
 }

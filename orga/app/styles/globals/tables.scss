@@ -7,14 +7,14 @@ table {
 
   .table__input {
     &:focus-within {
-      border: 1px solid $pix-primary;
+      border: 1px solid var(--pix-primary-500);
     }
   }
 
   .table__multi-select {
     > label {
       > input[type='text']::placeholder {
-        color: $pix-neutral-30;
+        color: var(--pix-neutral-100);
       }
     }
   }
@@ -22,7 +22,7 @@ table {
 
 thead {
   width: 100%;
-  color: $pix-neutral-100;
+  color: var(--pix-neutral-900);
 
   th {
     font-weight: 500;
@@ -39,12 +39,12 @@ caption {
 }
 
 tbody {
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
 
   tr {
     &:focus-within,
     &:hover {
-      background-color: $pix-neutral-15;
+      background-color: var(--pix-neutral-20);
     }
   }
 
@@ -54,8 +54,8 @@ tbody {
     &:hover,
     &:focus,
     &:active {
-      color: $pix-neutral-100;
-      background-color: $pix-neutral-10;
+      color: var(--pix-neutral-900);
+      background-color: var(--pix-neutral-20);
       transition: 0.25s ease;
     }
   }
@@ -69,13 +69,13 @@ tbody {
     background-color: white;
 
     &:hover {
-      background-color: $pix-neutral-15;
+      background-color: var(--pix-neutral-20);
     }
   }
 
   td {
     position: relative;
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
     font-weight: 400;
     font-size: 0.875rem;
     font-family: $font-roboto;
@@ -86,13 +86,13 @@ tbody {
     }
 
     > a {
-      color: $pix-neutral-80;
+      color: var(--pix-neutral-800);
       text-decoration: none;
 
       &:hover,
       &:focus,
       &:active {
-        color: $pix-neutral-80;
+        color: var(--pix-neutral-800);
       }
     }
   }
@@ -101,7 +101,7 @@ tbody {
 tr {
   width: 100%;
   height: 60px;
-  border-top: 1px solid $pix-neutral-15;
+  border-top: 1px solid var(--pix-neutral-20);
 }
 
 td,
@@ -172,7 +172,7 @@ th::first-letter {
   }
 
   &--highlight {
-    color: $pix-neutral-80;
+    color: var(--pix-neutral-800);
   }
 }
 
@@ -196,5 +196,5 @@ th::first-letter {
   height: 180px;
   margin: 0;
   text-align: center;
-  border-top: 1px solid $pix-neutral-15;
+  border-top: 1px solid var(--pix-neutral-20);
 }

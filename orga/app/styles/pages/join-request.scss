@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100%;
   min-height: 100%;
-  background: $pix-secondary-orga-gradient;
+  background: var(--pix-secondary-500)-orga-gradient;
 
   a {
     text-decoration: underline;
@@ -51,7 +51,7 @@
   &__success {
     margin-top: 54px;
     margin-bottom: 24px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     letter-spacing: 0.15px;
     text-align: center;
   }

@@ -44,9 +44,9 @@
     height: max-content;
     margin: $pix-spacing-s 0 0 0;
     padding: $pix-spacing-s;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
-    background: $pix-neutral-15;
+    background: var(--pix-neutral-20);
     border-radius: 8px;
 
     @include device-is('desktop') {
@@ -58,21 +58,21 @@
 
     &-icon {
       margin-right: $pix-spacing-xs;
-      color: $pix-primary;
+      color: var(--pix-primary-500);
     }
 
     &-title {
       @extend %pix-body-m;
 
       margin-bottom: $pix-spacing-xs;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-weight: 500;
     }
 
     &-message {
       @extend %pix-body-s;
 
-      color: $pix-neutral-60;
+      color: var(--pix-neutral-500);
     }
   }
 
@@ -83,7 +83,7 @@
 
     > legend {
       margin-bottom: 2px;
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-20)0;
       font-size: 0.875rem;
     }
 
@@ -123,13 +123,13 @@
 
   &__mandatory-fields-information {
     margin: 0 0 $pix-spacing-l 0;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     font-size: 0.875rem;
   }
 
   abbr.mandatory-mark {
     padding-right: 5px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     text-decoration: none;
     border: none;
     cursor: help;
@@ -150,23 +150,23 @@
 .input {
   height: 36px;
   padding-left: $pix-spacing-s;
-  color: $pix-neutral-100;
+  color: var(--pix-neutral-900);
   font-size: 0.875rem;
-  border: 1px solid $pix-neutral-40;
+  border: 1px solid var(--pix-neutral-500);
   border-radius: 4px;
   outline: none;
 
   &:focus {
-    border: 1px solid $pix-primary;
+    border: 1px solid var(--pix-primary-500);
   }
 
   &--error {
-    border: 1px solid $pix-error-70;
+    border: 1px solid var(--pix-error-700);
   }
 }
 
 .error-message {
-  color: $pix-error-70;
+  color: var(--pix-error-700);
   font-size: 0.75rem;
   font-family: $font-roboto;
 }

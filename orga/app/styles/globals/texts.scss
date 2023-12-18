@@ -1,11 +1,11 @@
 .paragraph {
   @extend %pix-body-m;
 
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
 }
 
 .help-text {
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-size: 0.75rem;
   font-family: $font-roboto;
 }
@@ -13,16 +13,16 @@
 .information-text {
   @extend %pix-title-s;
 
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
 }
 
 .label-text {
   @extend %pix-body-s;
 
-  color: $pix-neutral-50;
+  color: var(--pix-neutral-20)0;
 
   &--dark {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 
   &--small {
@@ -33,22 +33,22 @@
 .value-text {
   @extend %pix-body-m;
 
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-800);
   font-weight: 500;
 
   &--highlight {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-size: 1.125rem;
   }
 }
 
 .content-text {
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-size: 1rem;
   font-family: $font-roboto;
 
   &--bold {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: 700;
   }
 
@@ -63,7 +63,7 @@
 }
 
 .link {
-  color: $pix-primary;
+  color: var(--pix-primary-500);
   text-decoration: none;
   background-color: inherit;
   border: none;
@@ -72,7 +72,7 @@
   &:hover,
   &:focus,
   &:active {
-    color: $pix-primary-60;
+    color: var(--pix-primary-700);
     text-decoration: underline;
   }
 
@@ -85,17 +85,17 @@
   }
 
   &--white {
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
 
     &:hover {
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
       opacity: 0.85;
     }
 
     &:focus,
     &:active {
-      color: $pix-neutral-110;
-      background-color: $pix-warning-40;
+      color: var(--pix-neutral-900);
+      background-color: var(--pix-warning-500);
     }
   }
 

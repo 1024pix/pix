@@ -3,23 +3,23 @@
   align-items: center;
   height: 100%;
   padding: 0 30px;
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   background-color: transparent;
   border-width: 0;
-  border-left: 1px solid $pix-neutral-20;
+  border-left: 1px solid var(--pix-neutral-20);
   cursor: pointer;
 
   &:hover,
   &:active,
   &:focus {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
     text-decoration: none;
   }
 
   &:focus {
     border-radius: 4px;
     outline: none;
-    box-shadow: inset 0px 0px 0px 1.6px $pix-primary;
+    box-shadow: inset 0px 0px 0px 1.6px var(--pix-primary-500);
   }
 
   &__text {
@@ -46,7 +46,7 @@
     vertical-align: middle;
 
     &--up {
-      color: $pix-primary;
+      color: var(--pix-primary-500);
     }
   }
 }
