@@ -1,5 +1,16 @@
+/**
+ * @typedef {import ('../../../shared/domain/usecases/index.js').assessmentResultRepository} assessmentResultRepository
+ * @typedef {import ('../../../shared/domain/usecases/index.js').competenceMarkRepository} competenceMarkRepository
+ */
+
 import bluebird from 'bluebird';
-import { CompetenceMark } from '../models/index.js';
+import { CompetenceMark } from '../../../../../lib/domain/models/index.js';
+
+/**
+ * @param {Object} params
+ * @param {assessmentResultRepository} params.assessmentResultRepository
+ * @param {competenceMarkRepository} params.competenceMarkRepository
+ */
 
 const updateJuryComments = async function ({
   certificationCourseId,

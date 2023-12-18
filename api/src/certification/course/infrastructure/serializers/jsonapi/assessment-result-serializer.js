@@ -1,6 +1,6 @@
 import jsonapiSerializer from 'jsonapi-serializer';
 const { Deserializer } = jsonapiSerializer;
-import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { AssessmentResult } from '../../../../../shared/domain/models/AssessmentResult.js';
 
 const deserialize = async function (payload) {
   const assessmentResult = await new Deserializer({

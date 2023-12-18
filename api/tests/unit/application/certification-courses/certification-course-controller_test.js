@@ -3,8 +3,7 @@ import { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBu
 import { certificationCourseController } from '../../../../lib/application/certification-courses/certification-course-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
-import { CertificationCourse } from '../../../../lib/domain/models/CertificationCourse.js';
-import { AssessmentResult } from '../../../../src/shared/domain/models/AssessmentResult.js';
+import { CertificationCourse } from '../../../../lib/domain/models/index.js';
 
 describe('Unit | Controller | certification-course-controller', function () {
   let certificationDetailsSerializer;
@@ -434,59 +433,6 @@ describe('Unit | Controller | certification-course-controller', function () {
 
       // then
       expect(usecases.uncancelCertificationCourse).to.have.been.calledWithExactly({ certificationCourseId: 123 });
-    });
-  });
-
-  describe('#updateJuryComments', function () {
-    it('should updateJuryComments usecase', async function () {
-      // given
-      const assessmentResultSerializer = {
-        deserialize: sinon.stub(),
-      };
-      sinon.stub(usecases, 'updateJuryComments');
-      const request = {
-        auth: {
-          credentials: {
-            userId: 789,
-          },
-        },
-        params: {
-          id: 123,
-        },
-        payload: {
-          data: {
-            attributes: {
-              'assessment-id': 1,
-              'pix-score': 300,
-              status: 'validated',
-              emitter: 'Jury Pix',
-              'comment-for-jury': 'Tell',
-              'comment-for-candidate': 'Me',
-              'comment-for-organization': 'Why',
-            },
-          },
-        },
-      };
-      const assessmentResult = new AssessmentResult({
-        assessmentId: 1,
-        emitter: 'Jury Pix',
-        commentForJury: 'Tell',
-        commentForCandidate: 'Me',
-        commentForOrganization: 'Why',
-        pixScore: 300,
-        status: 'validated',
-      });
-      assessmentResultSerializer.deserialize.withArgs(request.payload).resolves(assessmentResult);
-      usecases.updateJuryComments.resolves();
-
-      // when
-      await certificationCourseController.updateJuryComments(request, hFake);
-
-      // then
-      expect(usecases.updateJuryComments).to.have.been.calledWithExactly({
-        certificationCourseId: 123,
-        assessmentResult: { ...assessmentResult, juryId: 789 },
-      });
     });
   });
 });
