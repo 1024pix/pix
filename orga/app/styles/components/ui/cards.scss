@@ -1,10 +1,11 @@
 .chart-card {
+  @extend %pix-shadow-xs;
+
   position: relative;
   padding: 16px 20px;
   background-color: $pix-neutral-0;
   border: none;
   border-radius: 10px;
-  box-shadow: $shadow-base;
 
   &__title {
     @extend %pix-title-xs;
