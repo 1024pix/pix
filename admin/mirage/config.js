@@ -40,7 +40,11 @@ import {
 import { findFrameworkAreas } from './handlers/frameworks';
 import { getWithRequiredActionSessions } from './handlers/get-with-required-action-sessions';
 import { getToBePublishedSessions } from './handlers/get-to-be-published-sessions';
-import { findAutonomousCourseTargetProfiles, createAutonomousCourse } from './handlers/autonomous-courses';
+import {
+  findAutonomousCourseTargetProfiles,
+  createAutonomousCourse,
+  getAutonomousCourseDetails,
+} from './handlers/autonomous-courses';
 
 export default function makeServer(config) {
   const finalConfig = {
@@ -64,6 +68,7 @@ function routes() {
 
   this.get('/admin/autonomous-courses/target-profiles', findAutonomousCourseTargetProfiles);
   this.post('/admin/autonomous-courses', createAutonomousCourse);
+  this.get('/admin/autonomous-courses/:id', getAutonomousCourseDetails);
 
   this.get('/admin/campaigns/:id');
   this.get('/admin/campaigns/:id/participations', (schema) => {
