@@ -189,6 +189,7 @@ const configuration = (function () {
         process.env.FT_ALWAYS_OK_VALIDATE_NEXT_CHALLENGE_ENDPOINT,
       ),
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
+      isPixPlusLowerLeverEnabled: isFeatureEnabled(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
     },
     fwb: {
       isEnabled: isFeatureEnabled(process.env.FWB_ENABLED),
