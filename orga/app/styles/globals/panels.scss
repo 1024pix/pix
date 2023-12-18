@@ -1,8 +1,9 @@
 .panel {
+  @extend %pix-shadow-xs;
+
   background-color: $pix-neutral-0;
   border: none;
   border-radius: 4px;
-  box-shadow: $shadow-base;
 
   &--header {
     box-sizing: border-box;
@@ -147,7 +148,7 @@
     }
 
     &-item.active {
-      background-color: lighten($pix-primary, 32%);
+      background-color: var(--pix-primary-100);
       border-bottom-width: 0px;
     }
   }

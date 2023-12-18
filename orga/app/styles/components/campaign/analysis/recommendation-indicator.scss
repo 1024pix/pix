@@ -4,6 +4,7 @@
 
   &__bubble {
     padding: 2px;
-    fill: lighten($pix-primary, 10%);
+    fill: var(--pix-primary-300);
+
   }
 }
