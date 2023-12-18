@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v4.77.1 (18/12/2023)
+
+### :bug: Correction
+- [#7716](https://github.com/1024pix/pix/pull/7716) [BUGFIX] Protege la route de liste des résultats d'une campagne (PIX-10438)
+
+
 ## v4.77.0 (15/12/2023)
 
 
