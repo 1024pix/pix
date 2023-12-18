@@ -61,6 +61,30 @@ export const get = async (campaignId) => {
 };
 
 /**
+ * @typedef UpdateCampaignPayload
+ * @type {object}
+ * @property {number} campaignId
+ * @property {string} name
+ */
+
+/**
+ * @function
+ * @name update
+ *
+ * @param {UpdateCampaignPayload} payload
+ * @returns {Promise<Campaign>}
+ */
+export const update = async (payload) => {
+  const campaignToUpdate = {
+    campaignId: payload.campaignId,
+    name: payload.name,
+  };
+
+  const updatedCampaign = await usecases.updateCampaign(campaignToUpdate);
+  return new Campaign(updatedCampaign);
+};
+
+/**
  * @typedef PageDefinition
  * @type {object}
  * @property {number} size
