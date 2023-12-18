@@ -9,7 +9,13 @@ describe('Unit | API | TargetProfile', function () {
     it('should return target profiles from organization', async function () {
       const organizationId = domainBuilder.buildOrganization().id;
 
-      const targetProfile = new TargetProfileForSpecifier({ name: 'Mon target profile' });
+      const targetProfile = new TargetProfileForSpecifier({
+        name: 'Mon target profile',
+        id: 777,
+        category: 'TOTO',
+        isPublic: true,
+        isSimplifiedAccess: false,
+      });
 
       const getAvailableTargetProfilesForOrganizationStub = sinon.stub(
         usecases,
@@ -28,6 +34,8 @@ describe('Unit | API | TargetProfile', function () {
       expect(result[0].id).to.equal(targetProfile.id);
       expect(result[0].name).to.equal(targetProfile.name);
       expect(result[0].category).to.equal(targetProfile.category);
+      expect(result[0].isSimplifiedAccess).to.equal(targetProfile.isSimplifiedAccess);
+      expect(result[0].isPublic).to.equal(targetProfile.isPublic);
       expect(result[0]).not.to.be.instanceOf(TargetProfileForSpecifier);
     });
 

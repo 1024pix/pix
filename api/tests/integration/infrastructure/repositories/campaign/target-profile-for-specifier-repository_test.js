@@ -86,8 +86,19 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
     context('when there are several target profile', function () {
       it('returns information about each target profile', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        const { id: targetProfileId1 } = databaseBuilder.factory.buildTargetProfile({ name: 'name1' });
-        const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile({ name: 'name2' });
+        const { id: targetProfileId1 } = databaseBuilder.factory.buildTargetProfile({
+          name: 'name1',
+          isPublic: false,
+          isSimplifiedAccess: true,
+        });
+        const { id: targetProfileId2 } = databaseBuilder.factory.buildTargetProfile({
+          name: 'name2',
+          isPublic: true,
+          isSimplifiedAccess: false,
+        });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId1, organizationId });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId2, organizationId });
+
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId1, tubeId: 'tube1' });
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId1, tubeId: 'tube2' });
         databaseBuilder.factory.buildTargetProfileTube({ targetProfileId: targetProfileId2, tubeId: 'tube3' });
@@ -101,6 +112,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           tubeCount: 2,
           thematicResultCount: 1,
           hasStage: false,
+          isPublic: false,
+          isSimplifiedAccess: true,
           description: null,
           category: 'OTHER',
           areKnowledgeElementsResettable: false,
@@ -110,6 +123,8 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           name: 'name2',
           tubeCount: 1,
           thematicResultCount: 0,
+          isPublic: true,
+          isSimplifiedAccess: false,
           hasStage: false,
           description: null,
           category: 'OTHER',
@@ -117,7 +132,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         });
         const availableTargetProfiles =
           await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
-        expect(availableTargetProfiles).to.exactlyContain([targetProfile1, targetProfile2]);
+        expect(availableTargetProfiles).to.have.deep.members([targetProfile1, targetProfile2]);
       });
     });
 
