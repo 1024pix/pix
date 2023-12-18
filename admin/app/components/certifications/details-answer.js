@@ -10,7 +10,7 @@ const options = [
   { value: 'aband', label: 'Passée' },
   { value: 'skip', label: 'Neutralisée' },
   { value: 'skippedAutomatically', label: 'Abandon' },
-  { value: 'in progress', label: 'En cours' },
+  { value: 'noResponse', label: 'Non répondue' },
 ];
 
 export default class CertificationDetailsAnswer extends Component {
@@ -46,6 +46,6 @@ export default class CertificationDetailsAnswer extends Component {
     if (this.args.answer.hasBeenSkippedAutomatically) {
       return 'skippedAutomatically';
     }
-    return this.args.answer.result ?? 'in progress';
+    return this.args.answer.result ?? 'noResponse';
   }
 }
