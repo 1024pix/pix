@@ -166,39 +166,6 @@ const register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/campaigns/{id}',
-      config: {
-        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-          payload: Joi.object({
-            data: {
-              type: 'campaigns',
-              attributes: {
-                'owner-id': identifiersType.ownerId,
-                name: Joi.string().required(),
-                title: Joi.string().allow(null).required(),
-                'custom-landing-page-text': Joi.string().allow(null).required(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: campaignController.update,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Modification d'une campagne\n" +
-            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à modifier',
-        ],
-        tags: ['api', 'campaign'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/campaigns/{id}/collective-results',
       config: {

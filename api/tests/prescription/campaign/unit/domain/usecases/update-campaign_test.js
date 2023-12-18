@@ -1,21 +1,19 @@
-import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { updateCampaign } from '../../../../lib/domain/usecases/update-campaign.js';
-import { UserNotAuthorizedToUpdateResourceError } from '../../../../lib/domain/errors.js';
-import { EntityValidationError } from '../../../../src/shared/domain/errors.js';
+import { expect, sinon, catchErr, domainBuilder } from '../../../../../test-helper.js';
+import { updateCampaign } from '../../../../../../src/prescription/campaign/domain/usecases/update-campaign.js';
+import { EntityValidationError } from '../../../../../../src/shared/domain/errors.js';
 
 describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;
   let userWithMembership;
   let ownerwithMembership;
-  let campaignRepository, userRepository, membershipRepository;
+  let campaignAdministrationRepository, membershipRepository;
 
   const organizationId = 1;
   const creatorId = 1;
   const ownerId = 2;
 
   beforeEach(function () {
-    userRepository = { getWithMemberships: sinon.stub() };
-    campaignRepository = {
+    campaignAdministrationRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
     };
@@ -44,9 +42,8 @@ describe('Unit | UseCase | update-campaign', function () {
         user: domainBuilder.buildUser({ id: ownerId }),
         organization: { id: organizationId },
       });
-      campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      campaignRepository.update.callsFake((updatedCampaign) => updatedCampaign);
-      userRepository.getWithMemberships.withArgs(userWithMembership.id).resolves(userWithMembership);
+      campaignAdministrationRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
+      campaignAdministrationRepository.update.callsFake((updatedCampaign) => updatedCampaign);
       userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
       membershipRepository.findByUserIdAndOrganizationId
         .withArgs({ userId: ownerId, organizationId })
@@ -66,13 +63,12 @@ describe('Unit | UseCase | update-campaign', function () {
         campaignId: updatedCampaign.id,
         title: updatedCampaign.title,
         ownerId,
-        userRepository,
-        campaignRepository,
         membershipRepository,
+        campaignAdministrationRepository,
       });
 
       // then
-      expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
       expect(resultCampaign.title).to.equal(updatedCampaign.title);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
@@ -90,13 +86,12 @@ describe('Unit | UseCase | update-campaign', function () {
         campaignId: updatedCampaign.id,
         ownerId,
         customLandingPageText: updatedCampaign.customLandingPageText,
-        userRepository,
-        campaignRepository,
+        campaignAdministrationRepository,
         membershipRepository,
       });
 
       // then
-      expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
       expect(resultCampaign.title).to.equal(originalCampaign.title);
       expect(resultCampaign.customLandingPageText).to.equal(updatedCampaign.customLandingPageText);
     });
@@ -110,13 +105,12 @@ describe('Unit | UseCase | update-campaign', function () {
         userId: userWithMembership.id,
         campaignId: updatedCampaign.id,
         ownerId,
-        userRepository,
-        campaignRepository,
+        campaignAdministrationRepository,
         membershipRepository,
       });
 
       // then
-      expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
       expect(resultCampaign.title).to.equal(originalCampaign.title);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
@@ -135,13 +129,12 @@ describe('Unit | UseCase | update-campaign', function () {
         name: updatedCampaign.name,
         title: originalCampaign.title,
         ownerId,
-        userRepository,
-        campaignRepository,
+        campaignAdministrationRepository,
         membershipRepository,
       });
 
       // then
-      expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
       expect(resultCampaign.name).to.equal(updatedCampaign.name);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
@@ -167,8 +160,8 @@ describe('Unit | UseCase | update-campaign', function () {
         name: originalCampaign.name,
         title: originalCampaign.title,
         ownerId: updatedCampaign.ownerId,
-        userRepository,
-        campaignRepository,
+
+        campaignAdministrationRepository,
         membershipRepository,
       });
 
@@ -187,43 +180,18 @@ describe('Unit | UseCase | update-campaign', function () {
         name: undefined,
         title: originalCampaign.title,
         ownerId,
-        userRepository,
-        campaignRepository,
+        campaignAdministrationRepository,
         membershipRepository,
       });
 
       // then
-      expect(campaignRepository.update).to.have.been.calledWithExactly(updatedCampaign);
+      expect(campaignAdministrationRepository.update).to.have.been.calledWithExactly(updatedCampaign);
       expect(resultCampaign.name).to.equal(originalCampaign.name);
       expect(resultCampaign.customLandingPageText).to.equal(originalCampaign.customLandingPageText);
     });
   });
 
   context('when an error occurred', function () {
-    it('should throw an error when the user does not have an access to the campaign organization', async function () {
-      // given
-      const userWithoutMembership = {
-        id: 1,
-        hasAccessToOrganization: sinon.stub(),
-      };
-      originalCampaign = domainBuilder.buildCampaign({ organization: { id: organizationId } });
-
-      campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      userRepository.getWithMemberships.withArgs(userWithoutMembership.id).resolves(userWithoutMembership);
-      userWithoutMembership.hasAccessToOrganization.withArgs(organizationId).returns(false);
-
-      // when
-      const error = await catchErr(updateCampaign)({
-        userId: userWithoutMembership.id,
-        campaignId: originalCampaign.id,
-        userRepository,
-        campaignRepository,
-      });
-
-      // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToUpdateResourceError);
-    });
-
     it('should throw an error when the owner is not a member of organization', async function () {
       // given
       const ownerWithoutMembership = domainBuilder.buildUser();
@@ -234,8 +202,7 @@ describe('Unit | UseCase | update-campaign', function () {
       };
       originalCampaign = domainBuilder.buildCampaign({ organization: { id: organizationId } });
 
-      campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
-      userRepository.getWithMemberships.withArgs(userWithMembership.id).resolves(userWithMembership);
+      campaignAdministrationRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
       userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
       membershipRepository.findByUserIdAndOrganizationId
         .withArgs({ userId: ownerWithoutMembership.id, organizationId })
@@ -246,8 +213,7 @@ describe('Unit | UseCase | update-campaign', function () {
         userId: userWithMembership.id,
         campaignId: originalCampaign.id,
         ownerId: ownerWithoutMembership.id,
-        userRepository,
-        campaignRepository,
+        campaignAdministrationRepository,
         membershipRepository,
       });
 

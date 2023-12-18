@@ -43,8 +43,17 @@ const save = async function (request, h, dependencies = { requestResponseUtils, 
   return h.response(dependencies.campaignReportSerializer.serialize(createdCampaign)).created();
 };
 
+const update = async function (request, _, dependencies = { campaignReportSerializer }) {
+  const campaignId = request.params.id;
+
+  const result = await usecases.updateCampaign({ campaignId, ...request.deserializedPayload });
+
+  return dependencies.campaignReportSerializer.serialize(result);
+};
+
 const campaignAdministrationController = {
   save,
+  update,
   createCampaigns,
 };
 
