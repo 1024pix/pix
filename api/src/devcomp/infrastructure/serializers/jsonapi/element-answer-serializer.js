@@ -20,7 +20,7 @@ function serialize(elementAnswer) {
     correction: {
       ref: 'id',
       includes: true,
-      attributes: ['feedback', 'status', 'solutionId', 'solutionValue'],
+      attributes: ['feedback', 'status', 'solution'],
       type: 'correction-responses',
     },
     typeForAttribute(attribute, { type }) {

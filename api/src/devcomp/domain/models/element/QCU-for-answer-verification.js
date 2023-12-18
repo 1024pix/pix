@@ -31,7 +31,7 @@ class QCUForAnswerVerification extends QCU {
     const correction = new QcuCorrectionResponse({
       status: validation.result,
       feedback: validation.result.isOK() ? this.feedbacks.valid : this.feedbacks.invalid,
-      solutionId: this.solution,
+      solution: this.solution,
     });
 
     return new ElementAnswer({

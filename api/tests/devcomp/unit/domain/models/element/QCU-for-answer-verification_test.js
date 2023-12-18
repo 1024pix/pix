@@ -74,7 +74,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         correction: {
           status: assessResult.result,
           feedback: qcu.feedbacks.valid,
-          solutionId: qcuSolution,
+          solution: qcuSolution,
         },
       };
 
@@ -119,7 +119,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         correction: {
           status: assessResult.result,
           feedback: qcu.feedbacks.invalid,
-          solutionId: qcuSolution,
+          solution: qcuSolution,
         },
       };
 
