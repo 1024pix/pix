@@ -1,19 +1,19 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { getAvailableTargetProfilesForOrganization } from '../../../../lib/domain/usecases/get-available-target-profiles-for-organization.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { getAvailableTargetProfilesForOrganization } from '../../../../../../src/prescription/target-profile/domain/usecases/get-available-target-profiles-for-organization.js';
 
 describe('Unit | UseCase | get-available-target-profiles-for-organization', function () {
   it('returns the target profile available for the given organizations', async function () {
     const organizationId = 12;
     const expectedTargetProfiles = Symbol('TargetProfileForSpecifier');
-    const TargetProfileForSpecifierRepository = { availableForOrganization: sinon.stub() };
+    const targetProfileForSpecifierRepository = { availableForOrganization: sinon.stub() };
 
-    TargetProfileForSpecifierRepository.availableForOrganization
+    targetProfileForSpecifierRepository.availableForOrganization
       .withArgs(organizationId)
       .resolves(expectedTargetProfiles);
 
     const targetProfiles = await getAvailableTargetProfilesForOrganization({
       organizationId,
-      TargetProfileForSpecifierRepository,
+      targetProfileForSpecifierRepository,
     });
 
     expect(targetProfiles).to.equal(expectedTargetProfiles);

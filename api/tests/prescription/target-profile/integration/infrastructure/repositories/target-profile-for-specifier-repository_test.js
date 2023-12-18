@@ -1,7 +1,7 @@
-import { categories } from '../../../../../lib/domain/models/TargetProfile.js';
-import { TargetProfileForSpecifier } from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
-import * as TargetProfileForSpecifierRepository from '../../../../../lib/infrastructure/repositories/campaign/target-profile-for-specifier-repository.js';
-import { databaseBuilder, expect } from '../../../../test-helper.js';
+import { categories } from '../../../../../../lib/domain/models/TargetProfile.js';
+import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
+import * as targetProfileForSpecifierRepository from '../../../../../../src/prescription/target-profile/infrastructure/repositories/target-profile-for-specifier-repository.js';
+import { databaseBuilder, expect } from '../../../../../test-helper.js';
 
 describe('Integration | Infrastructure | Repository | target-profile-for-campaign-repository', function () {
   describe('#availableForOrganization', function () {
@@ -16,7 +16,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.tubeCount).to.equal(2);
       });
@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.thematicResultCount).to.equal(1);
       });
@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.hasStage).to.equal(true);
       });
@@ -55,7 +55,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.category).to.equal('CUSTOM');
       });
@@ -66,7 +66,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.description).to.equal('THIS IS SPARTA!');
       });
@@ -77,7 +77,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
         await databaseBuilder.commit();
 
         const [targetProfileForSpecifier] =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
         expect(targetProfileForSpecifier.areKnowledgeElementsResettable).to.equal(false);
       });
@@ -131,7 +131,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
           areKnowledgeElementsResettable: false,
         });
         const availableTargetProfiles =
-          await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+          await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
         expect(availableTargetProfiles).to.have.deep.members([targetProfile1, targetProfile2]);
       });
     });
@@ -143,7 +143,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       await databaseBuilder.commit();
 
-      const [targetProfile] = await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+      const [targetProfile] = await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
       expect(targetProfile.id).to.equal(targetProfileId);
     });
@@ -158,7 +158,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       await databaseBuilder.commit();
 
-      const [targetProfile] = await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+      const [targetProfile] = await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
       expect(targetProfile.id).to.equal(targetProfileId);
     });
@@ -173,7 +173,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       await databaseBuilder.commit();
 
-      const [targetProfile] = await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+      const [targetProfile] = await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
       expect(targetProfile.id).to.equal(targetProfileId);
     });
@@ -194,7 +194,7 @@ describe('Integration | Infrastructure | Repository | target-profile-for-campaig
 
       await databaseBuilder.commit();
 
-      const targetProfiles = await TargetProfileForSpecifierRepository.availableForOrganization(organizationId);
+      const targetProfiles = await targetProfileForSpecifierRepository.availableForOrganization(organizationId);
 
       expect(targetProfiles).to.be.empty;
     });

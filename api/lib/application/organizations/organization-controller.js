@@ -7,7 +7,6 @@ import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
-import * as targetProfileForSpecifierSerializer from '../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
@@ -136,12 +135,6 @@ const downloadCertificationResults = async function (
     .header('Content-Disposition', `attachment; filename="${csvResult.filename}"`);
 };
 
-const findTargetProfiles = async function (request, h, dependencies = { targetProfileForSpecifierSerializer }) {
-  const organizationId = request.params.id;
-  const targetProfiles = await usecases.getAvailableTargetProfilesForOrganization({ organizationId });
-  return dependencies.targetProfileForSpecifierSerializer.serialize(targetProfiles);
-};
-
 const attachTargetProfiles = async function (request, h) {
   const targetProfileIds = request.payload['target-profile-ids'];
   const organizationId = request.params.id;
@@ -268,7 +261,6 @@ const organizationController = {
   findPaginatedFilteredMemberships,
   getOrganizationMemberIdentities,
   downloadCertificationResults,
-  findTargetProfiles,
   attachTargetProfiles,
   getDivisions,
   getGroups,
