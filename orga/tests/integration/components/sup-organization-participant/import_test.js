@@ -113,9 +113,7 @@ module('Integration | Component | SupOrganizationParticipant::Import', function 
 
       const cancelButton = await screen.findByRole('button', { name: this.intl.t('common.actions.cancel') });
 
-      await click(cancelButton);
-
-      await waitForElementToBeRemoved(() => screen.queryByRole('dialog'));
+      await Promise.all([waitForElementToBeRemoved(() => screen.queryByRole('dialog')), click(cancelButton)]);
 
       // then
       assert
