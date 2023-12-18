@@ -9,3 +9,8 @@ export const createAutonomousCourse = (schema, request) => {
     ...params.data.attributes,
   });
 };
+
+export const getAutonomousCourseDetails = (schema, request) => {
+  const autonomousCourseId = request.params.id;
+  return schema.autonomousCourses.find(autonomousCourseId);
+};

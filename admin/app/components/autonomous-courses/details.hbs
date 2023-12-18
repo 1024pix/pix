@@ -1,0 +1,40 @@
+<section class="page-section">
+  <h2 class="page-section__title">{{@autonomousCourse.publicTitle}}</h2>
+  <dl class="autonomous-course-card__details">
+    <dt class="autonomous-course-card__details-label">ID&nbsp;:&nbsp;</dt>
+    <dd class="autonomous-course-card__details-value">{{@autonomousCourse.id}}</dd>
+    <dt class="autonomous-course-card__details-label">Nom interne&nbsp;:&nbsp;</dt>
+    <dd class="autonomous-course-card__details-value">{{@autonomousCourse.internalTitle}}</dd>
+    <dt class="autonomous-course-card__details-label">Date de création&nbsp;:&nbsp;</dt>
+    <dd class="autonomous-course-card__details-value">{{this.formattedCreatedAt}}</dd>
+    <dt class="autonomous-course-card__details-label">Lien public&nbsp;:&nbsp;</dt>
+    <dd class="autonomous-course-card__details-value">
+      <a
+        href={{this.campaignLink}}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Lien vers la campagne {{@autonomousCourse.code}} (nouvelle fenêtre)"
+        class="autonomous-course-card-details-value__link"
+      >
+        {{this.campaignLink}}
+      </a>
+      <PixTooltip
+        class="autonomous-course-card-details-value__tooltip"
+        @id="tooltip-clipboard-button"
+        @hide={{this.isSupervisorPasswordTooltipTextEmpty}}
+        @isInline={{true}}
+      >
+        <:triggerElement>
+          <button
+            type="button"
+            {{on "click" this.copyCampaignLink}}
+            aria-label="{{if this.isLinkCopied 'Lien copié !' 'Copier le lien de la campagne'}}"
+          >
+            <FaIcon @icon="copy" prefix="fas" />
+          </button>
+        </:triggerElement>
+        <:tooltip>{{if this.isLinkCopied "Lien copié !" "Copier le lien de la campagne"}}</:tooltip>
+      </PixTooltip>
+    </dd>
+  </dl>
+</section>
