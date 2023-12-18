@@ -23,17 +23,17 @@
     @isBorderVisible={{true}}
     @triggerAction={{this.showModal}}
   >
-    {{t "pages.modulix.buttons.element.alternativeText"}}
+    {{t "pages.modulix.buttons.element.transcription"}}
   </PixButton>
   <PixModal
-    @title={{t "pages.modulix.modals.alternativeText.title"}}
+    @title={{t "pages.modulix.modals.transcription.title"}}
     @showModal={{this.modalIsOpen}}
     @onCloseButtonClick={{this.closeModal}}
     class="element__video-modal"
   >
     <:content>
       <p class="video__modal-instruction">
-        {{html-unsafe @video.alternativeText}}
+        {{html-unsafe @video.transcription}}
       </p>
     </:content>
   </PixModal>
