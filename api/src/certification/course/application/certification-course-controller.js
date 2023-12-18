@@ -39,8 +39,13 @@ const updateJuryComments = async function (request, h, dependencies = { assessme
   return null;
 };
 
+const getCertificationV3Details = async function (request, h) {
+  return h.response().code(200);
+};
+
 export const certificationCourseController = {
   reject,
   unreject,
+  getCertificationV3Details,
   updateJuryComments,
 };

@@ -77,6 +77,32 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/certification-courses-v3/{id}/details',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        handler: certificationCourseController.getCertificationV3Details,
+        tags: ['api'],
+        notes: ['Cette route est utilisé par Pix Admin', "Elle renvoie le détail d'une certification"],
+      },
+    },
   ]);
 };
 
