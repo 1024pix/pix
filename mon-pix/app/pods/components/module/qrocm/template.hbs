@@ -1,4 +1,4 @@
-<form class="element-qrocm">
+<form class="element-qrocm" {{on "submit" this.submitAnswer}}>
   <div class="element-qrocm__instruction">
     {{html-unsafe @qrocm.instruction}}
   </div>
@@ -13,10 +13,12 @@
           <div class="element-qrocm-proposals__input--block">
             <PixInput
               @type="text"
+              @value={{get this.selectedValues block.input}}
               @id={{block.input}}
               autocomplete="nope"
               placeholder={{block.placeholder}}
               @ariaLabel={{block.ariaLabel}}
+              @onChange={{fn this.onAnswerChanged block}}
               size={{block.size}}
             />
           </div>
@@ -28,20 +30,20 @@
           @label={{block.ariaLabel}}
           @options={{block.options}}
           @hideDefaultOption={{true}}
-          @onChange={{fn this.onSelectChange block}}
+          @onChange={{fn this.onAnswerChanged block}}
           @screenReaderOnly={{true}}
         />
       {{/if}}
     {{/each}}
   </div>
 
-  <PixButton
-    @backgroundColor="green"
-    @shape="rounded"
-    @type="submit"
-    @isDisabled={{true}}
-    class="element-qrocm__verify_button"
-  >
+  {{#if this.requiredMessage}}
+    <PixMessage role="alert" @type="error" @withIcon={{true}}>
+      {{t "pages.modulix.verification-precondition-failed-alert.qrocm"}}
+    </PixMessage>
+  {{/if}}
+
+  <PixButton @backgroundColor="green" @shape="rounded" @type="submit" class="element-qrocm__verify_button">
     {{t "pages.modulix.buttons.activity.verify"}}
   </PixButton>
 </form>
