@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
 import { targetProfileController } from './target-profile-controller.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 
@@ -9,6 +10,12 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+            assign: 'checkUserBelongsToOrganization',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
