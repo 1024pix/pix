@@ -1203,7 +1203,8 @@
         "direction": "Select one answer."
       },
       "verification-precondition-failed-alert": {
-        "qcu": "To validate, select an answer."
+        "qcu": "To validate, select an answer.",
+        "qrocm": "To validate, please complete all response fields."
       }
     },
     "not-connected": {
