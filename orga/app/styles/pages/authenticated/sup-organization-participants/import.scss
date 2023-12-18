@@ -21,7 +21,7 @@
     height: 230px;
     margin: 16px;
     padding: 16px;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: 8px;
   }
 }
@@ -33,7 +33,7 @@
 
   &__details {
     margin: 8px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
     font-weight: 300;
     font-size: 1rem;
     font-family: $font-roboto;
@@ -53,7 +53,7 @@
 
   &__details {
     margin: 16px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
     font-size: 0.875rem;
     font-family: $font-roboto;
     line-height: 22px;

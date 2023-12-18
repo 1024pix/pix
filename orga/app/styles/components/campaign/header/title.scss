@@ -46,7 +46,7 @@
     & > * {
       margin-right: 15px;
       padding-right: 15px;
-      border-right: 1px solid $pix-neutral-20;
+      border-right: 1px solid var(--pix-neutral-20);
     }
 
     & > *:last-child {
@@ -59,7 +59,7 @@
   &__detail-item {
     @extend %pix-body-s;
 
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
 
     & > dt {
       display: block;
@@ -68,7 +68,7 @@
 
     & > dd {
       margin: 0;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
   }
 

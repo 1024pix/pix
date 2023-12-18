@@ -5,12 +5,12 @@
   box-sizing: border-box;
 
   &:focus-within {
-    border-color: $pix-primary;
-    box-shadow: inset 0 0 0 0.6px $pix-primary;
+    border-color: var(--pix-primary-500);
+    box-shadow: inset 0 0 0 0.6px var(--pix-primary-500);
   }
 
   svg {
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-100);
   }
 
   &__invisible-field {
@@ -30,16 +30,16 @@
 
     /* IE 11 */
     &:-ms-input-placeholder {
-      color: $pix-neutral-30;
+      color: var(--pix-neutral-100);
     }
 
     /* older Chrome/Safari/Opera and Edge */
     &::-webkit-input-placeholder {
-      color: $pix-neutral-30;
+      color: var(--pix-neutral-100);
     }
 
     &::placeholder {
-      color: $pix-neutral-30;
+      color: var(--pix-neutral-100);
       opacity: 1; /* Firefox */
     }
   }

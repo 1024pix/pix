@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100%;
   min-height: 100vh;
-  background: $pix-secondary-orga-gradient;
+  background: var(--pix-secondary-500)-orga-gradient;
 
   &__header {
     text-align: center;
@@ -18,7 +18,7 @@
   &__container {
     margin-bottom: $pix-spacing-s;
     padding: $pix-spacing-xl 60px;
-    background-color: $pix-neutral-0;
+    background-color: var(--pix-neutral-0);
     border-radius: 10px;
 
     @include device-is('mobile') {

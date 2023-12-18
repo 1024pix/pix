@@ -4,7 +4,7 @@
   gap: $pix-spacing-s;
   margin: 8px 5px;
   padding: 10px 14px;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
   border-radius: 4px;
 
   @include device-is('tablet') {
@@ -17,7 +17,7 @@
   }
 
   &__title {
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875em;
   }
 
@@ -58,7 +58,7 @@
   &__action {
     display: flex;
     gap: $pix-spacing-m;
-    border-top: 1.2px solid $pix-neutral-15;
+    border-top: 1.2px solid var(--pix-neutral-20);
 
     @include device-is('tablet') {
       border: none;
@@ -73,13 +73,13 @@
   &__results {
     display: flex;
     align-items: center;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 0.875em;
   }
 
   &__action-separator {
-    border-left: 1px solid $pix-neutral-20;
+    border-left: 1px solid var(--pix-neutral-20);
 
     @include device-is('mobile') {
       border-left: none;
@@ -96,7 +96,7 @@
 
     &:focus-visible + .campaign-filters__tab {
       z-index: 1;
-      box-shadow: $pix-neutral-0 0 0 0 2px, $pix-primary 0 0 0 4px;
+      box-shadow: var(--pix-neutral-0) 0 0 0 2px, var(--pix-primary-500) 0 0 0 4px;
     }
   }
 
@@ -105,23 +105,23 @@
     align-items: center;
     height: 36px;
     padding: 6px 8px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 0.8125rem;
     font-family: $font-roboto;
     background: transparent;
-    border: 1.2px solid $pix-neutral-45;
+    border: 1.2px solid var(--pix-neutral-500);
     outline: none;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
 
     &:hover {
-      background: $pix-neutral-20;
+      background: var(--pix-neutral-20);
       opacity: 0.8;
     }
 
     &--active {
-      background: $pix-neutral-20;
+      background: var(--pix-neutral-20);
 
       &:hover {
         opacity: 1;

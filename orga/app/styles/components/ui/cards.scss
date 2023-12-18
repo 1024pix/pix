@@ -3,7 +3,7 @@
 
   position: relative;
   padding: 16px 20px;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
   border: none;
   border-radius: 10px;
 
@@ -12,6 +12,6 @@
 
     margin-top: 0;
     margin-bottom: 32px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }

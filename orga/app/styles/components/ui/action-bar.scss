@@ -11,9 +11,9 @@
   justify-content: space-between;
   width: calc(100% - $app-sidebar-width) ;
   height: 68px;
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
   font-family: $font-roboto;
-  background-color: $pix-neutral-0;
+  background-color: var(--pix-neutral-0);
 
   .action-bar__informations {
     display: flex;

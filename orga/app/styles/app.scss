@@ -90,8 +90,8 @@ html {
 }
 
 body {
-  color: $pix-neutral-110;
-  background-color: $pix-neutral-10;
+  color: var(--pix-neutral-900);
+  background-color: var(--pix-neutral-20);
 }
 
 input:invalid {

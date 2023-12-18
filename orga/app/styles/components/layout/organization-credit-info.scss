@@ -5,12 +5,12 @@
   font-size: 0.875rem;
 
   &__label {
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     font-weight: 500;
   }
 
   .info-icon {
     margin: 0 8px;
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-100);
   }
 }

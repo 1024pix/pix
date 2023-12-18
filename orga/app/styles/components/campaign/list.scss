@@ -14,6 +14,6 @@
   &__table-header-background {
     @extend %pix-shadow-xs;
 
-    background: $pix-neutral-10;
+    background: var(--pix-neutral-20);
   }
 }
