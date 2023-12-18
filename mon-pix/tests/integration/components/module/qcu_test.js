@@ -72,7 +72,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Good job!',
       status: 'ok',
-      solutionId: 'solutionId',
+      solution: 'solution',
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
@@ -94,7 +94,7 @@ module('Integration | Component | Module | QCU', function (hooks) {
     const correctionResponse = store.createRecord('correction-response', {
       feedback: 'Too Bad!',
       status: 'ko',
-      solutionId: 'solutionId',
+      solution: 'solution',
     });
 
     prepareContextRecords.call(this, store, correctionResponse);
