@@ -4,12 +4,18 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 describe('Integration | UseCase | find-assessment-participation-result-list', function () {
   let organizationId;
   let campaignId;
+  let userId;
   const page = { number: 1 };
 
   beforeEach(async function () {
     const skill = { id: 'recSkill', status: 'actif' };
 
+    userId = databaseBuilder.factory.buildUser().id;
     organizationId = databaseBuilder.factory.buildOrganization().id;
+    databaseBuilder.factory.buildMembership({
+      organizationId,
+      userId,
+    });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
     databaseBuilder.factory.buildCampaignSkill({ campaignId, skillId: skill.id });
 
@@ -29,6 +35,7 @@ describe('Integration | UseCase | find-assessment-participation-result-list', fu
   context('when there are filters', function () {
     it('returns the assessmentParticipationResultMinimal list filtered by the search', async function () {
       const { participations } = await usecases.findAssessmentParticipationResultList({
+        userId,
         campaignId,
         filters: { search: 'Tonari N' },
         page,
