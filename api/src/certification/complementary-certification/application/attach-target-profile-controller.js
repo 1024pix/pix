@@ -1,5 +1,5 @@
 import * as complementaryCertificationBadgeSerializer from '../infrastructure/serializers/jsonapi/complementary-certification-badge-serializer.js';
-import { usecases } from '../../shared/domain/usecases/index.js';
+import { usecases } from '../domain/usecases/index.js';
 
 const attachTargetProfile = async function (request, h, dependencies = { complementaryCertificationBadgeSerializer }) {
   const { userId } = request.auth.credentials;

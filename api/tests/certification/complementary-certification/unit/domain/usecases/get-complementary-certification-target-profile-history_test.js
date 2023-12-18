@@ -2,11 +2,11 @@ import { expect, domainBuilder, sinon } from '../../../../../test-helper.js';
 import { getComplementaryCertificationTargetProfileHistory } from '../../../../../../src/certification/complementary-certification/domain/usecases/get-complementary-certification-target-profile-history.js';
 
 describe('Unit | UseCase | get-complementary-certification-target-profile-history', function () {
-  let complementaryCertificationTargetProfileHistoryRepository;
+  let targetProfileHistoryRepository;
   let complementaryCertificationForTargetProfileAttachmentRepository;
 
   beforeEach(function () {
-    complementaryCertificationTargetProfileHistoryRepository = {
+    targetProfileHistoryRepository = {
       getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId: sinon.stub(),
       getDetachedTargetProfilesHistoryByComplementaryCertificationId: sinon.stub(),
     };
@@ -33,17 +33,17 @@ describe('Unit | UseCase | get-complementary-certification-target-profile-histor
       detachedAt: new Date('2021-01-01'),
     });
 
-    complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId
+    targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId
       .withArgs({ complementaryCertificationId })
       .resolves([attachedTargetProfileHistoryForAdmin]);
-    complementaryCertificationTargetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId
+    targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId
       .withArgs({ complementaryCertificationId })
       .resolves([detachedTargetProfileHistoryForAdmin1, detachedTargetProfileHistoryForAdmin2]);
 
     // when
     const result = await getComplementaryCertificationTargetProfileHistory({
       complementaryCertificationId,
-      complementaryCertificationTargetProfileHistoryRepository,
+      targetProfileHistoryRepository,
       complementaryCertificationForTargetProfileAttachmentRepository,
     });
 

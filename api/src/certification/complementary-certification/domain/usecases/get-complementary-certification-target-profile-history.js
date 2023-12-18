@@ -2,18 +2,18 @@ import { ComplementaryCertificationTargetProfileHistory } from '../models/Comple
 
 const getComplementaryCertificationTargetProfileHistory = async function ({
   complementaryCertificationId,
-  complementaryCertificationTargetProfileHistoryRepository,
+  targetProfileHistoryRepository,
   complementaryCertificationForTargetProfileAttachmentRepository,
 }) {
   const currentsTargetProfileHistoryWithBadgesByComplementaryCertification =
-    await complementaryCertificationTargetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
+    await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
       {
         complementaryCertificationId,
       },
     );
 
   const detachedTargetProfileHistoryByComplementaryCertification =
-    await complementaryCertificationTargetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
+    await targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
       {
         complementaryCertificationId,
       },
