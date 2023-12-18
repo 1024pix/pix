@@ -1,7 +1,7 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
 import Model, { attr, hasMany } from '@ember-data/model';
-import { computed } from '@ember/object';
+import uniqBy from 'lodash/uniqBy';
 
 export default class SharedProfileForCampaign extends Model {
   @attr('number') pixScore;
@@ -11,8 +11,10 @@ export default class SharedProfileForCampaign extends Model {
   @attr('boolean') canRetry;
   @hasMany('scorecard', { async: true, inverse: null }) scorecards;
 
-  @computed('scorecards.@each.area')
   get areas() {
-    return this.scorecards.map((s) => s.area).uniqBy('code');
+    return uniqBy(
+      this.scorecards.map((s) => s.area),
+      'code',
+    );
   }
 }
