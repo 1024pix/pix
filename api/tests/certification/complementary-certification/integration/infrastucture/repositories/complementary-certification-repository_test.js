@@ -123,21 +123,16 @@ describe('Integration | Certification | Repository | complementary-certification
 
     it('should return the complementary certification DTO by its id', async function () {
       // given
-      const complementaryCertificationId = 1;
-      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        id: complementaryCertificationId,
-      });
-
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
       await databaseBuilder.commit();
 
       // when
       const result = await complementaryCertificationRepository.getById({
-        id: complementaryCertificationId,
+        id: complementaryCertification.id,
       });
 
       // then
-      const expectedComplementaryCertification = new ComplementaryCertificationDTO(complementaryCertification);
-      expect(result).to.deep.equal(expectedComplementaryCertification);
+      expect(result).to.deep.equal(new ComplementaryCertificationDTO(complementaryCertification));
     });
   });
 });
