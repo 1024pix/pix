@@ -1,5 +1,5 @@
-import { knex } from '../../../../db/knex-database-connection.js';
-import { TargetProfileForSpecifier } from '../../../domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { TargetProfileForSpecifier } from '../../domain/read-models/TargetProfileForSpecifier.js';
 import bluebird from 'bluebird';
 
 async function availableForOrganization(organizationId) {
@@ -20,6 +20,8 @@ function _fetchTargetProfiles(organizationId) {
       'target-profiles.description',
       'target-profiles.category',
       'target-profiles.areKnowledgeElementsResettable',
+      'target-profiles.isSimplifiedAccess',
+      'target-profiles.isPublic',
       knex.count('id').from('badges').whereRaw('badges."targetProfileId"="target-profiles".id').as('countBadges'),
       knex.count('id').from('stages').whereRaw('stages."targetProfileId"="target-profiles".id').as('countStages'),
       knex
@@ -50,6 +52,8 @@ async function _buildTargetProfileForSpecifier(row) {
     description: row.description,
     category: row.category,
     areKnowledgeElementsResettable: row.areKnowledgeElementsResettable,
+    isPublic: row.isPublic,
+    isSimplifiedAccess: row.isSimplifiedAccess,
   });
 }
 
