@@ -6,7 +6,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
     it('should create a select block and keep attributes', function () {
       // given
       const constructor = {
-        type: 'select',
         input: 'symbole',
         display: 'inline',
         placeholder: 'a placeholder',
@@ -21,7 +20,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       const select = new BlockSelect(constructor);
 
       // then
-      expect(select.type).to.equal(constructor.type);
+      expect(select.type).to.equal('select');
       expect(select.input).to.equal(constructor.input);
       expect(select.display).to.equal(constructor.display);
       expect(select.placeholder).to.equal(constructor.placeholder);
@@ -33,14 +32,9 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
     });
   });
 
-  describe('If type is missing', function () {
-    it('should throw an error', function () {
-      expect(() => new BlockSelect({})).to.throw('Le type est obligatoire pour un bloc de selection');
-    });
-  });
   describe('If input is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockSelect({ type: 'select' })).to.throw("L'input est obligatoire pour un bloc de selection");
+      expect(() => new BlockSelect({})).to.throw("L'input est obligatoire pour un bloc de selection");
     });
   });
   describe('If display is missing', function () {
@@ -48,7 +42,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
           }),
       ).to.throw('Le display est obligatoire pour un bloc de selection');
@@ -59,7 +52,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
             display: 'inline',
           }),
@@ -71,7 +63,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
             display: 'inline',
             placeholder: 'a placeholder',
@@ -84,7 +75,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
             display: 'inline',
             placeholder: 'a placeholder',
@@ -98,7 +88,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
             display: 'inline',
             placeholder: 'a placeholder',
@@ -113,7 +102,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
             display: 'inline',
             placeholder: 'a placeholder',
@@ -130,7 +118,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockSelect', function () {
       expect(
         () =>
           new BlockSelect({
-            type: 'select',
             input: 'symbole',
             display: 'inline',
             placeholder: 'a placeholder',

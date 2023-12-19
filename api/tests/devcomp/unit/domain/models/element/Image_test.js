@@ -12,6 +12,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Image', function () {
       expect(image.url).to.equal('url');
       expect(image.alt).to.equal('alt');
       expect(image.alternativeText).to.equal('alternativeText');
+      expect(image.type).to.equal('image');
     });
   });
 
