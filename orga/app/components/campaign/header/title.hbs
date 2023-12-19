@@ -1,11 +1,16 @@
 <header class="campaign-header-title">
   <Ui::Breadcrumb @links={{this.breadcrumbLinks}} class="campaign-header-title__breadcrumb" />
   <div class="campaign-header-title__informations">
-    <h1
-      aria-label={{t "pages.campaign.name"}}
-      class="campaign-header-title__name"
-      title={{@campaign.name}}
-    >{{@campaign.name}}</h1>
+    <h1 aria-label={{t "pages.campaign.name"}} class="campaign-header-title" title={{@campaign.name}}>
+      <Campaign::Detail::Type
+        @big={{true}}
+        @labels={{this.labels}}
+        @campaignType={{@campaign.type}}
+        @hideLabel={{true}}
+        class="campaign-header-title__type-icon"
+      />
+      <span class="campaign-header-title__name">{{@campaign.name}}</span>
+    </h1>
     <dl class="campaign-header-title__details">
       <div class="campaign-header-title__detail-item hide-on-mobile">
         <dt class="label-text">
