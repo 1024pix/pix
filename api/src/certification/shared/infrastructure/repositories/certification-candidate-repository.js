@@ -273,6 +273,11 @@ function _adaptModelToDb(certificationCandidateToSave) {
 }
 
 function _toDomain(candidateData) {
+  /**
+   * Note migration: new ComplementaryCertification(...) should not be done here
+   * it should come from internal API complementary-certification bounded context.
+   * Please beware of that when migrating this repository to src folder
+   */
   return new CertificationCandidate({
     ...candidateData,
     complementaryCertification: candidateData.complementaryCertificationId

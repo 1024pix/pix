@@ -2,7 +2,7 @@ import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from
 import { createServer } from '../../../../server.js';
 import _ from 'lodash';
 
-describe('Acceptance | Controller | session-controller-get-certification-candidates', function () {
+describe('Acceptance | Controller | session-controller', function () {
   let server;
 
   beforeEach(async function () {
