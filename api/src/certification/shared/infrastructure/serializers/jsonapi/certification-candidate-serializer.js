@@ -10,6 +10,13 @@ const serialize = function (certificationCandidates) {
     transform: function (certificationCandidate) {
       return {
         ...certificationCandidate,
+        complementaryCertification: _.isNil(certificationCandidate.complementaryCertification)
+          ? null
+          : {
+              id: certificationCandidate.complementaryCertification.id,
+              label: certificationCandidate.complementaryCertification.label,
+              key: certificationCandidate.complementaryCertification.key,
+            },
         isLinked: !_.isNil(certificationCandidate.userId),
       };
     },
