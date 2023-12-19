@@ -1,7 +1,8 @@
-import { V3CertificationCourseDetailsForAdministration } from '../models/V3CertificationCourseDetailsForAdministration.js';
-
-export const getV3CertificationCourseDetailsForAdministration = ({ certificationCourseId }) => {
-  return new V3CertificationCourseDetailsForAdministration({
+export const getV3CertificationCourseDetailsForAdministration = ({
+  certificationCourseId,
+  v3CertificationCourseDetailsForAdministrationRepository,
+}) => {
+  return v3CertificationCourseDetailsForAdministrationRepository.getV3DetailsByCertificationCourseId({
     certificationCourseId,
   });
 };
