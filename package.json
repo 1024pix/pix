@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/1024pix/pix/issues"
   },
-  "packageManager": "pnpm@8.7.4",
+  "packageManager": "pnpm@8.15.5",
   "main": "index.js",
   "scripts": {
     "prebuild": "mkdir -p dist",
