@@ -13,7 +13,7 @@ import { ComplementaryCertification } from './models/ComplementaryCertification.
  * @throws {NotFoundError} Complementary certification does not exist
  * @throws {Error} Id parameter was not provided
  */
-export const getById = async (id) => {
+export const getLabelById = async (id) => {
   _assertIdExists(id);
   const complementaryCertificationDTO = await usecases.getById({ id });
   return new ComplementaryCertification(complementaryCertificationDTO);
