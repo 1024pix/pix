@@ -159,6 +159,7 @@ import { buildUserScorecard } from './build-user-scorecard.js';
 import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
 import { buildUserSavedTutorialWithTutorial } from './build-user-saved-tutorial-with-tutorial.js';
 import { buildV3CertificationChallengeForAdministration } from './build-v3-certification-challenge-for-administration.js';
+import { buildV3CertificationChallengeLiveAlertForAdministration } from './build-v3-certification-challenge-live-alert-for-administration.js';
 import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-certification-course-details-for-administration.js';
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
@@ -325,6 +326,7 @@ export {
   buildUserSavedTutorial,
   buildUserSavedTutorialWithTutorial,
   buildV3CertificationChallengeForAdministration,
+  buildV3CertificationChallengeLiveAlertForAdministration,
   buildV3CertificationCourseDetailsForAdministration,
   buildValidation,
   buildValidator,
