@@ -39,6 +39,7 @@ import * as cpfExportRepository from '../../../session/infrastructure/repositori
 import * as sessionRepository from '../../../session/infrastructure/repositories/session-repository.js';
 import * as sessionValidator from '../../../session/domain/validators/session-validator.js';
 import * as userRepository from '../../../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as v3CertificationCourseDetailsForAdministrationRepository from '../../../course/infrastructure/repositories/v3-certification-course-details-for-administration-repository.js';
 import { cpfReceiptsStorage } from '../../../session/infrastructure/storage/cpf-receipts-storage.js';
 import { cpfExportsStorage } from '../../../session/infrastructure/storage/cpf-exports-storage.js';
 import { importNamedExportsFromDirectory } from '../../../../shared/infrastructure/utils/import-named-exports-from-directory.js';
@@ -76,6 +77,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
  * @typedef {cpfCertificationResultRepository} CpfCertificationResultRepository
+ * @typedef {v3CertificationCourseDetailsForAdministrationRepository} V3CertificationCourseDetailsForAdministrationRepository
  * @typedef {sessionRepository} SessionRepository
  * @typedef {sessionValidator} SessionValidator
  * @typedef {userRepository} UserRepository
@@ -119,6 +121,7 @@ const dependencies = {
   sessionRepository,
   sessionValidator,
   userRepository,
+  v3CertificationCourseDetailsForAdministrationRepository,
   cpfReceiptsStorage,
   cpfExportsStorage,
 };
