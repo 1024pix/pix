@@ -1,6 +1,6 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CampaignReport } from '../../../../../lib/domain/read-models/CampaignReport.js';
-import { TargetProfileForSpecifier } from '../../../../../lib/domain/read-models/campaign/TargetProfileForSpecifier.js';
+import { TargetProfileForSpecifier } from '../../../target-profile/domain/read-models/TargetProfileForSpecifier.js';
 import { CampaignParticipationStatuses } from '../../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import _ from 'lodash';

@@ -9,7 +9,7 @@ import {
 
 import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | Route | admin-target-profiles', function () {
+describe('Acceptance | Route | admin-target-profile', function () {
   let server;
 
   beforeEach(async function () {

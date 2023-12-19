@@ -7,6 +7,8 @@ describe('Acceptance | Application | target-profile-api', function () {
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId });
 
+    await databaseBuilder.commit();
+
     const result = await targetProfileApi.getByOrganizationId(organizationId);
     expect(result).to.be.ok;
   });
