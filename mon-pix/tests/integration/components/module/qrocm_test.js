@@ -3,6 +3,7 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click, fillIn } from '@ember/test-helpers';
+import sinon from 'sinon';
 
 module('Integration | Component | Module | QROCM', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -148,14 +149,22 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       instruction: 'Instruction',
       proposals: [
         {
-          input: 'symbole',
-          type: 'input',
-          inputType: 'text',
-          size: 1,
+          input: 'premiere-partie',
+          type: 'select',
           display: 'inline',
           placeholder: '',
-          ariaLabel: 'Réponse 1',
+          ariaLabel: 'select-aria',
           defaultValue: '',
+          options: [
+            {
+              id: '1',
+              content: "l'identifiant",
+            },
+            {
+              id: '2',
+              content: "le fournisseur d'adresse mail",
+            },
+          ],
         },
       ],
       type: 'qrocms',
@@ -167,7 +176,13 @@ module('Integration | Component | Module | QROCM', function (hooks) {
 
     // when
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
-    await fillIn(screen.getByLabelText('Réponse 1'), 'ANSWER');
+    await clickByName('select-aria');
+    await screen.findByRole('listbox');
+    await click(
+      screen.queryByRole('option', {
+        name: "le fournisseur d'adresse mail",
+      }),
+    );
     await click(screen.queryByRole('button', { name: 'Vérifier' }));
 
     // then
@@ -175,4 +190,178 @@ module('Integration | Component | Module | QROCM', function (hooks) {
       .dom(screen.queryByRole('alert', { name: 'Pour valider, veuillez remplir tous les champs réponse.' }))
       .doesNotExist();
   });
+
+  module('should call action when verify button is clicked', function () {
+    test('when proposal is an input', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const qrocm = store.createRecord('qrocm', {
+        instruction: 'Instruction',
+        proposals: [
+          {
+            input: 'symbole',
+            type: 'input',
+            inputType: 'text',
+            size: 1,
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'Réponse 1',
+            defaultValue: '',
+          },
+        ],
+        type: 'qrocms',
+      });
+      this.set('qrocm', qrocm);
+      const userResponse = 'user-response';
+      const givenSubmitAnswerSpy = sinon.spy();
+      this.set('submitAnswer', givenSubmitAnswerSpy);
+      const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+      const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
+
+      // when
+      await fillIn(screen.getByLabelText('Réponse 1'), userResponse);
+      await click(verifyButton);
+
+      // then
+      sinon.assert.calledWith(givenSubmitAnswerSpy, {
+        userResponse: [
+          {
+            input: 'symbole',
+            answer: userResponse,
+          },
+        ],
+        element: qrocm,
+      });
+      assert.ok(true);
+    });
+
+    test('when proposal is a select', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const qrocm = store.createRecord('qrocm', {
+        instruction: 'Instruction',
+        proposals: [
+          {
+            input: 'premiere-partie',
+            type: 'select',
+            display: 'inline',
+            placeholder: '',
+            ariaLabel: 'select-aria',
+            defaultValue: '',
+            options: [
+              {
+                id: '1',
+                content: "l'identifiant",
+              },
+              {
+                id: '2',
+                content: "le fournisseur d'adresse mail",
+              },
+            ],
+          },
+        ],
+        type: 'qrocms',
+      });
+      this.set('qrocm', qrocm);
+      const userResponse = { input: 'premiere-partie', answer: '2' };
+      const givenSubmitAnswerSpy = sinon.spy();
+      this.set('submitAnswer', givenSubmitAnswerSpy);
+      const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+      const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
+
+      // when
+      await clickByName('select-aria');
+      await screen.findByRole('listbox');
+      await click(
+        screen.queryByRole('option', {
+          name: "le fournisseur d'adresse mail",
+        }),
+      );
+      await click(verifyButton);
+
+      // then
+      sinon.assert.calledWith(givenSubmitAnswerSpy, { userResponse: [userResponse], element: qrocm });
+      assert.ok(true);
+    });
+  });
+
+  test('should display an ok feedback when exists', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Good job!',
+      status: 'ok',
+      solution: 'solution',
+    });
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+
+    // then
+    const status = screen.getByRole('status');
+    assert.strictEqual(status.innerText, 'Good job!');
+    assert.ok(screen.getByRole('group').disabled);
+    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  });
+
+  test('should display a ko feedback when exists', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const correctionResponse = store.createRecord('correction-response', {
+      feedback: 'Too Bad!',
+      status: 'ko',
+      solution: 'solution',
+    });
+    prepareContextRecords.call(this, store, correctionResponse);
+    this.set('submitAnswer', () => {});
+
+    // when
+    const screen = await render(hbs`<Module::Qrocm @qrocm={{this.qrocm}} @submitAnswer={{this.submitAnswer}} />`);
+
+    // then
+    const status = screen.getByRole('status');
+    assert.strictEqual(status.innerText, 'Too Bad!');
+    assert.ok(screen.getByRole('group').disabled);
+    assert.dom(screen.queryByRole('button', { name: 'Vérifier' })).doesNotExist();
+  });
 });
+
+function prepareContextRecords(store, correctionResponse) {
+  const elementAnswer = store.createRecord('element-answer', {
+    correction: correctionResponse,
+  });
+  const qrocm = store.createRecord('qrocm', {
+    instruction: 'Instruction',
+    proposals: [
+      {
+        input: 'premiere-partie',
+        type: 'select',
+        display: 'inline',
+        placeholder: '',
+        ariaLabel: 'select-aria',
+        defaultValue: '',
+        options: [
+          {
+            id: '1',
+            content: "l'identifiant",
+          },
+          {
+            id: '2',
+            content: "le fournisseur d'adresse mail",
+          },
+        ],
+      },
+    ],
+    type: 'qrocms',
+    elementAnswers: [elementAnswer],
+  });
+  store.createRecord('grain', { id: 'id', elements: [qrocm] });
+  store.createRecord('element-answer', {
+    correction: correctionResponse,
+    element: qrocm,
+  });
+  this.set('qrocm', qrocm);
+}

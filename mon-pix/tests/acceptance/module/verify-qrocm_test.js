@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { click, fillIn } from '@ember/test-helpers';
 
 module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
   setupApplicationTest(hooks);
@@ -61,10 +62,32 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
       grains: [grain],
     });
 
+    server.create('correction-response', {
+      id: 'elementId-1',
+      feedback: "Bravo ! C'est la bonne réponse.",
+      status: 'ok',
+      solution: { symbole: '@', 'premiere-partie': '2' },
+    });
+
     // when
     const screen = await visit('/modules/bien-ecrire-son-adresse-mail');
 
+    const verifyButton = screen.queryByRole('button', { name: 'Vérifier' });
+
+    // answer input proposal
+    await fillIn(screen.getByLabelText('Réponse 1'), '@');
+    // answer select proposal
+    await clickByName('Réponse 2');
+    await screen.findByRole('listbox');
+    await click(
+      screen.queryByRole('option', {
+        name: "le fournisseur d'adresse mail",
+      }),
+    );
+    // submit
+    await click(verifyButton);
+
     // then
-    assert.ok(screen.getByRole('button', { name: 'Vérifier' }));
+    assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
   });
 });
