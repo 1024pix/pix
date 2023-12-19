@@ -10,8 +10,15 @@ export default class CampaignType extends Component {
   }
 
   get pictoCssClass() {
+    const classes = [];
     const { campaignType } = this.args;
-    return campaignType === 'ASSESSMENT' ? 'campaign-type__icon-assessment' : 'campaign-type__icon-profile-collection';
+    classes.push(
+      campaignType === 'ASSESSMENT' ? 'campaign-type__icon-assessment' : 'campaign-type__icon-profile-collection',
+    );
+    if (this.args.big) {
+      classes.push(classes[0] + '--big');
+    }
+    return classes.join(' ');
   }
 
   get pictoAriaHidden() {

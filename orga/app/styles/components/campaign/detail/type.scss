@@ -6,15 +6,28 @@
     margin-left: $pix-spacing-xs;
   }
 
-  &__icon-assessment {
+  &__icon-assessment, &__icon-profile-collection {
     width: 1.5rem;
     height: 1.5rem;
+
+    &--big {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    @include device-is('mobile') {
+      &--big {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
+  &__icon-assessment {
     color: $pix-tertiary-50;
   }
 
   &__icon-profile-collection {
-    width: 1.5rem;
-    height: 1.5rem;
     color: $pix-primary;
   }
 }
