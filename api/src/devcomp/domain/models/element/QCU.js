@@ -3,7 +3,7 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class QCU extends Element {
   constructor({ id, instruction, locales, proposals }) {
-    super({ id });
+    super({ id, type: 'qcu' });
 
     assertNotNullOrUndefined(instruction, "L'instruction est obligatoire pour un QCU");
     this.#assertProposalsIsAnArray(proposals);

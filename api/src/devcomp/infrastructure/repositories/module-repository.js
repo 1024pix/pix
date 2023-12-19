@@ -115,6 +115,7 @@ function _toTextDomain(element) {
   return new Text({
     id: element.id,
     content: element.content,
+    type: element.type,
   });
 }
 
@@ -124,6 +125,7 @@ function _toImageDomain(element) {
     url: element.url,
     alt: element.alt,
     alternativeText: element.alternativeText,
+    type: element.type,
   });
 }
 
@@ -140,6 +142,7 @@ function _toQCUForAnswerVerificationDomain(element) {
     }),
     feedbacks: element.feedbacks,
     solution: element.solution,
+    type: element.type,
   });
 }
 
@@ -154,6 +157,7 @@ function _toQCUDomain(element) {
         content: proposal.content,
       });
     }),
+    type: element.type,
   });
 }
 
@@ -164,6 +168,7 @@ function _toQROCMForAnswerVerificationDomain(element) {
     locales: element.locales,
     proposals: element.proposals,
     feedbacks: element.feedbacks,
+    type: element.type,
   });
 }
 
@@ -187,6 +192,7 @@ function _toQROCMDomain(element) {
           logger.warn(`Type de proposal inconnu: ${proposal.type}`);
       }
     }),
+    type: element.type,
   });
 }
 

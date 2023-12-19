@@ -18,6 +18,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QROCM', function () {
       // then
       expect(qrocm.id).to.equal('1');
       expect(qrocm.instruction).to.equal('');
+      expect(qrocm.type).to.equal('qrocm');
       expect(qrocm.locales).to.deep.equal(['fr-FR']);
       expect(qrocm.proposals).to.deep.equal([proposal]);
     });

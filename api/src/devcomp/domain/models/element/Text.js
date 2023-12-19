@@ -3,7 +3,7 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class Text extends Element {
   constructor({ id, content }) {
-    super({ id });
+    super({ id, type: 'text' });
 
     assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour un texte');
 

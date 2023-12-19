@@ -1,7 +1,4 @@
 import jsonapiSerializer from 'jsonapi-serializer';
-import { QCU } from '../../../domain/models/element/QCU.js';
-import { Image } from '../../../domain/models/element/Image.js';
-import { QROCM } from '../../../domain/models/element/QROCM.js';
 
 const { Serializer } = jsonapiSerializer;
 
@@ -17,47 +14,49 @@ function serialize(module) {
             title: grain.title,
             type: grain.type,
             elements: grain.elements.map((element) => {
-              if (element instanceof QCU) {
-                return {
-                  ...element,
-                  type: 'qcus',
-                };
-              } else if (element instanceof Image) {
-                return {
-                  ...element,
-                  type: 'images',
-                };
-              } else if (element instanceof QROCM) {
-                return {
-                  ...element,
-                  proposals: element.proposals.map((proposal) => {
-                    switch (proposal.type) {
-                      case 'text':
-                        return {
-                          ...proposal,
-                          type: 'text',
-                        };
-                      case 'input': {
-                        return {
-                          ...proposal,
-                          type: 'input',
-                        };
+              switch (element.type) {
+                case 'qcu':
+                  return {
+                    ...element,
+                    type: 'qcus',
+                  };
+                case 'qrocm':
+                  return {
+                    ...element,
+                    proposals: element.proposals.map((proposal) => {
+                      switch (proposal.type) {
+                        case 'text':
+                          return {
+                            ...proposal,
+                            type: 'text',
+                          };
+                        case 'input': {
+                          return {
+                            ...proposal,
+                            type: 'input',
+                          };
+                        }
+                        case 'select': {
+                          return {
+                            ...proposal,
+                            type: 'select',
+                          };
+                        }
                       }
-                      case 'select': {
-                        return {
-                          ...proposal,
-                          type: 'select',
-                        };
-                      }
-                    }
-                  }),
-                  type: 'qrocms',
-                };
+                    }),
+                    type: 'qrocms',
+                  };
+                case 'text':
+                  return {
+                    ...element,
+                    type: 'texts',
+                  };
+                case 'image':
+                  return {
+                    ...element,
+                    type: 'images',
+                  };
               }
-              return {
-                ...element,
-                type: 'texts',
-              };
             }),
           };
         }),
