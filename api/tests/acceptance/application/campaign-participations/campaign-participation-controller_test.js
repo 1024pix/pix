@@ -477,4 +477,35 @@ describe('Acceptance | API | Campaign Participations', function () {
       });
     });
   });
+
+  describe('GET /api/campaigns/{id}/assessment-results', function () {
+    it('should return 403 if user is not member of organization which own campaign', async function () {
+      // given
+      const campaignOwnerId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId,
+        userId: campaignOwnerId,
+      });
+      const campaignId = databaseBuilder.factory.buildCampaign({
+        organizationId,
+        ownerId: campaignOwnerId,
+      }).id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaignId}/assessment-results`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(otherUserId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });
