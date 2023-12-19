@@ -2,21 +2,21 @@
  * @typedef {import ('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
 import { usecases } from '../../domain/usecases/index.js';
+import { ComplementaryCertification } from './models/ComplementaryCertification.js';
 
 /**
  * @function
  * @name getById
  *
- * @param {object} params
- * @param {number} params.id mandatory
+ * @param {number} id mandatory
  *
  * @throws {NotFoundError} Complementary certification does not exist
  * @throws {Error} Id parameter was not provided
  */
-export const getById = async ({ id }) => {
+export const getById = async (id) => {
   _assertIdExists(id);
-  await usecases.getById({ id });
-  return;
+  const complementaryCertificationDTO = await usecases.getById({ id });
+  return new ComplementaryCertification(complementaryCertificationDTO);
 };
 
 const _assertIdExists = (id) => {

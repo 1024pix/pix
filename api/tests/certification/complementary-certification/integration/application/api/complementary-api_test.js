@@ -1,6 +1,7 @@
 import { getById } from '../../../../../../src/certification/complementary-certification/application/api/complementary-api.js';
-import { catchErr, expect } from '../../../../../test-helper.js';
+import { catchErr, databaseBuilder, expect } from '../../../../../test-helper.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { ComplementaryCertification } from '../../../../../../src/certification/complementary-certification/application/api/models/ComplementaryCertification.js';
 
 describe('Integration | Application | Certification | ComplementaryCertification | API', function () {
   context('#getById', function () {
@@ -25,6 +26,20 @@ describe('Integration | Application | Certification | ComplementaryCertification
         // then
         expect(error).to.be.instanceOf(NotFoundError);
         expect(error.message).to.equal('Complementary certification does not exist');
+      });
+    });
+
+    context('when complementary certification requested exists', function () {
+      it('should return the complementary certification DTO', async function () {
+        // given
+        const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification();
+        await databaseBuilder.commit();
+
+        // when
+        const result = await getById(complementaryCertification.id);
+
+        // then
+        expect(new ComplementaryCertification(complementaryCertification)).to.deep.equal(result);
       });
     });
   });
