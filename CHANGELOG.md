@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v4.78.0 (19/12/2023)
+
+
+### :rocket: Amélioration
+- [#7687](https://github.com/1024pix/pix/pull/7687) [FEATURE] Supprimer le bouton d'édition globale des détails d'une certif sur Pix Admin (PIX-10168).
+- [#7672](https://github.com/1024pix/pix/pull/7672) [FEATURE] Mise en place du feature toggle pour la certification au niveau n-1 (PIX-10317).
+- [#7696](https://github.com/1024pix/pix/pull/7696) [FEATURE] Ajouter un endpoint interne pour mettre à jour une campagne (Pix-10138).
+- [#7700](https://github.com/1024pix/pix/pull/7700) [FEATURE] Ajouter l'entrée Places dans le menu (PIX-9724).
+
+### :building_construction: Tech
+- [#7681](https://github.com/1024pix/pix/pull/7681) [TECH] Ajout d'un script pour mettre à jour la colonne Authentication Complement (PIX-10101).
+
+### :bug: Correction
+- [#7716](https://github.com/1024pix/pix/pull/7716) [BUGFIX] Protege la route de liste des résultats d'une campagne (PIX-10438).
+
+### :arrow_up: Montée de version
+- [#7574](https://github.com/1024pix/pix/pull/7574) [BUMP] Update dependency ember-cli-notifications to v9 (certif).
+- [#7713](https://github.com/1024pix/pix/pull/7713) [BUMP] Update dependency p-queue to v8 (orga).
+- [#7693](https://github.com/1024pix/pix/pull/7693) [BUMP] Update dependency p-queue to v8 (admin).
+- [#7695](https://github.com/1024pix/pix/pull/7695) [BUMP] Update dependency p-queue to v8 (mon-pix).
+- [#7694](https://github.com/1024pix/pix/pull/7694) [BUMP] Update dependency p-queue to v8 (certif).
+
+### :coffee: Autre
+- [#7717](https://github.com/1024pix/pix/pull/7717) [RELEASE] A patch is being released to 4.77.1.
+
 ## v4.77.1 (18/12/2023)
 
 ### :bug: Correction
