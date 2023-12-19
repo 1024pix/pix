@@ -1,9 +1,16 @@
 import { ComplementaryCertification } from '../../domain/models/ComplementaryCertification.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../../../shared/domain/errors.js';
+import { ComplementaryCertificationDTO } from '../../domain/models/ComplementaryCertificationDTO.js';
 
 function _toDomain(row) {
   return new ComplementaryCertification({
+    ...row,
+  });
+}
+
+function _toDto(row) {
+  return new ComplementaryCertificationDTO({
     ...row,
   });
 }
@@ -27,7 +34,7 @@ const getById = async function ({ id }) {
     throw new NotFoundError('Complementary certification does not exist');
   }
 
-  return _toDomain(complementaryCertification);
+  return _toDto(complementaryCertification);
 };
 
 export { findAll, getByLabel, getById };

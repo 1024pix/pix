@@ -1,6 +1,7 @@
 import { databaseBuilder, domainBuilder, expect, catchErr } from '../../../../../test-helper.js';
 import * as complementaryCertificationRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-repository.js';
 import { NotFoundError } from '../../../../../../src/shared/domain/errors.js';
+import { ComplementaryCertificationDTO } from '../../../../../../src/certification/complementary-certification/domain/models/ComplementaryCertificationDTO.js';
 
 describe('Integration | Certification | Repository | complementary-certification-repository', function () {
   describe('#findAll', function () {
@@ -120,29 +121,23 @@ describe('Integration | Certification | Repository | complementary-certification
       });
     });
 
-    it('should return the complementary certification by its id', async function () {
+    it('should return the complementary certification DTO by its id', async function () {
       // given
       const complementaryCertificationId = 1;
-      databaseBuilder.factory.buildComplementaryCertification({
+      const complementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         id: complementaryCertificationId,
-        key: 'EDU_1ER_DEGRE',
-        label: 'Pix+ Édu 1er degré',
       });
 
       await databaseBuilder.commit();
 
       // when
-      const complementaryCertification = await complementaryCertificationRepository.getById({
+      const result = await complementaryCertificationRepository.getById({
         id: complementaryCertificationId,
       });
 
       // then
-      const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        id: 1,
-        key: 'EDU_1ER_DEGRE',
-        label: 'Pix+ Édu 1er degré',
-      });
-      expect(complementaryCertification).to.deep.equal(expectedComplementaryCertification);
+      const expectedComplementaryCertification = new ComplementaryCertificationDTO(complementaryCertification);
+      expect(result).to.deep.equal(expectedComplementaryCertification);
     });
   });
 });
