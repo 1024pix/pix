@@ -1,5 +1,5 @@
 .explanation-card {
-  padding: $pix-spacing-s;
+  padding: var(--pix-spacing-4x);
   color: var(--pix-neutral-500);
   background: var(--pix-neutral-20);
   border-radius: 8px;
@@ -8,13 +8,13 @@
     @extend %pix-body-m;
 
     display: block;
-    margin-bottom: $pix-spacing-xs;
+    margin-bottom: var(--pix-spacing-2x);
     color: var(--pix-neutral-900);
     font-weight: 500;
   }
 
   &__icon {
-    margin-right: $pix-spacing-xs;
+    margin-right: var(--pix-spacing-2x);
     color: var(--pix-primary-500);
   }
 

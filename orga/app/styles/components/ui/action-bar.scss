@@ -18,19 +18,19 @@
   .action-bar__informations {
     display: flex;
     align-items: baseline;
-    margin-left: $pix-spacing-xl;
+    margin-left: var(--pix-spacing-10x);
   }
 
   .action-bar__actions {
     display: flex;
-    padding: 0 $pix-spacing-m;
+    padding: 0 var(--pix-spacing-6x);
 
     .pix-button {
-      margin: 0 $pix-spacing-xs;
+      margin: 0 var(--pix-spacing-2x);
     }
   }
 }
 
 footer {
-  padding: $pix-spacing-s $pix-spacing-m;
+  padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
 }

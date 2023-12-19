@@ -1,12 +1,12 @@
 .form {
   display: flex;
   flex-direction: column;
-  margin-bottom: $pix-spacing-l;
+  margin-bottom: var(--pix-spacing-8x);
 
   &__field {
     display: flex;
     flex-direction: column;
-    margin: $pix-spacing-s 0;
+    margin: var(--pix-spacing-4x) 0;
 
     @include device-is('desktop') {
       width: 500px;
@@ -42,8 +42,8 @@
     display: flex;
     flex-direction: column;
     height: max-content;
-    margin: $pix-spacing-s 0 0 0;
-    padding: $pix-spacing-s;
+    margin: var(--pix-spacing-4x) 0 0 0;
+    padding: var(--pix-spacing-4x);
     color: var(--pix-neutral-500);
     font-size: 0.875rem;
     background: var(--pix-neutral-20);
@@ -53,18 +53,18 @@
       position: absolute;
       left: 100%;
       width: calc(100vw - 580px - #{$app-sidebar-width} - 32px);
-      margin: 0 0 0 $pix-spacing-s;
+      margin: 0 0 0 var(--pix-spacing-4x);
     }
 
     &-icon {
-      margin-right: $pix-spacing-xs;
+      margin-right: var(--pix-spacing-2x);
       color: var(--pix-primary-500);
     }
 
     &-title {
       @extend %pix-body-m;
 
-      margin-bottom: $pix-spacing-xs;
+      margin-bottom: var(--pix-spacing-2x);
       color: var(--pix-neutral-900);
       font-weight: 500;
     }
@@ -77,7 +77,7 @@
   }
 
   &__field-filters {
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     padding: 0;
     border: 0;
 
@@ -88,8 +88,8 @@
     }
 
     .pix-selectable-tag {
-      margin-top: $pix-spacing-xs;
-      margin-inline-end: $pix-spacing-xs;
+      margin-top: var(--pix-spacing-2x);
+      margin-inline-end: var(--pix-spacing-2x);
     }
 
     @include device-is('desktop') {
@@ -101,7 +101,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: $pix-spacing-l;
+    margin-top: var(--pix-spacing-8x);
 
     @include device-is('desktop') {
       max-width: 500px;
@@ -109,11 +109,11 @@
   }
 
   &__error {
-    padding-top: $pix-spacing-xxs;
+    padding-top: var(--pix-spacing-1x);
   }
 
   &__information {
-    margin-top: $pix-spacing-xs;
+    margin-top: var(--pix-spacing-2x);
   }
 
   &__comment {
@@ -122,7 +122,7 @@
   }
 
   &__mandatory-fields-information {
-    margin: 0 0 $pix-spacing-l 0;
+    margin: 0 0 var(--pix-spacing-8x) 0;
     color: var(--pix-neutral-800);
     font-size: 0.875rem;
   }
@@ -144,12 +144,12 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin-bottom: $pix-spacing-m;
+  margin-bottom: var(--pix-spacing-6x);
 }
 
 .input {
   height: 36px;
-  padding-left: $pix-spacing-s;
+  padding-left: var(--pix-spacing-4x);
   color: var(--pix-neutral-900);
   font-size: 0.875rem;
   border: 1px solid var(--pix-neutral-500);

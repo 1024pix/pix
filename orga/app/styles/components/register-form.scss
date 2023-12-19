@@ -21,7 +21,7 @@
   }
 
   .input-container {
-    margin: $pix-spacing-s 2px $pix-spacing-s 2px;
+    margin: var(--pix-spacing-4x) 2px var(--pix-spacing-4x) 2px;
   }
 
   .pix-input-password > .pix-input__error-message {

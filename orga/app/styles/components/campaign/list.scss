@@ -3,7 +3,7 @@
 
   &__campaign-link {
     display: flex;
-    gap: $pix-spacing-xs;
+    gap: var(--pix-spacing-2x);
     align-items: center;
   }
 

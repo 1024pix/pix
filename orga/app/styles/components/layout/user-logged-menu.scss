@@ -27,7 +27,7 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    padding-right: $pix-spacing-xs;
+    padding-right: var(--pix-spacing-2x);
     font-weight: 700;
     font-size: 0.875rem;
     line-height: 1.1rem;

@@ -4,7 +4,7 @@
 
 .participant {
   &__link {
-    margin-top: $pix-spacing-xs;
+    margin-top: var(--pix-spacing-2x);
     color: var(--pix-primary-500);
   }
 }

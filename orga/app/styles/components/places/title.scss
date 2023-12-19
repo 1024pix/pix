@@ -1,6 +1,6 @@
 .places-page-header {
  display: flex;
- gap: $pix-spacing-xs;
+ gap: var(--pix-spacing-2x);
  align-items: baseline;
 
  &__date {
