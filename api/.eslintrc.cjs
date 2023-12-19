@@ -57,8 +57,8 @@ module.exports = {
       {
         zones: [
           {
-            target: 'lib/domain/usecases',
-            from: 'lib/infrastructure/repositories',
+            target: ['api/lib/domain/usecases', 'lib/domain/usecases'],
+            from: ['api/lib/infrastructure/repositories', 'lib/infrastructure/repositories'],
             except: [],
             message:
               "Repositories are automatically injected in use-case, you don't need to import them. Check for further details: https://github.com/1024pix/pix/blob/dev/docs/adr/0046-injecter-les-dependances-api.md",
