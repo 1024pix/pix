@@ -1,7 +1,7 @@
 .campaign-filters {
   display: flex;
   flex-direction: column;
-  gap: $pix-spacing-s;
+  gap: var(--pix-spacing-4x);
   margin: 8px 5px;
   padding: 10px 14px;
   background-color: var(--pix-neutral-0);
@@ -46,7 +46,7 @@
   &__filter {
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
 
     @include device-is('desktop') {
       flex-direction: row;
@@ -57,7 +57,7 @@
 
   &__action {
     display: flex;
-    gap: $pix-spacing-m;
+    gap: var(--pix-spacing-6x);
     border-top: 1.2px solid var(--pix-neutral-20);
 
     @include device-is('tablet') {

@@ -8,7 +8,7 @@
 .page-sub-title {
   @extend %pix-title-s;
 
-  margin-bottom: $pix-spacing-m;
+  margin-bottom: var(--pix-spacing-6x);
   color: var(--pix-neutral-500);
 }
 

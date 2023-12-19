@@ -1,7 +1,7 @@
 .manage-authentication-window {
   display: flex;
   flex-direction: column;
-  padding: $pix-spacing-m;
+  padding: var(--pix-spacing-6x);
   background-color: var(--pix-neutral-20);
 
   &__title {
@@ -64,23 +64,23 @@
   &__informations {
     display: flex;
     flex-direction: column;
-    padding-left: $pix-spacing-s;
+    padding-left: var(--pix-spacing-4x);
     color: var(--pix-neutral-0);
     font-size: .875rem;
 
     li {
-      margin: $pix-spacing-xxs 0;
+      margin: var(--pix-spacing-1x) 0;
     }
   }
 
   &__footer {
-    margin-top: $pix-spacing-s;
-    padding: $pix-spacing-s $pix-spacing-m;
+    margin-top: var(--pix-spacing-4x);
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
     background-color: var(--pix-neutral-800);
-    border-radius: $pix-spacing-xs;
+    border-radius: var(--pix-spacing-2x);
 
     button {
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
       font-weight: 600;
     }
 
@@ -90,13 +90,13 @@
   }
 
   &__box {
-    margin-top: $pix-spacing-s;
-    padding: $pix-spacing-s $pix-spacing-m;
+    margin-top: var(--pix-spacing-4x);
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
     background-color: var(--pix-neutral-0);
     border-radius: 8px;
 
     hr {
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
       color: var(--pix-neutral-100);
     }
 
@@ -109,7 +109,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
 
     &--mediacentre {
       margin-bottom: 0;

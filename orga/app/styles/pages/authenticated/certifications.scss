@@ -2,12 +2,12 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: $pix-spacing-l;
-  padding: $pix-spacing-s 0 0 $pix-spacing-s;
+  margin-bottom: var(--pix-spacing-8x);
+  padding: var(--pix-spacing-4x) 0 0 var(--pix-spacing-4x);
 
   &__tabs {
     display: flex;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     border-bottom: 1px solid var(--pix-neutral-20);
   }
 
@@ -22,10 +22,10 @@
   &__action {
     display: flex;
     flex-wrap: wrap;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: flex-end;
     min-width: 100%;
-    margin-bottom: $pix-spacing-xl;
+    margin-bottom: var(--pix-spacing-10x);
   }
 
   .pix-message {

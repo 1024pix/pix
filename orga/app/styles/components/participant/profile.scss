@@ -1,7 +1,7 @@
 .campaign-prescriber-profile {
   .page-header {
     display: flex;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     align-items: center;
   }
 }

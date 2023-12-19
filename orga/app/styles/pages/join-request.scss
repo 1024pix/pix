@@ -42,7 +42,7 @@
 
   &__error-message {
     max-width: 497px;
-    margin-top: $pix-spacing-m;
+    margin-top: var(--pix-spacing-6x);
     margin-bottom: 24px;
     font-size: 0.875rem;
     text-align: center;

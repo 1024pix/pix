@@ -1,15 +1,15 @@
 .page {
-  padding: 0 $pix-spacing-m;
+  padding: 0 var(--pix-spacing-6x);
 
   @include device-is('tablet') {
-    padding: 0 $pix-spacing-xl;
+    padding: 0 var(--pix-spacing-10x);
   }
 
   &__title {
-    margin-bottom: $pix-spacing-m;
+    margin-bottom: var(--pix-spacing-6x);
   }
 }
 
 .navigation {
-  margin: $pix-spacing-l 0;
+  margin: var(--pix-spacing-8x) 0;
 }
