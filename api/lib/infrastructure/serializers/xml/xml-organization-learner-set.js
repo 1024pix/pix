@@ -67,6 +67,8 @@ class XMLOrganizationLearnersSet {
 }
 
 function _mapStudentInformationToOrganizationLearner(studentNode) {
+  const parsedBirthdate = studentNode.DATE_NAISS?.[0];
+
   return {
     lastName: _getValueFromParsedElement(studentNode.NOM_DE_FAMILLE),
     preferredLastName: _getValueFromParsedElement(studentNode.NOM_USAGE),
@@ -74,7 +76,7 @@ function _mapStudentInformationToOrganizationLearner(studentNode) {
     middleName: _getValueFromParsedElement(studentNode.PRENOM2),
     thirdName: _getValueFromParsedElement(studentNode.PRENOM3),
     sex: _convertSexCode(studentNode.CODE_SEXE),
-    birthdate: dayjs(studentNode.DATE_NAISS?.[0], 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
+    birthdate: dayjs(parsedBirthdate, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
     birthCountryCode: _getValueFromParsedElement(studentNode.CODE_PAYS),
     birthProvinceCode: _getValueFromParsedElement(studentNode.CODE_DEPARTEMENT_NAISS),
     birthCityCode: _getValueFromParsedElement(studentNode.CODE_COMMUNE_INSEE_NAISS),
