@@ -2,6 +2,7 @@
  * @typedef {import ('../../../../shared/domain/errors.js').NotFoundError} NotFoundError
  */
 import { usecases } from '../../domain/usecases/index.js';
+import { ComplementaryCertification } from './models/ComplementaryCertification.js';
 
 /**
  * @function
@@ -15,8 +16,8 @@ import { usecases } from '../../domain/usecases/index.js';
  */
 export const getById = async ({ id }) => {
   _assertIdExists(id);
-  await usecases.getById({ id });
-  return;
+  const complementaryCertification = await usecases.getById({ id });
+  return new ComplementaryCertification(complementaryCertification);
 };
 
 const _assertIdExists = (id) => {
