@@ -2,6 +2,7 @@ import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import ENV from 'mon-pix/config/environment';
 
 module('Unit | Route | Entry Point', function (hooks) {
   setupTest(hooks);
@@ -143,6 +144,24 @@ module('Unit | Route | Entry Point', function (hooks) {
             userId: 12,
           })
           .resolves(null);
+
+        //when
+        await route.afterModel(campaign, transition);
+
+        //then
+        sinon.assert.calledWith(route.router.replaceWith, 'campaigns.campaign-landing-page');
+        assert.ok(true);
+      });
+
+      test('should redirect to landing page when campaign is linked to autonomous course organization', async function (assert) {
+        //given
+        route.store.queryRecord
+          .withArgs('campaignParticipation', {
+            campaignId: 3,
+            userId: 12,
+            organizationId: ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+          })
+          .resolves('Existing campaign participation');
 
         //when
         await route.afterModel(campaign, transition);
