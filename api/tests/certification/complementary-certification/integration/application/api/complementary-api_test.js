@@ -14,7 +14,7 @@ describe('Integration | Application | Certification | ComplementaryCertification
       });
     });
 
-    context('when an unexisting complementary certification', function () {
+    context('when a complementary certification does not exist', function () {
       it('should return an error', async function () {
         // given
         const unknowComplementaryCertification = 9999;
