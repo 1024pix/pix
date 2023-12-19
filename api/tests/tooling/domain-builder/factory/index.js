@@ -164,6 +164,9 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildFeedback } from './build-feedback.js';
+import { buildCertificationSessionCandidate } from './build-certification-session-candidate.js';
+import { buildCertificationSessionEnrolledCandidate } from './build-certification-session-enrolled-candidate.js';
+import { buildCertificationSessionComplementaryCertification } from './build-certification-session-complementary-certification.js';
 
 export {
   buildAccountRecoveryDemand,
@@ -330,4 +333,7 @@ export {
   buildV3CertificationCourseDetailsForAdministration,
   buildValidation,
   buildValidator,
+  buildCertificationSessionCandidate,
+  buildCertificationSessionEnrolledCandidate,
+  buildCertificationSessionComplementaryCertification,
 };

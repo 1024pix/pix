@@ -6,12 +6,14 @@ import { dirname, join } from 'node:path';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import { sessionRepositories } from '../../../session/infrastructure/repositories/index.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
@@ -47,6 +49,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {badgeRepository} BadgeRepository
+ * @typedef {candidateRepository} CandidateRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
@@ -59,6 +62,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
+ * @typedef {import('../../../session/infrastructure/repositories/complementary-certification-repository.js')} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -80,6 +84,7 @@ const dependencies = {
   assessmentRepository,
   assessmentResultRepository,
   attendanceSheetPdfUtils,
+  candidateRepository,
   certificationCandidateRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
@@ -94,6 +99,7 @@ const dependencies = {
   certificationCpfCountryRepository,
   competenceMarkRepository,
   competenceRepository,
+  complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
   issueReportCategoryRepository,
