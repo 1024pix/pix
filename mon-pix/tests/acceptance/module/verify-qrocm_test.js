@@ -89,5 +89,6 @@ module('Acceptance | Module | Routes | verifyQrocm', function (hooks) {
 
     // then
     assert.dom(screen.getByText("Bravo ! C'est la bonne réponse.")).exists();
+    assert.notOk(screen.queryByRole('button', { name: 'Vérifier' }));
   });
 });

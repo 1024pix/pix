@@ -41,13 +41,12 @@ export default class ModuleQrocm extends Component {
     if (this.requiredMessage) {
       return;
     }
-    const answers = [];
-    for (const [key, value] of Object.entries(this.selectedValues)) {
-      answers.push({
-        input: key,
-        answer: value,
-      });
-    }
+    const answers = Object.entries(this.selectedValues).map(([input, answer]) => {
+      return {
+        input,
+        answer,
+      };
+    });
     const answerData = { userResponse: answers, element: this.qrocm };
     await this.args.submitAnswer(answerData);
   }
