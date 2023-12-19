@@ -4,4 +4,31 @@
      grid-template-columns: 1fr 1fr;
      gap: $pix-spacing-s;
    }
+
+  &__title {
+    @extend %pix-title-xs;
+
+    padding-bottom: var(--pix-spacing-6x);
+    color : var(--pix-neutral-800);
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    dd, dt {
+      padding: var(--pix-spacing-2x) 0;
+      border-bottom: var(--pix-neutral-100) 1px solid;
+    }
+
+    dt {
+      color: var(--pix-neutral-500);
+    }
+
+    dd {
+      display: flex;
+      align-items: center;
+      color: var(--pix-neutral-900);
+    }
+  }
 }
