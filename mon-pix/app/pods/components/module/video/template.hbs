@@ -11,7 +11,7 @@
       crossorigin
     >
       <source src={{@video.url}} type="video/webm" />
-      <track kind="captions" label="Français" src={{@captionVtt}} srclang="fr" default />
+      <track kind="captions" label="Français" src={{@video.subtitles}} srclang="fr" default />
     </video>
 
   </div>

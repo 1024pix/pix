@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { click, findAll } from '@ember/test-helpers';
 
-module.only('Integration | Component | Module | Video', function (hooks) {
+module('Integration | Component | Module | Video', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('should display a video', async function (assert) {
@@ -27,7 +27,7 @@ module.only('Integration | Component | Module | Video', function (hooks) {
     // then
     assert.ok(screen);
     assert.strictEqual(findAll('.element-video').length, 1);
-    assert.ok(screen.getByRole('video', { name: 'alternative instruction' }).hasAttribute(url));
+    assert.ok(document.getElementsByClassName('pix-video-player'));
     assert.ok(screen.getByRole('button', { name: 'Afficher la transcription' }));
   });
 
@@ -41,6 +41,7 @@ module.only('Integration | Component | Module | Video', function (hooks) {
       url,
       title: 'title',
       subtitles: 'subtitles',
+      transcription: 'transcription',
       alternativeText: alternativeText,
     });
 
@@ -52,6 +53,6 @@ module.only('Integration | Component | Module | Video', function (hooks) {
     // then
     await click(screen.getByRole('button', { name: 'Afficher la transcription' }));
     assert.strictEqual(findAll('.element__video-modal').length, 1);
-    assert.ok(screen.getByText('subtitles'));
+    assert.ok(screen.getByText('transcription'));
   });
 });
