@@ -210,6 +210,7 @@ const register = async function (server) {
           }),
         },
         handler: campaignController.archiveCampaign,
+        tags: ['api'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' + "- Archivage d'une campagne par son id",
         ],
@@ -226,6 +227,7 @@ const register = async function (server) {
           }),
         },
         handler: campaignController.unarchiveCampaign,
+        tags: ['api'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Désarchivage d'une campagne par son id",
