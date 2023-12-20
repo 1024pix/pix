@@ -14,6 +14,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
       internalTitle: 'titre interne',
       code: 'CODE',
       createdAt: new Date('2021-01-01'),
+      customLandingPageText: 'un texte',
     };
     this.set('autonomousCourse', autonomousCourse);
 
@@ -26,6 +27,7 @@ module('Integration | Component | AutonomousCourses::Details', function (hooks) 
     assert.dom(screen.getByText('Parcours autonome')).exists();
     assert.dom(screen.getByText('titre interne')).exists();
     assert.dom(screen.getByText('01/01/2021')).exists();
+    assert.dom(screen.getByText('un texte')).exists();
     assert.ok(link.trim().endsWith('/campagnes/CODE'));
   });
 });
