@@ -56,6 +56,25 @@ const register = async function (server) {
         tags: ['api', 'campaign'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/csv-assessment-results',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+          }),
+        },
+        handler: campaignDetailController.getCsvAssessmentResults,
+        notes: [
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
+            "- Récupération d'un CSV avec les résultats de la campagne d‘évaluation\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+        ],
+        tags: ['api', 'campaign'],
+      },
+    },
   ]);
 };
 

@@ -1,7 +1,5 @@
-import stream from 'stream';
 import { MissingQueryParamError } from '../http-errors.js';
 import { usecases } from '../../domain/usecases/index.js';
-import { tokenService } from '../../../src/shared/domain/services/token-service.js';
 
 import * as campaignToJoinSerializer from '../../infrastructure/serializers/jsonapi/campaign-to-join-serializer.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
@@ -12,10 +10,7 @@ import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/di
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
-import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
-
-const { PassThrough } = stream;
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const getByCode = async function (request) {
   const filters = extractParameters(request.query).filter;
@@ -23,38 +18,6 @@ const getByCode = async function (request) {
 
   const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
   return campaignToJoinSerializer.serialize(campaignToJoin);
-};
-
-const getCsvAssessmentResults = async function (request, h, dependencies = { tokenService }) {
-  const token = request.query.accessToken;
-  const { userId, campaignId: extractedCampaignId } =
-    dependencies.tokenService.extractCampaignResultsTokenContent(token);
-  const campaignId = request.params.id;
-
-  if (extractedCampaignId !== campaignId) {
-    throw new ForbiddenAccess();
-  }
-
-  const writableStream = new PassThrough();
-
-  const { fileName } = await usecases.startWritingCampaignAssessmentResultsToStream({
-    userId,
-    campaignId,
-    writableStream,
-    i18n: request.i18n,
-  });
-  const escapedFileName = escapeFileName(fileName);
-
-  writableStream.headers = {
-    'content-type': 'text/csv;charset=utf-8',
-    'content-disposition': `attachment; filename="${escapedFileName}"`,
-
-    // WHY: to avoid compression because when compressing, the server buffers
-    // for too long causing a response timeout.
-    'content-encoding': 'identity',
-  };
-
-  return writableStream;
 };
 
 const archiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
@@ -133,7 +96,6 @@ const getGroups = async function (request) {
 
 const campaignController = {
   getByCode,
-  getCsvAssessmentResults,
   archiveCampaign,
   unarchiveCampaign,
   getCollectiveResult,

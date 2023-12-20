@@ -49,19 +49,6 @@ const get = async function (id, domainTransaction = DomainTransaction.emptyTrans
   });
 };
 
-const getByCampaignId = async function (campaignId) {
-  const bookshelfTargetProfile = await BookshelfTargetProfile.query((qb) => {
-    qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-  })
-    .where({ 'campaigns.id': campaignId })
-    .fetch({
-      withRelated: ['badges'],
-    });
-  return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile,
-  });
-};
-
 const findByIds = async function (targetProfileIds) {
   const targetProfilesBookshelf = await BookshelfTargetProfile.query((qb) => {
     qb.whereIn('id', targetProfileIds);
@@ -126,4 +113,4 @@ const hasTubesWithLevels = async function (
   }
 };
 
-export { create, get, getByCampaignId, findByIds, update, findOrganizationIds, hasTubesWithLevels };
+export { create, get, findByIds, update, findOrganizationIds, hasTubesWithLevels };

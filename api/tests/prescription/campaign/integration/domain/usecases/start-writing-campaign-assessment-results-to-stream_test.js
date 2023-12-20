@@ -2,10 +2,10 @@ import stream from 'stream';
 
 const { PassThrough } = stream;
 
-import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { Assessment } from '../../../../src/shared/domain/models/Assessment.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../../../test-helper.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { Assessment } from '../../../../../../src/shared/domain/models/Assessment.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
   describe('#startWritingCampaignAssessmentResultsToStream', function () {

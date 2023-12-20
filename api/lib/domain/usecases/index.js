@@ -32,11 +32,9 @@ import * as campaignAssessmentParticipationResultRepository from '../../infrastr
 import * as codeGenerator from '../services/code-generator.js';
 import * as campaignCollectiveResultRepository from '../../infrastructure/repositories/campaign-collective-result-repository.js';
 import * as campaignCreatorRepository from '../../../src/prescription/campaign/infrastructure/repositories/campaign-creator-repository.js';
-import * as campaignCsvExportService from '../../domain/services/campaign-csv-export-service.js';
 import * as campaignForArchivingRepository from '../../infrastructure/repositories/campaign/campaign-for-archiving-repository.js';
 import * as campaignManagementRepository from '../../infrastructure/repositories/campaign-management-repository.js';
 import * as campaignParticipantRepository from '../../infrastructure/repositories/campaign-participant-repository.js';
-import * as campaignParticipationInfoRepository from '../../infrastructure/repositories/campaign-participation-info-repository.js';
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
@@ -234,12 +232,10 @@ const dependencies = {
   campaignAssessmentParticipationResultRepository,
   campaignCollectiveResultRepository,
   campaignCreatorRepository,
-  campaignCsvExportService,
   campaignForArchivingRepository,
   campaignManagementRepository,
   campaignParticipantActivityRepository,
   campaignParticipantRepository,
-  campaignParticipationInfoRepository,
   campaignParticipationOverviewRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
