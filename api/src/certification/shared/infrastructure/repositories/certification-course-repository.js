@@ -7,7 +7,7 @@ import bluebird from 'bluebird';
 import { BookshelfCertificationCourse } from '../../../../../lib/infrastructure/orm-models/CertificationCourse.js';
 import { BookshelfAssessment } from '../../../../../lib/infrastructure/orm-models/Assessment.js';
 import * as bookshelfToDomainConverter from '../../../../../lib/infrastructure/utils/bookshelf-to-domain-converter.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { CertificationCourse, ComplementaryCertificationCourse } from '../../../../../lib/domain/models/index.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import * as certificationChallengeRepository from '../../../../../lib/infrastructure/repositories/certification-challenge-repository.js';

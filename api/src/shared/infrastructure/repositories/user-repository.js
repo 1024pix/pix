@@ -1,5 +1,5 @@
 import { knex } from '../../../../db/knex-database-connection.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { BookshelfUser } from '../../../../lib/infrastructure/orm-models/User.js';
 import { isUniqConstraintViolated, fetchPage } from '../../../../lib/infrastructure/utils/knex-utils.js';
 

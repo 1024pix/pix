@@ -1,4 +1,4 @@
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../shared/domain/DomainTransaction.js';
 import { Serializer as JSONAPISerializer } from 'jsonapi-serializer';
 import { AssessmentEndedError } from '../../../../lib/domain/errors.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';

@@ -4,7 +4,7 @@
 
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import bluebird from 'bluebird';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 import { Session } from '../models/Session.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { CertificationVersion } from '../../../../shared/domain/models/CertificationVersion.js';

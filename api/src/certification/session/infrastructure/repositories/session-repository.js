@@ -7,7 +7,7 @@ import { CertificationCenter } from '../../../../../lib/domain/models/Certificat
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
 import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
 import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
-import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
   const knexConn = knexTransaction ?? knex;
