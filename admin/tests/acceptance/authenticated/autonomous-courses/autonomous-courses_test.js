@@ -78,8 +78,9 @@ module('Acceptance | Autonomous courses | Autonomous course', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/autonomous-courses/1/details');
-        assert.dom(screen.getAllByRole('heading', { name: 'nom public', level: 1 })[0]).exists();
-        assert.dom(screen.getByText('nom interne')).exists();
+        assert.dom(screen.getAllByRole('heading', { name: 'nom interne', level: 1 })[0]).exists();
+        assert.dom(screen.getByText('nom public')).exists();
+        assert.dom(screen.getByText("texte page d'accueil")).exists();
         assert.dom(screen.getByText('01/01/2020')).exists();
         assert.dom(screen.getByRole('link', { name: 'Lien vers la campagne CODE (nouvelle fenêtre)' })).exists();
       });
