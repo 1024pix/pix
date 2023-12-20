@@ -30,6 +30,7 @@ module('Acceptance | Autonomous courses | Autonomous course', function (hooks) {
         // then
         assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).hasClass('active');
       });
+
       test('it should create an autonomous course', async function (assert) {
         // given
         const screen = await visit('/autonomous-courses/new');
@@ -46,7 +47,7 @@ module('Acceptance | Autonomous courses | Autonomous course', function (hooks) {
         await click(submitButton);
 
         //then
-        assert.strictEqual(currentURL(), '/autonomous-courses/list');
+        assert.strictEqual(currentURL(), '/autonomous-courses/1/details');
       });
     });
 
@@ -57,6 +58,30 @@ module('Acceptance | Autonomous courses | Autonomous course', function (hooks) {
 
         // then
         assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).hasClass('active');
+      });
+    });
+
+    module('details page', function () {
+      test('it should display details of the autonomous course', async function (assert) {
+        // given
+        server.create('autonomous-course', {
+          id: 1,
+          internalTitle: 'nom interne',
+          publicTitle: 'nom public',
+          customLandingPageText: "texte page d'accueil",
+          code: 'CODE',
+          createdAt: new Date('2020-01-01'),
+        });
+
+        // when
+        const screen = await visit('/autonomous-courses/1');
+
+        // then
+        assert.strictEqual(currentURL(), '/autonomous-courses/1/details');
+        assert.dom(screen.getAllByRole('heading', { name: 'nom public', level: 1 })[0]).exists();
+        assert.dom(screen.getByText('nom interne')).exists();
+        assert.dom(screen.getByText('01/01/2020')).exists();
+        assert.dom(screen.getByRole('link', { name: 'Lien vers la campagne CODE (nouvelle fenêtre)' })).exists();
       });
     });
   });

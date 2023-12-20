@@ -17,6 +17,12 @@ const save = async (request, h, dependencies = { requestResponseUtils, usecases,
   return h.response(dependencies.autonomousCourseSerializer.serializeId(autonomousCourseId)).created();
 };
 
-const autonomousCourseController = { save };
+const getById = async function (request, h, dependencies = { usecases, autonomousCourseSerializer }) {
+  const { autonomousCourseId } = request.params;
+  const autonomousCourse = await usecases.getAutonomousCourse({ autonomousCourseId });
+  return dependencies.autonomousCourseSerializer.serialize(autonomousCourse);
+};
+
+const autonomousCourseController = { save, getById };
 
 export { autonomousCourseController };

@@ -13,12 +13,17 @@ export default class NewController extends Controller {
   }
 
   @action
+  goToAutonomousCourseDetails(autonomousCourseId) {
+    this.router.transitionTo('authenticated.autonomous-courses.autonomous-course', autonomousCourseId);
+  }
+
+  @action
   async createAutonomousCourse(event, autonomousCourse) {
     event.preventDefault();
     try {
-      await this.store.createRecord('autonomous-course', autonomousCourse).save();
+      const { id: autonomousCourseId } = await this.store.createRecord('autonomous-course', autonomousCourse).save();
       this.notifications.success('Le parcours autonome a été créé avec succès.');
-      this.goBackToAutonomousCoursesList();
+      this.goToAutonomousCourseDetails(autonomousCourseId);
     } catch (error) {
       if (!autonomousCourse.targetProfileId) {
         return this.notifications.error('Aucun profil cible sélectionné !');

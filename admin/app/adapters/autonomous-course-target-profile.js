@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class AutonomousCourseTargetProfile extends ApplicationAdapter {
+export default class AutonomousCourseTargetProfileAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
   urlForFindAll() {

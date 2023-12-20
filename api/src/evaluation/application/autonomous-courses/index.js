@@ -44,6 +44,35 @@ const register = async function (server) {
 
     {
       method: 'GET',
+      path: '/api/admin/autonomous-courses/{autonomousCourseId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            autonomousCourseId: identifiersType.autonomousCourseId,
+          }),
+        },
+        handler: autonomousCourseController.getById,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer un parcours autonome spécifique',
+        ],
+        tags: ['api', 'admin', 'autonomous-courses'],
+      },
+    },
+
+    {
+      method: 'GET',
       path: '/api/admin/autonomous-courses/target-profiles',
       config: {
         pre: [
