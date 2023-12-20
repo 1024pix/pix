@@ -330,6 +330,13 @@
       "created-by": "Owner",
       "created-on": "Created on",
       "empty-state": "No participants yet! Share with them the following link to join this campaign.",
+      "multiple-sendings": {
+        "title": "Multiple Sendings",
+        "status": {
+          "disabled": "No",
+          "enabled": "Yes"
+        }
+      },
       "name": "Name of the campaign",
       "tab": {
         "activity": "Activity",

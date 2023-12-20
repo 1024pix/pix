@@ -333,6 +333,13 @@
       "created-by": "Propriétaire",
       "created-on": "Créée le",
       "empty-state": "Aucun participant pour l’instant ! Envoyez-leur le lien suivant pour rejoindre votre campagne.",
+      "multiple-sendings": {
+        "title": "Envoi multiple",
+        "status": {
+          "disabled": "Non",
+          "enabled": "Oui"
+        }
+      },
       "name": "Nom de la campagne",
       "tab": {
         "activity": "Activité",
