@@ -90,4 +90,81 @@ describe('Integration | Repository | Autonomous Course', function () {
       });
     });
   });
+
+  describe('#findAllPaginated', function () {
+    let organizationId;
+    let targetProfileId;
+
+    beforeEach(async function () {
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      const { id: userId } = databaseBuilder.factory.buildUser();
+
+      const organization = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      });
+      organizationId = organization.id;
+
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      targetProfileId = targetProfile.id;
+
+      await databaseBuilder.commit();
+    });
+
+    context('when no autonomous course exist', function () {
+      it('should return an empty paginated list', async function () {
+        // when
+        const { autonomousCourses, meta } = await repositories.autonomousCourseRepository.findAllPaginated({
+          organizationId,
+          page: {
+            number: 2,
+            size: 2,
+          },
+        });
+
+        // then
+        expect(autonomousCourses).to.have.length(0);
+        expect(meta).to.deep.equal({
+          page: 2,
+          pageCount: 0,
+          pageSize: 2,
+          rowCount: 0,
+          hasCampaigns: false,
+        });
+      });
+    });
+
+    context('when some autonomous courses exist', function () {
+      it('should return a paginated list of autonomous courses', async function () {
+        // given
+        for (let i = 0; i < 6; i++) {
+          databaseBuilder.factory.buildCampaign({
+            organizationId,
+            targetProfileId,
+          });
+        }
+        await databaseBuilder.commit();
+
+        // when
+        const { autonomousCourses, meta } = await repositories.autonomousCourseRepository.findAllPaginated({
+          organizationId,
+          page: {
+            number: 2,
+            size: 2,
+          },
+        });
+
+        // then
+        expect(autonomousCourses).to.have.length(2);
+        expect(meta).to.deep.equal({
+          page: 2,
+          pageCount: 3,
+          pageSize: 2,
+          rowCount: 6,
+          hasCampaigns: true,
+        });
+      });
+    });
+  });
 });
