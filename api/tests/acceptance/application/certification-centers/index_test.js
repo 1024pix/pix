@@ -123,7 +123,7 @@ describe('Acceptance | Route | Certification Centers', function () {
           authorization: generateValidRequestAuthorizationHeader(adminUserId),
         },
         method: 'POST',
-        url: `/api/admin/certification-centers/${certificationCenterId}/members/me/disable`,
+        url: `/api/certification-centers/${certificationCenterId}/members/me/disable`,
       });
 
       // then

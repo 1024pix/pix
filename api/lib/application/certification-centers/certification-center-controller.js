@@ -211,8 +211,6 @@ async function disableOwnCertificationCenterMembership(request, h) {
   const certificationCenterId = request.params.certificationCenterId;
   const userId = extractUserIdFromRequest(request);
 
-  console.log({ certificationCenterId, userId });
-
   await usecases.disableOwnCertificationCenterMembership({ certificationCenterId, userId });
 
   return h.response().code(204);
