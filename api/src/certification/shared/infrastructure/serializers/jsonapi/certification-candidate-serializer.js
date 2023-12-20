@@ -5,18 +5,15 @@ const { Serializer, Deserializer } = jsonapiSerializer;
 import { CertificationCandidate } from '../../../../../../lib/domain/models/CertificationCandidate.js';
 import _ from 'lodash';
 
+/**
+ *@deprecated this serializer has been deprecated due to API migration, please migrate current usages to session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js
+  {@link file://./../../../../../certification/session/infrastructure/serializers/jsonapi/certification-candidate-serializer.js}
+ */
 const serialize = function (certificationCandidates) {
   return new Serializer('certification-candidate', {
     transform: function (certificationCandidate) {
       return {
         ...certificationCandidate,
-        complementaryCertification: _.isNil(certificationCandidate.complementaryCertification)
-          ? null
-          : {
-              id: certificationCandidate.complementaryCertification.id,
-              label: certificationCandidate.complementaryCertification.label,
-              key: certificationCandidate.complementaryCertification.key,
-            },
         isLinked: !_.isNil(certificationCandidate.userId),
       };
     },

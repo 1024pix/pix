@@ -67,12 +67,12 @@ describe('Unit | Controller | certification-candidate-controller', function () {
 
     it('should return certification candidates', async function () {
       // when
-      const certificationCandidateSerializer = { serialize: sinon.stub() };
-      certificationCandidateSerializer.serialize
+      const sessionCertificationCandidateSerializer = { serialize: sinon.stub() };
+      sessionCertificationCandidateSerializer.serialize
         .withArgs(certificationCandidates)
         .returns(certificationCandidatesJsonApi);
       const response = await certificationCandidateController.getCandidate(request, hFake, {
-        certificationCandidateSerializer,
+        sessionCertificationCandidateSerializer,
       });
 
       // then
