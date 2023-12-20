@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
 import { Session, statuses } from '../../../../../../src/certification/session/domain/models/Session.js';
 import * as sessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/session-repository.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Session', function () {
   describe('#save', function () {
@@ -458,18 +459,41 @@ describe('Integration | Repository | Session', function () {
       await databaseBuilder.commit();
 
       // when
-      await sessionRepository.unfinalize(99);
+      await sessionRepository.unfinalize({ sessionId: 99 });
 
       // then
       const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
       expect(dbSession).to.deep.equal({ ...session, finalizedAt: null, assignedCertificationOfficerId: null });
     });
 
+    context('when there is a transaction', function () {
+      it('allows to rollback', async function () {
+        // given
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const session = databaseBuilder.factory.buildSession({
+          id: 99,
+          finalizedAt: new Date(),
+          assignedCertificationOfficerId: userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await sessionRepository.unfinalize({ sessionId: 99, domainTransaction });
+          return domainTransaction.knexTransaction.rollback();
+        });
+
+        /// then
+        const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
+        expect(dbSession).to.deep.equal(session);
+      });
+    });
+
     context('when the session does not exists', function () {
       it('should throw a not found error', async function () {
         // given
         // when
-        const error = await catchErr(sessionRepository.unfinalize)(99);
+        const error = await catchErr(sessionRepository.unfinalize)({ sessionId: 99 });
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);

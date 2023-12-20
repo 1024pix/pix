@@ -120,9 +120,10 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
   return new Session(finalizedSession);
 };
 
-const unfinalize = async function (id) {
-  const updates = await knex('sessions')
-    .where({ id })
+const unfinalize = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  const updates = await knexConn('sessions')
+    .where({ id: sessionId })
     .update({ finalizedAt: null, assignedCertificationOfficerId: null });
   if (updates === 0) {
     throw new NotFoundError("La session n'existe pas ou son accès est restreint");
