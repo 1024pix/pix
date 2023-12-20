@@ -1,6 +1,6 @@
 import { expect, sinon, hFake } from '../../../../test-helper.js';
 import { autonomousCourseController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-controller.js';
-import { evaluationUsecases as usecases } from '../../../../../src/evaluation/domain/usecases/index.js';
+import { evaluationUsecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 
 describe('Unit | Controller | autonomous-course-controller', function () {
   describe('#save', function () {
@@ -76,7 +76,7 @@ describe('Unit | Controller | autonomous-course-controller', function () {
       const autonomousCourse = Symbol('autonomousCourse');
       const autonomousCourseId = 1;
 
-      sinon.stub(usecases, 'getAutonomousCourse').resolves(autonomousCourse);
+      sinon.stub(evaluationUsecases, 'getAutonomousCourse').resolves(autonomousCourse);
       const autonomousCourseSerializer = { serialize: sinon.stub().returns(expectedResult) };
 
       // when
@@ -91,8 +91,44 @@ describe('Unit | Controller | autonomous-course-controller', function () {
       );
 
       // then
-      expect(usecases.getAutonomousCourse).to.have.been.calledWithExactly({ autonomousCourseId });
+      expect(evaluationUsecases.getAutonomousCourse).to.have.been.calledWithExactly({ autonomousCourseId });
       expect(autonomousCourseSerializer.serialize).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#findPaginatedList', function () {
+    it('should find all paginated autonomous courses for given pagination', async function () {
+      // given
+      const expectedResult = Symbol('serialized-result');
+      const autonomousCourses = Symbol('trainingSummary');
+      const meta = Symbol('meta');
+      const queryParameters = {
+        page: { size: 2, number: 1 },
+      };
+
+      const evaluationUsecases = {
+        findAllPaginatedAutonomousCourses: sinon.stub().resolves({ autonomousCourses, meta }),
+      };
+
+      const autonomousCoursePaginatedListSerializer = { serialize: sinon.stub().returns(expectedResult) };
+      const queryParamsUtils = { extractParameters: sinon.stub().returns(queryParameters) };
+
+      // when
+      const response = await autonomousCourseController.findPaginatedList(
+        {
+          params: {
+            page: { size: 2, number: 1 },
+          },
+        },
+        hFake,
+        { autonomousCoursePaginatedListSerializer, queryParamsUtils, usecases: evaluationUsecases },
+      );
+
+      // then
+      expect(evaluationUsecases.findAllPaginatedAutonomousCourses).to.have.been.calledWithExactly(queryParameters);
+      expect(autonomousCoursePaginatedListSerializer.serialize).to.have.been.calledOnce;
+      expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });
