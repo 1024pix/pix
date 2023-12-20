@@ -10,10 +10,7 @@ import * as campaignAssessmentParticipationResultSerializer from '../../infrastr
 import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
-import {
-  extractUserIdFromRequest,
-  extractLocaleFromRequest,
-} from '../../infrastructure/utils/request-response-utils.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
@@ -145,9 +142,7 @@ const findAssessmentParticipationResults = async function (request) {
   if (filters.stages && !Array.isArray(filters.stages)) {
     filters.stages = [filters.stages];
   }
-  const currentUserId = extractUserIdFromRequest(request);
   const paginatedParticipations = await usecases.findAssessmentParticipationResultList({
-    userId: currentUserId,
     campaignId,
     page,
     filters,
