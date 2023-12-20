@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { autonomousCourseController } from './autonomous-course-controller.js';
 import { autonomousCourseTargetProfileController } from './autonomous-course-target-profile-controller.js';
 import { securityPreHandlers } from '../../../../lib/application/security-pre-handlers.js';
+import { sendJsonApiError, BadRequestError } from '../../../../lib/application/http-errors.js';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 
 const register = async function (server) {
@@ -41,7 +42,38 @@ const register = async function (server) {
         tags: ['api', 'autonomous-courses'],
       },
     },
-
+    {
+      method: 'GET',
+      path: '/api/admin/autonomous-courses',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          query: Joi.object({
+            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
+            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new BadRequestError('Un des champs de pagination saisis est invalide.'), h);
+          },
+        },
+        handler: autonomousCourseController.findPaginatedList,
+        notes: [
+          '- **Route nécessitant une authentification**\n' +
+            '- Cette route renvoie une liste paginée des parcours autonomes\n',
+        ],
+        tags: ['api', 'autonomous-courses'],
+      },
+    },
     {
       method: 'GET',
       path: '/api/admin/autonomous-courses/{autonomousCourseId}',
@@ -70,7 +102,6 @@ const register = async function (server) {
         tags: ['api', 'admin', 'autonomous-courses'],
       },
     },
-
     {
       method: 'GET',
       path: '/api/admin/autonomous-courses/target-profiles',
