@@ -20,7 +20,6 @@
           {{dayjs-format @campaign.createdAt "DD/MM/YYYY" allow-empty=true}}
         </dd>
       </div>
-
       <div class="campaign-header-title__detail-item">
         <dt class="label-text">
           {{t "pages.campaign.created-by"}}
@@ -30,6 +29,16 @@
         </dd>
       </div>
 
+      {{#if this.shouldShowMultipleSending}}
+        <div class="campaign-header-title__detail-item">
+          <dt class="label-text">
+            {{t "pages.campaign.multiple-sendings.title"}}
+          </dt>
+          <dd>
+            {{this.multipleSendingText}}
+          </dd>
+        </div>
+      {{/if}}
       <div class="campaign-header-title__detail-item">
         <dt class="label-text">
           {{t "pages.campaign.code"}}
