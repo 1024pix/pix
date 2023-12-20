@@ -123,7 +123,7 @@
     "sass": "^1.56.0",
     "showdown": "^2.1.0",
     "sinon": "^17.0.0",
-    "stylelint": "^15.0.0",
+    "stylelint": "^16.0.0",
     "stylelint-order": "^6.0.0",
     "webpack": "^5.76.0",
     "xss": "^1.0.13"
