@@ -1,4 +1,4 @@
-import { createServer } from '../../../../server.js';
+import { createServer } from '../../../../../server.js';
 
 import {
   expect,
@@ -6,9 +6,9 @@ import {
   mockLearningContent,
   learningContentBuilder,
   generateValidRequestAuthorizationHeader,
-} from '../../../test-helper.js';
+} from '../../../../test-helper.js';
 
-describe('Acceptance | API | Campaign Participations | Results', function () {
+describe('Acceptance | API | Campaign Participations Controller', function () {
   let server;
 
   beforeEach(async function () {
