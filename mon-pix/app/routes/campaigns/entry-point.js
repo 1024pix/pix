@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import ENV from 'mon-pix/config/environment';
 
 export default class EntryPoint extends Route {
   @service currentUser;
@@ -56,9 +57,11 @@ export default class EntryPoint extends Route {
       this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
     }
 
+    const isAutonomousCourse = campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
+
     if (campaign.isArchived && !hasParticipated) {
       this.router.replaceWith('campaigns.archived-error', campaign.code);
-    } else if (hasParticipated) {
+    } else if (hasParticipated && !isAutonomousCourse) {
       this.router.replaceWith('campaigns.entrance', campaign.code);
     } else {
       this.router.replaceWith('campaigns.campaign-landing-page', campaign.code);

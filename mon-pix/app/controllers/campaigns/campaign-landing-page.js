@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'mon-pix/config/environment';
 
 export default class CampaignLandingPageController extends Controller {
   @service currentDomain;
@@ -14,6 +15,10 @@ export default class CampaignLandingPageController extends Controller {
 
   get shouldDisplayLanguageSwitcher() {
     return this.isInternationalDomain && this.isUserNotAuthenticated;
+  }
+
+  get isAutonomousCourse() {
+    return this.model.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
   }
 
   get isInternationalDomain() {
@@ -41,6 +46,6 @@ export default class CampaignLandingPageController extends Controller {
 
   @action
   startCampaignParticipation() {
-    this.router.transitionTo('campaigns.access', this.model.code);
+    return this.router.transitionTo('campaigns.access', this.model.code);
   }
 }
