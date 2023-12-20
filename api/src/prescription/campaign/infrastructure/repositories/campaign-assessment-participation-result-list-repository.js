@@ -1,9 +1,9 @@
 import bluebird from 'bluebird';
-import { knex } from '../../../db/knex-database-connection.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import * as stageCollectionRepository from './user-campaign-results/stage-collection-repository.js';
-import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-models/campaign-results/CampaignAssessmentParticipationResultMinimal.js';
-import { CampaignParticipationStatuses } from '../../../src/prescription/shared/domain/constants.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
+import { CampaignAssessmentParticipationResultMinimal } from '../../domain/read-models/CampaignAssessmentParticipationResultMinimal.js';
+import { CampaignParticipationStatuses } from '../../../shared/domain/constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

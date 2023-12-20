@@ -2,13 +2,11 @@ import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { usecases as devcompUsecases } from '../../../src/devcomp/domain/usecases/index.js';
 import * as events from '../../domain/events/index.js';
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import * as campaignParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignAssessmentParticipationSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer.js';
 import * as campaignAssessmentParticipationResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
 import * as campaignProfileSerializer from '../../infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
-import * as campaignAssessmentResultMinimalSerializer from '../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer.js';
 import * as trainingSerializer from '../../../src/devcomp/infrastructure/serializers/jsonapi/training-serializer.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
@@ -127,29 +125,6 @@ const getCampaignAssessmentParticipationResult = async function (
   return dependencies.campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
 };
 
-const findAssessmentParticipationResults = async function (request) {
-  const campaignId = request.params.id;
-  const { page, filter: filters } = extractParameters(request.query);
-  if (filters.divisions && !Array.isArray(filters.divisions)) {
-    filters.divisions = [filters.divisions];
-  }
-  if (filters.groups && !Array.isArray(filters.groups)) {
-    filters.groups = [filters.groups];
-  }
-  if (filters.badges && !Array.isArray(filters.badges)) {
-    filters.badges = [filters.badges];
-  }
-  if (filters.stages && !Array.isArray(filters.stages)) {
-    filters.stages = [filters.stages];
-  }
-  const paginatedParticipations = await usecases.findAssessmentParticipationResultList({
-    campaignId,
-    page,
-    filters,
-  });
-  return campaignAssessmentResultMinimalSerializer.serialize(paginatedParticipations);
-};
-
 const updateParticipantExternalId = async function (request, h) {
   const campaignParticipationId = request.params.id;
   const participantExternalId = request.payload.data.attributes['participant-external-id'];
@@ -193,7 +168,6 @@ const campaignParticipationController = {
   getCampaignAssessmentParticipation,
   deleteParticipation,
   getCampaignAssessmentParticipationResult,
-  findAssessmentParticipationResults,
   updateParticipantExternalId,
   deleteCampaignParticipationForAdmin,
   findTrainings,

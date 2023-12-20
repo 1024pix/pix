@@ -1,5 +1,5 @@
-import { expect, mockLearningContent, databaseBuilder } from '../../../test-helper.js';
-import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { expect, mockLearningContent, databaseBuilder } from '../../../../../test-helper.js';
+import { usecases } from '../../../../../../src/prescription/campaign/domain/usecases/index.js';
 
 describe('Integration | UseCase | find-assessment-participation-result-list', function () {
   let organizationId;
