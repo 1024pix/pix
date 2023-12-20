@@ -113,7 +113,7 @@
     "sass": "^1.57.1",
     "sinon": "^17.0.0",
     "striptags": "^3.2.0",
-    "stylelint": "^15.0.0",
+    "stylelint": "^16.0.0",
     "webpack": "^5.76.3"
   }
 }
