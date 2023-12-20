@@ -96,7 +96,7 @@ const findMasteryRatesAndValidatedSkillsCount = async function (campaignId) {
   return aggregatedResults;
 };
 
-const findPaginatedFilteredByOrganizationId = async function ({ organizationId, filter, page, userId }) {
+const findPaginatedFilteredByOrganizationId = async function ({ organizationId, filter = {}, page, userId }) {
   const query = knex('campaigns')
     .distinct('campaigns.id')
     .select(
