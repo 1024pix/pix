@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import { knex } from '../../../db/knex-database-connection.js';
-import { BookshelfKnowledgeElementSnapshot } from '../orm-models/KnowledgeElementSnapshot.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import * as knexUtils from '../utils/knex-utils.js';
@@ -24,11 +23,12 @@ const save = async function ({
   domainTransaction = DomainTransaction.emptyTransaction(),
 }) {
   try {
-    await new BookshelfKnowledgeElementSnapshot({
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return await knexConn('knowledge-element-snapshots').insert({
       userId,
       snappedAt,
       snapshot: JSON.stringify(knowledgeElements),
-    }).save(null, { transacting: domainTransaction.knexTransaction });
+    });
   } catch (error) {
     if (knexUtils.isUniqConstraintViolated(error)) {
       throw new AlreadyExistingEntityError(
