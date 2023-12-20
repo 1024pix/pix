@@ -5,7 +5,7 @@ import * as organizationLearnersXmlService from '../../../../lib/domain/services
 
 const fixturesDirPath = `${url.fileURLToPath(new URL('../../../', import.meta.url))}tooling/fixtures/`;
 
-describe('Integration | Services | organization-learnerz-xml-service', function () {
+describe('Integration | Services | organization-learners-xml-service', function () {
   describe('extractOrganizationLearnersInformationFromSIECLE', function () {
     it('should parse two organizationLearners information', async function () {
       // given

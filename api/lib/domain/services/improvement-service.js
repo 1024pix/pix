@@ -1,12 +1,12 @@
+import dayjs from 'dayjs';
 import { constants } from '../constants.js';
-import moment from 'moment';
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {
   const startedDateOfAssessment = assessment.createdAt;
 
   return currentUserKnowledgeElements.filter((knowledgeElement) => {
     const isNotOldEnoughToBeImproved =
-      moment(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) < minimumDelayInDays;
+      dayjs(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) < minimumDelayInDays;
     return knowledgeElement.isValidated || isNotOldEnoughToBeImproved;
   });
 }

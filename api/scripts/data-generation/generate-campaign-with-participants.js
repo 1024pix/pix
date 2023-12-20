@@ -8,7 +8,6 @@ dotenv.config({ path: `${__dirname}/../../.env` });
 import _ from 'lodash';
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import { learningContentCache as cache } from '../../lib/infrastructure/caches/learning-content-cache.js';
-import moment from 'moment';
 import * as competenceRepository from '../../src/shared/infrastructure/repositories/competence-repository.js';
 import * as skillRepository from '../../lib/infrastructure/repositories/skill-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
@@ -20,6 +19,7 @@ import {
   generateKnowledgeElementSnapshots,
 } from '../prod/generate-knowledge-element-snapshots-for-campaigns.js';
 import { generate } from '../../lib/domain/services/code-generator.js';
+import dayjs from 'dayjs';
 
 const { SHARED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -360,9 +360,9 @@ async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
 async function _createCampaignParticipations({ campaignId, trx, organizationLearnerAndUserIds }) {
   const participationData = [];
   for (const organizationLearnerAndUserId of organizationLearnerAndUserIds) {
-    const createdAt = moment(baseDate).add(_.random(0, 100), 'days').toDate();
+    const createdAt = dayjs(baseDate).add(_.random(0, 100), 'days').toDate();
     const isShared = Boolean(_.random(0, 1));
-    const sharedAt = isShared ? moment(createdAt).add(_.random(1, 10), 'days').toDate() : null;
+    const sharedAt = isShared ? dayjs(createdAt).add(_.random(1, 10), 'days').toDate() : null;
     const userId = organizationLearnerAndUserId.userId;
     const organizationLearnerId = organizationLearnerAndUserId.id;
 

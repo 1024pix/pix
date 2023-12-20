@@ -5,7 +5,7 @@ import {
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING,
   MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING,
 } from '../../constants.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getNewAcquiredStages } from '../../../../src/evaluation/domain/services/stages/get-new-acquired-stages-service.js';
 
 class AssessmentResult {
@@ -109,7 +109,7 @@ class AssessmentResult {
     const isImprovementPossible =
       knowledgeElements.filter((knowledgeElement) => {
         const isOldEnoughToBeImproved =
-          moment(assessmentCreatedAt).diff(knowledgeElement.createdAt, 'days', true) >=
+          dayjs(assessmentCreatedAt).diff(knowledgeElement.createdAt, 'days', true) >=
           MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
         return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
       }).length > 0;
@@ -149,7 +149,7 @@ class AssessmentResult {
   _timeBeforeRetryingPassed(sharedAt) {
     const isShared = Boolean(sharedAt);
     if (!isShared) return false;
-    return sharedAt && moment().diff(sharedAt, 'days', true) >= MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+    return sharedAt && dayjs().diff(sharedAt, 'days', true) >= MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 

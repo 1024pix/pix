@@ -1,4 +1,6 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+dayjs.extend(utc);
 import _ from 'lodash';
 
 const STATS_COLUMNS_COUNT = 3;
@@ -106,10 +108,10 @@ class CampaignAssessmentCsvLine {
         this.targetedKnowledgeElementsCount,
         this.learningContent.skills.length,
       ),
-      moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
+      dayjs.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this._makeYesNoColumns(this.campaignParticipationInfo.isShared),
       this.campaignParticipationInfo.isShared
-        ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
+        ? dayjs.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD')
         : this.emptyContent,
       ...(this.stageCollection.hasStage ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared
