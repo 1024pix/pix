@@ -28,8 +28,8 @@ export default class ParticipantsByMasteryPercentage extends Component {
         datasets: [
           {
             data: steps,
-            border: '#3D68FF',
-            backgroundColor: '#3D68FF',
+            border: getComputedStyle(document.body).getPropertyValue('--pix-primary-300'),
+            backgroundColor: getComputedStyle(document.body).getPropertyValue('--pix-primary-300'),
           },
         ],
       };

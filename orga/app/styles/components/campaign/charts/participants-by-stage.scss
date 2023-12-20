@@ -55,13 +55,13 @@
 
   &__bar {
     height: 16px;
-    background-color: var(--pix-primary-300);
+    background-color: var(--pix-primary-500);
     border: 1px solid var(--pix-primary-500);
     border-radius: 3px;
   }
 
   &__graph:hover &__bar {
-    background-color: var(--pix-primary-500);
+    background-color: var(--pix-primary-300);
   }
 
   &__percentage {

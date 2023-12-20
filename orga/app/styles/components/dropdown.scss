@@ -3,7 +3,7 @@
   display: inline-block;
 
   &__content {
-    @extend %pix-shadow-xs;
+    @extend %pix-shadow-md;
 
     position: absolute;
     z-index: 1;
