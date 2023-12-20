@@ -23,7 +23,7 @@ module('Acceptance | authenticated/certifications/certification/details', functi
           isNeutralized: false,
         },
       ];
-      const certificationId = this.server.create('certification').id;
+      const certificationId = this.server.create('certification', { id: 1 }).id;
       this.server.create('certification-detail', {
         id: certificationId,
         competencesWithMark: [],
@@ -37,6 +37,28 @@ module('Acceptance | authenticated/certifications/certification/details', functi
 
       // then
       assert.dom(screen.getByText('Statut :')).exists();
+      assert.dom(screen.getByText('Créé le :')).exists();
+      assert.dom(screen.getByText('Terminée le :')).exists();
+      assert.dom(screen.getByText('Score :')).exists();
+      assert.dom(screen.getByText('Taux de reproductibilité :')).exists();
+    });
+  });
+
+  module('when certification is V3', function () {
+    test('renders the V3 details page', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const certificationId = this.server.create('certification', { id: 2, version: 3 }).id;
+      this.server.create('v3-certification-course-details-for-administration', {
+        id: certificationId,
+        certificationChallengesForAdministration: [],
+      });
+
+      // when
+      const screen = await visit(`/certifications/${certificationId}/details`);
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: 'Informations complémentaires', level: 2 })).exists();
     });
   });
 
