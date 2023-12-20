@@ -15,10 +15,10 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
       complementaryCertificationBadgeId,
       source: ComplementaryCertificationCourseResult.sources.PIX,
       isRejectedForFraud,
+      hasAcquiredPixCertification,
     });
 
     this.reproducibilityRate = reproducibilityRate;
-    this.hasAcquiredPixCertification = hasAcquiredPixCertification;
     this.minimumReproducibilityRate = minimumReproducibilityRate;
   }
 

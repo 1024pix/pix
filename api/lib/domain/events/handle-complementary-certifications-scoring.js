@@ -66,6 +66,7 @@ async function handleComplementaryCertificationsScoring({
           complementaryCertificationBadgeKey,
           reproducibilityRate: assessmentResult.reproducibilityRate,
           pixScore: assessmentResult.pixScore,
+          hasAcquiredPixCertification: assessmentResult.isValidated(),
           minimumEarnedPix,
           minimumReproducibilityRate,
           isRejectedForFraud: certificationCourse.isRejectedForFraud(),

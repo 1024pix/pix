@@ -8,6 +8,7 @@ const buildComplementaryCertificationScoringWithoutComplementaryReferential = fu
   pixScore,
   minimumEarnedPix,
   minimumReproducibilityRate,
+  hasAcquiredPixCertification = true,
 } = {}) {
   return new ComplementaryCertificationScoringWithoutComplementaryReferential({
     complementaryCertificationCourseId,
@@ -17,6 +18,7 @@ const buildComplementaryCertificationScoringWithoutComplementaryReferential = fu
     pixScore,
     minimumEarnedPix,
     minimumReproducibilityRate,
+    hasAcquiredPixCertification,
   });
 };
 
