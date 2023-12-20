@@ -2,10 +2,16 @@ import _ from 'lodash';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { FinalizedSession } from '../../../../../lib/domain/models/index.js';
+import { DomainTransaction } from '../../../../shared/domain/DomainTransaction.js';
 
 const save = async function (finalizedSession) {
   await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
   return finalizedSession;
+};
+
+const _delete = async function ({ sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  const knexConn = domainTransaction.knexTransaction ?? knex;
+  return knexConn('finalized-sessions').where({ sessionId }).delete();
 };
 
 const get = async function ({ sessionId }) {
@@ -49,7 +55,7 @@ const findFinalizedSessionsWithRequiredAction = async function ({ version } = {}
   return publishableFinalizedSessions.map(_toDomainObject);
 };
 
-export { save, get, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
+export { save, get, _delete as delete, findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };
 
 function _toDomainObject({ date, time, ...finalizedSession }) {
   return new FinalizedSession({

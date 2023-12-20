@@ -1,7 +1,8 @@
-import { expect, databaseBuilder, catchErr } from '../../../../../test-helper.js';
+import { expect, databaseBuilder, catchErr, knex } from '../../../../../test-helper.js';
 import * as finalizedSessionRepository from '../../../../../../src/certification/session/infrastructure/repositories/finalized-session-repository.js';
 import { FinalizedSession } from '../../../../../../lib/domain/models/FinalizedSession.js';
 import { NotFoundError } from '../../../../../../lib/domain/errors.js';
+import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Integration | Repository | Finalized-session', function () {
   describe('#save', function () {
@@ -119,6 +120,40 @@ describe('Integration | Repository | Finalized-session', function () {
         // when
         const error = await catchErr(finalizedSessionRepository.get)({ sessionId: 404 });
         expect(error).to.be.an.instanceOf(NotFoundError);
+      });
+    });
+  });
+
+  describe('#delete', function () {
+    it('deletes the record', async function () {
+      // given
+      databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
+      await databaseBuilder.commit();
+
+      // when
+      await finalizedSessionRepository.delete({ sessionId: 1234 });
+
+      /// then
+      const records = await knex('finalized-sessions').select(1);
+      expect(records).to.be.empty;
+    });
+
+    context('when there is a transaction', function () {
+      it('it use the transaction', async function () {
+        // given
+
+        databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
+        await databaseBuilder.commit();
+
+        // when
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await finalizedSessionRepository.delete({ sessionId: 1234, domainTransaction });
+          return domainTransaction.knexTransaction.rollback();
+        });
+
+        /// then
+        const records = await knex('finalized-sessions').select(1);
+        expect(records).not.to.be.empty;
       });
     });
   });
