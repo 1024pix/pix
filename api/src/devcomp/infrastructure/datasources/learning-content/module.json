@@ -110,8 +110,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bravo ! 🎉 </p>",
-                "invalid": "<p class='pix-list-inline'>Et non !</p>"
+                "valid": "<p>Correct ! <span aria-hidden='true'>🎉</span>&nbsp;Vous avez retrouvé le bon format d’une adresse mail</p>",
+                "invalid": "<p>Incorrect ! pour avoir de l’aide, revenez en arrière <span aria-hidden='true'>⬆️</span></p>"
               }
             }
           ]
@@ -233,7 +233,7 @@
                   "input": "email",
                   "type": "input",
                   "inputType": "text",
-                  "size": 18,
+                  "size": 20,
                   "display": "inline",
                   "placeholder": "",
                   "ariaLabel": "Adresse mail de Naomi",
@@ -243,8 +243,8 @@
                 }
               ],
               "feedbacks": {
-                "valid": "<p>Bravo ! 🎉 Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
-                "invalid": "<p class='pix-list-inline'>Et non ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li><li>Les adresses mail fournies par Yahoo se terminent par yahoo.com</li></ul>"
+                "valid": "<p>Bravo ! <span aria-hidden='true'>🎉</span> Tout est en ordre : identifiant, arobase, fournisseur d'adresse mail</p>",
+                "invalid": "<p class='pix-list-inline'>Et non, essaie à nouveau <span aria-hidden='true'>⏮️</span> ! Voici de l'aide pour réussir :</p><ul><li>L'ordre à suivre est : identifiant, arobase, fournisseur d'adresse mail</li></ul><p>Les adresses mail fournies par Yahoo se terminent par yahoo.com</p>"
               }
             }
           ]
