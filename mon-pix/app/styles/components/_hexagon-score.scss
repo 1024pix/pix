@@ -78,25 +78,19 @@
 
 .hexagon-score__information {
   padding: 24px 16px;
-
-  p {
-    margin-top: 0;
-    margin-bottom: 1rem;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
 }
 
 .hexagon-score-information__text {
-  display: block;
   font-size: 1rem;
   font-family: $font-open-sans;
   line-height: 1.6rem;
 
   &--strong {
     font-weight: $font-bold;
+  }
+
+  p {
+    padding-top: 1rem;
   }
 }
 
