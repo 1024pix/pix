@@ -1,8 +1,12 @@
 import fileSystem from 'fs';
 import axios from 'axios';
 import { Parser } from '@json2csv/plainjs';
-import moment from 'moment-timezone';
 import * as url from 'url';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const HEADERS = [
   'ID de certification',
@@ -93,7 +97,7 @@ function toCSVRow(rowJSON) {
   res[lastname] = certificationData['last-name'];
 
   if (certificationData['birthdate']) {
-    res[birthdate] = moment.utc(certificationData['birthdate'], 'YYYY-MM-DD').tz('Europe/Paris').format('DD/MM/YYYY');
+    res[birthdate] = dayjs.utc(certificationData['birthdate'], 'YYYY-MM-DD').tz('Europe/Paris').format('DD/MM/YYYY');
   } else {
     res[birthdate] = '';
   }
@@ -104,9 +108,9 @@ function toCSVRow(rowJSON) {
 
   res[sessionNumber] = certificationData['session-id'];
 
-  res[dateStart] = moment.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  res[dateStart] = dayjs.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   if (certificationData['completed-at']) {
-    res[dateEnd] = moment(certificationData['completed-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+    res[dateEnd] = dayjs(certificationData['completed-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   } else {
     res[dateEnd] = '';
   }
@@ -125,7 +129,7 @@ function toCSVRow(rowJSON) {
 }
 
 function saveInFile(csv, sessionId) {
-  const filepath = `session_${sessionId}_export_${moment.utc().format('DD-MM-YYYY_HH-mm')}.csv`;
+  const filepath = `session_${sessionId}_export_${dayjs.utc().format('DD-MM-YYYY_HH-mm')}.csv`;
   fileSystem.writeFile(filepath, csv, (err) => {
     if (err) throw err;
     console.log('Les données de certifications sont dans le fichier :' + filepath);

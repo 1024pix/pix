@@ -2,7 +2,7 @@ import lodash from 'lodash';
 
 const { get } = lodash;
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 import querystring from 'querystring';
 import { AuthenticationMethod } from '../../../domain/models/AuthenticationMethod.js';
 import * as OidcIdentityProviders from '../../../domain/constants/oidc-identity-providers.js';
@@ -66,10 +66,11 @@ const notify = async (userId, payload, dependencies) => {
     }
 
     accessToken = tokenResponse.data['access_token'];
+    const tokenExpiredDate = tokenResponse.data['expires_in'];
     const authenticationComplement = new AuthenticationMethod.PoleEmploiOidcAuthenticationComplement({
       accessToken,
       refreshToken: tokenResponse.data['refresh_token'],
-      expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),
+      expiredDate: tokenExpiredDate ? dayjs().add(tokenExpiredDate, 's').toDate() : new Date(),
     });
     await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
       authenticationComplement,

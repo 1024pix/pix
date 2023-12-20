@@ -1,5 +1,7 @@
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+dayjs.extend(utc);
 import * as csvSerializer from '../../serializers/csv/csv-serializer.js';
-import moment from 'moment';
 
 const EMPTY_ARRAY = [];
 
@@ -72,7 +74,7 @@ class CampaignProfilesCollectionResultLine {
 
   _getSharedAtColumn() {
     return this.campaignParticipationResult.isShared
-      ? moment.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD')
+      ? dayjs.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD')
       : this.notShared;
   }
 
