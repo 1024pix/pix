@@ -7,6 +7,7 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
     reproducibilityRate,
     pixScore,
     minimumEarnedPix,
+    hasAcquiredPixCertification,
     minimumReproducibilityRate,
     isRejectedForFraud,
   } = {}) {
@@ -14,6 +15,7 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
       isRejectedForFraud,
+      hasAcquiredPixCertification,
     });
 
     this.reproducibilityRate = reproducibilityRate;
@@ -23,7 +25,12 @@ class ComplementaryCertificationScoringWithoutComplementaryReferential extends P
   }
 
   isAcquired() {
-    return !this.isRejectedForFraud && this._isAboveMinimumReproducibilityRate() && this._isAboveMinimumScore();
+    return (
+      !this.isRejectedForFraud &&
+      this.hasAcquiredPixCertification &&
+      this._isAboveMinimumReproducibilityRate() &&
+      this._isAboveMinimumScore()
+    );
   }
 
   _isAboveMinimumScore() {
