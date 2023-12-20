@@ -4,4 +4,6 @@ export default class AutonomousCourse extends Model {
   @attr('string') publicTitle;
   @attr('string') targetProfileId;
   @attr('nullable-string') customLandingPageText;
+  @attr code;
+  @attr createdAt;
 }

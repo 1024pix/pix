@@ -1,5 +1,6 @@
 import { expect, sinon, hFake } from '../../../../test-helper.js';
 import { autonomousCourseController } from '../../../../../src/evaluation/application/autonomous-courses/autonomous-course-controller.js';
+import { evaluationUsecases as usecases } from '../../../../../src/evaluation/domain/usecases/index.js';
 
 describe('Unit | Controller | autonomous-course-controller', function () {
   describe('#save', function () {
@@ -65,6 +66,34 @@ describe('Unit | Controller | autonomous-course-controller', function () {
         autonomousCourse: { ...expectedDeserializedPayloadAttributes, ownerId: userId },
       });
       expect(autonomousCourseSerializer.serializeId).to.have.been.calledWithExactly(expectedAutonomousCourseId);
+    });
+  });
+
+  describe('#getById', function () {
+    it('should get autonomous course by id', async function () {
+      // given
+      const expectedResult = Symbol('serialized-autonomous-course');
+      const autonomousCourse = Symbol('autonomousCourse');
+      const autonomousCourseId = 1;
+
+      sinon.stub(usecases, 'getAutonomousCourse').resolves(autonomousCourse);
+      const autonomousCourseSerializer = { serialize: sinon.stub().returns(expectedResult) };
+
+      // when
+      const response = await autonomousCourseController.getById(
+        {
+          params: {
+            autonomousCourseId,
+          },
+        },
+        hFake,
+        { autonomousCourseSerializer },
+      );
+
+      // then
+      expect(usecases.getAutonomousCourse).to.have.been.calledWithExactly({ autonomousCourseId });
+      expect(autonomousCourseSerializer.serialize).to.have.been.calledOnce;
+      expect(response).to.deep.equal(expectedResult);
     });
   });
 });

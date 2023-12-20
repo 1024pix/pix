@@ -24,10 +24,24 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
     });
   });
 
+  module('#goToAutonomousCoursesDetails', function () {
+    test('should go to autonomous courses details page', async function (assert) {
+      // given
+      controller.router.transitionTo = sinon.stub();
+
+      // when
+      controller.goToAutonomousCourseDetails();
+
+      // then
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.autonomous-courses.autonomous-course'));
+    });
+  });
+
   module('#createAutonomousCourse', function () {
-    test('it should save autonomous course', async function (assert) {
+    test('it should save autonomous course and redirect to autonomous course details', async function (assert) {
       // given
       const autonomousCourse = {
+        id: 2,
         internalTitle: 'un nom interne',
         publicTitle: 'un nom public',
         targetProfileId: 32,
@@ -57,7 +71,12 @@ module('Unit | Controller | authenticated/autonomous-courses/new', function (hoo
       // then
       assert.ok(saveStub.called);
       assert.ok(controller.notifications.success.calledWith('Le parcours autonome a été créé avec succès.'));
-      assert.ok(controller.router.transitionTo.calledWith('authenticated.autonomous-courses.list'));
+      assert.ok(
+        controller.router.transitionTo.calledWith(
+          'authenticated.autonomous-courses.autonomous-course',
+          autonomousCourse.id,
+        ),
+      );
     });
 
     test('it should display error notification when autonomous-course cannot be saved', async function (assert) {

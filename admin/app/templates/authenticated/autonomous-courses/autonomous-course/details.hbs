@@ -1,0 +1,11 @@
+<header class="page-header">
+  <div class="page-title">
+    <LinkTo @route="authenticated.autonomous-courses.list">Tous les parcours autonomes</LinkTo>
+    <span class="wire">&nbsp;>&nbsp;</span>
+    <h1>{{@model.publicTitle}}</h1>
+  </div>
+</header>
+
+<main class="page-body">
+  <AutonomousCourses::Details @autonomousCourse={{this.model}} />
+</main>

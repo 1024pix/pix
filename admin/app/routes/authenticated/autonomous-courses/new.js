@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-export default class ListRoute extends Route {
+export default class NewRoute extends Route {
   @service accessControl;
   @service store;
 
