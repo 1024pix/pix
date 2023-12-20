@@ -1,8 +1,7 @@
-import { expect, databaseBuilder, catchErr } from '../../../test-helper.js';
+import { expect, databaseBuilder } from '../../../test-helper.js';
 import * as prescriberRoleRepository from '../../../../lib/infrastructure/repositories/prescriber-role-repository.js';
-import { NotFoundError } from '../../../../lib/domain/errors.js';
 
-describe('Integration | Repository | Campaign', function () {
+describe('Integration | Repository | prescriber-role-repository', function () {
   describe('#getForCampaign', function () {
     describe("when user is an admin of the campaign's organization", function () {
       it('should return ADMIN role', async function () {
@@ -57,7 +56,7 @@ describe('Integration | Repository | Campaign', function () {
       });
     });
 
-    it('should throw a not found error if campaign does not exists', async function () {
+    it('should return null if campaign does not exists', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignId = databaseBuilder.factory.buildCampaign().id;
@@ -65,42 +64,27 @@ describe('Integration | Repository | Campaign', function () {
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(prescriberRoleRepository.getForCampaign)({ userId, campaignId: unknownCampaignId });
+      const result = await prescriberRoleRepository.getForCampaign({ userId, campaignId: unknownCampaignId });
 
       // then
-      expect(error).to.be.instanceOf(NotFoundError);
+      expect(result).to.be.null;
     });
 
     describe('when user is not a member of the organization', function () {
-      it('should throw a not found error if user has no membership', async function () {
+      it('should return null if user member from another organization', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const otherUserId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        databaseBuilder.factory.buildMembership({ userId: otherUserId, organizationId });
+        databaseBuilder.factory.buildMembership({ userId: otherUserId, organizationId, disabledAt: null });
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(prescriberRoleRepository.getForCampaign)({ userId, campaignId });
+        const result = await prescriberRoleRepository.getForCampaign({ userId, campaignId });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
-      });
-
-      it('should throw a not found error if user is member of another organization', async function () {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        const campaignId = databaseBuilder.factory.buildCampaign().id;
-        databaseBuilder.factory.buildMembership({ userId: userId, organizationId: otherOrganizationId });
-        await databaseBuilder.commit();
-
-        // when
-        const error = await catchErr(prescriberRoleRepository.getForCampaign)({ userId, campaignId });
-
-        // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(result).to.be.null;
       });
 
       it("should throw a not found error if user's membership has been disable", async function () {
@@ -112,10 +96,10 @@ describe('Integration | Repository | Campaign', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(prescriberRoleRepository.getForCampaign)({ userId, campaignId });
+        const result = await prescriberRoleRepository.getForCampaign({ userId, campaignId });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(result).to.be.null;
       });
     });
   });
