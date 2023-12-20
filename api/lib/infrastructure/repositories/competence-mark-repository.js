@@ -1,4 +1,3 @@
-import { BookshelfCompetenceMark } from '../orm-models/CompetenceMark.js';
 import { CompetenceMark } from '../../domain/models/CompetenceMark.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { DomainTransaction } from '../DomainTransaction.js';
@@ -9,10 +8,14 @@ function _toDomain(competenceMark) {
 
 const save = async function (competenceMark, domainTransaction = DomainTransaction.emptyTransaction()) {
   await competenceMark.validate();
-  const savedCompetenceMark = await new BookshelfCompetenceMark(competenceMark).save(null, {
-    transacting: domainTransaction.knexTransaction,
-  });
-  return savedCompetenceMark.toDomainEntity();
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const [savedCompetenceMark] = await knexConn('competence-marks')
+    .insert(competenceMark)
+    .onConflict('id')
+    .merge()
+    .returning('*');
+
+  return new CompetenceMark(savedCompetenceMark);
 };
 
 const findByCertificationCourseId = async function (certificationCourseId) {
