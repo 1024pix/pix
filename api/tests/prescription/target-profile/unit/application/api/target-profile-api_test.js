@@ -1,10 +1,38 @@
 import { usecases } from '../../../../../../src/prescription/target-profile/domain/usecases/index.js';
-import { expect, sinon } from '../../../../../test-helper.js';
+import { usecases as libUsecases } from '../../../../../../lib/domain/usecases/index.js';
+import { expect, sinon, catchErr } from '../../../../../test-helper.js';
 import { domainBuilder } from '../../../../../tooling/domain-builder/domain-builder.js';
 import { TargetProfileForSpecifier } from '../../../../../../src/prescription/target-profile/domain/read-models/TargetProfileForSpecifier.js';
 import * as targetProfileApi from '../../../../../../src/prescription/target-profile/application/api/target-profile-api.js';
+import { TargetProfile } from '../../../../../../src/prescription/target-profile/application/api/TargetProfile.js';
 
 describe('Unit | API | TargetProfile', function () {
+  describe('#getById', function () {
+    it('should return target profile', async function () {
+      const targetProfileId = 1;
+      const targetProfileForAdmin = domainBuilder.buildTargetProfileForAdmin({ id: targetProfileId });
+      const expectedTargetProfile = new TargetProfile(targetProfileForAdmin);
+
+      const getTargetProfileForAdminStub = sinon.stub(libUsecases, 'getTargetProfileForAdmin');
+      getTargetProfileForAdminStub.withArgs({ targetProfileId }).resolves(targetProfileForAdmin);
+
+      const targetProfile = await targetProfileApi.getById(targetProfileId);
+
+      expect(targetProfile).to.deep.equal(expectedTargetProfile);
+    });
+
+    it('should throw an error', async function () {
+      const targetProfileId = 1;
+
+      const getTargetProfileForAdminStub = sinon.stub(libUsecases, 'getTargetProfileForAdmin');
+      getTargetProfileForAdminStub.withArgs({ targetProfileId }).rejects();
+
+      const error = await catchErr(targetProfileApi.getById)(targetProfileId);
+
+      expect(error).to.be.ok;
+    });
+  });
+
   describe('#getByOrganizationId', function () {
     it('should return target profiles from organization', async function () {
       const organizationId = domainBuilder.buildOrganization().id;
