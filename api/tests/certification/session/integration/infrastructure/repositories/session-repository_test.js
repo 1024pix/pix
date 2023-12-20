@@ -445,6 +445,38 @@ describe('Integration | Repository | Session', function () {
     });
   });
 
+  describe('#unfinalize', function () {
+    it('should update the session', async function () {
+      // given
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const session = databaseBuilder.factory.buildSession({
+        id: 99,
+        finalizedAt: new Date(),
+        assignedCertificationOfficerId: userId,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      await sessionRepository.unfinalize(99);
+
+      // then
+      const dbSession = await knex('sessions').select('*').where({ id: 99 }).first();
+      expect(dbSession).to.deep.equal({ ...session, finalizedAt: null, assignedCertificationOfficerId: null });
+    });
+
+    context('when the session does not exists', function () {
+      it('should throw a not found error', async function () {
+        // given
+        // when
+        const error = await catchErr(sessionRepository.unfinalize)(99);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
+
   describe('#flagResultsAsSentToPrescriber', function () {
     let id;
     const resultsSentToPrescriberAt = new Date('2017-09-01T12:14:33Z');

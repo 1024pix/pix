@@ -120,6 +120,15 @@ const finalize = async function ({ id, examinerGlobalComment, hasIncident, hasJo
   return new Session(finalizedSession);
 };
 
+const unfinalize = async function (id) {
+  const updates = await knex('sessions')
+    .where({ id })
+    .update({ finalizedAt: null, assignedCertificationOfficerId: null });
+  if (updates === 0) {
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
+  }
+};
+
 const flagResultsAsSentToPrescriber = async function ({ id, resultsSentToPrescriberAt }) {
   const [flaggedSession] = await knex('sessions').where({ id }).update({ resultsSentToPrescriberAt }).returning('*');
   return new Session(flaggedSession);
@@ -216,6 +225,7 @@ export {
   updateSessionInfo,
   doesUserHaveCertificationCenterMembershipForSession,
   finalize,
+  unfinalize,
   flagResultsAsSentToPrescriber,
   updatePublishedAt,
   isSco,
