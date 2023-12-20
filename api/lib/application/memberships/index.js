@@ -91,6 +91,7 @@ const register = async function (server) {
           }),
         },
         handler: membershipController.disable,
+        tags: ['api'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet la désactivation d'un membre",
@@ -151,6 +152,7 @@ const register = async function (server) {
           }),
         },
         handler: membershipController.disableOwnOrganizationMembership,
+        tags: ['api'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation\n" +
             "- Elle permet de se retirer d'une organisation",
@@ -173,6 +175,7 @@ const register = async function (server) {
           }),
         },
         handler: membershipController.disable,
+        tags: ['api'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'administrateur de l'organisation\n" +
             "- Elle permet la désactivation d'un membre",
