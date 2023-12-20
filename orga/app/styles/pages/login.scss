@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100%;
   min-height: 100vh;
-  background: var(--pix-secondary-500)-orga-gradient;
+  background: $pix-secondary-orga-gradient;
 
   &__header {
     text-align: center;
