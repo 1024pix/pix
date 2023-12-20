@@ -16,17 +16,17 @@
           </button>
         </:triggerElement>
         <:tooltip>
-          <div class="hexagon-score__information hexagon-score-information__text">
-            <p class="hexagon-score-information__text--strong">
+          <p class="hexagon-score__information hexagon-score-information__text">
+            <span class="hexagon-score-information__text--strong">
               {{t "pages.profile.total-score-helper.title"}}
-            </p>
+            </span>
             {{t
               "pages.profile.total-score-helper.explanation"
               maxReachablePixScore=@maxReachablePixScore
               maxReachableLevel=@maxReachableLevel
               htmlSafe=true
             }}
-          </div>
+          </p>
         </:tooltip>
       </PixTooltip>
     </div>
