@@ -909,7 +909,7 @@
         "invitation": "Invitations ({count, plural, =0 {-} other {{count}}})",
         "member": "Members ({count, plural, =0 {-} other {{count}}})"
       },
-      "update-referer-button": "Changer de référent"
+      "update-referer-button": "Changer de référent CléA"
     },
     "team-invitations": {
       "actions": {
