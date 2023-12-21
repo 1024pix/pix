@@ -15,6 +15,7 @@ async function handleComplementaryCertificationsScoring({
   certificationAssessmentRepository,
   complementaryCertificationCourseResultRepository,
   complementaryCertificationScoringCriteriaRepository,
+  certificationCourseRepository,
 }) {
   checkEventTypes(event, eventTypes);
   const certificationCourseId = event.certificationCourseId;
@@ -26,6 +27,9 @@ async function handleComplementaryCertificationsScoring({
     return;
   }
 
+  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
+
   for (const complementaryCertificationScoringCriterion of complementaryCertificationScoringCriteria) {
     const {
       minimumReproducibilityRate,
@@ -35,9 +39,6 @@ async function handleComplementaryCertificationsScoring({
       hasComplementaryReferential,
       minimumEarnedPix,
     } = complementaryCertificationScoringCriterion;
-
-    const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
-
     let complementaryCertificationScoringWithComplementaryReferential;
 
     if (hasComplementaryReferential) {
@@ -55,6 +56,7 @@ async function handleComplementaryCertificationsScoring({
           pixPlusAnswers,
           complementaryCertificationBadgeKey,
           assessmentResult,
+          certificationCourse,
         );
     } else {
       complementaryCertificationScoringWithComplementaryReferential =
@@ -64,8 +66,10 @@ async function handleComplementaryCertificationsScoring({
           complementaryCertificationBadgeKey,
           reproducibilityRate: assessmentResult.reproducibilityRate,
           pixScore: assessmentResult.pixScore,
+          hasAcquiredPixCertification: assessmentResult.isValidated(),
           minimumEarnedPix,
           minimumReproducibilityRate,
+          isRejectedForFraud: certificationCourse.isRejectedForFraud(),
         });
     }
 
@@ -87,6 +91,7 @@ function _buildComplementaryCertificationScoringWithReferential(
   answers,
   complementaryCertificationBadgeKey,
   assessmentResult,
+  certificationCourse,
 ) {
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges });
   const reproducibilityRate = ReproducibilityRate.from({
@@ -101,6 +106,7 @@ function _buildComplementaryCertificationScoringWithReferential(
     reproducibilityRate,
     complementaryCertificationBadgeKey,
     hasAcquiredPixCertification: assessmentResult.isValidated(),
+    isRejectedForFraud: certificationCourse.isRejectedForFraud(),
   });
 }
 

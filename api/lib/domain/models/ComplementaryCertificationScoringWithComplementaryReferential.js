@@ -8,20 +8,26 @@ class ComplementaryCertificationScoringWithComplementaryReferential extends Part
     reproducibilityRate,
     hasAcquiredPixCertification,
     minimumReproducibilityRate,
+    isRejectedForFraud,
   } = {}) {
     super({
       complementaryCertificationCourseId,
       complementaryCertificationBadgeId,
       source: ComplementaryCertificationCourseResult.sources.PIX,
+      isRejectedForFraud,
+      hasAcquiredPixCertification,
     });
 
     this.reproducibilityRate = reproducibilityRate;
-    this.hasAcquiredPixCertification = hasAcquiredPixCertification;
     this.minimumReproducibilityRate = minimumReproducibilityRate;
   }
 
   isAcquired() {
-    return this.hasAcquiredPixCertification && this.reproducibilityRate.isEqualOrAbove(this.minimumReproducibilityRate);
+    return (
+      !this.isRejectedForFraud &&
+      this.hasAcquiredPixCertification &&
+      this.reproducibilityRate.isEqualOrAbove(this.minimumReproducibilityRate)
+    );
   }
 }
 

@@ -10,6 +10,7 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
         complementaryCertificationCourseId: 999,
         complementaryCertificationBadgeId: 60,
         certificationCourseId: 123,
+        hasAcquiredPixCertification: true,
       };
     });
 
