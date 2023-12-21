@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
-import { knex } from '../../../../../lib/infrastructure/bookshelf.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { FinalizedSession } from '../../../../../lib/domain/models/index.js';
 
 const save = async function (finalizedSession) {
