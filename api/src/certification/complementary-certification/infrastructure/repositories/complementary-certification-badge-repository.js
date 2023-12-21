@@ -1,5 +1,7 @@
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { Badge } from '../../../../shared/domain/models/Badge.js';
+import { ComplementaryCertificationBadge } from '../../domain/models/ComplementaryCertificationBadge.js';
+import { NotFoundError } from '../../../../shared/domain/errors.js';
 
 const getAllIdsByTargetProfileId = async function ({ targetProfileId }) {
   const complementaryCertificationBadgesIds = await knex('badges')
@@ -50,4 +52,35 @@ const findAttachableBadgesByIds = async function ({ ids }) {
   });
 };
 
-export { getAllIdsByTargetProfileId, detachByIds, attach, findAttachableBadgesByIds };
+const getAllWithSameTargetProfile = async function (complementaryCertificationBadgeId) {
+  const complementaryCertificationBadges = await knex('complementary-certification-badges')
+    .select('complementary-certification-badges.*')
+    .join('badges', 'badges.id', '=', 'complementary-certification-badges.badgeId')
+    .where(
+      'badges.targetProfileId',
+      '=',
+      knex.raw(
+        `
+      (SELECT "target-profiles".id
+      FROM "complementary-certification-badges"
+      JOIN "badges" on "badges".id = "complementary-certification-badges"."badgeId"
+      JOIN "target-profiles" on "target-profiles"."id" = "badges"."targetProfileId"
+      WHERE "complementary-certification-badges".id = ?
+      )
+    `,
+        [`${complementaryCertificationBadgeId}`],
+      ),
+    );
+
+  if (complementaryCertificationBadges.length === 0) {
+    throw new NotFoundError('No complementary certification badge found');
+  }
+
+  return complementaryCertificationBadges.map(_toDomain);
+};
+
+function _toDomain(complementaryCertificationBadgeDTO) {
+  return new ComplementaryCertificationBadge(complementaryCertificationBadgeDTO);
+}
+
+export { getAllIdsByTargetProfileId, detachByIds, attach, findAttachableBadgesByIds, getAllWithSameTargetProfile };
