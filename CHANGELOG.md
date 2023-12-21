@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v4.79.0 (21/12/2023)
+
+
+### :rocket: Amélioration
+- [#7721](https://github.com/1024pix/pix/pull/7721) [FEATURE] Créer la page de détails pour les parcours autonomes (PIX-10360).
+- [#7729](https://github.com/1024pix/pix/pull/7729) [FEATURE] Ajoute une API pour récupérer les détails d'un profil cible à partir de son id (PIX-10137).
+- [#7728](https://github.com/1024pix/pix/pull/7728) [FEATURE] Ajouter l'information de campagne à envoi multiple dans la page de détail d'une campagne (PIX-10378).
+- [#7710](https://github.com/1024pix/pix/pull/7710) [FEATURE] Ajout de la colonne minimumReproducibilityRateLowerLevel dans complementaryCertification (PIX-10318).
+- [#7699](https://github.com/1024pix/pix/pull/7699) [FEATURE] Créer la page d'atterrissage d'un parcours autonome (PIX-9184).
+- [#7712](https://github.com/1024pix/pix/pull/7712) [FEATURE] Ajouter les informations isPublic / isSimplifiedAcces sur l'API interne de la liste des profil cibles (PIX-10217).
+- [#7719](https://github.com/1024pix/pix/pull/7719) [FEATURE] Ajouter un test d'acceptance pour la route assessment-results (PIX-10444).
+- [#7720](https://github.com/1024pix/pix/pull/7720) [FEATURE] Ajoute l'icône de la typologie de campagne sur les pages de détails d'une campagne (PIX-10349).
+
+### :building_construction: Tech
+- [#7731](https://github.com/1024pix/pix/pull/7731) [TECH] Retirer le script de migration des acquisitions de badge (PIX-8975).
+- [#7673](https://github.com/1024pix/pix/pull/7673) [TECH] Migre les usages de `momentjs`.
+- [#7707](https://github.com/1024pix/pix/pull/7707) [TECH] Éviter que le test de la modal remplacer des étudiants soit Flaky sur Pix Orga (PIX-10421).
+- [#7709](https://github.com/1024pix/pix/pull/7709) [TECH] Fixer le style sur l'un des sous-titre de la page d'import de masse de sessions (PIX-10434).
+
+### :bug: Correction
+- [#7738](https://github.com/1024pix/pix/pull/7738) [BUGFIX] Réparer le support des vieux navigateurs (PIX-10476).
+
+### :arrow_up: Montée de version
+- [#7726](https://github.com/1024pix/pix/pull/7726) [BUMP] Update dependency stylelint to v16 (mon-pix).
+- [#7727](https://github.com/1024pix/pix/pull/7727) [BUMP] Update dependency stylelint to v16 (orga).
+- [#7725](https://github.com/1024pix/pix/pull/7725) [BUMP] Update dependency stylelint to v16 (certif).
+- [#7722](https://github.com/1024pix/pix/pull/7722) [BUMP] Update dependency stylelint to v16 (admin).
+- [#7714](https://github.com/1024pix/pix/pull/7714) [BUMP] Update dependency stylelint to v16 (1d).
+
 ## v4.78.0 (19/12/2023)
 
 
