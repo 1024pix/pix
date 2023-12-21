@@ -10,7 +10,7 @@
 
   // Minus 280px because it corresponds to the sidebar's width
   width: calc(100% - 280px);
-  background-color: $pix-neutral-10;
+  background-color: var(--pix-neutral-20);
 
   &__body {
     flex: 1 0 auto;

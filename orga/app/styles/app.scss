@@ -11,7 +11,6 @@
 @import 'globals/forms';
 @import 'globals/icons';
 @import 'globals/pages';
-@import 'globals/shadows';
 @import 'globals/panels';
 @import 'globals/pix-loader';
 @import 'globals/tables';
@@ -91,8 +90,8 @@ html {
 }
 
 body {
-  color: $pix-neutral-110;
-  background-color: $pix-neutral-10;
+  color: var(--pix-neutral-900);
+  background-color: var(--pix-neutral-20);
 }
 
 input:invalid {

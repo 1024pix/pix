@@ -27,7 +27,7 @@
         &::before {
           height: 0.3125rem;
           margin: auto 10px;
-          border-left: 1px solid $pix-neutral-25;
+          border-left: 1px solid var(--pix-neutral-100);
           content: '';
         }
       }

@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: flex-end;
   height: 60px;
-  margin-bottom: $pix-spacing-m;
-  background-color: $pix-neutral-0;
+  margin-bottom: var(--pix-spacing-6x);
+  background-color: var(--pix-neutral-0);
 
   &__organization-credit-info {
     padding: 0 30px;

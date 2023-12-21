@@ -8,7 +8,7 @@ $margin-right: 32px;
 
   &__last-participation {
     display: flex;
-    gap: $pix-spacing-xs;
+    gap: var(--pix-spacing-2x);
     justify-content: center;
   }
 

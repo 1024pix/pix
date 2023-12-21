@@ -2,7 +2,7 @@
   font-weight: $font-normal;
 
   &__icon {
-    color: $pix-neutral-30;
+    color: var(--pix-neutral-500);
   }
 
   [role='tooltip'] {

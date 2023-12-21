@@ -4,9 +4,9 @@
 
 .cards {
   display: flex;
-  gap: $pix-spacing-m;
+  gap: var(--pix-spacing-6x);
   justify-content: space-between;
-  margin: $pix-spacing-m 0;
+  margin: var(--pix-spacing-6x) 0;
 
   &__content {
     width: 100%;
@@ -14,7 +14,7 @@
 
   &__stats {
     display: inline-flex;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     justify-content: space-between;
     margin: 0;
     padding: 0;

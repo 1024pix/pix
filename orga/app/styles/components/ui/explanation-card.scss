@@ -1,26 +1,26 @@
 .explanation-card {
-  padding: $pix-spacing-s;
-  color: $pix-neutral-60;
-  background: $pix-neutral-15;
+  padding: var(--pix-spacing-4x);
+  color: var(--pix-neutral-500);
+  background: var(--pix-neutral-20);
   border-radius: 8px;
 
   &__title {
     @extend %pix-body-m;
 
     display: block;
-    margin-bottom: $pix-spacing-xs;
-    color: $pix-neutral-90;
+    margin-bottom: var(--pix-spacing-2x);
+    color: var(--pix-neutral-900);
     font-weight: 500;
   }
 
   &__icon {
-    margin-right: $pix-spacing-xs;
-    color: $pix-primary;
+    margin-right: var(--pix-spacing-2x);
+    color: var(--pix-info-700);
   }
 
   &__message {
     @extend %pix-body-s;
 
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
   }
 }

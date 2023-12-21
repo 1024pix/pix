@@ -1,11 +1,11 @@
 $form-field-with: 500px;
 
 .form-field {
-  margin-bottom: $pix-spacing-m;
+  margin-bottom: var(--pix-spacing-6x);
 
   @include device-is('large-screen') {
     display: flex;
-    gap: $pix-spacing-m;
+    gap: var(--pix-spacing-6x);
     justify-content: space-between;
   }
 
@@ -14,7 +14,7 @@ $form-field-with: 500px;
   }
 
   &__element {
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
 
     @include device-is('large-screen') {
       width: $form-field-with;
@@ -30,7 +30,7 @@ $form-field-with: 500px;
       width: auto;
 
       @include device-is('large-screen') {
-        width: calc(100% - ($form-field-with + $pix-spacing-m));
+        width: calc(100% - ($form-field-with + var(--pix-spacing-6x)));
       }
   }
 }

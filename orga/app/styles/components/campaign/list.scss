@@ -3,7 +3,7 @@
 
   &__campaign-link {
     display: flex;
-    gap: $pix-spacing-xs;
+    gap: var(--pix-spacing-2x);
     align-items: center;
   }
 
@@ -12,7 +12,8 @@
   }
 
   &__table-header-background {
-    background: $pix-neutral-10;
-    box-shadow: 0px 0px 0px 4px $pix-neutral-0 inset;
+    @extend %pix-shadow-xs;
+
+    background: var(--pix-neutral-20);
   }
 }

@@ -1,30 +1,30 @@
 .manage-authentication-window {
   display: flex;
   flex-direction: column;
-  padding: $pix-spacing-m;
-  background-color: $pix-neutral-10;
+  padding: var(--pix-spacing-6x);
+  background-color: var(--pix-neutral-20);
 
   &__title {
     @extend %pix-title-xs;
 
     margin: 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
   }
 
   label {
     padding-bottom: 5px;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: .88rem;
   }
 
   .disabled {
-    background-color: $pix-neutral-10;
+    background-color: var(--pix-neutral-20);
     border: none;
   }
 
   .help {
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: normal;
     font-size: 0.85rem;
     letter-spacing: normal;
@@ -35,7 +35,7 @@
     input {
       box-sizing: border-box;
       width: 85%;
-      background-color: $pix-neutral-15;
+      background-color: var(--pix-neutral-20);
     }
   }
 
@@ -53,7 +53,7 @@
 
   &__warning {
     display: flex;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: .875rem;
 
     span {
@@ -64,40 +64,40 @@
   &__informations {
     display: flex;
     flex-direction: column;
-    padding-left: $pix-spacing-s;
-    color: $pix-neutral-0;
+    padding-left: var(--pix-spacing-4x);
+    color: var(--pix-neutral-0);
     font-size: .875rem;
 
     li {
-      margin: $pix-spacing-xxs 0;
+      margin: var(--pix-spacing-1x) 0;
     }
   }
 
   &__footer {
-    margin-top: $pix-spacing-s;
-    padding: $pix-spacing-s $pix-spacing-m;
-    background-color: $pix-neutral-70;
-    border-radius: $pix-spacing-xs;
+    margin-top: var(--pix-spacing-4x);
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    background-color: var(--pix-neutral-800);
+    border-radius: var(--pix-spacing-2x);
 
     button {
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
       font-weight: 600;
     }
 
     label {
-      color: $pix-neutral-0;
+      color: var(--pix-neutral-0);
     }
   }
 
   &__box {
-    margin-top: $pix-spacing-s;
-    padding: $pix-spacing-s $pix-spacing-m;
-    background-color: $pix-neutral-0;
+    margin-top: var(--pix-spacing-4x);
+    padding: var(--pix-spacing-4x) var(--pix-spacing-6x);
+    background-color: var(--pix-neutral-0);
     border-radius: 8px;
 
     hr {
-      margin-bottom: $pix-spacing-s;
-      color: $pix-neutral-22;
+      margin-bottom: var(--pix-spacing-4x);
+      color: var(--pix-neutral-100);
     }
 
     > .input-container {
@@ -109,18 +109,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
 
     &--mediacentre {
       margin-bottom: 0;
     }
 
     .green-icon {
-      color: $pix-success-70;
+      color: var(--pix-success-700);
     }
 
     .grey-icon {
-      color: $pix-neutral-45;
+      color: var(--pix-neutral-500);
     }
   }
 }

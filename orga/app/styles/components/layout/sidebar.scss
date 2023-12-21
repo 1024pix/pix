@@ -25,7 +25,7 @@
     align-items: center;
     height: 40px;
     padding-left: 24px;
-    color: $pix-neutral-0;
+    color: var(--pix-neutral-0);
     font-size: 0.875rem;
     font-family: $font-roboto;
     text-decoration: none;
@@ -37,7 +37,7 @@
 
     &.active {
       background-color: $chambray;
-      border-left: 3px solid $pix-warning-40;
+      border-left: 3px solid var(--pix-warning-500);
     }
   }
 
