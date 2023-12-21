@@ -39,12 +39,15 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         challengeId,
         answerStatus: AnswerStatus.OK,
         answeredAt: answer.createdAt,
+        competenceId: certificationChallenges.certificationChallengesForAdministration[0].competenceId,
+        skillName: certificationChallenges.certificationChallengesForAdministration[0].skillName,
       });
 
       const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({
         certificationCourseId,
         certificationChallengesForAdministration: [certificationChallengeForAdministration],
       });
+
       expect(certificationChallenges).to.deep.equal(expectedCertificationCourseDetails);
     });
 
@@ -99,6 +102,8 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         answerStatus: AnswerStatus.OK,
         validatedLiveAlert,
         answeredAt: answer.createdAt,
+        competenceId: certificationChallenges.certificationChallengesForAdministration[0].competenceId,
+        skillName: certificationChallenges.certificationChallengesForAdministration[0].skillName,
       });
 
       const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({

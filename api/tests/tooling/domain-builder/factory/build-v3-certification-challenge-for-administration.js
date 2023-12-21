@@ -5,6 +5,15 @@ export const buildV3CertificationChallengeForAdministration = ({
   answerStatus,
   validatedLiveAlert,
   answeredAt,
+  competenceId,
+  skillName,
 }) => {
-  return new V3CertificationChallengeForAdministration({ challengeId, answerStatus, validatedLiveAlert, answeredAt });
+  return new V3CertificationChallengeForAdministration({
+    challengeId,
+    answerStatus,
+    validatedLiveAlert,
+    answeredAt,
+    competenceId,
+    skillName,
+  });
 };
