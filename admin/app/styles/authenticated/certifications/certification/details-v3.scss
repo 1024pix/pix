@@ -32,3 +32,25 @@
     }
   }
 }
+
+.certification-details-v3-table {
+  &__answered-at-column {
+    width: 11%;
+  }
+
+  &__competence-column {
+    width: 27%;
+  }
+
+  &__skill-column {
+    width: 17%;
+  }
+
+  &__answer-status-column {
+    width: 13%;
+  }
+
+  &__challenge-id-column {
+    width: 18%;
+  }
+}
