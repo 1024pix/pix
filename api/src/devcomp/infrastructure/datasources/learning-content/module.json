@@ -4,6 +4,24 @@
       "id": "f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d",
       "slug": "bien-ecrire-son-adresse-mail",
       "title": "Bien écrire son adresse mail",
+      "transitionTexts": [
+        {
+          "content": "<p>Naomi a perdu l’adresse mail de son ami Mickaël. Elle n’arrive pas à retrouver cette adresse <span aria-hidden='true'>🤷‍♀</span>️. Elle a besoin de l’adresse mail de Mickaël pour lui envoyer un document. Elle demande donc à Mickaël par SMS. <br> Lancez la vidéo pour voir leur discussion <span aria-hidden='true'>👀▶️</span></p>",
+          "grainId": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9"
+        },
+        {
+          "content": "<p>Et oui ! Naomi le sait : les adresses mail ont un certain format.</p><p>Étudions en détails l’adresse mail de Mickaël <span aria-hidden='true'>👨‍🏫👩‍🏫</span></p>",
+          "grainId": "af860b1e-0566-4b06-bcb4-a68a5151d621"
+        },
+        {
+          "content": "<p>Pour être sûr que tout est clair, voici un texte à trous ! <span aria-hidden='true'>🧩</span></p>",
+          "grainId": "edd7fec3-a649-425b-b8e3-65b13c6c47ea"
+        },
+        {
+          "content": "<p>Maintenant, à vous de jouer pour trouvez l'adresse mail de Naomi.</p>",
+          "grainId": "b7ea7630-824a-4a49-83d1-abb9b8d0d120"
+        }
+      ],
       "grains": [
         {
           "id": "34d225e8-5d52-4ebd-9acd-8bde8438cfc9",
@@ -73,8 +91,12 @@
                   "placeholder": "",
                   "ariaLabel": "Réponse 1",
                   "defaultValue": "",
-                  "tolerances": ["t1"],
-                  "solutions": ["@"]
+                  "tolerances": [
+                    "t1"
+                  ],
+                  "solutions": [
+                    "@"
+                  ]
                 },
                 {
                   "type": "text",
@@ -98,7 +120,9 @@
                       "content": "le fournisseur d'adresse mail"
                     }
                   ],
-                  "solutions": ["1"]
+                  "solutions": [
+                    "1"
+                  ]
                 },
                 {
                   "type": "text",
@@ -122,7 +146,9 @@
                       "content": "le fournisseur d'adresse mail"
                     }
                   ],
-                  "solutions": ["2"]
+                  "solutions": [
+                    "2"
+                  ]
                 }
               ],
               "feedbacks": {
@@ -255,7 +281,10 @@
                   "ariaLabel": "Adresse mail de Naomi",
                   "defaultValue": "",
                   "tolerances": [],
-                  "solutions": ["naomizao@yahoo.com", "naomizao@yahoo.fr"]
+                  "solutions": [
+                    "naomizao@yahoo.com",
+                    "naomizao@yahoo.fr"
+                  ]
                 }
               ],
               "feedbacks": {
