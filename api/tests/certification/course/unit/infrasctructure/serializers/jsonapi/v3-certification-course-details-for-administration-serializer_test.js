@@ -14,12 +14,18 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
       const liveAlertId = 789;
       const challengeId = 'rec123';
       const answerStatus = AnswerStatus.OK;
+      const competenceName = 'name';
+      const competenceIndex = '1.2';
+      const skillName = '@toto';
 
       const certificationChallenge = new V3CertificationChallengeForAdministration({
         challengeId,
         answerStatus,
         validatedLiveAlert: new V3CertificationChallengeLiveAlertForAdministration({ id: liveAlertId }),
         answeredAt: new Date('2020-01-02'),
+        competenceName,
+        competenceIndex,
+        skillName,
       });
 
       const expectedJsonApi = {
@@ -41,8 +47,11 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
             id: challengeId,
             attributes: {
               'answer-status': 'ok',
-              'validated-live-alert': { id: 789 },
+              'validated-live-alert': { id: liveAlertId },
               'answered-at': certificationChallenge.answeredAt,
+              'competence-name': competenceName,
+              'competence-index': competenceIndex,
+              'skill-name': skillName,
             },
           },
         ],
