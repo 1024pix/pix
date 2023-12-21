@@ -1,14 +1,14 @@
 .learner-header {
-  margin: $pix-spacing-l 0;
+  margin: var(--pix-spacing-8x) 0;
 
   &__breadcrumb {
-    margin-bottom: $pix-spacing-m;
+    margin-bottom: var(--pix-spacing-6x);
     text-transform: capitalize;
   }
 
   &__informations-line {
     display: flex;
-    gap: $pix-spacing-xxl;
+    gap: var(--pix-spacing-12x);
     align-items: center;
   }
 

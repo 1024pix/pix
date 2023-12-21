@@ -1,5 +1,5 @@
 .login-or-register {
-  margin: $pix-spacing-m 0;
+  margin: var(--pix-spacing-6x) 0;
 
   @include device-is('mobile') {
     margin: 12px 0;
@@ -16,7 +16,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
     padding: 20px 2px;
     border-radius: 10px;
 
@@ -25,7 +25,7 @@
     }
 
     @include device-is('large-screen') {
-      padding: $pix-spacing-xl 100px;
+      padding: var(--pix-spacing-10x) 100px;
     }
   }
 }
@@ -38,7 +38,7 @@
 
   &__invitation {
     margin-top: 24px;
-    color: $pix-neutral-100;
+    color: var(--pix-neutral-900);
     font-weight: 500;
     font-size: 1.125rem;
     font-family: $font-roboto;
@@ -72,7 +72,7 @@
     }
 
     .form-title {
-      margin: $pix-spacing-m 0;
+      margin: var(--pix-spacing-6x) 0;
 
       @include device-is('mobile') {
         text-align: center;
@@ -82,7 +82,7 @@
 
   &__divider {
     margin-top: 30px;
-    border-left: 1px solid $pix-neutral-30;
+    border-left: 1px solid var(--pix-neutral-100);
 
     @include device-is('tablet') {
       margin: 30px;

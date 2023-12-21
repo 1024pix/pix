@@ -1,8 +1,8 @@
 .new-team-page {
-  margin-top: $pix-spacing-s;
+  margin-top: var(--pix-spacing-4x);
 
   &__form {
-    margin-top: $pix-spacing-l;
+    margin-top: var(--pix-spacing-8x);
   }
 }
 

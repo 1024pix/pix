@@ -1,4 +1,4 @@
-$margin-right: $pix-spacing-l;
+$margin-right: var(--pix-spacing-8x);
 
 .list-team-page {
   display: flex;
@@ -10,13 +10,13 @@ $margin-right: $pix-spacing-l;
   &__header {
     display: flex;
     align-items: center;
-    margin: $pix-spacing-s 0;
+    margin: var(--pix-spacing-4x) 0;
   }
 
   &__tabs {
     display: flex;
-    margin-bottom: $pix-spacing-m;
-    border-bottom: 1px solid $pix-neutral-20;
+    margin-bottom: var(--pix-spacing-6x);
+    border-bottom: 1px solid var(--pix-neutral-20);
   }
 
   .modal-dialog-width {

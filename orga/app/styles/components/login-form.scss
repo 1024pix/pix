@@ -7,16 +7,16 @@
   &__information {
     @extend %pix-body-s;
 
-    margin-top: $pix-spacing-s;
-    color: $pix-neutral-90;
+    margin-top: var(--pix-spacing-4x);
+    color: var(--pix-neutral-900);
     text-align: center;
   }
 
   &__error-message {
     @extend %pix-body-s;
 
-    margin-top: $pix-spacing-m;
-    color: $pix-error-70;
+    margin-top: var(--pix-spacing-6x);
+    color: var(--pix-error-700);
     text-align: center;
 
     & a {
@@ -27,7 +27,7 @@
   &__forgotten-password {
     @extend %pix-body-s;
 
-    color: $pix-communication-dark;
+    color: var(--pix-communication-dark);
     text-align: left;
   }
 
@@ -48,7 +48,7 @@
 
     margin: 10px 0 16px 0;
     padding: 9px;
-    color: $pix-error-70;
+    color: var(--pix-error-700);
     text-align: center;
     border-radius: 3px;
   }
@@ -56,7 +56,7 @@
   &__input-container {
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     width: 100%;
 
     button[type="submit"] {

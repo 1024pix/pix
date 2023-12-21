@@ -1,12 +1,12 @@
 .participation-list {
   &__table {
     th {
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
       font-weight: 700;
     }
 
     td {
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
   }
 }

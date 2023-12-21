@@ -12,7 +12,7 @@
 
   &__stars {
     height: 1.5rem;
-    
+
     &--loader {
       min-width: 100px;
       height: 20px;
@@ -22,7 +22,7 @@
   &__values {
     min-width: 140px;
     margin-left: 32px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
     font-size: 0.75rem;
 
     &--loader {
@@ -55,18 +55,18 @@
 
   &__bar {
     height: 16px;
-    background-color: lighten($pix-primary, 20%);
-    border: 1px solid $pix-primary;
+    background-color: var(--pix-primary-500);
+    border: 1px solid var(--pix-primary-500);
     border-radius: 3px;
   }
 
   &__graph:hover &__bar {
-    background-color: lighten($pix-primary, 10%);
+    background-color: var(--pix-primary-300);
   }
 
   &__percentage {
     margin-left: 8px;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
     font-size: 0.75rem;
     white-space: nowrap;
   }

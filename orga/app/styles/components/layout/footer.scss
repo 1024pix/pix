@@ -4,8 +4,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  margin: 0 $pix-spacing-m;
-  border-top: 1px solid $pix-neutral-20;
+  margin: 0 var(--pix-spacing-6x);
+  border-top: 1px solid var(--pix-neutral-20);
 
   @include device-is('desktop') {
     flex-direction: row;
@@ -34,7 +34,7 @@
 
   &__copyrights {
     padding: 16px 0;
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
     font-size: 0.75rem;
     font-family: $font-roboto;
     cursor: default;
@@ -43,27 +43,27 @@
 
 .footer-navigation {
   &__item {
-    margin-right: $pix-spacing-xxs;
-    color: $pix-neutral-60;
+    margin-right: var(--pix-spacing-1x);
+    color: var(--pix-neutral-500);
     font-weight: 500;
     font-size: 0.8125rem;
     font-family: $font-roboto;
     text-decoration: none;
 
     @include device-is('desktop') {
-      margin-right: $pix-spacing-s;
+      margin-right: var(--pix-spacing-4x);
     }
 
     &.active {
-      color: $pix-primary;
+      color: var(--pix-primary-500);
     }
 
     &:focus {
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-20)0;
     }
 
     &:hover {
-      color: $pix-primary;
+      color: var(--pix-primary-500);
       cursor: pointer;
     }
   }

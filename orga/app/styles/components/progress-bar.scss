@@ -1,10 +1,10 @@
 .progress-bar {
   width: 160px;
   height: 6px;
-  background-color: $pix-neutral-20;
+  background-color: var(--pix-neutral-20);
   border-radius: 10px;
 
   &--completion {
-    background-color: $pix-primary;
+    background-color: var(--pix-primary-500);
   }
 }

@@ -7,29 +7,29 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 0 $pix-spacing-xs;
+  padding: 0 var(--pix-spacing-2x);
   font-size: 0.875rem;
   text-align: left;
-  border-left: 1px solid $pix-neutral-22;
+  border-left: 1px solid var(--pix-neutral-100);
 
   &__title {
-    margin-bottom: $pix-spacing-xs;
-    color: $pix-neutral-50;
+    margin-bottom: var(--pix-spacing-2x);
+    color: var(--pix-neutral-20)0;
   }
 
   &__content {
     margin: 0;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
 
 
     &--date {
-      color: $pix-neutral-50;
+      color: var(--pix-neutral-20)0;
       font-size: 0.75rem;
     }
   }
 
   &--certifiable {
-    padding-bottom: $pix-spacing-xxs;
+    padding-bottom: var(--pix-spacing-1x);
     text-align: center;
   }
 

@@ -11,7 +11,7 @@
   }
 
   li:not(:last-child) {
-    color: $pix-neutral-50;
+    color: var(--pix-neutral-20)0;
   }
 
   li:not(:first-child) {
@@ -19,7 +19,7 @@
   }
 
   li:last-child {
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-800);
   }
 
   li:not(:last-child)::after {
@@ -27,7 +27,7 @@
     width: 0.4375rem;
     height: 0.4375rem;
     margin: 0 .375rem;
-    border: .0625rem solid $pix-neutral-45;
+    border: .0625rem solid var(--pix-neutral-500);
     border-bottom: 0;
     border-left: 0;
     transform: rotate(45deg);

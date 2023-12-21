@@ -12,7 +12,7 @@
   justify-content: space-between;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $pix-neutral-20;
+    border-bottom: 1px solid var(--pix-neutral-20);
   }
 }
 
@@ -32,7 +32,7 @@
   }
 
   &:not(:first-child) {
-    border-left: 1px solid $pix-neutral-20;
+    border-left: 1px solid var(--pix-neutral-20);
   }
 
   &__label {
@@ -73,7 +73,7 @@
 
 .campaign-settings-content__tooltip-icon {
   margin: 0 0 4px 0;
-  color: $pix-neutral-30;
+  color: var(--pix-neutral-500);
 }
 
 .campaign-settings-buttons {

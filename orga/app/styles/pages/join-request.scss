@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100%;
   min-height: 100%;
-  background: $pix-secondary-orga-gradient;
+  background: var(--pix-secondary-500)-orga-gradient;
 
   a {
     text-decoration: underline;
@@ -42,7 +42,7 @@
 
   &__error-message {
     max-width: 497px;
-    margin-top: $pix-spacing-m;
+    margin-top: var(--pix-spacing-6x);
     margin-bottom: 24px;
     font-size: 0.875rem;
     text-align: center;
@@ -51,7 +51,7 @@
   &__success {
     margin-top: 54px;
     margin-bottom: 24px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-900);
     letter-spacing: 0.15px;
     text-align: center;
   }

@@ -1,10 +1,10 @@
 .edit-student-number-modal {
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
   font-size: 1rem;
 
   &__student-number {
     display: block;
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
     font-size: 0.875rem;
   }
 }

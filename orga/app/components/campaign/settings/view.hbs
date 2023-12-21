@@ -118,7 +118,7 @@
       <PixButtonLink @route="authenticated.campaigns.new" @query={{this.queryForDuplicate}} @backgroundColor="grey">
         {{t "pages.campaign-settings.actions.duplicate"}}
       </PixButtonLink>
-      <PixButton @triggerAction={{fn this.archiveCampaign @campaign.id}} @backgroundColor="grey">
+      <PixButton @triggerAction={{fn this.archiveCampaign @campaign.id}} @backgroundColor="red">
         {{t "pages.campaign-settings.actions.archive"}}
       </PixButton>
     </div>

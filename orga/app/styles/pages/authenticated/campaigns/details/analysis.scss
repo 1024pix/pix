@@ -1,5 +1,5 @@
 sub {
   @extend %pix-title-xs;
 
-  color: $pix-neutral-60;
+  color: var(--pix-neutral-500);
 }

@@ -1,5 +1,5 @@
 .campaign-header-title {
-  margin: $pix-spacing-l 0;
+  margin: var(--pix-spacing-8x) 0;
 
   &__informations {
     display: flex;
@@ -8,7 +8,7 @@
   }
 
   &__breadcrumb {
-    margin-bottom: $pix-spacing-s;
+    margin-bottom: var(--pix-spacing-4x);
   }
 
   &__type-icon {
@@ -23,9 +23,7 @@
 
     display: flex;
     flex: 0 1 auto;
-    flex-direction: row;
-    gap: $pix-spacing-s;
-    padding-right: $pix-spacing-s;
+    gap: var(--pix-spacing-4x);
     overflow: hidden;
 
     .campaign-header-title__name {
@@ -46,7 +44,7 @@
     & > * {
       margin-right: 15px;
       padding-right: 15px;
-      border-right: 1px solid $pix-neutral-20;
+      border-right: 1px solid var(--pix-neutral-20);
     }
 
     & > *:last-child {
@@ -59,16 +57,16 @@
   &__detail-item {
     @extend %pix-body-s;
 
-    color: $pix-neutral-60;
+    color: var(--pix-neutral-500);
 
     & > dt {
       display: block;
-      margin-bottom: $pix-spacing-xs;
+      margin-bottom: var(--pix-spacing-2x);
     }
 
     & > dd {
       margin: 0;
-      color: $pix-neutral-90;
+      color: var(--pix-neutral-900);
     }
   }
 
@@ -79,13 +77,12 @@
 
 @include device-is('mobile') {
   .campaign-header-title {
-    flex-direction: column;
     align-items: initial;
 
     &__headline {
       justify-content: center;
       width: 100%;
-      margin-bottom: $pix-spacing-s;
+      margin-bottom: var(--pix-spacing-4x);
     }
 
     &__infos {

@@ -2,31 +2,31 @@
   @extend %pix-title-m;
 
   margin-top: 0;
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
 }
 
 .page-sub-title {
   @extend %pix-title-s;
 
-  margin-bottom: $pix-spacing-m;
-  color: $pix-neutral-60;
+  margin-bottom: var(--pix-spacing-6x);
+  color: var(--pix-neutral-500);
 }
 
 .form-title {
   @extend %pix-title-m;
 
-  color: $pix-neutral-100;
+  color: var(--pix-neutral-900);
 }
 
 .panel-header-title {
   @extend  %pix-title-xs;
 
-  color: $pix-neutral-70;
+  color: var(--pix-neutral-800);
 }
 
 .back-title {
   margin: 0;
-  color: $pix-neutral-90;
+  color: var(--pix-neutral-900);
 
   @extend  %pix-title-s;
 }
