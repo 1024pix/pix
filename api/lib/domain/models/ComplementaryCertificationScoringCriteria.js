@@ -2,6 +2,7 @@ class ComplementaryCertificationScoringCriteria {
   constructor({
     complementaryCertificationCourseId,
     minimumReproducibilityRate,
+    minimumReproducibilityRateLowerLevel,
     complementaryCertificationBadgeKey,
     complementaryCertificationBadgeId,
     hasComplementaryReferential,
@@ -9,6 +10,7 @@ class ComplementaryCertificationScoringCriteria {
   } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.minimumReproducibilityRate = minimumReproducibilityRate;
+    this.minimumReproducibilityRateLowerLevel = minimumReproducibilityRateLowerLevel;
     this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
     this.complementaryCertificationBadgeKey = complementaryCertificationBadgeKey;
     this.hasComplementaryReferential = hasComplementaryReferential;
