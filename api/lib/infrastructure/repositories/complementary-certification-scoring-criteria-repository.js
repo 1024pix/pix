@@ -7,6 +7,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
       complementaryCertificationCourseId: 'complementary-certification-courses.id',
       complementaryCertificationBadgeId: 'complementary-certification-courses.complementaryCertificationBadgeId',
       minimumReproducibilityRate: 'complementary-certifications.minimumReproducibilityRate',
+      minimumReproducibilityRateLowerLevel: 'complementary-certifications.minimumReproducibilityRateLowerLevel',
       complementaryCertificationBadgeKey: 'badges.key',
       hasComplementaryReferential: 'complementary-certifications.hasComplementaryReferential',
       minimumEarnedPix: 'complementary-certification-badges.minimumEarnedPix',
@@ -30,6 +31,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
       complementaryCertificationBadgeId,
       complementaryCertificationBadgeKey,
       minimumReproducibilityRate,
+      minimumReproducibilityRateLowerLevel,
       hasComplementaryReferential,
       minimumEarnedPix,
     }) =>
@@ -38,6 +40,7 @@ const findByCertificationCourseId = async function ({ certificationCourseId }) {
         complementaryCertificationBadgeId,
         complementaryCertificationBadgeKey,
         minimumReproducibilityRate: Number(minimumReproducibilityRate),
+        minimumReproducibilityRateLowerLevel: Number(minimumReproducibilityRateLowerLevel),
         hasComplementaryReferential,
         minimumEarnedPix,
       }),
