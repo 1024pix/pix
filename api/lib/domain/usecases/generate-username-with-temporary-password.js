@@ -31,7 +31,7 @@ const generateUsernameWithTemporaryPassword = async function ({
   });
 
   if (hasStudentAccountAnIdentityProviderPIX) {
-    const updatedUser = await userRepository.addUsername(studentAccount.id, username);
+    const updatedUser = await userRepository.updateUsername({ id: studentAccount.id, username });
     return { username: updatedUser.username };
   } else {
     const generatedPassword = passwordGenerator.generateSimplePassword();
