@@ -1,6 +1,6 @@
-import { expect } from '../../../../test-helper.js';
-import * as serializer from '../../../../../lib/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
-import { CampaignProfilesCollectionParticipationSummary } from '../../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
+import { expect } from '../../../../../../test-helper.js';
+import * as serializer from '../../../../../../../src/prescription/campaign/infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
+import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 
 describe('Unit | Serializer | JSONAPI | campaign-profiles-collection-participation-summary-serializer', function () {
   describe('#serialize', function () {

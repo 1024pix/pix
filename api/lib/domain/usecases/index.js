@@ -40,7 +40,6 @@ import * as campaignParticipationInfoRepository from '../../infrastructure/repos
 import * as campaignParticipationOverviewRepository from '../../infrastructure/repositories/campaign-participation-overview-repository.js';
 import * as campaignParticipationRepository from '../../infrastructure/repositories/campaign-participation-repository.js';
 import * as campaignProfileRepository from '../../infrastructure/repositories/campaign-profile-repository.js';
-import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 import * as campaignRepository from '../../infrastructure/repositories/campaign-repository.js';
 import * as campaignToJoinRepository from '../../infrastructure/repositories/campaign-to-join-repository.js';
@@ -246,7 +245,6 @@ const dependencies = {
   campaignParticipationResultRepository,
   campaignParticipationsStatsRepository,
   campaignProfileRepository,
-  campaignProfilesCollectionParticipationSummaryRepository,
   campaignReportRepository,
   campaignRepository,
   campaignToJoinRepository,

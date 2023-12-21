@@ -1,9 +1,9 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
-import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../../../src/prescription/campaign/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
+import { CampaignProfilesCollectionParticipationSummary } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
-  let userId, campaignId;
+  let campaignId;
   let campaignRepository, campaignProfilesCollectionParticipationSummaryRepository;
 
   const campaignProfilesCollectionParticipationSummaries = [
@@ -15,11 +15,9 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
   ];
 
   beforeEach(function () {
-    userId = Symbol('user id');
     campaignId = Symbol('campaign id');
 
     campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
-    campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
   });
 
   it('should retrieve the campaign participations datas', async function () {
@@ -31,7 +29,6 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
       .resolves(campaignProfilesCollectionParticipationSummaries);
 
     const participationSummaries = await findCampaignProfilesCollectionParticipationSummaries({
-      userId,
       campaignId,
       page,
       filters,
