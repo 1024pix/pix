@@ -2,11 +2,11 @@ import stream from 'stream';
 
 const { PassThrough } = stream;
 
-import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../test-helper.js';
-import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../lib/domain/errors.js';
-import { CampaignProfilesCollectionExport } from '../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../../../test-helper.js';
+import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../../../lib/domain/errors.js';
+import { CampaignProfilesCollectionExport } from '../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };

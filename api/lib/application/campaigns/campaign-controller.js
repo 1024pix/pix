@@ -57,38 +57,6 @@ const getCsvAssessmentResults = async function (request, h, dependencies = { tok
   return writableStream;
 };
 
-const getCsvProfilesCollectionResults = async function (request, h, dependencies = { tokenService }) {
-  const token = request.query.accessToken;
-  const { userId, campaignId: extractedCampaignId } =
-    dependencies.tokenService.extractCampaignResultsTokenContent(token);
-  const campaignId = request.params.id;
-
-  if (extractedCampaignId !== campaignId) {
-    throw new ForbiddenAccess();
-  }
-
-  const writableStream = new PassThrough();
-
-  const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({
-    userId,
-    campaignId,
-    writableStream,
-    i18n: request.i18n,
-  });
-  const escapedFileName = escapeFileName(fileName);
-
-  writableStream.headers = {
-    'content-type': 'text/csv;charset=utf-8',
-    'content-disposition': `attachment; filename="${escapedFileName}"`,
-
-    // WHY: to avoid compression because when compressing, the server buffers
-    // for too long causing a response timeout.
-    'content-encoding': 'identity',
-  };
-
-  return writableStream;
-};
-
 const archiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
@@ -166,7 +134,6 @@ const getGroups = async function (request) {
 const campaignController = {
   getByCode,
   getCsvAssessmentResults,
-  getCsvProfilesCollectionResults,
   archiveCampaign,
   unarchiveCampaign,
   getCollectiveResult,

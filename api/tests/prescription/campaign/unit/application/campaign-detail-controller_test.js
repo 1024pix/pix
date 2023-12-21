@@ -1,6 +1,7 @@
-import { sinon, expect, hFake, domainBuilder } from '../../../../test-helper.js';
+import { sinon, expect, hFake, domainBuilder, catchErr } from '../../../../test-helper.js';
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
+import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Application | Controller | Campaign detail', function () {
   describe('#getById', function () {
@@ -161,4 +162,140 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       );
     });
   });
+
+  describe('#getCsvProfilesCollectionResults', function () {
+    it('should call the use case to get result campaign in csv', async function () {
+      // given
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon
+        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
+        .resolves({ fileName: 'any file name' });
+
+      const tokenServiceStub = {
+        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
+      };
+
+      // when
+      await campaignDetailController.getCsvProfilesCollectionResults(request, hFake, {
+        tokenService: tokenServiceStub,
+      });
+
+      // then
+      expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignProfilesCollectionResultsToStream.firstCall.args[0];
+      expect(getResultsCampaignArgs).to.have.property('userId');
+      expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should return a response with correct headers', async function () {
+      // given
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon
+        .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
+        .resolves({ fileName: 'expected file name' });
+
+      const tokenServiceStub = {
+        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
+      };
+
+      // when
+      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake, {
+        tokenService: tokenServiceStub,
+      });
+
+      // then
+      expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-encoding']).to.equal('identity');
+    });
+
+    it('should fix invalid header chars in filename', async function () {
+      // given
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves({
+        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+      });
+
+      const tokenServiceStub = {
+        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
+      };
+
+      // when
+      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake, {
+        tokenService: tokenServiceStub,
+      });
+
+      // then
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename="file-name with invalid_chars _____________.csv"',
+      );
+    });
+
+    context('when the campaign id is not the same as provided in the access token', function () {
+      it('should throw an error', async function () {
+        // given
+        const userId = 1;
+        const campaignId = 2;
+        const request = _getRequestForCampaignId(campaignId);
+
+        sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
+        const tokenServiceStub = {
+          extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId: 19 }),
+        };
+
+        // when
+        const error = await catchErr(campaignDetailController.getCsvProfilesCollectionResults)(request, hFake, {
+          tokenService: tokenServiceStub,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.not.have.been.called;
+      });
+    });
+
+    context('when the access token is invalid', function () {
+      it('should throw an error', async function () {
+        // given
+        const request = _getRequestForCampaignId(1);
+
+        sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves();
+        const tokenServiceStub = {
+          extractCampaignResultsTokenContent: sinon.stub().throws(new ForbiddenAccess()),
+        };
+
+        // when
+        const error = await catchErr(campaignDetailController.getCsvProfilesCollectionResults)(request, hFake, {
+          tokenService: tokenServiceStub,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.not.have.been.called;
+      });
+    });
+  });
 });
+
+function _getRequestForCampaignId(campaignId) {
+  return {
+    query: {
+      accessToken: 'token',
+    },
+    params: {
+      id: campaignId,
+    },
+    i18n: {
+      __: sinon.stub(),
+    },
+  };
+}
