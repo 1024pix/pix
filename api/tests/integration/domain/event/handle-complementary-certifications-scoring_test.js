@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import { handleComplementaryCertificationsScoring } from '../../../../lib/domain/events/handle-complementary-certifications-scoring.js';
 import * as assessmentResultRepository from '../../../../src/shared/infrastructure/repositories/assessment-result-repository.js';
+import * as certificationCourseRepository from '../../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as certificationAssessmentRepository from '../../../../lib/infrastructure/repositories/certification-assessment-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import * as complementaryCertificationScoringCriteriaRepository from '../../../../lib/infrastructure/repositories/complementary-certification-scoring-criteria-repository.js';
@@ -35,6 +36,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
           certificationAssessmentRepository,
           complementaryCertificationCourseResultRepository,
           complementaryCertificationScoringCriteriaRepository,
+          certificationCourseRepository,
         });
 
         // then
@@ -81,6 +83,7 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
             certificationAssessmentRepository,
             complementaryCertificationCourseResultRepository,
             complementaryCertificationScoringCriteriaRepository,
+            certificationCourseRepository,
           });
           // then
           const complementaryCertificationCourseResults = await knex('complementary-certification-course-results')
@@ -92,6 +95,58 @@ describe('Integration | Event | Handle Complementary Certifications Scoring', fu
             complementaryCertificationCourseId,
             complementaryCertificationBadgeId: 501,
             source: 'PIX',
+          });
+        });
+
+        describe('when it has been rejected for fraud', function () {
+          it('should save a complementary certification not acquired', async function () {
+            // when
+            const complementaryCertificationCourseId = 99;
+
+            _buildComplementaryCertificationBadge({
+              complementaryCertificationId: 101,
+              complementaryCertificationBadgeId: 501,
+              minimumReproducibilityRate: 80,
+              minimumEarnedPix: 500,
+              hasComplementaryReferential: false,
+            });
+            _buildComplementaryCertificationCourse({
+              certificationCourseId: 900,
+              complementaryCertificationId: 101,
+              complementaryCertificationCourseId,
+              complementaryCertificationBadgeId: 501,
+              userId: 401,
+              pixScore: 700,
+              reproducibilityRate: 90,
+              isRejectedForFraud: true,
+            });
+
+            await databaseBuilder.commit();
+
+            const event = new CertificationScoringCompleted({
+              certificationCourseId: 900,
+              userId: 401,
+            });
+
+            await handleComplementaryCertificationsScoring({
+              event,
+              assessmentResultRepository,
+              certificationAssessmentRepository,
+              complementaryCertificationCourseResultRepository,
+              complementaryCertificationScoringCriteriaRepository,
+              certificationCourseRepository,
+            });
+            // then
+            const complementaryCertificationCourseResults = await knex('complementary-certification-course-results')
+              .select()
+              .first();
+
+            expect(_.omit(complementaryCertificationCourseResults, ['id', 'partnerKey'])).to.deep.equal({
+              acquired: false,
+              complementaryCertificationCourseId,
+              complementaryCertificationBadgeId: 501,
+              source: 'PIX',
+            });
           });
         });
       });
@@ -107,11 +162,13 @@ function _buildComplementaryCertificationCourse({
   userId,
   pixScore,
   reproducibilityRate,
+  isRejectedForFraud = false,
 }) {
   databaseBuilder.factory.buildUser({ id: userId });
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationCourseId,
     userId,
+    isRejectedForFraud,
   });
   databaseBuilder.factory.buildComplementaryCertificationCourse({
     id: complementaryCertificationCourseId,

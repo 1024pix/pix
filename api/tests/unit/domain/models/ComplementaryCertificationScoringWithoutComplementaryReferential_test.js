@@ -91,6 +91,25 @@ describe('Unit | Domain | Models | ComplementaryCertificationScoringWithoutCompl
             expect(hasAcquiredCertif).to.be.false;
           });
         });
+
+        context('pix core certification is not acquired', function () {
+          it('should return false', async function () {
+            // given
+            const cleaCertificationScoring =
+              await _buildComplementaryCertificationScoringWithoutComplementaryReferential({
+                reproducibilityRate,
+                minimumReproducibilityRate,
+                minimumEarnedPix: 120,
+                hasAcquiredPixCertification: false,
+              });
+
+            // when
+            const hasAcquiredCertification = cleaCertificationScoring.isAcquired();
+
+            // then
+            expect(hasAcquiredCertification).to.be.false;
+          });
+        });
       });
     });
   });
@@ -101,6 +120,7 @@ function _buildComplementaryCertificationScoringWithoutComplementaryReferential(
   pixScore = 0,
   minimumEarnedPix,
   minimumReproducibilityRate,
+  hasAcquiredPixCertification,
 }) {
   const certificationCourseId = 42;
   const complementaryCertificationCourseId = 999;
@@ -114,5 +134,6 @@ function _buildComplementaryCertificationScoringWithoutComplementaryReferential(
     pixScore,
     minimumEarnedPix,
     minimumReproducibilityRate,
+    hasAcquiredPixCertification,
   });
 }
