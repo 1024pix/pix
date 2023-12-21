@@ -3,7 +3,7 @@ import stream from 'stream';
 const { PassThrough } = stream;
 
 import { domainBuilder, expect, sinon, streamToPromise } from '../../../../test-helper.js';
-import { CampaignProfilesCollectionExport } from '../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
+import { CampaignProfilesCollectionExport } from '../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 
 describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function () {
