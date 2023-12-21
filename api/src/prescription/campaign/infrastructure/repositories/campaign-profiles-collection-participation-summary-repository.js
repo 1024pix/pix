@@ -2,13 +2,13 @@ import chunk from 'lodash/chunk.js';
 import isBoolean from 'lodash/isBoolean.js';
 
 import bluebird from 'bluebird';
-import { knex } from '../../../db/knex-database-connection.js';
-import * as placementProfileService from '../../domain/services/placement-profile-service.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import * as placementProfileService from '../../../../../lib/domain/services/placement-profile-service.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
-import * as competenceRepository from '../../../src/shared/infrastructure/repositories/competence-repository.js';
-import { constants } from '../constants.js';
-import { fetchPage } from '../utils/knex-utils.js';
-import { filterByFullName } from '../utils/filter-utils.js';
+import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
+import { constants } from '../../../../../lib/infrastructure/constants.js';
+import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
+import { filterByFullName } from '../../../../../lib/infrastructure/utils/filter-utils.js';
 
 const findPaginatedByCampaignId = async function (campaignId, page, filters = {}) {
   const query = knex

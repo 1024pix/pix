@@ -7,14 +7,12 @@ import * as campaignToJoinSerializer from '../../infrastructure/serializers/json
 import * as campaignAnalysisSerializer from '../../infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
 import * as campaignReportSerializer from '../../infrastructure/serializers/jsonapi/campaign-report-serializer.js';
 import * as campaignCollectiveResultSerializer from '../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
-import * as campaignProfilesCollectionParticipationSummarySerializer from '../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer.js';
 import * as campaignParticipantsActivitySerializer from '../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
-import { certificabilityByLabel } from '../../../src/prescription/organization-learner/application/helpers.js';
 import { ForbiddenAccess } from '../../../src/shared/domain/errors.js';
 
 const { PassThrough } = stream;
@@ -123,26 +121,6 @@ const getAnalysis = async function (request, h, dependencies = { campaignAnalysi
   return dependencies.campaignAnalysisSerializer.serialize(campaignAnalysis);
 };
 
-const findProfilesCollectionParticipations = async function (request) {
-  const campaignId = request.params.id;
-  const { page, filter: filters } = extractParameters(request.query);
-  if (filters.divisions && !Array.isArray(filters.divisions)) {
-    filters.divisions = [filters.divisions];
-  }
-  if (filters.groups && !Array.isArray(filters.groups)) {
-    filters.groups = [filters.groups];
-  }
-  if (filters.certificability) {
-    filters.certificability = certificabilityByLabel[filters.certificability];
-  }
-  const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({
-    campaignId,
-    page,
-    filters,
-  });
-  return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
-};
-
 const findParticipantsActivity = async function (
   request,
   h,
@@ -193,7 +171,6 @@ const campaignController = {
   unarchiveCampaign,
   getCollectiveResult,
   getAnalysis,
-  findProfilesCollectionParticipations,
   findParticipantsActivity,
   division,
   getGroups,

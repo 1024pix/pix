@@ -6,16 +6,16 @@ import {
   generateValidRequestAuthorizationHeader,
 } from '../../../../test-helper.js';
 
-import { campaignParticipationController } from '../../../../../src/prescription/campaign/application/campaign-participation-controller.js';
-import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-participation-route.js';
+import { campaignResultsController } from '../../../../../src/prescription/campaign/application/campaign-results-controller.js';
+import * as moduleUnderTest from '../../../../../src/prescription/campaign/application/campaign-results-route.js';
 
-describe('Integration | Application | Campaign participation | Routes', function () {
+describe('Integration | Application | campaign-results-route', function () {
   describe('GET /api/campaigns/{id}/assessment-results', function () {
     const method = 'GET';
 
     let headers, httpTestServer, organizationId, campaignId, url;
     beforeEach(async function () {
-      sinon.stub(campaignParticipationController, 'findAssessmentParticipationResults').returns('ok');
+      sinon.stub(campaignResultsController, 'findAssessmentParticipationResults').returns('ok');
       httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       httpTestServer.setupAuthentication();

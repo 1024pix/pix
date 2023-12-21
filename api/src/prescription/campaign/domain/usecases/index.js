@@ -5,6 +5,7 @@ import * as campaignAdministrationRepository from '../../infrastructure/reposito
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
 import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
+import * as campaignProfilesCollectionParticipationSummaryRepository from '../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository.js';
 
 import * as badgeRepository from '../../../../shared/infrastructure/repositories/badge-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
@@ -19,7 +20,10 @@ const dependencies = {
   campaignCreatorRepository,
   campaignReportRepository,
   campaignAssessmentParticipationResultListRepository,
+  campaignProfilesCollectionParticipationSummaryRepository,
+
   badgeRepository,
+
   stageCollectionRepository,
   codeGenerator,
   membershipRepository,
