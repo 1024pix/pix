@@ -184,4 +184,96 @@ describe('Acceptance | Route | certification-course', function () {
       expect(competenceMarks).to.have.lengthOf(1);
     });
   });
+
+  describe('POST /api/admin/certification-courses-v3/{id}/details', function () {
+    let certificationCourseId;
+    let options;
+    let server;
+    let certificationChallenge1;
+    let certificationChallenge2;
+
+    beforeEach(async function () {
+      const userId = databaseBuilder.factory.buildUser.withRole().id;
+
+      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        userId,
+      }).id;
+
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        certificationCourseId,
+        userId,
+        type: Assessment.types.CERTIFICATION,
+      }).id;
+
+      certificationChallenge1 = databaseBuilder.factory.buildCertificationChallenge({
+        courseId: certificationCourseId,
+        challengeId: 'recCHAL456',
+      });
+
+      certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge({
+        courseId: certificationCourseId,
+        challengeId: 'recCHAL789',
+      });
+
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        certificationCourseId,
+      }).id;
+
+      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
+
+      server = await createServer();
+
+      options = {
+        method: 'GET',
+        url: `/api/admin/certification-courses-v3/${certificationCourseId}/details`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      await databaseBuilder.commit();
+    });
+
+    it('should respond with a 403 - forbidden access - if user is not an admin member', async function () {
+      // given
+      const nonAdminMemberUserId = 9999;
+      options.headers.authorization = generateValidRequestAuthorizationHeader(nonAdminMemberUserId);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('should return a v3 certification details for administration payload', async function () {
+      // when
+      const response = await server.inject(options);
+
+      const expectedResponse = {
+        type: 'v3-certification-course-details-for-administrations',
+        attributes: {
+          'certification-course-id': certificationCourseId,
+        },
+        id: certificationCourseId.toString(),
+        relationships: {
+          'certification-challenges-for-administration': {
+            data: [
+              {
+                id: certificationChallenge1.challengeId,
+                type: 'certification-challenges-for-administration',
+              },
+              {
+                id: certificationChallenge2.challengeId,
+                type: 'certification-challenges-for-administration',
+              },
+            ],
+          },
+        },
+      };
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal(expectedResponse);
+    });
+  });
 });
