@@ -19,7 +19,7 @@ describe('Integration | Certification | Session | Repository | Candidate', funct
           { lastName: 'Gallagher', firstName: 'Liam', sessionId: anotherSessionId },
           { lastName: 'Brown', firstName: 'James', sessionId },
         ],
-        databaseBuilder.factory.buildCertificationCandidate
+        databaseBuilder.factory.buildCertificationCandidate,
       );
 
       await databaseBuilder.commit();

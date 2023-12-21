@@ -242,12 +242,14 @@ async function _buildComplementaryCertificationsForLine({
   }
   if (hasPixPlusEdu1erDegre) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+      (complementaryCertification) =>
+        complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
     );
   }
   if (hasPixPlusEdu2ndDegre) {
     return complementaryCertificationsInDB.find(
-      (complementaryCertification) => complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+      (complementaryCertification) =>
+        complementaryCertification.key === ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
     );
   }
 }

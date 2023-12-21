@@ -6,18 +6,14 @@ const getComplementaryCertificationTargetProfileHistory = async function ({
   complementaryCertificationForTargetProfileAttachmentRepository,
 }) {
   const currentsTargetProfileHistoryWithBadgesByComplementaryCertification =
-    await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId(
-      {
-        complementaryCertificationId,
-      },
-    );
+    await targetProfileHistoryRepository.getCurrentTargetProfilesHistoryWithBadgesByComplementaryCertificationId({
+      complementaryCertificationId,
+    });
 
   const detachedTargetProfileHistoryByComplementaryCertification =
-    await targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId(
-      {
-        complementaryCertificationId,
-      },
-    );
+    await targetProfileHistoryRepository.getDetachedTargetProfilesHistoryByComplementaryCertificationId({
+      complementaryCertificationId,
+    });
 
   const complementaryCertification = await complementaryCertificationForTargetProfileAttachmentRepository.getById({
     complementaryCertificationId,
