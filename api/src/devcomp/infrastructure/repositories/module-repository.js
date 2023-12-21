@@ -5,6 +5,7 @@ import { Image } from '../../domain/models/element/Image.js';
 import { QCU } from '../../domain/models/element/QCU.js';
 import { QcuProposal } from '../../domain/models/QcuProposal.js';
 import { Grain } from '../../domain/models/Grain.js';
+import { TransitionText } from '../../domain/models/TransitionText.js';
 import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { QCUForAnswerVerification } from '../../domain/models/element/QCU-for-answer-verification.js';
 import { BlockText } from '../../domain/models/block/BlockText.js';
@@ -47,6 +48,7 @@ function _toDomain(moduleData) {
     id: moduleData.id,
     slug: moduleData.slug,
     title: moduleData.title,
+    transitionTexts: moduleData.transitionTexts?.map((transitionText) => new TransitionText(transitionText)) ?? [],
     grains: moduleData.grains.map((grain) => {
       return new Grain({
         id: grain.id,
