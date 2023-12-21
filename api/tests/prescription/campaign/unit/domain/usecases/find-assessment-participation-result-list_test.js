@@ -1,5 +1,5 @@
-import { expect, sinon } from '../../../test-helper.js';
-import { findAssessmentParticipationResultList } from '../../../../lib/domain/usecases/find-assessment-participation-result-list.js';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { findAssessmentParticipationResultList } from '../../../../../../src/prescription/campaign/domain/usecases/find-assessment-participation-result-list.js';
 
 describe('Unit | UseCase | find-assessment-participation-result-list', function () {
   it('return the assessmentParticipationResultMinimal list', async function () {

@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import * as campaignAdministrationRepository from '../../infrastructure/repositories/campaign-administration-repository.js';
 import * as campaignCreatorRepository from '../../infrastructure/repositories/campaign-creator-repository.js';
 import * as campaignReportRepository from '../../infrastructure/repositories/campaign-report-repository.js';
+import * as campaignAssessmentParticipationResultListRepository from '../../infrastructure/repositories/campaign-assessment-participation-result-list-repository.js';
 
 import * as badgeRepository from '../../../../shared/infrastructure/repositories/badge-repository.js';
 import * as stageCollectionRepository from '../../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
@@ -17,6 +18,7 @@ const dependencies = {
   campaignAdministrationRepository,
   campaignCreatorRepository,
   campaignReportRepository,
+  campaignAssessmentParticipationResultListRepository,
   badgeRepository,
   stageCollectionRepository,
   codeGenerator,
