@@ -124,7 +124,6 @@ const getAnalysis = async function (request, h, dependencies = { campaignAnalysi
 };
 
 const findProfilesCollectionParticipations = async function (request) {
-  const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
   const { page, filter: filters } = extractParameters(request.query);
   if (filters.divisions && !Array.isArray(filters.divisions)) {
@@ -137,7 +136,6 @@ const findProfilesCollectionParticipations = async function (request) {
     filters.certificability = certificabilityByLabel[filters.certificability];
   }
   const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({
-    userId,
     campaignId,
     page,
     filters,
