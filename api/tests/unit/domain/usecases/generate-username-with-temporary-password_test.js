@@ -51,7 +51,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       updatePasswordThatShouldBeChanged: sinon.stub().resolves(),
     };
     userRepository = {
-      addUsername: sinon.stub(),
+      updateUsername: sinon.stub(),
       get: sinon.stub().resolves(userRelatedToStudent),
       updateUsernameAndPassword: sinon.stub().resolves(),
     };
@@ -154,7 +154,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
       organizationLearnerRepository.get.withArgs(organizationLearner.id).resolves(organizationLearner);
       userRepository.get.resolves(userWithEmail);
-      userRepository.addUsername.resolves({ ...userWithEmail, username });
+      userRepository.updateUsername.resolves({ ...userWithEmail, username });
 
       authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     });
