@@ -7,6 +7,8 @@ export const buildV3CertificationChallengeForAdministration = ({
   answeredAt,
   competenceId,
   skillName,
+  competenceName,
+  competenceIndex,
 }) => {
   return new V3CertificationChallengeForAdministration({
     challengeId,
@@ -15,5 +17,7 @@ export const buildV3CertificationChallengeForAdministration = ({
     answeredAt,
     competenceId,
     skillName,
+    competenceName,
+    competenceIndex,
   });
 };

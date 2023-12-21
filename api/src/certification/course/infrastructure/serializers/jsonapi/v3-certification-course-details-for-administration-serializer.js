@@ -24,13 +24,15 @@ const serialize = function ({ certificationDetails }) {
         return 'certification-challenges-for-administration';
     },
     certificationChallengesForAdministration: {
-      transform: (record, columnName) => {
-        if (columnName === 'answer-status') {
-          return record.answerStatus.status;
-        }
-      },
       ref: 'challengeId',
-      attributes: ['answerStatus', 'validatedLiveAlert', 'answeredAt'],
+      attributes: [
+        'answerStatus',
+        'validatedLiveAlert',
+        'answeredAt',
+        'competenceName',
+        'competenceIndex',
+        'skillName',
+      ],
     },
   }).serialize(certificationDetails);
 };

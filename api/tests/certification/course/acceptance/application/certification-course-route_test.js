@@ -186,51 +186,27 @@ describe('Acceptance | Route | certification-course', function () {
   });
 
   describe('POST /api/admin/certification-courses-v3/{id}/details', function () {
-    let certificationCourseId;
+    let certificationCourse;
+    let certificationChallenges;
     let options;
     let server;
-    let certificationChallenge1;
-    let certificationChallenge2;
 
     beforeEach(async function () {
-      const userId = databaseBuilder.factory.buildUser.withRole().id;
-
-      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-        userId,
-      }).id;
-
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        certificationCourseId,
-        userId,
-        type: Assessment.types.CERTIFICATION,
-      }).id;
-
-      certificationChallenge1 = databaseBuilder.factory.buildCertificationChallenge({
-        courseId: certificationCourseId,
-        challengeId: 'recCHAL456',
-      });
-
-      certificationChallenge2 = databaseBuilder.factory.buildCertificationChallenge({
-        courseId: certificationCourseId,
-        challengeId: 'recCHAL789',
-      });
-
-      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
-        assessmentId,
-        certificationCourseId,
-      }).id;
-
-      databaseBuilder.factory.buildCompetenceMark({ assessmentResultId });
+      certificationCourse = databaseBuilder.factory.buildCertificationCourse({ version: 3 });
+      const user = await insertUserWithRoleSuperAdmin();
+      ({ certificationChallenges } = await createSuccessfulCertificationCourse({
+        userId: user.id,
+        certificationCourse,
+      }));
+      await databaseBuilder.commit();
 
       server = await createServer();
 
       options = {
         method: 'GET',
-        url: `/api/admin/certification-courses-v3/${certificationCourseId}/details`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        url: `/api/admin/certification-courses-v3/${certificationCourse.id}/details`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
-
-      await databaseBuilder.commit();
     });
 
     it('should respond with a 403 - forbidden access - if user is not an admin member', async function () {
@@ -252,18 +228,14 @@ describe('Acceptance | Route | certification-course', function () {
       const expectedResponse = {
         type: 'v3-certification-course-details-for-administrations',
         attributes: {
-          'certification-course-id': certificationCourseId,
+          'certification-course-id': certificationCourse.id,
         },
-        id: certificationCourseId.toString(),
+        id: certificationCourse.id.toString(),
         relationships: {
           'certification-challenges-for-administration': {
             data: [
               {
-                id: certificationChallenge1.challengeId,
-                type: 'certification-challenges-for-administration',
-              },
-              {
-                id: certificationChallenge2.challengeId,
+                id: certificationChallenges[0].challengeId,
                 type: 'certification-challenges-for-administration',
               },
             ],
@@ -274,6 +246,20 @@ describe('Acceptance | Route | certification-course', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data).to.deep.equal(expectedResponse);
+      expect(response.result.included).to.deep.equal([
+        {
+          attributes: {
+            'answer-status': 'ok',
+            'answered-at': new Date('2020-01-01'),
+            'competence-index': '1.1',
+            'competence-name': 'Fabriquer un meuble',
+            'skill-name': '@sau3',
+            'validated-live-alert': undefined,
+          },
+          id: 'recCHAL1',
+          type: 'certification-challenges-for-administration',
+        },
+      ]);
     });
   });
 });

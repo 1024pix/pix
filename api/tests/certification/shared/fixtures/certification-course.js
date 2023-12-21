@@ -18,6 +18,7 @@ const createLearningContent = () => {
 
   const challenge1 = buildChallenge({
     id: 'recCHAL1',
+    competenceId,
   });
 
   const skill1 = {
@@ -68,6 +69,7 @@ const createLearningContent = () => {
     tubeIds: ['tubeId1', 'tubeId2', 'tubeId3'],
   });
   competence.thematics = [thematic];
+  competence.name_i18n = { fr: 'Fabriquer un meuble' };
   area.competences = [competence];
   framework.areas = [area];
   const learningContent = buildLearningContent([framework]);
@@ -80,8 +82,8 @@ const createLearningContent = () => {
 };
 
 const buildCertificationChallengesFromChallenges = ({ challenges, certificationCourse }) => {
-  challenges.forEach((challenge) => {
-    databaseBuilder.factory.buildCertificationChallenge({
+  return challenges.map((challenge) => {
+    return databaseBuilder.factory.buildCertificationChallenge({
       associatedSkillName: challenge.skill.name,
       associatedSkillId: challenge.skill.id,
       challengeId: challenge.id,
@@ -143,7 +145,7 @@ export const createSuccessfulCertificationCourse = async ({ userId, certificatio
     status: 'validated',
   });
 
-  buildCertificationChallengesFromChallenges({ challenges, certificationCourse });
+  const certificationChallenges = buildCertificationChallengesFromChallenges({ challenges, certificationCourse });
 
   const answers = buildOkAnswersFromChallenges({ challenges, assessment });
 
@@ -159,5 +161,6 @@ export const createSuccessfulCertificationCourse = async ({ userId, certificatio
     assessment,
     assessmentResult,
     certificationCourse,
+    certificationChallenges,
   };
 };
