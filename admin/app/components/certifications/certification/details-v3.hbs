@@ -17,4 +17,67 @@
     </dl>
   </section>
 </div>
-<section class="page-section"></section>
+<section class="page-section">
+  <h2 class="certification-details-v3__title">Liste des questions</h2>
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column--small">N°</th>
+            <th class="certification-details-v3-table__answered-at-column">Heure de réponse</th>
+            <th class="certification-details-v3-table__answer-status-column">Statut</th>
+            <th class="certification-details-v3-table__competence-column">Compétence concernée</th>
+            <th class="certification-details-v3-table__skill-column">Nom de l'acquis</th>
+            <th class="certification-details-v3-table__challenge-id-column">RecID (voir dans Pix Editor)</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @details.certificationChallengesForAdministration as |certificationChallenge key|}}
+            <tr>
+              <td>{{key}}</td>
+              <td>
+                {{#if certificationChallenge.answeredAt}}
+                  <time>
+                    {{dayjs-format certificationChallenge.answeredAt "HH:mm:ss"}}
+                  </time>
+                {{else}}
+                  -
+                {{/if}}
+              </td>
+              <td>
+                <PixTag @color={{this.answerStatusColor certificationChallenge.answerStatus}}>
+                  {{this.answerStatusLabel certificationChallenge.answerStatus}}
+                </PixTag>
+              </td>
+              <td>{{certificationChallenge.competenceIndex}} {{certificationChallenge.competenceName}}</td>
+              <td>{{certificationChallenge.skillName}}</td>
+              <td>
+                <a
+                  href={{this.externalUrlForPixEditor certificationChallenge.id}}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{certificationChallenge.id}}
+                  <FaIcon @icon="external-link" />
+                </a>
+              </td>
+              <td>
+                <a
+                  href={{this.externalUrlForPreviewChallenge certificationChallenge.id}}
+                  target="_blank"
+                  title="Lien vers l'aperçu de l'épreuve"
+                  aria-label="Lien vers l'aperçu de l'épreuve (Ouverture dans une nouvelle fenêtre)"
+                  rel="noopener noreferrer"
+                >
+                  <FaIcon @icon="eye" />
+                </a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
