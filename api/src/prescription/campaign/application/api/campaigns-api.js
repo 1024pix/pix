@@ -3,11 +3,7 @@ import { SavedCampaign } from './models/SavedCampaign.js';
 import { Campaign } from './models/Campaign.js';
 import { CampaignListItem } from './models/CampaignListItem.js';
 /**
- * @typedef CampaignApi
- * @type {object}
- * @function save
- * @function get
- * @function findAllForOrganization
+ * @module CampaignApi
  */
 
 /**
@@ -110,7 +106,7 @@ export const update = async (payload) => {
 /**
  * @typedef CampaignListResponse
  * @type {object}
- * @property {[CampaignListItem]} models
+ * @property {Array<CampaignListItem>} models
  * @property {Pagination} meta
  */
 
