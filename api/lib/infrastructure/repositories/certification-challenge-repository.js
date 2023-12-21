@@ -1,7 +1,4 @@
-import { Bookshelf } from '../bookshelf.js';
-import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { DomainTransaction } from '../DomainTransaction.js';
-import { BookshelfCertificationChallenge } from '../orm-models/CertificationChallenge.js';
 import { logger } from '../../infrastructure/logger.js';
 import { AssessmentEndedError } from '../../domain/errors.js';
 import { knex } from '../../../db/knex-database-connection.js';
@@ -13,7 +10,7 @@ const logContext = {
 };
 
 const save = async function ({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
-  const certificationChallengeToSave = new BookshelfCertificationChallenge({
+  const certificationChallengeToSave = new CertificationChallenge({
     challengeId: certificationChallenge.challengeId,
     competenceId: certificationChallenge.competenceId,
     associatedSkillName: certificationChallenge.associatedSkillName,
@@ -23,28 +20,31 @@ const save = async function ({ certificationChallenge, domainTransaction = Domai
     difficulty: certificationChallenge.difficulty,
     discriminant: certificationChallenge.discriminant,
   });
-  const savedCertificationChallenge = await certificationChallengeToSave.save(null, {
-    transacting: domainTransaction.knexTransaction,
-  });
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, savedCertificationChallenge);
+  const knexConn = domainTransaction.knexTransaction || knex;
+  const [savedCertificationChallenge] = await knexConn('certification-challenges')
+    .insert(certificationChallengeToSave)
+    .returning('*');
+
+  return new CertificationChallenge(savedCertificationChallenge);
 };
 
 const getNextNonAnsweredChallengeByCourseId = async function (assessmentId, courseId) {
-  const answeredChallengeIds = Bookshelf.knex('answers').select('challengeId').where({ assessmentId });
+  const answeredChallengeIds = knex('answers').select('challengeId').where({ assessmentId });
 
-  const certificationChallenge = await BookshelfCertificationChallenge.where({ courseId })
-    .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
+  const certificationChallenge = await knex('certification-challenges')
+    .where({ courseId })
+    .whereNotIn('challengeId', answeredChallengeIds)
     .orderBy('id', 'asc')
-    .fetch({ require: false });
+    .first();
 
-  if (certificationChallenge === null) {
+  if (!certificationChallenge) {
     logger.trace(logContext, 'no found challenges');
     throw new AssessmentEndedError();
   }
 
   logContext.challengeId = certificationChallenge.id;
   logger.trace(logContext, 'found challenge');
-  return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationChallenge, certificationChallenge);
+  return new CertificationChallenge(certificationChallenge);
 };
 
 const getNextChallengeByCourseIdForV3 = async function (courseId, ignoredChallengeIds) {
