@@ -430,11 +430,15 @@ describe('Unit | Application | Router | campaign-router ', function () {
   });
 
   describe('GET /api/campaigns/{id}/profiles-collection-participations', function () {
-    it('should return 200 with empty query string', async function () {
-      // given
+    beforeEach(function() {
+      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign').returns((_, h) => h.response(true));
       sinon
         .stub(campaignController, 'findProfilesCollectionParticipations')
         .callsFake((request, h) => h.response('ok').code(200));
+    });
+
+    it('should return 200 with empty query string', async function () {
+      // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -447,7 +451,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('should return 200 with pagination', async function () {
       // given
-      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -463,7 +466,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('should return 200 with a string array of one element as division filter', async function () {
       // given
-      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -479,7 +481,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('should return 200 with a string array of several elements as division filter', async function () {
       // given
-      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -495,7 +496,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('should return 200 with a string array of one element as group filter', async function () {
       // given
-      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -511,7 +511,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('should return 200 with a string array of several elements as group filter', async function () {
       // given
-      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -527,7 +526,6 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('should return 200 with a string of certificability filter', async function () {
       // given
-      sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

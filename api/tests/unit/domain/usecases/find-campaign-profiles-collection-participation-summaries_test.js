@@ -1,7 +1,6 @@
-import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { expect, sinon } from '../../../test-helper.js';
 import { findCampaignProfilesCollectionParticipationSummaries } from '../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
-import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function () {
   let userId, campaignId;
@@ -18,53 +17,29 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
   beforeEach(function () {
     userId = Symbol('user id');
     campaignId = Symbol('campaign id');
-    campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
+
     campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
+    campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
   });
 
-  context('the user belongs to the organization of the campaign', function () {
-    let participationSummaries;
+  it('should retrieve the campaign participations datas', async function () {
+    const page = { number: 1 };
+    const filters = { divisions: ['Barry White Classics'] };
+    // given
+    campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId
+      .withArgs(campaignId, page, filters)
+      .resolves(campaignProfilesCollectionParticipationSummaries);
 
-    beforeEach(async function () {
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
+    const participationSummaries = await findCampaignProfilesCollectionParticipationSummaries({
+      userId,
+      campaignId,
+      page,
+      filters,
+      campaignRepository,
+      campaignProfilesCollectionParticipationSummaryRepository,
     });
 
-    it('should retrieve the campaign participations datas', async function () {
-      const page = { number: 1 };
-      const filters = { divisions: ['Barry White Classics'] };
-      // given
-      campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId
-        .withArgs(campaignId, page, filters)
-        .resolves(campaignProfilesCollectionParticipationSummaries);
-
-      participationSummaries = await findCampaignProfilesCollectionParticipationSummaries({
-        userId,
-        campaignId,
-        page,
-        filters,
-        campaignRepository,
-        campaignProfilesCollectionParticipationSummaryRepository,
-      });
-
-      // then
-      expect(participationSummaries).to.equal(campaignProfilesCollectionParticipationSummaries);
-    });
-  });
-
-  context('the user does not belong to the organization of the campaign', function () {
-    beforeEach(function () {
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
-    });
-
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async function () {
-      const requestErr = await catchErr(findCampaignProfilesCollectionParticipationSummaries)({
-        userId,
-        campaignId,
-        campaignRepository,
-        campaignProfilesCollectionParticipationSummaryRepository,
-      });
-
-      expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
-    });
+    // then
+    expect(participationSummaries).to.equal(campaignProfilesCollectionParticipationSummaries);
   });
 });
