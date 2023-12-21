@@ -18,4 +18,9 @@ export default class OidcIdentityProviders extends Service {
     });
     oidcIdentityProviders.map((oidcIdentityProvider) => (this[oidcIdentityProvider.id] = oidcIdentityProvider));
   }
+
+  isProviderEnabled(identityProviderSlug) {
+    const oidcIdentityProvider = this.list.find((provider) => provider.id === identityProviderSlug);
+    return oidcIdentityProvider !== undefined;
+  }
 }
