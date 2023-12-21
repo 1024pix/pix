@@ -1,4 +1,4 @@
-import { knex } from '../../../../../lib/infrastructure/bookshelf.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
 import { fetchPage } from '../../../../../lib/infrastructure/utils/knex-utils.js';
 import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { JurySession, statuses } from '../../../../../lib/domain/models/JurySession.js';
