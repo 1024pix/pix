@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
         challengeId,
         answerStatus,
         validatedLiveAlert: new V3CertificationChallengeLiveAlertForAdministration({ id: liveAlertId }),
+        answeredAt: new Date('2020-01-02'),
       });
 
       const expectedJsonApi = {
@@ -41,6 +42,7 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
             attributes: {
               'answer-status': 'ok',
               'validated-live-alert': { id: 789 },
+              'answered-at': certificationChallenge.answeredAt,
             },
           },
         ],

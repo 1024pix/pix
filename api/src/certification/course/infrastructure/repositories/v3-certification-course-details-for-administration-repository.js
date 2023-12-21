@@ -17,6 +17,7 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
       challengeId: 'certification-challenges.challengeId',
       answerStatus: 'answers.result',
       liveAlertId: 'validated-live-alerts.id',
+      answeredAt: 'answers.createdAt',
     })
     .from('assessments')
     .leftJoin('certification-challenges', 'certification-challenges.courseId', 'assessments.certificationCourseId')

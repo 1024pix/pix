@@ -20,7 +20,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         certificationCourseId,
       });
 
-      databaseBuilder.factory.buildAnswer({
+      const answer = databaseBuilder.factory.buildAnswer({
         assessmentId,
         challengeId,
         result: 'ok',
@@ -38,6 +38,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const certificationChallengeForAdministration = domainBuilder.buildV3CertificationChallengeForAdministration({
         challengeId,
         answerStatus: AnswerStatus.OK,
+        answeredAt: answer.createdAt,
       });
 
       const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({
@@ -63,7 +64,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         certificationCourseId,
       });
 
-      databaseBuilder.factory.buildAnswer({
+      const answer = databaseBuilder.factory.buildAnswer({
         assessmentId,
         challengeId,
         result: 'ok',
@@ -97,6 +98,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         challengeId,
         answerStatus: AnswerStatus.OK,
         validatedLiveAlert,
+        answeredAt: answer.createdAt,
       });
 
       const expectedCertificationCourseDetails = domainBuilder.buildV3CertificationCourseDetailsForAdministration({

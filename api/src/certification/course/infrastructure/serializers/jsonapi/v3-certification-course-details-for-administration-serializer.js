@@ -30,7 +30,7 @@ const serialize = function ({ certificationDetails }) {
         }
       },
       ref: 'challengeId',
-      attributes: ['answerStatus', 'validatedLiveAlert'],
+      attributes: ['answerStatus', 'validatedLiveAlert', 'answeredAt'],
     },
   }).serialize(certificationDetails);
 };
