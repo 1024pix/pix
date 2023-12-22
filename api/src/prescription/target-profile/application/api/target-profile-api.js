@@ -3,9 +3,7 @@ import { usecases as libUsecases } from '../../../../../lib/domain/usecases/inde
 import { TargetProfile } from './TargetProfile.js';
 
 /**
- * @typedef TargetProfileApi
- * @type {object}
- * @function getByOrganizationId
+ * @module TargetProfileApi
  */
 
 /**
