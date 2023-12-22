@@ -4,7 +4,7 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../errors.js';
+import { CampaignTypeError, UserNotAuthorizedToGetCampaignResultsError } from '../../../../../lib/domain/errors.js';
 import { CampaignProfilesCollectionExport } from '../../infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {

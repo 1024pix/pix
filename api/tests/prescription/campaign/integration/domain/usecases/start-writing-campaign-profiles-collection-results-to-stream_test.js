@@ -2,17 +2,17 @@ import stream from 'stream';
 
 const { PassThrough } = stream;
 
-import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../test-helper.js';
-import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
+import { expect, mockLearningContent, databaseBuilder, streamToPromise } from '../../../../../test-helper.js';
+import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
 
-import * as campaignRepository from '../../../../lib/infrastructure/repositories/campaign-repository.js';
-import * as campaignParticipationRepository from '../../../../lib/infrastructure/repositories/campaign-participation-repository.js';
-import * as competenceRepository from '../../../../src/shared/infrastructure/repositories/competence-repository.js';
-import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
-import * as userRepository from '../../../../src/shared/infrastructure/repositories/user-repository.js';
-import * as placementProfileService from '../../../../lib/domain/services/placement-profile-service.js';
-import { getI18n } from '../../../tooling/i18n/i18n.js';
-import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../lib/domain/constants.js';
+import * as campaignRepository from '../../../../../../lib/infrastructure/repositories/campaign-repository.js';
+import * as campaignParticipationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-participation-repository.js';
+import * as competenceRepository from '../../../../../../src/shared/infrastructure/repositories/competence-repository.js';
+import * as organizationRepository from '../../../../../../lib/infrastructure/repositories/organization-repository.js';
+import * as userRepository from '../../../../../../src/shared/infrastructure/repositories/user-repository.js';
+import * as placementProfileService from '../../../../../../lib/domain/services/placement-profile-service.js';
+import { getI18n } from '../../../../../tooling/i18n/i18n.js';
+import { MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } from '../../../../../../lib/domain/constants.js';
 
 describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
   describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
