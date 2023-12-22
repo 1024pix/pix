@@ -1,17 +1,14 @@
-import * as targetProfileAdapter from '../../../../../lib/infrastructure/adapters/target-profile-adapter.js';
-import { BookshelfTargetProfile } from '../../../../../lib/infrastructure/orm-models/TargetProfile.js';
+import { knex } from '../../../../../db/knex-database-connection.js';
+import { TargetProfile } from '../../../../../lib/domain/models/index.js';
+import { Badge } from '../../../../shared/domain/models/Badge.js';
 
 const getByCampaignId = async function (campaignId) {
-  const bookshelfTargetProfile = await BookshelfTargetProfile.query((qb) => {
-    qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-  })
-    .where({ 'campaigns.id': campaignId })
-    .fetch({
-      withRelated: ['badges'],
-    });
-  return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile,
-  });
+  const { targetProfileId } = await knex('campaigns').select('targetProfileId').where({ id: campaignId }).first();
+
+  const targetProfile = await knex('target-profiles').where({ id: targetProfileId }).first();
+  const badges = await knex('badges').where('targetProfileId', targetProfileId);
+
+  return new TargetProfile({ ...targetProfile, badges: badges.map((badge) => new Badge(badge)) });
 };
 
 export { getByCampaignId };
