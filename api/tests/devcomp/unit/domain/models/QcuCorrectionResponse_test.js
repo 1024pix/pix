@@ -11,13 +11,13 @@ describe('Unit | Devcomp | Domain | Models | QcuCorrectionResponse', function ()
       const proposalId = 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6';
 
       // when
-      const qcuCorrectionResponse = new QcuCorrectionResponse({ status, feedback, solutionId: proposalId });
+      const qcuCorrectionResponse = new QcuCorrectionResponse({ status, feedback, solution: proposalId });
 
       // then
       expect(qcuCorrectionResponse).not.to.be.undefined;
       expect(qcuCorrectionResponse.status).to.deep.equal(status);
       expect(qcuCorrectionResponse.feedback).to.equal(feedback);
-      expect(qcuCorrectionResponse.solutionId).to.equal(proposalId);
+      expect(qcuCorrectionResponse.solution).to.equal(proposalId);
     });
   });
 

@@ -3,7 +3,7 @@ import { Element } from './Element.js';
 
 class QROCM extends Element {
   constructor({ id, instruction, proposals, locales }) {
-    super({ id });
+    super({ id, type: 'qrocm' });
 
     assertNotNullOrUndefined(instruction, "L'instruction est obligatoire pour un QROCM");
     this.#assertProposalsIsAnArray(proposals);

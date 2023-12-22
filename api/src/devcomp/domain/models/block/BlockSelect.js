@@ -1,8 +1,7 @@
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class BlockSelect {
-  constructor({ type, input, display, placeholder, ariaLabel, defaultValue, tolerances, options, solutions }) {
-    assertNotNullOrUndefined(type, 'Le type est obligatoire pour un bloc de selection');
+  constructor({ input, display, placeholder, ariaLabel, defaultValue, tolerances, options, solutions }) {
     assertNotNullOrUndefined(input, "L'input est obligatoire pour un bloc de selection");
     assertNotNullOrUndefined(display, 'Le display est obligatoire pour un bloc de selection');
     assertNotNullOrUndefined(placeholder, 'Le placeholder est obligatoire pour un bloc de selection');
@@ -12,7 +11,7 @@ class BlockSelect {
     assertNotNullOrUndefined(options, 'Les options sont obligatoires pour un bloc de selection');
     assertNotNullOrUndefined(solutions, 'Les solutions sont obligatoires pour un bloc de selection');
 
-    this.type = type;
+    this.type = 'select';
     this.input = input;
     this.display = display;
     this.placeholder = placeholder;

@@ -10,6 +10,7 @@ describe('Unit | Devcomp | Domain | Models | Element | Text', function () {
       // then
       expect(text.id).to.equal('id');
       expect(text.content).to.equal('content');
+      expect(text.type).to.equal('text');
     });
   });
 

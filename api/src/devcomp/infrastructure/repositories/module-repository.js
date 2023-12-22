@@ -13,6 +13,7 @@ import { BlockSelect } from '../../domain/models/block/BlockSelect.js';
 import { BlockSelectOption } from '../../domain/models/block/BlockSelectOption.js';
 import { QROCM } from '../../domain/models/element/QROCM.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
+import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -95,7 +96,7 @@ function _toDomainForVerification(moduleData) {
               case 'qcu':
                 return _toQCUForAnswerVerificationDomain(element);
               case 'qrocm':
-                return _toQROCMDomain(element);
+                return _toQROCMForAnswerVerificationDomain(element);
               default:
                 logger.warn({
                   event: 'module_element_type_unknown',
@@ -114,6 +115,7 @@ function _toTextDomain(element) {
   return new Text({
     id: element.id,
     content: element.content,
+    type: element.type,
   });
 }
 
@@ -123,6 +125,7 @@ function _toImageDomain(element) {
     url: element.url,
     alt: element.alt,
     alternativeText: element.alternativeText,
+    type: element.type,
   });
 }
 
@@ -139,6 +142,7 @@ function _toQCUForAnswerVerificationDomain(element) {
     }),
     feedbacks: element.feedbacks,
     solution: element.solution,
+    type: element.type,
   });
 }
 
@@ -153,6 +157,18 @@ function _toQCUDomain(element) {
         content: proposal.content,
       });
     }),
+    type: element.type,
+  });
+}
+
+function _toQROCMForAnswerVerificationDomain(element) {
+  return new QROCMForAnswerVerification({
+    id: element.id,
+    instruction: element.instruction,
+    locales: element.locales,
+    proposals: element.proposals,
+    feedbacks: element.feedbacks,
+    type: element.type,
   });
 }
 
@@ -176,6 +192,7 @@ function _toQROCMDomain(element) {
           logger.warn(`Type de proposal inconnu: ${proposal.type}`);
       }
     }),
+    type: element.type,
   });
 }
 

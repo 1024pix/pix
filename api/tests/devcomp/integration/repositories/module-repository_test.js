@@ -13,6 +13,7 @@ import { BlockInput } from '../../../../src/devcomp/domain/models/block/BlockInp
 import { BlockSelect } from '../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockText } from '../../../../src/devcomp/domain/models/block/BlockText.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { QROCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -396,24 +397,23 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
     });
 
     it('should return a module if it exists', async function () {
-      // given
-      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
-
       // when
-      const module = await moduleRepository.getBySlugForVerification({
-        slug: existingModuleSlug,
-        moduleDatasource,
-      });
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail',
+        module = await moduleRepository.getBySlugForVerification({
+          slug: existingModuleSlug,
+          moduleDatasource,
+        });
 
       // then
       expect(module).to.be.instanceOf(Module);
-      expect(
-        module.grains.every((grain) =>
-          grain.elements
-            .filter((element) => element.type === 'qcu')
-            .every((qcu) => qcu instanceof QCUForAnswerVerification),
-        ),
-      ).to.be.true;
+
+      const qcus = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qcu'));
+      expect(qcus).to.not.have.length(0);
+      qcus.every((qcu) => qcu instanceof QCUForAnswerVerification);
+
+      const qrocms = module.grains.flatMap((grain) => grain.elements.filter((element) => element.type === 'qrocm'));
+      expect(qrocms).to.not.have.length(0);
+      qrocms.every((qrocm) => qrocm instanceof QROCMForAnswerVerification);
     });
 
     it('should log a warning if none of the element types match and return an empty element', async function () {

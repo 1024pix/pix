@@ -3,7 +3,7 @@ import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asser
 
 class Image extends Element {
   constructor({ id, url, alt, alternativeText }) {
-    super({ id });
+    super({ id, type: 'image' });
 
     assertNotNullOrUndefined(url, "L'URL est obligatoire pour une image");
     assertNotNullOrUndefined(alt, 'Le contenu alt est obligatoire pour une image');

@@ -6,7 +6,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
     it('should create a input block and keep attributes', function () {
       // given
       const constructor = {
-        type: 'input',
         input: 'symbole',
         inputType: 'text',
         size: 1,
@@ -22,7 +21,7 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       const input = new BlockInput(constructor);
 
       // then
-      expect(input.type).to.equal(constructor.type);
+      expect(input.type).to.equal('input');
       expect(input.input).to.equal(constructor.input);
       expect(input.inputType).to.equal(constructor.inputType);
       expect(input.size).to.equal(constructor.size);
@@ -35,15 +34,9 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
     });
   });
 
-  describe('If type is missing', function () {
-    it('should throw an error', function () {
-      expect(() => new BlockInput({})).to.throw("Le type est obligatoire pour un bloc d'input");
-    });
-  });
-
   describe('If input is missing', function () {
     it('should throw an error', function () {
-      expect(() => new BlockInput({ type: 'input' })).to.throw("L'input est obligatoire pour un bloc d'input");
+      expect(() => new BlockInput({})).to.throw("L'input est obligatoire pour un bloc d'input");
     });
   });
 
@@ -52,7 +45,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
           }),
       ).to.throw("Le type d'input est obligatoire pour un bloc d'input");
@@ -63,7 +55,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
           }),
@@ -75,7 +66,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
             size: 1,
@@ -88,7 +78,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
             size: 1,
@@ -102,7 +91,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
             size: 1,
@@ -117,7 +105,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
             size: 1,
@@ -133,7 +120,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
             size: 1,
@@ -151,7 +137,6 @@ describe('Unit | Devcomp | Domain | Models | Block | BlockInput', function () {
       expect(
         () =>
           new BlockInput({
-            type: 'input',
             input: 'symbole',
             inputType: 'text',
             size: 1,

@@ -10,14 +10,14 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | CorrectionRe
       const givenCorrectionResponse = new QcuCorrectionResponse({
         status: AnswerStatus.OK,
         feedback: 'Good job!',
-        solutionId: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+        solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
       });
       const expectedResult = {
         data: {
           attributes: {
             feedback: 'Good job!',
             status: 'ok',
-            'solution-id': 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
+            solution: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
           },
           id: 'a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6',
           type: 'correction-responses',
