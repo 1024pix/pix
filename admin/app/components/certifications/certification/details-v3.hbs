@@ -34,9 +34,9 @@
           </tr>
         </thead>
         <tbody>
-          {{#each @details.certificationChallengesForAdministration as |certificationChallenge key|}}
+          {{#each @details.certificationChallengesForAdministration as |certificationChallenge|}}
             <tr>
-              <td>{{key}}</td>
+              <td>{{certificationChallenge.questionNumber}}</td>
               <td>
                 {{#if certificationChallenge.answeredAt}}
                   <time>
