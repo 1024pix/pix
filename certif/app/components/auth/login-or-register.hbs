@@ -64,10 +64,8 @@
     </div>
   </div>
   {{#if this.isInternationalDomain}}
-    <LanguageSwitcher
-      class="login-or-register__language-switcher"
-      @selectedLanguage={{this.selectedLanguage}}
-      @onLanguageChange={{this.onLanguageChange}}
-    />
+    <div class="login-or-register__language-switcher">
+      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+    </div>
   {{/if}}
 </div>
