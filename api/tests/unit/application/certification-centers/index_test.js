@@ -38,6 +38,7 @@ describe('Unit | Router | certification-center-router', function () {
     it('should accept a string array of one element as division filter ', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
+      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -54,6 +55,7 @@ describe('Unit | Router | certification-center-router', function () {
     it('should accept a string array of several elements as division filter ', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
+      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -85,6 +87,7 @@ describe('Unit | Router | certification-center-router', function () {
     it('should accept a pagination', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
+      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       // when
@@ -129,6 +132,7 @@ describe('Unit | Router | certification-center-router', function () {
     it('should accept an empty query string', async function () {
       // given
       sinon.stub(certificationCenterController, 'getStudents').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenter').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
