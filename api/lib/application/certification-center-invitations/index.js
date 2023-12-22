@@ -60,6 +60,7 @@ const register = async function (server) {
             },
           }),
         },
+        tags: ['api'],
       },
     },
     {
