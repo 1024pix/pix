@@ -13,6 +13,7 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(serviceCodes).to.contain('POLE_EMPLOI');
       expect(serviceCodes).to.contain('CNAV');
       expect(serviceCodes).to.contain('FWB');
+      expect(serviceCodes).to.contain('GOOGLE');
     });
   });
 
@@ -26,6 +27,17 @@ describe('Unit | Domain | Services | authentication registry', function () {
       expect(serviceCodes).to.contain('POLE_EMPLOI');
       expect(serviceCodes).to.contain('CNAV');
       expect(serviceCodes).not.to.contain('FWB');
+    });
+  });
+
+  describe('#getReadyOidcProviderServicesForPixAdmin', function () {
+    it('returns ready OIDC Providers for Pix Admin', function () {
+      // when
+      const services = authenticationRegistry.getReadyOidcProviderServicesForPixAdmin();
+
+      // then
+      const serviceCodes = services.map((service) => service.code);
+      expect(serviceCodes).to.contain('GOOGLE');
     });
   });
 

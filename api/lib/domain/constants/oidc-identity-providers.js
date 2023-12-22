@@ -10,14 +10,17 @@ const FWB = {
   code: 'FWB',
   configKey: 'fwb',
 };
-
+const GOOGLE = {
+  code: 'GOOGLE',
+  configKey: 'google',
+};
 const PAYSDELALOIRE = {
   code: 'PAYSDELALOIRE',
   configKey: 'paysdelaloire',
 };
 
 function getValidOidcProviderCodes() {
-  return [POLE_EMPLOI.code, CNAV.code, FWB.code, PAYSDELALOIRE.code];
+  return [POLE_EMPLOI.code, CNAV.code, FWB.code, GOOGLE.code, PAYSDELALOIRE.code];
 }
 
-export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB, PAYSDELALOIRE };
+export { getValidOidcProviderCodes, POLE_EMPLOI, CNAV, FWB, GOOGLE, PAYSDELALOIRE };
