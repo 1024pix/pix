@@ -65,7 +65,9 @@
     {{/if}}
 
     {{#if this.shouldDisplayLanguageSwitcher}}
-      <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+      <div>
+        <LanguageSwitcher @selectedLanguage={{this.selectedLanguage}} @onLanguageChange={{this.onLanguageChange}} />
+      </div>
     {{/if}}
   </main>
 </div>
