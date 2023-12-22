@@ -16,5 +16,8 @@ export default class CertificationDetailsRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
     controller.certificationId = model.id;
+    if (model.version === 3) {
+      controller.assignQuestionNumberForDisplay(model);
+    }
   }
 }
