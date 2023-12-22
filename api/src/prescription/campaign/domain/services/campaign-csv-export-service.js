@@ -1,6 +1,6 @@
-import { CampaignAssessmentCsvLine } from '../../infrastructure/utils/CampaignAssessmentCsvLine.js';
-import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
-import * as campaignParticipationService from '../services/campaign-participation-service.js';
+import { CampaignAssessmentCsvLine } from '../../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine.js';
+import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import * as campaignParticipationService from '../../../../../lib/domain/services/campaign-participation-service.js';
 
 export { createOneCsvLine };
 

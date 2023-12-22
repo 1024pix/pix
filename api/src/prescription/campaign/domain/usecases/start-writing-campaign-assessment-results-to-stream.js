@@ -6,10 +6,13 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { CONCURRENCY_HEAVY_OPERATIONS, CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING } from '../../infrastructure/constants.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../errors.js';
-import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
-import { CampaignLearningContent } from '../models/CampaignLearningContent.js';
+import {
+  CONCURRENCY_HEAVY_OPERATIONS,
+  CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
+} from '../../../../../lib/infrastructure/constants.js';
+import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../../lib/domain/errors.js';
+import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
+import { CampaignLearningContent } from '../../../../../lib/domain/models/CampaignLearningContent.js';
 
 const startWritingCampaignAssessmentResultsToStream = async function ({
   userId,
@@ -30,6 +33,7 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
 
+  // Todo : à migrer dans un prehandler pour limiter l'injection de repository
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   if (!campaign.isAssessment()) {
