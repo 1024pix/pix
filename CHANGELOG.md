@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.80.0 (22/12/2023)
+
+
+### :rocket: Amélioration
+- [#7736](https://github.com/1024pix/pix/pull/7736) [FEATURE] Edit wording in change referer button (Pix 10364).
+- [#7692](https://github.com/1024pix/pix/pull/7692) [FEATURE] Retourner une erreur 404 lors de l'enregistrement d'un signalement si la catégorie liée n'existe pas en base de données (PIX-10210).
+- [#7711](https://github.com/1024pix/pix/pull/7711) [FEATURE] Voir les informations complémentaires d'une certification sur la page de détails (PIX-10290).
+- [#7723](https://github.com/1024pix/pix/pull/7723) [FEATURE] Mise à jour des variables css d'Orga et vérifications suite à la maj de pixUI (PIX-10307).
+- [#7718](https://github.com/1024pix/pix/pull/7718) [FEATURE] Rejet d'une certification complémentaire en cas de fraude lors de la certification (PIX-10371).
+
+### :building_construction: Tech
+- [#7742](https://github.com/1024pix/pix/pull/7742) [TECH] migre le route d'export csv des résultats d'une campagne de collecte dans son bounded context (pix-10410).
+- [#7740](https://github.com/1024pix/pix/pull/7740) [TECH] Ajoute un script qui génère la documentation des APIs de la Prescription. (PIX-10504).
+- [#7724](https://github.com/1024pix/pix/pull/7724) [TECH] ajouter un script pour faciliter la mise à jour du googlesheet d'audit (PIX-10445).
+- [#7744](https://github.com/1024pix/pix/pull/7744) [TECH] Migrer la route des résultats d'une collecte de profils dans son bounded context (Pix-10411).
+- [#7746](https://github.com/1024pix/pix/pull/7746) [TECH] Suppression d'un PixButton avec un paramètre déprécié. (PIX-10369).
+- [#7745](https://github.com/1024pix/pix/pull/7745) [TECH] Aligner la version des modules 1d et audit logger.
+- [#7732](https://github.com/1024pix/pix/pull/7732) [TECH] Migrer les résultats d'une campagne dans src (Pix-10412).
+- [#7399](https://github.com/1024pix/pix/pull/7399) [TECH] le hook de pre-commit lance les commandes de lint depuis les dossiers des applis front.
+
+### :bug: Correction
+- [#7733](https://github.com/1024pix/pix/pull/7733) [BUGFIX] Autoriser l'appel au repository sans définir de filtre (PIX-10474).
+
 ## v4.79.0 (21/12/2023)
 
 
