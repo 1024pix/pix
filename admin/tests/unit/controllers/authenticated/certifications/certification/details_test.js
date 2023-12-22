@@ -6,7 +6,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   setupTest(hooks);
   setupIntl(hooks);
 
-  module('#assignQuestionNumberForDisplay', () => {
+  module('#assignQuestionNumberForDisplay', function () {
     test('it should return the model with the formatted question number for each associated challenge', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
