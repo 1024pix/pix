@@ -234,31 +234,6 @@ const register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/profiles-collection-participations',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.campaignId,
-          }),
-          query: Joi.object({
-            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[search]': Joi.string().empty(''),
-            'filter[certificability]': Joi.string().empty(''),
-            'page[number]': Joi.number().integer().empty(''),
-            'page[size]': Joi.number().integer().empty(''),
-          }),
-        },
-        handler: campaignController.findProfilesCollectionParticipations,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération des profils collectés d'une campagne par son id",
-        ],
-        tags: ['api', 'campaign'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/campaigns/{id}/participants-activity',
       config: {
         validate: {
