@@ -26,6 +26,11 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/oidc/identity-providers',
       config: {
+        validate: {
+          query: Joi.object({
+            audience: Joi.string().optional(),
+          }),
+        },
         auth: false,
         handler: oidcController.getIdentityProviders,
         notes: [

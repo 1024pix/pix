@@ -3,18 +3,27 @@ import { PoleEmploiOidcAuthenticationService } from './pole-emploi-oidc-authenti
 import { CnavOidcAuthenticationService } from './cnav-oidc-authentication-service.js';
 import { FwbOidcAuthenticationService } from './fwb-oidc-authentication-service.js';
 import { PaysdelaloireOidcAuthenticationService } from './paysdelaloire-oidc-authentication-service.js';
+import { GoogleOidcAuthenticationService } from './GoogleOidcAuthenticationService.js';
 
 const allOidcProviderServices = [
   new PoleEmploiOidcAuthenticationService(),
   new CnavOidcAuthenticationService(),
   new FwbOidcAuthenticationService(),
   new PaysdelaloireOidcAuthenticationService(),
+  new GoogleOidcAuthenticationService(),
 ];
 
 const readyOidcProviderServices = allOidcProviderServices.filter((oidcProvider) => oidcProvider.isReady);
+const readyOidcProviderServicesForPixAdmin = allOidcProviderServices.filter(
+  (oidcProvider) => oidcProvider.isReadyForPixAdmin,
+);
 
 function getReadyOidcProviderServices() {
   return readyOidcProviderServices;
+}
+
+function getReadyOidcProviderServicesForPixAdmin() {
+  return readyOidcProviderServicesForPixAdmin;
 }
 
 function getAllOidcProviderServices() {
@@ -30,4 +39,9 @@ function getOidcProviderServiceByCode(identityProvider) {
   return oidcProviderService;
 }
 
-export { getReadyOidcProviderServices, getOidcProviderServiceByCode, getAllOidcProviderServices };
+export {
+  getReadyOidcProviderServices,
+  getOidcProviderServiceByCode,
+  getAllOidcProviderServices,
+  getReadyOidcProviderServicesForPixAdmin,
+};

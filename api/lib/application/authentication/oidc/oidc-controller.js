@@ -10,7 +10,8 @@ const getAllIdentityProvidersForAdmin = async function (request, h) {
 };
 
 const getIdentityProviders = async function (request, h) {
-  const identityProviders = usecases.getReadyIdentityProviders();
+  const audience = request.query.audience;
+  const identityProviders = usecases.getReadyIdentityProviders({ audience });
   return h.response(oidcProviderSerializer.serialize(identityProviders)).code(200);
 };
 
