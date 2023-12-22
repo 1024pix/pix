@@ -284,6 +284,118 @@ describe('Unit | Application | Controller | Campaign detail', function () {
       });
     });
   });
+
+  describe('#getCsvAssessmentResults', function () {
+    it('should call the use case to get result campaign in csv', async function () {
+      // given
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      const tokenServiceStub = {
+        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
+      };
+      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({ fileName: 'any file name' });
+      const dependencies = { tokenService: tokenServiceStub };
+
+      // when
+      await campaignDetailController.getCsvAssessmentResults(request, hFake, dependencies);
+
+      // then
+      expect(usecases.startWritingCampaignAssessmentResultsToStream).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.startWritingCampaignAssessmentResultsToStream.firstCall.args[0];
+      expect(getResultsCampaignArgs).to.have.property('userId');
+      expect(getResultsCampaignArgs).to.have.property('campaignId');
+    });
+
+    it('should return a response with correct headers', async function () {
+      // given
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      const tokenServiceStub = {
+        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
+      };
+      sinon
+        .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
+        .resolves({ fileName: 'expected file name' });
+      const dependencies = { tokenService: tokenServiceStub };
+
+      // when
+      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake, dependencies);
+
+      // then
+      expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['content-disposition']).to.equal('attachment; filename="expected file name"');
+      expect(response.headers['content-encoding']).to.equal('identity');
+    });
+
+    it('should fix invalid header chars in filename', async function () {
+      // given
+      const userId = 1;
+      const campaignId = 2;
+      const request = _getRequestForCampaignId(campaignId);
+
+      const tokenServiceStub = {
+        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
+      };
+      sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({
+        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+      });
+      const dependencies = { tokenService: tokenServiceStub };
+
+      // when
+      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake, dependencies);
+
+      // then
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename="file-name with invalid_chars _____________.csv"',
+      );
+    });
+
+    context('when the campaign id is not the same as provided in the access token', function () {
+      it('should throw an error', async function () {
+        // given
+        const userId = 1;
+        const campaignId = 2;
+        const request = _getRequestForCampaignId(campaignId);
+
+        const tokenServiceStub = {
+          extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId: 19 }),
+        };
+        sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves();
+        const dependencies = { tokenService: tokenServiceStub };
+
+        // when
+        const error = await catchErr(campaignDetailController.getCsvAssessmentResults)(request, hFake, dependencies);
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignAssessmentResultsToStream).to.not.have.been.called;
+      });
+    });
+
+    context('when the access token is invalid', function () {
+      it('should throw an error', async function () {
+        // given
+        const request = _getRequestForCampaignId(1);
+
+        const tokenServiceStub = {
+          extractCampaignResultsTokenContent: sinon.stub().throws(new ForbiddenAccess()),
+        };
+        sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves();
+        const dependencies = { tokenService: tokenServiceStub };
+
+        // when
+        const error = await catchErr(campaignDetailController.getCsvAssessmentResults)(request, hFake, dependencies);
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(usecases.startWritingCampaignAssessmentResultsToStream).to.not.have.been.called;
+      });
+    });
+  });
 });
 
 function _getRequestForCampaignId(campaignId) {
