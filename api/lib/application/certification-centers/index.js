@@ -235,6 +235,12 @@ const register = async function (server) {
             'page[size]': Joi.number().integer(),
           }),
         },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsMemberOfCertificationCenter,
+            assign: 'isMemberOfCertificationCenter',
+          },
+        ],
         handler: certificationCenterController.getStudents,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
