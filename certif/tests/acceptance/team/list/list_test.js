@@ -218,9 +218,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert
-                .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.update-referer-button') }))
-                .doesNotExist();
+              assert.dom(screen.queryByRole('button', { name: 'Changer de référent CléA' })).doesNotExist();
             });
 
             test('does display a tooltip to inform of what is a Pix Referer', async function (assert) {
@@ -271,9 +269,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert
-                .dom(screen.getByRole('button', { name: this.intl.t('pages.team.update-referer-button') }))
-                .exists();
+              assert.dom(screen.getByRole('button', { name: 'Changer de référent CléA' })).exists();
             });
           });
         });
@@ -443,9 +439,7 @@ module('Acceptance | authenticated | team', function (hooks) {
               const screen = await visitScreen('/equipe');
 
               // then
-              assert
-                .dom(screen.queryByRole('button', { name: this.intl.t('pages.team.update-referer-button') }))
-                .doesNotExist();
+              assert.dom(screen.queryByRole('button', { name: 'Changer de référent CléA' })).doesNotExist();
             });
           });
         });
