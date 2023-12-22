@@ -35,7 +35,12 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
     describe('A QCU For Verification without a solution', function () {
       it('should throw an error', function () {
         expect(
-          () => new QCUForAnswerVerification({ id: '123', instruction: 'toto', proposals: [Symbol('proposal1')] }),
+          () =>
+            new QCUForAnswerVerification({
+              id: '123',
+              instruction: 'toto',
+              proposals: [Symbol('proposal1')],
+            }),
         ).to.throw('La solution est obligatoire pour un QCU de vérification');
       });
     });
@@ -74,7 +79,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         correction: {
           status: assessResult.result,
           feedback: qcu.feedbacks.valid,
-          solutionId: qcuSolution,
+          solution: qcuSolution,
         },
       };
 
@@ -119,7 +124,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QcuForAnswerVerification'
         correction: {
           status: assessResult.result,
           feedback: qcu.feedbacks.invalid,
-          solutionId: qcuSolution,
+          solution: qcuSolution,
         },
       };
 

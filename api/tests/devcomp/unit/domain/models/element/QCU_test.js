@@ -19,6 +19,7 @@ describe('Unit | Devcomp | Domain | Models | Element | QCU', function () {
       // Then
       expect(qcu.id).equal('123');
       expect(qcu.instruction).equal('instruction');
+      expect(qcu.type).equal('qcu');
       expect(qcu.locales).deep.equal(['fr-FR']);
       expect(qcu.proposals).deep.equal([proposal1, proposal2]);
       expect(qcu.feedbacks).to.be.undefined;

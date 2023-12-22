@@ -1,8 +1,7 @@
 import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
 class BlockInput {
-  constructor({ type, input, inputType, size, display, placeholder, ariaLabel, defaultValue, tolerances, solutions }) {
-    assertNotNullOrUndefined(type, "Le type est obligatoire pour un bloc d'input");
+  constructor({ input, inputType, size, display, placeholder, ariaLabel, defaultValue, tolerances, solutions }) {
     assertNotNullOrUndefined(input, "L'input est obligatoire pour un bloc d'input");
     assertNotNullOrUndefined(inputType, "Le type d'input est obligatoire pour un bloc d'input");
     assertNotNullOrUndefined(size, "La taille est obligatoire pour un bloc d'input");
@@ -13,7 +12,7 @@ class BlockInput {
     assertNotNullOrUndefined(tolerances, "Les tolérances sont obligatoires pour un bloc d'input");
     assertNotNullOrUndefined(solutions, "Les solutions sont obligatoires pour un bloc d'input");
 
-    this.type = type;
+    this.type = 'input';
     this.input = input;
     this.inputType = inputType;
     this.size = size;
