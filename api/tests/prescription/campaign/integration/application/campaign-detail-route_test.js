@@ -7,6 +7,9 @@ describe('Integration | Application | Route | campaign detail router', function 
   let httpTestServer;
 
   beforeEach(async function () {
+    sinon
+      .stub(campaignDetailController, 'getCsvProfilesCollectionResults')
+      .callsFake((_, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -29,6 +32,16 @@ describe('Integration | Application | Route | campaign detail router', function 
       // then
       expect(response.statusCode).to.equal(200);
       expect(campaignDetailController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
+    });
+  });
+
+  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function () {
+    it('should exist', async function () {
+      // when
+      const response = await httpTestServer.request('GET', '/api/campaigns/1/csv-profiles-collection-results');
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
