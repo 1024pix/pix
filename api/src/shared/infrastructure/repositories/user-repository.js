@@ -77,14 +77,6 @@ const get = async function (userId) {
   if (!foundUser) throw new UserNotFoundError(`User not found for ID ${userId}`);
   return new User(foundUser);
 };
-//Doublon ici entre le get & getById ?
-const getById = async function (userId) {
-  const foundUser = await knex.from('users').where({ id: userId }).first();
-  if (!foundUser) {
-    throw new UserNotFoundError();
-  }
-  return new User(foundUser);
-};
 
 const getByIds = async function (userIds) {
   const dbUsers = await knex('users').whereIn('id', userIds);
@@ -212,6 +204,7 @@ const getBySamlId = async function (samlId) {
         .andOnVal('authentication-methods.externalIdentifier', samlId);
     });
   }).fetch({ require: false, withRelated: 'authenticationMethods' });
+
   return bookshelfUser ? _toDomain(bookshelfUser) : null;
 };
 
@@ -413,7 +406,6 @@ export {
   findPaginatedFiltered,
   get,
   getByEmail,
-  getById,
   getByIds,
   getBySamlId,
   getByUsernameOrEmailWithRolesAndPassword,
