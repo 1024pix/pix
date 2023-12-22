@@ -25,7 +25,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     user.authenticationMethods = [authenticationMethod];
 
     userRepository = {
-      getById: sinon.stub(),
+      get: sinon.stub(),
     };
     encryptionService = {
       hashPassword: sinon.stub(),
@@ -39,7 +39,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     };
 
     tokenService.extractUserId.resolves(user.id);
-    userRepository.getById.resolves(user);
+    userRepository.get.resolves(user);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
     encryptionService.hashPassword.resolves(hashedPassword);
   });
@@ -57,7 +57,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
     // then
     expect(tokenService.extractUserId).to.have.been.calledOnceWith(passwordResetToken);
-    expect(userRepository.getById).to.have.been.calledOnceWith(user.id);
+    expect(userRepository.get).to.have.been.calledOnceWith(user.id);
     expect(encryptionService.hashPassword).to.have.been.calledOnceWith(newPassword);
     expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.have.been.calledOnceWith({
       userId: user.id,
@@ -74,7 +74,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     it('should return user email', async function () {
       // given
       const user = domainBuilder.buildUser({ username: null, email: 'armand.talo@example.net' });
-      userRepository.getById.resolves(user);
+      userRepository.get.resolves(user);
 
       // when
       const login = await updateExpiredPassword({
@@ -94,7 +94,7 @@ describe('Unit | UseCase | update-expired-password', function () {
   context('when userId not exist', function () {
     it('should throw UserNotFoundError', async function () {
       // given
-      userRepository.getById.rejects(new UserNotFoundError());
+      userRepository.get.rejects(new UserNotFoundError());
 
       // when
       const error = await catchErr(updateExpiredPassword)({
@@ -109,7 +109,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
     it('should log error', async function () {
       // given
-      userRepository.getById.rejects(new UserNotFoundError());
+      userRepository.get.rejects(new UserNotFoundError());
       sinon.stub(logger, 'warn');
 
       // when
@@ -134,7 +134,7 @@ describe('Unit | UseCase | update-expired-password', function () {
       const user = domainBuilder.buildUser({ id: 100, authenticationMethods: [authenticationMethod] });
 
       tokenService.extractUserId.resolves(user.id);
-      userRepository.getById.resolves(user);
+      userRepository.get.resolves(user);
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
       // when

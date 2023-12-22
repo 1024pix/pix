@@ -19,7 +19,7 @@ const updateExpiredPassword = async function ({
 
   let foundUser;
   try {
-    foundUser = await userRepository.getById(userId);
+    foundUser = await userRepository.get(userId);
   } catch (error) {
     if (error instanceof UserNotFoundError) {
       logger.warn('Trying to change his password with incorrect user id');

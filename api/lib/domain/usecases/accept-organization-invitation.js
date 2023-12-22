@@ -21,7 +21,7 @@ const acceptOrganizationInvitation = async function ({
   }
 
   if (localeFromCookie) {
-    const user = await userRepository.getById(organizationInvitedUser.userId);
+    const user = await userRepository.get(organizationInvitedUser.userId);
     user.setLocaleIfNotAlreadySet(localeFromCookie);
     if (user.hasBeenModified) {
       await userRepository.update({ id: user.id, locale: user.locale });

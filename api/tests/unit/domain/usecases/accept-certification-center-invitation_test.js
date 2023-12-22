@@ -206,10 +206,10 @@ function _buildInvitationContext() {
   certificationCenterMembershipRepository.isMemberOfCertificationCenter.resolves(false);
 
   const userRepository = {
-    getById: sinon.stub(),
+    get: sinon.stub(),
     update: sinon.stub(),
   };
-  userRepository.getById.resolves(user);
+  userRepository.get.resolves(user);
 
   return {
     certificationCenterInvitedUserRepository,

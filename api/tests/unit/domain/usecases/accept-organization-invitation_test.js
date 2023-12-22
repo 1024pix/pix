@@ -17,7 +17,7 @@ describe('Unit | UseCase | accept-organization-invitation', function () {
       markAsAccepted: sinon.stub(),
     };
     userRepository = {
-      getById: sinon.stub(),
+      get: sinon.stub(),
       update: sinon.stub(),
     };
   });
@@ -168,6 +168,6 @@ function createContext({ organizationInvitedUserRepository, userRepository, user
 
   sinon.stub(organizationInvitedUser, 'acceptInvitation').resolves();
 
-  userRepository.getById.withArgs(user.id).resolves(user);
+  userRepository.get.withArgs(user.id).resolves(user);
   return { organizationInvitationId, organizationInvitedUser, organization, code, email, localeFromCookie, user };
 }
