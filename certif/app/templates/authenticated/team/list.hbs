@@ -12,9 +12,7 @@
       >{{t "pages.team.update-referer-button"}}</PixButton>
     {{/if}}
     {{#if this.shouldDisplayInviteMemberButton}}
-      <PixButton @isBorderVisible={{true}} @route="authenticated.team.invite">{{t
-          "pages.team.invite-button"
-        }}</PixButton>
+      <PixButtonLink @route="authenticated.team.invite">{{t "pages.team.invite-button"}}</PixButtonLink>
     {{/if}}
   </div>
 </div>
