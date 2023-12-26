@@ -146,4 +146,46 @@ module('Unit | Component | signup-form', function (hooks) {
       });
     });
   });
+
+  module('#onCguCheckboxChange', function () {
+    module('when checkbox is checked', function () {
+      test('it registers the cgu as accepted', function (assert) {
+        // given
+        const event = {
+          target: {
+            checked: true,
+          },
+        };
+        component.args.user = {
+          cgu: false,
+        };
+
+        // when
+        component.onCguCheckboxChange(event);
+
+        // then
+        assert.true(component.args.user.cgu);
+      });
+    });
+
+    module('when checkbox is unchecked', function () {
+      test('it registers the cgu as not accepted', function (assert) {
+        // given
+        const event = {
+          target: {
+            checked: false,
+          },
+        };
+        component.args.user = {
+          cgu: true,
+        };
+
+        // when
+        component.onCguCheckboxChange(event);
+
+        // then
+        assert.false(component.args.user.cgu);
+      });
+    });
+  });
 });
