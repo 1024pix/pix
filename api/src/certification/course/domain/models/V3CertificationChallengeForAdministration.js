@@ -2,6 +2,7 @@ export class V3CertificationChallengeForAdministration {
   constructor({
     challengeId,
     answerStatus,
+    answerValue,
     validatedLiveAlert,
     answeredAt,
     competenceId,
@@ -13,6 +14,7 @@ export class V3CertificationChallengeForAdministration {
     this.answerStatus = answerStatus;
     this.validatedLiveAlert = validatedLiveAlert;
     this.answeredAt = answeredAt;
+    this.answerValue = answerValue;
     this.competenceId = competenceId;
     this.skillName = skillName;
     this.competenceName = competenceName;

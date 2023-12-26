@@ -16,6 +16,7 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     .select({
       challengeId: 'certification-challenges.challengeId',
       answerStatus: 'answers.result',
+      answerValue: 'answers.value',
       liveAlertId: 'validated-live-alerts.id',
       answeredAt: 'answers.createdAt',
       competenceId: 'certification-challenges.competenceId',
