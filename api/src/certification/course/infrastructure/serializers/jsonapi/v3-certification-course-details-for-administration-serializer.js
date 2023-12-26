@@ -29,6 +29,7 @@ const serialize = function ({ certificationDetails }) {
         'answerStatus',
         'validatedLiveAlert',
         'answeredAt',
+        'answerValue',
         'competenceName',
         'competenceIndex',
         'skillName',
