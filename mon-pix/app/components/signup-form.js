@@ -112,7 +112,7 @@ export default class SignupForm extends Component {
   }
 
   @action
-  onChange(event) {
+  onCguCheckboxChange(event) {
     this.args.user.cgu = !!event.target.checked;
   }
 
