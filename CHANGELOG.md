@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.81.0 (26/12/2023)
+
+
+### :rocket: Amélioration
+- [#7688](https://github.com/1024pix/pix/pull/7688) [FEATURE] Vérifier un QROC-M indep (PIX-10390).
+
+### :building_construction: Tech
+- [#7749](https://github.com/1024pix/pix/pull/7749) [TECH] Améliorer la liste des candidats d'une session aux membres du centre de certification qui héberge la session (PIX-10512).
+- [#7500](https://github.com/1024pix/pix/pull/7500) [TECH] Ajouter le fournisseur d'identité Google pour Pix Admin (PIX-10069).
+- [#7747](https://github.com/1024pix/pix/pull/7747) [TECH] Remplace bookshelf par knex sur des repositories du scope certif (PIX-10510).
+- [#7734](https://github.com/1024pix/pix/pull/7734) [TECH] déplace getCsvAssmentExport dans son bounded context (pix-10409).
+
+### :bug: Correction
+- [#7678](https://github.com/1024pix/pix/pull/7678) [BUGFIX] ajoute le parametre d'url threshold dans le lien personalisé de fin de parcours (PIX-10357).
+- [#7656](https://github.com/1024pix/pix/pull/7656) [BUGFIX] Corriger un problème d'affichage du Language Switcher (PIX-9761).
+
+### :arrow_up: Montée de version
+- [#7756](https://github.com/1024pix/pix/pull/7756) [BUMP] Lock file maintenance (api).
+- [#7755](https://github.com/1024pix/pix/pull/7755) [BUMP] Lock file maintenance (admin).
+- [#7754](https://github.com/1024pix/pix/pull/7754) [BUMP] Lock file maintenance (1d).
+
 ## v4.80.0 (22/12/2023)
 
 
