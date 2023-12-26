@@ -149,15 +149,18 @@ module('Unit | Component | signup-form', function (hooks) {
 
   module('#onCguCheckboxChange', function () {
     module('when checkbox is checked', function () {
-      test('it registers the cgu as accepted', function (assert) {
+      test('it registers the cgu as accepted and resets validation status', function (assert) {
         // given
         const event = {
           target: {
             checked: true,
           },
         };
-        component.args.user = {
-          cgu: false,
+        component.args.user = {};
+        component.validation = {
+          cgu: {
+            status: 'error',
+          },
         };
 
         // when
@@ -165,19 +168,23 @@ module('Unit | Component | signup-form', function (hooks) {
 
         // then
         assert.true(component.args.user.cgu);
+        assert.strictEqual(component.validation.cgu.status, 'default');
       });
     });
 
     module('when checkbox is unchecked', function () {
-      test('it registers the cgu as not accepted', function (assert) {
+      test('it registers the cgu as not accepted and resets validation status', function (assert) {
         // given
         const event = {
           target: {
             checked: false,
           },
         };
-        component.args.user = {
-          cgu: true,
+        component.args.user = {};
+        component.validation = {
+          cgu: {
+            status: 'success',
+          },
         };
 
         // when
@@ -185,6 +192,7 @@ module('Unit | Component | signup-form', function (hooks) {
 
         // then
         assert.false(component.args.user.cgu);
+        assert.strictEqual(component.validation.cgu.status, 'default');
       });
     });
   });
