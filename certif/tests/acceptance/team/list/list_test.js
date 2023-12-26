@@ -14,6 +14,7 @@ import {
 } from '../../../helpers/test-init';
 import setupIntl from '../../../helpers/setup-intl';
 import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
+import sinon from 'sinon';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
@@ -333,6 +334,9 @@ module('Acceptance | authenticated | team', function (hooks) {
       module('when user wants to leave the certification center', function () {
         test('leaves the certification center, displays a success notification and disconnects the user', async function (assert) {
           // given
+          const session = this.owner.lookup('service:session');
+          sinon.stub(session, 'waitBeforeInvalidation');
+
           const leavingAdminUser = createCertificationPointOfContactWithTermsOfServiceAccepted(
             undefined,
             'Shelltif',
