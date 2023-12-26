@@ -208,6 +208,8 @@ module('Integration | Component | MembersList', function (hooks) {
             // given
             const onLeaveCertificationCenter = sinon.stub();
             this.set('onLeaveCertificationCenter', onLeaveCertificationCenter);
+            const session = this.owner.lookup('service:session');
+            sinon.stub(session, 'waitBeforeInvalidation');
 
             const screen = await renderScreen(
               hbs`<MembersList @members={{this.members}} @onLeaveCertificationCenter={{this.onLeaveCertificationCenter}}/>`,
@@ -222,6 +224,7 @@ module('Integration | Component | MembersList', function (hooks) {
             await waitForDialogClose();
 
             // then
+            sinon.assert.called(session.waitBeforeInvalidation);
             assert
               .dom(screen.queryByRole('heading', { level: 1, name: 'Quitter cet espace Pix Certif' }))
               .doesNotExist();

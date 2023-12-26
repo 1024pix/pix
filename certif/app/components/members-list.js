@@ -45,6 +45,7 @@ export default class MembersList extends Component {
           certificationCenterName: this.currentUser.currentAllowedCertificationCenterAccess.name,
         }),
       );
+      await this.session.waitBeforeInvalidation(5000);
       this.session.invalidate();
     } catch (error) {
       // eslint-disable-next-line no-console
