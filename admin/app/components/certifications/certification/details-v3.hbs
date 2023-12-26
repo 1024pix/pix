@@ -63,7 +63,7 @@
                   <FaIcon @icon="external-link" />
                 </a>
               </td>
-              <td>
+              <td class="certification-details-v3-table__challenge-action-cell">
                 <a
                   href={{this.externalUrlForPreviewChallenge certificationChallenge.id}}
                   target="_blank"
@@ -73,6 +73,14 @@
                 >
                   <FaIcon @icon="eye" />
                 </a>
+                <button
+                  title="Afficher la réponse du candidat"
+                  aria-label="Afficher la réponse du candidat"
+                  type="button"
+                  {{on "click" (fn this.openModal certificationChallenge)}}
+                >
+                  <FaIcon @icon="message" />
+                </button>
               </td>
             </tr>
           {{/each}}
@@ -81,3 +89,20 @@
     </div>
   </div>
 </section>
+
+<PixModal
+  @title="Réponse question {{this.certificationChallenge.questionNumber}}"
+  @showModal={{this.showModal}}
+  @onCloseButtonClick={{this.closeModal}}
+>
+  <:content>
+    <p>
+      {{this.certificationChallenge.answerValue}}
+    </p>
+  </:content>
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{this.closeModal}}>
+      Fermer
+    </PixButton>
+  </:footer>
+</PixModal>
