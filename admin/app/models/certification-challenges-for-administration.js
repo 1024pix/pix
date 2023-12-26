@@ -2,6 +2,7 @@ import Model, { attr } from '@ember-data/model';
 export default class CertificationChallengesForAdministration extends Model {
   @attr() answerStatus;
   @attr() answeredAt;
+  @attr() answerValue;
   @attr() competenceIndex;
   @attr() competenceName;
   @attr() validatedLiveAlert;

@@ -53,4 +53,22 @@
   &__challenge-id-column {
     width: 18%;
   }
+
+  &__challenge-action-cell {
+    color: black;
+
+  button:focus-visible {
+    padding: 2px 5px;
+  }
+
+    & a, a:visited, {
+      padding-right: 3px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:focus-visible {
+      padding-left: 4px;
+    }
+  }
 }

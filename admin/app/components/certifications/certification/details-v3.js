@@ -1,4 +1,6 @@
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 const options = [
   { value: 'ok', label: 'OK', color: 'success' },
@@ -7,6 +9,9 @@ const options = [
   { value: 'aband', label: 'Abandonnée', color: 'tertiary' },
 ];
 export default class DetailsV3 extends Component {
+  @tracked showModal = false;
+  @tracked certificationChallenge = null;
+
   answerStatusLabel(status) {
     return options.find((option) => option.value === status).label;
   }
@@ -21,5 +26,16 @@ export default class DetailsV3 extends Component {
 
   externalUrlForPixEditor(challengeId) {
     return `https://editor.pix.fr/challenge/${challengeId}`;
+  }
+
+  @action
+  openModal(certificationChallenge) {
+    this.showModal = true;
+    this.certificationChallenge = certificationChallenge;
+  }
+
+  @action
+  closeModal() {
+    this.showModal = false;
   }
 }
