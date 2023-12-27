@@ -6,7 +6,7 @@ import { V3CertificationChallengeLiveAlertForAdministration } from '../../domain
 import { CertificationChallengeLiveAlertStatus } from '../../../session/domain/models/CertificationChallengeLiveAlert.js';
 
 const getV3DetailsByCertificationCourseId = async function ({ certificationCourseId }) {
-  const certificationChallengesDetailsDTO = await knex
+  const liveAlerts = await knex
     .with('validated-live-alerts', (queryBuilder) => {
       queryBuilder
         .select('*')
@@ -14,10 +14,30 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
         .where({ status: CertificationChallengeLiveAlertStatus.VALIDATED });
     })
     .select({
+      id: 'validated-live-alerts.id',
+      challengeId: 'validated-live-alerts.challengeId',
+    })
+    .from('assessments')
+    .leftJoin('validated-live-alerts', 'validated-live-alerts.assessmentId', 'assessments.id')
+    .where({ 'assessments.certificationCourseId': certificationCourseId })
+    .orderBy('validated-live-alerts.createdAt', 'ASC');
+
+  const certificationIssueReports = await knex('certification-issue-reports')
+    .select('subcategory')
+    .where({ certificationCourseId })
+    .orderBy('certification-issue-reports.createdAt', 'ASC');
+
+  const liveAlertsDTO = certificationIssueReports.map((certificationIssueReport, index) => ({
+    id: liveAlerts[index].id,
+    issueReportSubcategory: certificationIssueReport.subcategory,
+    challengeId: liveAlerts[index].challengeId,
+  }));
+
+  const certificationChallengesDetailsDTO = await knex
+    .select({
       challengeId: 'certification-challenges.challengeId',
       answerStatus: 'answers.result',
       answerValue: 'answers.value',
-      liveAlertId: 'validated-live-alerts.id',
       answeredAt: 'answers.createdAt',
       competenceId: 'certification-challenges.competenceId',
       skillName: 'certification-challenges.associatedSkillName',
@@ -29,19 +49,15 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
         'answers.challengeId': 'certification-challenges.challengeId',
       });
     })
-    .leftJoin('validated-live-alerts', function () {
-      this.on({ 'validated-live-alerts.assessmentId': 'assessments.id' }).andOn({
-        'validated-live-alerts.challengeId': 'certification-challenges.challengeId',
-      });
-    })
     .where({
-      certificationCourseId,
+      'assessments.certificationCourseId': certificationCourseId,
     })
     .orderBy('certification-challenges.createdAt', 'asc');
-  return _toDomain({ certificationChallengesDetailsDTO, certificationCourseId });
+
+  return _toDomain({ certificationChallengesDetailsDTO, certificationCourseId, liveAlertsDTO });
 };
 
-function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId }) {
+function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId, liveAlertsDTO }) {
   const certificationChallengesForAdministration = certificationChallengesDetailsDTO.map(
     (certificationChallengeDetailsDTO) =>
       new V3CertificationChallengeForAdministration({
@@ -49,11 +65,10 @@ function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId })
         answerStatus: certificationChallengeDetailsDTO.answerStatus
           ? new AnswerStatus({ status: certificationChallengeDetailsDTO.answerStatus })
           : null,
-        validatedLiveAlert: certificationChallengeDetailsDTO.liveAlertId
-          ? new V3CertificationChallengeLiveAlertForAdministration({
-              id: certificationChallengeDetailsDTO.liveAlertId,
-            })
-          : null,
+        validatedLiveAlert: _certificationChallengeLiveAlertToDomain({
+          liveAlertsDTO,
+          certificationChallengeDetailsDTO,
+        }),
       }),
   );
 
@@ -64,3 +79,16 @@ function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId })
 }
 
 export { getV3DetailsByCertificationCourseId };
+
+function _certificationChallengeLiveAlertToDomain({ liveAlertsDTO, certificationChallengeDetailsDTO }) {
+  const certificationChallengeLiveAlert = liveAlertsDTO.find(
+    (liveAlertDTO) => liveAlertDTO.challengeId === certificationChallengeDetailsDTO.challengeId,
+  );
+  if (!certificationChallengeLiveAlert) {
+    return null;
+  }
+  return new V3CertificationChallengeLiveAlertForAdministration({
+    id: certificationChallengeLiveAlert.id,
+    issueReportSubcategory: certificationChallengeLiveAlert.issueReportSubcategory,
+  });
+}
