@@ -4,11 +4,11 @@ import * as certificationCenterMembershipSerializer from '../../infrastructure/s
 import { BadRequestError, ForbiddenError } from '../http-errors.js';
 import { getCertificationCenterId } from '../../infrastructure/repositories/certification-center-membership-repository.js';
 
-const disable = async function (request, h, dependencies = { requestResponseUtils }) {
+const disableFromPixAdmin = async function (request, h, dependencies = { requestResponseUtils }) {
   const certificationCenterMembershipId = request.params.id;
   const pixAgentUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
 
-  await usecases.disableCertificationCenterMembership({
+  await usecases.disableCertificationCenterMembershipFromPixAdmin({
     certificationCenterMembershipId,
     updatedByUserId: pixAgentUserId,
   });
@@ -69,6 +69,6 @@ const updateFromPixCertif = async function (
   );
 };
 
-const certificationCenterMembershipController = { disable, updateFromPixAdmin, updateFromPixCertif };
+const certificationCenterMembershipController = { disableFromPixAdmin, updateFromPixAdmin, updateFromPixCertif };
 
 export { certificationCenterMembershipController };
