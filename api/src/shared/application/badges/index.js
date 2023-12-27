@@ -26,7 +26,6 @@ const register = async function (server) {
           }),
           payload: Joi.object({
             data: Joi.object({
-              id: Joi.string().required(),
               attributes: Joi.object({
                 key: Joi.string().required(),
                 'alt-message': Joi.string().required(),
@@ -35,7 +34,6 @@ const register = async function (server) {
                 title: Joi.string().required().allow(null),
                 'is-certifiable': Joi.boolean().required(),
                 'is-always-visible': Joi.boolean().required(),
-                'campaign-threshold': Joi.number().allow(null),
               }).required(),
               type: Joi.string().required(),
               relationships: Joi.object(),
