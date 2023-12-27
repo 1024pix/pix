@@ -36,7 +36,7 @@ const register = async function (server) {
       method: 'DELETE',
       path: '/api/admin/certification-center-memberships/{id}',
       config: {
-        handler: certificationCenterMembershipController.disable,
+        handler: certificationCenterMembershipController.disableFromPixAdmin,
         pre: [
           {
             method: (request, h) =>
