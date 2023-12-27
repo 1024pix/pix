@@ -4,7 +4,7 @@ version: '3'
 services:
 
   postgres:
-    image: postgres:14.8-alpine
+    image: postgres:14.10-alpine
     container_name: pix-api-postgres
     ports:
       - '${PIX_DATABASE_PORT:-5432}:5432'
@@ -14,7 +14,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
-    image: redis:7.0.12-alpine
+    image: redis:7.2.3-alpine
     container_name: pix-api-redis
     ports:
       - '${PIX_CACHE_PORT:-6379}:6379'
@@ -23,12 +23,12 @@ services:
     image: pix/api
     depends_on:
       - postgres
-      - redis 
-    build: 
+      - redis
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.hapi
       context: ../api/
     volumes:
-      - .env:/code/.env 
+      - .env:/code/.env
     ports:
       - "3000:3000"
 
@@ -36,7 +36,7 @@ services:
     image: pix/orga
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../orga
     ports:
@@ -48,7 +48,7 @@ services:
     image: pix/admin
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../admin/
     ports:
@@ -60,7 +60,7 @@ services:
     image: pix/certif
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../certif/
     ports:
@@ -72,7 +72,7 @@ services:
     image: pix/mon-pix
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../mon-pix/
     ports:
