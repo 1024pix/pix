@@ -177,6 +177,20 @@ module('Integration | Component | Certifications | certification > details v3', 
       assert.dom(screen.getByText('Réponse 1')).exists();
     });
 
+    test('should not display the issue report button', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      this.model = store.createRecord('v3-certification-course-details-for-administration', {
+        certificationChallengesForAdministration: createChallengesForAdministration(['ok'], store),
+      });
+
+      // when
+      const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+      // then
+      assert.dom(screen.queryByRole('button', { name: 'Afficher le signalement de la question' })).doesNotExist();
+    });
+
     module('when there is a reported question (question without an answer)', function () {
       test('should not display the response button', async function (assert) {
         // given
@@ -191,6 +205,32 @@ module('Integration | Component | Certifications | certification > details v3', 
         // then
         assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
       });
+
+      test('displays the modal with the issue report subcategory', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.model = store.createRecord('v3-certification-course-details-for-administration', {
+          certificationChallengesForAdministration: createChallengesForAdministration(['ok', null], store),
+        });
+
+        // when
+        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+        const modalButton = screen.getByRole('button', { name: 'Afficher le signalement de la question' });
+        await click(modalButton);
+
+        // then
+        const modal = within(await screen.findByRole('dialog'));
+        assert.dom(modal.getByRole('heading', { name: 'Signalement question 2' })).exists();
+        assert.dom(screen.getByText('E5')).exists();
+        assert
+          .dom(
+            screen.getByText(
+              "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+            ),
+          )
+          .exists();
+      });
     });
   });
 });
@@ -202,7 +242,7 @@ function createChallengesForAdministration(answerStatuses, store) {
       questionNumber: index + 1,
       answerStatus,
       answerValue: answerStatus ? `Réponse ${index + 1}` : null,
-      validatedLiveAlert: !answerStatus,
+      validatedLiveAlert: !answerStatus ? { id: index + 10, issueReportSubcategory: 'WEBSITE_BLOCKED' } : false,
     }),
   );
 }
