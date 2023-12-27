@@ -150,6 +150,22 @@ module('Integration | Component | Certifications | certification > details v3', 
       assert.dom(modal.getByRole('heading', { name: 'Réponse question 1' })).exists();
       assert.dom(screen.getByText('Réponse 1')).exists();
     });
+
+    module('when there is a reported question (question without an answer)', function () {
+      test('should not display the response button', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.model = store.createRecord('v3-certification-course-details-for-administration', {
+          certificationChallengesForAdministration: createChallengesForAdministration([null], store),
+        });
+
+        // when
+        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('button', { name: 'Afficher la réponse du candidat' })).doesNotExist();
+      });
+    });
   });
 });
 
@@ -159,7 +175,7 @@ function createChallengesForAdministration(answerStatuses, store) {
       id: index,
       questionNumber: index + 1,
       answerStatus,
-      answerValue: `Réponse ${index + 1}`,
+      answerValue: answerStatus ? `Réponse ${index + 1}` : null,
       validatedLiveAlert: !answerStatus,
     }),
   );

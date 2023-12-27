@@ -73,14 +73,16 @@
                 >
                   <FaIcon @icon="eye" />
                 </a>
-                <button
-                  title="Afficher la réponse du candidat"
-                  aria-label="Afficher la réponse du candidat"
-                  type="button"
-                  {{on "click" (fn this.openModal certificationChallenge)}}
-                >
-                  <FaIcon @icon="message" />
-                </button>
+                {{#if certificationChallenge.answerValue}}
+                  <button
+                    title="Afficher la réponse du candidat"
+                    aria-label="Afficher la réponse du candidat"
+                    type="button"
+                    {{on "click" (fn this.openModal certificationChallenge)}}
+                  >
+                    <FaIcon @icon="message" />
+                  </button>
+                {{/if}}
               </td>
             </tr>
           {{/each}}
