@@ -1,8 +1,16 @@
-export const getV3CertificationCourseDetailsForAdministration = ({
+export const getV3CertificationCourseDetailsForAdministration = async ({
   certificationCourseId,
+  competenceRepository,
   v3CertificationCourseDetailsForAdministrationRepository,
 }) => {
-  return v3CertificationCourseDetailsForAdministrationRepository.getV3DetailsByCertificationCourseId({
-    certificationCourseId,
-  });
+  const competences = await competenceRepository.list();
+
+  const courseDetails =
+    await v3CertificationCourseDetailsForAdministrationRepository.getV3DetailsByCertificationCourseId({
+      certificationCourseId,
+    });
+
+  courseDetails.setCompetencesDetails(competences);
+
+  return courseDetails;
 };

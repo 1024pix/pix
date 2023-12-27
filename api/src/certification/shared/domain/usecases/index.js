@@ -22,6 +22,7 @@ import * as complementaryCertificationRepository from '../../../../../lib/infras
 import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
 import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
 import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
+import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as finalizedSessionRepository from '../../../session/infrastructure/repositories/finalized-session-repository.js';
 import * as flashAlgorithmService from '../../../flash-certification/domain/services/algorithm-methods/flash.js';
 import * as issueReportCategoryRepository from '../../../shared/infrastructure/repositories/issue-report-category-repository.js';
@@ -66,6 +67,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
  * @typedef {complementaryCertificationTargetProfileHistoryRepository} ComplementaryCertificationTargetProfileHistoryRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
+ * @typedef {competenceRepository} CompetenceRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
@@ -105,6 +107,7 @@ const dependencies = {
   complementaryCertificationForTargetProfileAttachmentRepository,
   complementaryCertificationTargetProfileHistoryRepository,
   competenceMarkRepository,
+  competenceRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
   issueReportCategoryRepository,
