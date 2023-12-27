@@ -102,6 +102,82 @@ describe('Acceptance | API | Autonomous Course', function () {
     });
   });
 
+  describe('GET /api/admin/autonomous-courses', function () {
+    it('should get a paginated list of autonomous courses', async function () {
+      // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+
+      const organizationId = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      }).id;
+
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({
+        isSimplifiedAccess: true,
+        ownerOrganizationId: organizationId,
+      }).id;
+
+      const autonomousCourse1 = databaseBuilder.factory.buildCampaign({
+        name: 'First autonomous course',
+        organizationId,
+        targetProfileId,
+      });
+      const autonomousCourse2 = databaseBuilder.factory.buildCampaign({
+        name: 'Second autonomous course',
+        organizationId,
+        targetProfileId,
+      });
+      databaseBuilder.factory.buildCampaign({
+        name: 'Campaign not linked to autonomous courses organization',
+      });
+
+      await databaseBuilder.commit();
+
+      const expectedResponse = {
+        data: [
+          {
+            type: 'autonomous-course-list-items',
+            id: `${autonomousCourse1.id}`,
+            attributes: {
+              name: autonomousCourse1.name,
+              'created-at': autonomousCourse1.createdAt,
+              'archived-at': null,
+            },
+          },
+          {
+            type: 'autonomous-course-list-items',
+            id: `${autonomousCourse2.id}`,
+            attributes: {
+              name: autonomousCourse2.name,
+              'created-at': autonomousCourse2.createdAt,
+              'archived-at': null,
+            },
+          },
+        ],
+        meta: {
+          page: 1,
+          pageSize: 10,
+          rowCount: 2,
+          pageCount: 1,
+          hasCampaigns: true,
+        },
+      };
+
+      // when
+      const response = await server.inject({
+        method: 'GET',
+        url: '/api/admin/autonomous-courses',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.have.length(2);
+      expect(response.result.data).to.deep.have.members(expectedResponse.data);
+    });
+  });
+
   describe('GET /api/admin/autonomous-courses/{autonomousCourseId}', function () {
     let targetProfileId;
     let organizationId;

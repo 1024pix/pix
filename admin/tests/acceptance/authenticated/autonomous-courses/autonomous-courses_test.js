@@ -51,16 +51,6 @@ module('Acceptance | Autonomous courses | Autonomous course', function (hooks) {
       });
     });
 
-    module('list page', function () {
-      test('it should set autonomous course menubar item active', async function (assert) {
-        // when
-        const screen = await visit('/autonomous-courses/list');
-
-        // then
-        assert.dom(screen.getByRole('link', { name: 'Parcours autonomes' })).hasClass('active');
-      });
-    });
-
     module('details page', function () {
       test('it should display details of the autonomous course', async function (assert) {
         // given
@@ -83,6 +73,42 @@ module('Acceptance | Autonomous courses | Autonomous course', function (hooks) {
         assert.dom(screen.getByText("texte page d'accueil")).exists();
         assert.dom(screen.getByText('01/01/2020')).exists();
         assert.dom(screen.getByRole('link', { name: 'Lien vers la campagne CODE (nouvelle fenêtre)' })).exists();
+      });
+    });
+
+    module('list page', function () {
+      test('it should display a list of autonomous-courses', async function (assert) {
+        // given
+        for (let index = 1; index < 6; index++) {
+          server.create('autonomous-course', {
+            id: index,
+          });
+
+          server.create('autonomous-course-list-item', {
+            id: index,
+            name: `Parcours autonome n°${index}`,
+            createdAt: new Date(`2020-01-0${index}`),
+            archiveAt: null,
+          });
+        }
+
+        // when
+        const screen = await visit('/autonomous-courses/list');
+
+        await click(screen.getByRole('link', { name: 'Parcours autonome n°3' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/autonomous-courses/3/details');
+      });
+
+      test('it should display a button to create a new autonomous course', async function (assert) {
+        // when
+        const screen = await visit('/autonomous-courses/list');
+
+        await click(screen.getByRole('link', { name: 'Nouveau parcours autonome' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/autonomous-courses/new');
       });
     });
   });
