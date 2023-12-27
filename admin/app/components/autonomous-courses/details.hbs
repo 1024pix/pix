@@ -1,10 +1,10 @@
 <section class="page-section">
-  <h2 class="page-section__title">{{@autonomousCourse.publicTitle}}</h2>
+  <h2 class="page-section__title">{{@autonomousCourse.internalTitle}}</h2>
   <dl class="autonomous-course-card__details">
     <dt class="autonomous-course-card__details-label">ID&nbsp;:&nbsp;</dt>
     <dd class="autonomous-course-card__details-value">{{@autonomousCourse.id}}</dd>
-    <dt class="autonomous-course-card__details-label">Nom interne&nbsp;:&nbsp;</dt>
-    <dd class="autonomous-course-card__details-value">{{@autonomousCourse.internalTitle}}</dd>
+    <dt class="autonomous-course-card__details-label">Nom public&nbsp;:&nbsp;</dt>
+    <dd class="autonomous-course-card__details-value">{{@autonomousCourse.publicTitle}}</dd>
     <dt class="autonomous-course-card__details-label">Date de création&nbsp;:&nbsp;</dt>
     <dd class="autonomous-course-card__details-value">{{this.formattedCreatedAt}}</dd>
     <dt class="autonomous-course-card__details-label">Lien public&nbsp;:&nbsp;</dt>
@@ -36,5 +36,9 @@
         <:tooltip>{{if this.isLinkCopied "Lien copié !" "Copier le lien de la campagne"}}</:tooltip>
       </PixTooltip>
     </dd>
+    {{#if @autonomousCourse.customLandingPageText}}
+      <dt class="autonomous-course-card__details-label">Texte de la page d'accueil&nbsp;:&nbsp;</dt>
+      <dd class="autonomous-course-card__details-value">{{@autonomousCourse.customLandingPageText}}</dd>
+    {{/if}}
   </dl>
 </section>
