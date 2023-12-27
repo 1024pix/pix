@@ -41,7 +41,6 @@ describe('Acceptance | API | Badges', function () {
         'image-url': 'url_image_modifiée',
         'is-certifiable': true,
         'is-always-visible': true,
-        'campaign-threshold': null,
       };
 
       options = {
@@ -50,7 +49,6 @@ describe('Acceptance | API | Badges', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         payload: {
           data: {
-            id: '1',
             type: 'badges',
             attributes: badgeWithUpdatedInfo,
             relationships: {
