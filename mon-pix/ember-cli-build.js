@@ -33,6 +33,7 @@ module.exports = function (defaults) {
   });
 
   app.import('node_modules/plyr/dist/plyr.css');
+  app.import('node_modules/plyr/dist/plyr.svg');
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //

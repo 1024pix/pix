@@ -31,6 +31,8 @@ export default class ModuleVideo extends Component {
       hideControls: false,
       disableContextMenu: false,
       i18n: player_fr,
+      loadSprite: false,
+      iconUrl: '../plyr/dist/plyr.svg',
     });
   }
 }
