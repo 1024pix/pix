@@ -1,9 +1,11 @@
-<form class="form create-autonomous-course" {{on "submit" this.onSubmit}}>
-  <section class="form-section">
-    <p class="create-autonomous-course__mandatory-text">Les champs marqués de
-      <span class="mandatory-mark">*</span>
-      sont obligatoires.</p>
-    <Card class="create-autonomous-course__card" @title="Informations techniques">
+<form class="admin-form" {{on "submit" this.onSubmit}}>
+  <p class="admin-form__mandatory-text">
+    Les champs marqués de
+    <span class="mandatory-mark">*</span>
+    sont obligatoires.
+  </p>
+  <section class="admin-form__content admin-form__content--with-counters">
+    <Card class="admin-form__card" @title="Informations techniques">
       <PixInput
         class="form-field"
         @id="autonomousCourseName"
@@ -29,7 +31,7 @@
         required={{true}}
       />
     </Card>
-    <Card class="create-autonomous-course__card" @title="Informations pour les utilisateurs">
+    <Card class="admin-form__card" @title="Informations pour les utilisateurs">
       <PixInput
         @id="nom-public"
         class="form-field"
@@ -49,9 +51,8 @@
         {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
       />
     </Card>
-
   </section>
-  <section class="form-section form-actions form-section--actions">
+  <section class="admin-form__actions">
     <PixButton
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
