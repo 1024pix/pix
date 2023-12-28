@@ -98,6 +98,32 @@ module('Integration | Component | Certifications | certification > details v3', 
       assert.deepEqual(expected, result);
     });
 
+    test('displays links to challenge info', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      this.model = store.createRecord('v3-certification-course-details-for-administration', {
+        certificationChallengesForAdministration: [
+          store.createRecord('certification-challenges-for-administration', {
+            id: 'rec1234',
+            answerStatus: 'ok',
+            validatedLiveAlert: null,
+          }),
+        ],
+      });
+
+      // when
+      const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+      // then
+      assert
+        .dom(
+          screen.getByRole('link', {
+            name: 'Lien vers les informations de la question (Ouverture dans une nouvelle fenêtre)',
+          }),
+        )
+        .hasAttribute('href', 'https://editor.pix.fr/challenge/rec1234');
+    });
+
     test('displays the table with every questions asked during certification', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
