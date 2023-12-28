@@ -27,4 +27,9 @@ export default class ModuleDetails extends Component {
   grainCanDisplayContinueButton(index) {
     return this.lastIndex === index && this.hasNextGrain;
   }
+
+  @action
+  grainTransition(grainId) {
+    return this.args.module.transitionTexts.find((transition) => transition.grainId === grainId);
+  }
 }
