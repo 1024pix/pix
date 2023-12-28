@@ -48,7 +48,7 @@ function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId })
         ...certificationChallengeDetailsDTO,
         answerStatus: certificationChallengeDetailsDTO.answerStatus
           ? new AnswerStatus({ status: certificationChallengeDetailsDTO.answerStatus })
-          : undefined,
+          : null,
         validatedLiveAlert: certificationChallengeDetailsDTO.liveAlertId
           ? new V3CertificationChallengeLiveAlertForAdministration({
               id: certificationChallengeDetailsDTO.liveAlertId,
