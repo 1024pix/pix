@@ -2,9 +2,10 @@ import { V3CertificationChallengeForAdministration } from '../../../../src/certi
 
 export const buildV3CertificationChallengeForAdministration = ({
   challengeId,
-  answerStatus,
-  validatedLiveAlert,
-  answeredAt,
+  answerStatus = null,
+  answerValue = null,
+  validatedLiveAlert = null,
+  answeredAt = null,
   competenceId,
   skillName,
   competenceName,
@@ -13,6 +14,7 @@ export const buildV3CertificationChallengeForAdministration = ({
   return new V3CertificationChallengeForAdministration({
     challengeId,
     answerStatus,
+    answerValue,
     validatedLiveAlert,
     answeredAt,
     competenceId,
