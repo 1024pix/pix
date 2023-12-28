@@ -15,6 +15,17 @@ const disableFromPixAdmin = async function (request, h, dependencies = { request
   return h.response().code(204);
 };
 
+const disableFromPixCertif = async function (request, h, dependencies = { requestResponseUtils }) {
+  const certificationCenterMembershipId = request.params.certificationCenterMembershipId;
+  const currentUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+
+  await usecases.disableCertificationCenterMembership({
+    certificationCenterMembershipId,
+    updatedByUserId: currentUserId,
+  });
+  return h.response().code(204);
+};
+
 const updateFromPixAdmin = async function (
   request,
   h,
@@ -69,6 +80,11 @@ const updateFromPixCertif = async function (
   );
 };
 
-const certificationCenterMembershipController = { disableFromPixAdmin, updateFromPixAdmin, updateFromPixCertif };
+const certificationCenterMembershipController = {
+  disableFromPixAdmin,
+  disableFromPixCertif,
+  updateFromPixAdmin,
+  updateFromPixCertif,
+};
 
 export { certificationCenterMembershipController };
