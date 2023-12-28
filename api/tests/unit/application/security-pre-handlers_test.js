@@ -1206,6 +1206,111 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
+  describe('#checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId', function () {
+    context('successful cases', function () {
+      context('when user is an admin of the certification center', function () {
+        it('authorizes access to the resource', async function () {
+          // given
+          const adminUser = domainBuilder.buildUser();
+          const certificationCenter = domainBuilder.buildCertificationCenter();
+          const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+            certificationCenterId: certificationCenter.id,
+          });
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: adminUser.id,
+              },
+            },
+            params: {
+              certificationCenterMembershipId: certificationCenterMembership.id,
+            },
+          };
+          const checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase = {
+            execute: sinon.stub().resolves(true),
+          };
+
+          // when
+          const response =
+            await securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId(
+              request,
+              hFake,
+              { checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase },
+            );
+
+          // then
+          expect(response.source).to.be.true;
+        });
+      });
+    });
+
+    context('error cases', function () {
+      context('when user is not an admin of the certification center', function () {
+        it('forbids access to the resource', async function () {
+          // given
+          const user = domainBuilder.buildUser();
+          const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership();
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: user.id,
+              },
+            },
+            params: {
+              certificationCenterMembershipId: certificationCenterMembership.id,
+            },
+          };
+          const checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase = {
+            execute: sinon.stub().resolves(false),
+          };
+
+          // when
+          const response =
+            await securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId(
+              request,
+              hFake,
+              { checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipIdUseCase },
+            );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+
+      context('when certification center invitation id is not provided', function () {
+        it('forbids access to the resource', async function () {
+          // given
+          const user = domainBuilder.buildUser();
+          const request = {
+            auth: {
+              credentials: {
+                accessToken: 'valid.access.token',
+                userId: user.id,
+              },
+            },
+            params: {},
+          };
+          const checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase = {
+            execute: sinon.stub().resolves(false),
+          };
+
+          // when
+          const response =
+            await securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationId(
+              request,
+              hFake,
+              { checkUserIsAdminOfCertificationCenterWithCertificationCenterInvitationIdUseCase },
+            );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
+
   describe('#checkUserIsMemberOfCertificationCenter', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and is member in certification center', async function () {
