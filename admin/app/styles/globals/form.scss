@@ -1,6 +1,5 @@
 /* stylelint-disable selector-class-pattern, no-invalid-double-slash-comments */
 .form {
-
   textarea {
     height: auto;
   }
@@ -33,7 +32,8 @@
       font-size: 0.8em;
     }
 
-    &__label, &__label label {
+    &__label,
+    &__label label {
       margin: 0;
       font-weight: 600;
     }
@@ -93,4 +93,54 @@
   background-clip: padding-box;
   border: 1px solid var(--pix-neutral-100);
   border-radius: 0.25rem;
+}
+
+/**
+* NEW ADMIN FORM STYLE
+*/
+
+.main-admin-form {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--pix-spacing-6x);
+}
+
+.admin-form__mandatory-text {
+  @extend %pix-body-s;
+
+  margin-bottom: var(--pix-spacing-3x);
+}
+
+.admin-form__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--pix-spacing-6x);
+}
+
+.admin-form__card {
+  .card__content {
+    padding: var(--pix-spacing-6x) var(--pix-spacing-8x) var(--pix-spacing-8x);
+  }
+
+  .card__content > * + * {
+    margin-top: var(--pix-spacing-4x);
+  }
+}
+
+.admin-form__content--with-counters {
+  counter-reset: title;
+
+  .card {
+    counter-increment: title;
+  }
+
+  .card__title::before {
+    content: counter(title) '.\00a0';
+  }
+}
+
+.admin-form__actions {
+  display: flex;
+  gap: var(--pix-spacing-4x);
+  margin-top: var(--pix-spacing-6x);
 }
