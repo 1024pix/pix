@@ -20,6 +20,38 @@ module('Integration | Component | Module | Grain', function (hooks) {
     assert.ok(screen.getByRole('heading', { name: grain.title, level: 2 }));
   });
 
+  module('when grain has transition', function () {
+    test('should display transition', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { title: 'Grain title' });
+      const transition = { content: 'transition text' };
+      this.set('grain', grain);
+      this.set('transition', transition);
+
+      // when
+      const screen = await render(hbs`<Module::Grain @grain={{this.grain}} @transition={{this.transition}} />`);
+
+      // then
+      assert.ok(screen.getByText('transition text'));
+    });
+  });
+
+  module('when grain has not transition', function () {
+    test('should not create header', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const grain = store.createRecord('grain', { title: 'Grain title' });
+      this.set('grain', grain);
+
+      // when
+      await render(hbs`<Module::Grain @grain={{this.grain}} />`);
+
+      // then
+      assert.dom('.grain__header').doesNotExist();
+    });
+  });
+
   module('when element is a text', function () {
     test('should display text element', async function (assert) {
       // given
