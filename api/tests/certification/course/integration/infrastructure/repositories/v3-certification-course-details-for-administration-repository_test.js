@@ -114,9 +114,6 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const firstCertificationChallengeForAdministration = domainBuilder.buildV3CertificationChallengeForAdministration(
         {
           challengeId: firstChallengeId,
-          answerValue: null,
-          answeredAt: null,
-          answerStatus: null,
           validatedLiveAlert: firstValidatedLiveAlert,
           competenceId: certificationChallenges.certificationChallengesForAdministration[0].competenceId,
           skillName: certificationChallenges.certificationChallengesForAdministration[0].skillName,
@@ -126,9 +123,6 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
       const secondCertificationChallengeForAdministration =
         domainBuilder.buildV3CertificationChallengeForAdministration({
           challengeId: secondChallengeId,
-          answerValue: null,
-          answeredAt: null,
-          answerStatus: null,
           validatedLiveAlert: secondValidatedLiveAlert,
           competenceId: certificationChallenges.certificationChallengesForAdministration[1].competenceId,
           skillName: certificationChallenges.certificationChallengesForAdministration[1].skillName,

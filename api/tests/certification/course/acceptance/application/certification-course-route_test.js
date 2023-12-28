@@ -255,7 +255,7 @@ describe('Acceptance | Route | certification-course', function () {
             'competence-index': '1.1',
             'competence-name': 'Fabriquer un meuble',
             'skill-name': '@sau3',
-            'validated-live-alert': undefined,
+            'validated-live-alert': null,
           },
           id: 'recCHAL1',
           type: 'certification-challenges-for-administration',

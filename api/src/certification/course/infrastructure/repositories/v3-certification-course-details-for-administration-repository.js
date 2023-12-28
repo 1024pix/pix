@@ -53,7 +53,7 @@ function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId })
           ? new V3CertificationChallengeLiveAlertForAdministration({
               id: certificationChallengeDetailsDTO.liveAlertId,
             })
-          : undefined,
+          : null,
       }),
   );
 
