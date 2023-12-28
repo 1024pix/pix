@@ -17,12 +17,14 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
       const competenceName = 'name';
       const competenceIndex = '1.2';
       const skillName = '@toto';
+      const answerValue = 'Some answer';
 
       const certificationChallenge = new V3CertificationChallengeForAdministration({
         challengeId,
         answerStatus,
         validatedLiveAlert: new V3CertificationChallengeLiveAlertForAdministration({ id: liveAlertId }),
         answeredAt: new Date('2020-01-02'),
+        answerValue,
         competenceName,
         competenceIndex,
         skillName,
@@ -49,6 +51,7 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
               'answer-status': 'ok',
               'validated-live-alert': { id: liveAlertId },
               'answered-at': certificationChallenge.answeredAt,
+              'answer-value': answerValue,
               'competence-name': competenceName,
               'competence-index': competenceIndex,
               'skill-name': skillName,

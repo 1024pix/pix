@@ -13,7 +13,9 @@ const serialize = function ({ certificationDetails }) {
         certificationChallengesForAdministration: record.certificationChallengesForAdministration.map(
           (certificationChallenge) => ({
             ...certificationChallenge,
-            answerStatus: certificationChallenge.answerStatus.status,
+            answerStatus: certificationChallenge.answerStatus?.status
+              ? certificationChallenge.answerStatus.status
+              : null,
           }),
         ),
       };
@@ -29,6 +31,7 @@ const serialize = function ({ certificationDetails }) {
         'answerStatus',
         'validatedLiveAlert',
         'answeredAt',
+        'answerValue',
         'competenceName',
         'competenceIndex',
         'skillName',
