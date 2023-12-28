@@ -96,7 +96,7 @@ module('Integration | Component | certifications/details-answer', function (hook
       .hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec1234/preview');
     assert
       .dom(screen.getByRole('link', { name: 'Info' }))
-      .hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec1234');
+      .hasAttribute('href', 'https://editor.pix.fr/challenge/rec1234');
   });
 
   module('when certification is not finished', function () {
