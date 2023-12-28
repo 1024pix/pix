@@ -36,7 +36,8 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     })
     .where({
       certificationCourseId,
-    });
+    })
+    .orderBy('certification-challenges.createdAt', 'asc');
   return _toDomain({ certificationChallengesDetailsDTO, certificationCourseId });
 };
 
@@ -45,7 +46,9 @@ function _toDomain({ certificationChallengesDetailsDTO, certificationCourseId })
     (certificationChallengeDetailsDTO) =>
       new V3CertificationChallengeForAdministration({
         ...certificationChallengeDetailsDTO,
-        answerStatus: new AnswerStatus({ status: certificationChallengeDetailsDTO.answerStatus }),
+        answerStatus: certificationChallengeDetailsDTO.answerStatus
+          ? new AnswerStatus({ status: certificationChallengeDetailsDTO.answerStatus })
+          : undefined,
         validatedLiveAlert: certificationChallengeDetailsDTO.liveAlertId
           ? new V3CertificationChallengeLiveAlertForAdministration({
               id: certificationChallengeDetailsDTO.liveAlertId,
