@@ -36,7 +36,7 @@ export default class CertificationDetailsAnswer extends Component {
   }
 
   get linkToChallengeInfoInPixEditor() {
-    return `https://editor.pix.fr/#/challenge/${this.args.answer.challengeId}`;
+    return `https://editor.pix.fr/challenge/${this.args.answer.challengeId}`;
   }
 
   _answerResultValue() {
