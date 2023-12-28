@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v4.82.0 (28/12/2023)
+
+
+### :rocket: Amélioration
+- [#7730](https://github.com/1024pix/pix/pull/7730) [FEATURE] Ajout de la colonne commentByAutoJury dans la table assessment-results (PIX-10320).
+- [#7751](https://github.com/1024pix/pix/pull/7751) [FEATURE] Afficher la liste des parcours autonomes existants dans Admin (PIX-10342).
+- [#7741](https://github.com/1024pix/pix/pull/7741) [FEATURE] Afficher les infos des challenges dans la page de détails d'une certif V3 (PIX-10314).
+
+### :building_construction: Tech
+- [#7761](https://github.com/1024pix/pix/pull/7761) [TECH] Monter les versions des images postgresql et redis.
+
+### :bug: Correction
+- [#7757](https://github.com/1024pix/pix/pull/7757) [BUGFIX] Corriger la validation des CGU lors de l'inscription (PIX-10490).
+- [#7760](https://github.com/1024pix/pix/pull/7760) [BUGFIX] Éviter la modification de propriétés de RT non-souhaitées (PIX-10119).
+- [#7735](https://github.com/1024pix/pix/pull/7735) [BUGFIX] Modifier la page détails des parcours autonomes sur Pix-Admin (PIX-10475).
+- [#7737](https://github.com/1024pix/pix/pull/7737) [BUGFIX] Améliorer l'accessibilité de l'hexagone score sur Pix-App (PIX-9640).
+
+### :arrow_up: Montée de version
+- [#7762](https://github.com/1024pix/pix/pull/7762) [BUMP] Lock file maintenance (audit-logger).
+- [#7758](https://github.com/1024pix/pix/pull/7758) [BUMP] Update dependency @badeball/cypress-cucumber-preprocessor to v20 (e2e).
+
 ## v4.81.0 (26/12/2023)
 
 
