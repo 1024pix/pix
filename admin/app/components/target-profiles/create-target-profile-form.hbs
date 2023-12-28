@@ -1,12 +1,16 @@
-<form class="form create-target-profile" {{on "submit" this.onSubmit}}>
-
-  <section class="form-section">
-    <Card class="create-target-profile__card" @title="Information sur le profil cible">
+<form class="admin-form admin-form--target-profile" {{on "submit" this.onSubmit}}>
+  <p class="admin-form__mandatory-text">
+    Les champs marqués de
+    <span class="mandatory-mark">*</span>
+    sont obligatoires.
+  </p>
+  <section class="admin-form__content admin-form__content--with-counters">
+    <Card class="admin-form__card" @title="Information sur le profil cible">
       <PixInput
-        class="form-field"
         @id="targetProfileName"
-        @label="Nom (obligatoire) : "
+        @label="Nom :"
         required={{true}}
+        @requiredLabel="Champ obligatoire"
         aria-required={{true}}
         {{on "change" (fn this.updateTargetProfileValue "name")}}
       />
@@ -18,35 +22,25 @@
         @placeholder="-"
         @hideDefaultOption={{true}}
         required={{true}}
+        @requiredText="Champ obligatoire"
         aria-required={{true}}
       />
-
-      <div class="form-field form-group create-target-profile__checkbox-container">
-        <label class="create-target-profile__is-public-label" for="isPublic">Public : </label>
-        <div class="create-target-profile__is-public-checkbox">
-          <Input
-            class="form-control create-target-profile__checkbox"
-            @type="checkbox"
-            @checked={{@targetProfile.isPublic}}
-            id="isPublic"
-          />
-          <p class="create-target-profile__checkbox-label">Un profil cible marqué comme public sera affecté à toutes les
-            organisations.</p>
-        </div>
+      <div class="create-target-profile__is-public">
+        <label for="isPublic">Public :</label>
+        <Input @type="checkbox" @checked={{@targetProfile.isPublic}} id="isPublic" />
+        <span>Un profil cible marqué comme public sera affecté à toutes les organisations.</span>
       </div>
-
-      <div class="form-field form-group">
-        <PixInput
-          @id="organizationId"
-          @label="Identifiant de l'organisation de référence : "
-          @errorMessage=""
-          required={{true}}
-          type="number"
-          aria-required={{true}}
-          placeholder="7777"
-          {{on "change" (fn this.updateTargetProfileValue "ownerOrganizationId")}}
-        />
-      </div>
+      <PixInput
+        @id="organizationId"
+        type="number"
+        @label="Identifiant de l'organisation de référence : "
+        @errorMessage=""
+        required={{true}}
+        @requiredLabel="Champ obligatoire"
+        aria-required={{true}}
+        placeholder="7777"
+        {{on "change" (fn this.updateTargetProfileValue "ownerOrganizationId")}}
+      />
     </Card>
 
     <Common::TubesSelection
@@ -57,47 +51,35 @@
       @displaySkillDifficultyAvailability={{true}}
     />
 
-    <Card class="create-target-profile__card" @title="Personnalisation">
+    <Card class="admin-form__card" @title="Personnalisation">
       <PixInput
         @id="imageUrl"
-        class="input-url"
         @label="Lien de l'image du profil cible : "
         @information="L'url à saisir doit être celle d'OVH. Veuillez
           vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
         {{on "change" (fn this.updateTargetProfileValue "imageUrl")}}
       />
-      <div class="form-group">
-        <label class="textarea-label" for="description">Description : </label>
-        <PixTextarea
-          class="form-control"
-          @id="description"
-          @maxlength="500"
-          rows="4"
-          @value={{@targetProfile.description}}
-          {{on "change" (fn this.updateTargetProfileValue "description")}}
-        />
-      </div>
-
-      <div class="form-group">
-        <label class="textarea-label" for="comment">Commentaire (usage interne) : </label>
-        <PixTextarea
-          class="form-control"
-          id="comment"
-          @maxlength="500"
-          rows="4"
-          @value={{@targetProfile.comment}}
-          {{on "change" (fn this.updateTargetProfileValue "comment")}}
-        />
-      </div>
+      <PixTextarea
+        @id="description"
+        @label="Description :"
+        @maxlength="500"
+        rows="4"
+        @value={{@targetProfile.description}}
+        {{on "change" (fn this.updateTargetProfileValue "description")}}
+      />
+      <PixTextarea
+        @id="comment"
+        @label="Commentaire (usage interne) :"
+        @maxlength="500"
+        rows="4"
+        @value={{@targetProfile.comment}}
+        {{on "change" (fn this.updateTargetProfileValue "comment")}}
+      />
     </Card>
   </section>
-  <section class="form-section form-actions form-section--actions">
-    <PixButton
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @size="big"
-      @triggerAction={{@onCancel}}
-    >Annuler
+  <section class="admin-form__actions">
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="big" @triggerAction={{@onCancel}}>
+      Annuler
     </PixButton>
     <PixButton
       @backgroundColor="green"

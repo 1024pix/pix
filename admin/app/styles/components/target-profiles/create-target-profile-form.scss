@@ -1,85 +1,20 @@
-.create-target-profile {
-  color: var(--pix-neutral-800);
-  counter-reset: title;
+.create-target-profile__is-public {
+  @extend %pix-body-s;
 
-  &__card {
-    margin-bottom: $pix-spacing-m;
+  label {
+    display: block;
+    font-weight: 500;
   }
 
-  .card__title {
-    counter-increment: title;
-
-    &::before {
-      content: counter(title) '.\00a0';
-    }
+  [type='checkbox'] {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin: var(--pix-spacing-1x);
+    vertical-align: middle;
   }
 
-  &__checkbox-container {
-    align-items: center;
-  }
-
-  &__checkbox {
-    width: $pix-spacing-s;
-    height: $pix-spacing-s;
-    margin: 0 $pix-spacing-xs;
-  }
-
-  &__is-public-checkbox {
-    display: flex;
-    align-items: center;
-  }
-
-  &__checkbox-label {
-    margin: 0;
-    font-weight: normal;
-    font-size: 0.875rem;
-    font-family: $font-roboto;
-    line-height: 20px;
-  }
-
-  &__is-public-label {
-    font-weight: $font-normal;
-    font-size: 0.875rem;
-    font-family: $font-roboto;
-    line-height: 21px;
-  }
-
-  &__instructions {
-    margin: 0;
-  }
-
-  &__inline-layout {
-    display: flex;
-    align-items: center;
-
-    label {
-      margin: 0;
-    }
-  }
-
-  .file-upload-group {
-    margin-bottom: 0;
-
-    &__button {
-      display: flex;
-      align-items: center;
-
-      > .pix-button {
-        margin-right: 1rem;
-      }
-    }
-  }
-
-  .input-url {
-    margin-bottom: $pix-spacing-s;
-  }
-
-  &__multi-select {
-    max-width: 300px;
-    margin-left: $pix-spacing-s;
-  }
-
-  .textarea-label {
-    font-size: 0.875rem;
+  span {
+    vertical-align: middle;
   }
 }
