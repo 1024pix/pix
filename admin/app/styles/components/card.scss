@@ -5,12 +5,10 @@
   box-shadow: 5px 4px 10px 2px rgb(0 0 0 / 10%);
 
   &__title {
+    @extend %pix-title-xs;
+
     padding: 11px 32px;
     color: var(--pix-neutral-0);
-    font-weight: $font-medium;
-    font-size: 1.5rem;
-    font-family: $font-open-sans;
-    line-height: 28px;
     background: var(--pix-neutral-800);
     border-radius: 8px 8px 0 0;
   }
