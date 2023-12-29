@@ -954,6 +954,46 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert.dom(screen.queryByText('Rejetée')).doesNotExist();
         assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).exists();
       });
+
+      test('rejection button should be disabled if the certification is published', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const otherCertification = this.server.create('certification', {
+          id: 123,
+          isPublished: true,
+        });
+        const screen = await visit(`/certifications/${otherCertification.id}`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).hasAttribute('disabled');
+        assert
+          .dom(
+            screen.getByText(
+              'Vous ne pouvez pas rejeter une certification publiée. Merci de dépublier la session avant de rejeter cette certification.',
+            ),
+          )
+          .exists();
+      });
+
+      test('rejection button should be enabled if the certification is not published', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const otherCertification = this.server.create('certification', {
+          id: 123,
+          isPublished: false,
+        });
+        const screen = await visit(`/certifications/${otherCertification.id}`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Rejeter la certification' })).hasNoAttribute('disabled');
+        assert
+          .dom(
+            screen.queryByText(
+              'Vous ne pouvez pas rejeter une certification publiée. Merci de dépublier la session avant de rejeter cette certification.',
+            ),
+          )
+          .doesNotExist();
+      });
     });
 
     module('Certification unrejection', function (hooks) {
