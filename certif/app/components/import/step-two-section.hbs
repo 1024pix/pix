@@ -4,23 +4,25 @@
     <h2>{{t "pages.sessions.import.step-two.title"}}</h2>
   </div>
 
-  <PixMessage @type="info">
-    <ul>
-      <li>
-        {{! template-lint-disable no-redundant-role }}
-        <img src="{{this.rootURL}}/icons/solid-square-chevron-right.svg" alt="" role="presentation" />
+  <ul class="import-page-section__result-count-list">
+    <li class="import-page-section__result-count-item">
+      {{! template-lint-disable no-redundant-role }}
+      <img src="{{this.rootURL}}/icons/solid-square-chevron-right.svg" alt="" role="presentation" />
+      <p>
         {{t
           "pages.sessions.import.step-two.sessions-and-empty-sessions-count"
           sessionsCount=@sessionsCount
           sessionsWithoutCandidatesCount=@sessionsWithoutCandidatesCount
         }}
-      </li>
-      <li>
-        <FaIcon @icon="user" />
+      </p>
+    </li>
+    <li class="import-page-section__result-count-item">
+      <FaIcon @icon="user" />
+      <p>
         {{t "pages.sessions.import.step-two.candidates-count" candidatesCount=@candidatesCount}}
-      </li>
-    </ul>
-  </PixMessage>
+      </p>
+    </li>
+  </ul>
   {{#if (gt this.nonBlockingErrorReportsCount 0)}}
     <span class="import-page-section__information">
       {{t
