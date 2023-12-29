@@ -243,7 +243,7 @@ module('Acceptance | Session Import', function (hooks) {
               await settled();
 
               // then
-              assert.dom(screen.getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
+              assert.dom(screen.getByRole('button', { name: 'Créer/éditer les sessions' })).exists();
             });
           });
 
