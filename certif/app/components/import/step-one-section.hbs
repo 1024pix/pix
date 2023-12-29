@@ -29,6 +29,7 @@
       <p>{{t "pages.sessions.import.step-one.actions.session-import-template.information" htmlSafe=true}}</p>
     </div>
     <PixButton
+      class="download-buttons"
       @backgroundColor="transparent-light"
       @isBorderVisible="{{true}}"
       aria-label={{t "pages.sessions.import.step-one.actions.session-import-template.extra-information"}}
@@ -45,6 +46,18 @@
           "pages.sessions.import.step-one.actions.session-import-upload.extra-information"
         }}</span>
       <p>{{t "pages.sessions.import.step-one.actions.session-import-upload.information"}}</p>
+
+      {{#if @file}}
+        <div class="import-page__file-name" aria-label={{@fileName}}>
+          {{@fileName}}
+          <PixIconButton
+            @ariaLabel={{t "pages.sessions.import.step-one.actions.cancel.label"}}
+            @icon="circle-xmark"
+            @triggerAction={{@removeImport}}
+            class="import-page-file-name__cancel"
+          />
+        </div>
+      {{/if}}
     </div>
     <PixButtonUpload
       @backgroundColor="transparent-light"
@@ -57,18 +70,6 @@
       {{t "pages.sessions.import.step-one.actions.session-import-upload.label"}}
     </PixButtonUpload>
   </div>
-
-  {{#if @file}}
-    <div class="import-page__file-name" aria-label={{@fileName}}>
-      {{@fileName}}
-      <PixIconButton
-        @ariaLabel={{t "pages.sessions.import.step-one.actions.cancel.label"}}
-        @icon="circle-xmark"
-        @triggerAction={{@removeImport}}
-        class="import-page-file-name__cancel"
-      />
-    </div>
-  {{/if}}
 
   <ul class="import-page__section--link-buttons">
     <li>
