@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { hbs } from 'ember-cli-htmlbars';
-import { render, within } from '@1024pix/ember-testing-library';
+import { render, within, getByTextWithHtml } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | Import::StepOneSection', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -66,5 +66,17 @@ module('Integration | Component | Import::StepOneSection', function (hooks) {
       'Pour remplacer une liste pré-existante dans le fichier modèle,',
     );
     assert.strictEqual(secondListItems[1].textContent, 'Pour inscrire des candidats dans une session vide.');
+
+    assert
+      .dom(getByText('Sélectionnez le modèle préalablement rempli. Seul un fichier .csv pourra être importé.'))
+      .exists();
+    assert
+      .dom(getByText('Sélectionnez le modèle préalablement rempli. Seul un fichier .csv pourra être importé.'))
+      .exists();
+    assert.ok(
+      getByTextWithHtml(
+        'Attention à ne modifier ni les noms des colonnes ni leur ordre afin de ne pas altérer le modèle. <br> Vous pouvez ouvrir le fichier .csv téléchargé soit dans un logiciel tableur soit dans un éditeur de code (valeurs séparées par des points virgules).',
+      ),
+    );
   });
 });
