@@ -14,10 +14,10 @@ module('Acceptance | Routes | Team | membersListItem', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
+  let userWithAdminRole;
+  let member;
 
   module('when user is an admin', function (hooks) {
-    let userWithAdminRole;
-
     hooks.beforeEach(async function () {
       userWithAdminRole = createCertificationPointOfContactWithTermsOfServiceAccepted(
         undefined,
@@ -25,8 +25,13 @@ module('Acceptance | Routes | Team | membersListItem', function (hooks) {
         false,
         'ADMIN',
       );
-      server.create('member', { id: 1234, firstName: 'Lee', lastName: 'Tige', isReferer: false });
-
+      member = server.create('member', {
+        id: 1234,
+        certificationCenterMembershipId: 5678,
+        firstName: 'Lee',
+        lastName: 'Tige',
+        isReferer: false,
+      });
       await authenticateSession(userWithAdminRole.id);
     });
 
@@ -46,6 +51,28 @@ module('Acceptance | Routes | Team | membersListItem', function (hooks) {
           }),
         )
         .exists();
+    });
+
+    test('delete member', async function (assert) {
+      // given
+      const manageButtonName = this.intl.t('pages.team.members.actions.manage');
+
+      // when
+      const screen = await visit('/equipe/membres');
+      await clickByName(manageButtonName);
+      await clickByName(this.intl.t('pages.team.members.actions.remove-membership'));
+      await screen.findByRole('dialog');
+      await clickByName(this.intl.t('pages.team.members.remove-membership-modal.actions.remove'));
+
+      // then
+      assert.ok(
+        screen.findByText(
+          this.intl.t('pages.team.members.notifications.remove-membership.success', {
+            memberFirstName: member.firstName,
+            memberLastName: member.lastName,
+          }),
+        ),
+      );
     });
   });
 });

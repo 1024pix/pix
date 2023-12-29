@@ -10,7 +10,6 @@ export default class MembersListItem extends Component {
   @service currentUser;
   @service notifications;
   @service intl;
-  @service session;
   @tracked isEditionMode = false;
 
   roleOptions = [
