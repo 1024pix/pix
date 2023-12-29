@@ -228,7 +228,7 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
 
       // then
-      assert.dom(getByRole('button', { name: 'Finaliser quand même la création/édition' })).exists();
+      assert.dom(getByRole('button', { name: 'Créer/éditer les sessions' })).exists();
     });
   });
 

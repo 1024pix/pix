@@ -16,10 +16,11 @@ const TEAM_CERTIFICATION_OFFSET_ID = 7000;
 /// USERS
 const SCO_CERTIFICATION_MANAGING_STUDENTS_ORGANIZATION_USER_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const SCO_CERTIFICATION_MANAGING_STUDENTS_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
-const PRO_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
+const PRO_ADMIN_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 2;
 const PRO_ORGANIZATION_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 3;
 const V3_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 4;
 const CERTIFIABLE_SUCCESS_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 5;
+const PRO_MEMBER_CERTIFICATION_CENTER_USER_ID = TEAM_CERTIFICATION_OFFSET_ID + 6;
 /// ORGAS
 const SCO_MANAGING_STUDENTS_ORGANIZATION_ID = TEAM_CERTIFICATION_OFFSET_ID;
 const PRO_ORGANIZATION_ID = TEAM_CERTIFICATION_OFFSET_ID + 1;
@@ -132,10 +133,27 @@ async function _createV3PilotCertificationCenter({ databaseBuilder }) {
 
 async function _createProCertificationCenter({ databaseBuilder }) {
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: PRO_CERTIFICATION_CENTER_USER_ID,
-    firstName: 'Centre de certif Pro',
-    lastName: 'Certification',
+    id: PRO_ADMIN_CERTIFICATION_CENTER_USER_ID,
+    firstName: 'PRO',
+    lastName: 'ADMIN',
     email: 'certif-pro@example.net',
+    cgu: true,
+    lang: 'fr',
+    lastTermsOfServiceValidatedAt: new Date(),
+    lastPixOrgaTermsOfServiceValidatedAt: new Date(),
+    mustValidateTermsOfService: false,
+    pixOrgaTermsOfServiceAccepted: false,
+    pixCertifTermsOfServiceAccepted: false,
+    hasSeenAssessmentInstructions: false,
+    rawPassword: 'pix123',
+    shouldChangePassword: false,
+  });
+
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID,
+    firstName: 'PRO',
+    lastName: 'MEMBER',
+    email: 'certif-pro-member@example.net',
     cgu: true,
     lang: 'fr',
     lastTermsOfServiceValidatedAt: new Date(),
@@ -156,7 +174,10 @@ async function _createProCertificationCenter({ databaseBuilder }) {
     externalId: PRO_EXTERNAL_ID,
     createdAt: new Date(),
     updatedAt: new Date(),
-    members: [{ id: PRO_CERTIFICATION_CENTER_USER_ID }],
+    members: [
+      { id: PRO_ADMIN_CERTIFICATION_CENTER_USER_ID, role: 'ADMIN' },
+      { id: PRO_MEMBER_CERTIFICATION_CENTER_USER_ID, role: 'MEMBER' },
+    ],
     complementaryCertificationIds,
   });
 }
