@@ -14,6 +14,7 @@ import { BlockSelectOption } from '../../domain/models/block/BlockSelectOption.j
 import { QROCM } from '../../domain/models/element/QROCM.js';
 import { logger } from '../../../shared/infrastructure/utils/logger.js';
 import { QROCMForAnswerVerification } from '../../domain/models/element/QROCM-for-answer-verification.js';
+import { Video } from '../../domain/models/element/Video.js';
 
 async function getBySlug({ slug, moduleDatasource }) {
   try {
@@ -62,6 +63,8 @@ function _toDomain(moduleData) {
                 return _toQCUDomain(element);
               case 'qrocm':
                 return _toQROCMDomain(element);
+              case 'video':
+                return _toVideoDomain(element);
               default:
                 logger.warn({
                   event: 'module_element_type_unknown',
@@ -97,6 +100,8 @@ function _toDomainForVerification(moduleData) {
                 return _toQCUForAnswerVerificationDomain(element);
               case 'qrocm':
                 return _toQROCMForAnswerVerificationDomain(element);
+              case 'video':
+                return _toVideoDomain(element);
               default:
                 logger.warn({
                   event: 'module_element_type_unknown',
@@ -126,6 +131,17 @@ function _toImageDomain(element) {
     alt: element.alt,
     alternativeText: element.alternativeText,
     type: element.type,
+  });
+}
+
+function _toVideoDomain(element) {
+  return new Video({
+    id: element.id,
+    title: element.title,
+    url: element.url,
+    subtitles: element.subtitles,
+    transcription: element.transcription,
+    alternativeText: element.alternativeText,
   });
 }
 

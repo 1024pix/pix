@@ -56,6 +56,11 @@ function serialize(module) {
                     ...element,
                     type: 'images',
                   };
+                case 'video':
+                  return {
+                    ...element,
+                    type: 'videos',
+                  };
               }
             }),
           };
@@ -70,7 +75,19 @@ function serialize(module) {
       elements: {
         ref: 'id',
         includes: true,
-        attributes: ['content', 'instruction', 'proposals', 'type', 'url', 'alt', 'alternativeText', 'isAnswerable'],
+        attributes: [
+          'content',
+          'instruction',
+          'proposals',
+          'type',
+          'url',
+          'alt',
+          'alternativeText',
+          'isAnswerable',
+          'subtitles',
+          'transcription',
+          'title',
+        ],
       },
     },
     typeForAttribute(attribute, { type }) {
