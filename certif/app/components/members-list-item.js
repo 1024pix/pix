@@ -35,13 +35,19 @@ export default class MembersListItem extends Component {
     return this.currentUser.isAdminOfCurrentCertificationCenter;
   }
 
-  get shouldDisplayManageMemberRoleButton() {
+  get shouldDisplayMemberManageButton() {
+    return this.shouldDisplayChangeRoleOption;
+  }
+
+  get shouldDisplayChangeRoleOption() {
     if (this.isCurrentUserMembership) {
       return false;
     }
+
     if (!this.currentUser.isAdminOfCurrentCertificationCenter) {
       return false;
     }
+
     return !this.isEditionMode;
   }
 

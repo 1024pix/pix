@@ -21,16 +21,18 @@
   </td>
   {{#if this.shouldDisplayManagingColumn}}
     <td>
-      {{#if this.shouldDisplayManageMemberRoleButton}}
+      {{#if this.shouldDisplayMemberManageButton}}
         <Dropdown::IconTrigger
           @icon="ellipsis-vertical"
           @dropdownButtonClass="zone-edit-role__dropdown-button"
           @dropdownContentClass="managing-member__dropdown-content"
           @ariaLabel={{t "pages.team.members.actions.manage"}}
         >
-          <Dropdown::Item @onClick={{this.toggleEditionMode}}>
-            {{t "pages.team.members.actions.edit-role"}}
-          </Dropdown::Item>
+          {{#if this.shouldDisplayChangeRoleOption}}
+            <Dropdown::Item @onClick={{this.toggleEditionMode}}>
+              {{t "pages.team.members.actions.edit-role"}}
+            </Dropdown::Item>
+          {{/if}}
         </Dropdown::IconTrigger>
       {{/if}}
       {{#if this.isEditionMode}}
