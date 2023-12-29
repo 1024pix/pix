@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import createGlimmerComponent from '../../../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
+import ENV from '../../../../../../config/environment';
 
 module('Unit | component | Campaigns | Evaluation | Skill Review', function (hooks) {
   setupTest(hooks);
@@ -844,6 +845,32 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
 
       // then
       assert.true(result);
+    });
+  });
+
+  module('#isAutonomousCourse', function () {
+    test("should return true if it's an autonomous course", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+
+      // when
+      const result = component.isAutonomousCourse;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return false if it's not an autonomous course", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 123;
+
+      // when
+      const result = component.isAutonomousCourse;
+
+      // then
+      assert.false(result);
     });
   });
 

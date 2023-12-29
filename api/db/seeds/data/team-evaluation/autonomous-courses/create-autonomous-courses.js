@@ -73,7 +73,7 @@ export default async function initUser(databaseBuilder) {
       targetProfileId: targetProfileId,
       cappedTubesDTO: cappedTubesDTO,
       type: 'LEVEL',
-      countStages: 1,
+      countStages: 3,
       includeFirstSkill: false,
     });
   }
