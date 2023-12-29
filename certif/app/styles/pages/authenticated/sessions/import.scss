@@ -60,23 +60,45 @@
 
   &__section--download-button {
     align-items: center;
-    background-color: $pix-neutral-10;
-    border: 1px solid $pix-neutral-15;
+    background-color: var(--pix-neutral-20);
+    border: 1px solid var(--pix-neutral-100);
     border-radius: 8px;
-    color: $pix-neutral-90;
+    color: var(--pix-neutral-800);
     display: grid;
+    font-size: 0.875rem;
     grid-template-columns: 1fr 10fr 2fr;
-    padding: 24px 16px 24px 0;
+    padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
 
     > label,
     button {
       width: 164px;
     }
+
+    p {
+      line-height: 21px;
+      padding-top: var(--pix-spacing-1x);
+    }
+  }
+
+  &__section--download-button .download-icon,
+  &__section--download-button .import-icon, {
+    color: var(--pix-neutral-500);
+    height: auto;
   }
 
   &__section--download-button .download-icon {
-    color: $pix-neutral-25;
-    margin: auto;
+    padding: 0 var(--pix-spacing-8x);
+    width: 30px;
+  }
+
+  &__section--download-button .import-icon {
+    padding: 0 var(--pix-spacing-6x);
+    width: 50px;
+  }
+
+  &__section--download-button .download-title {
+    font-size: 1rem;
+    font-weight: 500;
   }
 
   &__section--link-buttons {
