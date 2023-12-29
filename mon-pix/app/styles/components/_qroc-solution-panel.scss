@@ -21,20 +21,24 @@
   }
 
   &--correct {
-    textarea, input {
+    textarea,
+    input,
+    [disabled] {
       color: $pix-success-70;
       font-weight: $font-bold;
     }
   }
 
   &--wrong {
-    textarea, input {
+    textarea,
+    input {
       text-decoration: line-through;
     }
   }
 
   &--aband {
-    textarea, input {
+    textarea,
+    input {
       color: $pix-neutral-80;
       font-style: italic;
     }
