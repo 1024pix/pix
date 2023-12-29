@@ -137,6 +137,26 @@
 }
 
 .import-page-section {
+
+  &__result-count-list {
+    border-radius: 8px;
+    background-color: var(--pix-neutral-20);
+    color: var(--pix-neutral-500);
+    padding: var(--pix-spacing-4x);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pix-spacing-2x);
+  }
+
+  &__result-count-item {
+    display: flex;
+    gap: var(--pix-spacing-2x);
+
+    > img {
+      color: var(--pix-neutral-500);
+    }
+  }
+
   &__information {
     color: $pix-neutral-70;
     font-weight: $font-medium;
