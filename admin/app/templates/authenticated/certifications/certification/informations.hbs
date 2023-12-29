@@ -26,9 +26,28 @@
         {{/if}}
 
         {{#if this.shouldDisplayRejectCertificationButton}}
-          <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
-            Rejeter la certification
-          </PixButton>
+          {{#if this.certification.isPublished}}
+            <PixTooltip @position="left" @isWide={{true}}>
+              <:triggerElement>
+                <PixButton
+                  @backgroundColor="red"
+                  @size="small"
+                  @triggerAction={{this.onRejectCertificationButtonClick}}
+                  @isDisabled={{true}}
+                >
+                  Rejeter la certification
+                </PixButton>
+              </:triggerElement>
+
+              <:tooltip>Vous ne pouvez pas rejeter une certification publiée. Merci de dépublier la session avant de
+                rejeter cette certification.
+              </:tooltip>
+            </PixTooltip>
+          {{else}}
+            <PixButton @backgroundColor="red" @size="small" @triggerAction={{this.onRejectCertificationButtonClick}}>
+              Rejeter la certification
+            </PixButton>
+          {{/if}}
         {{/if}}
       </span>
     {{/if}}
