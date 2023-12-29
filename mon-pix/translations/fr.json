@@ -1188,7 +1188,8 @@
           "verify": "Vérifier"
         },
         "element": {
-          "alternativeText": "Afficher l'alternative textuelle"
+          "alternativeText": "Afficher l'alternative textuelle",
+          "transcription": "Afficher la transcription"
         },
         "grain": {
           "continue": "Continuer"
@@ -1197,6 +1198,9 @@
       "modals": {
         "alternativeText": {
           "title": "Alternative textuelle"
+        },
+        "transcription": {
+          "title": "Transcription"
         }
       },
       "qcu": {

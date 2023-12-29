@@ -22,6 +22,9 @@ export default class Element extends Model {
   get isQrocm() {
     return this.type === 'qrocms';
   }
+  get isVideo() {
+    return this.type === 'videos';
+  }
 
   get isAnswered() {
     return this.elementAnswers.length > 0;

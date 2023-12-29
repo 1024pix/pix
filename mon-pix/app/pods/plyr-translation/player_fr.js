@@ -1,0 +1,50 @@
+// ==========================================================================
+// Plyr French translation
+// ==========================================================================
+
+const i18n = {
+  restart: 'Relancer',
+  rewind: 'Rembobiner {seektime}s',
+  play: 'Jouer',
+  pause: 'Pause',
+  fastForward: 'Avancer {seektime}s',
+  seek: 'Chercher',
+  seekLabel: '{currentTime} sur {duration}',
+  played: 'Lu',
+  buffered: 'En mémoire',
+  currentTime: 'Temps actuel',
+  duration: 'Durée',
+  volume: 'Volume',
+  mute: 'Silence',
+  unmute: 'Réactiver le son',
+  enableCaptions: 'Activer les sous-titres',
+  disableCaptions: 'Désactiver les sous-titres',
+  download: 'Télécharger',
+  enterFullscreen: 'Entrer dans le mode plein écran',
+  exitFullscreen: 'Sortir du mode plein écran',
+  frameTitle: 'Lecteur pour {title}',
+  captions: 'Sous-titres',
+  settings: 'Options',
+  menuBack: 'Revenir au menu précédent',
+  speed: 'Vitesse',
+  normal: 'Normal',
+  quality: 'Qualité',
+  loop: 'Boucle',
+  start: 'Début',
+  end: 'Fin',
+  all: 'Toutes',
+  reset: 'Relancer',
+  disabled: 'Désactivé',
+  enabled: 'Activé',
+  advertisement: 'Publicité',
+  qualityBadge: {
+    480: 'SD',
+    576: 'SD',
+    720: 'HD',
+    1080: 'HD',
+    1440: 'HD',
+    2160: '4K',
+  },
+};
+
+export default i18n;

@@ -13,6 +13,7 @@ import { BlockInput } from '../../../../src/devcomp/domain/models/block/BlockInp
 import { BlockSelect } from '../../../../src/devcomp/domain/models/block/BlockSelect.js';
 import { BlockText } from '../../../../src/devcomp/domain/models/block/BlockText.js';
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
+import { Video } from '../../../../src/devcomp/domain/models/element/Video.js';
 import { QROCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
@@ -224,6 +225,47 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Image))).to.be.true;
     });
 
+    it('should return a module which contains elements of type Video if it exists', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+      const expectedFoundModule = {
+        id: 'f7b3a2e1-0d5c-4c6c-9c4d-1a3d8f7e9f5d',
+        slug: 'bien-ecrire-son-adresse-mail',
+        title: 'Bien écrire son adresse mail',
+        grains: [
+          {
+            id: 'z1f3c8c7-6d5c-4c6c-9c4d-1a3d8f7e9f5d',
+            type: 'lesson',
+            title: 'Explications : les parties d’une adresse mail',
+            elements: [
+              {
+                id: '3a9f2269-99ba-4631-b6fd-6802c88d5c26',
+                type: 'video',
+                title: 'Le format des adress mail',
+                url: 'https://videos.pix.fr/modulix/chat_animation_2.webm',
+                subtitles: 'Insert subtitles here',
+                transcription: 'Insert transcription here',
+                alternativeText: "Conversation entre Naomi et Mickaël de le format d'adresse mail",
+              },
+            ],
+          },
+        ],
+      };
+      const moduleDatasourceStub = {
+        getBySlug: sinon.stub(),
+      };
+      moduleDatasourceStub.getBySlug.withArgs(existingModuleSlug).resolves(expectedFoundModule);
+
+      // when
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource: moduleDatasourceStub,
+      });
+
+      // then
+      expect(module.grains.every((grain) => grain.elements.every((element) => element instanceof Video))).to.be.true;
+    });
+
     it('should return a module which contains elements of type QROCM if it exists', async function () {
       // given
       const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
@@ -397,12 +439,14 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
     });
 
     it('should return a module if it exists', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+
       // when
-      const existingModuleSlug = 'bien-ecrire-son-adresse-mail',
-        module = await moduleRepository.getBySlugForVerification({
-          slug: existingModuleSlug,
-          moduleDatasource,
-        });
+      const module = await moduleRepository.getBySlugForVerification({
+        slug: existingModuleSlug,
+        moduleDatasource,
+      });
 
       // then
       expect(module).to.be.instanceOf(Module);
