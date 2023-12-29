@@ -891,6 +891,29 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     });
   });
 
+  module('#showBadges', function () {
+    test('should return false when there are no badges', function (assert) {
+      // when
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = [];
+
+      const result = component.showBadges;
+
+      // then
+      assert.false(result);
+    });
+
+    test('should return true when there are badges', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.campaignParticipationBadges = possibleBadgesCombinations;
+
+      // when
+      const result = component.showBadges;
+
+      // then
+      assert.true(result);
+    });
+  });
+
   module('#competenceResultsGroupedByAreas', function () {
     test('should return a competence results object with area keys', function (assert) {
       // given
