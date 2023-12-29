@@ -85,11 +85,7 @@
 
   <div class="import-page__section--link-buttons">
     {{#if this.hasOnlyNonBlockingErrorReports}}
-      <PixButton
-        @backgroundColor="yellow"
-        class="import-page__section--confirm-button--non-blocking"
-        @triggerAction={{@createSessions}}
-      >
+      <PixButton class="import-page__section--confirm-button--non-blocking" @triggerAction={{@createSessions}}>
         {{t "pages.sessions.import.step-two.actions.confirm-with-warning.label"}}
       </PixButton>
       <PixButton

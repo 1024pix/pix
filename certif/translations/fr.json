@@ -692,7 +692,7 @@
               "label": "Finaliser la création/édition"
             },
             "confirm-with-warning": {
-              "label": "Finaliser quand même la création/édition"
+              "label": "Créer/éditer les sessions"
             },
             "import-again": {
               "extra-information": "Revenir à l'étape précédente pour importer le fichier à nouveau",
