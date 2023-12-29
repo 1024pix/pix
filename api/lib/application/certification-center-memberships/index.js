@@ -30,13 +30,35 @@ const register = async function (server) {
         tags: ['api', 'certification-center-membership'],
       },
     },
+    {
+      method: 'DELETE',
+      path: '/api/certification-center-memberships/{certificationCenterMembershipId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCenterMembershipId: identifiersType.certificationCenterMembershipId,
+          }),
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminOfCertificationCenterWithCertificationCenterMembershipId,
+          },
+        ],
+        handler: certificationCenterMembershipController.disableFromPixCertif,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Suppression d'un membre d'un centre de certification\n",
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
   ];
   const adminRoutes = [
     {
       method: 'DELETE',
       path: '/api/admin/certification-center-memberships/{id}',
       config: {
-        handler: certificationCenterMembershipController.disable,
+        handler: certificationCenterMembershipController.disableFromPixAdmin,
         pre: [
           {
             method: (request, h) =>
