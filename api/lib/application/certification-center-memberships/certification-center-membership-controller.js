@@ -4,13 +4,24 @@ import * as certificationCenterMembershipSerializer from '../../infrastructure/s
 import { BadRequestError, ForbiddenError } from '../http-errors.js';
 import { getCertificationCenterId } from '../../infrastructure/repositories/certification-center-membership-repository.js';
 
-const disable = async function (request, h, dependencies = { requestResponseUtils }) {
+const disableFromPixAdmin = async function (request, h, dependencies = { requestResponseUtils }) {
   const certificationCenterMembershipId = request.params.id;
   const pixAgentUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
 
-  await usecases.disableCertificationCenterMembership({
+  await usecases.disableCertificationCenterMembershipFromPixAdmin({
     certificationCenterMembershipId,
     updatedByUserId: pixAgentUserId,
+  });
+  return h.response().code(204);
+};
+
+const disableFromPixCertif = async function (request, h, dependencies = { requestResponseUtils }) {
+  const certificationCenterMembershipId = request.params.certificationCenterMembershipId;
+  const currentUserId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+
+  await usecases.disableCertificationCenterMembershipFromPixCertif({
+    certificationCenterMembershipId,
+    updatedByUserId: currentUserId,
   });
   return h.response().code(204);
 };
@@ -69,6 +80,11 @@ const updateFromPixCertif = async function (
   );
 };
 
-const certificationCenterMembershipController = { disable, updateFromPixAdmin, updateFromPixCertif };
+const certificationCenterMembershipController = {
+  disableFromPixAdmin,
+  disableFromPixCertif,
+  updateFromPixAdmin,
+  updateFromPixCertif,
+};
 
 export { certificationCenterMembershipController };

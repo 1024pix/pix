@@ -4,7 +4,6 @@ import {
   generateValidRequestAuthorizationHeader,
   insertUserWithRoleSuperAdmin,
   databaseBuilder,
-  sinon,
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
@@ -15,37 +14,6 @@ describe('Acceptance | API | Certification Center Membership', function () {
   beforeEach(async function () {
     server = await createServer();
     await insertUserWithRoleSuperAdmin();
-  });
-
-  describe('DELETE /api/admin/certification-center-memberships/{id}', function () {
-    it('should return 200 HTTP status', async function () {
-      // given
-      const now = new Date();
-      const clock = sinon.useFakeTimers({
-        now,
-        toFake: ['Date'],
-      });
-      const userId = databaseBuilder.factory.buildUser().id;
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const certificationCenterMembershipId = databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
-        certificationCenterId,
-      }).id;
-      await databaseBuilder.commit();
-
-      const options = {
-        method: 'DELETE',
-        url: `/api/admin/certification-center-memberships/${certificationCenterMembershipId}`,
-        headers: { authorization: generateValidRequestAuthorizationHeader() },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-      clock.restore();
-    });
   });
 
   context('Admin routes', function () {
@@ -472,6 +440,73 @@ describe('Acceptance | API | Certification Center Membership', function () {
 
             // then
             expect(statusCode).to.equal(400);
+          });
+        });
+      });
+    });
+
+    describe('DELETE /api/certification-center-memberships/{id}', function () {
+      let certificationCenter;
+      let certificationCenterMembership;
+      let user;
+
+      beforeEach(async function () {
+        certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        user = databaseBuilder.factory.buildUser();
+        certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: certificationCenter.id,
+          userId: user.id,
+        });
+        await databaseBuilder.commit();
+      });
+
+      context('Success cases', function () {
+        context('when parameters are valid', function () {
+          it('returns a 204 HTTP status code', async function () {
+            const pixCertifAdminUser = databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+              role: 'ADMIN',
+              certificationCenterId: certificationCenter.id,
+            });
+
+            const request = {
+              method: 'DELETE',
+              url: `/api/certification-center-memberships/${certificationCenterMembership.id}`,
+              headers: {
+                authorization: generateValidRequestAuthorizationHeader(pixCertifAdminUser.id),
+              },
+            };
+
+            await databaseBuilder.commit();
+
+            // when
+            const { statusCode } = await server.inject(request);
+
+            // then
+            expect(statusCode).to.equal(204);
+          });
+        });
+      });
+
+      context('Error cases', function () {
+        context('when user does not have a valid role', function () {
+          it('returns a 403 HTTP status code', async function () {
+            const userWithoutRole = databaseBuilder.factory.buildUser();
+
+            const request = {
+              method: 'DELETE',
+              url: `/api/certification-center-memberships/${certificationCenterMembership.id}`,
+              headers: {
+                authorization: generateValidRequestAuthorizationHeader(userWithoutRole.id),
+              },
+            };
+
+            await databaseBuilder.commit();
+
+            // when
+            const { statusCode } = await server.inject(request);
+
+            // then
+            expect(statusCode).to.equal(403);
           });
         });
       });

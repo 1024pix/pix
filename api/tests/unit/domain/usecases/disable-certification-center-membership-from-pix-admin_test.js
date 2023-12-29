@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { disableCertificationCenterMembership } from '../../../../lib/domain/usecases/disable-certification-center-membership.js';
+import { disableCertificationCenterMembershipFromPixAdmin } from '../../../../lib/domain/usecases/disable-certification-center-membership-from-pix-admin.js';
 
-describe('Unit | UseCase | disable-certification-center-membership', function () {
+describe('Unit | UseCase | disable-certification-center-membership-from-pix-admin', function () {
   let certificationCenterMembershipRepository;
   beforeEach(function () {
     certificationCenterMembershipRepository = {
@@ -15,7 +15,7 @@ describe('Unit | UseCase | disable-certification-center-membership', function ()
     const updatedByUserId = 10;
 
     // when
-    await disableCertificationCenterMembership({
+    await disableCertificationCenterMembershipFromPixAdmin({
       certificationCenterMembershipId,
       updatedByUserId,
       certificationCenterMembershipRepository,

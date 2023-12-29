@@ -1,4 +1,4 @@
-const disableCertificationCenterMembership = async function ({
+const disableCertificationCenterMembershipFromPixAdmin = async function ({
   certificationCenterMembershipId,
   updatedByUserId,
   certificationCenterMembershipRepository,
@@ -6,4 +6,4 @@ const disableCertificationCenterMembership = async function ({
   return certificationCenterMembershipRepository.disableById({ certificationCenterMembershipId, updatedByUserId });
 };
 
-export { disableCertificationCenterMembership };
+export { disableCertificationCenterMembershipFromPixAdmin };
