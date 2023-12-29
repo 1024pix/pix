@@ -7,8 +7,7 @@
     <div class="tubes-selection__inline-layout">
       <PixMultiSelect
         class="tubes-selection__multi-select"
-        @label="Référentiel :"
-        @screenReaderOnly={{true}}
+        @label="Référentiels :"
         @placeholder="Séléctionner les référentiels souhaités"
         @id="framework-list"
         @isSearchable={{true}}
@@ -22,7 +21,7 @@
         {{option.label}}
       </PixMultiSelect>
       {{#if @displayJsonImportButton}}
-        <div class="vertical-delimiter"></div>
+        <div class="tubes-selection__vertical-delimiter"></div>
         <PixButtonUpload
           @onChange={{this.fillTubesSelectionFromFile}}
           @backgroundColor="transparent-light"
@@ -34,7 +33,7 @@
           Importer un fichier JSON
         </PixButtonUpload>
       {{/if}}
-      <div class="tubes-selection__inline-layout--count">{{this.selectedTubesCount}}/{{this.totalTubesCount}}</div>
+      <div class="tubes-selection__count">{{this.selectedTubesCount}}/{{this.totalTubesCount}}</div>
     </div>
   </Card>
 
