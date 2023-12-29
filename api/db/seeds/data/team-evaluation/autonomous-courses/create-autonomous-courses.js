@@ -28,7 +28,7 @@ export default async function initUser(databaseBuilder) {
   //    Those target-profiles are owned by our specific organization.
   for (let i = 1; i < 6; i++) {
     // 3.1. Create some target-profiles owned by our specific organization
-    await tooling.targetProfile.createTargetProfile({
+    const { targetProfileId, cappedTubesDTO } = await tooling.targetProfile.createTargetProfile({
       databaseBuilder,
       ownerOrganizationId: specificOrganizationId,
       targetProfileId: AUTONOMOUS_COURSES_ID + i,
@@ -52,7 +52,7 @@ export default async function initUser(databaseBuilder) {
     // 3.2. Create assessment campaigns linked to those target-profiles
     await tooling.campaign.createAssessmentCampaign({
       databaseBuilder,
-      targetProfileId: AUTONOMOUS_COURSES_ID + i,
+      targetProfileId: targetProfileId,
       organizationId: specificOrganizationId,
       ownerId: REAL_PIX_SUPER_ADMIN_ID,
       code: `AUTOCOURS${i}`,
@@ -66,5 +66,38 @@ export default async function initUser(databaseBuilder) {
         participantCount: 0,
       },
     });
+
+    // 3.3. Build target-profile stages
+    await tooling.targetProfile.createStages({
+      databaseBuilder,
+      targetProfileId: targetProfileId,
+      cappedTubesDTO: cappedTubesDTO,
+      type: 'LEVEL',
+      countStages: 1,
+      includeFirstSkill: false,
+    });
   }
+
+  // 4. Create training for first autonomous course
+  const frTrainingId = databaseBuilder.factory.buildTraining({
+    title: 'Apprendre à manger un pain au chocolat comme les français',
+    locale: 'fr',
+  }).id;
+
+  databaseBuilder.factory.buildTargetProfileTraining({
+    targetProfileId: AUTONOMOUS_COURSES_ID + 1,
+    trainingId: frTrainingId,
+  });
+
+  const frTrainingTriggerId = databaseBuilder.factory.buildTrainingTrigger({
+    trainingId: frTrainingId,
+    threshold: 0,
+    type: 'prerequisite',
+  }).id;
+
+  databaseBuilder.factory.buildTrainingTriggerTube({
+    trainingTriggerId: frTrainingTriggerId,
+    tubeId: 'tube1NLpOetQhutFlA',
+    level: 2,
+  });
 }
