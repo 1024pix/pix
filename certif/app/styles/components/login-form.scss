@@ -21,17 +21,17 @@
 .login-header {
   &__title {
     @extend %pix-title-m;
-    
-    color: $pix-neutral-80;
+
     margin-top: var(--pix-spacing-8x);
     margin-bottom: var(--pix-spacing-4x);
+    color: $pix-neutral-80;
   }
 
   &__information {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 32px;
-    font-family: $font-roboto;
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-900);
+    text-align: center;
   }
 
   &__invitation-error {
@@ -54,8 +54,10 @@
 
 .login-main-form {
   &__mandatory-information {
+    @extend %pix-body-s;
+
+    margin-top: var(--pix-spacing-4x);
     color: $pix-neutral-80;
-    font-family: $font-roboto;
     text-align: center;
   }
 
