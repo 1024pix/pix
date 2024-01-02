@@ -117,7 +117,7 @@ module('Acceptance | Session Details', function (hooks) {
         assert
           .dom(screen.getByRole('link', { name: "Télécharger le PV d'incident" }))
           .hasAttribute('href', 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download');
-        assert.dom(screen.getByRole('link', { name: 'Télécharger le kit surveillant' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Télécharger le kit surveillant' })).exists();
       });
 
       test('it should show issue report sheet download button', async function (assert) {

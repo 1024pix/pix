@@ -20,18 +20,10 @@ module('Unit | Model | session', function (hooks) {
         };
       }
 
-      class IntlStub extends Service {
-        locale = ['dk'];
-      }
-
       this.owner.register('service:session', SessionStub);
-      this.owner.register('service:intl', IntlStub);
 
       // when/then
-      assert.strictEqual(
-        model.urlToDownloadSupervisorKitPdf,
-        `${config.APP.API_HOST}/api/sessions/1/supervisor-kit?accessToken=123&lang=dk`,
-      );
+      assert.strictEqual(model.urlToDownloadSupervisorKitPdf, `${config.APP.API_HOST}/api/sessions/1/supervisor-kit`);
     });
   });
 
