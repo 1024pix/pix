@@ -21,7 +21,6 @@
   &__container {
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-m;
     align-items: center;
     max-width: 609px;
     margin-bottom: $pix-spacing-s;
@@ -30,20 +29,20 @@
     border-radius: 10px;
 
     @include device-is('tablet') {
-      padding: 40px 80px;
+      padding: 40px 60px;
     }
   }
 
   &__header {
     display: flex;
     flex-direction: column;
-    gap: $pix-spacing-s;
     align-items: center;
   }
 
   &__body {
     display: flex;
     flex-direction: column;
+    gap: var(--pix-spacing-4x);
     align-items: center;
     width: 100%;
   }
@@ -72,38 +71,33 @@
 
 .sign-form-header {
   &__title {
-    margin: 0;
-    color: $pix-neutral-80;
-    font-size: 1.563rem;
-    font-family: $font-open-sans;
+    @extend %pix-title-m;
 
-    @include device-is('desktop') {
-      font-size: 2.25rem;
-    }
+    margin-top: var(--pix-spacing-8x);
+    margin-bottom: var(--pix-spacing-4x);
+    color: $pix-neutral-80;
   }
 
   &__subtitle {
-    display: flex;
-    flex-direction: column;
-    font-size: 1rem;
-    font-family: $font-open-sans;
-    text-align: center;
+    @extend %pix-body-s;
 
-    @include device-is('tablet') {
-      flex-direction: row;
-    }
+    color: var(--pix-neutral-900);
+    text-align: center;
   }
 }
 
 .sign-form-header-subtitle {
   margin-right: 3px;
-  color: $pix-neutral-80;
+  color: var(--pix-neutral-900);
 }
 
 .sign-form-body {
   &__instruction {
-    margin: 10px 0 24px;
-    font-size: 0.875rem;
+    @extend %pix-body-s;
+
+    margin-top: var(--pix-spacing-4x);
+    color: $pix-neutral-80;
+    text-align: center;
   }
 
   &__inputs {
@@ -139,7 +133,7 @@
 
   &__bottom-decoration {
     width: 100%;
-    margin: 30px 0 40px;
+    margin: var(--pix-spacing-4x) 0;
     line-height: 0.1rem;
     text-align: center;
     border-bottom: 1.5px solid $pix-neutral-20;
@@ -183,9 +177,10 @@
   }
 
   &__forgotten-password-link {
+    @extend %pix-body-s;
+
     align-self: flex-end;
-    margin: 5px 0 20px;
-    font-size: 0.875rem;
+    margin-top: var(--pix-spacing-1x);
   }
 
   &__fwb-oidc-connect-link {
