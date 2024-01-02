@@ -10,6 +10,7 @@ import {
 } from '../errors.js';
 
 const CERTIFICATION_RESULTS_LINK_SCOPE = 'certificationResultsLink';
+const CERTIFICATION_RESULTS_BY_RECIPIENT_EMAIL_LINK_SCOPE = 'certificationResultsByRecipientEmailLink';
 
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {
@@ -83,7 +84,7 @@ function createCertificationResultsByRecipientEmailLinkToken({
     {
       session_id: sessionId,
       result_recipient_email: resultRecipientEmail,
-      scope: 'certificationResultsByRecipientEmailLink',
+      scope: CERTIFICATION_RESULTS_BY_RECIPIENT_EMAIL_LINK_SCOPE,
     },
     config.authentication.secret,
     {
@@ -150,6 +151,12 @@ function extractCertificationResultsByRecipientEmailLink(token) {
   const decoded = getDecodedToken(token);
   if (!decoded.session_id || !decoded.result_recipient_email) {
     throw new InvalidResultRecipientTokenError();
+  }
+
+  if (config.featureToggles.isCertificationTokenScopeEnabled) {
+    if (decoded.scope !== CERTIFICATION_RESULTS_BY_RECIPIENT_EMAIL_LINK_SCOPE) {
+      throw new InvalidResultRecipientTokenError();
+    }
   }
 
   return {
