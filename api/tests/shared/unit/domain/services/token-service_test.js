@@ -10,7 +10,7 @@ import {
   ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
-  InvalidSessionResultError,
+  InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
 } from '../../../../../src/shared/domain/errors.js';
 
@@ -258,7 +258,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
           const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidToken);
 
           // then
-          expect(error).to.be.an.instanceof(InvalidSessionResultError);
+          expect(error).to.be.an.instanceof(InvalidSessionResultTokenError);
         });
       });
     });
@@ -298,7 +298,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidIdToken);
 
       // then
-      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+      expect(error).to.be.an.instanceof(InvalidSessionResultTokenError);
     });
 
     it('should throw if token is expired', async function () {
@@ -318,7 +318,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidIdToken);
 
       // then
-      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+      expect(error).to.be.an.instanceof(InvalidSessionResultTokenError);
     });
   });
 
