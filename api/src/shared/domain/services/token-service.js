@@ -5,7 +5,7 @@ import {
   ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
-  InvalidSessionResultError,
+  InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
 } from '../errors.js';
 
@@ -161,12 +161,12 @@ function extractCertificationResultsByRecipientEmailLink(token) {
 function extractCertificationResultsLink(token) {
   const decoded = getDecodedToken(token);
   if (!decoded.session_id) {
-    throw new InvalidSessionResultError();
+    throw new InvalidSessionResultTokenError();
   }
 
   if (config.featureToggles.isCertificationTokenScopeEnabled) {
     if (decoded.scope !== CERTIFICATION_RESULTS_LINK_SCOPE) {
-      throw new InvalidSessionResultError();
+      throw new InvalidSessionResultTokenError();
     }
   }
 
