@@ -74,6 +74,18 @@
                 >
                   <FaIcon @icon="eye" />
                 </a>
+
+                {{#if certificationChallenge.validatedLiveAlert}}
+                  <button
+                    title="Afficher le signalement de la question"
+                    aria-label="Afficher le signalement de la question"
+                    type="button"
+                    {{on "click" (fn this.openModal certificationChallenge)}}
+                  >
+                    <FaIcon @icon="warning" />
+                  </button>
+                {{/if}}
+
                 {{#if certificationChallenge.answerValue}}
                   <button
                     title="Afficher la réponse du candidat"
@@ -94,13 +106,16 @@
 </section>
 
 <PixModal
-  @title="Réponse question {{this.certificationChallenge.questionNumber}}"
+  @title="{{this.modalTitle}} question {{this.certificationChallenge.questionNumber}}"
   @showModal={{this.showModal}}
   @onCloseButtonClick={{this.closeModal}}
 >
   <:content>
+    {{#if this.certificationChallenge.validatedLiveAlert}}
+      <span class="certification-details-v3-modal__live-alert-subcategory">{{this.subCategory}}</span>
+    {{/if}}
     <p>
-      {{this.certificationChallenge.answerValue}}
+      {{this.modalContent}}
     </p>
   </:content>
   <:footer>

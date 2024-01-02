@@ -76,11 +76,17 @@ export const subcategoryToLabel = {
     'Problème avec l’accessibilité de la question (ex : daltonisme)',
 };
 
-export const subcategoryToTextareaLabel = {
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Précisez et indiquez l’heure de sortie',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Précisez',
-  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Précisez les informations à modifier',
-  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Précisez le temps majoré',
+export const subcategoryToCode = {
+  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
+  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E2',
+  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
+  [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
+  [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
+  [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
+  [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
+  [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]: 'E10',
+  [certificationIssueReportSubcategories.SKIP_ON_OOPS]: 'E11',
+  [certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]: 'E12',
 };
 
 export default class CertificationIssueReportModel extends Model {

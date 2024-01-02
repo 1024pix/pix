@@ -51,6 +51,7 @@ export const validateLiveAlert = async ({
     category: CertificationIssueReportCategory.IN_CHALLENGE,
     subcategory,
     categoryId: issueReportCategory.id,
+    liveAlertId: certificationChallengeLiveAlert.id,
   });
 
   await certificationIssueReportRepository.save(certificationIssueReport);

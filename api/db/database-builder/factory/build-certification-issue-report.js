@@ -14,6 +14,7 @@ const buildCertificationIssueReport = function ({
   questionNumber = null,
   resolvedAt = null,
   resolution = null,
+  liveAlertId = null,
 } = {}) {
   certificationCourseId = _.isUndefined(certificationCourseId) ? buildCertificationCourse().id : certificationCourseId;
   categoryId = _.isUndefined(categoryId) ? buildIssueReportCategory().id : categoryId;
@@ -29,6 +30,7 @@ const buildCertificationIssueReport = function ({
     hasBeenAutomaticallyResolved,
     resolvedAt,
     resolution,
+    liveAlertId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-issue-reports',
