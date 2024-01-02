@@ -174,8 +174,8 @@ describe('Integration | Repository | Certification Issue Report', function () {
 
       // then
       const expectedIssueReports = [
-        new CertificationIssueReport(issueReportForTargetCourse1),
-        new CertificationIssueReport(issueReportForTargetCourse2),
+        domainBuilder.buildCertificationIssueReport(issueReportForTargetCourse1),
+        domainBuilder.buildCertificationIssueReport(issueReportForTargetCourse2),
       ];
       expect(results).to.deep.equal(expectedIssueReports);
       expect(results[0]).to.be.instanceOf(CertificationIssueReport);

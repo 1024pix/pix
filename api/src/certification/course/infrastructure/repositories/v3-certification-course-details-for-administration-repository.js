@@ -6,7 +6,7 @@ import { V3CertificationChallengeLiveAlertForAdministration } from '../../domain
 import { CertificationChallengeLiveAlertStatus } from '../../../session/domain/models/CertificationChallengeLiveAlert.js';
 
 const getV3DetailsByCertificationCourseId = async function ({ certificationCourseId }) {
-  const liveAlerts = await knex
+  const liveAlertsDTO = await knex
     .with('validated-live-alerts', (queryBuilder) => {
       queryBuilder
         .select('*')
@@ -16,22 +16,13 @@ const getV3DetailsByCertificationCourseId = async function ({ certificationCours
     .select({
       id: 'validated-live-alerts.id',
       challengeId: 'validated-live-alerts.challengeId',
+      issueReportSubcategory: 'certification-issue-reports.subcategory',
     })
     .from('assessments')
     .leftJoin('validated-live-alerts', 'validated-live-alerts.assessmentId', 'assessments.id')
+    .leftJoin('certification-issue-reports', 'certification-issue-reports.liveAlertId', 'validated-live-alerts.id')
     .where({ 'assessments.certificationCourseId': certificationCourseId })
     .orderBy('validated-live-alerts.createdAt', 'ASC');
-
-  const certificationIssueReports = await knex('certification-issue-reports')
-    .select('subcategory')
-    .where({ certificationCourseId })
-    .orderBy('certification-issue-reports.createdAt', 'ASC');
-
-  const liveAlertsDTO = certificationIssueReports.map((certificationIssueReport, index) => ({
-    id: liveAlerts[index].id,
-    issueReportSubcategory: certificationIssueReport.subcategory,
-    challengeId: liveAlerts[index].challengeId,
-  }));
 
   const certificationChallengesDetailsDTO = await knex
     .select({

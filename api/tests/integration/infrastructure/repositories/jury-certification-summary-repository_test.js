@@ -1,6 +1,5 @@
 import { databaseBuilder, domainBuilder, expect } from '../../../test-helper.js';
 import { JuryCertificationSummary } from '../../../../lib/domain/read-models/JuryCertificationSummary.js';
-import { CertificationIssueReport } from '../../../../src/certification/shared/domain/models/CertificationIssueReport.js';
 
 import {
   CertificationIssueReportCategory,
@@ -93,17 +92,14 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           pixScore: latestAssessmentResult.pixScore,
           status: latestAssessmentResult.status,
           certificationIssueReports: [
-            new CertificationIssueReport({
+            domainBuilder.buildCertificationIssueReport({
               id: certificationIssueReport.id,
               certificationCourseId: manyAsrCertification.id,
               description,
               categoryId,
               subcategory: null,
-              questionNumber: null,
               category: CertificationIssueReportCategory.OTHER,
               hasBeenAutomaticallyResolved: null,
-              resolvedAt: null,
-              resolution: null,
             }),
           ],
           complementaryCertificationTakenLabel: null,
@@ -220,7 +216,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         expect(juryCertificationSummaries).to.have.lengthOf(1);
         expect(certificationIssueReports).to.have.lengthOf(2);
         expect(certificationIssueReports).to.deep.equal([
-          new CertificationIssueReport({
+          domainBuilder.buildCertificationIssueReport({
             id: issueReport1.id,
             category: issueReport1.category,
             categoryId: issueReport1.categoryId,
@@ -228,11 +224,8 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
             description: 'first certification issue report',
             hasBeenAutomaticallyResolved: false,
             subcategory: null,
-            questionNumber: null,
-            resolvedAt: null,
-            resolution: null,
           }),
-          new CertificationIssueReport({
+          domainBuilder.buildCertificationIssueReport({
             id: issueReport2.id,
             category: issueReport2.category,
             categoryId: issueReport2.categoryId,
@@ -240,9 +233,6 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
             description: 'second certification issue report',
             hasBeenAutomaticallyResolved: false,
             subcategory: null,
-            questionNumber: null,
-            resolvedAt: null,
-            resolution: null,
           }),
         ]);
       });
@@ -378,7 +368,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         expect(juryCertificationSummary.hasSeendEndTestScreen).to.equal(manyAsrCertification.hasSeendEndTestScreen);
         expect(juryCertificationSummary.complementaryCertificationTakenLabel).to.equal(label);
         expect(juryCertificationSummary.certificationIssueReports).to.deep.equal([
-          new CertificationIssueReport({
+          domainBuilder.buildCertificationIssueReport({
             id: issueReport1.id,
             category: issueReport1.category,
             categoryId,
@@ -386,11 +376,8 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
             description: 'first certification issue report',
             hasBeenAutomaticallyResolved: false,
             subcategory: null,
-            questionNumber: null,
-            resolvedAt: null,
-            resolution: null,
           }),
-          new CertificationIssueReport({
+          domainBuilder.buildCertificationIssueReport({
             id: issueReport2.id,
             category: issueReport2.category,
             categoryId,
@@ -398,9 +385,6 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
             description: 'second certification issue report',
             hasBeenAutomaticallyResolved: false,
             subcategory: null,
-            questionNumber: null,
-            resolvedAt: null,
-            resolution: null,
           }),
         ]);
       });

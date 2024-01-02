@@ -107,6 +107,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
         questionNumber: 1,
+        liveAlertId: firstValidatedLiveAlertId,
       });
 
       databaseBuilder.factory.buildCertificationIssueReport({
@@ -114,6 +115,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
         questionNumber: 1,
+        liveAlertId: secondValidatedLiveAlertId,
       });
 
       databaseBuilder.factory.buildCertificationChallengeLiveAlert({
@@ -134,6 +136,7 @@ describe('Integration | Infrastructure | Repository | v3-certification-course-de
         category: CertificationIssueReportCategory.IN_CHALLENGE,
         subcategory: CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
         questionNumber: 2,
+        liveAlertId: thirdValidatedLiveAlertId,
       });
 
       await databaseBuilder.commit();

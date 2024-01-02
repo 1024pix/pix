@@ -126,6 +126,7 @@ describe('Unit | UseCase | validate-live-alert', function () {
         categoryId: issueReportCategory.id,
         category,
         questionNumber,
+        liveAlertId: liveAlert.id,
       });
       expectedCertificationIssueReport.id = undefined;
       expectedCertificationIssueReport.description = undefined;

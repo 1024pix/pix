@@ -15,6 +15,7 @@ const buildCertificationIssueReport = function ({
   hasBeenAutomaticallyResolved = null,
   resolvedAt = null,
   resolution = null,
+  liveAlertId = null,
 } = {}) {
   return new CertificationIssueReport({
     id,
@@ -27,6 +28,7 @@ const buildCertificationIssueReport = function ({
     hasBeenAutomaticallyResolved,
     resolvedAt,
     resolution,
+    liveAlertId,
   });
 };
 
