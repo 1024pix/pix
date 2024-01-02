@@ -861,6 +861,7 @@
       "members": {
         "actions": {
           "edit-role": "Modifier le rôle",
+          "leave-certification-center": "Quitter cet espace Pix Certif",
           "manage": "Gérer",
           "save": "Enregistrer",
           "select-role": {
@@ -871,10 +872,20 @@
             }
           }
         },
+        "modals": {
+          "leave-certification-center": {
+            "title": "Quitter cet espace Pix Certif",
+            "message": "Êtes-vous sûr de vouloir quitter cet espace Pix Certif ? Vous n’aurez plus accès à <strong>{certificationCenterName}</strong>.<br/><br/>Vos sessions restent accessibles au reste de l'équipe.<br/><br/>Vos accès à d’autres espaces Pix Certif ne seront pas impactés.<br/><br/>Vous allez être déconnecté."
+          }
+        },
         "notifications": {
           "change-member-role": {
             "error": "Une erreur est survenue lors de la modification du rôle du membre.",
             "success": "Le rôle a bien été changé."
+          },
+          "leave-certification-center": {
+            "error": "Une erreur est survenue lors de la suppression du membre.",
+            "success": "Votre accès a été supprimé avec succès du centre de certification {certificationCenterName}. Vous allez être déconnecté de Pix Certif..."
           }
         },
         "role": {
