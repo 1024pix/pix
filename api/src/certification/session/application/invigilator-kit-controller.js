@@ -1,22 +1,17 @@
 import { usecases } from '../../shared/domain/usecases/index.js';
-import { tokenService } from '../../../shared/domain/services/token-service.js';
 import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as invigilatorKitPdf from '../infrastructure/utils/pdf/invigilator-kit-pdf.js';
 
-const getInvigilatorKitPdf = async function (
-  request,
-  h,
-  dependencies = { tokenService, requestResponseUtils, invigilatorKitPdf },
-) {
+const getInvigilatorKitPdf = async function (request, h, dependencies = { requestResponseUtils, invigilatorKitPdf }) {
   const sessionId = request.params.id;
-  const token = request.query.accessToken;
-  const userId = dependencies.tokenService.extractUserId(token);
-  const { lang } = request.query;
+  const { userId } = request.auth.credentials;
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
+
   const sessionForInvigilatorKit = await usecases.getInvigilatorKitSessionInfo({ sessionId, userId });
 
   const { buffer, fileName } = await dependencies.invigilatorKitPdf.getInvigilatorKitPdfBuffer({
     sessionForInvigilatorKit,
-    lang,
+    lang: locale,
   });
 
   return h

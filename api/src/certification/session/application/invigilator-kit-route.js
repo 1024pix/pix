@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { identifiersType } from '../../../../lib/domain/types/identifiers-type.js';
 import { invigilatorKitController } from './invigilator-kit-controller.js';
+import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 
 const register = async function (server) {
   server.route([
@@ -8,12 +9,17 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/sessions/{id}/supervisor-kit',
       config: {
-        auth: false,
         validate: {
           params: Joi.object({
             id: identifiersType.sessionId,
           }),
         },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: invigilatorKitController.getInvigilatorKitPdf,
         tags: ['api', 'sessions', 'invigilator'],
         notes: [

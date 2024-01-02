@@ -11,33 +11,30 @@ describe('Unit | Controller | invigilator-kit-controller', function () {
       const invigilatorKitBuffer = 'binary string';
       const userId = 1;
       const request = {
+        headers: {
+          'accept-language': 'fr',
+        },
         auth: { credentials: { userId } },
         params: { id: sessionMainInfo.id },
-        query: {
-          accessToken: 'ACCESS_TOKEN',
-        },
-      };
-      const tokenService = {
-        extractUserId: sinon.stub(),
       };
       const requestResponseUtils = {
         extractLocaleFromRequest: sinon.stub(),
       };
-      tokenService.extractUserId.withArgs(request.query.accessToken).returns(userId);
       const invigilatorKitPdf = {
         getInvigilatorKitPdfBuffer: sinon.stub(),
       };
+
+      requestResponseUtils.extractLocaleFromRequest.withArgs(request.headers['accept-language']).resolves('fr');
+      usecases.getInvigilatorKitSessionInfo.resolves(sessionMainInfo);
       invigilatorKitPdf.getInvigilatorKitPdfBuffer.resolves({
         buffer: invigilatorKitBuffer,
         fileName: `kit-surveillant-${sessionMainInfo.id}.pdf`,
       });
-      usecases.getInvigilatorKitSessionInfo.resolves(sessionMainInfo);
 
       // when
       const response = await invigilatorKitController.getInvigilatorKitPdf(request, hFake, {
-        tokenService,
-        requestResponseUtils,
         invigilatorKitPdf,
+        requestResponseUtils,
       });
 
       // then
