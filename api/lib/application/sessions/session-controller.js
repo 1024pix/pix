@@ -116,7 +116,7 @@ const getSessionResultsToDownload = async function (
   dependencies = { tokenService, getSessionCertificationResultsCsv },
 ) {
   const token = request.params.token;
-  const { sessionId } = dependencies.tokenService.extractSessionId(token);
+  const { sessionId } = dependencies.tokenService.extractCertificationResultsLink(token);
   const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
   const csvResult = await dependencies.getSessionCertificationResultsCsv({
@@ -138,7 +138,8 @@ const getSessionResultsByRecipientEmail = async function (
 ) {
   const token = request.params.token;
 
-  const { resultRecipientEmail, sessionId } = dependencies.tokenService.extractResultRecipientEmailAndSessionId(token);
+  const { resultRecipientEmail, sessionId } =
+    dependencies.tokenService.extractCertificationResultsByRecipientEmailLink(token);
   const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
     sessionId,
     resultRecipientEmail,
