@@ -8,7 +8,7 @@ import { V3CertificationChallengeLiveAlertForAdministration } from '../../../../
 
 describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administration-serializer', function () {
   describe('#serialize()', function () {
-    it('should convert a Session model object into JSON API data including supervisor password', function () {
+    it('should convert a V3CertificationChallengeForAdministration model object into JSON API', function () {
       // given
       const certificationCourseId = 123;
       const liveAlertId = 789;
@@ -22,7 +22,10 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
       const certificationChallenge = new V3CertificationChallengeForAdministration({
         challengeId,
         answerStatus,
-        validatedLiveAlert: new V3CertificationChallengeLiveAlertForAdministration({ id: liveAlertId }),
+        validatedLiveAlert: new V3CertificationChallengeLiveAlertForAdministration({
+          id: liveAlertId,
+          issueReportSubcategory: 'WEBSITE_BLOCKED',
+        }),
         answeredAt: new Date('2020-01-02'),
         answerValue,
         competenceName,
@@ -49,7 +52,10 @@ describe('Unit | Serializer | JSONAPI | v3-certification-details-for-administrat
             id: challengeId,
             attributes: {
               'answer-status': 'ok',
-              'validated-live-alert': { id: liveAlertId },
+              'validated-live-alert': {
+                id: liveAlertId,
+                issueReportSubcategory: certificationChallenge.validatedLiveAlert.issueReportSubcategory,
+              },
               'answered-at': certificationChallenge.answeredAt,
               'answer-value': answerValue,
               'competence-name': competenceName,
