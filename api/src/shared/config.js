@@ -191,6 +191,7 @@ const configuration = (function () {
       ),
       isPix1dEnabled: isFeatureEnabled(process.env.FT_PIX_1D_ENABLED),
       isPixPlusLowerLeverEnabled: isFeatureEnabled(process.env.FT_ENABLE_PIX_PLUS_LOWER_LEVEL),
+      isCertificationTokenScopeEnabled: isFeatureEnabled(process.env.FT_ENABLE_CERTIF_TOKEN_SCOPE),
     },
     fwb: {
       isEnabledForPixAdmin: false,
@@ -396,6 +397,7 @@ const configuration = (function () {
 
     config.featureToggles.isAlwaysOkValidateNextChallengeEndpointEnabled = false;
     config.featureToggles.isPix1dEnabled = true;
+    config.featureToggles.isCertificationTokenScopeEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'brevo';
