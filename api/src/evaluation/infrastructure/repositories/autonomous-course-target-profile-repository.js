@@ -9,8 +9,10 @@ function _toDomain(AutonomousCourseTargetProfileDTO) {
 }
 
 const get = async function ({ targetProfileApi }) {
-  const autonomousCourseTargetProfileDTO = await targetProfileApi.getByOrganizationId(
-    constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+  const targetProfiles = await targetProfileApi.getByOrganizationId(constants.AUTONOMOUS_COURSES_ORGANIZATION_ID);
+
+  const autonomousCourseTargetProfileDTO = targetProfiles.filter(
+    (targetProfile) => !targetProfile.isPublic && targetProfile.isSimplifiedAccess,
   );
 
   if (!autonomousCourseTargetProfileDTO.length) {
