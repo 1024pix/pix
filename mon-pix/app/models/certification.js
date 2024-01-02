@@ -28,8 +28,8 @@ export default class Certification extends Model {
   @attr('number') maxReachableLevelOnCertificationDate;
 
   // includes
-  @belongsTo('resultCompetenceTree') resultCompetenceTree;
-  @belongsTo('user') user;
+  @belongsTo('resultCompetenceTree', { async: true, inverse: null }) resultCompetenceTree;
+  @belongsTo('user', { async: true, inverse: 'certifications' }) user;
 
   @computed('certifiedBadgeImages.length')
   get hasAcquiredComplementaryCertifications() {

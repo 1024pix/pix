@@ -7,5 +7,5 @@ export default class ResultCompetence extends Model {
   @attr('number') level;
 
   // includes
-  @belongsTo('area', { inverse: 'resultCompetences' }) area;
+  @belongsTo('area', { async: true, inverse: 'resultCompetences' }) area;
 }
