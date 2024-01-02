@@ -98,6 +98,7 @@ class CertificationIssueReport {
     subcategory,
     questionNumber,
     hasBeenAutomaticallyResolved,
+    liveAlertId,
     resolvedAt,
     resolution,
   } = {}) {
@@ -111,6 +112,7 @@ class CertificationIssueReport {
     this.hasBeenAutomaticallyResolved = hasBeenAutomaticallyResolved;
     this.resolvedAt = resolvedAt;
     this.resolution = resolution;
+    this.liveAlertId = liveAlertId;
     this.isImpactful = _isImpactful({ category, subcategory });
 
     if (
@@ -128,13 +130,23 @@ class CertificationIssueReport {
     }
   }
 
-  static create({ id, certificationCourseId, category, categoryId, description, subcategory, questionNumber }) {
+  static create({
+    id,
+    certificationCourseId,
+    category,
+    categoryId,
+    description,
+    subcategory,
+    questionNumber,
+    liveAlertId,
+  }) {
     const certificationIssueReport = new CertificationIssueReport({
       id,
       certificationCourseId,
       category,
       categoryId,
       description,
+      liveAlertId,
       subcategory,
       questionNumber,
       hasBeenAutomaticallyResolved: null,

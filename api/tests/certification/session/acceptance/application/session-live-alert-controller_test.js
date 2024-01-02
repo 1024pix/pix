@@ -149,6 +149,7 @@ describe('Certification | Session | Acceptance | Controller | session-live-alert
         expect(response.statusCode).to.equal(204);
         expect(liveAlert.status).to.equal(CertificationChallengeLiveAlertStatus.VALIDATED);
         expect(certificationIssueReport.subcategory).to.equal('IMAGE_NOT_DISPLAYING');
+        expect(certificationIssueReport.liveAlertId).to.equal(liveAlert.id);
       });
     });
 
