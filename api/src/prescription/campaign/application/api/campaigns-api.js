@@ -61,6 +61,8 @@ export const get = async (campaignId) => {
  * @type {object}
  * @property {number} campaignId
  * @property {string} name
+ * @property {string} title
+ * @property {string} customLandingPageText
  */
 
 /**
@@ -71,12 +73,7 @@ export const get = async (campaignId) => {
  * @returns {Promise<Campaign>}
  */
 export const update = async (payload) => {
-  const campaignToUpdate = {
-    campaignId: payload.campaignId,
-    name: payload.name,
-  };
-
-  const updatedCampaign = await usecases.updateCampaign(campaignToUpdate);
+  const updatedCampaign = await usecases.updateCampaign(payload);
   return new Campaign(updatedCampaign);
 };
 

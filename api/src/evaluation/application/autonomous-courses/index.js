@@ -43,6 +43,41 @@ const register = async function (server) {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/admin/autonomous-courses/{autonomousCourseId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: autonomousCourseController.update,
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              type: Joi.string().valid('autonomous-courses'),
+              attributes: Joi.object({
+                'internal-title': Joi.string().required(),
+                'public-title': Joi.string().required(),
+                'custom-landing-page-text': Joi.string().allow(null).optional(),
+              }),
+            }),
+          }),
+        },
+        notes: [
+          '- **Route nécessitant une authentification**\n' +
+            '- Cette route permet de mettre à jour un parcours autonome.',
+        ],
+        tags: ['api', 'autonomous-courses'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/autonomous-courses',
       config: {

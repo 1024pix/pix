@@ -19,6 +19,18 @@ const save = async (request, h, dependencies = { requestResponseUtils, usecases,
   return h.response(dependencies.autonomousCourseSerializer.serializeId(autonomousCourseId)).created();
 };
 
+const update = async (request, h, dependencies = { usecases, autonomousCourseSerializer }) => {
+  const autonomousCourseId = request.params.autonomousCourseId;
+  const deserializedPayload = await dependencies.autonomousCourseSerializer.deserialize(request.payload);
+  await dependencies.usecases.updateAutonomousCourse({
+    autonomousCourse: {
+      campaignId: autonomousCourseId,
+      ...deserializedPayload,
+    },
+  });
+  return h.response().code(204);
+};
+
 const getById = async function (request, h, dependencies = { usecases, autonomousCourseSerializer }) {
   const { autonomousCourseId } = request.params;
   const autonomousCourse = await usecases.getAutonomousCourse({ autonomousCourseId });
@@ -34,7 +46,5 @@ const findPaginatedList = async (
   const { autonomousCourses, meta } = await dependencies.usecases.findAllPaginatedAutonomousCourses({ page });
   return dependencies.autonomousCoursePaginatedListSerializer.serialize(autonomousCourses, meta);
 };
-
-const autonomousCourseController = { save, getById, findPaginatedList };
-
+const autonomousCourseController = { save, getById, update, findPaginatedList };
 export { autonomousCourseController };
