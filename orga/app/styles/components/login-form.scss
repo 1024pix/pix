@@ -7,8 +7,15 @@
   &__information {
     @extend %pix-body-s;
 
-    margin-top: var(--pix-spacing-4x);
     color: var(--pix-neutral-900);
+    text-align: center;
+  }
+
+  &__mandatory-information {
+    @extend %pix-body-s;
+
+    margin-top: var(--pix-spacing-4x);
+    color: $pix-neutral-80;
     text-align: center;
   }
 
