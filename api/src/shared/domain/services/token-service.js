@@ -81,6 +81,7 @@ function createCertificationResultsByRecipientEmailLinkToken({
     {
       session_id: sessionId,
       result_recipient_email: resultRecipientEmail,
+      scope: 'certificationResultsByRecipientEmailLink',
     },
     config.authentication.secret,
     {
@@ -93,6 +94,7 @@ function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }
   return jsonwebtoken.sign(
     {
       session_id: sessionId,
+      scope: 'certificationResultsLink',
     },
     config.authentication.secret,
     {
