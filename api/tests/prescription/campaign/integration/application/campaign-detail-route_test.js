@@ -6,21 +6,19 @@ import * as moduleUnderTest from '../../../../../src/prescription/campaign/appli
 describe('Integration | Application | Route | campaign detail router', function () {
   let httpTestServer;
 
-  beforeEach(async function () {
-    sinon.stub(campaignDetailController, 'getCsvAssessmentResults').callsFake((_, h) => h.response('ok').code(200));
-    sinon
-      .stub(campaignDetailController, 'getCsvProfilesCollectionResults')
-      .callsFake((_, h) => h.response('ok').code(200));
-
-    httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
-  });
-
   describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function () {
     it('should exist', async function () {
       // given
+      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(campaignDetailController, 'getCsvProfilesCollectionResults')
+        .callsFake((_, h) => h.response('ok').code(200));
+
       const method = 'GET';
       const url = '/api/campaigns/1/csv-profiles-collection-results';
+
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -33,8 +31,13 @@ describe('Integration | Application | Route | campaign detail router', function 
   describe('GET /api/campaigns/{id}/csv-assessment-results', function () {
     it('should exist', async function () {
       // given
+      sinon.stub(securityPreHandlers, 'checkAuthorizationToAccessCampaign').callsFake((request, h) => h.response(true));
+      sinon.stub(campaignDetailController, 'getCsvAssessmentResults').callsFake((_, h) => h.response('ok').code(200));
       const method = 'GET';
       const url = '/api/campaigns/1/csv-assessment-results';
+
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
       // when
       const response = await httpTestServer.request(method, url);

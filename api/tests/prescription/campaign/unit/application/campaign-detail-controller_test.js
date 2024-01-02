@@ -1,7 +1,6 @@
-import { sinon, expect, hFake, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { sinon, expect, hFake, domainBuilder } from '../../../../test-helper.js';
 import { campaignDetailController } from '../../../../../src/prescription/campaign/application/campaign-detail-controller.js';
 import { usecases } from '../../../../../src/prescription/campaign/domain/usecases/index.js';
-import { ForbiddenAccess } from '../../../../../src/shared/domain/errors.js';
 
 describe('Unit | Application | Controller | Campaign detail', function () {
   describe('#getById', function () {
@@ -166,7 +165,6 @@ describe('Unit | Application | Controller | Campaign detail', function () {
   describe('#getCsvProfilesCollectionResults', function () {
     it('should call the use case to get result campaign in csv', async function () {
       // given
-      const userId = 1;
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
@@ -174,25 +172,17 @@ describe('Unit | Application | Controller | Campaign detail', function () {
         .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
         .resolves({ fileName: 'any file name' });
 
-      const tokenServiceStub = {
-        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
-      };
-
       // when
-      await campaignDetailController.getCsvProfilesCollectionResults(request, hFake, {
-        tokenService: tokenServiceStub,
-      });
+      await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
 
       // then
       expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.have.been.calledOnce;
       const getResultsCampaignArgs = usecases.startWritingCampaignProfilesCollectionResultsToStream.firstCall.args[0];
-      expect(getResultsCampaignArgs).to.have.property('userId');
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
     it('should return a response with correct headers', async function () {
       // given
-      const userId = 1;
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
@@ -200,14 +190,8 @@ describe('Unit | Application | Controller | Campaign detail', function () {
         .stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream')
         .resolves({ fileName: 'expected file name' });
 
-      const tokenServiceStub = {
-        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
-      };
-
       // when
-      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake, {
-        tokenService: tokenServiceStub,
-      });
+      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
 
       // then
       expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
@@ -217,7 +201,6 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
     it('should fix invalid header chars in filename', async function () {
       // given
-      const userId = 1;
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
@@ -225,105 +208,44 @@ describe('Unit | Application | Controller | Campaign detail', function () {
         fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
       });
 
-      const tokenServiceStub = {
-        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
-      };
-
       // when
-      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake, {
-        tokenService: tokenServiceStub,
-      });
+      const response = await campaignDetailController.getCsvProfilesCollectionResults(request, hFake);
 
       // then
       expect(response.headers['content-disposition']).to.equal(
         'attachment; filename="file-name with invalid_chars _____________.csv"',
       );
     });
-
-    context('when the campaign id is not the same as provided in the access token', function () {
-      it('should throw an error', async function () {
-        // given
-        const userId = 1;
-        const campaignId = 2;
-        const request = _getRequestForCampaignId(campaignId);
-
-        sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
-        const tokenServiceStub = {
-          extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId: 19 }),
-        };
-
-        // when
-        const error = await catchErr(campaignDetailController.getCsvProfilesCollectionResults)(request, hFake, {
-          tokenService: tokenServiceStub,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.not.have.been.called;
-      });
-    });
-
-    context('when the access token is invalid', function () {
-      it('should throw an error', async function () {
-        // given
-        const request = _getRequestForCampaignId(1);
-
-        sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream').resolves();
-        const tokenServiceStub = {
-          extractCampaignResultsTokenContent: sinon.stub().throws(new ForbiddenAccess()),
-        };
-
-        // when
-        const error = await catchErr(campaignDetailController.getCsvProfilesCollectionResults)(request, hFake, {
-          tokenService: tokenServiceStub,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(usecases.startWritingCampaignProfilesCollectionResultsToStream).to.not.have.been.called;
-      });
-    });
   });
 
   describe('#getCsvAssessmentResults', function () {
     it('should call the use case to get result campaign in csv', async function () {
       // given
-      const userId = 1;
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      const tokenServiceStub = {
-        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
-      };
       sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({ fileName: 'any file name' });
-      const dependencies = { tokenService: tokenServiceStub };
 
       // when
-      await campaignDetailController.getCsvAssessmentResults(request, hFake, dependencies);
+      await campaignDetailController.getCsvAssessmentResults(request, hFake);
 
       // then
       expect(usecases.startWritingCampaignAssessmentResultsToStream).to.have.been.calledOnce;
       const getResultsCampaignArgs = usecases.startWritingCampaignAssessmentResultsToStream.firstCall.args[0];
-      expect(getResultsCampaignArgs).to.have.property('userId');
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
     it('should return a response with correct headers', async function () {
       // given
-      const userId = 1;
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      const tokenServiceStub = {
-        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
-      };
       sinon
         .stub(usecases, 'startWritingCampaignAssessmentResultsToStream')
         .resolves({ fileName: 'expected file name' });
-      const dependencies = { tokenService: tokenServiceStub };
 
       // when
-      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake, dependencies);
+      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake);
 
       // then
       expect(response.headers['content-type']).to.equal('text/csv;charset=utf-8');
@@ -333,67 +255,20 @@ describe('Unit | Application | Controller | Campaign detail', function () {
 
     it('should fix invalid header chars in filename', async function () {
       // given
-      const userId = 1;
       const campaignId = 2;
       const request = _getRequestForCampaignId(campaignId);
 
-      const tokenServiceStub = {
-        extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId }),
-      };
       sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves({
         fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
       });
-      const dependencies = { tokenService: tokenServiceStub };
 
       // when
-      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake, dependencies);
+      const response = await campaignDetailController.getCsvAssessmentResults(request, hFake);
 
       // then
       expect(response.headers['content-disposition']).to.equal(
         'attachment; filename="file-name with invalid_chars _____________.csv"',
       );
-    });
-
-    context('when the campaign id is not the same as provided in the access token', function () {
-      it('should throw an error', async function () {
-        // given
-        const userId = 1;
-        const campaignId = 2;
-        const request = _getRequestForCampaignId(campaignId);
-
-        const tokenServiceStub = {
-          extractCampaignResultsTokenContent: sinon.stub().returns({ userId, campaignId: 19 }),
-        };
-        sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves();
-        const dependencies = { tokenService: tokenServiceStub };
-
-        // when
-        const error = await catchErr(campaignDetailController.getCsvAssessmentResults)(request, hFake, dependencies);
-
-        // then
-        expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(usecases.startWritingCampaignAssessmentResultsToStream).to.not.have.been.called;
-      });
-    });
-
-    context('when the access token is invalid', function () {
-      it('should throw an error', async function () {
-        // given
-        const request = _getRequestForCampaignId(1);
-
-        const tokenServiceStub = {
-          extractCampaignResultsTokenContent: sinon.stub().throws(new ForbiddenAccess()),
-        };
-        sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream').resolves();
-        const dependencies = { tokenService: tokenServiceStub };
-
-        // when
-        const error = await catchErr(campaignDetailController.getCsvAssessmentResults)(request, hFake, dependencies);
-
-        // then
-        expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(usecases.startWritingCampaignAssessmentResultsToStream).to.not.have.been.called;
-      });
     });
   });
 });
