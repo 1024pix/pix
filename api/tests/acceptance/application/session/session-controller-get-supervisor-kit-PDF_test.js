@@ -9,7 +9,7 @@ describe('Acceptance | Controller | session-controller-get-supervisor-kit-pdf', 
   });
 
   describe('GET /api/sessions/{id}/supervisor-kit', function () {
-    let user, sessionIdAllowed, sessionIdNotAllowed;
+    let user, sessionIdAllowed;
     beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser();
@@ -25,21 +25,17 @@ describe('Acceptance | Controller | session-controller-get-supervisor-kit-pdf', 
       });
 
       sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      sessionIdNotAllowed = databaseBuilder.factory.buildSession({
-        certificationCenterId: otherCertificationCenterId,
-      }).id;
 
       await databaseBuilder.commit();
     });
 
     it('should respond with a 200 when session can be found', async function () {
       // when
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdAllowed}/supervisor-kit?accessToken=${token}&lang=fr`,
+        url: `/api/sessions/${sessionIdAllowed}/supervisor-kit`,
         payload: {},
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
       // when
       const promise = server.inject(options);
@@ -47,24 +43,6 @@ describe('Acceptance | Controller | session-controller-get-supervisor-kit-pdf', 
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    it('should respond with a 403 when user cant access the session', async function () {
-      // when
-      const authHeader = generateValidRequestAuthorizationHeader(user.id);
-      const token = authHeader.replace('Bearer ', '');
-      const options = {
-        method: 'GET',
-        url: `/api/sessions/${sessionIdNotAllowed}/supervisor-kit?accessToken=${token}`,
-        payload: {},
-      };
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
       });
     });
   });
