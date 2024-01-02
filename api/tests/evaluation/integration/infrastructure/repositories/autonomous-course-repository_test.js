@@ -1,35 +1,73 @@
-import { databaseBuilder, expect, mockLearningContent, sinon } from '../../../../test-helper.js';
+import { databaseBuilder, expect, knex, mockLearningContent, sinon } from '../../../../test-helper.js';
 import { repositories } from '../../../../../src/evaluation/infrastructure/repositories/index.js';
 import { constants } from '../../../../../lib/domain/constants.js';
 import { AutonomousCourse } from '../../../../../src/evaluation/domain/models/AutonomousCourse.js';
 
 describe('Integration | Repository | Autonomous Course', function () {
-  it('#save', async function () {
-    // given
-    sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
-    const { id: userId } = databaseBuilder.factory.buildUser();
-    const { id: organizationId } = databaseBuilder.factory.buildOrganization({
-      id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+  describe('#save', function () {
+    it('save a new autonomous course', async function () {
+      // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      });
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+
+      await databaseBuilder.commit();
+
+      // when
+      const savedAutonomousCourseId = await repositories.autonomousCourseRepository.save({
+        autonomousCourse: {
+          ownerId: userId,
+          organizationId,
+          targetProfileId,
+          publicTitle: 'public title',
+          internalTitle: 'internal title',
+          customLandingPageText: 'custom landing text page text',
+        },
+      });
+
+      // then
+      expect(savedAutonomousCourseId).to.be.above(0);
     });
-    databaseBuilder.factory.buildMembership({ organizationId, userId });
-    const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+  });
 
-    await databaseBuilder.commit();
+  describe('#update', function () {
+    it('updates an existing record', async function () {
+      // given
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      });
+      databaseBuilder.factory.buildMembership({ organizationId, userId });
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
 
-    // when
-    const savedAutonomousCourseId = await repositories.autonomousCourseRepository.save({
-      autonomousCourse: {
-        ownerId: userId,
-        organizationId,
-        targetProfileId,
-        publicTitle: 'public title',
-        internalTitle: 'internal title',
-        customLandingPageText: 'custom landing text page text',
-      },
+      await databaseBuilder.commit();
+
+      // when
+      await repositories.autonomousCourseRepository.update({
+        autonomousCourse: {
+          campaignId,
+          publicTitle: 'new public title',
+          internalTitle: 'new internal title',
+          customLandingPageText: 'new custom landing text page text',
+        },
+      });
+
+      // then
+      const { id, name, title, customLandingPageText } = await knex('campaigns')
+        .select(['id', 'name', 'title', 'customLandingPageText'])
+        .where({ id: campaignId })
+        .first();
+      expect(id).to.equal(campaignId);
+      expect(name).to.equal('new internal title');
+      expect(title).to.equal('new public title');
+      expect(customLandingPageText).to.equal('new custom landing text page text');
     });
-
-    // then
-    expect(savedAutonomousCourseId).to.be.above(0);
   });
 
   describe('#get', function () {

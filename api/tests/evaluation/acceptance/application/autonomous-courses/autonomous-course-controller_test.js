@@ -57,6 +57,7 @@ describe('Acceptance | API | Autonomous Course', function () {
         });
         targetProfileId = databaseBuilder.factory.buildTargetProfile({
           isSimplifiedAccess: true,
+          isPublic: false,
           ownerOrganizationId: organizationId,
         }).id;
         databaseBuilder.factory.buildMembership({ organizationId, userId });
@@ -189,6 +190,7 @@ describe('Acceptance | API | Autonomous Course', function () {
       });
       targetProfileId = databaseBuilder.factory.buildTargetProfile({
         isSimplifiedAccess: true,
+        isPublic: false,
         ownerOrganizationId: organizationId,
       }).id;
       await databaseBuilder.commit();
@@ -236,6 +238,70 @@ describe('Acceptance | API | Autonomous Course', function () {
       expect(response.result.data.type).to.equal(expectedResponse.type);
       expect(response.result.data.id).to.equal(expectedResponse.id);
       expect(response.result.data.attributes).to.deep.equal(expectedResponse.attributes);
+    });
+  });
+
+  describe('PATCH /api/admin/autonomous-courses/{autonomousCourseId}', function () {
+    let targetProfileId;
+    let organizationId;
+
+    beforeEach(async function () {
+      sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+        id: constants.AUTONOMOUS_COURSES_ORGANIZATION_ID,
+      });
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({
+        isSimplifiedAccess: true,
+        ownerOrganizationId: organizationId,
+      }).id;
+      await databaseBuilder.commit();
+    });
+
+    it('should update the autonomous course', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const { id: autonomousCourseId } = databaseBuilder.factory.buildCampaign({
+        name: 'Nom interne parcours autonome',
+        title: 'Nom externe parcours autonome',
+        code: 'PARCOURS1',
+        type: 'ASSESSMENT',
+        organizationId: organizationId,
+        ownerId: userId,
+        targetProfileId: targetProfileId,
+        customLandingPageText: "un texte de page d'accueil",
+        createdAt: new Date('2020-01-02'),
+      });
+      await databaseBuilder.commit();
+
+      const response = await server.inject({
+        method: 'PATCH',
+        url: `/api/admin/autonomous-courses/${autonomousCourseId}`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+        payload: {
+          data: {
+            type: 'autonomous-courses',
+            attributes: {
+              'internal-title': 'Nouveau nom',
+              'public-title': 'Nouveau titre',
+              'custom-landing-page-text': "Nouveau texte de page d'accueil",
+            },
+          },
+        },
+      });
+
+      // then
+      const { id, name, title, customLandingPageText } = await knex('campaigns')
+        .select(['id', 'name', 'title', 'customLandingPageText'])
+        .where({ id: autonomousCourseId })
+        .first();
+      expect(id).to.equal(autonomousCourseId);
+      expect(name).to.equal('Nouveau nom');
+      expect(title).to.equal('Nouveau titre');
+      expect(customLandingPageText).to.equal("Nouveau texte de page d'accueil");
+
+      expect(response.statusCode).to.equal(204);
     });
   });
 
