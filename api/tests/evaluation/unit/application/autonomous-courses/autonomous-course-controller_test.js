@@ -91,7 +91,7 @@ describe('Unit | Controller | autonomous-course-controller', function () {
       );
 
       // then
-      expect(evaluationUsecases.getAutonomousCourse).to.have.been.calledWithExactly({ autonomousCourseId });
+      expect(evaluationUsecases.getAutonomousCourse).to.have.been.calledOnceWithExactly({ autonomousCourseId });
       expect(autonomousCourseSerializer.serialize).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
@@ -130,6 +130,41 @@ describe('Unit | Controller | autonomous-course-controller', function () {
       expect(autonomousCoursePaginatedListSerializer.serialize).to.have.been.calledOnce;
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#update', function () {
+    it('should call the appropriate usecase', async function () {
+      // given
+      const deserializedResult = { id: 12 };
+      const autonomousCourse = Symbol('autonomousCourse');
+      const autonomousCourseId = 1;
+
+      sinon.stub(evaluationUsecases, 'updateAutonomousCourse').resolves(autonomousCourse);
+      const autonomousCourseSerializer = { deserialize: sinon.stub().returns(deserializedResult) };
+
+      const dependencies = { usecases: evaluationUsecases, autonomousCourseSerializer };
+
+      // when
+      const response = await autonomousCourseController.update(
+        {
+          params: {
+            autonomousCourseId,
+          },
+        },
+        hFake,
+        dependencies,
+      );
+
+      // then
+      expect(evaluationUsecases.updateAutonomousCourse).to.have.been.calledOnceWithExactly({
+        autonomousCourse: {
+          campaignId: autonomousCourseId,
+          ...deserializedResult,
+        },
+      });
+      expect(autonomousCourseSerializer.deserialize).to.have.been.calledOnce;
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
