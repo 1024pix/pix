@@ -67,9 +67,9 @@ export default class Campaign extends Model {
 
   get urlToResult() {
     if (this.isTypeAssessment) {
-      return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-assessment-results?accessToken=${this.tokenForCampaignResults}`;
+      return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-assessment-results`;
     }
-    return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-profiles-collection-results?accessToken=${this.tokenForCampaignResults}`;
+    return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-profiles-collection-results`;
   }
 
   get hasParticipations() {

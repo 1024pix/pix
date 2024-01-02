@@ -29,8 +29,8 @@
   </nav>
 
   <div class="campaign-header-tabs__export-button hide-on-mobile">
-    <PixButtonLink @href={{this.downloadUrl}} target="_blank" rel="noopener noreferrer" download>
+    <PixButton @backgroundColor="primary" @triggerAction={{this.exportData}}>
       {{t "pages.campaign.actions.export-results"}}
-    </PixButtonLink>
+    </PixButton>
   </div>
 </div>
