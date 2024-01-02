@@ -10,5 +10,9 @@ export default class CampaignParticipationBadge extends Badge {
   @attr('number') acquisitionPercentage;
 
   // includes
-  @belongsTo('campaignParticipationResult') campaignParticipationResult;
+  @belongsTo('campaignParticipationResult', {
+    async: true,
+    inverse: 'campaignParticipationBadges',
+  })
+  campaignParticipationResult;
 }

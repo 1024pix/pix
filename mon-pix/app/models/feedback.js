@@ -7,6 +7,6 @@ export default class Feedback extends Model {
   @attr('string') content;
 
   // includes
-  @belongsTo('assessment') assessment;
-  @belongsTo('challenge') challenge;
+  @belongsTo('assessment', { async: true, inverse: null }) assessment;
+  @belongsTo('challenge', { async: true, inverse: null }) challenge;
 }

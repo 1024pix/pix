@@ -12,10 +12,10 @@ export default class CampaignParticipation extends Model {
   @attr('string') participantExternalId;
 
   // includes
-  @belongsTo('assessment') assessment;
-  @belongsTo('campaign') campaign;
-  @belongsTo('campaignParticipationResult') campaignParticipationResult;
-  @belongsTo('user') user;
+  @belongsTo('assessment', { async: true, inverse: null }) assessment;
+  @belongsTo('campaign', { async: true, inverse: null }) campaign;
+  @belongsTo('campaignParticipationResult', { async: true, inverse: null }) campaignParticipationResult;
+  @belongsTo('user', { async: true, inverse: null }) user;
 
   @hasMany('training', { async: true, inverse: 'campaignParticipation' }) trainings;
 }
