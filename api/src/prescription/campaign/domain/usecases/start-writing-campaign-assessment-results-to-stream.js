@@ -10,17 +10,15 @@ import {
   CONCURRENCY_HEAVY_OPERATIONS,
   CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING,
 } from '../../../../../lib/infrastructure/constants.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../../lib/domain/errors.js';
+import { CampaignTypeError } from '../../../../../lib/domain/errors.js';
 import * as csvSerializer from '../../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { CampaignLearningContent } from '../../../../../lib/domain/models/CampaignLearningContent.js';
 
 const startWritingCampaignAssessmentResultsToStream = async function ({
-  userId,
   campaignId,
   writableStream,
   i18n,
   campaignRepository,
-  userRepository,
   campaignParticipationInfoRepository,
   organizationRepository,
   knowledgeElementRepository,
@@ -32,9 +30,6 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
-
-  // Todo : à migrer dans un prehandler pour limiter l'injection de repository
-  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   if (!campaign.isAssessment()) {
     throw new CampaignTypeError();
@@ -144,16 +139,6 @@ const startWritingCampaignAssessmentResultsToStream = async function ({
 };
 
 export { startWritingCampaignAssessmentResultsToStream };
-
-async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  const user = await userRepository.getWithMemberships(userId);
-
-  if (!user.hasAccessToOrganization(organizationId)) {
-    throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`,
-    );
-  }
-}
 
 function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate, learningContent, stageCollection) {
   const forSupStudents = organization.isSup && organization.isManagingStudents;
