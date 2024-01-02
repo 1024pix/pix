@@ -20,12 +20,11 @@
 
 .login-header {
   &__title {
-    margin-top: 32px;
-    margin-bottom: 8px;
+    @extend %pix-title-m;
+    
     color: $pix-neutral-80;
-    font-weight: 400;
-    font-size: 2rem;
-    font-family: $font-open-sans;
+    margin-top: var(--pix-spacing-8x);
+    margin-bottom: var(--pix-spacing-4x);
   }
 
   &__information {
