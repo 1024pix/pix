@@ -1,0 +1,55 @@
+<form class="form update-autonomous-course" {{on "submit" this.onSubmit}}>
+  <p>
+    Les champs marqués de
+    <span class="mandatory-mark">*</span>
+    sont obligatoires.
+  </p>
+  <PixInput
+    class="form-field"
+    @id="autonomousCourseName"
+    @label="Nom interne&nbsp;:&nbsp;"
+    required={{true}}
+    @value={{@autonomousCourse.internalTitle}}
+    @requiredLabel="Champ obligatoire"
+    {{on "change" (fn this.updateAutonomousCourseValue "internalTitle")}}
+  />
+  <PixInput
+    @id="nom-public"
+    class="form-field"
+    @label="Nom public&nbsp;:&nbsp;"
+    placeholder="Exemple&nbsp;:&nbsp;Le super nom de mon parcours autonome"
+    required={{true}}
+    @value={{@autonomousCourse.publicTitle}}
+    @requiredLabel="Champ obligatoire"
+    @information="Le nom du parcours autonome sera affiché sur la page de démarrage du candidat."
+    {{on "change" (fn this.updateAutonomousCourseValue "publicTitle")}}
+  />
+  <PixTextarea
+    @id="text-page-accueil"
+    @maxlength="5000"
+    @label="Texte de la page d'accueil&nbsp;:&nbsp;"
+    @value={{@autonomousCourse.customLandingPageText}}
+    placeholder="Exemple : description, objectifs..."
+    {{on "change" (fn this.updateAutonomousCourseValue "customLandingPageText")}}
+  />
+  <div class="form-actions">
+    <PixButton
+      type="reset"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+      @triggerAction={{@cancel}}
+    >
+      Annuler
+    </PixButton>
+    <PixButton
+      @backgroundColor="green"
+      @isBorderVisible={{true}}
+      @size="small"
+      type="submit"
+      @triggerAction={{this.noop}}
+    >
+      Sauvegarder les modifications
+    </PixButton>
+  </div>
+</form>
