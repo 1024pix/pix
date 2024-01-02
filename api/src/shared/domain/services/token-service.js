@@ -142,7 +142,7 @@ function extractSamlId(token) {
   return decoded.saml_id || null;
 }
 
-function extractResultRecipientEmailAndSessionId(token) {
+function extractCertificationResultsByRecipientEmailLink(token) {
   const decoded = getDecodedToken(token);
   if (!decoded.session_id || !decoded.result_recipient_email) {
     throw new InvalidResultRecipientTokenError();
@@ -154,7 +154,7 @@ function extractResultRecipientEmailAndSessionId(token) {
   };
 }
 
-function extractSessionId(token) {
+function extractCertificationResultsLink(token) {
   const decoded = getDecodedToken(token);
   if (!decoded.session_id) {
     throw new InvalidSessionResultError();
@@ -211,9 +211,9 @@ const tokenService = {
   decodeIfValid,
   getDecodedToken,
   extractExternalUserFromIdToken,
-  extractResultRecipientEmailAndSessionId,
+  extractCertificationResultsByRecipientEmailLink,
   extractSamlId,
-  extractSessionId,
+  extractCertificationResultsLink,
   extractTokenFromAuthChain,
   extractUserId,
   extractClientId,
@@ -234,9 +234,9 @@ export {
   decodeIfValid,
   getDecodedToken,
   extractExternalUserFromIdToken,
-  extractResultRecipientEmailAndSessionId,
+  extractCertificationResultsByRecipientEmailLink,
   extractSamlId,
-  extractSessionId,
+  extractCertificationResultsLink,
   extractTokenFromAuthChain,
   extractUserId,
   extractClientId,

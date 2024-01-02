@@ -215,7 +215,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
     });
   });
 
-  describe('#extractSessionId', function () {
+  describe('#extractCertificationResultsLink', function () {
     it('should return the session id if the token is valid', function () {
       // given
       const token = jsonwebtoken.sign(
@@ -227,7 +227,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       );
 
       // when
-      const tokenData = tokenService.extractSessionId(token);
+      const tokenData = tokenService.extractCertificationResultsLink(token);
 
       // then
       expect(tokenData).to.deep.equal({
@@ -240,7 +240,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const invalidIdToken = jsonwebtoken.sign({}, settings.authentication.secret, { expiresIn: '30d' });
 
       // when
-      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidIdToken);
 
       // then
       expect(error).to.be.an.instanceof(InvalidSessionResultError);
@@ -260,14 +260,14 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       setTimeout(async () => {
         return;
       }, 100);
-      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidIdToken);
 
       // then
       expect(error).to.be.an.instanceof(InvalidSessionResultError);
     });
   });
 
-  describe('#extractResultRecipientEmailAndSessionId', function () {
+  describe('#extractCertificationResultsByRecipientEmailLink', function () {
     it('should return the session id and result recipient email if the token is valid', function () {
       // given
       const token = jsonwebtoken.sign(
@@ -280,7 +280,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       );
 
       // when
-      const tokenData = tokenService.extractResultRecipientEmailAndSessionId(token);
+      const tokenData = tokenService.extractCertificationResultsByRecipientEmailLink(token);
 
       // then
       expect(tokenData).to.deep.equal({
@@ -300,7 +300,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       );
 
       // when
-      const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsByRecipientEmailLink)(invalidIdToken);
 
       // then
       expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
@@ -321,7 +321,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       setTimeout(async () => {
         return;
       }, 100);
-      const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsByRecipientEmailLink)(invalidIdToken);
 
       // then
       expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
