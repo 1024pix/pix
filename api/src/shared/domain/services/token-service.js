@@ -9,6 +9,8 @@ import {
   InvalidTemporaryKeyError,
 } from '../errors.js';
 
+const CERTIFICATION_RESULTS_LINK_SCOPE = 'certificationResultsLink';
+
 function _createAccessToken({ userId, source, expirationDelaySeconds }) {
   return jsonwebtoken.sign({ user_id: userId, source }, config.authentication.secret, {
     expiresIn: expirationDelaySeconds,
@@ -94,7 +96,7 @@ function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }
   return jsonwebtoken.sign(
     {
       session_id: sessionId,
-      scope: 'certificationResultsLink',
+      scope: CERTIFICATION_RESULTS_LINK_SCOPE,
     },
     config.authentication.secret,
     {
@@ -160,6 +162,12 @@ function extractCertificationResultsLink(token) {
   const decoded = getDecodedToken(token);
   if (!decoded.session_id) {
     throw new InvalidSessionResultError();
+  }
+
+  if (config.featureToggles.isCertificationTokenScopeEnabled) {
+    if (decoded.scope !== CERTIFICATION_RESULTS_LINK_SCOPE) {
+      throw new InvalidSessionResultError();
+    }
   }
 
   return {
