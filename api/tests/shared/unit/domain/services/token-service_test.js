@@ -337,6 +337,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const expectedTokenAttributes = {
         session_id: 'abcd1234',
         result_recipient_email: 'results@college-romain-rolland.edu',
+        scope: 'certificationResultsByRecipientEmailLink',
       };
 
       // when
@@ -359,6 +360,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const daysBeforeExpiration = 30;
       const expectedTokenAttributes = {
         session_id: 'abcd1234',
+        scope: 'certificationResultsLink',
       };
 
       // when
