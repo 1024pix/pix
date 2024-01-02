@@ -5,28 +5,28 @@
   </PixReturnTo>
   <div class="page__title session-details__header">
     <div class="session-details-header__title">
-      <h1 class="page-title">{{t "pages.sessions.detail.title" sessionId=this.session.id}}</h1>
+      <h1 class="page-title">{{t "pages.sessions.detail.title" sessionId=this.model.session.id}}</h1>
     </div>
 
     <div class="session-details-header__datetime">
       <div class="session-details-header-datetime__date">
         <h2 class="label-text session-details-content__label">{{t "common.forms.session-labels.date"}}</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
-          {{dayjs-format this.session.date "dddd DD MMM YYYY" allow-empty=true}}
+          {{dayjs-format this.model.session.date "dddd DD MMM YYYY" allow-empty=true}}
         </span>
       </div>
 
       <div>
         <h2 class="label-text session-details-content__label">{{t "common.forms.session-labels.time-start"}}</h2>
         <span class="content-text content-text--big session-details-header-datetime__text">
-          {{dayjs-format this.session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
+          {{dayjs-format this.model.session.time "HH:mm" inputFormat="HH:mm:ss" allow-empty=true}}
         </span>
       </div>
     </div>
   </div>
 
-  {{#if this.session.shouldDisplayCleaResultDownloadSection}}
-    <SessionCleaResultsDownload @session={{this.session}} />
+  {{#if this.model.session.shouldDisplayCleaResultDownloadSection}}
+    <SessionCleaResultsDownload @session={{this.model.session}} />
   {{/if}}
 
   <div class="panel session-details__controls">
@@ -55,24 +55,21 @@
         <FaIcon @icon="file-download" class="session-details__controls-icon" />
         {{t "pages.sessions.detail.downloads.incident-report.label"}}
       </PixButtonLink>
-      <PixButtonLink
+      <PixButton
         class="session-details__controls-download-button"
-        @href="{{this.session.urlToDownloadSupervisorKitPdf}}"
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
         @size="small"
-        target="_blank"
         aria-label={{t "pages.sessions.detail.downloads.invigilator-kit.extra-information"}}
-        rel="noopener noreferrer"
-        download
+        @triggerAction={{this.fetchInvigilatorKit}}
       >
         <FaIcon @icon="file-download" class="session-details__controls-icon" />
         {{t "pages.sessions.detail.downloads.invigilator-kit.label"}}
-      </PixButtonLink>
+      </PixButton>
       {{#if this.shouldDisplayDownloadButton}}
         <PixButtonLink
           class="session-details__controls-download-button"
-          @href="{{this.session.urlToDownloadAttendanceSheet}}"
+          @href="{{this.model.session.urlToDownloadAttendanceSheet}}"
           @backgroundColor="transparent-light"
           @isBorderVisible={{true}}
           @size="small"
