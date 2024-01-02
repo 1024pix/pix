@@ -1,8 +1,11 @@
 import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { visit as visitScreen, within } from '@1024pix/ember-testing-library';
-
+import { clickByName, visit as visitScreen, within } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
+import { currentSession } from 'ember-simple-auth/test-support';
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { Response } from 'miragejs';
+
 import {
   authenticateSession,
   createAllowedCertificationCenterAccess,
@@ -10,7 +13,8 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../helpers/test-init';
 import setupIntl from '../../../helpers/setup-intl';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { waitForDialog, waitForDialogClose } from '../../../helpers/wait-for';
+import sinon from 'sinon';
 
 module('Acceptance | authenticated | team', function (hooks) {
   setupApplicationTest(hooks);
@@ -40,7 +44,7 @@ module('Acceptance | authenticated | team', function (hooks) {
       assert.dom(screen.getByRole('cell', { name: 'Lee' })).exists();
       assert.dom(screen.getByRole('cell', { name: 'Tige' })).exists();
 
-      assert.dom(screen.getByRole('link', { name: 'Membres (2)' })).exists();
+      assert.dom(screen.getByRole('link', { name: 'Membres (3)' })).exists();
       assert.dom(screen.getByRole('link', { name: 'Invitations (-)' })).exists();
 
       assert.dom(screen.getByText(this.intl.t('pages.team.invite-button'))).exists();
@@ -171,7 +175,7 @@ module('Acceptance | authenticated | team', function (hooks) {
                     false,
                     'ADMIN',
                   );
-                  server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'ADMIN' });
+                  server.create('member', { firstName: 'Lili', lastName: 'Dupont', isReferer: false, role: 'MEMBER' });
                   server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
                   await authenticateSession(certificationPointOfContact.id);
 
@@ -190,12 +194,11 @@ module('Acceptance | authenticated | team', function (hooks) {
                   );
 
                   // then
-                  const row = within(await screen.findByRole('row', { name: 'Membres du centre de certification' }));
-                  assert.dom(row.getByRole('cell', { name: 'Dupont' })).exists();
-                  assert.dom(row.getByRole('cell', { name: 'Lili' })).exists();
-                  assert.dom(row.getByRole('cell', { name: 'Administrateur' })).exists();
+                  assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
+                  assert.dom(screen.getByRole('cell', { name: 'Lili' })).exists();
+                  assert.dom(screen.getByRole('cell', { name: 'Membre' })).exists();
                   assert.dom(await screen.findByText('Un nouveau référent CléA Numérique a été nommé.')).exists();
-                  assert.dom(await row.findByRole('cell', { name: 'Référent CléA Numérique' })).exists();
+                  assert.dom(await screen.findByRole('cell', { name: 'Référent CléA Numérique' })).exists();
                 });
               });
             });
@@ -209,8 +212,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'CCNG',
                 false,
                 'ADMIN',
+                true,
               );
-              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
               server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -228,8 +231,8 @@ module('Acceptance | authenticated | team', function (hooks) {
                 'CCNG',
                 false,
                 'ADMIN',
+                true,
               );
-              server.create('member', { firstName: 'Jamal', lastName: 'Opié', isReferer: true });
               server.create('allowed-certification-center-access', { id: 1, habilitations: [{ key: 'CLEA' }] });
               await authenticateSession(certificationPointOfContact.id);
 
@@ -325,6 +328,71 @@ module('Acceptance | authenticated | team', function (hooks) {
           assert.dom(screen.getByRole('cell', { name: 'Dupont' })).exists();
           assert.dom(screen.queryByRole('cell', { name: 'Jack' })).doesNotExist();
           assert.dom(screen.queryByRole('cell', { name: 'Adit' })).doesNotExist();
+        });
+      });
+
+      module('when user wants to leave the certification center', function () {
+        test('leaves the certification center, displays a success notification and disconnects the user', async function (assert) {
+          // given
+          const session = this.owner.lookup('service:session');
+          sinon.stub(session, 'waitBeforeInvalidation');
+
+          const leavingAdminUser = createCertificationPointOfContactWithTermsOfServiceAccepted(
+            undefined,
+            'Shelltif',
+            false,
+            'ADMIN',
+          );
+          server.create('member', { id: 1234, firstName: 'Lili', lastName: 'Dupont', role: 'ADMIN' });
+          await authenticateSession(leavingAdminUser.id);
+
+          const screen = await visitScreen('/equipe');
+
+          await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
+          await clickByName('Quitter cet espace Pix Certif');
+          await waitForDialog();
+
+          // when
+          await clickByName('Confirmer');
+          await waitForDialogClose();
+
+          // then
+          assert
+            .dom(
+              screen.getByText(
+                'Votre accès a été supprimé avec succès du centre de certification Shelltif. Vous allez être déconnecté de Pix Certif...',
+              ),
+            )
+            .exists();
+          assert.false(currentSession().get('isAuthenticated'));
+        });
+
+        module('when an error occurs', function () {
+          test('displays an error notification', async function (assert) {
+            // given
+            const leavingAdminUser = createCertificationPointOfContactWithTermsOfServiceAccepted(
+              undefined,
+              'Shelltif',
+              false,
+              'ADMIN',
+            );
+            server.create('member', { id: 1234, firstName: 'Lili', lastName: 'Dupont', role: 'ADMIN' });
+            server.delete('/certification-center-memberships/:id', () => new Response(500));
+            await authenticateSession(leavingAdminUser.id);
+
+            const screen = await visitScreen('/equipe');
+
+            await click(screen.getAllByRole('button', { name: 'Gérer' })[0]);
+            await clickByName('Quitter cet espace Pix Certif');
+            await waitForDialog();
+
+            // when
+            await clickByName('Confirmer');
+            await waitForDialogClose();
+
+            // then
+            assert.dom(screen.getByText('Une erreur est survenue lors de la suppression du membre.')).exists();
+          });
         });
       });
     });

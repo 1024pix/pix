@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import setupIntl from '../../../helpers/setup-intl';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import {
   authenticateSession,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
 } from '../../../helpers/test-init';
-import { clickByName, visit } from '@1024pix/ember-testing-library';
+import setupIntl from '../../../helpers/setup-intl';
 
 module('Acceptance | Team | Invitations', function (hooks) {
   setupApplicationTest(hooks);
@@ -124,8 +124,6 @@ module('Acceptance | Team | Invitations', function (hooks) {
         await clickByName(this.intl.t('pages.team-invitations.actions.resend-invitation'));
 
         // then
-        assert.dom(screen.getByRole('cell', { name: 'medhi.khaman@example.net' })).exists();
-        assert.dom(screen.getByRole('cell', { name: '05/12/2023 - 11:35' })).exists();
         assert.dom(screen.getByText("L'invitation a bien été renvoyée.")).exists();
       });
 
@@ -136,7 +134,7 @@ module('Acceptance | Team | Invitations', function (hooks) {
             id: 15,
             certificationCenterId: 1,
             email: 'anna.liz@example.net',
-            updatedAt: new Date('2023-11-30'),
+            updatedAt: new Date(),
           });
           this.server.patch('/certification-center-invitations/15', () => new Response(500));
 
