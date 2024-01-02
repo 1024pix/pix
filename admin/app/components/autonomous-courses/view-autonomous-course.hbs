@@ -1,0 +1,28 @@
+<dl class="autonomous-course-card__details">
+
+  {{#each this.displayedAttributes as |attribute|}}
+    <dt class="autonomous-course-card__details-label">{{attribute.label}}&nbsp;:&nbsp;</dt>
+    <dd class="autonomous-course-card__details-value">{{attribute.value}}</dd>
+  {{/each}}
+
+  <dt class="autonomous-course-card__details-label">Lien public&nbsp;:&nbsp;</dt>
+  <dd class="autonomous-course-card__details-value">
+    <a
+      href={{this.campaignLink}}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Lien vers la campagne {{@autonomousCourse.code}} (nouvelle fenêtre)"
+      class="autonomous-course-card-details-value__link"
+    >
+      {{this.campaignLink}}
+    </a>
+    <PixTooltip class="autonomous-course-card-details-value__tooltip" @id="tooltip-clipboard-button" @isInline={{true}}>
+      <:triggerElement>
+        <button type="button" {{on "click" this.copyCampaignLink}} aria-label="{{this.tooltipLabel}}">
+          <FaIcon @icon="copy" prefix="fas" />
+        </button>
+      </:triggerElement>
+      <:tooltip>{{this.tooltipLabel}}</:tooltip>
+    </PixTooltip>
+  </dd>
+</dl>
