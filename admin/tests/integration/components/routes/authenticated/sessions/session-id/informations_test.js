@@ -52,7 +52,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       assert.dom(screen.queryByText("Nombre d'écrans de fin de test non renseignés :")).doesNotExist();
     });
 
-    test('it does not render the "M\'assigner la session" button', async function (assert) {
+    test('it does not render the action buttons', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const session = this.server.create('session', 'created');
@@ -77,6 +77,18 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
       // when
       assert.dom(screen.getByText('01/04/2022')).exists();
+    });
+
+    test('it renders the unfinalize button', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+
+      // when
+      const screen = await visit(`/sessions/${session.id}`);
+
+      // when
+      assert.dom(screen.queryByRole('button', { name: 'Définaliser la session' })).exists();
     });
 
     test('it renders all the stats of the session', async function (assert) {

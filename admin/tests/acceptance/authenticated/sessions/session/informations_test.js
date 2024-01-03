@@ -36,6 +36,25 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
     });
 
     module('When session is finalized', function () {
+      module('When unfinalize button is clicked', function () {
+        test('it should unfinalize the session', async function (assert) {
+          // given
+          server.create('session', {
+            id: '3',
+            finalizedAt: new Date('2023-01-31'),
+            examinerGlobalComment: 'Vraiment, super session!',
+          });
+          const screen = await visit('/sessions/3');
+
+          // when
+          await clickByName('Définaliser la session');
+
+          // then
+          assert.dom(screen.queryByText('Date de finalisation :')).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: 'Définaliser la session' })).doesNotExist();
+        });
+      });
+
       module('When session has a global comment', function () {
         test('it should display the global comment section', async function (assert) {
           // given
