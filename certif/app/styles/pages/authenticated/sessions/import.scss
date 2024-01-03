@@ -69,14 +69,13 @@
     grid-template-columns: 1fr 10fr 2fr;
     padding: var(--pix-spacing-6x) var(--pix-spacing-4x);
 
-    > label,
-    button {
-      width: 164px;
-    }
-
     p {
       line-height: 21px;
       padding-top: var(--pix-spacing-1x);
+    }
+
+    & .download-buttons, & .pix-button-upload {
+      width: 164px;
     }
   }
 
@@ -107,18 +106,16 @@
   }
 
   &__file-name {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 16px 24px;
-    width: fit-content;
-    border: 1px solid $pix-neutral-15;
+    background-color: var(--pix-neutral-0);
+    border: 1px solid var(--pix-neutral-100);
     border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba($pix-neutral-110, 8%);
-    background-color: $pix-neutral-10;
-    color: $pix-neutral-70;
+    color: var(--pix-neutral-500);
+    display: inline-flex;
     font-size: 1rem;
-    line-height: 1.5rem;
+    margin-top: var(--pix-spacing-2x);
+    padding: var(--pix-spacing-2x) var(--pix-spacing-1x) var(--pix-spacing-2x) var(--pix-spacing-4x);
   }
 }
 
