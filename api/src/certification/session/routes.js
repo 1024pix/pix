@@ -6,6 +6,7 @@ import * as invigilatorKit from './application/invigilator-kit-route.js';
 import * as updateCpfImportStatus from './application/update-cpf-import-status-route.js';
 import * as sessionMassImport from './application/session-mass-import-route.js';
 import * as certificationOfficer from './application/certification-officer-route.js';
+import * as sessionUnfinalize from './application/session-unfinalize-route.js';
 
 const certificationSessionRoutes = [
   session,
@@ -16,6 +17,7 @@ const certificationSessionRoutes = [
   updateCpfImportStatus,
   sessionMassImport,
   certificationOfficer,
+  sessionUnfinalize,
 ];
 
 export { certificationSessionRoutes };
