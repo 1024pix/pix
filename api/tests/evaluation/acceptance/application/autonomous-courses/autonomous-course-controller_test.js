@@ -242,6 +242,7 @@ describe('Acceptance | API | Autonomous Course', function () {
   describe('GET /api/admin/autonomous-courses/target-profiles', function () {
     let mainOrganization, otherOrganization;
     let targetProfiles;
+
     beforeEach(async function () {
       sinon.stub(constants, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
       const userId = databaseBuilder.factory.buildUser().id;
@@ -276,11 +277,18 @@ describe('Acceptance | API | Autonomous Course', function () {
         isPublic: false,
       });
 
+      const publicTargetProfile = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId: mainOrganization.id,
+        isSimplifiedAccess: true,
+        isPublic: true,
+      });
+
       targetProfiles = [
         validTargetProfile1,
         validTargetProfile2,
         targetProfileFromAnotherOrganization,
         targetProfileNotSimplifiedAccess,
+        publicTargetProfile,
       ];
 
       await databaseBuilder.commit();
@@ -311,14 +319,6 @@ describe('Acceptance | API | Autonomous Course', function () {
           id: targetProfiles[1].id.toString(),
           type: 'autonomous-course-target-profiles',
         },
-        {
-          attributes: {
-            name: targetProfiles[3].name,
-            category: targetProfiles[3].category,
-          },
-          id: targetProfiles[3].id.toString(),
-          type: 'autonomous-course-target-profiles',
-        },
       ];
 
       // when
@@ -326,7 +326,7 @@ describe('Acceptance | API | Autonomous Course', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.length).to.equal(3);
+      expect(response.result.data.length).to.equal(2);
       expect(response.result.data).to.deep.have.members(expectedResult);
     });
   });
