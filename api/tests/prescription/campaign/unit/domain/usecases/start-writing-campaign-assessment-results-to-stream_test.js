@@ -4,7 +4,7 @@ const { PassThrough } = stream;
 
 import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../../../test-helper.js';
 import { startWritingCampaignAssessmentResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-assessment-results-to-stream.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../../../lib/domain/errors.js';
+import { CampaignTypeError } from '../../../../../../lib/domain/errors.js';
 import * as campaignCsvExportService from '../../../../../../src/prescription/campaign/domain/services/campaign-csv-export-service.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 import { StageCollection } from '../../../../../../src/shared/domain/models/user-campaign-results/StageCollection.js';
@@ -26,35 +26,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-
     i18n = getI18n();
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
-  });
-
-  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function () {
-    // given
-    const notAuthorizedUser = domainBuilder.buildUser({ memberships: [] });
-    const campaign = domainBuilder.buildCampaign();
-    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
-    sinon.stub(userRepository, 'getWithMemberships').withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
-
-    // when
-    const err = await catchErr(startWritingCampaignAssessmentResultsToStream)({
-      userId: notAuthorizedUser.id,
-      campaignId: campaign.id,
-      writableStream,
-      i18n,
-      campaignRepository,
-      userRepository,
-      targetProfileRepository,
-      learningContentRepository,
-      organizationRepository,
-      campaignParticipationInfoRepository,
-      knowledgeElementRepository,
-      campaignCsvExportService,
-      stageCollectionRepository,
-    });
-
-    // then
-    expect(err).to.be.instanceOf(UserNotAuthorizedToGetCampaignResultsError);
-    expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
   it('should throw a CampaignTypeError when campaign is not ASSESSMENT type', async function () {

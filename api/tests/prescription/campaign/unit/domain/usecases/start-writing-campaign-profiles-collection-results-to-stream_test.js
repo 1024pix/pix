@@ -4,7 +4,7 @@ const { PassThrough } = stream;
 
 import { expect, sinon, domainBuilder, streamToPromise, catchErr } from '../../../../../test-helper.js';
 import { startWritingCampaignProfilesCollectionResultsToStream } from '../../../../../../src/prescription/campaign/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream.js';
-import { UserNotAuthorizedToGetCampaignResultsError, CampaignTypeError } from '../../../../../../lib/domain/errors.js';
+import { CampaignTypeError } from '../../../../../../lib/domain/errors.js';
 import { CampaignProfilesCollectionExport } from '../../../../../../src/prescription/campaign/infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 import { getI18n } from '../../../../../tooling/i18n/i18n.js';
 
@@ -36,32 +36,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection
       .rejects('CampaignProfilesCollectionExport.prototype.export');
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
-  });
-
-  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function () {
-    // given
-    const notAuthorizedUser = domainBuilder.buildUser({ memberships: [] });
-    const campaign = domainBuilder.buildCampaign();
-    campaignRepository.get.withArgs(campaign.id).resolves(campaign);
-    userRepository.getWithMemberships.withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
-
-    // when
-    const err = await catchErr(startWritingCampaignProfilesCollectionResultsToStream)({
-      userId: notAuthorizedUser.id,
-      campaignId: campaign.id,
-      writableStream,
-      i18n,
-      campaignRepository,
-      userRepository,
-      competenceRepository,
-      campaignParticipationRepository,
-      organizationRepository,
-      placementProfileService,
-    });
-
-    // then
-    expect(err).to.be.instanceOf(UserNotAuthorizedToGetCampaignResultsError);
-    expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
   it('should throw a CampaignTypeError when campaign is not PROFILES_COLLECTION type', async function () {

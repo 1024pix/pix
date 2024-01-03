@@ -4,26 +4,14 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { CampaignTypeError, UserNotAuthorizedToGetCampaignResultsError } from '../../../../../lib/domain/errors.js';
+import { CampaignTypeError } from '../../../../../lib/domain/errors.js';
 import { CampaignProfilesCollectionExport } from '../../infrastructure/serializers/csv/campaign-profiles-collection-export.js';
 
-async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  const user = await userRepository.getWithMemberships(userId);
-
-  if (!user.hasAccessToOrganization(organizationId)) {
-    throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`,
-    );
-  }
-}
-
 const startWritingCampaignProfilesCollectionResultsToStream = async function ({
-  userId,
   campaignId,
   writableStream,
   i18n,
   campaignRepository,
-  userRepository,
   competenceRepository,
   campaignParticipationRepository,
   organizationRepository,
@@ -31,8 +19,6 @@ const startWritingCampaignProfilesCollectionResultsToStream = async function ({
 }) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
-
-  await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   if (!campaign.isProfilesCollection()) {
     throw new CampaignTypeError();
