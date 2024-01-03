@@ -96,5 +96,27 @@ module('Unit | Adapter | session', function (hooks) {
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
     });
+
+    module('when unfinalize adapterOption passed', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.stub(adapter, 'ajax');
+      });
+
+      hooks.afterEach(function () {
+        adapter.ajax.restore();
+      });
+
+      test('should send a patch request to unfinalize a session', async function (assert) {
+        // given
+        adapter.ajax.resolves();
+
+        // when
+        await adapter.updateRecord(null, { modelName: 'session' }, { id: 123, adapterOptions: { unfinalize: true } });
+
+        // then
+        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/sessions/123/unfinalize', 'PATCH');
+        assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
+      });
+    });
   });
 });
