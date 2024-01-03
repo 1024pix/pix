@@ -24,10 +24,7 @@ module('Unit | Model | campaign', function (hooks) {
         tokenForCampaignResults: 'token',
         type: 'ASSESSMENT',
       });
-      assert.strictEqual(
-        model.urlToResult,
-        'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token',
-      );
+      assert.strictEqual(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results');
     });
 
     test('it should construct the url to result of the campaign with type profiles collection', function (assert) {
@@ -39,10 +36,7 @@ module('Unit | Model | campaign', function (hooks) {
         tokenForCampaignResults: 'token',
         type: 'PROFILES_COLLECTION',
       });
-      assert.strictEqual(
-        model.urlToResult,
-        'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token',
-      );
+      assert.strictEqual(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results');
     });
   });
 

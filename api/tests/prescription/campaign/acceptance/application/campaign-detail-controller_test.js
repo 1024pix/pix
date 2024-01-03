@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-
 import {
   databaseBuilder,
   expect,
@@ -8,7 +6,6 @@ import {
   mockLearningContent,
 } from '../../../../test-helper.js';
 
-import { config as settings } from '../../../../../lib/config.js';
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { createServer } from '../../../../../server.js';
 
@@ -77,18 +74,11 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
   });
 
   describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function () {
-    let accessToken;
-
-    function _createTokenWithAccessId({ userId, campaignId }) {
-      return jwt.sign(
-        {
-          access_id: userId,
-          campaign_id: campaignId,
-        },
-        settings.authentication.secret,
-        { expiresIn: settings.authentication.accessTokenLifespanMs },
-      );
-    }
+    const options = {
+      headers: { authorization: null },
+      method: 'GET',
+      url: null,
+    };
 
     beforeEach(async function () {
       const userId = databaseBuilder.factory.buildUser().id;
@@ -97,13 +87,15 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
         organizationId: organization.id,
         type: 'PROFILES_COLLECTION',
       });
-      accessToken = _createTokenWithAccessId({ userId, campaignId: campaign.id });
 
       databaseBuilder.factory.buildMembership({
         userId,
         organizationId: organization.id,
         organizationRole: Membership.roles.MEMBER,
       });
+
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      options.url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results`;
 
       await databaseBuilder.commit();
 
@@ -142,10 +134,7 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
 
     it('should return csv file with statusCode 200', async function () {
       // given & when
-      const { statusCode, payload } = await server.inject({
-        method: 'GET',
-        url: `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`,
-      });
+      const { statusCode, payload } = await server.inject(options);
 
       // then
       expect(statusCode).to.equal(200, payload);
@@ -156,7 +145,8 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
         // given & when
         const { statusCode } = await server.inject({
           method: 'GET',
-          url: `/api/campaigns/1234567890/csv-profiles-collection-results?accessToken=${accessToken}`,
+          url: `/api/campaigns/1234567890/csv-profiles-collection-results`,
+          headers: options.headers,
         });
 
         // then
@@ -166,20 +156,14 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
   });
 
   describe('GET /api/campaigns/{id}/csv-assessment-results', function () {
-    let accessToken;
     let campaign;
     let organization;
 
-    function _createTokenWithAccessId({ userId, campaignId }) {
-      return jwt.sign(
-        {
-          access_id: userId,
-          campaign_id: campaignId,
-        },
-        settings.authentication.secret,
-        { expiresIn: settings.authentication.accessTokenLifespanMs },
-      );
-    }
+    const options = {
+      headers: { authorization: null },
+      method: 'GET',
+      url: null,
+    };
 
     beforeEach(async function () {
       const skillId = 'rec123';
@@ -189,13 +173,15 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
         organizationId: organization.id,
       });
       databaseBuilder.factory.buildCampaignSkill({ campaignId: campaign.id, skillId: skillId });
-      accessToken = _createTokenWithAccessId({ userId, campaignId: campaign.id });
 
       databaseBuilder.factory.buildMembership({
         userId,
         organizationId: organization.id,
         organizationRole: Membership.roles.MEMBER,
       });
+
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      options.url = `/api/campaigns/${campaign.id}/csv-assessment-results`;
 
       await databaseBuilder.commit();
 
@@ -234,10 +220,7 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
 
     it('should return csv file with statusCode 200', async function () {
       // given & when
-      const { statusCode, payload } = await server.inject({
-        method: 'GET',
-        url: `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`,
-      });
+      const { statusCode, payload } = await server.inject(options);
 
       // then
       expect(statusCode).to.equal(200, payload);
@@ -248,7 +231,8 @@ describe('Acceptance | API | Campaign Detail Controller', function () {
         // given & when
         const { statusCode } = await server.inject({
           method: 'GET',
-          url: `/api/campaigns/1234567890/csv-assessment-results?accessToken=${accessToken}`,
+          url: `/api/campaigns/1234567890/csv-assessment-results`,
+          headers: options.headers,
         });
 
         // then

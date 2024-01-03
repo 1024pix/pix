@@ -41,7 +41,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{id}/csv-profiles-collection-results',
       config: {
-        auth: false,
+        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,
@@ -60,7 +60,7 @@ const register = async function (server) {
       method: 'GET',
       path: '/api/campaigns/{id}/csv-assessment-results',
       config: {
-        auth: false,
+        pre: [{ method: securityPreHandlers.checkAuthorizationToAccessCampaign }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,
