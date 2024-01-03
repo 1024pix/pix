@@ -11,28 +11,31 @@ module('Integration | Component |  administration/campaigns-import', function (h
   setupIntlRenderingTest(hooks);
   setupMirage(hooks);
 
-  module('when import succeeds', function () {});
-  test('it displays a success notification', async function (assert) {
-    // given
-    const file = new Blob(['foo'], { type: `valid-file` });
-    const notificationSuccessStub = sinon.stub();
-    class NotificationsStub extends Service {
-      success = notificationSuccessStub;
-      clearAll = sinon.stub();
-    }
-    this.owner.register('service:notifications', NotificationsStub);
+  module('when import succeeds', function () {
+    test('it displays a success notification', async function (assert) {
+      // given
+      const file = new Blob(['foo'], { type: `valid-file` });
+      const notificationSuccessStub = sinon.stub();
+      class NotificationsStub extends Service {
+        success = notificationSuccessStub;
+        clearAll = sinon.stub();
+      }
+      this.owner.register('service:notifications', NotificationsStub);
 
-    // when
-    const screen = await render(hbs`<Administration::CampaignsImport />`);
-    const input = await screen.findByLabelText(this.intl.t('components.administration.campaigns-import.upload-button'));
-    await triggerEvent(input, 'change', { files: [file] });
+      // when
+      const screen = await render(hbs`<Administration::CampaignsImport />`);
+      const input = await screen.findByLabelText(
+        this.intl.t('components.administration.campaigns-import.upload-button'),
+      );
+      await triggerEvent(input, 'change', { files: [file] });
 
-    // then
-    assert.ok(true);
-    sinon.assert.calledWith(
-      notificationSuccessStub,
-      this.intl.t('components.administration.campaigns-import.notifications.success'),
-    );
+      // then
+      assert.ok(true);
+      sinon.assert.calledWith(
+        notificationSuccessStub,
+        this.intl.t('components.administration.campaigns-import.notifications.success'),
+      );
+    });
   });
 
   module('when import fails', function () {

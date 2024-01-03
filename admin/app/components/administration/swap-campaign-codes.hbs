@@ -1,0 +1,24 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">{{t "components.administration.swap-campaign-codes.title"}}</h2>
+  </header>
+  <p>{{t "components.administration.swap-campaign-codes.description"}}</p>
+
+  <form {{on "submit" this.swapCodes}}>
+    <div class="campaigns-swap-code">
+      <PixInput
+        @id="firstCampaignId"
+        {{on "change" (fn this.onChangeCampaign "firstCampaignId")}}
+        @label={{t "components.administration.swap-campaign-codes.form.firstCampaignId"}}
+      />
+      <PixInput
+        @id="secondCampaignId"
+        {{on "change" (fn this.onChangeCampaign "secondCampaignId")}}
+        @label={{t "components.administration.swap-campaign-codes.form.secondCampaignId"}}
+      />
+    </div>
+    <PixButton @type="submit" @size="small" @isLoading={{this.isLoading}}>
+      {{t "components.administration.swap-campaign-codes.form.button"}}
+    </PixButton>
+  </form>
+</section>
