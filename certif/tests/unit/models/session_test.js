@@ -88,7 +88,7 @@ module('Unit | Model | session', function (hooks) {
       // when/then
       assert.strictEqual(
         model.urlToDownloadCandidatesImportTemplate,
-        `${config.APP.API_HOST}/api/sessions/1/candidates-import-sheet?accessToken=123&lang=dk`,
+        `${config.APP.API_HOST}/api/sessions/1/candidates-import-sheet`,
       );
     });
   });
