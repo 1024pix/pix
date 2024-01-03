@@ -1,36 +1,24 @@
-.create-training-form {
-  color: var(--pix-neutral-800);
+.admin-form--training__logo-url-input {
+  @extend %pix-body-s;
 
-  .training-editor-logo-url-input {
-    margin-top: 1rem;
-    font-size: 0.875rem;
-
-    &__label {
-      display: inline;
-    }
-
-    &__information {
-      display: block;
-      margin-top: 4px;
-      margin-bottom: 4px;
-      color: var(--pix-neutral-500);
-      font-size: 0.75rem;
-    }
+  strong {
+    font-weight: 500;
   }
 
-  &__card {
-    margin-bottom: $pix-spacing-m;
+  small {
+    display: block;
+    margin-bottom: var(--pix-spacing-2x);
+    color: var(--pix-neutral-500);
+    font-size: 0.813rem;
   }
 }
 
-.create-training-form-card {
-  &__duration {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1rem;
+.admin-form--training__duration {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
 
-    input {
-      width: 6.25rem;
-    }
+  input {
+    width: 6.25rem;
   }
 }

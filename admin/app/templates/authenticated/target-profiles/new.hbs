@@ -5,13 +5,11 @@
   </div>
 </header>
 
-<main class="page-body">
-  <section class="page-section">
-    <TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.model.targetProfile}}
-      @frameworks={{this.model.frameworks}}
-      @onSubmit={{this.createTargetProfile}}
-      @onCancel={{this.goBackToTargetProfileList}}
-    />
-  </section>
+<main class="main-admin-form">
+  <TargetProfiles::CreateTargetProfileForm
+    @targetProfile={{this.model.targetProfile}}
+    @frameworks={{this.model.frameworks}}
+    @onSubmit={{this.createTargetProfile}}
+    @onCancel={{this.goBackToTargetProfileList}}
+  />
 </main>
