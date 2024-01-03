@@ -874,6 +874,116 @@ module('Unit | component | Campaigns | Evaluation | Skill Review', function (hoo
     });
   });
 
+  module('#displayContinueToPixLink', function () {
+    test("should return true if it's an autonomous course OR the campaign is for absolute novice", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+      component.args.model.campaign.isForAbsoluteNovice = true;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return true if it's an autonomous course", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.true(result);
+    });
+
+    test('should return true if the campaign is for absolute novice', function (assert) {
+      // given
+      component.args.model.campaign.isForAbsoluteNovice = true;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return false if it's not an autonomous course nor is the campaign for absolute novice", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 123;
+      component.args.model.campaign.isForAbsoluteNovice = false;
+
+      // when
+      const result = component.displayContinueToPixLink;
+
+      // then
+      assert.false(result);
+    });
+  });
+
+  module('#displayTrainings', function () {
+    test('should return true if the campaign participation result is shared AND there are trainings', function (assert) {
+      // given
+      component.args.model.campaignParticipationResult.isShared = true;
+      component.args.model.trainings = {
+        title: 'Mon super training',
+        link: 'https://training.net/',
+        type: 'webinaire',
+        locale: 'fr-fr',
+        duration: { hours: 6 },
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
+        editorLogoUrl:
+          'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
+      };
+
+      // when
+      const result = component.displayTrainings;
+
+      // then
+      assert.true(result);
+    });
+
+    test("should return true if it's an autonomous course and there are trainings", function (assert) {
+      // given
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+      component.args.model.trainings = {
+        title: 'Mon super training',
+        link: 'https://training.net/',
+        type: 'webinaire',
+        locale: 'fr-fr',
+        duration: { hours: 6 },
+        editorName: "Ministère de l'éducation nationale et de la jeunesse. Liberté égalité fraternité",
+        editorLogoUrl:
+          'https://images.pix.fr/contenu-formatif/editeur/logo-ministere-education-nationale-et-jeunesse.svg',
+      };
+
+      // when
+      const result = component.displayTrainings;
+
+      // then
+      assert.true(result);
+    });
+
+    test('should return false if there are no trainings', function (assert) {
+      // given
+      component.args.model.trainings = {};
+      delete component.args.model.trainings;
+      sinon.stub(ENV.APP, 'AUTONOMOUS_COURSES_ORGANIZATION_ID').value(777);
+      component.args.model.campaign.organizationId = 777;
+
+      // when
+      const result = component.displayTrainings;
+
+      // then
+      assert.false(result);
+    });
+  });
+
   module('#displayPixLink', function () {
     test('should return false when there are customResultPageButtonText and customResultPageButtonUrl', function (assert) {
       // given
