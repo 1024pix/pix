@@ -12,9 +12,13 @@ export default class AuthenticatedPlacesRoute extends Route {
     }
   }
 
-  model() {
-    return this.store
-      .queryRecord('organization-place-statistic', { organizationId: this.currentUser.organization.id })
-      .catch(() => this.route.replaceWith('application'));
+  async model() {
+    try {
+      await this.store.queryRecord('organization-place-statistic', {
+        organizationId: this.currentUser.organization.id,
+      });
+    } catch (_) {
+      this.router.replaceWith('application');
+    }
   }
 }
