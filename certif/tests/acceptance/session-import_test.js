@@ -539,6 +539,113 @@ module('Acceptance | Session Import', function (hooks) {
                 .exists();
             });
           });
+
+          module('when sessions validation fails', function () {
+            module('when cancelling the import', function () {
+              test('it should remove the error message', async function (assert) {
+                // given
+                const blob = new Blob(['foo']);
+                const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+                this.server.post(
+                  '/certification-centers/:id/sessions/validate-for-mass-import',
+                  () =>
+                    new Response(
+                      422,
+                      { some: 'header' },
+                      {
+                        errors: [
+                          {
+                            code: 'CSV_DATA_REQUIRED',
+                          },
+                        ],
+                      },
+                    ),
+                );
+
+                screen = await visit('/sessions/import');
+                const input = screen.getByLabelText('Importer le modèle complété');
+                await triggerEvent(input, 'change', { files: [file] });
+
+                // when
+                await click(screen.getByRole('button', { name: 'Continuer' }));
+                await settled();
+
+                // then
+                assert
+                  .dom(
+                    screen.getByText(
+                      "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
+                    ),
+                  )
+                  .exists();
+
+                // when
+                await click(screen.getByLabelText("Annuler l'import"));
+                await settled();
+
+                // then
+                assert
+                  .dom(
+                    screen.queryByText(
+                      "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
+                    ),
+                  )
+                  .doesNotExist();
+              });
+            });
+
+            module('when the user re-import a file', function () {
+              test('it should remove the error message', async function (assert) {
+                // given
+                const blob = new Blob(['foo']);
+                const file = new File([blob], 'fichier.csv', { type: 'text/csv' });
+                this.server.post(
+                  '/certification-centers/:id/sessions/validate-for-mass-import',
+                  () =>
+                    new Response(
+                      422,
+                      { some: 'header' },
+                      {
+                        errors: [
+                          {
+                            code: 'CSV_DATA_REQUIRED',
+                          },
+                        ],
+                      },
+                    ),
+                );
+
+                screen = await visit('/sessions/import');
+                const input = screen.getByLabelText('Importer le modèle complété');
+                await triggerEvent(input, 'change', { files: [file] });
+
+                // when
+                await click(screen.getByRole('button', { name: 'Continuer' }));
+                await settled();
+
+                // then
+                assert
+                  .dom(
+                    screen.getByText(
+                      "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
+                    ),
+                  )
+                  .exists();
+
+                // when
+                await triggerEvent(input, 'change', { files: [file] });
+
+                // then
+                assert
+                  .dom(
+                    screen.queryByText(
+                      "Le modèle importé n'a pas été rempli, merci de le compléter avant de l'importer à nouveau",
+                    ),
+                  )
+                  .doesNotExist();
+              });
+            });
+          });
         });
       });
     });
