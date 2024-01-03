@@ -6,5 +6,11 @@ class UnknownCampaignId extends DomainError {
     this.code = 'UNKNOWN_CAMPAIGN_ID';
   }
 }
+class SwapCampaignMismatchOrganizationError extends DomainError {
+  constructor(message = 'Campaigns must be in the same organization') {
+    super(message);
+    this.code = 'ORGANIZATION_MISMATCH';
+  }
+}
 
-export { UnknownCampaignId };
+export { UnknownCampaignId, SwapCampaignMismatchOrganizationError };
