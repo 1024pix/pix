@@ -62,6 +62,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
       // then
       assert.dom(screen.queryByRole('button', { name: "M'assigner la session" })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Définaliser la session' })).doesNotExist();
     });
   });
 
@@ -202,6 +203,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
           // then
           assert.dom(screen.queryByText("M'assigner la session")).doesNotExist();
+          assert.dom(screen.queryByText('Définaliser la session')).doesNotExist();
           assert.dom(screen.queryByText('Lien de téléchargement des résultats')).doesNotExist();
           assert.dom(screen.queryByText('Résultats transmis au prescripteur')).doesNotExist();
         });
@@ -219,6 +221,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
         // then
         assert.dom(screen.getByRole('button', { name: "M'assigner la session" })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Définaliser la session' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Lien de téléchargement des résultats' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Résultats transmis au prescripteur' })).exists();
       });

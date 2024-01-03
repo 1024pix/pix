@@ -39,13 +39,13 @@
   &__actions {
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
   }
 
   &__copy-button {
     position: relative;
     display: flex;
     justify-content: center;
-    margin-right: 20px;
     margin-left: auto;
 
     p {
