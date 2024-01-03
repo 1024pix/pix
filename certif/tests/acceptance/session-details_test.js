@@ -141,7 +141,7 @@ module('Acceptance | Session Details', function (hooks) {
         const screen = await visit(`/sessions/${sessionWithCandidates.id}`);
 
         // then
-        assert.dom(screen.getByRole('link', { name: "Télécharger la feuille d'émargement" })).exists();
+        assert.dom(screen.getByRole('button', { name: "Télécharger la feuille d'émargement" })).exists();
       });
 
       test('it should not show download attendance sheet button where there is no candidate', async function (assert) {
@@ -152,7 +152,7 @@ module('Acceptance | Session Details', function (hooks) {
         const screen = await visit(`/sessions/${sessionWithoutCandidate.id}`);
 
         // then
-        assert.dom(screen.queryByRole('link', { name: "Télécharger la feuille d'émargement" })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: "Télécharger la feuille d'émargement" })).doesNotExist();
       });
     });
 
