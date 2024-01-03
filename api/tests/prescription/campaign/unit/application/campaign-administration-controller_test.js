@@ -183,4 +183,24 @@ describe('Unit | Application | Controller | Campaign administration', function (
       expect(response).to.deep.equal(updatedCampaignSerialized);
     });
   });
+
+  describe('#swapCampaignCodes', function () {
+    it('should return a 204', async function () {
+      // given
+      const firstCampaignId = Symbol('First_Campaign_Id');
+      const secondCampaignId = Symbol('Second_Campaign_Id');
+      const request = { payload: { firstCampaignId, secondCampaignId } };
+      sinon.stub(usecases, 'swapCampaignCodes');
+
+      // when
+      const response = await campaignAdministrationController.swapCampaignCodes(request, hFake);
+
+      // then
+      expect(response.statusCode).to.be.equal(204);
+      expect(usecases.swapCampaignCodes).to.have.been.calledWithExactly({
+        firstCampaignId,
+        secondCampaignId,
+      });
+    });
+  });
 });
