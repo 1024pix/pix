@@ -22,13 +22,13 @@
     box-shadow: 0 0 1px 0 #3D68FF, 8px 8px 32px -8px rgb(61 104 255 / 20%);
 
     &:hover {
-      background-color: #EBEFFF;
+      background-color: var(--pix-primary-10);
     }
   }
 }
 
 .pix-button.learners__item {
   &:hover, &:focus, &:active, &:focus-visible {
-    background-color: #EBEFFF;
+    background-color: var(--pix-primary-10);
   }
 }
