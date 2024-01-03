@@ -25,6 +25,7 @@ export default class SessionsDetailsController extends Controller {
       this.notifications.error(this.intl.t('common.api-error-messages.internal-server-error'));
     }
   }
+
   get pageTitle() {
     return `${this.intl.t('pages.sessions.detail.page-title')} | Session ${this.model.session.id} | Pix Certif`;
   }

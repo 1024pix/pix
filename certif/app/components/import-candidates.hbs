@@ -21,14 +21,9 @@
         </p>
       </div>
       <div class="panel-actions__button">
-        <PixButtonLink
-          href="{{@session.urlToDownloadCandidatesImportTemplate}}"
-          target="_blank"
-          rel="noopener noreferrer"
-          download
-        >
+        <PixButton @triggerAction={{@fetchCandidatesImportTemplateAction}} target="_blank">
           {{t "pages.sessions.detail.candidates.panel-actions.actions.download.label"}}
-        </PixButtonLink>
+        </PixButton>
       </div>
     </div>
     <div class="panel-actions__action-row">
