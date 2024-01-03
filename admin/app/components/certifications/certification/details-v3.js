@@ -24,6 +24,10 @@ export default class DetailsV3 extends Component {
     return options.find((option) => option.value === status).color;
   }
 
+  shouldDisplayAnswerStatus(certificationChallenge) {
+    return certificationChallenge.validatedLiveAlert || certificationChallenge.answeredAt;
+  }
+
   externalUrlForPreviewChallenge(challengeId) {
     return `https://app.pix.fr/challenges/${challengeId}/preview`;
   }
