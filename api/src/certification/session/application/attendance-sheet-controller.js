@@ -1,12 +1,9 @@
 import { usecases } from '../../shared/domain/usecases/index.js';
-import { tokenService } from '../../../shared/domain/services/token-service.js';
 
-const getAttendanceSheet = async function (request, h, dependencies = { tokenService }) {
+const getAttendanceSheet = async function (request, h) {
   const sessionId = request.params.id;
-  const token = request.query.accessToken;
+  const { userId } = request.auth.credentials;
   const i18n = request.i18n;
-
-  const userId = dependencies.tokenService.extractUserId(token);
 
   const { attendanceSheet, fileName } = await usecases.getAttendanceSheet({ sessionId, userId, i18n });
   return h
