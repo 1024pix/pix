@@ -25,6 +25,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
           id: slug,
           attributes: {
             title,
+            'transition-texts': [],
           },
           relationships: {
             grains: {
@@ -46,10 +47,17 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
       const id = 'id';
       const slug = 'bien-ecrire-son-adresse-mail';
       const title = 'Bien écrire son adresse mail';
+      const transitionTexts = [
+        {
+          content: '<p>content</p>',
+          grainId: '1',
+        },
+      ];
       const moduleFromDomain = new Module({
         id,
         slug,
         title,
+        transitionTexts,
         grains: [
           {
             id: '1',
@@ -125,6 +133,7 @@ describe('Unit | DevComp | Infrastructure | Serializers | Jsonapi | ModuleSerial
         data: {
           attributes: {
             title: 'Bien écrire son adresse mail',
+            'transition-texts': transitionTexts,
           },
           id: 'bien-ecrire-son-adresse-mail',
           relationships: {

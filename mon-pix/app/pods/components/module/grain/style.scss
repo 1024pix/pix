@@ -4,6 +4,13 @@
   border: 1px solid $pix-neutral-22;
   border-radius: $pix-spacing-s;
 
+  &__header {
+    margin: $pix-spacing-m $pix-spacing-s $pix-spacing-s;
+    padding: $pix-spacing-xs $pix-spacing-m;
+    background: $pix-tertiary-5;
+    border-radius: $pix-spacing-xs;
+  }
+
   &__footer {
     padding: $pix-spacing-s;
     background: $pix-tertiary-5;

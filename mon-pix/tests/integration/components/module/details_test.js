@@ -17,9 +17,10 @@ module('Integration | Component | Module | Details', function (hooks) {
       type: 'qcus',
     });
     const elements = [textElement, qcuElement];
-    const grain = store.createRecord('grain', { elements });
+    const grain = store.createRecord('grain', { id: 'grainId1', elements });
+    const transitionTexts = [{ grainId: 'grainId1', content: 'transition text' }];
 
-    const module = store.createRecord('module', { title: 'Module title', grains: [grain] });
+    const module = store.createRecord('module', { title: 'Module title', grains: [grain], transitionTexts });
     this.set('module', module);
 
     // when
@@ -27,6 +28,7 @@ module('Integration | Component | Module | Details', function (hooks) {
 
     // then
     assert.ok(screen.getByRole('heading', { name: module.title, level: 1 }));
+    assert.ok(screen.getByRole('banner').innerText.includes('transition text'));
     assert.strictEqual(findAll('.element-text').length, 1);
     assert.strictEqual(findAll('.element-qcu').length, 1);
 
