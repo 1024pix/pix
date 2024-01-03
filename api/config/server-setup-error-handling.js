@@ -4,6 +4,7 @@ import * as sharedPreResponseUtils from '../src/shared/application/pre-response-
 import { authenticationDomainErrorMappingConfiguration } from '../src/authentication/application/http-error-mapper-configuration.js';
 import { sessionDomainErrorMappingConfiguration } from '../src/certification/session/application/http-error-mapper-configuration.js';
 import { certificationDomainErrorMappingConfiguration } from '../src/certification/shared/application/http-error-mapper-configuration.js';
+import { devcompDomainErrorMappingConfiguration } from '../src/devcomp/application/http-error-mapper-configuration.js';
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
 
 const setupErrorHandling = function (server) {
@@ -11,6 +12,7 @@ const setupErrorHandling = function (server) {
     ...authenticationDomainErrorMappingConfiguration,
     ...sessionDomainErrorMappingConfiguration,
     ...certificationDomainErrorMappingConfiguration,
+    ...devcompDomainErrorMappingConfiguration,
   ];
 
   domainErrorMapper.configure(configuration);

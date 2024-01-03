@@ -6,4 +6,10 @@ class UserNotAuthorizedToFindTrainings extends DomainError {
   }
 }
 
-export { UserNotAuthorizedToFindTrainings };
+class ModuleDoesNotExistError extends DomainError {
+  constructor(message = "Le module id n'existe pas") {
+    super(message);
+  }
+}
+
+export { ModuleDoesNotExistError, UserNotAuthorizedToFindTrainings };
