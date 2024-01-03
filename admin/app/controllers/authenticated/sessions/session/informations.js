@@ -41,6 +41,16 @@ export default class IndexController extends Controller {
   }
 
   @action
+  async unfinalizeSession() {
+    try {
+      await this.sessionModel.save({ adapterOptions: { unfinalize: true } });
+      this.notifications.success('La session a bien été définalisée');
+    } catch (err) {
+      this.notifications.error('Erreur lors de la définalisation de la session');
+    }
+  }
+
+  @action
   async checkForAssignment() {
     if (this.isAssigned) {
       this.isShowingAssignmentModal = true;
