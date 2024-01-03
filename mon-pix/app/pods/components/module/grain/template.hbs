@@ -1,5 +1,10 @@
 <article class="grain">
   <h2 class="screen-reader-only">{{@grain.title}}</h2>
+  {{#if @transition}}
+    <header class="grain__header">
+      {{html-unsafe @transition.content}}
+    </header>
+  {{/if}}
   {{#each @grain.elements as |element|}}
     {{#if element.isText}}
       <Module::Text @text={{element}} />

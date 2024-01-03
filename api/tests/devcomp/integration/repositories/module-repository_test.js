@@ -15,6 +15,7 @@ import { BlockText } from '../../../../src/devcomp/domain/models/block/BlockText
 import { logger } from '../../../../src/shared/infrastructure/utils/logger.js';
 import { Video } from '../../../../src/devcomp/domain/models/element/Video.js';
 import { QROCMForAnswerVerification } from '../../../../src/devcomp/domain/models/element/QROCM-for-answer-verification.js';
+import { TransitionText } from '../../../../src/devcomp/domain/models/TransitionText.js';
 
 describe('Integration | DevComp | Repositories | ModuleRepository', function () {
   describe('#getBySlug', function () {
@@ -64,6 +65,20 @@ describe('Integration | DevComp | Repositories | ModuleRepository', function () 
       // then
       expect(module).to.be.instanceOf(Module);
       expect(module.grains.every((grain) => grain instanceof Grain)).to.be.true;
+    });
+
+    it('should return a module with transition texts if it exists', async function () {
+      // given
+      const existingModuleSlug = 'bien-ecrire-son-adresse-mail';
+
+      // when
+      const module = await moduleRepository.getBySlug({
+        slug: existingModuleSlug,
+        moduleDatasource,
+      });
+
+      // then
+      expect(module.transitionTexts.every((transitionText) => transitionText instanceof TransitionText)).to.be.true;
     });
 
     it('should return a module which contains elements of type Text if it exists', async function () {

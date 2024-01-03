@@ -10,14 +10,16 @@ describe('Unit | Devcomp | Domain | Models | Module', function () {
       const slug = 'les-adresses-email';
       const title = 'Les adresses email';
       const grains = [Symbol('text')];
+      const transitionTexts = [];
 
       // when
-      const module = new Module({ id, slug, title, grains });
+      const module = new Module({ id, slug, title, grains, transitionTexts });
 
       // then
       expect(module.id).to.equal(id);
       expect(module.slug).to.equal(slug);
       expect(module.title).to.equal(title);
+      expect(module.transitionTexts).to.equal(transitionTexts);
       expect(module.grains).to.have.length(grains.length);
     });
 

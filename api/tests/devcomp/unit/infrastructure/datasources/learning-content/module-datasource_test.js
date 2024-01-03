@@ -11,6 +11,11 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
       before(function () {
         const uuidSchema = Joi.string().guid().required();
 
+        const transitionTextSchema = Joi.object({
+          grainId: uuidSchema,
+          content: Joi.string().required(),
+        }).required();
+
         const textElementSchema = Joi.object({
           id: uuidSchema,
           type: Joi.string().valid('text').required(),
@@ -111,6 +116,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
             .regex(/^[a-z0-9-]+$/)
             .required(),
           title: Joi.string().required(),
+          transitionTexts: Joi.array().items(transitionTextSchema),
           grains: Joi.array()
             .items(
               Joi.object({
