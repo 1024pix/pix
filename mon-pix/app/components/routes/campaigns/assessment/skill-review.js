@@ -98,6 +98,14 @@ export default class SkillReview extends Component {
     return !this.showOrganizationButton;
   }
 
+  get displayContinueToPixLink() {
+    return this.args.model.campaign.isForAbsoluteNovice || this.isAutonomousCourse;
+  }
+
+  get displayTrainings() {
+    return Boolean(this.args.model.trainings) && (this.isShared || this.isAutonomousCourse);
+  }
+
   get displayOrganizationCustomMessage() {
     const hasCustomBlock = this.showOrganizationMessage || this.showOrganizationButton;
     const showCustomBlock = this.isShared || this.args.model.campaign.isForAbsoluteNovice;
