@@ -7,7 +7,7 @@
   padding: 12px;
   font-size: 1.5rem;
   text-align: left;
-  background-color: #C3D0FF;
+  background-color: var(--pix-primary-100);
   border-radius: 16px 16px 16px 0;
 
   ul, ol {
@@ -16,13 +16,13 @@
   }
 
   a {
-    color: #3d68ff;
+    color: var(--pix-primary-500);
     text-decoration: underline;
 
     &:active,
     &:focus,
     &:hover {
-      color: #2044dc;
+      color: var(--pix-primary-700);
     }
   }
 
@@ -44,25 +44,25 @@
     left: -8px;
     display: block;
     width: 0;
-    border-color: transparent #C3D0FF;
+    border-color: transparent var(--pix-primary-100);
     border-style: solid;
     border-width: 12px 8px 0 0;
     content: "";
   }
 
   &--success {
-    background-color: #C8F0D8;
+    background-color: var(--pix-success-100);
 
     &::after {
-      border-color: transparent #C8F0D8;
+      border-color: transparent var(--pix-success-100);
     }
   }
 
   &--warning {
-    background-color: #FFEACB;
+    background-color: var(--pix-secondary-100);
 
     &::after {
-      border-color: transparent #FFEACB;
+      border-color: transparent var(--pix-secondary-100);
     }
   }
 

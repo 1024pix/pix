@@ -2,7 +2,7 @@
   padding: 12px 32px;
   font-weight: 700;
   font-size: 1rem;
-  border: 1px solid $pix-primary;
+  border: 1px solid var(--pix-primary-500);
 
   &--small {
     padding: 8px 24px;
@@ -11,33 +11,33 @@
   }
 
   &--skip {
-    color: $pix-primary;
-    background-color: var(--pix-color-neutral-0);
+    color: var(--pix-primary-500);
+    background-color: var(--pix-neutral-0);
 
     &:hover, &:focus, &:active, &:focus-visible {
-      color: var(--pix-color-neutral-0);
+      color: var(--pix-neutral-0);
     }
 
     .loader.loader--white > div {
-      background-color: $pix-primary;
+      background-color: var(--pix-primary-500);
     }
 
     &:hover {
       .loader.loader--white > div {
-        background-color: white;
+        background-color: var(--pix-neutral-0);
       }
     }
   }
 
   &--success {
-    background-color: #36925B;
-    border: 1px solid #36925B;
+    background-color: var(--pix-success-700);
+    border: 1px solid var(--pix-success-700);
   }
 }
 
-.pix-button--background-green.pix1d-button--success {
-    &:hover {
-      background-color: #4CCE80;
-      border: 1px solid #4CCE80;
-    }
+.pix-button.pix1d-button--success {
+  &:hover {
+    background-color: var(--pix-success-500);
+    border: 1px solid var(--pix-success-500);
+  }
 }

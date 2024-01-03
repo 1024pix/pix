@@ -1,47 +1,55 @@
 :root {
   /* See https://www.figma.com/file/8RJ3aCSfdeQ8AZZVBBYKS8/Design-System-Pix?node-id=16%3A2 */
-
-  /**** SOLID */
-
+  
   /* Primary */
-  --pix-color-primary-5: #EEF0FA;
-  --pix-color-primary-10: #EBEFFF;
-  --pix-color-primary-20: #CAD1EF;
-  --pix-color-primary: #556BCC;
-  --pix-color-primary-60: #495AA0;
-  --pix-color-primary-70: #33407A;
-  --pix-color-primary-80: #26305B;
-  --pix-color-primary-90: #1E2547;
+  --pix-primary-10: #EBEFFF;
+  --pix-primary-100: #C3D0FF;
+  --pix-primary-300: #7D9AFF;
+  --pix-primary-400: #6486FF;
+  --pix-primary-500: #3D68FF;
+  --pix-primary-700: #2B4AB5;
+  --pix-primary-900: #1A2C6B;
 
   /* Secondary */
-  --pix-color-secondary-5: #FFFEFB;
-  --pix-color-secondary-10: #FFFDF9;
-  --pix-color-secondary-20: #FFFBF2;
-  --pix-color-secondary: #FFF0D6;
-  --pix-color-secondary-60: #E5D9C1;
-  --pix-color-secondary-70: #CBC1AB;
-  --pix-color-secondary-80: #989180;
-  --pix-color-secondary-90: #59544B;
+  --pix-secondary-50: #FFF8EE;
+  --pix-secondary-100: #FFEACB;
+  --pix-secondary-300: #FFD28E;
+  --pix-secondary-500: #FFBB57;
+  --pix-secondary-700: #B5853E;
+  --pix-secondary-900: #6B4F25;
+
+  /* tertiary */
+  --pix-tertiary-50: #F4F0FE;
+  --pix-tertiary-100: #DED1FA;
+  --pix-tertiary-300: #B79BF5;
+  --pix-tertiary-500: #9469F0;
+  --pix-tertiary-700: #694BAA;
+  --pix-tertiary-900: #3E2C65;
+
 
   /* Success */
-  --pix-color-success-10: #77CC99;
-  --pix-color-success-20: #104834;
-
-  /* Warning */
-  --pix-color-warning-10: #E8A356;
-  --pix-color-warning-20: #FFB665;
+  --pix-success-50: #EDFAF2;
+  --pix-success-100: #C8F0D8;
+  --pix-success-300: #87DEAA;
+  --pix-success-500: #4CCE80;
+  --pix-success-700: #36925B;
+  --pix-success-900: #205736;
 
   /* Error */
-  --pix-color-error-10: #CC7777;
-  --pix-color-error-20: #F69897;
+  --pix-error-50: #FFECEC;
+  --pix-error-100: #FFC5C5;
+  --pix-error-300: #FE8181;
+  --pix-error-500: #E73D3D;
+  --pix-error-700: #B43030;
+  --pix-error-900: #6B1C1C;
 
   /* Neutral */
+  --pix-neutral-0: #ffffff;
+  --pix-neutral-50: #EFF0F3;
+  --pix-neutral-100: #CFD1DB;
+  --pix-neutral-300: #969DB1;
+  --pix-neutral-500: #636C8A;
+  --pix-neutral-700: #464D62;
+  --pix-neutral-900: #2A2D3A;
 
-  --pix-color-neutral-0: #ffffff; /* Background 3 */
-  --pix-color-neutral-5: #F8F9FB; /* Background 2 */
-  --pix-color-neutral-10: #EAEDF4; /* Background 1 */
-  --pix-color-neutral-60: #D4D8DE;
-  --pix-color-neutral-70: #989CAA;
-  --pix-color-neutral-80: #666B80;
-  --pix-color-neutral-90: #172B4D;
 }
