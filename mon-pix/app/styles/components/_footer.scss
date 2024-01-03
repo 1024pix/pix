@@ -18,6 +18,7 @@
   &__content {
     display: flex;
     flex-direction: column;
+    gap: var(--pix-spacing-8x);
     width: 100%;
 
     @include device-is('tablet') {
@@ -39,6 +40,10 @@
 
     @include device-is('tablet') {
       padding-bottom: 0;
+    }
+
+    img {
+      max-width: unset;
     }
   }
 }

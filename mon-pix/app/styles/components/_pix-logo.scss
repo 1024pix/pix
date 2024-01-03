@@ -3,21 +3,19 @@
   display: inline-block;
   text-align: left;
 
-  &__link {
-    display: inline-block;
-
-    &:hover,
-    &:active,
-    &:focus {
-      text-decoration: none;
-    }
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
   }
 
   &__image {
-    width: 60px;
+    display: block;
+    max-width: unset;
+    height: 3rem;
 
     @include device-is('desktop') {
-      width: 71px;
+      height: 3.75rem;
     }
   }
 }
