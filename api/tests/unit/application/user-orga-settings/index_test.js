@@ -35,6 +35,35 @@ describe('Unit | Router | user-orga-settings-router', function () {
       expect(response.statusCode).to.equal(200);
     });
 
+    context('when requested user is not the authenticated user', function () {
+      it('returns a 403 HTTP status code', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'PUT';
+        const url = `/api/user-orga-settings/99`;
+        const payload = {
+          data: {
+            relationships: {
+              organization: {
+                data: {
+                  id: 1,
+                  type: 'organizations',
+                },
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request(method, url, payload, auth);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
     describe('Payload schema validation', function () {
       it('should be mandatory', async function () {
         // given
