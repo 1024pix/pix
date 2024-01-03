@@ -5,11 +5,11 @@ import { PIX_ORGA_ADMIN_LEAVING_ID, PIX_ORGA_ALL_ORGA_ID } from './build-organiz
 import { SCO_ORGANIZATION_ID } from './constants.js';
 
 export function buildScoOrganizations(databaseBuilder) {
-  _buildCollegeTheNightWatchOrganization(databaseBuilder);
+  _buildCollegeHouseOfTheDragonOrganization(databaseBuilder);
   _buildJosephineBaker(databaseBuilder);
 }
 
-function _buildCollegeTheNightWatchOrganization(databaseBuilder) {
+function _buildCollegeHouseOfTheDragonOrganization(databaseBuilder) {
   const organization = databaseBuilder.factory.buildOrganization({
     id: SCO_ORGANIZATION_ID,
     type: 'SCO',
