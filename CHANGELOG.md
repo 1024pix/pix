@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v4.83.0 (03/01/2024)
+
+
+### :rocket: Amélioration
+- [#7778](https://github.com/1024pix/pix/pull/7778) [FEATURE] Déplacer le champ qui comporte le nom du fichier .csv importé sur Pix Certif (PIX-10153).
+- [#7775](https://github.com/1024pix/pix/pull/7775) [FEATURE] Changer la couleur du bouton en cas de d'import en masse avec erreur non bloquante (PIX-10156).
+- [#7763](https://github.com/1024pix/pix/pull/7763) [FEATURE] Afficher le détail d'un signalement validé lors d'une certification sur Pix Admin (PIX-10313).
+- [#7705](https://github.com/1024pix/pix/pull/7705) [FEATURE][CERTIF] Permettre à un administrateur de quitter un centre de certification (PIX-8639).
+- [#7776](https://github.com/1024pix/pix/pull/7776) [FEATURE] Changer la couleur du récapitulatif lors de l'import en masse de session sur Pix Certif (PIX-10315).
+- [#7773](https://github.com/1024pix/pix/pull/7773) [FEATURE] Ajouter des informations aux étapes "Téléchargement" et "Import" de l'import en masse sur Pix Certif (PIX-10151).
+- [#7770](https://github.com/1024pix/pix/pull/7770) [FEATURE] Inverser l'ordre des boutons sur la première étape de l'import en masse de session sur Pix Certif (PIX-10150).
+- [#7771](https://github.com/1024pix/pix/pull/7771) [FEATURE] Empêcher le rejet d'une certification si celle-ci est publiée (PIX-10492).
+- [#7690](https://github.com/1024pix/pix/pull/7690) [FEATURE] Ajouter dans modulix l'element Video (PIX-10012).
+- [#7759](https://github.com/1024pix/pix/pull/7759) [FEATURE] Afficher la réponse donnée par le candidat dans la page de détails d'Admin (PIX-10312).
+
+### :building_construction: Tech
+- [#7715](https://github.com/1024pix/pix/pull/7715) [TECH] Prendre en charge les dépréciations d'ember-data (PIX-10439).
+- [#7767](https://github.com/1024pix/pix/pull/7767) [TECH] Ajouter une route API pour désactiver un membre depuis Pix Certif (PIX-10547).
+
+### :bug: Correction
+- [#7777](https://github.com/1024pix/pix/pull/7777) [BUGFIX] Modifier la couleur des réponses valides d'une correction de QROC (PIX-10558).
+- [#7768](https://github.com/1024pix/pix/pull/7768) [BUGFIX] Réparer les liens vers Pix Editor sur la page de détails d'une certification sur Pix Admin (PIX-10526).
+
 ## v4.82.0 (28/12/2023)
 
 
