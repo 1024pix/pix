@@ -5,7 +5,7 @@ import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTr
 import { InvalidBadgeLevelError } from '../../../../../../src/certification/complementary-certification/domain/errors.js';
 
 describe('Unit | UseCase | attach-badges', function () {
-  let complementaryCertificationForTargetProfileAttachmentRepository, badgesRepository;
+  let complementaryCertificationForTargetProfileAttachmentRepository, complementaryCertificationBadgesRepository;
   let clock;
   const now = new Date('2023-02-02');
 
@@ -13,7 +13,7 @@ describe('Unit | UseCase | attach-badges', function () {
     complementaryCertificationForTargetProfileAttachmentRepository = {
       getById: sinon.stub(),
     };
-    badgesRepository = {
+    complementaryCertificationBadgesRepository = {
       findAttachableBadgesByIds: sinon.stub(),
     };
     clock = sinon.useFakeTimers({ now, toFake: ['Date'] });
@@ -122,7 +122,7 @@ describe('Unit | UseCase | attach-badges', function () {
         id: 123,
         hasExternalJury: true,
       });
-      badgesRepository.findAttachableBadgesByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
+      complementaryCertificationBadgesRepository.findAttachableBadgesByIds.resolves([{ badgeId: 1 }, { badgeId: 2 }]);
 
       // when
       const error = await catchErr(attachBadges)({
@@ -132,7 +132,7 @@ describe('Unit | UseCase | attach-badges', function () {
         ],
         complementaryCertification,
         complementaryCertificationForTargetProfileAttachmentRepository,
-        badgesRepository,
+        complementaryCertificationBadgesRepository,
       });
 
       // then
@@ -154,7 +154,7 @@ describe('Unit | UseCase | attach-badges', function () {
       context(`when  ${assessment.label}`, function () {
         it('should throw a not found error', async function () {
           // given
-          badgesRepository.findAttachableBadgesByIds.resolves(assessment.resolve);
+          complementaryCertificationBadgesRepository.findAttachableBadgesByIds.resolves(assessment.resolve);
 
           // when
           const error = await catchErr(attachBadges)({
@@ -163,7 +163,7 @@ describe('Unit | UseCase | attach-badges', function () {
               { badgeId: 1, level: 1 },
               { badgeId: 2, level: 2 },
             ],
-            badgesRepository,
+            complementaryCertificationBadgesRepository,
           });
 
           // then
@@ -191,14 +191,16 @@ describe('Unit | UseCase | attach-badges', function () {
           id: 123,
           hasExternalJury: false,
         });
-        const badgesRepository = {
+        const complementaryCertificationBadgesRepository = {
           attach: sinon.stub().resolves(),
           detachByIds: sinon.stub(),
           getAllIdsByTargetProfileId: sinon.stub(),
           findAttachableBadgesByIds: sinon.stub().resolves([badge1, badge2]),
         };
 
-        badgesRepository.getAllIdsByTargetProfileId.withArgs({ targetProfileId: 789 }).resolves([1, 2]);
+        complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
+          .withArgs({ targetProfileId: 789 })
+          .resolves([1, 2]);
 
         // when
         await attachBadges({
@@ -210,11 +212,11 @@ describe('Unit | UseCase | attach-badges', function () {
           targetProfileIdToDetach: 789,
           complementaryCertification,
           complementaryCertificationForTargetProfileAttachmentRepository,
-          badgesRepository,
+          complementaryCertificationBadgesRepository,
         });
 
         // then
-        expect(badgesRepository.detachByIds).to.have.been.calledWithExactly({
+        expect(complementaryCertificationBadgesRepository.detachByIds).to.have.been.calledWithExactly({
           complementaryCertificationBadgeIds: [1, 2],
           domainTransaction,
         });
@@ -244,7 +246,7 @@ describe('Unit | UseCase | attach-badges', function () {
           id: 123,
           hasExternalJury: false,
         });
-        const badgesRepository = {
+        const complementaryCertificationBadgesRepository = {
           attach: sinon.stub(),
           detachByIds: sinon.stub().resolves(),
           getAllIdsByTargetProfileId: sinon.stub().resolves([
@@ -265,7 +267,7 @@ describe('Unit | UseCase | attach-badges', function () {
           targetProfileIdToDetach: 456,
           complementaryCertification,
           complementaryCertificationForTargetProfileAttachmentRepository,
-          badgesRepository,
+          complementaryCertificationBadgesRepository,
         });
 
         // then
@@ -274,7 +276,7 @@ describe('Unit | UseCase | attach-badges', function () {
           complementaryCertificationId: 123,
           createdBy: 1234,
         });
-        expect(badgesRepository.attach).to.have.been.calledWithExactly({
+        expect(complementaryCertificationBadgesRepository.attach).to.have.been.calledWithExactly({
           complementaryCertificationBadges: [newComplementaryCertificationBadge],
           domainTransaction,
         });
@@ -298,7 +300,7 @@ describe('Unit | UseCase | attach-badges', function () {
         id: 123,
         hasExternalJury: false,
       });
-      const badgesRepository = {
+      const complementaryCertificationBadgesRepository = {
         attach: sinon.stub().resolves(),
         detachByIds: sinon.stub(),
         getAllIdsByTargetProfileId: sinon.stub(),
@@ -307,7 +309,9 @@ describe('Unit | UseCase | attach-badges', function () {
       const BadgeToAttachValidator = {
         validate: sinon.stub().resolves(),
       };
-      badgesRepository.getAllIdsByTargetProfileId.withArgs({ targetProfileId: 789 }).resolves([]);
+      complementaryCertificationBadgesRepository.getAllIdsByTargetProfileId
+        .withArgs({ targetProfileId: 789 })
+        .resolves([]);
 
       // when
       const error = await catchErr(attachBadges)({
@@ -320,7 +324,7 @@ describe('Unit | UseCase | attach-badges', function () {
         complementaryCertification,
         BadgeToAttachValidator,
         complementaryCertificationForTargetProfileAttachmentRepository,
-        badgesRepository,
+        complementaryCertificationBadgesRepository,
       });
 
       // then

@@ -1,10 +1,10 @@
 import { expect, databaseBuilder, knex, domainBuilder, sinon } from '../../../../../test-helper.js';
 import lodash from 'lodash';
 const { omit } = lodash;
-import * as badgeRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/badge-repository.js';
+import * as complementaryCertificationBadgeRepository from '../../../../../../src/certification/complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
 import { DomainTransaction } from '../../../../../../lib/infrastructure/DomainTransaction.js';
 
-describe('Integration | Infrastructure | Repository | Certification | Complementary-certification | badge-repository', function () {
+describe('Integration | Infrastructure | Repository | Certification | Complementary-certification | complementary-certification-badge-repository', function () {
   context('#getAllIdsByTargetProfileId', function () {
     context('when complementary certification badges are linked to a target profile', function () {
       it('should return complementary certification badge ids', async function () {
@@ -28,9 +28,10 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
         await databaseBuilder.commit();
 
         // when
-        const complementaryCertificationBadgeIds = await badgeRepository.getAllIdsByTargetProfileId({
-          targetProfileId,
-        });
+        const complementaryCertificationBadgeIds =
+          await complementaryCertificationBadgeRepository.getAllIdsByTargetProfileId({
+            targetProfileId,
+          });
 
         // then
         expect(complementaryCertificationBadgeIds).to.deep.equal([456]);
@@ -45,9 +46,10 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
         await databaseBuilder.commit();
 
         // when
-        const complementaryCertificationBadgeIds = await badgeRepository.getAllIdsByTargetProfileId({
-          targetProfileId,
-        });
+        const complementaryCertificationBadgeIds =
+          await complementaryCertificationBadgeRepository.getAllIdsByTargetProfileId({
+            targetProfileId,
+          });
 
         // then
         expect(complementaryCertificationBadgeIds).to.deep.equal([]);
@@ -79,7 +81,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
 
         // when
         await DomainTransaction.execute(async (domainTransaction) => {
-          await badgeRepository.detachByIds({
+          await complementaryCertificationBadgeRepository.detachByIds({
             complementaryCertificationBadgeIds: [123, 456],
             domainTransaction,
           });
@@ -145,7 +147,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
 
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
-        await badgeRepository.attach({
+        await complementaryCertificationBadgeRepository.attach({
           complementaryCertificationBadges: badgesToAttach,
           domainTransaction,
         });
@@ -199,7 +201,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
       await databaseBuilder.commit();
 
       // when
-      const results = await badgeRepository.findAttachableBadgesByIds({ ids: [123] });
+      const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({ ids: [123] });
 
       // then
       expect(results).to.deep.equal([
@@ -225,7 +227,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
       expect(nonExistingBadge).to.be.empty;
 
       // when
-      const results = await badgeRepository.findAttachableBadgesByIds({
+      const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({
         ids: [nonExistingBadgeId],
       });
 
@@ -248,7 +250,7 @@ describe('Integration | Infrastructure | Repository | Certification | Complement
       await databaseBuilder.commit();
 
       // when
-      const results = await badgeRepository.findAttachableBadgesByIds({ ids: [123] });
+      const results = await complementaryCertificationBadgeRepository.findAttachableBadgesByIds({ ids: [123] });
 
       // then
       expect(results).to.be.empty;
