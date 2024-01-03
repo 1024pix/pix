@@ -46,6 +46,22 @@
           "success": "Les organisations ont bien été créées."
         },
         "upload-button": "Importer un fichier CSV"
+      },
+      "swap-campaign-codes": {
+        "title": "Échanger les codes campagnes",
+        "description": "Permet d'échanger le code campagne entre de deux campagnes. Les campagnes doivent faire partie de la même organisation.",
+        "form": {
+          "button": "Échanger",
+          "firstCampaignId": "1er ID de campagne",
+          "secondCampaignId": "2ème ID de campagne"
+        },
+        "notifications": {
+          "error": {
+            "mismatch-organization": "L'échange de code de campagne n'est possible que pour des campagnes appartenant à une même organisation.",
+            "swap-code-error": "Vérifiez que les ID de campagnes saisies existent"
+          },
+          "success": "Les codes campagnes ont bien été échangé."
+        }
       }
     },
     "certification-centers": {
@@ -197,7 +213,7 @@
           "deactivate-certification-center-membership": "Le membre a correctement été désactivé.",
           "update-certification-center-membership-role": "Le rôle du membre a été modifié."
         }
-      }  
+      }
     }
   }
 }
