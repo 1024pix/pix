@@ -19,11 +19,9 @@
   </div>
 </header>
 
-<main class="page-body">
-  <section class="page-section">
-    <Trainings::CreateOrUpdateTrainingForm
-      @onSubmit={{this.createOrUpdateTraining}}
-      @onCancel={{this.goBackToTrainingList}}
-    />
-  </section>
+<main class="main-admin-form">
+  <Trainings::CreateOrUpdateTrainingForm
+    @onSubmit={{this.createOrUpdateTraining}}
+    @onCancel={{this.goBackToTrainingList}}
+  />
 </main>

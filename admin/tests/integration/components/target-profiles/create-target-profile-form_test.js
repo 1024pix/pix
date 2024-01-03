@@ -48,9 +48,9 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 />`);
 
     // then
-    assert.dom(screen.getByLabelText('Nom (obligatoire) :')).exists();
+    assert.dom(screen.getByLabelText(/Nom/)).exists();
     assert.dom(screen.getByLabelText('Public :')).exists();
-    assert.dom(screen.getByLabelText("Identifiant de l'organisation de référence :")).exists();
+    assert.dom(screen.getByLabelText(/Identifiant de l'organisation de référence/)).exists();
     assert.dom(screen.getByLabelText("Lien de l'image du profil cible :", { exact: false })).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Créer le profil cible' })).exists();

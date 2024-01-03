@@ -74,9 +74,9 @@ module('Acceptance | Target profile creation', function (hooks) {
       server.get('/admin/frameworks', (schema) => schema.frameworks.all());
       const screen = await visit('/target-profiles/list');
       await clickByName('Nouveau profil cible');
-      await fillByLabel('Nom (obligatoire) :', 'Un profil cible, et vite !');
-      await fillByLabel("Identifiant de l'organisation de référence :", 1);
-      await fillByLabel('Référentiel :', 'Pi');
+      await fillByLabel(/Nom/, 'Un profil cible, et vite !');
+      await fillByLabel(/Identifiant de l'organisation de référence/, 1);
+      await fillByLabel(/Référentiel/, 'Pi');
       const otherFrameworkChoice = screen.getByLabelText('Pix + Cuisine');
       await click(otherFrameworkChoice);
       await _selectLearningContent(screen);

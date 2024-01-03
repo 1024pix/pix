@@ -1,10 +1,8 @@
-<form class="form create-training-form" {{on "submit" this.onSubmit}}>
-
-  <section class="form-section">
-    <Card class="create-training-form__card" @title="Information sur le contenu formatif">
-      <p class="form__instructions">Tous les champs sont obligatoires.</p>
+<form class="admin-form admin-form--training" {{on "submit" this.onSubmit}}>
+  <section class="admin-form__content">
+    <Card class="admin-form__card" @title="Information sur le contenu formatif">
+      <p class="admin-form__mandatory-text">Tous les champs sont obligatoires.</p>
       <PixInput
-        class="form-field"
         @id="trainingTitle"
         @label="Titre"
         required={{true}}
@@ -13,7 +11,6 @@
         {{on "change" (fn this.updateForm "title")}}
       />
       <PixInput
-        class="form-field"
         @id="trainingLink"
         @label="Lien"
         required={{true}}
@@ -30,9 +27,8 @@
         aria-required={{true}}
         @onChange={{(fn this.updateSelect "type")}}
       />
-      <div class="create-training-form-card__duration">
+      <div class="admin-form--training__duration">
         <PixInput
-          class="form-field"
           @id="trainingDaysDuration"
           @label="Jours (JJ)"
           min="0"
@@ -43,7 +39,6 @@
           {{on "change" (fn this.updateForm "duration.days")}}
         />
         <PixInput
-          class="form-field"
           @id="trainingHoursDuration"
           @label="Heures (HH)"
           min="0"
@@ -55,7 +50,6 @@
           {{on "change" (fn this.updateForm "duration.hours")}}
         />
         <PixInput
-          class="form-field"
           @id="trainingMinutesDuration"
           @label="Minutes (MM)"
           required={{true}}
@@ -77,19 +71,21 @@
         required={{true}}
         aria-required={{true}}
       />
-      <div class="training-editor-logo-url-input">
-        <label for="trainingEditorLogoUrl-name">Nom du fichier du logo éditeur (.svg)
-          <span class="training-editor-logo-url-input__information">
+      <div class="admin-form--training__logo-url-input">
+        <label for="trainingEditorLogoUrl-name">
+          <strong>Nom du fichier du logo éditeur (.svg)</strong>
+          <small>
             <a
               href="https://1024pix.github.io/pix-images-list/editeurs-cf.html"
               target="_blank"
               rel="noopener noreferrer"
-            >Voir la liste des logos éditeur</a>
+            >
+              Voir la liste des logos éditeur
+            </a>
             <br />Exemple : logo-ministere-education-nationale-et-jeunesse.svg
-          </span>
+          </small>
         </label>
         <PixInput
-          class="form-field"
           @id="trainingEditorLogoUrl"
           required={{true}}
           aria-required={{true}}
@@ -100,7 +96,6 @@
         />
       </div>
       <PixInput
-        class="form-field"
         @id="trainingEditorName"
         @label="Nom de l'éditeur"
         @information="Exemple: Ministère de l'Éducation nationale et de la Jeunesse. Liberté égalité fraternité"
@@ -112,13 +107,10 @@
       />
     </Card>
   </section>
-  <section class="form-section form-actions form-section--actions">
-    <PixButton
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      @size="big"
-      @triggerAction={{@onCancel}}
-    >Annuler</PixButton>
+  <section class="admin-form__actions">
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="big" @triggerAction={{@onCancel}}>
+      Annuler
+    </PixButton>
     <PixButton @backgroundColor="green" @size="big" @type="submit" @isLoading={{this.submitting}}>
       {{if @model "Modifier" "Créer"}}
       le contenu formatif

@@ -9,25 +9,17 @@
   &__inline-layout {
     display: flex;
     align-items: center;
-
-    label {
-      margin: 0;
-    }
-
-    .vertical-delimiter {
-      height: 32px;
-      margin: 0 1em;
-      border-left: 1px solid var(--pix-neutral-900);
-    }
-
-    &--count {
-      margin-left: auto;
-    }
   }
 
   &__multi-select {
-    max-width: 300px;
-    margin-left: $pix-spacing-s;
+    display: flex;
+    gap: var(--pix-spacing-2x);
+    align-items: center;
+
+    label {
+      flex-shrink: 0;
+      margin: 0;
+    }
   }
 
   &__multi-select-label {
@@ -36,7 +28,17 @@
   }
 
   &__level-select {
-    width: 141px,
+    width: 141px;
+  }
+
+  &__vertical-delimiter {
+    height: 2rem;
+    margin: 0 1em;
+    border-left: 1px solid var(--pix-neutral-100);
+  }
+
+  &__count {
+    margin-left: auto;
   }
 }
 
