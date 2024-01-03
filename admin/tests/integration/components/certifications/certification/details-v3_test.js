@@ -232,6 +232,31 @@ module('Integration | Component | Certifications | certification > details v3', 
           .exists();
       });
     });
+
+    module('when the candidate does not finish the session', function () {
+      test('should not display a tag', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        this.model = store.createRecord('v3-certification-course-details-for-administration', {
+          certificationChallengesForAdministration: [
+            store.createRecord('certification-challenges-for-administration', {
+              validatedLiveAlert: false,
+              answeredAt: null,
+            }),
+          ],
+        });
+
+        // when
+        const screen = await render(hbs`<Certifications::Certification::DetailsV3 @details={{this.model}} />`);
+
+        // then
+        const detailTable = screen.getByRole('table');
+        const statusCellIndex = within(detailTable).getByRole('columnheader', { name: 'Statut' }).cellIndex;
+        const lastQuestionDetail = within(detailTable).getAllByRole('row').at(-1);
+        const lastQuestionStatus = within(lastQuestionDetail).getAllByRole('cell')[statusCellIndex - 1].innerText;
+        assert.strictEqual(lastQuestionStatus, '-');
+      });
+    });
   });
 });
 
