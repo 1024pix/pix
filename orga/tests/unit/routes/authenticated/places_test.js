@@ -7,6 +7,38 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/places', function (hooks) {
   setupTest(hooks);
 
+  module('model', function () {
+    test('should redirect to application when error thrown', async function (assert) {
+      // given
+      const organizationId = Symbol('organizationId');
+      const expectedRedirection = 'application';
+      class CurrentUserStub extends Service {
+        shouldAccessPlacesPage = true;
+        organization = {
+          id: organizationId,
+        };
+      }
+
+      const route = this.owner.lookup('route:authenticated/places');
+      const queryRecordStub = sinon.stub(route.store, 'queryRecord');
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      const replaceWithStub = sinon.stub(route.router, 'replaceWith');
+
+      queryRecordStub.rejects();
+      replaceWithStub.resolves();
+
+      // when
+      await route.model();
+
+      // then
+      sinon.assert.calledWithExactly(queryRecordStub, 'organization-place-statistic', { organizationId });
+      sinon.assert.calledWithExactly(replaceWithStub, expectedRedirection);
+
+      assert.ok(true);
+    });
+  });
+
   module('beforeModel', function () {
     test('should not redirect to application when currentUser.shouldAccessPlacesPage is true', function (assert) {
       // given
