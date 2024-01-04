@@ -2,6 +2,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import isNil from 'lodash/isNil';
+import ENV from 'mon-pix/config/environment';
 
 import Component from '@glimmer/component';
 
@@ -97,11 +98,20 @@ export default class SkillReview extends Component {
     return !this.showOrganizationButton;
   }
 
+  get displayContinueToPixLink() {
+    return this.args.model.campaign.isForAbsoluteNovice || this.isAutonomousCourse;
+  }
+
+  get displayTrainings() {
+    return Boolean(this.args.model.trainings) && (this.isShared || this.isAutonomousCourse);
+  }
+
   get displayOrganizationCustomMessage() {
     const hasCustomBlock = this.showOrganizationMessage || this.showOrganizationButton;
     const showCustomBlock = this.isShared || this.args.model.campaign.isForAbsoluteNovice;
+    const showAutonomousCourseCustomBlock = this.isAutonomousCourse || this.args.model.campaign.isForAbsoluteNovice;
 
-    return hasCustomBlock && showCustomBlock;
+    return (hasCustomBlock && showCustomBlock) || (hasCustomBlock && showAutonomousCourseCustomBlock);
   }
 
   get showOrganizationMessage() {
@@ -174,13 +184,12 @@ export default class SkillReview extends Component {
     return this.args.model.campaignParticipationResult.canImprove && !this.isShareButtonClicked;
   }
 
+  get showBadges() {
+    return this.showCertifiableBadges || this.showNotCertifiableBadges;
+  }
+
   get showHeavyBlock() {
-    return (
-      this.showCertifiableBadges ||
-      this.showNotCertifiableBadges ||
-      this.showImproveButton ||
-      !this.args.model.campaign.isForAbsoluteNovice
-    );
+    return this.showBadges || this.showImproveButton || !this.args.model.campaign.isForAbsoluteNovice;
   }
 
   get competenceResultsGroupedByAreas() {
@@ -203,6 +212,10 @@ export default class SkillReview extends Component {
       }
       return acc;
     }, {});
+  }
+
+  get isAutonomousCourse() {
+    return this.args.model.campaign.organizationId === ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
   }
 
   _buildUrl(baseUrl, params) {
