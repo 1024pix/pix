@@ -164,10 +164,10 @@ describe('Unit | Controller | sessionController', function () {
       const dependencies = {
         getSessionCertificationResultsCsv: sinon.stub(),
         tokenService: {
-          extractResultRecipientEmailAndSessionId: sinon.stub(),
+          extractCertificationResultsByRecipientEmailLink: sinon.stub(),
         },
       };
-      dependencies.tokenService.extractResultRecipientEmailAndSessionId
+      dependencies.tokenService.extractCertificationResultsByRecipientEmailLink
         .withArgs('abcd1234')
         .returns({ sessionId: 1, resultRecipientEmail: 'user@example.net' });
 
@@ -217,10 +217,10 @@ describe('Unit | Controller | sessionController', function () {
       const dependencies = {
         getSessionCertificationResultsCsv: sinon.stub(),
         tokenService: {
-          extractSessionId: sinon.stub(),
+          extractCertificationResultsLink: sinon.stub(),
         },
       };
-      dependencies.tokenService.extractSessionId.withArgs(token).returns({ sessionId });
+      dependencies.tokenService.extractCertificationResultsLink.withArgs(token).returns({ sessionId });
       dependencies.getSessionCertificationResultsCsv
         .withArgs({
           session,

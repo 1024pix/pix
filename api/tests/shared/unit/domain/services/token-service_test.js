@@ -10,7 +10,7 @@ import {
   ForbiddenAccess,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
-  InvalidSessionResultError,
+  InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
 } from '../../../../../src/shared/domain/errors.js';
 
@@ -215,23 +215,78 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
     });
   });
 
-  describe('#extractSessionId', function () {
-    it('should return the session id if the token is valid', function () {
-      // given
-      const token = jsonwebtoken.sign(
-        {
-          session_id: 12345,
-        },
-        settings.authentication.secret,
-        { expiresIn: '30d' },
-      );
+  describe('#extractCertificationResultsLink', function () {
+    context('when FT_ENABLE_CERTIF_TOKEN_SCOPE is true', function () {
+      beforeEach(function () {
+        sinon.stub(settings.featureToggles, 'isCertificationTokenScopeEnabled').value(true);
+      });
 
-      // when
-      const tokenData = tokenService.extractSessionId(token);
+      context('when the scope is valid', function () {
+        it('should return the session id', function () {
+          // given
+          const token = jsonwebtoken.sign(
+            {
+              session_id: 12345,
+              scope: 'certificationResultsLink',
+            },
+            settings.authentication.secret,
+            { expiresIn: '30d' },
+          );
 
-      // then
-      expect(tokenData).to.deep.equal({
-        sessionId: 12345,
+          // when
+          const tokenData = tokenService.extractCertificationResultsLink(token);
+
+          // then
+          expect(tokenData).to.deep.equal({
+            sessionId: 12345,
+          });
+        });
+      });
+
+      context('when the scope is invalid', function () {
+        it('should throw an InvalidSessionResultTokenError', async function () {
+          // given
+          const invalidToken = jsonwebtoken.sign(
+            {
+              session_id: 12345,
+            },
+            settings.authentication.secret,
+            { expiresIn: '30d' },
+          );
+
+          // when
+          const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidToken);
+
+          // then
+          expect(error).to.be.an.instanceof(InvalidSessionResultTokenError);
+        });
+      });
+    });
+
+    context('when FT_ENABLE_CERTIF_TOKEN_SCOPE is false', function () {
+      beforeEach(function () {
+        sinon.stub(settings.featureToggles, 'isCertificationTokenScopeEnabled').value(false);
+      });
+
+      context('when there is no scope', function () {
+        it('should return the session id', function () {
+          // given
+          const token = jsonwebtoken.sign(
+            {
+              session_id: 12345,
+            },
+            settings.authentication.secret,
+            { expiresIn: '30d' },
+          );
+
+          // when
+          const tokenData = tokenService.extractCertificationResultsLink(token);
+
+          // then
+          expect(tokenData).to.deep.equal({
+            sessionId: 12345,
+          });
+        });
       });
     });
 
@@ -240,10 +295,10 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const invalidIdToken = jsonwebtoken.sign({}, settings.authentication.secret, { expiresIn: '30d' });
 
       // when
-      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidIdToken);
 
       // then
-      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+      expect(error).to.be.an.instanceof(InvalidSessionResultTokenError);
     });
 
     it('should throw if token is expired', async function () {
@@ -260,32 +315,84 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       setTimeout(async () => {
         return;
       }, 100);
-      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsLink)(invalidIdToken);
 
       // then
-      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+      expect(error).to.be.an.instanceof(InvalidSessionResultTokenError);
     });
   });
 
-  describe('#extractResultRecipientEmailAndSessionId', function () {
-    it('should return the session id and result recipient email if the token is valid', function () {
-      // given
-      const token = jsonwebtoken.sign(
-        {
-          result_recipient_email: 'recipientEmail@example.net',
-          session_id: 12345,
-        },
-        settings.authentication.secret,
-        { expiresIn: '30d' },
-      );
+  describe('#extractCertificationResultsByRecipientEmailLink', function () {
+    context('when FT_ENABLE_CERTIF_TOKEN_SCOPE is true', function () {
+      beforeEach(function () {
+        sinon.stub(settings.featureToggles, 'isCertificationTokenScopeEnabled').value(true);
+      });
 
-      // when
-      const tokenData = tokenService.extractResultRecipientEmailAndSessionId(token);
+      context('when the scope is valid', function () {
+        it('should return the session id and result recipient email if the token is valid', function () {
+          // given
+          const token = jsonwebtoken.sign(
+            {
+              result_recipient_email: 'recipientEmail@example.net',
+              session_id: 12345,
+              scope: 'certificationResultsByRecipientEmailLink',
+            },
+            settings.authentication.secret,
+            { expiresIn: '30d' },
+          );
 
-      // then
-      expect(tokenData).to.deep.equal({
-        resultRecipientEmail: 'recipientEmail@example.net',
-        sessionId: 12345,
+          // when
+          const tokenData = tokenService.extractCertificationResultsByRecipientEmailLink(token);
+
+          // then
+          expect(tokenData).to.deep.equal({
+            resultRecipientEmail: 'recipientEmail@example.net',
+            sessionId: 12345,
+          });
+        });
+      });
+
+      context('when the scope is invalid', function () {
+        it('should throw an InvalidResultRecipientTokenError', async function () {
+          // given
+          const invalidToken = jsonwebtoken.sign(
+            { result_recipient_email: 'recipientEmail@example.net', session_id: 12345 },
+            settings.authentication.secret,
+            { expiresIn: '30d' },
+          );
+
+          // when
+          const error = await catchErr(tokenService.extractCertificationResultsByRecipientEmailLink)(invalidToken);
+
+          // then
+          expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
+        });
+      });
+    });
+
+    context('when FT_ENABLE_CERTIF_TOKEN_SCOPE is false', function () {
+      beforeEach(function () {
+        sinon.stub(settings.featureToggles, 'isCertificationTokenScopeEnabled').value(false);
+      });
+
+      context('when there is no scope', function () {
+        it('should return the session id', function () {
+          // given
+          const token = jsonwebtoken.sign(
+            { result_recipient_email: 'recipientEmail@example.net', session_id: 12345 },
+            settings.authentication.secret,
+            { expiresIn: '30d' },
+          );
+
+          // when
+          const tokenData = tokenService.extractCertificationResultsByRecipientEmailLink(token);
+
+          // then
+          expect(tokenData).to.deep.equal({
+            resultRecipientEmail: 'recipientEmail@example.net',
+            sessionId: 12345,
+          });
+        });
       });
     });
 
@@ -300,7 +407,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       );
 
       // when
-      const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsByRecipientEmailLink)(invalidIdToken);
 
       // then
       expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
@@ -321,7 +428,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       setTimeout(async () => {
         return;
       }, 100);
-      const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
+      const error = await catchErr(tokenService.extractCertificationResultsByRecipientEmailLink)(invalidIdToken);
 
       // then
       expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
@@ -337,6 +444,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const expectedTokenAttributes = {
         session_id: 'abcd1234',
         result_recipient_email: 'results@college-romain-rolland.edu',
+        scope: 'certificationResultsByRecipientEmailLink',
       };
 
       // when
@@ -359,6 +467,7 @@ describe('Unit | Shared | Domain | Services | Token Service', function () {
       const daysBeforeExpiration = 30;
       const expectedTokenAttributes = {
         session_id: 'abcd1234',
+        scope: 'certificationResultsLink',
       };
 
       // when
