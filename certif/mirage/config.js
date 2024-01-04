@@ -410,9 +410,14 @@ function _configureCertificationCenterInvitationRoutes(context) {
 }
 
 function _configureCertificationCenterMemberRoutes(context) {
-  context.delete('/certification-center-memberships/:id', (schema) => {
-    const member = schema.members.first();
-    member.destroy();
+  context.patch(
+    '/certification-centers/:certificationCenterId/certification-center-memberships/:certificationCenterMembershipId',
+    () => {
+      return new Response(204);
+    },
+  );
+
+  context.delete('/certification-center-memberships/:id', () => {
     return new Response(204);
   });
 }
