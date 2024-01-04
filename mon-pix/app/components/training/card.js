@@ -33,17 +33,17 @@ export default class Card extends Component {
 
   get tagColor() {
     if (this.args.training.isAutoformation) {
-      return 'blue-light';
+      return 'primary';
     }
-    return 'purple-light';
+    return 'tertiary';
   }
 
   get imageSrc() {
     const randomNumber = this._getRandomImageNumber();
     if (this.args.training.isAutoformation) {
-      return `/images/illustrations/trainings/Illu_Parcours_autoformation-${randomNumber}.png`;
+      return `/images/illustrations/trainings/Formation-Parcours_autoformation-${randomNumber}.svg`;
     }
-    return `/images/illustrations/trainings/Illu_Webinaire-${randomNumber}.png`;
+    return `/images/illustrations/trainings/Formation-Webinaire-${randomNumber}.svg`;
   }
 
   _getRandomImageNumber() {
