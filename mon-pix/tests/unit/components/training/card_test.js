@@ -86,7 +86,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Webinaire-[1-3].png/g).test(result));
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Formation-Webinaire-[1-3].svg/g).test(result));
       assert.true(getRandomImageNumberSpy.called);
     });
 
@@ -100,7 +100,9 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.imageSrc;
 
       // then
-      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3].png/g).test(result));
+      assert.ok(
+        new RegExp(/\/images\/illustrations\/trainings\/Formation-Parcours_autoformation-[1-3].svg/g).test(result),
+      );
       assert.true(getRandomImageNumberSpy.called);
     });
   });
@@ -115,7 +117,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
-      assert.strictEqual(result, 'purple-light');
+      assert.strictEqual(result, 'tertiary');
     });
 
     test('should return appropriate tag color for given type autoformation', function (assert) {
@@ -127,7 +129,7 @@ module('Unit | Component | Training | card', function (hooks) {
       const result = component.tagColor;
 
       // then
-      assert.strictEqual(result, 'blue-light');
+      assert.strictEqual(result, 'primary');
     });
   });
 });
