@@ -1,5 +1,5 @@
 import { Mission } from '../../domain/models/Mission.js';
-import { thematicDatasource } from '../../../../lib/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { thematicDatasource } from '../../../shared/infrastructure/datasources/learning-content/thematic-datasource.js';
 import { getTranslatedKey } from '../../../../lib/domain/services/get-translated-text.js';
 import { LOCALE } from '../../../shared/domain/constants.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';

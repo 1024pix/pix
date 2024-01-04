@@ -1,4 +1,4 @@
-import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../../../shared/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Challenge } from '../../../../lib/domain/models/index.js';
 import {

@@ -1,6 +1,6 @@
-import { sinon, expect } from '../../../../test-helper.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
-import { thematicDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/thematic-datasource.js';
+import { sinon, expect } from '../../../../../test-helper.js';
+import { lcms } from '../../../../../../lib/infrastructure/lcms.js';
+import { thematicDatasource } from '../../../../../../src/shared/infrastructure/datasources/learning-content/thematic-datasource.js';
 
 describe('Unit | Infrastructure | Datasource | Learning Content | ThematicDatasource', function () {
   describe('#findByCompetenceIds', function () {
