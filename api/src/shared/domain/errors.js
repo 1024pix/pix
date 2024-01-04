@@ -59,7 +59,7 @@ class InvalidResultRecipientTokenError extends DomainError {
   }
 }
 
-class InvalidSessionResultError extends DomainError {
+class InvalidSessionResultTokenError extends DomainError {
   constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
     super(message);
   }
@@ -175,7 +175,7 @@ export {
   CsvImportError,
   InvalidExternalUserTokenError,
   InvalidResultRecipientTokenError,
-  InvalidSessionResultError,
+  InvalidSessionResultTokenError,
   InvalidTemporaryKeyError,
   MissingAssessmentId,
   NotFoundError,
