@@ -58,6 +58,10 @@
     }
   }
 
+  &__section--download:not(:first-child) {
+    margin-top: var(--pix-spacing-8x);
+  }
+
   &__section--download-button {
     align-items: center;
     background-color: var(--pix-neutral-20);
@@ -74,8 +78,12 @@
       padding-top: var(--pix-spacing-1x);
     }
 
-    & .download-buttons, & .pix-button-upload {
-      width: 164px;
+    & .pix-button-upload {
+      min-width: 164px;
+    }
+
+    & .download-button {
+      max-width: 164px;
     }
   }
 
