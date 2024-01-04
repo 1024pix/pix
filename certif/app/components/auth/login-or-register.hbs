@@ -7,7 +7,7 @@
       }}</span>
     <div class="login-or-register-panel__forms-container">
       <div class="login-or-register-panel__form">
-        <h1 class="form-title">{{t "pages.login-or-register.register-form.title"}}</h1>
+        <h1 class="login-or-register-panel-form__title">{{t "pages.login-or-register.register-form.title"}}</h1>
         {{#unless this.displayRegisterForm}}
           <PixButton
             id="register"
@@ -34,7 +34,7 @@
       </div>
       <div class="login-or-register-panel__divider"></div>
       <div class="login-or-register-panel__form">
-        <h1 class="form-title">{{t "pages.login-or-register.login-form.title"}}</h1>
+        <h1 class="login-or-register-panel-form__title">{{t "pages.login-or-register.login-form.title"}}</h1>
         {{#if this.displayRegisterForm}}
           <PixButton
             id="login"

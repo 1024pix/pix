@@ -20,19 +20,18 @@
 
 .login-header {
   &__title {
-    margin-top: 32px;
-    margin-bottom: 8px;
+    @extend %pix-title-m;
+
+    margin-top: var(--pix-spacing-8x);
+    margin-bottom: var(--pix-spacing-4x);
     color: $pix-neutral-80;
-    font-weight: 400;
-    font-size: 2rem;
-    font-family: $font-open-sans;
   }
 
   &__information {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 32px;
-    font-family: $font-roboto;
+    @extend %pix-body-s;
+
+    color: var(--pix-neutral-900);
+    text-align: center;
   }
 
   &__invitation-error {
@@ -55,8 +54,10 @@
 
 .login-main-form {
   &__mandatory-information {
+    @extend %pix-body-s;
+
+    margin-top: var(--pix-spacing-4x);
     color: $pix-neutral-80;
-    font-family: $font-roboto;
     text-align: center;
   }
 
