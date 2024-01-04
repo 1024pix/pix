@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v4.84.0 (04/01/2024)
+
+
+### :rocket: Amélioration
+- [#7774](https://github.com/1024pix/pix/pull/7774) [FEATURE] Modification des parcours autonomes (PIX-10518).
+- [#7765](https://github.com/1024pix/pix/pull/7765) [FEATURE][CERTIF] Permettre à un administrateur de supprimer un membre de son équipe (PIX-4998).
+- [#7772](https://github.com/1024pix/pix/pull/7772) [FEATURE] Créer la page de fin de parcours pour les parcours autonomes sur PIx-App (PIX-9741).
+- [#7783](https://github.com/1024pix/pix/pull/7783) [FEATURE] Utiliser un scope lors de la création et vérification des tokens utilisés pour le téléchargement des résultats de certification (PIX-10574).
+- [#7788](https://github.com/1024pix/pix/pull/7788) [FEATURE] Enregistrer le passage des utilisateurs sur Modulix (PIX-10581).
+- [#7780](https://github.com/1024pix/pix/pull/7780) [FEATURE] Filtrer les profils-cibles de parcours autonomes publics et sans accès simplifié (PIX-10560).
+- [#7743](https://github.com/1024pix/pix/pull/7743) [FEATURE] Ajouter les textes de transition (PIX-10297).
+
+### :building_construction: Tech
+- [#7786](https://github.com/1024pix/pix/pull/7786) [TECH][APP | CERTIF | ORGA]  Utiliser la nouvelle font du DS pour les titres sur les mires de connexions (PIX-10384).
+- [#7785](https://github.com/1024pix/pix/pull/7785) [TECH] Uniformisation des prehandlers (sur la route /api/user-orga-settings/{id}) (PIX-10568).
+- [#7782](https://github.com/1024pix/pix/pull/7782) [TECH] Remplacer l'usage de l'accessToken par une validation via pre handler sur la route pour les exports de résultat (Pix-10515).
+- [#7769](https://github.com/1024pix/pix/pull/7769) [TECH] Uniformiser le style de pages de formulaire de PixAdmin (PIX-10460).
+- [#7641](https://github.com/1024pix/pix/pull/7641) [TECH] Activer le logger par défaut dans les nouveaux environnements (PIX-10289).
+
+### :bug: Correction
+- [#7808](https://github.com/1024pix/pix/pull/7808) [BUGFIX] Affichage du niveau par compétence sur le certificat (PIX-10608).
+- [#7784](https://github.com/1024pix/pix/pull/7784) [BUGFIX] Ne pas rester coincer sur la page de chargement des places dans le cas d'une erreur API (PIX-10521).
+- [#7792](https://github.com/1024pix/pix/pull/7792) [BUGFIX] Les vidéos en webm ne se lisent pas sur Safari mobile (PIX-10584).
+
 ## v4.83.0 (03/01/2024)
 
 
