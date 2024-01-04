@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { Challenge } from '../../../../lib/domain/models/index.js';
 import * as skillAdapter from '../../../../lib/infrastructure/adapters/skill-adapter.js';
 import * as solutionAdapter from '../../../../lib/infrastructure/adapters/solution-adapter.js';
-import { LearningContentResourceNotFound } from '../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound.js';
+import { LearningContentResourceNotFound } from '../datasources/learning-content/LearningContentResourceNotFound.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { config } from '../../../../lib/config.js';
 import {

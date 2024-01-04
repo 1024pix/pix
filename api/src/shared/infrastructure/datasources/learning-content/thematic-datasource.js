@@ -1,4 +1,4 @@
-import * as datasource from './datasource.js';
+import * as datasource from '../../../../../lib/infrastructure/datasources/learning-content/datasource.js';
 
 const thematicDatasource = datasource.extend({
   modelName: 'thematics',
