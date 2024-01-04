@@ -55,11 +55,6 @@ export default class ImportController extends Controller {
   }
 
   @action
-  toggleStepOne() {
-    this.isImportStepOne = true;
-  }
-
-  @action
   async validateSessions() {
     const adapter = this.store.adapterFor('validate-sessions-for-mass-import');
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;

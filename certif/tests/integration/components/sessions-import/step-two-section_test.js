@@ -152,10 +152,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       test('it renders a report', async function (assert) {
         // given
         this.set('errorReports', [{ line: '5', code: error, isBlocking: true }]);
+        this.set('validateSessions', () => {});
 
         // when
         const { getByText, getByRole } = await render(hbs`<Import::StepTwoSection
-          @errorReports={{this.errorReports}}
+          @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}}
           />`);
 
         await click(getByRole('button', { name: '1 erreur bloquante' }));
@@ -165,20 +166,24 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       });
     });
 
-    test('it renders a button to return to step one', async function (assert) {
+    test('it renders the import file block to import again', async function (assert) {
       // given
-      this.set('errorReports', [
-        { line: 1, code: 'CANDIDATE_FIRST_NAME_REQUIRED', isBlocking: true },
-        { line: 2, code: 'EMPTY_SESSION', isBlocking: false },
-      ]);
+      this.set('errorReports', [{ line: '5', code: 'CANDIDATE_FIRST_NAME_REQUIRED', isBlocking: true }]);
+      this.set('validateSessions', () => {});
 
       // when
-      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
+      const screen = await render(
+        hbs`<Import::StepTwoSection
+          @errorReports={{this.errorReports}}
+          @validateSessions={{this.validateSessions}}
+          @isImportDisabled={{true}}
+          />`,
+      );
 
       // then
-      assert
-        .dom(getByRole('button', { name: "Revenir à l'étape précédente pour importer le fichier à nouveau" }))
-        .exists();
+      assert.dom(screen.getByRole('heading', { name: 'Importer à nouveau' })).exists();
+      assert.dom(screen.getByText('Importer le modèle complété')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Continuer' })).isDisabled();
     });
   });
 
@@ -194,10 +199,11 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       test('it renders a report', async function (assert) {
         // given
         this.set('errorReports', [{ line: '5', code: error, isBlocking: false }]);
+        this.set('validateSessions', () => {});
 
         // when
         const { getByText, getByRole } = await render(
-          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}}/>`,
+          hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}}/>`,
         );
 
         await click(getByRole('button', { name: '1 point d’attention non bloquant' }));
@@ -207,28 +213,34 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
       });
     });
 
-    test('it renders a button to return to step one', async function (assert) {
-      // given
-      this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', isBlocking: false }]);
-
-      // when
-      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
-
-      // then
-      assert
-        .dom(getByRole('button', { name: "Revenir à l'étape précédente pour importer le fichier à nouveau" }))
-        .exists();
-    });
-
     test('it renders a button to create the sessions', async function (assert) {
       // given
       this.set('errorReports', [{ line: 2, code: 'EMPTY_SESSION', isBlocking: false }]);
+      this.set('validateSessions', () => {});
 
       // when
-      const { getByRole } = await render(hbs`<Import::StepTwoSection @errorReports={{this.errorReports}} />`);
+      const { getByRole } = await render(
+        hbs`<Import::StepTwoSection @errorReports={{this.errorReports}}  @validateSessions={{this.validateSessions}}/>`,
+      );
 
       // then
       assert.dom(getByRole('button', { name: 'Créer/éditer les sessions' })).exists();
+    });
+
+    test('it renders the import file block to import again', async function (assert) {
+      // given
+      this.set('errorReports', [{ line: '5', code: 'EMPTY_SESSION', isBlocking: false }]);
+      this.set('validateSessions', () => {});
+
+      // when
+      const screen = await render(hbs`<Import::StepTwoSection
+          @errorReports={{this.errorReports}} @validateSessions={{this.validateSessions}}
+          />`);
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: 'Importer à nouveau' })).exists();
+      assert.dom(screen.getByText('Importer le modèle complété')).exists();
+      assert.dom(screen.getByRole('button', { name: 'Continuer' })).exists();
     });
   });
 
@@ -242,6 +254,19 @@ module('Integration | Component | Import::StepTwoSection', function (hooks) {
 
       // then
       assert.dom(getByRole('button', { name: 'Finaliser la création/édition' })).exists();
+    });
+
+    test('it does not renders the import file block to import again', async function (assert) {
+      // given
+      this.set('errorReports', []);
+
+      // when
+      const screen = await render(hbs`<Import::StepTwoSection
+          @errorReports={{this.errorReports}}
+          />`);
+
+      // then
+      assert.dom(screen.queryByRole('heading', { name: 'Importer à nouveau' })).doesNotExist();
     });
   });
 });

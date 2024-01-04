@@ -85,28 +85,10 @@
     </div>
   {{/if}}
 
-  <div class="import-page__section--link-buttons">
+  <div>
     {{#if this.hasOnlyNonBlockingErrorReports}}
       <PixButton class="import-page__section--confirm-button--non-blocking" @triggerAction={{@createSessions}}>
         {{t "pages.sessions.import.step-two.actions.confirm-with-warning.label"}}
-      </PixButton>
-      <PixButton
-        @backgroundColor="transparent-light"
-        @isBorderVisible="true"
-        @triggerAction={{@toggleStepOne}}
-        aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
-      >
-
-        {{t "pages.sessions.import.step-two.actions.import-again.label"}}
-      </PixButton>
-    {{/if}}
-    {{#if (gt this.blockingErrorReportsCount 0)}}
-      <PixButton
-        class="import-page__section--confirm-button"
-        aria-label={{t "pages.sessions.import.step-two.actions.import-again.extra-information"}}
-        @triggerAction={{@toggleStepOne}}
-      >
-        {{t "pages.sessions.import.step-two.actions.import-again.label"}}
       </PixButton>
     {{/if}}
     {{#if this.noError}}
@@ -116,3 +98,30 @@
     {{/if}}
   </div>
 </section>
+
+{{#unless this.noError}}
+  <section class="import-page__section--download panel">
+    <div class="import-page__title">
+      <FaIcon @icon="cloud-arrow-up" class="fa-lg" />
+      <h2>{{t "pages.sessions.import.step-two.actions.import-again.title"}}</h2>
+    </div>
+    <Import::FileImportBlock
+      @file={{@file}}
+      @fileName={{@fileName}}
+      @removeImport={{@removeImport}}
+      @preImportSessions={{@preImportSessions}}
+      @buttonLabel={{t "pages.sessions.import.step-two.actions.import-again.label"}}
+    />
+
+    <div>
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{@validateSessions}}
+        @isDisabled={{@isImportDisabled}}
+      >
+        {{t "common.actions.continue"}}
+      </PixButton>
+    </div>
+  </section>
+{{/unless}}
