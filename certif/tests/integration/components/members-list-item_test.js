@@ -10,10 +10,13 @@ module('Integration | Component | MembersListItem', function (hooks) {
 
   let store;
   let currentUser;
+  let openRemoveMemberModal;
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
     currentUser = this.owner.lookup('service:current-user');
+    openRemoveMemberModal = sinon.stub();
+    this.set('openRemoveMemberModal', openRemoveMemberModal);
   });
 
   hooks.afterEach(function () {
@@ -103,6 +106,32 @@ module('Integration | Component | MembersListItem', function (hooks) {
           assert.dom(screen.getByRole('cell', { name: 'Williams' })).exists();
           assert.dom(screen.getByRole('cell', { name: this.intl.t('pages.team.members.role.member') })).exists();
           assert.dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.manage') })).exists();
+        });
+
+        module('when user clicks the manage button', function () {
+          test('it shows `edit role` and `delete` actions', async function (assert) {
+            // given
+            const memberWithMemberRole = store.createRecord('member', {
+              id: 123,
+              firstName: 'John',
+              lastName: 'Williams',
+              role: 'MEMBER',
+            });
+
+            sinon.stub(currentUser, 'certificationPointOfContact').value({ id: 1 });
+            this.set('member', memberWithMemberRole);
+
+            const screen = await renderScreen(
+              hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+            );
+
+            // when
+            await clickByName(this.intl.t('pages.team.members.actions.manage'));
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
+            assert.dom(screen.getByRole('button', { name: 'Supprimer' })).exists();
+          });
         });
       });
 
@@ -200,7 +229,7 @@ module('Integration | Component | MembersListItem', function (hooks) {
                 sinon.stub(currentUser, 'certificationPointOfContact').value({ id: memberWithAdminRole.id });
 
                 await renderScreen(
-                  hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}} />`,
+                  hbs`<MembersListItem @member={{this.member}} @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}} @onLeaveCertificationCenterButtonClicked={{this.leaveCertificationCenter}}  @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
                 );
 
                 // when
@@ -232,7 +261,9 @@ module('Integration | Component | MembersListItem', function (hooks) {
       test('it shows role selection menu, save button and cancel button', async function (assert) {
         // given
         // when
-        const screen = await renderScreen(hbs`<MembersListItem @member={{this.member}} />`);
+        const screen = await renderScreen(
+          hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+        );
         await clickByName(this.intl.t('pages.team.members.actions.manage'));
         await clickByName(this.intl.t('pages.team.members.actions.edit-role'));
 
@@ -255,7 +286,9 @@ module('Integration | Component | MembersListItem', function (hooks) {
       module('when selecting a new role', function () {
         test('it displays the selected role', async function (assert) {
           // given
-          const screen = await renderScreen(hbs`<MembersListItem @member={{this.member}} />`);
+          const screen = await renderScreen(
+            hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+          );
           await clickByName(this.intl.t('pages.team.members.actions.manage'));
           await clickByName(this.intl.t('pages.team.members.actions.edit-role'));
 
@@ -271,6 +304,30 @@ module('Integration | Component | MembersListItem', function (hooks) {
             .dom(screen.getByRole('button', { name: this.intl.t('pages.team.members.actions.select-role.label') }))
             .containsText(this.intl.t('pages.team.members.actions.select-role.options.admin'));
         });
+      });
+    });
+
+    module('When remove member button is clicked', (hooks) => {
+      hooks.beforeEach(async function () {
+        const memberWithMemberRole = store.createRecord('member', {
+          id: 123,
+          firstName: 'John',
+          lastName: 'Williams',
+          role: 'MEMBER',
+        });
+        sinon.stub(currentUser, 'certificationPointOfContact').value({ id: 1 });
+        this.set('member', memberWithMemberRole);
+
+        await renderScreen(
+          hbs`<MembersListItem @member={{this.member}} @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}} />`,
+        );
+        await clickByName('Gérer');
+        await clickByName('Supprimer');
+      });
+
+      test('emits an event to the parent with member', async function (assert) {
+        // then
+        assert.true(openRemoveMemberModal.calledOnceWith(this.member));
       });
     });
   });
