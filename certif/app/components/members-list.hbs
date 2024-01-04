@@ -22,6 +22,7 @@
               @shouldDisplayRefererColumn={{this.shouldDisplayRefererColumn}}
               @isMultipleAdminsAvailable={{this.isMultipleAdminsAvailable}}
               @onLeaveCertificationCenterButtonClicked={{this.openLeaveCertificationCenterModal}}
+              @onRemoveMemberButtonClicked={{this.openRemoveMemberModal}}
             />
           {{/each}}
         </tbody>
@@ -35,4 +36,11 @@
   @isOpen={{this.isLeaveCertificationCenterModalOpen}}
   @onClose={{this.closeLeaveCertificationCenterModal}}
   @onSubmit={{this.leaveCertificationCenter}}
+/>
+<Team::Modal::RemoveMemberModal
+  @firstName={{this.removingMember.firstName}}
+  @lastName={{this.removingMember.lastName}}
+  @isOpen={{this.isRemoveMemberModalOpen}}
+  @onSubmit={{this.removeMember}}
+  @onClose={{this.closeRemoveMemberModal}}
 />

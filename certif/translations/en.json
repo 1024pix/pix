@@ -863,6 +863,7 @@
           "edit-role": "Change role",
           "leave-certification-center": "Leave this Pix Certif space",
           "manage": "Manage",
+          "remove-membership": "Remove",
           "save": "Save",
           "select-role": {
             "label": "Select a role",
@@ -886,7 +887,18 @@
           "leave-certification-center": {
             "error": "An error occurred while deleting the member.",
             "success": "You have been successfully removed from the {certificationCenterName} certification centre. You are about to be disconnected from Pix Certif..."
+          },
+          "remove-membership": {
+            "error": "An error occurred while removing this member.",
+            "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Certif team."
           }
+        },
+        "remove-membership-modal": {
+          "title": "Are you sure you want to remove this member?",
+          "actions": {
+            "remove": "Yes, remove the member"
+          },
+          "message": "{memberFirstName} {memberLastName} will no longer have access to this Pix Certif space."
         },
         "role": {
           "admin": "Administrator",

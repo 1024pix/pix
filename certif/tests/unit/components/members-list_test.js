@@ -109,6 +109,8 @@ module('Unit | Component | MembersList', (hooks) => {
           const currentUser = this.owner.lookup('service:current-user');
           sinon.stub(currentUser, 'currentAllowedCertificationCenterAccess').value({ name: 'Shertif' });
           const onLeaveCertificationCenter = sinon.stub().resolves();
+          const session = this.owner.lookup('service:session');
+          sinon.stub(session, 'waitBeforeInvalidation');
           component.args.onLeaveCertificationCenter = onLeaveCertificationCenter;
 
           // when
@@ -150,6 +152,110 @@ module('Unit | Component | MembersList', (hooks) => {
 
         // then
         assert.true(component.isLeaveCertificationCenterModalOpen);
+      });
+    });
+
+    module('#closeRemoveMemberModal', function () {
+      test('sets "isRemoveMemberModalOpen" value to "false"', function (assert) {
+        // given
+        component.isRemoveMemberModalOpen = true;
+        component.removingMember = store.createRecord('member', {
+          id: 1,
+          firstName: 'Jean',
+          lastName: 'Tourloupe',
+          role: 'MEMBER',
+        });
+
+        // when
+        component.closeRemoveMemberModal();
+
+        // then
+        assert.false(component.isRemoveMemberModalOpen);
+        assert.strictEqual(component.removingMember, undefined);
+      });
+    });
+
+    module('#removeMember', function (hooks) {
+      let member;
+
+      hooks.beforeEach(function () {
+        member = store.createRecord('member', {
+          id: 1,
+          firstName: 'Matt',
+          lastName: 'Ador',
+          role: 'MEMBER',
+        });
+      });
+
+      test('calls parent component onRemoveMember event handler', async function (assert) {
+        // given
+        const onRemoveMember = sinon.stub().resolves();
+        component.args.onRemoveMember = onRemoveMember;
+        component.removingMember = member;
+
+        // when
+        await component.removeMember();
+
+        // then
+        assert.true(onRemoveMember.calledOnceWith(member));
+      });
+
+      module('when the member has been removed', function () {
+        test('calls notifications service to display a success message', async function (assert) {
+          // given
+          const notifications = this.owner.lookup('service:notifications');
+          sinon.stub(notifications, 'success');
+          const onRemoveMember = sinon.stub().resolves();
+          component.args.onRemoveMember = onRemoveMember;
+          component.removingMember = member;
+
+          // when
+          await component.removeMember();
+
+          // then
+          assert.true(
+            notifications.success.calledOnceWith('Matt Ador a été supprimé avec succès de votre équipe Pix Certif.'),
+          );
+        });
+      });
+
+      module('when an error occurs', function () {
+        test('calls notifications service to display an error message', async function (assert) {
+          // given
+          const notifications = this.owner.lookup('service:notifications');
+          sinon.stub(notifications, 'error');
+          const onRemoveMember = sinon.stub().rejects(new Error());
+          component.args.onRemoveMember = onRemoveMember;
+          component.removingMember = member;
+
+          // when
+          await component.removeMember();
+
+          // then
+          assert.true(
+            notifications.error.calledOnceWith('Une erreur est survenue lors de la désactivation du membre.'),
+          );
+        });
+      });
+    });
+
+    module('#openRemoveMemberModal', function () {
+      test('sets "isRemoveMemberModalOpen" value to "true"', function (assert) {
+        // given
+        const member = store.createRecord('member', {
+          id: 1,
+          firstName: 'Jean',
+          lastName: 'Tourloupe',
+          role: 'MEMBER',
+        });
+        component.isRemoveMemberModalOpen = false;
+
+        // when
+        component.openRemoveMemberModal(member);
+
+        // then
+        assert.true(component.isRemoveMemberModalOpen);
+        assert.strictEqual(component.removingMember, member);
       });
     });
   });

@@ -10,4 +10,9 @@ export default class AuthenticatedTeamListMembersController extends Controller {
   async leaveCertificationCenter() {
     await this.currentUser.currentCertificationCenterMembership.destroyRecord();
   }
+
+  @action
+  async removeMember(member) {
+    await member.destroyRecord();
+  }
 }

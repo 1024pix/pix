@@ -10,8 +10,9 @@ export default class MembersList extends Component {
   @service notifications;
   @service session;
 
-  @tracked
-  isLeaveCertificationCenterModalOpen = false;
+  @tracked isLeaveCertificationCenterModalOpen = false;
+  @tracked isRemoveMemberModalOpen = false;
+  @tracked removingMember;
 
   get shouldDisplayRefererColumn() {
     return this.args.hasCleaHabilitation;
@@ -32,8 +33,20 @@ export default class MembersList extends Component {
   }
 
   @action
+  openRemoveMemberModal(member) {
+    this.removingMember = member;
+    this.isRemoveMemberModalOpen = true;
+  }
+
+  @action
   closeLeaveCertificationCenterModal() {
     this.isLeaveCertificationCenterModalOpen = false;
+  }
+
+  @action
+  closeRemoveMemberModal() {
+    this.isRemoveMemberModalOpen = false;
+    this.removingMember = undefined;
   }
 
   @action
@@ -53,6 +66,23 @@ export default class MembersList extends Component {
       this.notifications.error(this.intl.t('pages.team.members.notifications.leave-certification-center.error'));
     } finally {
       this.closeLeaveCertificationCenterModal();
+    }
+  }
+
+  @action
+  async removeMember() {
+    try {
+      await this.args.onRemoveMember(this.removingMember);
+      this.notifications.success(
+        this.intl.t('pages.team.members.notifications.remove-membership.success', {
+          memberFirstName: this.removingMember.firstName,
+          memberLastName: this.removingMember.lastName,
+        }),
+      );
+    } catch (e) {
+      this.notifications.error(this.intl.t('pages.team.members.notifications.remove-membership.error'));
+    } finally {
+      this.closeRemoveMemberModal();
     }
   }
 }
