@@ -19,6 +19,19 @@
     {{/if}}
   {{/each}}
 
+  {{#if this.shouldDisplaySkipButton}}
+    <footer class="grain__footer">
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @shape="rounded"
+        @triggerAction={{this.skipAction}}
+      >
+        {{t "pages.modulix.buttons.grain.skip"}}
+      </PixButton>
+    </footer>
+  {{/if}}
+
   {{#if this.shouldDisplayContinueButton}}
     <footer class="grain__footer">
       <PixButton @backgroundColor="blue" @shape="rounded" @triggerAction={{this.continueAction}}>

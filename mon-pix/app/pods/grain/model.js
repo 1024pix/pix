@@ -6,6 +6,10 @@ export default class Grain extends Model {
   @hasMany('element', { async: false, polymorphic: true, inverse: 'grain' }) elements;
   @belongsTo('module', { async: false, inverse: 'grains' }) module;
 
+  get hasAnswerableElements() {
+    return this.elements.some((element) => element.isAnswerable);
+  }
+
   get answerableElements() {
     return this.elements.filter((element) => {
       return element.isAnswerable;
