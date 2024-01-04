@@ -105,6 +105,44 @@ module('Unit | Component | Training | card', function (hooks) {
       );
       assert.true(getRandomImageNumberSpy.called);
     });
+
+    test('should return appropriate image src for training type e-learning', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'e-learning' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Formation-E-learning-1.svg/g).test(result));
+    });
+
+    test('should return appropriate image src for training type hybrid-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'hybrid-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(new RegExp(/\/images\/illustrations\/trainings\/Formation-Hybrid_training-1.svg/g).test(result));
+    });
+
+    test('should return appropriate image src for training type in-person-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'in-person-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      assert.ok(
+        new RegExp(/\/images\/illustrations\/trainings\/Formation-Instructor_lead_training-1.svg/g).test(result),
+      );
+    });
   });
 
   module('#tagColor', function () {
@@ -130,6 +168,42 @@ module('Unit | Component | Training | card', function (hooks) {
 
       // then
       assert.strictEqual(result, 'primary');
+    });
+
+    test('should return appropriate tag color for given type e-learning', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'e-learning' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'success');
+    });
+
+    test('should return appropriate tag color for given type hybrid-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'hybrid-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'error');
+    });
+
+    test('should return appropriate tag color for given type in-person-training', function (assert) {
+      // given
+      const training = store.createRecord('training', { type: 'in-person-training' });
+      const component = createGlimmerComponent('training/card', { training });
+
+      // when
+      const result = component.tagColor;
+
+      // then
+      assert.strictEqual(result, 'secondary');
     });
   });
 });
