@@ -1,5 +1,5 @@
 import { injectDependencies } from '../../../../shared/infrastructure/utils/dependency-injection.js';
-import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-api.js';
+import * as complementaryCertificationApi from '../../../complementary-certification/application/api/complementary-certification-api.js';
 import * as complementaryCertificationRepository from './complementary-certification-repository.js';
 
 const repositoriesWithoutInjectedDependencies = {
