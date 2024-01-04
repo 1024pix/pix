@@ -95,4 +95,12 @@
       max-height: 720px;
     }
   }
+
+  &__title {
+    @extend %pix-title-m;
+
+    margin: var(--pix-spacing-4x) 0;
+    color: $pix-neutral-100;
+    text-align: center;
+  }
 }
