@@ -4,6 +4,44 @@ import { setupTest } from 'ember-qunit';
 module('Unit | Model | Module | Grain', function (hooks) {
   setupTest(hooks);
 
+  module('#hasAnswerableElements', function () {
+    module('when there are answerable elements in grain', function () {
+      test('should return true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const qcu = store.createRecord('qcu', { type: 'qcus', isAnswerable: true });
+        const qrocm = store.createRecord('qrocm', { type: 'qrocms', isAnswerable: true });
+        const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
+        const grain = store.createRecord('grain', {
+          elements: [qcu, qrocm, text],
+        });
+
+        // when
+        const hasAnswerableElements = grain.hasAnswerableElements;
+
+        // then
+        assert.true(hasAnswerableElements);
+      });
+    });
+
+    module('when there are no answerable element in grain', function () {
+      test('should return false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const text = store.createRecord('text', { type: 'texts', isAnswerable: false });
+        const grain = store.createRecord('grain', {
+          elements: [text],
+        });
+
+        // when
+        const hasAnswerableElements = grain.hasAnswerableElements;
+
+        // then
+        assert.false(hasAnswerableElements);
+      });
+    });
+  });
+
   module('#answerableElements', function () {
     module('when there are answerable elements in elements', function () {
       test('should return only answerable elements', function (assert) {

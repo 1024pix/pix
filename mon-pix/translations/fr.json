@@ -1192,7 +1192,8 @@
           "transcription": "Afficher la transcription"
         },
         "grain": {
-          "continue": "Continuer"
+          "continue": "Continuer",
+          "skip": "Passer"
         }
       },
       "modals": {

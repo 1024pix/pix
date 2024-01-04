@@ -10,9 +10,13 @@ module('Acceptance | Module | Routes | get', function (hooks) {
 
   test('can visit /modules/:slug', async function (assert) {
     // given
+    const grain = server.create('grain', {
+      id: 'grain1',
+    });
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: 'Bien écrire son adresse mail',
+      grains: [grain],
     });
 
     // when
@@ -24,6 +28,9 @@ module('Acceptance | Module | Routes | get', function (hooks) {
 
   test('should include the module title inside the page title', async function (assert) {
     // given
+    const grain = server.create('grain', {
+      id: 'grain1',
+    });
     const module = {
       title: 'Bien écrire son adresse mail',
     };
@@ -31,6 +38,7 @@ module('Acceptance | Module | Routes | get', function (hooks) {
     server.create('module', {
       id: 'bien-ecrire-son-adresse-mail',
       title: module.title,
+      grains: [grain],
     });
 
     // when
