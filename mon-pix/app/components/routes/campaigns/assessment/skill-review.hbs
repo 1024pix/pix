@@ -88,7 +88,7 @@
                 </LinkTo>
               </div>
             {{else}}
-              {{#if @model.campaign.isForAbsoluteNovice}}
+              {{#if this.displayContinueToPixLink}}
                 <a
                   href="#"
                   {{on "click" this.redirectToSignupIfUserIsAnonymous}}
@@ -185,7 +185,7 @@
           </div>
         </div>
       {{/if}}
-      {{#if (and @model.trainings this.isShared)}}
+      {{#if this.displayTrainings}}
         <section class="skill-review__trainings">
           <h2 class="skill-review-trainings__title">{{t "pages.skill-review.trainings.title"}}</h2>
           <p class="skill-review-trainings__description">{{t "pages.skill-review.trainings.description"}}</p>

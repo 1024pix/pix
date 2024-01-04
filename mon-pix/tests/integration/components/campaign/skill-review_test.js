@@ -3,10 +3,12 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 import { click } from '@ember/test-helpers';
+import ENV from 'mon-pix/config/environment';
 
 module('Integration | Component | Campaign | skill-review', function (hooks) {
   setupIntlRenderingTest(hooks);
   let model;
+  const autonomousCourseOrganizationId = ENV.APP.AUTONOMOUS_COURSES_ORGANIZATION_ID;
 
   hooks.beforeEach(function () {
     const store = this.owner.lookup('service:store');
@@ -262,5 +264,25 @@ module('Integration | Component | Campaign | skill-review', function (hooks) {
 
     assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.stage.title')));
     assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.details.title')));
+  });
+
+  module('when the campaign is an autonomous course', () => {
+    test('it should display continue link instead of the share results button', async function (assert) {
+      // given
+      const customResultPageText = 'Je suis Iron Man';
+      model.campaign.set('organizationId', autonomousCourseOrganizationId);
+      model.campaign.set('customResultPageText', customResultPageText);
+
+      this.set('model', model);
+
+      // when
+      const screen = await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{this.model}} />`);
+      const continueLink = screen.getByRole('link', { name: this.intl.t('pages.skill-review.actions.continue') });
+
+      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.actions.send')));
+      assert.notOk(screen.queryByText(this.intl.t('pages.skill-review.send-results')));
+
+      assert.dom(continueLink).exists();
+    });
   });
 });
