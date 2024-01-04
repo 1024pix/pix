@@ -12,6 +12,14 @@ export const createAutonomousCourse = (schema, request) => {
   });
 };
 
+export const updateAutonomousCourse = (schema, request) => {
+  const autonomousCourseId = request.params.id;
+  const params = JSON.parse(request.requestBody);
+  const autonomousCourse = schema.autonomousCourses.find(autonomousCourseId);
+  autonomousCourse.update(params.data.attributes);
+  return autonomousCourse;
+};
+
 export const getAutonomousCourseDetails = (schema, request) => {
   const autonomousCourseId = request.params.id;
   return schema.autonomousCourses.find(autonomousCourseId);

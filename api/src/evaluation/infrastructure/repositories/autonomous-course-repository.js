@@ -19,6 +19,15 @@ const save = async function ({ autonomousCourse, campaignApi }) {
   return id;
 };
 
+const update = async function ({ autonomousCourse, campaignApi }) {
+  return await campaignApi.update({
+    campaignId: autonomousCourse.campaignId,
+    name: autonomousCourse.internalTitle,
+    title: autonomousCourse.publicTitle,
+    customLandingPageText: autonomousCourse.customLandingPageText,
+  });
+};
+
 /**
  * @typedef AutonomousCourse
  * @type {object}
@@ -67,5 +76,4 @@ const findAllPaginated = async function ({ page, campaignApi }) {
   });
   return { autonomousCourses, meta };
 };
-
-export { save, get, findAllPaginated };
+export { save, get, update, findAllPaginated };

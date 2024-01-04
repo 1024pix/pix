@@ -44,6 +44,7 @@ import {
   findAutonomousCourseTargetProfiles,
   createAutonomousCourse,
   getAutonomousCourseDetails,
+  updateAutonomousCourse,
   getPaginatedAutonomousCourses,
 } from './handlers/autonomous-courses';
 
@@ -71,6 +72,7 @@ function routes() {
   this.post('/admin/autonomous-courses', createAutonomousCourse);
   this.get('/admin/autonomous-courses', getPaginatedAutonomousCourses);
   this.get('/admin/autonomous-courses/:id', getAutonomousCourseDetails);
+  this.patch('/admin/autonomous-courses/:id', updateAutonomousCourse);
 
   this.get('/admin/campaigns/:id');
   this.get('/admin/campaigns/:id/participations', (schema) => {

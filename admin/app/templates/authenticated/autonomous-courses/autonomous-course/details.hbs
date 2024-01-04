@@ -7,5 +7,9 @@
 </header>
 
 <main class="page-body">
-  <AutonomousCourses::Details @autonomousCourse={{this.model}} />
+  <AutonomousCourses::Details
+    @autonomousCourse={{this.model}}
+    @update={{this.updateAutonomousCourse}}
+    @reset={{this.resetAutonomousCourse}}
+  />
 </main>

@@ -123,14 +123,20 @@ describe('Unit | API | Campaigns', function () {
 
       const updateCampaignStub = sinon.stub(usecases, 'updateCampaign');
       updateCampaignStub
-        .withArgs({ campaignId: campaignInformation.id, name: campaignInformation.name })
+        .withArgs({
+          campaignId: campaignInformation.id,
+          name: campaignInformation.name,
+          title: campaignInformation.title,
+          customLandingPageText: campaignInformation.customLandingPageText,
+        })
         .resolves(campaignInformation);
 
       // when
       const result = await campaignApi.update({
         campaignId: campaignInformation.id,
         name: campaignInformation.name,
-        customLandingPageText: 'custom page text',
+        title: campaignInformation.title,
+        customLandingPageText: campaignInformation.customLandingPageText,
       });
 
       // then
