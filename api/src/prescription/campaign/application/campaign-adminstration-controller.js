@@ -51,10 +51,19 @@ const update = async function (request, _, dependencies = { campaignReportSerial
   return dependencies.campaignReportSerializer.serialize(result);
 };
 
+const swapCampaignCodes = async function (request, h) {
+  const { firstCampaignId, secondCampaignId } = request.payload;
+
+  await usecases.swapCampaignCodes({ firstCampaignId, secondCampaignId });
+
+  return h.response(null).code(204);
+};
+
 const campaignAdministrationController = {
   save,
   update,
   createCampaigns,
+  swapCampaignCodes,
 };
 
 export { campaignAdministrationController };

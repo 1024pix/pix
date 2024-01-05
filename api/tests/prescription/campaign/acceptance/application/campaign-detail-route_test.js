@@ -9,7 +9,7 @@ import {
 import { Membership } from '../../../../../lib/domain/models/Membership.js';
 import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | API | Campaign Detail Controller', function () {
+describe('Acceptance | API | campaign-detail-route', function () {
   let server;
   let campaign;
   let organization;

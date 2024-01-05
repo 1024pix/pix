@@ -38,6 +38,22 @@
           "success": "The organizations have been created."
         },
         "upload-button": "Import CSV file"
+      },
+      "swap-campaign-codes": {
+        "title": "Switch campaign codes",
+        "description": "Allow to switch campaign codes from two different campaigns. Campaigns must be on the same organization.",
+        "form": {
+          "button": "Switch",
+          "firstCampaignId": "1st campaign ID",
+          "secondCampaignId": "2nd campaign ID"
+        },
+        "notifications": {
+          "error": {
+            "mismatch-organization": "Campaign code swapping is possible between campaigns on the same organization.",
+            "swap-code-error": "May be one of your campaign id doesn't exist. Check and retry."
+          },
+          "success": "Campaign code switch success"
+        }
       }
     },
     "certification-centers": {

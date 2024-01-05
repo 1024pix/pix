@@ -5,6 +5,9 @@ import { authenticationDomainErrorMappingConfiguration } from '../src/authentica
 import { sessionDomainErrorMappingConfiguration } from '../src/certification/session/application/http-error-mapper-configuration.js';
 import { certificationDomainErrorMappingConfiguration } from '../src/certification/shared/application/http-error-mapper-configuration.js';
 import { devcompDomainErrorMappingConfiguration } from '../src/devcomp/application/http-error-mapper-configuration.js';
+
+import { prescriptionDomainErrorMappingConfiguration } from '../src/prescription/shared/application/http-error-mapper-configuration.js';
+
 import { domainErrorMapper } from '../src/shared/application/domain-error-mapper.js';
 
 const setupErrorHandling = function (server) {
@@ -13,6 +16,7 @@ const setupErrorHandling = function (server) {
     ...sessionDomainErrorMappingConfiguration,
     ...certificationDomainErrorMappingConfiguration,
     ...devcompDomainErrorMappingConfiguration,
+    ...prescriptionDomainErrorMappingConfiguration,
   ];
 
   domainErrorMapper.configure(configuration);
