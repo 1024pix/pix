@@ -18,6 +18,53 @@ export default class Update extends Component {
     this.form.multipleSendings = this.args.campaign.multipleSendings;
   }
 
+  @action
+  updateFormValue(key, event) {
+    this.form[key] = event.target.value;
+  }
+
+  get nameError() {
+    if (this.form.get('validations.attrs.name').isInvalid) {
+      return { message: this.form.get('validations.attrs.name').message, state: 'error' };
+    }
+    return null;
+  }
+
+  get titleError() {
+    if (this.form.get('validations.attrs.title').isInvalid) {
+      return { message: this.form.get('validations.attrs.title').message, state: 'error' };
+    }
+    return null;
+  }
+
+  get customLandingPageTextError() {
+    if (this.form.get('validations.attrs.customLandingPageText').isInvalid) {
+      return { message: this.form.get('validations.attrs.customLandingPageText').message, state: 'error' };
+    }
+    return null;
+  }
+
+  get customResultPageTextError() {
+    if (this.form.get('validations.attrs.customResultPageText').isInvalid) {
+      return { message: this.form.get('validations.attrs.customResultPageText').message, state: 'error' };
+    }
+    return null;
+  }
+
+  get customResultPageButtonTextError() {
+    if (this.form.get('validations.attrs.customResultPageButtonText').isInvalid) {
+      return { message: this.form.get('validations.attrs.customResultPageButtonText').message, state: 'error' };
+    }
+    return null;
+  }
+
+  get customResultPageButtonUrlError() {
+    if (this.form.get('validations.attrs.customResultPageButtonUrl').isInvalid) {
+      return { message: this.form.get('validations.attrs.customResultPageButtonUrl').message, state: 'error' };
+    }
+    return null;
+  }
+
   async _checkFormValidation() {
     const { validations } = await this.form.validate();
     return validations.isValid;
@@ -58,10 +105,5 @@ export default class Update extends Component {
     if (await this._checkFormValidation()) {
       await this._update();
     }
-  }
-
-  @action
-  updateFormValue(key, event) {
-    this.form[key] = event.target.value;
   }
 }
