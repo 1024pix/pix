@@ -11,6 +11,7 @@ const buildCertificationCenterForAdmin = function ({
   dataProtectionOfficerLastName,
   dataProtectionOfficerEmail,
   habilitations = [],
+  isV3Pilot = false,
 } = {}) {
   return new CertificationCenterForAdmin({
     id,
@@ -23,6 +24,7 @@ const buildCertificationCenterForAdmin = function ({
     dataProtectionOfficerLastName,
     dataProtectionOfficerEmail,
     habilitations,
+    isV3Pilot,
   });
 };
 
