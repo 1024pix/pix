@@ -14,7 +14,7 @@ const { ROLES } = PIX_ADMIN;
 
 import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | API | Campaign Administration Controller', function () {
+describe('Acceptance | API | campaign-administration-route', function () {
   let organization;
   let server;
 
