@@ -173,6 +173,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
         id: certificationCenter.id,
         name: 'Great Oak Certification Center',
         updatedAt: now,
+        isV3Pilot: true,
       });
 
       // then
@@ -182,6 +183,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
           ...certificationCenter,
           name: 'Great Oak Certification Center',
           updatedAt: updatedCertificationCenter.updatedAt,
+          isV3Pilot: true,
         }),
       );
     });
