@@ -47,9 +47,13 @@
                 {{/if}}
               </td>
               <td>
-                <PixTag @color={{this.answerStatusColor certificationChallenge.answerStatus}}>
-                  {{this.answerStatusLabel certificationChallenge.answerStatus}}
-                </PixTag>
+                {{#if (this.shouldDisplayAnswerStatus certificationChallenge)}}
+                  <PixTag @color={{this.answerStatusColor certificationChallenge.answerStatus}}>
+                    {{this.answerStatusLabel certificationChallenge.answerStatus}}
+                  </PixTag>
+                {{else}}
+                  -
+                {{/if}}
               </td>
               <td>{{certificationChallenge.competenceIndex}} {{certificationChallenge.competenceName}}</td>
               <td>{{certificationChallenge.skillName}}</td>
