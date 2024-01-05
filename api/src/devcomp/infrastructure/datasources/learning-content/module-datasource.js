@@ -11,6 +11,9 @@ const moduleDatasource = {
 
     return foundModule;
   },
+  list: async () => {
+    return referential.modules;
+  },
 };
 
 export default moduleDatasource;
