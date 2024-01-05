@@ -40,13 +40,16 @@
             </li>
           {{/if}}
         </ul>
-        <!-- Right -->
-        <div class="navbar-desktop-header-right">
-          <PixButtonLink @route="fill-in-campaign-code">
-            {{t "navigation.main.code"}}
-          </PixButtonLink>
-          <UserLoggedMenu />
-        </div>
+        <ul class="navbar-desktop-header-right">
+          <li>
+            <PixButtonLink @route="fill-in-campaign-code">
+              {{t "navigation.main.code"}}
+            </PixButtonLink>
+          </li>
+          <li>
+            <UserLoggedMenu />
+          </li>
+        </ul>
       </nav>
 
     {{else}}
