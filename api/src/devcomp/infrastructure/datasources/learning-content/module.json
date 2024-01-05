@@ -91,12 +91,8 @@
                   "placeholder": "",
                   "ariaLabel": "Réponse 1",
                   "defaultValue": "",
-                  "tolerances": [
-                    "t1"
-                  ],
-                  "solutions": [
-                    "@"
-                  ]
+                  "tolerances": ["t1"],
+                  "solutions": ["@"]
                 },
                 {
                   "type": "text",
@@ -120,9 +116,7 @@
                       "content": "le fournisseur d'adresse mail"
                     }
                   ],
-                  "solutions": [
-                    "1"
-                  ]
+                  "solutions": ["1"]
                 },
                 {
                   "type": "text",
@@ -146,9 +140,7 @@
                       "content": "le fournisseur d'adresse mail"
                     }
                   ],
-                  "solutions": [
-                    "2"
-                  ]
+                  "solutions": ["2"]
                 }
               ],
               "feedbacks": {
@@ -281,10 +273,7 @@
                   "ariaLabel": "Adresse mail de Naomi",
                   "defaultValue": "",
                   "tolerances": [],
-                  "solutions": [
-                    "naomizao@yahoo.com",
-                    "naomizao@yahoo.fr"
-                  ]
+                  "solutions": ["naomizao@yahoo.com", "naomizao@yahoo.fr"]
                 }
               ],
               "feedbacks": {
