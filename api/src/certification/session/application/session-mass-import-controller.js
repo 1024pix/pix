@@ -1,5 +1,6 @@
 import { usecases as libUsecases } from '../../../../lib/domain/usecases/index.js';
-import { usecases } from '../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases as sharedUsecases } from '../../../../src/certification/shared/domain/usecases/index.js';
+import { usecases } from '../../../../src/certification/session/domain/usecases/index.js';
 import { getCsvHeaders } from '../infrastructure/files/sessions-import.js';
 
 import * as csvHelpers from '../../../../lib/application/certification-centers/csvHelpers.js';
@@ -11,7 +12,7 @@ const createSessions = async function (request, h) {
 
   const { cachedValidatedSessionsKey } = request.payload.data.attributes;
 
-  await usecases.createSessions({
+  await sharedUsecases.createSessions({
     cachedValidatedSessionsKey,
     certificationCenterId,
     userId: authenticatedUserId,
@@ -31,7 +32,7 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
     parsedCsvData,
     hasBillingMode: certificationCenter.hasBillingMode,
   });
-  const sessionMassImportReport = await usecases.validateSessions({
+  const sessionMassImportReport = await sharedUsecases.validateSessions({
     sessions,
     certificationCenterId,
     userId: authenticatedUserId,
@@ -41,14 +42,15 @@ const validateSessions = async function (request, h, dependencies = { csvHelpers
 };
 
 const getTemplate = async function (request, h) {
-  const certificationCenterId = request.params.certificationCenterId;
+  const { id: certificationCenterId, hasBillingMode } = await usecases.getMassImportTemplate({
+    certificationCenterId: request.params.certificationCenterId,
+  });
   const habilitationLabels = await libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels({
     certificationCenterId,
   });
-  const certificationCenter = await libUsecases.getCertificationCenter({ id: certificationCenterId });
   const csvTemplateFileContent = getCsvHeaders({
     habilitationLabels,
-    shouldDisplayBillingModeColumns: certificationCenter.hasBillingMode,
+    shouldDisplayBillingModeColumns: hasBillingMode,
   });
   return h
     .response(csvTemplateFileContent)
