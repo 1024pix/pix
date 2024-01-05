@@ -46,6 +46,30 @@ module('Unit | Component | certification-centers/information-edit', function (ho
     });
   });
 
+  module('#updateIsV3Pilot', function () {
+    test('should add isV3Pilot to certification center on checked checkbox', async function (assert) {
+      // given
+      component.form.isV3Pilot = false;
+
+      // when
+      component.updateIsV3Pilot({ target: { checked: true } });
+
+      // then
+      assert.true(component.form.isV3Pilot);
+    });
+
+    test('should remove isV3Pilot to certification center on unchecked checkbox', async function (assert) {
+      // given
+      component.form.isV3Pilot = true;
+
+      // when
+      component.updateIsV3Pilot({ target: { checked: false } });
+
+      // then
+      assert.false(component.form.isV3Pilot);
+    });
+  });
+
   module('#availableHabilitations', function () {
     test('it should return a sorted list of available habilitations', async function (assert) {
       // given
@@ -83,6 +107,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
       component.form.dataProtectionOfficerFirstName = 'Justin';
       component.form.dataProtectionOfficerLastName = 'Ptipeu';
       component.form.dataProtectionOfficerEmail = 'justin.ptipeu@example.net';
+      component.form.isV3Pilot = true;
 
       // when
       await component.updateCertificationCenter({ preventDefault: sinon.stub() });
@@ -92,6 +117,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
       assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerFirstName, 'Justin');
       assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerLastName, 'Ptipeu');
       assert.strictEqual(component.args.certificationCenter.dataProtectionOfficerEmail, 'justin.ptipeu@example.net');
+      assert.true(component.args.certificationCenter.isV3Pilot);
     });
   });
 });
