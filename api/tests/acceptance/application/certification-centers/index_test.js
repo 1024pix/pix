@@ -38,6 +38,7 @@ describe('Acceptance | Route | Certification Centers', function () {
                 'data-protection-officer-first-name': 'Justin',
                 'data-protection-officer-last-name': 'Ptipeu',
                 'data-protection-officer-email': 'justin.ptipeu@example.net',
+                'is-v3-pilot': true,
                 name: 'Justin Ptipeu Orga',
                 type: 'PRO',
               },
@@ -51,6 +52,7 @@ describe('Acceptance | Route | Certification Centers', function () {
         expect(result.data.attributes['data-protection-officer-first-name']).to.equal('Justin');
         expect(result.data.attributes['data-protection-officer-last-name']).to.equal('Ptipeu');
         expect(result.data.attributes['data-protection-officer-email']).to.equal('justin.ptipeu@example.net');
+        expect(result.data.attributes['is-v3-pilot']).to.equal(true);
         expect(result.data.attributes.name).to.equal('Justin Ptipeu Orga');
       });
     });
