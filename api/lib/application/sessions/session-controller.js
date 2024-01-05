@@ -53,15 +53,10 @@ const get = async function (request, h, dependencies = { sessionSerializer }) {
   return dependencies.sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
 };
 
-const getCandidatesImportSheet = async function (
-  request,
-  h,
-  dependencies = { tokenService, fillCandidatesImportSheet },
-) {
+const getCandidatesImportSheet = async function (request, h, dependencies = { fillCandidatesImportSheet }) {
   const translate = request.i18n.__;
   const sessionId = request.params.id;
-  const token = request.query.accessToken;
-  const userId = dependencies.tokenService.extractUserId(token);
+  const { userId } = request.auth.credentials;
   const filename = translate('candidate-list-template.filename');
 
   const { session, certificationCenterHabilitations, isScoCertificationCenter } =

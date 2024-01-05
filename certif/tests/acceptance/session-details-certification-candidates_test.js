@@ -80,7 +80,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
         const screen = await visit(`/sessions/${session.id}/candidats`);
 
         // then
-        assert.dom(screen.getByRole('link', { name: 'Télécharger (.ods)' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Télécharger (.ods)' })).exists();
         assert.dom(screen.getByRole('button', { name: 'Importer (.ods)' })).exists();
       });
 
