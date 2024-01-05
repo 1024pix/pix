@@ -2,11 +2,15 @@ import { NotFoundError } from '../http-errors.js';
 import * as certificationCourseRepository from '../../../src/certification/shared/infrastructure/repositories/certification-course-repository.js';
 import * as sessionRepository from '../../../src/certification/session/infrastructure/repositories/session-repository.js';
 
-const verifySessionAuthorization = async (request, h, dependencies = { sessionRepository }) => {
+const verifySessionAuthorization = (request, h, dependencies = { sessionRepository }) => {
   const userId = request.auth.credentials.userId;
   const sessionId = request.params.id;
 
-  return await _isAuthorizedToAccessSession({ userId, sessionId, sessionRepository: dependencies.sessionRepository });
+  return _isAuthorizedToAccessSession({
+    userId,
+    sessionId,
+    sessionRepository: dependencies.sessionRepository,
+  });
 };
 
 const verifyCertificationSessionAuthorization = async (
@@ -19,7 +23,7 @@ const verifyCertificationSessionAuthorization = async (
 
   const certificationCourse = await dependencies.certificationCourseRepository.get(certificationCourseId);
 
-  return await _isAuthorizedToAccessSession({
+  return _isAuthorizedToAccessSession({
     userId,
     sessionId: certificationCourse.getSessionId(),
     sessionRepository: dependencies.sessionRepository,

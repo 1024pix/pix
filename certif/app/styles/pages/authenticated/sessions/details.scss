@@ -12,9 +12,9 @@
 
 .session-details__header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
@@ -37,16 +37,16 @@
 .session-details-header-datetime {
 
   &__date {
-    padding-right: 40px;
     margin-right: 40px;
+    padding-right: 40px;
     border-right: 1px solid $pix-neutral-20;
   }
 
   &__text {
-    font-size: 0.875rem;
-    font-weight: 400;
     margin: 0;
     padding: 8px 0;
+    font-weight: 400;
+    font-size: 0.875rem;
   }
 }
 
@@ -75,10 +75,10 @@
   padding: 16px;
 
   &--multiple {
-    border-right: 1px solid $pix-neutral-20;
-    padding: 0 24px;
     margin: 16px 0;
+    padding: 0 24px;
     white-space: nowrap;
+    border-right: 1px solid $pix-neutral-20;
 
     &:last-child {
       border-right: 0;
@@ -86,11 +86,11 @@
   }
 
   &--copyable {
-    background: $pix-neutral-5;
     margin: 16px 0 16px 8px;
     padding: 8px 16px;
-    border-radius: 4px;
+    background: $pix-neutral-5;
     border: 0;
+    border-radius: 4px;
   }
 
   &--single {
@@ -98,14 +98,14 @@
   }
 
   &__label {
-    margin: 0;
-    min-height: 32px;
-    font-weight: 500;
-    font-size: 0.875rem;
-    color: $pix-neutral-90;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 32px;
+    margin: 0;
+    color: $pix-neutral-90;
+    font-weight: 500;
+    font-size: 0.875rem;
   }
 
   &__sub-label {
@@ -115,15 +115,15 @@
   }
 
   &__text {
-    font-size: 0.875rem;
     margin: 0;
     padding: 8px 0;
+    font-size: 0.875rem;
   }
 
   &__clipboard {
-    align-items: center;
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 
   &__return-button {
@@ -148,44 +148,44 @@
   }
 
   &__clea-results-download-grey {
+    display: flex;
     padding: 16px;
     background: $pix-neutral-5;
-    display: flex;
   }
 
   &__clea-results-download-title {
+    margin: 0 0 8px;
+    color: $pix-neutral-90;
     font-weight: 500;
     font-size: 20px;
-    color: $pix-neutral-90;
-    margin: 0 0 8px;
     font-family: $font-open-sans;
   }
 
   &__clea-results-download-description {
+    margin-bottom: 12px;
     color: $pix-neutral-60;
     font-size: 0.875rem;
-    margin-bottom: 12px;
   }
 
   &__clea-results-download-icon {
-    width: 80px;
-    padding: 2px;
-    margin-right: 16px;
-    justify-content: center;
-    align-items: center;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    margin-right: 16px;
+    padding: 2px;
 
     svg {
-      font-size: 40px;
       color: $pix-neutral-40;
+      font-size: 40px;
     }
   }
 
   &__controls {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     margin: 1em 0;
-    flex-direction: column;
 
     @include device-is("desktop") {
       flex-direction: row;
@@ -197,26 +197,23 @@
   }
 
   &__controls-title {
-    color: $pix-neutral-90;
-    font-size: 0.875rem;
-    font-weight: 500;
     margin-right: 8px;
+    color: $pix-neutral-90;
+    font-weight: 500;
+    font-size: 0.875rem;
   }
 
   &__controls-links {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
     justify-content: right;
     padding: 12px 16px;
 
     @include device-is("desktop") {
       flex-direction: row;
     }
-  }
-
-  &__controls-download-button:not(:last-of-type) {
-    margin-right: 8px;
   }
 
   &__controls-icon {

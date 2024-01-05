@@ -1,7 +1,10 @@
 import Service from '@ember/service';
 import fetch from 'fetch';
+import { service } from '@ember/service';
 
 export default class FileSaverService extends Service {
+  @service intl;
+
   async save({
     url,
     token,
@@ -9,7 +12,7 @@ export default class FileSaverService extends Service {
     downloadFileForIEBrowser = _downloadFileForIEBrowser,
     downloadFileForModernBrowsers = _downloadFileForModernBrowsers,
   }) {
-    const response = await fetcher({ url, token });
+    const response = await fetcher({ url, token, locale: this.locale });
 
     if (response.status !== 200) {
       const jsonResponse = await response.json();
@@ -25,11 +28,16 @@ export default class FileSaverService extends Service {
       ? downloadFileForIEBrowser({ fileContent, fileName })
       : downloadFileForModernBrowsers({ fileContent, fileName });
   }
+
+  get locale() {
+    const [currentLocale] = this.intl.get('locale');
+    return currentLocale;
+  }
 }
 
-function _fetchData({ url, token }) {
+function _fetchData({ url, token, locale }) {
   return fetch(url, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}`, 'Accept-Language': locale },
   });
 }
 
