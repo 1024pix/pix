@@ -67,20 +67,18 @@
         {{t "pages.sessions.detail.downloads.invigilator-kit.label"}}
       </PixButton>
       {{#if this.shouldDisplayDownloadButton}}
-        <PixButtonLink
+        <PixButton
           class="session-details__controls-download-button"
-          @href="{{this.model.session.urlToDownloadAttendanceSheet}}"
+          @triggerAction={{this.fetchAttendanceSheet}}
           @backgroundColor="transparent-light"
           @isBorderVisible={{true}}
           @size="small"
           target="_blank"
           aria-label={{t "pages.sessions.detail.downloads.attendance-sheet.extra-information"}}
-          rel="noopener noreferrer"
-          download
         >
           <FaIcon @icon="file-download" class="session-details__controls-icon" />
           {{t "pages.sessions.detail.downloads.attendance-sheet.label"}}
-        </PixButtonLink>
+        </PixButton>
       {{/if}}
     </div>
   </div>
