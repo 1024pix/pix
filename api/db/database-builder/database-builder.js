@@ -160,7 +160,9 @@ class DatabaseBuilder {
       from pg_class ref
       join pg_namespace rs on rs.oid = ref.relnamespace
       join pg_constraint c on c.contype = 'f' and c.conrelid = ref.oid
-      join fk_tree p on p.reloid = c.confrelid ), all_tables as (
+      join fk_tree p on p.reloid = c.confrelid
+      where ref.oid != p.reloid),
+      all_tables as (
       select schema_name, table_name, level, row_number() over (partition by schema_name, table_name order by level desc) as
       last_table_row from fk_tree )
       select table_name
