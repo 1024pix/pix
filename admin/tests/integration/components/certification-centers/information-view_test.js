@@ -70,4 +70,50 @@ module('Integration | Component | certification-centers/information-view', funct
     // then
     assert.dom(screen.getByText('Tableau de bord')).exists();
   });
+
+  module('certification center is V3 pilot', function () {
+    test('it should display that the certification center is V3 Pilot', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const certificationCenter = store.createRecord('certification-center', {
+        type: 'SCO',
+        isV3Pilot: true,
+      });
+      this.certificationCenter = certificationCenter;
+
+      // when
+      const screen = await render(
+        hbs`<CertificationCenters::InformationView
+  @certificationCenter={{this.certificationCenter}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByText('Pilote certification V3 : Oui')).exists();
+    });
+  });
+
+  module('certification center is not V3 pilot', function () {
+    test('it should display that the certification center is not V3 Pilot', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+
+      const certificationCenter = store.createRecord('certification-center', {
+        type: 'SCO',
+        isV3Pilot: false,
+      });
+      this.certificationCenter = certificationCenter;
+
+      // when
+      const screen = await render(
+        hbs`<CertificationCenters::InformationView
+  @certificationCenter={{this.certificationCenter}}
+/>`,
+      );
+
+      // then
+      assert.dom(screen.getByText('Pilote certification V3 : Non')).exists();
+    });
+  });
 });
