@@ -4,6 +4,7 @@ import { createServer } from 'miragejs';
 import getAreas from './routes/get-areas';
 import getCampaigns from './routes/get-campaigns';
 import getCertificationCandidatesSubscriptions from './routes/get-certification-candidates-subscriptions';
+import getCertification from './routes/get-certification';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
@@ -74,6 +75,7 @@ function routes() {
   this.get('/campaigns', getCampaigns);
 
   this.get('/certifications', getCertifications);
+  this.get('/certifications/:id', getCertification);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);

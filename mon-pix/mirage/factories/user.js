@@ -360,6 +360,7 @@ export default Factory.extend({
         birthdate: '2000-01-01',
         certificationCenter: 'Université de Pix',
         commentForCandidate: 'Ceci est un commentaire jury à destination du candidat.',
+        certifiedBadgeImages: [],
         date: new Date('2018-07-20T14:33:56Z'),
         status: 'validated',
         pixScore: '777',
