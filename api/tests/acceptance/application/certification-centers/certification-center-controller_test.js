@@ -182,6 +182,7 @@ describe('Acceptance | API | Certification Center', function () {
                 name: 'Nouveau Centre de Certif',
                 type: 'SCO',
                 'data-protection-officer-email': 'adrienne.quepourra@example.net',
+                'is-v3-pilot': true,
               },
               relationships: {
                 habilitations: {
@@ -203,6 +204,7 @@ describe('Acceptance | API | Certification Center', function () {
         expect(response.result.data.attributes['data-protection-officer-email']).to.equal(
           'adrienne.quepourra@example.net',
         );
+        expect(response.result.data.attributes['is-v3-pilot']).to.equal(true);
         expect(response.result.data.id).to.be.ok;
       });
     });

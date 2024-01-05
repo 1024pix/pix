@@ -143,6 +143,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
       const certificationCenter = new CertificationCenterForAdmin({
         name: 'CertificationCenterName',
         type: 'SCO',
+        isV3Pilot: true,
       });
 
       // when
@@ -153,6 +154,7 @@ describe('Integration | Repository | certification-center-for-admin', function (
       expect(savedCertificationCenter.id).to.exist;
       expect(savedCertificationCenter.name).to.equal('CertificationCenterName');
       expect(savedCertificationCenter.type).to.equal('SCO');
+      expect(savedCertificationCenter.isV3Pilot).to.equal(true);
     });
   });
 

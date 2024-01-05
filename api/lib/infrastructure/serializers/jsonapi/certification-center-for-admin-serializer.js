@@ -15,6 +15,7 @@ const deserialize = function ({ data }) {
     id: data.id,
     name: data.attributes.name,
     type: data.attributes.type,
+    isV3Pilot: data.attributes['is-v3-pilot'],
   });
 };
 
