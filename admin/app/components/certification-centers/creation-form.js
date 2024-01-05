@@ -16,6 +16,11 @@ export default class CertificationCenterForm extends Component {
   }
 
   @action
+  handleIsV3PilotChange(event) {
+    this.args.certificationCenter.isV3Pilot = event.target.checked;
+  }
+
+  @action
   handleDataProtectionOfficerFirstNameChange(event) {
     this.args.certificationCenter.dataProtectionOfficerFirstName = event.target.value;
   }

@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { A as EmberArray } from '@ember/array';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | certification-centers/creation-form', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it renders the new certification center form component', async function (assert) {
     // given
@@ -29,6 +28,42 @@ module('Integration | Component | certification-centers/creation-form', function
     assert.dom(screen.getByText('Identifiant externe')).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByText('Ajouter')).exists();
+    assert
+      .dom(
+        screen.getByRole('checkbox', {
+          name: 'Pilote Certification V3 (ce centre de certification ne pourra organiser que des sessions V3)',
+        }),
+      )
+      .exists();
+  });
+
+  module('#handleIsV3PilotChange', function () {
+    test('should add isV3Pilot to certification center on checked checkbox', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      this.certificationCenter = store.createRecord('certification-center');
+      this.habilitations = [];
+      this.stub = () => {};
+
+      const screen = await render(
+        hbs`<CertificationCenters::CreationForm
+          @certificationCenter={{this.certificationCenter}}
+          @habilitations={{this.habilitations}}
+          @onSubmit={{this.stub}}
+          @onCancel={{this.stub}}
+        />`,
+      );
+
+      // when
+      await click(
+        screen.getByRole('checkbox', {
+          name: 'Pilote Certification V3 (ce centre de certification ne pourra organiser que des sessions V3)',
+        }),
+      );
+
+      // then
+      assert.true(this.certificationCenter.isV3Pilot);
+    });
   });
 
   module('#selectCertificationCenterType', function () {
@@ -62,7 +97,7 @@ module('Integration | Component | certification-centers/creation-form', function
       const habilitation1 = store.createRecord('complementary-certification', { key: 'E', label: 'Pix+Edu' });
       const habilitation2 = store.createRecord('complementary-certification', { key: 'S', label: 'Pix+Surf' });
       this.certificationCenter = store.createRecord('certification-center');
-      this.habilitations = EmberArray([habilitation1, habilitation2]);
+      this.habilitations = [habilitation1, habilitation2];
       this.stub = () => {};
 
       const screen = await render(
@@ -89,7 +124,7 @@ module('Integration | Component | certification-centers/creation-form', function
       this.certificationCenter = store.createRecord('certification-center', {
         habilitations: [habilitation2],
       });
-      this.habilitations = EmberArray([habilitation1, habilitation2]);
+      this.habilitations = [habilitation1, habilitation2];
       this.stub = () => {};
 
       const screen = await render(
