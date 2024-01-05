@@ -124,17 +124,17 @@ describe('Unit | Controller | mass-import-controller', function () {
         auth: { credentials: { userId: 2 } },
       };
 
-      sinon.stub(libUsecases, 'getImportSessionComplementaryCertificationHabilitationsLabels').resolves();
       sinon
-        .stub(libUsecases, 'getCertificationCenter')
+        .stub(usecases, 'getMassImportTemplate')
         .resolves({ id: request.params.certificationCenterId, hasBillingMode: true });
+      sinon.stub(libUsecases, 'getImportSessionComplementaryCertificationHabilitationsLabels').resolves();
 
       // when
       await sessionMassImportController.getTemplate(request, hFake);
 
       // then
-      expect(libUsecases.getCertificationCenter).to.have.been.calledWithExactly({
-        id: request.params.certificationCenterId,
+      expect(usecases.getMassImportTemplate).to.have.been.calledWithExactly({
+        certificationCenterId: request.params.certificationCenterId,
       });
       expect(libUsecases.getImportSessionComplementaryCertificationHabilitationsLabels).to.have.been.calledWithExactly({
         certificationCenterId: 123,
