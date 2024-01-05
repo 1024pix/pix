@@ -40,13 +40,14 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
           alternativeText: Joi.string().required(),
         }).required();
 
+        const proposalIdSchema = Joi.string().regex(/^\d+$/);
         const qcuElementSchema = Joi.object({
           id: uuidSchema,
           type: Joi.string().valid('qcu').required(),
           instruction: Joi.string().required(),
           proposals: Joi.array()
             .items({
-              id: uuidSchema,
+              id: proposalIdSchema,
               content: Joi.string().required(),
             })
             .required(),
@@ -54,7 +55,7 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
             valid: Joi.string().required(),
             invalid: Joi.string().required(),
           }).required(),
-          solution: uuidSchema,
+          solution: proposalIdSchema,
         }).required();
 
         const blockInputSchema = Joi.object({
@@ -84,12 +85,12 @@ describe('Unit | Infrastructure | Datasources | Learning Content | ModuleDatasou
           options: Joi.array()
             .items(
               Joi.object({
-                id: Joi.string().required(),
+                id: proposalIdSchema,
                 content: Joi.string().required(),
               }),
             )
             .required(),
-          solutions: Joi.array().items(Joi.string().required()).required(),
+          solutions: Joi.array().items(proposalIdSchema).required(),
         }).required();
 
         const blockTextSchema = Joi.object({
