@@ -4,6 +4,7 @@ import { catchErr, databaseBuilder, expect, knex, mockLearningContent, sinon } f
 import * as campaignAdministrationRepository from '../../../../../../src/prescription/campaign/infrastructure/repositories/campaign-administration-repository.js';
 import { Campaign } from '../../../../../../src/prescription/campaign/domain/read-models/Campaign.js';
 import { CampaignTypes } from '../../../../../../src/prescription/campaign/domain/read-models/CampaignTypes.js';
+import { UnknownCampaignId } from '../../../../../../src/prescription/campaign/domain/errors.js';
 
 describe('Integration | Repository | Campaign Administration', function () {
   describe('#isCodeAvailable', function () {
@@ -529,6 +530,79 @@ describe('Integration | Repository | Campaign Administration', function () {
       expect(campaignSaved.ownerId).to.equal(newOwnerId);
       expect(campaignSaved.archivedAt).to.be.null;
       expect(campaignSaved.archivedBy).to.be.null;
+    });
+  });
+
+  describe('#swapCampaignCode', function () {
+    it('should swap campaigns codes', async function () {
+      const { code: firstCode, id: firstCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABCDEFG' });
+      const { code: secondCode, id: secondCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ZYXWVUT' });
+
+      await databaseBuilder.commit();
+
+      await campaignAdministrationRepository.swapCampaignCodes({ firstCampaignId, secondCampaignId });
+
+      const { code: newCodeFirstId } = await knex('campaigns').select('code').where('id', firstCampaignId).first();
+      const { code: newCodeSecondId } = await knex('campaigns').select('code').where('id', secondCampaignId).first();
+
+      expect(newCodeFirstId).to.be.equal(secondCode);
+      expect(newCodeSecondId).to.be.equal(firstCode);
+    });
+
+    it('should throw an error if one id is not existing', async function () {
+      const { code: firstCode, id: firstCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABCDEFG' });
+
+      await databaseBuilder.commit();
+
+      await catchErr(campaignAdministrationRepository.swapCampaignCodes)({ firstCampaignId, secondCampaignId: 12 });
+
+      const { code: newCodeFirstId } = await knex('campaigns').select('code').where('id', firstCampaignId).first();
+
+      expect(newCodeFirstId).to.be.equal(firstCode);
+    });
+  });
+
+  describe('#isFromSameOrganization', function () {
+    it('should return false if campaigns do not belongs to the same organization', async function () {
+      const { id: firstCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABCDEFG' });
+      const { id: secondCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ZYXWVUT' });
+
+      await databaseBuilder.commit();
+
+      const result = await campaignAdministrationRepository.isFromSameOrganization({
+        firstCampaignId,
+        secondCampaignId,
+      });
+
+      expect(result).to.be.false;
+    });
+
+    it('should return true if campaigns belongs to same the organization', async function () {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const { id: firstCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABCDEFG', organizationId });
+      const { id: secondCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ZYXWVUT', organizationId });
+
+      await databaseBuilder.commit();
+
+      const result = await campaignAdministrationRepository.isFromSameOrganization({
+        firstCampaignId,
+        secondCampaignId,
+      });
+
+      expect(result).to.be.true;
+    });
+
+    it('throw if one campaign does not exists', async function () {
+      const { id: firstCampaignId } = databaseBuilder.factory.buildCampaign({ code: 'ABCDEFG' });
+
+      await databaseBuilder.commit();
+
+      const result = await catchErr(campaignAdministrationRepository.isFromSameOrganization)({
+        firstCampaignId,
+        secondCampaignId: 12,
+      });
+
+      expect(result).to.be.instanceOf(UnknownCampaignId);
     });
   });
 });

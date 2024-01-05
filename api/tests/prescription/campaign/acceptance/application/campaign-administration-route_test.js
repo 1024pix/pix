@@ -14,7 +14,7 @@ const { ROLES } = PIX_ADMIN;
 
 import { createServer } from '../../../../../server.js';
 
-describe('Acceptance | API | Campaign Administration Controller', function () {
+describe('Acceptance | API | campaign-administration-route', function () {
   let organization;
   let server;
 
@@ -274,6 +274,33 @@ describe('Acceptance | API | Campaign Administration Controller', function () {
         const response = await server.inject(options);
         expect(response.statusCode).to.equal(403);
       });
+    });
+  });
+
+  describe('POST /api/admin/campaigns/swap-codes', function () {
+    it('it swap campaign code', async function () {
+      const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPER_ADMIN }).id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const firstCampaignId = databaseBuilder.factory.buildCampaign({ code: 'ABC', organizationId }).id;
+      const secondCampaignId = databaseBuilder.factory.buildCampaign({ code: 'EFG', organizationId }).id;
+      await databaseBuilder.commit();
+
+      const payload = {
+        firstCampaignId,
+        secondCampaignId,
+      };
+
+      const options = {
+        method: 'POST',
+        url: '/api/admin/campaigns/swap-codes',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+        payload,
+      };
+
+      const response = await server.inject(options);
+      expect(response.statusCode).to.equal(204);
     });
   });
 });
