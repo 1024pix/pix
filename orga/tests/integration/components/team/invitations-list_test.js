@@ -36,16 +36,19 @@ module('Integration | Component | Team::InvitationsList', function (hooks) {
 
   test('it should display email and creation date of invitation', async function (assert) {
     // given
-    const pendingInvitationDate = '2019-10-08T10:50:00Z';
+    const dayjsService = this.owner.lookup('service:dayjs');
+    const pendingInvitationDate = '2023-12-05T09:00:00Z';
 
     this.set('invitations', [{ email: 'gigi@example.net', isPending: true, updatedAt: pendingInvitationDate }]);
 
     // when
-    await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
+    const component = await render(hbs`<Team::InvitationsList @invitations={{this.invitations}} />`);
 
     // then
-    assert.contains('gigi@example.net');
-    assert.contains(this.dayjs.self(pendingInvitationDate).format('DD/MM/YYYY - HH:mm'));
+    const formattedPendingInvitationDate = dayjsService.self(pendingInvitationDate).format('DD/MM/YYYY [-] HH:mm');
+
+    assert.dom(component.getByRole('cell', { name: 'gigi@example.net' })).exists();
+    assert.dom(component.getByRole('cell', { name: formattedPendingInvitationDate })).exists();
   });
 
   test('it should show success notification when cancelling an invitation succeeds', async function (assert) {
