@@ -57,6 +57,7 @@
       <li>URL du bouton de la page de fin de parcours : {{@campaign.customResultPageButtonUrl}}</li>
     {{/if}}
     <li>Envoi multiple : {{if @campaign.multipleSendings "Oui" "Non"}}</li>
+    <li>Pour les novices (isForAbsoluteNovice): {{if @campaign.isForAbsoluteNovice "Oui" "Non"}}</li>
   </ul>
 
   {{#if this.accessControl.hasAccessToOrganizationActionsScope}}

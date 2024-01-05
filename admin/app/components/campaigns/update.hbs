@@ -1,8 +1,14 @@
 <section class="page-section">
   <h1>{{@campaign.name}}</h1>
 
-  <form class="form" {{on "submit" this.update}}>
-    <div class="form-field">
+  <p class="admin-form__mandatory-text">
+    Les champs marqués de
+    <span class="mandatory-mark">*</span>
+    sont obligatoires.
+  </p>
+
+  <form class="admin-form" {{on "submit" this.update}}>
+    <div class="admin-form__content">
       <PixInput
         @id="name"
         @label="Nom de la campagne"
@@ -70,14 +76,58 @@
       {{/if}}
 
       {{#unless @campaign.totalParticipationsCount}}
-        <PixCheckbox @id="multipleSendings" @checked={{this.form.multipleSendings}}>
+        <PixCheckbox
+          @id="multipleSendings"
+          @checked={{this.form.multipleSendings}}
+          {{on "change" (fn this.updateFormCheckBoxValue "multipleSendings")}}
+        >
           Envoi multiple
         </PixCheckbox>
       {{/unless}}
 
+      {{#if this.displayIsForAbsoluteNoviceChoice}}
+        <Ui::PixFieldset role="radiogroup">
+          <:title>Voulez-vous passer cette campagne en <i>isForAbsoluteNovice</i></:title>
+          <:content>
+            <PixRadioButton
+              name="isForAbsoluteNovice"
+              @value={{true}}
+              {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
+              checked={{this.form.isForAbsoluteNovice}}
+            >
+              Oui
+            </PixRadioButton>
+
+            <PixRadioButton
+              name="isForAbsoluteNovice"
+              @value={{false}}
+              {{on "change" (fn this.updateFormValue "isForAbsoluteNovice")}}
+              checked={{(not this.form.isForAbsoluteNovice)}}
+            >
+              Non
+            </PixRadioButton>
+          </:content>
+        </Ui::PixFieldset>
+
+        {{#if this.displayIsForAbsoluteNoviceWarning}}
+          <PixBanner @type="warning">
+            <div class="is-for-absolute-novice-warning">
+              <p>Les campagnes
+                <strong><i>isForAbsoluteNovice</i></strong>
+                sont uniquement à destination des grand débutants et supprimant de ce fait les éléments suivant :</p>
+
+              <ul class="is-for-absolute-novice-warning__list">
+                <li>Didacticiel</li>
+                <li>Page d'accueil de la campagne</li>
+                <li>Envoi de résultats</li>
+              </ul>
+            </div>
+          </PixBanner>
+        {{/if}}
+      {{/if}}
     </div>
 
-    <div class="form-actions">
+    <div class="admin-form__actions">
       <PixButton
         @triggerAction={{@onExit}}
         @backgroundColor="transparent-light"

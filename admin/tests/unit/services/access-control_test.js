@@ -210,4 +210,50 @@ module('Unit | Service | access-control', function (hooks) {
       assert.false(service.hasAccessToOrganizationPlacesActionsScope);
     });
   });
+
+  module('#hasAccessToCampaignIsForAbsoluteNoviceEditionScope', function () {
+    test('should be true if current admin member is Super admin', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSuperAdmin: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.true(service.hasAccessToCampaignIsForAbsoluteNoviceEditionScope);
+    });
+
+    test('should be false if user is Metier', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isMetier: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.false(service.hasAccessToCampaignIsForAbsoluteNoviceEditionScope);
+    });
+
+    test('should be false if user is Support', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSupport: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.false(service.hasAccessToCampaignIsForAbsoluteNoviceEditionScope);
+    });
+
+    test('should be false if user is Certif', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isCertif: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.false(service.hasAccessToCampaignIsForAbsoluteNoviceEditionScope);
+    });
+  });
 });

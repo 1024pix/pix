@@ -1,11 +1,7 @@
-/* stylelint-disable selector-class-pattern */
-.campaign-edit-form__checkbox {
-  display: flex;
-  align-items: center;
-
-  & > input[type='checkbox'] {
-    width: 16px;
-    height: 16px;
-    margin: 0 8px;
+.is-for-absolute-novice-warning {
+  &__list {
+    margin:var(--pix-spacing-4x) var(--pix-spacing-4x) 0;
+    list-style-type: disc;
   }
+
 }
