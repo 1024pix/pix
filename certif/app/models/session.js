@@ -43,10 +43,9 @@ export default class Session extends Model {
     return `${ENV.APP.API_HOST}/api/sessions/${this.id}/attendance-sheet?accessToken=${this.session.data.authenticated.access_token}&lang=${locale}`;
   }
 
-  @computed('id', 'intl.locale', 'session.data.authenticated.access_token')
+  @computed('id')
   get urlToDownloadCandidatesImportTemplate() {
-    const locale = this.intl.locale[0];
-    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/candidates-import-sheet?accessToken=${this.session.data.authenticated.access_token}&lang=${locale}`;
+    return `${ENV.APP.API_HOST}/api/sessions/${this.id}/candidates-import-sheet`;
   }
 
   @computed('id')
