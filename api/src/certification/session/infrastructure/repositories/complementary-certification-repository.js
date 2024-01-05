@@ -8,7 +8,9 @@ import { ComplementaryCertification } from '../../domain/models/ComplementaryCer
  * @param {Object} params
  * @param {number} params.complementaryCertificationId
  * @param {ComplementaryCertificationApi} params.complementaryCertificationApi
+ *
  * @returns {ComplementaryCertification}
+ * @throws {NotFoundError} Complementary certification does not exist
  */
 const getById = async function ({ complementaryCertificationId, complementaryCertificationApi }) {
   const complementaryCertification = await complementaryCertificationApi.getById({ id: complementaryCertificationId });

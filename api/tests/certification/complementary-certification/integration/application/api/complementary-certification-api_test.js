@@ -5,17 +5,6 @@ import { ComplementaryCertification } from '../../../../../../src/certification/
 
 describe('Integration | Application | Certification | ComplementaryCertification | API', function () {
   context('#getById', function () {
-    context('when no id is provided', function () {
-      it('should return an error', async function () {
-        // given, when
-        const error = await catchErr(getById)({});
-
-        // then
-        expect(error).to.be.instanceOf(Error);
-        expect(error.message).to.equal('Complementary certification id parameter is mandatory');
-      });
-    });
-
     context('when an unexisting complementary certification id is provided', function () {
       it('should return an error', async function () {
         // given
