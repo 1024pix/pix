@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
             'data-protection-officer-first-name': 'Justin',
             'data-protection-officer-last-name': 'Ptipeu',
             'data-protection-officer-email': 'justin.ptipeu@example.net',
+            'is-v3-pilot': true,
           },
           relationships: {},
         },
@@ -36,6 +37,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
         dataProtectionOfficerFirstName: 'Justin',
         dataProtectionOfficerLastName: 'Ptipeu',
         dataProtectionOfficerEmail: 'justin.ptipeu@example.net',
+        isV3Pilot: true,
       });
 
       expect(deserializedCertificationCenterForAdmin).to.deepEqualInstance(expectedCertificationCenterForAdmin);

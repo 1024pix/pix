@@ -55,7 +55,7 @@ const get = async function (id) {
 };
 
 const save = async function (certificationCenter) {
-  const data = _.pick(certificationCenter, ['name', 'type', 'externalId']);
+  const data = _.pick(certificationCenter, ['name', 'type', 'externalId', 'isV3Pilot']);
   const [certificationCenterCreated] = await knex(CERTIFICATION_CENTERS_TABLE_NAME).returning('*').insert(data);
   return _toDomain(certificationCenterCreated);
 };
