@@ -13,53 +13,13 @@ module('Unit | Component | Training | card', function (hooks) {
 
   module('#durationFormatted', function () {
     [
-      {
-        duration: {
-          hours: 10,
-          minutes: 11,
-          seconds: 12,
-        },
-        expectedResult: '10h 11m 12s',
-      },
-      {
-        duration: {
-          hours: 10,
-        },
-        expectedResult: '10h',
-      },
-      {
-        duration: {
-          minutes: 11,
-        },
-        expectedResult: '11m',
-      },
-      {
-        duration: {
-          seconds: 12,
-        },
-        expectedResult: '12s',
-      },
-      {
-        duration: {
-          minutes: 11,
-          seconds: 12,
-        },
-        expectedResult: '11m 12s',
-      },
-      {
-        duration: {
-          hours: 10,
-          seconds: 12,
-        },
-        expectedResult: '10h 12s',
-      },
-      {
-        duration: {
-          hours: 10,
-          minutes: 11,
-        },
-        expectedResult: '10h 11m',
-      },
+      { duration: { days: 2 }, expectedResult: '2j' },
+      { duration: { hours: 2 }, expectedResult: '2h' },
+      { duration: { minutes: 2 }, expectedResult: '2min' },
+      { duration: { hours: 10, minutes: 2 }, expectedResult: '10h 2min' },
+      { duration: { days: 1, hours: 4 }, expectedResult: '1j 4h' },
+      { duration: { days: 1, minutes: 30 }, expectedResult: '1j 30min' },
+      { duration: { days: 1, hours: 4, minutes: 30 }, expectedResult: '1j 4h 30min' },
     ].forEach(({ duration, expectedResult }) => {
       test(`should return ${expectedResult} for given duration ${JSON.stringify(duration)}`, function (assert) {
         // given
