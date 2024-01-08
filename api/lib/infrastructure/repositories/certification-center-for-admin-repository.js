@@ -19,6 +19,7 @@ const get = async function (id) {
       dataProtectionOfficerEmail: 'data-protection-officers.email',
       createdAt: 'certification-centers.createdAt',
       updatedAt: 'certification-centers.updatedAt',
+      isV3Pilot: 'certification-centers.isV3Pilot',
     })
     .leftJoin('data-protection-officers', 'data-protection-officers.certificationCenterId', 'certification-centers.id')
     .where('certification-centers.id', id)
@@ -84,5 +85,6 @@ function _toDomain(certificationCenterDTO) {
     dataProtectionOfficerEmail: certificationCenterDTO.dataProtectionOfficerEmail,
     createdAt: certificationCenterDTO.createdAt,
     updatedAt: certificationCenterDTO.updatedAt,
+    isV3Pilot: certificationCenterDTO.isV3Pilot,
   });
 }

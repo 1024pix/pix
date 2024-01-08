@@ -22,6 +22,10 @@
         :
         {{@certificationCenter.dataProtectionOfficerEmail}}
       </li>
+      <li>
+        Pilote certification V3 :
+        {{if (eq @certificationCenter.isV3Pilot true) "Oui" "Non"}}
+      </li>
     </ul>
   </div>
   <div class="property">

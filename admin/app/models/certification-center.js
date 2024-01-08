@@ -13,6 +13,7 @@ export default class CertificationCenter extends Model {
   @attr() dataProtectionOfficerFirstName;
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
+  @attr() isV3Pilot;
 
   @hasMany('complementary-certification') habilitations;
 
