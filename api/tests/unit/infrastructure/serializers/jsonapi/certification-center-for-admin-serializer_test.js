@@ -78,6 +78,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-for-admin-serialize
             'data-protection-officer-last-name': 'Ptipeu',
             'data-protection-officer-email': 'justin.ptipeu@example.net',
             'created-at': new Date('2018-01-01T05:43:10Z'),
+            'is-v3-pilot': false,
           },
           relationships: {
             'certification-center-memberships': {
