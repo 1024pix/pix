@@ -50,18 +50,18 @@ export default class Card extends Component {
   get imageSrc() {
     const randomNumber = this._getRandomImageNumber();
     if (this.args.training.isAutoformation) {
-      return `/images/illustrations/trainings/Formation-Parcours_autoformation-${randomNumber}.svg`;
+      return `/images/illustrations/trainings/Autoformation-${randomNumber}.svg`;
     }
     if (this.args.training.isElearning) {
-      return '/images/illustrations/trainings/Formation-E-learning-1.svg';
+      return '/images/illustrations/trainings/E-learning-1.svg';
     }
     if (this.args.training.isHybrid) {
-      return '/images/illustrations/trainings/Formation-Hybrid_training-1.svg';
+      return '/images/illustrations/trainings/Hybrid-1.svg';
     }
     if (this.args.training.isInPerson) {
-      return '/images/illustrations/trainings/Formation-Instructor_lead_training-1.svg';
+      return '/images/illustrations/trainings/In-person-1.svg';
     }
-    return `/images/illustrations/trainings/Formation-Webinaire-${randomNumber}.svg`;
+    return `/images/illustrations/trainings/Webinaire-${randomNumber}.svg`;
   }
 
   _getRandomImageNumber() {
