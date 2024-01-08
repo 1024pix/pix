@@ -13,18 +13,21 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
   it('should return the certification candidates', async function () {
     // given
     const sessionId = 1024;
-    const candidate = domainBuilder.buildCertificationSessionCandidate({ complementaryCertificationId: 1 });
-    candidate.userId = undefined;
-    const complementaryCertification = domainBuilder.buildCertificationSessionComplementaryCertification({
-      id: candidate.complementaryCertificationId,
+    const candidate = domainBuilder.certification.session.buildCertificationSessionCandidate({
+      complementaryCertificationId: 1,
     });
+    candidate.userId = undefined;
+    const complementaryCertification =
+      domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
+        id: candidate.complementaryCertificationId,
+      });
     candidateRepository.findBySessionId.withArgs(sessionId).resolves([candidate]);
     complementaryCertificationRepository.getById
       .withArgs({
         complementaryCertificationId: candidate.complementaryCertificationId,
       })
       .resolves(complementaryCertification);
-    const expectedCandidate = domainBuilder.buildCertificationSessionEnrolledCandidate({
+    const expectedCandidate = domainBuilder.certification.session.buildCertificationSessionEnrolledCandidate({
       complementaryCertificationId: candidate.complementaryCertificationId,
       complementaryCertificationLabel: 'JACKSON',
       complementaryCertificationKey: 'FIVE',
@@ -46,11 +49,13 @@ describe('Unit | UseCase | get-session-certification-candidates', function () {
     it('should return the certification candidates without complementary', async function () {
       // given
       const sessionId = 1024;
-      const candidate = domainBuilder.buildCertificationSessionCandidate({
+      const candidate = domainBuilder.certification.session.buildCertificationSessionCandidate({
         complementaryCertificationId: undefined,
       });
       candidateRepository.findBySessionId.withArgs(sessionId).resolves([candidate]);
-      const expectedCandidate = domainBuilder.buildCertificationSessionEnrolledCandidate({ isLinked: true });
+      const expectedCandidate = domainBuilder.certification.session.buildCertificationSessionEnrolledCandidate({
+        isLinked: true,
+      });
 
       // when
       const actualCandidates = await getSessionCertificationCandidates({

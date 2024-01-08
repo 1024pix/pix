@@ -6,11 +6,12 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
   let certificationCandidate, complementaryCertification;
 
   beforeEach(function () {
-    complementaryCertification = domainBuilder.buildComplementaryCertification({
-      id: 2,
-      label: 'Pix+Patisserie',
-      key: 'PATISSERIE',
-    });
+    complementaryCertification =
+      domainBuilder.certification.session.buildCertificationSessionComplementaryCertification({
+        id: 2,
+        label: 'Pix+Patisserie',
+        key: 'PATISSERIE',
+      });
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       organizationLearnerId: 1,
       billingMode: 'PAID',

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { CertificationCandidate, ComplementaryCertification } from '../../../domain/models/index.js';
+import { CertificationCandidate } from '../../../domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 const FRANCE_COUNTRY_CODE = '99100';
 
@@ -57,19 +58,19 @@ class CandidateData {
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
     this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      ComplementaryCertification.CLEA,
+      ComplementaryCertificationKeys.CLEA,
     );
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      ComplementaryCertification.PIX_PLUS_DROIT,
+      ComplementaryCertificationKeys.PIX_PLUS_DROIT,
     );
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+      ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertification,
-      ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+      ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
     );
     this.count = number;
     this._clearBirthInformationDataForExport();

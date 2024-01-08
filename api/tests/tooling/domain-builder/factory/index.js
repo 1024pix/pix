@@ -164,11 +164,20 @@ import { buildV3CertificationCourseDetailsForAdministration } from './build-v3-c
 import { buildValidation } from './build-validation.js';
 import { buildValidator } from './build-validator.js';
 import { buildFeedback } from './build-feedback.js';
-import { buildCertificationSessionCandidate } from './build-certification-session-candidate.js';
-import { buildCertificationSessionEnrolledCandidate } from './build-certification-session-enrolled-candidate.js';
-import { buildCertificationSessionComplementaryCertification } from './build-certification-session-complementary-certification.js';
+import { buildCertificationSessionCandidate } from './certification/session/build-certification-session-candidate.js';
+import { buildCertificationSessionEnrolledCandidate } from './certification/session/build-certification-session-enrolled-candidate.js';
+import { buildCertificationSessionComplementaryCertification } from './certification/session/build-certification-session-complementary-certification.js';
+
+const certification = {
+  session: {
+    buildCertificationSessionCandidate: buildCertificationSessionCandidate,
+    buildCertificationSessionEnrolledCandidate: buildCertificationSessionEnrolledCandidate,
+    buildCertificationSessionComplementaryCertification: buildCertificationSessionComplementaryCertification,
+  },
+};
 
 export {
+  certification,
   buildAccountRecoveryDemand,
   buildAdminMember,
   buildAllowedCertificationCenterAccess,
@@ -333,7 +342,4 @@ export {
   buildV3CertificationCourseDetailsForAdministration,
   buildValidation,
   buildValidator,
-  buildCertificationSessionCandidate,
-  buildCertificationSessionEnrolledCandidate,
-  buildCertificationSessionComplementaryCertification,
 };

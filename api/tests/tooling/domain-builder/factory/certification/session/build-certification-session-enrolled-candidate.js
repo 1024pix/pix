@@ -1,4 +1,4 @@
-import { EnrolledCandidate } from '../../../../src/certification/session/domain/read-models/EnrolledCandidate.js';
+import { EnrolledCandidate } from '../../../../../../src/certification/session/domain/read-models/EnrolledCandidate.js';
 
 const buildCertificationSessionEnrolledCandidate = function ({
   id = 123,

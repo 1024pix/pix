@@ -6,7 +6,7 @@ import {
 } from '../../../test-helper.js';
 
 import { createServer } from '../../../../server.js';
-import { ComplementaryCertification } from '../../../../lib/domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   let server;
@@ -29,12 +29,12 @@ describe('Acceptance | API | complementary-certification-controller', function (
       databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
         label: 'Pix+ Edu 1er degré',
-        key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
       });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 2,
         label: 'Cléa Numérique',
-        key: ComplementaryCertification.CLEA,
+        key: ComplementaryCertificationKeys.CLEA,
       });
       await databaseBuilder.commit();
 
@@ -50,7 +50,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
             id: '1',
             attributes: {
               label: 'Pix+ Edu 1er degré',
-              key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+              key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
             },
           },
           {
@@ -58,7 +58,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
             id: '2',
             attributes: {
               label: 'Cléa Numérique',
-              key: ComplementaryCertification.CLEA,
+              key: ComplementaryCertificationKeys.CLEA,
             },
           },
         ],
