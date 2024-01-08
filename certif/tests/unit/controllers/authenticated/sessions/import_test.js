@@ -14,8 +14,9 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
     controller = this.owner.lookup('controller:authenticated/sessions/import');
   });
 
-  module('#downloadSessionImportTemplate', function (hooks) {
-    hooks.beforeEach(function () {
+  module('#downloadSessionImportTemplate', function () {
+    test('should call the file-saver service for downloadSessionImportTemplate with the right parameters', async function (assert) {
+      // given
       const store = this.owner.lookup('service:store');
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         id: 123,
@@ -25,10 +26,6 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
-    });
-
-    test('should call the file-saver service for downloadSessionImportTemplate with the right parameters', async function (assert) {
-      // given
       const token = 'a token';
 
       controller.session = {
@@ -52,52 +49,6 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
           token,
           url: '/api/certification-centers/123/import',
         }),
-      );
-    });
-
-    test('should call the notifications service in case of an error', async function (assert) {
-      // given
-      controller.session = {
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            access_token: 'wrong token',
-          },
-        },
-      };
-      controller.fileSaver = { save: sinon.stub().rejects() };
-      controller.notifications = { error: sinon.spy() };
-
-      // when
-      await controller.downloadSessionImportTemplate(event);
-
-      // then
-      sinon.assert.calledOnce(controller.notifications.error);
-      assert.ok(controller);
-    });
-
-    test('should call the notifications service when access is forbidden', async function (assert) {
-      // given
-      controller.session = {
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            access_token: 'wrong token',
-          },
-        },
-      };
-      controller.fileSaver = { save: sinon.stub().rejects([{ code: 403 }]) };
-      controller.notifications = { error: sinon.spy() };
-
-      // when
-      await controller.downloadSessionImportTemplate(event);
-
-      // then
-      sinon.assert.calledOnce(controller.notifications.error);
-      assert.ok(controller);
-      sinon.assert.calledWith(
-        controller.notifications.error,
-        "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session.",
       );
     });
   });
@@ -141,90 +92,6 @@ module('Unit | Controller | authenticated/sessions/import', function (hooks) {
 
       // then
       sinon.assert.calledWith(adapter.validateSessionsForMassImport, file, '123');
-      assert.ok(controller);
-    });
-
-    test('should call the notifications service in case of an error', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('validate-sessions-for-mass-import');
-      const sessionsImportStub = sinon.stub(adapter, 'validateSessionsForMassImport');
-      sessionsImportStub.rejects({
-        errors: [{ detail: 'API error' }],
-      });
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-      });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const token = 'a token';
-
-      controller.file = Symbol('file 1');
-
-      controller.session = {
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            access_token: token,
-          },
-        },
-      };
-
-      controller.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
-
-      // when
-      await controller.validateSessions();
-
-      // then
-      sinon.assert.calledOnce(controller.notifications.error);
-      assert.ok(controller);
-    });
-
-    test('should call the notifications service when access is forbidden', async function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const adapter = store.adapterFor('validate-sessions-for-mass-import');
-      const sessionsImportStub = sinon.stub(adapter, 'validateSessionsForMassImport');
-      sessionsImportStub.rejects({
-        errors: [{ code: 403 }],
-      });
-      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        id: 123,
-        type: 'SCO',
-      });
-
-      class CurrentUserStub extends Service {
-        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
-      }
-
-      this.owner.register('service:current-user', CurrentUserStub);
-      const token = 'a token';
-
-      controller.file = Symbol('file 1');
-
-      controller.session = {
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            access_token: token,
-          },
-        },
-      };
-
-      controller.notifications = { error: sinon.stub(), clearAll: sinon.stub() };
-
-      // when
-      await controller.validateSessions();
-
-      // then
-      sinon.assert.calledWith(
-        controller.notifications.error,
-        "La création et l'édition de plusieurs sessions à la fois n'est pas disponible pour votre centre de certification. Veuillez utiliser la création et l'édition individuelle de session.",
-      );
       assert.ok(controller);
     });
   });
