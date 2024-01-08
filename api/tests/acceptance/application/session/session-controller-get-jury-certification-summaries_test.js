@@ -1,6 +1,6 @@
 import { expect, databaseBuilder, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 import { createServer } from '../../../../server.js';
-import { CLEA } from '../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationKeys } from '../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
   let server;
@@ -68,7 +68,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         const { id } = dbf.buildComplementaryCertificationCourse({
           certificationCourseId: certif1.id,
-          name: CLEA,
+          name: ComplementaryCertificationKeys.CLEA,
           complementaryCertificationId,
           complementaryCertificationBadgeId,
         });

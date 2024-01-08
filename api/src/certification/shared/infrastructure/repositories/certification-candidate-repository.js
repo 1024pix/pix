@@ -13,7 +13,7 @@ import {
 
 import { knex } from '../../../../../db/knex-database-connection.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../complementary-certification/domain/models/ComplementaryCertification.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 const linkToUser = async function ({ id, userId }) {
@@ -272,6 +272,11 @@ function _adaptModelToDb(certificationCandidateToSave) {
   };
 }
 
+/**
+ * @deprecated migration: new ComplementaryCertification(...) should not be done here
+ * it should come from internal API complementary-certification bounded context.
+ * Please beware of that when refactoring this code in the future
+ */
 function _toDomain(candidateData) {
   return new CertificationCandidate({
     ...candidateData,

@@ -5,7 +5,8 @@ import { NotFoundError } from '../../../../../lib/domain/errors.js';
 import { Session } from '../../domain/models/Session.js';
 import { CertificationCenter } from '../../../../../lib/domain/models/CertificationCenter.js';
 import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
-import { ComplementaryCertification } from '../../../../../lib/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertification } from '../../../session/domain/models/ComplementaryCertification.js';
+import { ComplementaryCertificationKeys } from '../../../shared/domain/models/ComplementaryCertificationKeys.js';
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 
 const save = async function (sessionData, { knexTransaction } = DomainTransaction.emptyTransaction()) {
@@ -185,7 +186,7 @@ const hasSomeCleaAcquired = async function (sessionId) {
     .where('sessions.id', sessionId)
     .whereNotNull('sessions.publishedAt')
     .where('complementary-certification-course-results.acquired', true)
-    .where('complementary-certifications.key', ComplementaryCertification.CLEA)
+    .where('complementary-certifications.key', ComplementaryCertificationKeys.CLEA)
     .first();
   return Boolean(result);
 };

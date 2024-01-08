@@ -6,21 +6,19 @@ import { dirname, join } from 'node:path';
 import * as assessmentRepository from '../../../../shared/infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../../../shared/infrastructure/repositories/assessment-result-repository.js';
 import * as attendanceSheetPdfUtils from '../../../session/infrastructure/utils/pdf/attendance-sheet-pdf.js';
+import * as candidateRepository from '../../../session/infrastructure/repositories/candidate-repository.js';
 import * as certificationCenterRepository from '../../../shared/infrastructure/repositories/certification-center-repository.js';
 import * as certificationCandidateRepository from '../../../shared/infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationChallengeLiveAlertRepository from '../../../session/infrastructure/repositories/certification-challenge-live-alert-repository.js';
 import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 import * as certificationIssueReportRepository from '../../../shared/infrastructure/repositories/certification-issue-report-repository.js';
 import * as certificationReportRepository from '../../../shared/infrastructure/repositories/certification-report-repository.js';
+import { sessionRepositories } from '../../../session/infrastructure/repositories/index.js';
 import * as certificateRepository from '../../../course/infrastructure/repositories/certificate-repository.js';
 import * as challengeRepository from '../../../../shared/infrastructure/repositories/challenge-repository.js';
 import * as certificationCpfCountryRepository from '../../../shared/infrastructure/repositories/certification-cpf-country-repository.js';
 import * as certificationCpfCityRepository from '../../../shared/infrastructure/repositories/certification-cpf-city-repository.js';
 import * as certificationOfficerRepository from '../../../session/infrastructure/repositories/certification-officer-repository.js';
-import * as complementaryCertificationBadgesRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-badge-repository.js';
-import * as complementaryCertificationRepository from '../../../../../lib/infrastructure/repositories/complementary-certification-repository.js';
-import * as complementaryCertificationForTargetProfileAttachmentRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-for-target-profile-attachment-repository.js';
-import * as complementaryCertificationTargetProfileHistoryRepository from '../../../complementary-certification/infrastructure/repositories/complementary-certification-target-profile-history-repository.js';
 import * as competenceMarkRepository from '../../../../../lib/infrastructure/repositories/competence-mark-repository.js';
 import * as competenceRepository from '../../../../shared/infrastructure/repositories/competence-repository.js';
 import * as finalizedSessionRepository from '../../../session/infrastructure/repositories/finalized-session-repository.js';
@@ -29,7 +27,6 @@ import * as issueReportCategoryRepository from '../../../shared/infrastructure/r
 import * as jurySessionRepository from '../../../session/infrastructure/repositories/jury-session-repository.js';
 import * as mailService from '../services/mail-service.js';
 import * as certificationCpfService from '../services/certification-cpf-service.js';
-import * as organizationRepository from '../../../complementary-certification/infrastructure/repositories/organization-repository.js';
 import * as sessionCodeService from '../../../session/domain/services/session-code-service.js';
 import * as sessionsImportValidationService from '../../../session/domain/services/sessions-import-validation-service.js';
 import * as temporarySessionsStorageForMassImportService from '../../../session/domain/services/temporary-sessions-storage-for-mass-import-service.js';
@@ -52,6 +49,7 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {assessmentRepository} AssessmentRepository
  * @typedef {attendanceSheetPdfUtils} AttendanceSheetPdfUtils
  * @typedef {badgeRepository} BadgeRepository
+ * @typedef {candidateRepository} CandidateRepository
  * @typedef {certificationCandidateRepository} CertificationCandidateRepository
  * @typedef {certificationCenterRepository} CertificationCenterRepository
  * @typedef {certificationChallengeLiveAlertRepository} CertificationChallengeLiveAlertRepository
@@ -62,19 +60,15 @@ import { injectDependencies } from '../../../../shared/infrastructure/utils/depe
  * @typedef {certificationCpfCityRepository} CertificationCpfCityRepository
  * @typedef {certificationCpfCountryRepository} CertificationCpfCountryRepository
  * @typedef {certificationOfficerRepository} CertificationOfficerRepository
- * @typedef {complementaryCertificationBadgesRepository} ComplementaryCertificationBadgesRepository
- * @typedef {complementaryCertificationRepository} ComplementaryCertificationRepository
- * @typedef {complementaryCertificationForTargetProfileAttachmentRepository} ComplementaryCertificationForTargetProfileAttachmentRepository
- * @typedef {complementaryCertificationTargetProfileHistoryRepository} ComplementaryCertificationTargetProfileHistoryRepository
  * @typedef {competenceMarkRepository} CompetenceMarkRepository
  * @typedef {competenceRepository} CompetenceRepository
+ * @typedef {import('../../../session/infrastructure/repositories/complementary-certification-repository.js')} ComplementaryCertificationRepository
  * @typedef {cpfExportRepository} CpfExportRepository
  * @typedef {finalizedSessionRepository} FinalizedSessionRepository
  * @typedef {flashAlgorithmService} FlashAlgorithmService
  * @typedef {issueReportCategoryRepository} IssueReportCategoryRepository
  * @typedef {jurySessionRepository} JurySessionRepository
  * @typedef {mailService} MailService
- * @typedef {organizationRepository} OrganizationRepository
  * @typedef {sessionCodeService} SessionCodeService
  * @typedef {sessionForAttendanceSheetRepository} SessionForAttendanceSheetRepository
  * @typedef {sessionForInvigilatorKitRepository} SessionForInvigilatorKitRepository
@@ -90,6 +84,7 @@ const dependencies = {
   assessmentRepository,
   assessmentResultRepository,
   attendanceSheetPdfUtils,
+  candidateRepository,
   certificationCandidateRepository,
   certificationCenterRepository,
   certificationChallengeLiveAlertRepository,
@@ -102,18 +97,14 @@ const dependencies = {
   challengeRepository,
   certificationCpfCityRepository,
   certificationCpfCountryRepository,
-  complementaryCertificationBadgesRepository,
-  complementaryCertificationRepository,
-  complementaryCertificationForTargetProfileAttachmentRepository,
-  complementaryCertificationTargetProfileHistoryRepository,
   competenceMarkRepository,
   competenceRepository,
+  complementaryCertificationRepository: sessionRepositories.complementaryCertificationRepository,
   finalizedSessionRepository,
   flashAlgorithmService,
   issueReportCategoryRepository,
   jurySessionRepository,
   mailService,
-  organizationRepository,
   sessionCodeService,
   sessionsImportValidationService,
   temporarySessionsStorageForMassImportService,
@@ -135,9 +126,6 @@ const usecasesWithoutInjectedDependencies = {
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../session/domain/usecases/'),
     ignoredFileNames: ['index.js'],
-  })),
-  ...(await importNamedExportsFromDirectory({
-    path: join(path, '../../../complementary-certification/domain/usecases/'),
   })),
   ...(await importNamedExportsFromDirectory({
     path: join(path, '../../../flash-certification/domain/usecases/'),

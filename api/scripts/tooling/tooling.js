@@ -6,7 +6,7 @@ import * as challengeRepository from '../../src/shared/infrastructure/repositori
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { logger } from '../../lib/infrastructure/logger.js';
 import { knex } from '../../db/knex-database-connection.js';
-import { ComplementaryCertification } from '../../lib/domain/models/index.js';
+import { ComplementaryCertificationKeys } from '../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 let allChallenges = [];
 let allPixCompetences = [];
@@ -52,7 +52,7 @@ async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
       'complementary-certification-badges.complementaryCertificationId',
     )
     .innerJoin('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId')
-    .where({ 'complementary-certifications.key': ComplementaryCertification.CLEA })
+    .where({ 'complementary-certifications.key': ComplementaryCertificationKeys.CLEA })
     .whereNull('complementary-certification-badges.detachedAt');
 
   const skillIds = await campaignRepository.findSkillIds({ campaignId });

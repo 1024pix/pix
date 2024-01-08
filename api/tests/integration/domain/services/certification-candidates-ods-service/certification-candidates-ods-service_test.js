@@ -1,10 +1,4 @@
 import { catchErr, databaseBuilder, domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import {
-  CLEA,
-  PIX_PLUS_DROIT,
-  PIX_PLUS_EDU_1ER_DEGRE,
-  PIX_PLUS_EDU_2ND_DEGRE,
-} from '../../../../../lib/domain/models/ComplementaryCertification.js';
 import * as certificationCandidatesOdsService from '../../../../../lib/domain/services/certification-candidates-ods-service.js';
 import * as certificationCpfService from '../../../../../src/certification/shared/domain/services/certification-cpf-service.js';
 import * as certificationCpfCountryRepository from '../../../../../src/certification/shared/infrastructure/repositories/certification-cpf-country-repository.js';
@@ -18,6 +12,7 @@ import _ from 'lodash';
 import { getI18n } from '../../../../tooling/i18n/i18n.js';
 import * as url from 'url';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
+import { ComplementaryCertificationKeys } from '../../../../../src/certification/shared/domain/models/ComplementaryCertificationKeys.js';
 
 const { promises } = fs;
 
@@ -329,11 +324,11 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
         // given
         const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'CléA Numérique',
-          key: CLEA,
+          key: ComplementaryCertificationKeys.CLEA,
         });
         const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
           label: 'Pix+ Droit',
-          key: PIX_PLUS_DROIT,
+          key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
         });
 
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
@@ -389,19 +384,19 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       mailCheck.checkDomainIsValid.resolves();
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'CléA Numérique',
-        key: CLEA,
+        key: ComplementaryCertificationKeys.CLEA,
       });
       const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Pix+ Droit',
-        key: PIX_PLUS_DROIT,
+        key: ComplementaryCertificationKeys.PIX_PLUS_DROIT,
       });
       const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Pix+ Édu 1er degré',
-        key: PIX_PLUS_EDU_1ER_DEGRE,
+        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_1ER_DEGRE,
       });
       const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         label: 'Pix+ Édu 2nd degré',
-        key: PIX_PLUS_EDU_2ND_DEGRE,
+        key: ComplementaryCertificationKeys.PIX_PLUS_EDU_2ND_DEGRE,
       });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
