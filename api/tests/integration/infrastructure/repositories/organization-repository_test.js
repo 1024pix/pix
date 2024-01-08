@@ -1060,4 +1060,48 @@ describe('Integration | Repository | Organization', function () {
       expect(savedOrganizationFeatures[0].featureId).to.equal(computeOrganizationLearnerCertificabilityId);
     });
   });
+
+  describe('#findChildrenByParentOrganizationId', function () {
+    let parentOrganizationId;
+
+    beforeEach(function () {
+      parentOrganizationId = databaseBuilder.factory.buildOrganization({
+        name: 'name_ok_1',
+        type: 'SCO',
+        externalId: '1234567A',
+      }).id;
+    });
+
+    context('when there is no child organization', function () {
+      it('returns an empty array', async function () {
+        //given
+        //when
+        const children = await organizationRepository.findChildrenByParentOrganizationId(parentOrganizationId);
+
+        //then
+        expect(children).to.have.lengthOf(0);
+      });
+    });
+
+    context('when there is at least one child organization', function () {
+      it('returns an array of organizations', async function () {
+        // given
+        databaseBuilder.factory.buildOrganization({
+          name: 'First Child',
+          type: 'SCO',
+          parentOrganizationId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const children = await organizationRepository.findChildrenByParentOrganizationId(parentOrganizationId);
+
+        // then
+        expect(children.length).to.be.greaterThanOrEqual(1);
+        expect(children[0]).to.be.instanceOf(Organization);
+        expect(_.map(children, 'name')).to.have.members(['First Child']);
+      });
+    });
+  });
 });
