@@ -232,16 +232,22 @@ const findChildrenByParentOrganizationId = async function (parentOrganizationId)
   return children.map(_toDomain);
 };
 
+const exist = async function (organizationId) {
+  const organization = await knex(ORGANIZATION_TABLE_NAME).where({ id: organizationId }).first();
+  return Boolean(organization);
+};
+
 export {
-  create,
   batchCreateOrganizations,
-  update,
+  create,
+  exist,
+  findByExternalIdsFetchingIdsOnly,
+  findChildrenByParentOrganizationId,
+  findPaginatedFiltered,
+  findPaginatedFilteredByTargetProfile,
+  findScoOrganizationsByUai,
   get,
   getIdByCertificationCenterId,
   getScoOrganizationByExternalId,
-  findByExternalIdsFetchingIdsOnly,
-  findChildrenByParentOrganizationId,
-  findScoOrganizationsByUai,
-  findPaginatedFiltered,
-  findPaginatedFilteredByTargetProfile,
+  update,
 };

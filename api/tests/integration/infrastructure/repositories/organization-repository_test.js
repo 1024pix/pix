@@ -1104,4 +1104,34 @@ describe('Integration | Repository | Organization', function () {
       });
     });
   });
+
+  describe('#exist', function () {
+    context('when organization exists', function () {
+      it('returns true', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await organizationRepository.exist(organizationId);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('when organization does not exist', function () {
+      it('returns false', async function () {
+        // given
+        const organizationId = 1234;
+
+        // when
+        const result = await organizationRepository.exist(organizationId);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });
