@@ -5,18 +5,10 @@ export default class Card extends Component {
   @service intl;
 
   get durationFormatted() {
-    const formattedHours = [];
-    const { hours, minutes, seconds } = this.args.training.duration;
-    if (hours) {
-      formattedHours.push(hours + 'h');
-    }
-    if (minutes) {
-      formattedHours.push(minutes + 'm');
-    }
-    if (seconds) {
-      formattedHours.push(seconds + 's');
-    }
-    return formattedHours.join(' ');
+    const days = this.args.training.duration.days ? `${this.args.training.duration.days}j ` : '';
+    const hours = this.args.training.duration.hours ? `${this.args.training.duration.hours}h ` : '';
+    const minutes = this.args.training.duration.minutes ? `${this.args.training.duration.minutes}min` : '';
+    return `${days}${hours}${minutes}`.trim();
   }
 
   get type() {
