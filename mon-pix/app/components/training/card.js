@@ -33,17 +33,35 @@ export default class Card extends Component {
 
   get tagColor() {
     if (this.args.training.isAutoformation) {
-      return 'blue-light';
+      return 'primary';
     }
-    return 'purple-light';
+    if (this.args.training.isElearning) {
+      return 'success';
+    }
+    if (this.args.training.isHybrid) {
+      return 'error';
+    }
+    if (this.args.training.isInPerson) {
+      return 'secondary';
+    }
+    return 'tertiary';
   }
 
   get imageSrc() {
     const randomNumber = this._getRandomImageNumber();
     if (this.args.training.isAutoformation) {
-      return `/images/illustrations/trainings/Illu_Parcours_autoformation-${randomNumber}.png`;
+      return `/images/illustrations/trainings/Autoformation-${randomNumber}.svg`;
     }
-    return `/images/illustrations/trainings/Illu_Webinaire-${randomNumber}.png`;
+    if (this.args.training.isElearning) {
+      return '/images/illustrations/trainings/E-learning-1.svg';
+    }
+    if (this.args.training.isHybrid) {
+      return '/images/illustrations/trainings/Hybrid-1.svg';
+    }
+    if (this.args.training.isInPerson) {
+      return '/images/illustrations/trainings/In-person-1.svg';
+    }
+    return `/images/illustrations/trainings/Webinaire-${randomNumber}.svg`;
   }
 
   _getRandomImageNumber() {

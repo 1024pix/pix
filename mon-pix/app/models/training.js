@@ -15,4 +15,16 @@ export default class Training extends Model {
   get isAutoformation() {
     return this.type === 'autoformation';
   }
+
+  get isElearning() {
+    return this.type === 'e-learning';
+  }
+
+  get isHybrid() {
+    return this.type === 'hybrid-training';
+  }
+
+  get isInPerson() {
+    return this.type === 'in-person-training';
+  }
 }
