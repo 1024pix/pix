@@ -123,12 +123,31 @@
       <div class="session-info__actions">
         {{#if this.sessionModel.finalizedAt}}
           {{#if this.isCurrentUserAssignedToSession}}
-            <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
+            <PixButton @size="big" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
           {{else}}
-            <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
+            <PixButton @size="big" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
           {{/if}}
-          <PixButton @size="small" @triggerAction={{this.unfinalizeSession}} @backgroundColor="error">Définaliser la
-            session</PixButton>
+          {{#if this.sessionModel.isPublished}}
+            <PixTooltip @position="right" @isWide={{true}}>
+              <:triggerElement>
+                <PixButton
+                  @size="big"
+                  @isDisabled={{true}}
+                  @triggerAction={{this.unfinalizeSession}}
+                  @backgroundColor="error"
+                >Définaliser la session
+                </PixButton>
+              </:triggerElement>
+
+              <:tooltip>Vous ne pouvez pas définaliser une session publiée. Merci de dépublier la session avant de la
+                définaliser.
+              </:tooltip>
+            </PixTooltip>
+          {{else}}
+            <PixButton @size="big" @triggerAction={{this.unfinalizeSession}} @backgroundColor="error">Définaliser la
+              session
+            </PixButton>
+          {{/if}}
         {{/if}}
 
         <div class="session-info__copy-button">
