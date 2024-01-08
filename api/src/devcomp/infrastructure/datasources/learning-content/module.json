@@ -91,12 +91,8 @@
                   "placeholder": "",
                   "ariaLabel": "Réponse 1",
                   "defaultValue": "",
-                  "tolerances": [
-                    "t1"
-                  ],
-                  "solutions": [
-                    "@"
-                  ]
+                  "tolerances": ["t1"],
+                  "solutions": ["@"]
                 },
                 {
                   "type": "text",
@@ -120,9 +116,7 @@
                       "content": "le fournisseur d'adresse mail"
                     }
                   ],
-                  "solutions": [
-                    "1"
-                  ]
+                  "solutions": ["1"]
                 },
                 {
                   "type": "text",
@@ -146,9 +140,7 @@
                       "content": "le fournisseur d'adresse mail"
                     }
                   ],
-                  "solutions": [
-                    "2"
-                  ]
+                  "solutions": ["2"]
                 }
               ],
               "feedbacks": {
@@ -169,11 +161,11 @@
               "instruction": "<p>On peut avoir des chiffres dans l’identifiant de son adresse mail</p>",
               "proposals": [
                 {
-                  "id": "27244df5-7871-4096-b51d-8b1dbd65d2ad",
+                  "id": "1",
                   "content": "Vrai"
                 },
                 {
-                  "id": "d2c27595-39ed-4af6-8401-1a082874d97e",
+                  "id": "2",
                   "content": "Faux"
                 }
               ],
@@ -181,7 +173,7 @@
                 "valid": "<p class='pix-list-inline'>Oui, aucun problème ! Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>",
                 "invalid": "<p class='pix-list-inline'>Et si ! les chiffres sont autorisés dans l’identifiant d’une adresse mail. Seuls certains caractères sont interdits, comme</p><ul><li>é</li><li>â</li><li>&</li><li>@</li><li>$</li><li>*</li><li>€</li><li>£</li><li>etc.</li></ul>"
               },
-              "solution": "27244df5-7871-4096-b51d-8b1dbd65d2ad"
+              "solution": "1"
             },
             {
               "id": "ba78dead-a806-4954-b408-e8ef28d28fab",
@@ -189,11 +181,11 @@
               "instruction": "<p>L’adresse mail M3g4Cool1415@gmail.com est correctement écrite ?</p>",
               "proposals": [
                 {
-                  "id": "6d4db7f8-b783-473d-a1cc-73dac8411855",
+                  "id": "1",
                   "content": "Vrai"
                 },
                 {
-                  "id": "26d27fa3-3269-4d78-916c-3aa066976592",
+                  "id": "2",
                   "content": "Faux"
                 }
               ],
@@ -201,7 +193,7 @@
                 "valid": "<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>",
                 "invalid": "<p>On peut avoir des chiffres n’importe où dans l’identifiant. On peut aussi utiliser des majuscules.</p>"
               },
-              "solution": "6d4db7f8-b783-473d-a1cc-73dac8411855"
+              "solution": "1"
             },
             {
               "id": "4231af7b-dca5-4d79-acfe-b485e0127ae1",
@@ -209,11 +201,11 @@
               "instruction": "<p>Il faut toujours un symbole @ dans une adresse mail ?</p>",
               "proposals": [
                 {
-                  "id": "beba4b60-cd4c-49d7-ae1f-2783c14f7c71",
+                  "id": "1",
                   "content": "Vrai"
                 },
                 {
-                  "id": "d784b9f6-5d5a-47ba-ae17-da15b712ab24",
+                  "id": "2",
                   "content": "Faux"
                 }
               ],
@@ -221,7 +213,7 @@
                 "valid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>",
                 "invalid": "<p>Il faut pouvoir séparer l’identifiant et le fournisseur d’adresse. Il y a donc un seul symbole @.</p>"
               },
-              "solution": "beba4b60-cd4c-49d7-ae1f-2783c14f7c71"
+              "solution": "1"
             },
             {
               "id": "9bd65c37-ea5d-49a9-a59c-4e07ab3f1049",
@@ -229,11 +221,11 @@
               "instruction": "<p>Toutes les adresses mails se terminent par gmail.com ?</p>",
               "proposals": [
                 {
-                  "id": "7ebabab5-6acd-4660-bf33-5cc7206e7288",
+                  "id": "1",
                   "content": "Vrai"
                 },
                 {
-                  "id": "f56bb715-714e-4a94-ba34-eef5ccd755d0",
+                  "id": "2",
                   "content": "Faux"
                 }
               ],
@@ -241,7 +233,7 @@
                 "valid": "<p>Bien vu ! Google n’est effectivement pas le seul fournisseur d’adresse mail. Il y en énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>Free (free.fr)</li><li>et La Poste (laposte.net).</li></ul>",
                 "invalid": "<p>Il y a d’autres fournisseurs d’adresses mail que Google (gmail.com).</p><p>Il y en a énormément, vous avez peut-être déjà vu des adresses</p><ul><li>de chez Microsoft (hotmail.com)</li><li>de chez Free (free.fr)</li><li>ou de chez La Poste (laposte.net).</li></ul>"
               },
-              "solution": "f56bb715-714e-4a94-ba34-eef5ccd755d0"
+              "solution": "2"
             }
           ]
         },
@@ -281,10 +273,7 @@
                   "ariaLabel": "Adresse mail de Naomi",
                   "defaultValue": "",
                   "tolerances": [],
-                  "solutions": [
-                    "naomizao@yahoo.com",
-                    "naomizao@yahoo.fr"
-                  ]
+                  "solutions": ["naomizao@yahoo.com", "naomizao@yahoo.fr"]
                 }
               ],
               "feedbacks": {
